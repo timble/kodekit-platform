@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Koowa</name>
+	<author>Joomlatools</author>
+	<creationDate>March 2008</creationDate>
+	<copyright>(C) 2007 - 2008 Joomlatools. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support@joomlatools.org</authorEmail>
+	<authorUrl>www.joomlatools.org</authorUrl>
+	<version>1.0</version>
+	<description>Rapid Application Development framework</description>
+	
+	<files>
+		<filename plugin="koowa">koowa.php</filename>
+		<folder>koowa</folder>
+	</files>
+	
+	<media destination="plg_koowa" folder="media">
+		<folder>swf</folder>
+	</media>
+
+	
+</install>
