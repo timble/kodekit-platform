@@ -10,9 +10,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Require the library loader
-require_once dirname(__FILE__).DS.'koowa'.DS.'koowa.php';
-
 /**
  * Koowa System plugin
  *
@@ -22,16 +19,42 @@ require_once dirname(__FILE__).DS.'koowa'.DS.'koowa.php';
  */
 class plgSystemKoowa extends JPlugin
 {
-	/**
-	 * Decorate the database connector object and then replace it with the decorated version.
-	 *
-	 * @access	public
-	 * @return	void
-	 */
 	public function onAfterInitialise()
 	{
-		//Create the database proxy object
+		if( !plgSystemKoowa::isKoowaFriendly()) {	
+			return;	
+		}
+		
+		// Decorate the database connector object and then replace it with the decorated version.
 		$db  =& JFactory::getDBO();
 		$db  = new KDatabaseDefault($db);
 	}
+	
+	/**
+	 * Check if the current request requires Koowa to be turned off
+	 * 
+	 * Eg. Koowa should be disabled when uninstalling plugins
+	 *
+	 * @return	bool
+	 */
+	public static function isKoowaFriendly()
+	{
+		$result = true;
+		
+		
+		// are we uninstalling a plugin?
+		if(JRequest::getCmd('option') == 'com_installer' 
+			AND JRequest::getCmd('task') == 'remove'
+			AND JRequest::getCmd('type') == 'plugins' ) {
+			$result = false;
+		}
+		
+		return $result;
+	}
+}
+
+
+if( plgSystemKoowa::isKoowaFriendly()) {	
+	// Require the library loader
+	require_once dirname(__FILE__).DS.'koowa'.DS.'koowa.php';	
 }

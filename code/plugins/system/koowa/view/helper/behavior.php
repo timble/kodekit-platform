@@ -72,6 +72,10 @@ class KViewHelperBehavior
 
 	public static function tooltip($selector='.hasTip', $params = array())
 	{
+		// For now, delegate to JHTML, because loading the tooltip stuff twice causes problems.
+		return JHTML::_('behavior.tooltip', $selector, $params );
+		
+		/*
 		static $tips;
 
 		if (!isset($tips)) {
@@ -106,6 +110,7 @@ class KViewHelperBehavior
 		// Set static array
 		$tips[$sig] = true;
 		return;
+		*/
 	}
 
 	public static function modal($selector='a.modal', $params = array())

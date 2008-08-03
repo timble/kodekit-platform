@@ -531,17 +531,22 @@ class KDatabaseAbstract extends KPatternProxy
 
 	/**
 	 * Get the result of the SHOW TABLE STATUS statement
-	 *
-	 * @param 	string	WHERE clause
+	 * 
+	 * @param	string	LIKE clause, can cotnains a tablename with % wildcards
+	 * @param 	string	WHERE clause (MySQL5+ only)
 	 * @return	array	List of objects with table info
 	 */
-	public function getTableStatus($where = null)
+	public function getTableStatus($like = null, $where = null)
 	{
+		if(!empty($like)) {
+			$like = ' LIKE '.$this->quote($like);
+		}
+		
 		if(!empty($where)) {
 			$where = ' WHERE '.$where;
 		}
 		
-		$this->setQuery( 'SHOW TABLE STATUS'.$where );
-		return $this->loadObjectList();
+		$this->setQuery( 'SHOW TABLE STATUS'.$like.$where );
+		return $this->loadObjectList('Name');
 	}
 }
