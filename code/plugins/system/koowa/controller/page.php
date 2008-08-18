@@ -41,6 +41,8 @@ class KControllerPage extends KControllerAbstract
 
 	public function save()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		// Get the post data from the request
 		$data = $this->_getRequest('post');
 
@@ -104,6 +106,8 @@ class KControllerPage extends KControllerAbstract
 
 	public function delete()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 
 		if (count( $cid ) < 1) {
@@ -128,6 +132,7 @@ class KControllerPage extends KControllerAbstract
 
 	public function enable()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 
@@ -155,6 +160,8 @@ class KControllerPage extends KControllerAbstract
 	
 	protected function _setAccess($access)
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		KHelperArray::settype($cid, 'integer', false);
 		

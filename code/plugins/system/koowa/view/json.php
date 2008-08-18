@@ -15,7 +15,6 @@
  * @package     Koowa_View
  * @subpackage  Json
  */
-
 class KViewJson extends KViewAbstract
 {
 	public function __construct($options = array())

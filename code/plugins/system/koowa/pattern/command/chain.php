@@ -96,7 +96,7 @@ class KPatternCommandChain extends KObject
 	 *
 	 * @return	void
 	 */
-  	public function execute( $name, $args )
+  	public function run( $name, $args )
   	{
   		$iterator = $this->_priority->getIterator();
 

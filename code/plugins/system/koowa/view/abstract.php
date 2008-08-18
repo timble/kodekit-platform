@@ -142,7 +142,9 @@ abstract class KViewAbstract extends KObject
 						'@template' => '@loadTemplate',
 						'@text'	    => 'JText::_',
 						'@helper'   => '@loadHelper',
-						'@route'    => 'JRoute::_'
+						'@route'    => 'JRoute::_', 
+                        '@token'	=> 'echo KSecurityToken::render()',
+                        '</form>'   => '<?php echo KSecurityToken::render()?></form>'
 						),
             'template_path' => null
         );
@@ -414,8 +416,6 @@ abstract class KViewAbstract extends KObject
 	 */
 	public function loadTemplate( $tpl = null)
 	{
-		global $mainframe, $option;
-
 		// clear prior output
 		$this->_output = null;
 
@@ -484,8 +484,6 @@ abstract class KViewAbstract extends KObject
 	*/
 	protected function _setPath($type, $path)
 	{
-		global $mainframe, $option;
-
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
 
@@ -497,13 +495,14 @@ abstract class KViewAbstract extends KObject
 		{
 			case 'template':
 			{
+				$app = KFactory::get('Application');
+				$option = JRequest::getCmd('option');
+				
 				// set the alternative template search dir
-				if (isset($mainframe))
-				{
-					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');
-					$this->_addPath('template', $fallback);
-				}
+				$option = JRequest::getCmd('option');
+				$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
+				$fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');
+				$this->_addPath('template', $fallback);
 			}	break;
 		}
 	}

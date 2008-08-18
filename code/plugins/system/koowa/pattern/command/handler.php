@@ -25,7 +25,7 @@ abstract class KPatternCommandHandler extends KObject
 	 * @param string  $name		The command name
 	 * @param object  $args		The command arguments
 	 *
-	 * @return	boolean
+	 * @return	mixed
 	 */
 	function execute( $name, $args ) 
 	{
