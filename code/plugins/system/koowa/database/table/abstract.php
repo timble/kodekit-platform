@@ -43,7 +43,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	protected $_primary;
 
 	/**
-	 * Table field information
+	 * Field metadata information
 	 *
 	 * @var 	array
 	 */
