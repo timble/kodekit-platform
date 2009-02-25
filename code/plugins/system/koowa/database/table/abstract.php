@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Table
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -15,9 +16,11 @@
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Table
- * @uses		KPatternClass
+ * @uses		KMixinClass
+ * @uses        KFactory
  */
 abstract class KDatabaseTableAbstract extends KObject
 {
@@ -33,7 +36,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 *
 	 * @var 	string
 	 */
-	protected $_table;
+	protected $_table_name;
 
 	/**
 	 * Name of the primary key field in the table
@@ -97,6 +100,13 @@ abstract class KDatabaseTableAbstract extends KObject
  	   	'longtext'          => 'blob',
  	 	'longblob'          => 'blob',
 	);
+	
+	/**
+	 * Default values for this table
+	 *
+	 * @var 	array
+	 */
+	protected $_defaults;
 
 	/**
 	 * Object constructor to set table and key field
@@ -107,13 +117,13 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * Recognized key values include 'name', 'table', 'primary' and 'dbo' (this
 	 * list is not meant to be comprehensive).
 	 */
-	public function __construct( $options = array() )
+	public function __construct( array $options = array() )
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
 
-        // Mixin the KPatternClass
-        $this->mixin(new KPatternClass($this, 'Table'));
+        // Mixin the KMixinClass
+        $this->mixin(new KMixinClass($this, 'Table'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
@@ -122,19 +132,20 @@ abstract class KDatabaseTableAbstract extends KObject
 		$this->_basePath = $options['base_path'];
 
 		// Set the tablename
-		if ($options['table']) {
-			$this->_table	= $options['table'];
-		} else {
+		if ($options['table_name']) {
+			$this->_table_name	= $options['table_name'];
+		} else 
+		{
             $prefix         = $this->getClassName('prefix');
             $suffix         = $this->getClassName('suffix');
-			$this->_table	= empty($prefix) ? $suffix : $prefix.'_'.$suffix;
+			$this->_table_name = empty($prefix) ? $suffix : $prefix.'_'.$suffix;
 		}
 
 		// Set a primary key
 		$this->_primary	= $options['primary'];
 
 		//set the dbo
-		$this->_db = $options['dbo'] ? $options['dbo'] : KFactory::get('Database');
+		$this->_db = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.joomla.database');
 	}
 
     /**
@@ -145,7 +156,7 @@ abstract class KDatabaseTableAbstract extends KObject
      * @param   array   Options
      * @return  array   Options
      */
-    protected function _initialize($options)
+    protected function _initialize(array $options)
     {
         $defaults = array(
             'base_path'     => null,
@@ -156,7 +167,7 @@ abstract class KDatabaseTableAbstract extends KObject
                         'suffix'    => 'default'
                         ),
             'primary'       => null,
-            'table'         => null
+            'table_name'         => null
         );
 
         return array_merge($defaults, $options);
@@ -191,7 +202,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 */
 	public function getTableName()
     {
-		return $this->_table;
+		return $this->_table_name;
 	}
 
 	/**
@@ -201,12 +212,28 @@ abstract class KDatabaseTableAbstract extends KObject
 	 */
 	public function getPrimaryKey()
 	{
-        if(!isset($this->_primary))
-        {
+        if(!isset($this->_primary)) {
         	$this->getFields();
         }
 
 		return $this->_primary;
+	}
+	
+	/**
+	 * Get the highest ordering
+	 *
+	 * @return int
+	 */
+	public function getMaxOrder()
+	{
+		if (!in_array('ordering', $this->getColumns())) {
+			throw new KDatabaseTableException("The table '".$this->getTableName()."' doesn't have a 'ordering' column.");
+		}
+	
+		$query = 'SELECT MAX(ordering) FROM `#__'.$this->getTableName();
+		$this->_db->setQuery($query);
+		
+		return (int) $this->_db->loadResult() + 1;
 	}
 
 	/**
@@ -215,12 +242,12 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * @return string
 	 */
 	public function getFields()
-	{
+	{	
 		if(!isset($this->_fields))
 		{
 			$fields = $this->_db->getTableFields($this->getTableName());
         	$fields = $fields[$this->getTableName()];
-
+        	
         	foreach ($fields as $field)
         	{
  	            $name = $field->Field;
@@ -251,7 +278,7 @@ abstract class KDatabaseTableAbstract extends KObject
  	            }
 
                 // Set the primary key (if not set)
-                if(!isset($this->_primary) AND $description->primary) {
+                if(!isset($this->_primary) && $description->primary) {
                 	$this->_primary = $description->name;
                 }
 
@@ -267,16 +294,19 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function getDefaults()
     {
-        static $defaults;
-
-        if(!isset($defaults))
+        if(!isset($this->_defaults))
         {
-            $defaults = array();
-        	foreach($this->getFields() as $name => $description) {
-        	   $defaults[$name] = $description->default;
+            $this->_defaults = array();
+        	foreach($this->getFields() as $name => $description) 
+        	{
+        	    $this->_defaults[$name] = $description->default;
+        	    if($name == $this->getPrimaryKey()) {
+        	  		$this->_defaults['id'] = $description->default;
+        	  	}
+        	  	
             }
         }
-    	return $defaults;
+    	return $this->_defaults;
     }
 
     /**
@@ -301,13 +331,35 @@ abstract class KDatabaseTableAbstract extends KObject
 		return array_keys($fields);
 	}
 
-	/**
-     * Fetch a set of rows
+ 	/**
+     * Find a row or rowset by a signle or list of the table's primary key(s)
      *
-     * @param	object	Query object or null for an empty set
+     * @param	integer|array	A primary key or an array of primary keys
+     * @return	object			KDatabaseRow or KDatabaseRowset object
+     */
+    public function find($id)
+    {
+		$result = null;
+    	
+    	if(is_scalar($id)) {
+         	$result = $this->fetchRow((int) $id);
+        } elseif(is_array($id)) {
+        	$result = $this->fetchAll($id);
+        }
+        	
+        return $result;
+    }       
+        
+	/**
+     * Fetch a rowset
+     * 
+     * The name of the resulting class is based on the table class name
+     * eg <Mycomp>Table<Tablename> -> <Mycomp>Rowset<Tablename>
+     *
+     * @param	mixed	KDatabaseQuery object or query string, array of row id's or null for an empty row
      * @param 	int		Offset
      * @param	int		Limit
-     * @param 	array	Config
+     * @param 	array	Options
      * @return	object	KDatabaseRowset object
      */
     public function fetchAll($query = null, $offset = 0, $limit = 0, $options = array())
@@ -315,94 +367,96 @@ abstract class KDatabaseTableAbstract extends KObject
 	   	// fetch an empty rowset
         $options['table']     = $this;
 		$options['base_path'] = array_key_exists('path', $options) ? $options['path'] : null;
-		
-		$object = array(
-			'type' 		=> 'rowset'  ,
-			'component'	=> $this->getClassName('prefix'),
-			'name'		=> $this->getClassName('suffix')
-		);
-
+	
+    	$component = $this->getClassName('suffix');
+   		$rowset    = $this->getClassName('prefix');
+   	 	$app       = KFactory::get('lib.joomla.application')->getName();
+   	 	
         // Get the data
-		$query = $query->select('*')
-        		->from('#__'.$this->getTableName())
-                ->toString();
-        $this->_db->select($query, $offset, $limit);
-		$options['data'] = $this->_db->loadAssocList();
-
-		return KFactory::getInstance($object, $options);
-    }
-
-    /**
-     * Find a row by the table's primary key
-     *
-     * @param	int		Id of the primary key
-     * @return	object	KDatabaseRow object
-     */
-    public function find($id = 0)
-    {
-        $key = $this->getPrimaryKey();
-
-        $query = null;
-        if($id)
+        if(isset($query))
         {
-            $query = new KDatabaseQuery();
-            $query->where($key, '=', $id);
+         	if(is_array($query))
+            {
+             	$key    = $this->getPrimaryKey();
+             	$values = $query;
+             	
+             	//Create query object
+       	 		$query = $this->getDBO()->getQuery()
+        			->where($key, 'IN', $values);    
+            }
+        	
+        	if($query instanceof KDatabaseQuery) 
+            {
+        		if(!count($query->columns)) {
+        			$query->select('*');
+        		}
+        		
+        		if(!count($query->from)) {
+        			$query->from($this->getTableName().' AS tbl');
+        		}
+            }
+            
+        	$this->_db->select($query, $offset, $limit);
+			$result = (array) $this->_db->loadAssocList();
+			
+   			$options['data'] = $result;
         }
-
-        return $this->fetchRow($query);
+        
+        //return a row set
+    	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
+    	return $rowset;
     }
 
     /**
-     * Fetch a DatabaseRow object
+     * Fetch a row
      *
      * The name of the resulting class is based on the table class name
      * eg <Mycomp>Table<Tablename> -> <Mycomp>Row<Tablename>
      *
-     * @param	object	Query object
-     * @param	array	Config
-     * @return	object 	KDatabaseRow object
-     */
-    public function fetchRow($query = null, $options = array())
-    {
-        $row = $this->fetchNew($options);
-
-        $data = array();
-        if($query)
-        {
-            // Get the row
-            $query = $query->select('*')
-                                ->from('#__'.$this->getTableName())
-                                ->toString();
-            $this->_db->select($query, 0, 1);
-            $data = $this->_db->loadAssoc();
-        }
-
-        if(!empty($data)) {
-        	$row->setProperties($data);
-        }
-
-        return $row;
-    }
-
-    /**
-     * Fetch a new row
-     *
+     * @param	mixed	KDatabaseQuery object or query string, a row id or null for an empty row
      * @param	array	Options
      * @return	object 	KDatabaseRow object
      */
-    public function fetchNew($options = array())
+    public function fetchRow($query = null, array $options = array())
     {
-        // Options
+        // fetch an empty row
         $options['table']     = $this;
 		$options['base_path'] = array_key_exists('path', $options) ? $options['path'] : null;
 
-		$object = array(
-			'type' 		=> 'row'  ,
-			'component'	=> $this->getClassName('prefix'),
-			'name'		=> $this->getClassName('suffix')
-		);
+		$component = $this->getClassName('prefix');
+		$row       = KInflector::singularize($this->getClassName('suffix'));
+		$app   	   = KFactory::get('lib.joomla.application')->getName();
+	
+        //Get the data and push it in the row
+		if(isset($query))
+        {
+            if(is_int($query))
+            {
+             	$key   = $this->getPrimaryKey();
+             	$value = $query;
+             	
+             	//Create query object
+       	 		$query = $this->getDBO()->getQuery()
+        			->where($key, '=', $value);
+            }
+            
+        	if($query instanceof KDatabaseQuery) 
+            {
+            	if(!count($query->columns)) {
+        			$query->select('*');
+        		}
+        		
+        		if(!count($query->from)) {
+        			$query->from($this->getTableName().' AS tbl');
+        		}
+            }
 
-        return KFactory::getInstance($object, $options);
+            $this->_db->select($query, 0, 1);
+            $options['data'] = (array) $this->_db->loadAssoc();
+        }
+        
+        $row = KFactory::tmp($app.'::com.'.$component.'.row.'.$row, $options); 
+        return $row;
     }
 
 	/**
@@ -419,16 +473,17 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * Table insert method
 	 *
 	 * @param  array	An associative array of data to be inserted
+	 * @throws KDatabaseTableException
 	 * @return integer The new object's primary key value, or throw an exception if any errors occur.
 	 */
-	public function insert( $data )
+	public function insert( array $data )
 	{
 		$data  = $this->filter($data);
 		$table = $this->getTableName();
 
 		$result = $this->_db->insert($table, $data);
 		if($err = $this->_db->getError()) {
-        	$this->setError($err);
+        	throw new KDatabaseTableException($err);
         }
 		return $result;
 	}
@@ -438,9 +493,10 @@ abstract class KDatabaseTableAbstract extends KObject
 	 *
 	 * @param  array	An associative array of data to be updated
 	 * @param  mixed	Can either be a row, an array of rows or a query object
+	 * @throws KDatabaseTableException
 	 * @return boolean True if successful otherwise returns false
 	 */
-	public function update( $data, $where = null)
+	public function update( array $data, $where = null)
 	{
 		$data  = $this->filter($data);
 		$table = $this->getTableName();
@@ -453,16 +509,14 @@ abstract class KDatabaseTableAbstract extends KObject
 			//Create where statement
 			if (count($rows))
 			{
-            	$rows = "'".implode("','", $rows)."'";
-
             	$where = $this->_db->getQuery()
-            		->where($this->getPrimaryKey(), 'IN', '( '.$rows.' )');
+            		->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
 
 		$result = $this->_db->update($table, $data, $where);
 		if($err = $this->_db->getError()) {
-        	$this->setError($err);
+        	throw new KDatabaseTableException($err);
         }
         return $result;
 	}
@@ -471,6 +525,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * Table delete method
 	 *
 	 * @param  mixed	Can either be a row, an array of rows or a query object
+	 * @throws KDatabaseTableException
 	 * @return boolean True if successful otherwise returns false
 	 */
 	public function delete( $where )
@@ -483,21 +538,40 @@ abstract class KDatabaseTableAbstract extends KObject
 			$rows = (array) $where;
 
 			//Create where statement
-			if (count($rows))
+			if (count($rows)) 
 			{
-            	// Is the primary key an integer?
-            	$rows = "'".implode("','", $rows)."'";
-
             	$where = $this->_db->getQuery()
-            		->where($this->getPrimaryKey(), 'IN', '( '.$rows.' )');
+            		->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
 
 		$result = $this->_db->delete($table, $where);
 		if($err = $this->_db->getError()) {
-        	$this->setError($err);
+        	throw new KDatabaseTableException($err);
         }
+        
 		return $result;
+	}
+	
+	/**
+	 * Resets the order of all rows
+	 *
+	 * @return	KDatabaseTableAbstract
+	 */
+	public function reorder()
+	{
+		if (!in_array('ordering', $this->getColumns())) {
+			throw new KDatabaseTableException("The table ".$this->getTableName()." doesn't have a 'ordering' column.");
+		}
+		
+		$this->_db->execute("SET @order = 0");
+		$this->_db->execute(
+			 'UPDATE #__'.$this->getTableName().' '
+			.'SET ordering = (@order := @order + 1) '
+			.'ORDER BY ordering ASC'
+		);
+		
+		return $this;	
 	}
 
 	/**

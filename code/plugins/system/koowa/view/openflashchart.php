@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id$
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage  OpenFlashCahrt
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,6 +13,7 @@
  * View Open Flash Chart Class
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage  OpenFlashCahrt
  */
@@ -25,23 +27,19 @@ class KViewOpenflashchart extends KViewAbstract
      */
     public $chart;
 
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         parent::__construct($options);
 
         //Set the correct mime type
-		$this->document->setMimeEncoding('text/plain');
+		$this->_document->setMimeEncoding('text/plain');
 
         $this->chart = new KChartOpenflashchart();
     }
 
     public function display($tpl = null)
     {
-        $result = $this->loadTemplate($tpl);
-		if (JError::isError($result)) {
-			return $result;
-		}
-
+        $this->loadTemplate($tpl);
 		echo $this->chart->render();
     }
 }

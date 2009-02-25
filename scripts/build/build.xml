@@ -1,29 +1,19 @@
 <?xml version="1.0" ?>
-<!-- $Id: build.xml 305 2008-01-26 15:32:10Z mjaz $ -->
+<!-- $Id$ -->
 <project name="Koowa - Rapid Application Development Framework"
 	basedir="."
 	default="main">
 
-	<property
-		name="koowa_scm"
-		value="https://joomlatools.unfuddle.com/svn/joomlatools_koowa/releases/0.5/code"
-		override="true" />
-
-	<property
-		name="targetdir"
-		value="packages"
-		override="true" />
-
-	<property
-		name="chown"
-		value="."
-		override="www-data:staff" />
-
+	<property name="koowa_scm" override="true"
+		value="https://joomlatools.unfuddle.com/svn/joomlatools_koowa/releases/0.6/code" />
+	<property name="targetdir" value="packages" override="true" />
+	<property name="targetfile" override="true" value="koowa_v0.6.0.tar.gz" />
+	
 	<!-- MAIN -->
 	<target name="main" description="Build Installable Packages">
 
 		<mkdir dir="${targetdir}" />
-		<delete file="${targetdir}/koowa_v0.5.3.tar.gz/" />
+		<delete file="${targetdir}/${targetfile}" />
 
 		<phingcall target="clean" />
 
@@ -35,16 +25,17 @@
 			<property name="extpath"	value="" />
 		</phingcall>
 
-
-		<!-- Adjust permissions -->
-		<!-- <input propertyname="chown" defaultValue="www-data.staff" promptChar="?">CHOWN</input> -->
-		<exec command="chmod -R 775 *" dir="${targetdir}" />
-		<!--<exec command="chown -R ${chown} *" dir="${targetdir}" />-->
-
 		<!-- Build the package -->
 		<copy todir="${targetdir}/pkg/" >
 			<fileset dir="${targetdir}/tmp/plugins/system/">
 				<include name="**" />
+				<exclude name="CHANGELOG.php" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${targetdir}/pkg/koowa" >
+			<fileset dir="${targetdir}/tmp/">
+				<include name="CHANGELOG.php" />
 			</fileset>
 		</copy>
 		
@@ -55,7 +46,7 @@
 		</copy>
 		
 		
-		<tar destfile="${targetdir}/koowa_v0.5.3.tar.gz" basedir="${targetdir}/pkg" compression="gzip"/>
+		<tar destfile="${targetdir}/${targetfile}" basedir="${targetdir}/pkg" compression="gzip"/>
 
 		<delete dir="${targetdir}/pkg/" includeemptydirs="true" />
 		<delete dir="${targetdir}/tmp/" includeemptydirs="true" />

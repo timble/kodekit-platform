@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_View
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -14,9 +15,9 @@
  * http://www.php.net/manual/en/function.stream-wrapper-register.php
  * 
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_Template
  */
- 
 abstract class KTemplateAbstract
 {
     /**
@@ -48,23 +49,30 @@ abstract class KTemplateAbstract
 	protected static $_rules = array();
 	
 	/**
-	 * Adds one or multiple rules to be converted
+	 * Adds one or multiple rules for template transformation
 	 * 
-	 * @param $rules array	Associative array of rules(es) to be replaced.
+	 * @param	array	Array of KTemplateRuleInterface objects
 	 */
-	public static function addRules($rules = array()) 
+	public static function addRules(array $rules = array()) 
 	{
-		self::$_rules = array_merge(self::$_rules, $rules);
+		foreach($rules as $rule)
+		{
+			$class = get_class($rule);
+			if(!($rule instanceof KTemplateRuleInterface)) {
+				throw new KTemplateException("Template rule $class does not implement KTemplateRuleInterface");
+			}
+			self::$_rules[$class] = $rule;
+		}
 	}
 	
 	/**
-	 * Adds one or multiple rules to be converted
+	 * Remove rules 
 	 * 
-	 * @param $rules array	Associative array of rules(es) to be replaced.
+	 * @param $rules array	Associative array of rule class names
 	 */
-	public static function delRules($rules = array()) 
+	public static function delRules(array $rules = array()) 
 	{
-		self::$_rules = array_diff_assoc(self::$_rules, $rules);
+		self::$_rules = array_diff_assoc(self::$_rules, array_flip($rules));
 	}
 	
     /**
@@ -86,50 +94,16 @@ abstract class KTemplateAbstract
         }
 
         /**
-         * Convert <?= ?> to long-form <?php echo ?>
-         * 
-         * We could also convert <%= like the real T_OPEN_TAG_WITH_ECHO
-         * but that's not necessary.
-         * 
-         * It might be nice to also convert PHP code blocks <? ?> but 
-         * let's quit while we're ahead.  It's probably better to keep 
-         * the <?php for larger code blocks but that's your choice.  If
-         * you do go for it, explicitly check for <?xml as this will
-         * probably be the biggest headache.
+         * Pass the data through each registered rule
          */
-        if (! ini_get('short_open_tag')) 
-		{
-			// convert "<?=" to "<?php echo"
-	        $find = '/\<\?\=\s?(.*?)\?>/';
-	        $replace = "<?php echo \$1 ?>";
-	        $this->_data = preg_replace($find, $replace, $this->_data);
-	        
-	        // convert "<?" to "<?php"
-	        $find = '/\<\?\s(.*?)\?>/';
-	        $replace = "<?php \$1 ?>";
-	        $this->_data = preg_replace($find, $replace, $this->_data);
+        foreach(self::$_rules as $rule)  {
+        	$rule->parse($this->_data); 
         }
-		
-		/**
-         * Convert user defined rules
-         * 
-         * This is done before the standard replacements are done to offer
-         * the most flexibility.
-         */
-		$this->_data = str_replace(array_keys(self::$_rules), array_values(self::$_rules), $this->_data);
-		        
-        /**
-         * Convert @$ to $this->
-         * 
-         * We could make a better effort at only finding @$ between <?php ?>
-         * but that's probably not necessary as @$ doesn't occur much in the wild
-         * and there's a significant performance gain by using str_replace().
-         */
-        $this->_data = str_replace(array('@$', '@'), '$this->', $this->_data);
+     
         
         /**
          * file_get_contents() won't update PHP's stat cache, so performing
-         * another stat() on it will hit the filesystem again.  Since the file
+         * another stat() on it will hit the filesystem again. Since the file
          * has been successfully read, avoid this and just fake the stat
          * so include() is happy.
          */
@@ -213,4 +187,21 @@ abstract class KTemplateAbstract
                 return false;
         }
     }
+    
+    /**
+     * Url_stat implementation
+     * 
+     * Prevents "url_stat is not implemented" messages on some systems 
+     * @see	http://be.php.net/manual/en/function.stream-wrapper-register.php
+     * @see http://www.mail-archive.com/internals@lists.php.net/msg03887.html
+     *
+     * @param 	string	Path
+     * @param	int		Flags
+     * @return 	array
+     */
+    public function url_stat($path, $flags = 0)
+    {
+        return $this->stream_stat();
+    }
+    
 }

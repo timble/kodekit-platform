@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Pattern
  * @subpackage	Proxy
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,8 +13,10 @@
  * Proxy class
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Proxy
+ * @uses 		KObject
  */
 abstract class KPatternProxy extends KObject
 {
@@ -51,7 +54,7 @@ abstract class KPatternProxy extends KObject
 	 * @param  mixed 	$value 	The variable value.
 	 * @return mixed
 	 */
-	function __set($key, $value)
+	public function __set($key, $value)
 	{
 		if ('_' != substr($key, 0, 1)) {
             $this->getObject()->$key = $value;
@@ -65,7 +68,7 @@ abstract class KPatternProxy extends KObject
 	 * @param  string $key The variable name.
 	 * @return mixed
 	 */
-	function __get($key)
+	public function __get($key)
 	{
 		if ('_' != substr($key, 0, 1)) {
             return $this->getObject()->$key;
@@ -81,7 +84,7 @@ abstract class KPatternProxy extends KObject
 	 * @param  mixed 	$val 	The variable value.
 	 * @return boolean
 	 */
-	function __isset($key)
+	public function __isset($key)
 	{
 		 if ('_' != substr($key, 0, 1)) {
             return isset($this->getObject()->$key);
@@ -96,7 +99,7 @@ abstract class KPatternProxy extends KObject
 	 * @param string $key The variable name.
 	 * @return void
 	 */
-	function __unset($key)
+	public function __unset($key)
 	{
 		if ('_' != substr($key, 0, 1) && isset($this->getObject()->$key)) {
             unset($this->getObject()->$key);
@@ -110,10 +113,37 @@ abstract class KPatternProxy extends KObject
 	 * @param  array  $arguments	The function arguments
 	 * @return mixed The result of the function
 	 */
-	public function __call($method, $arguments)
+	public function __call($method, array $arguments)
 	{
-		if(method_exists($this->getObject(), $method)) {
-			return call_user_func_array(array($this->getObject(), $method), $arguments);
+		$object = $this->getObject();
+		if(method_exists($object, $method)) 
+		{
+ 			$result = null;
+			
+			// Call_user_func_array is ~3 times slower than direct method calls. 
+ 		    switch(count($arguments)) 
+ 		    { 
+ 		    	case 0 :
+ 		    		$result = $object->$method();
+ 		    		break;
+ 		    	case 1 : 
+ 	              	$result = $object->$method($arguments[0]); 
+ 		           	break; 
+ 	           	case 2: 
+ 	               	$result = $object->$method($arguments[0], $arguments[1]); 
+ 		           	break; 
+ 		      	case 3: 
+ 	              	$result = $object->$method($arguments[0], $arguments[1], $arguments[2]); 
+ 	               	break; 
+ 	           	case 4: 
+ 	               	$result = $object->$method($arguments[0], $arguments[1], $arguments[2], $arguments[3]); 
+ 		            break; 
+ 	           	default: 
+ 	             	// Resort to using call_user_func_array for many segments 
+ 		            $result = call_user_func_array(array($object, $method), $arguments);                               
+ 	         } 
+ 	         
+ 	         return $result;
 		}
 	
 		return parent::__call($method, $arguments);

@@ -1,6 +1,7 @@
 <?php
 /**
  * @version 	$Id$
+ * @category	Koowa
  * @package		Koowa_Database
  * @subpackage  Query
  * @copyright	Copyright (C) 2008 Joomlatools. All rights reserved.
@@ -14,6 +15,7 @@
  * John Griffin. Released under the LGPL license
  *
  * @author    	Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  */

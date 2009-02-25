@@ -1,8 +1,9 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_View
- * @subpackage	Helper
+ * @subpackage	Html
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
@@ -12,8 +13,9 @@
  * Behavior View Helper Class
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_View
- * @subpackage	Helper
+ * @subpackage	Html
  */
 class KViewHelperBehavior
 {
@@ -22,10 +24,7 @@ class KViewHelperBehavior
 	 *
 	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
 	 *
-	 * @static
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
-	 * @return	void
-	 * @since	1.5
 	 */
 	public static function mootools($debug = null)
 	{
@@ -38,14 +37,11 @@ class KViewHelperBehavior
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null) {
-			$config = &JFactory::getConfig();
+			$config = KFactory::get('lib.joomla.config');
 			$debug = $config->getValue('config.debug');
 		}
 
-		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-
-		if ($debug || $konkcheck) {
+		if ($debug) {
 			KViewHelper::script('mootools-uncompressed.js', 'media/system/js/', false);
 		} else {
 			KViewHelper::script('mootools.js', 'media/system/js/', false);
@@ -53,8 +49,8 @@ class KViewHelperBehavior
 		$loaded = true;
 		return;
 	}
-
-		public static function caption() {
+	
+	public static function caption() {
 		KViewHelper::script('caption.js', 'media/system/js/');
 	}
 
@@ -74,43 +70,6 @@ class KViewHelperBehavior
 	{
 		// For now, delegate to JHTML, because loading the tooltip stuff twice causes problems.
 		return JHTML::_('behavior.tooltip', $selector, $params );
-		
-		/*
-		static $tips;
-
-		if (!isset($tips)) {
-			$tips = array();
-		}
-
-		// Include mootools framework
-		KViewHelperBehavior::mootools();
-
-		$sig = md5(serialize(array($selector,$params)));
-		if (isset($tips[$sig]) && ($tips[$sig])) {
-			return;
-		}
-
-		// Setup options object
-		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int)$params['maxTitleChars'] : 50 ;
-		$opt['offsets']			= (isset($params['offsets'])) ? (int)$params['offsets'] : null;
-		$opt['showDelay']		= (isset($params['showDelay'])) ? (int)$params['showDelay'] : null;
-		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int)$params['hideDelay'] : null;
-		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed']			= (isset($params['fixed']) && ($params['fixed'])) ? '\\true' : '\\false';
-		$opt['onShow']			= (isset($params['onShow'])) ? '\\'.$params['onShow'] : null;
-		$opt['onHide']			= (isset($params['onHide'])) ? '\\'.$params['onHide'] : null;
-
-		$options = KViewHelperBehavior::_getJSObject($opt);
-
-		// Attach tooltips to document
-		$document =& JFactory::getDocument();
-		$tooltipInit = '		window.addEvent(\'domready\', function(){ var JTooltips = new Tips($$(\''.$selector.'\'), '.$options.'); });';
-		$document->addScriptDeclaration($tooltipInit);
-
-		// Set static array
-		$tips[$sig] = true;
-		return;
-		*/
 	}
 
 	public static function modal($selector='a.modal', $params = array())
@@ -118,14 +77,14 @@ class KViewHelperBehavior
 		static $modals;
 		static $included;
 
-		$document =& JFactory::getDocument();
+		$document = KFactory::get('lib.joomla.document');
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
 
 			// Load the javascript and css
 			KViewHelper::script('modal.js', 'media/system/js/');
-			KViewHelper::stylesheet('modal.css', 'media/system/css');
+			KViewHelper::stylesheet('modal.css', 'media/system/css/');
 
 			$included = true;
 		}
@@ -206,13 +165,11 @@ class KViewHelperBehavior
 		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
 		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
-/*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
- */
-
+		//types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
 		$options = KViewHelperBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
+		$document = KFactory::get('lib.joomla.document');
 		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
 				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
 				window.addEvent(\'load\', function(){
@@ -271,7 +228,7 @@ class KViewHelperBehavior
 			tree'.$treeName.'.adopt(\''.$id.'\');})';
 
 		// Attach tooltips to document
-		$document =& JFactory::getDocument();
+		$document = KFactory::get('lib.joomla.document');
 		$document->addScriptDeclaration($js);
 
 		// Set static array
@@ -281,7 +238,8 @@ class KViewHelperBehavior
 
 	public static function calendar()
 	{
-		$document =& JFactory::getDocument();
+		$document = KFactory::get('lib.joomla.document');
+		
 		KViewHelper::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		KViewHelper::script( 'calendar.js', 'media/system/js/' );
 		KViewHelper::script( 'calendar-setup.js', 'media/system/js/' );
@@ -300,12 +258,13 @@ class KViewHelperBehavior
 		// Include mootools framework
 		KViewHelperBehavior::mootools();
 
-		$config 	 =& JFactory::getConfig();
+		$config 	 = KFactory::get('lib.joomla.config');
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
-		$document =& JFactory::getDocument();
+		$document = KFactory::get('lib.joomla.document');
+		
 		$script  = '';
 		$script .= 'function keepAlive( ) {';
 		$script .=  '	var myAjax = new Ajax( "index.php", { method: "get" } ).request();';
@@ -324,7 +283,6 @@ class KViewHelperBehavior
 	 *
 	 * @param	array	$array	The array to convert to JavaScript object notation
 	 * @return	string	JavaScript object notation representation of the array
-	 * @since	1.5
 	 */
 	protected static function _getJSObject($array=array())
 	{
@@ -357,7 +315,6 @@ class KViewHelperBehavior
 	 * Internal method to translate the JavaScript Calendar
 	 *
 	 * @return	string	JavaScript that translates the object
-	 * @since	1.5
 	 */
 	protected static function _calendartranslation()
 	{

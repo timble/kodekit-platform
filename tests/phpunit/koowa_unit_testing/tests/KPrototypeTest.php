@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: KInflectorTest.php 137 2008-03-19 13:16:09Z mjaz $
+ * @version     $Id$
  * @package     Koowa_Tests
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>

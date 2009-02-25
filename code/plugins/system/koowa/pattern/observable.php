@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Pattern
  * @subpackage	Observable
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,8 +13,10 @@
  * Abstract observable class to implement the observer design pattern
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Observable
+ * @uses		KObject
  */
 abstract class KPatternObservable extends KObject
 {
@@ -37,9 +40,10 @@ abstract class KPatternObservable extends KObject
 	/**
 	 * Update each attached observer object and return an array of their return values
 	 *
+	 * @param object	$args	An associative array of arguments
 	 * @return array Array of return values from the observers
 	 */
-	public function notify()
+	public function notify(ArrayObject $args)
 	{
 		$result = array();
 		$iterator = $this->_observers->getIterator();
@@ -48,7 +52,7 @@ abstract class KPatternObservable extends KObject
 		while($iterator->valid()) 
 		{
     		$observer = $iterator->current();
-			$result[] = $observer->update();
+			$result[] = $observer->onNotify($args);
     		$iterator->next();
 		}	
 	
@@ -63,9 +67,9 @@ abstract class KPatternObservable extends KObject
 	 */
 	public function attach( KPatternObserver $observer )
 	{
-		$hanlde = $observer->getHandle(); //get the object handle
+		$handle = $observer->getHandle(); //get the object handle
 		
-		$this->_observers->offsetSet($handle, $cmd);
+		$this->_observers->offsetSet($handle, $observer);
 	}
 
 	/**
@@ -76,7 +80,7 @@ abstract class KPatternObservable extends KObject
 	 */
 	public function detach( KPatternObserver $observer)
 	{
-		$hanlde = $observer->getHandle(); //get the object handle
+		$handle = $observer->getHandle(); //get the object handle
 
 		$result = false;
   		if($this->_observers->offsetExist($handle)) {

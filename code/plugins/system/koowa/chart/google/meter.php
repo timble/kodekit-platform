@@ -1,6 +1,7 @@
 <?php
 /**
- * @version     $Id: line.php 176 2008-03-30 19:46:02Z mjaz $
+ * @version     $Id$
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Google
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,6 +13,7 @@
  * Google Chart Meter
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Google
  * @version     1.0
@@ -23,9 +25,11 @@ class KChartGoogleMeter extends KChartGoogle
 
     /**
      * Constructor
+     * 
+     * @throws KChartException
      */
     public function __construct()
     {
-        throw new KException(__CLASS__. ' is not implemented yet.');
+        throw new KChartException(__CLASS__. ' is not implemented yet.');
     }
 }

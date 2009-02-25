@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Command
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -11,25 +12,26 @@
  * Event Command
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Command
+ * @uses 		KFactory
  */
-class KCommandEvent extends KPatternCommandHandler
+class KCommandEvent extends KObject implements KPatternCommandInterface 
 {
 	/**
-	 * Generic Command handler
-	 * 
-	 * This functions creates a specific command based on the command name and calls it
+	 * Command handler
 	 * 
 	 * @param string  $name		The command name
-	 * @param object  $args		The command arguments
+	 * @param mixed   $args		The command arguments
 	 *
-	 * @return	boolean
+	 * @return boolean
 	 */
-	function onCommand( $name, $args ) 
+	public function execute( $name, $args) 
 	{
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger($name, (array) $args);
-
-		return true;
+		$parts = explode('.', $name);	
+		$event = 'on'.KInflector::implode($parts);
+	
+		$dispatcher = KFactory::get('lib.koowa.event.dispatcher');
+		return $dispatcher->dispatch($event, $args);
 	}
 }

@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id:math.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage 	Math
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,9 +13,10 @@
  * Math methods
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage 	Math
- * @version     1.0
+ * @static
  */
 class KHelperMath
 {

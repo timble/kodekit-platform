@@ -1,6 +1,7 @@
 <?php
 /**
  * @version 	$Id$
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  * @copyright	Copyright (C) 2008 Joomlatools. All rights reserved.
@@ -13,7 +14,8 @@
  * This class draws heavily on PEAR:SQL_Parser Copyright (c) 2002-2004 Brent Cook,
  * released under the LGPL license
  *
- * @author     Johan Janssens <johan@joomlatools.org>
+ * @author     	Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  */

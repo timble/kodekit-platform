@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,6 +13,7 @@
  * Select View Helper Class
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  */
@@ -24,7 +26,7 @@ class KViewHelperSelect
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	public static function option( $value, $text='', $value_name='value', $text_name='text', $disable=false )
+	public static function option( $value, $text = '', $value_name = 'value', $text_name = 'text', $disable = false )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= $value;
@@ -42,7 +44,7 @@ class KViewHelperSelect
 	public static function optgroup( $text, $value_name = 'value', $text_name = 'text' )
 	{
 		$obj = new stdClass;
-		$obj->$value_name	= '<OPTGROUP>';
+		$obj->$value_name	= '<optgroup>';
 		$obj->$text_name	= $text;
 		return $obj;
 	}
@@ -63,7 +65,7 @@ class KViewHelperSelect
 		foreach ($arr as $i => $option)
 		{
 			$element =& $arr[$i]; // since current doesn't return a reference, need to do this
-
+			
 			$isArray = is_array( $element );
 			$extra	 = '';
 			if ($isArray)
@@ -84,7 +86,7 @@ class KViewHelperSelect
 					$extra .= ' disabled="disabled"';
 				}
 			}
-
+			
 			// This is real dirty, open to suggestions,
 			// barring doing a propper object to handle it
 			if ($k === '<OPTGROUP>') {
@@ -130,8 +132,7 @@ class KViewHelperSelect
 		}
 
 		return $html;
-	}
-	
+	}	
 
 	/**
 	 * Generates an HTML checkbox list
@@ -153,7 +154,7 @@ class KViewHelperSelect
 		$html = '';
 
 		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = KHelperArray::toString($attribs);
 		 }
 
 		for ($i=0, $n = count( $arr ); $i < $n; $i++ )
@@ -201,7 +202,7 @@ class KViewHelperSelect
 		}
 
 		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = KHelperArray::toString($attribs);
 		 }
 
 		$id = $name;
@@ -265,7 +266,7 @@ class KViewHelperSelect
 		$html = '';
 
 		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = KHelperArray::toString($attribs);
 		 }
 
 		$id_text = $name;
@@ -310,7 +311,7 @@ class KViewHelperSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	public static function booleanlist( $name, $attribs = null, $selected = null, $yes='yes', $no='no', $id=false )
+	public static function booleanlist( $name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false )
 	{
 		$arr = array(
 			KViewHelper::_('select.option',  '0', JText::_( $no ) ),

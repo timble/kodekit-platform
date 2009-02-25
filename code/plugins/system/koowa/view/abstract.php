@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_View
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -11,8 +12,11 @@
  * Abstract View Class
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_View
- * @uses		KPatternClass
+ * @uses		KMixinClass
+ * @uses 		KTemplateDefault
+ * @uses 		KFactory
  */
 abstract class KViewAbstract extends KObject
 {
@@ -31,26 +35,24 @@ abstract class KViewAbstract extends KObject
 	protected $_layout = 'default';
 
 	/**
-	* The set of search directories for resources (templates)
-	*
-	* @var array
-	*/
-	protected $_path = array(
-		'template' => array(),
-	);
+	 * The set of search directories for templatex
+	 *
+	 * @var array
+	 */
+	protected $_templatePath = array();
 
 	/**
-	* The name of the default template source file.
-	*
-	* @var string
-	*/
+	 * The name of the default template source file.
+	 *
+	 * @var string
+	 */
 	protected $_template;
 
 	/**
-	* The output of the template script.
-	*
-	* @var string
-	*/
+	 * The output of the template script.
+	 *
+	 * @var string
+	 */
 	protected $_output = null;
 
 	/**
@@ -59,17 +61,26 @@ abstract class KViewAbstract extends KObject
      * @var string
      */
     protected $_escape;
+    
+    /**
+	 * The document object
+	 *
+	 * @var object
+	 */
+	protected $_document;
 
 	/**
 	 * Constructor
+	 * 
+	 * @param	array An optional associative array of configuration settings.
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
 
-        // Mixin the KPatternClass
-        $this->mixin(new KPatternClass($this, 'Controller'));
+        // Mixin the KMixinClass
+        $this->mixin(new KMixinClass($this, 'View'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
@@ -87,26 +98,23 @@ abstract class KViewAbstract extends KObject
 			$this->_basePath	= JPATH_COMPONENT.DS.'views'.DS.$this->getClassName('suffix');
 		}
 
-		// Set a base path for use by the view
-		$this->assign('baseurl',	$options['base_url']);
-
 		// set the default template search path
 		if ($options['template_path']) {
 			// user-defined dirs
-			$this->_setPath('template', $options['template_path']);
+			$this->setTemplatePath($options['template_path']);
 		} else {
-			$this->_setPath('template', $this->_basePath.DS.'tmpl');
+			$this->setTemplatePath($this->_basePath.DS.'tmpl');
+		}
+		
+		// assign the document object
+		if ($options['document']) {
+			$this->_document = $options['document'];
+		} else {
+			$this->_document = KFactory::get('lib.joomla.document');
 		}
 
 		// set the layout
 		$this->setLayout($options['layout']);
-
-		// assign the document object
-		if ($options['document']) {
-			$this->assignRef('document', $options['document']);
-		} else {
-			$this->assignRef('document', KFactory::get('Document'));
-		}
 
 		//Register the view stream wrapper
 		KTemplateDefault::register();
@@ -124,7 +132,7 @@ abstract class KViewAbstract extends KObject
      * @param   array   Options
      * @return  array   Options
      */
-    protected function _initialize($options)
+    protected function _initialize(array $options)
     {
         $defaults = array(
             'base_path'     => JPATH_COMPONENT,
@@ -138,13 +146,10 @@ abstract class KViewAbstract extends KObject
                         'base'      => 'view',
                         'suffix'    => 'default'
                         ),
-			'template_rules' => array(
-						'@template' => '@loadTemplate',
-						'@text'	    => 'JText::_',
-						'@helper'   => '@loadHelper',
-						'@route'    => 'JRoute::_', 
-                        '@token'	=> 'echo KSecurityToken::render()',
-                        '</form>'   => '<?php echo KSecurityToken::render()?></form>'
+			'template_rules' => array( 
+                        KFactory::get('lib.koowa.template.rule.shorttag'),
+                        KFactory::get('lib.koowa.template.rule.token'),
+                        KFactory::get('lib.koowa.template.rule.variable')
 						),
             'template_path' => null
         );
@@ -164,10 +169,6 @@ abstract class KViewAbstract extends KObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result)) {
-			return $result;
-		}
-
 		echo $result;
 	}
 
@@ -178,11 +179,11 @@ abstract class KViewAbstract extends KObject
 	* an object, an associative array, or a single value by name.
 	*
 	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
+	* these are either private properties for KView or private variables
 	* within the template script itself.
 	*
 	* <code>
-	* $view = new JView();
+	* $view = new KViewDefault();
 	*
 	* // assign directly
 	* $view->var1 = 'something';
@@ -204,7 +205,7 @@ abstract class KViewAbstract extends KObject
 	*
 	* </code>
 	*
-	* @return bool True on success, false on failure.
+	* @return object KViewAbstract
 	*/
 	public function assign()
 	{
@@ -222,7 +223,7 @@ abstract class KViewAbstract extends KObject
 					$this->$key = $val;
 				}
 			}
-			return true;
+			return $this;
 		}
 
 		// assign by associative array
@@ -234,21 +235,19 @@ abstract class KViewAbstract extends KObject
 					$this->$key = $val;
 				}
 			}
-			return true;
+			return $this;
 		}
 
 		// assign by string name and mixed value.
 
 		// we use array_key_exists() instead of isset() becuase isset()
 		// fails if the value is set to null.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
+		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) 
 		{
 			$this->$arg0 = $arg1;
-			return true;
 		}
 
-		// $arg0 was not object, array, or string.
-		return false;
+		return $this;
 	}
 
 
@@ -271,19 +270,15 @@ abstract class KViewAbstract extends KObject
 	*
 	* @param string $key The name for the reference in the view.
 	* @param mixed &$val The referenced variable.
-	*
-	* @return bool True on success, false on failure.
+	* @return object KViewAbstract
 	*/
-
 	public function assignRef($key, &$val)
 	{
-		if (is_string($key) && substr($key, 0, 1) != '_')
-		{
+		if (is_string($key) && substr($key, 0, 1) != '_') {
 			$this->$key =& $val;
-			return true;
 		}
 
-		return false;
+		return $this;
 	}
 
 	/**
@@ -298,20 +293,6 @@ abstract class KViewAbstract extends KObject
     }
 
 	/**
-	 * Method to get the model object
-	 *
-	 * @param	string	$name	The name of the model (optional)
-	 * @return	mixed			Model object
-	 */
-	public function getModel( $name = null )
-	{
-		if ($name === null) {
-			$name = $this->_defaultModel;
-		}
-		return $this->_models[strtolower( $name )];
-	}
-
-	/**
 	* Get the layout.
 	*
 	* @return string The layout name
@@ -321,76 +302,88 @@ abstract class KViewAbstract extends KObject
 	{
 		return $this->_layout;
 	}
-
-	/**
-	 * Method to add a model to the view.  We support a multiple model single
-	 * view system by which models are referenced by classname.  A caveat to the
-	 * classname referencing is that any classname prepended by KModel will be
-	 * referenced by the name without KModel, eg. KModelCategory is just
-	 * Category.
-	 *
-	 * @param	object	$model		The model to add to the view.
-	 * @param	boolean	$default	Is this the default model?
-	 * @return	object				The added model
-	 */
-	public function setModel( &$model, $default = false )
-	{
-		$name = strtolower($model->getClassName('suffix'));
-		$this->_models[$name] = &$model;
-
-		if ($default) {
-			$this->_defaultModel = $name;
-		}
-		return $model;
-	}
-
+	
    /**
 	* Sets the layout name to use
 	*
-	* @param	string $template The template name.
-	* @return	string Previous value
+	* @param	string 	$template The template name.
+	* @return 	object 	KViewAbstract
 	*/
 	public function setLayout($layout)
 	{
-		$previous		= $this->_layout;
 		$this->_layout = $layout;
-		return $previous;
+		return $this;
 	}
 
 	 /**
      * Sets the _escape() callback.
      *
-     * @param mixed $spec The callback for _escape() to use.
+     * @param 	mixed 	$spec The callback for _escape() to use.
+     * @return 	object 	KViewAbstract
      */
     public function setEscape($spec)
     {
         $this->_escape = $spec;
+        return $this;
     }
 	
-	/**
-	 * Get the filename for a resource.
-	 *
-	 * @param	array	An associative array of filename information. Optional.
-	 * @return	string	The filename.
-	 */
-	public static function getFileName( $parts = array() )
-	{
-		//Get the document type
-		$type   = KFactory::get('Document')->getType();
-
-		$filename = strtolower($parts['name']).DS.$type.'.php';
-		return $filename;
-	}
-
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
 	 * @param string|array The directory (-ies) to add.
-	 * @return void
+	 * @return object KViewAbstract
 	 */
 	public function addTemplatePath($path)
 	{
-		$this->_addPath('template', $path);
+		// just force to array
+		settype($path, 'array');
+
+		// loop through the path directories
+		foreach ($path as $dir)
+		{
+			// no surrounding spaces allowed!
+			$dir = trim($dir);
+
+			// add trailing separators as needed
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+
+			// add to the top of the search dirs
+			array_unshift($this->_templatePath, $dir);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Sets an entire array of search paths for templates or resources.
+	 *
+	 * @param string 	   $type The type of path to set, typically 'template'.
+	 * @param string|array $path The new set of search paths.  If null or
+	 * 							 false, resets to the current directory only.
+	 * @return object KViewAbstract
+	 */
+	public function setTemplatePath($path)
+	{
+		// clear out the prior search dirs
+		$this->_templatePath = array();
+
+		// actually add the user-specified directories
+		$this->addTemplatePath($path);
+
+		// always add the fallback directories as last resort
+		$app = KFactory::get('lib.joomla.application');
+		
+		// validating option as a command, but sanitizing it to use as a filename
+		$option = KInput::get('option', array('post', 'get'), 'cmd', 'filename');
+				
+		// set the alternative template search dir
+		$fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');
+		$this->addTemplatePath($fallback);
+		
+		return $this;
 	}
 
 	/**
@@ -400,11 +393,12 @@ abstract class KViewAbstract extends KObject
 	 * to the KViewHelper include paths
 	 *
 	 * @param string|array The directory (-ies) to add.
-	 * @return void
+	 * @return object KViewAbstract
 	 */
 	public function addHelperPath($path)
 	{
 		KViewHelper::addIncludePath($path);
+		return $this;
 	}
 
 	/**
@@ -412,6 +406,7 @@ abstract class KViewAbstract extends KObject
 	 *
 	 * @param string $tpl The name of the template source file ...
 	 * automatically searches the template paths and compiles as needed.
+	 * @throws KViewException
 	 * @return string The output of the the template script.
 	 */
 	public function loadTemplate( $tpl = null)
@@ -426,36 +421,34 @@ abstract class KViewAbstract extends KObject
 		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
 
 		// load the template script
-		Koowa::import('joomla.filesystem.path');
-		$this->_template = JPath::find($this->_path['template'], $file.'.php');
+		Koowa::import('lib.joomla.filesystem.path');
+		$this->_template = JPath::find($this->_templatePath, $file.'.php');
 		
-		if ($this->_template != false)
-		{
-			// unset so as not to introduce into template scope
-			unset($tpl);
-			unset($file);
-
-			// never allow a 'this' property
-			if (isset($this->this)) {
-				unset($this->this);
-			}
-
-			// start capturing output into a buffer
-			ob_start();
-			// include the requested template filename in the local scope
-			// (this will execute the view logic).
-			include 'tmpl://'.$this->_template;
-
-			// done with the requested template; get the buffer and
-			// clear it.
-			$this->_output = ob_get_contents();
-			ob_end_clean();
-
-			return $this->_output;
+		if ($this->_template === false) {
+			throw new KViewException( 'Layout "' . $file . '" not found' );
 		}
-		else {
-			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+			
+		// unset so as not to introduce into template scope
+		unset($tpl);
+		unset($file);
+
+		// never allow a 'this' property
+		if (isset($this->this)) {
+			unset($this->this);
 		}
+
+		// start capturing output into a buffer
+		ob_start();
+		// include the requested template filename in the local scope
+		// (this will execute the view logic).
+		include 'tmpl://'.$this->_template;
+
+		// done with the requested template; get the buffer and
+		// clear it.
+		$this->_output = ob_get_contents();
+		ob_end_clean();
+
+		return $this->_output;		
 	}
 
 	/**
@@ -474,63 +467,36 @@ abstract class KViewAbstract extends KObject
 		$args = func_get_args();
 		return call_user_func_array(array('KViewHelper', '_'), $args );
 	}
-
+	
 	/**
-	* Sets an entire array of search paths for templates or resources.
-	*
-	* @param string $type The type of path to set, typically 'template'.
-	* @param string|array $path The new set of search paths.  If null or
-	* false, resets to the current directory only.
-	*/
-	protected function _setPath($type, $path)
+	 * Create a route
+	 * 
+	 * Prepend the route with option query information based on the view name
+	 * and the file to call.
+	 * 
+	 * In templates, use @route()
+	 *
+	 * @param	string	The data to use to create the route
+	 * @return 	string 	The route
+	 */
+	public function createRoute( $route = '')
 	{
-		// clear out the prior search dirs
-		$this->_path[$type] = array();
-
-		// actually add the user-specified directories
-		$this->_addPath($type, $path);
-
-		// always add the fallback directories as last resort
-		switch (strtolower($type))
+		$parts = array();
+		parse_str($route, $parts);
+		
+		//Check to see if there is view information in the route if not add it
+		if(!isset($parts['view'])) 
 		{
-			case 'template':
-			{
-				$app = KFactory::get('Application');
-				$option = JRequest::getCmd('option');
-				
-				// set the alternative template search dir
-				$option = JRequest::getCmd('option');
-				$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-				$fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');
-				$this->_addPath('template', $fallback);
-			}	break;
-		}
-	}
-
-	/**
-	* Adds to the search path for templates and resources.
-	*
-	* @param string|array $path The directory or stream to search.
-	*/
-	protected function _addPath($type, $path)
-	{
-		// just force to array
-		settype($path, 'array');
-
-		// loop through the path directories
-		foreach ($path as $dir)
-		{
-			// no surrounding spaces allowed!
-			$dir = trim($dir);
-
-			// add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
+			$view = 'view='.$this->getClassName('suffix');
+			if(!isset($parts['layout']) && $this->_layout != 'default') {
+				$view .= '&layout='.$this->_layout;
 			}
-
-			// add to the top of the search dirs
-			array_unshift($this->_path[$type], $dir);
+			
+			$route = $view.'&'.$route;
 		}
+		
+		//Prepent the entry file and component information
+		$route = 'index.php?option=com_'.$this->getClassName('prefix').'&'.$route;
+		return JRoute::_($route);
 	}
 }

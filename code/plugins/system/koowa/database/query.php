@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  * @copyright	(C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,73 +13,88 @@
  * Database Select Class for SQL select statement generation
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  */
 class KDatabaseQuery extends KObject
 {
 	/**
-	 * The select element
+	 * The operation to perform
 	 *
 	 * @var array
 	 */
-	protected $_select = array();
-
+	public $operation = '';
+	
+	/**
+	 * The columns
+	 *
+	 * @var array
+	 */
+	public $columns = array();
+	
 	/**
 	 * The from element
 	 *
 	 * @var array
 	 */
-	protected $_from = array();
+	public $from = array();
 
 	/**
 	 * The join element
 	 *
 	 * @var array
 	 */
-	protected $_join = array();
+	public $join = array();
 
 	/**
 	 * The where element
 	 *
 	 * @var array
 	 */
-	protected $_where = array();
+	public $where = array();
 
 	/**
 	 * The group element
 	 *
 	 * @var array
 	 */
-	protected $_group = array();
+	public $group = array();
 
 	/**
 	 * The having element
 	 *
 	 * @var array
 	 */
-	protected $_having = array();
+	public $having = array();
 
 	/**
 	 * The order element
 	 *
 	 * @var string
 	 */
-	protected $_order = array();
+	public $order = array();
 
 	/**
 	 * The limit element
 	 *
 	 * @var integer
 	 */
-	protected $_limit = null;
+	public $limit = null;
 
 	/**
 	 * The limit offset element
 	 *
 	 * @var integer
 	 */
-	protected $_offset = null;
+	public $offset = null;
+	
+	/**
+     * Data to bind into the query as key => value pairs.
+     * 
+     * @var array
+     */
+    protected $_bind = array();
 
 	/**
 	 * Database connector
@@ -95,15 +111,14 @@ class KDatabaseQuery extends KObject
 	 * @param	array An optional associative array of configuration settings.
 	 *                Recognized key values include 'dbo' (this list is not
 	 * 				  meant to be comprehensive).
-     * @see getInstance()
 	 */
-	public function __construct( $options = array() )
+	public function __construct( array $options = array() )
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
 
 		//set the model dbo
-		$this->_db = $options['dbo'] ? $options['dbo'] : KFactory::get('Database');
+		$this->_db    = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.joomla.database');
 	}
 
 
@@ -122,28 +137,44 @@ class KDatabaseQuery extends KObject
         return array_merge($defaults, $options);
     }
 
-    /**
-     * Get a KDatabaseQuery object, always creating it
-     *
-     * @param	array	Options array
-     * @return 	object	KDatabaseQuery
-     */
-    public static function getInstance($options = array())
-    {
-        return new KDatabaseQuery($options);
-    }
-
 	/**
 	 * Built a select query
 	 *
 	 * @param	array|string	A string or an array of field names
 	 * @return object KDatabaseQuery
 	 */
-	public function select( $columns )
+	public function select( $columns = '*')
 	{
 		settype($columns, 'array'); //force to an array
+		
+		//Quote the identifiers
+		$columns = $this->_db->quoteName($columns);
 
-		$this->_select = array_unique( array_merge( $this->_select, $columns ) );
+		$this->operation = 'SELECT';
+		$this->columns   = array_unique( array_merge( $this->columns, $columns ) );
+		return $this;
+	}
+	
+	/**
+	 * Built a count query
+	 *
+	 * @return object KDatabaseQuery
+	 */
+	public function count()
+	{
+		$this->operation = 'SELECT COUNT(*) ';
+		$this->columns    = array();
+		return $this;
+	}
+	
+	/**
+	 * Make the query distinct
+	 *
+	 * @return object KDatabaseQuery
+	 */
+	public function distinct()
+	{
+		$this->operation = 'SELECT DISTINCT ';
 		return $this;
 	}
 
@@ -156,50 +187,82 @@ class KDatabaseQuery extends KObject
 	public function from( $tables )
 	{
 		settype($tables, 'array'); //force to an array
-
-		$this->_from = array_unique( array_merge( $this->_from, $tables ) );
+		
+		//Prepent the table prefix 
+		array_walk($tables, array($this, '_prefix'));
+		
+		//Quote the identifiers
+		$tables = $this->_db->quoteName($tables);
+		
+		$this->from = array_unique( array_merge( $this->from, $tables ) );
 		return $this;
 	}
-
+	
 	/**
-	 * Built the join clause of the query
-	 *
-	 * @param	string
-	 * @param	array|string
-	 * @return object KDatabaseQuery
-	 */
-	public function join( $type = 'LEFT', $conditions )
-	{
-		settype($conditions, 'array'); //force to an array
-
-		$this->_join[strtoupper($type)] = array_unique( array_merge( $this->_join, $conditions ) );
-		return $this;
-	}
-
+     * Built the join clause of the query
+     * 
+     * @param string 		$type  		The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
+     * @param string 		$table 		The table name to join to.
+     * @param string|array 	$condition  Join on this condition.
+     * @param array|string 	$cols  The columns to select from the joined table.
+     * @return object KDatabaseQuery
+     */
+    public function join($type, $table, $condition)
+    {     
+		settype($condition, 'array'); //force to an array
+    	
+		$this->_prefix($table); //add a prefix to the table
+    	
+		//Quote the identifiers
+		$table     = $this->_db->quoteName($table);
+		$condition = $this->_db->quoteName($condition);
+	    	
+    	$this->join[] = array(
+        	'type'  	=> strtoupper($type),
+        	'table' 	=> $table,
+        	'condition' => $condition,
+        );
+          
+        return $this;
+    }
+	
 	/**
 	 * Built the where clause of the query
 	 *
-	 * Automatically quotes the data values. If constraint is 'IN' the data values will not be quoted.
-	 *
-	 * @param   string 	The name of the property the constraint applies too
-	 * @param	string  The comparison used for the constraint
-	 * @param	string	The value compared to the property value using the constraint
+	 * @param   string 			The name of the property the constraint applies too
+	 * @param	string  		The comparison used for the constraint
+	 * @param	string|array	The value compared to the property value using the constraint
+	 * @param	string			The where condition, defaults to 'AND'
 	 * @return 	object 	KDatabaseQuery
 	 */
-	public function where( $property, $constraint, $value )
+	public function where( $property, $constraint, $value, $condition = 'AND' )
 	{
-		// Apply quotes to the property name
-		$property = $this->_db->nameQuote($property);
-
-		//Apply quotes to the propety value
-		if($constraint != 'IN') {
-			$value = $this->_db->Quote($value);
+		if(empty($property)) {
+			return $this;
 		}
-
-		//Create the constraint
+		
+		// Apply quotes to the property name
+		$property = $this->_db->quoteName($property);
+		
+		// Apply quotes to the value
+		$value    = $this->_db->quote($value);
+		if($constraint == 'LIKE') {
+			$value = addcslashes( $value, '%_' );
+		}
+		
+       	//Create the where clause
+        if(in_array($constraint, array('IN', 'NOT IN'))) {
+        	$value = ' ( '.$value. ' ) ';
+        }
+		
 		$where = $property.' '.$constraint.' '.$value;
-
-		$this->_where = array_unique( array_merge( $this->_where, array($where) ));
+        
+		//Prepend the condition
+        if(count($this->where)) {
+            $where = $condition .' '. $where;
+        } 
+        
+		$this->where = array_unique( array_merge( $this->where, array($where) ));
 		return $this;
 	}
 
@@ -212,8 +275,11 @@ class KDatabaseQuery extends KObject
 	public function group( $columns )
 	{
 		settype($columns, 'array'); //force to an array
+		
+		//Quote the identifiers
+		$columns = $this->_db->quoteName($columns);
 
-		$this->_group = array_unique( array_merge( $this->_group, array($columns ) ));
+		$this->group = array_unique( array_merge( $this->group, $columns));
 		return $this;
 	}
 
@@ -226,22 +292,36 @@ class KDatabaseQuery extends KObject
 	public function having( $columns )
 	{
 		settype($columns, 'array'); //force to an array
+		
+		//Quote the identifiers
+		$columns = $this->_db->quoteName($columns);
 
-		$this->_having = array_unique( array_merge( $this->_having, array($columns ) ));
+		$this->having = array_unique( array_merge( $this->having, $columns ));
 		return $this;
 	}
 
 	/**
 	 * Built the order clause of the query
 	 *
-	 * @param	array|string	A string or array of ordering columns
+	 * @param	array|string  $columns		A string or array of ordering columns
+	 * @param	string		  $direction	Either DESC or ASC
 	 * @return object KDatabaseQuery
 	 */
-	public function order( $columns )
+	public function order( $columns, $direction = 'ASC' )
 	{
 		settype($columns, 'array'); //force to an array
+		
+		//Quote the identifiers
+		$columns = $this->_db->quoteName($columns);
+		
+		foreach($columns as $column) 
+		{
+			$this->order[] = array(
+        		'column'  	=> $column,
+        		'direction' => $direction
+        	);
+		}
 
-		$this->_order = array_unique( array_merge( $this->_order, array( $columns ) ));
 		return $this;
 	}
 
@@ -254,9 +334,66 @@ class KDatabaseQuery extends KObject
 	 */
 	public function limit( $limit, $offset = null )
 	{
-		$this->_limit  = $limit;
-		$this->_offset = $offset;
+		$this->limit  = $limit;
+		$this->offset = $offset;
 		return $this;
+	}
+	
+	/**
+     * Adds data to bind into the query.
+     * 
+     * @param 	mixed 	$key The replacement key in the query.  If this is an
+     * 						 array or object, the $val parameter is ignored, 
+     * 						 and all the key-value pairs in the array (or all 
+     *   					 properties of the object) are added to the bind.
+     * @param 	mixed 	$val The value to use for the replacement key.
+     * @return object KDatabaseQuery
+     */
+    public function bind($key, $val = null)
+    {
+        if (is_array($key)) {
+            $this->_bind = array_merge($this->_bind, $key);
+        } elseif (is_object($key)) {
+            $this->_bind = array_merge((array) $this->_bind, $key);
+        } else {
+            $this->_bind[$key] = $val;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Unsets bound data.
+     * 
+     * @param 	mixed 	$spec 	The key to unset.  If a string, unsets that one
+     * 							bound value; if an array, unsets the list of values; 
+     * 							if empty, unsets all bound values (the default).
+     * @return object KDatabaseQuery
+     */
+    public function unbind($spec = null)
+    {
+        if (empty($spec)) {
+            $this->_bind = array();
+        } else {
+            settype($spec, 'array');
+            foreach ($spec as $key) {
+                unset($this->_bind[$key]);
+            }
+        }
+        
+        return $this;
+    }
+
+	/*
+	 * Callback for array_walk to prefix elements of array with given 
+	 * prefix
+	 * 
+	 * @param string $data 	The data to be prefixed
+	 */
+	protected function _prefix(&$data)
+	{	
+		// Prepend the table modifier
+		$data = '#__'.$data;
 	}
 
 	/**
@@ -267,43 +404,65 @@ class KDatabaseQuery extends KObject
 	public function __toString()
 	{
 		$query = '';
+		
+		$query .= $this->operation.PHP_EOL;
 
-		if (!empty($this->_select)) {
-			$query .= 'SELECT '.implode(',', $this->_select);
+		if (!empty($this->columns)) {
+			$query .= implode(' , ', $this->columns).PHP_EOL;
 		}
 
-		if (!empty($this->_from)) {
-			$query .= ' FROM '.implode(',', $this->_from);
+		if (!empty($this->from)) {
+			$query .= ' FROM '.implode(' , ', $this->from).PHP_EOL;
+		}
+		
+		if (!empty($this->join))
+		{
+			$joins = array();
+            foreach ($this->join as $join) 
+            {
+            	$tmp = '';
+                
+            	if (! empty($join['type'])) {
+                    $tmp .= $join['type'] . ' ';
+                }
+               
+                $tmp .= 'JOIN ' . $join['table'];
+                $tmp .= ' ON ' . implode(' AND ', $join['condition']);
+           
+                $joins[] = $tmp;
+            }
+            
+            $query .= implode(PHP_EOL, $joins) .PHP_EOL;
 		}
 
-		if (!empty($this->_where)) {
-			$query .= ' WHERE '.implode(' AND ', $this->_where);
+		if (!empty($this->where)) {
+			$query .= ' WHERE '.implode(' ', $this->where).PHP_EOL;
 		}
 
 		if (!empty($this->_group)) {
-			$query .= ' GROUP BY '.implode(',', $this->_group);
+			$query .= ' GROUP BY '.implode(' , ', $this->group).PHP_EOL;
 		}
 
 		if (!empty($this->_having)) {
-			$query .= ' HAVING '.implode(',', $this->_having);
+			$query .= ' HAVING '.implode(' , ', $this->having).PHP_EOL;
 		}
-
-		if (!empty($this->_order)) {
-			$query .= ' ORDER BY '.implode(',', $this->_order);
+		
+		if (!empty($this->order) ) 
+		{
+			$query .= 'ORDER BY ';
+			
+			$list = array();
+            foreach ($this->order as $order) {
+            	$list[] = $order['column'].' '.$order['direction'];
+            }
+            
+            $query .= implode(' , ', $list) . PHP_EOL;
 		}
-
-		if (isset($this->_limit)) {
-			$query .= ' LIMIT '.$this->_limit.','.$this->_offset;
+	
+		if (isset($this->limit)) {
+			$query .= ' LIMIT '.$this->limit.' , '.$this->offset.PHP_EOL;
 		}
-
+		
 		return $query;
 	}
-
-    /**
-     * Alias of __toString()
-     */
-    public function toString()
-    {
-        return $this->__toString();
-    }
 }

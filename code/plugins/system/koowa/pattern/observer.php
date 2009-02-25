@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Pattern
  * @subpackage	Observer
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,37 +13,25 @@
  * Abstract observer class to implement the observer design pattern
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Observer
  */
-abstract class KPatternObserver extends KObject 
+interface KPatternObserver
 {
 	/**
-	 * Event object to observe
+	 * Event received in case the observables states has changed
 	 *
-	 * @var object
-	 */
-	protected $_subject;
-
-	/**
-	 * Constructor
-	 * 
-	 * @param	object	$subject	The subject to observer
-	 * @return	void
-	 */
-	public function __construct(KPatternObservable $subject)
-	{
-		// Register the observer ($this) so we can be notified
-		$subject->attach($this);
-
-		// Set the subject to observe
-		$this->_subject = $subject;
-	}
-
-	/**
-	 * Method to update the state of observable objects
-	 *
+	 * @param	object	$args	An associative array of arguments
 	 * @return mixed
 	 */
-	abstract public function update() { }
+	public function onNotify(ArrayObject $args);
+	
+	/**
+	 * This function returns an unique identifier for the object. This id can be used as 
+	 * a hash key for storing objects or for identifying an object
+	 * 
+	 * @return string A string that is unique
+	 */
+	public function getHandle();
 }

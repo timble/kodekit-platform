@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	(C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -13,9 +14,10 @@
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
- * @uses 		KPatternClass
+ * @uses 		KMixinClass
  */
 abstract class KDatabaseRowAbstract extends KObject
 {
@@ -47,30 +49,28 @@ abstract class KDatabaseRowAbstract extends KObject
      *
      * @param 	array	Options containing 'table', 'name'
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         // Initialize the options
         $options  = $this->_initialize($options);
 
-        // Mixin the KPatternClass
-        $this->mixin(new KPatternClass($this, 'Row'));
+        // Mixin the KMixinClass
+        $this->mixin(new KMixinClass($this, 'Row'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
 
 		// Set table object and class name
-		$this->_tableClass  = ucfirst($this->getClassName('prefix')).'Table'.ucfirst($this->getClassName('suffix'));
+		$this->_tableClass  = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_tableClass);
+		
+		// Reset the row
+		$this->reset();
 
-		// Set data
+		// Set the row data
 		if(isset($options['data']))  {
-			$this->_data = $options['data'];
+			$this->setProperties($options['data']);
 		}
-        else
-        {
-        	// Set defaults
-            $this->reset();
-        }
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class KDatabaseRowAbstract extends KObject
      * @param   array   Options
      * @return  array   Options
      */
-    protected function _initialize($options)
+    protected function _initialize(array $options)
     {
         $defaults = array(
             'base_path' => null,
@@ -94,14 +94,6 @@ abstract class KDatabaseRowAbstract extends KObject
         );
 
         return array_merge($defaults, $options);
-    }
-
-    /**
-     * Returns the row's id
-     */
-    public function getId()
-    {
-    	return $this->{$this->_table->getPrimaryKey()};
     }
 
     /**
@@ -133,6 +125,7 @@ abstract class KDatabaseRowAbstract extends KObject
      *
      * Can be overloaded/supplemented by the child class
      *
+     * @throws KDatabaseRowException
      * @return mixed The primary key value(s), as an associative array if the
      *     			 key is compound, or a scalar if the key is single-column.
      */
@@ -140,15 +133,21 @@ abstract class KDatabaseRowAbstract extends KObject
     {
         $key = $this->_table->getPrimaryKey();
 
-        if($this->$key)
-        {
-            $where = KDatabaseQuery::getInstance()->where($key, '=', $this->$key);
-            $this->_table->update($this->getProperties(), $where);
-        }
-        else $this->_table->insert($this->getProperties());
+        $properties = $this->getProperties();
 
-        if($err = $this->_table->getError()) {
-            $this->setError($this->getClassName('all').'::save() failed: '.$err);
+        if(array_key_exists('ordering', $properties) && $properties['ordering'] <= 0) {
+        	$properties['ordering'] = $this->getTable()->getMaxOrder();
+        }
+        	
+        if($this->_data[$key])
+        {
+        	$this->_table->update($properties, $this->_data[$key]);
+        }
+        else 
+        {
+        	if($this->_table->insert($properties)) {
+        		$this->id = $this->_table->getDBO()->insertid();
+        	}
         }
 
         return $this;
@@ -175,7 +174,66 @@ abstract class KDatabaseRowAbstract extends KObject
         $this->_data = $this->_table->getDefaults();
         return $this;
     }
+    
+    /**
+     * Increase hit counter by 1
+     *
+     * @return this
+     */
+	public function hit()
+	{
+		if (!in_array('hits', $this->_table->getColumns())) {
+			throw new KDatabaseRowException("The table ".$this->_table->getName()." doesn't have a 'hits' column.");
+		}
 
+		$this->hits++;
+		$this->save();		
+		
+		return $this;
+	}
+	
+	/**
+	 * Move the row up or down in the ordering
+	 * 
+	 * Requires an ordering field to be present in the table
+	 *
+	 * @param	int	Amount to move up or down
+	 * @return 	KDatabaseRowAbstract
+	 */
+	public function order($change)
+	{
+		if (!in_array('ordering', $this->_table->getColumns())) {
+			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'ordering' column.");
+		}
+		
+		//force to integer
+		settype($change, 'int');
+			
+		if($change !== 0) 
+		{
+			$old = $this->ordering;
+			$new = $this->ordering + $change;
+			$new = $new <= 0 ? 1 : $new;
+		
+			$query =  'UPDATE `#__'.$this->_table->getTableName().'` ';
+			
+			if($change < 0) {
+				$query .= 'SET ordering = ordering+1 WHERE '.$new.' <= ordering AND ordering < '.$old;
+			} else {
+				$query .= 'SET ordering = ordering-1 WHERE '.$old.' < ordering AND ordering <= '.$new;
+			}
+			
+			$this->_table->getDBO()->execute($query);
+
+			$this->ordering = $new;
+			$this->save();
+		
+			$this->_table->reorder();
+		}
+		
+		return $this;
+	}
+	
 	/**
      * Returns the column/value data as an array.
      *
@@ -183,7 +241,9 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function toArray()
     {
-        return $this->_data;
+        $array = $this->_data;
+        $array['id'] = $this->id;
+        return $array;
     }
 
 	/**
@@ -195,10 +255,15 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __get($columnName)
     {
-        if (!array_key_exists($columnName, $this->_data)) {
-            throw new KDatabaseRowException('Specified column '.$columnName.' is not in the row');
+        $data = null;
+        
+    	if($columnName == 'id') {
+        	$data = $this->_data[$this->_table->getPrimaryKey()];
+        } else {
+        	$data = $this->_data[$columnName];
         }
-        return $this->_data[$columnName];
+    	
+    	return $data;
     }
 
     /**
@@ -211,12 +276,11 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __set($columnName, $value)
     {
-      	if (!array_key_exists($columnName, $this->_data)) {
-            throw new KDatabaseRowException('Specified column '.$columnName.' is not in the row');
+    	if($columnName == 'id') {
+        	$this->_data[$this->_table->getPrimaryKey()] = $value;
+        } else {
+        	$this->_data[$columnName] = $value;
         }
-        $this->_data[$columnName] = $value;
-		// TODO implement this?
-		//$this->_modifiedFields[$columnName] = true;
    }
 
 	/**
@@ -227,7 +291,11 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __isset($columnName)
     {
-        return array_key_exists($columnName, $this->_data);
+        if($columnName == 'id') {
+        	$columnName = $this->_data[$this->_table->getPrimaryKey()];
+        }
+    	
+    	return array_key_exists($columnName, $this->_data);
     }
 
     /**
@@ -237,7 +305,10 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function getProperties()
     {
-        return $this->_data;
+    	$result = $this->_data;
+    	$result['id'] = $this->id;
+    	
+        return $result;
     }
 
 
@@ -249,15 +320,17 @@ abstract class KDatabaseRowAbstract extends KObject
     */
     public function setProperties( $properties )
     {
-        $properties = (array) $properties;
-
-        foreach ($this->_data as $k => $v) {
-            if(isset($properties[$k])) {
-                $this->_data[$k] = $properties[$k];
-            }
+    	$properties = (array) $properties;
+        $pk = $this->_table->getPrimaryKey();
+        
+        foreach ($properties as $k => $v) {
+         	if('id' == $k) {
+         		$this->_data[$pk] = $v;
+         	} else {
+         		$this->_data[$k] = $v;
+         	}
         }
 
         return $this;
     }
-
 }

@@ -466,7 +466,7 @@ class Sparkline extends Object {
   function Output($file = '') {
 
     $this->Debug("Sparkline :: Output($file)", DEBUG_CALLS);
-
+    
     if ($this->IsError()) {
       $colorError = imagecolorallocate($this->imageHandle, 0xFF, 0x00, 0x00);
       imagestring($this->imageHandle,

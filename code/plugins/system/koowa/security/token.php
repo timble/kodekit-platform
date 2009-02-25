@@ -1,7 +1,9 @@
 <?php
 /**
  * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Security
+ * @subpackage	Token
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
@@ -20,8 +22,9 @@
  * </code>
  * 
  * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Security
- * @version     1.0
+ * @subpackage	Token
  */
 class KSecurityToken
 {
@@ -35,16 +38,24 @@ class KSecurityToken
     /**
      * Generate new token and store it in the session
      * 
-     * @param	bool	Force to generate a new token
+     * @param	bool	Reuse from session (defaults to false, useful for ajax forms)
      * @return	string	Token
      */
-    static public function get($forceNew = false)
+    static public function get($reuse = false)
     {
-        if($forceNew || !isset(self::$_token))
+        if(!isset(self::$_token))
         {
-            self::$_token 	= md5(uniqid(rand(), TRUE));
-            $session 		= JFactory::getSession()->set('koowa.security.token', self::$_token);
-            $session 		= JFactory::getSession()->set('koowa.security.tokentime', time());
+        	$session 		= KFactory::get('lib.joomla.session');
+        	if($reuse && $token = $session->get('koowa.security.token')) {
+        		// Re-use the previous token from the session
+        		self::$_token = $token;
+        	} else {
+        		// Generate a new token
+        		self::$_token = md5(uniqid(rand(), TRUE));
+        	}
+
+            $session->set('koowa.security.token', self::$_token);
+            $session->set('koowa.security.tokentime', time());
         }
 
         return self::$_token;
@@ -53,11 +64,12 @@ class KSecurityToken
     /**
      * Render the hidden input field with the token
      *
+     * @param	bool	Reuse from session (defaults to false, useful for ajax forms)
      * @return	string	Html hidden input field
      */
-    static public function render()
+    static public function render($reuse = false)
     {
-    	return '<input type="hidden" name="_token" value="'.self::get().'" />';
+    	return '<input type="hidden" name="_token" value="'.self::get($reuse).'" />';
     }
 
     /**
@@ -68,30 +80,12 @@ class KSecurityToken
      */
     static public function check($max_age = 600)
     {
-    	$session	= JFactory::getSession();
+    	$session	= KFactory::get('lib.joomla.session');
         $token		= $session->get('koowa.security.token', null);
 		$age 		= time() - $session->get('koowa.security.tokentime');
 		
-		// Using getVar instead of getString, because if the request is not a string, 
-		// we consider it a hacking attempt
-        $req		= JRequest::getVar('_token', null, 'post');
+        $req		= KInput::get('_token', 'post', 'md5'); 
 		
-        return (self::isMd5($req) && $req===$token && $age <= $max_age);
+        return ($req===$token && $age <= $max_age);
     }
-    
-    /**
-     * Check if a string is a valid md5 (32 digit hexadecimal number)
-     * 
-     * @todo	Move to a separate validation class?
-     * 
-     * @param 	mixed	Variable to be tested
-     * @return 	bool
-     */
-    static public function isMd5($var)
-    {
-    	$pattern = '/^[0-9a-f]{32}$/';
-    	return (is_string($var) && preg_match($pattern, $var) == 1);
-    }
-
-
 }

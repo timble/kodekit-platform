@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,29 +13,53 @@
  * Grid View Helper Class
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  */
 class KViewHelperGrid
 {
+
+	/**
+	 * Shows a true/false graphics
+	 *
+	 * @param	bool	Value
+	 * @param 	string	Image for true
+	 * @param 	string	Image for false
+	 * @param 	string 	Text for true
+	 * @param 	string	Text for false
+	 * @return 	string	Html img
+	 */
+	public static function boolean( $bool, $true_img = null, $false_img = null, $true_text = null, $false_text = null)
+	{
+		$true_img 	= $true_img 	? $true_img 	: 'tick.png';
+		$false_img 	= $false_img	? $false_img	: 'publish_x.png';
+		$true_text 	= $true_text 	? $true_text 	: 'Yes';
+		$false_text = $false_text 	? $false_text 	: 'No';
+		
+		return '<img src="images/'. ($bool ? $true_img : $false_img) .'" border="0" alt="'. JText::_($bool ? $true_text : $false_text) .'" />';
+	}
+	
 	/**
 	 * @param	string	The link title
 	 * @param	string	The order field for the column
 	 * @param	string	The current direction
 	 * @param	string	The selected ordering
-	 * @param	string	An optional task override
 	 */
-	public static function sort( $title, $order, $direction = 'asc', $selected = 0, $task=NULL )
+	public static function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
+		//Load koowa javascript
+		KViewHelper::_('script', 'koowa.js', Koowa::getURL('js'));
+		
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 
-		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
+		$html = '<a href="javascript:KTableSorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= KViewHelper::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
+			$html .= KViewHelper::_('image.template',  $images[$index], '/images/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -45,10 +70,9 @@ class KViewHelperGrid
 	* @param int The record id
 	* @param boolean
 	* @param string The name of the form element
-	*
 	* @return string
 	*/
-	public static function id( $rowNum, $recId, $checkedOut=false, $name='cid' )
+	public static function id( $rowNum, $recId, $checkedOut = false, $name = 'cid' )
 	{
 		if ( $checkedOut ) {
 			return '';
@@ -57,7 +81,7 @@ class KViewHelperGrid
 		}
 	}
 
-	public static function access( &$row, $i, $archived = NULL )
+	public static function access( $row, $i, $archived = NULL )
 	{
 		if ( !$row->access )  {
 			$color_access = 'style="color: green;"';
@@ -85,9 +109,9 @@ class KViewHelperGrid
 		return $href;
 	}
 
-	public static function checkedOut( &$row, $i, $identifier = 'id' )
+	public static function checkedOut( $row, $i, $identifier = 'id' )
 	{
-		$user   =& JFactory::getUser();
+		$user   = KFactory::get('lib.joomla.user');
 		$userid = $user->get('id');
 
 		$result = false;
@@ -107,7 +131,7 @@ class KViewHelperGrid
 		return $checked;
 	}
 
-	public static function published( &$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
+	public static function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
@@ -138,32 +162,24 @@ class KViewHelperGrid
 		return $href;
 	}
 
-	public static function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL, $trashed=NULL )
+	public static function order($row_id)
 	{
-		$state[] = KViewHelper::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
-		//Jinx : Why is this used ?
-		//$state[] = KViewHelper::_('select.option',  '*', JText::_( 'Any' ) );
-		$state[] = KViewHelper::_('select.option',  'P', JText::_( $published ) );
-		$state[] = KViewHelper::_('select.option',  'U', JText::_( $unpublished ) );
+		//Load koowa javascript
+		KViewHelper::_('script', 'koowa.js', Koowa::getURL('js'));
+		
+		$up   = Koowa::getURL('images').'/arrow_up.png';
+		$down = Koowa::getURL('images').'/arrow_down.png';
 
-		if ($archived) {
-			$state[] = KViewHelper::_('select.option',  'A', JText::_( $archived ) );
-		}
-
-		if ($trashed) {
-			$state[] = KViewHelper::_('select.option',  'T', JText::_( $trashed ) );
-		}
-
-		return KViewHelper::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		$result =
+			 '<a href="javascript:KGridOrder('.$row_id.', -1)" >'
+			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
+			.'</a>'
+			.'<a href="javascript:KGridOrder('.$row_id.', 1)" >'
+			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
+			.'</a>';
+			
+		return $result;
 	}
-
-	public static function order( $rows, $image='filesave.png', $task="saveorder" )
-	{
-		$image = KViewHelper::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ) );
-		$href = '<a href="javascript:saveorder('.(count( $rows )-1).', \''.$task.'\')" title="'.JText::_( 'Save Order' ).'">'.$image.'</a>';
-		return $href;
-	}
-
 
 	protected static function _checkedOut( &$row, $overlib = 1 )
 	{

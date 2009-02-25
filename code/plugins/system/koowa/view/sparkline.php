@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id$
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage  Sparkline
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -12,8 +13,10 @@
  * View Sparkline Class
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage  Sparkline
+ * @uses 		KChartSparkline
  */
 class KViewSparkline extends KViewAbstract
 {
@@ -26,8 +29,8 @@ class KViewSparkline extends KViewAbstract
 
     public function display($tpl = null)
     {
-        $width      = JRequest::getInt('w', 80);
-        $height     = JRequest::getInt('h', 20);
+        $width      = KInput::get('w', 'get', 'int', null, 80);
+        $height     = KInput::get('h', 'get', 'int', null, 20);
 
         return $this->getChart()->render($width, $height);
     }
@@ -40,8 +43,7 @@ class KViewSparkline extends KViewAbstract
      */
     public function getChart($type = 'line')
     {
-    	if(!isset($this->_chart))
-        {
+    	if(!isset($this->_chart)) {
         	$this->_chart = KChartSparkline::getInstance($type);
         }
         return $this->_chart;

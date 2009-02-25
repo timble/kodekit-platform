@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @category	Koowa
  * @package		Koowa_Pattern
  * @subpackage	Command
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -16,6 +17,7 @@
  * of responsability or chain of command pattern
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Command
  */
@@ -26,7 +28,7 @@ class KPatternCommandChain extends KObject
 	 *
 	 * @var array
 	 */
-	protected $_command;
+	protected $_command = null;
 	
 	
 	/**
@@ -34,7 +36,7 @@ class KPatternCommandChain extends KObject
 	 *
 	 * @var array
 	 */
-	protected $_priority;
+	protected $_priority = null;
 
 	/**
 	 * Constructor
@@ -51,11 +53,11 @@ class KPatternCommandChain extends KObject
 	 * Attach a command to the chain
 	 * 
 	 * @param object 	$cmd		A KPatternCommandHandler 
-	 * @param integer	$priority	The command priority
+	 * @param integer	$priority	The command priority, usually between 1 (high priority) and 5 (low), default is 3
 	 *
 	 * @return	void
 	 */
-	public function enqueue( KPatternCommandHandler $cmd, $priority = 1)
+	public function enqueue( KPatternCommandInterface $cmd, $priority = 3)
 	{
 		$handle = $cmd->getHandle(); //get the object handle
 		
@@ -66,14 +68,14 @@ class KPatternCommandChain extends KObject
   	}
   	
 	/**
-	 * Attach a command to the chain
+	 * Remove a command from the chain
 	 * 
 	 * @param object 	$cmd		A KPatternCommandHandler 
 	 * @param integer	$priority	The command priority
 	 *
 	 * @return 	boolean True if the command handler was detached
 	 */
-	public function dequeue( KPatternCommandHandler $cmd)
+	public function dequeue( KPatternCommandInterface $cmd)
 	{
 		$handle = $cmd->getHandle(); //get the object handle
 		
@@ -92,7 +94,7 @@ class KPatternCommandChain extends KObject
 	 * If a command return false the executing is halted
 	 * 
 	 * @param string  $name		The command name
-	 * @param object  $args		The command arguments
+	 * @param mixed   $args		The command arguments
 	 *
 	 * @return	void
 	 */
@@ -122,7 +124,7 @@ class KPatternCommandChain extends KObject
 	 *
 	 * @return	void
 	 */
-  	public function setPriority(KPatternCommandHandler $cmd, $priority)
+  	public function setPriority(KPatternCommandInterface $cmd, $priority)
   	{
   		$hanlde = $cmd->getHandle(); //get the object handle
 		
@@ -141,7 +143,7 @@ class KPatternCommandChain extends KObject
 	 *
 	 * @return	integer The command priority
 	 */
-  	public function getPriority(KPatternCommandHandler $cmd)
+  	public function getPriority(KPatternCommandInterface $cmd)
   	{
   		$hanlde = $cmd->getHandle(); //get the object handle
   	

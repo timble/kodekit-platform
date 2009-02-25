@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package		Koowa_Controller
  * @copyright	Copyright (C) 2007 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -13,8 +14,12 @@
  * Note: Concrete controllers must have a singular name
  *
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package		Koowa_Controller
- * @uses		KPatternClass
+ * @uses		KMixinClass
+ * @uses 		KCommandChain
+ * @uses        KObject
+ * @uses        KFactory
  */
 abstract class KControllerAbstract extends KObject
 {
@@ -58,9 +63,7 @@ abstract class KControllerAbstract extends KObject
 	 *
 	 * @var array
 	 */
-	protected $_path = array(
-		'view'	=> array(),
-	);
+	protected $_viewPath = array();
 
 	/**
 	 * URL for redirection.
@@ -97,7 +100,7 @@ abstract class KControllerAbstract extends KObject
 	 * Recognized key values include 'name', 'default_task', 'view_path'
 	 * (this list is not meant to be comprehensive).
 	 */
-	public function __construct( $options = array() )
+	public function __construct( array $options = array() )
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
@@ -106,8 +109,8 @@ abstract class KControllerAbstract extends KObject
         $this->_commandChain = $options['command_chain'];
         $this->_commandChain->enqueue(new KCommandEvent());
 
-        // Mixin the KPatternClass and KPatternCommandChain
-        $this->mixin(new KPatternClass($this, 'Controller'));
+        // Mixin the KMixinClass
+        $this->mixin(new KMixinClass($this, 'Controller'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
@@ -138,7 +141,7 @@ abstract class KControllerAbstract extends KObject
 		$this->registerDefaultTask( $options['default_task'] );
 
         // set the default view search path
-		$this->_setPath( 'view', $options['view_path'] );
+		$this->setViewPath( $options['view_path'] );
 	}
 
     /**
@@ -149,7 +152,7 @@ abstract class KControllerAbstract extends KObject
      * @param   array   Options
      * @return  array   Options
      */
-    protected function _initialize($options)
+    protected function _initialize(array $options)
     {
         $defaults = array(
             'base_path'     => null,
@@ -189,16 +192,17 @@ abstract class KControllerAbstract extends KObject
 		$this->_doTask = $doTask;
 		
 		//Create the arguments object
-		$args = new stdClass();
-		$args->class_name = $this->getClassName();
-		$args->task  = $task; // not using $doTask, we want to preserve the original task
+		$args = new ArrayObject();
+		$args['notifier']   = $this;
+		$args['task']       = $task;
+		$args['result']     = false;
 		
-		if($this->_commandChain->run('onBeforeController'.ucfirst($doTask), $args) === true) {
-			$args->result = $this->$doTask();
-			$this->_commandChain->run('onAfterController'.ucfirst($doTask), $args);
+		if($this->_commandChain->run('controller.before.'.strtolower($task), $args) === true) {
+			$args['result'] = $this->$doTask();
+			$this->_commandChain->run('controller.after.'.strtolower($task), $args);
 		}
 		
-		return $args->result;
+		return $args['result'];
 	}
 
 	/**
@@ -211,9 +215,9 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function display($cachable = false)
 	{
-		$viewName	= JRequest::getCmd( 'view', $this->getClassName('suffix') );
-		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
-
+		$option 	= KInput::get('option', array('post', 'get'), 'cmd');
+		$viewName	= KInput::get('view', array('post', 'get'), 'cmd', null, $this->getClassName('suffix') );
+		$viewLayout	= KInput::get('layout', array('post', 'get'), 'cmd', null, 'default' );
 		$view       = $this->getView($viewName);
 
 		// Set the layout
@@ -222,8 +226,7 @@ abstract class KControllerAbstract extends KObject
 		// Display the view
 		if ($cachable)
 		{
-			global $option;
-			$cache = KFactory::get('Cache', $option, 'view');
+			$cache = KFactory::get('lib.joomla.cache', $option, 'view');
 			$cache->get($view, 'display');
 		}
 		else
@@ -241,7 +244,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		if ($this->_redirect)
 		{
-			$app = KFactory::get('Application');
+			$app = KFactory::get('lib.joomla.application');
 			$app->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 
@@ -271,39 +274,39 @@ abstract class KControllerAbstract extends KObject
 	/**
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
-	 * @param	string	The view name. Optional, defaults to the controller name.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Options array for view. Optional.
+	 * @param	string	$view 			The name of the view. Optional, defaults to the class name.
+	 * @param	string	$component		The name of the component. Optional.
+	 * @param	string	$application	The name of the application. Optional.
+	 * @param	array	$opations		Options array for view. Optional.
 	 * @return	object	Reference to the view or an error.
+	 * @throws KControllerException
 	 */
-	public function getView( $name = '', $prefix = '', $options = array() )
+	public function getView( $view = '', $component = '', $application = '', array $options = array() )
 	{
-		if ( empty( $prefix ) ) {
-			$prefix = $this->getClassName('prefix');
+		if ( empty( $view ) ) {
+			$view = $this->getClassName('suffix');
+		}
+	
+		if ( empty( $component ) ) {
+			$component = $this->getClassName('prefix');
 		}
 
-		if ( empty( $name ) ) {
-			$name = $this->getClassName('suffix');
+		if (empty( $application) )  {
+			$application = KFactory::get('lib.joomla.application')->getName();
 		}
-
+		
 		//Add the basepath to the configuration
-		$options['base_path'] = $this->_path['view'][0];
-		$object = array(
-			'type' 		=> 'view'  ,
-			'component'	=> $prefix ,
-			'name'		=> $name
-		);
-
-		if ( !$view = KFactory::getInstance($object, $options) )
+		$options['base_path'] = $this->_viewPath[0];
+		
+		if ( !$view = KFactory::get($application.'::com.'.$component.'.view.'.$view, $options) )
 		{
             $format = isset($options['format']) ? $options['format'] : 'html';
-			$result = JError::raiseError( 500,
-                        JText::_('View not found [name, format, prefix]:')
-                        ." $name, $format, $prefix"
-				);
-			return $result;
+			throw new KControllerException(
+					JText::_('View not found [application, component, name, format]:')
+                    ." $application, $component, $view, $format"
+			);
 		}
-
+			
 		return $view;
 	}
 
@@ -315,7 +318,39 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function addViewPath( $path )
 	{
-		$this->_addPath( 'view', $path );
+		// just force path to array
+		settype( $path, 'array' );
+
+		// loop through the path directories
+		foreach ( $path as $dir )
+		{
+			// no surrounding spaces allowed!
+			$dir = trim( $dir );
+
+			// add trailing separators as needed
+			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+
+			// add to the top of the search dirs
+			array_unshift( $this->_viewPath, $dir );
+		}
+	}
+	
+	/**
+ 	 * Sets an entire array of search paths for resources.
+	 *
+	 * @param	string|array	The new set of search paths. If null or false,
+	 * 							resets to the current directory only.
+	 */
+	public function setViewPath( $path )
+	{
+		// clear out the prior search dirs
+		$this->_viewPath = array();
+
+		// actually add the user-specified directories
+		$this->addViewPath( $path );
 	}
 
 	/**
@@ -383,50 +418,5 @@ abstract class KControllerAbstract extends KObject
 		}
 
 		$this->_messageType	= $type;
-	}
-
-	/**
-	* Sets an entire array of search paths for resources.
-	*
-	* @param	string	The type of path to set, typically 'view' or 'model'.
-	* @param	string|array	The new set of search paths. If null or false,
-	* resets to the current directory only.
-	*/
-	protected function _setPath( $type, $path )
-	{
-		// clear out the prior search dirs
-		$this->_path[$type] = array();
-
-		// actually add the user-specified directories
-		$this->_addPath( $type, $path );
-	}
-
-	/**
-	* Adds to the search path for templates and resources.
-	*
-	* @param	string The path type (e.g. 'model', 'view'.
-	* @param	string|array The directory or stream to search.
-	* @return	void
-	*/
-	protected function _addPath( $type, $path )
-	{
-		// just force path to array
-		settype( $path, 'array' );
-
-		// loop through the path directories
-		foreach ( $path as $dir )
-		{
-			// no surrounding spaces allowed!
-			$dir = trim( $dir );
-
-			// add trailing separators as needed
-			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
-			}
-
-			// add to the top of the search dirs
-			array_unshift( $this->_path[$type], $dir );
-		}
 	}
 }

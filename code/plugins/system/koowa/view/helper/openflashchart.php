@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id:openflashchart.php 251 2008-06-14 10:06:53Z mjaz $
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage 	Helper
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -8,16 +9,13 @@
  * @link     	http://www.joomlatools.org
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
 /**
  * Open Flash Chart HTML helper
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_View
  * @subpackage 	Helper
- * @version		1.0
  */
 class KViewHelperOpenflashchart
 {
@@ -34,7 +32,7 @@ class KViewHelperOpenflashchart
      */
     public static function swfobject( $dataUrl, $id, $swfUrl = null, $width = '100%', $height = '450px', $bgcolor = '#FFFFFF', $divAttr = '')
     {
-    	$swfUrl = $swfUrl ? $swfUrl : Koowa::getMediaURL().'swf/open-flash-chart.swf';
+    	$swfUrl = $swfUrl ? $swfUrl : Koowa::getURL('media').'swf/open-flash-chart.swf';
 		return KChartOpenflashchart::renderSwfobject( $dataUrl, $id, $swfUrl, $width, $height, $bgcolor, $divAttr);
     }
 

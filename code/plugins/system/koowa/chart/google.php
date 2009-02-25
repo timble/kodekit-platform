@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id$
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Google
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -14,9 +15,10 @@
  * Forked from GChartPhp {@link http://code.google.com/p/gchartphp/}
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Google
- * @version     1.0
+ * @uses KObject
  */
 abstract class KChartGoogle extends KObject
 {
@@ -164,12 +166,13 @@ abstract class KChartGoogle extends KObject
      *
      * @param	string	Type
      * @return	object	KChartGoogle object
+     * @throws KChartException
      */
     public static function getInstance($type)
     {
         $className = 'KChartGoogle'.$type;
         if(!class_exists($className)) {
-            throw new KException("Chart type $type doesn't exist");
+            throw new KChartException("Chart type $type doesn't exist");
         }
 
         return new $className;

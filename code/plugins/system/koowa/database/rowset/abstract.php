@@ -1,6 +1,7 @@
 <?php
 /**
  * @version		$Id$
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
  * @copyright	(C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -13,26 +14,20 @@
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
  * @author		Johan Janssens <johan@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
- * @uses 		KPatternClass
+ * @uses 		KMixinClass
  */
-abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterator, Countable
+abstract class KDatabaseRowsetAbstract extends KObjectArray
 {
-   /**
-     * The original data for each row.
-     *
-     * @var array
-     */
-    protected $_data = array();
-
-	 /**
-     * Collection of instantiated KDatabaseRow objects.
-     *
-     * @var array
-     */
-    protected $_rows = array();
-
+	/**
+	 * Original data passed to the object
+	 * 
+	 * @var 	array 
+	 */
+	protected $_data = array();
+	
 	/**
      * KDatabaseTableAbstract parent class or instance.
      *
@@ -47,19 +42,6 @@ abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterat
      */
     protected $_tableClass;
 
-	/**
-     * Iterator pointer.
-     *
-     * @var integer
-     */
-    protected $_pointer = 0;
-
-    /**
-     * How many data rows there are.
-     *
-     * @var integer
-     */
-    protected $_count = 0;
 
     /**
      * Empty row to use for cloning
@@ -73,29 +55,31 @@ abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterat
      *
      * @param 	array	Options containing 'table', 'name'
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         // Initialize the options
         $options  = $this->_initialize($options);
 
-        // Mixin the KPatternClass
-        $this->mixin(new KPatternClass($this, 'Rowset'));
+        // Mixin the KMixinClass
+        $this->mixin(new KMixinClass($this, 'Rowset'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
 
 		// Set table object and class name
-		$this->_tableClass  = ucfirst($this->getClassName('prefix')).'Table'.ucfirst($this->getClassName('suffix'));
+		$this->_tableClass  = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_tableClass);
 
-		// Set data
+		// Set the data
 		if(isset($options['data']))  {
-			$this->_data 	= $options['data'];
-			$this->_count 	= count($this->_data);
+			$this->_data = $options['data'];
 		}
 		
+		// Count the data
+		$this->resetCount();
+		
 		// Instantiate an empty row to use for cloning later
-		$this->_emptyRow = $this->_table->fetchNew();
+		$this->_emptyRow = $this->_table->fetchRow();
     }
 
     /**
@@ -106,7 +90,7 @@ abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterat
      * @param   array   Options
      * @return  array   Options
      */
-    protected function _initialize($options)
+    protected function _initialize(array $options)
     {
         $defaults = array(
             'base_path' => null,
@@ -121,6 +105,79 @@ abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterat
         return array_merge($defaults, $options);
     }
 
+    
+	/**
+     * Overridden current() method
+     * 
+     * Used to delay de creation of KDatabaseRow objects, for performance reasons
+     *
+     * @return KDatabaseRowAbstract Current element from the collection
+     */
+    public function current()
+    {
+    	if ($this->valid() === false) {
+            return null;
+        }
+
+		// do we already have a row object for this position?
+        if (!isset($this[$this->key()])) 
+        {
+        	// cloning is faster than instantiating
+        	$row = clone $this->_emptyRow;
+        	$row->setProperties($this->_data[$this->key()]);
+            parent::offsetSet($this->key(), $row);
+        }
+
+    	// return the row object
+        return parent::offsetGet($this->key());
+    }
+    
+    /**
+     * Overridden offsetSet() method
+     *
+     * @param 	int 	The offset of the item
+     * @param 	mixed	The item's value
+     * @return  object KDatabaseRowsetAbstract
+     */
+	public function offsetSet($offset, $value) 
+	{
+		if($value instanceof KDatabaseRowAbstract) {
+			$value = $value->toArray();
+		}
+		
+		if(empty($offset)) {
+			$this->_data[] = $value;
+		} else {
+			$this->_data[$offset] = $value;
+		}
+
+		$this->resetCount();
+		return $this;
+	}
+	
+ 	/**
+     * Overridden offsetSet() method
+     *
+     * @param 	int 	The offset of the item
+     * @return 	object KDatabaseTRowsetAbstract
+     */
+	public function offsetUnset($offset)
+	{
+        unset($this->_data[$offset]);
+		return parent::offsetUnset($offset);
+	}
+	
+	/**
+     * Overridden resetCount() method
+     *
+     * @return 	object KDatabaseTRowsetAbstract
+     */
+    public function resetCount()
+    {
+    	$this->setCount(count($this->_data));
+    	return $this;
+    }
+    
 	/**
      * Returns the table object, or null if this is disconnected row
      *
@@ -167,130 +224,47 @@ abstract class KDatabaseRowsetAbstract extends KObject implements SeekableIterat
         }
         return $row;
     }
-
+    
 	/**
-     * Rewind the Iterator to the first element.
+     * Returns a KDatabaseRow from a known position into the Iterator
      *
-     * Similar to the reset() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return KDatabaseRowsetAbstract Fluent interface.
+     * @param string $key   the key to search for
+     * @param mixed  $value the value to search for
+     * @return KDatabaseRow
      */
-    public function rewind()
+    public function findRow($key, $value)
     {
-        $this->_pointer = 0;
-        return $this;
-    }
-
-	/**
-     * Return the current element.
-     *
-     * Similar to the current() function for arrays in PHP
-     * Required by interface Iterator.
-     *
-     * @return KDatabaseRowsetAbstract current element from the collection
-     */
-    public function current()
-    {
-    	if ($this->valid() === false) {
-            return null;
-        }
-
-		// do we already have a row object for this position?
-        if (!isset($this->_rows[$this->_pointer])) {
-        	// cloning is faster than instantiating
-            $this->_rows[$this->_pointer] = clone $this->_emptyRow;
-            $this->_rows[$this->_pointer]->setProperties($this->_data[$this->_pointer]);
-        }
-
-    	// return the row object
-        return $this->_rows[$this->_pointer];
-    }
-
-	/**
-     * Return the identifying key of the current element.
-     *
-     * Similar to the key() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return int
-     */
-    public function key()
-    {
-    	return $this->_pointer;
-    }
-
-	/**
-     * Move forward to next element.
-     *
-     * Similar to the next() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return	this
-     */
-    public function next()
-    {
-    	++$this->_pointer;
-    	return $this;
-    }
-
-	/**
-     * Check if there is a current element after calls to rewind() or next().
-     *
-     * Used to check if we've iterated to the end of the collection.
-     * Required by interface Iterator.
-     *
-     * @return bool False if there's nothing more to iterate over
-     */
-    public function valid()
-    {
-        return $this->_pointer < $this->_count;
-    }
-
-	/**
-     * Returns the number of elements in the collection.
-     *
-     * Implements Countable::count()
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->_count;
-    }
-
-	/**
-     * Take the Iterator to position $position
-     * Required by interface SeekableIterator.
-     *
-     * @param int $position the position to seek to
-     * @return KDatabaseRowsetAbstract
-     * @throws KDatabaseRowsetException
-     */
-    public function seek($position)
-    {
-        $position = (int) $position;
-        if ($position < 0 || $position > $this->_count) {
-            throw new KDatabaseRowsetException("Illegal index $position");
-        }
-        $this->_pointer = $position;
-        return $this;
+   		$result = null;
+    	
+    	$this->rewind();
+    	
+    	while($this->valid()) 
+		{
+			$row = $this->current();
+			if($row->$key == $value) {
+				$result = $row;
+				break;
+			}
+    		$this->next();
+		}
+		
+		return $result;
     }
 
 	/**
      * Returns all data as an array.
      *
-     * This works only if we have iterated through the result set once to instantiate the rows.
-     * Updates the $_data property with current row object values.
+     * This works only if we have iterated through the result set once to 
+     * instantiate the rows.
      *
      * @return array
      */
     public function toArray()
     {
-        foreach ($this->_rows as $i => $row) {
-            $this->_data[$i] = $row->toArray();
+    	$result = array();
+    	foreach ($this as $i => $row) {
+            $result[$i] = $row->toArray();
         }
-        return $this->_data;
+        return $result;
     }
-
 }

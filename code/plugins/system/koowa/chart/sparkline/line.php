@@ -1,6 +1,7 @@
 <?php
 /**
  * @version     $Id$
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Sparkline
  * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -8,15 +9,15 @@
  * @link        http://www.koowa.org
  */
 
-Koowa::import('koowa.chart.renderer.sparkline.Sparkline_Line');
+Koowa::import('lib.koowa.chart.renderer.sparkline.Sparkline_Line');
 
 /**
  * Sparkline Line
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Sparkline
- * @version     1.0
  */
 class KChartSparklineLine extends KChartSparkline
 {
@@ -42,6 +43,7 @@ class KChartSparklineLine extends KChartSparkline
      *
      * @param	int	width
      * @param	int height
+     * @throws KChartException
      */
     public function render($width, $height)
     {
@@ -54,14 +56,14 @@ class KChartSparklineLine extends KChartSparkline
         {
         	$c->render($width, $height);
         }
-        if($c->isError())
-        {
-            JError::raiseError(500, array_pop($c->getError()));
-            return false;
+        
+        if($c->isError()) {
+            throw new KChartException(array_pop($c->getError()));
         }
+        
         $c->output();
 
-        KFactory::get('Application')->close();
+        KFactory::get('lib.joomla.application')->close();
     }
 
 }
