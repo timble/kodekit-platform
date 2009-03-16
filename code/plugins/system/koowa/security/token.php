@@ -29,63 +29,52 @@
 class KSecurityToken
 {
 	/**
-	 * Token
-	 *
-	 * @var	string
-	 */
-	protected static $_token;
-	
-    /**
      * Generate new token and store it in the session
      * 
-     * @param	bool	Reuse from session (defaults to false, useful for ajax forms)
+     * @param	bool	Force to generate a new token
      * @return	string	Token
      */
-    static public function get($reuse = false)
+    static public function get($forceNew = false)
     {
-        if(!isset(self::$_token))
-        {
-        	$session 		= KFactory::get('lib.joomla.session');
-        	if($reuse && $token = $session->get('koowa.security.token')) {
-        		// Re-use the previous token from the session
-        		self::$_token = $token;
-        	} else {
-        		// Generate a new token
-        		self::$_token = md5(uniqid(rand(), TRUE));
-        	}
-
-            $session->set('koowa.security.token', self::$_token);
-            $session->set('koowa.security.tokentime', time());
-        }
-
-        return self::$_token;
+    	return  JUtility::getToken($forceNew);
     }
 
     /**
      * Render the hidden input field with the token
      *
-     * @param	bool	Reuse from session (defaults to false, useful for ajax forms)
      * @return	string	Html hidden input field
      */
-    static public function render($reuse = false)
+    static public function render()
     {
-    	return '<input type="hidden" name="_token" value="'.self::get($reuse).'" />';
+    	return '<input type="hidden" name="_token" value="'.self::get().'" />';
     }
 
     /**
      * Check if a valid token was submitted
      *
-     * @param 	boolean	Maximum age, defaults to 600 seconds
      * @return	boolean	True on success
      */
-    static public function check($max_age = 600)
+    static public function check()
     {
-    	$session	= KFactory::get('lib.joomla.session');
-        $token		= $session->get('koowa.security.token', null);
-		$age 		= time() - $session->get('koowa.security.tokentime');
-		
+		// Using getVar instead of getString, because if the request is not a string, 
+		// we consider it a hacking attempt
         $req		= KInput::get('_token', 'post', 'md5'); 
-		
-        return ($req===$token && $age <= $max_age);
+        $token		= self::get();
+        
+        return ($req === $token);
+    }
+    
+    /**
+     * Check if a string is a valid md5 (32 digit hexadecimal number)
+     * 
+     * @todo	Move to a separate validation class?
+     * 
+     * @param 	mixed	Variable to be tested
+     * @return 	bool
+     */
+    static public function isMd5($var)
+    {
+    	$pattern = '/^[0-9a-f]{32}$/';
+    	return (is_string($var) && preg_match($pattern, $var) == 1);
     }
 }

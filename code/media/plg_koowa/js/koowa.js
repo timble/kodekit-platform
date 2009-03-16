@@ -3,7 +3,7 @@
  * @category    Koowa
  * @package     Koowa_Media
  * @subpackage  Javascript
- * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
@@ -38,9 +38,15 @@ String.extend({
 		if(key == "") return;
 	
 		var uri   = this.parseUri();
-		var query = uri['query'].parseQueryString();
-		if($defined(query[key])) return query[key]
-			else return defaultValue;
+		if($defined(uri['query'])) 
+		{
+			var query = uri['query'].parseQueryString();
+			if($defined(query[key])) {
+				return query[key]
+			}
+		}
+		
+		return defaultValue;
 	},
 	
 	parseQueryString: function() 

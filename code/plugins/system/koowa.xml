@@ -3,11 +3,11 @@
 	<name>System - Koowa</name>
 	<author>Joomlatools</author>
 	<creationDate>November 2008</creationDate>
-	<copyright>(C) 2007 - 2008 Joomlatools. All rights reserved.</copyright>
+	<copyright>(C) 2007 - 2009 Joomlatools. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>support@joomlatools.org</authorEmail>
 	<authorUrl>www.joomlatools.org</authorUrl>
-	<version>0.6.0</version>
+	<version>0.6.1</version>
 	<description>Rapid Application Development framework. Please check if you have PHP 5.2+ before publishing this plugin.</description>	
 	
 	<!--  Files -->

@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Document
- * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
  */
@@ -204,7 +204,7 @@ class KDocumentFeed extends KDocumentAbstract
 		$file = $cache_path.DS.$file.'_'.$option.'.xml';
 
 		// Instantiate feed renderer and set the mime encoding
-		$renderer = $this->getRenderer($type);
+		$renderer = $this->loadRenderer($type);
 		
 		//output
 		// Generate prolog
