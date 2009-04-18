@@ -264,15 +264,15 @@ class KModelTable extends KModelAbstract
     {
 		$app 	= KFactory::get('lib.joomla.application');
     	
-    	//Get the namespace
-    	$ns  = $this->getClassName('prefix').'.'.$this->getClassName('suffix');
-        
+    	// Get the namespace
+    	$ns  	= $app->getName().'::'.'com.'.$this->getClassName('prefix').'.model.'.$this->getClassName('suffix');
+
         $state = parent::getDefaultState();
-        $state['order']      = $app->getUserStateFromRequest($ns.'filter_order', 'filter_order', '', 'cmd');
-        $state['direction']  = $app->getUserStateFromRequest($ns.'filter_direction', 'filter_direction', 'ASC', 'word');
-        $state['filter']     = $app->getUserStateFromRequest($ns.'filter', 'filter', '', 'string');
+        $state['order']      = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', '', 'cmd');
+        $state['direction']  = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
+        $state['filter']     = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
         $state['id']         = KInput::get('id', array('post', 'get'), 'raw', 'int');
-        
+
         // making sure
         $state['filter']   	= KFactory::get('lib.koowa.filter.string')->sanitize($state['filter']);    
          

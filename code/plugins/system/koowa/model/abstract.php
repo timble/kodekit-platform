@@ -197,7 +197,7 @@ abstract class KModelAbstract extends KObject
        	$app 	= KFactory::get('lib.joomla.application');
     	
     	//Get the namespace
-    	$ns  = $this->getClassName('prefix').'.'.$this->getClassName('suffix');
+    	$ns  	= $app->getName().'::'.'com.'.$this->getClassName('prefix').'.model.'.$this->getClassName('suffix');
 
         $state = array(); 
         $state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');

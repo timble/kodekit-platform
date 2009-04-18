@@ -244,12 +244,13 @@ class KDocumentHtml extends KDocumentAbstract
 	}
 
 	/**
-	 * Count the modules based on the given condition. Empty modules are not counted.
+	 * Count the modules based on the given condition. Empty modules are counted by default.
 	 *
 	 * @param  string 	$condition	The condition to use
+	 * @param  boolean 	$countEmpty Include the empty modules in the result, default true
 	 * @return integer  Number of modules found
 	 */
-	public function countModules($condition)
+	public function countModules($condition, $countEmpty = true)
 	{
 		$result = '';
 
@@ -264,7 +265,7 @@ class KDocumentHtml extends KDocumentAbstract
 			{
 				$modules = JModuleHelper::getModules($name);
 				$result  = $this->getBuffer('modules', $name);
-				$words[$i] += !empty($result);
+				$words[$i] += !$countEmpty ? !empty($result) : count($modules);
 			}
 		}
 	
@@ -272,6 +273,7 @@ class KDocumentHtml extends KDocumentAbstract
 		
 		return eval($str);
 	}
+
 
 	/**
 	 * Load a template file

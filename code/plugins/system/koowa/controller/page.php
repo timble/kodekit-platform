@@ -71,17 +71,18 @@ class KControllerPage extends KControllerAbstract
 			->setProperties($data)
 			->save();
 
-		$redirect = 'format='.KInput::get('format', 'get', 'cmd', null, 'html');
+		
 		switch($this->getTask())
 		{
 			case 'apply' :
-				$redirect = '&view='.$view.'&layout=form&id='.$row->id;
+				$redirect = 'view='.$view.'&layout=form&id='.$row->id;
 				break;
 
 			case 'save' :
 			default     :
-				$redirect = '&view='.KInflector::pluralize($view);
+				$redirect = 'view='.KInflector::pluralize($view);
 		}
+		$redirect .= '&format='.KInput::get('format', 'get', 'cmd', null, 'html');
 
 		$this->setRedirect($redirect);
 	}

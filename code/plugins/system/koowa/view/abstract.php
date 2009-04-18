@@ -92,11 +92,7 @@ abstract class KViewAbstract extends KObject
         $this->setEscape($options['escape']);
 
 		// Set a base path for use by the view
-		if ($options['base_path']) {
-			$this->_basePath	= $options['base_path'];
-		} else {
-			$this->_basePath	= JPATH_COMPONENT.DS.'views'.DS.$this->getClassName('suffix');
-		}
+		$this->_basePath	= $options['base_path'];
 
 		// set the default template search path
 		if ($options['template_path']) {
@@ -135,7 +131,7 @@ abstract class KViewAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path'     => JPATH_COMPONENT,
+            'base_path'     => JPATH_COMPONENT.DS.'views',
             'base_url'      => JURI::base(true),
             'charset'       => null, // TODO unused?
             'document'      => null,
@@ -160,16 +156,14 @@ abstract class KViewAbstract extends KObject
 	/**
 	* Execute and display a template script.
 	*
-	* @param string $tpl The name of the template file to parse;
-	* automatically searches through the template paths.
-	*
-	* @throws object An JError object.
-	* @see fetch()
+	* @param 	string $tpl The name of the template file to parse
+	* @return 	this
 	*/
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
 		echo $result;
+		return $this;
 	}
 
 	/**
@@ -469,11 +463,11 @@ abstract class KViewAbstract extends KObject
 	}
 	
 	/**
-	 * Create a route
-	 * 
-	 * Prepend the route with option query information based on the view name
-	 * and the file to call.
-	 * 
+	 * Create a route. Index.php, option, view and layout can be ommitted. The 
+	 * following variations will all result in the same route
+	 * foo=bar
+	 * option=com_mycomp&view=myview&foo=bar
+	 * index.php?option=com_mycomp&view=myview&foo=bar
 	 * In templates, use @route()
 	 *
 	 * @param	string	The data to use to create the route
@@ -481,22 +475,40 @@ abstract class KViewAbstract extends KObject
 	 */
 	public function createRoute( $route = '')
 	{
-		$parts = array();
-		parse_str($route, $parts);
+		$route = trim($route);
 		
-		//Check to see if there is view information in the route if not add it
-		if(!isset($parts['view'])) 
-		{
-			$view = 'view='.$this->getClassName('suffix');
-			if(!isset($parts['layout']) && $this->_layout != 'default') {
-				$view .= '&layout='.$this->_layout;
-			}
-			
-			$route = $view.'&'.$route;
+		// special cases
+		if($route == 'index.php' || $route == 'index.php?' || empty($route)) {
+			return JRoute::_($route);
 		}
 		
-		//Prepent the entry file and component information
-		$route = 'index.php?option=com_'.$this->getClassName('prefix').'&'.$route;
-		return JRoute::_($route);
+		// strip 'index.php?' 
+		if(substr($route, 0, 10)=='index.php?') {
+			$route = substr($route, 10);
+		}
+		
+		// parse
+		$parts = array();
+		parse_str($route, $parts);
+		$result = array();
+		
+		// Check to see if there is component information in the route if not add it
+		if(!isset($parts['option'])) {
+			$result[] = 'option=com_'.$this->getClassName('prefix');
+		}
+
+		// Check to see if there is view information in the route if not add it
+		if(!isset($parts['view'])) 
+		{
+			$result[] = 'view='.$this->getClassName('suffix');
+			if(!isset($parts['layout']) && $this->_layout != 'default') {
+				$result[] = 'layout='.$this->_layout;
+			}
+		}
+		
+		// Reconstruct the route
+		$result[] = $route;
+		$result = implode('&', $result);
+		return JRoute::_('index.php?'.$result);
 	}
 }

@@ -101,7 +101,10 @@ class KFilterHtml extends KObject implements KFilterInterface
 	 */
 	public function validate($var)
 	{
-		return (is_string($var) && strcmp($var, $this->sanitize($var)) === 0);
+		return (is_string($var) 
+		// this is too strict, html is usually sanitized 
+		//&& strcmp($var, $this->sanitize($var)) === 0
+		);
 	}
 
 	/**

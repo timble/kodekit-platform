@@ -329,8 +329,7 @@ class KDatabase extends KPatternProxy
 
 			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
-			
-			
+				 	
 			$args['result']     = $this->execute($sql);
 			$args['insertid']	= $this->insertid();
 			

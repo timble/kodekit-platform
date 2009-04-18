@@ -43,7 +43,8 @@ abstract class KPatternProxy extends KObject
 	 *
 	 * @return	object The decorated object
 	 */
-	public function getObject() {
+	public function getObject() 
+	{
 		return $this->_object;
 	}
 
@@ -54,12 +55,9 @@ abstract class KPatternProxy extends KObject
 	 * @param  mixed 	$value 	The variable value.
 	 * @return mixed
 	 */
-	public function __set($key, $value)
+	public function __set($key, $value) 
 	{
-		if ('_' != substr($key, 0, 1)) {
-            $this->getObject()->$key = $value;
-            return;
-        }
+		$this->getObject()->$key = $value;
 	}
 
 	/**
@@ -70,9 +68,7 @@ abstract class KPatternProxy extends KObject
 	 */
 	public function __get($key)
 	{
-		if ('_' != substr($key, 0, 1)) {
-            return $this->getObject()->$key;
-        }
+		return $this->getObject()->$key;
 	}
 
 	/**
@@ -86,9 +82,7 @@ abstract class KPatternProxy extends KObject
 	 */
 	public function __isset($key)
 	{
-		 if ('_' != substr($key, 0, 1)) {
-            return isset($this->getObject()->$key);
-        }
+		return isset($this->getObject()->$key);
 	}
 
 	/**
@@ -101,7 +95,7 @@ abstract class KPatternProxy extends KObject
 	 */
 	public function __unset($key)
 	{
-		if ('_' != substr($key, 0, 1) && isset($this->getObject()->$key)) {
+		if (isset($this->getObject()->$key)) {
             unset($this->getObject()->$key);
         }
 	}

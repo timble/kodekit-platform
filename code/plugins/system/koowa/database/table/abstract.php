@@ -450,7 +450,7 @@ abstract class KDatabaseTableAbstract extends KObject
         			$query->from($this->getTableName().' AS tbl');
         		}
             }
-
+            
             $this->_db->select($query, 0, 1);
             $options['data'] = (array) $this->_db->loadAssoc();
         }
@@ -480,7 +480,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	{
 		$data  = $this->filter($data);
 		$table = $this->getTableName();
-
+		
 		$result = $this->_db->insert($table, $data);
 		if($err = $this->_db->getError()) {
         	throw new KDatabaseTableException($err);

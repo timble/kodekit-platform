@@ -287,6 +287,17 @@ abstract class KControllerAbstract extends KObject
 			$view = $this->getClassName('suffix');
 		}
 	
+		//Add the basepath to the configuration
+		$options['base_path'] = $this->_viewPath[0];
+		
+		// hack for subviews
+		// @todo subviews have suitable class names in 0.7
+		if(strpos($view, '.')!==false) 
+		{
+			list($parent,$view) = explode('.', $view);
+			//$options['base_path'] .= DS.$view;
+		}		
+
 		if ( empty( $component ) ) {
 			$component = $this->getClassName('prefix');
 		}
@@ -295,8 +306,6 @@ abstract class KControllerAbstract extends KObject
 			$application = KFactory::get('lib.joomla.application')->getName();
 		}
 		
-		//Add the basepath to the configuration
-		$options['base_path'] = $this->_viewPath[0];
 		
 		if ( !$view = KFactory::get($application.'::com.'.$component.'.view.'.$view, $options) )
 		{

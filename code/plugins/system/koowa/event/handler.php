@@ -18,6 +18,15 @@
 class KEventHandler extends KObject implements KPatternObserver
 {
 	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+        // Mixin the KClass
+        $this->mixin(new KMixinClass($this, 'Event'));
+	}
+
+	/**
 	 * Method to trigger events
 	 *
 	 * @param  object	$args	 The event arguments

@@ -1,90 +1,60 @@
 <?xml version="1.0" ?>
 <!-- $Id$ -->
-<project name="Koowa - Rapid Application Development Framework"
-	basedir="."
-	default="main">
+<project name="Koowa" basedir="." default="build" description="Phing build script for Koowa package.">
+
+	<target name="config" description="Load configuration file">
+		<property file="build.properties"  override="false" />
+	</target>
 
 	<property name="koowa_scm" override="true"
 		value="https://joomlatools.unfuddle.com/svn/joomlatools_koowa/releases/0.6/code" />
 	<property name="targetdir" value="packages" override="true" />
 	<property name="targetfile" override="true" value="koowa_v0.6.0.tar.gz" />
 	
-	<!-- MAIN -->
-	<target name="main" description="Build Installable Packages">
-
-		<mkdir dir="${targetdir}" />
-		<delete file="${targetdir}/${targetfile}" />
-
-		<phingcall target="clean" />
-
-		<!-- Export the code -->
-		<phingcall target="export">
-			<property name="scm"		value="${koowa_scm}" />
-			<property name="targetdir"	value="${targetdir}/tmp" />
-			<property name="extname"	value="Koowa" />
-			<property name="extpath"	value="" />
-		</phingcall>
-
-		<!-- Build the package -->
-		<copy todir="${targetdir}/pkg/" >
-			<fileset dir="${targetdir}/tmp/plugins/system/">
-				<include name="**" />
-				<exclude name="CHANGELOG.php" />
-			</fileset>
-		</copy>
-		
-		<copy todir="${targetdir}/pkg/koowa" >
-			<fileset dir="${targetdir}/tmp/">
-				<include name="CHANGELOG.php" />
-			</fileset>
-		</copy>
-		
-		<copy todir="${targetdir}/pkg/media/" >
-			<fileset dir="${targetdir}/tmp/media/plg_koowa">
+	<target name="export_from_wc" description="Export files from a local working copy" depends="config">
+		<copy todir="${dir.tmp}">
+			<fileset dir="${dir.local}">
 				<include name="**" />
 			</fileset>
 		</copy>
-		
-		
-		<tar destfile="${targetdir}/${targetfile}" basedir="${targetdir}/pkg" compression="gzip"/>
-
-		<delete dir="${targetdir}/pkg/" includeemptydirs="true" />
-		<delete dir="${targetdir}/tmp/" includeemptydirs="true" />
 	</target>
-
-	<target name="clean" description="...">
-		<delete includeemptydirs="true">
-			<fileset dir="${targetdir}">
-				<include name="*" />
-				<include name="pkg/**" />
-				<include name="tmp/**" />
-			</fileset>
-		</delete>
+	
+	<target name="export_from_svn" description="Export files from an svn repository" depends="config, svn_config">
+		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="${svn.url}" todir="${svn.targetdir}" nocache="true" force="true" />
 	</target>
-
-	<target name="export" description="Checks out the extension">
+		
+	<target name="svn_config" description="Get configuration for svn" depends="config">
 		<if>
-			<not><isset property="scmusr"/></not>
+			<not><isset property="svn.url"/></not>
 			<then>
-				<input propertyname="scmusr"
-					defaultValue="" promptChar="?">${extname} SCM Username</input>
+				<input propertyname="svn.url"
+					defaultValue="" promptChar="?">${svn.projectname} SVN URL</input>
 			</then>
 		</if>
 		<if>
-			<not><isset property="scmpwd"/></not>
+			<not><isset property="svn.targetdir"/></not>
 			<then>
-				<input propertyname="scmpwd"
-					defaultValue="" promptChar="?">${extname} SCM Password</input>
+				<input propertyname="svn.targetdir"
+					defaultValue="" promptChar="?">${svn.projectname} SVN target directory</input>
 			</then>
 		</if>
-
-
-		<svnexport
-			username="${scmusr}"
-			password="${scmpwd}"
-			repositoryurl="${scm}/${extpath}"
-			todir="${targetdir}/${extpath}"
-			nocache="true"
-			force="true" />
+		<if>
+			<not><isset property="svn.username"/></not>
+			<then>
+				<input propertyname="svn.username"
+					defaultValue="" promptChar="?">${svn.projectname} SVN Username</input>
+			</then>
+		</if>
+		<if>
+			<not><isset property="svn.password"/></not>
+			<then>
+				<input propertyname="svn.password"
+					defaultValue="" promptChar="?">${svn.projectname} SVN Password</input>
+			</then>
+		</if>
+	</target>
+	
+	<target name="svn_lastrevision" depends="config">
+		<svnlastrevision workingcopy="${dir.local}" propertyname="svn.lastrevision" />
 	</target>
 </project>

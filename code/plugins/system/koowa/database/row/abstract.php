@@ -256,13 +256,13 @@ abstract class KDatabaseRowAbstract extends KObject
     public function __get($columnName)
     {
         $data = null;
-        
+           
     	if($columnName == 'id') {
         	$data = $this->_data[$this->_table->getPrimaryKey()];
         } else {
         	$data = $this->_data[$columnName];
         }
-    	
+      
     	return $data;
     }
 
@@ -322,8 +322,9 @@ abstract class KDatabaseRowAbstract extends KObject
     {
     	$properties = (array) $properties;
         $pk = $this->_table->getPrimaryKey();
-        
-        foreach ($properties as $k => $v) {
+         
+        foreach ($properties as $k => $v) 
+        {
          	if('id' == $k) {
          		$this->_data[$pk] = $v;
          	} else {

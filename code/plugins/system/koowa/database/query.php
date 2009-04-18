@@ -246,9 +246,6 @@ class KDatabaseQuery extends KObject
 		
 		// Apply quotes to the value
 		$value    = $this->_db->quote($value);
-		if($constraint == 'LIKE') {
-			$value = addcslashes( $value, '%_' );
-		}
 		
        	//Create the where clause
         if(in_array($constraint, array('IN', 'NOT IN'))) {
@@ -261,9 +258,9 @@ class KDatabaseQuery extends KObject
         if(count($this->where)) {
             $where = $condition .' '. $where;
         } 
-        
-		$this->where = array_unique( array_merge( $this->where, array($where) ));
-		return $this;
+
+        $this->where = array_unique( array_merge( $this->where, array($where) ));
+        return $this;
 	}
 
 	/**

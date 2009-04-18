@@ -157,14 +157,18 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
 	
  	/**
      * Overridden offsetSet() method
-     *
+     * 
+     * All numerical array keys will be modified to start counting from zero 
+     * while literal keys won't be touched.
+     * 
      * @param 	int 	The offset of the item
      * @return 	object KDatabaseTRowsetAbstract
      */
 	public function offsetUnset($offset)
 	{
-        unset($this->_data[$offset]);
-		return parent::offsetUnset($offset);
+		//We need to use array_splice instead of unset to reset the keys
+		array_splice($this->_data, $offset, 1);
+        return parent::offsetUnset($offset);
 	}
 	
 	/**
@@ -262,8 +266,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
     public function toArray()
     {
     	$result = array();
-    	foreach ($this as $i => $row) {
-            $result[$i] = $row->toArray();
+    	foreach ($this->_data as $i => $row) {
+            $result[$i] = is_array($row) ? $row :  $row->toArray();
         }
         return $result;
     }

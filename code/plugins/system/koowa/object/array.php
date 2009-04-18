@@ -228,6 +228,9 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
     /**
      * Unset an item in the array
      * 
+     * All numerical array keys will be modified to start counting from zero while 
+     * literal keys won't be touched.
+     * 
      * Required by interface ArrayAccess
      *
      * @param 	int 	The offset of the item
@@ -235,8 +238,9 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
 	public function offsetUnset($offset)
 	{
-        unset($this->__data[$offset]);
-        $this->resetCount();
+		//We need to use array_splice instead of unset to reset the keys
+		array_splice($this->__data, $offset, 1);
+		$this->resetCount();
         return $this;
 	}
 	

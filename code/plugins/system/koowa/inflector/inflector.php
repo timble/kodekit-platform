@@ -40,7 +40,6 @@ class KInflector
 			'/(m|l)ouse$/i' 			=> '$1ice',
 			'/(matr|vert|ind|suff)ix|ex$/i'=> '$1ices',
 			'/(x|ch|ss|sh)$/i' 			=> '$1es',
-			'/([^aeiouy]|qu)ies$/i' 	=> '$1y',
 			'/([^aeiouy]|qu)y$/i' 		=> '$1ies',
 			'/(?:([^f])fe|([lr])f)$/i' 	=> '$1$2ves',
 			'/sis$/i' 					=> 'ses',
