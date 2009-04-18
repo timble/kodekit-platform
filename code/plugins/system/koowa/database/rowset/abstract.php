@@ -238,7 +238,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      */
     public function findRow($key, $value)
     {
-   		$result = null;
+   		$result = $this->_emptyRow;
     	
     	$this->rewind();
     	

@@ -86,6 +86,7 @@ class KInput
 		// if $validators or $sanitizers is an object, turn it into an array of objects
 		// don't use settype because it will convert objects to arrays
 		$validators = is_array($validators) ? $validators : (empty($validators) ? array() : array($validators));
+		
 		// if no sanitizers are given, use the validators
 		$sanitizers = empty($sanitizers) ? $validators : (is_array($sanitizers) ? $sanitizers : array($sanitizers));
 		
@@ -192,11 +193,11 @@ class KInput
 	
 	protected function _setNested(&$array, $keys, $value)
 	{
-		foreach(array_reverse($keys, true) as $key)
-		{
+		foreach(array_reverse($keys, true) as $key) {
 			$value = array($key => $value);
 		}
-		$array = array_merge($value, $array);
+		
+		$array = array_merge($array, $value);
 	}
 	
 	/**
