@@ -349,10 +349,8 @@ class KInflector
 	}
 
     /**
-     * Gets a part of a CamelCased word by index
-     *
-     * Use a negative index to start at the last part of the word (-1 is the
-     * last part)
+     * Gets a part of a CamelCased word by index. Use a negative index to start 
+     * at the last part of the word (-1 is the last part)
      *
      * @param	string	Word
      * @param	integer	Index of the part

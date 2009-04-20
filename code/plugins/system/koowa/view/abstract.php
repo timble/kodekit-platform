@@ -75,8 +75,8 @@ abstract class KViewAbstract extends KObject
 	 * @param	array An optional associative array of configuration settings.
 	 */
 	public function __construct(array $options = array())
-	{
-        // Initialize the options
+	{		
+		// Initialize the options
         $options  = $this->_initialize($options);
 
         // Mixin the KMixinClass
@@ -233,43 +233,9 @@ abstract class KViewAbstract extends KObject
 		}
 
 		// assign by string name and mixed value.
-
-		// we use array_key_exists() instead of isset() becuase isset()
-		// fails if the value is set to null.
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) 
 		{
 			$this->$arg0 = $arg1;
-		}
-
-		return $this;
-	}
-
-
-	/**
-	* Assign variable for the view (by reference).
-	*
-	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for KView or private variables
-	* within the template script itself.
-	*
-	* <code>
-	* $view = new KView();
-	*
-	* // assign by name and value
-	* $view->assignRef('var1', $ref);
-	*
-	* // assign directly
-	* $view->ref =& $var1;
-	* </code>
-	*
-	* @param string $key The name for the reference in the view.
-	* @param mixed &$val The referenced variable.
-	* @return object KViewAbstract
-	*/
-	public function assignRef($key, &$val)
-	{
-		if (is_string($key) && substr($key, 0, 1) != '_') {
-			$this->$key =& $val;
 		}
 
 		return $this;
@@ -407,9 +373,6 @@ abstract class KViewAbstract extends KObject
 	{
 		// clear prior output
 		$this->_output = null;
-
-		// clean the file name
-		//$tpl  = preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl);
 
 		//create the template file name based on the layout
 		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;

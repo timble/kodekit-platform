@@ -10,7 +10,7 @@
  */
 
 /**
- * Abstract Command 
+ * Command Interface 
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa

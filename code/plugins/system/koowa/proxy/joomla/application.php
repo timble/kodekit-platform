@@ -16,18 +16,11 @@
  * @category	Koowa
  * @package 	Koowa_Application
  * @subpackage 	Joomla
- * @uses 		KPatternCommandChain
+ * @uses 		KMixinCommand
  * @uses 		KPatternProxy
  */
 class KProxyJoomlaApplication extends KPatternProxy
 {
-	/**
-	 * The commandchain
-	 *
-	 * @var	object
-	 */
-	protected $_commandChain = null;
-
 	/**
 	 * Constructor
 	 *
@@ -38,9 +31,8 @@ class KProxyJoomlaApplication extends KPatternProxy
 	{
 		parent::__construct($app);
 		
-		 //Create the command chain
-        $this->_commandChain = new KPatternCommandChain();
-        $this->_commandChain->enqueue(new KCommandEvent());
+		// Mixin the command chain
+        $this->mixin(new KMixinCommand($this));
 	}
 	
 	/**
@@ -70,9 +62,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args['notifier'] = $this;
 		$args['options']  = $options;
 	
-		if($this->_commandChain->run('application.before.initialise', $args) === true) {
+		if($this->getCommandChain()->run('application.before.initialise', $args) === true) {
 			$args['result'] = $this->getObject()->initialise($args['options']);
-			$this->_commandChain->run('application.after.initialise', $args);
+			$this->getCommandChain()->run('application.after.initialise', $args);
 		}
 
 		return $args['result'];
@@ -89,9 +81,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args = new ArrayObject();
 		$args['notifier'] = $this;
 	
-		if($this->_commandChain->run('application.before.route', $args) === true) {
+		if($this->getCommandChain()->run('application.before.route', $args) === true) {
 			$args['result'] = $this->getObject()->route();
-			$this->_commandChain->run('application.after.route', $args);
+			$this->getCommandChain()->run('application.after.route', $args);
 		}
 		
 		return $args['result'];
@@ -109,9 +101,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args['notifier']   = $this;
 		$args['component']  = $component;
 		
-		if($this->_commandChain->run('application.before.dispatch', $args) === true) {
+		if($this->getCommandChain()->run('application.before.dispatch', $args) === true) {
 			$args['result'] = $this->getObject()->dispatch($args['component']);
-			$this->_commandChain->run('application.after.dispatch', $args);
+			$this->getCommandChain()->run('application.after.dispatch', $args);
 		}
 
 		return $args['result'];
@@ -128,9 +120,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args = new ArrayObject();
 		$args['notifier']     = $this;
 		
-		if($this->_commandChain->run('application.before.render', $args) === true) {
+		if($this->getCommandChain()->run('application.before.render', $args) === true) {
 			$args['result'] = $this->getObject()->render();
-			$this->_commandChain->run('application.after.render', $args);
+			$this->getCommandChain()->run('application.after.render', $args);
 		}
 
 		return $args['result'];
@@ -148,9 +140,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args = new ArrayObject();
 		$args['notifier']   = $this;
 		$args['code']		= $code;
-		$args['task']       = 'close';
+		$args['action']     = 'close';
 		
-		if($this->_commandChain->run('application.before.execute', $args) === true) {
+		if($this->getCommandChain()->run('application.before.execute', $args) === true) {
 			$this->getObject()->close($args['code']);
 		}
 
@@ -174,9 +166,9 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args['url']          = $url;
 		$args['message']      = $msg;
 		$args['message_type'] = $msgType;
-		$args['task']        = 'redirect';
+		$args['action']       = 'redirect';
 		
-		if($this->_commandChain->run('application.before.redirect', $args) === true) {
+		if($this->getCommandChain()->run('application.before.redirect', $args) === true) {
 			$this->getObject()->redirect($args['url'], $args['message'], $args['message_type']);
 		}
 
@@ -197,11 +189,11 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args['notifier']    = $this;
 		$args['credentials'] = $credentials;
 		$args['options']     = $options;
-		$args['task']        = 'login';
+		$args['action']        = 'login';
 		
-		if($this->_commandChain->run('application.before.login', $args) === true) {
+		if($this->getCommandChain()->run('application.before.login', $args) === true) {
 			$args['result'] = $this->getObject()->login($args['credentials'], $args['options']);
-			$this->_commandChain->run('application.after.login', $args);
+			$this->getCommandChain()->run('application.after.login', $args);
 		}
 		
 		return $args['result'];
@@ -221,11 +213,11 @@ class KProxyJoomlaApplication extends KPatternProxy
 		$args['notifier']    = $this;
 		$args['credentials'] = array('userid' => $userid);
 		$args['options']     = $options;
-		$args['task']        = 'logout';
+		$args['action']        = 'logout';
 		
-		if($this->_commandChain->run('application.before.logout', $args) === true) {
+		if($this->getCommandChain()->run('application.before.logout', $args) === true) {
 			$args['result'] = $this->getObject()->logout($args['credentials']['userid'], $args['options']);
-			$this->_commandChain->run('application.after.logout', $args);
+			$this->getCommandChain()->run('application.after.logout', $args);
 		}
 		
 		return $args['result'];

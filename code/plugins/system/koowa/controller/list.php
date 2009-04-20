@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: page.php 587 2008-11-08 01:02:35Z mathias $
+ * @version		$Id$
  * @category	Koowa
  * @package     Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -9,7 +9,7 @@
  */
 
 /**
- * Page Controller Class
+ * List Controller Class
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @author 		Mathias Verraes <mathias@joomlatools.org>
@@ -19,9 +19,8 @@
  * @uses        KInflector
  * @uses        KHelperArray
  */
-class KControllerPage extends KControllerBread
+class KControllerList extends KControllerAbstract
 {
-		
 	/**
 	 * Constructor
 	 *
@@ -31,79 +30,21 @@ class KControllerPage extends KControllerBread
 	{
 		parent::__construct($options);
 
-		// Register extra actions
-		$this->registerAction('disable', 'enable');
+		// Register extra tasks
+		$this->registerTask( 'disable', 'enable');
+		$this->registerTask( 'add', 'edit'  );
 	}
-	
-	/**
-	 * Get the action that is was/will be performed.
-	 *
-	 * @return	 string Action name
-	 */
-	public function getAction()
-	{
-		if(!isset($this->_action))
-		{
-			if($action = KInput::get('action', 'post', 'cmd'))
-			{
-				// action is set in the POST body
-				$this->_action = $action;
-			} 
-			else 
-			{
-				// we assume either browse or read
-				$view = KInput::get('view', 'get', 'cmd');
-				$this->_action = KInflector::isPlural($view) ? 'browse' : 'read';
-			}			 
-		}
-		
-		return $this->_action;
-	}
-	
-	/*
-	 * Generic save action
-	 */
-	public function save()
-	{
-		$result = parent::edit();
-		
-		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
-		$format = KInput::get('format', 'get', 'cmd', null, 'html');
-		
-		$redirect = 'view='.$view.'&format='.$format;
-		$this->setRedirect($redirect);
-		
-		return $result;
-	}
-	
-	/*
-	 * Generic apply action
-	 */
-	public function apply()
-	{
-		$result = parent::edit();
 
-		$view 	= $this->getClassName('suffix');
-		$format = KInput::get('format', 'get', 'cmd', null, 'html');
-		
-		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
-		$this->setRedirect($redirect);
-		
-		return $result;
-	}
-		
+
 	/*
-	 * Generic cancel action
-	 * 
-	 * @return 	this
+	 * Generic edit action
 	 */
-	public function cancel()
+	public function edit()
 	{
-		$this->setRedirect(
-			'view='.KInflector::pluralize($this->getClassName('suffix'))
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
-			);
-		return $this;	
+		$cid = KInput::get('cid', 'get', 'array.ints', null, array(0));
+		$id	 = KInput::get('id', 'get', 'int', null, $cid[0]);
+		 
+		$this->setRedirect('view='.KInflector::singularize($this->getClassName('suffix')).'&layout=form&id='.$id);
 	}
 	
 	/*
@@ -113,16 +54,27 @@ class KControllerPage extends KControllerBread
 	 */
 	public function delete()
 	{
-		$result = parent::delete();
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
+		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
+
+		if (count( $cid ) < 1) {
+			throw new KControllerException(JText::sprintf( 'Select an item to %s', JText::_($this->getTask()), true ) );
+		}
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
-		$view	   = KInflector::pluralize($this->getClassName('suffix'));
-		$format	   = KInput::get('format', 'get', 'cmd', null, 'html');
-				
-		$this->setRedirect('view='.$view.'&format='.$format);
+		$model     = $this->getClassName('suffix');
+		$view	   = $model;
+
+		$app   = KFactory::get('lib.joomla.application')->getName();
+		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
+		$table->delete($cid);
 		
-		return $result;
+		$this->setRedirect(
+			'view='.KInflector::pluralize($view)
+			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+		);
 	}
 
 	/*
@@ -134,10 +86,10 @@ class KControllerPage extends KControllerBread
 	
 		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
 
-		$enable  = $this->getAction() == 'enable' ? 1 : 0;
+		$enable  = $this->getTask() == 'enable' ? 1 : 0;
 
 		if (count( $cid ) < 1) {
-			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
+			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getTask()), true ));
 		}
 
 		// Get the table object attached to the model
@@ -181,29 +133,6 @@ class KControllerPage extends KControllerBread
 		);
 	}
 	
-	public function order()
-	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
-		$id 	= KInput::get('id', 'post', 'int');
-		$change = KInput::get('order_change', 'post', 'int');
-		
-		// Get the table object attached to the model
-		$component = $this->getClassName('prefix');
-		$name      = KInflector::pluralize($this->getClassName('suffix'));
-		$view	   = $name;
-
-		$app   = KFactory::get('lib.joomla.application')->getName();
-		KFactory::get($app.'::com.'.$component.'.table.'.$name)
-			->fetchRow($id)
-			->order($change);
-		
-		$this->setRedirect(
-			'view='.$view
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
-		);
-	}
-
 	/**
 	 * Wrapper for JRequest::get(). Override this method to modify the GET/POST data before saving
 	 *

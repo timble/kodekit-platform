@@ -17,5 +17,15 @@
  */
 class KControllerDefault extends KControllerAbstract
 {
-
+	/**
+	 * Display a single item
+	 */
+	public function read()
+	{
+		$layout	= KInput::get('layout', 'get', 'cmd', null, 'default' );
+		
+		$this->getView()
+			->setLayout($layout)
+			->display();
+	}
 }

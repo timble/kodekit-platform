@@ -9,10 +9,18 @@
  */
 
 /**
- * Koowa Mixin Exception class
- *
+ * Mixes a chain of command behaviour into a class
+ *  
  * @author      Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Mixin
  */
-class KMixinException extends Exception {}
+interface KMixinInterface
+{   
+	/**
+	 * Get the methods that are available for mixin. 
+	 * 
+	 * @return array An array of methods
+	 */
+	public function getMixinMethods();
+}

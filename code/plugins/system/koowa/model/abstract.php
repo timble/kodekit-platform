@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Model
- * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
@@ -28,19 +28,19 @@ abstract class KModelAbstract extends KObject
 	 */
 	protected $_state;
 
-    /**
-     * List total
-     *
-     * @var integer
-     */
-    protected $_total;
+	/**
+	 * List total
+	 *
+	 * @var integer
+	 */
+	protected $_total;
 
-    /**
-     * Pagination object
-     *
-     * @var object
-     */
-    protected $_pagination;
+	/**
+	 * Pagination object
+	 *
+	 * @var object
+	 */
+	protected $_pagination;
 
 	/**
 	 * Model list data
@@ -49,54 +49,53 @@ abstract class KModelAbstract extends KObject
 	 */
 	protected $_list;
 
-    /**
-     * Model item data
-     *
-     * @var mixed
-     */
-    protected $_item;
-      
+	/**
+	 * Model item data
+	 *
+	 * @var mixed
+	 */
+	protected $_item;
+
 	/**
 	 * Constructor
-     *
-     * @param	array An optional associative array of configuration settings.
+	 *
+	 * @param	array An optional associative array of configuration settings.
 	 */
 	public function __construct(array $options = array())
 	{
-        // Initialize the options
-        $options  = $this->_initialize($options);
+		// Initialize the options
+		$options  = $this->_initialize($options);
 
-        // Mixin the KClass
-        $this->mixin(new KMixinClass($this, 'Model'));
+		// Mixin the KClass
+		$this->mixin(new KMixinClass($this, 'Model'));
 
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
+		// Assign the classname with values from the config
+		$this->setClassName($options['name']);
 
-        //Use KObject to store the model state
-        $this->_state = new KObject();
-        $this->_state->setProperties($options['state']);
+		//Use KObject to store the model state
+		$this->_state = new KObject();
+		$this->_state->setProperties($options['state']);
 		$this->_state->setProperties($this->getDefaultState());
 	}
 
-    /**
-     * Initializes the options for the object
-     * 
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   array   Options
-     * @return  array   Options
-     */
-    protected function _initialize(array $options)
-    {
-        $defaults = array(
-            'base_path'     => null,
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param   array   Options
+	 * @return  array   Options
+	 */
+	protected function _initialize(array $options)
+	{
+		$defaults = array(
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'model',
                         'suffix'    => 'default'
                         ),
             'state'         => array()
-        );
+                        );
 
         return array_merge($defaults, $options);
     }
@@ -126,82 +125,82 @@ abstract class KModelAbstract extends KObject
 		return $property === null ? $this->_state : $this->_state->get($property, $default);
 	}
 
-    /**
-     * Method to get a item object which represents a table row
-     *
-     * @return  object KDatabaseRow
-     */
-    public function getItem()
-    {
-        return $this->_item;
-    }
+	/**
+	 * Method to get a item object which represents a table row
+	 *
+	 * @return  object KDatabaseRow
+	 */
+	public function getItem()
+	{
+		return $this->_item;
+	}
 
-    /**
-     * Get a list of items which represnts a  table rowset
-     *
-     * @return  object KDatabaseRowset
-     */
-    public function getList()
-    {
-        return $this->_list;
-    }
+	/**
+	 * Get a list of items which represnts a  table rowset
+	 *
+	 * @return  object KDatabaseRowset
+	 */
+	public function getList()
+	{
+		return $this->_list;
+	}
 
-    /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
-    public function getTotal()
-    {
-        return $this->_total;
-    }
+	/**
+	 * Get the total amount of items
+	 *
+	 * @return  int
+	 */
+	public function getTotal()
+	{
+		return $this->_total;
+	}
 
-    /**
-     * Get a Pagination object
-     *
-     * @return  JPagination
-     */
-    public function getPagination()
-    {
-        // Get the data if it doesn't already exist
-        if (!isset($this->_pagination))
-        {
-            Koowa::import('lib.joomla.html.pagination');
-            $this->_pagination = new JPagination($this->getTotal(), $this->getState('offset'), $this->getState('limit'));
-        }
+	/**
+	 * Get a Pagination object
+	 *
+	 * @return  JPagination
+	 */
+	public function getPagination()
+	{
+		// Get the data if it doesn't already exist
+		if (!isset($this->_pagination))
+		{
+			Koowa::import('lib.joomla.html.pagination');
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('offset'), $this->getState('limit'));
+		}
 
-        return $this->_pagination;
-    }
+		return $this->_pagination;
+	}
 
-    /**
-     * Get a list of filters
-     *
-     * @return  array
-     */
-    public function getFilters()
-    {
-       $filters = array();
-       $filters['limit']       = $this->getState('limit');
-       $filters['limitstart']  = $this->getState('offset');
-       
-    	return $filters;
-    }
-     
-    /**
-     * Get the default states
-     * 
-     * @return array The array with the default state information
-     */
-    public function getDefaultState()
-    {
-       	$app 	= KFactory::get('lib.joomla.application');
-    	
-    	//Get the namespace
-    	$ns  	= $app->getName().'::'.'com.'.$this->getClassName('prefix').'.model.'.$this->getClassName('suffix');
+	/**
+	 * Get a list of filters
+	 *
+	 * @return  array
+	 */
+	public function getFilters()
+	{
+		$filters = array();
+		$filters['limit']       = $this->getState('limit');
+		$filters['limitstart']  = $this->getState('offset');
+		 
+		return $filters;
+	}
+	 
+	/**
+	 * Get the default states
+	 *
+	 * @return array The array with the default state information
+	 */
+	public function getDefaultState()
+	{
+		$app 	= KFactory::get('lib.joomla.application');
+		 
+		//Get the namespace
+		$ns  = $this->getClassName('prefix').'.'.$this->getClassName('suffix');
 
-        $state = array(); 
-        $state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');
-        $state['offset'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
-        return $state;
-    }
+		$state = array();
+		$state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');
+		$state['offset'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
+		return $state;
+	}
 }

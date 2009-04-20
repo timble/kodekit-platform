@@ -65,7 +65,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @var		string
 	 */
-	protected $_generator = 'Koowa 0.6 - Open Web Publishing Framework';
+	protected $_generator = 'Koowa 0.7 - Open Web Publishing Framework';
 
 	/**
 	 * Document modified date

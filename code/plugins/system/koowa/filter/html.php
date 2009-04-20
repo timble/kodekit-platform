@@ -350,7 +350,7 @@ class KFilterHtml extends KObject implements KFilterInterface
 			}
 
 			// Autostrip script tags
-			if ($this->checkAttribute($attrSubSet)) {
+			if ($this->_checkAttribute($attrSubSet)) {
 				continue;
 			}
 

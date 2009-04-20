@@ -56,7 +56,7 @@ class KViewHelperGrid
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 
-		$html = '<a href="javascript:KTableSorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
+		$html = '<a href="javascript:Koowa.Table.sorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
 			$html .= KViewHelper::_('image.template',  $images[$index], '/images/', NULL, NULL);
@@ -85,13 +85,13 @@ class KViewHelperGrid
 	{
 		if ( !$row->access )  {
 			$color_access = 'style="color: green;"';
-			$task_access = 'accessregistered';
+			$action_access = 'accessregistered';
 		} else if ( $row->access == 1 ) {
 			$color_access = 'style="color: red;"';
-			$task_access = 'accessspecial';
+			$action_access = 'accessspecial';
 		} else {
 			$color_access = 'style="color: black;"';
-			$task_access = 'accesspublic';
+			$action_access = 'accesspublic';
 		}
 
 		if ($archived == -1)
@@ -101,7 +101,7 @@ class KViewHelperGrid
 		else
 		{
 			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
+			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $action_access .'\')" '. $color_access .'>
 			'. JText::_( $row->groupname ) .'</a>'
 			;
 		}
@@ -134,12 +134,12 @@ class KViewHelperGrid
 	public static function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
-		$task 	= $row->published ? 'unpublish' : 'publish';
+		$action	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action = $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
+		$text 	= $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
 
 		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
+		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$action .'\')" title="'. $text .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
 		;
 
@@ -149,12 +149,12 @@ class KViewHelperGrid
 	public static function enable( $enable, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix = '' )
 	{
 		$img 	= $enable ? $imgY : $imgX;
-		$task 	= $enable ? 'disable' : 'enable';
+		$action	= $enable ? 'disable' : 'enable';
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$action = $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
+		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 
 		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
+		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$action .'\')" title="'. $text .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
@@ -171,10 +171,10 @@ class KViewHelperGrid
 		$down = Koowa::getURL('images').'/arrow_down.png';
 
 		$result =
-			 '<a href="javascript:KGridOrder('.$row_id.', -1)" >'
+			 '<a href="javascript:Koowa.Grid.order('.$row_id.', -1)" >'
 			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
 			.'</a>'
-			.'<a href="javascript:KGridOrder('.$row_id.', 1)" >'
+			.'<a href="javascript:Koowa.Grid.order('.$row_id.', 1)" >'
 			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
 			.'</a>';
 			

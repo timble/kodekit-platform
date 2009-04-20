@@ -24,9 +24,9 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 * @var	array
 	 */
 	protected static $_objectMap = array(
-      	'table'     => 'DatabaseTable',
-        'row'       => 'DatabaseRow',
-      	'rowset'    => 'DatabaseRowset'
+     // 	'table'     => 'DatabaseTable',
+     //   'row'       => 'DatabaseRow',
+     // 	'rowset'    => 'DatabaseRowset'
 	);
 	
 	/**
@@ -39,34 +39,34 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	public function createInstance($identifier, array $options)
 	{
 		$instance = false;
-		
+
 		$parts = explode('.', $identifier);
 		if(strpos($parts[0], 'com') !== false) 
 		{
 
-			//Set the application
-			$name = explode('::', $parts[0]);
-			$name[0] = ($name[0] == 'admin') ? 'administrator' : $name[0];
-			$result['application'] = $name[0];
-		
-			//Set the component
-			if(isset($parts[1])) {
-				$result['component'] = $parts[1];
-			} 
+			// Set the application & component
+			list($result['application'], $result['type']) = explode('::', array_shift($parts));
 
-			//Set the object type
-			if(isset($parts[2])) {
-				$result['type'] = $parts[2];
+			// Admin is an alias for administrator
+			$result['application'] 	= ($result['application'] == 'admin') ? 'administrator' : $result['application'];
+
+			// Set the component and base
+			$result['component']	= array_shift($parts);
+			$result['base'] 		= array_shift($parts);
+
+			// The last part is the name
+			if(count($parts)) {
+				$result['name']		= array_pop($parts);
 			}
 
-			//Set the object name
-			if(isset($parts[3])) {
-				$result['name'] = $parts[3];
+			// Whatever's left is the subdirectories
+			if(count($parts)) {
+				$result['path'] = $parts;
 			}
-		
+
 			$instance = self::_getInstanceByArray($result, $options);
 		}
-		
+	
 		return $instance;
 	}
 
@@ -82,40 +82,22 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 		
-		if(array_key_exists('application', $object)) {
-			$client = $object['application'];
-		} else {
-			$client = '';
-		}
+		$client		= $object['application'];
+		$component 	= $object['component'];
+		$base 		=  array_key_exists($object['base'], self::$_objectMap) 
+					? self::$_objectMap[$object['base']]
+					: $object['base'];
+		$path 		= array_key_exists('path', $object)
+					? KInflector::camelize(implode('_', $object['path']))
+					: '';			
+		$name 		= array_key_exists('name', $object)
+					? $object['name']
+					: '';
 
-		if(array_key_exists('component', $object)) {
-			$component = $object['component'];
-		} else {
-			$component = '';
-		}
-
-		if(array_key_exists('type', $object)) {
-			$type =  $object['type'];
-		} else {
-			$type = '';
-		}
-
-		if(array_key_exists('name', $object)) {
-			$name = $object['name'];
-		} else {
-			$name = '';
-		}
-
-		if(array_key_exists($object['type'], self::$_objectMap)) {
-			$base =  self::$_objectMap[$object['type']];
-		} else {
-			$base = $object['type'];
-		}
-
-        $classname = ucfirst($component).ucfirst($type).ucfirst($name);
-		
+        $classname = ucfirst($component).ucfirst($base).$path.ucfirst($name);
 		if (!class_exists( $classname ))
 		{
+			
 			//Create path
 			if(!isset($options['base_path']))
 			{
@@ -123,13 +105,20 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 				$options['base_path'] .= DS.'components'.DS.'com_'.$component;
 
 				if(!empty($name)) {
-					$options['base_path'] .= DS.KInflector::pluralize($type);
+					$options['base_path'] .= DS.KInflector::pluralize($base);
+
+					if(!empty($object['path'])) 
+					{
+						foreach($object['path'] as $sub) {
+							$options['base_path'] .= DS.KInflector::pluralize($sub);
+						}
+					}
 				}
 			}
 
 			//Find the file
 			Koowa::import('lib.joomla.filesystem.path');
-			if($file = JPath::find($options['base_path'], self::_getFileName($type, $name)))
+			if($file = JPath::find($options['base_path'], self::_getFileName($base, $name)))
 			{
 				require_once $file;
 				if (!class_exists( $classname )) {
@@ -141,17 +130,17 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			}
 			else 
 			{
-				if(class_exists( 'K'.ucfirst($base).ucfirst($name))) {
-					$classname = 'K'.ucfirst($base).ucfirst($name);
+				if(class_exists( 'K'.ucfirst($base).$path.ucfirst($name))) {
+					$classname = 'K'.ucfirst($base).$path.ucfirst($name);
 				} else {
-					$classname = 'K'.ucfirst($base).'Default';
+					$classname = 'K'.ucfirst($base).$path.'Default';
 				} 
 			}
 		}
 		
 		if(class_exists( $classname )) 
 		{
-			$options['name'] = array('prefix' => $component, 'base' => $base, 'suffix' => $name);
+			$options['name'] = array('prefix' => $component, 'base' => $base.$path, 'suffix' => $name);
 			$instance = new $classname($options);
 		}
 

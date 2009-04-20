@@ -18,35 +18,34 @@
  * @uses        KObject
  * @uses        KFactory
  */
-
 abstract class KDispatcherAbstract extends KObject
 {
 	/**
-	 * The base path
+	 * Options
 	 *
-	 * @var		string
+	 * @var array
 	 */
-	protected $_basePath;
-
+	protected $_options;
+	
 	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'base_path'
+	 * Recognized key values include 'name', 'default_view'
 	 */
 	public function __construct(array $options = array())
 	{
         // Initialize the options
-        $options  = $this->_initialize($options);
-
+        $this->_options  = $this->_initialize($options);
+         
         // Mixin the KClass
         $this->mixin(new KMixinClass($this, 'Dispatcher'));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
-
-		// Set a base path for use by the dispatcher
-		$this->_basePath	= $options['base_path'];
+        
+        // Figure out default view if none is set
+        $this->_options['default_view'] = empty($this->_options['default_view']) ? $this->getClassName('suffix') : $this->_options['default_view'];
 	}
 
     /**
@@ -60,7 +59,7 @@ abstract class KDispatcherAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path'     => JPATH_COMPONENT,
+        	'default_view'  => '',
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'dispatcher',
@@ -72,78 +71,59 @@ abstract class KDispatcherAbstract extends KObject
     }
 
 	/**
-	 * Typical dispatch method for MVC based architecture
-	 *
-	 * This function is provide as a default implementation, in most cases
-	 * you will need to override it in your own dispatchers.
-	 *
-	 * @param	array An optional associative array of parameters to be passed in
+	 * Dispatch the controller and redirect
+	 * 
+	 * @return	this
 	 */
-	public function dispatch(array $params = array())
+	public function dispatch()
 	{
-		// Set the default view in case no view is passed with the request
-		$defaultView = array_key_exists('default_view', $params) ? $params['default_view'] : $this->getClassName('suffix');
-
 		// Require specific controller if requested
-		$view		= KInput::get('view', array('post', 'get'), 'cmd', null, $defaultView);
-        $controller = KInput::get('controller', array('post', 'get'), 'cmd', null, $view);
+		$view		= KInput::get('view', 'get', 'cmd', null, $this->_options['default_view']);
         
         // Push the view back in the request in case a default view is used
         KInput::set('view', $view, 'get');
 
-		$path = $this->_basePath.DS.'views';
+        //Get/Create the controller
+        $controller = $this->getController();
+        
+        // Perform the Request action
+        $controller->execute(KInput::get('action', array('post', 'get'), 'cmd', 'cmd'));
+        
+		// Redirect if set by the controller
+		if($redirect = $controller->getRedirect())
+		{
+			KFactory::get('lib.joomla.application')
+				->redirect($redirect['url'], $redirect['message'], $redirect['messageType']);
+		}
+		
+		return $this;
+	}
 
-		//In case we are loading a child view set the view path accordingly
+	
+	/**
+	 * Method to get a controller object
+	 *
+	 * @return	object	The controller.
+	 */
+	public function getController(array $options = array())
+	{
+		$application 	= KFactory::get('lib.joomla.application')->getName();
+		$component 		= $this->getClassName('prefix');
+		$view 			= KInput::get('view', 'get', 'cmd');
+		$controller 	= KInput::get('controller', 'get', 'cmd', null, $view);
+		
+		//In case we are loading a subview, we use the first part of the name as controller name
 		if(strpos($controller, '.') !== false)
 		{
 			$result = explode('.', $controller);
 
-			//Set the actual view name
-			KInput::set('view', $result[1], 'get');
-
 			//Set the controller based on the parent
 			$controller = $result[0];
-
-			//Set the path for the child view
-			$path .= DS.$result[0];
 		}
-		
-		// Get/Create the controller
-		$options =  array(
-			'base_path' => $this->_basePath.DS.'controllers',
-			'view_path' => $path
-		);
-		
-        $controller = $this->getController($controller, '', '', $options);
 
-        // Perform the Request task
-		$controller->execute(KInput::get('task', array('post', 'get'), 'cmd'));
-		
-		// Redirect if set by the controller
-		$controller->redirect();
-	}
-
-	/**
-	 * Method to get a controller object, loading it if required.
-	 *
-	 * @param	string	$view 			The name fo the controller.
-	 * @param	string	$component		The name of the component. Optional.
-	 * @param	string	$application	The name of the application. Optional.
-	 * @param	array	$options        Options array for the controller. Optional.
-	 * @return	object	The controller.
-	 */
-	public function getController( $controller, $component = '', $application = '', array $options = array() )
-	{
+		// Controller names are always singular
 		$controller = KInflector::singularize($controller);
 
-		if ( empty( $component ) ) {
-			$component = $this->getClassName('prefix');
-		}
-		
-		if (empty( $application) )  {
-			$application = KFactory::get('lib.joomla.application')->getName();
-		}
-		
 		return KFactory::get($application.'::com.'.$component.'.controller.'.$controller, $options);
 	}
 }

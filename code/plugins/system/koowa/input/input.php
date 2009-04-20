@@ -3,7 +3,7 @@
  * @version    	$Id:koowa.php 251 2008-06-14 10:06:53Z mjaz $
  * @category	Koowa
  * @package    	Koowa_Input
- * @copyright  	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
+ * @copyright  	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
  * @license    	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link 		http://www.koowa.org
  */
@@ -198,6 +198,38 @@ class KInput
 		}
 		
 		$array = array_merge($array, $value);
+	}
+	
+	/**
+	 * Check if a variable exists in the hash(es)
+	 *
+	 * @param	string 			Variable name
+	 * @param 	string|array	Hash name
+	 * @return 	boolean
+	 */
+	public static function has($var, $hash)
+	{
+		settype($hashes, 'array');
+
+		// Is the hash in our list?
+		foreach($hashes as $k => $hash) 
+		{
+			$hashes[$k] = strtoupper($hash);
+			if(!in_array($hashes[$k], self::$_hashes)) {
+				throw new KInputException('Unknown hash: '.$hash);
+			}		
+		}
+		
+		// find $var in the hashes
+		$result = null;
+		foreach($hashes as $hash) 
+		{
+			if(isset($GLOBALS['_'.$hash][$var])) {
+				return true;
+			}
+		}
+		
+		return false; 
 	}
 	
 	/**

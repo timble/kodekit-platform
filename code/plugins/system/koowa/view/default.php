@@ -15,4 +15,21 @@
  * @category	Koowa
  * @package		Koowa_View
  */
-class KViewDefault extends KViewAbstract {}
+class KViewDefault extends KViewAbstract
+{
+	public function display($tpl = null)
+	{
+		$prefix = $this->getClassName('prefix');
+		$suffix = $this->getClassName('suffix');
+		$model = KFactory::get('admin::com.'.$prefix.'.model.'.$suffix);
+
+		if(KInflector::isPlural($suffix)) {
+			$this->assign($suffix, $model->getList());
+		} else {
+			$this->assign($suffix, $model->getList());
+		}
+
+		// Display the layout
+		parent::display($tpl);
+	}
+}

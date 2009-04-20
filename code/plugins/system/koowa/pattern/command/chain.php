@@ -10,11 +10,10 @@
  */
 
 /**
- * Command Chain class
+ * Command Chain
  * 
  * The command queue implements a double linked list. The command handle is used as
- * the key. Class can be used as a mixin in classes that want to implement a chain 
- * of responsability or chain of command pattern
+ * the key.
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa

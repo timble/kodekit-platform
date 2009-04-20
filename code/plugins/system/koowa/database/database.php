@@ -41,13 +41,6 @@ class KDatabase extends KPatternProxy
 	protected $_tables_cache;
 	
 	/**
-	 * The commandchain
-	 *
-	 * @var	object
-	 */
-	protected $_commandChain = null;
-	
-	/**
 	 * Database operations
 	 */
 	const OPERATION_SELECT = 1;
@@ -65,9 +58,8 @@ class KDatabase extends KPatternProxy
 	{
 		parent::__construct($db);
 		
-		 //Create the command chain
-        $this->_commandChain = new KPatternCommandChain();
-        $this->_commandChain->enqueue(new KCommandEvent());
+		 // Mixin the command chain
+        $this->mixin(new KMixinCommand($this));
 	}
 
 	/**
@@ -289,9 +281,9 @@ class KDatabase extends KPatternProxy
 		$args['operation']	= self::OPERATION_SELECT;
 
 		// Excute the insert operation
-		if($this->_commandChain->run('database.before.select', $args) === true) {
+		if($this->getCommandChain()->run('database.before.select', $args) === true) {
 			$args['result'] = $this->_object->setQuery( $args['sql'], $args['offset'], $args['limit'] );
-			$this->_commandChain->run('database.after.select', $args);
+			$this->getCommandChain()->run('database.after.select', $args);
 		}
 
 		return $args['result'];
@@ -319,7 +311,7 @@ class KDatabase extends KPatternProxy
 		$args['insertid']	= null;
 		
 		//Excute the insert operation
-		if($this->_commandChain->run('database.before.insert', $args) === true) 
+		if($this->getCommandChain()->run('database.before.insert', $args) === true) 
 		{
 			foreach($args['data'] as $key => $val)
 			{
@@ -333,7 +325,7 @@ class KDatabase extends KPatternProxy
 			$args['result']     = $this->execute($sql);
 			$args['insertid']	= $this->insertid();
 			
-			$this->_commandChain->run('database.after.insert', $args);
+			$this->getCommandChain()->run('database.after.insert', $args);
 		}
 		
 		return $args['result'];
@@ -362,7 +354,7 @@ class KDatabase extends KPatternProxy
 		$args['operation']	= self::OPERATION_UPDATE;
 	
 		//Excute the update operation
-		if($this->_commandChain->run('database.before.update', $args) ===  true) 	
+		if($this->getCommandChain()->run('database.before.update', $args) ===  true) 	
 		{
 			foreach($args['data'] as $key => $val) {
 				$vals[] = '`'.$key.'` = '.$this->_object->quote($val);
@@ -375,7 +367,7 @@ class KDatabase extends KPatternProxy
 			;
 			
 			$args['result'] = $this->execute($sql);
-			$this->_commandChain->run('database.after.update', $args);
+			$this->getCommandChain()->run('database.after.update', $args);
 		}
 		
         return $args['result'];
@@ -400,7 +392,7 @@ class KDatabase extends KPatternProxy
 		$args['operation']	= self::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->_commandChain->run('database.before.delete', $args) ===  true) 
+		if($this->getCommandChain()->run('database.before.delete', $args) ===  true) 
 		{
 			//Create query statement
 			$sql = 'DELETE FROM '.$this->quoteName('#__'.$args['table'])
@@ -408,7 +400,7 @@ class KDatabase extends KPatternProxy
 			;
 			
 			$args['result'] = $this->execute($sql);
-			$this->_commandChain->run('database.after.delete', $args);	
+			$this->getCommandChain()->run('database.after.delete', $args);	
 		}
 		
 		return $args['result'];

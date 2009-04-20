@@ -17,19 +17,11 @@
  * @author      Mathias Verraes <mathias@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Mixin
- * @subpackage 	Class
  * @uses 		KObject
  * @uses		KInflector
  */
-class KMixinClass extends KObject
+class KMixinClass extends KMixinAbstract
 {
-    /**
-     * Object
-     *
-     * @var object
-     */
-    protected $_object;
-
     /**
      * the object's basename
      *
@@ -50,11 +42,12 @@ class KMixinClass extends KObject
      * @param	object	Object
      * @param	string	Basename for the object [controller|view|...]
      */
-	public function __construct($object, $basename)
+	public function __construct($mixer, $basename)
     {
-    	$this->_object       = $object;
+    	parent::__construct($mixer);
+    	
         $this->_name_base    = $basename;
-        $this->_name_parts   = KInflector::split($basename, get_class($this->_object));
+        $this->_name_parts   = KInflector::split($basename, get_class($this->_mixer));
     }
 
     /**
@@ -97,5 +90,7 @@ class KMixinClass extends KObject
             	$this->_name_parts[$part] = $array[$part];
             }
         }
+        
+        return $this->_mixer;
     }
 }

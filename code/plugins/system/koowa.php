@@ -20,11 +20,11 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
-		// Require the library loader
 		if( self::canEnable()) 
 		{	
-			require_once JPATH_PLUGINS.DS.'system'.DS.'koowa'.DS.'koowa.php';
-			require_once JPATH_PLUGINS.DS.'system'.DS.'koowa'.DS.'loader.php';
+			// Require the library loader
+			JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
+			JLoader::import('plugins.system.koowa.loader', JPATH_ROOT);
 			
 			// Proxy the application object 
 			$app  =& JFactory::getApplication();
@@ -47,23 +47,22 @@ class plgSystemKoowa extends JPlugin
 
 	public function onAfterRoute()
 	{
-		if( ! self::canEnable()) {	
-			return;
-		}
-		
-		//Replace the document object
-		$lang = KFactory::get('lib.joomla.language');
-		
-		$options = array (
-			'charset'	=> 'utf-8',
-			'language'	=> $lang->getTag(),
-			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
-		);
-		
-		$format = KInput::get('format', 'GET', 'word', 'word', 'html');
+		if(self::canEnable()) 
+		{	
+			//Replace the document object
+			$lang = KFactory::get('lib.joomla.language');
 			
-		$doc =& JFactory::getDocument();
-		$doc = KFactory::get('lib.koowa.document.'.$format, $options);
+			$options = array (
+				'charset'	=> 'utf-8',
+				'language'	=> $lang->getTag(),
+				'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
+			);
+			
+			$format = KInput::get('format', 'GET', 'word', 'word', 'html');
+				
+			$doc =& JFactory::getDocument();
+			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
+		}
 	}
 	
 	/**
@@ -81,7 +80,7 @@ class plgSystemKoowa extends JPlugin
 		
 		// are we uninstalling a plugin?
 		if(JRequest::getCmd('option') == 'com_installer' 
-			&& JRequest::getCmd('task') == 'remove'
+			&& JRequest::getCmd('action') == 'remove'
 			&& JRequest::getCmd('type') == 'plugins' ) {
 			$result = false;
 		}
