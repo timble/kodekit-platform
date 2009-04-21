@@ -42,7 +42,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      */
     protected $_tableClass;
 
-
     /**
      * Empty row to use for cloning
      *
@@ -93,7 +92,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path' => null,
             'name'      => array(
                         'prefix'    => 'k',
                         'base'      => 'rowset',

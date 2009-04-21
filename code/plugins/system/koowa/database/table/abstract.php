@@ -25,13 +25,6 @@
 abstract class KDatabaseTableAbstract extends KObject
 {
 	/**
-	 * The base path
-	 *
-	 * @var		string
-	 */
-	protected $_basePath;
-
-	/**
 	 * Name of the table in the db schema
 	 *
 	 * @var 	string
@@ -128,9 +121,6 @@ abstract class KDatabaseTableAbstract extends KObject
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
 
-		// Set a base path for use by the view
-		$this->_basePath = $options['base_path'];
-
 		// Set the tablename
 		if ($options['table_name']) {
 			$this->_table_name	= $options['table_name'];
@@ -159,7 +149,6 @@ abstract class KDatabaseTableAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path'     => null,
             'dbo'           => null,
             'name'          => array(
                         'prefix'    => 'k',
@@ -366,7 +355,6 @@ abstract class KDatabaseTableAbstract extends KObject
     {
 	   	// fetch an empty rowset
         $options['table']     = $this;
-		$options['base_path'] = array_key_exists('path', $options) ? $options['path'] : null;
 	
     	$component = $this->getClassName('suffix');
    		$rowset    = $this->getClassName('prefix');
@@ -403,7 +391,7 @@ abstract class KDatabaseTableAbstract extends KObject
         }
         
         //return a row set
-    	$rowset = KFactory::tmp($app.'::com.'.$component.'.database.rowset.'.$rowset, $options);
+    	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
     	return $rowset;
     }
 
@@ -421,7 +409,6 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         // fetch an empty row
         $options['table']     = $this;
-		$options['base_path'] = array_key_exists('path', $options) ? $options['path'] : null;
 
 		$component = $this->getClassName('prefix');
 		$row       = KInflector::singularize($this->getClassName('suffix'));
@@ -455,7 +442,7 @@ abstract class KDatabaseTableAbstract extends KObject
             $options['data'] = (array) $this->_db->loadAssoc();
         }
         
-        $row = KFactory::tmp($app.'::com.'.$component.'.database.row.'.$row, $options); 
+        $row = KFactory::tmp($app.'::com.'.$component.'.row.'.$row, $options); 
         return $row;
     }
 

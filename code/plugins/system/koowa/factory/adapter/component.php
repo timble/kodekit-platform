@@ -24,9 +24,9 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 * @var	array
 	 */
 	protected static $_objectMap = array(
-     // 	'table'     => 'DatabaseTable',
-     //   'row'       => 'DatabaseRow',
-     // 	'rowset'    => 'DatabaseRowset'
+      	'table'     => 'DatabaseTable',
+        'row'       => 'DatabaseRow',
+      	'rowset'    => 'DatabaseRowset'
 	);
 	
 	/**
@@ -39,32 +39,41 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	public function createInstance($identifier, array $options)
 	{
 		$instance = false;
-
-		$parts = explode('.', $identifier);
-		if(strpos($parts[0], 'com') !== false) 
+		$array    = array();
+		
+		$parts = explode('::', $identifier);
+			
+		$array['application'] = $parts[0];
+		
+		if(isset($parts[1]) && strpos($parts[1], 'com') !== false) 
 		{
-
-			// Set the application & component
-			list($result['application'], $result['type']) = explode('::', array_shift($parts));
-
+			$parts = explode('.', $parts[1]);
+			array_shift($parts);
+			
 			// Admin is an alias for administrator
-			$result['application'] 	= ($result['application'] == 'admin') ? 'administrator' : $result['application'];
-
-			// Set the component and base
-			$result['component']	= array_shift($parts);
-			$result['base'] 		= array_shift($parts);
-
-			// The last part is the name
-			if(count($parts)) {
-				$result['name']		= array_pop($parts);
+			$array['application'] = ($array['application'] == 'admin') ? 'administrator' : $array['application'];
+			
+			// Set the component
+			$array['component']	= array_shift($parts);
+			
+			// Set the type
+			$array['type'] 		= array_shift($parts);
+			
+			if(array_key_exists($array['type'], self::$_objectMap)) {
+				$array['type'] = self::$_objectMap[$array['type']];
 			}
-
-			// Whatever's left is the subdirectories
+		
+			// Set the name (last part)
 			if(count($parts)) {
-				$result['path'] = $parts;
+				$array['name'] = array_pop($parts);
 			}
-
-			$instance = self::_getInstanceByArray($result, $options);
+			
+			// Set the path (rest)
+			if(count($parts)) {
+				$array['path'] = $parts;
+			}
+				
+			$instance = self::_createInstanceFromArray($array, $options);
 		}
 	
 		return $instance;
@@ -78,35 +87,44 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 * @throws	KFactoryAdapterException
 	 * @return object
 	 */
-	protected static function _getInstanceByArray($object, array $options = array())
+	protected static function _createInstanceFromArray($object, array $options = array())
 	{
 		$instance = false;
 		
-		$client		= $object['application'];
-		$component 	= $object['component'];
-		$base 		=  array_key_exists($object['base'], self::$_objectMap) 
-					? self::$_objectMap[$object['base']]
-					: $object['base'];
-		$path 		= array_key_exists('path', $object)
-					? KInflector::camelize(implode('_', $object['path']))
-					: '';			
-		$name 		= array_key_exists('name', $object)
-					? $object['name']
-					: '';
-
-        $classname = ucfirst($component).ucfirst($base).$path.ucfirst($name);
-		if (!class_exists( $classname ))
+		$client    = $object['application'];
+		$component = $object['component'];
+		
+		if(array_key_exists('type', $object)) {
+			$type =  $object['type'];
+		} else {
+			$type = '';
+		}
+		
+		if(array_key_exists('path', $object)) {
+			$path =  KInflector::camelize(implode('_', $object['path']));
+		} else {
+			$path = '';
+		}
+ 
+		if(array_key_exists('name', $object)) {
+			$name = $object['name'];
+		} else {
+			$name = '';
+		}
+ 
+        $classname = ucfirst($component).ucfirst($type).$path.ucfirst($name);
+      	if (!class_exists( $classname ))
 		{
-			
 			//Create path
 			if(!isset($options['base_path']))
 			{
 				$options['base_path']  = JApplicationHelper::getClientInfo($client, true)->path;
 				$options['base_path'] .= DS.'components'.DS.'com_'.$component;
 
-				if(!empty($name)) {
-					$options['base_path'] .= DS.KInflector::pluralize($base);
-
+				if(!empty($name)) 
+				{
+					$options['base_path'] .= DS.KInflector::pluralize($type);
+ 
 					if(!empty($object['path'])) 
 					{
 						foreach($object['path'] as $sub) {
@@ -118,7 +136,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 
 			//Find the file
 			Koowa::import('lib.joomla.filesystem.path');
-			if($file = JPath::find($options['base_path'], self::_getFileName($base, $name)))
+			if($file = JPath::find($options['base_path'], self::_getFileName($type, $name)))
 			{
 				require_once $file;
 				if (!class_exists( $classname )) {
@@ -130,17 +148,17 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			}
 			else 
 			{
-				if(class_exists( 'K'.ucfirst($base).$path.ucfirst($name))) {
-					$classname = 'K'.ucfirst($base).$path.ucfirst($name);
+				if(class_exists( 'K'.ucfirst($type).$path.ucfirst($name))) {
+					$classname = 'K'.ucfirst($type).$path.ucfirst($name);
 				} else {
-					$classname = 'K'.ucfirst($base).$path.'Default';
-				} 
+					$classname = 'K'.ucfirst($type).$path.'Default';
+				}  
 			}
 		}
 		
 		if(class_exists( $classname )) 
 		{
-			$options['name'] = array('prefix' => $component, 'base' => $base.$path, 'suffix' => $name);
+			$options['name'] = array('prefix' => $component, 'base' => $type.$path, 'suffix' => $name);
 			$instance = new $classname($options);
 		}
 

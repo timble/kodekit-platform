@@ -52,7 +52,7 @@ class KModelTable extends KModelAbstract
 			$table 			= KInflector::tableize($this->getClassName('suffix'));
 			$component		= $this->getClassName('prefix');
 			$application 	= KFactory::get('lib.joomla.application')->getName();
-			$this->_table   = $application.'::com.'.$component.'.database.table.'.$table;
+			$this->_table   = $application.'::com.'.$component.'.table.'.$table;
 		}
 	}
 

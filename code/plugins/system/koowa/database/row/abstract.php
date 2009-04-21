@@ -84,7 +84,6 @@ abstract class KDatabaseRowAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path' => null,
             'name'      => array(
                         'prefix'    => 'k',
                         'base'      => 'row',

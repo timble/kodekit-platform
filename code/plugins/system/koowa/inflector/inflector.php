@@ -123,7 +123,7 @@ class KInflector
 	/**
 	 * Constructor
 	 * 
-	 * Prevent creating instances of this class by making the contrucgtor private
+	 * Prevent creating instances of this class by making the contructor private
 	 */
 	private function __construct() { }
 	
