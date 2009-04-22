@@ -34,6 +34,14 @@ class KTemplateRuleVariable extends KObject implements KTemplateRuleInterface
          * @TODO when there is template caching, we can afford more expensive 
          * transformations
          */
-        $text = str_replace(array('@$', '@'), '$this->', $text);
+        //$text = str_replace(array('@$', '@'), '$this->', $text);
+        
+		// Match @ and @$, except when preceeded by an escape char (backslash)
+        $pattern 	= '/(?:[^\\\\])(@\$?)/';
+        $replace 	= '$this->';
+        $text 		= preg_replace($pattern, $replace, $text);
+        
+        // Now replace escaped @'s 
+        $text = str_replace('\\@', '@', $text);
 	}
 }
