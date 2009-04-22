@@ -10,7 +10,7 @@
 */
 
 /**
- * Template rule to convert @$ to $this->
+ * Template rule to convert @$ and @ to $this->
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
  * @category	Koowa
@@ -20,7 +20,7 @@
 class KTemplateRuleVariable extends KObject implements KTemplateRuleInterface
 {
 	/**
-	 * Convert @$ to $this->
+	 * Convert @$ and @ to $this->
 	 *
 	 * @param string $text
 	 */
