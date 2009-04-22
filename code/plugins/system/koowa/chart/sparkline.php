@@ -18,9 +18,9 @@ Koowa::import('lib.koowa.chart.renderer.sparkline.Sparkline');
  * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Sparkline
- * @uses 		KPatternProxy
+ * @uses 		KPatternDecorator
  */
-abstract class KChartSparkline extends KPatternProxy
+abstract class KChartSparkline extends KPatternDecorator
 {
     /**
      * Resample

@@ -25,7 +25,7 @@ class KChartSparklineLine extends KChartSparkline
      * Get an instance of a SparklineLine object, always creating it
      *
      * @param	array	Configuration array
-     * @return	object	KChartSparklineBar proxy object
+     * @return	object	KChartSparklineBar decorated object
      */
     static public function getInstance($config = array())
     {

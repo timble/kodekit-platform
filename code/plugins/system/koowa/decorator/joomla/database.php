@@ -1,22 +1,25 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
- * @package     Koowa_Database
+* @category		Koowa
+* @package 		Koowa_Decorator
+* @subpackage 	Joomla
  * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
 
 /**
- * Database class
+ * Joomla Database Decorator
  *
  * @author		Johan Janssens <johan@joomlatools.org>
- * @category	Koowa
- * @package     Koowa_Database
+* @category		Koowa
+* @package 		Koowa_Decorator
+* @subpackage 	Joomla
  * @uses 		KPatternCommandChain
+ * @uses        KPatternDecorator
  */
-class KDatabase extends KObject
+class KDecoratorJoomlaDatabase extends KPatternDecorator
 {
 	/**
 	 * The for offset for the limit
@@ -53,10 +56,195 @@ class KDatabase extends KObject
 	 * @param	object	$dbo 	The database object to decorate
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct($db)
 	{
+		parent::__construct($db);
+		
 		 // Mixin the command chain
         $this->mixin(new KMixinCommand($this));
+	}
+
+	/**
+	 * Decorate the database connector setQuery() method
+	 */
+	public function setQuery($sql, $offset = 0, $limit = 0, $prefix = '#__')
+	{
+		$result 	= false;
+		
+		//Convert any linebreaks to br tags, added to solve a bug with Virtuemart 1.1.2
+		$sql = str_replace('\r\n', '<br />', $sql);
+		
+		$operation 	= preg_split('/\s/', trim($sql), 2,  PREG_SPLIT_NO_EMPTY);
+
+		switch(strtoupper($operation[0]))
+		{
+			case 'INSERT' :
+			{
+				$parser = new KDatabaseQueryParser();
+				if(!$query  = $parser->parse($this->replaceTablePrefix($sql, '', $prefix))) {
+					$this->select($sql);
+					break;
+				}
+
+				//Remove prefix from the table name
+				$table = str_replace($this->getPrefix(), '', $query['table_names'][0]);
+
+                if(!isset($query['column_names'] ))
+                {
+                    // the column names weren't specified, get them from the table's metadata
+                    $fields = $this->getTableFields($table);
+                    $query['column_names'] = array_keys($fields[$table]);
+                }
+
+                // Make a list of field names and their values
+                $data  = array();
+                foreach($query['column_names'] as $key => $column_name) {
+                    $data[$column_name] = $query['values'][$key]['value'];
+                }
+				
+				$this->insert($table, $data);		
+			} break;
+
+			case 'UPDATE' :
+			{
+				//Make sure the where statement is uppercase
+				$sql   = str_replace('where', 'WHERE', $sql);
+				
+				//Split the sql string
+				$where = substr($sql, strpos($sql, 'WHERE'));
+				$query = substr_replace($sql, 'WHERE 1 = 1', strpos($sql, 'WHERE'));
+				
+				$parser = new KDatabaseQueryParser();
+				if(!$query  = $parser->parse($this->replaceTablePrefix($query, '', $prefix))) {
+					$this->select($sql);
+					break;
+				}
+				
+				//Remove prefix from the table name
+				$table = str_replace($this->getPrefix(), '', $query['table_names'][0]);
+
+				$data  = array();
+				foreach($query['column_names'] as $key => $column_name) {
+					$data[$column_name] = $query['values'][$key]['value'];
+				}
+				
+				$this->update($table, $data, $where);
+			} break;
+
+			case 'DELETE'  :
+			{
+				//Make sure the where statement is uppercase
+				$sql = str_replace('where', 'WHERE', $sql);
+				
+				//Split the sql string
+				$where = substr($sql, strpos($sql, 'WHERE'));
+				$query = substr_replace($sql, 'WHERE 1 = 1', strpos($sql, 'WHERE'));
+				
+				$parser = new KDatabaseQueryParser();
+				if(!$query  = $parser->parse($this->replaceTablePrefix($query, '', $prefix))) {
+					$this->select($sql);
+					break;
+				}
+				
+				//Remove prefix from the table name
+				$table = str_replace($this->getPrefix(), '', $query['table_names'][0]);
+
+				$this->delete($table, $where);
+			} break;
+
+			default : $this->select( $sql, $offset, $limit );
+		}
+	}
+
+	/**
+	 * Decorate the database connector insertObject() method
+	 */
+	public function insertObject( $table, &$object, $keyName = NULL )
+	{
+		$data = array();
+		foreach (get_object_vars( $object ) as $k => $v)
+		{
+			if (is_array($v) or is_object($v) or $v === NULL) {
+				continue;
+			}
+			if ($k[0] == '_') { // internal field
+				continue;
+			}
+			$data[$k] = $v;
+		}
+
+		if($this->insert( $this->replaceTablePrefix($table, '', '#__'), $data ) !== false) 
+		{
+			$id = $this->insertid();
+			if ($keyName && $id) {
+				$object->$keyName = $id;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Decorate the database connector updateObject() method
+	 */
+	public function updateObject( $table, &$object, $keyName, $updateNulls=true )
+	{
+		$data = array();
+		foreach (get_object_vars( $object ) as $k => $v)
+		{
+			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
+				continue;
+			}
+			if( $k == $keyName ) { // PK not to be updated
+				$where = 'WHERE '.$keyName.' = '.$this->Quote( $v );
+				continue;
+			}
+			if ($v === null)
+			{
+				if ($updateNulls) {
+					$val = 'NULL';
+				} else {
+					continue;
+				}
+			} else {
+				$val = $v;
+			}
+			$data[$k] = $val;
+		}
+
+		return $this->update( $this->replaceTablePrefix($table, ''), $data, $where);
+	}
+	
+	/**
+	 * Decorate the database connector loadObject() method
+	 * 
+	 * This functions also adds support for the legacy API. In case the object is passed
+	 * in by reference instead of returned. 
+	 */
+	public function loadObject( &$object = null )
+	{
+		if ($object != null)
+		{
+			if (!($cur = $this->query())) {
+				return false;
+			}
+
+			if ($array = mysql_fetch_assoc( $cur ))
+			{
+				mysql_free_result( $cur );
+				mosBindArrayToObject( $array, $object, null, null, false );
+				return true;
+			} else {
+				return false;
+			}
+		}
+		else
+		{
+			$object = $this->_object->loadObject($object);
+			return $object;
+		}
 	}
 
 	/**

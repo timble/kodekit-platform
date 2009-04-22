@@ -2,7 +2,7 @@
 /**
 * @version 		$Id$
 * @category		Koowa
-* @package 		Koowa_Proxy
+* @package 		Koowa_Decorator
 * @subpackage 	Joomla
 * @copyright 	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
 * @license 		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,21 +10,21 @@
 */
  
 /**
- * Joomla Application Proxy
+ * Joomla Application Decorator
  *
  * @author 		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package 	Koowa_Application
  * @subpackage 	Joomla
  * @uses 		KMixinCommand
- * @uses 		KPatternProxy
+ * @uses 		KPatternDecorator
  */
-class KProxyJoomlaApplication extends KPatternProxy
+class KDecoratorJoomlaApplication extends KPatternDecorator
 {
 	/**
 	 * Constructor
 	 *
-	 * @param	object	$dbo 	The application object to proxy
+	 * @param	object	$dbo 	The application object to decorate
 	 * @return	void
 	 */
 	public function __construct($app)
@@ -36,7 +36,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
 	/**
-	 * Proxy the application getName() method
+	 * Decorate the application getName() method
 	 */
 	function getName()
 	{
@@ -50,7 +50,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
   	/**
-	 * Proxy the application initialise() method
+	 * Decorate the application initialise() method
 	 *
 	 * @param	array An optional associative array of configuration settings
 	 * @return	mixed|false The value returned by the proxied method, false in error case.
@@ -71,7 +71,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
   	/**
-	 * Proxy the application route() method
+	 * Decorate the application route() method
 	 * 
 	 * @return	mixed|false The value returned by the proxied method, false in error case.
 	 */
@@ -90,7 +90,7 @@ class KProxyJoomlaApplication extends KPatternProxy
  	}
  	
    	/**
-	 * Proxy the application dispatch() method
+	 * Decorate the application dispatch() method
 	 * 
 	 * @return	mixed|false The value returned by the proxied method, false in error case.
 	 */
@@ -110,7 +110,7 @@ class KProxyJoomlaApplication extends KPatternProxy
  	}
  	
 	/**
-	 * Proxy the application render() method
+	 * Decorate the application render() method
 	 * 
 	 * @return	mixed|false The value returned by the proxied method, false in error case.
 	 */
@@ -129,7 +129,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
 	/**
-	 * Proxy the application close() method
+	 * Decorate the application close() method
 	 *
 	 * @param	int	Exit code
 	 * @return	none|false The value returned by the proxied method, false in error case.
@@ -150,7 +150,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
 	/**
-	 * Proxy the application redirect() method
+	 * Decorate the application redirect() method
 	 *
 	 * @param	string	$url	The URL to redirect to.
 	 * @param	string	$msg	An optional message to display on redirect.
@@ -176,7 +176,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
 	/**
-	 * Proxy the application login() method
+	 * Decorate the application login() method
 	 *
 	 * @param	array 	Array( 'username' => string, 'password' => string )
 	 * @param	array 	Array( 'remember' => boolean )
@@ -200,7 +200,7 @@ class KProxyJoomlaApplication extends KPatternProxy
 	}
 	
 	/**
-	 * Proxy the application logout() method
+	 * Decorate the application logout() method
 	 *
 	 * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
 	 * @param	array 	$options  Array( 'clientid' => array of client id's )

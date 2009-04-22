@@ -26,13 +26,13 @@ class plgSystemKoowa extends JPlugin
 			JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
 			JLoader::import('plugins.system.koowa.loader', JPATH_ROOT);
 			
-			// Proxy the application object 
+			// Decorate the application object 
 			$app  =& JFactory::getApplication();
-			$app  = new KProxyJoomlaApplication($app);
+			$app  = new KDecoratorJoomlaApplication($app);
 		
-			// Proxy the database object
+			// Decorate the database object
 			$db  =& JFactory::getDBO();
-			$db  = new KDatabase($db);
+			$db  = new KDecoratorJoomlaDatabase($db);
 			
 			//ACL uses the unwrapped DBO
 	        $acl = JFactory::getACL();

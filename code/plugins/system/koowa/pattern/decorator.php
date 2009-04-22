@@ -3,25 +3,25 @@
  * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
  * @category	Koowa
  * @package		Koowa_Pattern
- * @subpackage	Proxy
+ * @subpackage	Decorator
  * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
 
 /**
- * Proxy class
+ * Decorator class
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Pattern
- * @subpackage  Proxy
+ * @subpackage  Decorator
  * @uses 		KObject
  */
-abstract class KPatternProxy extends KObject
+abstract class KPatternDecorator extends KObject
 {
 	/**
-	 * Name of table object
+	 * The decorated object
 	 *
 	 * @var object
 	 */
