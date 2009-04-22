@@ -34,6 +34,6 @@ class KTemplateRuleVariable extends KObject implements KTemplateRuleInterface
          * @TODO when there is template caching, we can afford more expensive 
          * transformations
          */
-        $text = str_replace(array('@$', ' @'), '$this->', $text);
+        $text = str_replace(array('@$', '@'), '$this->', $text);
 	}
 }
