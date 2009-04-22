@@ -50,7 +50,5 @@ class KTemplateRuleShorttag extends KObject implements KTemplateRuleInterface
         $find = '/\<\?\s(.*?)/';
         $replace = "<?php \$1";
         $text = preg_replace($find, $replace, $text);
-        
-
 	}
 }
