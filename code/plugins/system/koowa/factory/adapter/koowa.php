@@ -48,6 +48,9 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
                	);
                         
 				$classname = 'K'.KInflector::implode($parts).'Default';
+				if (!class_exists($classname)) {
+					throw new KFactoryAdapterException("Could't create instance for $identifier");
+				}
 			}	
 				
 			$instance = new $classname($options);
