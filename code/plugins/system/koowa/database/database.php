@@ -19,25 +19,32 @@
 class KDatabase extends KObject
 {
 	/**
-	 * The for offset for the limit
-	 *
-	 * @var int
+	 * Active state of the connection
+	 * 
+	 * @var boolean
 	 */
-	protected $_offset;
-
-	/**
-	 * The limit for the query
-	 *
-	 * @var int
-	 */
-	protected $_limit = 0;
+	protected $_active = null;
 	
 	/**
-	 * Cached table metadata information
-	 *
-	 * @var 	array
+	 * The database connection resource
+	 * 
+	 * @var mixed
 	 */
-	protected $_tables_cache;
+	protected $_connection = null;
+	
+	/**
+	 * Last auto-generated insert_id
+	 * 
+	 * @var integer
+	 */
+	protected $_insertId;
+
+	/**
+	 * Metadata cache
+	 *
+	 * @var array
+	 */
+	protected $_cache = null;
 	
 	/**
 	 * Database operations
@@ -48,16 +55,48 @@ class KDatabase extends KObject
 	const OPERATION_DELETE = 8;
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param	object	$dbo 	The database object to decorate
-	 * @return	void
+	 * @param	array An optional associative array of configuration settings.
+	 * Recognized key values include 'command_chain'
+	 * (this list is not meant to be comprehensive).
 	 */
-	public function __construct()
+	public function __construct( array $options = array() )
 	{
-		 // Mixin the command chain
-        $this->mixin(new KMixinCommand($this));
+        // Initialize the options
+        $this->_options  = $this->_initialize($options);
+        
+        // Mixin the command chain
+        $this->mixin(new KMixinCommand($this, $this->_options['command_chain']));
 	}
+	 
+	/**
+	 * Destructor
+	 * 
+	 * Free any resources that are open.
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+	
+  	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+        $defaults = array(
+            'command_chain' =>  null
+        );
+
+        return array_merge($defaults, $options);
+    }
+    
 
 	/**
 	 * Get a database query object
@@ -72,6 +111,59 @@ class KDatabase extends KObject
 		
 		$query = new KDatabaseQuery($options);
 		return $query;
+	}
+	
+	/**
+	 * Connect to the db
+	 */
+	abstract public function connect();
+	
+	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @return      boolean
+	 */
+	abstract public function active();
+	
+	/**
+	 * Reconnect to the db
+	 */
+	public function reconnect()
+	{
+		$this->disconnect();
+		$this->connect();
+	}
+	
+	/**
+	 * Disconnect from db
+	 */
+	public function disconnect()
+	{
+		$this->_connection = null;
+		$this->_active = false;
+	}
+	
+	/**
+	 * Get the connection
+	 * 
+	 * Provides access to the underlying database connection. Useful for when
+	 * you need to call a proprietary method such as postgresql's lo_* methods
+	 *
+	 * @return resource
+	 */
+	public function getConnection()
+	{
+		return $this->_connection;
+	}
+	
+	/**
+	 * Set the connection
+	 *
+	 * @return resource
+	 */
+	public function getConnection($resource)
+	{
+		$this->_connection = $resource;
 	}
 
 	/**
@@ -96,7 +188,7 @@ class KDatabase extends KObject
 
 		// Excute the insert operation
 		if($this->getCommandChain()->run('database.before.select', $args) === true) {
-			$args['result'] = $this->_object->setQuery( $args['sql'], $args['offset'], $args['limit'] );
+			$args['result'] = $this->execute( $args['sql'], $args['offset'], $args['limit'] );
 			$this->getCommandChain()->run('database.after.select', $args);
 		}
 
@@ -129,7 +221,7 @@ class KDatabase extends KObject
 		{
 			foreach($args['data'] as $key => $val)
 			{
-				$vals[] = $this->_object->quote($val);
+				$vals[] = $this->quote($val);
 				$keys[] = '`'.$key.'`';
 			}
 
@@ -171,7 +263,7 @@ class KDatabase extends KObject
 		if($this->getCommandChain()->run('database.before.update', $args) ===  true) 	
 		{
 			foreach($args['data'] as $key => $val) {
-				$vals[] = '`'.$key.'` = '.$this->_object->quote($val);
+				$vals[] = '`'.$key.'` = '.$this->quote($val);
 			}
 
 			//Create query statement
@@ -230,45 +322,40 @@ class KDatabase extends KObject
 	public function execute($sql)
 	{
 		//Replace the database table prefix
-		$this->_object->setQuery($this->replacePrefix( $sql ));
-
-		// Force to zero just in case
-		$this->_object->_limit  = 0;
-        $this->_object->_offset = 0;
-
-		if ($this->query() ===  false) {
-			$this->setError($this->getErrorMsg());
-			return false;
+		$sql = $this->replacePrefix( $sql );
+		
+		try {
+			$stmt = $this->_connection->query($sql); 
+		} catch (Exception $e) {
+			throw new KDatabaseException((string)$e->getMessage(), (int)$e->getCode());
 		}
-
-		//return $this->getAffectedRows();
-		return true;
+		
+		$this->_rowCount = $stmt ? $stmt->rowCount() : 0;
+		return $stmt;
 	}
 	
 	/**
-	 * Decorate the database connector query() method
-	 * 
-	 * @return mixed A database resource if successful, FALSE if not.
-	 */
-	public function query()
-	{
-		if(!empty($this->_object->_sql)) 
-		{	
-			//Execute the actual query
-			$result = $this->_object->query();
-			
-			//Empty the sql to prevent the query from being executed twice
-			$this->_object->setQuery(''); 
-			return $result;
-		}
-		
-		if($this->_object->getErrorNum() !== 0) {
-			return false;
-		}
-		
-		return true;
-	}
-
+     * Leave autocommit mode and begin a transaction.
+     * 
+     * @return void
+     */
+    abstract public function begin();
+    
+    /**
+     * Commit a transaction and return to autocommit mode.
+     * 
+     * @return void
+     */
+    abstract public function commit();
+    
+    /**
+     * Roll back a transaction and return to autocommit mode.
+     * 
+     * @return void
+     */
+    abstract public function rollback();
+	
+	
     /**
      * The database's date and time
      *
@@ -438,17 +525,7 @@ class KDatabase extends KObject
 
 		return $literal;
 	}
-
-    /**
-     * Alias of JDatabase getErrorMsg, following Koowa standards
-     *
-     * @return 	string	Last error Message
-     */
-    public function getError()
-    {
-    	return $this->_object->getErrorMsg();
-    }
-    
+ 
     /**
      * Safely quotes a value for an SQL statement.
      * 
@@ -457,32 +534,30 @@ class KDatabase extends KObject
      * for generating IN() lists.
      * 
      * @param 	mixed 	$value 	The value to quote.
-     * @param	boolean	$escae	Default true to escape string, false to 
-     * 							leave the string unchanged
      * 
      * @return string An SQL-safe quoted value (or a string of separated-
      * 				  and-quoted values).
      */
-    public function quote($value, $escape = true)
+    public function quote($value)
     {
         if (is_array($value)) 
         {
             // quote array values, not keys, then combine with commas.
             foreach ($value as $k => $v) {
-                $value[$k] = $this->quote($v, $escape);
+                $value[$k] = $this->quote($v);
             }
             return implode(', ', $value);
         } 
         else 
         {
         	if(!is_numeric($value)) {
-        		return $this->getObject()->quote($value, $escape);
+        		return '\''.mysqli_real_escape_string( $this->_connection, $text ).'\'';
         	}
         	
         	return $value;
         }
     }
-    
+        
    	/**
      * Quotes a single identifier name (table, table alias, table column, 
      * index, sequence).  Ignores empty values.
