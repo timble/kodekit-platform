@@ -115,6 +115,8 @@ class KDatabase extends KObject
 	
 	/**
 	 * Connect to the db
+	 * 
+	 * @return 	KDatabase
 	 */
 	abstract public function connect();
 	
@@ -127,20 +129,28 @@ class KDatabase extends KObject
 	
 	/**
 	 * Reconnect to the db
+	 * 
+	 * @return	KDatabase
 	 */
 	public function reconnect()
 	{
 		$this->disconnect();
 		$this->connect();
+		
+		return $this;
 	}
 	
 	/**
 	 * Disconnect from db
+	 * 
+	 * @return	KDatabase
 	 */
 	public function disconnect()
 	{
 		$this->_connection = null;
 		$this->_active = false;
+		
+		return $this;
 	}
 	
 	/**
@@ -159,11 +169,12 @@ class KDatabase extends KObject
 	/**
 	 * Set the connection
 	 *
-	 * @return resource
+	 * @return	KDatabase
 	 */
-	public function getConnection($resource)
+	public function setConnection($resource)
 	{
 		$this->_connection = $resource;
+		return $this;
 	}
 
 	/**
