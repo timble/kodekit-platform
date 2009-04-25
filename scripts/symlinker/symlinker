@@ -1,0 +1,116 @@
+#!/usr/bin/php
+<?php
+/*
+ * Dependencies: 
+ * pear install --alldeps Console_CommandLine
+ */
+include_once 'Console/CommandLine.php';
+if(!class_exists('Console_CommandLine')) {
+	die(PHP_EOL."You need PEAR Console_CommandLine to use this script. Install using the following command: ".PHP_EOL."pear install --alldeps Console_CommandLine\n\n");
+}
+
+// Defines
+define('DS', DIRECTORY_SEPARATOR);
+define('SRCDIR', '..'.DS.'..'.DS.'code');
+$srcdirs = array(
+	SRCDIR.DS.'administrator'.DS.'components',
+	SRCDIR.DS.'administrator'.DS.'language'.DS.'en-GB',
+	SRCDIR.DS.'administrator'.DS.'modules',
+	SRCDIR.DS.'components',
+	SRCDIR.DS.'media',
+	SRCDIR.DS.'language'.DS.'en-GB',
+	SRCDIR.DS.'modules',
+	SRCDIR.DS.'plugins'.DS.'authentication',
+	SRCDIR.DS.'plugins'.DS.'content',
+	SRCDIR.DS.'plugins'.DS.'editors',
+	SRCDIR.DS.'plugins'.DS.'editors-xtd',
+	SRCDIR.DS.'plugins'.DS.'search',
+	SRCDIR.DS.'plugins'.DS.'system',
+	SRCDIR.DS.'plugins'.DS.'user',
+	SRCDIR.DS.'plugins'.DS.'xmlrpc',
+);
+
+// General
+$parser = new Console_CommandLine();
+$parser->description = "Make symlinks for Joomla extensions.";
+$parser->version = '$Id$';
+
+// Arguments
+$parser->addArgument('target', array(
+    'description' => "the target dir (usually where a joomla installation resides",
+    'help_name'   => 'TARGET'
+));
+
+// Parse input
+try {
+    $result = $parser->parse();
+    $tgtdir = realpath($result->args['target']);
+} catch (Exception $exc) {
+    $parser->displayError($exc->getMessage());
+    die;
+}
+
+
+// Make symlinks
+foreach($srcdirs as $srcdir) 
+{
+	if(file_exists($srcdir)) 
+	{
+		$it = new DirectoryIterator($srcdir);
+		foreach (new IteratorIterator($it) as $src) 
+		{
+			$filename = $src->getFilename();
+			$full = realpath($src->getPathName());
+		    if (!$src->isDot() &&  $filename != '.svn')
+		    {
+			    $tgt = realpath($tgtdir.str_replace(SRCDIR, '', $srcdir)).DS.$filename;
+			    if(!is_link($tgt)) removeRessource($tgt);
+		        exec("ln -sf $full $tgt");
+			    echo $full.PHP_EOL."\t--> $tgt".PHP_EOL;
+		    }
+		}
+	}
+}
+
+// Functions
+
+// SOURCE http://be2.php.net/manual/en/function.rmdir.php#86112
+function removeRessource( $_target ) {
+   
+    //file?
+    if( is_file($_target) ) {
+        if( is_writable($_target) ) {
+            if( @unlink($_target) ) {
+                return true;
+            }
+        }
+       
+        return false;
+    }
+       
+    //dir?
+    if( is_dir($_target) ) {
+        if( is_writeable($_target) ) {
+            foreach( new DirectoryIterator($_target) as $_res ) {
+                if( $_res->isDot() ) {
+                    unset($_res);
+                    continue;
+                }
+                   
+                if( $_res->isFile() ) {
+                    removeRessource( $_res->getPathName() );
+                } elseif( $_res->isDir() ) {
+                    removeRessource( $_res->getRealPath() );
+                }
+               
+                unset($_res);
+            }
+                   
+            if( @rmdir($_target) ) {
+                return true;
+            }
+        }
+       
+        return false;
+    }
+} 
