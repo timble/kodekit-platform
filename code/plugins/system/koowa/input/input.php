@@ -36,7 +36,6 @@ class KInput
 	 * be used.
 	 * 
 	 * @param	string			Variable name, prefixed by hash name eg 'post::foo.bar'
-	 * @param 	string|array  	Hash(es) [COOKIE|ENV|FILES|GET|POST|SERVER]
 	 * @param 	mixed			Validator(s), can be a KFilterInterface object, or array of objects 
 	 * @param 	mixed			Sanitizer(s), can be a KFilterInterface object, or array of objects
 	 * @param 	mixed			Default value when the variable doesn't exist
@@ -143,20 +142,19 @@ class KInput
 	 * Split hash::foo.bar into an array
 	 *
 	 * @param 	string	Variable name
-	 * @return 	array	Named array with 'hash' and 'parts'
+	 * @return 	array	0=>hash, 1=>parts
 	 */
 	protected function _split($varname)
 	{
-		if(strpos($varname, '::') !== false) {
+		if(strpos($varname, '::') === false) {
 			 throw new KInputException("KInput identifier need to be of the format 'hash::foo.bar', you provided: ".$varname);
 		}
 		
 		list($hash, $name) = explode('::', $varname, 2);
 		$hash 		= strtoupper($hash);
 		$parts 		= explode('.', $name);
-		$pattern 	= "/\[?([a-zA-Z0-9_-]+)\]?/";
 		
-		return array('hash' => $hash, 'parts' => $parts);
+		return array($hash, $parts);
 	}
 	
 	/**
