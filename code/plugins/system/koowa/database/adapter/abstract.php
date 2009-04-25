@@ -1,23 +1,40 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: database.php 755 2009-04-24 07:42:19Z johan $
  * @category	Koowa
  * @package     Koowa_Database
+ * @subpackage  Adapter
  * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
 
 /**
- * Database class
+ * Asbtract Database Adapter
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Database
+ * @subpackage  Adapter
  * @uses 		KPatternCommandChain
  */
-class KDatabase extends KObject
+abstract class KDatabaseAdapterAbstract extends KObject
 {
+	/**
+	 * Database operations
+	 */
+	const OPERATION_SELECT = 1;
+	const OPERATION_INSERT = 2;
+	const OPERATION_UPDATE = 4;
+	const OPERATION_DELETE = 8;
+
+	/**
+	 * Options
+	 *
+	 * @var array
+	 */
+	protected $_options = array();
+
 	/**
 	 * Active state of the connection
 	 * 
@@ -38,6 +55,13 @@ class KDatabase extends KObject
 	 * @var integer
 	 */
 	protected $_insertId;
+	
+	/**
+	 * The affected row count
+	 * 
+	 * @var int
+	 */
+	protected $_affectedRows;
 
 	/**
 	 * Metadata cache
@@ -45,14 +69,6 @@ class KDatabase extends KObject
 	 * @var array
 	 */
 	protected $_cache = null;
-	
-	/**
-	 * Database operations
-	 */
-	const OPERATION_SELECT = 1;
-	const OPERATION_INSERT = 2;
-	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8;
 	
 	/**
 	 * Constructor.
@@ -65,9 +81,14 @@ class KDatabase extends KObject
 	{
         // Initialize the options
         $this->_options  = $this->_initialize($options);
-        
+       
         // Mixin the command chain
         $this->mixin(new KMixinCommand($this, $this->_options['command_chain']));
+        
+		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
+		if (!empty($this->_options['charset'])) {
+			$this->setCharset($this->_config['charset']);
+		}
 	}
 	 
 	/**
@@ -91,7 +112,8 @@ class KDatabase extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'command_chain' =>  null
+            'command_chain' =>  null,
+        	'charset'		=> 'UTF-8'
         );
 
         return array_merge($defaults, $options);
@@ -115,8 +137,6 @@ class KDatabase extends KObject
 	
 	/**
 	 * Connect to the db
-	 * 
-	 * @return 	KDatabase
 	 */
 	abstract public function connect();
 	
@@ -129,28 +149,20 @@ class KDatabase extends KObject
 	
 	/**
 	 * Reconnect to the db
-	 * 
-	 * @return	KDatabase
 	 */
 	public function reconnect()
 	{
 		$this->disconnect();
 		$this->connect();
-		
-		return $this;
 	}
 	
 	/**
 	 * Disconnect from db
-	 * 
-	 * @return	KDatabase
 	 */
 	public function disconnect()
 	{
 		$this->_connection = null;
 		$this->_active = false;
-		
-		return $this;
 	}
 	
 	/**
@@ -169,12 +181,11 @@ class KDatabase extends KObject
 	/**
 	 * Set the connection
 	 *
-	 * @return	KDatabase
+	 * @param $resource The connection resource
 	 */
 	public function setConnection($resource)
 	{
 		$this->_connection = $resource;
-		return $this;
 	}
 
 	/**
@@ -205,7 +216,7 @@ class KDatabase extends KObject
 
 		return $args['result'];
 	}
-
+	
 	/**
      * Inserts a row of data into a table.
      *
@@ -225,7 +236,6 @@ class KDatabase extends KObject
 		$args['data'] 		= $data;	
 		$args['notifier']   = $this;
 		$args['operation']	= self::OPERATION_INSERT;
-		$args['insertid']	= null;
 		
 		//Excute the insert operation
 		if($this->getCommandChain()->run('database.before.insert', $args) === true) 
@@ -239,9 +249,7 @@ class KDatabase extends KObject
 			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 	
-			$args['result']     = $this->execute($sql);
-			$args['insertid']	= $this->insertid();
-			
+			$args['result'] = $this->_insertId;		
 			$this->getCommandChain()->run('database.after.insert', $args);
 		}
 		
@@ -283,7 +291,7 @@ class KDatabase extends KObject
 			  	.' '.$args['where']
 			;
 			
-			$args['result'] = $this->execute($sql);
+			$args['result'] = $this->_affectedRows;
 			$this->getCommandChain()->run('database.after.update', $args);
 		}
 		
@@ -316,7 +324,7 @@ class KDatabase extends KObject
 				  .' '.$args['where']
 			;
 			
-			$args['result'] = $this->execute($sql);
+			$args['result'] = $this->_affectedRows;
 			$this->getCommandChain()->run('database.after.delete', $args);	
 		}
 		
@@ -341,7 +349,9 @@ class KDatabase extends KObject
 			throw new KDatabaseException((string)$e->getMessage(), (int)$e->getCode());
 		}
 		
-		$this->_rowCount = $stmt ? $stmt->rowCount() : 0;
+		$this->_affectedRows = $this->_connection->affected_rows;
+		$this->_insertId     = $this->_connection->insert_id;
+		
 		return $stmt;
 	}
 	

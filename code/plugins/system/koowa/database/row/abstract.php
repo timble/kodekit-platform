@@ -43,7 +43,7 @@ abstract class KDatabaseRowAbstract extends KObject
      * @var string
      */
     protected $_tableClass;
-
+     
     /**
      * Constructor
      *
@@ -138,11 +138,9 @@ abstract class KDatabaseRowAbstract extends KObject
         	$properties['ordering'] = $this->getTable()->getMaxOrder();
         }
         	
-        if($this->_data[$key])
-        {
+        if($this->_data[$key]) {
         	$this->_table->update($properties, $this->_data[$key]);
-        }
-        else 
+        } else 
         {
         	if($this->_table->insert($properties)) {
         		$this->id = $this->_table->getDBO()->insertid();
@@ -159,8 +157,10 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function delete()
     {
-		$result = 0;
-        return $result;
+		$key = $this->_table->getPrimaryKey();
+    	
+    	$this->_table->delete($this->_data[$key])
+        return $this;
     }
 
 	/**
@@ -296,7 +296,21 @@ abstract class KDatabaseRowAbstract extends KObject
     	
     	return array_key_exists($columnName, $this->_data);
     }
-
+    
+    /** 
+     * Sets a row field to null.
+     * 
+     * @param  string  $columnName   The column key.
+     */
+    public function __unset($columnName)
+    {
+   	 	if($columnName == 'id') {
+        	$columnName = $this->_data[$this->_table->getPrimaryKey()];
+        }
+        
+        unset($this->data($columnName));
+    }
+    
     /**
      * Returns an associative array of object properties
      *

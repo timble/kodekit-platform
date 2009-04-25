@@ -16,6 +16,5 @@
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage	Row
- * @version     1.0
  */
 class KDatabaseRowException extends KDatabaseException {}
