@@ -148,7 +148,7 @@ class KInput
 	protected function _split($varname)
 	{
 		if(strpos($varname, '::') !== false) {
-			 throw KInputException("KInput identifier need to be of the format 'hash::foo.bar', you provided: ".$varname);
+			 throw new KInputException("KInput identifier need to be of the format 'hash::foo.bar', you provided: ".$varname);
 		}
 		
 		list($hash, $name) = explode('::', $varname, 2);
