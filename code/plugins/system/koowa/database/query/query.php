@@ -10,7 +10,7 @@
  */
 
 /**
- * Database Select Class for SQL select statement generation
+ * Database Select Class for database select statement generation
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
@@ -118,7 +118,7 @@ class KDatabaseQuery extends KObject
         $options  = $this->_initialize($options);
 
 		//set the model dbo
-		$this->_db    = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.joomla.database');
+		$this->_db    = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.koowa.database');
 	}
 
 

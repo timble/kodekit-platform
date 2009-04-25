@@ -112,7 +112,7 @@ class KDatabaseQueryParser
     function initLexer($string)
     {
         // Initialize the Lexer with a 3-level look-back buffer
-        require_once dirname(__FILE__) . '/parser/lexer.php';
+        require_once dirname(__FILE__) . '/lexer.php';
         $this->lexer = new KDatabaseQueryParserLexer($string, 3, $this->lexeropts);
         $this->lexer->symbols  =& $this->symbols;
         $this->lexer->comments =& $this->comments;
@@ -131,7 +131,7 @@ class KDatabaseQueryParser
             return $this->raiseError('Unknown SQL dialect:' . $dialect);
         }
 
-        include dirname(__FILE__).'/parser/dialect/' . strtolower($dialect) . '.php';
+        include dirname(__FILE__).'/dialect/' . strtolower($dialect) . '.php';
         $this->types      = array_flip($dialect['types']);
         $this->functions  = array_flip($dialect['functions']);
         $this->operators  = array_flip($dialect['operators']);

@@ -504,7 +504,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 				{
 					$tblval = $this->replaceTablePrefix($tblval, '');
 				}
-			
+				
 				$this->select( 'SHOW FIELDS FROM ' . $this->quoteName($table));
 				$fields = $this->loadObjectList();
 				

@@ -110,6 +110,6 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	 public function active() 
 	 {
-		return isset($this->_connection) && $this->_connection->query('SELECT 1');
+		return isset($this->_connection) && !$this->_connection->ping();
 	}
 }

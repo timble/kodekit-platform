@@ -18,7 +18,7 @@
  * @subpackage  Adapter
  * @uses 		KPatternCommandChain
  */
-abstract class KDatabaseAdapterAbstract extends KObject
+class KDatabaseAdapterAbstract extends KObject
 {
 	/**
 	 * Database operations

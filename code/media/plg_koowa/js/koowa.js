@@ -23,7 +23,7 @@ Koowa.Table = {
 	
 		form.filter_order.value 	= order;
 		form.filter_direction.value	= dir;
-		submitform( action );
+		Koowa.Form.submit( action );
 	}
 }
 
@@ -48,11 +48,11 @@ Koowa.Form =
 	 *
 	 * @param	Method	[get|post]
 	 */
-	submit: function(method)
+	submit: function(action)
 	{
-		var f = document.adminForm;
-		f.method = method.toLowerCase();
-		f.submit();
+		var form = document.adminForm;
+		form.method.value = action.toLowerCase();
+		form.submit();
 	}
 } 
  
