@@ -6,10 +6,13 @@
 		<property file="build.properties"  override="false" />
 	</target>
 
-	<property name="koowa_scm" override="true"
-		value="https://joomlatools.unfuddle.com/svn/joomlatools_koowa/releases/0.6/code" />
-	<property name="targetdir" value="packages" override="true" />
-	<property name="targetfile" override="true" value="koowa_v0.6.0.tar.gz" />
+	<target name="build" description="Build installable package" depends="config, svn_lastrevision">
+		<mkdir dir="${dir.packages}" />
+		<mkdir dir="${dir.tmp}" />
+		<phingcall target="export_from_${dir.source}" />
+		<tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
+		<delete dir="${dir.tmp}" includeemptydirs="true" />
+	</target>
 	
 	<target name="export_from_wc" description="Export files from a local working copy" depends="config">
 		<copy todir="${dir.tmp}">
