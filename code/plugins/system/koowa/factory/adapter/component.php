@@ -23,7 +23,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 *
 	 * @var	array
 	 */
-	protected static $_objectMap = array(
+	protected static $_objectAliasMap = array(
       	'table'     => 'DatabaseTable',
         'row'       => 'DatabaseRow',
       	'rowset'    => 'DatabaseRowset'
@@ -59,10 +59,6 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			// Set the type
 			$array['type'] 		= array_shift($parts);
 			
-			if(array_key_exists($array['type'], self::$_objectMap)) {
-				$array['type'] = self::$_objectMap[$array['type']];
-			}
-		
 			// Set the name (last part)
 			if(count($parts)) {
 				$array['name'] = array_pop($parts);
@@ -112,7 +108,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			$name = '';
 		}
  
-        $classname = ucfirst($component).ucfirst($type).$path.ucfirst($name);
+        $classname = ucfirst($component).ucfirst($type).$path.ucfirst($name);   
       	if (!class_exists( $classname ))
 		{
 			//Create path
@@ -148,10 +144,15 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			}
 			else 
 			{
-				if(class_exists( 'K'.ucfirst($type).$path.ucfirst($name))) {
-					$classname = 'K'.ucfirst($type).$path.ucfirst($name);
+				$alias = $type;
+				if(array_key_exists($type, self::$_objectAliasMap)) {
+					$alias = self::$_objectAliasMap[$type];
+				}
+				
+				if(class_exists( 'K'.ucfirst($alias).$path.ucfirst($name))) {
+					$classname = 'K'.ucfirst($alias).$path.ucfirst($name);
 				} else {
-					$classname = 'K'.ucfirst($type).$path.'Default';
+					$classname = 'K'.ucfirst($alias).$path.'Default';
 				}  
 			}
 		}
