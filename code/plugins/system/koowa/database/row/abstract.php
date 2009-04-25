@@ -159,7 +159,7 @@ abstract class KDatabaseRowAbstract extends KObject
     {
 		$key = $this->_table->getPrimaryKey();
     	
-    	$this->_table->delete($this->_data[$key])
+    	$this->_table->delete($this->_data[$key]);
         return $this;
     }
 
@@ -308,7 +308,7 @@ abstract class KDatabaseRowAbstract extends KObject
         	$columnName = $this->_data[$this->_table->getPrimaryKey()];
         }
         
-        unset($this->data($columnName));
+        unset($this->data[$columnName]);
     }
     
     /**
