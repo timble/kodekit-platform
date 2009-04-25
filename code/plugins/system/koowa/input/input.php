@@ -27,7 +27,9 @@ class KInput
 	 * 
 	 * @var	array
 	 */
-	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER');
+	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER'
+		, 'REQUEST' // @deprecated, will be removed soon
+	);
 	
 	
 	/**
