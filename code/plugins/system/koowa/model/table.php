@@ -271,7 +271,8 @@ class KModelTable extends KModelAbstract
         $state['order']      = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', '', 'cmd');
         $state['direction']  = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
         $state['filter']     = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
-        $state['id']         = KInput::get('id', array('post', 'get'), 'raw', 'int');
+        $default		     = KInput::get('get.id', 'raw', 'int');
+        $state['id']         = KInput::get('post.id', 'raw', 'int', $default);
 
         // making sure
         $state['filter']   	= KFactory::get('lib.koowa.filter.string')->sanitize($state['filter']);    

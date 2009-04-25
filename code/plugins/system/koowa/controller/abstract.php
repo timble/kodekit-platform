@@ -216,7 +216,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		$application	= KFactory::get('lib.joomla.application')->getName();
 		$component 		= $this->getClassName('prefix');
-		$viewName		= KInput::get('view', 'get', 'cmd', null, $this->getClassName('suffix') );
+		$viewName		= KInput::get('get.view', 'cmd', null, $this->getClassName('suffix') );
 
 		if ( !$view = KFactory::get($application.'::com.'.$component.'.view.'.$viewName, $options) )
 		{

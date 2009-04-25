@@ -35,7 +35,7 @@ class KControllerRest extends KControllerAbstract
 		if(!isset($this->_action))
 		{
 			// Find the action from the _method variable, or use the request method
-    		$post_method	= strtolower(KInput::get('_method', 'post', 'cmd'));
+    		$post_method	= strtolower(KInput::get('post._method', 'cmd'));
     		
     		if(is_null($post_method)) { // no _method provided
     			$this->_action = strtolower(KInput::getMethod());

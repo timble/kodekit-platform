@@ -44,7 +44,7 @@ class KControllerPage extends KControllerBread
 	{
 		if(!isset($this->_action))
 		{
-			if($action = KInput::get('action', 'post', 'cmd'))
+			if($action = KInput::get('post.action', 'cmd'))
 			{
 				// action is set in the POST body
 				$this->_action = $action;
@@ -52,7 +52,7 @@ class KControllerPage extends KControllerBread
 			else 
 			{
 				// we assume either browse or read
-				$view = KInput::get('view', 'get', 'cmd');
+				$view = KInput::get('get.view', 'cmd');
 				$this->_action = KInflector::isPlural($view) ? 'browse' : 'read';
 			}			 
 		}
@@ -68,7 +68,7 @@ class KControllerPage extends KControllerBread
 		$result = parent::edit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
-		$format = KInput::get('format', 'get', 'cmd', null, 'html');
+		$format = KInput::get('get.format', 'cmd', null, 'html');
 		
 		$redirect = 'view='.$view.'&format='.$format;
 		$this->setRedirect($redirect);
@@ -84,7 +84,7 @@ class KControllerPage extends KControllerBread
 		$result = parent::edit();
 
 		$view 	= $this->getClassName('suffix');
-		$format = KInput::get('format', 'get', 'cmd', null, 'html');
+		$format = KInput::get('get.format', 'cmd', null, 'html');
 		
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
@@ -101,7 +101,7 @@ class KControllerPage extends KControllerBread
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
 			);
 		return $this;	
 	}
@@ -118,7 +118,7 @@ class KControllerPage extends KControllerBread
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
 		$view	   = KInflector::pluralize($this->getClassName('suffix'));
-		$format	   = KInput::get('format', 'get', 'cmd', null, 'html');
+		$format	   = KInput::get('get.format', 'cmd', null, 'html');
 				
 		$this->setRedirect('view='.$view.'&format='.$format);
 		
@@ -132,7 +132,7 @@ class KControllerPage extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
-		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
+		$cid = KInput::get('post.cid', 'array.ints', null, array());
 
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
@@ -151,7 +151,7 @@ class KControllerPage extends KControllerBread
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
 		);
 	}
 	
@@ -162,8 +162,8 @@ class KControllerPage extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid 	= KInput::get('cid', 'post', 'array.ints', null, array());
-		$access = KInput::get('access', 'post', 'int');
+		$cid 	= KInput::get('post.cid', 'array.ints', null, array());
+		$access = KInput::get('post.access', 'int');
 		
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -176,7 +176,7 @@ class KControllerPage extends KControllerBread
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html'), 
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}
@@ -185,8 +185,8 @@ class KControllerPage extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$id 	= KInput::get('id', 'post', 'int');
-		$change = KInput::get('order_change', 'post', 'int');
+		$id 	= KInput::get('post.id', 'int');
+		$change = KInput::get('post.order_change', 'int');
 		
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -200,7 +200,7 @@ class KControllerPage extends KControllerBread
 		
 		$this->setRedirect(
 			'view='.$view
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
 		);
 	}
 

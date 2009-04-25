@@ -22,7 +22,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function browse()
 	{
-		$layout	= KInput::get('layout', 'get', 'cmd', null, 'default' );
+		$layout	= KInput::get('get.layout', 'cmd', null, 'default' );
 		
 		$this->getView()
 			->setLayout($layout)
@@ -34,7 +34,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function read()
 	{
-		$layout	= KInput::get('layout', 'get', 'cmd', null, 'default' );
+		$layout	= KInput::get('get.layout', 'cmd', null, 'default' );
 		
 		$this->getView()
 			->setLayout($layout)
@@ -52,7 +52,7 @@ class KControllerBread extends KControllerAbstract
 		$data = $this->_getRequest('post');
 
 		// Get the id
-		$id	 = KInput::get('id', 'get', 'int');
+		$id	 = KInput::get('get.id', 'int');
 
 		// Get the table object attached to the model
 		$component 	= $this->getClassName('prefix');
@@ -96,7 +96,7 @@ class KControllerBread extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
+		$cid = KInput::get('post.cid', 'array.ints', null, array());
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');

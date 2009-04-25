@@ -337,7 +337,7 @@ abstract class KViewAbstract extends KObject
 		$app = KFactory::get('lib.joomla.application');
 		
 		// validating option as a command, but sanitizing it to use as a filename
-		$option = KInput::get('option', array('post', 'get'), 'cmd', 'filename');
+		$option = KInput::get('get.option', 'cmd', 'filename');
 				
 		// set the alternative template search dir
 		$fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');

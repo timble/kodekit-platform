@@ -41,8 +41,8 @@ class KControllerList extends KControllerAbstract
 	 */
 	public function edit()
 	{
-		$cid = KInput::get('cid', 'get', 'array.ints', null, array(0));
-		$id	 = KInput::get('id', 'get', 'int', null, $cid[0]);
+		$cid = KInput::get('get.cid', 'array.ints', null, array(0));
+		$id	 = KInput::get('get.id', 'int', null, $cid[0]);
 		 
 		$this->setRedirect('view='.KInflector::singularize($this->getClassName('suffix')).'&layout=form&id='.$id);
 	}
@@ -56,7 +56,7 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
+		$cid = KInput::get('post.cid', 'array.ints', null, array());
 
 		if (count( $cid ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select an item to %s', JText::_($this->getTask()), true ) );
@@ -73,7 +73,7 @@ class KControllerList extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
 		);
 	}
 
@@ -84,7 +84,7 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
-		$cid = KInput::get('cid', 'post', 'array.ints', null, array());
+		$cid = KInput::get('post.cid', 'array.ints', null, array());
 
 		$enable  = $this->getTask() == 'enable' ? 1 : 0;
 
@@ -103,7 +103,7 @@ class KControllerList extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html')
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
 		);
 	}
 	
@@ -114,8 +114,8 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid 	= KInput::get('cid', 'post', 'array.ints', null, array());
-		$access = KInput::get('access', 'post', 'int');
+		$cid 	= KInput::get('post.cid', 'array.ints', null, array());
+		$access = KInput::get('post.access', 'int');
 		
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -128,7 +128,7 @@ class KControllerList extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('format', 'get', 'cmd', null, 'html'), 
+			.'&format='.KInput::get('get.format', 'cmd', null, 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}

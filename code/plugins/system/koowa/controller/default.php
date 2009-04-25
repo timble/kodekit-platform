@@ -22,7 +22,7 @@ class KControllerDefault extends KControllerAbstract
 	 */
 	public function read()
 	{
-		$layout	= KInput::get('layout', 'get', 'cmd', null, 'default' );
+		$layout	= KInput::get('get.layout', 'cmd', null, 'default' );
 		
 		$this->getView()
 			->setLayout($layout)

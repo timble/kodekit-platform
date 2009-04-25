@@ -31,17 +31,10 @@ class KInput
 	
 	
 	/**
-	 * Get a validated and optionally sanitized variable from the request. 
+	 * Get a validated and optionally sanitized variable from the request. When no sanitizers are supplied, the same filters as the validators will 
+	 * be used. 
 	 * 
-	 * Multiple hashes (separated by dots) are handled as FIFO. Use this (if you really have to) as
-	 * a safer equivalent for $_REQUEST. Available hashes: [COOKIE|ENV|FILES|GET|POST|SERVER]
-	 * 
-	 * When no sanitizers are supplied, the same filters as the validators will 
-	 * be used.
-	 * 
-	 * 
-	 * 
-	 * @param	string			Variable name, prefixed by hash name eg post::foo.bar or post.get::foo
+	 * @param	string			Variable name, prefixed by hash name eg post.foo.bar or post.get::foo
 	 * @param 	mixed			Validator(s), can be a KFilterInterface object, or array of objects 
 	 * @param 	mixed			Sanitizer(s), can be a KFilterInterface object, or array of objects
 	 * @param 	mixed			Default value when the variable doesn't exist
@@ -50,27 +43,15 @@ class KInput
 	 */
 	public static function get($var, $validators, $sanitizers = array(), $default = null)
 	{
-		list($hashes, $parts) = self::_split($var);
+		list($hash, $parts) = self::_split($var);
 
 		// Is the hash in our list?
-	 	foreach($hashes as $k => $hash) 
-		{
-			if(!in_array($hash, self::$_hashes)) {
-				throw new KInputException("Unknown hash '$hash' in '$var'");
-			}		
-		}
-		
-		
-		// find $var in the hashes
-		$result	= null;
-		foreach($hashes as $hash) 
-		{
-			if($result = self::_getNested($GLOBALS['_'.$hash], self::_split($var))) {
-				break;
-			}			
+	 	if(!in_array($hash, self::$_hashes)) {
+			throw new KInputException("Unknown hash '$hash' in '$var'");
 		}		
-
-		// return the default value if $var wasn't set in any of the hashes
+				
+		// find $var in the hash
+		$result = self::_getNested($GLOBALS['_'.$hash], $parts);
 		if(is_null($result)) {
 			return $default; 	
 		}
@@ -81,8 +62,7 @@ class KInput
 		} else {
 			array_walk_recursive($result, 'trim');
 		}
-		
-	
+			
 		// if $validators or $sanitizers is an object, turn it into an array of objects
 		// don't use settype because it will convert objects to arrays
 		$validators = is_array($validators) ? $validators : (empty($validators) ? array() : array($validators));
@@ -130,50 +110,46 @@ class KInput
 	/**
 	 * Set a variable in the request
 	 *
-	 * @param 	mixed	Variable name eg 'post::foo.bar'
+	 * @param 	mixed	Variable name eg 'post.foo.bar'
 	 * @param 	mixed	Variable value
 	 */
 	public static function set($var, $value) 
 	{		
-		list($hashes, $parts) = self::_split($var);
+		list($hash, $parts) = self::_split($var);
+
+		// Is the hash in our list?
+		if(!in_array($hash, self::$_hashes)) {
+			throw new KInputException("Unknown hash '$hash' in '$var'");
+		}	
 		
-	 	foreach($hashes as $k => $hash) 
-		{
-			// Is the hash in our list?
-			if(!in_array($hash, self::$_hashes)) {
-				throw new KInputException("Unknown hash '$hash' in '$var'");
-			}	
-			
-			// add to hash in the superglobal
-			self::_setNested($GLOBALS['_'.$hash], $parts, $value);	
-			
-			// Add to _REQUEST hash if original hash is get, post, or cookies
-			// Even though we are not using $_REQUEST, other extensions do 
-			if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
-				self::_setNested($GLOBALS['_REQUEST'], $parts, $value);
-			}
-		}					
+		// add to hash in the superglobal
+		self::_setNested($GLOBALS['_'.$hash], $parts, $value);	
+		
+		// Add to _REQUEST hash if original hash is get, post, or cookies
+		// Even though we are not using $_REQUEST, other extensions do 
+		if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
+			self::_setNested($GLOBALS['_REQUEST'], $parts, $value);
+		}
+		
 		
 	}
 	
 	/**
-	 * Split hash.hash::foo.bar into arrays
+	 * Split hash.foo.bar into arrays
 	 *
 	 * @param 	string	Variable name
 	 * @return 	array	0=>hash, 1=>parts
 	 */
 	protected function _split($varname)
 	{
-		if(strpos($varname, '::') === false) {
-			 throw new KInputException("KInput identifier needs to be of the format 'hash::foo.bar', you provided: ".$varname);
+		if(strpos($varname, '.') === false) {
+			 throw new KInputException("KInput identifier needs to be of the format 'hash.foo.bar', you provided: ".$varname);
 		}
 		
-		list($hashes, $name) = explode('::', $varname, 2);
-		$name 	= explode('.', $name);
-		$hashes = explode('.', $hashes);
-		array_walk($hashes, 'strtolower');		
+		$parts 	= explode('.', $varname);
+		$hash 	= strtoupper(array_shift($parts));
 		
-		return array($hashes, $name);
+		return array($hash, $parts);
 	}
 	
 	/**
@@ -208,27 +184,9 @@ class KInput
 	}
 	
 	/**
-	 * Check for the existence of a value in a nested array
+	 * Check if a variable exists in the hash
 	 *
-	 * @param 	array	The array to search in
-	 * @param	array	A list of keys (foo, bar)
-	 * @return 	bool
-	 */
-	protected function _hasNested($array, $keys)
-	{
-		foreach($keys as $key)
-		{
-			if(array_key_exists($key, $array)) {
-				return true;;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Check if a variable exists in the hash(es)
-	 *
-	 * @param	string  Variable name hash::foo.bar
+	 * @param	string  Variable name hash.foo.bar
 	 * @return 	boolean
 	 */
 	public static function has($var)
@@ -236,22 +194,15 @@ class KInput
 		list($hashes, $parts) = self::_split($var);
 		
 		// Is the hash in our list?
-		foreach($hashes as $k => $hash) 
-		{
-			if(!in_array($hashes[$k], self::$_hashes)) {
-				throw new KInputException('Unknown hash: '.$hash);
-			}		
+		if(!in_array($hashe, self::$_hashes)) {
+			throw new KInputException('Unknown hash: '.$hash);	
 		}
 		
-		// find $var in the hashes
-		$result = null;
-		foreach($hashes as $hash) 
+		// find $var in the hashe
+		foreach($parts as $part)
 		{
-			foreach($parts as $part)
-			{
-				if(array_key_exists($part, $GLOBALS['_'.$hash])) {
-					return true;;
-				}
+			if(array_key_exists($part, $GLOBALS['_'.$hash])) {
+				return true;;
 			}
 		}
 		

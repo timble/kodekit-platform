@@ -28,8 +28,8 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 	
 	public function getLink()
 	{
-		$option = KInput::get('option', 'get', 'cmd');
-		$view	= KInflector::singularize(KInput::get('view', 'get', 'cmd'));
+		$option = KInput::get('get.option', 'cmd');
+		$view	= KInflector::singularize(KInput::get('get.view', 'cmd'));
 		return 'index.php?option='.$option.'&view='.$view.'&layout=form&id=';
 	}
 }
