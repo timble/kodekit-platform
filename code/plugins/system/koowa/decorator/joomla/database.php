@@ -438,7 +438,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 	 * 
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	public function query()
+	/*public function query()
 	{
 		if(!empty($this->_object->_sql)) 
 		{	
@@ -454,8 +454,8 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 			return false;
 		}
 		
-		return true;
-	}
+		return $this->_cursor;
+	}*/
 
     /**
      * The database's date and time
