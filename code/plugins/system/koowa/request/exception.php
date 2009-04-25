@@ -2,17 +2,17 @@
 /**
  * @version     $Id$
  * @category	Koowa
- * @package     Koowa_Input
+ * @package     Koowa_Request
  * @copyright   Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
  */
 
 /**
- * Input Exception class
+ * Request Exception class
  *
  * @author      Mathias Verraes <mathias@joomlatools.org>
  * @category	Koowa
- * @package     Koowa_Input
+ * @package     Koowa_Request
  */
-class KInputException extends Exception {}
+class KRequestException extends Exception {}

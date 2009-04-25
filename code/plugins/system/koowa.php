@@ -58,7 +58,7 @@ class plgSystemKoowa extends JPlugin
 				'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 			);
 			
-			$format = KInput::get('get.format', 'word', 'word', 'html');
+			$format = KRequest::get('get.format', 'word', 'word', 'html');
 				
 			$doc =& JFactory::getDocument();
 			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
@@ -76,7 +76,7 @@ class plgSystemKoowa extends JPlugin
 	{
 		$result = true;
 		
-		// Note: can't use KInput, Koowa isn't loaded yet
+		// Note: can't use KRequest, Koowa isn't loaded yet
 		
 		// are we uninstalling a plugin?
 		if(JRequest::getCmd('option') == 'com_installer' 

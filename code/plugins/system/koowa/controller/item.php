@@ -48,7 +48,7 @@ class KControllerItem extends KControllerAbstract
 		$data = $this->_getRequest('post');
 
 		// Get the id
-		$id	 = KInput::get('post.id', 'int');
+		$id	 = KRequest::get('post.id', 'int');
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -61,7 +61,7 @@ class KControllerItem extends KControllerAbstract
 			->setProperties($data)
 			->save();
 
-		$redirect = 'format='.KInput::get('get.format', 'cmd', null, 'html');
+		$redirect = 'format='.KRequest::get('get.format', 'cmd', null, 'html');
 		switch($this->getTask())
 		{
 			case 'apply' :
@@ -83,7 +83,7 @@ class KControllerItem extends KControllerAbstract
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
-			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
 			);
 	}
 	
@@ -96,7 +96,7 @@ class KControllerItem extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid = KInput::get('post.cid', 'array.ints', null, array());
+		$cid = KRequest::get('post.cid', 'array.ints', null, array());
 
 		if (count( $cid ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select an item to %s', JText::_($this->getTask()), true ) );
@@ -113,7 +113,7 @@ class KControllerItem extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
 		);
 	}
 
@@ -124,7 +124,7 @@ class KControllerItem extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
-		$cid = KInput::get('post.cid', 'array.ints', null, array());
+		$cid = KRequest::get('post.cid', 'array.ints', null, array());
 
 		$enable  = $this->getTask() == 'enable' ? 1 : 0;
 
@@ -143,7 +143,7 @@ class KControllerItem extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
 		);
 	}
 	
@@ -154,8 +154,8 @@ class KControllerItem extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid 	= KInput::get('post.cid', 'array.ints', null, array());
-		$access = KInput::get('post.access', 'int');
+		$cid 	= KRequest::get('post.cid', 'array.ints', null, array());
+		$access = KRequest::get('post.access', 'int');
 		
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -168,7 +168,7 @@ class KControllerItem extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KInput::get('get.format', 'cmd', null, 'html'), 
+			.'&format='.KRequest::get('get.format', 'cmd', null, 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}
@@ -177,8 +177,8 @@ class KControllerItem extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$id 	= KInput::get('post.id', 'int');
-		$change = KInput::get('post.order_change', 'int');
+		$id 	= KRequest::get('post.id', 'int');
+		$change = KRequest::get('post.order_change', 'int');
 		
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -192,7 +192,7 @@ class KControllerItem extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.$view
-			.'&format='.KInput::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
 		);
 		
 	}
@@ -201,7 +201,7 @@ class KControllerItem extends KControllerAbstract
 	 * Wrapper for JRequest::get(). Override this method to modify the GET/POST data before saving
 	 *
 	 * @see		JRequest::get()
-	 * @todo    Replace with a KInput solution
+	 * @todo    Replace with a KRequest solution
 	 * 
 	 * @param	string	$hash	to get (POST, GET, FILES, METHOD)
 	 * @param	int		$mask	Filter mask for the variable

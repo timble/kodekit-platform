@@ -58,7 +58,7 @@ class KSecurityToken
     {
 		// Using getVar instead of getString, because if the request is not a string, 
 		// we consider it a hacking attempt
-        $req		= KInput::get('post._token', 'md5'); 
+        $req		= KRequest::get('post._token', 'md5'); 
         $token		= self::get();
         
         return ($req === $token);

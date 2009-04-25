@@ -20,8 +20,8 @@ class KToolbarButtonCancel extends KToolbarButtonAbstract
 {
 	public function getLink()
 	{
-		$option = KInput::get('get.option', 'cmd');
-		$view	= KInflector::pluralize(KInput::get('get.view', 'cmd'));
+		$option = KRequest::get('get.option', 'cmd');
+		$view	= KInflector::pluralize(KRequest::get('get.view', 'cmd'));
 		return 'index.php?option='.$option.'&view='.$view;
 	}
 }

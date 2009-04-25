@@ -29,8 +29,8 @@ class KViewSparkline extends KViewAbstract
 
     public function display($tpl = null)
     {
-        $width      = KInput::get('get.w', 'int', null, 80);
-        $height     = KInput::get('get.h', 'int', null, 20);
+        $width      = KRequest::get('get.w', 'int', null, 80);
+        $height     = KRequest::get('get.h', 'int', null, 20);
 
         return $this->getChart()->render($width, $height);
     }

@@ -78,17 +78,17 @@ abstract class KDispatcherAbstract extends KObject
 	public function dispatch()
 	{
 		// Require specific controller if requested
-		$view		= KInput::get('get.view', 'cmd', null, $this->_options['default_view']);
+		$view		= KRequest::get('get.view', 'cmd', null, $this->_options['default_view']);
         
         // Push the view back in the request in case a default view is used
-        KInput::set('get.view', $view);
+        KRequest::set('get.view', $view);
 
         //Get/Create the controller
         $controller = $this->getController();
         
         // Perform the Request action
-        $default = KInput::get('get.action', 'cmd');
-        $action  = KInput::get('post.action', 'cmd', 'cmd', $default);
+        $default = KRequest::get('get.action', 'cmd');
+        $action  = KRequest::get('post.action', 'cmd', 'cmd', $default);
         $controller->execute($action);
         
 		// Redirect if set by the controller
@@ -111,8 +111,8 @@ abstract class KDispatcherAbstract extends KObject
 	{
 		$application 	= KFactory::get('lib.joomla.application')->getName();
 		$component 		= $this->getClassName('prefix');
-		$view 			= KInput::get('get.view', 'cmd');
-		$controller 	= KInput::get('get.controller', 'cmd', null, $view);
+		$view 			= KRequest::get('get.view', 'cmd');
+		$controller 	= KRequest::get('get.controller', 'cmd', null, $view);
 		
 		//In case we are loading a subview, we use the first part of the name as controller name
 		if(strpos($controller, '.') !== false)

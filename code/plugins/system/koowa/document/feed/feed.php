@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_Document
  * @subpackage	Feed
- * @uses		KInput
+ * @uses		KRequest
  */
 class KDocumentFeed extends KDocumentAbstract
 {
@@ -187,7 +187,7 @@ class KDocumentFeed extends KDocumentAbstract
 		global $option;
 
 		// Get the feed type
-		$type = KInput::get('get.type', 'cmd', 'cmd', 'rss');
+		$type = KRequest::get('get.type', 'cmd', 'cmd', 'rss');
 		
 		// Set the mime encoding
 		$this->setMimeEncoding('application/'.$type.'+xml');
