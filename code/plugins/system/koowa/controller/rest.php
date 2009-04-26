@@ -38,7 +38,7 @@ class KControllerRest extends KControllerAbstract
     		$post_method	= strtolower(KRequest::get('post._method', 'cmd'));
     		
     		if(is_null($post_method)) { // no _method provided
-    			$this->_action = strtolower(KRequest::getMethod());
+    			$this->_action = strtolower(KRequest::method());
     		} else {
     			if(in_array($post_method, array('get', 'post', 'delete', 'put'))) {
     				throw new KControllerException('Unknown _method type: '.$post_method);

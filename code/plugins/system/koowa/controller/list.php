@@ -41,7 +41,7 @@ class KControllerList extends KControllerAbstract
 	 */
 	public function edit()
 	{
-		$cid = KRequest::get('get.cid', 'array.ints', null, array(0));
+		$cid = (array) KRequest::get('get.cid', 'int');
 		$id	 = KRequest::get('get.id', 'int', null, $cid[0]);
 		 
 		$this->setRedirect('view='.KInflector::singularize($this->getClassName('suffix')).'&layout=form&id='.$id);
@@ -56,7 +56,7 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid = KRequest::get('post.cid', 'array.ints', null, array());
+		$cid = (array) KRequest::get('post.cid', 'int');
 
 		if (count( $cid ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select an item to %s', JText::_($this->getTask()), true ) );
@@ -84,7 +84,7 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
-		$cid = KRequest::get('post.cid', 'array.ints', null, array());
+		$cid = (array) KRequest::get('post.cid', 'int');
 
 		$enable  = $this->getTask() == 'enable' ? 1 : 0;
 
@@ -114,7 +114,7 @@ class KControllerList extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid 	= KRequest::get('post.cid', 'array.ints', null, array());
+		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
 		
 		// Get the table object attached to the model
@@ -131,21 +131,5 @@ class KControllerList extends KControllerAbstract
 			.'&format='.KRequest::get('get.format', 'cmd', null, 'html'), 
 			JText::_( 'Changed items access level')
 		);
-	}
-	
-	/**
-	 * Wrapper for JRequest::get(). Override this method to modify the GET/POST data before saving
-	 *
-	 * @see		JRequest::get()
-	 * @todo    Replace with a KRequest solution
-	 * 
-	 * @param	string	$hash	to get (POST, GET, FILES, METHOD)
-	 * @param	int		$mask	Filter mask for the variable
-	 * @return	mixed	Request hash
-	 * @return array
-	 */
-	protected function _getRequest($hash = 'default', $mask = 0)
-	{
-		return JRequest::get($hash, $mask);
 	}
 }

@@ -20,7 +20,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterInternalurl extends KObject implements KFilterInterface
+class KFilterInternalurl extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -28,7 +28,7 @@ class KFilterInternalurl extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		return is_string($var) && JURI::isInternal($var);
 	}
@@ -39,7 +39,7 @@ class KFilterInternalurl extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	string
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		//TODO : internal url's should not only have path and query information
 		return filter_var($var, FILTER_SANITIZE_URL);

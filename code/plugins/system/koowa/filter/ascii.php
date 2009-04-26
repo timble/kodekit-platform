@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterAscii extends KObject implements KFilterInterface
+class KFilterAscii extends KFilterAbstract
 {
 	/**
 	 * Options for the filter
@@ -83,7 +83,7 @@ class KFilterAscii extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		return (preg_match('/(?:[^\x00-\x7F])/', $var) !== 1);
 	}
@@ -113,7 +113,7 @@ class KFilterAscii extends KObject implements KFilterInterface
 	 * @throws KFilterException
 	 * @return	scalar
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		$len = strlen($var);
 	    if ( $len == 0 ) { 

@@ -11,7 +11,7 @@
 /**
  * Filter interface
  *
- * Validate or sanitize variables.
+ * Validate or sanitize data
  *
  * @author		Mathias Verraes <mathias@joomlatools.org>
  * @category	Koowa
@@ -20,20 +20,20 @@
 interface KFilterInterface 
 {
 	/**
-	 * Validate a variable
+	 * Validate a data
 	 *
 	 * NOTE: This should always be a simple yes/no question (is $var valid?), so 
 	 * only true or false should be returned
 	 * 
-	 * @param	mixed	Variable to be validated
+	 * @param	mixed	Data to be validated
 	 * @return	bool	True when the variable is valid
 	 */
 	public function validate($var);
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize data
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	mixed	Data to be sanitized
 	 * @return	mixed
 	 */
 	public function sanitize($var);

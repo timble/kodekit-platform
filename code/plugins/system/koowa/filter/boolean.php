@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterBoolean extends KObject implements KFilterInterface
+class KFilterBoolean extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -26,7 +26,7 @@ class KFilterBoolean extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		return (null !== filter_var($var, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) );
 	}
@@ -39,7 +39,7 @@ class KFilterBoolean extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	bool
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		return (bool) filter_var($var, FILTER_VALIDATE_BOOLEAN);
 	}

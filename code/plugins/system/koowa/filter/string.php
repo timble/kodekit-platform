@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterString extends KObject implements KFilterInterface
+class KFilterString extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -26,7 +26,7 @@ class KFilterString extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		$options = array('tag_method' => false, 'attribute_method' => false);
 		$html = KFactory::tmp('lib.koowa.filter.html', $options);
@@ -40,7 +40,7 @@ class KFilterString extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	string
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		$options = array('tag_method' => false, 'attribute_method' => false);
 		$html = KFactory::tmp('lib.koowa.filter.html', $options);

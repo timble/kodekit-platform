@@ -25,13 +25,25 @@
 class KRequest
 {
 	/**
-	 * List of accepted hashes
+	 * Accepted request hashes
 	 * 
 	 * @var	array
 	 */
-	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER'
-		, 'REQUEST' // @deprecated, will be removed soon
-	);
+	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER', 'REQUEST');
+	
+	/**
+	 * Accepted request methods
+	 * 
+	 * @var	array
+	 */
+	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'CLI');
+	
+	/**
+	 * Accepted request types
+	 * 
+	 * @var	array
+	 */
+	protected static $_types = array('AJAX', 'FLASH');
 	
 	/**
 	 * Get a validated and optionally sanitized variable from the request. When no sanitizers are supplied, 
@@ -164,7 +176,113 @@ class KRequest
 		
 		return false; 
 	}
+	
+	/**
+ 	 * Returns the HTTP referer, or the default if the referrer is not set.
+	 *
+	 * @return  string
+	 */
+	public static function referer()
+	{
+		$referer = KRequest::get('server.HTTP_REFERER', 'internalurl');
+		
+		if (!empty($referer))
+		{
+			/*if (strpos($ref, url::base(FALSE)) === 0)
+			{
+				// Remove the base URL from the referrer
+				$ref = substr($ref, strlen(url::base(true)));
+			}*/
+		}
+	
+		return $referer;
+	}
 
+	/**
+	 * Returns the current request protocol, based on $_SERVER['https']. In CLI
+	 * mode, NULL will be returned.
+	 *
+	 * @return  string
+	 */
+	public static function protocol()
+	{
+		if (PHP_SAPI === 'cli') {
+			return NULL;
+		}
+		
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+			return 'https';
+		} else {
+			return 'http';
+		}
+	}
+	
+	/**
+ 	 * Return the accepted languages
+ 	 *
+ 	 * @return	array locale
+ 	 */
+	public function languages()
+	{
+		$accept		= KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'raw', null);
+
+		$languages  = substr( $accept, 0, strcspn($accept, ';' ) );
+		$languages	= explode( ',', $languages );
+		$languages  = array_map('strtolower', $languages);
+		
+		return $languages;
+	}
+	
+	/**
+	 * Returns current request method.
+	 *
+	 * @return  string
+	 */
+	public static function method()
+	{
+		if(PHP_SAPI != 'cli') 
+		{
+			$method   =  strtoupper($_SERVER['REQUEST_METHOD']);
+	
+			if($method == 'POST')
+			{
+				if(isset($_SERVER['X-HTTP-Method-Override'])) {
+					$method =  strtoupper($_SERVER['X-HTTP-Method-Override']);
+				}
+			}
+		} else $method = 'CLI';
+		
+		if ( ! in_array($method, self::$_methods)) {
+			throw new KRequestException('Unknown method : '.$method);
+		}
+        
+	  	return $method;
+	}
+	
+	/**
+	 * Return the current request type.
+	 *
+	 * @return  string
+	 */
+	public static function type()
+	{
+		$type = '';
+		
+		if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+			$type = 'AJAX';
+		}
+		
+		if( isset($_SERVER['HTTP_X_FLASH_VERSION'])) {
+			$type = 'FLASH';
+		}
+		
+		if ( ! in_array($type, self::$_type)) {
+			throw new KRequestException('Unknown type : '.$method);
+		}
+		
+		return $type;
+	}
+	    
 	/**
 	 * Parse the a variable name
 	 *
@@ -174,30 +292,25 @@ class KRequest
 	 */
 	protected function _parseIdentifier($identifier)
 	{
+		$parts = array();
+		$hash  = $identifier;
+		
 		// Validate the variable format
-		if(strpos($identifier, '.') === false) {
-			 throw new KRequestException("Identifier needs to be of the format 'hash.foo.bar', you provided: ".$identifier);
+		if(strpos($identifier, '.') !== false) 
+		{
+			// Split the variable name into it's parts
+			$parts = explode('.', $identifier);
+		
+			// Validate the hash name
+			$hash 	= array_shift($parts);
 		}
 		
-		// Split the variable name into it's parts
-		$parts = explode('.', $identifier);
+		$hash = strtoupper($hash);
 		
-		// Validate the hash name
-		$hash 	= strtoupper(array_shift($parts));
 		if(!in_array($hash, self::$_hashes)) {
 			throw new KRequestException("Unknown hash '$hash' in '$identifier'");
 		}
-			
-		return array($hash, $parts);
-	}
 		
-	/**
-	 * Get the request method
-	 *
-	 * @return 	string
-	 */
-	public static function getMethod()
-	{
-		return strtoupper($GLOBALS['_SERVER']['REQUEST_METHOD']);
+		return array($hash, $parts);
 	}
 }

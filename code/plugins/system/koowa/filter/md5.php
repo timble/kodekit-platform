@@ -17,7 +17,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterMd5 extends KObject implements KFilterInterface
+class KFilterMd5 extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -25,7 +25,7 @@ class KFilterMd5 extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		$var = trim($var);
 	   	$pattern = '/^[a-f0-9]{32}$/';
@@ -38,7 +38,7 @@ class KFilterMd5 extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	string
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		$var 		= trim(strtolower($var));
 		$pattern 	= '/[^a-f0-9]*/';

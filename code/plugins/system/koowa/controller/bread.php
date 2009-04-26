@@ -49,11 +49,11 @@ class KControllerBread extends KControllerAbstract
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
 		// Get the post data from the request
-		$data = $this->_getRequest('post');
+		$data = KRequest::get('post', 'string');
 
 		// Get the id
 		$id	 = KRequest::get('get.id', 'int');
-
+		
 		// Get the table object attached to the model
 		$component 	= $this->getClassName('prefix');
 		$suffix    	= $this->getClassName('suffix');
@@ -74,7 +74,7 @@ class KControllerBread extends KControllerAbstract
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 
 		// Get the post data from the request
-		$data = $this->_getRequest('post');
+		$data = KRequest::get('post', 'string');
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -96,7 +96,7 @@ class KControllerBread extends KControllerAbstract
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid = KRequest::get('post.cid', 'array.ints', null, array());
+		$cid = (array) KRequest::get('post.cid', 'int');
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');

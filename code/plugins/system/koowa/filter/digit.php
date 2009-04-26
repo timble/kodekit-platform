@@ -17,7 +17,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterDigit extends KObject implements KFilterInterface
+class KFilterDigit extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -25,7 +25,7 @@ class KFilterDigit extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		return empty($var) || ctype_digit($var);
 	}
@@ -36,7 +36,7 @@ class KFilterDigit extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	int
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		$var = trim($var);
 		$pattern ='/[^0-9]*/';

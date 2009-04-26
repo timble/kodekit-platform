@@ -19,7 +19,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterHtml extends KObject implements KFilterInterface
+class KFilterHtml extends KFilterAbstract
 {
 	/**
 	 * List of user-defined tags
@@ -99,7 +99,7 @@ class KFilterHtml extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		return (is_string($var) 
 		// this is too strict, html is usually sanitized 
@@ -113,7 +113,7 @@ class KFilterHtml extends KObject implements KFilterInterface
 	 * @param	mixed	$source		Input string/array-of-string to be 'cleaned'
 	 * @return	mixed	'Cleaned' version of input parameter
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		// Filter var for XSS and other 'bad' code etc.
 		if (is_string($var) && !empty ($var)) {

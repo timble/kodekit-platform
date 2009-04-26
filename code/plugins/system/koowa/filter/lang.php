@@ -17,7 +17,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterLang extends KObject implements KFilterInterface
+class KFilterLang extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
@@ -25,7 +25,7 @@ class KFilterLang extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var)
+	protected function _validate($var)
 	{
 		$var = trim($var);
    	   	$pattern = '/^[a-z]{2}-[A-Z]{2}$/';
@@ -39,7 +39,7 @@ class KFilterLang extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	string
 	 */
-	public function sanitize($var)
+	protected function _sanitize($var)
 	{
 		$var = trim($var);
 		
@@ -53,7 +53,7 @@ class KFilterLang extends KObject implements KFilterInterface
     	$result = implode('-', $parts);
 		
 		// just making sure :-)
-		if($this->validate($result)) {
+		if($this->_validate($result)) {
 			return $result;
 		}
 		

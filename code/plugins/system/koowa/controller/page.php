@@ -132,7 +132,7 @@ class KControllerPage extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 	
-		$cid = KRequest::get('post.cid', 'array.ints', null, array());
+		$cid = (array) KRequest::get('post.cid', 'int');
 
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
@@ -162,7 +162,7 @@ class KControllerPage extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$cid 	= KRequest::get('post.cid', 'array.ints', null, array());
+		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
 		
 		// Get the table object attached to the model
@@ -202,21 +202,5 @@ class KControllerPage extends KControllerBread
 			'view='.$view
 			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
 		);
-	}
-
-	/**
-	 * Wrapper for JRequest::get(). Override this method to modify the GET/POST data before saving
-	 *
-	 * @see		JRequest::get()
-	 * @todo    Replace with a KRequest solution
-	 * 
-	 * @param	string	$hash	to get (POST, GET, FILES, METHOD)
-	 * @param	int		$mask	Filter mask for the variable
-	 * @return	mixed	Request hash
-	 * @return array
-	 */
-	protected function _getRequest($hash = 'default', $mask = 0)
-	{
-		return JRequest::get($hash, $mask);
 	}
 }
