@@ -1,4 +1,9 @@
 <?php
-self::$_data[0x70] = array(
+/**
+ * @category	Koowa
+ * @package		Koowa_Filter
+ * @ignore
+ */
 
+self::$_data[0x70] = array(
 );
