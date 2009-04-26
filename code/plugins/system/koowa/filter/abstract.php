@@ -81,10 +81,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
-	{
-		return true;
-	}
+	abstract protected function _validate($var);
 	
 	/**
 	 * Sanitize a variable
@@ -92,8 +89,5 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 * @param	mixed	Variable to be sanitized
 	 * @return	mixed
 	 */
-	protected function _sanitize($var)
-	{
-		return $var;
-	}
+	abstract protected function _sanitize($var);
 }
