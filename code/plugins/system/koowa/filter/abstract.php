@@ -135,9 +135,9 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 
 
 	/**
-	 * Validate a variable only
+	 * Validate a variable
 	 * 
-	 * Variable paseed to this function will always be a scalar
+	 * Variable passed to this function will always be a scalar
 	 *
 	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
@@ -147,7 +147,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	/**
 	 * Sanitize a variable only
 	 * 
-	 * Variable paseed to this function will always be a scalar
+	 * Variable passed to this function will always be a scalar
 	 *
 	 * @param	scalar	Value to be sanitized
 	 * @return	mixed

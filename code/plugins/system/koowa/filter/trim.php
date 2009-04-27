@@ -9,7 +9,7 @@
 */
 
 /**
- * Alphanumeric filter.
+ * Trim filter.
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
