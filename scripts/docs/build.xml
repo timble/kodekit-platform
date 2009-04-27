@@ -16,7 +16,8 @@
 		  		sourcecode="true"
 		  		output="HTML:frames:DOM/earthli"
 		  		defaultpackagename="Koowa"
-		  		defaultcategoryname="Koowa">		  		
+		  		defaultcategoryname="Koowa"
+		  		ignoretags="@author">		  		
 			<fileset dir="${dir.tmp}">
 		      <include name="**/*.php" />		      
 		   </fileset>
