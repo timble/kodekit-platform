@@ -17,24 +17,24 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-interface KFilterInterface 
+interface KFilterInterface extends KPatternCommandInterface
 {
 	/**
-	 * Validate a data
+	 * Validate a value or data collection
 	 *
-	 * NOTE: This should always be a simple yes/no question (is $var valid?), so 
+	 * NOTE: This should always be a simple yes/no question (is $value valid?), so 
 	 * only true or false should be returned
 	 * 
 	 * @param	mixed	Data to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	public function validate($var);
+	public function validate($value);
 	
 	/**
-	 * Sanitize data
+	 * Sanitize a value or data collection
 	 *
 	 * @param	mixed	Data to be sanitized
 	 * @return	mixed
 	 */
-	public function sanitize($var);
+	public function sanitize($value);
 }

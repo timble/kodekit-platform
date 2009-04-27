@@ -20,20 +20,20 @@
 class KFilterSlug extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param mixed Variable to be validated
-	 * @return bool True when the variable is valid
+	 * @param 	scalar 	Value to be validated
+	 * @return 	bool 	True when the variable is valid
 	*/
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		if(empty($var)) {
+		if(empty($value)) {
 			return true;
 		}
 		
 		$int = KFactory::tmp('lib.koowa.filter.int');
 		$cmd = KFactory::tmp('lib.koowa.filter.cmd');
-		$parts = explode(':', $var, 2);
+		$parts = explode(':', $value, 2);
 		switch(count($parts))
 		{
 			case 1:
@@ -46,20 +46,20 @@ class KFilterSlug extends KFilterAbstract
 	}
 
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param mixed Variable to be sanitized
-	 * @return int
+	 * @param 	mixed 	Value to be sanitized
+	 * @return 	int
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		if(empty($var)) {
+		if(empty($value)) {
 			return 0;
 		}
 
 		$int = KFactory::tmp('lib.koowa.filter.int');
 		$cmd = KFactory::tmp('lib.koowa.filter.cmd');
-		$parts = explode(':', $var, 2);
+		$parts = explode(':', $value, 2);
 
 		switch(count($parts))
 		{

@@ -22,7 +22,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function browse()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', null, 'default' );
+		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		
 		$this->getView()
 			->setLayout($layout)
@@ -34,7 +34,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function read()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', null, 'default' );
+		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		
 		$this->getView()
 			->setLayout($layout)

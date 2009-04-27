@@ -18,25 +18,25 @@
 class KFilterIP extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		$var = trim($var);
-		return (false !== filter_var($var, FILTER_VALIDATE_IP));
+		$value = trim($value);
+		return (false !== filter_var($value, FILTER_VALIDATE_IP));
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Value to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		return filter_var($var, FILTER_SANITIZE_IP);
+		return filter_var($value, FILTER_SANITIZE_IP);
 	}
 }

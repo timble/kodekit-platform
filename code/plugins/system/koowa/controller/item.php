@@ -60,7 +60,7 @@ class KControllerItem extends KControllerAbstract
 			->setProperties($data)
 			->save();
 
-		$redirect = 'format='.KRequest::get('get.format', 'cmd', null, 'html');
+		$redirect = 'format='.KRequest::get('get.format', 'cmd', 'html');
 		switch($this->getTask())
 		{
 			case 'apply' :
@@ -82,7 +82,7 @@ class KControllerItem extends KControllerAbstract
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 			);
 	}
 	
@@ -112,7 +112,7 @@ class KControllerItem extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 
@@ -142,7 +142,7 @@ class KControllerItem extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 	
@@ -167,7 +167,7 @@ class KControllerItem extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html'), 
+			.'&format='.KRequest::get('get.format', 'cmd', 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}
@@ -191,7 +191,7 @@ class KControllerItem extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.$view
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 		
 	}

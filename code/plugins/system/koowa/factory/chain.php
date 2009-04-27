@@ -33,7 +33,7 @@ class KFactoryChain extends KPatternCommandChain
 	 *
 	 * @return string|false
 	 */
-  	public function run( $name, $args )
+  	final public function run( $name, $args )
   	{
   		$iterator = $this->_priority->getIterator();
 

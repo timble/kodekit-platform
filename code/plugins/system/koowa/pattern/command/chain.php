@@ -54,7 +54,7 @@ class KPatternCommandChain extends KObject
 	 * @param object 	$cmd		A KPatternCommandHandler 
 	 * @param integer	$priority	The command priority, usually between 1 (high priority) and 5 (low), default is 3
 	 *
-	 * @return	void
+	 * @return	this
 	 */
 	public function enqueue( KPatternCommandInterface $cmd, $priority = 3)
 	{
@@ -64,6 +64,7 @@ class KPatternCommandChain extends KObject
 		
 		$this->_priority->offsetSet($handle, $priority);
 		$this->_priority->asort(); //sort the entries by priority
+		return $this;
   	}
   	
 	/**
@@ -86,7 +87,7 @@ class KPatternCommandChain extends KObject
 
 		return $result;
   	}
-
+  	
   	/**
 	 * Run the commands in the chain
 	 * 

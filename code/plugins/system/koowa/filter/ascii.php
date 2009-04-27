@@ -76,16 +76,16 @@ class KFilterAscii extends KFilterAbstract
 	}
 	
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 * 
 	 * Returns true if the string only contains US-ASCII
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		return (preg_match('/(?:[^\x00-\x7F])/', $var) !== 1);
+		return (preg_match('/(?:[^\x00-\x7F])/', $value) !== 1);
 	}
 	
 	/**
@@ -109,13 +109,13 @@ class KFilterAscii extends KFilterAbstract
 	 * @link 	http://www.sitepoint.com/blogs/2006/03/03/us-ascii-transliterations-of-unicode-text/
 	 * @link 	http://phputf8.sourceforge.net/#UTF_8_Validation_and_Cleaning
 	 *
-	 * @param	scalar	Variable to be sanitized
-	 * @throws KFilterException
+	 * @param	scalar	Value to be sanitized
+	 * @throws 	KFilterException
 	 * @return	scalar
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		$len = strlen($var);
+		$len = strlen($value);
 	    if ( $len == 0 ) { 
 	    	return ''; 
 	    }
@@ -134,7 +134,7 @@ class KFilterAscii extends KFilterAbstract
 	        $ord = NULL;
 	        $increment = 1;
 	        
-	        $ord0 = ord($var{$i});
+	        $ord0 = ord($value{$i});
 	        
 	        // Much nested if /else - PHP fn calls expensive, no block scope...
 	        
@@ -147,7 +147,7 @@ class KFilterAscii extends KFilterAbstract
 	        } else {
 	            
 	            // 2 bytes
-	            $ord1 = ord($var{$i+1});
+	            $ord1 = ord($value{$i+1});
 	            
 	            if ( $ord0 >= 192 && $ord0 <= 223 ) {
 	                
@@ -157,7 +157,7 @@ class KFilterAscii extends KFilterAbstract
 	            } else {
 	                
 	                // 3 bytes
-	                $ord2 = ord($var{$i+2});
+	                $ord2 = ord($value{$i+2});
 	                
 	                if ( $ord0 >= 224 && $ord0 <= 239 ) {
 	                    
@@ -167,7 +167,7 @@ class KFilterAscii extends KFilterAbstract
 	                } else {
 	                    
 	                    // 4 bytes
-	                    $ord3 = ord($var{$i+3});
+	                    $ord3 = ord($value{$i+3});
 	                    
 	                    if ($ord0>=240 && $ord0<=247) {
 	                        

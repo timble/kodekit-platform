@@ -20,28 +20,28 @@
 class KFilterMd5 extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		$var = trim($var);
+		$value = trim($value);
 	   	$pattern = '/^[a-f0-9]{32}$/';
-    	return (is_string($var) && preg_match($pattern, $var) == 1);
+    	return (is_string($value) && preg_match($pattern, $value) == 1);
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a valaue
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Variable to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		$var 		= trim(strtolower($var));
+		$value 		= trim(strtolower($value));
 		$pattern 	= '/[^a-f0-9]*/';
-    	return substr(preg_replace($pattern, '', $var), 0, 32);
+    	return substr(preg_replace($pattern, '', $value), 0, 32);
 	}
 }

@@ -18,24 +18,24 @@
 class KFilterFilename extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-	   	return ((string) $var === $this->sanitize($var));
+	   	return ((string) $value === $this->sanitize($value));
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Value to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-    	return basename($var);
+    	return basename($value);
 	}
 }

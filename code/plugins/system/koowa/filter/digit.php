@@ -20,27 +20,27 @@
 class KFilterDigit extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		return empty($var) || ctype_digit($var);
+		return empty($value) || ctype_digit($value);
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	mixed	Value to be sanitized
 	 * @return	int
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		$var = trim($var);
+		$value = trim($value);
 		$pattern ='/[^0-9]*/';
-		return preg_replace($pattern, '', $var);
+		return preg_replace($pattern, '', $value);
 	}
 }
 

@@ -67,6 +67,8 @@ class KFilterHtml extends KFilterAbstract
 	 */
 	public function __construct(array $options = array())
 	{
+		parent::__construct($options);
+		
 		// List of user-defined tags
 		if(isset($options['tag_list'])) {
 			$this->_tagsArray = array_map('strtolower', (array) $options['tag_list']);
@@ -94,33 +96,33 @@ class KFilterHtml extends KFilterAbstract
 	}
 	
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		return (is_string($var) 
+		return (is_string($value) 
 		// this is too strict, html is usually sanitized 
-		//&& strcmp($var, $this->sanitize($var)) === 0
+		//&& strcmp($value, $this->sanitize($value)) === 0
 		);
 	}
 
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	$source		Input string/array-of-string to be 'cleaned'
+	 * @param	scalar	Input string/array-of-string to be 'cleaned'
 	 * @return	mixed	'Cleaned' version of input parameter
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
 		// Filter var for XSS and other 'bad' code etc.
-		if (is_string($var) && !empty ($var)) {
-			$var = $this->_remove($this->_decode($var));
+		if (is_string($value) && !empty ($value)) {
+			$value = $this->_remove($this->_decode($value));
 		}
 		
-		return $var;
+		return $value;
 	}
 
 	/**

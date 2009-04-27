@@ -46,17 +46,15 @@ class KRequest
 	protected static $_types = array('AJAX', 'FLASH');
 	
 	/**
-	 * Get a validated and optionally sanitized variable from the request. When no sanitizers are supplied, 
-	 * the same filters as the validators will be used. 
+	 * Get sanitized data from the request. 
 	 * 
 	 * @param	string				Variable identifier, prefixed by hash name eg post.foo.bar
-	 * @param 	mixed				Validator(s), can be a KFilterInterface object, or array of objects 
-	 * @param 	mixed				Sanitizer(s), can be a KFilterInterface object, or array of objects
+	 * @param 	mixed				Filter(s), can be a KFilterInterface object, or array of filter names
 	 * @param 	mixed				Default value when the variable doesn't exist
-	 * @throws	KRequestException	When the variable doesn't validate
-	 * @return 	mixed				(Sanitized) variable 
+	 * @throws	KRequestException	When an invalid filter was passed
+	 * @return 	mixed				The sanitized data 
 	 */
-	public static function get($identifier, $validators, $sanitizers = array(), $default = null)
+	public static function get($identifier, $filter, $default = null)
 	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
 			
@@ -76,61 +74,19 @@ class KRequest
 			return $default; 	
 		}
 		
-		// Trim the result
-		if(!is_scalar($result)) {
-			array_walk_recursive($result, 'trim');
-		} else {
-			$result = trim($result);
-		}
-		
-		/*
-		 * Validate the result
-		 */
-			
-		// If $validators is an object, turn it into an array of objects don't use settype because it will convert objects to arrays
-		$validators = is_array($validators) ? $validators : (empty($validators) ? array() : array($validators));
-			
-		foreach($validators as $filter)
+		if(!($filter instanceof KFilterInterface))
 		{
-			//Create the filter if needed
-			if(is_string($filter)) {
-				$filter = KFactory::tmp('lib.koowa.filter.'.$filter);
-			}
-		
-			if(!($filter instanceof KFilterInterface)) {
-				throw new KRequestException('Invalid filter passed: '.get_class($filter));
-			}
-	
-			if(!$filter->validate($result)) 
-			{
-				$filtername = KInflector::getPart(get_class($filter), -1);
-				throw new KRequestException('Input is not a valid '.$filtername);
-			}			 
-		}
-		
-		/*
-		 * Sanitize the result
-		 */
-		
-		// If no sanitizers are specified, use the validators
-		// If $sanitizers is an object, turn it into an array of objects don't use settype because it will convert objects to arrays
-		$sanitizers = empty($sanitizers) ? $validators : (is_array($sanitizers) ? $sanitizers : array($sanitizers));
-		
-		foreach($sanitizers as $filter)
-		{
-			//Create the filter if needed
-			if(is_string($filter)) {
-				$filter = KFactory::tmp('lib.koowa.filter.'.$filter);
-			}
-		
-			if(!($filter instanceof KFilterInterface)) {
-				throw new KRequestException('Invalid filter passed: '.get_class($filter));
-			}
+			$names = (array) $filter;
 			
-			$result = $filter->sanitize($result);		 
+			$name   = array_shift($names);
+			$filter = self::_createFilter($name);
+			
+			foreach($names as $name) {
+				$filter->addFilter($this->_createFilter($name));
+			}
 		}
 		
-		return $result;
+		return $filter->sanitize($result);
 	}
 	
 	/**
@@ -224,7 +180,7 @@ class KRequest
  	 */
 	public function languages()
 	{
-		$accept		= KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'raw', null);
+		$accept		= KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
 
 		$languages  = substr( $accept, 0, strcspn($accept, ';' ) );
 		$languages	= explode( ',', $languages );
@@ -284,13 +240,13 @@ class KRequest
 	}
 	    
 	/**
-	 * Parse the a variable name
+	 * Parse the variable identifier
 	 *
-	 * @param 	string	Variable name
-	 * @throws	KRequestException	When the identifier isn't valid or the hash could not be found
+	 * @param 	string	Variable identifier
+	 * @throws	KRequestException	When the hash could not be found
 	 * @return 	array	0 => hash, 1 => parts
 	 */
-	protected function _parseIdentifier($identifier)
+	protected static function _parseIdentifier($identifier)
 	{
 		$parts = array();
 		$hash  = $identifier;
@@ -312,5 +268,23 @@ class KRequest
 		}
 		
 		return array($hash, $parts);
+	}
+	
+	/**
+	 * Create a filter based on it's name
+	 *
+	 * @param 	string	Variable name
+	 * @throws	KRequestException	When the filter could not be found
+	 * @return  KFilterInterface
+	 */
+	protected static function _createFilter($name)
+	{
+		try {
+			$filter = KFactory::get('lib.koowa.filter.'.$name);
+		} catch(KFactoryAdapterException $e) {
+			throw new KRequestException('Invalid filter: '.$name);
+		}
+		
+		return $filter;
 	}
 }

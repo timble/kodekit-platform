@@ -142,14 +142,14 @@ class KFactory
 	}
 	
 	/**
-	 * Register a factory adapter
+	 * Add a factory adapter
 	 * 
 	 * @param object 	$adapter	A KFactoryAdapter
-	 * @param integer	$priority	The command priority
+	 * @param integer	$priority	The adapter priority
 	 *
 	 * @return void
 	 */
-	public static function registerAdapter(KFactoryAdapterInterface $adapter, $priority = 1)
+	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = 3)
 	{
 		self::$_chain->enqueue($adapter, $priority);
 	}
@@ -172,8 +172,8 @@ class KFactory
         self::$_chain = new KFactoryChain();
         
         //TODO : move the registration of the adapters out of the initialize
-        self::registerAdapter(new KFactoryAdapterKoowa());
-       	self::registerAdapter(new KFactoryAdapterJoomla());
-        self::registerAdapter(new KFactoryAdapterComponent());
+        self::addAdapter(new KFactoryAdapterKoowa());
+       	self::addAdapter(new KFactoryAdapterJoomla());
+        self::addAdapter(new KFactoryAdapterComponent());
 	}
 }

@@ -58,7 +58,7 @@ class plgSystemKoowa extends JPlugin
 				'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 			);
 			
-			$format = KRequest::get('get.format', 'word', 'word', 'html');
+			$format = KRequest::get('get.format', 'word', 'html');
 				
 			$doc =& JFactory::getDocument();
 			$doc = KFactory::get('lib.koowa.document.'.$format, $options);

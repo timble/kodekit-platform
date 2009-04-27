@@ -18,26 +18,26 @@
 class KFilterDirname extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Variable to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		$var = trim($var);
-	   	return ((string) $var === $this->sanitize($var));
+		$value = trim($value);
+	   	return ((string) $value === $this->sanitize($value));
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Variable to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		$var = trim($var);
-    	return dirname($var);
+		$value = trim($value);
+    	return dirname($value);
 	}
 }

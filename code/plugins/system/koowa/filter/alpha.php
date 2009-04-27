@@ -20,25 +20,25 @@ class KFilterAlpha extends KFilterAbstract
 	/**
 	 * Validate a variable
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		$var = trim($var);
+		$value = trim($value);
 		
-		return ctype_alpha($var);
+		return ctype_alpha($value);
 	}
 	
 	/**
 	 * Sanitize a variable
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Value to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
 		$pattern 	= '/[^[a-zA-Z]*/';
-    	return preg_replace($pattern, '', $var);
+    	return preg_replace($pattern, '', $value);
 	}
 }

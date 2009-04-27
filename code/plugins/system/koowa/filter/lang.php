@@ -20,30 +20,30 @@
 class KFilterLang extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		$var = trim($var);
+		$value = trim($value);
    	   	$pattern = '/^[a-z]{2}-[A-Z]{2}$/';
-    	return (empty($var)) 
-    			|| (is_string($var) && preg_match($pattern, $var) == 1);
+    	return (empty($value)) 
+    			|| (is_string($value) && preg_match($pattern, $value) == 1);
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Value to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		$var = trim($var);
+		$value = trim($value);
 		
-		$parts 	= explode('-', $var, 2);
+		$parts 	= explode('-', $value, 2);
 		if(2 != count($parts)) {
 			return null;
 		}

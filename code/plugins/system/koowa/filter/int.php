@@ -18,25 +18,25 @@
 class KFilterInt extends KFilterAbstract
 {
 	/**
-	 * Validate a variable
+	 * Validate a value
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($var)
+	protected function _validate($value)
 	{
-		return empty($var) || (false !== filter_var($var, FILTER_VALIDATE_INT));
+		return empty($value) || (false !== filter_var($value, FILTER_VALIDATE_INT));
 	}
 	
 	/**
-	 * Sanitize a variable
+	 * Sanitize a value
 	 *
-	 * @param	mixed	Variable to be sanitized
+	 * @param	scalar	Value to be sanitized
 	 * @return	int
 	 */
-	protected function _sanitize($var)
+	protected function _sanitize($value)
 	{
-		return (int) filter_var($var, FILTER_SANITIZE_NUMBER_INT);
+		return (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
 	}
 }
 

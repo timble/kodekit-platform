@@ -42,7 +42,7 @@ class KControllerList extends KControllerAbstract
 	public function edit()
 	{
 		$cid = (array) KRequest::get('get.cid', 'int');
-		$id	 = KRequest::get('get.id', 'int', null, $cid[0]);
+		$id	 = KRequest::get('get.id', 'int', $cid[0]);
 		 
 		$this->setRedirect('view='.KInflector::singularize($this->getClassName('suffix')).'&layout=form&id='.$id);
 	}
@@ -73,7 +73,7 @@ class KControllerList extends KControllerAbstract
 		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 
@@ -103,7 +103,7 @@ class KControllerList extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 	
@@ -128,7 +128,7 @@ class KControllerList extends KControllerAbstract
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html'), 
+			.'&format='.KRequest::get('get.format', 'cmd', 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}

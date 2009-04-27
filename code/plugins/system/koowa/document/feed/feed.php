@@ -187,7 +187,7 @@ class KDocumentFeed extends KDocumentAbstract
 		global $option;
 
 		// Get the feed type
-		$type = KRequest::get('get.type', 'cmd', 'cmd', 'rss');
+		$type = KRequest::get('get.type', 'cmd', 'rss');
 		
 		// Set the mime encoding
 		$this->setMimeEncoding('application/'.$type.'+xml');

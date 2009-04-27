@@ -68,7 +68,7 @@ class KControllerPage extends KControllerBread
 		$result = parent::edit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
-		$format = KRequest::get('get.format', 'cmd', null, 'html');
+		$format = KRequest::get('get.format', 'cmd', 'html');
 		
 		$redirect = 'view='.$view.'&format='.$format;
 		$this->setRedirect($redirect);
@@ -84,7 +84,7 @@ class KControllerPage extends KControllerBread
 		$result = parent::edit();
 
 		$view 	= $this->getClassName('suffix');
-		$format = KRequest::get('get.format', 'cmd', null, 'html');
+		$format = KRequest::get('get.format', 'cmd', 'html');
 		
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
@@ -101,7 +101,7 @@ class KControllerPage extends KControllerBread
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 			);
 		return $this;	
 	}
@@ -118,7 +118,7 @@ class KControllerPage extends KControllerBread
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
 		$view	   = KInflector::pluralize($this->getClassName('suffix'));
-		$format	   = KRequest::get('get.format', 'cmd', null, 'html');
+		$format	   = KRequest::get('get.format', 'cmd', 'html');
 				
 		$this->setRedirect('view='.$view.'&format='.$format);
 		
@@ -151,7 +151,7 @@ class KControllerPage extends KControllerBread
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 	
@@ -176,7 +176,7 @@ class KControllerPage extends KControllerBread
 	
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html'), 
+			.'&format='.KRequest::get('get.format', 'cmd', 'html'), 
 			JText::_( 'Changed items access level')
 		);
 	}
@@ -200,7 +200,7 @@ class KControllerPage extends KControllerBread
 		
 		$this->setRedirect(
 			'view='.$view
-			.'&format='.KRequest::get('get.format', 'cmd', null, 'html')
+			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
 }

@@ -15,37 +15,19 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterString extends KFilterAbstract
+class KFilterString extends KFilterHtml
 {
 	/**
-	 * Validate a variable
-	 * 
-	 * NOTE: This should always be a simple yes/no question (is $var valid?), so 
-	 * only true or false should be returned.
+	 * Constructor
 	 *
-	 * @param	mixed	Variable to be validated
-	 * @return	bool	True when the variable is valid
+	 * @param	array	Options array
 	 */
-	protected function _validate($var)
+	public function __construct(array $options = array())
 	{
-		$options = array('tag_method' => false, 'attribute_method' => false);
-		$html = KFactory::tmp('lib.koowa.filter.html', $options);
+		parent::__construct($options);
 		
-		return $html->validate($var);
-	}
-	
-	/**
-	 * Sanitize a variable
-	 *
-	 * @param	mixed	Variable to be sanitized
-	 * @return	string
-	 */
-	protected function _sanitize($var)
-	{
-		$options = array('tag_method' => false, 'attribute_method' => false);
-		$html = KFactory::tmp('lib.koowa.filter.html', $options);
-		
-		return (string) $html->sanitize($var);
+		$this->_tagsMethod = false;
+		$this->_attrMethod = false;
 	}
 }
 
