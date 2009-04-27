@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Security
  * @subpackage	Token
@@ -11,10 +11,10 @@
 /**
  * Utility class to work with tokens in forms, to prevent CSRF attacks
  *
- * @example:
  * In a form:
  * <code>
  * <?php echo KSecurityToken::render();?>
+ * or <?= @token ?> // Koowa adds these automatically
  * </code>
  * Where the form is submitted:
  * <code>

@@ -7,9 +7,6 @@
 * @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 */
 
-/**
- * Register Koowa::loadClass() with SPL.
- */
 spl_autoload_register(array('KLoader', 'loadClass'));
 
 /**
@@ -77,7 +74,6 @@ class KLoader
 	/**
  	 * Intelligent file importer
 	 *
- 	 * @package		Koowa
  	 * @param string $path A dot syntax path
  	 */
 	public static function loadFile( $path, $basepath = '')

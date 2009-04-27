@@ -98,7 +98,6 @@ class Koowa
 	/**
  	 * Intelligent file importer
 	 *
- 	 * @package		Koowa
  	 * @param string $path A dot syntax path
  	 */
 	public static function import( $path, $basepath = '')

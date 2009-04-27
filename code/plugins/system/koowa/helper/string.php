@@ -3,7 +3,7 @@
  * @version     $Id:array.php 46 2008-03-01 18:39:32Z mjaz $
  * @category	Koowa
  * @package     Koowa_Helper
- * @subpacakge	Array
+ * @subpackage	Array
  * @copyright   Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
@@ -39,7 +39,7 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
  * @author      Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Helper
- * @subpacakge	String
+ * @subpackage	String
  * @static
  */
 class KHelperString

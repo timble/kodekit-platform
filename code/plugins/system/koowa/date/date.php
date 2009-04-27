@@ -32,7 +32,6 @@ define('DATE_FORMAT_TIMESTAMP', 4);
  * long int, seconds since the unix epoch
  */
 define('DATE_FORMAT_UNIXTIME', 5);
-/**@#-*/
 
 define( 'SECONDS_IN_HOUR', 3600 );
 define( 'SECONDS_IN_DAY', 86400 );

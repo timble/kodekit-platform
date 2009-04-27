@@ -17,7 +17,6 @@
  * @author		Mathias Verraes <mathias@joomlatools.org>
  * @category	Koowa
  * @package		Koowa_Object
- * @example		mixins.php	Mixin example
  */
 class KObject
 {
