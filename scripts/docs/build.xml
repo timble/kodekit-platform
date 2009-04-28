@@ -11,9 +11,9 @@
 		<mkdir dir="${dir.target}" />
 		<phingcall target="export_from_svn" />
 		
-		<phpdoc title="Koowa API Documentation"
+		<phpdoc title="${doc.title}"
 				destdir="${dir.target}"
-		  		sourcecode="true"
+		  		sourcecode="${doc.sourcecode}"
 		  		output="HTML:frames:DOM/earthli"
 		  		defaultpackagename="Koowa"
 		  		defaultcategoryname="Koowa"
