@@ -13,9 +13,9 @@
  * Joomla Database Decorator
  *
  * @author		Johan Janssens <johan@joomlatools.org>
-* @category		Koowa
-* @package 		Koowa_Decorator
-* @subpackage 	Joomla
+ * @category	Koowa
+ * @package 	Koowa_Decorator
+ * @subpackage 	Joomla
  * @uses 		KPatternCommandChain
  * @uses        KPatternDecorator
  */

@@ -14,7 +14,7 @@
  *
  * @author 		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
- * @package 	Koowa_Application
+ * @package 	Koowa_Decorator
  * @subpackage 	Joomla
  * @uses 		KMixinCommand
  * @uses 		KPatternDecorator
