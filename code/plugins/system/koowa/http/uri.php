@@ -407,7 +407,7 @@ class KHttpUri extends KObject
 	/**
      * Return a string representation of this URI.
      *
-     * @see    getUri()
+     * @see    get()
      * @return string
      */
     public function __toString()
