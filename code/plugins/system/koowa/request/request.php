@@ -46,11 +46,26 @@ class KRequest
 	protected static $_types = array('AJAX', 'FLASH');
 	
 	/**
-	 *  URL of the current executing script
+	 * URL of the request regardless of the server
 	 * 
 	 * @var	KHttpUri
 	 */
 	protected static $_uri = null;
+	
+	/**
+	 * Base path of the request.
+	 * 
+	 * @var	KHttpUri
+	 */
+	protected static $_base = null;
+	
+	/**
+	 * Base path of the request.
+	 * 
+	 * @var	KHttpUri
+	 */
+	protected static $_referer = null;
+	
 	
 	/**
 	 * Get sanitized data from the request. 
@@ -141,29 +156,30 @@ class KRequest
 	}
 	
 	/**
- 	 * Returns the HTTP referer, or the default if the referrer is not set.
+ 	 * Returns the HTTP referer.
 	 *
-	 * @return  string
+	 * @return  KHttpUri	A KHttpUri object
 	 */
-	public static function referer()
+	public static function referer($isInternal = true)
 	{
-		$referer = KRequest::get('server.HTTP_REFERER', 'internalurl');
-		
-		if (!empty($referer))
+		if(empty(self::$_referer))
 		{
-			/*if (strpos($ref, url::base(FALSE)) === 0)
-			{
-				// Remove the base URL from the referrer
-				$ref = substr($ref, strlen(url::base(true)));
-			}*/
+			$referer = KRequest::get('server.HTTP_REFERER', 'url');
+			self::$_referer = KFactory::get('lib.koowa.http.uri', array('uri' => $referer));
 		}
-	
-		return $referer;
+		
+		if($isInternal) 
+		{	
+			if(!KFactory::get('lib.koowa.filter.internalurl')->validate(self::$_referer)) {
+				return null;
+			}
+		}
+		
+		return self::$_referer;
 	}
 	
-	
 	/**
- 	 * Return the URL of the current executing script regardless of the server.
+ 	 * Return the URI of the request regardless of the server
 	 *
 	 * @return  KHttpUri	A KHttpUri object
 	 */
@@ -200,15 +216,44 @@ class KRequest
 					$url .= '?' . $_SERVER['QUERY_STRING'];
 				}
 			}
-		
+			
 			// Sanitize the url since we can't trust the server var
 			$url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
-
+			
 			// Create the URI object
-			self::$_uri = KFactory::tmp('lib.koowa.http.uri', $url);	
+			self::$_uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));	
+			
 		}	
 		
 		return self::$_uri;
+	}
+	
+	/**
+	 * Returns the base path of the request.
+	 *
+	 * @return  string
+	 */
+	public static function base()
+	{
+		if(empty(self::$_base))
+		{
+			// Get the base request path
+			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
+				//Apache CGI
+				$path =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			} else {
+				//Others
+				$path =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+			}
+			
+			// Sanitize the url since we can't trust the server var
+			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
+			
+			self::$_base = clone(self::url());
+			self::$_base->setPath($path);
+		}
+
+		return self::$_base;
 	}
 
 	/**

@@ -11,7 +11,7 @@
 /**
  * Internal url filter
  * 
- * Check if an refers to a legal Joomla URL inside the system. Use when 
+ * Check if an refers to a legal URL inside the system. Use when 
  * redirecting to an URL that was passed in a request
  *
  * @todo		Do a proper implementation, see NookuFilterEditlink for ideas
@@ -30,7 +30,15 @@ class KFilterInternalurl extends KFilterAbstract
 	 */
 	protected function _validate($value)
 	{
-		return is_string($value) && JURI::isInternal($value);
+		if(!is_string($value)) {
+			return false;
+		}
+		
+		if(stripos($value, print(KRequest::base())) === false) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**

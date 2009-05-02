@@ -207,10 +207,27 @@ class KHttpUri extends KObject
 	 *
 	 * @param	string	Uri
 	 */
-	public function __construct($uri) 
+	public function __construct( array $options = array()) 
 	{
-		$this->set($uri);
+		$this->set($options['uri']); 
 	}
+	
+ 	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+        $defaults = array(
+            'uri'  => '',
+        );
+
+        return array_merge($defaults, $options);
+    }
 	
 	/** 
      * Implements the virtual $query property.
@@ -298,10 +315,13 @@ class KHttpUri extends KObject
 	 */
 	public function set($uri) 
 	{
-		$segments = parse_url(urldecode($uri));
+		if(!empty($uri)) 
+		{
+			$segments = parse_url(urldecode($uri));
 		
-		foreach ($segments as $key => $value) {
-			$this->$key = $value;
+			foreach ($segments as $key => $value) {
+				$this->$key = $value;
+			}
 		}
 		
 		return $this;
@@ -392,7 +412,7 @@ class KHttpUri extends KObject
      */
     public function __toString()
     {
-        return $this->get();
+        return $this->get(true);
     }
     
     /**
