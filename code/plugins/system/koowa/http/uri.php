@@ -298,7 +298,7 @@ class KHttpUri extends KObject
 	 */
 	public function set($uri) 
 	{
-		$segments = parse_url($uri);
+		$segments = parse_url(urldecode($uri));
 		
 		foreach ($segments as $key => $value) {
 			$this->$key = $value;

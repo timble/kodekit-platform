@@ -46,6 +46,13 @@ class KRequest
 	protected static $_types = array('AJAX', 'FLASH');
 	
 	/**
+	 *  URL of the current executing script
+	 * 
+	 * @var	KHttpUri
+	 */
+	protected static $_uri = null;
+	
+	/**
 	 * Get sanitized data from the request. 
 	 * 
 	 * @param	string				Variable identifier, prefixed by hash name eg post.foo.bar
@@ -153,6 +160,56 @@ class KRequest
 	
 		return $referer;
 	}
+	
+	
+	/**
+ 	 * Return the URL of the current executing script regardless of the server.
+	 *
+	 * @return  KHttpUri	A KHttpUri object
+	 */
+	public static function url()
+	{
+		if(empty(self::$_uri))
+		{
+			/*
+	     	 * Since we are assigning the URI from the server variables, we first need
+	     	 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
+		 	 * are present, we will assume we are running on apache.
+		 	 */
+			if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI'])) 
+			{	
+				/*
+			 	 * To build the entire URI we need to prepend the protocol, and the http host
+			 	 * to the URI string.
+			 	 */
+				$url = self::protocol().'://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+				/*
+			 	 * Since we do not have REQUEST_URI to work with, we will assume we are
+			 	 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
+			 	 * QUERY_STRING environment variables.
+			 	 */
+			}
+			else
+			{
+				// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+				$url = self::protocol.'://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+
+				// If the query string exists append it to the URI string
+				if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+					$url .= '?' . $_SERVER['QUERY_STRING'];
+				}
+			}
+		
+			// Sanitize the url since we can't trust the server var
+			$url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
+
+			// Create the URI object
+			self::$_uri = KFactory::tmp('lib.koowa.http.uri', $url);	
+		}	
+		
+		return self::$_uri;
+	}
 
 	/**
 	 * Returns the current request protocol, based on $_SERVER['https']. In CLI
@@ -166,7 +223,7 @@ class KRequest
 			return NULL;
 		}
 		
-		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 			return 'https';
 		} else {
 			return 'http';
