@@ -9,7 +9,7 @@
  */
 
 /**
- * Page Controller Class
+ * Form Controller Class
  *
  * @author		Johan Janssens <johan@joomlatools.org>
  * @author 		Mathias Verraes <mathias@joomlatools.org>
@@ -19,7 +19,7 @@
  * @uses        KInflector
  * @uses        KHelperArray
  */
-class KControllerPage extends KControllerBread
+class KControllerForm extends KControllerBread
 {
 		
 	/**
