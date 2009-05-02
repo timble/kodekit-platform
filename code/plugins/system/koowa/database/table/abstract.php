@@ -122,9 +122,10 @@ abstract class KDatabaseTableAbstract extends KObject
         $this->setClassName($options['name']);
 
 		// Set the tablename
-		if ($options['table_name']) {
+		if (isset($options['table_name'])) {
 			$this->_table_name	= $options['table_name'];
-		} else 
+		} 
+		else 
 		{
             $prefix         = $this->getClassName('prefix');
             $suffix         = $this->getClassName('suffix');
