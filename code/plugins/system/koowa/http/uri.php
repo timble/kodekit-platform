@@ -45,7 +45,7 @@
  * Now that we have imported the URI and had it parsed automatically, we
  * can modify the component parts, then fetch a new URI string.
  * 
- * <ode>
+ * <code>
  * <?php
  *     // change to 'https://'
  *     $uri->scheme = 'https';
