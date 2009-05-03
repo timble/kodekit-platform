@@ -7,6 +7,9 @@
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
 
+//Initialise the factory
+KFactory::initialize();
+
 /**
  * KFactory class
  *
@@ -32,13 +35,6 @@ class KFactory
 	protected static $_chain = null;
 	
 	/**
-	 * True if the factory has been initialized
-	 *
-	 * @var	object
-	 */
-	private static $_initialized = false;
-	
-	/**
 	 * Constructor
 	 * 
 	 * Prevent creating instances of this class by making the contructor private
@@ -46,19 +42,33 @@ class KFactory
 	private function __construct() { }
 	
 	/**
+	 * Initialize
+	 * 
+	 * @return void
+	 */	
+	public static function initialize()
+	{
+		//Created the object container
+		self::$_container = new ArrayObject();
+	
+		//Create the command chain and register the adapters
+        self::$_chain = new KFactoryChain();
+        
+        //Add the koowa adapter
+        self::addAdapter(new KFactoryAdapterKoowa());
+	}
+	
+	/**
 	 * Get an instance of a class based on a class identifier only creating it
 	 * if it doesn't exist yet.
 	 *
 	 * @param mixed  The class identifier
 	 * @param array  An optional associative array of configuration settings.
-	 *
 	 * @throws KFactoryException
 	 * @return object
 	 */
 	public static function get($identifier, array $options = array())
 	{
-		self::_initialize(); //Initialise the factory
-		
 		//Check if the object already exists
 		if(self::$_container->offsetExists($identifier)) {
 			return self::$_container->offsetGet($identifier);
@@ -80,14 +90,11 @@ class KFactory
 	 *
 	 * @param mixed  The class identifier
 	 * @param array  An optional associative array of configuration settings.
-	 *
 	 * @throws KFactoryException
 	 * @return object
 	 */
 	public static function tmp($identifier, array $options = array())
 	{
-		self::_initialize(); //Initialise the factory
-		
 		//Get an instance based on the identifier
 		$object = self::$_chain->run($identifier, $options);
 		if($object === false) {
@@ -112,7 +119,6 @@ class KFactory
 	 * Remove the object instance using the identifier
 	 *
 	 * @param mixed  The class identifier
-	 *
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
 	public static function del($identifier)
@@ -129,7 +135,6 @@ class KFactory
 	 * Check if the object instance exists based on the identifier
 	 *
 	 * @param mixed  The class identifier
-	 *
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
 	public static function has($identifier)
@@ -146,34 +151,10 @@ class KFactory
 	 * 
 	 * @param object 	A KFactoryAdapter
 	 * @param integer	The adapter priority
-	 *
 	 * @return void
 	 */
 	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = 3)
 	{
 		self::$_chain->enqueue($adapter, $priority);
-	}
-	
-	/**
-	 * Initialize
-	 */	
-	protected static function _initialize()
-	{
-		if(self::$_initialized === true) {
-			return;
-		}
-		
-		self::$_initialized = true;
-	
-		//Created the object container
-		self::$_container = new ArrayObject();
-	
-		//Create the command chain and register the adapters
-        self::$_chain = new KFactoryChain();
-        
-        //TODO : move the registration of the adapters out of the initialize
-        self::addAdapter(new KFactoryAdapterKoowa());
-       	self::addAdapter(new KFactoryAdapterJoomla());
-        self::addAdapter(new KFactoryAdapterComponent());
 	}
 }
