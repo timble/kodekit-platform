@@ -14,7 +14,7 @@
 		<phpdoc title="${doc.title}"
 				destdir="${dir.target}"
 		  		sourcecode="${doc.sourcecode}"
-		  		output="HTML:frames:DOM/earthli"
+		  		output="${doc.output}"
 		  		defaultpackagename="Koowa"
 		  		defaultcategoryname="Koowa"
 		  		ignoretags="@author">		  		
