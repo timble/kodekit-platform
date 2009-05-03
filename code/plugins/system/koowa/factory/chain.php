@@ -29,7 +29,6 @@ class KFactoryChain extends KPatternCommandChain
 	 * 
 	 * @param string  The command name
 	 * @param mixed   The command arguments
-	 *
 	 * @return string|false
 	 */
   	final public function run( $name, $args )
