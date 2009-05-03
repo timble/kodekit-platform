@@ -280,7 +280,7 @@ class KRequest
  	 *
  	 * @return	array locale
  	 */
-	public function languages()
+	public static function languages()
 	{
 		$accept		= KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
 
