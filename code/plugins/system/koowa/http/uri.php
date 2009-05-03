@@ -20,14 +20,14 @@
  * The following is a simple example. Say that the page address is currently
  * `http://anonymous::guest@example.com/path/to/index.php/foo/bar?baz=dib#anchor`.
  * 
- *  You can use KHttpUri to parse this complex string very easily:
+ * You can use KHttpUri to parse this complex string very easily:
  * 
  * <code>
  * <?php
  *     // Create a URI object;
  *    
- *     $url = http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor
- *     $uri = KFactory::get('lib.koow.http.uri', $url);
+ *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
+ *     $uri = KFactory::get('lib.koowa.http.uri', array('uri' => $url) );
  * 
  *     // the $uri properties are ...
  *     // 
@@ -81,39 +81,7 @@
  *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
  * ?>
  * </code>
- * 
- * 
- * This class has a number of public properties, all related to
- * the parsed URI processed by [[KHttpUri::set()]]. They are ...
- * 
- * | Name       | Type    | Description
- * | ---------- | ------- | --------------------------------------------------------------
- * | `scheme`   | string  | The scheme protocol; e.g.: http, https, ftp, mailto
- * | `host`     | string  | The host name; e.g.: example.com
- * | `port`     | string  | The port number
- * | `user`     | string  | The username for the URI
- * | `pass`     | string  | The password for the URI
- * | `path`     | array   | A sequential array of the path elements
- * | `format`   | string  | The filename-extension indicating the file format
- * | `query`    | array   | An associative array of the query terms
- * | `fragment` | string  | The anchor or page fragment being addressed
- * 
- * As an example, the following URI would parse into these properties:
- * 
- *     http://anonymous:guest@example.com:8080/foo/bar.xml?baz=dib#anchor
- *     
- *     scheme   => 'http'
- *     host     => 'example.com'
- *     port     => '8080'
- *     user     => 'anonymous'
- *     pass     => 'guest'
- *     path     => array('foo', 'bar')
- *     format   => 'xml'
- *     query    => array('baz' => 'dib')
- *     fragment => 'anchor'
- * 
- * 
- * 
+ *  
  * @author      Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Http
@@ -121,7 +89,7 @@
 class KHttpUri extends KObject 
 {
 	/**
-	 * The scheme (for example 'http' or 'https').
+	 * The scheme [http|https|ftp|mailto|...]
 	 *
 	 * @var	string
 	 */
@@ -177,15 +145,13 @@ class KHttpUri extends KObject
      * 
      * @var array
      * 
-     * @see __set()
-     * @see __get()
      * @see setQuery()
      * @see getQuery()
      */
     protected $_query = array();
 	
     /**
-     * The fragment portion (for example, the "foo" in "#foo").
+     * The fragment aka anchor portion (for example, the "foo" in "#foo").
      * 
      * @var string
      */
@@ -236,9 +202,9 @@ class KHttpUri extends KObject
 	/** 
      * Implements the virtual $query property.
      * 
-     * @param string The virtual property to set.
-     * @param string Set the virtual property to this value.
-     * @return mixed The value of the virtual property.
+     * @param 	string 	The virtual property to set.
+     * @param 	string 	Set the virtual property to this value.
+     * @return 	mixed 	The value of the virtual property.
      */
     public function __set($key, $val)
     {
@@ -255,8 +221,8 @@ class KHttpUri extends KObject
      * Implements access to $_query by reference so that it appears to be 
      * a public $query property.
      * 
-     * @param string $key The virtual property to return.
-     * @return array
+     * @param 	string	The virtual property to return.
+     * @return 	array
      */
     public function &__get($key)
     {
@@ -332,12 +298,12 @@ class KHttpUri extends KObject
 	}
 	
 	/**
-     * Sets the query string in the URI, for KhttpUri::getQuery() and KhttpUri::$query.
+     * Sets the query string in the URI, for KHttpUri::getQuery() and KHttpUri::$query.
      * 
      * This will overwrite any previous values.
      * 
      * @param 	string|array 	The query string to use; for example `foo=bar&baz=dib`.
-     * @return KHttpUri
+     * @return 	KHttpUri
      */
     public function setQuery($query)
     {
@@ -378,7 +344,7 @@ class KHttpUri extends KObject
      * @param 	string 	The path string to use; for example,"/foo/bar/baz/dib".  
      * A leading slash will *not* create an empty first element; if the string 
      * has a leading slash, it is ignored.
-     * @return KHttpUri
+     * @return 	KHttpUri
      */
     public function setPath($path)
     {
@@ -422,8 +388,8 @@ class KHttpUri extends KObject
     /**
      * Converts an array of path elements into a string.
      * 
-     * Does not use [[php::urlencode() | ]]; instead, only converts
-     * characters found in KHttpUri::$_encode_path.
+     * Does not use urlencode(); instead, only converts characters found in 
+     * KHttpUri::$_encode_path.
      * 
      * @param 	array The path elements.
      * @return string A URI path string.
