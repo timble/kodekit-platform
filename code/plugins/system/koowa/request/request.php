@@ -156,11 +156,26 @@ class KRequest
 	}
 	
 	/**
- 	 * Returns the HTTP referer.
-	 *
+	 * Alias of referrer() 
+	 * 
+	 * 'referer' is the a commonly used misspelling of 'referrer'
+	 * @see 	http://en.wikipedia.org/wiki/HTTP_referrer 
+	 *  
+	 * @param	boolean		Only allow internal url's
 	 * @return  KHttpUri	A KHttpUri object
 	 */
-	public static function referer($isInternal = true)
+	public static function referer($isInternal = true) 
+	{
+		return self::referrer($isInternal);
+	}
+	
+	/**
+ 	 * Returns the HTTP referer.
+	 * 
+	 * @param	boolean		Only allow internal url's
+	 * @return  KHttpUri	A KHttpUri object
+	 */
+	public static function referrer($isInternal = true)
 	{
 		if(empty(self::$_referer))
 		{
