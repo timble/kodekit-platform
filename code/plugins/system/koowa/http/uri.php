@@ -209,7 +209,7 @@ class KHttpUri extends KObject
 	/**
 	 * Constructor
 	 *
-	 * @param	string	Uri
+	 * @param	array	 An optional associative array of configuration settings.
 	 */
 	public function __construct( array $options = array()) 
 	{
@@ -315,7 +315,7 @@ class KHttpUri extends KObject
 	 * Set the URI
 	 *
 	 * @param	string	URI
-	 * @return 	this
+	 * @return 	KHttpUri
 	 */
 	public function set($uri) 
 	{
@@ -337,7 +337,7 @@ class KHttpUri extends KObject
      * This will overwrite any previous values.
      * 
      * @param 	string|array 	The query string to use; for example `foo=bar&baz=dib`.
-     * @return this
+     * @return KHttpUri
      */
     public function setQuery($query)
     {
@@ -378,7 +378,7 @@ class KHttpUri extends KObject
      * @param 	string 	The path string to use; for example,"/foo/bar/baz/dib".  
      * A leading slash will *not* create an empty first element; if the string 
      * has a leading slash, it is ignored.
-     * @return this
+     * @return KHttpUri
      */
     public function setPath($path)
     {
@@ -444,5 +444,4 @@ class KHttpUri extends KObject
         
         return implode('/', $out);
     }
-    
 }
