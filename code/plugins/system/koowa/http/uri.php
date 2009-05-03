@@ -22,7 +22,8 @@
  * 
  *  You can use KHttpUri to parse this complex string very easily:
  * 
- * {{code: php
+ * <code>
+ * <?php
  *     // Create a URI object;
  *    
  *     $url = http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor
@@ -38,12 +39,14 @@
  *     // $uri->format   => 'xml'
  *     // $uri->query    => array('baz' => 'dib')
  *     // $uri->fragment => 'anchor'
- * }}
+ * ?>
+ * </code>
  * 
  * Now that we have imported the URI and had it parsed automatically, we
  * can modify the component parts, then fetch a new URI string.
  * 
- * {{code: php
+ * <ode>
+ * <?php
  *     // change to 'https://'
  *     $uri->scheme = 'https';
  * 
@@ -76,7 +79,8 @@
  * 
  *     // the $full_uri string is:
  *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
- * }}
+ * ?>
+ * </code>
  * 
  * 
  * This class has a number of public properties, all related to
