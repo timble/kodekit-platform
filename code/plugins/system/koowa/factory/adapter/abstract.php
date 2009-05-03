@@ -21,9 +21,8 @@ abstract class KFactoryAdapterAbstract extends KObject implements KPatternComman
 	/**
 	 * Generic Command handler
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
-	 *
+	 * @param string  The command name
+	 * @param mixed   The command arguments
 	 * @return object
 	 */
 	final public function execute($name, $args) 

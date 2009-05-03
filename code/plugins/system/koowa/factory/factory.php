@@ -41,7 +41,7 @@ class KFactory
 	/**
 	 * Constructor
 	 * 
-	 * Prevent creating instances of this class by making the contrucgtor private
+	 * Prevent creating instances of this class by making the contructor private
 	 */
 	private function __construct() { }
 	
@@ -49,8 +49,8 @@ class KFactory
 	 * Get an instance of a class based on a class identifier only creating it
 	 * if it doesn't exist yet.
 	 *
-	 * @param mixed  $identifier	The class identifier
-	 * @param array  $options 		An optional associative array of configuration settings.
+	 * @param mixed  The class identifier
+	 * @param array  An optional associative array of configuration settings.
 	 *
 	 * @throws KFactoryException
 	 * @return object
@@ -78,8 +78,8 @@ class KFactory
 	 * Get an instance of a class based on a class identifier always creating a 
 	 * new instance.
 	 *
-	 * @param mixed  $identifier	The class identifier
-	 * @param array  $options 		An optional associative array of configuration settings.
+	 * @param mixed  The class identifier
+	 * @param array  An optional associative array of configuration settings.
 	 *
 	 * @throws KFactoryException
 	 * @return object
@@ -100,8 +100,8 @@ class KFactory
 	/**
 	 * Insert the object instance using the identifier
 	 *
-	 * @param mixed  $identifier 	The class identifier
-	 * @param object $object 		The object instance to store
+	 * @param mixed  The class identifier
+	 * @param object The object instance to store
 	 */
 	public static function set($identifier, $object)
 	{
@@ -111,7 +111,7 @@ class KFactory
 	/**
 	 * Remove the object instance using the identifier
 	 *
-	 * @param mixed  $identifier 	The class identifier
+	 * @param mixed  The class identifier
 	 *
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
@@ -128,7 +128,7 @@ class KFactory
 	/**
 	 * Check if the object instance exists based on the identifier
 	 *
-	 * @param mixed  $identifier 	The class identifier
+	 * @param mixed  The class identifier
 	 *
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
@@ -144,8 +144,8 @@ class KFactory
 	/**
 	 * Add a factory adapter
 	 * 
-	 * @param object 	$adapter	A KFactoryAdapter
-	 * @param integer	$priority	The adapter priority
+	 * @param object 	A KFactoryAdapter
+	 * @param integer	The adapter priority
 	 *
 	 * @return void
 	 */

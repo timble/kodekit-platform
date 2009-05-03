@@ -28,8 +28,8 @@ class KFactoryChain extends KPatternCommandChain
 	 * 
 	 * If a command returns not false the exection is halted
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
+	 * @param string  The command name
+	 * @param mixed   The command arguments
 	 *
 	 * @return string|false
 	 */

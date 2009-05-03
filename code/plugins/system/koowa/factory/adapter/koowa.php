@@ -22,8 +22,8 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  $string 	The class identifier
-	 * @param array  $options 	An optional associative array of configuration settings.
+	 * @param mixed  The class identifier
+	 * @param array  An optional associative array of configuration settings.
 	 * @return object
 	 */
 	public function createInstance($identifier, array $options)
