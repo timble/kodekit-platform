@@ -19,7 +19,6 @@
  * @author		Johan Janssens <johan@joomlatools.org>
  * @category	Koowa
  * @package     Koowa_Factory
- * @subpackage	Chain
  */
 class KFactoryChain extends KPatternCommandChain
 {
