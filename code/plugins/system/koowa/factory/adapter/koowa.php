@@ -9,9 +9,9 @@
  */
 
 /**
- * KFactoryAdpater for the Koowa framework
+ * Factory Adpater for the Koowa framework
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Factory
  * @subpackage 	Adapter
@@ -24,9 +24,9 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	 *
 	 * @param mixed  The class identifier
 	 * @param array  An optional associative array of configuration settings.
-	 * @return object
+	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	public function createInstance($identifier, array $options)
+	public function instantiate($identifier, array $options)
 	{
 		$instance = false;
 		

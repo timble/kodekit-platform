@@ -30,7 +30,7 @@ class KFactory
 	/**
 	 * The commandchain
 	 *
-	 * @var	object
+	 * @var	KLoaderChain
 	 */
 	protected static $_chain = null;
 	
@@ -65,7 +65,7 @@ class KFactory
 	 * @param mixed  The class identifier
 	 * @param array  An optional associative array of configuration settings.
 	 * @throws KFactoryException
-	 * @return object
+	 * @return object  Return object on success, throws exception on failure
 	 */
 	public static function get($identifier, array $options = array())
 	{
@@ -91,7 +91,7 @@ class KFactory
 	 * @param mixed  The class identifier
 	 * @param array  An optional associative array of configuration settings.
 	 * @throws KFactoryException
-	 * @return object
+	 * @return object  Return object on success, throws exception on failure
 	 */
 	public static function tmp($identifier, array $options = array())
 	{

@@ -29,7 +29,7 @@ class KFactoryChain extends KPatternCommandChain
 	 * 
 	 * @param string  The command name
 	 * @param mixed   The command arguments
-	 * @return string|false
+	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
   	final public function run( $name, $args )
   	{

@@ -9,9 +9,9 @@
  */
 
 /**
- * KFactoryAdpater for the Joomla! framework
+ * Abstract Factory Adpater
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Factory
  * @subpackage 	Adapter
@@ -23,11 +23,11 @@ abstract class KFactoryAdapterAbstract extends KObject implements KPatternComman
 	 * 
 	 * @param string  The command name
 	 * @param mixed   The command arguments
-	 * @return object
+	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	final public function execute($name, $args) 
 	{	
-		$instance = $this->createInstance($name, $args);
-		return $instance;
+		$result = $this->instantiate($name, $args);
+		return $result;
 	}
 }
