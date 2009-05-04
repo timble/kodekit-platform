@@ -24,8 +24,16 @@ class plgSystemKoowa extends JPlugin
 		{	
 			// Require the library loader
 			JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
-			JLoader::import('plugins.system.koowa.loader', JPATH_ROOT);
+			JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
 			
+			//Add loader adapters
+			KLoader::addAdapter(new KLoaderAdapterJoomla());
+        	KLoader::addAdapter(new KLoaderAdapterComponent());
+			
+			//Add factory adapters
+			KFactory::addAdapter(new KFactoryAdapterJoomla());
+        	KFactory::addAdapter(new KFactoryAdapterComponent());
+        		
 			// Decorate the application object 
 			$app  =& JFactory::getApplication();
 			$app  = new KDecoratorJoomlaApplication($app);
@@ -78,7 +86,7 @@ class plgSystemKoowa extends JPlugin
 		
 		// Note: can't use KRequest, Koowa isn't loaded yet
 		
-		// are we uninstalling a plugin?
+		// Are we uninstalling a plugin?
 		if(JRequest::getCmd('option') == 'com_installer' 
 			&& JRequest::getCmd('action') == 'remove'
 			&& JRequest::getCmd('type') == 'plugins' ) {

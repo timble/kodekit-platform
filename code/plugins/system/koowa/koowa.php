@@ -102,6 +102,54 @@ class Koowa
  	 */
 	public static function import( $path, $basepath = '')
 	{
-		return KLoader::loadFile($path, $basepath);
+		$parts = explode( '.', $path );
+
+		$result = '';
+		switch($parts[0])
+		{
+			case 'lib' :
+			{
+				if($parts[1] == 'joomla') 
+				{
+					unset($parts[0]);
+					$path   = implode('.', $parts);
+					$result = JLoader::import($path, null, 'libraries.' );
+				} 
+				
+				if($parts[1] == 'koowa') 
+				{
+					unset($parts[0]);
+					unset($parts[1]);
+					$path   = implode('.', $parts);
+					$result = JLoader::import($path, Koowa::getPath());
+				}
+				
+			} break;
+			
+			default :
+			{
+				if(strpos($parts[0], '::') !== false) {
+					$app  = explode( '::', $parts[0] );	
+					$name =  $app[0];
+				} else {
+					$app  = KFactory::get('lib.joomla.application');
+					$name = $app->getName(); 
+				}
+				
+				$app = ($name == 'site') ? JPATH_SITE : JPATH_ADMINISTRATOR;
+				$com = $parts[1];
+
+				unset($parts[0]);
+				unset($parts[1]);
+
+				$base   = $app.DS.'components'.DS.'com_'.$com;
+				$path   = implode('.', $parts);
+					
+				$result = JLoader::import($path, $base, $com.'.' );
+				
+			} break;
+		}
+
+		return $result;
 	}
 }
