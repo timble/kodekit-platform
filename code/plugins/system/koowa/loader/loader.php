@@ -46,7 +46,7 @@ class KLoader
 	public static function initialize()
 	{	
 		//Created the adapter container
-		self::$_adapters = new ArrayObject();
+		self::$_adapters = array();
 		
 		// Register the autoloader in a way to play well with as many configurations as possible.
 		spl_autoload_register(array(__CLASS__, 'load'));
@@ -74,12 +74,11 @@ class KLoader
 			return true;
 		}
 		
-		$iterator = self::$_adapters->getIterator();
-
-		while($iterator->valid()) 
+		//Use LIFO to allow for new adapters to override existing ones
+		$adpters = array_reverse(self::$_adapters);
+		
+		foreach(self::$_adapters as $adapter) 
 		{
-    		$adapter = $iterator->current();
-    		
     		$result = $adapter->load( $class ); 
 			if ($result !== false) 
 			{
@@ -96,8 +95,6 @@ class KLoader
 					return true;
 				}
       		}
-
-    		$iterator->next();
 		}
 
 		return false;
