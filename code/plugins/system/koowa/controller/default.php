@@ -19,6 +19,8 @@ class KControllerDefault extends KControllerAbstract
 {
 	/**
 	 * Display a single item
+	 * 
+	 * @return void
 	 */
 	public function read()
 	{

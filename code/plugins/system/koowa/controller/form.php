@@ -62,9 +62,13 @@ class KControllerForm extends KControllerBread
 	
 	/*
 	 * Generic save action
+	 * 
+	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
 	public function save()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$result = parent::edit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
@@ -78,9 +82,13 @@ class KControllerForm extends KControllerBread
 	
 	/*
 	 * Generic apply action
+	 * 
+	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
 	public function apply()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$result = parent::edit();
 
 		$view 	= $this->getClassName('suffix');
@@ -95,24 +103,28 @@ class KControllerForm extends KControllerBread
 	/*
 	 * Generic cancel action
 	 * 
-	 * @return 	this
+	 * @return 	void
 	 */
 	public function cancel()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
-			);
-		return $this;	
+			);	
 	}
 	
 	/*
 	 * Generic delete function
 	 *  
 	 * @throws KControllerException
+	 * @return void
 	 */
 	public function delete()
 	{
+		KSecurityToken::check() or die('Invalid token or time-out, please try again');
+		
 		$result = parent::delete();
 
 		// Get the table object attached to the model
@@ -127,6 +139,8 @@ class KControllerForm extends KControllerBread
 
 	/*
 	 * Generic enable action
+	 * 
+	 * @return void
 	 */
 	public function enable()
 	{
@@ -157,6 +171,8 @@ class KControllerForm extends KControllerBread
 	
 	/**
 	 * Generic method to modify the access level of items
+	 * 
+	 * @return void
 	 */
 	public function access()
 	{
@@ -181,6 +197,11 @@ class KControllerForm extends KControllerBread
 		);
 	}
 	
+	/**
+	 * Generic method to modify the order level of items
+	 * 
+	 * @return KDatabaseRow 	A row object containing the reordered data
+	 */
 	public function order()
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
@@ -194,13 +215,15 @@ class KControllerForm extends KControllerBread
 		$view	   = $name;
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
-		KFactory::get($app.'::com.'.$component.'.table.'.$name)
-			->fetchRow($id)
-			->order($change);
+		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name);
+		$row   = $table->fetchRow($id)
+					->order($change);
 		
 		$this->setRedirect(
 			'view='.$view
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
+		
+		return $row;
 	}
 }

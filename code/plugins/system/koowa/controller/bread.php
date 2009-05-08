@@ -19,6 +19,8 @@ class KControllerBread extends KControllerAbstract
 {
 	/**
 	 * Browse a list of items
+	 * 
+	 * @return void
 	 */
 	public function browse()
 	{
@@ -31,6 +33,8 @@ class KControllerBread extends KControllerAbstract
 	
 	/**
 	 * Display a single item
+	 * 
+	 * @return void
 	 */
 	public function read()
 	{
@@ -43,11 +47,11 @@ class KControllerBread extends KControllerAbstract
 	
 	/*
 	 * Generic edit action, saves over an existing item
+	 * 
+	 * @return KDatabaseRow 	A row object containing the updated data
 	 */
 	public function edit()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
 
@@ -64,15 +68,17 @@ class KControllerBread extends KControllerAbstract
 		$row 		= $table->fetchRow($id)
 					->setProperties($data)
 					->save();
+					
+		return $row;
 	}
 	
 	/*
 	 * Generic add action, saves a new item
+	 * 
+	 * @return KDatabaseRow 	A row object containing the new data
 	 */
 	public function add()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
 
@@ -87,15 +93,17 @@ class KControllerBread extends KControllerAbstract
 		$row 		= $table->fetchRow()
 					->setProperties($post)
 					->save();
+					
+		return $row;
 	}	
 	
 	/*
 	 * Generic delete function
+	 * 
+	 * @return void
 	 */
 	public function delete()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$cid = (array) KRequest::get('post.cid', 'int');
 
 		// Get the table object attached to the model
@@ -106,5 +114,4 @@ class KControllerBread extends KControllerAbstract
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable()
 				->delete($cid);
 	}
-
 }
