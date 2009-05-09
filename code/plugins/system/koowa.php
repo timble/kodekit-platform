@@ -37,14 +37,20 @@ class plgSystemKoowa extends JPlugin
 			// Decorate the application object 
 			$app  =& JFactory::getApplication();
 			$app  = new KDecoratorJoomlaApplication($app);
-		
+			
+			//Create the koowa database object
+			$kdb = KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'));
+			
 			// Decorate the database object
-			$db  =& JFactory::getDBO();
-			$db  = new KDecoratorJoomlaDatabase($db);
+			$jdb  =& JFactory::getDBO();
+			$jdb  = new KDecoratorJoomlaDatabase($jdb);
+			
+			// Create the koowa database object
+			$kdb->setConnection($jdb->_resource);
 			
 			//ACL uses the unwrapped DBO
 	        $acl = JFactory::getACL();
-	        $acl->_db = $db->getObject(); // getObject returns the unwrapped DBO
+	        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
 			
 			//Load the koowa plugins
 			JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));

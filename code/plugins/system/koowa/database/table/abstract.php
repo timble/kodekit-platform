@@ -46,7 +46,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	protected $_fields;
 
 	/**
-	 * Database connector
+	 * Database adapter
 	 *
 	 * @var		object
 	 */
@@ -136,7 +136,7 @@ abstract class KDatabaseTableAbstract extends KObject
 		$this->_primary	= $options['primary'];
 
 		//set the dbo
-		$this->_db = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.joomla.database');
+		$this->_db = isset($options['database']) ? $options['database'] : KFactory::get('lib.koowa.database');
 	}
 
     /**
@@ -150,7 +150,7 @@ abstract class KDatabaseTableAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'dbo'           => null,
+            'db'       		=> null,
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'table',
@@ -164,24 +164,23 @@ abstract class KDatabaseTableAbstract extends KObject
     }
 
 	/**
-	 * Get the internal database object
+	 * Get the database adapter
 	 *
-	 * @return object A JDatabase based object
+	 * @return KDatabaseAdapterAbstract
 	 */
-	public function getDBO()
+	public function getDatabase()
     {
 		return $this->_db;
 	}
 
 	/**
-	 * Set the internal database object
+	 * Set the database adapter
 	 *
-	 * @param	object	$db	A JDatabase based object
-	 * @return	void
+	 * @param	object A KDatabaseAdapterAbstract
 	 */
-	public function setDBO(&$db)
+	public function setDatabase(KDatabaseAdapterAbstract $database)
     {
-		$this->_db =& $db;
+		$this->_db = $database;
 	}
 
 
@@ -221,9 +220,7 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 	
 		$query = 'SELECT MAX(ordering) FROM `#__'.$this->getTableName();
-		$this->_db->setQuery($query);
-		
-		return (int) $this->_db->loadResult() + 1;
+		return (int) $this->_db->selectResult($query) + 1;
 	}
 
 	/**
@@ -347,12 +344,10 @@ abstract class KDatabaseTableAbstract extends KObject
      * eg <Mycomp>Table<Tablename> -> <Mycomp>Rowset<Tablename>
      *
      * @param	mixed	KDatabaseQuery object or query string, array of row id's or null for an empty row
-     * @param 	int		Offset
-     * @param	int		Limit
      * @param 	array	Options
      * @return	object	KDatabaseRowset object
      */
-    public function fetchAll($query = null, $offset = 0, $limit = 0, $options = array())
+    public function fetchAll($query = null, $options = array())
     {
 	   	// fetch an empty rowset
         $options['table']     = $this;
@@ -370,7 +365,7 @@ abstract class KDatabaseTableAbstract extends KObject
              	$values = $query;
              	
              	//Create query object
-       	 		$query = $this->getDBO()->getQuery()
+       	 		$query = $this->_db->getQuery()
         			->where($key, 'IN', $values);    
             }
         	
@@ -385,8 +380,8 @@ abstract class KDatabaseTableAbstract extends KObject
         		}
             }
             
-        	$this->_db->select($query, $offset, $limit);
-			$result = (array) $this->_db->loadAssocList();
+        	//$this->_db->select($query, $offset, $limit);
+			$result = (array) $this->_db->selectAssocList($query);
 			
    			$options['data'] = $result;
         }
@@ -424,7 +419,7 @@ abstract class KDatabaseTableAbstract extends KObject
              	$value = $query;
              	
              	//Create query object
-       	 		$query = $this->getDBO()->getQuery()
+       	 		$query = $this->_db->getQuery()
         			->where($key, '=', $value);
             }
             
@@ -439,8 +434,8 @@ abstract class KDatabaseTableAbstract extends KObject
         		}
             }
             
-            $this->_db->select($query, 0, 1);
-            $options['data'] = (array) $this->_db->loadAssoc();
+            //$this->_db->select($query, 0, 1);
+            $options['data'] = (array) $this->_db->selectAssoc($query);
         }
         
         $row = KFactory::tmp($app.'::com.'.$component.'.row.'.$row, $options); 
@@ -546,7 +541,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 *
 	 * @return	KDatabaseTableAbstract
 	 */
-	public function reorder()
+	public function order()
 	{
 		if (!in_array('ordering', $this->getColumns())) {
 			throw new KDatabaseTableException("The table ".$this->getTableName()." doesn't have a 'ordering' column.");

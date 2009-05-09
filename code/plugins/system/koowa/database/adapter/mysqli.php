@@ -10,7 +10,7 @@
  */
 
 /**
- * Mysql Database Adapter
+ * Mysqli Database Adapter
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -19,6 +19,13 @@
  */
 class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 {
+	/**
+	 * Quote for named objects
+	 *
+	 * @var string
+	 */
+	protected $_name_quote = '`';
+
 	/**
 	 * Connect to the db
 	 *
@@ -108,8 +115,158 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 *
 	 * @return boolean
 	 */
-	 public function active() 
-	 {
+	public function active() 
+	{
 		return isset($this->_connection) && !$this->_connection->ping();
 	}
+	
+	/**
+	* Returns the first field of the first row
+	*
+	* @return The value returned in the query or null if the query failed.
+	*/
+	public function selectResult($sql)
+	{
+		$return = null;
+		if (!($result = $this->select($sql))) 
+		{
+			if($row = $result->fetch_row( )) {
+				$return = $row[0];
+			}
+			$result->free();
+		}
+		
+		return $return;
+	}
+
+	/**
+	 * Returns an array of single field results
+	 *
+	 * @return array
+	 */
+	public function selectResultList($sql)
+	{
+		$array = array();
+		if ($result = $this->select($sql))
+		{
+			while ($row = $result->fetch_row( )) {
+				$array[] = $row[0];
+			}
+			
+			$result->free();
+		}
+	
+		return $array;
+	}
+	
+	/**
+     * Returns the first row of a result set as an associative array
+     * 
+     * @param	string  The SQL query
+     * @return array
+     */
+	public function selectAssoc($sql)
+	{
+		$array = array();
+		if (!($result = $this->select($sql))) 
+		{
+			$array = $result->fetch_assoc( );
+			$result->free();
+		}
+		
+		return $array;
+	}
+
+	/**
+	 * Returns all result rows of a result set as an array of associative arrays
+	 * 
+	 * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
+	 *
+	 * @param	string  The SQL query
+	 * @param 	string 	The column name of the index to use
+	 * @return 	array 	If key is empty as sequential list of returned records.
+	 */
+	public function selectAssocList($sql, $key = '')
+	{
+		$array = array();
+		if ($result = $this->select($sql))
+		{
+			while ($row = $result->fetch_assoc( )) 
+			{
+				if ($key) {
+					$array[$row->$key] = $row;
+				} else {
+					$array[] = $row;
+				}
+			}
+			
+			$result->free();
+		}
+		
+		return $array;
+	}
+
+	/**
+	 * Returns the first row of a result set as an object
+	 *
+	 * @param	string  The SQL query
+	 * @param object
+	 */
+	public function selectObject($sql)
+	{
+		$object = null;
+		if (!($result = $this->select($sql))) 
+		{
+			$object = $result->fetch_object( );
+			$result->free();
+		}
+		
+		return $object;
+	}
+
+	/**
+	 * Fetch all rows of a result set as an array of objects
+	 * 
+	 * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
+	 *
+	 * @param	string  The SQL query
+	 * @param 	string 	The column name of the index to use
+	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
+	 */
+	public function selectObjectList($sql, $key='')
+	{
+		$array = array();
+		if ($result = $this->select($sql))
+		{
+			while ($row = $result->fetch_object( )) 
+			{
+				if ($key) {
+					$array[$row->$key] = $row;
+				} else {
+					$array[] = $row;
+				}
+			}
+			
+			$result->free();
+		}
+	
+		return $array;
+	}
+	
+	/**
+     * Safely quotes a value for an SQL statement.
+     * 
+     * @param 	mixed 	The value to quote
+     * @return string An SQL-safe quoted value
+     */
+    public function _quoteString($value)
+    {
+        if(!is_numeric($value)) {
+        	$value =  '\''.mysqli_real_escape_string( $this->_connection, $value ).'\'';
+        }
+        	
+        return $value;
+    }
 }

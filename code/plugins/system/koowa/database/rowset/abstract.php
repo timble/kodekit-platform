@@ -12,7 +12,6 @@
 /**
  * Database Rowset Class
  *
- * @author		Mathias Verraes <mathias@koowa.org>
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
@@ -40,14 +39,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      *
      * @var string
      */
-    protected $_tableClass;
+    protected $_table_class;
 
     /**
      * Empty row to use for cloning
      *
      * @var object	KDatabaseRowAbstract
      */
-    protected $_emptyRow;
+    protected $_empty_row;
     
 	 /**
      * Constructor
@@ -66,8 +65,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
         $this->setClassName($options['name']);
 
 		// Set table object and class name
-		$this->_tableClass  = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
-		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_tableClass);
+		$this->_table_class  = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
+		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 
 		// Set the data
 		if(isset($options['data']))  {
@@ -78,7 +77,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
 		$this->resetCount();
 		
 		// Instantiate an empty row to use for cloning later
-		$this->_emptyRow = $this->_table->fetchRow();
+		$this->_empty_row = $this->_table->fetchRow();
     }
 
     /**
@@ -121,7 +120,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
         if (!isset($this[$this->key()])) 
         {
         	// cloning is faster than instantiating
-        	$row = clone $this->_emptyRow;
+        	$row = clone $this->_empty_row;
         	$row->setProperties($this->_data[$this->key()]);
             parent::offsetSet($this->key(), $row);
         }
@@ -135,7 +134,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      *
      * @param 	int 	The offset of the item
      * @param 	mixed	The item's value
-     * @return  object KDatabaseRowsetAbstract
+     * @return  this
      */
 	public function offsetSet($offset, $value) 
 	{
@@ -160,7 +159,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      * while literal keys won't be touched.
      * 
      * @param 	int 	The offset of the item
-     * @return 	object KDatabaseTRowsetAbstract
+     * @return 	this
      */
 	public function offsetUnset($offset)
 	{
@@ -172,7 +171,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
 	/**
      * Overridden resetCount() method
      *
-     * @return 	object KDatabaseTRowsetAbstract
+     * @return this
      */
     public function resetCount()
     {
@@ -183,7 +182,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
 	/**
      * Returns the table object, or null if this is disconnected row
      *
-     * @return object|null 	KDatabaseTableAbstract
+     * @return KDatabaseTableAbstract
      */
     public function getTable()
     {
@@ -191,14 +190,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
     }
 
 	/**
-     * Query the class name of the Table object for which this
-     * Row was created.
+     * Query the class name of the Table object for which this row was 
+     * created.
      *
      * @return string
      */
     public function getTableClass()
     {
-        return $this->_tableClass;
+        return $this->_table_class;
     }
 
 	 /**
@@ -206,7 +205,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      *
      * @param int $position the position of the row expected
      * @param bool $seek wether or not seek the iterator to that position after
-     * @return KDatabaseRow
+     * @return KDatabaseRowAbstract
      * @throws KDatabaseRowsetException
      */
     public function getRow($position, $seek = false)
@@ -228,15 +227,15 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
     }
     
 	/**
-     * Returns a KDatabaseRow from a known position into the Iterator
+     * Returns a row from a known position
      *
-     * @param string $key   the key to search for
-     * @param mixed  $value the value to search for
-     * @return KDatabaseRow
+     * @param 	string 	The key to search for
+     * @param 	mixed  	The value to search for
+     * @return KDatabaseRowAbstract
      */
     public function findRow($key, $value)
     {
-   		$result = $this->_emptyRow;
+   		$result = $this->_empty_row;
     	
     	$this->rewind();
     	

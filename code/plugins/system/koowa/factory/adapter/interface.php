@@ -16,7 +16,7 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-interface KFactoryAdapterInterface
+interface KFactoryAdapterInterface extends KPatternCommandInterface
 {
 	/**
 	 * Create an object instance based on a class identifier

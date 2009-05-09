@@ -87,7 +87,7 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @var integer
 	 */
-	public $offset = null;
+	public $offset = 0;
 	
 	/**
      * Data to bind into the query as key => value pairs.
@@ -101,7 +101,7 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @var		object
 	 */
-	protected $_db;
+	protected $_adapter;
 
 	/**
 	 * Object constructor
@@ -109,7 +109,7 @@ class KDatabaseQuery extends KObject
 	 * Can be overloaded/supplemented by the child class
 	 *
 	 * @param	array An optional associative array of configuration settings.
-	 *                Recognized key values include 'dbo' (this list is not
+	 *                Recognized key values include 'adapter' (this list is not
 	 * 				  meant to be comprehensive).
 	 */
 	public function __construct( array $options = array() )
@@ -117,8 +117,8 @@ class KDatabaseQuery extends KObject
         // Initialize the options
         $options  = $this->_initialize($options);
 
-		//set the model dbo
-		$this->_db    = $options['dbo'] ? $options['dbo'] : KFactory::get('lib.koowa.database');
+		//set the model adapter
+		$this->_adapter  = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
 	}
 
 
@@ -131,24 +131,35 @@ class KDatabaseQuery extends KObject
     protected function _initialize($options)
     {
         $defaults = array(
-            'dbo'   => null
+            'adapter' => null
         );
 
         return array_merge($defaults, $options);
     }
+    
+    /**
+     * Gets the database adapter for this particular KDatabaseQuery object.
+     *
+     * @return KDatabaseAdapterInterface
+     */
+    public function getAdapter()
+    {
+        return $this->_adapter;
+    }
+    
 
 	/**
 	 * Built a select query
 	 *
 	 * @param	array|string	A string or an array of field names
-	 * @return object KDatabaseQuery
+	 * @return 	this
 	 */
 	public function select( $columns = '*')
 	{
 		settype($columns, 'array'); //force to an array
 		
 		//Quote the identifiers
-		$columns = $this->_db->quoteName($columns);
+		$columns = $this->_adapter->quoteName($columns);
 
 		$this->operation = 'SELECT';
 		$this->columns   = array_unique( array_merge( $this->columns, $columns ) );
@@ -158,7 +169,7 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Built a count query
 	 *
-	 * @return object KDatabaseQuery
+	 * @return this
 	 */
 	public function count()
 	{
@@ -170,7 +181,7 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Make the query distinct
 	 *
-	 * @return object KDatabaseQuery
+	 * @return this
 	 */
 	public function distinct()
 	{
@@ -182,7 +193,7 @@ class KDatabaseQuery extends KObject
 	 * Built the from clause of the query
 	 *
 	 * @param	array|string	A string or array of table names
-	 * @return object KDatabaseQuery
+	 * @return 	this
 	 */
 	public function from( $tables )
 	{
@@ -192,7 +203,7 @@ class KDatabaseQuery extends KObject
 		array_walk($tables, array($this, '_prefix'));
 		
 		//Quote the identifiers
-		$tables = $this->_db->quoteName($tables);
+		$tables = $this->_adapter->quoteName($tables);
 		
 		$this->from = array_unique( array_merge( $this->from, $tables ) );
 		return $this;
@@ -201,11 +212,10 @@ class KDatabaseQuery extends KObject
 	/**
      * Built the join clause of the query
      * 
-     * @param string 		$type  		The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
-     * @param string 		$table 		The table name to join to.
-     * @param string|array 	$condition  Join on this condition.
-     * @param array|string 	$cols  The columns to select from the joined table.
-     * @return object KDatabaseQuery
+     * @param string 		The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
+     * @param string 		The table name to join to.
+     * @param string|array 	Join on this condition.
+     * @return this
      */
     public function join($type, $table, $condition)
     {     
@@ -214,8 +224,8 @@ class KDatabaseQuery extends KObject
 		$this->_prefix($table); //add a prefix to the table
     	
 		//Quote the identifiers
-		$table     = $this->_db->quoteName($table);
-		$condition = $this->_db->quoteName($condition);
+		$table     = $this->_adapter->quoteName($table);
+		$condition = $this->_adapter->quoteName($condition);
 	    	
     	$this->join[] = array(
         	'type'  	=> strtoupper($type),
@@ -233,7 +243,7 @@ class KDatabaseQuery extends KObject
 	 * @param	string  		The comparison used for the constraint
 	 * @param	string|array	The value compared to the property value using the constraint
 	 * @param	string			The where condition, defaults to 'AND'
-	 * @return 	object 	KDatabaseQuery
+	 * @return 	this
 	 */
 	public function where( $property, $constraint, $value, $condition = 'AND' )
 	{
@@ -242,10 +252,10 @@ class KDatabaseQuery extends KObject
 		}
 		
 		// Apply quotes to the property name
-		$property = $this->_db->quoteName($property);
+		$property = $this->_adapter->quoteName($property);
 		
 		// Apply quotes to the value
-		$value    = $this->_db->quote($value);
+		$value    = $this->_adapter->quoteString($value);
 		
        	//Create the where clause
         if(in_array($constraint, array('IN', 'NOT IN'))) {
@@ -267,14 +277,14 @@ class KDatabaseQuery extends KObject
 	 * Built the group clause of the query
 	 *
 	 * @param	array|string	A string or array of ordering columns
-	 * @return object KDatabaseQuery
+	 * @return 	this
 	 */
 	public function group( $columns )
 	{
 		settype($columns, 'array'); //force to an array
 		
 		//Quote the identifiers
-		$columns = $this->_db->quoteName($columns);
+		$columns = $this->_adapter->quoteName($columns);
 
 		$this->group = array_unique( array_merge( $this->group, $columns));
 		return $this;
@@ -284,14 +294,14 @@ class KDatabaseQuery extends KObject
 	 * Built the having clause of the query
 	 *
 	 * @param	array|string	A string or array of ordering columns
-	 * @return object KDatabaseQuery
+	 * @return 	this
 	 */
 	public function having( $columns )
 	{
 		settype($columns, 'array'); //force to an array
 		
 		//Quote the identifiers
-		$columns = $this->_db->quoteName($columns);
+		$columns = $this->_adapter->quoteName($columns);
 
 		$this->having = array_unique( array_merge( $this->having, $columns ));
 		return $this;
@@ -300,16 +310,16 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Built the order clause of the query
 	 *
-	 * @param	array|string  $columns		A string or array of ordering columns
-	 * @param	string		  $direction	Either DESC or ASC
-	 * @return object KDatabaseQuery
+	 * @param	array|string  A string or array of ordering columns
+	 * @param	string		  Either DESC or ASC
+	 * @return this
 	 */
 	public function order( $columns, $direction = 'ASC' )
 	{
 		settype($columns, 'array'); //force to an array
 		
 		//Quote the identifiers
-		$columns = $this->_db->quoteName($columns);
+		$columns = $this->_adapter->quoteName($columns);
 		
 		foreach($columns as $column) 
 		{
@@ -325,11 +335,11 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Built the limit element of the query
 	 *
-	 * @param integer $limit 	Number of items to fetch.
-	 * @param integer $offset 	Offset to start fetching at.
-	 * @return object KDatabaseQuery
+	 * @param 	integer Number of items to fetch.
+	 * @param 	integer Offset to start fetching at.
+	 * @return this
 	 */
-	public function limit( $limit, $offset = null )
+	public function limit( $limit, $offset = 0 )
 	{
 		$this->limit  = $limit;
 		$this->offset = $offset;
@@ -339,12 +349,12 @@ class KDatabaseQuery extends KObject
 	/**
      * Adds data to bind into the query.
      * 
-     * @param 	mixed 	$key The replacement key in the query.  If this is an
-     * 						 array or object, the $val parameter is ignored, 
-     * 						 and all the key-value pairs in the array (or all 
-     *   					 properties of the object) are added to the bind.
-     * @param 	mixed 	$val The value to use for the replacement key.
-     * @return object KDatabaseQuery
+     * @param 	mixed 	The replacement key in the query.  If this is an
+     * 					array or object, the $val parameter is ignored, 
+     * 					and all the key-value pairs in the array (or all 
+     *   				properties of the object) are added to the bind.
+     * @param 	mixed 	The value to use for the replacement key.
+     * @return this
      */
     public function bind($key, $val = null)
     {
@@ -362,10 +372,10 @@ class KDatabaseQuery extends KObject
     /**
      * Unsets bound data.
      * 
-     * @param 	mixed 	$spec 	The key to unset.  If a string, unsets that one
-     * 							bound value; if an array, unsets the list of values; 
-     * 							if empty, unsets all bound values (the default).
-     * @return object KDatabaseQuery
+     * @param 	mixed 	The key to unset.  If a string, unsets that one
+     * 					bound value; if an array, unsets the list of values; 
+     * 					if empty, unsets all bound values (the default).
+     * @return this
      */
     public function unbind($spec = null)
     {
@@ -382,15 +392,15 @@ class KDatabaseQuery extends KObject
     }
 
 	/*
-	 * Callback for array_walk to prefix elements of array with given 
-	 * prefix
+	 * Callback for array_walk to prefix elements of array with given prefix
 	 * 
-	 * @param string $data 	The data to be prefixed
+	 * @param string The data to be prefixed
 	 */
 	protected function _prefix(&$data)
 	{	
 		// Prepend the table modifier
-		$data = '#__'.$data;
+		$prefix = $this->_adapter->getTablePrefix();
+		$data = $prefix.$data;
 	}
 
 	/**
@@ -457,7 +467,7 @@ class KDatabaseQuery extends KObject
 		}
 	
 		if (isset($this->limit)) {
-			$query .= ' LIMIT '.$this->limit.' , '.$this->offset.PHP_EOL;
+			$query .= ' LIMIT '.$this->offset.' , '.$this->limit.PHP_EOL;
 		}
 		
 		return $query;

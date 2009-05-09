@@ -24,14 +24,13 @@ class KViewHelperList
 	*/
 	public static function accesslevel( $row )
 	{
-		$db = KFactory::get('lib.joomla.database');
+		$db = KFactory::get('lib.koowa.database');
 
 		$query = 'SELECT id AS value, name AS text'
 		. ' FROM #__groups'
 		. ' ORDER BY id'
 		;
-		$db->setQuery( $query );
-		$groups = $db->loadObjectList();
+		$groups = $db->selectObjectList($query);
 		$access = KViewHelper::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;

@@ -12,7 +12,6 @@
 /**
  * Database Row Class
  *
- * @author		Mathias Verraes <mathias@koowa.org>
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
@@ -42,7 +41,7 @@ abstract class KDatabaseRowAbstract extends KObject
      *
      * @var string
      */
-    protected $_tableClass;
+    protected $_table_class;
      
     /**
      * Constructor
@@ -61,8 +60,8 @@ abstract class KDatabaseRowAbstract extends KObject
         $this->setClassName($options['name']);
 
 		// Set table object and class name
-		$this->_tableClass  = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
-		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_tableClass);
+		$this->_table_class = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
+		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 		
 		// Reset the row
 		$this->reset();
@@ -113,7 +112,7 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function getTableClass()
     {
-        return $this->_tableClass;
+        return $this->_table_class;
     }
 
     /**
@@ -122,9 +121,7 @@ abstract class KDatabaseRowAbstract extends KObject
      * This performs an intelligent insert/update, and reloads the
      * properties with fresh data from the table on success.
      *
-     * Can be overloaded/supplemented by the child class
      *
-     * @throws KDatabaseRowException
      * @return mixed The primary key value(s), as an associative array if the
      *     			 key is compound, or a scalar if the key is single-column.
      */
@@ -143,7 +140,7 @@ abstract class KDatabaseRowAbstract extends KObject
         } else 
         {
         	if($this->_table->insert($properties)) {
-        		$this->id = $this->_table->getDBO()->insertid();
+        		$this->id = $this->_table->getAdapter()->insertid();
         	}
         }
 
@@ -178,6 +175,7 @@ abstract class KDatabaseRowAbstract extends KObject
      * Increase hit counter by 1
      *
      * @return this
+     * @throws KDatabaseRowException
      */
 	public function hit()
 	{
@@ -196,8 +194,9 @@ abstract class KDatabaseRowAbstract extends KObject
 	 * 
 	 * Requires an ordering field to be present in the table
 	 *
-	 * @param	int	Amount to move up or down
-	 * @return 	KDatabaseRowAbstract
+	 * @param	integer	Amount to move up or down
+	 * @return 	this
+	 * @throws 	KDatabaseRowException
 	 */
 	public function order($change)
 	{
@@ -222,12 +221,12 @@ abstract class KDatabaseRowAbstract extends KObject
 				$query .= 'SET ordering = ordering-1 WHERE '.$old.' < ordering AND ordering <= '.$new;
 			}
 			
-			$this->_table->getDBO()->execute($query);
+			$this->_table->getDatabase()->execute($query);
 
 			$this->ordering = $new;
 			$this->save();
 		
-			$this->_table->reorder();
+			$this->_table->order();
 		}
 		
 		return $this;
@@ -248,9 +247,8 @@ abstract class KDatabaseRowAbstract extends KObject
 	/**
      * Retrieve row field value
      *
-     * @param  string $columnName The user-specified column name.
-     * @return string             The corresponding column value.
-     * @throws KDatabaseRowException if the $columnName is not a column in the row.
+     * @param  	string 	The user-specified column name.
+     * @return 	string 	The corresponding column value.
      */
     public function __get($columnName)
     {
@@ -268,10 +266,10 @@ abstract class KDatabaseRowAbstract extends KObject
     /**
      * Set row field value
      *
-     * @param  string $columnName The column key.
-     * @param  mixed  $value      The value for the property.
-     * @return void
-     * @throws KDatabaseRowException
+     * @param  	string 	The column key.
+     * @param  	mixed  	The value for the property.
+     * @return 	void
+     * @throws 	KDatabaseRowException
      */
     public function __set($columnName, $value)
     {
@@ -285,7 +283,7 @@ abstract class KDatabaseRowAbstract extends KObject
 	/**
      * Test existence of row field
      *
-     * @param  string  $columnName   The column key.
+     * @param  string  The column key.
      * @return boolean
      */
     public function __isset($columnName)
@@ -300,7 +298,7 @@ abstract class KDatabaseRowAbstract extends KObject
     /** 
      * Sets a row field to null.
      * 
-     * @param  string  $columnName   The column key.
+     * @param  string  The column key.
      */
     public function __unset($columnName)
     {
@@ -328,7 +326,7 @@ abstract class KDatabaseRowAbstract extends KObject
     /**
     * Set the object properties based on a named array/hash
     *
-    * @param    $array  mixed Either and associative array or another object
+    * @param    mixed Either and associative array or another object
     * @return   this
     */
     public function setProperties( $properties )

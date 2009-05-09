@@ -18,11 +18,11 @@
 class KModelTable extends KModelAbstract
 {
 	/**
-	 * Database Connector
+	 * Database adapter
 	 *
 	 * @var object
 	 */
-	protected $_db;
+	protected $_adapter;
 	
 	/**
 	 * Table object or identifier (APP::com.COMPONENT.table.TABLENAME)
@@ -38,8 +38,8 @@ class KModelTable extends KModelAbstract
 	 */
 	public function __construct(array $options = array())
 	{
-		//set the model dbo
-		$this->_db = isset($options['dbo']) ? $options['dbo'] : KFactory::get('lib.joomla.database');
+		//Set the database adapter
+		$this->_db = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
 		
 		parent::__construct($options);
 		
@@ -57,11 +57,11 @@ class KModelTable extends KModelAbstract
 	}
 
 	/**
-	 * Method to get the database connector object
+	 * Method to get the database adapter object
 	 *
-	 * @return	object KDatabase connector object
+	 * @return KDatabaseAdapterAbstract 
 	 */
-	public function getDBO()
+	public function getDatabase()
 	{
 		return $this->_db;
 	}
@@ -69,18 +69,19 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param	object	$db	A KDatabase based object
-	 * @return	void
+	 * @param	object	A KDatabaseAdapterAbstract object
+	 * @return this
 	 */
-	public function setDBO($db)
+	public function setDatabase($db)
 	{
 		$this->_db = $db;
+		return $this;
 	}
 
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param	array	$operations	 Options array for view. Optional.
+	 * @param	array	Options array for view. Optional.
 	 * @return	object	The table object
 	 */
 	public function getTable(array $options = array())
@@ -95,8 +96,8 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Method to set a table object or identifier
 	 *
-	 * @param	string|object $identifier The table identifier to be used in KFactory or a table object
-	 * @return	object	KModelTable
+	 * @param	string|object The table identifier to be used in KFactory or a table object
+	 * @return	this
 	 */
 	public function setTable($identifier)
 	{
@@ -107,7 +108,7 @@ class KModelTable extends KModelAbstract
     /**
      * Method to get a item object which represents a table row
      *
-     * @return  object KDatabaseRow
+     * @return KDatabaseRow
      */
     public function getItem()
     {
@@ -122,18 +123,15 @@ class KModelTable extends KModelAbstract
     /**
      * Get a list of items which represnts a  table rowset
      *
-     * @return  object KDatabaseRowset
+     * @return KDatabaseRowset
      */
     public function getList()
     {
         // Get the data if it doesn't already exist
         if (!isset($this->_list)) 
         {
-        	$this->_list = $this->getTable()->fetchAll(
-        		$this->_buildQuery(), 
-        		$this->getState('offset'), 
-        		$this->getState('limit')
-        	);
+        	$query = $this->_buildQuery();
+        	$this->_list = $this->getTable()->fetchAll($query);
         }
 
         return parent::getList();
@@ -150,8 +148,7 @@ class KModelTable extends KModelAbstract
         if (!isset($this->_total)) 
         {
             $query = $this->_buildCountQuery();
-        	$this->_db->select( $query );
-			$this->_total = $this->_db->loadResult();
+			$this->_total = $this->_db->selectResult($query);
         }
 
         return parent::getTotal();
@@ -176,7 +173,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds a generic SELECT query
      *
-     * @return  string  SELECT query
+     * @return  string  KDatabaseQuery
      */
     protected function _buildQuery()
     {
@@ -189,7 +186,8 @@ class KModelTable extends KModelAbstract
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);
         $this->_buildQueryOrder($query);
-
+        
+        $query->limit($this->getState('limit'), $this->getState('offset'));
 		return $query;
     }
     

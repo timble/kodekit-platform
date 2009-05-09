@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Database
  */
-class KDatabase extends KObject
+class KDatabase
 {
 	/**
 	 * Database operations
@@ -23,5 +23,28 @@ class KDatabase extends KObject
 	const OPERATION_SELECT = 1;
 	const OPERATION_INSERT = 2;
 	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8;    
+	const OPERATION_DELETE = 8;  
+
+	/**
+	 * Factory for KDatabaseAdapterInterface classes.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * Recognized key values include 'adapter', ...(this list is not meant to be 
+	 * comprehensive).
+	 * @return KDatabaseAdapterAbstract
+	 * @throws KDatabaseException
+	 */
+	public static function factory(array $options = array())
+	{
+		if(!isset($options['adapter'])) {
+			throw new KDatabaseException('Adapter name is required');
+		}
+	
+		$class = 'KDatabaseAdapter'.ucfirst($options['adapter']);
+		if(!class_exists($class)) {
+			throw new KDatabaseException('Adapter class '.$class.' not found');
+		}
+		
+		return new $class($options);
+	}
 }

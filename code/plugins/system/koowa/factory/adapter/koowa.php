@@ -51,9 +51,14 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 				if (!class_exists($classname)) {
 					throw new KFactoryAdapterException("Could't create instance for $identifier");
 				}
-			}	
-				
-			$instance = new $classname($options);
+			}
+			
+			// If the class has a factory method call it
+			if(is_callable(array($classname, 'factory'), false, $function)) {
+				$instance = call_user_func($function, $options);
+			} else {
+				$instance = new $classname($options);
+			}
 		}
 		
 		return $instance;

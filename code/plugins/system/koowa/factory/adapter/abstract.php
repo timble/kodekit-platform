@@ -16,7 +16,7 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-abstract class KFactoryAdapterAbstract extends KObject implements KPatternCommandInterface, KFactoryAdapterInterface
+abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapterInterface
 {
 	/**
 	 * Generic Command handler

@@ -46,13 +46,6 @@ abstract class KControllerAbstract extends KObject
 	protected $_action;
 
 	/**
-	 * Options
-	 *
-	 * @var array
-	 */
-	protected $_options = array();
-
-	/**
 	 * URL for redirection.
 	 *
 	 * @var	string
@@ -83,16 +76,16 @@ abstract class KControllerAbstract extends KObject
 	public function __construct( array $options = array() )
 	{
         // Initialize the options
-        $this->_options  = $this->_initialize($options);
+        $options  = $this->_initialize($options);
         
         // Mixin the command chain
-        $this->mixin(new KMixinCommand($this, $this->_options['command_chain']));
+        $this->mixin(new KMixinCommand($this, $options['command_chain']));
 
         // Mixin the KMixinClass
         $this->mixin(new KMixinClass($this, 'Controller'));
 
         // Assign the classname with values from the config
-        $this->setClassName($this->_options['name']);
+        $this->setClassName($options['name']);
 
 		// Get the methods only for the final controller class
 		$thisMethods	= get_class_methods( get_class( $this ) );
@@ -114,7 +107,7 @@ abstract class KControllerAbstract extends KObject
 		}
 
 		// If the default action is set, register it as such
-		$this->registerDefaultAction( $this->_options['default_action'] );
+		$this->registerDefaultAction( $options['default_action'] );
 	}
 
     /**

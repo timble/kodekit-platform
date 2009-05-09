@@ -16,14 +16,14 @@ var Koowa = {};
 /**
  * Table class
  */
-Koowa.Table = {
-	sorting: function(order, dir, action) 
+Koowa.Table = 
+{
+	sorting: function(order, dir) 
 	{
 		var form = document.adminForm;
-	
 		form.filter_order.value 	= order;
 		form.filter_direction.value	= dir;
-		Koowa.Form.submit( action );
+		Koowa.Form.submit( 'browse' );
 	}
 }
 
