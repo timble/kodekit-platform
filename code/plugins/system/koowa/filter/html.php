@@ -15,7 +15,7 @@
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, 
  * Chris Tobin.
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */

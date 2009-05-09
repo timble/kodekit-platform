@@ -13,7 +13,7 @@
  *
  * Validates or sanitizes an md5 hash (32 chars [a-f0-9])
  *
- * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */

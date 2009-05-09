@@ -12,7 +12,7 @@
 /**
  * Feed renderer that implements RSS 2.0 Specification
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package 	Koowa_Document
  * @subpackage	Feed

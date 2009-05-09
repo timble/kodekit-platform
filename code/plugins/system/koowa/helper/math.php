@@ -12,7 +12,7 @@
 /**
  * Math methods
  *
- * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage 	Math

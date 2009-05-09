@@ -12,7 +12,7 @@
 /**
  * Abstract observable class to implement the observer design pattern
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Observable

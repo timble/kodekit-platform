@@ -13,7 +13,7 @@
 *
 * A slug is an integer id followed by a colon and a string, eg 15:my_title
 *
-* @author Mathias Verraes <mathias@joomlatools.org>
+* @author Mathias Verraes <mathias@koowa.org>
 * @category Koowa
 * @package Koowa_Filter
 */

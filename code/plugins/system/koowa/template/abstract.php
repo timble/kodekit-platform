@@ -14,7 +14,7 @@
  * Based in large part on the example at
  * http://www.php.net/manual/en/function.stream-wrapper-register.php
  * 
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_Template
  */

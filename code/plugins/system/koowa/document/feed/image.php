@@ -12,7 +12,7 @@
 /**
  * Stores feed image information
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @package		Koowa_Document
  * @subpackage	Feed
  */

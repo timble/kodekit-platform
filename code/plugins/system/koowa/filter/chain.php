@@ -14,7 +14,7 @@
  * The filter chain overrides the run method to implement a seperate
  * validate and santize method
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */

@@ -12,7 +12,7 @@
 /**
  * Provides an easy interface to parse and display an error page
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_Document
  * @subpackage	Error

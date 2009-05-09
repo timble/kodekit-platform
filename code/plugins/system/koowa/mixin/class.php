@@ -14,7 +14,7 @@
  *
  * Can be used as a mixin in classes that rely on their name, such as KView
  *
- * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Mixin
  * @uses 		KObject

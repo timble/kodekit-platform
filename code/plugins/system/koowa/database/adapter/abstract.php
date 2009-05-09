@@ -12,7 +12,7 @@
 /**
  * Asbtract Database Adapter
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter

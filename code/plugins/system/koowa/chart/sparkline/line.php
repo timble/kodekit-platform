@@ -14,7 +14,7 @@ Koowa::import('lib.koowa.chart.renderer.sparkline.Sparkline_Line');
 /**
  * Sparkline Line
  *
- * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  Sparkline

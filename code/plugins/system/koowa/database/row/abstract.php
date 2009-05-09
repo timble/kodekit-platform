@@ -12,8 +12,8 @@
 /**
  * Database Row Class
  *
- * @author		Mathias Verraes <mathias@joomlatools.org>
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row

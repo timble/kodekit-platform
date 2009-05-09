@@ -24,8 +24,8 @@ if(!defined('DS')) {
  *
  * Loads classes and files, and provides metadata for Koowa such as version info
  *
- * @author		Johan Janssens <johan@joomlatools.org>
- * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
  * @package     Koowa
  */
 class Koowa

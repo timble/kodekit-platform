@@ -13,7 +13,7 @@
  * 
  * Only checks the format, it doesn't care whether the language or country actually exist
  *
- * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */

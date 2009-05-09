@@ -15,7 +15,7 @@
  * The command queue implements a double linked list. The command handle is used as
  * the key.
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Pattern
  * @subpackage  Command

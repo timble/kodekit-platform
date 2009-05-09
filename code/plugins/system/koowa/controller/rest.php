@@ -11,7 +11,7 @@
 /**
  * REST Controller Class
  *
- * @author		Mathias Verraes <mathias@joomlatools.eu> 
+ * @author		Mathias Verraes <mathias@koowa.org> 
  * @category	Koowa
  * @package     Koowa_Controller
  */

@@ -14,7 +14,7 @@
  * This class draws heavily on PEAR:SQL_Parser Copyright (c) 2002-2004 Brent Cook,
  * Erich Enke Released under the LGPL license
  *
- * @author     	Johan Janssens <johan@joomlatools.org>
+ * @author     	Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query

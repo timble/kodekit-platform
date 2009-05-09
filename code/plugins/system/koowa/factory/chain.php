@@ -16,7 +16,7 @@
  * when a command return a value. If the command returns false the chain 
  * will keep running.
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Factory
  */

@@ -13,7 +13,7 @@
  *
  * A 'word' is a string containing only the characters [A-Za-z_] 
  *
- * @author		Mathias Verraes <mathias@joomlatools.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */
