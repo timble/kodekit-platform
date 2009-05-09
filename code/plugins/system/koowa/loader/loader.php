@@ -7,7 +7,14 @@
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
 
+/**
+ * Loader Adapter Interface
+ */
 require_once dirname(__FILE__).'/adapter/interface.php';
+
+/**
+ * Loader Adapter for the Koowa framework
+ */
 require_once dirname(__FILE__).'/adapter/koowa.php';
 
 //Initialise the loader

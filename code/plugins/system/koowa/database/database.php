@@ -9,7 +9,7 @@
  */
 
 /**
- * Asbtract Database Adapter
+ * Database 
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
