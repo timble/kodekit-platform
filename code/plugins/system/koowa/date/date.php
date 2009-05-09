@@ -42,8 +42,8 @@ define( 'SECONDS_IN_DAY', 86400 );
  * This class draws heavily on PEAR:Date Copyright (c) 1997-2005 Baba Buehler,
  * Pierre-Alain Joye Released under the New BSD license
  *
- * @author      Johan Janssens <johan@joomlatools.org>
- * @author      Mathias Verraes <mathias@joomlatools.org>
+ * @author      Johan Janssens <johan@koowa.org>
+ * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Date
  * @uses 		KObject
@@ -51,31 +51,51 @@ define( 'SECONDS_IN_DAY', 86400 );
 class KDate extends KObject
 {
 	/**
-	 * @var int The year
+	 * The year
+	 * 
+	 * @var int 
 	 */
 	public $year;
+	
 	/**
-	 * @var int The month
+	 *  The month
+	 * 
+	 * @var int
 	 */
 	public $month;
+	
 	/**
-	 * @var int The day
+	 * The day
+	 * 
+	 * @var int 
 	 */
 	public $day;
+	
 	/**
-	 * @var int The hour
+	 * The hour
+	 * 
+	 * @var int 
 	 */
 	public $hour;
+	
 	/**
-	 * @var int The minute
+	 * The minute
+	 * 
+	 * @var int 
 	 */
 	public $minute;
+	
 	/**
-	 * @var int The second
+	 * The second
+	 * 
+	 * @var int 
 	 */
 	public $second;
+	
 	/**
-	 * @var float Part second
+	 * Part second
+	 * 
+	 * @var float 
 	 */
 	public $partsecond;
 

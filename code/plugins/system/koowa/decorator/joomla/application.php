@@ -12,7 +12,7 @@
 /**
  * Joomla Application Decorator
  *
- * @author 		Johan Janssens <johan@joomlatools.org>
+ * @author 		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package 	Koowa_Decorator
  * @subpackage 	Joomla
@@ -37,6 +37,8 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	
 	/**
 	 * Decorate the application getName() method
+	 * 
+	 * @return	string 	The application name
 	 */
 	function getName()
 	{

@@ -13,8 +13,8 @@
  *
  * Note: Concrete controllers must have a singular name
  *
- * @author		Johan Janssens <johan@joomlatools.org>
- * @author		Mathias Verraes <mathias@joomlatools.eu>
+ * @author		Johan Janssens <johan@koowa.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Controller
  * @uses		KMixinClass
@@ -198,7 +198,7 @@ abstract class KControllerAbstract extends KObject
 	 * Set the action that will be performed.
 	 *
 	 * @param	string Action name
-	 * @return  this
+	 * @return  KControllerAbstract
 	 */
 	public function setAction($action)
 	{
@@ -209,7 +209,7 @@ abstract class KControllerAbstract extends KObject
 	/**
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
-	 * @return	object	View object
+	 * @return	KViewAbstract	A KView object
 	 * @throws KControllerException
 	 */
 	public function getView(array $options = array())
@@ -237,7 +237,7 @@ abstract class KControllerAbstract extends KObject
 	 * @param	string	The action.
 	 * @param	string	The name of the method in the derived class to perform
 	 *                  for this action.
-	 * @return	this
+	 * @return	KControllerAbstract
 	 */
 	public function registerAction( $action, $method )
 	{
@@ -251,7 +251,7 @@ abstract class KControllerAbstract extends KObject
 	 * Unregister a action
 	 *
 	 * @param	string	The action
-	 * @return	this
+	 * @return	KControllerAbstract
 	 */
 	public function unregisterAction( $action )
 	{
@@ -263,12 +263,13 @@ abstract class KControllerAbstract extends KObject
 	 * Register the default action to perform if a mapping is not found.
 	 *
 	 * @param	string The name of the method in the derived class to perform if
-	 * a named action is not found.
-	 * @return	void
+	 * 				   a named action is not found.
+	 * @return	KControllerAbstract
 	 */
 	public function registerDefaultAction( $method )
 	{
 		$this->registerAction( '__default', $method );
+		return $this;
 	}
 
 	/**
@@ -278,7 +279,7 @@ abstract class KControllerAbstract extends KObject
 	 * @param	string	Message to display on redirect. Optional, defaults to
 	 * 			value set internally by controller, if any.
 	 * @param	string	Message type. Optional, defaults to 'message'.
-	 * @return	void
+	 * @return	KControllerAbstract
 	 */
 	public function setRedirect( $url, $msg = null, $type = 'message' )
 	{

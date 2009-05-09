@@ -12,7 +12,7 @@
 /**
  * Joomla Database Decorator
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package 	Koowa_Decorator
  * @subpackage 	Joomla

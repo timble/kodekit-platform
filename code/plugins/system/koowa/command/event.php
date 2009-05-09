@@ -11,7 +11,7 @@
 /**
  * Event Command
  *
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Command
  * @uses 		KFactory
@@ -21,8 +21,8 @@ class KCommandEvent extends KObject implements KPatternCommandInterface
 	/**
 	 * Command handler
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
+	 * @param string  The command name
+	 * @param mixed   The command arguments
 	 *
 	 * @return boolean
 	 */

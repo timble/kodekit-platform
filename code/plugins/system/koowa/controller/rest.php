@@ -28,6 +28,7 @@ class KControllerRest extends KControllerAbstract
 	/**
 	 * Get the action that is was/will be performed.
 	 *
+	 * @throws KControllerException
 	 * @return	 string Action name
 	 */
 	public function getAction()
@@ -35,42 +36,61 @@ class KControllerRest extends KControllerAbstract
 		if(!isset($this->_action))
 		{
 			// Find the action from the _method variable, or use the request method
-    		$post_method	= strtolower(KRequest::get('post._method', 'cmd'));
+    		$action	= strtolower(KRequest::get('post._method', 'cmd'));
     		
-    		if(is_null($post_method)) { // no _method provided
-    			$this->_action = strtolower(KRequest::method());
-    		} else {
-    			if(in_array($post_method, array('get', 'post', 'delete', 'put'))) {
-    				throw new KControllerException('Unknown _method type: '.$post_method);
+    		if(is_null($action)) 
+    		{ 
+    			try {
+    				$action = strtolower(KRequest::method());
+    			} catch (KRequestException $e) {
+    				throw new KControllerException('Action not supported: '.$action);
     			}
-    			$this->_action = $post_method;
-    		}
+    			
+    			$this->_action = $action;
+    		} 
 		}
+		
 		return $this->_action;
 	}
 	
 	/**
-	 * Typical REST read action
+	 * Typical REST get action
+	 * 
+	 * @return void
 	 */
 	public function get()	
 	{
 		return KInflector::isPlural($view) ? $this->browse() : $this->read();
 	}
 	
+	/**
+	 * Typical REST post action
+	 * 
+	 * @return void
+	 */
 	public function post()
 	{
 		// if there are no id's, we are adding an item
 		return (!$id && !count($cid)) ? parent::add() : parent::edit();
 	}
 	
+	/**
+	 * Typical REST put action
+	 * 
+	 * @return void
+	 */
 	public function put()
 	{
 		return parent::add();
 	}
 	
+	/**
+	 * Typical REST delete action
+	 * 
+	 * @return void
+	 */
 	public function delete()
 	{
 		return parent::delete();
-	}
-	
+	}	
 }

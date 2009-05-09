@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: page.php 587 2008-11-08 01:02:35Z mathias $
+ * @version		$Id$
  * @category	Koowa
  * @package     Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
@@ -11,8 +11,8 @@
 /**
  * Form Controller Class
  *
- * @author		Johan Janssens <johan@joomlatools.org>
- * @author 		Mathias Verraes <mathias@joomlatools.org>
+ * @author		Johan Janssens <johan@koowa.org>
+ * @author 		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Controller
  * @uses        KSecurityToken

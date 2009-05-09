@@ -13,8 +13,8 @@
  *
  * Allows to get input from GET, POST, COOKIE, ENV, SERVER
  *
- * @author		Mathias Verraes <mathias@joomlatools.org>
- * @author		Johan Janssens <johan@joomlatools.org>
+ * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Request
  * @uses		KFilter
@@ -308,7 +308,8 @@ class KRequest
 	
 	/**
 	 * Returns current request method.
-	 *
+	 * 
+	 * @throws 	KRequestException Wgen the method could not be found
 	 * @return  string
 	 */
 	public static function method()
@@ -335,6 +336,7 @@ class KRequest
 	/**
 	 * Return the current request type.
 	 *
+	 * @throws KControllerException When the type could not be found
 	 * @return  string
 	 */
 	public static function type()
