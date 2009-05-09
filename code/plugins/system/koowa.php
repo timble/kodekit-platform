@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Plugins
  * @subpackage  System
- * @copyright   Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPLv2
  * @link        http://www.koowa.org
  */

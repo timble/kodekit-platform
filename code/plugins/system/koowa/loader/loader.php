@@ -3,7 +3,7 @@
  * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
  * @category	Koowa
  * @package		Koowa_Loader
- * @copyright	Copyright (C) 2007 - 2009 Joomlatools. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
 
