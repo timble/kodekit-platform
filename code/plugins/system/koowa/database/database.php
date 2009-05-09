@@ -9,7 +9,7 @@
  */
 
 /**
- * Database 
+ * Database Factory
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -29,8 +29,8 @@ class KDatabase
 	 * Factory for KDatabaseAdapterInterface classes.
 	 *
 	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'adapter', ...(this list is not meant to be 
-	 * comprehensive).
+	 * 				  Recognized key values include 'adapter', ...(this list is 
+	 *                not meant to be comprehensive).
 	 * @return KDatabaseAdapterAbstract
 	 * @throws KDatabaseException
 	 */
