@@ -80,7 +80,7 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @var integer
 	 */
-	public $limit = null;
+	public $limit = 0;
 
 	/**
 	 * The limit offset element
@@ -465,11 +465,11 @@ class KDatabaseQuery extends KObject
             
             $query .= implode(' , ', $list) . PHP_EOL;
 		}
-	
-		if (isset($this->limit)) {
+		
+		if (!empty($this->limit)) {
 			$query .= ' LIMIT '.$this->offset.' , '.$this->limit.PHP_EOL;
 		}
-		
+			
 		return $query;
 	}
 }

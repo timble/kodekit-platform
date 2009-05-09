@@ -168,7 +168,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function selectAssoc($sql)
 	{
 		$array = array();
-		if (!($result = $this->select($sql))) 
+		if ($result = $this->select($sql)) 
 		{
 			$array = $result->fetch_assoc( );
 			$result->free();
@@ -216,7 +216,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function selectObject($sql)
 	{
 		$object = null;
-		if (!($result = $this->select($sql))) 
+		if ($result = $this->select($sql)) 
 		{
 			$object = $result->fetch_object( );
 			$result->free();

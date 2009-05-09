@@ -22,7 +22,7 @@ class KModelTable extends KModelAbstract
 	 *
 	 * @var object
 	 */
-	protected $_adapter;
+	protected $_db;
 	
 	/**
 	 * Table object or identifier (APP::com.COMPONENT.table.TABLENAME)

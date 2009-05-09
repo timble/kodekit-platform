@@ -379,7 +379,7 @@ abstract class KDatabaseTableAbstract extends KObject
         			$query->from($this->getTableName().' AS tbl');
         		}
             }
-            
+              
         	//$this->_db->select($query, $offset, $limit);
 			$result = (array) $this->_db->selectAssocList($query);
 			
