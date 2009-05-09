@@ -152,7 +152,7 @@ class KDocumentFeedRendererRSS extends KDocumentRenderer
 	 */
 	public function _relToAbs($text)
 	{
-		$base = JURI::base();
+		$base = KRequest::base();
   		$text = preg_replace("/(href|src)=\"(?!http|ftp|https)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;

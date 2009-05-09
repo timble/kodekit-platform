@@ -31,10 +31,11 @@ class KViewHelperSparkline
     {
         $params['format'] = 'sparkline';
         $uri = JURI::getInstance($url);
-        foreach($params as $k => $v)
-        {
+        
+        foreach($params as $k => $v) {
         	$uri->setVar($k, $v);
         }
+        
         $h = isset($params['h']) ? 'height="'.$params['h'].'"' : '';
         $w = isset($params['w']) ? 'width="'.$params['w'].'"' : '';
         $result = '<img src="'.$uri->toString().'" alt="'.$title.'" '.$h.' '.$w.' />';

@@ -94,7 +94,7 @@ class KViewHelperImage
 		$src = $paths[$path];
 	
 		// Prepend the base path
-		$src = JURI::base(true).'/'.$src;
+		$src = KRequest::base().'/'.$src;
 
 		// outputs actual html <img> tag
 		if ($toHtml) {

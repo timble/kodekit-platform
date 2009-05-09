@@ -229,7 +229,7 @@ class KDocumentHtml extends KDocumentAbstract
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl  = JURI::base(true);
+		$this->baseurl  = KRequest::base();
 		$this->params   = $params;
 
 		// load
@@ -311,7 +311,7 @@ class KDocumentHtml extends KDocumentAbstract
 			{
 				$path = str_replace( JPATH_BASE . DS, '', $dir );
 				$path = str_replace( '\\', '/', $path );
-				$this->addFavicon( JURI::base(true).'/'.$path . 'favicon.ico' );
+				$this->addFavicon( KRequest::base().'/'.$path . 'favicon.ico' );
 				break;
 			}
 		}

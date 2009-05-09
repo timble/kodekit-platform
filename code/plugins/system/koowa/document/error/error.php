@@ -96,7 +96,7 @@ class KDocumentError extends KDocumentAbstract
 		}
 
 		//set variables
-		$this->baseurl  = JURI::base(true);
+		$this->baseurl  = KRequest::base();
 		$this->template = $template;
 		$this->debug	= isset($params['debug']) ? $params['debug'] : false;
 		$this->error	= $this->_error;

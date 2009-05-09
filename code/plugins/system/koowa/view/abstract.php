@@ -132,7 +132,7 @@ abstract class KViewAbstract extends KObject
     {
         $defaults = array(
             'base_path'     => JPATH_COMPONENT.DS.'views',
-            'base_url'      => JURI::base(true),
+            'base_url'      => KRequest::base(),
             'charset'       => null, // TODO unused?
             'document'      => null,
             'escape'        => 'htmlspecialchars',

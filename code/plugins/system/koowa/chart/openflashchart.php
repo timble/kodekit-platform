@@ -62,15 +62,10 @@ class KChartOpenflashchart extends KObject
      */
     public static function renderSwfobject( $dataUrl, $id, $swfUrl, $width = '100%', $height = '450px', $bgcolor = '#FFFFFF', $divAttr = '')
     {
-        $option = KRequest::get('get.option', 'cmd');
-
-        //$swfUrl     = $swfUrl ? $swfUrl : JURI::root()."administrator/components/$option/media/swf/open-flash-chart.swf";
-        $dataUrl     = urlencode($dataUrl);
-
-        $uri        = JURI::getInstance();
-        $protocol   = $uri->isSSL() ? 'https' : 'http';
-
-
+        $option 	= KRequest::get('get.option', 'cmd');
+        $dataUrl    = urlencode($dataUrl);
+        $protocol   = KRequest::protocol();
+        
         ob_start();
         ?>
         <div style="width:<?php echo $width?>;height:<?php echo $height?>;" <?php echo $divAttr?>>
