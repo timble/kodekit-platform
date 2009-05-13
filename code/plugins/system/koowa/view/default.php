@@ -26,7 +26,7 @@ class KViewDefault extends KViewAbstract
 		if(KInflector::isPlural($suffix)) {
 			$this->assign($suffix, $model->getList());
 		} else {
-			$this->assign($suffix, $model->getList());
+			$this->assign($suffix, $model->getItem());
 		}
 
 		// Display the layout
