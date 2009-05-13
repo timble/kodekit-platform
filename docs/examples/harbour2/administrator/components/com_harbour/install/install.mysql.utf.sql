@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS `#__harbour_boats` (
 
 INSERT INTO `#__harbour_boats` (`name`) VALUES
 ('Herald of Free Enterprise'),
-('Titanic');
-
+('Titanic'),
+('Flying Dutchman');
