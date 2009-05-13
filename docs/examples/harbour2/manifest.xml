@@ -10,10 +10,6 @@
 	<version>0.7.0</version>
 	<description>Eexample Koowa component</description>
 
-	<!-- Application/site -->
-	<files folder="components/com_harbour">
-		<file>harbour.php</file>
-	</files>
 	
 	<!-- Application/administrator -->
 	<administration>
