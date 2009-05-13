@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Harbour</name>
+	<author>Joomlatools</author>
+	<creationDate>April 2009</creationDate>
+	<copyright>(C) 2007 - 2009 Joomlatools. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support@joomlatools.eu</authorEmail>
+	<authorUrl>www.joomlatools.eu</authorUrl>
+	<version>0.7.0</version>
+	<description>Eexample Koowa component</description>
+
+	<!-- Application/site -->
+	<files folder="components/com_harbour">
+		<file>harbour.php</file>
+	</files>
+	
+	<!-- Application/administrator -->
+	<administration>
+		<menu>Harbour</menu>
+
+		<files folder="administrator/components/com_harbour">
+			<file>harbour.php</file>
+			<folder>install</folder>
+			<folder>views</folder>
+		</files>
+
+	</administration>
+	
+	<!-- Installation -->
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install/install.mysql.utf.sql</file>
+		</sql>
+	</install>
+
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">install/uninstall.mysql.utf.sql</file>
+		</sql>
+	</uninstall>
+</install>
