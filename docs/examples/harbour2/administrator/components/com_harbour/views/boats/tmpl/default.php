@@ -2,7 +2,9 @@
 <? foreach(@$boats as $boat) : ?>
     <li>
     	<?=$boat->id?>.
-    	<?=$boat->name?>
+    	<a href="<?=$boat->link?>">
+    		<?=$boat->name?>
+    	</a>
     </li>
 <? endforeach; ?>
 </ul>
