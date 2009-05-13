@@ -94,12 +94,16 @@ abstract class KViewAbstract extends KObject
 		// Set a base path for use by the view
 		$this->_basePath	= $options['base_path'];
 
-		// set the default template search path
-		if ($options['template_path']) {
-			// user-defined dirs
-			$this->setTemplatePath($options['template_path']);
-		} else {
-			$this->setTemplatePath($this->_basePath.DS.'tmpl');
+		// Add template paths
+		$template	= KFactory::get('lib.joomla.application')->getTemplate();
+		$prefix 	= $this->getClassName('prefix');
+		$suffix 	= $this->getClassName('suffix');
+		$path 		= JPATH_BASE.DS.'components'.DS.'com_'.$prefix.DS.'views'.DS.$suffix.DS.'tmpl';
+		$override 	= JPATH_BASE.DS.'templates'.DS.$template.DS.'html'.DS.'com_'.$prefix.DS.$suffix;
+		$this->addTemplatePath($path)
+			 ->addTemplatePath($override);
+		if($options['template_path']) {
+			$this->addTemplatePath($options['template_path']);
 		}
 		
 		// assign the document object
@@ -317,34 +321,6 @@ abstract class KViewAbstract extends KObject
 		return $this;
 	}
 	
-	/**
-	 * Sets an entire array of search paths for templates or resources.
-	 *
-	 * @param string 	   $type The type of path to set, typically 'template'.
-	 * @param string|array $path The new set of search paths.  If null or
-	 * 							 false, resets to the current directory only.
-	 * @return object KViewAbstract
-	 */
-	public function setTemplatePath($path)
-	{
-		// clear out the prior search dirs
-		$this->_templatePath = array();
-
-		// actually add the user-specified directories
-		$this->addTemplatePath($path);
-
-		// always add the fallback directories as last resort
-		$app = KFactory::get('lib.joomla.application');
-		
-		// validating option as a command, but sanitizing it to use as a filename
-		$option = KRequest::get('get.option', 'cmd', 'filename');
-				
-		// set the alternative template search dir
-		$fallback = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$option.DS.$this->getClassName('suffix');
-		$this->addTemplatePath($fallback);
-		
-		return $this;
-	}
 
 	/**
 	 * Adds to the stack of helper script paths in LIFO order.
