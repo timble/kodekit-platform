@@ -24,7 +24,9 @@ class KViewDefault extends KViewAbstract
 		$model = KFactory::get('admin::com.'.$prefix.'.model.'.$suffix);
 
 		if(KInflector::isPlural($suffix)) {
-			$this->assign($suffix, $model->getList());
+			$this->assign($suffix, 		$model->getList());
+			$this->assign('filter',  	$model->getFilters());
+			$this->assign('pagination', $model->getPagination());
 		} else {
 			$this->assign($suffix, $model->getItem());
 		}
