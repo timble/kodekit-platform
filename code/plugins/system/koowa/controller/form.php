@@ -89,7 +89,7 @@ class KControllerForm extends KControllerBread
 	{
 		KSecurityToken::check() or die('Invalid token or time-out, please try again');
 		
-		$result = parent::edit();
+		$row = parent::edit();
 
 		$view 	= $this->getClassName('suffix');
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -97,7 +97,7 @@ class KControllerForm extends KControllerBread
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
 		
-		return $result;
+		return $row;
 	}
 		
 	/*
