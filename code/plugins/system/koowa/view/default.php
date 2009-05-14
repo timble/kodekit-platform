@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_View
  */
-class KViewDefault extends KViewAbstract
+class KViewDefault extends KViewHtml
 {
 	public function display($tpl = null)
 	{
