@@ -40,6 +40,10 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 
         // Assign the classname with values from the config
         $this->setClassName($this->_options['name']);
+        
+        // Set the title
+        $title = empty($this->_options['title']) ? KInflector::humanize($this->getName()) : $this->_options['title'];
+        $this->setTitle($title);
 	}
 	
 	/**
@@ -63,11 +67,12 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'name'          => array(
+            'name'      => array(
                         'prefix'    => 'k',
                         'base'      => 'toolbar',
                         'suffix'    => 'default'
-                        )     
+                        ),
+            'title'		=> null     
         );
 
         return array_merge($defaults, $options);
@@ -126,5 +131,17 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		$html[] = '</div>';
 
 		return implode(PHP_EOL, $html);
+	}
+	
+	public function setTitle($title, $icon = 'generic.png')
+	{
+		//strip the extension
+		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+
+		$html  = "<div class=\"header icon-48-$icon\">\n";
+		$html .= "$title\n";
+		$html .= "</div>\n";
+
+		KFactory::get('lib.joomla.application')->set('JComponentTitle', $html);
 	}
 }
