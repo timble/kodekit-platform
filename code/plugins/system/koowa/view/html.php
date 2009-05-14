@@ -29,13 +29,14 @@ class KViewHtml extends KViewAbstract
 		
 		// Set a base path for use by the view
 		$this->assign('baseurl', $options['base_url']);
+
+		parent::__construct($options);
 		
 		// Replace Joomla's toolbar with our own
 		jimport('joomla.html.toolbar');
 		$bar = & JToolBar::getInstance('toolbar');
 		$bar = KFactory::get('admin::com.'.$this->getClassName('prefix').'.toolbar.'.$this->getClassName('suffix'));
 		
-		parent::__construct($options);
 	}
 	
 	public function display($tpl = null)
