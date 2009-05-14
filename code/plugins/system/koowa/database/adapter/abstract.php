@@ -308,6 +308,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 	
+			$this->execute($sql);	 
 			$args['result'] = $this->_insert_id;		
 			$this->getCommandChain()->run('database.after.insert', $args);
 		}
@@ -350,6 +351,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			  	.' '.$args['where']
 			;
 			
+			$this->execute($sql);
 			$args['result'] = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.update', $args);
 		}
@@ -383,6 +385,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 				  .' '.$args['where']
 			;
 			
+			$this->execute($sql);
 			$args['result'] = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.delete', $args);	
 		}
@@ -708,6 +711,11 @@ abstract class KDatabaseAdapterAbstract extends KObject
         }
          
         return $this->_name_quote. $name.$this->_name_quote;
+    }
+    
+    public function getInsertId()
+    {
+    	return $this->_insert_id;
     }
     
 }

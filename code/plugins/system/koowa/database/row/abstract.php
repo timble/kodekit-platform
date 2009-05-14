@@ -140,7 +140,7 @@ abstract class KDatabaseRowAbstract extends KObject
         } else 
         {
         	if($this->_table->insert($properties)) {
-        		$this->id = $this->_table->getAdapter()->insertid();
+        		$this->id = $this->_table->getDatabase()->getInsertId();
         	}
         }
 

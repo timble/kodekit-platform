@@ -465,9 +465,6 @@ abstract class KDatabaseTableAbstract extends KObject
 		$table = $this->getTableName();
 		
 		$result = $this->_db->insert($table, $data);
-		if($err = $this->_db->getError()) {
-        	throw new KDatabaseTableException($err);
-        }
 		return $result;
 	}
 
@@ -496,12 +493,8 @@ abstract class KDatabaseTableAbstract extends KObject
             		->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
-
 		$result = $this->_db->update($table, $data, $where);
-		if($err = $this->_db->getError()) {
-        	throw new KDatabaseTableException($err);
-        }
-        return $result;
+		return $result;
 	}
 
 	/**
@@ -529,10 +522,6 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 
 		$result = $this->_db->delete($table, $where);
-		if($err = $this->_db->getError()) {
-        	throw new KDatabaseTableException($err);
-        }
-        
 		return $result;
 	}
 	
@@ -579,7 +568,7 @@ abstract class KDatabaseTableAbstract extends KObject
 			switch ($type)
 			{
 				case 'bool':
-					$data[$key] = (bool) $value;
+					$data[$key] = (int) (bool) $value; // this trick limits values to 0 and 1 
 					break;
 
  	      		case 'integer':
