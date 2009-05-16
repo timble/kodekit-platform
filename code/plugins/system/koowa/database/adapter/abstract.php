@@ -307,8 +307,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
-				 	
-			$this->execute($sql);	 
+
+			//Execute the query
+			$this->execute($sql);
+				 
 			$args['result'] = $this->_insert_id;		
 			$this->getCommandChain()->run('database.after.insert', $args);
 		}
@@ -351,7 +353,9 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			  	.' '.$args['where']
 			;
 			
+			//Execute the query
 			$this->execute($sql);
+			
 			$args['result'] = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.update', $args);
 		}
@@ -385,7 +389,9 @@ abstract class KDatabaseAdapterAbstract extends KObject
 				  .' '.$args['where']
 			;
 			
+			//Execute the query
 			$this->execute($sql);
+			
 			$args['result'] = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.delete', $args);	
 		}
@@ -398,7 +404,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * Returns number of affected rows.
 	 *
 	 * @param  string 	$sql 		The query to run.
-	 * @return integer 	The number of rows affected by $sql.
+	 * @return boolean 	True if successfull, false otherwise
 	 */
 	public function execute($sql)
 	{
