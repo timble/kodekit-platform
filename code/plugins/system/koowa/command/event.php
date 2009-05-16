@@ -15,6 +15,8 @@
  * @category	Koowa
  * @package     Koowa_Command
  * @uses 		KFactory
+ * @uses 		KEventDispatcher
+ * @uses 		KInflector
  */
 class KCommandEvent extends KObject implements KPatternCommandInterface 
 {
