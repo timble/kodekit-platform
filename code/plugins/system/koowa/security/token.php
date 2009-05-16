@@ -63,18 +63,4 @@ class KSecurityToken
         
         return ($req === $token);
     }
-    
-    /**
-     * Check if a string is a valid md5 (32 digit hexadecimal number)
-     * 
-     * @todo	Move to a separate validation class?
-     * 
-     * @param 	mixed	Variable to be tested
-     * @return 	bool
-     */
-    static public function isMd5($var)
-    {
-    	$pattern = '/^[0-9a-f]{32}$/';
-    	return (is_string($var) && preg_match($pattern, $var) == 1);
-    }
 }
