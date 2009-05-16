@@ -113,8 +113,11 @@ class KModelTable extends KModelAbstract
     public function getItem()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_item)) {
-            $this->_item = $this->getTable()->find((int)$this->getState('id'));
+        if (!isset($this->_item)) 
+        {
+            $table = $this->getTable();
+        	$query = $this->_buildQuery()->where($table->getPrimaryKey(), '=', $this->getState('id'));
+        	$this->_item = $table->fetchRow($query);
         }
 
         return parent::getItem();
@@ -130,8 +133,9 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_list)) 
         {
+        	$table = $this->getTable();
         	$query = $this->_buildQuery();
-        	$this->_list = $this->getTable()->fetchAll($query);
+        	$this->_list = $table->fetchAll($query);
         }
 
         return parent::getList();
