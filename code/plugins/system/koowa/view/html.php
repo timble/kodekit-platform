@@ -31,20 +31,22 @@ class KViewHtml extends KViewAbstract
 		$this->assign('baseurl', $options['base_url']);
 
 		parent::__construct($options);
-		
-		// Replace Joomla's toolbar with our own
-		jimport('joomla.html.toolbar');
-		$bar = & JToolBar::getInstance('toolbar');
-		$bar = KFactory::get('admin::com.'.$this->getClassName('prefix').'.toolbar.'.$this->getClassName('suffix'));
-		
 	}
 	
 	public function display($tpl = null)
 	{
 		$prefix = $this->getClassName('prefix');
+		$suffix = $this->getClassName('suffix');
 
 		//Set the main stylesheet for the component
 		KViewHelper::_('stylesheet', $prefix.'.css', 'media/com_'.$prefix.'/css/');
+		
+		//Push the toolbar output into the document buffer
+		$this->_document->setBuffer(
+			KFactory::get('admin::com.'.$prefix.'.toolbar.'.$suffix)->render(), 
+			'modules', 
+			'toolbar'
+		);	
 
 		parent::display($tpl);
 	}

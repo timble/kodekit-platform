@@ -13,6 +13,9 @@
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Toolbar
+ * @uses		KInflector
+ * @uses		KMixinClass
+ * @uses 		KFactory
  */
 abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 {
@@ -105,6 +108,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 	/**
 	 * Render the toolbar
 	 * 
+	 * @throws KToolbarException When the button could not be found
 	 * @return	string	HTML
 	 */
 	public function render()
@@ -119,9 +123,15 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		// Render each button in the toolbar
 		foreach ($this->_buttons as $button) 
 		{
-			if(!($button instanceof KToolbarButtonInterface)) {
-				$button = KFactory::tmp($button);
+			if(!($button instanceof KToolbarButtonInterface)) 	
+			{
+				try {
+					$button = KFactory::tmp('lib.koowa.toolbar.button.'.$button);
+				} catch(KFactoryAdapterException $e) {
+					throw new KToolbarException('Invalid button: '.$name);
+				}
 			}
+			
 			$button->setParent($this);
 			$html[] = $button->render();
 		}

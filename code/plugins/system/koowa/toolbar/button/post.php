@@ -32,8 +32,7 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 	public function getOnClick()
 	{
 		$js = '';
-		foreach($this->_fields as $name => $value)
-		{
+		foreach($this->_fields as $name => $value) {
 			$js .= "Koowa.Form.addField('$name', '$value');";
 		}
 		$js .= "Koowa.Form.submit('{$this->_method}');";
