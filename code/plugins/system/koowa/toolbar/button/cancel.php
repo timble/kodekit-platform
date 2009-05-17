@@ -16,12 +16,11 @@
  * @package		Koowa_Toolbar
  * @subpackage	Button
  */
-class KToolbarButtonCancel extends KToolbarButtonAbstract
+class KToolbarButtonCancel extends KToolbarButtonPost
 {
-	public function getLink()
+	public function __construct(array $options = array())
 	{
-		$option = KRequest::get('get.option', 'cmd');
-		$view	= KInflector::pluralize(KRequest::get('get.view', 'cmd'));
-		return 'index.php?option='.$option.'&view='.$view;
+		parent::__construct($options);
+		$this->setField('action', 'cancel');
 	}
 }
