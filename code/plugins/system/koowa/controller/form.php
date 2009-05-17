@@ -16,7 +16,6 @@
  * @category	Koowa
  * @package     Koowa_Controller
  * @uses        KInflector
- * @uses        KHelperArray
  */
 class KControllerForm extends KControllerBread
 {
@@ -35,9 +34,10 @@ class KControllerForm extends KControllerBread
 		
 		// Register filter functions
 		$this->registerFilterBefore('save'   , 'filterToken');
+		$this->registerFilterBefore('edit'   , 'filterToken');
+		$this->registerFilterBefore('add'    , 'filterToken');
 		$this->registerFilterBefore('apply'  , 'filterToken');
 		$this->registerFilterBefore('cancel' , 'filterToken');
-		$this->registerFilterBefore('apply'  , 'filterToken');
 		$this->registerFilterBefore('delete' , 'filterToken');
 		$this->registerFilterBefore('enable' , 'filterToken');
 		$this->registerFilterBefore('disable', 'filterToken');
