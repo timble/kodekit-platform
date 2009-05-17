@@ -42,7 +42,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
         $this->setMethod($this->_options['method']);
         
         // Mixin the KClass
-        $this->mixin(new KMixinClass($this, 'toolbarButton'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'ToolbarButton')));
 
         // Assign the classname with values from the config
         $this->setClassName($this->_options['name']);

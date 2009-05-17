@@ -39,7 +39,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
         $this->_options  = $this->_initialize($options);
         
         // Mixin the KClass
-        $this->mixin(new KMixinClass($this, 'Toolbar'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Toolbar')));
 
         // Assign the classname with values from the config
         $this->setClassName($this->_options['name']);

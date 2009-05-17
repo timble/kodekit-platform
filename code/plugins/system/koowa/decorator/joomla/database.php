@@ -61,7 +61,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 		parent::__construct($db);
 		
 		 // Mixin the command chain
-        $this->mixin(new KMixinCommand($this));
+         $this->mixin(new KMixinCommand(array('mixer' => $this)));
 	}
 
 	/**

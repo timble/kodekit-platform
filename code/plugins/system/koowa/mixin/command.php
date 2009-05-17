@@ -30,16 +30,45 @@ class KMixinCommand extends KMixinAbstract
      */
     protected $_command_chain;
 	
-	public function __construct($object, KPatternCommandInterface $command_chain = null)
+	/**
+	 * Object constructor
+	 *
+	 * @param	array 	An optional associative array of configuration settings.
+	 * Recognized key values include 'mixer', 'command_chain' 
+	 * (this list is not meant to be comprehensive).
+	 */
+	public function __construct(array $options = array())
 	{
-		parent::__construct($object);
+		// Initialize the options
+        $options  = $this->_initialize($options);
 		
-		//Create a command chain object if we didn't get one passed in
-		$this->_command_chain = is_null($command_chain) ? new KPatternCommandChain : $command_chain;
+		parent::__construct($options);
+		
+		//Create a command chain object 
+		$this->_command_chain = $options['command_chain'];
 
 		//Enqueue the event command 
 		$this->_command_chain->enqueue(new KCommandEvent());
 	}
+	
+	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+        $options = parent::_initialize($options);
+        
+    	$defaults = array(
+            'command_chain' =>  new KPatternCommandChain(),
+        );
+
+        return array_merge($defaults, $options);
+    }
 	
 	/**
 	 * Get the chain of command object

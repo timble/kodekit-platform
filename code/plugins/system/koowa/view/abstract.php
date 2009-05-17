@@ -80,7 +80,7 @@ abstract class KViewAbstract extends KObject
         $options  = $this->_initialize($options);
 
         // Mixin the KMixinClass
-        $this->mixin(new KMixinClass($this, 'View'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'View')));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);

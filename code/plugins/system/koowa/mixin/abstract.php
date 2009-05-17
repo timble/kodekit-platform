@@ -25,10 +25,37 @@ abstract class KMixinAbstract extends KObject implements KMixinInterface
      */
     protected $_mixer;
     
-	public function __construct($mixer)
+    /**
+	 * Object constructor
+	 *
+	 * @param	array 	An optional associative array of configuration settings.
+	 * Recognized key values include 'mixer' (this list is not meant to be comprehensive).
+	 */
+	public function __construct(array $options = array())
 	{
-		$this->_mixer = $mixer;
+		if(is_null($options['mixer'])) {
+			throw new KMixinException('mixer [KObject] option is required');
+		}
+		
+		$this->_mixer = $options['mixer'];
 	}
+	
+	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+    	$defaults = array(
+            'mixer' =>  null,
+        );
+
+        return array_merge($defaults, $options);
+    }
 	
 	/**
 	 * Get the methods that are available for mixin. 

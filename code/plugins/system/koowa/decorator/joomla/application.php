@@ -32,7 +32,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		parent::__construct($app);
 		
 		// Mixin the command chain
-        $this->mixin(new KMixinCommand($this));
+        $this->mixin(new KMixinCommand(array('mixer' => $this)));
 	}
 	
 	/**

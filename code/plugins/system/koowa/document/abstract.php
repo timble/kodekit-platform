@@ -180,7 +180,7 @@ abstract class KDocumentAbstract extends KObject
 		}
 		
 		 // Mixin the KMixinClass
-        $this->mixin(new KMixinClass($this, 'Document'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Document')));
 		
 		// Assign the classname with values from the config
 		if(isset($options['name'])) {

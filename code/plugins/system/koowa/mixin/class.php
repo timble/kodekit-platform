@@ -36,18 +36,46 @@ class KMixinClass extends KMixinAbstract
      */
     protected $_name_parts;
 
-    /**
-     * Constructor
-     *
-     * @param	object	Object
-     * @param	string	Basename for the object [controller|view|...]
-     */
-	public function __construct($mixer, $basename)
+     /**
+	 * Object constructor
+	 *
+	 *
+	 * @param	array 	An optional associative array of configuration settings.
+	 * Recognized key values include 'mixer', 'base_name' 
+	 * (this list is not meant to be comprehensive).
+	 */
+	public function __construct(array $options = array())
     {
-    	parent::__construct($mixer);
+    	// Initialize the options
+        $options  = $this->_initialize($options);
     	
-        $this->_name_base    = $basename;
-        $this->_name_parts   = KInflector::split($basename, get_class($this->_mixer));
+    	parent::__construct($options);
+    	
+    	if(empty($options['name_base'])) {
+			throw new KMixinException('name_base [string] option is required');
+		}
+    	
+        $this->_name_base    = $options['name_base'];
+        $this->_name_parts   = KInflector::split($options['name_base'], get_class($this->_mixer));
+    }
+    
+	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+        parent::_initialize($options);
+    	
+    	$defaults = array(
+            'name_base' =>  '',
+        );
+
+        return array_merge($defaults, $options);
     }
 
     /**

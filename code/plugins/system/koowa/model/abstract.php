@@ -67,7 +67,7 @@ abstract class KModelAbstract extends KObject
 		$options  = $this->_initialize($options);
 
 		// Mixin the KClass
-		$this->mixin(new KMixinClass($this, 'Model'));
+		$this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Model')));
 
 		// Assign the classname with values from the config
 		$this->setClassName($options['name']);

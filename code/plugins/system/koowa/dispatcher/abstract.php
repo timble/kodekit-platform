@@ -39,7 +39,7 @@ abstract class KDispatcherAbstract extends KObject
         $this->_options  = $this->_initialize($options);
          
         // Mixin the KClass
-        $this->mixin(new KMixinClass($this, 'Dispatcher'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Dispatcher')));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
@@ -87,7 +87,7 @@ abstract class KDispatcherAbstract extends KObject
         $controller = $this->getController();
         
         // Perform the Request action
-        $default = KRequest::get('get.action', 'cmd');
+        $default = KRequest::get('get.action', 'cmd', 'read');
         $action  = KRequest::get('post.action', 'cmd', $default);
         $controller->execute($action);
         
