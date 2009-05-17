@@ -78,11 +78,14 @@ abstract class KControllerAbstract extends KObject
         // Initialize the options
         $options  = $this->_initialize($options);
         
-        // Mixin the command chain
-        $this->mixin(new KMixinCommand($this, $options['command_chain']));
-
-        // Mixin the KMixinClass
-        $this->mixin(new KMixinClass($this, 'Controller'));
+        // Mixin a command chain
+        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        
+         // Mixin the classname helper
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Controller')));
+        
+        //Mixin a filter
+        $this->mixin(new KMixinFilter(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
@@ -98,7 +101,7 @@ abstract class KControllerAbstract extends KObject
 		// Iterate through methods and map actions
 		foreach ( $methods as $method )
 		{
-			if ( substr( $method, 0, 1 ) != '_' )
+			if ( substr( $method, 0, 1 ) != '_')
             {
 				$this->_methods[] = strtolower($method);
 				// auto register public methods as actions
@@ -127,7 +130,7 @@ abstract class KControllerAbstract extends KObject
                         'base'      => 'controller',
                         'suffix'    => 'default'
                         ),
-            'command_chain' =>  null
+            'command_chain' =>  new KPatternCommandChain()
         );
 
         return array_merge($defaults, $options);
@@ -139,7 +142,7 @@ abstract class KControllerAbstract extends KObject
 	 * @param	string The action to perform
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 */
-	public function execute($action)
+	public function execute($action = 'read')
 	{
 		//Convert to lower case for lookup
 		$action = strtolower( $action );

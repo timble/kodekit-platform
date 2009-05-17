@@ -15,7 +15,6 @@
  * @author 		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Controller
- * @uses        KSecurityToken
  * @uses        KInflector
  * @uses        KHelperArray
  */
@@ -33,6 +32,17 @@ class KControllerForm extends KControllerBread
 
 		// Register extra actions
 		$this->registerAction('disable', 'enable');
+		
+		// Register filter functions
+		$this->registerFilterBefore('save'   , 'filterToken');
+		$this->registerFilterBefore('apply'  , 'filterToken');
+		$this->registerFilterBefore('cancel' , 'filterToken');
+		$this->registerFilterBefore('apply'  , 'filterToken');
+		$this->registerFilterBefore('delete' , 'filterToken');
+		$this->registerFilterBefore('enable' , 'filterToken');
+		$this->registerFilterBefore('disable', 'filterToken');
+		$this->registerFilterBefore('access' , 'filterToken');
+		$this->registerFilterBefore('order'  , 'filterToken');
 	}
 	
 	/**
@@ -67,8 +77,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function save()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$result = parent::edit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
@@ -87,8 +95,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function apply()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$row = parent::edit();
 
 		$view 	= $this->getClassName('suffix');
@@ -107,8 +113,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function cancel()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
@@ -123,8 +127,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function delete()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$result = parent::delete();
 
 		// Get the table object attached to the model
@@ -144,8 +146,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function enable()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-	
 		$cid = (array) KRequest::get('post.cid', 'int');
 
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
@@ -176,8 +176,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function access()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
 		
@@ -204,8 +202,6 @@ class KControllerForm extends KControllerBread
 	 */
 	public function order()
 	{
-		KSecurityToken::check() or die('Invalid token or time-out, please try again');
-		
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
 		
@@ -225,5 +221,18 @@ class KControllerForm extends KControllerBread
 		);
 		
 		return $row;
+	}
+	
+	/**
+	 * Filter the token to prevent CSRF exploirs
+	 * 
+	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 */
+	public function filterToken($args)
+	{		
+		$req		= KRequest::get('post._token', 'md5'); 
+        $token		= JUtility::getToken();
+          
+        return ($req === $token);
 	}
 }
