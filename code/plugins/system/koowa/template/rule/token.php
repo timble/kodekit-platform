@@ -29,7 +29,6 @@ class KTemplateRuleToken extends KObject implements KTemplateRuleInterface
 		'@text('	 	=> 'JText::_(',
 		'@helper('   	=> '$this->loadHelper(',
 		'@route('    	=> '$this->createRoute(',
-		'@token('		=> 'KSecurityToken::render('
 	);
 	
 	/**

@@ -29,13 +29,12 @@ class KTemplateRuleForm extends KObject implements KTemplateRuleInterface
 	{		 
 		$contains_form 	= strpos($text, '</form>');
 		$is_get			= preg_match('/method=[\'"]get[\'"]/', $text);
-		$has_token		= strpos($text, 'KSecurityToken');
 				 
-        if( $contains_form && !$is_get && !$has_token) 
+        if( $contains_form && !$is_get) 
         {
         	$text = str_replace(
         		'</form>', 
-        		KSecurityToken::render().PHP_EOL.'</form>', 
+        		'<input type="hidden" name="_token" value="'.JUtility::getToken().'" />'.PHP_EOL.'</form>', 
         		$text
         	);
         }
