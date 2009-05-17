@@ -59,7 +59,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
         $options  = $this->_initialize($options);
 
         // Mixin the KMixinClass
-        $this->mixin(new KMixinClass($this, 'Rowset'));
+        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Rowset')));
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);

@@ -37,7 +37,7 @@ class KDatabase
 	public static function factory(array $options = array())
 	{
 		if(!isset($options['adapter'])) {
-			throw new KDatabaseException('Adapter name is required');
+			throw new KDatabaseException('adapter [string] option is required');
 		}
 	
 		$class = 'KDatabaseAdapter'.ucfirst($options['adapter']);

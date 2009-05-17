@@ -82,7 +82,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
         $options  = $this->_initialize($options);
        
         // Mixin the command chain
-        $this->mixin(new KMixinCommand($this, $options['command_chain']));
+        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
         
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($options['charset'])) {
@@ -116,7 +116,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'command_chain' =>  null,
+            'command_chain' =>  new KPatternCommandChain(),
         	'charset'		=> 'UTF-8',
         	'table_prefix'  => 'jos_'
         );
