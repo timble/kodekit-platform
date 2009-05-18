@@ -49,7 +49,7 @@ class KMixinFilter extends KMixinAbstract implements KPatternCommandInterface
 		}
 	
 		//Enque the filter in the mixer's command chain
-		$options['command_chain']->enqueue($this);
+		$options['command_chain']->enqueue($this, 2);
 	}
 	
 	/**
