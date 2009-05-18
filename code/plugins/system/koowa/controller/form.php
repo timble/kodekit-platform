@@ -75,9 +75,9 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	public function save()
+	public function executeSave()
 	{
-		$result = parent::edit();
+		$result = parent::executeEdit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -93,9 +93,9 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	public function apply()
+	public function executeApply()
 	{
-		$row = parent::edit();
+		$row = parent::executeEdit();
 
 		$view 	= $this->getClassName('suffix');
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -111,7 +111,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return 	void
 	 */
-	public function cancel()
+	public function executeCancel()
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
@@ -125,9 +125,9 @@ class KControllerForm extends KControllerBread
 	 * @throws KControllerException
 	 * @return void
 	 */
-	public function delete()
+	public function executeDelete()
 	{
-		$result = parent::delete();
+		$result = parent::executeDelete();
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -144,7 +144,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	public function enable()
+	public function executeEnable()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
 
@@ -174,7 +174,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	public function access()
+	public function executeAccess()
 	{
 		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
@@ -200,7 +200,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the reordered data
 	 */
-	public function order()
+	public function executeOrder()
 	{
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
@@ -212,8 +212,7 @@ class KControllerForm extends KControllerBread
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name);
-		$row   = $table->fetchRow($id)
-					->order($change);
+		$row   = $table->fetchRow($id)->order($change);
 		
 		$this->setRedirect(
 			'view='.$view

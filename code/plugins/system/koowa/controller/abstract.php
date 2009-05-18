@@ -95,20 +95,17 @@ abstract class KControllerAbstract extends KObject
 		$baseMethods	= get_class_methods( 'KControllerAbstract' );
 		$methods		= array_diff( $thisMethods, $baseMethods );
 
-		// Add default display method
-		$methods[] = 'read';
-
 		// Iterate through methods and map actions
 		foreach ( $methods as $method )
 		{
-			if ( substr( $method, 0, 1 ) != '_')
+			if ( substr( $method, 0, 7 ) == 'execute')
             {
-				$this->_methods[] = strtolower($method);
+				$this->_methods[] = $method;
 				// auto register public methods as actions
-				$this->_actionMap[strtolower($method)] = $method;
+				$this->_actionMap[strtolower(substr( $method, 7 ))] = $method;
 			}
 		}
-
+		
 		// If the default action is set, register it as such
 		$this->registerDefaultAction( $options['default_action'] );
 	}
@@ -124,7 +121,7 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'default_action'  => 'read',
+            'default_action'  => 'executeRead',
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'controller',
@@ -237,7 +234,7 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function registerAction( $action, $method )
 	{
-		if ( in_array( strtolower( $method ), $this->_methods ) ) {
+		if ( in_array( $method , $this->_methods ) ) {
 			$this->_actionMap[strtolower( $action )] = $method;
 		}
 		return $this; 

@@ -22,7 +22,7 @@ class KControllerBread extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	public function browse()
+	public function executeBrowse()
 	{
 		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		
@@ -36,7 +36,7 @@ class KControllerBread extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	public function read()
+	public function executeRead()
 	{
 		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		
@@ -50,7 +50,7 @@ class KControllerBread extends KControllerAbstract
 	 * 
 	 * @return KDatabaseRow 	A row object containing the updated data
 	 */
-	public function edit()
+	public function executeEdit()
 	{
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
@@ -77,7 +77,7 @@ class KControllerBread extends KControllerAbstract
 	 * 
 	 * @return KDatabaseRow 	A row object containing the new data
 	 */
-	public function add()
+	public function executeAdd()
 	{
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
@@ -102,7 +102,7 @@ class KControllerBread extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	public function delete()
+	public function executeDelete()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
 
