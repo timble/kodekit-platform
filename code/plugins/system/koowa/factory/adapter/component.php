@@ -109,6 +109,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 		}
 		
         $classname = ucfirst($component).ucfirst($type).$path.ucfirst($name);   
+            
       	if (!class_exists( $classname ))
 		{
 			//Create path
@@ -129,12 +130,12 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 					}
 				}
 			}
-
+			
 			//Find the file
-			Koowa::import('lib.joomla.filesystem.path');
-			if($file = JPath::find($options['base_path'], self::_getFileName($type, $name)))
+			$file = $options['base_path'].DS.self::_getFileName($type, $name);
+			if(file_exists($file))
 			{
-				require_once $file;
+				include $file;
 				if (!class_exists( $classname )) {
 					throw new KFactoryAdapterException($classname.' not found in file.' );
 				}
@@ -159,7 +160,10 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 		
 		if(class_exists( $classname )) 
 		{
-			$options['name'] = array('prefix' => $component, 'base' => $type.$path, 'suffix' => $name);
+			//Create the name suffix.
+			$suffix = !empty($path) ? strtolower($path).'_'.$name : $name;
+			
+			$options['name'] = array('prefix' => $component, 'base' => $type, 'suffix' => $suffix);
 			$instance = new $classname($options);
 		}
 

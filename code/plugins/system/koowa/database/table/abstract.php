@@ -117,7 +117,7 @@ abstract class KDatabaseTableAbstract extends KObject
 
         // Mixin the KMixinClass
         $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Table')));
-
+        
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
 
@@ -129,6 +129,7 @@ abstract class KDatabaseTableAbstract extends KObject
 		{
             $prefix         = $this->getClassName('prefix');
             $suffix         = $this->getClassName('suffix');
+            
 			$this->_table_name = empty($prefix) ? $suffix : $prefix.'_'.$suffix;
 		}
 

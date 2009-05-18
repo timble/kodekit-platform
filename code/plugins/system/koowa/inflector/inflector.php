@@ -366,28 +366,4 @@ class KInflector
 
         return isset($parts[$index]) ? $parts[$index] : $default;
     }
-
-    /**
-     * Splits a string using a separator
-     *
-     * @param	string	Separator
-     * @param	string	Subject
-     * @return	array	Variablized prefix, base, and suffix
-     */
-    public static function split($separator, $string )
-    {
-        $matches    = null;
-        $result     = array(
-                'prefix'=> '',
-                'base'  => self::variablize($separator),
-                'suffix'=> '',
-        );
-
-        if ( preg_match( "/(.*?)$separator(.*)/i", $string, $matches ) ) {
-            $result['prefix'] = self::variablize($matches[1]);
-            $result['suffix'] = self::variablize($matches[2]);
-        }
-
-        return $result;
-    }
 }

@@ -56,7 +56,7 @@ class KMixinClass extends KMixinAbstract
 		}
     	
         $this->_name_base    = $options['name_base'];
-        $this->_name_parts   = KInflector::split($options['name_base'], get_class($this->_mixer));
+        $this->_name_parts   = $this->_splitClassName($options['name_base'], get_class($this->_mixer));
     }
     
 	/**
@@ -87,7 +87,7 @@ class KMixinClass extends KMixinAbstract
     public function getClassName($part = null)
     {
         $parts = $this->_name_parts;
-    
+        
     	switch($part)
         {
         	case 'all':
@@ -118,7 +118,32 @@ class KMixinClass extends KMixinAbstract
             	$this->_name_parts[$part] = $array[$part];
             }
         }
-        
+      	        
         return $this->_mixer;
+    }
+    
+ 	/**
+     * Splits a string using a separator
+     *
+     * @param	string	Separator
+     * @param	string	Subject
+     * @return	array	Variablized prefix, base, and suffix
+     */
+    protected function _splitClassName($separator, $string )
+    {
+        $matches    = null;
+        $result     = array(
+                'prefix'=> '',
+                'base'  => $separator,
+                'suffix'=> '',
+        );
+
+        if ( preg_match( "/(.*?)$separator(.*)/i", $string, $matches ) ) 
+        {
+            $result['prefix'] = KInflector::underscore($matches[1]);
+            $result['suffix'] = KInflector::underscore($matches[2]);
+        }
+        
+        return $result;
     }
 }

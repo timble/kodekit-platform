@@ -31,7 +31,7 @@ class KLoaderAdapterComponent implements KLoaderAdapterInterface
 		$parts = explode('_', $word);
 		
 		$component = 'com_'.strtolower(array_shift($parts));
-		
+				
 		if(JComponentHelper::getComponent($component, true)->enabled) 
 		{ 	
 			if(count($parts) > 1) {
@@ -42,7 +42,7 @@ class KLoaderAdapterComponent implements KLoaderAdapterInterface
 
 			//Get the basepath
 			$basepath = JPATH_BASE.DS.'components';
-		
+			
 			return $basepath.DS.$component.DS.$path.'.php';
 		} 
 		

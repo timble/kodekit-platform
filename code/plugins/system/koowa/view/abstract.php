@@ -21,13 +21,6 @@
 abstract class KViewAbstract extends KObject
 {
 	/**
-	 * The base path of the view
-	 *
-	 * @var		string
-	 */
-	protected $_basePath;
-
-	/**
 	 * Layout name
 	 *
 	 * @var		string
@@ -39,7 +32,7 @@ abstract class KViewAbstract extends KObject
 	 *
 	 * @var array
 	 */
-	protected $_templatePath = array();
+	protected $_template_path = array();
 
 	/**
 	 * The name of the default template source file.
@@ -91,17 +84,18 @@ abstract class KViewAbstract extends KObject
 		 // user-defined escaping callback
         $this->setEscape($options['escape']);
 
-		// Set a base path for use by the view
-		$this->_basePath	= $options['base_path'];
-
-		// Add template paths
+		// Add default template paths
 		$template	= KFactory::get('lib.joomla.application')->getTemplate();
-		$prefix 	= $this->getClassName('prefix');
-		$suffix 	= $this->getClassName('suffix');
+		
+		$prefix 	= str_replace('_', DS, $this->getClassName('prefix'));
+		$suffix 	= str_replace('_', DS, $this->getClassName('suffix'));
+		
 		$path 		= JPATH_BASE.DS.'components'.DS.'com_'.$prefix.DS.'views'.DS.$suffix.DS.'tmpl';
 		$override 	= JPATH_BASE.DS.'templates'.DS.$template.DS.'html'.DS.'com_'.$prefix.DS.$suffix;
-		$this->addTemplatePath($path)
-			 ->addTemplatePath($override);
+			
+		$this->addTemplatePath($path);
+		$this->addTemplatePath($override);
+		
 		if($options['template_path']) {
 			$this->addTemplatePath($options['template_path']);
 		}
@@ -135,7 +129,6 @@ abstract class KViewAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'base_path'     => JPATH_COMPONENT.DS.'views',
             'base_url'      => KRequest::base(),
             'charset'       => null, // TODO unused?
             'document'      => null,
@@ -143,7 +136,7 @@ abstract class KViewAbstract extends KObject
             'layout'        => 'default',
             'name'          => array(
                         'prefix'    => 'k',
-                        'base'      => 'view',
+                        'base'      => 'View',
                         'suffix'    => 'default'
                         ),
 			'template_rules' => array( 
@@ -315,7 +308,7 @@ abstract class KViewAbstract extends KObject
 			}
 
 			// add to the top of the search dirs
-			array_unshift($this->_templatePath, $dir);
+			array_unshift($this->_template_path, $dir);
 		}
 		
 		return $this;
@@ -355,7 +348,7 @@ abstract class KViewAbstract extends KObject
 
 		// load the template script
 		Koowa::import('lib.joomla.filesystem.path');
-		$this->_template = JPath::find($this->_templatePath, $file.'.php');
+		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
 		
 		if ($this->_template === false) {
 			throw new KViewException( 'Layout "' . $file . '" not found' );
@@ -382,6 +375,46 @@ abstract class KViewAbstract extends KObject
 		ob_end_clean();
 
 		return $this->_output;		
+	}
+	
+	/**
+	 * Searches the directory paths for a given file.
+	 *
+	 * @param	array|string	An path or array of path to search in
+	 * @param	string			The file name to look for.
+	 * @return	mixed			The full path and file name for the target file, or FALSE
+	 * 							if the file is not found in any of the paths
+	 */
+	public function findTemplate($paths, $file)
+	{
+		settype($paths, 'array'); //force to array
+
+		// start looping through the path set
+		foreach ($paths as $path)
+		{
+			// get the path to the file
+			$fullname = $path.DS.$file;
+
+			// is the path based on a stream?
+			if (strpos($path, '://') === false)
+			{
+				// not a stream, so do a realpath() to avoid directory
+				// traversal attempts on the local file system.
+				$path = realpath($path); // needed for substr() later
+				$fullname = realpath($fullname);
+			}
+
+			// the substr() check added to make sure that the realpath()
+			// results in a directory registered so that
+			// non-registered directores are not accessible via directory
+			// traversal attempts.
+			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path) {
+				return $fullname;
+			}
+		}
+
+		// could not find the file in the set of paths
+		return false;
 	}
 
 	/**
