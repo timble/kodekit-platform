@@ -33,16 +33,16 @@ class KControllerForm extends KControllerBread
 		$this->registerAction('disable', 'enable');
 		
 		// Register filter functions
-		$this->registerFilterBefore('save'   , 'filterToken');
-		$this->registerFilterBefore('edit'   , 'filterToken');
-		$this->registerFilterBefore('add'    , 'filterToken');
-		$this->registerFilterBefore('apply'  , 'filterToken');
-		$this->registerFilterBefore('cancel' , 'filterToken');
-		$this->registerFilterBefore('delete' , 'filterToken');
-		$this->registerFilterBefore('enable' , 'filterToken');
-		$this->registerFilterBefore('disable', 'filterToken');
-		$this->registerFilterBefore('access' , 'filterToken');
-		$this->registerFilterBefore('order'  , 'filterToken');
+		$this->registerFilterBefore('save'   , 'filterToken')
+			 ->registerFilterBefore('edit'   , 'filterToken')
+			 ->registerFilterBefore('add'    , 'filterToken')
+			 ->registerFilterBefore('apply'  , 'filterToken')
+			 ->registerFilterBefore('cancel' , 'filterToken')
+			 ->registerFilterBefore('delete' , 'filterToken')
+			 ->registerFilterBefore('enable' , 'filterToken')
+			 ->registerFilterBefore('disable', 'filterToken')
+			 ->registerFilterBefore('access' , 'filterToken')
+			 ->registerFilterBefore('order'  , 'filterToken');
 	}
 	
 	/**
