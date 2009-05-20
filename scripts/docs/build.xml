@@ -19,7 +19,8 @@
 		  		defaultcategoryname="Koowa"
 		  		ignoretags="@author">		  		
 			<fileset dir="${dir.tmp}">
-		      <include name="**/*.php" />		      
+		      <include name="**/*.php" />
+			  <exclude name="chart/**" />
 		   </fileset>
 		</phpdoc>
 				
