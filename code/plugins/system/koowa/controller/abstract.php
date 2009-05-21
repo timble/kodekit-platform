@@ -98,11 +98,11 @@ abstract class KControllerAbstract extends KObject
 		// Iterate through methods and map actions
 		foreach ( $methods as $method )
 		{
-			if ( substr( $method, 0, 7 ) == 'execute')
+			if ( substr( $method, 0, 8 ) == '_execute')
             {
 				$this->_methods[] = $method;
 				// auto register public methods as actions
-				$this->_actionMap[strtolower(substr( $method, 7 ))] = $method;
+				$this->_actionMap[strtolower(substr( $method, 8 ))] = $method;
 			}
 		}
 		
@@ -121,7 +121,7 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'default_action'  => 'executeRead',
+            'default_action'  => '_executeRead',
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'controller',
@@ -307,4 +307,29 @@ abstract class KControllerAbstract extends KObject
 		
 		return $result;
 	}
+	
+	/**
+     * Search the action map, and call the action if found or let the parent handle the call.
+     *
+   	 * @param  string $function		The function name
+	 * @param  array  $arguments	The function arguments
+	 * @return mixed The result of the function
+     */
+    public function __call($method, $args)
+    {
+        if(substr( $method, 0, 7 ) == 'execute') 
+        {
+        	$method    = '_'.$method;
+        	$mehtodMap = array_flip($this->_actionMap);
+        	
+        	if (isset( $methodMap[$method] )) 
+ 			{
+				$action = $methodMap[$method];
+				$result = $this->execute($action);
+			}
+        } 
+        else $result = parent::__call($method, $args);
+        
+        return $result;
+    }
 }

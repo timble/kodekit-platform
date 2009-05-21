@@ -75,9 +75,9 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	public function executeSave()
+	protected function _executeSave()
 	{
-		$result = parent::executeEdit();
+		$result = parent::_executeEdit();
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -93,9 +93,9 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	public function executeApply()
+	protected function _executeApply()
 	{
-		$row = parent::executeEdit();
+		$row = parent::_executeEdit();
 
 		$view 	= $this->getClassName('suffix');
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -111,7 +111,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return 	void
 	 */
-	public function executeCancel()
+	protected function _executeCancel()
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
@@ -125,9 +125,9 @@ class KControllerForm extends KControllerBread
 	 * @throws KControllerException
 	 * @return void
 	 */
-	public function executeDelete()
+	protected function _executeDelete()
 	{
-		$result = parent::executeDelete();
+		$result = parent::_executeDelete();
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -144,7 +144,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	public function executeEnable()
+	protected function _executeEnable()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
 
@@ -174,7 +174,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	public function executeAccess()
+	protected function _executeAccess()
 	{
 		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
@@ -200,7 +200,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the reordered data
 	 */
-	public function executeOrder()
+	protected function _executeOrder()
 	{
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
