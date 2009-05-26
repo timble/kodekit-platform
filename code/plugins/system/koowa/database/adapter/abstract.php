@@ -514,8 +514,9 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @param 	string 	The needle to search for in the query string
 	 * @return string	The SQL query string
 	 */
-	public function replaceTablePrefix( $sql, $replace = 'jos_', $needle = '#__' )
+	public function replaceTablePrefix( $sql, $replace = null, $needle = '#__' )
 	{
+		$replace = $replace ? $replace : $this->getTablePrefix();
 		$sql = trim( $sql );
 
 		$escaped = false;
