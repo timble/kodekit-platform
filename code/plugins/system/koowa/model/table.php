@@ -116,7 +116,7 @@ class KModelTable extends KModelAbstract
         if (!isset($this->_item)) 
         {
             $table = $this->getTable();
-        	$query = $this->_buildQuery()->where($table->getPrimaryKey(), '=', $this->getState('id'));
+        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->getState('id'));
         	$this->_item = $table->fetchRow($query);
         }
 
