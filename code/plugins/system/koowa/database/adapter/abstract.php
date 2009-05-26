@@ -90,9 +90,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		}
 		
 		// Set the table prefix
-		if (!empty($options['table_prefix'])) {
-			$this->_table_prefix = $options['table_prefix'];
-		}
+		$this->_table_prefix = $options['table_prefix'];
 	}
 	 
 	/**
