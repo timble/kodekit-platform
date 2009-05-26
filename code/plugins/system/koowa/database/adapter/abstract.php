@@ -485,6 +485,18 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		return $this->selectObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
 	}
 	
+	/**
+	 * Set the table prefix
+	 *
+	 * @param string The table prefix
+	 * return KDatabaseAdapterAbstract
+	 */
+	public function setTablePrefix($prefix)
+	{
+		$this->_table_prefix = $prefix;
+		return $this;
+	}
+	
  	/**
 	 * Get the table prefix
 	 *

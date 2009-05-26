@@ -47,6 +47,7 @@ class plgSystemKoowa extends JPlugin
 			
 			// Create the koowa database object
 			$kdb->setConnection($jdb->_resource);
+			$kdb->setTablePrefix($jdb->_table_prefix);
 			
 			//ACL uses the unwrapped DBO
 	        $acl = JFactory::getACL();
