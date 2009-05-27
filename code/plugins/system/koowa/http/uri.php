@@ -371,6 +371,8 @@ class KHttpUri extends KObject
                 $this->path[$key] = substr($val, 0, $pos);
             }
         }
+        
+        return $this;
     }
 	
 	
