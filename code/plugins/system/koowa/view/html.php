@@ -33,7 +33,7 @@ class KViewHtml extends KViewAbstract
 		parent::__construct($options);
 	}
 	
-	public function display($tpl = null)
+	public function display()
 	{
 		$prefix = $this->getClassName('prefix');
 		$suffix = $this->getClassName('suffix');
@@ -48,6 +48,6 @@ class KViewHtml extends KViewAbstract
 			'toolbar'
 		);	
 
-		parent::display($tpl);
+		parent::display();
 	}
 }

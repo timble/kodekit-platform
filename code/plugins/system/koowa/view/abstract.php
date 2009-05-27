@@ -151,15 +151,13 @@ abstract class KViewAbstract extends KObject
     }
 
 	/**
-	* Execute and display a template script.
-	*
-	* @param 	string $tpl The name of the template file to parse
-	* @return 	this
-	*/
-	public function display($tpl = null)
+	 * Execute and echo's the views output
+ 	 *
+	 * @return 	this
+	 */
+	public function display()
 	{
-		$result = $this->loadTemplate($tpl);
-		echo $result;
+		echo $this;
 		return $this;
 	}
 
@@ -482,5 +480,15 @@ abstract class KViewAbstract extends KObject
 		$result[] = $route;
 		$result = implode('&', $result);
 		return JRoute::_('index.php?'.$result);
+	}
+	
+	/**
+	 * Execute and return the views output
+ 	 *
+	 * @return 	string
+	 */
+	public function __toString()
+	{
+		return $this->loadTemplate();
 	}
 }
