@@ -265,7 +265,8 @@ class KRequest
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
 			
 			self::$_base = clone(self::url());
-			self::$_base->setPath($path);
+			self::$_base->setPath($path)
+						->setQuery(array());
 		}
 
 		return self::$_base;
