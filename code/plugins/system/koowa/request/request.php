@@ -264,11 +264,7 @@ class KRequest
 			// Sanitize the url since we can't trust the server var
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
 			
-			self::$_base = clone self::url();
-			self::$_base->setPath($path)
-						->setQuery(array());
-			self::$_base->host = '';
-			self::$_base->scheme = '';
+			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
 		}
 
 		return self::$_base;
