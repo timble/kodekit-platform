@@ -58,8 +58,8 @@ abstract class KTemplateAbstract
 		foreach($rules as $rule)
 		{
 			$class = get_class($rule);
-			if(!($rule instanceof KTemplateRuleInterface)) {
-				throw new KTemplateException("Template rule $class does not implement KTemplateRuleInterface");
+			if(!($rule instanceof KTemplateFilterInterface)) {
+				throw new KTemplateException("Template rule $class does not implement KTemplateFilterInterface");
 			}
 			self::$_rules[$class] = $rule;
 		}

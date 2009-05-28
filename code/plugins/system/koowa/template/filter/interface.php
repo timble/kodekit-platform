@@ -3,23 +3,23 @@
 * @version      $Id$
 * @category		Koowa
 * @package      Koowa_Template
-* @subpackage	Rule
+* @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
 * @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 * @link 		http://www.koowa.org
 */
 
 /**
- * Template rule interface
+ * Template filter interface
  *
  * Rewrite elements in a template
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Template
- * @subpackage	Rule 
+ * @subpackage	Filter 
  */
-interface KTemplateRuleInterface 
+interface KTemplateFilterInterface 
 {
 	/**
 	 * Parse the text and change it

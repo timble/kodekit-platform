@@ -3,7 +3,7 @@
 * @version      $Id$
 * @category		Koowa
 * @package      Koowa_Template
-* @subpackage	Rule
+* @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
 * @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 * @link 		http://www.koowa.org
@@ -15,9 +15,9 @@
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Template
- * @subpackage	Rule 
+ * @subpackage	Filter 
  */
-class KTemplateRuleShorttag extends KObject implements KTemplateRuleInterface
+class KTemplateFilterShorttag extends KObject implements KTemplateFilterInterface
 {
 	/**
 	 * Convert <?= ?> to long-form <?php echo ?> when needed
