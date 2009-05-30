@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * List View Helper Class
+ * Template List Helper
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  */
-class KViewHelperList
+class KTemplateHelperList extends KObject
 {
 	/**
 	* Build the select list for access level
@@ -31,7 +31,7 @@ class KViewHelperList
 		. ' ORDER BY id'
 		;
 		$groups = $db->selectObjectList($query);
-		$access = KViewHelper::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = KTemplateDefault::loadHelper('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}

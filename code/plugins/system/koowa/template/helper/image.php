@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * Image View Helper Class
+ * Template Image Helper
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KViewHelperImage
+class KTemplateHelperImage extends KObject
 {
 	/**
 	 * Creates a tooltip with an image as button

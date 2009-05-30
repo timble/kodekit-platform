@@ -30,7 +30,7 @@ class KLoaderAdapterJoomla implements KLoaderAdapterInterface
 		if(substr($class, 0, 1) == 'J')
 		{
 			if(JLoader::load($class)) {
-				return true;
+				return false;
 			}
 		}
 

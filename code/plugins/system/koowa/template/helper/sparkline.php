@@ -10,14 +10,14 @@
  */
 
 /**
- * Sparkline HTML helper
+ * Template Sparkline Helper
  *
  * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package     Koowa_View
+ * @package     Koowa_Template
  * @subpackage  Helper
  */
-class KViewHelperSparkline
+class KTemplateHelperSparkline extends KObject
 {
     /**
      * Renders the <img> tag for a sparkline

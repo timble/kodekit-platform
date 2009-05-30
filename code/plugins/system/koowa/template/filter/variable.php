@@ -10,7 +10,7 @@
 */
 
 /**
- * Template rule to convert @$ and @ to $this->
+ * Template filter to convert @$ and @ to $this->
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa

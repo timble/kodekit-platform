@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * Behavior View Helper Class
+ * Template Behavior Helper
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_View
  * @subpackage	Helper
  */
-class KViewHelperBehavior
+class KTemplateHelperBehavior extends KObject
 {
 	/**
 	 * Method to load the mootools framework into the document head
@@ -42,34 +42,34 @@ class KViewHelperBehavior
 		}
 
 		if ($debug) {
-			KViewHelper::script('mootools-uncompressed.js', 'media/system/js/', false);
+			KTemplateDefault::loadHelper('script', 'mootools-uncompressed.js', 'media/system/js/', false);
 		} else {
-			KViewHelper::script('mootools.js', 'media/system/js/', false);
+			KTemplateDefault::loadHelper('script', 'mootools.js', 'media/system/js/', false);
 		}
 		$loaded = true;
 		return;
 	}
 	
 	public static function caption() {
-		KViewHelper::script('caption.js', 'media/system/js/');
+		KTemplateDefault::loadHelper('script', 'caption.js', 'media/system/js/');
 	}
 
 	public static function formvalidation() {
-		KViewHelper::script('validate.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('script', 'validate.js', 'media/system/js/' );
 	}
 
 	public static function switcher() {
-		KViewHelper::script('switcher.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('script', 'switcher.js', 'media/system/js/' );
 	}
 
 	public static function combobox() {
-		KViewHelper::script('combobox.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('script', 'combobox.js', 'media/system/js/' );
 	}
 
-	public static function tooltip($selector='.hasTip', $params = array())
+	public static function tooltip($selector='.hasTip', $params = array()) 
 	{
 		// For now, delegate to JHTML, because loading the tooltip stuff twice causes problems.
-		return JHTML::_('behavior.tooltip', $selector, $params );
+		return JHTML::_('script', 'behavior.tooltip', $selector, $params );
 	}
 
 	public static function modal($selector='a.modal', $params = array())
@@ -83,8 +83,8 @@ class KViewHelperBehavior
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			KViewHelper::script('modal.js', 'media/system/js/');
-			KViewHelper::stylesheet('modal.css', 'media/system/css/');
+			KTemplateDefault::loadHelper('script', 'modal.js', 'media/system/js/');
+			KTemplateDefault::loadHelper('stylesheet', 'modal.css', 'media/system/css/');
 
 			$included = true;
 		}
@@ -109,7 +109,7 @@ class KViewHelperBehavior
 		$opt['onShow']		= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']		= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = KViewHelperBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document->addScriptDeclaration("
@@ -132,8 +132,8 @@ class KViewHelperBehavior
 
 	public static function uploader($id='file-upload', $params = array())
 	{
-		KViewHelper::script('swf.js', 'media/system/js/' );
-		KViewHelper::script('uploader.js' );
+		KTemplateDefault::loadHelper('script', 'swf.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('script', 'uploader.js' );
 
 		static $uploaders;
 
@@ -166,7 +166,7 @@ class KViewHelperBehavior
 		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
 		//types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
-		$options = KViewHelperBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document = KFactory::get('lib.joomla.document');
@@ -191,9 +191,9 @@ class KViewHelperBehavior
 		}
 
 		// Include mootools framework
-		KViewHelperBehavior::mootools();
-		KViewHelper::script('mootree.js', 'media/system/js/');
-		KViewHelper::stylesheet('mootree.css', 'media/system/css');
+		self::mootools();
+		KTemplateDefault::loadHelper('script', 'mootree.js', 'media/system/js/');
+		KTemplateDefault::loadHelper('script', 'mootree.css', 'media/system/css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -209,7 +209,7 @@ class KViewHelperBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\'.$params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\'.$params['onClick'] : '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
-		$options = KViewHelperBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Setup root node
 		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -219,7 +219,7 @@ class KViewHelperBehavior
 		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = KViewHelperBehavior::_getJSObject($rt);
+		$rootNode = self::_getJSObject($rt);
 
 		$treeName		= (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -240,11 +240,11 @@ class KViewHelperBehavior
 	{
 		$document = KFactory::get('lib.joomla.document');
 		
-		KViewHelper::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		KViewHelper::script( 'calendar.js', 'media/system/js/' );
-		KViewHelper::script( 'calendar-setup.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('stylesheet', 'calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		KTemplateDefault::loadHelper('stylesheet', 'calendar.js', 'media/system/js/' );
+		KTemplateDefault::loadHelper('script',  'calendar-setup.js', 'media/system/js/' );
 
-		$translation = KViewHelperBehavior::_calendartranslation();
+		$translation = self::_calendartranslation();
 		if($translation) {
 			$document->addScriptDeclaration($translation);
 		}
@@ -256,7 +256,7 @@ class KViewHelperBehavior
 	public static function keepalive()
 	{
 		// Include mootools framework
-		KViewHelperBehavior::mootools();
+		self::mootools();
 
 		$config 	 = KFactory::get('lib.joomla.config');
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
@@ -300,7 +300,7 @@ class KViewHelperBehavior
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
 			} else {
-				$object .= ' '.$k.': '.KViewHelperBehavior::_getJSObject($v).',';
+				$object .= ' '.$k.': '.self::_getJSObject($v).',';
 			}
 		}
 		if (substr($object, -1) == ',') {

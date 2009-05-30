@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * Select View Helper Class
+ * Template Select Helper
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KViewHelperSelect
+class KTemplateHelperSelect extends KObject
 {
 	/**
 	 * @param	string	The value of the option
@@ -215,7 +215,7 @@ class KViewHelperSelect
 		$id		= str_replace(']','',$id);
 
 		$html	= '<select name="'. $name .'" id="'. $id .'" '. $attribs .'>';
-		$html	.= KViewHelperSelect::Options( $arr, $key, $text, $selected, $translate );
+		$html	.= self::options( $arr, $key, $text, $selected, $translate );
 		$html	.= '</select>';
 
 		return $html;
@@ -243,10 +243,10 @@ class KViewHelperSelect
 		for ($i=$start; $i <= $end; $i+=$inc)
 		{
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
-			$arr[] = KViewHelper::_('select.option',  $fi, $fi );
+			$arr[] = KTemplateDefault::loadHelper('select.option',  $fi, $fi );
 		}
 
-		return KViewHelper::_('select.genericlist',   $arr, $name, $attribs, 'value', 'text', $selected );
+		return KTemplateDefault::loadHelper('select.genericlist',   $arr, $name, $attribs, 'value', 'text', $selected );
 	}
 
 	/**
@@ -314,9 +314,9 @@ class KViewHelperSelect
 	public static function booleanlist( $name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false )
 	{
 		$arr = array(
-			KViewHelper::_('select.option',  '0', JText::_( $no ) ),
-			KViewHelper::_('select.option',  '1', JText::_( $yes ) )
+			KTemplateDefault::loadHelper('select.option',  '0', JText::_( $no ) ),
+			KTemplateDefault::loadHelper('select.option',  '1', JText::_( $yes ) )
 		);
-		return KViewHelper::_('select.radiolist',  $arr, $name, $attribs, 'value', 'text', (int) $selected, $id );
+		return KTemplateDefault::loadHelper('select.radiolist',  $arr, $name, $attribs, 'value', 'text', (int) $selected, $id );
 	}
 }

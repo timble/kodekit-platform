@@ -25,7 +25,7 @@ class KViewHtml extends KViewAbstract
 		$options = $this->_initialize($options);
 		
 		// Add a rule to the template for form handling and secrity tokens
-		KTemplateDefault::addRules(array(KFactory::get('lib.koowa.template.rule.form')));
+		KTemplateDefault::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
 		
 		// Set a base path for use by the view
 		$this->assign('baseurl', $options['base_url']);
@@ -39,7 +39,7 @@ class KViewHtml extends KViewAbstract
 		$suffix = $this->getClassName('suffix');
 
 		//Set the main stylesheet for the component
-		KViewHelper::_('stylesheet', $prefix.'.css', 'media/com_'.$prefix.'/css/');
+		KTemplateDefault::loadHelper('stylesheet', $prefix.'.css', 'media/com_'.$prefix.'/css/');
 		
 		//Push the toolbar output into the document buffer
 		$this->_document->setBuffer(

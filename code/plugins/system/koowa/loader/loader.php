@@ -93,11 +93,11 @@ class KLoader
 				if (defined('E_DEPRECATED')) {
 					$mask = $mask ^ E_DEPRECATED;
 				}
-		
+				
 				$old = error_reporting($mask);
 				$included = include $result;
 				error_reporting($old);
-		
+				
 				if ($included) {
 					return true;
 				}

@@ -2,7 +2,7 @@
 /**
  * @version     $Id:openflashchart.php 251 2008-06-14 10:06:53Z mjaz $
  * @category	Koowa
- * @package     Koowa_View
+ * @package     Koowa_Template
  * @subpackage 	Helper
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * Open Flash Chart HTML helper
+ * Template Open Flash Chart HTML Helper
  *
  * @author      Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package     Koowa_View
+ * @package     Koowa_Template
  * @subpackage 	Helper
  */
-class KViewHelperOpenflashchart
+class KTemplateHelperOpenflashchart extends KObject
 {
     /**
      * Renders the <object> tag for Open Flash Chart

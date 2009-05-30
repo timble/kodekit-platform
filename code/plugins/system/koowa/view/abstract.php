@@ -113,9 +113,6 @@ abstract class KViewAbstract extends KObject
 		//Register the view stream wrapper
 		KTemplateDefault::register();
 		KTemplateDefault::addRules($options['template_rules']);
-
-		//Add the include paths for the helpers
-		KViewHelper::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_'.$this->getClassName('prefix').DS.'helpers');
 	}
 
     /**
@@ -140,9 +137,9 @@ abstract class KViewAbstract extends KObject
                         'suffix'    => 'default'
                         ),
 			'template_rules' => array( 
-                        KFactory::get('lib.koowa.template.rule.shorttag'),
-                        KFactory::get('lib.koowa.template.rule.token'),
-                        KFactory::get('lib.koowa.template.rule.variable')
+                        KFactory::get('lib.koowa.template.filter.shorttag'),
+                        KFactory::get('lib.koowa.template.filter.token'),
+                        KFactory::get('lib.koowa.template.filter.variable')
 						),
             'template_path' => null
         );
@@ -157,7 +154,7 @@ abstract class KViewAbstract extends KObject
 	 */
 	public function display()
 	{
-		echo $this;
+		echo $this->loadTemplate();
 		return $this;
 	}
 
@@ -311,22 +308,6 @@ abstract class KViewAbstract extends KObject
 		
 		return $this;
 	}
-	
-
-	/**
-	 * Adds to the stack of helper script paths in LIFO order.
-	 *
-	 * This function overrides the default view behavior and the path
-	 * to the KViewHelper include paths
-	 *
-	 * @param string|array The directory (-ies) to add.
-	 * @return object KViewAbstract
-	 */
-	public function addHelperPath($path)
-	{
-		KViewHelper::addIncludePath($path);
-		return $this;
-	}
 
 	/**
 	 * Load a template file -- first look in the templates folder for an override
@@ -415,23 +396,6 @@ abstract class KViewAbstract extends KObject
 		return false;
 	}
 
-	/**
-	 * Load a helper and pass the arguments
-	 * 
-	 * Alias for KViewHelper::_(). In templates, use @helper()
-	 *
-	 * @param	string	Name of the helper, dot separated
-	 * @param	mixed	Parameters to be passed to the helper
-	 * @return 	string	Helper output
-	 * 
-	 * @see		KViewHelper::_()
-	 */
-	public function loadHelper( $type)
-	{
-		$args = func_get_args();
-		return call_user_func_array(array('KViewHelper', '_'), $args );
-	}
-	
 	/**
 	 * Create a route. Index.php, option, view and layout can be ommitted. The 
 	 * following variations will all result in the same route

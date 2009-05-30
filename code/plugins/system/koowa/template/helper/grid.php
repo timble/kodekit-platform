@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -10,14 +10,14 @@
  */
 
 /**
- * Grid View Helper Class
+ * Template Grid Helper
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KViewHelperGrid
+class KTemplateHelperGrid extends KObject
 {
 
 	/**
@@ -49,7 +49,7 @@ class KViewHelperGrid
 	public static function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
 		//Load koowa javascript
-		KViewHelper::_('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
@@ -59,7 +59,7 @@ class KViewHelperGrid
 		$html = '<a href="javascript:Koowa.Table.sorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= KViewHelper::_('image.template',  $images[$index], '/images/', NULL, NULL);
+			$html .= KTemplateDefault::loadHelper('image.template',  $images[$index], '/images/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -123,9 +123,9 @@ class KViewHelperGrid
 
 		$checked = '';
 		if ( $result ) {
-			$checked = KViewHelperGrid::_checkedOut( $row );
+			$checked = self::_checkedOut( $row );
 		} else {
-			$checked = KViewHelper::_('grid.id', $i, $row->$identifier );
+			$checked = KTemplateDefault::loadHelper('grid.id', $i, $row->$identifier );
 		}
 
 		return $checked;
@@ -165,7 +165,7 @@ class KViewHelperGrid
 	public static function order($row_id)
 	{
 		//Load koowa javascript
-		KViewHelper::_('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$up   = Koowa::getURL('images').'/arrow_up.png';
 		$down = Koowa::getURL('images').'/arrow_down.png';
@@ -188,8 +188,8 @@ class KViewHelperGrid
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 	= KViewHelper::_('date',  $row->checked_out_time, '%A, %d %B %Y' );
-			$time	= KViewHelper::_('date',  $row->checked_out_time, '%H:%M' );
+			$date 	= KTemplateDefault::loadHelper('date',  $row->checked_out_time, '%A, %d %B %Y' );
+			$time	= KTemplateDefault::loadHelper('date',  $row->checked_out_time, '%H:%M' );
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}

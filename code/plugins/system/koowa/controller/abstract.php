@@ -89,12 +89,12 @@ abstract class KControllerAbstract extends KObject
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
-
+        
 		// Get the methods only for the final controller class
 		$thisMethods	= get_class_methods( get_class( $this ) );
 		$baseMethods	= get_class_methods( 'KControllerAbstract' );
 		$methods		= array_diff( $thisMethods, $baseMethods );
-
+		
 		// Iterate through methods and map actions
 		foreach ( $methods as $method )
 		{
@@ -234,9 +234,9 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function registerAction( $action, $method )
 	{
-		if ( in_array( $method , $this->_methods ) ) {
+		//if ( in_array( $method , $this->_methods ) ) {
 			$this->_actionMap[strtolower( $action )] = $method;
-		}
+		//}
 		return $this; 
 	}
 	

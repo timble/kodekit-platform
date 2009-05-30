@@ -27,7 +27,7 @@ class KTemplateFilterToken extends KObject implements KTemplateFilterInterface
 	protected $_tags = array(
 		'@template('	=> '$this->loadTemplate(',
 		'@text('	 	=> 'JText::_(',
-		'@helper('   	=> '$this->loadHelper(',
+		'@helper('   	=> 'KTemplateDefault::loadHelper(',
 		'@route('    	=> '$this->createRoute(',
 	);
 	
