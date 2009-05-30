@@ -109,19 +109,38 @@ class KDate extends KObject
 	 * is used.
 	 *
 	 * @see setDate()
-	 * @param mixed $date optional - date/time to initialize
-	 * @return object Date the new Date object
+	 * @param	array An optional associative array of configuration settings.
+	 * 				  Recognized key values include 'date' 
+	 * @return KDate The new Date object
 	 */
-	public function __construct( $date = null )
+	public function __construct( array $options = array() )
 	{
-		if (is_null( $date )) {
-			$this->setDate( date( 'Y-m-d H:i:s' ) );
-		} elseif (is_a( $date, 'KDate' )) {
-			$this->copy( $date );
+		// Initialize the options
+        $options  = $this->_initialize($options);	
+		
+		if (is_a( $options['date'], 'KDate' )) {
+			$this->copy( $options['date'] );
 		} else {
-			$this->setDate( $date );
+			$this->setDate( $options['date'] );
 		}
 	}
+	
+	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Options
+     * @return  array   Options
+     */
+    protected function _initialize(array $options)
+    {
+        $defaults = array(
+            'date'  => date( 'Y-m-d H:i:s' )
+        );
+
+        return array_merge($defaults, $options);
+    }
 
 	/**
 	 * Set the fields of a Date object based on the input date and format
