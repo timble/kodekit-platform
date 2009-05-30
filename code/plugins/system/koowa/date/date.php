@@ -152,6 +152,7 @@ class KDate extends KObject
 	 * @param	int		$format Optional format constant (DATE_FORMAT_*) of the input date.
 	 *					This parameter isn't really needed anymore, but you could
 	 *					use it to force DATE_FORMAT_UNIXTIME.
+	 * @return KDate
 	 */
 	public function setDate( $date, $format = DATE_FORMAT_ISO )
 	{
@@ -183,6 +184,8 @@ class KDate extends KObject
 			$this->second		= 0;
 			$this->partsecond	= (float)0;
 		}
+		
+		return $this;
 	}
 
 	/**
@@ -379,15 +382,20 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of years to the current date.
+	 * 
+	 * @return KDate
 	 */
 	public function addYears( $n )
 	{
 		$this->year += $n;
+		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of months to the current date.
+	 * 
 	 * @param int Positive or negative number of months
+	 * @return KDate
 	 */
 	public function addMonths( $n )
 	{
@@ -413,42 +421,56 @@ class KDate extends KObject
 				$this->month -= 12;
 			}
 		}
+		
+		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of days to the current date.
+	 * 
 	 * @param int The number of days
+	 * @return KDate
 	 */
 	public function addDays( $n )
 	{
 		$this->setDate( $this->getTimestamp() + SECONDS_IN_DAY * $n, DATE_FORMAT_UNIXTIME );
+		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of hours to the current date.
+	 * 
 	 * @param int The number of days
+	 * @return KDate
 	 */
 	public function addHours( $n )
 	{
 		$this->setDate( $this->getTimestamp() + SECONDS_IN_HOUR * $n, DATE_FORMAT_UNIXTIME );
+		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of minutes to the current date.
+	 * 
 	 * @param int The number of days
+	 * @return KDate
 	 */
 	public function addMinutes( $n )
 	{
 		$this->setDate( $this->getTimestamp() + 60 * $n, DATE_FORMAT_UNIXTIME );
+		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of seconds to the current date.
+	 * 
 	 * @param int The number of days
+	 * @return KDate
 	 */
 	public function addSeconds( $n )
 	{
 		$this->setDate( $this->getTimestamp() + $n, DATE_FORMAT_UNIXTIME );
+		return $this;
 	}
 
     /**
@@ -674,7 +696,6 @@ class KDate extends KObject
 			// post Gregorio XIII - 1582
 			return (($year % 4 == 0) && ($year % 100 != 0)) || ($year % 400 == 0);
 		}
-
 	}
 
 	/**
