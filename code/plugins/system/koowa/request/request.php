@@ -76,7 +76,7 @@ class KRequest
 	 * @throws	KRequestException	When an invalid filter was passed
 	 * @return 	mixed				The sanitized data 
 	 */
-	public static function get($identifier, $filter, $default = null)
+	public static function get($identifier, $filters, $default = null)
 	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
 			
@@ -96,19 +96,20 @@ class KRequest
 			return $default; 	
 		}
 		
-		if(!($filter instanceof KFilterInterface))
-		{
-			$names = (array) $filter;
-			
-			$name   = array_shift($names);
-			$filter = self::_createFilter($name);
-			
-			foreach($names as $name) {
-				$filter->addFilter($this->_createFilter($name));
-			}
+		// Filters
+		if(!is_array($filters)) {
+			$filters = array($filters);	
 		}
-		
-		return $filter->sanitize($result);
+		$main_filter = array_shift($filters);
+		$main_filter = KFactory::tmp($main_filter, array(), 'lib.koowa.filter');
+		if(!($main_filter instanceof KFilterInterface)) {
+			throw KRequestException('Filter must be an instane of KFilterInterface');
+		}		
+		foreach($filters as $filter) {
+			$main_filter->addFilter(KFactory::tmp($filter, array(), 'lib.koowa.filter'));
+		}
+				
+		return $main_filter->sanitize($result);
 	}
 	
 	/**
@@ -388,21 +389,5 @@ class KRequest
 		return array($hash, $parts);
 	}
 	
-	/**
-	 * Create a filter based on it's name
-	 *
-	 * @param 	string	Variable name
-	 * @throws	KRequestException	When the filter could not be found
-	 * @return  KFilterInterface
-	 */
-	protected static function _createFilter($name)
-	{
-		try {
-			$filter = KFactory::get('lib.koowa.filter.'.$name);
-		} catch(KFactoryAdapterException $e) {
-			throw new KRequestException('Invalid filter: '.$name);
-		}
-		
-		return $filter;
-	}
+
 }
