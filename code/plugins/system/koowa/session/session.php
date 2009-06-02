@@ -312,6 +312,7 @@ class KSession extends KObject
 	 *
 	 * @see	session_unset()
 	 * @see	session_destroy()
+	 * @return KSession
 	 */
 	public function destroy()
 	{
@@ -331,14 +332,14 @@ class KSession extends KObject
 		session_destroy();
 
 		$this->_state = 'destroyed';
-		return true;
+		return $this;
 	}
 
 	/**
      * Restart an expired or locked session
 	 *
-	 * @return 	boolean True on success
 	 * @see destroy
+	 * @return KSession
 	 */
 	public function restart()
 	{
@@ -361,13 +362,13 @@ class KSession extends KObject
 		$this->_validate();
 		$this->_setCounter();
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 * Create a new session and copy variables from the old one
 	 *
-	 * @return 	boolean True on success
+	 * @return KSession
 	 */
 	public function fork()
 	{
@@ -402,7 +403,7 @@ class KSession extends KObject
 		session_id( $id );
 		session_start();
 
-		return true;
+		return $this;
 	}
 
 	 /**
@@ -417,9 +418,12 @@ class KSession extends KObject
 	  * done.
 	  *
 	  * @see	session_write_close()
+	  * @return KSession
 	  */
-	public function close() {
+	public function close() 
+	{
 		session_write_close();
+		return $this;
 	}
 
 	/**
