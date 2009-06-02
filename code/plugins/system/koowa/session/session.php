@@ -153,6 +153,17 @@ class KSession extends KObject
     {
 		return $this->_state;
 	}
+	
+	/**
+	 * Set expiration time in minutes
+	 *
+	 * @return KSession
+	 */
+    public function setExpire($expire) 
+    {
+		$this->_expire = $expire;
+    	return $this;
+    }
 
 	/**
 	 * Get expiration time in minutes
