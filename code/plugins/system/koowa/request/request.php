@@ -29,7 +29,7 @@ class KRequest
 	 * 
 	 * @var	array
 	 */
-	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER', 'REQUEST');
+	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER', 'REQUEST', 'SESSION');
 	
 	/**
 	 * Accepted request methods
