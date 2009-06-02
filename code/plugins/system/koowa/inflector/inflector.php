@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:inflector.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Inflector
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -16,8 +16,6 @@
  * @category	Koowa
  * @package		Koowa_Inflector
  * @static
- *
- * @todo		http://en.wikipedia.org/wiki/English_plural
  */
 class KInflector
 {
@@ -111,7 +109,7 @@ class KInflector
 	);
 
    	/**
- 	 * Cache of pluralired and singularized nouns.
+ 	 * Cache of pluralized and singularized nouns.
 	 *
 	 * @var array
      */
@@ -125,7 +123,7 @@ class KInflector
 	 * 
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	private function __construct() { }
+	private function __construct() {}
 	
 	/**
 	 * Add a word to the cache, useful to make exceptions or to add words in 
@@ -208,18 +206,18 @@ class KInflector
    	/**
 	 * Returns given word as CamelCased
 	 *
-	 * Converts a word like "send_email" to "SendEmail". It
-	 * will remove non alphanumeric character from the word, so
+	 * Converts a word like "foo_bar" or "foo bar" to "FooBar". It
+	 * will remove non alphanumeric characters from the word, so
 	 * "who's online" will be converted to "WhoSOnline"
 	 *
-	 * @param    string 	$word    Word to convert to camel case
-	 * @return 	string	UpperCamelCasedWord
-	 * @see variablize
+	 * @param   string 	$word    Word to convert to camel case
+	 * @return	string	UpperCamelCasedWord
 	 */
 	public static function camelize($word)
 	{
-		$result = str_replace(' ', '', ucwords(str_replace('_', ' ', $word)));
-		return $result;
+		$word = preg_replace('/[^a-zA-Z0-9\s]/', ' ', $word);
+		$word = str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $word))));
+		return $word;
 	}
 
    	/**
@@ -232,18 +230,19 @@ class KInflector
 	 */
 	public static function underscore($word)
 	{
-		$result = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $word));
-		return $result;
+		$word = preg_replace('/(\s)+/', '_', $word);
+		$word = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $word));
+		return $word;
 	}
 
 	/**
 	 * Convert any "CamelCased" word into an array of strings
 	 *
-	 * Returns an array of strings ach of which is a substring of string formed
+	 * Returns an array of strings each of which is a substring of string formed
 	 * by splitting it at the camelcased letters.
 	 *
-	 * @param    string    $word    Word to explode
-	 * @return array Array of strings
+	 * @param	string  Word to explode
+	 * @return 	array	Array of strings
 	 */
 	public static function explode($word)
 	{
@@ -275,7 +274,7 @@ class KInflector
      */
 	public static function humanize($word)
 	{
-		$result = ucwords(str_replace("_", " ", $word));
+		$result = ucwords(strtolower(str_replace("_", " ", $word)));
 		return $result;
 	}
 
@@ -349,8 +348,10 @@ class KInflector
 	}
 
     /**
-     * Gets a part of a CamelCased word by index. Use a negative index to start 
-     * at the last part of the word (-1 is the last part)
+     * Gets a part of a CamelCased word by index
+     *
+     * Use a negative index to start at the last part of the word (-1 is the
+     * last part)
      *
      * @param	string	Word
      * @param	integer	Index of the part
