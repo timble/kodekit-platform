@@ -62,18 +62,13 @@ class KFactory
 	 * Get an instance of a class based on a class identifier only creating it
 	 * if it doesn't exist yet.
 	 *
-	 * @param 	string|object  	The class identifier
-	 * @param 	array  			An optional associative array of configuration settings.
-	 * @param 	string			Default prefix, eg 'lib.koowa.filter' would be prefixed to 'int' 
-	 * @throws 	KFactoryException
-	 * @return 	object			Return object on success, throws exception on failure
+	 * @param mixed  The class identifier
+	 * @param array  An optional associative array of configuration settings.
+	 * @throws KFactoryException
+	 * @return object  Return object on success, throws exception on failure
 	 */
-	public static function get($identifier, array $options = array(), $prefix = '')
+	public static function get($identifier, array $options = array())
 	{
-		if(is_object($identifier)) {
-			return $identifier;
-		}
-		
 		//Check if the object already exists
 		if(self::$_container->offsetExists($identifier)) {
 			return self::$_container->offsetGet($identifier);
@@ -81,14 +76,7 @@ class KFactory
 		
 		//Get an instance based on the identifier
 		$instance = self::$_chain->run($identifier, $options);
-		
-		// If that didn't work, try adding the default prefix
 		if(!is_object($instance)) {
-			$identifier = $prefix.'.'.$identifier;
-			$instance = self::$_chain->run($identifier, $options);
-		}
-		
-		if(!is_object($instance)) {			
 			throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);	
 		}	
 		
@@ -100,32 +88,20 @@ class KFactory
 	 * Get an instance of a class based on a class identifier always creating a 
 	 * new instance.
 	 *
-	 * @param	string|object	The class identifier
-	 * @param	array			An optional associative array of configuration settings.
-	 * @param 	string			Default prefix, eg 'lib.koowa.filter' would be prefixed to 'int' 
-	 * @throws	KFactoryException
-	 * @return	object			Return object on success, throws exception on failure
+	 * @param mixed  The class identifier
+	 * @param array  An optional associative array of configuration settings.
+	 * @throws KFactoryException
+	 * @return object  Return object on success, throws exception on failure
 	 */
-	public static function tmp($identifier, array $options = array(), $prefix = '')
+	public static function tmp($identifier, array $options = array())
 	{
-		if(is_object($identifier)) {
-			return $identifier;
-		}
-		
 		//Get an instance based on the identifier
-		$instance = self::$_chain->run($identifier, $options);
-		
-		// If that didn't work, try adding the default prefix
-		if(!is_object($instance)) {
-			$identifier = $prefix.'.'.$identifier;
-			$instance = self::$_chain->run($identifier, $options);
-		}
-		
-		if($instance === false) {
+		$object = self::$_chain->run($identifier, $options);
+		if($object === false) {
 			throw new KFactoryException('Cannot create object from identifier : '.$identifier);	
 		}	
 		
-		return $instance;
+		return $object;
 	}
 	
 	/**
