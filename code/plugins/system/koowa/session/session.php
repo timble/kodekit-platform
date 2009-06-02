@@ -139,7 +139,8 @@ class KSession extends KObject
     /**
 	 * Session object destructor
 	 */
-	public function __destruct() {
+	public function __destruct() 
+	{
 		$this->close();
 	}
 
@@ -148,7 +149,8 @@ class KSession extends KObject
 	 *
 	 * @return string The session state
 	 */
-    public function getState() {
+    public function getState() 
+    {
 		return $this->_state;
 	}
 
@@ -157,7 +159,8 @@ class KSession extends KObject
 	 *
 	 * @return integer The session expiration time in minutes
 	 */
-    public function getExpire() {
+    public function getExpire() 
+    {
 		return $this->_expire;
     }
 
@@ -173,13 +176,13 @@ class KSession extends KObject
 	 */
 	public function getToken($forceNew = false)
 	{
-		$token = $this->get( 'session.token' );
+		$token = KRequest::get( 'session.token' );
 
 		//create a token
 		if( $token === null || $forceNew ) 
 		{
 			$token	=	$this->_createToken( 12 );
-			$this->set( 'session.token', $token );
+			KRequest::set( 'session.token', $token );
 		}
 
 		return $token;
@@ -195,7 +198,7 @@ class KSession extends KObject
 	public function hasToken($tCheck, $forceExpire = true)
 	{
 		// check if a token exists in the session
-		$tStored = $this->get( 'session.token' );
+		$tStored = KRequest::get( 'session.token' );
 
 		//check token
 		if(($tStored !== $tCheck))
@@ -272,7 +275,7 @@ class KSession extends KObject
 	*/
 	public function isNew()
 	{
-		$counter = $this->get( 'session.counter' );
+		$counter = KRequest::get( 'session.counter' );
 		if( $counter === 1 ) {
 			return true;
 		}
@@ -482,17 +485,17 @@ class KSession extends KObject
 	 */
 	protected function _setTimers()
 	{
-		if( !$this->has( 'session.timer.start' ) )
+		if( !KRequest::has( 'session.timer.start' ) )
 		{
 			$start	=	time();
 
-			$this->set( 'session.timer.start' , $start );
-			$this->set( 'session.timer.last'  , $start );
-			$this->set( 'session.timer.now'   , $start );
+			KRequest::set( 'session.timer.start' , $start );
+			KRequest::set( 'session.timer.last'  , $start );
+			KRequest::set( 'session.timer.now'   , $start );
 		}
 
-		$this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
-		$this->set( 'session.timer.now', time() );
+		KRequest::set( 'session.timer.last', $this->get( 'session.timer.now' ) );
+		KRequest::set( 'session.timer.now', time() );
 
 		return true;
 	}
@@ -517,17 +520,17 @@ class KSession extends KObject
 		{
 			$this->_state	=	'active';
 
-			$this->set( 'session.client.address'	, null );
-			$this->set( 'session.client.forwarded'	, null );
-			$this->set( 'session.client.browser'	, null );
-			$this->set( 'session.token'				, null );
+			KRequest::set( 'session.client.address'	 , null );
+			KRequest::set( 'session.client.forwarded', null );
+			KRequest::set( 'session.client.browser'	 , null );
+			KRequest::set( 'session.token'			 , null );
 		}
 
 		// check if session has expired
 		if( $this->_expire )
 		{
-			$curTime =	$this->get( 'session.timer.now' , 0  );
-			$maxTime =	$this->get( 'session.timer.last', 0 ) +  $this->_expire;
+			$curTime =	KRequest::get( 'session.timer.now' , 0  );
+			$maxTime =	KRequest::get( 'session.timer.last', 0 ) +  $this->_expire;
 
 			// empty session variables
 			if( $maxTime < $curTime ) {
@@ -538,16 +541,16 @@ class KSession extends KObject
 
 		// record proxy forwarded for in the session in case we need it later
 		if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			KRequest::set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
 		// check for client adress
 		if( in_array( 'fix_adress', $this->_security ) && isset( $_SERVER['REMOTE_ADDR'] ) )
 		{
-			$ip	= $this->get( 'session.client.address' );
+			$ip	= KRequest::get( 'session.client.address' );
 
 			if( $ip === null ) {
-				$this->set( 'session.client.address', $_SERVER['REMOTE_ADDR'] );
+				KRequest::set( 'session.client.address', $_SERVER['REMOTE_ADDR'] );
 			}
 			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
 			{
@@ -559,10 +562,10 @@ class KSession extends KObject
 		// check for clients browser
 		if( in_array( 'fix_browser', $this->_security ) && isset( $_SERVER['HTTP_USER_AGENT'] ) )
 		{
-			$browser = $this->get( 'session.client.browser' );
+			$browser = KRequest::get( 'session.client.browser' );
 
 			if( $browser === null ) {
-				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
+				KRequest::set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
 			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser )
 			{
