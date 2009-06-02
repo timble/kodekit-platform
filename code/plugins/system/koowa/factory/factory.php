@@ -62,13 +62,17 @@ class KFactory
 	 * Get an instance of a class based on a class identifier only creating it
 	 * if it doesn't exist yet.
 	 *
-	 * @param mixed  The class identifier
-	 * @param array  An optional associative array of configuration settings.
-	 * @throws KFactoryException
-	 * @return object  Return object on success, throws exception on failure
+	 * @param	string|object	The class identifier, or an object
+	 * @param	array  			An optional associative array of configuration settings.
+	 * @throws	KFactoryException
+	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public static function get($identifier, array $options = array())
 	{
+		if(is_object($identifier)) {
+			return $identifier;
+		}
+		
 		//Check if the object already exists
 		if(self::$_container->offsetExists($identifier)) {
 			return self::$_container->offsetGet($identifier);
@@ -88,13 +92,17 @@ class KFactory
 	 * Get an instance of a class based on a class identifier always creating a 
 	 * new instance.
 	 *
-	 * @param mixed  The class identifier
-	 * @param array  An optional associative array of configuration settings.
-	 * @throws KFactoryException
-	 * @return object  Return object on success, throws exception on failure
+	 * @param	string|object	The class identifier, or an object
+	 * @param 	array  			An optional associative array of configuration settings.
+	 * @throws 	KFactoryException
+	 * @return 	object  		Return object on success, throws exception on failure
 	 */
 	public static function tmp($identifier, array $options = array())
 	{
+		if(is_object($identifier)) {
+			return $identifier;
+		}
+		
 		//Get an instance based on the identifier
 		$object = self::$_chain->run($identifier, $options);
 		if($object === false) {
