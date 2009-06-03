@@ -29,7 +29,7 @@ class KTemplateHelperImage extends KObject
 	 * @param	string	$href An URL that will be used to create the link
 	 * @return	string
 	 */
-	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '')
+	public function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '')
 	{
 		$tooltip	= addslashes(htmlspecialchars($tooltip));
 		$title		= addslashes(htmlspecialchars($title));
@@ -68,7 +68,7 @@ class KTemplateHelperImage extends KObject
 	 * @param	array	An associative array of attributes to add
 	 * @param	boolean	True (default) to display full tag, false to return just the path
 	 */
-	public static function template( $file, $folder='media/', $alt = NULL, $attribs = null, $toHtml = 1)
+	public function template( $file, $folder='media/', $alt = NULL, $attribs = null, $toHtml = 1)
 	{
 		static $paths;
 

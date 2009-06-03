@@ -28,7 +28,7 @@ class KTemplateHelperDefault
 	 * @param	string 	The relative or absolute path of the script file
 	 * @param	boolean If true, the mootools library will be loaded
 	 */
-	public static function script($filename, $path = 'media/plg_koowa/js/', $mootools = true)
+	public function script($filename, $path = 'media/plg_koowa/js/', $mootools = true)
 	{
 		// Include mootools framework
 		if($mootools) {
@@ -50,7 +50,7 @@ class KTemplateHelperDefault
 	 * @access	public
 	 * @param	string 	The relative URL to use for the href attribute
 	 */
-	public static function stylesheet($filename, $path = 'media/plg_koowa/css/', $attribs = array())
+	public function stylesheet($filename, $path = 'media/plg_koowa/css/', $attribs = array())
 	{
 		if(strpos($path, 'http') !== 0 && $path[0] != '/') {
 			$path =  JURI::root(true).'/'.$path;
@@ -70,7 +70,7 @@ class KTemplateHelperDefault
 	 * @returns	string	formated date
 	 * @see		strftime
 	 */
-	public static function date($date, $format = null, $offset = NULL)
+	public function date($date, $format = null, $offset = NULL)
 	{
 		if ( ! $format ) {
 			$format = JText::_('DATE_FORMAT_LC1');

@@ -30,7 +30,7 @@ class KTemplateHelperOpenflashchart extends KObject
      * @param string	Background color
      * @param string	Attributes for the surrounding <div>
      */
-    public static function swfobject( $dataUrl, $id, $swfUrl = null, $width = '100%', $height = '450px', $bgcolor = '#FFFFFF', $divAttr = '')
+    public function swfobject( $dataUrl, $id, $swfUrl = null, $width = '100%', $height = '450px', $bgcolor = '#FFFFFF', $divAttr = '')
     {
     	$swfUrl = $swfUrl ? $swfUrl : Koowa::getURL('media').'swf/open-flash-chart.swf';
 		return KChartOpenflashchart::renderSwfobject( $dataUrl, $id, $swfUrl, $width, $height, $bgcolor, $divAttr);

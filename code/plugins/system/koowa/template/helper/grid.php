@@ -30,7 +30,7 @@ class KTemplateHelperGrid extends KObject
 	 * @param 	string	Text for false
 	 * @return 	string	Html img
 	 */
-	public static function boolean( $bool, $true_img = null, $false_img = null, $true_text = null, $false_text = null)
+	public function boolean( $bool, $true_img = null, $false_img = null, $true_text = null, $false_text = null)
 	{
 		$true_img 	= $true_img 	? $true_img 	: 'tick.png';
 		$false_img 	= $false_img	? $false_img	: 'publish_x.png';
@@ -46,7 +46,7 @@ class KTemplateHelperGrid extends KObject
 	 * @param	string	The current direction
 	 * @param	string	The selected ordering
 	 */
-	public static function sort( $title, $order, $direction = 'asc', $selected = 0)
+	public function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
 		//Load koowa javascript
 		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
@@ -72,7 +72,7 @@ class KTemplateHelperGrid extends KObject
 	* @param string The name of the form element
 	* @return string
 	*/
-	public static function id( $rowNum, $recId, $checkedOut = false, $name = 'cid' )
+	public function id( $rowNum, $recId, $checkedOut = false, $name = 'cid' )
 	{
 		if ( $checkedOut ) {
 			return '';
@@ -81,7 +81,7 @@ class KTemplateHelperGrid extends KObject
 		}
 	}
 
-	public static function access( $row, $i, $archived = NULL )
+	public function access( $row, $i, $archived = NULL )
 	{
 		if ( !$row->access )  {
 			$color_access = 'style="color: green;"';
@@ -109,7 +109,7 @@ class KTemplateHelperGrid extends KObject
 		return $href;
 	}
 
-	public static function checkedOut( $row, $i, $identifier = 'id' )
+	public function checkedOut( $row, $i, $identifier = 'id' )
 	{
 		$user   = KFactory::get('lib.joomla.user');
 		$userid = $user->get('id');
@@ -131,7 +131,7 @@ class KTemplateHelperGrid extends KObject
 		return $checked;
 	}
 
-	public static function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
+	public function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$action	= $row->published ? 'unpublish' : 'publish';
@@ -146,7 +146,7 @@ class KTemplateHelperGrid extends KObject
 		return $href;
 	}
 	
-	public static function enable( $enable, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix = '' )
+	public function enable( $enable, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix = '' )
 	{
 		$img 	= $enable ? $imgY : $imgX;
 		$action	= $enable ? 'disable' : 'enable';
@@ -162,7 +162,7 @@ class KTemplateHelperGrid extends KObject
 		return $href;
 	}
 
-	public static function order($row_id)
+	public function order($row_id)
 	{
 		//Load koowa javascript
 		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
@@ -181,7 +181,7 @@ class KTemplateHelperGrid extends KObject
 		return $result;
 	}
 
-	protected static function _checkedOut( &$row, $overlib = 1 )
+	protected function _checkedOut( &$row, $overlib = 1 )
 	{
 		$hover = '';
 		if ( $overlib )

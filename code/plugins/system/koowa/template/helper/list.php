@@ -22,7 +22,7 @@ class KTemplateHelperList extends KObject
 	/**
 	* Build the select list for access level
 	*/
-	public static function accesslevel( $row )
+	public function accesslevel( $row )
 	{
 		$db = KFactory::get('lib.koowa.database');
 

@@ -26,7 +26,7 @@ class KTemplateHelperSelect extends KObject
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	public static function option( $value, $text = '', $value_name = 'value', $text_name = 'text', $disable = false )
+	public function option( $value, $text = '', $value_name = 'value', $text_name = 'text', $disable = false )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= $value;
@@ -41,7 +41,7 @@ class KTemplateHelperSelect extends KObject
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	public static function optgroup( $text, $value_name = 'value', $text_name = 'text' )
+	public function optgroup( $text, $value_name = 'value', $text_name = 'text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= '<optgroup>';
@@ -58,7 +58,7 @@ class KTemplateHelperSelect extends KObject
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	public static function options( $arr, $key = 'value', $text = 'text', $selected = null, $translate = false )
+	public function options( $arr, $key = 'value', $text = 'text', $selected = null, $translate = false )
 	{
 		$html = '';
 
@@ -146,7 +146,7 @@ class KTemplateHelperSelect extends KObject
 	 * @param 	string 	The name of the object variable for the option text
 	 * @return 	string 	HTML for the select list
 	 */
-	public static function checklist( $arr, $name, $selected = null, $attribs = null, $key = 'value', $text = 'text')
+	public function checklist( $arr, $name, $selected = null, $attribs = null, $key = 'value', $text = 'text')
 	{
 		settype($selected, 'array');
 
@@ -195,7 +195,7 @@ class KTemplateHelperSelect extends KObject
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	public static function genericlist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $translate = false )
+	public function genericlist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $translate = false )
 	{
 		if ( is_array( $arr ) ) {
 			reset( $arr );
@@ -233,7 +233,7 @@ class KTemplateHelperSelect extends KObject
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	public static function integerlist( $start, $end, $inc, $name, $attribs = null, $selected = null, $format = "" )
+	public function integerlist( $start, $end, $inc, $name, $attribs = null, $selected = null, $format = "" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -260,7 +260,7 @@ class KTemplateHelperSelect extends KObject
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	public static function radiolist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = null, $idtag = false, $translate = false )
+	public function radiolist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = null, $idtag = false, $translate = false )
 	{
 		reset( $arr );
 		$html = '';
@@ -311,7 +311,7 @@ class KTemplateHelperSelect extends KObject
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	public static function booleanlist( $name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false )
+	public function booleanlist( $name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false )
 	{
 		$arr = array(
 			KTemplateDefault::loadHelper('select.option',  '0', JText::_( $no ) ),

@@ -26,7 +26,7 @@ class KTemplateHelperBehavior extends KObject
 	 *
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 */
-	public static function mootools($debug = null)
+	public function mootools($debug = null)
 	{
 		static $loaded;
 
@@ -50,29 +50,29 @@ class KTemplateHelperBehavior extends KObject
 		return;
 	}
 	
-	public static function caption() {
+	public function caption() {
 		KTemplateDefault::loadHelper('script', 'caption.js', 'media/system/js/');
 	}
 
-	public static function formvalidation() {
+	public function formvalidation() {
 		KTemplateDefault::loadHelper('script', 'validate.js', 'media/system/js/' );
 	}
 
-	public static function switcher() {
+	public function switcher() {
 		KTemplateDefault::loadHelper('script', 'switcher.js', 'media/system/js/' );
 	}
 
-	public static function combobox() {
+	public function combobox() {
 		KTemplateDefault::loadHelper('script', 'combobox.js', 'media/system/js/' );
 	}
 
-	public static function tooltip($selector='.hasTip', $params = array()) 
+	public function tooltip($selector='.hasTip', $params = array()) 
 	{
 		// For now, delegate to JHTML, because loading the tooltip stuff twice causes problems.
 		return JHTML::_('script', 'behavior.tooltip', $selector, $params );
 	}
 
-	public static function modal($selector='a.modal', $params = array())
+	public function modal($selector='a.modal', $params = array())
 	{
 		static $modals;
 		static $included;
@@ -109,7 +109,7 @@ class KTemplateHelperBehavior extends KObject
 		$opt['onShow']		= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']		= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = self::_getJSObject($opt);
+		$options = $this->_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document->addScriptDeclaration("
@@ -130,7 +130,7 @@ class KTemplateHelperBehavior extends KObject
 		return;
 	}
 
-	public static function uploader($id='file-upload', $params = array())
+	public function uploader($id='file-upload', $params = array())
 	{
 		KTemplateDefault::loadHelper('script', 'swf.js', 'media/system/js/' );
 		KTemplateDefault::loadHelper('script', 'uploader.js' );
@@ -166,7 +166,7 @@ class KTemplateHelperBehavior extends KObject
 		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
 		//types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
-		$options = self::_getJSObject($opt);
+		$options = $this->_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document = KFactory::get('lib.joomla.document');
@@ -182,7 +182,7 @@ class KTemplateHelperBehavior extends KObject
 		return;
 	}
 
-	public static function tree($id, $params = array(), $root = array())
+	public function tree($id, $params = array(), $root = array())
 	{
 		static $trees;
 
@@ -191,7 +191,7 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		// Include mootools framework
-		self::mootools();
+		$this->mootools();
 		KTemplateDefault::loadHelper('script', 'mootree.js', 'media/system/js/');
 		KTemplateDefault::loadHelper('script', 'mootree.css', 'media/system/css');
 
@@ -236,7 +236,7 @@ class KTemplateHelperBehavior extends KObject
 		return;
 	}
 
-	public static function calendar()
+	public function calendar()
 	{
 		$document = KFactory::get('lib.joomla.document');
 		
@@ -244,7 +244,7 @@ class KTemplateHelperBehavior extends KObject
 		KTemplateDefault::loadHelper('stylesheet', 'calendar.js', 'media/system/js/' );
 		KTemplateDefault::loadHelper('script',  'calendar-setup.js', 'media/system/js/' );
 
-		$translation = self::_calendartranslation();
+		$translation = $this->_calendartranslation();
 		if($translation) {
 			$document->addScriptDeclaration($translation);
 		}
@@ -253,10 +253,10 @@ class KTemplateHelperBehavior extends KObject
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 */
-	public static function keepalive()
+	public function keepalive()
 	{
 		// Include mootools framework
-		self::mootools();
+		$this->mootools();
 
 		$config 	 = KFactory::get('lib.joomla.config');
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
@@ -284,7 +284,7 @@ class KTemplateHelperBehavior extends KObject
 	 * @param	array	$array	The array to convert to JavaScript object notation
 	 * @return	string	JavaScript object notation representation of the array
 	 */
-	protected static function _getJSObject($array=array())
+	protected function _getJSObject($array=array())
 	{
 		// Initialize variables
 		$object = '{';

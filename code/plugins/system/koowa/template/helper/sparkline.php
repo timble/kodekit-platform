@@ -27,7 +27,7 @@ class KTemplateHelperSparkline extends KObject
      * @param	array	Parameters (w, h, ...)
      * @return  string	HTML
      */
-    public static function img($url, $link = '', $title = '', $params = array())
+    public function img($url, $link = '', $title = '', $params = array())
     {
         $params['format'] = 'sparkline';
         $uri = JURI::getInstance($url);
