@@ -91,17 +91,17 @@ abstract class KTemplateAbstract
 		$base  = 'lib.koowa.template.helper';
 		$file  = 'default';
 		$func  = $type;
-
+		
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
-
+		
 		switch(count($parts))
 		{
-			case 3 :
+			case 5 :
 			{
-				$base		= 'admin::com.'.$parts[0].'.helper';
-				$file		= $parts[1];
-				$func		= $parts[2];
+				$base		= $parts[0].'.'.$parts[1].'.'.$parts[2];
+				$file		= $parts[3];
+				$func		= $parts[4];
 			} break;
 
 			case 2 :
@@ -120,6 +120,7 @@ abstract class KTemplateAbstract
 		
 		$args = func_get_args();
 		array_shift( $args );
+		
 		return call_user_func_array( array( $helper, $func ), $args );
 	}
 	
