@@ -112,7 +112,7 @@ class KRequest
 	}
 	
 	/**
-	 * Set a variable in the request
+	 * Set a variable in the request. Cookies and session data are stored persistently.
 	 *
 	 * @param 	mixed	Variable identifier, prefixed by hash name eg post.foo.bar
 	 * @param 	mixed	Variable value
@@ -122,16 +122,31 @@ class KRequest
 		list($hash, $keys) = self::_parseIdentifier($identifier);
 		
 		// Add to _REQUEST hash if original hash is get, post, or cookies
-		// Even though we are not using $_REQUEST, other extensions do 
 		if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
 			self::set('request.'.implode('.', $keys), $value);
 		}
+					
+		// store cookies persistently
+		if($hash == 'COOKIE') 
+		{	
+			// rewrite the $keys as foo[bar][bar]
+			$ckeys = $keys; // get a copy
+			$name = array_shift($ckeys);
+			foreach($ckeys as $ckey) {
+				$name .= '['.$ckey.']';
+			}
 			
+			if(!setcookie($name, $value)) {
+				throw new KRequestException("Couldn't set cookie, headers already sent.");
+			}
+		}
+		
 		foreach(array_reverse($keys, true) as $key) {
 			$value = array($key => $value);
 		}
 		
 		$GLOBALS['_'.$hash] = array_merge($GLOBALS['_'.$hash], $value);
+		
 	}
 	
 	/**
