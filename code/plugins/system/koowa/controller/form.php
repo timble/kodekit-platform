@@ -147,7 +147,7 @@ class KControllerForm extends KControllerBread
 	protected function _executeEnable()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
-
+		
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
 		if (count( $cid ) < 1) {

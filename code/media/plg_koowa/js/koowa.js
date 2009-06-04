@@ -61,15 +61,53 @@ Koowa.Form =
  */
 Koowa.Grid = 
 {
-	order: function (row_id, change) 
+	order: function (id, value) 
 	{
 		var form = document.adminForm;
-		form.id.value= row_id;
+		form.id.value= id;
 		form.order_change.value	= change;
 		form.action.value = 'order';
 		form.submit();
 	},
 	
+	access: function (id, value) 
+	{
+		var form = document.adminForm;
+   	 	cb = eval( 'form.' + id );
+    	if (cb) 
+    	{
+        	for (i = 0; true; i++) {
+            	cbx = eval('form.cb'+i);
+            	if (!cbx) break;
+            	cbx.checked = false;
+        	} 
+        	
+        	cb.checked = true;
+        	form.boxchecked.value = 1;
+        	form.access.value = value;
+        	form.action.value = action;
+			form.submit();
+    	}
+	},
+	
+	action: function(action, id)
+	{
+		var form = document.adminForm;
+   	 	cb = eval( 'form.' + id );
+    	if (cb) 
+    	{
+        	for (i = 0; true; i++) {
+            	cbx = eval('form.cb'+i);
+            	if (!cbx) break;
+            	cbx.checked = false;
+        	} 
+        	
+        	cb.checked = true;
+        	form.boxchecked.value = 1;
+        	form.action.value = action;
+			form.submit();
+    	}
+	},
 	
 	/**
 	 * Find the first selected checkbox id in the grid

@@ -19,7 +19,6 @@
  */
 class KTemplateHelperGrid extends KObject
 {
-
 	/**
 	 * Shows a true/false graphics
 	 *
@@ -64,6 +63,104 @@ class KTemplateHelperGrid extends KObject
 		$html .= '</a>';
 		return $html;
 	}
+	
+	public function publish( $publish, $id, $imgY = 'tick.png', $imgX = 'publish_x.png' )
+	{
+		//Load koowa javascript
+		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		
+		$img 	= $publish ? $imgY : $imgX;
+		$action	= $publis ? 'unpublish' : 'publish';
+		$alt 	= $publish ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+		$text 	= $publish ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
+		$action = $publish ? 'disable' : 'enable';
+
+		$href = '
+		<a href="javascript:Koowa.Grid.action(\''.$action.'\', \'cb'. $i .'\')" title="'. $text .'">
+		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
+		</a>'
+		;
+
+		return $href;
+	}
+	
+	public function enable( $enable, $id, $imgY = 'tick.png', $imgX = 'publish_x.png')
+	{
+		//Load koowa javascript
+		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		
+		$img 	= $enable ? $imgY : $imgX;
+		$action	= $enable ? 'disable' : 'enable';
+		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
+		$action = $enable ? 'disable' : 'enable';
+
+		$href = '
+		<a href="javascript:Koowa.Grid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
+		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
+		</a>'
+		;
+
+		return $href;
+	}
+
+	public function order($id)
+	{
+		//Load koowa javascript
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		
+		$up   = Koowa::getURL('images').'/arrow_up.png';
+		$down = Koowa::getURL('images').'/arrow_down.png';
+
+		$result =
+			 '<a href="javascript:Koowa.Grid.order('.$id.', -1)" >'
+			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
+			.'</a>'
+			.'<a href="javascript:Koowa.Grid.order('.$id.', 1)" >'
+			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
+			.'</a>';
+			
+		return $result;
+	}
+	
+	public function access( $access, $id )
+	{
+		//Load koowa javascript
+		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		
+		switch($access)
+		{
+			case 0 : 
+			{
+				$color   = 'style="color: green;"'; 
+				$group   = JText::_('Public');
+				$access  = 2;
+			} break;
+			
+			case 1 : 
+			{
+				$color   = 'style="color: red;"'; 
+				$group   = JText::_('Registered');
+				$access  = 3;
+			} break;
+			
+			case 2 : 
+			{
+				$color   = 'style="color: black;"'; 
+				$group   = JText::_('Special');
+				$access  = 1;
+			} break;
+			
+		}
+		
+		$href = '
+			<a href="javascript:Koowa.Grid.access(\''.$action.'\', \'cb'. $i .'\',  \''. $access .'\')" '. $color .'>
+			'. $group .'</a>'
+			;
+
+		return $href;
+	}
+	
 
 	/**
 	* @param int The row index
@@ -76,37 +173,9 @@ class KTemplateHelperGrid extends KObject
 	{
 		if ( $checkedOut ) {
 			return '';
-		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 		}
-	}
-
-	public function access( $row, $i, $archived = NULL )
-	{
-		if ( !$row->access )  {
-			$color_access = 'style="color: green;"';
-			$action_access = 'accessregistered';
-		} else if ( $row->access == 1 ) {
-			$color_access = 'style="color: red;"';
-			$action_access = 'accessspecial';
-		} else {
-			$color_access = 'style="color: black;"';
-			$action_access = 'accesspublic';
-		}
-
-		if ($archived == -1)
-		{
-			$href = JText::_( $row->groupname );
-		}
-		else
-		{
-			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $action_access .'\')" '. $color_access .'>
-			'. JText::_( $row->groupname ) .'</a>'
-			;
-		}
-
-		return $href;
+		
+		return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 	}
 
 	public function checkedOut( $row, $i, $identifier = 'id' )
@@ -125,60 +194,10 @@ class KTemplateHelperGrid extends KObject
 		if ( $result ) {
 			$checked = self::_checkedOut( $row );
 		} else {
-			$checked = KTemplate::loadHelper('grid.id', $i, $row->$identifier );
+			$checked = KTemplateDefault::loadHelper('grid.id', $i, $row->$identifier );
 		}
 
 		return $checked;
-	}
-
-	public function published( $row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
-	{
-		$img 	= $row->published ? $imgY : $imgX;
-		$action	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$text 	= $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
-
-		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$action .'\')" title="'. $text .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
-		;
-
-		return $href;
-	}
-	
-	public function enable( $enable, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix = '' )
-	{
-		$img 	= $enable ? $imgY : $imgX;
-		$action	= $enable ? 'disable' : 'enable';
-		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-
-		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$action .'\')" title="'. $text .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
-		;
-
-		return $href;
-	}
-
-	public function order($row_id)
-	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
-		$up   = Koowa::getURL('images').'/arrow_up.png';
-		$down = Koowa::getURL('images').'/arrow_down.png';
-
-		$result =
-			 '<a href="javascript:Koowa.Grid.order('.$row_id.', -1)" >'
-			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
-			.'</a>'
-			.'<a href="javascript:Koowa.Grid.order('.$row_id.', 1)" >'
-			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
-			.'</a>';
-			
-		return $result;
 	}
 
 	protected function _checkedOut( &$row, $overlib = 1 )
