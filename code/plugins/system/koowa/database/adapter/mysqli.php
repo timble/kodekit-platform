@@ -128,7 +128,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function selectResult($sql)
 	{
 		$return = null;
-		if (!($result = $this->select($sql))) 
+		if ($result = $this->select($sql)) 
 		{
 			if($row = $result->fetch_row( )) {
 				$return = $row[0];

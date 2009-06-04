@@ -137,7 +137,8 @@ abstract class KDatabaseRowAbstract extends KObject
         	
         if($this->_data[$key]) {
         	$this->_table->update($properties, $this->_data[$key]);
-        } else 
+        } 
+        else 
         {
         	if($this->_table->insert($properties)) {
         		$this->id = $this->_table->getDatabase()->getInsertId();

@@ -22,7 +22,7 @@ class KControllerRest extends KControllerAbstract
 		parent::__construct();
 		
 		// needed because get() is already in KObject
-		$this->registerAction('get', 'get');
+		$this->registerActionAlias('get', 'get');
 	}
 	
 	/**

@@ -30,7 +30,7 @@ class KControllerForm extends KControllerBread
 		parent::__construct($options);
 
 		// Register extra actions
-		$this->registerAction('disable', 'enable');
+		$this->registerActionAlias('disable', 'enable');
 		
 		// Register filter functions
 		$this->registerFilterBefore('save'   , 'filterToken')
@@ -231,7 +231,7 @@ class KControllerForm extends KControllerBread
 	{		
 		$req		= KRequest::get('post._token', 'md5'); 
         $token		= JUtility::getToken();
-          
+            
         return ($req === $token);
 	}
 }

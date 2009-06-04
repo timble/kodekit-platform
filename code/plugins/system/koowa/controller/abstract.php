@@ -25,13 +25,6 @@
 abstract class KControllerAbstract extends KObject
 {
 	/**
-	 * Array of class methods
-	 *
-	 * @var	array
-	 */
-	protected $_methods = array();
-
-	/**
 	 * Array of class methods to call for a given action.
 	 *
 	 * @var	array
@@ -89,25 +82,6 @@ abstract class KControllerAbstract extends KObject
 
         // Assign the classname with values from the config
         $this->setClassName($options['name']);
-        
-		// Get the methods only for the final controller class
-		$thisMethods	= get_class_methods( get_class( $this ) );
-		$baseMethods	= get_class_methods( 'KControllerAbstract' );
-		$methods		= array_diff( $thisMethods, $baseMethods );
-		
-		// Iterate through methods and map actions
-		foreach ( $methods as $method )
-		{
-			if ( substr( $method, 0, 8 ) == '_execute')
-            {
-				$this->_methods[] = $method;
-				// auto register public methods as actions
-				$this->_actionMap[strtolower(substr( $method, 8 ))] = $method;
-			}
-		}
-		
-		// If the default action is set, register it as such
-		$this->registerDefaultAction( $options['default_action'] );
 	}
 
     /**
@@ -121,7 +95,6 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'default_action'  => '_executeRead',
             'name'          => array(
                         'prefix'    => 'k',
                         'base'      => 'controller',
@@ -148,10 +121,17 @@ abstract class KControllerAbstract extends KObject
 		$this->setAction($action);
 		
 		//Find the mapped action
-		$doMethod = $this->_actionMap['__default'];
 		if (isset( $this->_actionMap[$action] )) {
-			$doMethod = $this->_actionMap[$action];
-		} 
+			$action = $this->_actionMap[$action];
+		}
+
+		//Create the method name
+		$doMethod = '_execute'.ucfirst($action);
+		
+		//Check of the method is callable
+		if (!is_callable(array($this, $doMethod ))) {
+			KControllerException('Method : '.$doMethod.'does not exist');
+		}
 		
 		//Create the arguments object
 		$args = new ArrayObject();
@@ -159,10 +139,10 @@ abstract class KControllerAbstract extends KObject
 		$args['action']     = $action;
 		$args['result']     = false;
 		
-		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
+		//if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
 			$args['result'] = $this->$doMethod();
-			$this->getCommandChain()->run('controller.after.'.$action, $args);
-		}
+			//$this->getCommandChain()->run('controller.after.'.$action, $args);
+		//}
 		
 		return $args['result'];
 	}
@@ -232,11 +212,9 @@ abstract class KControllerAbstract extends KObject
 	 *                  for this action.
 	 * @return	KControllerAbstract
 	 */
-	public function registerAction( $action, $method )
+	public function registerActionAlias( $alias, $action )
 	{
-		//if ( in_array( $method , $this->_methods ) ) {
-			$this->_actionMap[strtolower( $action )] = $method;
-		//}
+		$this->_actionMap[strtolower( $alias )] = $action;
 		return $this; 
 	}
 	
@@ -246,22 +224,9 @@ abstract class KControllerAbstract extends KObject
 	 * @param	string	The action
 	 * @return	KControllerAbstract
 	 */
-	public function unregisterAction( $action )
+	public function unregisterActionAlias( $action )
 	{
 		unset($this->_actionMap[strtolower($action)]);
-		return $this;
-	}
-
-	/**
-	 * Register the default action to perform if a mapping is not found.
-	 *
-	 * @param	string The name of the method in the derived class to perform if
-	 * 				   a named action is not found.
-	 * @return	KControllerAbstract
-	 */
-	public function registerDefaultAction( $method )
-	{
-		$this->registerAction( '__default', $method );
 		return $this;
 	}
 
@@ -281,8 +246,8 @@ abstract class KControllerAbstract extends KObject
 			$url = 'index.php?option=com_'.$this->getClassName('prefix').'&'.$url;
 		}
 
-		$this->_redirect =  JRoute::_($url, false);
-		$this->_message	= $msg;
+		$this->_redirect    =  JRoute::_($url, false);
+		$this->_message	    = $msg;
 		$this->_messageType	= $type;
 		
 		return $this;
@@ -320,12 +285,9 @@ abstract class KControllerAbstract extends KObject
         if(substr( $method, 0, 7 ) == 'execute') 
         {
         	$method    = '_'.$method;
-        	$mehtodMap = array_flip($this->_actionMap);
         	
-        	if (isset( $methodMap[$method] )) 
- 			{
-				$action = $methodMap[$method];
-				$result = $this->execute($action);
+        	if (is_callable(array($this, $method ))) {
+				$result = $this->execute(substr( $method, 0, 7 ));
 			}
         } 
         else $result = parent::__call($method, $args);

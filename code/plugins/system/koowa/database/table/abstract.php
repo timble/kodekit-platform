@@ -494,6 +494,7 @@ abstract class KDatabaseTableAbstract extends KObject
             		->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
+		
 		$result = $this->_db->update($table, $data, $where);
 		return $result;
 	}
