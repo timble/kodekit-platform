@@ -143,6 +143,13 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		return implode(PHP_EOL, $html);
 	}
 	
+	/**
+	 * Set the toolbar's title and icon
+	 *
+	 * @param 	string	Title
+	 * @param 	string	Icon
+	 * @return 	KToolbarInterface
+	 */
 	public function setTitle($title, $icon = 'generic.png')
 	{
 		//strip the extension
@@ -153,5 +160,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		$html .= "</div>\n";
 
 		KFactory::get('lib.joomla.application')->set('JComponentTitle', $html);
+		
+		return $this;
 	}
 }
