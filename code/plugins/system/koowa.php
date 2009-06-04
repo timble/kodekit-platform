@@ -20,6 +20,13 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
+		// Check if Koowa is active
+		if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli') 
+		{
+    		JError::raiseWarning(0, JText::_("Koowa plugin requires MySQLi Database Driver. Please change your database configuration settings to 'mysqli'"));
+    		return;
+		}
+		
 		if( self::canEnable()) 
 		{	
 			// Require the library loader
@@ -99,7 +106,7 @@ class plgSystemKoowa extends JPlugin
 			&& JRequest::getCmd('type') == 'plugins' ) {
 			$result = false;
 		}
-		
+	
 		return $result;
 	}
 }
