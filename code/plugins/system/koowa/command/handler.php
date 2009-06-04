@@ -9,19 +9,18 @@
  */
 
 /**
- * Event Command
+ * Command handler
  * 
- * The event commend will translate the command name to a onCommandName format 
- * and let the event dispatcher dispatch to any registered event handlers.
+ * The command handler will translate the command name to a onCommandName format 
+ * and call it for the object class to handle it if the method exists.
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Command
  * @uses 		KFactory
- * @uses 		KEventDispatcher
  * @uses 		KInflector
  */
-class KCommandEvent extends KObject implements KPatternCommandInterface 
+class KCommandHandler extends KObject implements KPatternCommandInterface 
 {
 	/**
 	 * Command handler
@@ -29,16 +28,17 @@ class KCommandEvent extends KObject implements KPatternCommandInterface
 	 * @param string  The command name
 	 * @param mixed   The command arguments
 	 *
-	 * @return boolean	Always returns true
+	 * @return boolean  Can return both true or false.  
 	 */
 	final public function execute( $name, $args) 
 	{
-		$parts = explode('.', $name);	
-		$event = 'on'.KInflector::implode($parts);
-	
-		$dispatcher = KFactory::get('lib.koowa.event.dispatcher');
-		$dispatcher->dispatch($event, $args);
+		$parts    = explode('.', $name);	
+		$function = 'on'.KInflector::implode($parts);
 		
+		if(method_exists($this, $function)) {
+			return $this->$function($args);
+		}
+	
 		return true;
 	}
 }
