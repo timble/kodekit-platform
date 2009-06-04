@@ -24,7 +24,7 @@ class KViewHtml extends KViewAbstract
 		$options = $this->_initialize($options);
 		
 		// Add a rule to the template for form handling and secrity tokens
-		KTemplateDefault::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
+		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
 		
 		// Set a base path for use by the view
 		$this->assign('baseurl', $options['base_url']);

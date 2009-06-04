@@ -9,15 +9,26 @@
  */
 
  /**
- * Template static class
- * * 
- * @author		Mathias Verraes <mathias@koowa.org>
+ * Default template stream wrapper
+ * 
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_Template
  */
-class KTemplate
+class KTemplate extends KTemplateAbstract
 {
-
+   /**
+     * Register the stream wrapper 
+     * 
+     * Function prevents from registering the wrapper twice
+     */
+	public static function register()
+	{	
+		if (!in_array('tmpl', stream_get_wrappers())) {
+			stream_wrapper_register('tmpl', __CLASS__);
+		}
+    } 
+    
 	/**
 	 * Load a helper and pass the arguments
 	 * 

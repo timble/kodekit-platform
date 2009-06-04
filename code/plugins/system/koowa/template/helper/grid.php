@@ -67,10 +67,9 @@ class KTemplateHelperGrid extends KObject
 	public function publish( $publish, $id, $imgY = 'tick.png', $imgX = 'publish_x.png' )
 	{
 		//Load koowa javascript
-		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$img 	= $publish ? $imgY : $imgX;
-		$action	= $publis ? 'unpublish' : 'publish';
 		$alt 	= $publish ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 		$text 	= $publish ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
 		$action = $publish ? 'disable' : 'enable';
@@ -87,10 +86,9 @@ class KTemplateHelperGrid extends KObject
 	public function enable( $enable, $id, $imgY = 'tick.png', $imgX = 'publish_x.png')
 	{
 		//Load koowa javascript
-		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$img 	= $enable ? $imgY : $imgX;
-		$action	= $enable ? 'disable' : 'enable';
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		$action = $enable ? 'disable' : 'enable';
@@ -126,7 +124,7 @@ class KTemplateHelperGrid extends KObject
 	public function access( $access, $id )
 	{
 		//Load koowa javascript
-		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		switch($access)
 		{

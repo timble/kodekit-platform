@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_View
  * @uses		KMixinClass
- * @uses 		KTemplateDefault
+ * @uses 		KTemplate
  * @uses 		KFactory
  */
 abstract class KViewAbstract extends KObject
@@ -111,8 +111,8 @@ abstract class KViewAbstract extends KObject
 		$this->setLayout($options['layout']);
 
 		//Register the view stream wrapper
-		KTemplateDefault::register();
-		KTemplateDefault::addRules($options['template_rules']);
+		KTemplate::register();
+		KTemplate::addRules($options['template_rules']);
 	}
 
     /**
