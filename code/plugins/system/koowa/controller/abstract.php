@@ -139,10 +139,10 @@ abstract class KControllerAbstract extends KObject
 		$args['action']     = $action;
 		$args['result']     = false;
 		
-		//if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
+		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
 			$args['result'] = $this->$doMethod();
-			//$this->getCommandChain()->run('controller.after.'.$action, $args);
-		//}
+			$this->getCommandChain()->run('controller.after.'.$action, $args);
+		}
 		
 		return $args['result'];
 	}
