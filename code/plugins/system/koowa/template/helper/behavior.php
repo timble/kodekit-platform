@@ -42,28 +42,28 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		if ($debug) {
-			KTemplateDefault::loadHelper('script', 'mootools-uncompressed.js', 'media/system/js/', false);
+			KTemplate::loadHelper('script', 'mootools-uncompressed.js', 'media/system/js/', false);
 		} else {
-			KTemplateDefault::loadHelper('script', 'mootools.js', 'media/system/js/', false);
+			KTemplate::loadHelper('script', 'mootools.js', 'media/system/js/', false);
 		}
 		$loaded = true;
 		return;
 	}
 	
 	public function caption() {
-		KTemplateDefault::loadHelper('script', 'caption.js', 'media/system/js/');
+		KTemplate::loadHelper('script', 'caption.js', 'media/system/js/');
 	}
 
 	public function formvalidation() {
-		KTemplateDefault::loadHelper('script', 'validate.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'validate.js', 'media/system/js/' );
 	}
 
 	public function switcher() {
-		KTemplateDefault::loadHelper('script', 'switcher.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'switcher.js', 'media/system/js/' );
 	}
 
 	public function combobox() {
-		KTemplateDefault::loadHelper('script', 'combobox.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'combobox.js', 'media/system/js/' );
 	}
 
 	public function tooltip($selector='.hasTip', $params = array()) 
@@ -83,8 +83,8 @@ class KTemplateHelperBehavior extends KObject
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			KTemplateDefault::loadHelper('script', 'modal.js', 'media/system/js/');
-			KTemplateDefault::loadHelper('stylesheet', 'modal.css', 'media/system/css/');
+			KTemplate::loadHelper('script', 'modal.js', 'media/system/js/');
+			KTemplate::loadHelper('stylesheet', 'modal.css', 'media/system/css/');
 
 			$included = true;
 		}
@@ -132,8 +132,8 @@ class KTemplateHelperBehavior extends KObject
 
 	public function uploader($id='file-upload', $params = array())
 	{
-		KTemplateDefault::loadHelper('script', 'swf.js', 'media/system/js/' );
-		KTemplateDefault::loadHelper('script', 'uploader.js' );
+		KTemplate::loadHelper('script', 'swf.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'uploader.js' );
 
 		static $uploaders;
 
@@ -192,8 +192,8 @@ class KTemplateHelperBehavior extends KObject
 
 		// Include mootools framework
 		$this->mootools();
-		KTemplateDefault::loadHelper('script', 'mootree.js', 'media/system/js/');
-		KTemplateDefault::loadHelper('script', 'mootree.css', 'media/system/css');
+		KTemplate::loadHelper('script', 'mootree.js', 'media/system/js/');
+		KTemplate::loadHelper('script', 'mootree.css', 'media/system/css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -240,9 +240,9 @@ class KTemplateHelperBehavior extends KObject
 	{
 		$document = KFactory::get('lib.joomla.document');
 		
-		KTemplateDefault::loadHelper('stylesheet', 'calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		KTemplateDefault::loadHelper('stylesheet', 'calendar.js', 'media/system/js/' );
-		KTemplateDefault::loadHelper('script',  'calendar-setup.js', 'media/system/js/' );
+		KTemplate::loadHelper('stylesheet', 'calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		KTemplate::loadHelper('stylesheet', 'calendar.js', 'media/system/js/' );
+		KTemplate::loadHelper('script',  'calendar-setup.js', 'media/system/js/' );
 
 		$translation = $this->_calendartranslation();
 		if($translation) {

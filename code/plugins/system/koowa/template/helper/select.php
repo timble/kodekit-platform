@@ -243,10 +243,10 @@ class KTemplateHelperSelect extends KObject
 		for ($i=$start; $i <= $end; $i+=$inc)
 		{
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
-			$arr[] = KTemplateDefault::loadHelper('select.option',  $fi, $fi );
+			$arr[] = KTemplate::loadHelper('select.option',  $fi, $fi );
 		}
 
-		return KTemplateDefault::loadHelper('select.genericlist',   $arr, $name, $attribs, 'value', 'text', $selected );
+		return KTemplate::loadHelper('select.genericlist',   $arr, $name, $attribs, 'value', 'text', $selected );
 	}
 
 	/**
@@ -314,9 +314,9 @@ class KTemplateHelperSelect extends KObject
 	public function booleanlist( $name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false )
 	{
 		$arr = array(
-			KTemplateDefault::loadHelper('select.option',  '0', JText::_( $no ) ),
-			KTemplateDefault::loadHelper('select.option',  '1', JText::_( $yes ) )
+			KTemplate::loadHelper('select.option',  '0', JText::_( $no ) ),
+			KTemplate::loadHelper('select.option',  '1', JText::_( $yes ) )
 		);
-		return KTemplateDefault::loadHelper('select.radiolist',  $arr, $name, $attribs, 'value', 'text', (int) $selected, $id );
+		return KTemplate::loadHelper('select.radiolist',  $arr, $name, $attribs, 'value', 'text', (int) $selected, $id );
 	}
 }

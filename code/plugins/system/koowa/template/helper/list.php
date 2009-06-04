@@ -31,7 +31,7 @@ class KTemplateHelperList extends KObject
 		. ' ORDER BY id'
 		;
 		$groups = $db->selectObjectList($query);
-		$access = KTemplateDefault::loadHelper('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = KTemplate::loadHelper('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}

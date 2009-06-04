@@ -32,7 +32,7 @@ class KTemplateHelperDefault
 	{
 		// Include mootools framework
 		if($mootools) {
-			KTemplateDefault::loadHelper('behavior.mootools');
+			KTemplate::loadHelper('behavior.mootools');
 		}
 
 		if(strpos($path, 'http') !== 0 && $path[0] != '/') {

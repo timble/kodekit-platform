@@ -17,7 +17,6 @@
  * @package     Koowa_View
  * @subpackage  Html
  */
-
 class KViewHtml extends KViewAbstract
 {
 	public function __construct($options = array())
@@ -39,7 +38,7 @@ class KViewHtml extends KViewAbstract
 		$suffix = $this->getClassName('suffix');
 
 		//Set the main stylesheet for the component
-		KTemplateDefault::loadHelper('stylesheet', $prefix.'.css', 'media/com_'.$prefix.'/css/');
+		KTemplate::loadHelper('stylesheet', $prefix.'.css', 'media/com_'.$prefix.'/css/');
 		
 		//Push the toolbar output into the document buffer
 		$this->_document->setBuffer(

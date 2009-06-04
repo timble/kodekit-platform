@@ -49,7 +49,7 @@ class KTemplateHelperGrid extends KObject
 	public function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
 		//Load koowa javascript
-		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
@@ -59,7 +59,7 @@ class KTemplateHelperGrid extends KObject
 		$html = '<a href="javascript:Koowa.Table.sorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= KTemplateDefault::loadHelper('image.template',  $images[$index], '/images/', NULL, NULL);
+			$html .= KTemplate::loadHelper('image.template',  $images[$index], '/images/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -125,7 +125,7 @@ class KTemplateHelperGrid extends KObject
 		if ( $result ) {
 			$checked = self::_checkedOut( $row );
 		} else {
-			$checked = KTemplateDefault::loadHelper('grid.id', $i, $row->$identifier );
+			$checked = KTemplate::loadHelper('grid.id', $i, $row->$identifier );
 		}
 
 		return $checked;
@@ -165,7 +165,7 @@ class KTemplateHelperGrid extends KObject
 	public function order($row_id)
 	{
 		//Load koowa javascript
-		KTemplateDefault::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
+		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
 		
 		$up   = Koowa::getURL('images').'/arrow_up.png';
 		$down = Koowa::getURL('images').'/arrow_down.png';
@@ -188,8 +188,8 @@ class KTemplateHelperGrid extends KObject
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 	= KTemplateDefault::loadHelper('date',  $row->checked_out_time, '%A, %d %B %Y' );
-			$time	= KTemplateDefault::loadHelper('date',  $row->checked_out_time, '%H:%M' );
+			$date 	= KTemplate::loadHelper('date',  $row->checked_out_time, '%A, %d %B %Y' );
+			$time	= KTemplate::loadHelper('date',  $row->checked_out_time, '%H:%M' );
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
