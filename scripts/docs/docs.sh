@@ -13,10 +13,10 @@ CODE_DIR=${SRC_DIR}/code/plugins/system/koowa
 EXAMPLES_DIR=${SRC_DIR}/trunk
 
 # Target for the generated docs
-TGT_DIR=/p
+TGT_DIR=/path/to/docs
 
 # Project Title
-TITLE="Koowa - Trunk"
+TITLE="Nooku Framework - Trunk"
 
 # Output information to use separated by ','. Format: output:converter:templatedir
 OUTPUT=HTML:frames:DOM/earthli 
@@ -30,6 +30,6 @@ IGNORE=chart/,filter/ascii/data/
 # No output, for cron jobs
 QUIET=off
 
-#svn update $SRC_DIR
-
+svn update $SRC_DIR
+rm -rf ${TGT_DIR}/*
 phpdoc -d $CODE_DIR -ed $EXAMPLES_DIR -t $TGT_DIR -i $IGNORE -q $QUIET -ti "$TITLE" -o $OUTPUT -s $SOURCE -dn "Koowa" -dc "Koowa"
