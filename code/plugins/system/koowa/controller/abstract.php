@@ -154,7 +154,14 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function getActions()
 	{
-		return $this->_methods;
+		$result = array();
+		foreach(get_class_methods($this) as $action)
+		{
+			if(substr($action, 0, 8) == '_execute') {
+				$result[] = strtolower(substr($action, 8));
+			}
+		}
+		return $result;
 	}
 
 	/**
