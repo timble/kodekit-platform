@@ -35,5 +35,4 @@ class KTemplateHelperList extends KObject
 
 		return $access;
 	}
-
 }

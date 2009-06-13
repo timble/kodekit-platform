@@ -29,6 +29,8 @@ class KTemplateFilterToken extends KObject implements KTemplateFilterInterface
 		'@text('	 	=> 'JText::_(',
 		'@helper('   	=> 'KTemplate::loadHelper(',
 		'@route('    	=> '$this->createRoute(',
+		'@script('    	=> "KTemplate::loadHelper('script',",
+		'@style('    	=> "KTemplate::loadHelper('stylesheet',",
 	);
 	
 	/**
