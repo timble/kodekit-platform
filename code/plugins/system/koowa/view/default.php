@@ -21,7 +21,9 @@ class KViewDefault extends KViewHtml
 	{
 		$prefix = $this->getClassName('prefix');
 		$suffix = $this->getClassName('suffix');
-		$model = KFactory::get('admin::com.'.$prefix.'.model.'.$suffix);
+		$app = KFactory::get('lib.joomla.application')->getName();
+				
+		$model = KFactory::get($app.'::com.'.$prefix.'.model.'.$suffix);
 
 		if(KInflector::isPlural($suffix)) {
 			$this->assign($suffix, 		$model->getList());
