@@ -253,15 +253,10 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __get($columnName)
     {
-        $data = null;
-           
     	if($columnName == 'id') {
-        	$data = $this->_data[$this->_table->getPrimaryKey()];
-        } else {
-        	$data = $this->_data[$columnName];
+        	$columnName = $this->_table->getPrimaryKey();
         }
-      
-    	return $data;
+    	return $this->_data[$columnName];
     }
 
     /**
@@ -270,15 +265,13 @@ abstract class KDatabaseRowAbstract extends KObject
      * @param  	string 	The column key.
      * @param  	mixed  	The value for the property.
      * @return 	void
-     * @throws 	KDatabaseRowException
      */
     public function __set($columnName, $value)
     {
     	if($columnName == 'id') {
-        	$this->_data[$this->_table->getPrimaryKey()] = $value;
-        } else {
-        	$this->_data[$columnName] = $value;
+        	$columnName = $this->_table->getPrimaryKey();
         }
+        $this->_data[$columnName] = $value;
    }
 
 	/**
@@ -290,24 +283,25 @@ abstract class KDatabaseRowAbstract extends KObject
     public function __isset($columnName)
     {
         if($columnName == 'id') {
-        	$columnName = $this->_data[$this->_table->getPrimaryKey()];
+        	$columnName = $this->_table->getPrimaryKey();
         }
     	
     	return array_key_exists($columnName, $this->_data);
     }
     
     /** 
-     * Sets a row field to null.
+     * Unset a row field
      * 
-     * @param  string  The column key.
+     * @param	string  The column key.
+     * @return	void
      */
     public function __unset($columnName)
     {
    	 	if($columnName == 'id') {
-        	$columnName = $this->_data[$this->_table->getPrimaryKey()];
+        	$columnName = $this->_table->getPrimaryKey();
         }
         
-        unset($this->data[$columnName]);
+        unset($this->_data[$columnName]);
     }
     
     /**
