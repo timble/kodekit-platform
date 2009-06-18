@@ -232,10 +232,8 @@ class KControllerForm extends KControllerBread
 		$req		= KRequest::get('post._token', 'md5'); 
         $token		= JUtility::getToken();
 
-        if($req !== $token) 
-        {
-        	$url = KRequest::get('server.HTTP_REFERER', 'url');
-        	die('Invalid token or session time-out. Please try again: <a href="'.$url.'">'.$url.'</a>');
+        if($req !== $token) {
+        	throw new KControllerException('Invalid token or session time-out.');
         }
         return true;
 	}
