@@ -288,7 +288,7 @@ abstract class KControllerAbstract extends KObject
 	 * @return mixed The result of the function
      */
     public function __call($method, $args)
-    {
+    {	
         if(substr( $method, 0, 7 ) == 'execute') 
         {
         	$method    = '_'.$method;
@@ -297,7 +297,9 @@ abstract class KControllerAbstract extends KObject
 				$result = $this->execute(substr( $method, 0, 7 ));
 			}
         } 
-        else $result = parent::__call($method, $args);
+        else{
+        	$result = parent::__call($method, $args);
+        }
         
         return $result;
     }
