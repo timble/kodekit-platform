@@ -151,7 +151,7 @@ class KObject
             return call_user_func_array(array($this->_mixinMethods[$method], $method), $args);
         }
 
-        //$trace = debug_backtrace();
-        //trigger_error("Call to undefined method {$trace[1]['class']}::$method()", E_USER_ERROR);
+        $trace = debug_backtrace();
+        trigger_error("Call to undefined method {$trace[1]['class']}::$method()", E_USER_ERROR);
     }
 }
