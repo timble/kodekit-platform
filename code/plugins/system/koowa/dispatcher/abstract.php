@@ -89,7 +89,20 @@ abstract class KDispatcherAbstract extends KObject
         // Perform the Request action
         $default = KRequest::get('get.action', 'cmd', 'read');
         $action  = KRequest::get('post.action', 'cmd', $default);
-        $controller->execute($action);
+        
+        try {
+        	$controller->execute($action);
+        } catch (KControllerException $e) 
+        {
+        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED) 
+        	{
+				KFactory::get('lib.joomla.application')
+					->redirect( 'index.php', JText::_($e->getMessage()) );
+        	} else {
+        		// rethrow, we don't know what to do with other error codes yet
+        		throw $e; 
+        	}
+        }
         
 		// Redirect if set by the controller
 		if($redirect = $controller->getRedirect())

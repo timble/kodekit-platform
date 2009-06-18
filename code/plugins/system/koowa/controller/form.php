@@ -233,7 +233,7 @@ class KControllerForm extends KControllerBread
         $token		= JUtility::getToken();
 
         if($req !== $token) {
-        	throw new KControllerException('Invalid token or session time-out.');
+        	throw new KControllerException('Invalid token or session time-out.', KHttp::STATUS_UNAUTHORIZED);
         }
         return true;
 	}
