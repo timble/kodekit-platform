@@ -226,6 +226,7 @@ class KControllerForm extends KControllerBread
 	 * Filter the token to prevent CSRF exploirs
 	 * 
 	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @throws KControllerException
 	 */
 	public function filterToken($args)
 	{		

@@ -111,6 +111,7 @@ abstract class KControllerAbstract extends KObject
 	 *
 	 * @param	string The action to perform
 	 * @return	mixed|false The value returned by the called method, false in error case.
+	 * @throws KControllerException
 	 */
 	public function execute($action = 'read')
 	{
@@ -130,7 +131,7 @@ abstract class KControllerAbstract extends KObject
 		
 		//Check of the method is callable
 		if (!is_callable(array($this, $doMethod ))) {
-			KControllerException('Method : '.$doMethod.'does not exist');
+			throw new KControllerException('Method : '.$doMethod.'does not exist');
 		}
 		
 		//Create the arguments object
@@ -297,7 +298,8 @@ abstract class KControllerAbstract extends KObject
 				$result = $this->execute(substr( $method, 0, 7 ));
 			}
         } 
-        else{
+        else
+        {
         	$result = parent::__call($method, $args);
         }
         
