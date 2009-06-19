@@ -251,6 +251,9 @@ class KDatabaseQuery extends KObject
 			return $this;
 		}
 		
+		$constraint	= strtoupper($constraint);
+		$condition	= strtoupper($condition);
+		
 		// Apply quotes to the property name
 		$property = $this->_adapter->quoteName($property);
 		
