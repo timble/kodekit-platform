@@ -280,25 +280,4 @@ abstract class KControllerAbstract extends KObject
 		return $result;
 	}
 	
-	/**
-     * Allows for magic action methods, 
-     * eg executeSave() is an alias of execute('save');  
-     *
-   	 * @param  string $function		The function name
-	 * @param  array  $arguments	The function arguments
-	 * @return mixed The result of the function
-     */
-    public function __call($method, $args)
-    {	
-        if(substr( $method, 0, 7 ) == 'execute' && method_exists($this, '_'.$method)) 
-        {
-        	$result = $this->execute(substr( $method, 7 ));
-        } 
-        else 
-		{
-        	$result = parent::__call($method, $args);
-        }
-        
-        return $result;
-    }
 }
