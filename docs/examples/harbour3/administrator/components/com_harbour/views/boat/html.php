@@ -14,8 +14,9 @@ class HarbourViewBoat extends KViewHtml
     public function displayToolbar()
     {
 		KFactory::get('admin::com.harbour.toolbar.boat')
-    		->append('lib.koowa.toolbar.button.save')
-			->append('lib.koowa.toolbar.button.apply')
-			->append('lib.koowa.toolbar.button.cancel');
+    		->append('save')
+			->append('apply')
+			->append('cancel');
     }
 }
+

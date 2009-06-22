@@ -16,11 +16,11 @@ class HarbourViewBoats extends KViewHtml
     public function displayToolbar()
     {
 		KFactory::get('admin::com.harbour.toolbar.boats')
-    		->append('lib.koowa.toolbar.button.enable')
-			->append('lib.koowa.toolbar.button.disable')
-			->append('lib.koowa.toolbar.button.delete')
-			->append('lib.koowa.toolbar.button.edit')
-			->append('lib.koowa.toolbar.button.new');
+    		->append('enable')
+			->append('disable')
+			->append('delete')
+			->append('edit')
+			->append('new');
 		// alternatively, move all of this inside HarbourToolbarBoats			
     }
 }
