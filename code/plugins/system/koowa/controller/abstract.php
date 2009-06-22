@@ -109,14 +109,22 @@ abstract class KControllerAbstract extends KObject
 	/**
 	 * Execute an action by triggering a method in the derived class.
 	 *
-	 * @param	string The action to perform
+	 * @param	string		The action to perform. If null, it will default to 
+	 * 						either 'browse' (for list views) or 'read' (for item views)
 	 * @return	mixed|false The value returned by the called method, false in error case.
-	 * @throws KControllerException
+	 * @throws 	KControllerException
 	 */
-	public function execute($action = 'read')
+	public function execute($action = null)
 	{
-		//Convert to lower case for lookup
-		$action = strtolower( $action );
+		if($action === null) 
+		{
+			// default action is browse (list) or read (item)
+			$view 	= KRequest::get('get.view', 'cmd');
+			$action = KInflector::isPlural($view) ? 'browse' : 'read';
+		} else {
+			//Convert to lower case for lookup
+			$action = strtolower( $action );
+		}
 		
 		//Set the action in the controller
 		$this->setAction($action);
