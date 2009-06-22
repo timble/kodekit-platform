@@ -126,6 +126,13 @@ class Koowa
 				
 			} break;
 			
+			case 'plg' :
+			{
+				unset($parts[0]);
+				$path   = implode('.', $parts);
+				$result = JLoader::import($path, JPATH_PLUGINS, 'plugins.' );
+			} break;
+			
 			default :
 			{
 				if(strpos($parts[0], '::') !== false) {
