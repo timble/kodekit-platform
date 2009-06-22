@@ -129,8 +129,7 @@ abstract class KControllerAbstract extends KObject
 		//Create the method name
 		$doMethod = '_execute'.ucfirst($action);
 		
-		//Check of the method is callable
-		if (!is_callable(array($this, $doMethod ))) {
+		if (!method_exists($this, $doMethod)) {
 			throw new KControllerException('Method : '.$doMethod.'does not exist');
 		}
 		
@@ -282,7 +281,8 @@ abstract class KControllerAbstract extends KObject
 	}
 	
 	/**
-     * Search the action map, and call the action if found or let the parent handle the call.
+     * Allows for magic action methods, 
+     * eg executeSave() is an alias of execute('save');  
      *
    	 * @param  string $function		The function name
 	 * @param  array  $arguments	The function arguments
@@ -290,16 +290,12 @@ abstract class KControllerAbstract extends KObject
      */
     public function __call($method, $args)
     {	
-        if(substr( $method, 0, 7 ) == 'execute') 
+        if(substr( $method, 0, 7 ) == 'execute' && method_exists($this, '_'.$method)) 
         {
-        	$method    = '_'.$method;
-        	
-        	if (is_callable(array($this, $method ))) {
-				$result = $this->execute(substr( $method, 0, 7 ));
-			}
+        	$result = $this->execute(substr( $method, 7 ));
         } 
-        else
-        {
+        else 
+		{
         	$result = parent::__call($method, $args);
         }
         
