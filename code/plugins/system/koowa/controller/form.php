@@ -77,7 +77,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _executeSave()
 	{
-		$result = parent::_executeEdit();
+		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
 		
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -95,7 +95,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _executeApply()
 	{
-		$row = parent::_executeEdit();
+		$result = KRequest::get('post.id', 'bool') ? $this->execute('edit') : $this->execute('add');
 
 		$view 	= $this->getClassName('suffix');
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -103,7 +103,7 @@ class KControllerForm extends KControllerBread
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
 		
-		return $row;
+		return $result;
 	}
 		
 	/*

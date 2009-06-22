@@ -60,7 +60,7 @@ class KControllerRest extends KControllerAbstract
 	 */
 	protected function _executeGet()	
 	{
-		return KInflector::isPlural($view) ? parent::_executeBrowse() : parent::_executeRead();
+		return KInflector::isPlural($view) ? $this->execute('browse') : $this->execute('read');
 	}
 	
 	/**
@@ -70,8 +70,10 @@ class KControllerRest extends KControllerAbstract
 	 */
 	protected function _executePost()
 	{
+		$id = KRequest::get('post.id', 'int');
+		$cid = KRequest::get('post.cid', 'int');
 		// if there are no id's, we are adding an item
-		return (!$id && !count($cid)) ? parent::_executeAdd() : parent::_executeEdit();
+		return (empty($id) && empty($cid)) ? $this->execute('add') : $this->execute('edit');
 	}
 	
 	/**
@@ -81,7 +83,7 @@ class KControllerRest extends KControllerAbstract
 	 */
 	protected function _executePut()
 	{
-		return parent::_executeAdd();
+		return $this->execute('add');
 	}
 	
 	/**
