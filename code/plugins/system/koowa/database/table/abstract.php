@@ -391,6 +391,27 @@ abstract class KDatabaseTableAbstract extends KObject
     	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
     	return $rowset;
     }
+    
+    /**
+     * Count rows
+     *  
+     * @param	KDatabaseQuery|string WHERE clause, as KDatabaseQuery or as string or null for all rows
+     * @param 	array	Options
+     * @return	int		Number of rows
+     */
+    public function count($where = null)
+    {
+   	 	$query = 'SELECT COUNT(*) FROM `#__'.$this->getTableName().'`'.PHP_EOL;
+   	 	
+        if($where instanceof KDatabaseQuery) {
+        	$query .= (string) $where;
+        } elseif(is_string($where)) {
+        	$query .= 'WHERE '.$where;
+        }
+        
+		$result = (array) $this->_db->selectResult($query);
+    	return $result;
+    }
 
     /**
      * Fetch a row
