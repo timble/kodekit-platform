@@ -127,10 +127,10 @@ abstract class KControllerAbstract extends KObject
 		}
 
 		//Create the method name
-		$doMethod = '_execute'.ucfirst($action);
+		$doMethod = '_action'.ucfirst($action);
 		
 		if (!method_exists($this, $doMethod)) {
-			throw new KControllerException('Method : '.$doMethod.'does not exist');
+			throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
 		}
 		
 		//Create the arguments object
@@ -157,7 +157,7 @@ abstract class KControllerAbstract extends KObject
 		$result = array();
 		foreach(get_class_methods($this) as $action)
 		{
-			if(substr($action, 0, 8) == '_execute') {
+			if(substr($action, 0, 8) == '_action') {
 				$result[] = strtolower(substr($action, 8));
 			}
 		}

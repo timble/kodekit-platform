@@ -22,7 +22,7 @@ class KControllerDefault extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	protected function _executeRead()
+	protected function _actionRead()
 	{
 		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		

@@ -75,7 +75,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _executeSave()
+	protected function _actionSave()
 	{
 		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
 		
@@ -93,7 +93,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _executeApply()
+	protected function _actionApply()
 	{
 		$result = KRequest::get('post.id', 'bool') ? $this->execute('edit') : $this->execute('add');
 
@@ -111,7 +111,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return 	void
 	 */
-	protected function _executeCancel()
+	protected function _actionCancel()
 	{
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
@@ -125,9 +125,9 @@ class KControllerForm extends KControllerBread
 	 * @throws KControllerException
 	 * @return void
 	 */
-	protected function _executeDelete()
+	protected function _actionDelete()
 	{
-		$result = parent::_executeDelete();
+		$result = parent::_actionDelete();
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -144,7 +144,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	protected function _executeEnable()
+	protected function _actionEnable()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
 		
@@ -174,7 +174,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return void
 	 */
-	protected function _executeAccess()
+	protected function _actionAccess()
 	{
 		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
@@ -200,7 +200,7 @@ class KControllerForm extends KControllerBread
 	 * 
 	 * @return KDatabaseRow 	A row object containing the reordered data
 	 */
-	protected function _executeOrder()
+	protected function _actionOrder()
 	{
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');

@@ -58,7 +58,7 @@ class KControllerRest extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	protected function _executeGet()	
+	protected function _actionGet()	
 	{
 		return KInflector::isPlural($view) ? $this->execute('browse') : $this->execute('read');
 	}
@@ -68,7 +68,7 @@ class KControllerRest extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	protected function _executePost()
+	protected function _actionPost()
 	{
 		$id = KRequest::get('post.id', 'int');
 		$cid = KRequest::get('post.cid', 'int');
@@ -81,7 +81,7 @@ class KControllerRest extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	protected function _executePut()
+	protected function _actionPut()
 	{
 		return $this->execute('add');
 	}
@@ -91,8 +91,8 @@ class KControllerRest extends KControllerAbstract
 	 * 
 	 * @return void
 	 */
-	protected function _executeDelete()
+	protected function _actionDelete()
 	{
-		return parent::_executeDelete();
+		return parent::_actionDelete();
 	}	
 }
