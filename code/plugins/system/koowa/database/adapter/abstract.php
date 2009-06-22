@@ -134,8 +134,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			$options['adapter'] = $this;
 		} 
 		
-		$query = new KDatabaseQuery($options);
-		return $query;
+		return KFactory::tmp('lib.koowa.database.query', $options);
 	}
 	
 	/**
