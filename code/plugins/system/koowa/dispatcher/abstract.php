@@ -87,8 +87,7 @@ abstract class KDispatcherAbstract extends KObject
         $controller = $this->getController();
         
         // Perform the Request action
-        $default = KRequest::get('get.action', 'cmd', 'read');
-        $action  = KRequest::get('post.action', 'cmd', $default);
+        $action  = KRequest::get('request.action', 'cmd', null);
         
         //Execute the controller, handle exeception if thrown.
         try 
