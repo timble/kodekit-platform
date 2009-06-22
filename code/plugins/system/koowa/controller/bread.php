@@ -91,7 +91,7 @@ class KControllerBread extends KControllerAbstract
 		$app   		= KFactory::get('lib.joomla.application')->getName();
 		$table 		= KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
 		$row 		= $table->fetchRow()
-					->setProperties($post)
+					->setProperties($data)
 					->save();
 					
 		return $row;
