@@ -408,8 +408,8 @@ abstract class KDatabaseTableAbstract extends KObject
         } elseif(is_string($where)) {
         	$query .= 'WHERE '.$where;
         }
-        
-		$result = (array) $this->_db->selectResult($query);
+
+		$result = $this->_db->selectResult($query);
     	return $result;
     }
 
