@@ -53,7 +53,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 	/**
 	 * Constructor
 	 *
-	 * @param	object	$dbo 	The database object to decorate
+	 * @param	object	The database object to decorate
 	 * @return	void
 	 */
 	public function __construct($db)

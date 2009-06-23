@@ -24,7 +24,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	/**
 	 * Constructor
 	 *
-	 * @param	object	$dbo 	The application object to decorate
+	 * @param	object	The application object to decorate
 	 * @return	void
 	 */
 	public function __construct($app)
