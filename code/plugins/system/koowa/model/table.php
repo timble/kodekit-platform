@@ -42,7 +42,7 @@ class KModelTable extends KModelAbstract
 		$this->_db = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
 		
 		parent::__construct($options);
-		
+
 		// set the table associated to the model
 		if(isset($options['table'])) {
 			$this->_table = $options['table'];
@@ -87,7 +87,7 @@ class KModelTable extends KModelAbstract
 	public function getTable(array $options = array())
 	{
 		if(!is_object($this->_table)) {
-			return KFactory::get($this->_table, $options);
+			$this->_table = KFactory::get($this->_table, $options);
 		}
 
 		return $this->_table;
