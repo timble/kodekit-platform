@@ -353,8 +353,8 @@ abstract class KDatabaseTableAbstract extends KObject
 	   	// fetch an empty rowset
         $options['table']     = $this;
 	
-    	$component = $this->getClassName('suffix');
-   		$rowset    = $this->getClassName('prefix');
+    	$component = $this->getClassName('prefix');
+   		$rowset    = $this->getClassName('suffix');
    	 	$app       = KFactory::get('lib.joomla.application')->getName();
    	 	
         // Get the data
