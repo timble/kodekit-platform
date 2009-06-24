@@ -190,8 +190,9 @@ class KModelTable extends KModelAbstract
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);
         $this->_buildQueryOrder($query);
+        $this->_buildQueryLimit($query);
         
-        $query->limit($this->getState('limit'), $this->getState('offset'));
+
 		return $query;
     }
     
@@ -258,6 +259,14 @@ class KModelTable extends KModelAbstract
     		$query->order('ordering', 'ASC');
     	}
     }
+    
+    /**
+     * Builds LIMIT clause for the query
+     */
+    protected function _buildQueryLimit(KDatabaseQuery $query)
+    {
+		$query->limit($this->getState('limit'), $this->getState('offset'));
+    } 
     
  	/**
      * Get the default states
