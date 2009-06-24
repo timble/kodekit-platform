@@ -100,6 +100,21 @@ abstract class KModelAbstract extends KObject
         return array_merge($defaults, $options);
     }
 
+    /**
+     * Reset all cached data
+     *
+     * @return KModelAbstract
+     */
+    public function reset()
+    {
+    	unset($this->_list);
+    	unset($this->_item);
+    	unset($this->_pagination);
+    	unset($this->_total);
+    	
+    	return $this;
+    }
+    
 	/**
 	 * Method to set model state variables
 	 *
@@ -110,6 +125,10 @@ abstract class KModelAbstract extends KObject
 	public function setState( $property, $value = null )
 	{
 		$this->_state->set($property, $value);
+		
+		// changing state empties the model's cache because the data is now different
+		$this->reset();
+		
 		return $this;
 	}
 
