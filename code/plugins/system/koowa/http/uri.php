@@ -179,6 +179,7 @@ class KHttpUri extends KObject
 	 */
 	public function __construct( array $options = array()) 
 	{
+		$options = $this->_initialize($options);
 		$this->set($options['uri']); 
 	}
 	
