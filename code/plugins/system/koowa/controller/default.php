@@ -15,19 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerAbstract
+class KControllerDefault extends KControllerBread
 {
-	/**
-	 * Display a single item
-	 * 
-	 * @return void
-	 */
-	protected function _actionRead()
-	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
-		
-		$this->getView()
-			->setLayout($layout)
-			->display();
-	}
+
 }
