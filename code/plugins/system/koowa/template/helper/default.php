@@ -18,7 +18,7 @@
  * @subpackage	Helper
  * @uses   		KFactory
  */
-class KTemplateHelperDefault
+class KTemplateHelperDefault extends KObject
 {		
 	/**
 	 * Write a <script></script> element
