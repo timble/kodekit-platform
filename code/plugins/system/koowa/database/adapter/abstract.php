@@ -637,7 +637,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @param  	object 	The raw field data
 	 * @return object
 	 */
-	abstract protected function _parseField($field)
+	abstract protected function _parseField($field);
     
 	/**
 	 * Given a column specification, parse into datatype, size, and
@@ -648,7 +648,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
-	abstract protected function _parseFieldType($spec)
+	abstract protected function _parseFieldType($spec);
  	
 	/**
      * Safely quotes a value for an SQL statement.

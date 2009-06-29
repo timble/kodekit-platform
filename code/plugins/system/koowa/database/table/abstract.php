@@ -223,7 +223,7 @@ abstract class KDatabaseTableAbstract extends KObject
             $this->_defaults = array();
         	foreach($this->getFields() as $name => $description) 
         	{
-        	    $ his->_defaults[$name] = $description->default;
+        	    $this->_defaults[$name] = $description->default;
         	    if($name == $this->getPrimaryKey()) {
         	  		$this->_defaults['id'] = $description->default;
         	  	}
@@ -461,7 +461,7 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         //Get the data and push it in the row
 		if(!isset($query)) {
-        	$query = $this->_db->getQuery()
+        	$query = $this->_db->getQuery();
         }
         
        	if($query instanceof KDatabaseQuery) 
