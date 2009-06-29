@@ -65,7 +65,7 @@ class KSessionHandlerDatabase extends KSessionHandlerAbstract implements KSessio
 			return false;
 		}
 
-		$row = $this->_table->find($id);
+		$row = $this->_table->fetchRow($id);
 		return $row->data;
 	}
 
@@ -82,7 +82,7 @@ class KSessionHandlerDatabase extends KSessionHandlerAbstract implements KSessio
 			return false;
 		}
 		
-		$row = $this->_table->find($id);
+		$row = $this->_table->fetcRow($id);
 		$row->data = $session_data;
 		$row->save();
 
@@ -101,7 +101,7 @@ class KSessionHandlerDatabase extends KSessionHandlerAbstract implements KSessio
 			return false;
 		}
 
-		$row = $this->_table->find($id);
+		$row = $this->_table->fetctRow($id);
 		$row->delete();
 		
 		return true;

@@ -151,7 +151,7 @@ abstract class KDatabaseRowAbstract extends KObject
 	/**
      * Deletes existing rows.
      *
-     * @return int The number of rows deleted.
+     * @return KDatabaseRowAbstract
      */
     public function delete()
     {
@@ -164,7 +164,7 @@ abstract class KDatabaseRowAbstract extends KObject
 	/**
      * Resets to the default properties
      *
-     * @return  this
+     * @return KDatabaseRowAbstract
      */
     public function reset()
     {
@@ -174,8 +174,10 @@ abstract class KDatabaseRowAbstract extends KObject
     
     /**
      * Increase hit counter by 1
+     * 
+     * Requires a hit field to be present in the table
      *
-     * @return this
+     * @return KDatabaseRowAbstract
      * @throws KDatabaseRowException
      */
 	public function hit()
@@ -196,7 +198,7 @@ abstract class KDatabaseRowAbstract extends KObject
 	 * Requires an ordering field to be present in the table
 	 *
 	 * @param	integer	Amount to move up or down
-	 * @return 	this
+	 * @return 	KDatabaseRowAbstract
 	 * @throws 	KDatabaseRowException
 	 */
 	public function order($change)
@@ -234,6 +236,52 @@ abstract class KDatabaseRowAbstract extends KObject
 	}
 	
 	/**
+	 * Checks out a row
+	 * 
+	 * Requires an checked_out field to be present in the table
+	 *
+	 * @return 	KDatabaseRowAbstract
+	 * @throws 	KDatabaseRowException
+	 */
+	public function checkout()
+	{
+		if (!in_array('checked_out', $this->_table->getColumns())) {
+			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
+		}
+	
+		//Get the user object
+		$user = KFactory::get('lib.joomla.user')->get('id');
+		
+		//force to integer
+		settype($user, 'int');
+	
+		$this->checked_out = $user->get('id');
+		$this->save();
+		
+		return $this;
+	}
+	
+	/**
+	 * Checks in a row
+	 * 
+	 * Requires an checked_out field to be present in the table
+	 *
+	 * @return 	KDatabaseRowAbstract
+	 * @throws 	KDatabaseRowException
+	 */
+	public function checkin()
+	{
+		if (!in_array('checked_out', $this->_table->getColumns())) {
+			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
+		}
+	
+		$this->checked_out = 0;
+		$this->save();
+
+		return $this;
+	}
+	
+	/**
      * Returns the column/value data as an array.
      *
      * @return array
@@ -242,6 +290,7 @@ abstract class KDatabaseRowAbstract extends KObject
     {
         $array = $this->_data;
         $array['id'] = $this->id;
+        
         return $array;
     }
 
@@ -256,6 +305,7 @@ abstract class KDatabaseRowAbstract extends KObject
     	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
+        
     	return $this->_data[$columnName];
     }
 
@@ -271,6 +321,7 @@ abstract class KDatabaseRowAbstract extends KObject
     	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
+        
         $this->_data[$columnName] = $value;
    }
 
@@ -319,11 +370,11 @@ abstract class KDatabaseRowAbstract extends KObject
 
 
     /**
-    * Set the object properties based on a named array/hash
-    *
-    * @param    mixed Either and associative array or another object
-    * @return   this
-    */
+     * Set the object properties based on a named array/hash
+     *
+     * @param   mixed Either and associative array or another object
+     * @return 	KDatabaseRowAbstract
+     */
     public function setProperties( $properties )
     {
     	$properties = (array) $properties;

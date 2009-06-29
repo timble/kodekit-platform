@@ -135,7 +135,7 @@ class KModelTable extends KModelAbstract
         {
         	$table = $this->getTable();
         	$query = $this->_buildQuery();
-        	$this->_list = $table->fetchAll($query);
+        	$this->_list = $table->fetchRowset($query);
         }
 
         return parent::getList();
@@ -151,8 +151,9 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total)) 
         {
-            $query = $this->_buildCountQuery();
-			$this->_total = $this->_db->selectResult($query);
+            $table = $this->getTable(); 
+        	$query = $this->_buildCountQuery();
+			$this->_total = $table->count($query);
         }
 
         return parent::getTotal();
@@ -202,8 +203,7 @@ class KModelTable extends KModelAbstract
     protected function _buildCountQuery()
     {
         $query = $this->_db->getQuery();
-        $query->count();
-       
+         
         $this->_buildQueryFrom($query);
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);

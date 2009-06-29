@@ -189,6 +189,16 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		$this->_connection = $resource;
 	}
+	
+	/**
+	 * Get the insert id of the last insert operation
+	 *
+	 * @return mixed The id of the last inserted row(s)
+	 */
+ 	public function getInsertId()
+    {
+    	return $this->_insert_id;
+    }
 
 	/**
      * Preforms a select query
@@ -220,18 +230,18 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	}
 	
    /**
-	 * Returns the first field of the first row
+	 * Fetch the first field of the first row
 	 *
 	 * @return scalar The value returned in the query or null if the query failed.
 	 */
-	abstract public function selectResult($sql);
+	abstract public function fetchResult($sql);
 
 	/**
-	 * Returns an array of single field results
+	 * Fetch an array of single field results
 	 *
 	 * @return array
 	 */
-	abstract public function selectResultList($sql);
+	abstract public function fetchResultList($sql);
 	
 	/**
      * Fetch the current row as an associative array
@@ -239,7 +249,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      * @param	string  The SQL query
      * @return array
      */
-	abstract public function selectAssoc($sql);
+	abstract public function fetchAssoc($sql);
 
 	/**
 	 * Fetch all result rows as an array of associative arrays
@@ -251,7 +261,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If key is empty as sequential list of returned records.
 	 */
-	abstract public function selectAssocList($sql, $key = '');
+	abstract public function fetchAssocList($sql, $key = '');
 
 	/**
 	 * Fetch the current row of a result set as an object
@@ -259,7 +269,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @param	string  The SQL query
 	 * @param object
 	 */
-	abstract public function selectObject($sql);
+	abstract public function fetchObject($sql);
 
 	/**
 	 * Fetch all rows of a result set as an array of objects
@@ -271,7 +281,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
 	 */
-	abstract public function selectObjectList($sql, $key='' );
+	abstract public function fetchObjectList($sql, $key='' );
 	
 	/**
      * Inserts a row of data into a table.
@@ -449,7 +459,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 					$tblval = $this->replaceTablePrefix($tblval, '');
 				}
 			
-				$fields = $this->selectObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));	
+				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));	
 				foreach ($fields as $field) {
 					$this->_table_cache[$tblval][$field->Field] = $field;
 				}
@@ -479,7 +489,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			$where = ' WHERE '.$where;
 		}
 		
-		return $this->selectObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
+		return $this->fetchObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
 	}
 	
 	/**
@@ -622,6 +632,25 @@ abstract class KDatabaseAdapterAbstract extends KObject
     }
     
 	/**
+	 * Parse the field raw data
+	 *
+	 * @param  	object 	The raw field data
+	 * @return object
+	 */
+	abstract protected function _parseField($field)
+    
+	/**
+	 * Given a column specification, parse into datatype, size, and
+	 * decimal scope.
+	 *
+	 * @param string $spec The column specification; for example,
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
+ 	 *
+ 	 * @return array A sequential array of the column type, size, and scope.
+ 	 */
+	abstract protected function _parseFieldType($spec)
+ 	
+	/**
      * Safely quotes a value for an SQL statement.
      * 
      * @param 	mixed 	The value to quote
@@ -727,11 +756,5 @@ abstract class KDatabaseAdapterAbstract extends KObject
         }
          
         return $this->_name_quote. $name.$this->_name_quote;
-    }
-    
-    public function getInsertId()
-    {
-    	return $this->_insert_id;
-    }
-    
+    } 
 }

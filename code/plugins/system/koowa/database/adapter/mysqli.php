@@ -25,6 +25,48 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @var string
 	 */
 	protected $_name_quote = '`';
+	
+	/**
+ 	 * Map of native MySQL types to generic types used when reading
+ 	 * table column information.
+ 	 *
+ 	 * @var array
+ 	 */
+ 	protected $_typemap = array(
+
+ 	    // numeric
+ 	    'smallint'          => 'integer',
+ 	    'int'               => 'integer',
+ 	    'integer'           => 'integer',
+ 	    'bigint'            => 'integer',
+ 	    'numeric'			=> 'numeric',
+ 	    'dec'               => 'numeric',
+ 	   	'decimal'           => 'numeric',
+ 	   	'float'				=> 'float'  ,
+		'double'            => 'float'  ,
+		'real' 				=> 'float'  ,
+
+ 	   	// date & time
+ 	   	'date'              => 'date'     ,
+ 	   	'time'              => 'time'     ,
+ 	   	'datetime'          => 'timestamp',
+ 	   	'timestamp'         => 'integer'  ,
+ 	   	'year'				=> 'integer'  ,
+
+ 	   	// string
+ 	   	'national char'     => 'string',
+ 	   	'nchar'             => 'string',
+ 	   	'char'              => 'string',
+ 	   	'binary'            => 'string',
+ 	   	'national varchar'  => 'string',
+ 	   	'nvarchar'          => 'string',
+ 	   	'varchar'           => 'string',
+ 	   	'varbinary'         => 'string',
+
+ 	   	// blob
+ 	   	'longtext'          => 'blob',
+ 	 	'longblob'          => 'blob',
+	);
 
 	/**
 	 * Connect to the db
@@ -121,11 +163,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 	
 	/**
-	* Returns the first field of the first row
-	*
-	* @return The value returned in the query or null if the query failed.
-	*/
-	public function selectResult($sql)
+	 * Fetch the first field of the first row
+	 *
+	 * @return The value returned in the query or null if the query failed.
+	 */
+	public function fetchResult($sql)
 	{
 		$return = null;
 		if ($result = $this->select($sql)) 
@@ -140,11 +182,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 
 	/**
-	 * Returns an array of single field results
+	 * Fetch an array of single field results
 	 *
 	 * @return array
 	 */
-	public function selectResultList($sql)
+	public function fetchResultList($sql)
 	{
 		$array = array();
 		if ($result = $this->select($sql))
@@ -160,12 +202,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 	
 	/**
-     * Returns the first row of a result set as an associative array
+     * Fetch the first row of a result set as an associative array
      * 
      * @param	string  The SQL query
      * @return array
      */
-	public function selectAssoc($sql)
+	public function fetchAssoc($sql)
 	{
 		$array = array();
 		if ($result = $this->select($sql)) 
@@ -178,7 +220,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 
 	/**
-	 * Returns all result rows of a result set as an array of associative arrays
+	 * Fetch all result rows of a result set as an array of associative arrays
 	 * 
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
@@ -187,7 +229,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If key is empty as sequential list of returned records.
 	 */
-	public function selectAssocList($sql, $key = '')
+	public function fetchAssocList($sql, $key = '')
 	{
 		$array = array();
 		if ($result = $this->select($sql))
@@ -208,12 +250,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 
 	/**
-	 * Returns the first row of a result set as an object
+	 * Fetch the first row of a result set as an object
 	 *
 	 * @param	string  The SQL query
 	 * @param object
 	 */
-	public function selectObject($sql)
+	public function fetchObject($sql)
 	{
 		$object = null;
 		if ($result = $this->select($sql)) 
@@ -235,7 +277,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
 	 */
-	public function selectObjectList($sql, $key='')
+	public function fetchObjectList($sql, $key='')
 	{
 		$array = array();
 		if ($result = $this->select($sql))
@@ -269,4 +311,95 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         	
         return $value;
     }
+    
+	/**
+	 * Gets the fields for the table
+	 *
+	 * @param  	object 	The raw field data
+	 * @return object
+	 */
+	protected function _parseField($field)
+	{	
+		$name = $field->Field;
+
+ 	   	// override $type to find tinyint(1) as boolean
+ 	    if (strtolower($field->Type) == 'tinyint(1)') {
+ 	      	$type 	= 'bool';
+ 	       	$size 	= null;
+ 	        $scope 	= null;
+ 	    } else {
+ 	    	list($type, $size, $scope) = $this->_parseFieldType($field->Type);
+ 	   	}
+
+ 	  	// save the column description
+ 	   	$description = new stdClass();
+ 	   	$description->name    = $name;
+ 	   	$description->type    = $type;
+ 	   	$description->size    = ($size  ? (int) $size  : null);
+ 	   	$description->scope   = ($scope ? (int) $scope : null);
+ 	   	$description->default = $field->Default;
+ 	   	$description->require = (bool) ($field->Null != 'YES');
+ 	    $description->primary = (bool) ($field->Key == 'PRI');
+ 	    $description->autoinc = (bool) (strpos($field->Extra, 'auto_increment') !== false);
+
+ 	 	// don't keep "size" for integers
+ 	    if (substr($type, -3) == 'int') {
+ 	       	$description->size = null;
+ 	   	}
+
+ 	    return $description;
+	}
+    
+	/**
+	 * Given a column specification, parse into datatype, size, and
+	 * decimal scope.
+	 *
+	 * @param string $spec The column specification; for example,
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
+ 	 *
+ 	 * @return array A sequential array of the column type, size, and scope.
+ 	 *
+ 	 */
+	protected function _parseFieldType($spec)
+ 	{
+ 	 	$spec  = strtolower($spec);
+ 	  	$type  = null;
+ 	   	$size  = null;
+ 	   	$scope = null;
+
+ 	   	// find the parens, if any
+ 	   	$pos = strpos($spec, '(');
+ 	   	if ($pos === false)
+ 	   	{
+ 	     	// no parens, so no size or scope
+ 	      	$type = $spec;
+ 	   	}
+ 	   	else
+ 	   	{
+ 	     	// find the type first.
+ 	      	$type = substr($spec, 0, $pos);
+
+ 	      	// there were parens, so there's at least a size.
+ 	       	// remove parens to get the size.
+ 	      	$size = trim(substr($spec, $pos), '()');
+
+ 	      	// a comma in the size indicates a scope.
+ 	      	$pos = strpos($size, ',');
+ 	      	if ($pos !== false) {
+ 	        	$scope = substr($size, $pos + 1);
+ 	           	$size  = substr($size, 0, $pos);
+ 	       	}
+ 	   	}
+
+ 	   	foreach ($this->_typemap as $native => $system)
+ 	   	{
+ 	      	// $type is already lowered
+ 	       	if ($type == strtolower($native)) {
+ 	         	$type = strtolower($system);
+ 	           	break;
+ 	       	}
+ 	   	}
+
+ 	  	return array($type, $size, $scope);
+ 	}
 }

@@ -25,7 +25,7 @@ abstract class KChartGoogle extends KObject
     /**
      * Base url for Google Chart API
      */
-    const _BASEURL      = 'http://chart.apis.google.com/chart?';
+    const _BASEURL      = 'http://chart.apis.google.com/chart?'; 
 
     /**
      * Chart Type: Bar Stacked

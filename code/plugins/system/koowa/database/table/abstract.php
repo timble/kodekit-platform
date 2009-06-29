@@ -53,48 +53,6 @@ abstract class KDatabaseTableAbstract extends KObject
 	protected $_db;
 
 	/**
- 	 * Map of native MySQL types to generic types used when reading
- 	 * table column information.
- 	 *
- 	 * @var array
- 	 */
- 	protected $_typemap = array(
-
- 	    // numeric
- 	    'smallint'          => 'integer',
- 	    'int'               => 'integer',
- 	    'integer'           => 'integer',
- 	    'bigint'            => 'integer',
- 	    'numeric'			=> 'numeric',
- 	    'dec'               => 'numeric',
- 	   	'decimal'           => 'numeric',
- 	   	'float'				=> 'float'  ,
-		'double'            => 'float'  ,
-		'real' 				=> 'float'  ,
-
- 	   	// date & time
- 	   	'date'              => 'date'     ,
- 	   	'time'              => 'time'     ,
- 	   	'datetime'          => 'timestamp',
- 	   	'timestamp'         => 'integer'  ,
- 	   	'year'				=> 'integer'  ,
-
- 	   	// string
- 	   	'national char'     => 'string',
- 	   	'nchar'             => 'string',
- 	   	'char'              => 'string',
- 	   	'binary'            => 'string',
- 	   	'national varchar'  => 'string',
- 	   	'nvarchar'          => 'string',
- 	   	'varchar'           => 'string',
- 	   	'varbinary'         => 'string',
-
- 	   	// blob
- 	   	'longtext'          => 'blob',
- 	 	'longblob'          => 'blob',
-	);
-	
-	/**
 	 * Default values for this table
 	 *
 	 * @var 	array
@@ -212,6 +170,8 @@ abstract class KDatabaseTableAbstract extends KObject
 	/**
 	 * Get the highest ordering
 	 *
+	 * Requires an ordering field to be present in the table
+	 * 
 	 * @return int
 	 */
 	public function getMaxOrder()
@@ -221,7 +181,7 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 	
 		$query = 'SELECT MAX(ordering) FROM `#__'.$this->getTableName();
-		return (int) $this->_db->selectResult($query) + 1;
+		return (int) $this->_db->fetchResult($query) + 1;
 	}
 
 	/**
@@ -238,39 +198,15 @@ abstract class KDatabaseTableAbstract extends KObject
         	
         	foreach ($fields as $field)
         	{
- 	            $name = $field->Field;
-
- 	            // override $type to find tinyint(1) as boolean
- 	            if (strtolower($field->Type) == 'tinyint(1)') {
- 	                $type 	= 'bool';
- 	                $size 	= null;
- 	                $scope 	= null;
- 	            } else {
- 	                list($type, $size, $scope) = $this->_parseRawType($field->Type);
- 	            }
-
- 	            // save the column description
- 	            $description = new stdClass();
- 	            $description->name    = $name;
- 	            $description->type    = $type;
- 	            $description->size    = ($size  ? (int) $size  : null);
- 	            $description->scope   = ($scope ? (int) $scope : null);
- 	            $description->default = $field->Default;
- 	            $description->require = (bool) ($field->Null != 'YES');
- 	            $description->primary = (bool) ($field->Key == 'PRI');
- 	            $description->autoinc = (bool) (strpos($field->Extra, 'auto_increment') !== false);
-
- 	            // don't keep "size" for integers
- 	            if (substr($type, -3) == 'int') {
- 	                $description->size = null;
- 	            }
+				//Parse the field raw data
+        		$description = $this->_parseField($field);
 
                 // Set the primary key (if not set)
                 if(!isset($this->_primary) && $description->primary) {
                 	$this->_primary = $description->name;
                 }
 
- 	            $this->_fields[$name] = $description;
+ 	            $this->_fields[$description->name] = $description;
  	        }
         }
 
@@ -287,7 +223,7 @@ abstract class KDatabaseTableAbstract extends KObject
             $this->_defaults = array();
         	foreach($this->getFields() as $name => $description) 
         	{
-        	    $this->_defaults[$name] = $description->default;
+        	    $ his->_defaults[$name] = $description->default;
         	    if($name == $this->getPrimaryKey()) {
         	  		$this->_defaults['id'] = $description->default;
         	  	}
@@ -318,102 +254,8 @@ abstract class KDatabaseTableAbstract extends KObject
 		$fields = $this->getFields();
 		return array_keys($fields);
 	}
-
- 	/**
-     * Find a row or rowset by a signle or list of the table's primary key(s)
-     *
-     * @param	integer|array	A primary key or an array of primary keys
-     * @return	object			KDatabaseRow or KDatabaseRowset object
-     */
-    public function find($id)
-    {
-		$result = null;
-    	
-    	if(is_scalar($id)) {
-         	$result = $this->fetchRow((int) $id);
-        } elseif(is_array($id)) {
-        	$result = $this->fetchAll($id);
-        }
-        	
-        return $result;
-    }       
-        
-	/**
-     * Fetch a rowset
-     * 
-     * The name of the resulting class is based on the table class name
-     * eg <Mycomp>Table<Tablename> -> <Mycomp>Rowset<Tablename>
-     *
-     * @param	mixed	KDatabaseQuery object or query string, array of row id's or null for an empty row
-     * @param 	array	Options
-     * @return	object	KDatabaseRowset object
-     */
-    public function fetchAll($query = null, $options = array())
-    {
-	   	// fetch an empty rowset
-        $options['table']     = $this;
 	
-    	$component = $this->getClassName('prefix');
-   		$rowset    = $this->getClassName('suffix');
-   	 	$app       = KFactory::get('lib.joomla.application')->getName();
-   	 	
-        // Get the data
-        if(isset($query))
-        {
-         	if(is_array($query))
-            {
-             	$key    = $this->getPrimaryKey();
-             	$values = $query;
-             	
-             	//Create query object
-       	 		$query = $this->_db->getQuery()
-        			->where($key, 'IN', $values);    
-            }
-        	
-        	if($query instanceof KDatabaseQuery) 
-            {
-        		if(!count($query->columns)) {
-        			$query->select('*');
-        		}
-        		
-        		if(!count($query->from)) {
-        			$query->from($this->getTableName().' AS tbl');
-        		}
-            }
-              
-        	//$this->_db->select($query, $offset, $limit);
-			$result = (array) $this->_db->selectAssocList($query);
-			
-   			$options['data'] = $result;
-        }
-        
-        //return a row set
-    	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
-    	return $rowset;
-    }
-    
-    /**
-     * Count rows
-     *  
-     * @param	KDatabaseQuery|string WHERE clause, as KDatabaseQuery or as string or null for all rows
-     * @param 	array	Options
-     * @return	int		Number of rows
-     */
-    public function count($where = null)
-    {
-   	 	$query = 'SELECT COUNT(*) FROM `#__'.$this->getTableName().'`'.PHP_EOL;
-   	 	
-        if($where instanceof KDatabaseQuery) {
-        	$query .= (string) $where;
-        } elseif(is_string($where)) {
-        	$query .= 'WHERE '.$where;
-        }
-
-		$result = $this->_db->selectResult($query);
-    	return $result;
-    }
-
-    /**
+  	/**
      * Fetch a row
      *
      * The name of the resulting class is based on the table class name
@@ -425,7 +267,6 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function fetchRow($query = null, array $options = array())
     {
-        // fetch an empty row
         $options['table']     = $this;
 
 		$component = $this->getClassName('prefix');
@@ -456,24 +297,65 @@ abstract class KDatabaseTableAbstract extends KObject
         		}
             }
             
-            //$this->_db->select($query, 0, 1);
-            $options['data'] = (array) $this->_db->selectAssoc($query);
+            $options['data'] = (array) $this->_db->fetchAssoc($query);
         }
         
         $row = KFactory::tmp($app.'::com.'.$component.'.row.'.$row, $options); 
         return $row;
     }
-
+        
 	/**
-	 * Table select method
-	 *
-	 * @return boolean True if successful otherwise returns false
-	 */
-	public function select( $where = '', $order = '', $count = '', $offset = '' )
-	{
-
-	}
-
+     * Fetch a rowset
+     * 
+     * The name of the resulting class is based on the table class name
+     * eg <Mycomp>Table<Tablename> -> <Mycomp>Rowset<Tablename>
+     *
+     * @param	mixed	KDatabaseQuery object or query string, array of row id's or null for an empty row
+     * @param 	array	Options
+     * @return	object	KDatabaseRowset object
+     */
+    public function fetchRowset($query = null, $options = array())
+    {
+        $options['table']     = $this;
+	
+    	$component = $this->getClassName('prefix');
+   		$rowset    = $this->getClassName('suffix');
+   	 	$app       = KFactory::get('lib.joomla.application')->getName();
+   	 	
+        // Get the data
+        if(isset($query))
+        {
+         	if(is_array($query))
+            {
+             	$key    = $this->getPrimaryKey();
+             	$values = $query;
+             	
+             	//Create query object
+       	 		$query = $this->_db->getQuery()
+        			->where($key, 'IN', $values);    
+            }
+        	
+        	if($query instanceof KDatabaseQuery) 
+            {
+        		if(!count($query->columns)) {
+        			$query->select('*');
+        		}
+        		
+        		if(!count($query->from)) {
+        			$query->from($this->getTableName().' AS tbl');
+        		}
+            }
+              
+			$result = (array) $this->_db->fetchAssocList($query);
+			
+   			$options['data'] = $result;
+        }
+        
+        //return a row set
+    	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
+    	return $rowset;
+    }
+     
 	/**
 	 * Table insert method
 	 *
@@ -494,7 +376,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * Table update method
 	 *
 	 * @param  array	An associative array of data to be updated
-	 * @param  mixed	Can either be a row, an array of rows or a query object
+	 * @param  mixed	Can either be a row, an array of rows or a KDatabaseQuery object
 	 * @throws KDatabaseTableException
 	 * @return boolean True if successful otherwise returns false
 	 */
@@ -568,7 +450,33 @@ abstract class KDatabaseTableAbstract extends KObject
 		
 		return $this;	
 	}
-
+	
+	/**
+     * Count tahbe rows
+     *
+     * @param	mixed	KDatabaseQuery object or query string or null to count all rows
+     * @return	int		Number of rows
+     */
+    public function count($query = null)
+    {
+        //Get the data and push it in the row
+		if(!isset($query)) {
+        	$query = $this->_db->getQuery()
+        }
+        
+       	if($query instanceof KDatabaseQuery) 
+        {
+          	$query->count();
+            	
+           	if(!count($query->from)) {
+        		$query->from($this->getTableName().' AS tbl');
+        	}
+       	}
+        
+       	$result = $this->_db->fetchResult($query);
+    	return $result;
+    }
+	
 	/**
 	 * Table filter method
 	 *
@@ -624,57 +532,4 @@ abstract class KDatabaseTableAbstract extends KObject
 
 		return $data;
 	}
-
-	/**
-	 * Given a column specification, parse into datatype, size, and
-	 * decimal scope.
-	 *
-	 * @param string $spec The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
- 	 *
- 	 * @return array A sequential array of the column type, size, and scope.
- 	 *
- 	 */
-	protected function _parseRawType($spec)
- 	{
- 	 	$spec  = strtolower($spec);
- 	  	$type  = null;
- 	   	$size  = null;
- 	   	$scope = null;
-
- 	   	// find the parens, if any
- 	   	$pos = strpos($spec, '(');
- 	   	if ($pos === false)
- 	   	{
- 	     	// no parens, so no size or scope
- 	      	$type = $spec;
- 	   	}
- 	   	else
- 	   	{
- 	     	// find the type first.
- 	      	$type = substr($spec, 0, $pos);
-
- 	      	// there were parens, so there's at least a size.
- 	       	// remove parens to get the size.
- 	      	$size = trim(substr($spec, $pos), '()');
-
- 	      	// a comma in the size indicates a scope.
- 	      	$pos = strpos($size, ',');
- 	      	if ($pos !== false) {
- 	        	$scope = substr($size, $pos + 1);
- 	           	$size  = substr($size, 0, $pos);
- 	       	}
- 	   	}
-
- 	   	foreach ($this->_typemap as $native => $system)
- 	   	{
- 	      	// $type is already lowered
- 	       	if ($type == strtolower($native)) {
- 	         	$type = strtolower($system);
- 	           	break;
- 	       	}
- 	   	}
-
- 	  	return array($type, $size, $scope);
- 	}
 }
