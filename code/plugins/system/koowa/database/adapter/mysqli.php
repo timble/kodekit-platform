@@ -318,7 +318,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @param  	object 	The raw field data
 	 * @return object
 	 */
-	protected function _parseField($field)
+	public function parseField($field)
 	{	
 		$name = $field->Field;
 

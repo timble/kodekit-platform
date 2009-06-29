@@ -199,7 +199,7 @@ abstract class KDatabaseTableAbstract extends KObject
         	foreach ($fields as $field)
         	{
 				//Parse the field raw data
-        		$description = $this->_parseField($field);
+        		$description = $this->_db->parseField($field);
 
                 // Set the primary key (if not set)
                 if(!isset($this->_primary) && $description->primary) {
