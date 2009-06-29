@@ -51,14 +51,14 @@ abstract class KControllerAbstract extends KObject
 	 * @var	string
 	 */
 	protected $_message = null;
-	
+
 	/**
 	 * Redirect message type.
 	 *
 	 * @var	string
 	 */
 	protected $_messageType = 'message';
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -70,13 +70,13 @@ abstract class KControllerAbstract extends KObject
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
-        
+
         // Mixin a command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
-        
+
          // Mixin the classname helper
         $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Controller')));
-        
+
         //Mixin a filter
         $this->mixin(new KMixinFilter(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 
@@ -86,7 +86,7 @@ abstract class KControllerAbstract extends KObject
 
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -109,14 +109,14 @@ abstract class KControllerAbstract extends KObject
 	/**
 	 * Execute an action by triggering a method in the derived class.
 	 *
-	 * @param	string		The action to perform. If null, it will default to 
+	 * @param	string		The action to perform. If null, it will default to
 	 * 						either 'browse' (for list views) or 'read' (for item views)
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
 	public function execute($action = null)
 	{
-		if($action === null) 
+		if(empty($action))
 		{
 			// default action is browse (list) or read (item)
 			$view 	= KRequest::get('get.view', 'cmd');
@@ -125,10 +125,10 @@ abstract class KControllerAbstract extends KObject
 			//Convert to lower case for lookup
 			$action = strtolower( $action );
 		}
-		
+
 		//Set the action in the controller
 		$this->setAction($action);
-		
+
 		//Find the mapped action
 		if (isset( $this->_actionMap[$action] )) {
 			$action = $this->_actionMap[$action];
@@ -136,22 +136,22 @@ abstract class KControllerAbstract extends KObject
 
 		//Create the method name
 		$doMethod = '_action'.ucfirst($action);
-		
+
 		if (!method_exists($this, $doMethod)) {
 			throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
 		}
-		
+
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['notifier']   = $this;
 		$args['action']     = $action;
 		$args['result']     = false;
-		
+
 		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
 			$args['result'] = $this->$doMethod();
 			$this->getCommandChain()->run('controller.after.'.$action, $args);
 		}
-		
+
 		return $args['result'];
 	}
 
@@ -181,7 +181,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		return $this->_action;
 	}
-	
+
 	/**
 	 * Set the action that will be performed.
 	 *
@@ -214,11 +214,11 @@ abstract class KControllerAbstract extends KObject
                     ." $application, $component, $viewName, $format"
 			);
 		}
-			
+
 		return $view;
 	}
 
-	
+
 	/**
 	 * Register (map) a action to a method in the class.
 	 *
@@ -230,9 +230,9 @@ abstract class KControllerAbstract extends KObject
 	public function registerActionAlias( $alias, $action )
 	{
 		$this->_actionMap[strtolower( $alias )] = $action;
-		return $this; 
+		return $this;
 	}
-	
+
 	/**
 	 * Unregister a action
 	 *
@@ -264,10 +264,10 @@ abstract class KControllerAbstract extends KObject
 		$this->_redirect    =  JRoute::_($url, false);
 		$this->_message	    = $msg;
 		$this->_messageType	= $type;
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Returns an array with the redirect url, the message and the message type
 	 *
@@ -283,9 +283,9 @@ abstract class KControllerAbstract extends KObject
 				'message' 		=> $this->_message,
 				'messageType' 	=> $this->_messageType,
 			);
-		} 
-		
+		}
+
 		return $result;
 	}
-	
+
 }
