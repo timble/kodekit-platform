@@ -141,10 +141,10 @@ class KRequest
 			}
 		}
 		
+		// Store in $GLOBALS
 		foreach(array_reverse($keys, true) as $key) {
 			$value = array($key => $value);
-		}
-		
+		}		
 		$GLOBALS['_'.$hash] = array_merge($GLOBALS['_'.$hash], $value);
 		
 	}
