@@ -42,31 +42,31 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		if ($debug) {
-			KTemplate::loadHelper('script', 'mootools-uncompressed.js', 'media/system/js/', false);
+			KTemplate::loadHelper('script', 'media/system/js/mootools-uncompressed.js');
 		} else {
-			KTemplate::loadHelper('script', 'mootools.js', 'media/system/js/', false);
+			KTemplate::loadHelper('script', 'media/system/js/mootools.js');
 		}
 		$loaded = true;
 		return;
 	}
-	
+
 	public function caption() {
-		KTemplate::loadHelper('script', 'caption.js', 'media/system/js/');
+		KTemplate::loadHelper('script', 'media/system/js/caption.js');
 	}
 
 	public function formvalidation() {
-		KTemplate::loadHelper('script', 'validate.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'media/system/js/validate.js');
 	}
 
 	public function switcher() {
-		KTemplate::loadHelper('script', 'switcher.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'media/system/js/switcher.js');
 	}
 
 	public function combobox() {
-		KTemplate::loadHelper('script', 'combobox.js', 'media/system/js/' );
+		KTemplate::loadHelper('script', 'media/system/js/combobox.js');
 	}
 
-	public function tooltip($selector='.hasTip', $params = array()) 
+	public function tooltip($selector='.hasTip', $params = array())
 	{
 		// For now, delegate to JHTML, because loading the tooltip stuff twice causes problems.
 		return JHTML::_('script', 'behavior.tooltip', $selector, $params );
@@ -83,8 +83,8 @@ class KTemplateHelperBehavior extends KObject
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			KTemplate::loadHelper('script', 'modal.js', 'media/system/js/');
-			KTemplate::loadHelper('stylesheet', 'modal.css', 'media/system/css/');
+			KTemplate::loadHelper('script', 'media/system/js/modal.js');
+			KTemplate::loadHelper('stylesheet', 'media/system/css/modal.css');
 
 			$included = true;
 		}
@@ -132,8 +132,8 @@ class KTemplateHelperBehavior extends KObject
 
 	public function uploader($id='file-upload', $params = array())
 	{
-		KTemplate::loadHelper('script', 'swf.js', 'media/system/js/' );
-		KTemplate::loadHelper('script', 'uploader.js' );
+		KTemplate::loadHelper('script', 'media/system/js/swf.js');
+		KTemplate::loadHelper('script', 'media/system/js/uploader.js' );
 
 		static $uploaders;
 
@@ -192,8 +192,8 @@ class KTemplateHelperBehavior extends KObject
 
 		// Include mootools framework
 		$this->mootools();
-		KTemplate::loadHelper('script', 'mootree.js', 'media/system/js/');
-		KTemplate::loadHelper('script', 'mootree.css', 'media/system/css');
+		KTemplate::loadHelper('script', 'media/system/js/mootree.js');
+		KTemplate::loadHelper('script', 'media/system/cssmootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -239,10 +239,10 @@ class KTemplateHelperBehavior extends KObject
 	public function calendar()
 	{
 		$document = KFactory::get('lib.joomla.document');
-		
-		KTemplate::loadHelper('stylesheet', 'calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		KTemplate::loadHelper('stylesheet', 'calendar.js', 'media/system/js/' );
-		KTemplate::loadHelper('script',  'calendar-setup.js', 'media/system/js/' );
+
+		KTemplate::loadHelper('stylesheet', 'media/system/css/calendar-jos.css', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		KTemplate::loadHelper('stylesheet', 'media/system/js/calendar.js');
+		KTemplate::loadHelper('script',  'media/system/js/calendar-setup.js');
 
 		$translation = $this->_calendartranslation();
 		if($translation) {
@@ -264,7 +264,7 @@ class KTemplateHelperBehavior extends KObject
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
 		$document = KFactory::get('lib.joomla.document');
-		
+
 		$script  = '';
 		$script .= 'function keepAlive( ) {';
 		$script .=  '	var myAjax = new Ajax( "index.php", { method: "get" } ).request();';

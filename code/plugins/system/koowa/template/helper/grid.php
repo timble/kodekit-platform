@@ -35,10 +35,10 @@ class KTemplateHelperGrid extends KObject
 		$false_img 	= $false_img	? $false_img	: 'publish_x.png';
 		$true_text 	= $true_text 	? $true_text 	: 'Yes';
 		$false_text = $false_text 	? $false_text 	: 'No';
-		
+
 		return '<img src="images/'. ($bool ? $true_img : $false_img) .'" border="0" alt="'. JText::_($bool ? $true_text : $false_text) .'" />';
 	}
-	
+
 	/**
 	 * @param	string	The link title
 	 * @param	string	The order field for the column
@@ -48,8 +48,8 @@ class KTemplateHelperGrid extends KObject
 	public function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
+		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
@@ -63,12 +63,12 @@ class KTemplateHelperGrid extends KObject
 		$html .= '</a>';
 		return $html;
 	}
-	
+
 	public function publish( $publish, $id, $imgY = 'tick.png', $imgX = 'publish_x.png' )
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
+		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+
 		$img 	= $publish ? $imgY : $imgX;
 		$alt 	= $publish ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 		$text 	= $publish ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
@@ -82,12 +82,12 @@ class KTemplateHelperGrid extends KObject
 
 		return $href;
 	}
-	
+
 	public function enable( $enable, $id, $imgY = 'tick.png', $imgX = 'publish_x.png')
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
+		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+
 		$img 	= $enable ? $imgY : $imgX;
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
@@ -105,8 +105,8 @@ class KTemplateHelperGrid extends KObject
 	public function order($id)
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
+		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+
 		$up   = Koowa::getURL('images').'/arrow_up.png';
 		$down = Koowa::getURL('images').'/arrow_down.png';
 
@@ -117,40 +117,40 @@ class KTemplateHelperGrid extends KObject
 			.'<a href="javascript:Koowa.Grid.order('.$id.', 1)" >'
 			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
 			.'</a>';
-			
+
 		return $result;
 	}
-	
+
 	public function access( $access, $id )
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', 'koowa.js', Koowa::getURL('js'));
-		
+		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+
 		switch($access)
 		{
-			case 0 : 
+			case 0 :
 			{
-				$color   = 'style="color: green;"'; 
+				$color   = 'style="color: green;"';
 				$group   = JText::_('Public');
 				$access  = 2;
 			} break;
-			
-			case 1 : 
+
+			case 1 :
 			{
-				$color   = 'style="color: red;"'; 
+				$color   = 'style="color: red;"';
 				$group   = JText::_('Registered');
 				$access  = 3;
 			} break;
-			
-			case 2 : 
+
+			case 2 :
 			{
-				$color   = 'style="color: black;"'; 
+				$color   = 'style="color: black;"';
 				$group   = JText::_('Special');
 				$access  = 1;
 			} break;
-			
+
 		}
-		
+
 		$href = '
 			<a href="javascript:Koowa.Grid.access(\''.$action.'\', \'cb'. $i .'\',  \''. $access .'\')" '. $color .'>
 			'. $group .'</a>'
@@ -158,7 +158,7 @@ class KTemplateHelperGrid extends KObject
 
 		return $href;
 	}
-	
+
 
 	/**
 	* @param int The row index
@@ -172,7 +172,7 @@ class KTemplateHelperGrid extends KObject
 		if ( $checkedOut ) {
 			return '';
 		}
-		
+
 		return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 	}
 

@@ -23,36 +23,25 @@ class KTemplateHelperDefault extends KObject
 	/**
 	 * Write a <script></script> element
 	 *
-	 * @access	public
 	 * @param	string 	The name of the script file
-	 * @param	string 	The relative or absolute path of the script file
-	 * @param	boolean If true, the mootools library will be loaded
 	 */
-	public function script($filename, $path = 'media/plg_koowa/js/')
+	public function script($url)
 	{
-		if(strpos($path, 'http') !== 0 && $path[0] != '/') {
-			$path =  JURI::root(true).'/'.$path;
-		};
-
 		$document = KFactory::get('lib.joomla.document');
-		$document->addScript( $path.$filename );
+		$document->addScript($url);
 		return;
 	}
 
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
 	 *
-	 * @access	public
 	 * @param	string 	The relative URL to use for the href attribute
+	 * @param	array	Attributes
 	 */
-	public function stylesheet($filename, $path = 'media/plg_koowa/css/', $attribs = array())
+	public function stylesheet($url, array $attribs = array())
 	{
-		if(strpos($path, 'http') !== 0 && $path[0] != '/') {
-			$path =  JURI::root(true).'/'.$path;
-		};
-
 		$document = KFactory::get('lib.joomla.document');
-		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
+		$document->addStylesheet($url, 'text/css', null, $attribs);
 		return;
 	}
 
