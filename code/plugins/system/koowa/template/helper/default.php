@@ -19,7 +19,7 @@
  * @uses   		KFactory
  */
 class KTemplateHelperDefault extends KObject
-{		
+{
 	/**
 	 * Write a <script></script> element
 	 *
@@ -28,13 +28,8 @@ class KTemplateHelperDefault extends KObject
 	 * @param	string 	The relative or absolute path of the script file
 	 * @param	boolean If true, the mootools library will be loaded
 	 */
-	public function script($filename, $path = 'media/plg_koowa/js/', $mootools = true)
+	public function script($filename, $path = 'media/plg_koowa/js/')
 	{
-		// Include mootools framework
-		if($mootools) {
-			KTemplate::loadHelper('behavior.mootools');
-		}
-
 		if(strpos($path, 'http') !== 0 && $path[0] != '/') {
 			$path =  JURI::root(true).'/'.$path;
 		};
@@ -60,7 +55,7 @@ class KTemplateHelperDefault extends KObject
 		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
 		return;
 	}
-	
+
 	/**
 	 * Returns formated date according to current local and adds time offset
 	 *
@@ -81,7 +76,7 @@ class KTemplateHelperDefault extends KObject
 			$config = KFactory::get('lib.joomla.config');
 			$offset = $config->getValue('config.offset');
 		}
-		
+
 		$instance = KFactory::get('lib.joomla.date', array($date));
 		$instance->setOffset($offset);
 
