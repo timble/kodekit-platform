@@ -65,7 +65,7 @@ Koowa.Grid =
 	{
 		var form = document.adminForm;
 		form.id.value= id;
-		form.order_change.value	= change;
+		form.order_change.value	= value;
 		form.action.value = 'order';
 		form.submit();
 	},
