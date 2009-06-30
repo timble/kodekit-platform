@@ -21,6 +21,7 @@
  * @subpackage  Table
  * @uses		KMixinClass
  * @uses        KFactory
+ * @uses 		KFilter
  */
 abstract class KDatabaseTableAbstract extends KObject
 {
@@ -193,7 +194,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	{	
 		if(!isset($this->_fields))
 		{
-			$fields = $this->_db->getTableFields($this->getTableName());
+			$fields = $this->_db->fetchTableFields($this->getTableName());
         	$fields = $fields[$this->getTableName()];
         	
         	foreach ($fields as $field)
@@ -496,38 +497,7 @@ abstract class KDatabaseTableAbstract extends KObject
 		foreach($data as $key => $value)
 		{
 			$type = $this->getField($key)->type;
-			switch ($type)
-			{
-				case 'bool':
-					$data[$key] = (int) (bool) $value; // this trick limits values to 0 and 1 
-					break;
-
- 	      		case 'integer':
-					preg_match('/-?[0-9]+/', (string) $value, $matches);
-					$data[$key] = @ (int) $matches[0];
- 	      			break;
-
- 	      		case 'numeric':
- 	      		case 'float'  :
- 	        		preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $value, $matches);
-					$data[$key] = @ (float) $matches[0];
- 	       			break;
-
- 	      		case 'date'     :
- 	       		case 'time'     :
- 	      		case 'timestamp':
-                    $data[$key] = date('Y-m-d H:i:s', strtotime($value));
- 	      			break;
-
- 	        	case 'string':
-	    			$filter	= JFilterInput::getInstance();
-					$data[$key] = (string) $filter->_remove($filter->_decode((string) $value));
-	    			break;
-
- 	        	case 'blob':
- 	          		// no filters, blobs are pretty generic
- 	          		break;
- 	    	}
+			$data[$key] = KFactory::tmp('lib.koowa.filter.'.$type)->sanitize($value);
 		}
 
 		return $data;

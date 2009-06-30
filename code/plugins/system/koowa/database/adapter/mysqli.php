@@ -29,16 +29,19 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	/**
  	 * Map of native MySQL types to generic types used when reading
  	 * table column information.
+ 	 * 
+ 	 *  Note that fetchTableFields() will programmatically convert TINYINT(1) to
+     * 'bool' independent of this map.
  	 *
  	 * @var array
  	 */
  	protected $_typemap = array(
 
  	    // numeric
- 	    'smallint'          => 'integer',
- 	    'int'               => 'integer',
- 	    'integer'           => 'integer',
- 	    'bigint'            => 'integer',
+ 	    'smallint'          => 'int',
+ 	    'int'               => 'int',
+ 	    'integer'           => 'int',
+ 	    'bigint'            => 'int',
  	    'numeric'			=> 'numeric',
  	    'dec'               => 'numeric',
  	   	'decimal'           => 'numeric',
@@ -50,8 +53,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	'date'              => 'date'     ,
  	   	'time'              => 'time'     ,
  	   	'datetime'          => 'timestamp',
- 	   	'timestamp'         => 'integer'  ,
- 	   	'year'				=> 'integer'  ,
+ 	   	'timestamp'         => 'int'  ,
+ 	   	'year'				=> 'int'  ,
 
  	   	// string
  	   	'national char'     => 'string',
@@ -64,8 +67,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	'varbinary'         => 'string',
 
  	   	// blob
- 	   	'longtext'          => 'blob',
- 	 	'longblob'          => 'blob',
+ 	   	'longtext'          => 'raw',
+ 	 	'longblob'          => 'raw',
 	);
 
 	/**

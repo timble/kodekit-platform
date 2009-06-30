@@ -283,6 +283,69 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 */
 	abstract public function fetchObjectList($sql, $key='' );
 	
+/**
+	 * Retrieves information about the given tables
+	 *
+	 * @param 	array|string 	A table name or a list of table names
+	 * @param	boolean			Only return field types, default true
+	 * @return	array An array of fields by table
+	 */
+	public function fetchTableFields( $tables )
+	{
+		settype($tables, 'array'); //force to array
+		$result = array();
+		
+		foreach ($tables as $tblval)
+		{  
+			$table = $tblval;
+
+			if(!isset($this->_table_cache[$tblval])) 
+			{
+				//Check the table if it already has a table prefix applied.
+				if(strpos($tblval, '#__') === false) 
+				{
+					if(substr($tblval, 0, 3) != '#__') {
+						$table = '#__'.$tblval;
+					}
+				} 
+				else 
+				{
+					$tblval = $this->replaceTablePrefix($tblval, '');
+				}
+			
+				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));	
+				foreach ($fields as $field) {
+					$this->_table_cache[$tblval][$field->Field] = $field;
+				}
+			}
+			
+			//Add the requested table to the result
+			$result[$tblval] = $this->_table_cache[$tblval];
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Get the result of the SHOW TABLE STATUS statement
+	 * 
+	 * @param	string	LIKE clause, can cotnains a tablename with % wildcards
+	 * @param 	string	WHERE clause (MySQL5+ only)
+	 * @return	array	List of objects with table info
+	 */
+	public function fetchTableStatus($like = null, $where = null)
+	{
+		if(!empty($like)) {
+			$like = ' LIKE '.$this->quoteString($like);
+		}
+		
+		if(!empty($where)) {
+			$where = ' WHERE '.$where;
+		}
+		
+		return $this->fetchObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
+	}
+	
 	/**
      * Inserts a row of data into a table.
      *
@@ -427,69 +490,6 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$this->_insert_id     = $this->_connection->insert_id;
 		
 		return $result;
-	}
-	
-	/**
-	 * Retrieves information about the given tables
-	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @param	boolean			Only return field types, default true
-	 * @return	array An array of fields by table
-	 */
-	public function getTableFields( $tables )
-	{
-		settype($tables, 'array'); //force to array
-		$result = array();
-		
-		foreach ($tables as $tblval)
-		{  
-			$table = $tblval;
-
-			if(!isset($this->_table_cache[$tblval])) 
-			{
-				//Check the table if it already has a table prefix applied.
-				if(strpos($tblval, '#__') === false) 
-				{
-					if(substr($tblval, 0, 3) != '#__') {
-						$table = '#__'.$tblval;
-					}
-				} 
-				else 
-				{
-					$tblval = $this->replaceTablePrefix($tblval, '');
-				}
-			
-				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));	
-				foreach ($fields as $field) {
-					$this->_table_cache[$tblval][$field->Field] = $field;
-				}
-			}
-			
-			//Add the requested table to the result
-			$result[$tblval] = $this->_table_cache[$tblval];
-		}
-		
-		return $result;
-	}
-	
-	/**
-	 * Get the result of the SHOW TABLE STATUS statement
-	 * 
-	 * @param	string	LIKE clause, can cotnains a tablename with % wildcards
-	 * @param 	string	WHERE clause (MySQL5+ only)
-	 * @return	array	List of objects with table info
-	 */
-	public function getTableStatus($like = null, $where = null)
-	{
-		if(!empty($like)) {
-			$like = ' LIKE '.$this->quoteString($like);
-		}
-		
-		if(!empty($where)) {
-			$where = ' WHERE '.$where;
-		}
-		
-		return $this->fetchObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
 	}
 	
 	/**

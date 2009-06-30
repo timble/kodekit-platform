@@ -92,7 +92,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
                 if(!isset($query['column_names'] ))
                 {
                     // the column names weren't specified, get them from the table's metadata
-                    $fields = $this->getTableFields($table);
+                    $fields = $this->fetchTableFields($table);
                     $query['column_names'] = array_keys($fields[$table]);
                 }
 
