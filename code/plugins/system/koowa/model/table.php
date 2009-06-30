@@ -9,7 +9,8 @@
  */
 
 /**
- * Abstract Model Class
+ * Table Model Class
+ * Provides interaction with a database table
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -23,14 +24,14 @@ class KModelTable extends KModelAbstract
 	 * @var object
 	 */
 	protected $_db;
-	
+
 	/**
 	 * Table object or identifier (APP::com.COMPONENT.table.TABLENAME)
 	 *
 	 * @var	string|object
 	 */
 	protected $_table;
-	
+
 	/**
 	 * Constructor
      *
@@ -40,13 +41,13 @@ class KModelTable extends KModelAbstract
 	{
 		//Set the database adapter
 		$this->_db = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
-		
+
 		parent::__construct($options);
 
 		// set the table associated to the model
 		if(isset($options['table'])) {
 			$this->_table = $options['table'];
-		} 
+		}
 		else
 		{
 			$table 			= KInflector::tableize($this->getClassName('suffix'));
@@ -59,7 +60,7 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Method to get the database adapter object
 	 *
-	 * @return KDatabaseAdapterAbstract 
+	 * @return KDatabaseAdapterAbstract
 	 */
 	public function getDatabase()
 	{
@@ -113,7 +114,7 @@ class KModelTable extends KModelAbstract
     public function getItem()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_item)) 
+        if (!isset($this->_item))
         {
             $table = $this->getTable();
         	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->getState('id'));
@@ -131,7 +132,7 @@ class KModelTable extends KModelAbstract
     public function getList()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_list)) 
+        if (!isset($this->_list))
         {
         	$table = $this->getTable();
         	$query = $this->_buildQuery();
@@ -149,9 +150,9 @@ class KModelTable extends KModelAbstract
     public function getTotal()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_total)) 
+        if (!isset($this->_total))
         {
-            $table = $this->getTable(); 
+            $table = $this->getTable();
         	$query = $this->_buildCountQuery();
 			$this->_total = $table->count($query);
         }
@@ -167,14 +168,14 @@ class KModelTable extends KModelAbstract
     public function getFilters()
     {
        $filters = parent::getFilters();
-    	
+
        $filters['order']       = $this->getState('order');
        $filters['direction']   = $this->getState('direction');
        $filters['filter']      = $this->getState('filter');
 
         return $filters;
     }
-    
+
     /**
      * Builds a generic SELECT query
      *
@@ -185,40 +186,40 @@ class KModelTable extends KModelAbstract
     	$query = $this->_db->getQuery();
     	$key   = $this->getTable()->getPrimaryKey();
         $query->select(array('tbl.*'));
-        
+
         $this->_buildQueryFields($query);
         $this->_buildQueryFrom($query);
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);
         $this->_buildQueryOrder($query);
         $this->_buildQueryLimit($query);
-        
+
 
 		return $query;
     }
-    
+
  	/**
      * Builds a generic SELECT COUNT(*) query
      */
     protected function _buildCountQuery()
     {
         $query = $this->_db->getQuery();
-         
+
         $this->_buildQueryFrom($query);
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);
-        
+
         return $query;
     }
-    
+
     /**
      * Builds SELECT fields list for the query
      */
     protected function _buildQueryFields(KDatabaseQuery $query)
     {
-    	
-    } 
-    
+
+    }
+
 	/**
      * Builds FROM tables list for the query
      */
@@ -233,7 +234,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
-        
+
     }
 
     /**
@@ -241,7 +242,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
-       
+
     }
 
     /**
@@ -253,28 +254,28 @@ class KModelTable extends KModelAbstract
        	$direction  = strtoupper($this->getState('direction'));
     	if($order) {
     		$query->order($order, $direction);
-    	} 
+    	}
 
-		if(in_array('ordering', $this->getTable()->getColumns())) {		
+		if(in_array('ordering', $this->getTable()->getColumns())) {
     		$query->order('ordering', 'ASC');
     	}
     }
-    
+
     /**
      * Builds LIMIT clause for the query
      */
     protected function _buildQueryLimit(KDatabaseQuery $query)
     {
 		$query->limit($this->getState('limit'), $this->getState('offset'));
-    } 
-    
+    }
+
  	/**
      * Get the default states
      */
     public function getDefaultState()
     {
 		$app 	= KFactory::get('lib.joomla.application');
-    	
+
     	// Get the namespace
     	$ns  	= $app->getName().'::'.'com.'.$this->getClassName('prefix').'.model.'.$this->getClassName('suffix');
 
@@ -286,8 +287,8 @@ class KModelTable extends KModelAbstract
         $state['id']         = KRequest::get('post.id', 'raw', $default, 'int');
 
         // making sure
-        $state['filter']   	= KFactory::get('lib.koowa.filter.string')->sanitize($state['filter']);    
-         
+        $state['filter']   	= KFactory::get('lib.koowa.filter.string')->sanitize($state['filter']);
+
   		return $state;
     }
 }
