@@ -19,7 +19,7 @@
  */
 class KControllerForm extends KControllerBread
 {
-		
+
 	/**
 	 * Constructor
 	 *
@@ -31,7 +31,7 @@ class KControllerForm extends KControllerBread
 
 		// Register extra actions
 		$this->registerActionAlias('disable', 'enable');
-		
+
 		// Register filter functions
 		$this->registerFilterBefore('save'   , 'filterToken')
 			 ->registerFilterBefore('edit'   , 'filterToken')
@@ -44,7 +44,7 @@ class KControllerForm extends KControllerBread
 			 ->registerFilterBefore('access' , 'filterToken')
 			 ->registerFilterBefore('order'  , 'filterToken');
 	}
-	
+
 	/**
 	 * Get the action that is was/will be performed.
 	 *
@@ -58,57 +58,57 @@ class KControllerForm extends KControllerBread
 			{
 				// action is set in the POST body
 				$this->_action = $action;
-			} 
-			else 
+			}
+			else
 			{
 				// we assume either browse or read
 				$view = KRequest::get('get.view', 'cmd');
 				$this->_action = KInflector::isPlural($view) ? 'browse' : 'read';
-			}			 
+			}
 		}
-		
+
 		return $this->_action;
 	}
-	
+
 	/*
 	 * Generic save action
-	 * 
+	 *
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
 	protected function _actionSave()
 	{
 		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
-		
+
 		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
 		$format = KRequest::get('get.format', 'cmd', 'html');
-		
+
 		$redirect = 'view='.$view.'&format='.$format;
 		$this->setRedirect($redirect);
-		
+
 		return $result;
 	}
-	
+
 	/*
 	 * Generic apply action
-	 * 
+	 *
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
 	protected function _actionApply()
 	{
-		$result = KRequest::get('post.id', 'bool') ? $this->execute('edit') : $this->execute('add');
+		$result = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 
 		$view 	= $this->getClassName('suffix');
 		$format = KRequest::get('get.format', 'cmd', 'html');
-		
+
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
-		
+
 		return $result;
 	}
-		
+
 	/*
 	 * Generic cancel action
-	 * 
+	 *
 	 * @return 	void
 	 */
 	protected function _actionCancel()
@@ -116,12 +116,12 @@ class KControllerForm extends KControllerBread
 		$this->setRedirect(
 			'view='.KInflector::pluralize($this->getClassName('suffix'))
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
-			);	
+			);
 	}
-	
+
 	/*
 	 * Generic delete function
-	 *  
+	 *
 	 * @throws KControllerException
 	 * @return void
 	 */
@@ -133,21 +133,21 @@ class KControllerForm extends KControllerBread
 		$component = $this->getClassName('prefix');
 		$view	   = KInflector::pluralize($this->getClassName('suffix'));
 		$format	   = KRequest::get('get.format', 'cmd', 'html');
-				
+
 		$this->setRedirect('view='.$view.'&format='.$format);
-		
+
 		return $result;
 	}
 
 	/*
 	 * Generic enable action
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _actionEnable()
 	{
 		$cid = (array) KRequest::get('post.cid', 'int');
-		
+
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
 		if (count( $cid ) < 1) {
@@ -158,27 +158,27 @@ class KControllerForm extends KControllerBread
 		$component = $this->getClassName('prefix');
 		$model     = $this->getClassName('suffix');
 		$view	   = $model;
-		
+
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
 		$table->update(array('enabled' => $enable), $cid);
-	
+
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
-	
+
 	/**
 	 * Generic method to modify the access level of items
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _actionAccess()
 	{
 		$cid 	= (array) KRequest::get('post.cid', 'int');
 		$access = KRequest::get('post.access', 'int');
-		
+
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
 		$model     = $this->getClassName('suffix');
@@ -187,24 +187,24 @@ class KControllerForm extends KControllerBread
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
 		$table->update(array('access' => $access), $cid);
-	
+
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
-			.'&format='.KRequest::get('get.format', 'cmd', 'html'), 
+			.'&format='.KRequest::get('get.format', 'cmd', 'html'),
 			JText::_( 'Changed items access level')
 		);
 	}
-	
+
 	/**
 	 * Generic method to modify the order level of items
-	 * 
+	 *
 	 * @return KDatabaseRow 	A row object containing the reordered data
 	 */
 	protected function _actionOrder()
 	{
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
-		
+
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
 		$name      = KInflector::pluralize($this->getClassName('suffix'));
@@ -213,24 +213,24 @@ class KControllerForm extends KControllerBread
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name);
 		$row   = $table->fetchRow($id)->order($change);
-		
+
 		$this->setRedirect(
 			'view='.$view
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
-		
+
 		return $row;
 	}
-	
+
 	/**
 	 * Filter the token to prevent CSRF exploirs
-	 * 
+	 *
 	 * @return boolean	If successfull return TRUE, otherwise return false;
 	 * @throws KControllerException
 	 */
 	public function filterToken($args)
-	{		
-		$req		= KRequest::get('post._token', 'md5'); 
+	{
+		$req		= KRequest::get('post._token', 'md5');
         $token		= JUtility::getToken();
 
         if($req !== $token) {
