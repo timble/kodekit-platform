@@ -27,7 +27,8 @@ class KViewHtml extends KViewAbstract
 		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
 
 		// Set a base path for use by the view
-		$this->assign('baseurl', $options['base_url']);
+		$this->assign('baseurl' , $options['base_url']);
+		$this->assign('mediaurl', $options['media_url']);
 
 		parent::__construct($options);
 	}

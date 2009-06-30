@@ -127,6 +127,7 @@ abstract class KViewAbstract extends KObject
     {
         $defaults = array(
             'base_url'      => KRequest::base(),
+        	'media_url'		=> JURI::root(true).'/media',
             'charset'       => null, // TODO unused?
             'document'      => null,
             'escape'        => 'htmlspecialchars',
