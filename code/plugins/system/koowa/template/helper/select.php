@@ -65,7 +65,7 @@ class KTemplateHelperSelect extends KObject
 		foreach ($arr as $i => $option)
 		{
 			$element =& $arr[$i]; // since current doesn't return a reference, need to do this
-			
+
 			$isArray = is_array( $element );
 			$extra	 = '';
 			if ($isArray)
@@ -86,7 +86,7 @@ class KTemplateHelperSelect extends KObject
 					$extra .= ' disabled="disabled"';
 				}
 			}
-			
+
 			// This is real dirty, open to suggestions,
 			// barring doing a propper object to handle it
 			if ($k === '<OPTGROUP>') {
@@ -132,7 +132,7 @@ class KTemplateHelperSelect extends KObject
 		}
 
 		return $html;
-	}	
+	}
 
 	/**
 	 * Generates an HTML checkbox list
@@ -176,7 +176,8 @@ class KTemplateHelperSelect extends KObject
 				}
 			}
 
-			$html .= '<input type="checkbox" name="'.$name.'[]" id="'.$name.'_value_'.$k.'" value="'.$k.'" '.$extra.' '.$attribs.' />'.$t;
+			$html .= '<input type="checkbox" name="'.$name.'[]" id="'.$name.'_value_'.$k.'" value="'.$k.'" '.$extra.' '.$attribs.' />'
+					.'<label for="'.$name.'_value_'.$k.'">'.$t.'</label>';
 		}
 
 		$html .= '<input type="hidden" name="'.$name.'[]" value="" />';
