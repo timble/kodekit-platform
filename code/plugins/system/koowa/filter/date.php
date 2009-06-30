@@ -1,0 +1,69 @@
+<?php
+/**
+* @version      $Id:koowa.php 251 2008-06-14 10:06:53Z mjaz $
+* @category		Koowa
+* @package      Koowa_Filter
+* @copyright    Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
+* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+* @link 		http://www.koowa.org
+*/
+
+/**
+ * Date filter
+ * 
+ * Validates or sanitizes a value is an ISO 8601 date string.
+ *
+ * @author		Johan Janssens <johan@koowa.org>
+ * @category	Koowa
+ * @package     Koowa_Filter
+ */
+class KFilterDate extends KFilterTimestamp
+{
+	/**
+	 * Validates that a value is an ISO 8601 date string
+	 * 
+	 * The format is "yyyy-mm-dd".  Also checks to see that the date
+     * itself is valid (for example, no Feb 30).
+	 * 
+	 *
+	 * @param	scalar	Value to be validated
+	 * @return	bool	True when the variable is valid
+	 */
+	protected function _validate($value)
+	{
+		// Look for Ymd keys?
+        if (is_array($value)) {
+            $value = $this->_arrayToDate($value);
+        }
+		
+		// basic date format yyyy-mm-dd
+        $expr = '/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/D';
+        
+        return (preg_match($expr, $value, $match) && checkdate($match[2], $match[3], $match[1]));
+	}
+	
+	/**
+	 * Forces the value to an ISO-8601 formatted date ("yyyy-mm-dd").
+     * 
+     * @param string The value to be sanitized.  If an integer, it is used as a Unix timestamp; 
+     * 				 otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].
+	 * @return	string The sanitized value.
+	 */
+	protected function _sanitize($value)
+	{
+		 // Look for Ymd keys?
+        if (is_array($value)) {
+            $value = $this->_arrayToDate($value);
+        }
+		
+		// Normal sanitize
+        $format = 'Y-m-d';
+        
+        if (is_int($value)) {
+            return date($format, $value);
+        } 
+        
+        return date($format, strtotime($value));
+	}
+}
+

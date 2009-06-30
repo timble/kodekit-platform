@@ -10,11 +10,6 @@
 
 /**
  * Numeric filter
- * 
- * Check whether the given variable is numeric. Numeric strings consist of optional sign, any 
- * number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a 
- * valid numeric value. Hexadecimal notation (0xFF) is allowed too but only without sign, decimal 
- * and exponential part
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -22,10 +17,11 @@
  */
 class KFilterNumeric extends KFilterAbstract
 {
-	/**
-	 * Validate a value
-	 * 
-	 * Validates that the value is numeric (any number or number string).
+	/** 
+	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any 
+ 	 * number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a 
+ 	 * valid numeric value. Hexadecimal notation (0xFF) is allowed too but only without sign, decimal 
+ 	 * and exponential part
 	 *
 	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the variable is valid
@@ -36,9 +32,7 @@ class KFilterNumeric extends KFilterAbstract
 	}
 	
 	/**
-	 * Sanitize a value
-	 * 
-	 * Strips non-numeric characters from the value.
+	 * Sanitize non-numeric characters from the value.
 	 *
 	 * @param	scalar	Value to be sanitized
 	 * @return	float
