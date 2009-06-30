@@ -42,6 +42,9 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	    'int'               => 'int',
  	    'integer'           => 'int',
  	    'bigint'            => 'int',
+ 		'mediumint'			=> 'int',
+ 		'smallint'			=> 'int',
+ 		'tinyint'			=> 'int',
  	    'numeric'			=> 'numeric',
  	    'dec'               => 'numeric',
  	   	'decimal'           => 'numeric',
@@ -65,10 +68,21 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	'nvarchar'          => 'string',
  	   	'varchar'           => 'string',
  	   	'varbinary'         => 'string',
+ 		'text'				=> 'string',
+ 		'mediumtext'		=> 'string',
+ 		'tinytext'			=> 'string',
 
  	   	// blob
+ 	   	'blob'				=> 'raw',
+ 		'tinyblob'			=> 'raw',
+ 		'mediumblob'		=> 'raw',
  	   	'longtext'          => 'raw',
  	 	'longblob'          => 'raw',
+ 	
+ 		//other
+ 		'set'				=> 'raw',
+ 		'enum'				=> 'raw',
+ 	
 	);
 
 	/**
@@ -327,7 +341,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 
  	   	// override $type to find tinyint(1) as boolean
  	    if (strtolower($field->Type) == 'tinyint(1)') {
- 	      	$type 	= 'bool';
+ 	      	$type 	= 'boolean';
  	       	$size 	= null;
  	        $scope 	= null;
  	    } else {
