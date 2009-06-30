@@ -275,7 +275,7 @@ class KRequest
 				//Others
 				$path =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
-			
+						
 			// Sanitize the url since we can't trust the server var
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
 			

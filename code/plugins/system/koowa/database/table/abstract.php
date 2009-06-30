@@ -210,7 +210,7 @@ abstract class KDatabaseTableAbstract extends KObject
  	            $this->_fields[$description->name] = $description;
  	        }
         }
-
+        
 		return $this->_fields;
 	}
 

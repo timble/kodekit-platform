@@ -368,14 +368,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
     
 	/**
-	 * Given a column specification, parse into datatype, size, and
-	 * decimal scope.
+	 * Given a column specification, parse into datatype, size, and decimal 
+	 * scope.
 	 *
 	 * @param string $spec The column specification; for example,
  	 * "VARCHAR(255)" or "NUMERIC(10,2)".
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
- 	 *
  	 */
 	protected function _parseFieldType($spec)
  	{
