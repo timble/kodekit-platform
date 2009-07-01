@@ -167,7 +167,7 @@ class KTemplateHelperGrid extends KObject
 	* @param string The name of the form element
 	* @return string
 	*/
-	public function id( $rowNum, $recId, $checkedOut = false, $name = 'cid' )
+	public function id( $rowNum, $recId, $checkedOut = false, $name = 'id' )
 	{
 		if ( $checkedOut ) {
 			return '';

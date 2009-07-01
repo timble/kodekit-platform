@@ -146,11 +146,11 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionEnable()
 	{
-		$cid = (array) KRequest::get('post.cid', 'int');
+		$id = (array) KRequest::get('post.id', 'int');
 
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
-		if (count( $cid ) < 1) {
+		if (count( $id ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
 		}
 
@@ -161,7 +161,7 @@ class KControllerForm extends KControllerBread
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
-		$table->update(array('enabled' => $enable), $cid);
+		$table->update(array('enabled' => $enable), $id);
 
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)
@@ -176,7 +176,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionAccess()
 	{
-		$cid 	= (array) KRequest::get('post.cid', 'int');
+		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
 
 		// Get the table object attached to the model
@@ -186,7 +186,7 @@ class KControllerForm extends KControllerBread
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
-		$table->update(array('access' => $access), $cid);
+		$table->update(array('access' => $access), $id);
 
 		$this->setRedirect(
 			'view='.KInflector::pluralize($view)

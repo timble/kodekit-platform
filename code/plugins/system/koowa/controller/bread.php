@@ -104,7 +104,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionDelete()
 	{
-		$cid = (array) KRequest::get('post.cid', 'int');
+		$id = (array) KRequest::get('post.id', 'int');
 
 		// Get the table object attached to the model
 		$component = $this->getClassName('prefix');
@@ -112,6 +112,6 @@ class KControllerBread extends KControllerAbstract
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable()
-				->delete($cid);
+				->delete($id);
 	}
 }

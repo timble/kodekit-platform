@@ -119,7 +119,7 @@ Koowa.Grid =
 		// check if there's an item selected
 		if(!document.adminForm.boxchecked.value) return false;
 		
-		var inputs = $(document.adminForm).getElements('input[name^=cid]');
+		var inputs = $(document.adminForm).getElements('input[name^=id]');
 		for (var i=0; i < inputs.length; i++) {
 		   if (inputs[i].checked) {
 		      return inputs[i].value;

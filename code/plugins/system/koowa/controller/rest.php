@@ -71,9 +71,8 @@ class KControllerRest extends KControllerAbstract
 	protected function _actionPost()
 	{
 		$id = KRequest::get('post.id', 'int');
-		$cid = KRequest::get('post.cid', 'int');
 		// if there are no id's, we are adding an item
-		return (empty($id) && empty($cid)) ? $this->execute('add') : $this->execute('edit');
+		return (empty($id)) ? $this->execute('add') : $this->execute('edit');
 	}
 	
 	/**
