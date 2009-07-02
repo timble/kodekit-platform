@@ -56,10 +56,10 @@ CREATE TABLE IF NOT EXISTS `jos_directory_offices` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jos_directory_people`
+-- Table structure for table `jos_directory_persons`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_directory_people` (
+CREATE TABLE IF NOT EXISTS `jos_directory_persons` (
   `directory_person_id` int(11) NOT NULL auto_increment,
   `directory_department_id` int(11) NOT NULL,
   `directory_office_id` int(11) NOT NULL,
@@ -82,5 +82,5 @@ CREATE TABLE IF NOT EXISTS `jos_directory_people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `jos_directory_people`
+-- Dumping data for table `jos_directory_persons`
 --
