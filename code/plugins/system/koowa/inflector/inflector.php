@@ -119,16 +119,16 @@ class KInflector
 		'singularized' => array(),
 		'pluralized'   => array()
 	);
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
 	private function __construct() {}
-	
+
 	/**
-	 * Add a word to the cache, useful to make exceptions or to add words in 
+	 * Add a word to the cache, useful to make exceptions or to add words in
 	 * other languages
 	 *
 	 * @param	string	Singular word
@@ -139,7 +139,7 @@ class KInflector
 		self::$_cache['pluralized'][$singular]	= $plural;
 		self::$_cache['singularized'][$plural] 	= $singular;
 	}
-	
+
    	/**
 	 * Singular English word to plural.
 	 *
@@ -251,7 +251,7 @@ class KInflector
 		$result = explode('_', self::underscore($word));
 		return $result;
 	}
-	
+
 	/**
 	 * Convert  an array of strings into a "CamelCased" word
 	 *
@@ -292,7 +292,11 @@ class KInflector
 	 */
 	public static function tableize($className)
 	{
-		$result = self::pluralize(self::underscore($className));
+		$result = self::underscore($className);
+
+		if(!self::isPlural($className)) {
+			$result = self::pluralize($result);
+		}
 		return $result;
 	}
 
