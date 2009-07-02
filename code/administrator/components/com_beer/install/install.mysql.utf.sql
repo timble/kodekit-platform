@@ -1,10 +1,10 @@
 
 --
--- Table structure for table `jos_directory_departments`
+-- Table structure for table `jos_beer_departments`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_directory_departments` (
-  `directory_department_id` int(11) NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `jos_beer_departments` (
+  `beer_department_id` int(11) NOT NULL auto_increment,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -12,23 +12,23 @@ CREATE TABLE IF NOT EXISTS `jos_directory_departments` (
   `created_by` int(11) NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default '0',
-  `enabled` tinyint(3) NOT NULL default '0',
-  PRIMARY KEY  (`directory_department_id`)
+  `enabled` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`beer_department_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `jos_directory_departments`
+-- Dumping data for table `jos_beer_departments`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jos_directory_offices`
+-- Table structure for table `jos_beer_offices`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_directory_offices` (
-  `directory_office_id` int(11) NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `jos_beer_offices` (
+  `beer_office_id` int(11) NOT NULL auto_increment,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -44,25 +44,25 @@ CREATE TABLE IF NOT EXISTS `jos_directory_offices` (
   `created_by` int(11) NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default '0',
-  `enabled` tinyint(3) NOT NULL default '0',
-  PRIMARY KEY  (`directory_office_id`)
+  `enabled` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`beer_office_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `jos_directory_offices`
+-- Dumping data for table `jos_beer_offices`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jos_directory_persons`
+-- Table structure for table `jos_beer_profiles`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_directory_persons` (
-  `directory_person_id` int(11) NOT NULL auto_increment,
-  `directory_department_id` int(11) NOT NULL,
-  `directory_office_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `jos_beer_profiles` (
+  `beer_profile_id` int(11) NOT NULL auto_increment,
+  `beer_department_id` int(11) NOT NULL,
+  `beer_office_id` int(11) NOT NULL,
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
@@ -76,11 +76,11 @@ CREATE TABLE IF NOT EXISTS `jos_directory_persons` (
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`directory_person_id`),
-  KEY `department` (`directory_department_id`),
-  KEY `office` (`directory_office_id`)
+  PRIMARY KEY  (`beer_profile_id`),
+  KEY `department` (`beer_department_id`),
+  KEY `office` (`beer_office_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `jos_directory_persons`
+-- Dumping data for table `jos_beer_profiles`
 --
