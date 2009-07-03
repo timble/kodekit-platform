@@ -22,60 +22,23 @@
 	}
 </script>
 <form action="<?= @route('&id='. @$office->id)?>" method="post" class="adminform" name="adminForm">
-	<div style="width:100%; float: left">
+	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-			<dl class="list">
-				<dt><label><?= @text('Title'); ?></label></dt>
-				<dd>
-					<input id="title_field" type="text" name="title" value="<?= @$office->title; ?>" />
-				</dd>
-				<dt><label><?= @text('Alias'); ?></label></dt>
-				<dd>
-					<input id="alias_field" type="text" name="alias" value="<?= @$office->alias; ?>" />
-				</dd>
-				<dt><label><?= @text('Published'); ?></label></dt>
-				<dd>
-					<?= @helper('select.booleanlist', 'enabled', null, @$office->enabled, 'yes', 'no', 'enabled'); ?>
-				</dd>
-			</dl>
+				<label for="title" id="mainlabel"><?= @text('Title'); ?></label><input id="title" type="text" name="title" value="<?= @$office->title; ?>" /><br />
+				<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label><input id="alias" type="text" name="alias" value="<?= @$office->alias; ?>" /><br />
+				<label for="enableb" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$office->enabled, 'yes', 'no', 'enabled'); ?><br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Location'); ?></legend>
-			<dl class="list">
-				<dt><label><?= @text('Address'); ?> 1</label></dt>
-				<dd>
-					<input id="address1_field" type="text" name="address1" value="<?= @$office->address1; ?>" />
-				</dd>
-				<dt><label><?= @text('Address'); ?> 2</label></dt>
-				<dd>
-					<input id="address2_field" type="text" name="address2" value="<?= @$office->address2; ?>" />
-				</dd>
-				<dt><label><?= @text('City'); ?></label></dt>
-				<dd>
-					<input id="city_field" type="text" name="city" value="<?= @$office->city; ?>" />
-				</dd>
-				<dt><label><?= @text('State'); ?></label></dt>
-				<dd>
-					<input id="state_field" type="text" name="state" value="<?= @$office->state; ?>" />
-				</dd>
-				<dt><label><?= @text('City'); ?></label></dt>
-				<dd>
-					<input id="postcode_field" type="text" name="postcode" value="<?= @$office->postcode; ?>" />
-				</dd>
-				<dt><label><?= @text('Country'); ?></label></dt>
-				<dd>
-					<input id="country_field" type="text" name="country" value="<?= @$office->country; ?>" />
-				</dd>
-				<dt><label><?= @text('Phone'); ?></label></dt>
-				<dd>
-					<input id="phone_field" type="text" name="phone" value="<?= @$office->phone; ?>" />
-				</dd>
-				<dt><label><?= @text('Fax'); ?></label></dt>
-				<dd>
-					<input id="fax_field" type="text" name="fax" value="<?= @$office->fax; ?>" />
-				</dd>
-			</dl>
+				<label for="address1" id="mainlabel"><?= @text('Address'); ?> 1</label><input id="address1" type="text" name="address1" value="<?= @$office->address1; ?>" /><br />
+				<label for="address2" id="mainlabel"><?= @text('Address'); ?> 2</label><input id="address2" type="text" name="address2" value="<?= @$office->address2; ?>" /><br />
+				<label for="city" id="mainlabel"><?= @text('City'); ?></label><input id="city" type="text" name="city" value="<?= @$office->city; ?>" /><br />
+				<label for="state" id="mainlabel"><?= @text('State'); ?></label><input id="state" type="text" name="state" value="<?= @$office->state; ?>" /><br />
+				<label for="postcode" id="mainlabel"><?= @text('Postcode'); ?></label><input id="postcode" type="text" name="postcode" value="<?= @$office->postcode; ?>" /><br />
+				<label for="country" id="mainlabel"><?= @text('Country'); ?></label><input id="country" type="text" name="country" value="<?= @$office->country; ?>" /><br />
+				<label for="phone" id="mainlabel"><?= @text('Phone'); ?></label><input id="phone" type="text" name="phone" value="<?= @$office->phone; ?>" /><br />
+				<label for="fax" id="mainlabel"><?= @text('Fax'); ?></label><input id="fax" type="text" name="fax" value="<?= @$office->fax; ?>" /><br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>
