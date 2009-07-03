@@ -9,6 +9,22 @@
 	<input type="hidden" name="filter_order" value="<?= @$filter['order']; ?>" />
 	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']; ?>" />
 
+	<table>
+		<tr>
+			<td align="left" width="100%">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?= @$filter['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_department_id').value='';this.form.getElementById('filter_office_id').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			</td>
+			<td nowrap="nowrap">
+				<?=@helper('admin::com.beer.helper.select.departments', @$filter['department'], 'filter_department_id', @$attribs, '', true) ?>
+				<?=@helper('admin::com.beer.helper.select.offices', @$filter['office'], 'filter_office_id', @$attribs, '', true) ?>
+				<?= JHTML::_('grid.state',  @$filter['state'] ); ?>
+			</td>
+		</tr>
+	</table>
+	
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>
@@ -20,6 +36,12 @@
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Firstname', 'firstname', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th>
+					<?= @helper('grid.sort', 'Department', 'department', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th>
+					<?= @helper('grid.sort', 'Office', 'office', @$filter['direction'], @$filter['order']); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$filter['direction'], @$filter['order']); ?>
@@ -46,6 +68,12 @@
 							<?= @$escape($person->firstname); ?>
 						</a>
 					</span>
+				</td>
+				<td align="center">
+					<?= $person->department; ?>
+				</td>
+				<td align="center">
+					<?= $person->office; ?>
 				</td>
 				<td align="center" width="15px">
 					<?= @helper('grid.enable', $person->enabled, $i) ?>
