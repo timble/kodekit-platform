@@ -6,14 +6,15 @@ class BeerHelperSelect extends KTemplateHelperSelect
 {
 	public static function offices($selected, $name = 'filter_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
  	{
-		$items = KFactory::get('admin::com.beer.model.offices')->getList();
+		$items = KFactory::get('admin::com.beer.model.offices')->getAll();
 
-		// Build Language list
+		// Add first option to list
         $list = array();
 		if($allowAny) {
 			$list[] =  self::option('', '- '.JText::_( 'Select Office' ).' -', 'beer_office_id', 'title' );
 		}
 
+		// Marge first option with departments
 		$list = array_merge( $list, $items->toArray());
 
 		// build the HTML list
@@ -22,14 +23,15 @@ class BeerHelperSelect extends KTemplateHelperSelect
  	
 	public static function departments($selected, $name = 'filter_department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
  	{
-		$items = KFactory::get('admin::com.beer.model.departments')->getList();
+		$items = KFactory::get('admin::com.beer.model.departments')->getAll();
 
-		// Build Language list
+		// Add first option to list
         $list = array();
 		if($allowAny) {
 			$list[] =  self::option('', '- '.JText::_( 'Select Department' ).' -', 'beer_department_id', 'title' );
 		}
 
+		// Marge first option with departments
 		$list = array_merge( $list, $items->toArray());
 
 		// build the HTML list

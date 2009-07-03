@@ -35,7 +35,7 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count(@$people); ?>);" />
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'Firstname', 'firstname', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'Name', 'firstname', @$filter['direction'], @$filter['order']); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Department', 'department', @$filter['direction'], @$filter['order']); ?>
@@ -47,7 +47,7 @@
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$filter['direction'], @$filter['order']); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'ID', 'beer_profile_id', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'ID', 'beer_people_id', @$filter['direction'], @$filter['order']); ?>
 				</th>
 			</tr>
 		</thead>
@@ -63,9 +63,9 @@
 					<?= @helper('grid.id', $i, $person->id); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->firstname); ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->name); ?>">
 						<a href="<?= @route('view=person&layout=form&id='.$person->id); ?>">
-							<?= @$escape($person->firstname); ?>
+							<?= @$escape($person->name);  ?>
 						</a>
 					</span>
 				</td>

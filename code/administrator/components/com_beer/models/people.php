@@ -3,7 +3,7 @@ class BeerModelPeople extends KModelTable
 {
 	protected function _buildQueryFields(KDatabaseQuery $query)
 	{
-		$query->select('tbl.*')
+		$query->select('tbl.*' )
 			->select('department.title AS department')
 			->select('office.title AS office');
 	}
@@ -40,6 +40,16 @@ class BeerModelPeople extends KModelTable
 				$query->where('tbl.enabled','=', 0);
 			}
 		}
+	}
+	
+	public function getList()
+	{
+		$list = parent::getList();
+		foreach($list as $item)
+		{
+			$item->name = $item->firstname .' '. $item->middlename .' '. $item->lastname;
+		}
+		return $list;
 	}
 
 	public function getFilters()

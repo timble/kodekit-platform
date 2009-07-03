@@ -24,6 +24,19 @@ class BeerModelOffices extends KModelTable
 			}
 		}
 	}
+	
+	public function getAll()
+	{
+        // Get the data if it doesn't already exist
+        if (!isset($this->_all))
+        {
+        	$query = $this->_db->getQuery()
+        		->select(array('*'));
+        	$this->_all = $this->getTable()->fetchRowset($query);
+        }
+
+        return $this->_all;
+	}
 
 	public function getFilters()
 	{
