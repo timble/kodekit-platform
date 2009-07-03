@@ -22,23 +22,12 @@
 	}
 </script>
 <form action="<?= @route('&id='. @$department->id)?>" method="post" class="adminform" name="adminForm">
-	<div style="width:100%; float: left">
+	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-			<dl class="list">
-				<dt><label><?= @text('Title'); ?></label></dt>
-				<dd>
-					<input id="title_field" type="text" name="title" value="<?= @$department->title; ?>" />
-				</dd>
-				<dt><label><?= @text('Alias'); ?></label></dt>
-				<dd>
-					<input id="alias_field" type="text" name="alias" value="<?= @$department->alias; ?>" />
-				</dd>
-				<dt><label><?= @text('Published'); ?></label></dt>
-				<dd>
-					<?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?>
-				</dd>
-			</dl>
+			<label for="title" id="mainlabel"><?= @text('Title'); ?></label><input id="title" type="text" name="title" value="<?= @$department->title; ?>" /><br />
+			<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label><input id="alias" type="text" name="alias" value="<?= @$department->alias; ?>" /><br />
+			<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?><br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>
