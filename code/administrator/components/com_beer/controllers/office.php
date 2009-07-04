@@ -6,7 +6,7 @@ class BeerControllerOffice extends KControllerForm
 		parent::__construct($options);
 
 		$this->registerFilterBefore('save'   , 'filterInput');
-		$this->registerFilterBefore('add'   , 'add');
+		$this->registerFilterBefore('add'   , 'filterCreated');
 	}
 
 	public function filterInput($args)
@@ -22,11 +22,11 @@ class BeerControllerOffice extends KControllerForm
 		KRequest::set('post.alias', $alias);
 		KRequest::set('post.description', $description);
 	}
-	
-	public function add($args)
+
+	public function filterCreated($args)
 	{
 		$user = KFactory::get('lib.joomla.user');
-		
+
 		KRequest::set('post.created_by', $user->get('id'));
 	}
 }
