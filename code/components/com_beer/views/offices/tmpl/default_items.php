@@ -12,7 +12,7 @@
 			</a>
 		</td>
 		<td>
-				<?= @$escape($office->address); ?>
+				<?= nl2br(@$escape($office->address)); ?>
 		</td>
 		<td>
 				<?= @$escape($office->state); ?>
