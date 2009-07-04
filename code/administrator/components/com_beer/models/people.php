@@ -19,20 +19,16 @@ class BeerModelPeople extends KModelTable
 				  ->where('tbl.lastname', 'LIKE', $filter['search'], 'or');
 		}
 
-		if ( $filter['department']) {
-			$query->where('tbl.beer_department_id','=', $filter['department']);
+		if ( $filter['beer_department_id']) {
+			$query->where('tbl.beer_department_id','=', $filter['beer_department_id']);
 		}
 
-		if ( $filter['office']) {
-			$query->where('tbl.beer_office_id','=', $filter['office']);
+		if ( $filter['beer_office_id']) {
+			$query->where('tbl.beer_office_id','=', $filter['beer_office_id']);
 		}
 
-		if ( $filter['state'] ) {
-			if ( $filter['state'] == 'P' ) {
-				$query->where('tbl.enabled','=', 1);
-			} else if ($filter['state'] == 'U' ) {
-				$query->where('tbl.enabled','=', 0);
-			}
+		if ( $filter['enabled'] ) {
+			$query->where('tbl.enabled','=', $filter['enabled']);
 		}
 	}
 
@@ -41,9 +37,9 @@ class BeerModelPeople extends KModelTable
 	{
 		$filter = parent::getFilters();
 
-		$filter['state']		= KRequest::get('post.filter_state', 'string');
-		$filter['department']	= KRequest::get('post.filter_department_id', 'int');
-		$filter['office']		= KRequest::get('post.filter_office_id', 'int');
+		$filter['enabled']		= KRequest::get('post.enabled', 'string');
+		$filter['beer_department_id']	= KRequest::get('post.beer_department_id', 'int');
+		$filter['beer_office_id']		= KRequest::get('post.beer_office_id', 'int');
 		$filter['search']   	= KRequest::get('post.search', 'string');
 
 		return $filter;

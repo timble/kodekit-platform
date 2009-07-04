@@ -4,7 +4,7 @@
  */
 class BeerHelperSelect extends KObject
 {
-	public static function offices($selected, $name = 'office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
+	public static function offices($selected, $name = 'beer_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.offices')->getAll();
 
@@ -18,23 +18,23 @@ class BeerHelperSelect extends KObject
 		$list = array_merge( $list, $items->toArray());
 
 		// build the HTML list
-		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'office_id', 'title', $selected, $idtag );
+		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'beer_office_id', 'title', $selected, $idtag );
  	}
 
-	public static function departments($selected, $name = 'department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
+	public static function departments($selected, $name = 'beer_department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.departments')->getAll();
 
 		// Add first option to list
         $list = array();
 		if($allowAny) {
-			$list[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Department' ).' -', 'department_id', 'title' );
+			$list[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Department' ).' -', 'beer_department_id', 'title' );
 		}
 
 		// Marge first option with departments
 		$list = array_merge( $list, $items->toArray());
 
 		// build the HTML list
-		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'department_id', 'title', $selected, $idtag );
+		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'beer_department_id', 'title', $selected, $idtag );
  	}
 }

@@ -15,12 +15,12 @@
 				<?= @text('Filter'); ?>:
 				<input type="text" name="search" id="search" value="<?= @$filter['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?= @text('Go')?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_department_id').value='';this.form.getElementById('filter_office_id').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('beer_department_id').value='';this.form.getElementById('beer_office_id').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?=@helper('admin::com.beer.helper.select.departments', @$filter['department'], 'filter_department_id', @$attribs, '', true) ?>
-				<?=@helper('admin::com.beer.helper.select.offices', @$filter['office'], 'filter_office_id', @$attribs, '', true) ?>
-				<?=@helper('admin::com.beer.helper.grid.state',  @$filter['state'] ); ?>
+				<?=@helper('admin::com.beer.helper.select.departments', @$filter['beer_department_id'], 'beer_department_id', @$attribs, '', true) ?>
+				<?=@helper('admin::com.beer.helper.select.offices', @$filter['beer_office_id'], 'beer_office_id', @$attribs, '', true) ?>
+				<?=@helper('admin::com.beer.helper.grid.enabled',  @$filter['enabled'] ); ?>
 			</td>
 		</tr>
 	</table>
