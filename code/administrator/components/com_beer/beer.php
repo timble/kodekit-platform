@@ -1,7 +1,4 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
 // Check if Koowa is active
 if(!defined('KOOWA')) {
     JError::raiseWarning(0, JText::_("Koowa wasn't found. Please install the Koowa plugin and enable it."));
@@ -9,5 +6,5 @@ if(!defined('KOOWA')) {
 }
 
 // Create the component dispatcher
-$dispatcher = KFactory::get('admin::com.beer.dispatcher', array('default_view' => 'people'));
-$dispatcher->dispatch();
+KFactory::get('admin::com.beer.dispatcher', array('default_view' => 'people'))
+	->dispatch();
