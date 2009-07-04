@@ -8,7 +8,6 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?= @$filter['order']; ?>" />
 	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']; ?>" />
-
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tfoot>
 			<tr>
@@ -23,7 +22,16 @@
 					<?= @text('NUM'); ?>
 				</th>
 				<th align="left">
-					<?= @helper('grid.sort', 'Name', 'firstname', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'Name', 'name', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th align="left">
+					<?= @helper('grid.sort', 'Position', 'Position', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th align="left">
+					<?= @helper('grid.sort', 'Office', 'Office', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th align="left">
+					<?= @helper('grid.sort', 'Department', 'Department', @$filter['direction'], @$filter['order']); ?>
 				</th>
 			</tr>
 			<?php echo $this->loadTemplate('items'); ?>
