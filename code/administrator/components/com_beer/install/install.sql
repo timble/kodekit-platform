@@ -1,10 +1,7 @@
 
---
--- Table structure for table `jos_beer_departments`
---
 
-CREATE TABLE IF NOT EXISTS `jos_beer_departments` (
-  `beer_department_id` int(11) NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `#__beer_departments` (
+  `beer_department_id` SERIAL,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -12,23 +9,12 @@ CREATE TABLE IF NOT EXISTS `jos_beer_departments` (
   `created_by` int(11) NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default '0',
-  `enabled` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`beer_department_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `jos_beer_departments`
---
+  `enabled` tinyint(1) NOT NULL default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_beer_offices`
---
-
-CREATE TABLE IF NOT EXISTS `jos_beer_offices` (
-  `beer_office_id` int(11) NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `#__beer_offices` (
+  `beer_office_id` SERIAL,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -44,25 +30,15 @@ CREATE TABLE IF NOT EXISTS `jos_beer_offices` (
   `created_by` int(11) NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default '0',
-  `enabled` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`beer_office_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `jos_beer_offices`
---
+  `enabled` tinyint(1) NOT NULL default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- --------------------------------------------------------
 
---
--- Table structure for table `jos_beer_profiles`
---
-
-CREATE TABLE IF NOT EXISTS `jos_beer_profiles` (
-  `beer_profile_id` int(11) NOT NULL auto_increment,
-  `beer_department_id` int(11) NOT NULL,
-  `beer_office_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `#__beer_people` (
+  `beer_person_id` SERIAL,
+  `beer_department_id` bigint(20) NOT NULL,
+  `beer_office_id` bigint(20) NOT NULL,
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
@@ -72,15 +48,11 @@ CREATE TABLE IF NOT EXISTS `jos_beer_profiles` (
   `mobile` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created_by` int(11) NOT NULL default '0',
+  `created_by` bigint(20) NOT NULL default '0',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(11) NOT NULL default '0',
+  `modified_by` bigint(20) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`beer_profile_id`),
   KEY `department` (`beer_department_id`),
   KEY `office` (`beer_office_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `jos_beer_profiles`
---

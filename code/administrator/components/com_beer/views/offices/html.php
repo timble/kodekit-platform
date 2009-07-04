@@ -1,12 +1,12 @@
 <?php
-class BeerViewOffices extends KViewHtml 
+class BeerViewOffices extends KViewHtml
 {
 	public function display()
 	{
 		$model = KFactory::get('admin::com.beer.model.offices');
 
 		// Mixin a menubar object
-		$this->mixin( new BeerMixinMenu(array('mixer' => $this)));
+		$this->mixin( KFactory::get('admin::com.beer.mixin.menu', array('mixer' => $this)));
 		$this->displayMenutitle();
 		$this->displayMenubar();
 

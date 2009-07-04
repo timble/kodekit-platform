@@ -8,17 +8,17 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?= @$filter['order']; ?>" />
 	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']; ?>" />
-	
+
 	<table>
 		<tr>
 			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
+				<?= @text('Filter')?>:
 				<input type="text" name="search" id="search" value="<?= @$filter['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?= JHTML::_('grid.state',  @$filter['state'] ); ?>
+				<?= @helper('admin::com.beer.helper.grid.state',  @$filter['state'] ); ?>
 			</td>
 		</tr>
 	</table>
@@ -46,7 +46,7 @@
 		<tbody>
 		<? $i = 0; $m = 0; ?>
 		<? foreach (@$offices as $office) : ?>
-			<tr class="<?php echo 'row'.$m; ?>">
+			<tr class="<?= 'row'.$m?>">
 				<td align="center">
 					<?= $i + 1; ?>
 				</td>

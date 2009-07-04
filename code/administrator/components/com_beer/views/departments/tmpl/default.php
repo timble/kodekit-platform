@@ -1,28 +1,28 @@
 <? defined('_JEXEC') or die('Restricted access'); ?>
 
-<? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>
-<? @style(@$mediaurl.'/com_beer/css/beer_admin.css'); ?>
+<? @style(@$mediaurl.'/com_beer/css/grid.css') ?>
+<? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="action" value="browse" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?= @$filter['order']; ?>" />
-	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']; ?>" />
+	<input type="hidden" name="filter_order" value="<?= @$filter['order']?>" />
+	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']?>" />
 
 	<table>
 		<tr>
 			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?= @$filter['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<?=@text('Filter')?>:
+				<input type="text" name="search" id="search" value="<?= @$filter['search']?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?= @text('Go')?></button>
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?= JHTML::_('grid.state',  @$filter['state'] ); ?>
+				<?= @helper('admin::com.beer.helper.grid.state',  @$filter['state'] ); ?>
 			</td>
 		</tr>
 	</table>
-	
+
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>

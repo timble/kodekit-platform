@@ -3,7 +3,7 @@
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
 
-<? $editor =& KFactory::get('lib.joomla.editor', array('tinymce')); ?>
+<? $editor = KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -15,7 +15,7 @@
 
 		// do field validation
 		if (form.title.value == ""){
-			alert( "<?php echo JText::_( 'Office must have a title', true ); ?>" );
+			alert( "<?= @text('Office must have a title', true ); ?>" );
 		} else {
 			submitform( pressbutton );
 		}

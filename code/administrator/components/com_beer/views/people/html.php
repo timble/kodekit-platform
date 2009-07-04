@@ -1,15 +1,15 @@
 <?php
-class BeerViewPeople extends KViewHtml 
+class BeerViewPeople extends KViewHtml
 {
 	public function display()
 	{
 		$model = KFactory::get('admin::com.beer.model.people');
 
 		// Mixin a menubar object
-		$this->mixin( new BeerMixinMenu(array('mixer' => $this)));
+		$this->mixin( KFactory::get('admin::com.beer.mixin.menu', array('mixer' => $this)));
 		$this->displayMenutitle();
 		$this->displayMenubar();
-		
+
 		$attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'submitform();');
 
 	 	$this->assign('people', 	$model->getList());
