@@ -70,10 +70,12 @@ CREATE OR REPLACE VIEW #__beer_viewdepartments AS
 SELECT d.*, 
 	COUNT( DISTINCT p.beer_person_id ) AS people
 FROM #__beer_departments AS d
-LEFT JOIN #__beer_people AS p ON p.beer_department_id = d.beer_department_id AND p.enabled > 0;
+LEFT JOIN #__beer_people AS p ON p.beer_department_id = d.beer_department_id AND p.enabled > 0
+GROUP BY d.beer_department_id;
 
 CREATE OR REPLACE VIEW #__beer_viewoffices AS 
 SELECT o.*, 
 	COUNT( DISTINCT p.beer_person_id ) AS people
 FROM #__beer_offices AS o
-LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0;
+LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
+GROUP BY o.beer_office_id;
