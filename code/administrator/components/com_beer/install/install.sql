@@ -79,7 +79,8 @@ GROUP BY d.beer_department_id;
 
 CREATE OR REPLACE VIEW #__beer_viewoffices AS 
 SELECT o.*, 
-	COUNT( DISTINCT p.beer_person_id ) AS people
+	COUNT( DISTINCT p.beer_person_id ) AS people,
+	CONCAT_WS('\n', address1, address2, CONCAT_WS(' ', city, state, postcode), country) AS address
 FROM #__beer_offices AS o
 LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
 GROUP BY o.beer_office_id;
