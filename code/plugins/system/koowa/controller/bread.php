@@ -58,7 +58,7 @@ class KControllerBread extends KControllerAbstract
 		// Get the id
 		$id	 = KRequest::get('get.id', 'int');
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component 	= $this->getClassName('prefix');
 		$suffix    	= $this->getClassName('suffix');
 		$table		= KInflector::pluralize($suffix);
@@ -82,7 +82,7 @@ class KControllerBread extends KControllerAbstract
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
 		$suffix    	= $this->getClassName('suffix');
 		$table		= KInflector::pluralize($suffix);
@@ -106,12 +106,12 @@ class KControllerBread extends KControllerAbstract
 	{
 		$id = (array) KRequest::get('post.id', 'int');
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
-		$model    	= $this->getClassName('suffix');
+		$table    	= KInflector::pluralize($this->getClassName('suffix'));
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
-		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable()
+		$table = KFactory::get($app.'::com.'.$component.'.table.'.$table)
 				->delete($id);
 	}
 }

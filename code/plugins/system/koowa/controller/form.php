@@ -129,7 +129,7 @@ class KControllerForm extends KControllerBread
 	{
 		$result = parent::_actionDelete();
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
 		$view	   = KInflector::pluralize($this->getClassName('suffix'));
 		$format	   = KRequest::get('get.format', 'cmd', 'html');
@@ -154,17 +154,16 @@ class KControllerForm extends KControllerBread
 			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
 		}
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
-		$model     = $this->getClassName('suffix');
-		$view	   = $model;
+		$name     = KInflector::pluralize($this->getClassName('suffix'));
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
-		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
-		$table->update(array('enabled' => $enable), $id);
+		KFactory::get($app.'::com.'.$component.'.table.'.$name)
+			->update(array('enabled' => $enable), $id);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($view)
+			'view='.$name
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 	}
@@ -179,17 +178,16 @@ class KControllerForm extends KControllerBread
 		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
-		$model     = $this->getClassName('suffix');
-		$view	   = $model;
+		$name     = KInflector::pluralize($this->getClassName('suffix'));
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
-		$table = KFactory::get($app.'::com.'.$component.'.model.'.$model)->getTable();
-		$table->update(array('access' => $access), $id);
+		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
+			->update(array('access' => $access), $id);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($view)
+			'view='.$name
 			.'&format='.KRequest::get('get.format', 'cmd', 'html'),
 			JText::_( 'Changed items access level')
 		);
@@ -205,17 +203,16 @@ class KControllerForm extends KControllerBread
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
 
-		// Get the table object attached to the model
+		// Get the table object
 		$component = $this->getClassName('prefix');
 		$name      = KInflector::pluralize($this->getClassName('suffix'));
-		$view	   = $name;
 
 		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name);
 		$row   = $table->fetchRow($id)->order($change);
 
 		$this->setRedirect(
-			'view='.$view
+			'view='.$name
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 
