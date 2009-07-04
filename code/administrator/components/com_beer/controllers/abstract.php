@@ -7,6 +7,7 @@ abstract class BeerControllerAbstract extends KControllerForm
 
 		$this->registerFilterBefore('save'   , 'filterInput');
 		$this->registerFilterBefore('add'   , 'filterCreated');
+		$this->setFilters();
 	}
 
 	public function filterInput($args)
@@ -25,8 +26,17 @@ abstract class BeerControllerAbstract extends KControllerForm
 
 	public function filterCreated($args)
 	{
-		$user = KFactory::get('lib.joomla.user');
+		KRequest::set('post.created_by', KFactory::get('lib.joomla.user')->get('id'));
+	}
 
-		KRequest::set('post.created_by', $user->get('id'));
+	public function setFilters()
+	{
+		$suffix = KInflector::pluralize($this->getClassName('suffix'));
+		$model = KFactory::get('admin::com.beer.model.'.$suffix);
+
+		$model->setState('state',		KRequest::get('post.state', 'int'));
+		$model->setState('department', 	KRequest::get('post.department_id', 'int'));
+		$model->setState('office', 		KRequest::get('post.office_id', 'int'));
+		$model->setState('search', 		KRequest::get('post.search', 'string'));
 	}
 }

@@ -2,22 +2,13 @@
 
 class BeerHelperGrid extends KObject
 {
-	public static function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL, $trashed=NULL )
+	public static function state( $state=0)
 	{
-		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
-		//Jinx : Why is this used ?
-		//$state[] = JHTML::_('select.option',  '*', JText::_( 'Any' ) );
-		$state[] = JHTML::_('select.option',  'P', JText::_( $published ) );
-		$state[] = JHTML::_('select.option',  'U', JText::_( $unpublished ) );
+		$options = array();
+		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select State' ) .' -');
+		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Enabled' ));
+		$options[] = KTemplate::loadHelper('select.option',  -1, JText::_( 'Disabled'));
 
-		if ($archived) {
-			$state[] = JHTML::_('select.option',  'A', JText::_( $archived ) );
-		}
-
-		if ($trashed) {
-			$state[] = JHTML::_('select.option',  'T', JText::_( $trashed ) );
-		}
-
-		return JHTML::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		return KTemplate::loadHelper('select.genericlist', $options, 'state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $state );
 	}
 }
