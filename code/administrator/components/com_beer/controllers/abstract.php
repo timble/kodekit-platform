@@ -1,5 +1,5 @@
 <?php
-class BeerControllerOffice extends BeerControllerAbstract
+abstract class BeerControllerAbstract extends KControllerForm
 {
 	public function __construct($options = array())
 	{
