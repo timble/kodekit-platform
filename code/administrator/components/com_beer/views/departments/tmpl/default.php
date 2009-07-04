@@ -39,6 +39,9 @@
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$filter['direction'], @$filter['order']); ?>
 				</th>
 				<th>
+					<?= @helper('grid.sort', 'People', 'people', @$filter['direction'], @$filter['order']); ?>
+				</th>
+				<th>
 					<?= @helper('grid.sort', 'ID', 'beer_profile_id', @$filter['direction'], @$filter['order']); ?>
 				</th>
 			</tr>
@@ -63,6 +66,9 @@
 				</td>
 				<td align="center" width="15px">
 					<?= @helper('grid.enable', $department->enabled, $i) ?>
+				</td>
+				<td align="center" width="1%">
+					<?= $department->people; ?>
 				</td>
 				<td align="center" width="1%">
 					<?= $department->id; ?>

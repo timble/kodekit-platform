@@ -1,11 +1,12 @@
 <?php
 class BeerModelDepartments extends KModelTable
 {
-	protected function _buildQueryFields(KDatabaseQuery $query)
+	public function __construct(array $options = array())
 	{
-		$query->select('tbl.*');
+		$options['table'] = 'admin::com.beer.table.viewdepartments';
+		parent::__construct($options);
 	}
-	
+
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$filter = $this->getFilters();
@@ -15,7 +16,7 @@ class BeerModelDepartments extends KModelTable
 
 			$query->where('tbl.title', 'LIKE',  $filter['search']);
 		}
-		
+
 		if ( $filter['state'] ) {
 			if ( $filter['state'] == 'P' ) {
 				$query->where('tbl.enabled','=', 1);
@@ -24,7 +25,7 @@ class BeerModelDepartments extends KModelTable
 			}
 		}
 	}
-	
+
 	public function getAll()
 	{
         // Get the data if it doesn't already exist

@@ -1,11 +1,12 @@
 <?php
 class BeerModelOffices extends KModelTable
 {
-	protected function _buildQueryFields(KDatabaseQuery $query)
+	public function __construct(array $options = array())
 	{
-		$query->select('tbl.*');
+		$options['table'] = 'admin::com.beer.table.viewoffices';
+		parent::__construct($options);
 	}
-	
+
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$filter = $this->getFilters();
@@ -15,7 +16,7 @@ class BeerModelOffices extends KModelTable
 
 			$query->where('tbl.title', 'LIKE',  $filter['search']);
 		}
-		
+
 		if ( $filter['state'] ) {
 			if ( $filter['state'] == 'P' ) {
 				$query->where('tbl.enabled','=', 1);
@@ -24,7 +25,7 @@ class BeerModelOffices extends KModelTable
 			}
 		}
 	}
-	
+
 	public function getAll()
 	{
         // Get the data if it doesn't already exist
@@ -41,7 +42,7 @@ class BeerModelOffices extends KModelTable
 	public function getFilters()
 	{
 		$filter = parent::getFilters();
-		
+
 		$filter['state']		= KRequest::get('post.filter_state', 'string');
 		$filter['search']   	= KRequest::get('post.search', 'string');
 

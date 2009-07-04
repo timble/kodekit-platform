@@ -1,19 +1,13 @@
 <?php
 class BeerModelPeople extends KModelTable
 {
-	protected function _buildQueryFields(KDatabaseQuery $query)
+
+	public function __construct(array $options = array())
 	{
-		$query->select('tbl.*' )
-			->select('department.title AS department')
-			->select('office.title AS office');
+		$options['table'] = 'admin::com.beer.table.viewpeople';
+		parent::__construct($options);
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
-	{
-		$query->join('left', 'beer_departments AS department', 'department.beer_department_id = tbl.beer_department_id')
-			->join('left', 'beer_offices AS office', 'office.beer_office_id = tbl.beer_office_id');
-	}
-	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$filter = $this->getFilters();
@@ -28,11 +22,11 @@ class BeerModelPeople extends KModelTable
 		if ( $filter['department']) {
 			$query->where('tbl.beer_department_id','=', $filter['department']);
 		}
-		
+
 		if ( $filter['office']) {
 			$query->where('tbl.beer_office_id','=', $filter['office']);
 		}
-		
+
 		if ( $filter['state'] ) {
 			if ( $filter['state'] == 'P' ) {
 				$query->where('tbl.enabled','=', 1);
@@ -41,16 +35,7 @@ class BeerModelPeople extends KModelTable
 			}
 		}
 	}
-	
-	public function getList()
-	{
-		$list = parent::getList();
-		foreach($list as $item)
-		{
-			$item->name = $item->firstname .' '. $item->middlename .' '. $item->lastname;
-		}
-		return $list;
-	}
+
 
 	public function getFilters()
 	{
