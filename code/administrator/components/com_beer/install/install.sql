@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS `#__beer_offices` (
 
 CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `beer_person_id` SERIAL,
-  `beer_department_id` bigint(20) NOT NULL,
-  `beer_office_id` bigint(20) NOT NULL,
+  `beer_department_id` bigint(20) UNSIGNED NOT NULL,
+  `beer_office_id` bigint(20) UNSIGNED NOT NULL,
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
@@ -48,9 +48,9 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `mobile` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created_by` bigint(20) NOT NULL default 0,
+  `created_by` bigint(20) UNSIGNED NOT NULL default 0,
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` bigint(20) NOT NULL default 0,
+  `modified_by` bigint(20) UNSIGNED NOT NULL default 0,
   `enabled` tinyint(1) NOT NULL default 1,
   KEY `department` (`beer_department_id`),
   KEY `office` (`beer_office_id`)
