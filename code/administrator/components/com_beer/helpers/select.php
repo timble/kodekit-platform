@@ -4,6 +4,16 @@
  */
 class BeerHelperSelect extends KObject
 {
+	public static function enabled( $enabled=0)
+	{
+		$options = array();
+		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select State' ) .' -');
+		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Enabled' ));
+		$options[] = KTemplate::loadHelper('select.option',  -1, JText::_( 'Disabled'));
+
+		return KTemplate::loadHelper('select.genericlist', $options, 'enabled', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $enabled );
+	}
+
 	public static function offices($selected, $name = 'beer_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.offices')->getAll();

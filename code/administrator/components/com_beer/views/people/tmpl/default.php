@@ -20,7 +20,7 @@
 			<td nowrap="nowrap">
 				<?=@helper('admin::com.beer.helper.select.departments', @$filter['beer_department_id'], 'beer_department_id', @$attribs, '', true) ?>
 				<?=@helper('admin::com.beer.helper.select.offices', @$filter['beer_office_id'], 'beer_office_id', @$attribs, '', true) ?>
-				<?=@helper('admin::com.beer.helper.grid.enabled',  @$filter['enabled'] ); ?>
+				<?=@helper('admin::com.beer.helper.select.enabled',  @$filter['enabled'] ); ?>
 			</td>
 		</tr>
 	</table>

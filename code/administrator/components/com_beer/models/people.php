@@ -27,7 +27,7 @@ class BeerModelPeople extends KModelTable
 			$query->where('tbl.beer_office_id','=', $filter['beer_office_id']);
 		}
 
-		if ( $filter['enabled'] ) {
+			if($filter['enabled']) {
 			$query->where('tbl.enabled','=', $filter['enabled']);
 		}
 	}

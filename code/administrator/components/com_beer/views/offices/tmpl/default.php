@@ -18,7 +18,7 @@
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?= @helper('admin::com.beer.helper.grid.enabled',  @$filter['enabled'] ); ?>
+				<?= @helper('admin::com.beer.helper.select.enabled',  @$filter['enabled'] ); ?>
 			</td>
 		</tr>
 	</table>
