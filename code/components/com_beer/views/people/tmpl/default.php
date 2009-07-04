@@ -28,21 +28,21 @@
 		</tfoot>
 		<tbody>
 			<tr>
-				<th width="5" align="center">
+				<td class="sectiontableheader" width="5" align="center">
 					<?= @text('NUM'); ?>
-				</th>
-				<th align="left">
+				</td>
+				<td class="sectiontableheader" align="left">
 					<?= @helper('grid.sort', 'Name', 'name', @$filter['direction'], @$filter['order']); ?>
-				</th>
-				<th align="left">
+				</td>
+				<td class="sectiontableheader" align="left">
 					<?= @helper('grid.sort', 'Position', 'Position', @$filter['direction'], @$filter['order']); ?>
-				</th>
-				<th align="left">
+				</td>
+				<td class="sectiontableheader" align="left">
 					<?= @helper('grid.sort', 'Office', 'Office', @$filter['direction'], @$filter['order']); ?>
-				</th>
-				<th align="left">
+				</td>
+				<td class="sectiontableheader" align="left">
 					<?= @helper('grid.sort', 'Department', 'Department', @$filter['direction'], @$filter['order']); ?>
-				</th>
+				</td>
 			</tr>
 			<?php echo $this->loadTemplate('items'); ?>
 		</tbody>

@@ -2,7 +2,7 @@
 
 <? $i = 0; $m = 0; ?>
 <? foreach (@$people as $person) : ?>
-	<tr class="<?php if ($person->odd) { echo 'even'; } else { echo 'odd'; } ?>">
+	<tr class="<?php echo 'sectiontableentry'.$m; ?>">
 		<td>
 			<?= $i + 1; ?>
 		</td>
