@@ -28,10 +28,7 @@
 					<?= @helper('grid.sort', 'Title', 'title', @$filter['direction'], @$filter['order']); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Address', 'address1', @$filter['direction'], @$filter['order']); ?>
-				</td>
-				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'City', 'city', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'Address', 'address', @$filter['direction'], @$filter['order']); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
 					<?= @helper('grid.sort', 'State', 'state', @$filter['direction'], @$filter['order']); ?>

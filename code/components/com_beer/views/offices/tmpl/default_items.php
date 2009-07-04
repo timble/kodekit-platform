@@ -12,10 +12,7 @@
 			</a>
 		</td>
 		<td>
-				<?= @$escape($office->Address1); ?>
-		</td>
-		<td>
-				<?= @$escape($office->city); ?>
+				<?= @$escape($office->address); ?>
 		</td>
 		<td>
 				<?= @$escape($office->state); ?>
