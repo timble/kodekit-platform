@@ -1,14 +1,11 @@
 <?php
 class BeerModelPeople extends KModelTable
 {
-	public function getList()
+
+	public function __construct(array $options = array())
 	{
-		$list = parent::getList();
-		foreach($list as $item)
-		{
-			$item->name = $item->firstname . $item->middlename . $item->lastname;
-		}
-		return $list;
+		$options['table'] = 'admin::com.beer.table.viewpeople';
+		parent::__construct($options);
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -19,36 +16,32 @@ class BeerModelPeople extends KModelTable
 			$filter['search'] = '%'.$filter['search'].'%';
 
 			$query->where('tbl.firstname', 'LIKE',  $filter['search'])
-				  ->where('tbl.middlename', 'LIKE', $filter['search'], 'or')
 				  ->where('tbl.lastname', 'LIKE', $filter['search'], 'or');
 		}
 
-		if ( $filter['department']) {
-			$query->where('beer_department_id','LIKE', $filter['department']);
+		if ( $filter['beer_department_id']) {
+			$query->where('tbl.beer_department_id','=', $filter['beer_department_id']);
+		}
+
+		if ( $filter['beer_office_id']) {
+			$query->where('tbl.beer_office_id','=', $filter['beer_office_id']);
+		}
+
+			if($filter['enabled']) {
+			$query->where('tbl.enabled','=', $filter['enabled']);
 		}
 	}
 
+
 	public function getFilters()
 	{
-		$filters = parent::getFilters();
+		$filter = parent::getFilters();
 
-		$filters['office']	= KRequest::get('post.filter_office_id', 'int');
-		$filters['department']	= KRequest::get('post.filter_department_id', 'int');
-		$filters['search']   		  	= KRequest::get('post.search', 'string');
+		$filter['enabled']		= KRequest::get('post.enabled', 'string');
+		$filter['beer_department_id']	= KRequest::get('post.beer_department_id', 'int');
+		$filter['beer_office_id']		= KRequest::get('post.beer_office_id', 'int');
+		$filter['search']   	= KRequest::get('post.search', 'string');
 
-		return $filters;
+		return $filter;
     }
-
-    public function getAll()
-	{
-        // Get the data if it doesn't already exist
-        if (!isset($this->_all))
-        {
-        	$query = $this->_db->getQuery()
-        		->select(array('*'));
-        	$this->_all = $this->getTable()->fetchRowset($query);
-        }
-
-        return $this->_all;
-	}
 }

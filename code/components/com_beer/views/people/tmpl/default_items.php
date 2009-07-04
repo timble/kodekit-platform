@@ -15,13 +15,13 @@
 			<?= @$escape($person->position); ?>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=office&id='.$person->office) ?>" />
-				<?= @$escape($person->office_name); ?>
+			<a href="<?=@route('option=com_beer&view=office&id='.$person->beer_office_id) ?>" />
+				<?= @$escape($person->office); ?>
 			</a>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=department&id='.$person->department) ?>" />
-				<?= @$escape($person->department_name); ?>
+			<a href="<?=@route('option=com_beer&view=department&id='.$person->beer_department_id) ?>" />
+				<?= @$escape($person->department); ?>
 			</a>
 		</td>
 	</tr>

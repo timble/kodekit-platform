@@ -12,9 +12,9 @@
 		<h3><?=@text('People');?></h3>
 		<p></p>
 		<?=@text('Search'); ?>:
-		<input type="text" name="search" maxlength="40" value="<?=@$filters['search']?>" />
-		<?=@helper('admin::com.beer.helper.select.departments', @$filter['department']) ?>
-		<?=@helper('admin::com.beer.helper.select.offices', @$filter['office']) ?>
+		<input type="text" name="search" maxlength="40" value="<?=@$filter['search']?>" />
+		<?=@helper('admin::com.beer.helper.select.departments', @$filter['beer_department_id']) ?>
+		<?=@helper('admin::com.beer.helper.select.offices', @$filter['beer_office_id']) ?>
 		<input type="submit" value="<?=@text('Go')?>" />
 	</div>
 

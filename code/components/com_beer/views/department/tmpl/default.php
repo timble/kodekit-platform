@@ -1,1 +1,1 @@
-<?= @$department->title; ?>
+<h3><?= @$department->title; ?></h3>
