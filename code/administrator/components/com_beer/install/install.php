@@ -9,9 +9,9 @@ jimport('joomla.filesystem.file');
 
 $src = JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_beer'.DS.'koowa';
 
-JFile::move($src.DS.'plugin'.DS.'koowa.xml', JPATH_ROOT);
-JFile::move($src.DS.'plugin'.DS.'koowa.php', JPATH_ROOT);
-JFolder::move($src.DS.'plugin'.DS.'koowa', JPATH_ROOT);
+JFile::move($src.DS.'plugins'.DS.'system'.DS.'koowa.xml', JPATH_ROOT);
+JFile::move($src.DS.'plugins'.DS.'system'.DS.'koowa.php', JPATH_ROOT);
+JFolder::move($src.DS.'plugins'.DS.'system'.DS.'koowa', JPATH_ROOT);
 JFolder::move($src.DS.'media'.DS.'plg_koowa', JPATH_ROOT);
 
 $status = new JObject();
