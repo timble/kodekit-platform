@@ -2,7 +2,7 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 <? @script('http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAnMnp44FFgiYJ2JttXUUpNxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQGCyA8pHIjpDhN93FhoORdP8TN1A'); ?>
-<? @script(@$mediaurl.'/com_beer/js/maps.js'); ?>
+<? @script(@$mediaurl.'/com_beer/js/site.office.js'); ?>
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
 <div id="beer_info">
