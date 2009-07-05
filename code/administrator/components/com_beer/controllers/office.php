@@ -36,7 +36,6 @@ class BeerControllerOffice extends BeerControllerAbstract
 			$address 	= str_replace(" ", "+", $address);
 			$city 		= KRequest::get('post.city', 'string');
 			$postcode	= KRequest::get('post.postcode', 'string');
-			$postcode 	= KRequest::get('post.title', 'string');
 
 			$query = $address.'+'.$city;
 
