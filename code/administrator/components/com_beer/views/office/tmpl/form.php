@@ -22,7 +22,7 @@
 		}
 		return submitOK;
 	}
-</script>---
+</script>
 
 <form action="<?= @route('&id='. @$office->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left" id="mainform">

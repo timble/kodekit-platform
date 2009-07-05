@@ -21,7 +21,7 @@
 		}
 		return submitOK;
 	}
-</script>---
+</script>
 
 <form action="<?= @route('&id='. @$person->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left"  id="mainform">
