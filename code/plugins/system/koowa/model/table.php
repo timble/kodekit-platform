@@ -250,13 +250,14 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
+    	$columns = $this->getTable()->getColumns();
        	$order      = $this->getState('order');
        	$direction  = strtoupper($this->getState('direction'));
-    	if($order) {
+    	if($order && in_array($order, $columns)) {
     		$query->order($order, $direction);
     	}
 
-		if(in_array('ordering', $this->getTable()->getColumns())) {
+		if(in_array('ordering', $columns)) {
     		$query->order('ordering', 'ASC');
     	}
     }
