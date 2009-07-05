@@ -197,7 +197,7 @@ if ($this->parent->parseFiles($element, -1) === false) {
             <td class="key"><?php echo JText::_('Nooku Framework System Plugin'); ?></td>
             <td><?php echo ($status->get('koowa_plugin')) ? '<strong>'.JText::_('Installed').'</strong>' : '<em>'.JText::_('NOT Installed').'</em>'; ?></td>
         </tr>
-		<tr class="row1">
+		<tr class="row0">
 			<td class="key"><?php echo JText::_('PHP Version'); ?></td>
 			<td>
 				<?php echo version_compare(phpversion(), '5.2', '>=')
@@ -205,7 +205,7 @@ if ($this->parent->parseFiles($element, -1) === false) {
 					: '<em>'.JText::_('You need at least PHP v5.2 to use B.E.E.R. You are using: ').phpversion().'</em>'; ?>
 			</td>
 		</tr>
-		<tr class="row0">
+		<tr class="row1">
 			<td class="key"><?php echo JText::_('MySQL Version'); ?></td>
 			<td>
 				<?php echo version_compare($db->getVersion(), '5.0.45', '>=')
