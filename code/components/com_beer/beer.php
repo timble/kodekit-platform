@@ -15,7 +15,7 @@ if(!defined('KOOWA')) {
 }
 
 // We like code reuse, so we inject the backend models in the frontend models
-KFactory::set('site::com.beer.model.departments', 	KFactory::get('admin::com.beer.model.department'));
+KFactory::set('site::com.beer.model.departments', 	KFactory::get('admin::com.beer.model.departments'));
 KFactory::set('site::com.beer.model.offices', 		KFactory::get('admin::com.beer.model.offices'));
 KFactory::set('site::com.beer.model.people', 		KFactory::get('admin::com.beer.model.people'));
 
