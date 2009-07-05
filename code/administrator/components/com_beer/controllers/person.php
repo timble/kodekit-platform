@@ -12,4 +12,19 @@ defined('_JEXEC') or die('Restricted access');
 Koowa::import('admin::com.beer.controllers.abstract');
 class BeerControllerPerson extends BeerControllerAbstract
 {
+	/**
+	 * Filter input calues, modify request
+	 *
+	 * @params	Arguments
+	 * @return 	void
+	 */
+	public function filterInput($args)
+	{
+		$alias 			= KRequest::get('post.alias', 'ascii');
+		if(empty($alias)) {
+			$alias = KRequest::get('post.firstname', 'ascii').'_'.KRequest::get('post.lastname', 'ascii');
+		}
+
+		KRequest::set('post.alias', $alias);
+	}
 }
