@@ -7,6 +7,12 @@ Created for the Joomla Developer's Showdown, July 2009
 
 Version 1.0 ALPHA - NOT FOR PRODUCTION USE
 
+Nooku Framework
+---------------
+Want to know more about the Nooku Framework, get access to the code and the
+resources, and learn how it can help you to build more extensions? Fill in the
+form at http://www.nooku.org/en/framework/request.html
+
 Requirements
 ------------
  * PHP 5.2
@@ -31,4 +37,5 @@ Features
  * Template Overrides support
  * Gravatar support
  * VCard support
+ * Plugin support
  * ...
