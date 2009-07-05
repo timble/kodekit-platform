@@ -8,12 +8,18 @@
  * @link     	http://www.nooku.org
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('KOOWA') or die('Restricted access');
 Koowa::import('admin::com.beer.controllers.abstract');
+
+/**
+ * Office Controller
+ *
+ * @package		Beer
+ */
 class BeerControllerOffice extends BeerControllerAbstract
 {
 	/**
-	 * Filter input calues, modify request
+	 * Filter input values, modify request
 	 *
 	 * @params	Arguments
 	 * @return 	void

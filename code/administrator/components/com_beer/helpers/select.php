@@ -13,7 +13,7 @@
  */
 class BeerHelperSelect extends KObject
 {
-	public static function enabled( $enabled=0)
+	public function enabled( $enabled=0)
 	{
 		$options = array();
 		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select State' ) .' -');
@@ -23,7 +23,7 @@ class BeerHelperSelect extends KObject
 		return KTemplate::loadHelper('select.genericlist', $options, 'enabled', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $enabled );
 	}
 
-	public static function gender($gender=0)
+	public function gender($gender=0)
 	{
 		$options = array();
 		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select Gender' ) .' -');
@@ -33,7 +33,7 @@ class BeerHelperSelect extends KObject
 		return KTemplate::loadHelper('select.genericlist', $options, 'gender', 'class="inputbox" size="1"', 'value', 'text', $gender );
 	}
 
-	public static function offices($selected, $name = 'beer_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
+	public function offices($selected, $name = 'beer_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.offices')->getAll();
 
@@ -50,7 +50,7 @@ class BeerHelperSelect extends KObject
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'beer_office_id', 'title', $selected, $idtag );
  	}
 
-	public static function departments($selected, $name = 'beer_department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
+	public function departments($selected, $name = 'beer_department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.departments')->getAll();
 

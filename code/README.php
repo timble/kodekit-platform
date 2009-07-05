@@ -39,4 +39,6 @@ Features
  * VCard support
  * Plugin support
  * Search engine friendly URL's
+ * Single installer
+ * Search plugin
  * ...

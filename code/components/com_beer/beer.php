@@ -20,5 +20,4 @@ KFactory::set('site::com.beer.model.offices', 		KFactory::get('admin::com.beer.m
 KFactory::set('site::com.beer.model.people', 		KFactory::get('admin::com.beer.model.people'));
 
 // Create the controller dispatcher
-KFactory::get('site::com.beer.dispatcher', array('default_view' => 'people'))
-	->dispatch();
+KFactory::get('site::com.beer.dispatcher', array('default_view' => 'people'))->dispatch();

@@ -30,7 +30,7 @@
 			<legend><?= @text('Details'); ?></legend>
 				<label for="title" id="mainlabel"><?= @text('Title'); ?></label><input id="title" type="text" name="title" value="<?= @$office->title; ?>" /><br />
 				<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label><input id="alias" type="text" name="alias" value="<?= @$office->alias; ?>" /><br />
-				<label for="enableb" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$office->enabled, 'yes', 'no', 'enabled'); ?><br />
+				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$office->enabled, 'yes', 'no', 'enabled'); ?><br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Location'); ?></legend>

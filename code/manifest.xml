@@ -24,6 +24,7 @@
 		<files folder="administrator/components/com_beer">
 			<file>beer.php</file>
 			<folder>controllers</folder>
+			<folder>data</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>mixins</folder>
