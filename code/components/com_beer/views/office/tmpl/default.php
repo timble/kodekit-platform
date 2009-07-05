@@ -3,7 +3,6 @@
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 <?php JHTML::_('behavior.mootools'); ?>
 <? @script('http://maps.google.com/maps/api/js?sensor=false'); ?>
-<script>var coordinates = 50.9873946,5.0474845;</script>
 <? @script(@$mediaurl.'/com_beer/js/site.office.js'); ?>
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
@@ -18,7 +17,7 @@
 	<h2><?= @text('Information'); ?></h2>
 	<?= @$office->description; ?>
 </div>
-<div id="map_canvas" style="width: 500px; height: 300px"></div>
+<div id="map_canvas" rel="50.9873946, 5.0474845" style="width: 500px; height: 300px"></div>
 
 
 
