@@ -14,6 +14,11 @@ if(!defined('KOOWA')) {
 	return;
 }
 
-// Create the component dispatcher
+// We like code reuse, so we inject the backend models in the frontend models
+KFactory::set('site::com.beer.model.departments', 	KFactory::get('admin::com.beer.model.department'));
+KFactory::set('site::com.beer.model.offices', 		KFactory::get('admin::com.beer.model.offices'));
+KFactory::set('site::com.beer.model.people', 		KFactory::get('admin::com.beer.model.people'));
+
+// Create the controller dispatcher
 KFactory::get('site::com.beer.dispatcher', array('default_view' => 'people'))
 	->dispatch();

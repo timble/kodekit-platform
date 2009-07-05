@@ -14,6 +14,6 @@ if(!defined('KOOWA')) {
     return;
 }
 
-// Create the component dispatcher
+// Create the controller dispatcher
 KFactory::get('admin::com.beer.dispatcher', array('default_view' => 'people'))
 	->dispatch();
