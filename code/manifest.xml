@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-	<name>Business Enterprise Employee Repository</name>
+	<name>BEER</name>
 	<author>B.E.E.R Team</author>
 	<creationDate>July 2009</creationDate>
 	<copyright>(C) 2009 B.E.E.R Team. All rights reserved.</copyright>
@@ -8,7 +8,7 @@
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>1.0 ALPHA</version>
-	<description>Directory of people in a business</description>
+	<description>Business Enterprise Employee Repository</description>
 
 	<!-- Application/site -->
 	<files folder="components/com_beer">
