@@ -112,7 +112,7 @@ INSERT INTO `#__beer_departments` (`beer_department_id`, `title`, `alias`, `desc
 -- --------------------------------------------------------
 
 --
--- Dumping data for table `jos_beer_people`
+-- Dumping data for table `#__beer_people`
 --
 
 INSERT INTO `#__beer_people` (`beer_person_id`, `beer_department_id`, `beer_office_id`, `firstname`, `middlename`, `lastname`, `alias`, `position`, `birthday`, `gender`, `mobile`, `email`, `bio`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
