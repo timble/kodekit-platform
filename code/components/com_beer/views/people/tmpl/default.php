@@ -5,8 +5,6 @@
 
 <div class="joomla ">
 	<form action="<?= @route()?>" method="post" name="adminForm">
-	<input type="hidden" name="action" value="browse" />
-	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?= @$filter['order']; ?>" />
 	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']; ?>" />
 	<div class="people_filters">

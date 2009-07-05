@@ -53,9 +53,9 @@ abstract class BeerControllerAbstract extends KControllerForm
 		$suffix = KInflector::pluralize($this->getClassName('suffix'));
 		$model = KFactory::get('admin::com.beer.model.'.$suffix);
 
-		$model->setState('enabled',		KRequest::get('post.enabled', 'int'));
-		$model->setState('department', 	KRequest::get('post.beer_department_id', 'int'));
-		$model->setState('office', 		KRequest::get('post.beer_office_id', 'int'));
-		$model->setState('search', 		KRequest::get('post.search', 'string'));
+		$model->setState('enabled',				KRequest::get('post.enabled', 'int'));
+		$model->setState('beer_department_id', 	KRequest::get('post.beer_department_id', 'int'));
+		$model->setState('beer_office_id', 		KRequest::get('post.beer_office_id', 'int'));
+		$model->setState('search', 				KRequest::get('post.search', 'string'));
 	}
 }

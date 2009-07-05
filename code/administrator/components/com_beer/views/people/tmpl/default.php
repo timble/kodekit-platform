@@ -48,7 +48,7 @@
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$filter['direction'], @$filter['order']); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'ID', 'beer_people_id', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'ID', 'id', @$filter['direction'], @$filter['order']); ?>
 				</th>
 			</tr>
 		</thead>
@@ -65,25 +65,25 @@
 				</td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->name); ?>">
-						<a href="<?= @route('view=person&layout=form&id='.$person->id); ?>">
-							<?= @$escape($person->name);  ?>
+						<a href="<?= @route('view=person&layout=form&id='.$person->id)?>">
+							<?= @$escape($person->name)?>
 						</a>
 					</span>
 				</td>
 				<td align="center">
-					<?= $person->department; ?>
+					<?= $person->department?>
 				</td>
 				<td align="center">
-					<?= $person->office; ?>
+					<?= $person->office?>
 				</td>
 				<td align="center" width="15px">
-					<?= @helper('grid.enable', $person->enabled, $i) ?>
+					<?= @helper('grid.enable', $person->enabled, $i)?>
 				</td>
 				<td align="center" width="1%">
-					<?= $person->id; ?>
+					<?= $person->id?>
 				</td>
 			</tr>
-		<? $i = $i + 1; $m = (1 - $m); ?>
+		<? $i = $i + 1; $m = (1 - $m);?>
 		<? endforeach; ?>
 
 		<? if (!count(@$people)) : ?>

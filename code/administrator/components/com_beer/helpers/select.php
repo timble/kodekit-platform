@@ -15,12 +15,15 @@ class BeerHelperSelect extends KObject
 {
 	public function enabled( $enabled=0)
 	{
+	// @todo select.genericlist doesn't know the difference between 0 and '' and null, see Nooku Framework ticket #83
+	/*
 		$options = array();
-		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select State' ) .' -');
+		$options[] = KTemplate::loadHelper('select.option',  '', '- '.JText::_( 'Select State' ) .' -');
 		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Enabled' ));
-		$options[] = KTemplate::loadHelper('select.option',  -1, JText::_( 'Disabled'));
+		$options[] = KTemplate::loadHelper('select.option',  0, JText::_( 'Disabled'));
 
 		return KTemplate::loadHelper('select.genericlist', $options, 'enabled', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $enabled );
+	*/
 	}
 
 	public function gender($gender=0)
