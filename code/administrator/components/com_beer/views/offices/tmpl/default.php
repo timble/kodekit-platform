@@ -1,3 +1,4 @@
+<? /** $Id$ */ ?>
 <? defined('_JEXEC') or die('Restricted access'); ?>
 
 <? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>

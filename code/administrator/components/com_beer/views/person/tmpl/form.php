@@ -1,3 +1,4 @@
+<? /** $Id$ */ ?>
 <? defined('_JEXEC') or die('Restricted access'); ?>
 
 <? @helper('behavior.tooltip'); ?>
@@ -34,8 +35,6 @@
 				<label for="mobile" id="mainlabel"><?= @text('Mobile'); ?></label><input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" /><br />
 				<label for="email" id="mainlabel"><?= @text('Email'); ?></label><input id="email" type="text" name="email" value="<?= @$person->email; ?>" /><br />
 				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?><br />
-				</dd>
-			</dl>
 		</fieldset>
 	</div>
 	<input type="hidden" name="id" value="<?= @$person->id ?>" />
