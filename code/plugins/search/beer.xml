@@ -3,12 +3,12 @@
 	<name>Search - Beer</name>
 	<author>Nooku</author>
 	<creationDate>July 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<copyright>B.E.E.R. Team 2009</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>1.5</version>
-	<description>Allows Searching of Beer Component</description>
+	<version>1.0alpha</version>
+	<description>Allows Searching of B.E.E.R. Component</description>
 	<files>
 		<filename plugin="contacts">beer.php</filename>
 	</files>

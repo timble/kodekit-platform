@@ -14,15 +14,15 @@ JFile::move($admin_path.DS.$plugins_path.DS.'koowa.xml',  $plugins_path.DS.'koow
 JFile::move($admin_path.DS.$plugins_path.DS.'koowa.php',  $plugins_path.DS.'koowa.php', JPATH_ROOT);
 JFolder::move($admin_path.DS.$plugins_path.DS.'koowa', $plugins_path.DS.'koowa', JPATH_ROOT);
 JFolder::move($admin_path.DS.'media'.DS.'plg_koowa', 'media'.DS.'plg_koowa', JPATH_ROOT);
+$admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'search';
+$plugins_path = 'plugins'.DS.'searcg';
+JFile::move($admin_path.DS.$plugins_path.DS.'search.xml',  $plugins_path.DS.'search.xml', JPATH_ROOT);
+JFile::move($admin_path.DS.$plugins_path.DS.'search.php',  $plugins_path.DS.'search.php', JPATH_ROOT);
 
 $status = new JObject();
 
-
-
 /**
- * ---------------------------------------------------------------------------------------------
  * Database Processing Section
- * ---------------------------------------------------------------------------------------------
  */
 $row = JTable::getInstance('plugin');
 $row->name = 'Nooku Framework (Codename Koowa) NOT FOR PRODUCTION USE';
@@ -34,22 +34,33 @@ $row->client_id = 0;
 $row->element = 'koowa';
 $row->published = 1;
 $row->params = '';
-
 if (!$row->store()) {
 	// Install failed, roll back changes
 	$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 	return false;
 }
-
 $status->set('koowa_plugin', true);
 
+$row = JTable::getInstance('plugin');
+$row->name = 'Search - B.E.E.R.';
+$row->ordering = 1;
+$row->folder = 'search';
+$row->iscore = 0;
+$row->access = 0;
+$row->client_id = 0;
+$row->element = 'beer';
+$row->published = 1;
+$row->params = '';
+if (!$row->store()) {
+	// Install failed, roll back changes
+	$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+	return false;
+}
+$status->set('search_plugin', true);
 
-
-/***********************************************************************************************
- * ---------------------------------------------------------------------------------------------
+/**
  * OUTPUT TO SCREEN
- * ---------------------------------------------------------------------------------------------
- ***********************************************************************************************/
+ */
 ?>
 <h1>Business Enterprise Employee Repository (B.E.E.R.)</h1>
 <script>$$('table.adminform')[0].getElementsByTagName('tr')[0].setStyle('display', 'none');</script>
@@ -66,7 +77,10 @@ $status->set('koowa_plugin', true);
 		</tr>
 	</tfoot>
 	<tbody>
-
+		<tr class="row0">
+            <td class="key"><?php echo JText::_('Search Plugin'); ?></td>
+            <td><?php echo ($status->get('search_plugin')) ? '<strong>'.JText::_('Installed').'</strong>' : '<em>'.JText::_('NOT Installed').'</em>'; ?></td>
+        </tr>
         <tr class="row1">
             <td class="key"><?php echo JText::_('Nooku Framework System Plugin'); ?></td>
             <td><?php echo ($status->get('koowa_plugin')) ? '<strong>'.JText::_('Installed').'</strong>' : '<em>'.JText::_('NOT Installed').'</em>'; ?></td>

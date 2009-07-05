@@ -39,6 +39,12 @@
 				<include name="plugins/system/koowa.xml" />
 			</fileset>
 		</copy>
+		<copy todir="${dir.tmp}/administrator/components/com_beer/search">
+			<fileset dir="${dir.local}">
+				<include name="plugins/search/beer.php" />
+				<include name="plugins/search/beer.xml" />
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="export_from_svn" description="Export files from an svn repository" depends="config, svn_config">
