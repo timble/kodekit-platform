@@ -1,1 +1,3 @@
-<label for="country" id="mainlabel"><?= @text('Country'); ?></label><?=@helper('admin::com.beer.helper.iso.states', @$region, 'state', @$office->state) ?><br />
+<? /** $Id$ */ ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
+<?=@helper('admin::com.beer.helper.iso.states', @$region, 'state', @$region) ?>

@@ -33,7 +33,7 @@ class BeerHelperIso extends KObject
  	{
  		$states = array();
  		$states[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select a State/Provence' ).' -' );
- 		$list = KFactory::get('admin::com.beer.model.states')
+ 		$list = KFactory::get('admin::com.beer.model.regions')
  				->setState('region', $region)->getList();
  		foreach($list as $code => $state) {
  			$states[] = KTemplate::loadHelper('select.option',  $code, $state);
