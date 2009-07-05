@@ -1,6 +1,11 @@
 #beer_header {
+	width:100%;
 	padding-top:5px;
 	margin-bottom:10px;
+}
+
+#beer_header h1 {
+	margin-top:5px;
 }
 
 #beer_info {
@@ -28,7 +33,7 @@
 }
 
 #gravatar {
-	float:right;
+	float:left;
 	border:solid 5px #cccccc;
 	margin-right:10px;
 }
