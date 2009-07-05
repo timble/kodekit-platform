@@ -7,12 +7,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-$src = JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_beer'.DS.'koowa';
+$admin_path = JPATH_ADMIN.DS.'components'.DS.'com_beer'.DS.'koowa'
+$plugins_path = 'plugins'.DS.'system';
 
-JFile::move($src.DS.'plugins'.DS.'system'.DS.'koowa.xml', JPATH_ROOT);
-JFile::move($src.DS.'plugins'.DS.'system'.DS.'koowa.php', JPATH_ROOT);
-JFolder::move($src.DS.'plugins'.DS.'system'.DS.'koowa', JPATH_ROOT);
-JFolder::move($src.DS.'media'.DS.'plg_koowa', JPATH_ROOT);
+JFile::move($admin_path.DS.$plugins_path.DS.'koowa.xml',  $plugins_path.DS.'koowa.xml');
+JFile::move($admin_path.DS.$plugins_path.DS.'koowa.php',  $plugins_path.DS.'koowa.php');
+JFolder::move($admin_path.DS.$plugins_path.DS.'koowa', $plugins_path.DS.'koowa');
+JFolder::move($admin_path.DS.'media'.DS.'plg_koowa', 'media'.DS.'plg_koowa');
 
 $status = new JObject();
 
