@@ -31,14 +31,25 @@ class BeerHelperIso extends KObject
 
  	public function states($region, $name = '', $selected = '' )
  	{
- 		$states = array();
- 		$states[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select a State/Provence' ).' -' );
- 		$list = KFactory::get('admin::com.beer.model.regions')
+ 		$region = strtolower($region);
+  		$list = KFactory::get('admin::com.beer.model.regions')
  				->setState('region', $region)->getList();
- 		foreach($list as $code => $state) {
- 			$states[] = KTemplate::loadHelper('select.option',  $code, $state);
+
+ 		$states = array();
+ 		if(count($list))
+ 		{
+ 			$states[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select a State/Provence' ).' -' );
+	 		foreach($list as $code => $state) {
+	 			$states[] = KTemplate::loadHelper('select.option',  $code, $state);
+	 		}
+	 		$disabled = '';
+ 		} else {
+ 			$states[] = KTemplate::loadHelper('select.option', '', '('.JText::_('No states for this country').')' );
+ 			$disabled = ' disabled="disabled"';
  		}
 
- 		return KTemplate::loadHelper('select.genericlist', $states, $name, 'class="inputbox" size="1" ', 'value', 'text', $selected );
+
+
+ 		return KTemplate::loadHelper('select.genericlist', $states, $name, $disabled.' class="inputbox" size="1" ', 'value', 'text', $selected );
  	}
 }
