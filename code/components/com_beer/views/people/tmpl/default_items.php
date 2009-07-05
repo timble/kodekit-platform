@@ -8,7 +8,7 @@
 			<?= $i + 1; ?>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=person&id='.$person->id) ?>" />
+			<a href="<?=@route('option=com_beer&view=person&id='.$person->slug) ?>" />
 				<?= @$escape($person->name); ?>
 			</a>
 		</td>
@@ -16,12 +16,12 @@
 			<?= @$escape($person->position); ?>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=office&id='.$person->beer_office_id) ?>" />
+			<a href="<?=@route('option=com_beer&view=office&id='.$person->office_slug) ?>" />
 				<?= @$escape($person->office); ?>
 			</a>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=department&id='.$person->beer_department_id) ?>" />
+			<a href="<?=@route('option=com_beer&view=department&id='.$person->department_slug) ?>" />
 				<?= @$escape($person->department); ?>
 			</a>
 		</td>

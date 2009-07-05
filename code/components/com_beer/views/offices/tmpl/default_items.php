@@ -8,7 +8,7 @@
 			<?= $i + 1; ?>
 		</td>
 		<td>
-			<a href="<?=@route('option=com_beer&view=office&id='.$office->id) ?>" />
+			<a href="<?=@route('option=com_beer&view=office&id='.$office->slug) ?>" />
 				<?= @$escape($office->title); ?>
 			</a>
 		</td>
