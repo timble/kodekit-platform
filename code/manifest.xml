@@ -31,7 +31,9 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			
 			<folder>koowa</folder>
+			<folder>search</folder>
 		</files>
 	</administration>
 	
