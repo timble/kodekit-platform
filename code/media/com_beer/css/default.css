@@ -31,6 +31,20 @@
 	margin-left:10px;	
 }
 
+.mobile {
+	background-image: url(../images/icons/mobile.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
+.offices {
+	background-image: url(../images/icons/people.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
 .map {
 	background-image: url(../images/icons/map.png);
 	background-repeat: no-repeat;
