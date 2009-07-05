@@ -21,7 +21,7 @@ class BeerViewOffice extends KViewHtml
 		// Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.office')
 			->append('save')
-			//->append('apply')
+			->append('apply')
     		->append('cancel');
 
 		// Display the layout
