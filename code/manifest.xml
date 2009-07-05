@@ -13,6 +13,7 @@
 	<!-- Application/site -->
 	<files folder="components/com_beer">
 		<file>beer.php</file>
+		<file>router.php</file>
 		<folder>views</folder>
 	</files>
 	

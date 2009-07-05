@@ -38,4 +38,5 @@ Features
  * Gravatar support
  * VCard support
  * Plugin support
+ * Search engine friendly URL's
  * ...
