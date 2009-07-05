@@ -23,12 +23,17 @@ class KViewDefault extends KViewHtml
 		$suffix = $this->getClassName('suffix');
 		$app = KFactory::get('lib.joomla.application')->getName();
 
-		$model = KFactory::get($app.'::com.'.$prefix.'.model.'.KInflector::pluralize($suffix));
-		if(KInflector::isPlural($suffix)) {
+
+		if(KInflector::isPlural($suffix))
+		{
+			$model = KFactory::get($app.'::com.'.$prefix.'.model.'.$suffix);
 			$this->assign($suffix, 		$model->getList());
 			$this->assign('filter',  	$model->getFilters());
 			$this->assign('pagination', $model->getPagination());
-		} else {
+		}
+		else
+		{
+			$model = KFactory::get($app.'::com.'.$prefix.'.model.'.KInflector::pluralize($suffix));
 			$this->assign($suffix, $model->getItem());
 		}
 
