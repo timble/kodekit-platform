@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
 	<name>beer</name>
-	<author>B.E.E.R Team</author>
+	<author>BEER Team</author>
 	<creationDate>July 2009</creationDate>
-	<copyright>(C) 2009 B.E.E.R Team. All rights reserved.</copyright>
+	<copyright>(C) 2009 BEER Team. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
@@ -29,6 +29,7 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>koowa</folder>
 		</files>
 	</administration>
 	
@@ -54,21 +55,4 @@
 
 	<installfile>install/install.php</installfile>
 	<uninstallfile>install/uninstall.php</uninstallfile>
-
-
-	<!-- Plugins -->
-	<koowa_plugin>
-		<files folder="plugins/system">
-			<file plugin="koowa">koowa.php</file>
-			<file>koowa.xml</file>
-			<folder>koowa</folder>
-		</files>
-	</koowa_plugin>
-	
-	<koowa_media>
-		<files destination="plg_koowa" folder="media/plg_koowa">
-			<folder>js</folder>
-		</files>
-	</koowa_media>
-
 </install>
