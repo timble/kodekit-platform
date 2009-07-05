@@ -37,7 +37,7 @@
 				<label for="city" id="mainlabel"><?= @text('City'); ?></label><input id="city" type="text" name="city" value="<?= @$office->city; ?>" /><br />
 				<label for="state" id="mainlabel"><?= @text('State'); ?></label><input id="state" type="text" name="state" value="<?= @$office->state; ?>" /><br />
 				<label for="postcode" id="mainlabel"><?= @text('Postcode'); ?></label><input id="postcode" type="text" name="postcode" value="<?= @$office->postcode; ?>" /><br />
-				<label for="country" id="mainlabel"><?= @text('Country'); ?></label><input id="country" type="text" name="country" value="<?= @$office->country; ?>" /><br />
+				<label for="country" id="mainlabel"><?= @text('Country'); ?></label><?=@helper('admin::com.beer.helper.iso.country', 'country', @$office->country, 'country', '', '', true) ?><br />
 				<label for="phone" id="mainlabel"><?= @text('Phone'); ?></label><input id="phone" type="text" name="phone" value="<?= @$office->phone; ?>" /><br />
 				<label for="fax" id="mainlabel"><?= @text('Fax'); ?></label><input id="fax" type="text" name="fax" value="<?= @$office->fax; ?>" /><br />
 		</fieldset>

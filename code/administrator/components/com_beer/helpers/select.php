@@ -28,7 +28,7 @@ class BeerHelperSelect extends KObject
 		$options = array();
 		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select Gender' ) .' -');
 		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Male' ));
-		$options[] = KTemplate::loadHelper('select.option',  -1, JText::_( 'Female'));
+		$options[] = KTemplate::loadHelper('select.option',  2, JText::_( 'Female'));
 
 		return KTemplate::loadHelper('select.genericlist', $options, 'gender', 'class="inputbox" size="1"', 'value', 'text', $gender );
 	}
