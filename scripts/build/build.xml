@@ -24,6 +24,7 @@
 				<include name="administrator/components/com_beer/**" />
 				<include name="components/com_beer/**" />
 				<include name="media/com_beer/**" />
+				<include name="media/plg_koowa/**" />
 				<include name="plugins/system/koowa/**" />
 				<include name="plugins/system/koowa.php" />
 				<include name="plugins/system/koowa.xml" />

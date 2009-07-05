@@ -114,6 +114,62 @@ if ($id) {
 $status->set('koowa_plugin', true);
 
 
+/***********************************************************************************************
+ * ---------------------------------------------------------------------------------------------
+ * KOOWA MEDIA PLUGIN
+ * ---------------------------------------------------------------------------------------------
+ * **********************************************************************************************/
+
+// Set the installation path
+$element =& $this->manifest->getElementByPath('koowa_media/files');
+if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+	$files =& $element->children();
+	foreach ($files as $file) {
+		if ($file->attributes('plugin')) {
+			$pname = $file->attributes('plugin');
+			break;
+		}
+	}
+}
+$group = 'system';
+if (!empty ($pname) && !empty($group)) {
+	$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group);
+} else {
+	$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
+	return false;
+}
+
+/**
+ * ---------------------------------------------------------------------------------------------
+ * Filesystem Processing Section
+ * ---------------------------------------------------------------------------------------------
+ */
+
+// If the plugin directory does not exist, lets create it
+$created = false;
+if (!file_exists($this->parent->getPath('extension_root'))) {
+	if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
+		$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+		return false;
+	}
+}
+
+/*
+ * If we created the plugin directory and will want to remove it if we
+ * have to roll back the installation, lets add it to the installation
+ * step stack
+ */
+if ($created) {
+	$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
+}
+
+// Copy all necessary files
+if ($this->parent->parseFiles($element, -1) === false) {
+	// Install failed, roll back changes
+	$this->parent->abort();
+	return false;
+}
+
 
 /***********************************************************************************************
  * ---------------------------------------------------------------------------------------------

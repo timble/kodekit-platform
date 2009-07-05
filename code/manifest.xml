@@ -61,7 +61,14 @@
 		<files folder="plugins/system">
 			<file plugin="koowa">koowa.php</file>
 			<file>koowa.xml</file>
+			<folder>koowa</folder>
 		</files>
 	</koowa_plugin>
+	
+	<koowa_media>
+		<files folder="media/plg_koowa">
+			<folder>js</folder>
+		</files>
+	</koowa_media>
 
 </install>
