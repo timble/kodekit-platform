@@ -5,7 +5,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onSearch', 'plgSearchProfiles' );
 $mainframe->registerEvent( 'onSearchAreas', 'plgSearchProfilesAreas' );
 
-JPlugin::loadLanguage( 'plg_search_contacts' );
+JPlugin::loadLanguage( 'plg_search_beer' );
 
 /**
  * @return array An array of search areas
@@ -66,29 +66,14 @@ function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 		default:
 			$order = 'name ASC';
 	}
-
+	
+	
 	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-	$query	= 'SELECT name AS title, bio AS text, slug AS slug,'
-	. ' CONCAT_WS( "/", office, department ) AS section'
-	. ' FROM #__beer_viewpeople'
-	. ' WHERE ( name LIKE '.$text
-	. ' OR position LIKE '.$text
-	. ' OR bio LIKE '.$text
-	. ' OR mobile LIKE '.$text
-	. ' OR email LIKE '.$text
-	. ' OR department LIKE '.$text
-	. ' OR phone LIKE '.$text
-	. ' OR office LIKE '.$text
-	. ' OR address LIKE '.$text.' )'
-	. ' AND enabled = 1'
-	. ' ORDER BY '. $order
-	;
-	$db->setQuery( $query, 0, $limit );
-	$rows = $db->loadObjectList();
+	$list = KFactory::get('admin::com.beer.model.people')
+		->setState('firstname', $text)
+		->getList();
 
-	foreach($rows as $key => $row) {
-		$rows[$key]->href = 'index.php?option=com_beer&view=person&id='.$row->slug;
-	}
+	//var_dump($list); die;
 
-	return $rows;
+	return $list;
 }
