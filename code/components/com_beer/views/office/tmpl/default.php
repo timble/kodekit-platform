@@ -17,8 +17,9 @@
 	<h2><?= @text('Information'); ?></h2>
 	<?= @$office->description; ?>
 </div>
-<div id="map_canvas" rel="50.9873946, 5.0474845" style="width: 500px; height: 300px"></div>
-
+<?
+ /*<div id="map_canvas" rel="<?= @$office->coordinates; ?>" style="width: 500px; height: 300px"></div> */
+?>
 
 
 

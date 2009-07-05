@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__beer_offices` (
   `country` varchar(2) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `fax` varchar(20) NOT NULL,
+  `coordinates` varchar(250) NOT NULL,
   `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL default 0,
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
