@@ -1,3 +1,4 @@
+<? /** $Id$ */ ?>
 <? defined('_JEXEC') or die('Restricted access'); ?>
 
 <? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
