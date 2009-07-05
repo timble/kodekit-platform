@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
-<?php JHTML::_('behavior.mootools'); ?>
+<? @helper('behavior.mootools'); ?>
 <? @script('http://maps.google.com/maps/api/js?sensor=false'); ?>
 <? @script(@$mediaurl.'/com_beer/js/site.office.js'); ?>
 
@@ -12,7 +12,7 @@
 	<span class="fax"><?= @$office->fax; ?></span>
 	<span class="people"><a href="<?=@route('option=com_beer&view=people&beer_office_id='.@$office->id) ?>"><?= @$office->people; ?> <?=@text('Employee(s)')?></a></span>
 	<span class="map"><a href="#" onclick="showAddress(<?= @$office->address1 . ' ' . @$office->address2 . ', ' . @$office->city . ', ' . @$office->state . ', ' . @$office->postcode . ', ' . @$office->country; ?>); return false"><?= @text('Map'); ?></a></span>
-	</div>
+</div>
 <div id="beer_desc">
 	<h2><?= @text('Information'); ?></h2>
 	<?= @$office->description; ?>
