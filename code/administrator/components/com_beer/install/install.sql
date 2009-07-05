@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `gender` tinyint(3) NOT NULL,
   `mobile` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
+  `bio` text NOT NULL,
   `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created_by` bigint(20) UNSIGNED NOT NULL default 0,
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',

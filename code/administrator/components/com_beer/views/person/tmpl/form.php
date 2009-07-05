@@ -3,6 +3,7 @@
 
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
+<? $editor =& KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -36,6 +37,10 @@
 				<label for="email" id="mainlabel"><?= @text('Email'); ?></label><input id="email" type="text" name="email" value="<?= @$person->email; ?>" /><br />
 				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?><br />
 		</fieldset>
+		<fieldset>
+			<legend><?= @text('Bio'); ?></legend>
+			<?= $editor->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
+		</fieldset>		
 	</div>
 	<input type="hidden" name="id" value="<?= @$person->id ?>" />
 </form>
