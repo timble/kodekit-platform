@@ -28,8 +28,12 @@ Team
  * Shayne Bartlett
  * Mathias Verraes
    http://nooku.org/
+
+Also thanks to
  * Thomas Kahl
    http://vm-expert.com/
+ * Robert Deutz
+   http://www.rdbs.de/
 
 Features
 --------
@@ -41,4 +45,5 @@ Features
  * Search engine friendly URL's
  * Single installer
  * Search plugin
+ * Google Maps support (broken at the time of writing)
  * ...
