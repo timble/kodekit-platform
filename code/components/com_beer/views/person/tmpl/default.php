@@ -13,7 +13,7 @@
 </div>
 <div id="beer_info">
 	<span class="mobile"><?= @$person->mobile?></spam>
-	<span class="email"><?= JHTML::_('email.cloak',@$person->email)?></span>
+	<span class="email"><?= @$person->email ? JHTML::_('email.cloak',@$person->email) : ''?></span>
 	<span class="dob"><?= @$person->birthday?></span>
 	<span class="gender_<?= @$person->gender?>"><?= @$person->gender == "1" ? @text('Male') : @text('Female'); ?></span>
 	<span class="vcard"><a href="<?=@route('option=com_beer&view=person&format=vcard&id='.@$person->slug) ?>" /><?= @text('VCard'); ?></a></span>

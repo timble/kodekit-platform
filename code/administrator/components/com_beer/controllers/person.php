@@ -30,7 +30,13 @@ class BeerControllerPerson extends BeerControllerAbstract
 		if(empty($alias)) {
 			$alias = KRequest::get('post.firstname', 'ascii').'_'.KRequest::get('post.lastname', 'ascii');
 		}
-
 		KRequest::set('post.alias', $alias);
+
+		// @todo proper email validation
+		$filter = KFactory::tmp('lib.koowa.filter.email');
+		if(!$filter->validate(KRequest::get('post.email', $filter))) {
+			KRequest::set('post.email', '');
+			JError::raiseNotice(0, 'Not a valid email address');
+		}
 	}
 }
