@@ -1,5 +1,5 @@
 <? /** $Id$ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>

@@ -1,5 +1,5 @@
 <? /** $Id$ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 
 <? $i = 0; $m = 0; ?>
 <? foreach (@$departments as $department) : ?>

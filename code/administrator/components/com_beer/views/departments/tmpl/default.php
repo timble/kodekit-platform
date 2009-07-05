@@ -1,5 +1,5 @@
 <? /** $Id$ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 
 <? @style(@$mediaurl.'/com_beer/css/grid.css') ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>

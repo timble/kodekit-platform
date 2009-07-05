@@ -1,4 +1,5 @@
 <? /** $Id$ */ ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
