@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
+  `alias` varchar(255) NOT NULL,
   `position` varchar(45) NOT NULL,
   `birthday` date NOT NULL default '0000-00-00',
   `gender` tinyint(3) NOT NULL,
@@ -66,7 +67,10 @@ SELECT p.*,
 	IF(o.enabled < 1, CONCAT('[', o.title, ']'), o.title) AS office,
 	o.enabled AS office_enabled,
 	CONCAT_WS('\n', o.address1, o.address2, CONCAT_WS(' ', o.city, o.state, o.postcode), o.country) AS address,
-	o.phone
+	o.phone,
+	CONCAT(p.beer_person_id, ':', p.alias) AS slug,
+	CONCAT(d.beer_department_id, ':', d.alias) AS department_slug,
+	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug
 FROM #__beer_people AS p
 LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
 LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id;
@@ -74,7 +78,8 @@ LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id;
 
 CREATE OR REPLACE VIEW #__beer_viewdepartments AS 
 SELECT d.*, 
-	COUNT( DISTINCT p.beer_person_id ) AS people
+	COUNT( DISTINCT p.beer_person_id ) AS people,
+	CONCAT(d.beer_department_id, ':', d.alias) AS slug
 FROM #__beer_departments AS d
 LEFT JOIN #__beer_people AS p ON p.beer_department_id = d.beer_department_id AND p.enabled > 0
 GROUP BY d.beer_department_id;
@@ -83,7 +88,8 @@ GROUP BY d.beer_department_id;
 CREATE OR REPLACE VIEW #__beer_viewoffices AS 
 SELECT o.*, 
 	COUNT( DISTINCT p.beer_person_id ) AS people,
-	CONCAT_WS('\n', address1, address2, CONCAT_WS(' ', city, state, postcode), country) AS address
+	CONCAT_WS('\n', address1, address2, CONCAT_WS(' ', city, state, postcode), country) AS address,
+	CONCAT(o.beer_office_id, ':', o.alias) AS slug
 FROM #__beer_offices AS o
 LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
 GROUP BY o.beer_office_id;
