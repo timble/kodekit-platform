@@ -1,6 +1,5 @@
 window.addEvent('domready', function() {
-	
-	var myLatlng = new google.maps.LatLng(document.getElementById("map_canvas").rel);
+	var myLatlng = new google.maps.LatLng($("map_canvas").getAttribute('rel'));
 	var myOptions = {
 		zoom: 8,
 		center: myLatlng,
