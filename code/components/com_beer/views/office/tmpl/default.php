@@ -2,8 +2,6 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 <? @helper('behavior.mootools'); ?>
-<? @script('http://maps.google.com/maps/api/js?sensor=false'); ?>
-<? @script(@$mediaurl.'/com_beer/js/site.office.js'); ?>
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
 <div id="beer_info">
@@ -17,9 +15,6 @@
 	<h2><?= @text('Information'); ?></h2>
 	<?= @$office->description; ?>
 </div>
-<?
- /*<div id="map_canvas" rel="<?= @$office->coordinates; ?>" style="width: 500px; height: 300px"></div> */
-?>
 
 
 

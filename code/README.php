@@ -45,5 +45,4 @@ Features
  * Search engine friendly URL's
  * Single installer
  * Search plugin
- * Google Maps support (broken at the time of writing)
  * ...

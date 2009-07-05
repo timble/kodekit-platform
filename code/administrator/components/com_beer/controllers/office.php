@@ -29,35 +29,11 @@ class BeerControllerOffice extends BeerControllerAbstract
 		$alias 			= KRequest::get('post.alias', 'ascii');
 		$title 			= KRequest::get('post.title', 'string');
 		$description	= KRequest::get('post.description', 'raw' );
-		
-
-			// Set query
-			$address 	= KRequest::get('post.address1', 'string');
-			$address 	= str_replace(" ", "+", $address);
-			$city 		= KRequest::get('post.city', 'string');
-			$postcode	= KRequest::get('post.postcode', 'string');
-
-			$query = $address.'+'.$city;
-
-			// Desired address
-			$geocoding = "http://maps.google.com/maps/geo?q=" . $query . "&output=xml&oe=utf8&sensor=true";
-
-			// Retrieve the URL contents
-			$answer = file_get_contents($geocoding);
-
-			// Parse the returned XML file
-			$xml = new SimpleXMLElement($answer);
-
-			// Parse the coordinate string
-			list($longitude, $latitude, $altitude) = explode(",",$xml->Response->Placemark->Point->coordinates);
-
-			$coordinates = $latitude . ',' . $longitude;
 
 		if(empty($alias)) {
 			$alias = KRequest::get('post.title', 'ascii');
 		}
 
-		KRequest::set('post.coordinates', $coordinates);
 		KRequest::set('post.alias', $alias);
 		KRequest::set('post.description', $description);
 	}
