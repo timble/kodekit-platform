@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
 CREATE OR REPLACE VIEW #__beer_viewpeople AS 
 SELECT p.*, 
 	CONCAT_WS(' ', p.`firstname`, p.`middlename`, p.`lastname`) AS name,
-	CONCAT_WS(' / ', o.title, d.title ) AS section,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
 	d.enabled AS department_enabled, 
 	IF(o.enabled < 1, CONCAT('[', o.title, ']'), o.title) AS office,
