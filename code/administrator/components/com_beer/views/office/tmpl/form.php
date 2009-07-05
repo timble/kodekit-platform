@@ -7,21 +7,23 @@
 <? $editor = KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
 <script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-
+	function checksubmit(form) {
+		var submitOK=true;
+		var checkaction=form.action.value;
 		// do field validation
-		if (form.title.value == ""){
-			alert( "<?= @text('Office must have a title', true ); ?>" );
-		} else {
-			submitform( pressbutton );
+		if (checkaction=='cancel') {
+			return true;
 		}
+		if (form.title.value == ""){
+			alert( "<?php echo JText::_( 'Office must have a title', true ); ?>" );
+			submitOK=false;
+			// remove the action field to allow another submit
+			form.action.remove();
+		}
+		return submitOK;
 	}
-</script>
+</script>---
+
 <form action="<?= @route('&id='. @$office->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>

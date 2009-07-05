@@ -6,21 +6,23 @@
 <? $editor =& KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
 <script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-
+	function checksubmit(form) {
+		var submitOK=true;
+		var checkaction=form.action.value;
 		// do field validation
+		if (checkaction=='cancel') {
+			return true;
+		}
 		if (form.firstname.value == ""){
 			alert( "<?php echo JText::_( 'Profile must have a firstname', true ); ?>" );
-		} else {
-			submitform( pressbutton );
+			submitOK=false;
+			// remove the action field to allow another submit
+			form.action.remove();
 		}
+		return submitOK;
 	}
-</script>
+</script>---
+
 <form action="<?= @route('&id='. @$person->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left"  id="mainform">
 		<fieldset>
@@ -40,7 +42,7 @@
 		<fieldset>
 			<legend><?= @text('Bio'); ?></legend>
 			<?= $editor->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
-		</fieldset>		
+		</fieldset>
 	</div>
 	<input type="hidden" name="id" value="<?= @$person->id ?>" />
 </form>
