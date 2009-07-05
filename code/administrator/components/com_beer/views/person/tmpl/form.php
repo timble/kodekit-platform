@@ -31,7 +31,7 @@
 				<label for="departmen" id="mainlabel"><?= @text('Department'); ?></label><?=@helper('admin::com.beer.helper.select.departments', @$person->beer_department_id, 'beer_department_id', '', '', true) ?><br />
 				<label for="position" id="mainlabel"><?= @text('Position'); ?></label><input id="position" type="text" name="position" value="<?= @$person->position; ?>" /><br />
 				<label for="birthday" id="mainlabel"><?= @text('Birthday'); ?></label><input id="birthday" type="text" name="birthday" value="<?= @$person->birthday; ?>" /><br />
-				<label for="gender" id="mainlabel"><?= @text('Gender'); ?></label><input id="gender" type="text" name="gender" value="<?= @$person->gender; ?>" /><br />
+				<label for="gender" id="mainlabel"><?= @text('Gender'); ?></label><?=@helper('admin::com.beer.helper.select.gender', @$person->gender, 'gender', '', '', true) ?><br />
 				<label for="mobile" id="mainlabel"><?= @text('Mobile'); ?></label><input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" /><br />
 				<label for="email" id="mainlabel"><?= @text('Email'); ?></label><input id="email" type="text" name="email" value="<?= @$person->email; ?>" /><br />
 				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?><br />

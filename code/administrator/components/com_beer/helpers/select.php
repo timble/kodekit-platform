@@ -23,6 +23,16 @@ class BeerHelperSelect extends KObject
 		return KTemplate::loadHelper('select.genericlist', $options, 'enabled', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $enabled );
 	}
 
+	public static function gender($gender=0)
+	{
+		$options = array();
+		$options[] = KTemplate::loadHelper('select.option',  0, '- '.JText::_( 'Select Gender' ) .' -');
+		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Male' ));
+		$options[] = KTemplate::loadHelper('select.option',  -1, JText::_( 'Female'));
+
+		return KTemplate::loadHelper('select.genericlist', $options, 'gender', 'class="inputbox" size="1"', 'value', 'text', $gender );
+	}
+
 	public static function offices($selected, $name = 'beer_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
  	{
 		$items = KFactory::get('admin::com.beer.model.offices')->getAll();
