@@ -3,7 +3,7 @@
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
 <div id="beer_info">
-	<img src="<?= @$mediaurl;?>/com_beer/images/flags/<?= strtolower(@$office->country);?>.png" alt="<?= @$office->country;?> flag"/><?= @$office->adrdress1 . ' ' . @$office->adrdress2 . ' ' . @$office->city . ' ' . @$office->state . ' ' . @$office->p; ?>
+	<img src="<?= @$mediaurl;?>/com_beer/images/flags/<?= strtolower(@$office->country);?>.png" alt="<?= @$office->country;?> flag"/><?= nl2br(@$office->address)?>
 	<span class="phone"><?= @$office->phone; ?></spam>
 	<span class="fax"><?= @$office->fax; ?></span>
 	<span class="people"><?= @$office->people; ?></span>

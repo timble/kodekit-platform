@@ -13,8 +13,8 @@ class BeerModelPeople extends KModelTable
 
 	public function __construct(array $options = array())
 	{
-		$options['table'] = 'admin::com.beer.table.viewpeople';
 		parent::__construct($options);
+		$this->setTable('admin::com.beer.table.viewpeople');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)

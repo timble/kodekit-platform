@@ -64,7 +64,9 @@ SELECT p.*,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
 	d.enabled AS department_enabled, 
 	IF(o.enabled < 1, CONCAT('[', o.title, ']'), o.title) AS office,
-	o.enabled AS office_enabled
+	o.enabled AS office_enabled,
+	CONCAT_WS('\n', o.address1, o.address2, CONCAT_WS(' ', o.city, o.state, o.postcode), o.country) AS address,
+	o.phone
 FROM #__beer_people AS p
 LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
 LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id;
