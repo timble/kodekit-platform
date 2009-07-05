@@ -1,13 +1,40 @@
+#beer_header {
+	padding-top:5px;
+	margin-bottom:10px;
+}
+
 #beer_info {
 	width:100%;
 	background:#f5f5f5;
 	border: solid 1px #dddddd;
 	padding:5px;
-	line-height:16px;
+	font-size:120%;
+	line-height:120%;
 }
 
 #beer_address img {
 
+}
+
+
+#beer_desc {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+#beer_position {
+	margin-top:-8px;
+	font-size:100%;
+}
+
+#gravatar {
+	float:right;
+	border:solid 5px #cccccc;
+	margin-right:10px;
+}
+
+.clr {
+	clear:both;
 }
 
 .phone {
@@ -38,6 +65,34 @@
 	margin-left:10px;	
 }
 
+.email {
+	background-image: url(../images/icons/email.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
+.gender_2 {
+	background-image: url(../images/icons/female.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
+.gender_1 {
+	background-image: url(../images/icons/male.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
+.vcard {
+	background-image: url(../images/icons/vcard.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;
+}
+
 .offices {
 	background-image: url(../images/icons/people.png);
 	background-repeat: no-repeat;
@@ -52,7 +107,3 @@
 	margin-left:10px;	
 }
 
-#beer_desc {
-	margin-top:10px;
-	margin-bottom:10px;
-}
