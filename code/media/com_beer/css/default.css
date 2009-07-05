@@ -17,11 +17,6 @@
 	line-height:120%;
 }
 
-#beer_address img {
-
-}
-
-
 #beer_desc {
 	margin-top:10px;
 	margin-bottom:10px;
@@ -98,8 +93,15 @@
 	margin-left:10px;
 }
 
-.offices {
-	background-image: url(../images/icons/people.png);
+.office {
+	background-image: url(../images/icons/office.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left:10px;	
+}
+
+.dob {
+	background-image: url(../images/icons/cake.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	margin-left:10px;	
