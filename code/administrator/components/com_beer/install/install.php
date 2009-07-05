@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-$admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'koowa'
+$admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'koowa';
 $plugins_path = 'plugins'.DS.'system';
 
 JFile::move($admin_path.DS.$plugins_path.DS.'koowa.xml',  $plugins_path.DS.'koowa.xml', JPATH_ROOT);
