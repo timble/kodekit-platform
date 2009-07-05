@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 
-<h1><?= @$department->title; ?></h1>
+<h1 class="componentheading"><?= @$department->title; ?></h1>
 <div id="beer_info">
 	<span class="people"><?= @$department->people; ?></span>
 </div>

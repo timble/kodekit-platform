@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 
-<h1><?= @$office->title; ?></h1>
+<h1 class="componentheading"><?= @$office->title; ?></h1>
 <div id="beer_info">
 	<img src="<?= @$mediaurl;?>/com_beer/images/flags/<?= strtolower(@$office->country);?>.png" alt="<?= @$office->country;?> flag"/><?= @$office->adrdress1 . ' ' . @$office->adrdress2 . ' ' . @$office->city . ' ' . @$office->state . ' ' . @$office->p; ?>
 	<span class="phone"><?= @$office->phone; ?></spam>
