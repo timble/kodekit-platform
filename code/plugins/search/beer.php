@@ -13,7 +13,7 @@ JPlugin::loadLanguage( 'plg_search_beer' );
 function &plgSearchProfilesAreas()
 {
 	static $areas = array(
-		'profiles' => 'Profiles'
+		'people' => 'People'
 	);
 	return $areas;
 }
@@ -29,9 +29,6 @@ function &plgSearchProfilesAreas()
 */
 function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 {
-	$db		=& JFactory::getDBO();
-	$user	=& JFactory::getUser();
-
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchProfilesAreas() ) )) {
 			return array();
@@ -39,17 +36,12 @@ function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'beer');
- 	$pluginParams = new JParameter( $plugin->params );
-
+ 	$pluginParams = new JParameter( JPluginHelper::getPlugin('search', 'beer')->params );
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
-	$text = trim( $text );
-	if ($text == '') {
+	if(($text = trim($text)) == '') {
 		return array();
 	}
-
-	$section = JText::_( 'Profiles' );
 
 	switch ( $ordering ) {
 		case 'alpha':
@@ -66,14 +58,26 @@ function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 		default:
 			$order = 'name ASC';
 	}
-	
-	
-	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+
+
+	//$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 	$list = KFactory::get('admin::com.beer.model.people')
-		->setState('firstname', $text)
+		->setState('search', $text)
+		->setState('enabled', 1)
+		//->setState('order', $order) //TODO
 		->getList();
 
-	//var_dump($list); die;
-
-	return $list;
+	// Bit hackish. Don't blame me, com_search is a piece of M**bo crap
+	$results = array();
+	foreach($list as $k => $item)
+	{
+		$results[$k] = new stdClass;
+		$results[$k]->href 		= 'index.php?option=com_beer&view=person&id='.$item->slug;
+		$results[$k]->title	 	= $item->name;
+		$results[$k]->created 	= $item->created;
+		$results[$k]->section 	= JText::_('Office').': '.$item->office.', '.JText::_('Department').': '.$item->department;
+		$results[$k]->text 		= $item->bio;
+		$results[$k]->browsernav = 0;
+	}
+	return $results;
 }
