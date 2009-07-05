@@ -95,12 +95,11 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$result = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
+		$result 	= KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 
-		$view 	= $this->getClassName('suffix');
-		$format = KRequest::get('get.format', 'cmd', 'html');
-
-		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
+		$view 		= $this->getClassName('suffix');
+		$format 	= KRequest::get('get.format', 'cmd', 'html');
+		$redirect 	= 'view='.$view.'&layout=form&id='.$result->id.'&format='.$format;
 		$this->setRedirect($redirect);
 
 		return $result;
