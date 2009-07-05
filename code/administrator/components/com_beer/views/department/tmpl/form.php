@@ -34,7 +34,6 @@
 			<legend><?= @text('Description'); ?></legend>
 			<?= $editor->display( 'description',  @$department->description , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
-
 	</div>
 	<input type="hidden" name="id" value="<?= @$department->id ?>" />
 </form>
