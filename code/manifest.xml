@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-	<name>BEER</name>
+	<name>beer</name>
 	<author>B.E.E.R Team</author>
 	<creationDate>July 2009</creationDate>
 	<copyright>(C) 2009 B.E.E.R Team. All rights reserved.</copyright>
@@ -18,7 +18,7 @@
 	
 	<!-- Application/administrator -->
 	<administration>
-		<menu>B.E.E.R</menu>
+		<menu>Beer</menu>
 
 		<files folder="administrator/components/com_beer">
 			<file>beer.php</file>
@@ -66,7 +66,7 @@
 	</koowa_plugin>
 	
 	<koowa_media>
-		<files folder="media/plg_koowa">
+		<files destination="plg_koowa" folder="media/plg_koowa">
 			<folder>js</folder>
 		</files>
 	</koowa_media>
