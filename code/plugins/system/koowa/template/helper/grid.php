@@ -58,7 +58,7 @@ class KTemplateHelperGrid extends KObject
 		$html = '<a href="javascript:Koowa.Table.sorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= KTemplate::loadHelper('image.template',  $images[$index], '/images/', NULL, NULL);
+			$html .= KTemplate::loadHelper('image.template',  $images[$index], 'images/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
