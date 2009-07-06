@@ -103,9 +103,9 @@ $status->set('search_plugin', true);
 		<tr class="row1">
 			<td class="key"><?php echo JText::_('MySQL Version'); ?></td>
 			<td>
-				<?php echo version_compare($db->getVersion(), '5.0.45', '>=')
+				<?php echo version_compare($db->getVersion(), '5.0', '>=')
 				? '<strong>'.JText::_('OK').'</strong> - '.$db->getVersion()
-				: '<em>'.JText::_('You need at least MySQL v5.0.45 to use B.E.E.R. You are using: ').$db->getVersion().'</em>'; ?>
+				: '<em>'.JText::_('You need at least MySQL v5.0 to use B.E.E.R. You are using: ').$db->getVersion().'</em>'; ?>
 			</td>
 		</tr>
 	</tbody>
