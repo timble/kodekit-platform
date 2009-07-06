@@ -10,7 +10,7 @@
 		<mkdir dir="${dir.packages}" />
 		<mkdir dir="${dir.tmp}" />
 		<phingcall target="export_from_${dir.source}" />
-
+		<delete><fileset dir="${dir.packages}/" ><include name="${file.package}${svn.lastrevision}${file.extension}" /></fileset></delete>
 		<tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
 		<delete dir="${dir.tmp}" includeemptydirs="true" />
 	</target>
