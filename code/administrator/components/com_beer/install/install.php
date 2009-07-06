@@ -1,4 +1,13 @@
 <?php
+/**
+ * Business Enterprise Employee Repository (B.E.E.R)
+ * Developed for Brian Teeman's Developer Showdown, using Nooku Framework
+ * @version		$Id$
+ * @package		Beer
+ * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
+ * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     	http://www.nooku.org
+ */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -7,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+// move the Nooku Framework plugin to it's location
 $admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'koowa';
 $plugins_path = 'plugins'.DS.'system';
 JFile::move($admin_path.DS.$plugins_path.DS.'koowa.xml',  $plugins_path.DS.'koowa.xml', JPATH_ROOT);
@@ -14,6 +24,7 @@ JFile::move($admin_path.DS.$plugins_path.DS.'koowa.php',  $plugins_path.DS.'koow
 JFolder::move($admin_path.DS.$plugins_path.DS.'koowa', $plugins_path.DS.'koowa', JPATH_ROOT);
 JFolder::move($admin_path.DS.'media'.DS.'plg_koowa', 'media'.DS.'plg_koowa', JPATH_ROOT);
 
+// Move the search plugin
 $admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'search';
 $plugins_path = 'plugins'.DS.'search';
 JFile::move($admin_path.DS.$plugins_path.DS.'beer.xml',  $plugins_path.DS.'beer.xml', JPATH_ROOT);
@@ -21,9 +32,7 @@ JFile::move($admin_path.DS.$plugins_path.DS.'beer.php',  $plugins_path.DS.'beer.
 
 $status = new JObject();
 
-/**
- * Database Processing Section
- */
+// Insert in database
 $row = JTable::getInstance('plugin');
 $row->name = 'Nooku Framework (Codename Koowa) NOT FOR PRODUCTION USE';
 $row->ordering = 1;
@@ -58,9 +67,7 @@ if (!$row->store()) {
 }
 $status->set('search_plugin', true);
 
-/**
- * OUTPUT TO SCREEN
- */
+// Output status
 ?>
 <h1>Business Enterprise Employee Repository (B.E.E.R.)</h1>
 <script>$$('table.adminform')[0].getElementsByTagName('tr')[0].setStyle('display', 'none');</script>
