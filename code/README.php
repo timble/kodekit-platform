@@ -23,17 +23,16 @@ Requirements
 
 Team
 ----
+Code
  * Tom Janssens
-   http://www.janss.be
  * Shayne Bartlett
  * Mathias Verraes
-   http://nooku.org/
 
-Also thanks to
+Ideas, testing, advice...
  * Thomas Kahl
-   http://vm-expert.com/
  * Robert Deutz
-   http://www.rdbs.de/
+ * Ronald Pijpers
+ * Inge van Bremen-Valstar
 
 Features
 --------
