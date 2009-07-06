@@ -3,6 +3,7 @@
 
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
+<? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
 <? $editor =& KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
