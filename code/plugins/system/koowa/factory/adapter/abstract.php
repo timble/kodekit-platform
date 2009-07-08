@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -20,13 +20,13 @@ abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapte
 {
 	/**
 	 * Generic Command handler
-	 * 
+	 *
 	 * @param string  The command name
 	 * @param mixed   The command arguments
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	final public function execute($name, $args) 
-	{	
+	final public function execute($name, $args)
+	{
 		$result = $this->instantiate($name, $args);
 		return $result;
 	}

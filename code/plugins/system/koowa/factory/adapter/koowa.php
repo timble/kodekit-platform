@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -29,30 +29,27 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	public function instantiate($identifier, array $options)
 	{
 		$instance = false;
-		
-		$parts = explode('.', $identifier);
-		if($parts[0] == 'lib' && $parts[1] == 'koowa') 
+
+		// we accept either a string or an identifier object.
+		if(!($identifier instanceof KFactoryIdentifierInterface)) {
+			$identifier = new KFactoryIdentifierKoowa($identifier);
+		}
+
+		if($identifier->extension == 'lib' && $identifier->library == 'koowa')
 		{
-			unset($parts[0]);
-			unset($parts[1]);
-		
-			$classname = 'K'.KInflector::implode($parts);
-		
+			$classname = $identifier->getClassName();
+
 			if (!class_exists($classname))
 			{
-				$suffix = array_pop($parts);
-				$options['name'] = array(
-               		'prefix'    => 'k',
-					'base'      => KInflector::implode($parts),
-					'suffix'    => $suffix                       
-               	);
-                        
-				$classname = 'K'.KInflector::implode($parts).'Default';
+				// use default class instead
+				$classname = $identifier->getDefaultClass();
 				if (!class_exists($classname)) {
 					throw new KFactoryAdapterException("Could't create instance for $identifier");
 				}
 			}
-			
+
+			$options['identifier'] = $identifier;
+
 			// If the class has a factory method call it
 			if(is_callable(array($classname, 'factory'), false, $function)) {
 				$instance = call_user_func($function, $options);
@@ -60,7 +57,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 				$instance = new $classname($options);
 			}
 		}
-		
+
 		return $instance;
 	}
 }

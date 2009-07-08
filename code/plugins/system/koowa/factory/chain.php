@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:proxy.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage	Chain
@@ -13,7 +13,7 @@
  * Factory Command Chain
  *
  * The factory chain overrides the run method to be able to halt the chain
- * when a command return a value. If the command returns false the chain 
+ * when a command return a value. If the command returns false the chain
  * will keep running.
  *
  * @author		Johan Janssens <johan@koowa.org>
@@ -24,9 +24,9 @@ class KFactoryChain extends KPatternCommandChain
 {
   	/**
 	 * Run the commands in the chain
-	 * 
+	 *
 	 * If a command returns not false the exection is halted
-	 * 
+	 *
 	 * @param string  The command name
 	 * @param mixed   The command arguments
 	 * @return object|false  Return object on success, returns FALSE on failure
@@ -35,10 +35,10 @@ class KFactoryChain extends KPatternCommandChain
   	{
   		$iterator = $this->_priority->getIterator();
 
-		while($iterator->valid()) 
+		while($iterator->valid())
 		{
     		$cmd = $this->_command[ $iterator->key()];
-   
+
 			$result = $cmd->execute( $name, $args );
     		if ($result !== false) {
       			return $result; //halt execution and return result
@@ -46,7 +46,7 @@ class KFactoryChain extends KPatternCommandChain
 
     		$iterator->next();
 		}
-		
+
 		return false;
   	}
 }

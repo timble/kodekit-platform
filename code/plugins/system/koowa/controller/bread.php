@@ -59,13 +59,12 @@ class KControllerBread extends KControllerAbstract
 		$id	 = KRequest::get('get.id', 'int');
 
 		// Get the table object
-		$component 	= $this->getClassName('prefix');
-		$suffix    	= $this->getClassName('suffix');
-		$table		= KInflector::pluralize($suffix);
+		$app   		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$app   		= KFactory::get('lib.joomla.application')->getName();
-		$table 		= KFactory::get($app.'::com.'.$component.'.table.'.$table);
-		$row 		= $table->fetchRow($id)
+		$row		= KFactory::get($app.'::com.'.$component.'.table.'.$name)
+					->fetchRow($id)
 					->setProperties($data)
 					->save();
 
@@ -83,14 +82,12 @@ class KControllerBread extends KControllerAbstract
 		$data = KRequest::get('post', 'string');
 
 		// Get the table object
-		$component = $this->getClassName('prefix');
-		$suffix    	= $this->getClassName('suffix');
-		$table		= KInflector::pluralize($suffix);
-		$view	   	= $suffix;
+		$app   		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$app   		= KFactory::get('lib.joomla.application')->getName();
-		$table 		= KFactory::get($app.'::com.'.$component.'.table.'.$table);
-		$row 		= $table->fetchRow()
+		$row 		= KFactory::get($app.'::com.'.$component.'.table.'.$name)
+					->fetchRow()
 					->setProperties($data)
 					->save();
 
@@ -100,18 +97,20 @@ class KControllerBread extends KControllerAbstract
 	/*
 	 * Generic delete function
 	 *
-	 * @return void
+	 * @return KDatabaseTableAbstract
 	 */
 	protected function _actionDelete()
 	{
 		$id = (array) KRequest::get('post.id', 'int');
 
 		// Get the table object
-		$component = $this->getClassName('prefix');
-		$table    	= KInflector::pluralize($this->getClassName('suffix'));
+		$app   		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$app   = KFactory::get('lib.joomla.application')->getName();
-		$table = KFactory::get($app.'::com.'.$component.'.table.'.$table)
+
+		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
 				->delete($id);
+		return $table;
 	}
 }

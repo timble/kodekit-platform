@@ -68,20 +68,16 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function __construct( array $options = array() )
 	{
+		$this->identifier = $options['identifier'];
+
         // Initialize the options
         $options  = $this->_initialize($options);
 
         // Mixin a command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 
-         // Mixin the classname helper
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Controller')));
-
         //Mixin a filter
         $this->mixin(new KMixinFilter(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
-
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
 	}
 
     /**
@@ -95,11 +91,6 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'name'          => array(
-                        'prefix'    => 'k',
-                        'base'      => 'controller',
-                        'suffix'    => 'default'
-                        ),
             'command_chain' =>  new KPatternCommandChain()
         );
 
@@ -202,9 +193,9 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function getView(array $options = array())
 	{
-		$application	= KFactory::get('lib.joomla.application')->getName();
-		$component 		= $this->getClassName('prefix');
-		$viewName		= KRequest::get('get.view', 'cmd', $this->getClassName('suffix'));
+		$application	= $this->identifier->application;
+		$component 		= $this->identifier->component;
+		$viewName		= KRequest::get('get.view', 'cmd', $this->identifier->name);
 
 		if ( !$view = KFactory::get($application.'::com.'.$component.'.view.'.$viewName, $options) )
 		{
@@ -258,7 +249,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		//Create the url if no full URL was passed
 		if(strrpos($url, '?') === false) {
-			$url = 'index.php?option=com_'.$this->getClassName('prefix').'&'.$url;
+			$url = 'index.php?option=com_'.$this->identifier->component.'&'.$url;
 		}
 
 		$this->_redirect    =  JRoute::_($url, false);

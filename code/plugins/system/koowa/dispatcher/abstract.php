@@ -26,7 +26,7 @@ abstract class KDispatcherAbstract extends KObject
 	 * @var array
 	 */
 	protected $_options;
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -35,22 +35,18 @@ abstract class KDispatcherAbstract extends KObject
 	 */
 	public function __construct(array $options = array())
 	{
+		$this->identifier = $options['identifier'];
+	
         // Initialize the options
         $this->_options  = $this->_initialize($options);
-         
-        // Mixin the KClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Dispatcher')));
 
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
-        
         // Figure out default view if none is set
-        $this->_options['default_view'] = empty($this->_options['default_view']) ? $this->getClassName('suffix') : $this->_options['default_view'];
+        $this->_options['default_view'] = empty($this->_options['default_view']) ? $this->identifier->name : $this->_options['default_view'];
 	}
 
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param	array	Options
@@ -59,12 +55,7 @@ abstract class KDispatcherAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-        	'default_view'  => '',
-            'name'          => array(
-                        'prefix'    => 'k',
-                        'base'      => 'dispatcher',
-                        'suffix'    => 'default'
-                        )
+        	'default_view'  => 'default',
         );
 
         return array_merge($defaults, $options);
@@ -72,53 +63,53 @@ abstract class KDispatcherAbstract extends KObject
 
 	/**
 	 * Dispatch the controller and redirect
-	 * 
+	 *
 	 * @return	this
 	 */
 	public function dispatch()
 	{
 		// Require specific controller if requested
 		$view		= KRequest::get('get.view', 'cmd', $this->_options['default_view']);
-        
+
         // Push the view back in the request in case a default view is used
         KRequest::set('get.view', $view);
 
         //Get/Create the controller
         $controller = $this->getController();
-        
+
         // Perform the Request action
         $action  = KRequest::get('request.action', 'cmd', null);
-        
+
         //Execute the controller, handle exeception if thrown.
-        try 
+        try
         {
         	$controller->execute($action);
-        } 
-        catch (KControllerException $e) 
+        }
+        catch (KControllerException $e)
         {
-        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED) 
+        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
         	{
 				KFactory::get('lib.joomla.application')
 					->redirect( 'index.php', JText::_($e->getMessage()) );
-        	} 
-        	else 
+        	}
+        	else
         	{
         		// rethrow, we don't know what to do with other error codes yet
-        		throw $e; 
+        		throw $e;
         	}
         }
-        
+
 		// Redirect if set by the controller
 		if($redirect = $controller->getRedirect())
 		{
 			KFactory::get('lib.joomla.application')
 				->redirect($redirect['url'], $redirect['message'], $redirect['messageType']);
 		}
-		
+
 		return $this;
 	}
 
-	
+
 	/**
 	 * Method to get a controller object
 	 *
@@ -126,11 +117,11 @@ abstract class KDispatcherAbstract extends KObject
 	 */
 	public function getController(array $options = array())
 	{
-		$application 	= KFactory::get('lib.joomla.application')->getName();
-		$component 		= $this->getClassName('prefix');
+		$application 	= $this->identifier->application;
+		$component 		= $this->identifier->component;
 		$view 			= KRequest::get('get.view', 'cmd');
 		$controller 	= KRequest::get('get.controller', 'cmd', $view);
-		
+
 		//In case we are loading a subview, we use the first part of the name as controller name
 		if(strpos($controller, '.') !== false)
 		{

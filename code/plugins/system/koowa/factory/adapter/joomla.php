@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -28,24 +28,24 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	public function instantiate($identifier, array $options)
 	{
 		$instance = false;
-		
+
 		$parts = explode('.', $identifier);
-		if($parts[0] == 'lib' && $parts[1] == 'joomla') 
+		if($parts[0] == 'lib' && $parts[1] == 'joomla')
 		{
 			$name = ucfirst($parts[2]);
-	
+
 			//Handle exceptions
 			if($name == 'Database') {
 				$name = 'DBO';
 			}
-		
+
 			if($name == 'Authorization') {
 				$name = 'ACL';
 			}
-	
+
 			$instance = call_user_func_array(array('JFactory', 'get'.$name), $options);
 		}
-		
+
 		return $instance;
 	}
 }

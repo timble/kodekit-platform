@@ -71,14 +71,10 @@ abstract class KDatabaseTableAbstract extends KObject
 	 */
 	public function __construct( array $options = array() )
 	{
+		$this->identifier = $options['identifier'];
+
         // Initialize the options
         $options  = $this->_initialize($options);
-
-        // Mixin the KMixinClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Table')));
-
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
 
 		// Set the tablename
 		if (isset($options['table_name'])) {
@@ -86,10 +82,10 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 		else
 		{
-            $prefix         = $this->getClassName('prefix');
-            $suffix         = $this->getClassName('suffix');
+            $component      = $this->identifier->component;
+            $name         = $this->identifier->name;
 
-			$this->_table_name = empty($prefix) ? $suffix : $prefix.'_'.$suffix;
+			$this->_table_name = empty($component) ? $name : $component.'_'.$name;
 		}
 
 		// Set a primary key
@@ -111,13 +107,8 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $defaults = array(
             'db'       		=> null,
-            'name'          => array(
-                        'prefix'    => 'k',
-                        'base'      => 'table',
-                        'suffix'    => 'default'
-                        ),
             'primary'       => null,
-            'table_name'         => null
+            'table_name'    => null
         );
 
         return array_merge($defaults, $options);
@@ -270,9 +261,10 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-		$component = $this->getClassName('prefix');
-		$row       = KInflector::singularize($this->getClassName('suffix'));
-		$app   	   = KFactory::get('lib.joomla.application')->getName();
+        $app   	   = $this->identifier->application;
+		$component = $this->identifier->component;
+		$row       = KInflector::singularize($this->identifier->name);
+
 
         //Get the data and push it in the row
 		if(isset($query))
@@ -319,9 +311,9 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-    	$component = $this->getClassName('prefix');
-   		$rowset    = $this->getClassName('suffix');
-   	 	$app       = KFactory::get('lib.joomla.application')->getName();
+    	$component = $this->identifier->component;
+   		$rowset    = $this->identifier->name;
+   	 	$app       = $this->identifier->application;
 
         // Get the data
         if(isset($query))

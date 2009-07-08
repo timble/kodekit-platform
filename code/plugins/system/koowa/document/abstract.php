@@ -19,6 +19,13 @@
 abstract class KDocumentAbstract extends KObject
 {
 	/**
+	 * Identifier
+	 *
+	 * @var KFactoryIdentifierInterface
+	 */
+	public $identifier;
+
+	/**
 	 * Document title
 	 *
 	 * @var	 string
@@ -159,6 +166,8 @@ abstract class KDocumentAbstract extends KObject
 	 */
 	public function __construct( array $options = array())
 	{
+		$this->identifier = $options['identifier'];
+
 		if (array_key_exists('charset', $options)) {
 			$this->setCharset($options['charset']);
 		}
@@ -178,14 +187,7 @@ abstract class KDocumentAbstract extends KObject
 		if (array_key_exists('base', $options)) {
 			$this->setBase($options['base']);
 		}
-		
-		 // Mixin the KMixinClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Document')));
-		
-		// Assign the classname with values from the config
-		if(isset($options['name'])) {
-        	$this->setClassName($options['name']);
-		}
+
 	}
 
 	/**
@@ -193,9 +195,9 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return	string
 	 */
-	public function getType() 
+	public function getType()
 	{
-		return $this->getClassName('suffix');
+		return $this->identifier->name;
 	}
 
 	/**
@@ -218,7 +220,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return 	The contents of the document buffer
 	 */
-	public function getBuffer() 
+	public function getBuffer()
 	{
 		return $this->_buffer;
 	}
@@ -229,7 +231,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param string 	$content	The content to be set in the buffer
 	 * @return	this
 	 */
-	public function setBuffer($content) 
+	public function setBuffer($content)
 	{
 		$this->_buffer = $content;
 		return $this;
@@ -246,26 +248,26 @@ abstract class KDocumentAbstract extends KObject
 	{
 		$result = '';
 		$name = strtolower($name);
-		
+
 		switch($name)
 		{
-			case 'generator' :  
+			case 'generator' :
 				$result = $this->getGenerator();
 				break;
-				
+
 			case 'description' :
 				$result = $this->getDescription();
 				break;
-				
+
 			default :
-				
+
 				$type = ($http_equiv == true) ? 'http-equiv' : 'standard';
-				
+
 				if(isset($this->_metaTags[$type][$name])) {
 					$result = $this->_metaTags[$type][$name];
 				}
 		}
-		
+
 		return $result;
 	}
 
@@ -280,19 +282,19 @@ abstract class KDocumentAbstract extends KObject
 	public function setMetaData($name, $content, $http_equiv = false)
 	{
 	$name = strtolower($name);
-		
+
 		switch($name)
 		{
-			case 'generator' :  
+			case 'generator' :
 				$this->setGenerator($content);
 				break;
-				
+
 			case 'description' :
 				$this->setDescription($content);
 				break;
-				
+
 			default :
-				
+
 				$type = ($http_equiv == true) ? 'http-equiv' : 'standard';
 				$this->_metaTags[$type][$name] = $content;
 		}
@@ -306,7 +308,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
 	 * @return	this
 	 */
-	public function addScript($url, $type="text/javascript") 
+	public function addScript($url, $type="text/javascript")
 	{
 		$this->_scripts[$url] = $type;
 		return $this;
@@ -368,7 +370,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string   $type  Charset encoding string
 	 * @return	this
 	 */
-	public function setCharset($type = 'utf-8') 
+	public function setCharset($type = 'utf-8')
 	{
 		$this->_charset = $type;
 		return $this;
@@ -379,7 +381,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return string
 	 */
-	public function getCharset() 
+	public function getCharset()
 	{
 		return $this->_charset;
 	}
@@ -390,7 +392,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string   $lang
 	 * @return	this
 	 */
-	public function setLanguage($lang = "en-gb") 
+	public function setLanguage($lang = "en-gb")
 	{
 		$this->language = strtolower($lang);
 		return $this;
@@ -400,9 +402,9 @@ abstract class KDocumentAbstract extends KObject
 	 * Returns the document language.
 	 *
 	 * @return string
-	 * 
+	 *
 	 */
-	public function getLanguage() 
+	public function getLanguage()
 	{
 		return $this->language;
 	}
@@ -413,7 +415,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string   $dir
 	 * @return	this
 	 */
-	public function setDirection($dir = "ltr") 
+	public function setDirection($dir = "ltr")
 	{
 		$this->direction = strtolower($dir);
 		return $this;
@@ -424,7 +426,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return string
 	 */
-	public function getDirection() 
+	public function getDirection()
 	{
 		return $this->direction;
 	}
@@ -435,7 +437,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	string	$title
 	 * @return	this
 	 */
-	public function setTitle($title) 
+	public function setTitle($title)
 	{
 		$this->title = $title;
 		return $this;
@@ -446,7 +448,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return   string
 	 */
-	public function getTitle() 
+	public function getTitle()
 	{
 		return $this->title;
 	}
@@ -457,7 +459,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	string	$base
 	 * @return	this
 	 */
-	public function setBase($base) 
+	public function setBase($base)
 	{
 		$this->base = $base;
 		return $this;
@@ -468,7 +470,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return   string
 	 */
-	public function getBase() 
+	public function getBase()
 	{
 		return $this->base;
 	}
@@ -479,7 +481,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	string	$description
 	 * @return	this
 	 */
-	public function setDescription($description) 
+	public function setDescription($description)
 	{
 		$this->description = $description;
 		return $this;
@@ -490,7 +492,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @access   public
 	 */
-	public function getDescription() 
+	public function getDescription()
 	{
 		return $this->description;
 	}
@@ -501,7 +503,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string   $url  A url
 	 * @return	this
 	 */
-	public function setLink($url) 
+	public function setLink($url)
 	{
 		$this->link = $url;
 		return $this;
@@ -512,7 +514,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return string
 	 */
-	public function getLink() 
+	public function getLink()
 	{
 		return $this->link;
 	}
@@ -523,7 +525,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string  $generator
 	 * @return	this
 	 */
-	public function setGenerator($generator) 
+	public function setGenerator($generator)
 	{
 		$this->_generator = $generator;
 		return $this;
@@ -534,7 +536,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return string
 	 */
-	public function getGenerator() 
+	public function getGenerator()
 	{
 		return $this->_generator;
 	}
@@ -545,7 +547,7 @@ abstract class KDocumentAbstract extends KObject
 	 * @param   string 	$date
 	 * @return	this
 	 */
-	public function setModifiedDate($date) 
+	public function setModifiedDate($date)
 	{
 		$this->_mdate = $date;
 		return $this;
@@ -556,7 +558,7 @@ abstract class KDocumentAbstract extends KObject
 	 *
 	 * @return string
 	 */
-	public function getModifiedDate() 
+	public function getModifiedDate()
 	{
 		return $this->_mdate;
 	}
@@ -573,18 +575,18 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	string	$type
 	 * @return	this
 	 */
-	public function setMimeEncoding($type = 'text/html') 
+	public function setMimeEncoding($type = 'text/html')
 	{
 		$this->_mime = strtolower($type);
 		return $this;
 	}
-	
+
 	/**
 	 * Get the document MIME encoding that is sent to the browser.
 	 *
 	 * @param	string	$type
 	 */
-	public function getMimeEncoding($type = 'text/html') 
+	public function getMimeEncoding($type = 'text/html')
 	{
 		return $this->_mime;
 	}
@@ -613,7 +615,7 @@ abstract class KDocumentAbstract extends KObject
 	{
 		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
 		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
-		
+
 		if ($mdate = $this->getModifiedDate()) {
 			JResponse::setHeader( 'Last-Modified', $mdate );
 		}

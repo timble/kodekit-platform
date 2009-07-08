@@ -54,7 +54,7 @@ abstract class KViewAbstract extends KObject
      * @var string
      */
     protected $_escape;
-    
+
     /**
 	 * The document object
 	 *
@@ -64,19 +64,15 @@ abstract class KViewAbstract extends KObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param	array An optional associative array of configuration settings.
 	 */
 	public function __construct(array $options = array())
-	{		
+	{
+		$this->identifier = $options['identifier'];
+
 		// Initialize the options
         $options  = $this->_initialize($options);
-
-        // Mixin the KMixinClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'View')));
-
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
 
 		 // set the charset (used by the variable escaping functions)
         $this->_charset = $options['charset'];
@@ -85,21 +81,23 @@ abstract class KViewAbstract extends KObject
         $this->setEscape($options['escape']);
 
 		// Add default template paths
+		// @todo use identifier?
 		$template	= KFactory::get('lib.joomla.application')->getTemplate();
-		
-		$prefix 	= str_replace('_', DS, $this->getClassName('prefix'));
-		$suffix 	= str_replace('_', DS, $this->getClassName('suffix'));
-		
-		$path 		= JPATH_BASE.DS.'components'.DS.'com_'.$prefix.DS.'views'.DS.$suffix.DS.'tmpl';
-		$override 	= JPATH_BASE.DS.'templates'.DS.$template.DS.'html'.DS.'com_'.$prefix.DS.$suffix;
-			
+
+		$component 	= str_replace('_', DS, $this->identifier->component);
+		$name 	= str_replace('_', DS, $this->identifier->name);
+
+		// @todo use identifier?
+		$path 		= JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'views'.DS.$name.DS.'tmpl';
+		$override 	= JPATH_BASE.DS.'templates'.DS.$template.DS.'html'.DS.'com_'.$component.DS.$name;
+
 		$this->addTemplatePath($path);
 		$this->addTemplatePath($override);
-		
+
 		if($options['template_path']) {
 			$this->addTemplatePath($options['template_path']);
 		}
-		
+
 		// assign the document object
 		if ($options['document']) {
 			$this->_document = $options['document'];
@@ -117,7 +115,7 @@ abstract class KViewAbstract extends KObject
 
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -132,12 +130,7 @@ abstract class KViewAbstract extends KObject
             'document'      => null,
             'escape'        => 'htmlspecialchars',
             'layout'        => 'default',
-            'name'          => array(
-                        'prefix'    => 'k',
-                        'base'      => 'View',
-                        'suffix'    => 'default'
-                        ),
-			'template_rules' => array( 
+			'template_rules' => array(
                         KFactory::get('lib.koowa.template.filter.shorttag'),
                         KFactory::get('lib.koowa.template.filter.token'),
                         KFactory::get('lib.koowa.template.filter.variable')
@@ -226,7 +219,7 @@ abstract class KViewAbstract extends KObject
 		}
 
 		// assign by string name and mixed value.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) 
+		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
 		}
@@ -255,7 +248,7 @@ abstract class KViewAbstract extends KObject
 	{
 		return $this->_layout;
 	}
-	
+
    /**
 	* Sets the layout name to use
 	*
@@ -279,7 +272,7 @@ abstract class KViewAbstract extends KObject
         $this->_escape = $spec;
         return $this;
     }
-	
+
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
@@ -306,7 +299,7 @@ abstract class KViewAbstract extends KObject
 			// add to the top of the search dirs
 			array_unshift($this->_template_path, $dir);
 		}
-		
+
 		return $this;
 	}
 
@@ -329,11 +322,11 @@ abstract class KViewAbstract extends KObject
 		// load the template script
 		Koowa::import('lib.joomla.filesystem.path');
 		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
-		
+
 		if ($this->_template === false) {
 			throw new KViewException( 'Layout "' . $file . '" not found' );
 		}
-			
+
 		// unset so as not to introduce into template scope
 		unset($tpl);
 		unset($file);
@@ -354,9 +347,9 @@ abstract class KViewAbstract extends KObject
 		$this->_output = ob_get_contents();
 		ob_end_clean();
 
-		return $this->_output;		
+		return $this->_output;
 	}
-	
+
 	/**
 	 * Searches the directory paths for a given file.
 	 *
@@ -398,7 +391,7 @@ abstract class KViewAbstract extends KObject
 	}
 
 	/**
-	 * Create a route. Index.php, option, view and layout can be ommitted. The 
+	 * Create a route. Index.php, option, view and layout can be ommitted. The
 	 * following variations will all result in the same route
 	 * foo=bar
 	 * option=com_mycomp&view=myview&foo=bar
@@ -411,42 +404,42 @@ abstract class KViewAbstract extends KObject
 	public function createRoute( $route = '')
 	{
 		$route = trim($route);
-		
+
 		// special cases
 		if($route == 'index.php' || $route == 'index.php?' || empty($route)) {
 			return JRoute::_($route);
 		}
-		
-		// strip 'index.php?' 
+
+		// strip 'index.php?'
 		if(substr($route, 0, 10)=='index.php?') {
 			$route = substr($route, 10);
 		}
-		
+
 		// parse
 		$parts = array();
 		parse_str($route, $parts);
 		$result = array();
-		
+
 		// Check to see if there is component information in the route if not add it
 		if(!isset($parts['option'])) {
-			$result[] = 'option=com_'.$this->getClassName('prefix');
+			$result[] = 'option=com_'.$this->identifier->component;
 		}
 
 		// Check to see if there is view information in the route if not add it
-		if(!isset($parts['view'])) 
+		if(!isset($parts['view']))
 		{
-			$result[] = 'view='.$this->getClassName('suffix');
+			$result[] = 'view='.$this->identifier->name;
 			if(!isset($parts['layout']) && $this->_layout != 'default') {
 				$result[] = 'layout='.$this->_layout;
 			}
 		}
-		
+
 		// Reconstruct the route
 		$result[] = $route;
 		$result = implode('&', $result);
 		return JRoute::_('index.php?'.$result);
 	}
-	
+
 	/**
 	 * Execute and return the views output
  	 *

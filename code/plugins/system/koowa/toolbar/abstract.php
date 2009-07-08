@@ -19,8 +19,6 @@
  */
 abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 {
-	protected $options = array();
-	
 	/**
 	 * Buttons in the toolbar
 	 *
@@ -30,25 +28,22 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param array	Options array
 	 */
 	public function __construct(array $options = array())
 	{
-        // Initialize the options
-        $this->_options  = $this->_initialize($options);
-        
-        // Mixin the KClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Toolbar')));
+		$this->identifier = $options['identifier'];
 
-        // Assign the classname with values from the config
-        $this->setClassName($this->_options['name']);
-        
+        // Initialize the options
+        $options  = $this->_initialize($options);
+
+
         // Set the title
-        $title = empty($this->_options['title']) ? KInflector::humanize($this->getName()) : $this->_options['title'];
+        $title = empty($options['title']) ? KInflector::humanize($this->getName()) : $options['title'];
         $this->setTitle($title);
 	}
-	
+
 	/**
 	 * Get the toolbar's name
 	 *
@@ -56,12 +51,12 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 	 */
 	public function getName()
 	{
-		return $this->getClassName('suffix');
+		return $this->identifier->name;
 	}
-	
+
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -70,16 +65,11 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'name'      => array(
-                        'prefix'    => 'k',
-                        'base'      => 'toolbar',
-                        'suffix'    => 'default'
-                        ),
-            'title'		=> null     
+            'title'		=> null
         );
 
         return array_merge($defaults, $options);
-    }    
+    }
 
 	/**
 	 * Append a button
@@ -107,12 +97,13 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 
 	/**
 	 * Render the toolbar
-	 * 
+	 *
 	 * @throws KToolbarException When the button could not be found
 	 * @return	string	HTML
 	 */
 	public function render()
 	{
+
 		$id		= 'toolbar-'.$this->getName();
 		$html = array ();
 
@@ -121,17 +112,15 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		$html[] = '<table class="toolbar"><tr>';
 
 		// Render each button in the toolbar
-		foreach ($this->_buttons as $button) 
+		foreach ($this->_buttons as $button)
 		{
-			if(!($button instanceof KToolbarButtonInterface)) 	
+			if(!($button instanceof KToolbarButtonInterface))
 			{
-				try {
-					$button = KFactory::tmp('lib.koowa.toolbar.button.'.$button);
-				} catch(KFactoryAdapterException $e) {
-					throw new KToolbarException('Invalid button: '.$name);
-				}
+				$app		= $this->identifier->application;
+				$component	= $this->identifier->component;
+				$button = KFactory::tmp($app.'::com.'.$component.'.toolbar.button.'.$button);
 			}
-			
+
 			$button->setParent($this);
 			$html[] = $button->render();
 		}
@@ -142,7 +131,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 
 		return implode(PHP_EOL, $html);
 	}
-	
+
 	/**
 	 * Set the toolbar's title and icon
 	 *
@@ -160,7 +149,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		$html .= "</div>\n";
 
 		KFactory::get('lib.joomla.application')->set('JComponentTitle', $html);
-		
+
 		return $this;
 	}
 }

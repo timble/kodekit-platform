@@ -19,22 +19,21 @@ class KViewDefault extends KViewHtml
 {
 	public function display()
 	{
-		$prefix = $this->getClassName('prefix');
-		$suffix = $this->getClassName('suffix');
-		$app = KFactory::get('lib.joomla.application')->getName();
+		$app 		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name 		= $this->identifier->name;
 
-
-		if(KInflector::isPlural($suffix))
+		if(KInflector::isPlural($name))
 		{
-			$model = KFactory::get($app.'::com.'.$prefix.'.model.'.$suffix);
-			$this->assign($suffix, 		$model->getList());
+			$model = KFactory::get($app.'::com.'.$component.'.model.'.$name);
+			$this->assign($name, 		$model->getList());
 			$this->assign('filter',  	$model->getFilters());
 			$this->assign('pagination', $model->getPagination());
 		}
 		else
 		{
-			$model = KFactory::get($app.'::com.'.$prefix.'.model.'.KInflector::pluralize($suffix));
-			$this->assign($suffix, $model->getItem());
+			$model = KFactory::get($app.'::com.'.$component.'.model.'.KInflector::pluralize($name));
+			$this->assign($name, $model->getItem());
 		}
 
 		// Display the layout

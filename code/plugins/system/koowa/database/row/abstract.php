@@ -42,7 +42,7 @@ abstract class KDatabaseRowAbstract extends KObject
      * @var string
      */
     protected $_table_class;
-     
+
     /**
      * Constructor
      *
@@ -50,19 +50,15 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __construct(array $options = array())
     {
+    	$this->identifier = $options['identifier'];
+    
         // Initialize the options
         $options  = $this->_initialize($options);
-
-        // Mixin the KMixinClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Row')));
-
-        // Assign the classname with values from the config
-        $this->setClassName($options['name']);
-
-		// Set table object and class name
-		$this->_table_class = 'com.'.$this->getClassName('prefix').'.table.'.$this->getClassName('suffix');
+        
+   		// Set table object and class name
+		$this->_table_class = $this->identifier->application.'::com.'.$this->identifier->component.'.table.'.$this->identifier->name;
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
-		
+
 		// Reset the row
 		$this->reset();
 
@@ -83,11 +79,6 @@ abstract class KDatabaseRowAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'name'      => array(
-                        'prefix'    => 'k',
-                        'base'      => 'row',
-                        'suffix'    => 'default'
-                        ),
             'table'     => null
         );
 
@@ -134,11 +125,11 @@ abstract class KDatabaseRowAbstract extends KObject
         if(array_key_exists('ordering', $properties) && $properties['ordering'] <= 0) {
         	$properties['ordering'] = $this->getTable()->getMaxOrder();
         }
-        	
+
         if($this->_data[$key]) {
         	$this->_table->update($properties, $this->_data[$key]);
-        } 
-        else 
+        }
+        else
         {
         	if($this->_table->insert($properties)) {
         		$this->id = $this->_table->getDatabase()->getInsertId();
@@ -156,7 +147,7 @@ abstract class KDatabaseRowAbstract extends KObject
     public function delete()
     {
 		$key = $this->_table->getPrimaryKey();
-    	
+
     	$this->_table->delete($this->_data[$key]);
         return $this;
     }
@@ -171,10 +162,10 @@ abstract class KDatabaseRowAbstract extends KObject
         $this->_data = $this->_table->getDefaults();
         return $this;
     }
-    
+
     /**
      * Increase hit counter by 1
-     * 
+     *
      * Requires a hit field to be present in the table
      *
      * @return KDatabaseRowAbstract
@@ -187,14 +178,14 @@ abstract class KDatabaseRowAbstract extends KObject
 		}
 
 		$this->hits++;
-		$this->save();		
-		
+		$this->save();
+
 		return $this;
 	}
-	
+
 	/**
 	 * Move the row up or down in the ordering
-	 * 
+	 *
 	 * Requires an ordering field to be present in the table
 	 *
 	 * @param	integer	Amount to move up or down
@@ -206,38 +197,38 @@ abstract class KDatabaseRowAbstract extends KObject
 		if (!in_array('ordering', $this->_table->getColumns())) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'ordering' column.");
 		}
-		
+
 		//force to integer
 		settype($change, 'int');
-			
-		if($change !== 0) 
+
+		if($change !== 0)
 		{
 			$old = $this->ordering;
 			$new = $this->ordering + $change;
 			$new = $new <= 0 ? 1 : $new;
-		
+
 			$query =  'UPDATE `#__'.$this->_table->getTableName().'` ';
-			
+
 			if($change < 0) {
 				$query .= 'SET ordering = ordering+1 WHERE '.$new.' <= ordering AND ordering < '.$old;
 			} else {
 				$query .= 'SET ordering = ordering-1 WHERE '.$old.' < ordering AND ordering <= '.$new;
 			}
-			
+
 			$this->_table->getDatabase()->execute($query);
 
 			$this->ordering = $new;
 			$this->save();
-		
+
 			$this->_table->order();
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Checks out a row
-	 * 
+	 *
 	 * Requires an checked_out field to be present in the table
 	 *
 	 * @return 	KDatabaseRowAbstract
@@ -248,22 +239,22 @@ abstract class KDatabaseRowAbstract extends KObject
 		if (!in_array('checked_out', $this->_table->getColumns())) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
 		}
-	
+
 		//Get the user object
 		$user = KFactory::get('lib.joomla.user')->get('id');
-		
+
 		//force to integer
 		settype($user, 'int');
-	
+
 		$this->checked_out = $user->get('id');
 		$this->save();
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Checks in a row
-	 * 
+	 *
 	 * Requires an checked_out field to be present in the table
 	 *
 	 * @return 	KDatabaseRowAbstract
@@ -274,13 +265,13 @@ abstract class KDatabaseRowAbstract extends KObject
 		if (!in_array('checked_out', $this->_table->getColumns())) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
 		}
-	
+
 		$this->checked_out = 0;
 		$this->save();
 
 		return $this;
 	}
-	
+
 	/**
      * Returns the column/value data as an array.
      *
@@ -290,7 +281,7 @@ abstract class KDatabaseRowAbstract extends KObject
     {
         $array = $this->_data;
         $array['id'] = $this->id;
-        
+
         return $array;
     }
 
@@ -305,7 +296,7 @@ abstract class KDatabaseRowAbstract extends KObject
     	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
-        
+
     	return $this->_data[$columnName];
     }
 
@@ -321,7 +312,7 @@ abstract class KDatabaseRowAbstract extends KObject
     	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
-        
+
         $this->_data[$columnName] = $value;
    }
 
@@ -336,13 +327,13 @@ abstract class KDatabaseRowAbstract extends KObject
         if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
-    	
+
     	return array_key_exists($columnName, $this->_data);
     }
-    
-    /** 
+
+    /**
      * Unset a row field
-     * 
+     *
      * @param	string  The column key.
      * @return	void
      */
@@ -351,10 +342,10 @@ abstract class KDatabaseRowAbstract extends KObject
    	 	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
-        
+
         unset($this->_data[$columnName]);
     }
-    
+
     /**
      * Returns an associative array of object properties
      *
@@ -364,7 +355,7 @@ abstract class KDatabaseRowAbstract extends KObject
     {
     	$result = $this->_data;
     	$result['id'] = $this->id;
-    	
+
         return $result;
     }
 
@@ -379,8 +370,8 @@ abstract class KDatabaseRowAbstract extends KObject
     {
     	$properties = (array) $properties;
         $pk = $this->_table->getPrimaryKey();
-         
-        foreach ($properties as $k => $v) 
+
+        foreach ($properties as $k => $v)
         {
          	if('id' == $k) {
          		$this->_data[$pk] = $v;

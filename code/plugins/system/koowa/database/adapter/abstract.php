@@ -22,28 +22,28 @@ abstract class KDatabaseAdapterAbstract extends KObject
 {
 	/**
 	 * Active state of the connection
-	 * 
+	 *
 	 * @var boolean
 	 */
 	protected $_active = null;
-	
+
 	/**
 	 * The database connection resource
-	 * 
+	 *
 	 * @var mixed
 	 */
 	protected $_connection = null;
-	
+
 	/**
 	 * Last auto-generated insert_id
-	 * 
+	 *
 	 * @var integer
 	 */
 	protected $_insert_id;
-	
+
 	/**
 	 * The affected row count
-	 * 
+	 *
 	 * @var int
 	 */
 	protected $_affected_rows;
@@ -54,21 +54,21 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @var array
 	 */
 	protected $_table_cache = null;
-	
+
 	/**
 	 * The table prefix
 	 *
 	 * @var string
 	 */
 	protected $_table_prefix = '';
-	
+
 	/**
 	 * Quote for named objects
 	 *
 	 * @var string
 	 */
 	protected $_name_quote = '`';
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -80,32 +80,32 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
         // Initialize the options
         $options  = $this->_initialize($options);
-       
+
         // Mixin the command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
-        
+
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($options['charset'])) {
 			//$this->setCharset($this->_options['charset']);
 		}
-		
+
 		// Set the table prefix
 		$this->_table_prefix = $options['table_prefix'];
 	}
-	 
+
 	/**
 	 * Destructor
-	 * 
+	 *
 	 * Free any resources that are open.
 	 */
 	public function __destruct()
 	{
 		$this->disconnect();
 	}
-	
+
   	/**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -121,7 +121,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
         return array_merge($defaults, $options);
     }
-    
+
 
 	/**
 	 * Get a database query object
@@ -132,23 +132,23 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		if(!isset($options['adapter'])) {
 			$options['adapter'] = $this;
-		} 
-		
+		}
+
 		return KFactory::tmp('lib.koowa.database.query', $options);
 	}
-	
+
 	/**
 	 * Connect to the db
 	 */
 	abstract public function connect();
-	
+
 	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return      boolean
 	 */
 	abstract public function active();
-	
+
 	/**
 	 * Reconnect to the db
 	 */
@@ -157,7 +157,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$this->disconnect();
 		$this->connect();
 	}
-	
+
 	/**
 	 * Disconnect from db
 	 */
@@ -166,10 +166,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$this->_connection = null;
 		$this->_active = false;
 	}
-	
+
 	/**
 	 * Get the connection
-	 * 
+	 *
 	 * Provides access to the underlying database connection. Useful for when
 	 * you need to call a proprietary method such as postgresql's lo_* methods
 	 *
@@ -179,7 +179,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		return $this->_connection;
 	}
-	
+
 	/**
 	 * Set the connection
 	 *
@@ -189,7 +189,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		$this->_connection = $resource;
 	}
-	
+
 	/**
 	 * Get the insert id of the last insert operation
 	 *
@@ -215,8 +215,8 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		// Create the arguments object
 		$args = new ArrayObject();
 		$args['sql'] 		= $sql;
-		$args['offset'] 	= $offset;	
-		$args['limit'] 		= $limit;	
+		$args['offset'] 	= $offset;
+		$args['limit'] 		= $limit;
 		$args['notifier']   = $this;
 		$args['operation']	= KDatabase::OPERATION_SELECT;
 
@@ -225,10 +225,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			$args['result'] = $this->execute( $args['sql'], $args['offset'], $args['limit'] );
 			$this->getCommandChain()->run('database.after.select', $args);
 		}
-		
+
 		return $args['result'];
 	}
-	
+
    /**
 	 * Fetch the first field of the first row
 	 *
@@ -242,10 +242,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @return array
 	 */
 	abstract public function fetchResultList($sql);
-	
+
 	/**
      * Fetch the current row as an associative array
-     * 
+     *
      * @param	string  The SQL query
      * @return array
      */
@@ -253,7 +253,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 	/**
 	 * Fetch all result rows as an array of associative arrays
-	 * 
+	 *
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
@@ -273,7 +273,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 	/**
 	 * Fetch all rows of a result set as an array of objects
-	 * 
+	 *
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
@@ -282,7 +282,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
 	 */
 	abstract public function fetchObjectList($sql, $key='' );
-	
+
 /**
 	 * Retrieves information about the given tables
 	 *
@@ -294,41 +294,41 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
-		
+
 		foreach ($tables as $tblval)
-		{  
+		{
 			$table = $tblval;
 
-			if(!isset($this->_table_cache[$tblval])) 
+			if(!isset($this->_table_cache[$tblval]))
 			{
 				//Check the table if it already has a table prefix applied.
-				if(strpos($tblval, '#__') === false) 
+				if(strpos($tblval, '#__') === false)
 				{
 					if(substr($tblval, 0, 3) != '#__') {
 						$table = '#__'.$tblval;
 					}
-				} 
-				else 
+				}
+				else
 				{
 					$tblval = $this->replaceTablePrefix($tblval, '');
 				}
-			
-				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));	
+
+				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));
 				foreach ($fields as $field) {
 					$this->_table_cache[$tblval][$field->Field] = $field;
 				}
 			}
-			
+
 			//Add the requested table to the result
 			$result[$tblval] = $this->_table_cache[$tblval];
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get the result of the SHOW TABLE STATUS statement
-	 * 
+	 *
 	 * @param	string	LIKE clause, can cotnains a tablename with % wildcards
 	 * @param 	string	WHERE clause (MySQL5+ only)
 	 * @return	array	List of objects with table info
@@ -338,14 +338,14 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		if(!empty($like)) {
 			$like = ' LIKE '.$this->quoteString($like);
 		}
-		
+
 		if(!empty($where)) {
 			$where = ' WHERE '.$where;
 		}
-		
+
 		return $this->fetchObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
 	}
-	
+
 	/**
      * Inserts a row of data into a table.
      *
@@ -362,12 +362,12 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['table'] 		= $table;
-		$args['data'] 		= $data;	
+		$args['data'] 		= $data;
 		$args['notifier']   = $this;
 		$args['operation']	= KDatabase::OPERATION_INSERT;
-		
+
 		//Excute the insert operation
-		if($this->getCommandChain()->run('database.before.insert', $args) === true) 
+		if($this->getCommandChain()->run('database.before.insert', $args) === true)
 		{
 			foreach($args['data'] as $key => $val)
 			{
@@ -380,11 +380,11 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 			//Execute the query
 			$this->execute($sql);
-				 
-			$args['result'] = $this->_insert_id;		
+
+			$args['result'] = $this->_insert_id;
 			$this->getCommandChain()->run('database.after.insert', $args);
 		}
-		
+
 		return $args['result'];
 	}
 
@@ -405,13 +405,13 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['table'] 		= $table;
-		$args['data']  		= $data;	
+		$args['data']  		= $data;
 		$args['notifier']   = $this;
 		$args['where']   	= $where;
 		$args['operation']	= KDatabase::OPERATION_UPDATE;
-	
+
 		//Excute the update operation
-		if($this->getCommandChain()->run('database.before.update', $args) ===  true) 	
+		if($this->getCommandChain()->run('database.before.update', $args) ===  true)
 		{
 			foreach($args['data'] as $key => $val) {
 				$vals[] = '`'.$key.'` = '.$this->quoteString($val);
@@ -422,14 +422,14 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			  	.' SET '.implode(', ', $vals)
 			  	.' '.$args['where']
 			;
-			
+
 			//Execute the query
 			$this->execute($sql);
-			
+
 			$args['result'] = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.update', $args);
 		}
-		
+
         return $args['result'];
 	}
 
@@ -446,26 +446,26 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['table'] 		= $table;
-		$args['data']  		= null;	
+		$args['data']  		= null;
 		$args['notifier']   = $this;
 		$args['where']   	= $where;
 		$args['operation']	= KDatabase::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->getCommandChain()->run('database.before.delete', $args) ===  true) 
+		if($this->getCommandChain()->run('database.before.delete', $args) ===  true)
 		{
 			//Create query statement
 			$sql = 'DELETE FROM '.$this->quoteName('#__'.$args['table'])
 				  .' '.$args['where']
 			;
-			
+
 			//Execute the query
 			$this->execute($sql);
-			
+
 			$args['result'] = $this->_affected_rows;
-			$this->getCommandChain()->run('database.after.delete', $args);	
+			$this->getCommandChain()->run('database.after.delete', $args);
 		}
-		
+
 		return $args['result'];
 	}
 
@@ -480,18 +480,18 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	{
 		//Replace the database table prefix
 		$sql = $this->replaceTablePrefix( $sql );
-		
-		$result = $this->_connection->query($sql); 
+
+		$result = $this->_connection->query($sql);
 		if($result === false) {
 			throw new KDatabaseException($this->_connection->error, $this->_connection->errno);
 		}
-		
+
 		$this->_affected_rows = $this->_connection->affected_rows;
 		$this->_insert_id     = $this->_connection->insert_id;
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Set the table prefix
 	 *
@@ -503,7 +503,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$this->_table_prefix = $prefix;
 		return $this;
 	}
-	
+
  	/**
 	 * Get the table prefix
 	 *
@@ -600,37 +600,37 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 		return $literal;
 	}
- 
+
     /**
      * Safely quotes a value for an SQL statement.
-     * 
+     *
      * If an array is passed as the value, the array values are quoted
-     * and then returned as a comma-separated string; this is useful 
+     * and then returned as a comma-separated string; this is useful
      * for generating IN() lists.
-     * 
+     *
      * @param 	mixed The value to quote.
      * @return string An SQL-safe quoted value (or a string of separated-
      * 				  and-quoted values).
      */
     public function quoteString($value)
     {
-        if (is_array($value)) 
+        if (is_array($value))
         {
             // quote array values, not keys, then combine with commas.
             foreach ($value as $k => $v) {
                 $value[$k] = $this->quoteString($v);
             }
-            
+
             $value = implode(', ', $value);
-        } 
-        else 
+        }
+        else
         {
         	$value = $this->_quoteString($value);
         }
-        
+
         return $value;
     }
-    
+
 	/**
 	 * Parse the field raw data
 	 *
@@ -638,7 +638,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * @return object
 	 */
 	abstract public function parseField($field);
-    
+
 	/**
 	 * Given a column specification, parse into datatype, size, and
 	 * decimal scope.
@@ -649,63 +649,63 @@ abstract class KDatabaseAdapterAbstract extends KObject
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
 	abstract protected function _parseFieldType($spec);
- 	
+
 	/**
      * Safely quotes a value for an SQL statement.
-     * 
+     *
      * @param 	mixed 	The value to quote
      * @return string An SQL-safe quoted value
      */
     abstract public function _quoteString($value);
-        
+
    	/**
-     * Quotes a single identifier name (table, table alias, table column, 
+     * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
-     * 
+     *
      * If the name contains ' AS ', this method will separately quote the
      * parts before and after the ' AS '.
-     * 
+     *
      * If the name contains a space, this method will separately quote the
      * parts before and after the space.
-     * 
+     *
      * If the name contains a dot, this method will separately quote the
      * parts before and after the dot.
-     * 
+     *
      * @param string|array $spec The identifier name to quote.  If an array,
      * quotes each element in the array as an identifier name.
-     * 
+     *
      * @return string|array The quoted identifier name (or array of names).
-     * 
+     *
      * @see _quoteName()
      */
     public function quoteName($spec)
     {
-    	if (is_array($spec)) 
+    	if (is_array($spec))
         {
             foreach ($spec as $key => $val) {
                 $spec[$key] = $this->quoteName($val);
             }
             return $spec;
         }
-        
+
         // no extraneous spaces
         $spec = trim($spec);
-        
+
         // `original` AS `alias`
         $pos = strrpos($spec, ' AS ');
-        if ($pos) 
+        if ($pos)
         {
         	// recurse to allow for "table.col"
             $orig  = $this->quoteName(substr($spec, 0, $pos));
             // use as-is
             $alias = $this->_quoteName(substr($spec, $pos + 4));
-           
+
             return "$orig AS $alias";
         }
-        
+
      	// `original` `alias`
         $pos = strrpos($spec, ' = ');
-        if ($pos) 
+        if ($pos)
         {
             // recurse to allow for "table.col"
             $orig = $this->quoteName(substr($spec, 0, $pos));
@@ -713,10 +713,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
             $alias = $this->quoteName(substr($spec, $pos + 3));
             return "$orig = $alias";
         }
-        
+
         // `original` `alias`
         $pos = strrpos($spec, ' ');
-        if ($pos) 
+        if ($pos)
         {
             // recurse to allow for "table.col"
             $orig = $this->quoteName(substr($spec, 0, $pos));
@@ -724,24 +724,24 @@ abstract class KDatabaseAdapterAbstract extends KObject
             $alias = $this->_quoteName(substr($spec, $pos + 1));
             return "$orig $alias";
         }
-        
+
         // `table`.`column`
         $pos = strrpos($spec, '.');
-        if ($pos) 
+        if ($pos)
         {
             // use both as-is
             $table = $this->_quoteName(substr($spec, 0, $pos));
             $col   = $this->_quoteName(substr($spec, $pos + 1));
             return "$table.$col";
         }
-        
+
         // `name`
         return $this->_quoteName($spec);
     }
-    
+
     /**
      * Quotes an identifier name (table, index, etc). Ignores empty values.
-     * 
+     *
      * @param string $name The identifier name to quote.
      * @return string The quoted identifier name.
      * @see quoteName()
@@ -749,12 +749,12 @@ abstract class KDatabaseAdapterAbstract extends KObject
     protected function _quoteName($name)
     {
         $name = trim($name);
-        
+
         //Special cases
         if ($name == '*' || is_numeric($name)) {
             return $name;
         }
-         
+
         return $this->_name_quote. $name.$this->_name_quote;
-    } 
+    }
 }

@@ -79,7 +79,7 @@ class KControllerForm extends KControllerBread
 	{
 		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
 
-		$view 	= KInflector::pluralize( $this->getClassName('suffix') );
+		$view 	= KInflector::pluralize( $this->identifier->name);
 		$format = KRequest::get('get.format', 'cmd', 'html');
 
 		$redirect = 'view='.$view.'&format='.$format;
@@ -95,11 +95,12 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$result 	= KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
+		$result = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 
-		$view 		= $this->getClassName('suffix');
-		$format 	= KRequest::get('get.format', 'cmd', 'html');
-		$redirect 	= 'view='.$view.'&layout=form&id='.$result->id.'&format='.$format;
+		$view 	= $this->identifier->name;
+		$format = KRequest::get('get.format', 'cmd', 'html');
+
+		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
 
 		return $result;
@@ -113,7 +114,7 @@ class KControllerForm extends KControllerBread
 	protected function _actionCancel()
 	{
 		$this->setRedirect(
-			'view='.KInflector::pluralize($this->getClassName('suffix'))
+			'view='.KInflector::pluralize($this->identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 			);
 	}
@@ -128,11 +129,9 @@ class KControllerForm extends KControllerBread
 	{
 		$result = parent::_actionDelete();
 
-		// Get the table object
-		$component = $this->getClassName('prefix');
-		$view	   = KInflector::pluralize($this->getClassName('suffix'));
+		// Redirect
+		$view	   = KInflector::pluralize($this->identifier->name);
 		$format	   = KRequest::get('get.format', 'cmd', 'html');
-
 		$this->setRedirect('view='.$view.'&format='.$format);
 
 		return $result;
@@ -141,12 +140,11 @@ class KControllerForm extends KControllerBread
 	/*
 	 * Generic enable action
 	 *
-	 * @return void
+	 * @return KDatabaseTableAbstract
 	 */
 	protected function _actionEnable()
 	{
 		$id = (array) KRequest::get('post.id', 'int');
-
 		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
 		if (count( $id ) < 1) {
@@ -154,17 +152,19 @@ class KControllerForm extends KControllerBread
 		}
 
 		// Get the table object
-		$component = $this->getClassName('prefix');
-		$name     = KInflector::pluralize($this->getClassName('suffix'));
+		$app   		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$app   = KFactory::get('lib.joomla.application')->getName();
-		KFactory::get($app.'::com.'.$component.'.table.'.$name)
-			->update(array('enabled' => $enable), $id);
+		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
+				->update(array('enabled' => $enable), $id);
 
 		$this->setRedirect(
-			'view='.$name
+			'view='.KInflector::pluralize($name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
+
+		return $this->table;
 	}
 
 	/**
@@ -178,12 +178,12 @@ class KControllerForm extends KControllerBread
 		$access = KRequest::get('post.access', 'int');
 
 		// Get the table object
-		$component = $this->getClassName('prefix');
-		$name     = KInflector::pluralize($this->getClassName('suffix'));
+		$app   		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name     	= KInflector::pluralize($this->identifier->name);
 
-		$app   = KFactory::get('lib.joomla.application')->getName();
 		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
-			->update(array('access' => $access), $id);
+				->update(array('access' => $access), $id);
 
 		$this->setRedirect(
 			'view='.$name
@@ -203,12 +203,13 @@ class KControllerForm extends KControllerBread
 		$change = KRequest::get('post.order_change', 'int');
 
 		// Get the table object
-		$component = $this->getClassName('prefix');
-		$name      = KInflector::pluralize($this->getClassName('suffix'));
+		$app   = $this->identifier->application;
+		$component = $this->identifier->component;
+		$name      = KInflector::pluralize($this->identifier->name);
 
-		$app   = KFactory::get('lib.joomla.application')->getName();
-		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name);
-		$row   = $table->fetchRow($id)->order($change);
+		$row = KFactory::get($app.'::com.'.$component.'.table.'.$name)
+				->fetchRow($id)
+				->order($change);
 
 		$this->setRedirect(
 			'view='.$name
@@ -219,7 +220,7 @@ class KControllerForm extends KControllerBread
 	}
 
 	/**
-	 * Filter the token to prevent CSRF exploirs
+	 * Filter the token to prevent CSRF exploits
 	 *
 	 * @return boolean	If successfull return TRUE, otherwise return false;
 	 * @throws KControllerException

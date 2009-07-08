@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_Toolbar
  * @subpackage	Button
- * 
+ *
  * @uses		KInflector
  */
 abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonInterface
@@ -26,31 +26,28 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 * @var string	[get|post|delete]
 	 */
 	protected $_method;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param array	Options array
 	 */
 	public function __construct(array $options = array())
 	{
+		$this->identifier = $options['identifier'];
+
         // Initialize the options
         $this->_options  = $this->_initialize($options);
         if($this->_options['parent']) {
         	$this->setParent($this->_options['parent']);
         }
         $this->setMethod($this->_options['method']);
-        
-        // Mixin the KClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'ToolbarButton')));
 
-        // Assign the classname with values from the config
-        $this->setClassName($this->_options['name']);
 	}
-	
+
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -58,24 +55,19 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
      */
     protected function _initialize(array $options)
     {
-    	$tmpname = isset($options['name']['suffix']) ? $options['name']['suffix'] : KInflector::getPart(get_class($this), -1); 
-    	
+    	$name = $this->identifier->name;
+
         $defaults = array(
-            'name'      => array(
-                        'prefix'    => 'k',
-                        'base'      => 'toolbarButton',
-                        'suffix'    => $tmpname
-                        ),
             'parent'	=> null,
-            'icon'		=> 'icon-32-'.$tmpname,
-            'id'		=> $tmpname,
-			'text'		=> ucfirst($tmpname),
+            'icon'		=> 'icon-32-'.$name,
+            'id'		=> $name,
+			'text'		=> ucfirst($name),
             'method'	=> 'get'
         );
 
         return array_merge($defaults, $options);
-    }    
-    
+    }
+
     /**
 	 * Set the parent toolbar
 	 *
@@ -87,7 +79,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     	$this->_parent = $toolbar;
     	return $this;
     }
-    
+
 	/**
 	 * Get the parent toolbar
 	 *
@@ -97,7 +89,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     {
     	return $this->_parent;
     }
-		
+
 	/**
 	 * Set the method used to submit the form
 	 *
@@ -109,7 +101,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 		$this->_method = strtolower($method);
 		return $this;
 	}
-		
+
 	/**
 	 * Get the element name
 	 *
@@ -117,17 +109,17 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 */
 	public function getName()
 	{
-		return $this->getClassName('suffix');
+		return $this->identifier->name;
 	}
 
 	public function render()
 	{
 		$text	= JText::_($this->_options['text']);
-		
+
 		$html 	= array ();
 		$html[]	= '<td class="button" id="'.$this->getId().'">';
 		$html[]	= '<a href="'.JRoute::_($this->getLink()).'" onclick="'. $this->getOnClick().'" class="toolbar">';
-		
+
 		$html[]	= '<span class="'.$this->getClass().'" title="'.$text.'">';
 		$html[]	= '</span>';
 		$html[]	= $text;
@@ -136,22 +128,22 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
 		return implode(PHP_EOL, $html);
 	}
-	
+
 	public function getLink()
 	{
 		return '#';
 	}
-	
+
 	public function getOnClick()
 	{
 		return '';
 	}
-	
+
 	public function getId()
 	{
 		return 'toolbar-'.$this->getParent()->getName().'-'.$this->_options['id'];
 	}
-	
+
 	public function getClass()
 	{
 		return $this->_options['icon'];

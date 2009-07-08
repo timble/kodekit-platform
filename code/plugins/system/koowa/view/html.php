@@ -35,14 +35,13 @@ class KViewHtml extends KViewAbstract
 
 	public function display()
 	{
-		$prefix = $this->getClassName('prefix');
-		$suffix = $this->getClassName('suffix');
-
-		$app = KFactory::get('lib.joomla.application')->getName();
+		$app 		= $this->identifier->application;
+		$component 	= $this->identifier->component;
+		$name 		= $this->identifier->name;
 
 		//Push the toolbar output into the document buffer
 		$this->_document->setBuffer(
-			KFactory::get($app.'::com.'.$prefix.'.toolbar.'.$suffix)->render(),
+			KFactory::get($app.'::com.'.$component.'.toolbar.'.$name)->render(),
 			'modules',
 			'toolbar'
 		);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Factory
  * @subpackage 	Adapter
@@ -19,181 +19,71 @@
 class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 {
 	/**
-	 * The alias object map
-	 *
-	 * @var	array
-	 */
-	protected static $_objectAliasMap = array(
-      	'table'     => 'DatabaseTable',
-        'row'       => 'DatabaseRow',
-      	'rowset'    => 'DatabaseRowset'
-	);
-	
-	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  The class identifier
+	 * @param mixed  Identifier or Identifier object - application::extension.component.type[[.path].name]
 	 * @param array  An optional associative array of configuration settings.
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, array $options)
 	{
 		$instance = false;
-		$array    = array();
-		
-		$parts = explode('::', $identifier);
-			
-		$array['application'] = $parts[0];
-		
-		if(isset($parts[1]) && strpos($parts[1], 'com') !== false) 
-		{
-			$parts = explode('.', $parts[1]);
-			array_shift($parts);
-			
-			// Admin is an alias for administrator
-			$array['application'] = ($array['application'] == 'admin') ? 'administrator' : $array['application'];
-			
-			// Set the component
-			$array['component']	= array_shift($parts);
-			
-			// Set the type
-			$array['type'] 		= array_shift($parts);
-			
-			// Set the name (last part)
-			if(count($parts)) {
-				$array['name'] = array_pop($parts);
-			}
-			
-			// Set the path (rest)
-			if(count($parts)) {
-				$array['path'] = $parts;
-			}
-				
-			$instance = self::_createInstanceFromArray($array, $options);
+
+		// we accept either a string or an identifier object.
+		if(!($identifier instanceof KFactoryIdentifierInterface)) {
+			$identifier = new KFactoryIdentifierComponent($identifier);
 		}
-	
+
+		if($identifier->extension == 'com') {
+			$instance = self::_createInstance($identifier, $options);
+		}
+
 		return $instance;
 	}
 
 	/**
 	 * Get an instance of an instanciatable class
 	 *
-	 * @param 	array	Object information
+	 * @param 	KFactoryIdentifierComponent	Identifier
 	 * @param 	array	Object options
 	 * @throws	KFactoryAdapterException
 	 * @return object
 	 */
-	protected static function _createInstanceFromArray($object, array $options = array())
+	protected static function _createInstance(KFactoryIdentifierInterface $identifier, array $options = array())
 	{
 		$instance = false;
-		
-		$client    = $object['application'];
-		$component = $object['component'];
-		
-		if(array_key_exists('type', $object)) {
-			$type =  $object['type'];
-		} else {
-			$type = '';
-		}
-		
-		if(array_key_exists('path', $object)) {
-			$path =  KInflector::camelize(implode('_', $object['path']));
-		} else {
-			$path = '';
-		}
- 
-		if(array_key_exists('name', $object)) {
-			$name = $object['name'];
-		} else {
-			$name = '';
-		}
-		
-        $classname = ucfirst($component).ucfirst($type).$path.ucfirst($name);   
-            
+
+        $classname = $identifier->getClassName();
+
       	if (!class_exists( $classname ))
 		{
 			//Create path
-			if(!isset($options['base_path']))
-			{
-				$options['base_path']  = JApplicationHelper::getClientInfo($client, true)->path;
-				$options['base_path'] .= DS.'components'.DS.'com_'.$component;
-
-				if(!empty($name)) 
-				{
-					$options['base_path'] .= DS.KInflector::pluralize($type);
- 
-					if(!empty($object['path'])) 
-					{
-						foreach($object['path'] as $sub) {
-							$options['base_path'] .= DS.KInflector::pluralize($sub);
-						}
-					}
-				}
+			if(!isset($options['base_path'])) {
+				$options['base_path'] = $identifier->getBasePath();
 			}
-			
+
 			//Find the file
-			$file = $options['base_path'].DS.self::_getFileName($type, $name);
+			$file = $options['base_path'].DS.$identifier->getFileName();
 			if(file_exists($file))
 			{
 				include $file;
 				if (!class_exists( $classname )) {
-					throw new KFactoryAdapterException($classname.' not found in file.' );
+					throw new KFactoryAdapterException("Class [$classname] not found in file [$file]" );
 				}
-
-				//Set the view base_path in the options array
-				$options['base_path'] = dirname($file);
 			}
-			else 
-			{
-				$alias = $type;
-				if(array_key_exists($type, self::$_objectAliasMap)) {
-					$alias = self::$_objectAliasMap[$type];
-				}
-				
-				if(class_exists( 'K'.ucfirst($alias).$path.ucfirst($name))) {
-					$classname = 'K'.ucfirst($alias).$path.ucfirst($name);
-				} else {
-					$classname = 'K'.ucfirst($alias).$path.'Default';
-				}  
+			else {
+				$classname = $identifier->getDefaultClass();
 			}
 		}
-		
-		if(class_exists( $classname )) 
+
+		if(class_exists( $classname ))
 		{
-			//Create the name suffix.
-			$suffix = !empty($path) ? strtolower($path).'_'.$name : $name;
-			
-			$options['name'] = array('prefix' => $component, 'base' => $type, 'suffix' => $suffix);
+			$options['identifier'] = $identifier;
 			$instance = new $classname($options);
 		}
 
 		return $instance;
 	}
 
-	/**
-	 * Get the filename for a specific class
-	 *
-	 * Function checks to see if the class has a static getFileName function,
-	 * otherwise it returns a default name.
-	 *
-	 * @return string The file name for the class
-	 */
-	protected static function _getFileName($class, $name)
-	{
-		$filename = '';
-	
-		switch($class)
-		{
-			case 'view' :
-			{
-				//Get the document type
-				$type   = KFactory::get('lib.joomla.document')->getType();
-				$filename = strtolower($name).DS.$type.'.php';
-			} break;
-			
-			default : $filename = strtolower($name).'.php';
-		}
-		
-		return $filename;
-	}	
+
 }

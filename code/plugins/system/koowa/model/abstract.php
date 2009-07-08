@@ -63,15 +63,11 @@ abstract class KModelAbstract extends KObject
 	 */
 	public function __construct(array $options = array())
 	{
+		$this->identifier = $options['identifier'];
+	
 		// Initialize the options
 		$options  = $this->_initialize($options);
-
-		// Mixin the KClass
-		$this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Model')));
-
-		// Assign the classname with values from the config
-		$this->setClassName($options['name']);
-
+		
 		//Use KObject to store the model state
 		$this->_state = new KObject();
 		$this->_state->setProperties($options['state']);
@@ -89,12 +85,7 @@ abstract class KModelAbstract extends KObject
 	protected function _initialize(array $options)
 	{
 		$defaults = array(
-            'name'          => array(
-                        'prefix'    => 'k',
-                        'base'      => 'model',
-                        'suffix'    => 'default'
-                        ),
-            'state'         => array()
+            'state'  => array()
                         );
 
         return array_merge($defaults, $options);
@@ -111,10 +102,10 @@ abstract class KModelAbstract extends KObject
     	unset($this->_item);
     	unset($this->_pagination);
     	unset($this->_total);
-    	
+
     	return $this;
     }
-    
+
 	/**
 	 * Method to set model state variables
 	 *
@@ -125,10 +116,10 @@ abstract class KModelAbstract extends KObject
 	public function setState( $property, $value = null )
 	{
 		$this->_state->set($property, $value);
-		
+
 		// changing state empties the model's cache because the data is now different
 		$this->reset();
-		
+
 		return $this;
 	}
 
@@ -201,10 +192,10 @@ abstract class KModelAbstract extends KObject
 		$filters = array();
 		$filters['limit']       = $this->getState('limit');
 		$filters['limitstart']  = $this->getState('offset');
-		 
+
 		return $filters;
 	}
-	 
+
 	/**
 	 * Get the default states
 	 *
@@ -215,7 +206,7 @@ abstract class KModelAbstract extends KObject
 		$app 	= KFactory::get('lib.joomla.application');
 		 
 		//Get the namespace
-		$ns  = $this->getClassName('prefix').'.'.$this->getClassName('suffix');
+		$ns  = $this->identifier->component.'.'.$this->identifier->name;
 
 		$state = array();
 		$state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');
