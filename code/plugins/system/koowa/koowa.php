@@ -1,6 +1,6 @@
 <?php
 /**
-* @version      $Id:koowa.php 251 2008-06-14 10:06:53Z mjaz $
+* @version		$Id$
 * @category		Koowa
 * @package      Koowa
 * @copyright    Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.

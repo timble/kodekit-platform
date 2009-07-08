@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:exception.php 368 2008-08-25 12:28:02Z mathias $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Controller
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.

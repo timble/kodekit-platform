@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Loader
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -29,8 +29,8 @@ KLoader::initialize();
  * @static
  */
 class KLoader
-{	
-	
+{
+
 	/**
 	 * Adapter list
 	 *
@@ -40,64 +40,64 @@ class KLoader
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
 	private function __construct() { }
-	
+
 	/**
 	 * Initialize
-	 * 
+	 *
 	 * @return void
-	 */	
+	 */
 	public static function initialize()
-	{	
+	{
 		//Created the adapter container
 		self::$_adapters = array();
-		
+
 		// Register the autoloader in a way to play well with as many configurations as possible.
 		spl_autoload_register(array(__CLASS__, 'load'));
-		
-		if (function_exists('__autoload')) {		
+
+		if (function_exists('__autoload')) {
 			spl_autoload_register('__autoload');
 		}
-				
+
         //Add the koowa adapter
         self::addAdapter(new KLoaderAdapterKoowa());
 	}
-	
+
 	/**
-	 * Load a class based on a class name 
+	 * Load a class based on a class name
 	 *
 	 * @param string  The class name
 	 * @return boolean	Returns TRUE on success throws exception on failure
 	 */
 	public static function load($class)
-	{	
+	{
 		// pre-empt further searching for the named class or interface.
 		// do not use autoload, because this method is registered with
 		// spl_autoload already.
 		if (class_exists($class, false) || interface_exists($class, false)) {
 			return true;
 		}
-		
+
 		//Use LIFO to allow for new adapters to override existing ones
 		$adpters = array_reverse(self::$_adapters);
-		
-		foreach(self::$_adapters as $adapter) 
+
+		foreach(self::$_adapters as $adapter)
 		{
-    		$result = $adapter->load( $class ); 
-			if ($result !== false) 
+    		$result = $adapter->load( $class );
+			if ($result !== false)
 			{
 				$mask = E_ALL ^ E_WARNING;
 				if (defined('E_DEPRECATED')) {
 					$mask = $mask ^ E_DEPRECATED;
 				}
-				
+
 				$old = error_reporting($mask);
 				$included = include $result;
 				error_reporting($old);
-				
+
 				if ($included) {
 					return true;
 				}
@@ -106,10 +106,10 @@ class KLoader
 
 		return false;
 	}
-	
+
 	/**
 	 * Add a loader adapter
-	 * 
+	 *
 	 * @param object 	A KLoaderAdapter
 	 * @return void
 	 */

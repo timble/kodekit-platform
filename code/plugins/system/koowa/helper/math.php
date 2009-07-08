@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:math.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage 	Math

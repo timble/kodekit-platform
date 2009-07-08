@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    	$Id:koowa.php 251 2008-06-14 10:06:53Z mjaz $
+ * @version    	$Id$
  * @category	Koowa
  * @package    	Koowa_Request
  * @copyright  	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -26,60 +26,60 @@ class KRequest
 {
 	/**
 	 * Accepted request hashes
-	 * 
+	 *
 	 * @var	array
 	 */
 	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER', 'REQUEST', 'SESSION');
-	
+
 	/**
 	 * Accepted request methods
-	 * 
+	 *
 	 * @var	array
 	 */
 	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'CLI');
-	
+
 	/**
 	 * Accepted request types
-	 * 
+	 *
 	 * @var	array
 	 */
 	protected static $_types = array('AJAX', 'FLASH');
-	
+
 	/**
 	 * URL of the request regardless of the server
-	 * 
+	 *
 	 * @var	KHttpUri
 	 */
 	protected static $_uri = null;
-	
+
 	/**
 	 * Base path of the request.
-	 * 
+	 *
 	 * @var	KHttpUri
 	 */
 	protected static $_base = null;
-	
+
 	/**
 	 * Base path of the request.
-	 * 
+	 *
 	 * @var	KHttpUri
 	 */
 	protected static $_referer = null;
-	
-	
+
+
 	/**
-	 * Get sanitized data from the request. 
-	 * 
+	 * Get sanitized data from the request.
+	 *
 	 * @param	string				Variable identifier, prefixed by hash name eg post.foo.bar
 	 * @param 	mixed				Filter(s), can be a KFilterInterface object, or array of filter names
 	 * @param 	mixed				Default value when the variable doesn't exist
 	 * @throws	KRequestException	When an invalid filter was passed
-	 * @return 	mixed				The sanitized data 
+	 * @return 	mixed				The sanitized data
 	 */
 	public static function get($identifier, $filter, $default = null)
 	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
-			
+
 		$result = $GLOBALS['_'.$hash];
 		foreach($keys as $key)
 		{
@@ -90,65 +90,65 @@ class KRequest
 				break;
 			}
 		}
-		
+
 		// If the value is null return the default
 		if(is_null($result)) {
-			return $default; 	
+			return $default;
 		}
-		
+
 		if(!($filter instanceof KFilterInterface))
 		{
 			$names = (array) $filter;
-			
+
 			$name   = array_shift($names);
 			$filter = self::_createFilter($name);
-			
+
 			foreach($names as $name) {
 				$filter->addFilter($this->_createFilter($name));
 			}
 		}
-		
+
 		return $filter->sanitize($result);
 	}
-	
+
 	/**
 	 * Set a variable in the request. Cookies and session data are stored persistently.
 	 *
 	 * @param 	mixed	Variable identifier, prefixed by hash name eg post.foo.bar
 	 * @param 	mixed	Variable value
 	 */
-	public static function set($identifier, $value) 
-	{		
+	public static function set($identifier, $value)
+	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
-		
+
 		// Add to _REQUEST hash if original hash is get, post, or cookies
 		if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
 			self::set('request.'.implode('.', $keys), $value);
 		}
-					
+
 		// store cookies persistently
-		if($hash == 'COOKIE') 
-		{	
+		if($hash == 'COOKIE')
+		{
 			// rewrite the $keys as foo[bar][bar]
 			$ckeys = $keys; // get a copy
 			$name = array_shift($ckeys);
 			foreach($ckeys as $ckey) {
 				$name .= '['.$ckey.']';
 			}
-			
+
 			if(!setcookie($name, $value)) {
 				throw new KRequestException("Couldn't set cookie, headers already sent.");
 			}
 		}
-		
+
 		// Store in $GLOBALS
 		foreach(array_reverse($keys, true) as $key) {
 			$value = array($key => $value);
-		}		
+		}
 		$GLOBALS['_'.$hash] = array_merge($GLOBALS['_'.$hash], $value);
-		
+
 	}
-	
+
 	/**
 	 * Check if a variable exists based on an identifier
 	 *
@@ -158,7 +158,7 @@ class KRequest
 	public static function has($identifier)
 	{
 		list($hashes, $keys) = self::_parseIdentifier($identifier);
-		
+
 		// find $var in the hashe
 		foreach($keys as $key)
 		{
@@ -166,27 +166,27 @@ class KRequest
 				return true;;
 			}
 		}
-		
-		return false; 
+
+		return false;
 	}
-	
+
 	/**
-	 * Alias of referrer() 
-	 * 
+	 * Alias of referrer()
+	 *
 	 * 'referer' is the a commonly used misspelling of 'referrer'
-	 * @see 	http://en.wikipedia.org/wiki/HTTP_referrer 
-	 *  
+	 * @see 	http://en.wikipedia.org/wiki/HTTP_referrer
+	 *
 	 * @param	boolean		Only allow internal url's
 	 * @return  KHttpUri	A KHttpUri object
 	 */
-	public static function referer($isInternal = true) 
+	public static function referer($isInternal = true)
 	{
 		return self::referrer($isInternal);
 	}
-	
+
 	/**
  	 * Returns the HTTP referer.
-	 * 
+	 *
 	 * @param	boolean		Only allow internal url's
 	 * @return  KHttpUri	A KHttpUri object
 	 */
@@ -197,17 +197,17 @@ class KRequest
 			$referer = KRequest::get('server.HTTP_REFERER', 'url');
 			self::$_referer = KFactory::get('lib.koowa.http.uri', array('uri' => $referer));
 		}
-		
-		if($isInternal) 
-		{	
+
+		if($isInternal)
+		{
 			if(!KFactory::get('lib.koowa.filter.internalurl')->validate(self::$_referer)) {
 				return null;
 			}
 		}
-		
+
 		return self::$_referer;
 	}
-	
+
 	/**
  	 * Return the URI of the request regardless of the server
 	 *
@@ -222,8 +222,8 @@ class KRequest
 	     	 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 		 	 * are present, we will assume we are running on apache.
 		 	 */
-			if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI'])) 
-			{	
+			if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI']))
+			{
 				/*
 			 	 * To build the entire URI we need to prepend the protocol, and the http host
 			 	 * to the URI string.
@@ -246,18 +246,18 @@ class KRequest
 					$url .= '?' . $_SERVER['QUERY_STRING'];
 				}
 			}
-			
+
 			// Sanitize the url since we can't trust the server var
 			$url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
-			
+
 			// Create the URI object
-			self::$_uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));	
-			
-		}	
-		
+			self::$_uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
+
+		}
+
 		return self::$_uri;
 	}
-	
+
 	/**
 	 * Returns the base path of the request.
 	 *
@@ -275,10 +275,10 @@ class KRequest
 				//Others
 				$path =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
-						
+
 			// Sanitize the url since we can't trust the server var
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
-			
+
 			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
 		}
 
@@ -296,14 +296,14 @@ class KRequest
 		if (PHP_SAPI === 'cli') {
 			return NULL;
 		}
-		
+
 		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 			return 'https';
 		} else {
 			return 'http';
 		}
 	}
-	
+
 	/**
  	 * Return the accepted languages
  	 *
@@ -316,22 +316,22 @@ class KRequest
 		$languages  = substr( $accept, 0, strcspn($accept, ';' ) );
 		$languages	= explode( ',', $languages );
 		$languages  = array_map('strtolower', $languages);
-		
+
 		return $languages;
 	}
-	
+
 	/**
 	 * Returns current request method.
-	 * 
+	 *
 	 * @throws 	KRequestException Wgen the method could not be found
 	 * @return  string
 	 */
 	public static function method()
 	{
-		if(PHP_SAPI != 'cli') 
+		if(PHP_SAPI != 'cli')
 		{
 			$method   =  strtoupper($_SERVER['REQUEST_METHOD']);
-	
+
 			if($method == 'POST')
 			{
 				if(isset($_SERVER['X-HTTP-Method-Override'])) {
@@ -339,14 +339,14 @@ class KRequest
 				}
 			}
 		} else $method = 'CLI';
-		
+
 		if ( ! in_array($method, self::$_methods)) {
 			throw new KRequestException('Unknown method : '.$method);
 		}
-        
+
 	  	return $method;
 	}
-	
+
 	/**
 	 * Return the current request type.
 	 *
@@ -356,22 +356,22 @@ class KRequest
 	public static function type()
 	{
 		$type = '';
-		
+
 		if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 			$type = 'AJAX';
 		}
-		
+
 		if( isset($_SERVER['HTTP_X_FLASH_VERSION'])) {
 			$type = 'FLASH';
 		}
-		
+
 		if ( ! in_array($type, self::$_type)) {
 			throw new KRequestException('Unknown type : '.$method);
 		}
-		
+
 		return $type;
 	}
-	    
+
 	/**
 	 * Parse the variable identifier
 	 *
@@ -383,26 +383,26 @@ class KRequest
 	{
 		$parts = array();
 		$hash  = $identifier;
-		
+
 		// Validate the variable format
-		if(strpos($identifier, '.') !== false) 
+		if(strpos($identifier, '.') !== false)
 		{
 			// Split the variable name into it's parts
 			$parts = explode('.', $identifier);
-		
+
 			// Validate the hash name
 			$hash 	= array_shift($parts);
 		}
-		
+
 		$hash = strtoupper($hash);
-		
+
 		if(!in_array($hash, self::$_hashes)) {
 			throw new KRequestException("Unknown hash '$hash' in '$identifier'");
 		}
-		
+
 		return array($hash, $parts);
 	}
-	
+
 	/**
 	 * Create a filter based on it's name
 	 *
@@ -417,7 +417,7 @@ class KRequest
 		} catch(KFactoryAdapterException $e) {
 			throw new KRequestException('Invalid filter: '.$name);
 		}
-		
+
 		return $filter;
 	}
 }

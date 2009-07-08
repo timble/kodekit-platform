@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:koowa.php 251 2008-06-14 10:06:53Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Plugins
  * @subpackage  System
@@ -21,75 +21,75 @@ class plgSystemKoowa extends JPlugin
 	public function __construct($subject, $config = array())
 	{
 		// Check if Koowa is active
-		if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli') 
+		if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
 		{
     		JError::raiseWarning(0, JText::_("Koowa plugin requires MySQLi Database Driver. Please change your database configuration settings to 'mysqli'"));
     		return;
 		}
-		
-		if( self::canEnable()) 
-		{	
+
+		if( self::canEnable())
+		{
 			// Require the library loader
 			JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
 			JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
-			
+
 			//Add loader adapters
 			KLoader::addAdapter(new KLoaderAdapterJoomla());
         	KLoader::addAdapter(new KLoaderAdapterComponent());
-			
+
 			//Add factory adapters
 			KFactory::addAdapter(new KFactoryAdapterJoomla());
         	KFactory::addAdapter(new KFactoryAdapterComponent());
-        		
-			// Decorate the application object 
+
+			// Decorate the application object
 			$app  =& JFactory::getApplication();
 			$app  = new KDecoratorJoomlaApplication($app);
-			
+
 			//Create the koowa database object
 			$kdb = KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'));
-			
+
 			// Decorate the database object
 			$jdb  =& JFactory::getDBO();
 			$jdb  = new KDecoratorJoomlaDatabase($jdb);
-			
+
 			// Create the koowa database object
 			$kdb->setConnection($jdb->_resource);
 			$kdb->setTablePrefix($jdb->_table_prefix);
-			
+
 			//ACL uses the unwrapped DBO
 	        $acl = JFactory::getACL();
 	        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
-			
+
 			//Load the koowa plugins
 			JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 		}
-		
+
 		parent::__construct($subject, $config = array());
 	}
 
 	public function onAfterRoute()
 	{
-		if(self::canEnable()) 
-		{	
+		if(self::canEnable())
+		{
 			//Replace the document object
 			$lang = KFactory::get('lib.joomla.language');
-			
+
 			$options = array (
 				'charset'	=> 'utf-8',
 				'language'	=> $lang->getTag(),
 				'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 			);
-			
+
 			$format = KRequest::get('get.format', 'word', 'html');
-				
+
 			$doc =& JFactory::getDocument();
 			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
 		}
 	}
-	
+
 	/**
 	 * Check if the current request requires Koowa to be turned off
-	 * 
+	 *
 	 * Eg. Koowa should be disabled when uninstalling plugins
 	 *
 	 * @return	bool
@@ -97,16 +97,16 @@ class plgSystemKoowa extends JPlugin
 	public static function canEnable()
 	{
 		$result = true;
-		
+
 		// Note: can't use KRequest, Koowa isn't loaded yet
-		
+
 		// Are we uninstalling a plugin?
-		if(JRequest::getCmd('option') == 'com_installer' 
+		if(JRequest::getCmd('option') == 'com_installer'
 			&& JRequest::getCmd('action') == 'remove'
 			&& JRequest::getCmd('type') == 'plugins' ) {
 			$result = false;
 		}
-	
+
 		return $result;
 	}
 }

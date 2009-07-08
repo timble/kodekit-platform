@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -21,7 +21,7 @@ class KLoaderAdapterKoowa implements KLoaderAdapterInterface
 {
 	/**
 	 * Load a class based on a class name
-	 * 
+	 *
 	 * Is capable of autoloading Koowa library classes based on a camelcased
      * classname that represents the directory structure.
 	 *
@@ -35,20 +35,20 @@ class KLoaderAdapterKoowa implements KLoaderAdapterInterface
 		{
 			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', substr_replace($class, '', 0, 1)));
 			$parts = explode('_', $word);
-			
+
 			if(count($parts) > 1) {
 				$path = str_replace('_', DS, $word);
 			} else {
 				$path = $word.DS.$word;
 			}
-				
+
 			//Get the basepath
 			$basepath = Koowa::getPath();
-				
+
 			if(!is_file($basepath.DS.$path.'.php')) {
-				$path = $path.DS.array_pop($parts);	
+				$path = $path.DS.array_pop($parts);
 			}
-				
+
 			//Return the full path
 			return $basepath.DS.$path.'.php';
 		}

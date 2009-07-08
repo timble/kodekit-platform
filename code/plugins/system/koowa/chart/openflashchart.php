@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:openflashchart.php 137 2007-11-20 18:32:09Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Chart
  * @subpackage  OpenFlashChart
@@ -65,7 +65,7 @@ class KChartOpenflashchart extends KObject
         $option 	= KRequest::get('get.option', 'cmd');
         $dataUrl    = urlencode($dataUrl);
         $protocol   = KRequest::protocol();
-        
+
         ob_start();
         ?>
         <div style="width:<?php echo $width?>;height:<?php echo $height?>;" <?php echo $divAttr?>>

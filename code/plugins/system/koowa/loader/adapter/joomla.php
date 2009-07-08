@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -20,12 +20,12 @@ class KLoaderAdapterJoomla implements KLoaderAdapterInterface
 {
 	/**
 	 * Load the class
-	 * 
+	 *
 	 * @param string  The class name
 	 * @return string|false	Returns the path on success FALSE on failure
 	 */
-	public function load($class) 
-	{	
+	public function load($class)
+	{
 		// If class start with a 'J' it is a Joomla framework class and we handle it
 		if(substr($class, 0, 1) == 'J')
 		{

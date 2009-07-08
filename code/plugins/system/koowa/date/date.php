@@ -1,13 +1,13 @@
 <?php
 /**
- * @version     $Id:date.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Date
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
  */
- 
+
 /**
  * "YYYY-MM-DD HH:MM:SS"
  */
@@ -35,10 +35,10 @@ define('DATE_FORMAT_UNIXTIME', 5);
 
 define( 'SECONDS_IN_HOUR', 3600 );
 define( 'SECONDS_IN_DAY', 86400 );
- 
+
  /**
  * Date object
- * 
+ *
  * This class draws heavily on PEAR:Date Copyright (c) 1997-2005 Baba Buehler,
  * Pierre-Alain Joye Released under the New BSD license
  *
@@ -52,50 +52,50 @@ class KDate extends KObject
 {
 	/**
 	 * The year
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	public $year;
-	
+
 	/**
 	 *  The month
-	 * 
+	 *
 	 * @var int
 	 */
 	public $month;
-	
+
 	/**
 	 * The day
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	public $day;
-	
+
 	/**
 	 * The hour
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	public $hour;
-	
+
 	/**
 	 * The minute
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	public $minute;
-	
+
 	/**
 	 * The second
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	public $second;
-	
+
 	/**
 	 * Part second
-	 * 
-	 * @var float 
+	 *
+	 * @var float
 	 */
 	public $partsecond;
 
@@ -110,24 +110,24 @@ class KDate extends KObject
 	 *
 	 * @see setDate()
 	 * @param	array An optional associative array of configuration settings.
-	 * 				  Recognized key values include 'date' 
+	 * 				  Recognized key values include 'date'
 	 * @return KDate The new Date object
 	 */
 	public function __construct( array $options = array() )
 	{
 		// Initialize the options
-        $options  = $this->_initialize($options);	
-		
+        $options  = $this->_initialize($options);
+
 		if (is_a( $options['date'], 'KDate' )) {
 			$this->copy( $options['date'] );
 		} else {
 			$this->setDate( $options['date'] );
 		}
 	}
-	
+
 	/**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Options
@@ -184,7 +184,7 @@ class KDate extends KObject
 			$this->second		= 0;
 			$this->partsecond	= (float)0;
 		}
-		
+
 		return $this;
 	}
 
@@ -382,7 +382,7 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of years to the current date.
-	 * 
+	 *
 	 * @return KDate
 	 */
 	public function addYears( $n )
@@ -393,7 +393,7 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of months to the current date.
-	 * 
+	 *
 	 * @param int Positive or negative number of months
 	 * @return KDate
 	 */
@@ -421,13 +421,13 @@ class KDate extends KObject
 				$this->month -= 12;
 			}
 		}
-		
+
 		return $this;
 	}
 
 	/**
 	 * Adds (+/-) a number of days to the current date.
-	 * 
+	 *
 	 * @param int The number of days
 	 * @return KDate
 	 */
@@ -439,7 +439,7 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of hours to the current date.
-	 * 
+	 *
 	 * @param int The number of days
 	 * @return KDate
 	 */
@@ -451,7 +451,7 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of minutes to the current date.
-	 * 
+	 *
 	 * @param int The number of days
 	 * @return KDate
 	 */
@@ -463,7 +463,7 @@ class KDate extends KObject
 
 	/**
 	 * Adds (+/-) a number of seconds to the current date.
-	 * 
+	 *
 	 * @param int The number of days
 	 * @return KDate
 	 */
@@ -511,7 +511,7 @@ class KDate extends KObject
             floor( (153 * $month + 2) / 5 ) +
             $day + 1721119);
     }
-	
+
 	/**
 	 * Returns day of week for given date (0 = Sunday)
 	 *
@@ -540,7 +540,7 @@ class KDate extends KObject
 		$weekday_number = $day - 7 * floor($day / 7);
 		return $weekday_number;
 	}
-	
+
 	/**
 	 * Returns the full weekday name for the given date
 	 *

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: database.php 755 2009-04-24 07:42:19Z johan $
+ * @version		$Id$
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter

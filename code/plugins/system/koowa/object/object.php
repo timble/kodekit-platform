@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:object.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -70,10 +70,10 @@ class KObject
 
 	/**
 	 * Get a handle for this object
-	 * 
-	 * This function returns an unique identifier for the object. This id can be used as 
+	 *
+	 * This function returns an unique identifier for the object. This id can be used as
 	 * a hash key for storing objects or for identifying an object
-	 * 
+	 *
 	 * @return string A string that is unique
 	 */
 	public function getHandle()

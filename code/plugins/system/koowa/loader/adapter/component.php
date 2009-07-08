@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 	$Id:factory.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version 	$Id$
  * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
@@ -18,22 +18,22 @@
  * @uses		KInflector
  */
 class KLoaderAdapterComponent implements KLoaderAdapterInterface
-{	
+{
 	/**
 	 * Load the class
-	 * 
+	 *
 	 * @param string  The class name
 	 * @return string|false	Returns the path on success FALSE on failure
 	 */
-	public function load($class) 
-	{	
+	public function load($class)
+	{
 		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class));
 		$parts = explode('_', $word);
-		
+
 		$component = 'com_'.strtolower(array_shift($parts));
-				
-		if(JComponentHelper::getComponent($component, true)->enabled) 
-		{ 	
+
+		if(JComponentHelper::getComponent($component, true)->enabled)
+		{
 			if(count($parts) > 1) {
 				$path = KInflector::pluralize(array_shift($parts)).DS.implode(DS, $parts);
 			} else {
@@ -42,10 +42,10 @@ class KLoaderAdapterComponent implements KLoaderAdapterInterface
 
 			//Get the basepath
 			$basepath = JPATH_BASE.DS.'components';
-			
+
 			return $basepath.DS.$component.DS.$path.'.php';
-		} 
-		
-		return false;		
+		}
+
+		return false;
 	}
 }

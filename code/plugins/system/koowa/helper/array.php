@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:array.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage	Array
@@ -40,10 +40,10 @@ class KHelperArray
         }
         return $array;
     }
-    
+
  	/**
      * Count array items recursively
-     * 
+     *
      * @param	array
      * @return	int
      */
@@ -60,7 +60,7 @@ class KHelperArray
         }
         return $count;
     }
-    
+
     /**
      * Extracts a column from an array of arrays or objects
      *
@@ -71,7 +71,7 @@ class KHelperArray
     public static function getColumn(array $array, $index)
     {
         $result = array();
-        
+
         foreach($array as $k => $v)
         {
             if(is_object($v)) {
@@ -80,10 +80,10 @@ class KHelperArray
                 $result[$k] = $v[$index];
             }
         }
-        
+
         return $result;
     }
- 
+
 	/**
 	 * Utility function to map an array to a string
 	 *
@@ -91,7 +91,7 @@ class KHelperArray
 	 * @param	array	$array		The array to map.
 	 * @param	string	$inner_glue 	The inner glue to use, default '='
 	 * @param	string	$outer_glue		The outer glue to use, defaut  ' '
-	 * @param	boolean	$keepOuterKey	
+	 * @param	boolean	$keepOuterKey
 	 * @return	string	The string mapped from the given array
 	 */
 	public static function toString( array $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
@@ -107,7 +107,7 @@ class KHelperArray
 					if ($keepOuterKey) {
 						$output[] = $key;
 					}
-					
+
 					// This is value is an array, go and do it again!
 					$output[] = KHelperArray::toString( $item, $inner_glue, $outer_glue, $keepOuterKey);
 				}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id:array.php 46 2008-03-01 18:39:32Z mjaz $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage	Array
@@ -14,7 +14,7 @@
  */
 
 // check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) 
+if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
 {
 	//Make sure to surpress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
@@ -23,7 +23,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // check if iconv extension is loaded and attempt to load it if not present except for windows
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so')))) 
+if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
 {
    	// these are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
@@ -33,7 +33,7 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 
 /**
  * String helper class for utf-8 data
- * 
+ *
  * All functions assume the validity of utf-8 strings.
  *
  * @author      Johan Janssens <johan@koowa.org>
@@ -46,7 +46,7 @@ class KHelperString
 {
 	/**
 	 * UTF-8 aware alternative to strpos
-	 * 
+	 *
 	 * Find position of first occurrence of a string
 	 *
 	 * @param $str - string String being examined
@@ -69,7 +69,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strrpos
-	 * 
+	 *
 	 * Finds position of last occurrence of a string
 	 *
 	 * @param $str - string String being examined
@@ -106,7 +106,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to substr
-	 * 
+	 *
 	 * Return part of a string given character offset (and optionally length)
 	 *
 	 * @param string
@@ -126,9 +126,9 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strtlower
-	 * 
+	 *
 	 * Make a string lowercase
-	 * 
+	 *
 	 * Note: The concept of a characters "case" only exists is some alphabets
 	 * such as Latin, Greek, Cyrillic, Armenian and archaic Georgian - it does
 	 * not exist in the Chinese alphabet, for example. See Unicode Standard
@@ -145,9 +145,9 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strtoupper
-	 * 
+	 *
 	 * Make a string uppercase
-	 * 
+	 *
 	 * Note: The concept of a characters "case" only exists is some alphabets
 	 * such as Latin, Greek, Cyrillic, Armenian and archaic Georgian - it does
 	 * not exist in the Chinese alphabet, for example. See Unicode Standard
@@ -164,7 +164,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strlen
-	 * 
+	 *
 	 * Returns the number of characters in the string (NOT THE NUMBER OF BYTES),
 	 *
 	 * @param string UTF-8 string
@@ -178,7 +178,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to str_ireplace
-	 * 
+	 *
 	 * Case-insensitive version of str_replace
 	 *
 	 * @param string string to search
@@ -236,7 +236,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to str_split
-	 * 
+	 *
 	 * Convert a string to an array
 	 *
 	 * @param string UTF-8 encoded
@@ -261,7 +261,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strcasecmp
-	 * 
+	 *
 	 * A case insensivite string comparison
 	 *
 	 * @param string string 1 to compare
@@ -310,7 +310,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to stristr
-	 * 
+	 *
 	 * Returns all of haystack from the first occurrence of needle to the end.
 	 * needle and haystack are examined in a case-insensitive manner
 	 * Find first occurrence of a string using case insensitive comparison
@@ -339,7 +339,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strrev
-	 * 
+	 *
 	 * Reverse a string
 	 *
 	 * @param string String to be reversed
@@ -354,7 +354,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to strspn
-	 * 
+	 *
 	 * Find length of initial segment matching mask
 	 *
 	 * @param string the haystack
@@ -382,7 +382,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware substr_replace
-	 * 
+	 *
 	 * Replace text within a portion of a string
 	 *
 	 * @param string the haystack
@@ -404,7 +404,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware replacement for ltrim()
-	 * 
+	 *
 	 * Strip whitespace (or other characters) from the beginning of a string
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise ltrim will
@@ -427,7 +427,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware replacement for rtrim()
-	 * 
+	 *
 	 * Strip whitespace (or other characters) from the end of a string
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise rtrim will
@@ -452,7 +452,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware replacement for trim()
-	 * 
+	 *
 	 * Strip whitespace (or other characters) from the beginning and end of a string
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise trim will
@@ -474,7 +474,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to ucfirst
-	 * 
+	 *
 	 * Make a string's first character uppercase
 	 *
 	 * @param string
@@ -483,7 +483,7 @@ class KHelperString
 	*/
 	public static function ucfirst($str)
 	{
-		switch ( KHelperString::strlen($str) ) 
+		switch ( KHelperString::strlen($str) )
 		{
         	case 0:
             	return '';
@@ -500,7 +500,7 @@ class KHelperString
 
 	/**
 	 * UTF-8 aware alternative to ucwords
-	 * 
+	 *
 	 * Uppercase the first character of each word in a string
 	 *
 	 * @param string
@@ -518,9 +518,9 @@ class KHelperString
 
 	/**
 	 * Callback function for preg_replace_callback call in utf8_ucwords
-	 * 
+	 *
 	 * You don't need to call this yourself
-	 * 
+	 *
 	 * @param array of matches corresponding to a single word
 	 * @return string with first char of the word in uppercase
 	 * @see ucwords
@@ -554,12 +554,12 @@ class KHelperString
 			return iconv($from_encoding, $to_encoding.'//TRANSLIT', $source);
 		}
 	}
-	
+
 	/**
 	 * Tests a string as to whether it's valid UTF-8 and supported by the Unicode standard
-	 * 
+	 *
 	 * Note: this function has been modified to simple return true or false
-	 * 
+	 *
 	 * @author <hsivonen@iki.fi>
 	 * @param string UTF-8 encoded string
 	 * @return boolean true if valid
@@ -693,7 +693,7 @@ class KHelperString
 	 * attackers will be able to inject 5 and 6 byte sequences (which
 	 * may or may not be a significant risk, depending on what you are
 	 * are doing)
-	 * 
+	 *
 	 * @see valid
 	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @param string UTF-8 string to check
