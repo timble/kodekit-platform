@@ -9,7 +9,7 @@
  */
 
 /**
- * Abstract Factory Adpater
+ * Abstract Factory Adapter
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

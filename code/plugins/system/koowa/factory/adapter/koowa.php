@@ -9,7 +9,7 @@
  */
 
 /**
- * Factory Adpater for the Koowa framework
+ * Factory Adapter for the Koowa framework
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

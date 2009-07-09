@@ -9,7 +9,7 @@
  */
 
 /**
- * Factory adpater for a component
+ * Factory Adapter for a component
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

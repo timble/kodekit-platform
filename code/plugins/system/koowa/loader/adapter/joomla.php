@@ -9,7 +9,7 @@
  */
 
 /**
- * Loader Adpater for the Joomla! framework
+ * Loader Adapter for the Joomla! framework
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

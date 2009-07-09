@@ -9,7 +9,7 @@
  */
 
 /**
- * Factory Adpater Interface
+ * Factory Adapter Interface
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

@@ -9,7 +9,7 @@
  */
 
 /**
- * Factory Adpater for the Joomla! framework
+ * Factory Adapter for the Joomla! framework
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

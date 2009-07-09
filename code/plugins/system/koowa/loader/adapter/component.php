@@ -9,7 +9,7 @@
  */
 
 /**
- * Loader Adpater for a component
+ * Loader Adapter for a component
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
