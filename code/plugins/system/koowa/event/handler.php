@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Event
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @license     GNU GPL <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.koowa.org
  */
 
@@ -18,12 +18,13 @@
 class KEventHandler extends KObject implements KPatternObserver
 {
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
 	 */
-	public function __construct()
+	public function __construct(array $options = array())
 	{
-        // Mixin the KClass
-        $this->mixin(new KMixinClass(array('mixer' => $this, 'name_base' => 'Event')));
+        $this->identifier = $options['identifier'];
 	}
 
 	/**
