@@ -10,7 +10,7 @@
 */
 
 /**
- * Template filter for tokens such as @template, @text, @helper, @route
+ * Template filter for tokens such as @template, @text, @helper, @route etc
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
@@ -31,6 +31,7 @@ class KTemplateFilterToken extends KObject implements KTemplateFilterInterface
 		'@route('    	=> '$this->createRoute(',
 		'@script('    	=> "KTemplate::loadHelper('script',",
 		'@style('    	=> "KTemplate::loadHelper('stylesheet',",
+		'@date('    	=> "KTemplate::loadHelper('date',",
 	);
 	
 	/**
