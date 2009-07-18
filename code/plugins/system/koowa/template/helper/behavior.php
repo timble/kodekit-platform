@@ -14,7 +14,7 @@
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
- * @package		Koowa_View
+ * @package		Koowa_Template
  * @subpackage	Helper
  */
 class KTemplateHelperBehavior extends KObject
@@ -80,8 +80,8 @@ class KTemplateHelperBehavior extends KObject
 		$document = KFactory::get('lib.joomla.document');
 
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($included)) {
-
+		if (!isset($included)) 
+		{
 			// Load the javascript and css
 			KTemplate::loadHelper('script',     JURI::root(true).'/media/system/js/modal.js');
 			KTemplate::loadHelper('stylesheet', JURI::root(true).'/media/system/css/modal.css');

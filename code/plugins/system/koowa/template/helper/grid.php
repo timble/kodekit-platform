@@ -198,7 +198,7 @@ class KTemplateHelperGrid extends KObject
 		return $checked;
 	}
 
-	protected function _checkedOut( &$row, $overlib = 1 )
+	protected function _checkedOut( $row, $overlib = 1 )
 	{
 		$hover = '';
 		if ( $overlib )
