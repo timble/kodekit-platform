@@ -31,12 +31,17 @@ var KTabs = new Class({
     initialize: function(dlist, options)
     {
         this.dlist = $(dlist);
-        this.setOptions(this.getOptions(), options);
+        this.setOptions(this.getOptions(), Json.evaluate(options));
         this.titles = this.dlist.getElements('dt');
         this.descriptions = this.dlist.getElements('dd');
         this.content = new Element('div').injectAfter(this.dlist).addClass('current');
+          
+        if(this.options.height) {
+        	this.content.setStyle('height', this.options.height);
+        }
 
-        for (var i = 0, l = this.titles.length; i < l; i++){
+        for (var i = 0, l = this.titles.length; i < l; i++)
+        {
             var title = this.titles[i];
             var description = this.descriptions[i];
             title.setStyle('cursor', 'pointer');

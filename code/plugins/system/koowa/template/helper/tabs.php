@@ -35,34 +35,15 @@ class KTemplateHelperTabs extends KObject
 	/**
 	 * Creates a pane and creates the javascript object for it
 	 *
+	 * @param	array	An associative array of behavior options
 	 * @param	array	An associative array of pane attributes
 	 */
-	public function startPane( $id, array $attribs = array() )
+	public function startPane( $id, array $options = array(), array $attribs = array() )
 	{
 		$id = strtolower($id);
 	
-		$document = KFactory::get('lib.joomla.document');
-
-		$options = '{';
-		$opt['onActive']	 = (isset($params['onActive'])) ? $params['onActive'] : null ;
-		$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-		$opt['display']		 = (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
-		
-		foreach ($opt as $k => $v)
-		{
-			if ($v) {
-				$options .= $k.': '.$v.',';
-			}
-		}
-		
-		if (substr($options, -1) == ',') {
-			$options = substr($options, 0, -1);
-		}
-		$options .= '}';
-
-		$js = '		window.addEvent(\'domready\', function(){ $$(\'dl#tabs-'.$id.'\').each(function(tabs){ new KTabs(tabs, '.$options.'); }); });';
-
-		$document->addScriptDeclaration( $js );	
+		$js = 'window.addEvent(\'domready\', function(){ $$(\'dl#tabs-'.$id.'\').each(function(tabs){ new KTabs(tabs, \''.json_encode($options).'\'); }); });';
+		$document = KFactory::get('lib.joomla.document')->addScriptDeclaration( $js );	
 	
 		$attribs = KHelperArray::toString($attribs);	
 		return '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';
