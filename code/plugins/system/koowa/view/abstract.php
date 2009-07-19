@@ -74,9 +74,6 @@ abstract class KViewAbstract extends KObject
 		// Initialize the options
         $options  = $this->_initialize($options);
 
-		 // set the charset (used by the variable escaping functions)
-        $this->_charset = $options['charset'];
-
 		 // user-defined escaping callback
         $this->setEscape($options['escape']);
 
