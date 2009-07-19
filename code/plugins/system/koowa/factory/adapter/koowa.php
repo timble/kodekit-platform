@@ -30,7 +30,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		// we accept either a string or an identifier object.
+		// We accept either a string or an identifier object.
 		if(!($identifier instanceof KFactoryIdentifierInterface)) {
 			$identifier = new KFactoryIdentifierKoowa($identifier);
 		}
@@ -42,7 +42,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 			if (!class_exists($classname))
 			{
 				// use default class instead
-				$classname = $identifier->getDefaultClass();
+				$classname = $identifier->getDefaultClassName();
 				if (!class_exists($classname)) {
 					throw new KFactoryAdapterException("Could't create instance for $identifier");
 				}

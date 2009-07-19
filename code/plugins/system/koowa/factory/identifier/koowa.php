@@ -21,27 +21,30 @@
  */
 class KFactoryIdentifierKoowa extends KObject implements KFactoryIdentifierInterface
 {
-
 	/**
-	 * Extension [lib]
+	 * The extension [lib]
+	 * 
 	 * @var string
 	 */
 	public $extension;
 
 	/**
-	 * Library name
+	 * The library name
+	 * 
 	 * @var string
 	 */
 	public $library;
 
 	/**
-	 * Path array
+	 * The path array
+	 * 
 	 * @var array
 	 */
 	public $path = array();
 
 	/**
-	 * Name
+	 * The Object name
+	 * 
 	 * @var string
 	 */
 	public $name;
@@ -69,7 +72,34 @@ class KFactoryIdentifierKoowa extends KObject implements KFactoryIdentifierInter
 		}
 
 	}
+	
+	/**
+	 * Get the class name
+	 *
+	 * @return string
+	 */
+	public function getClassName()
+	{
+        $classname = 'K'.KInflector::implode($this->path).ucfirst($this->name);
+		return $classname;
+	}
 
+	/**
+	 * Get the classname for the KFooBar or KFooDefault class
+	 *
+	 * @return string
+	 */
+	public function getDefaultClassName()
+	{
+	    $classname = 'K'.KInflector::implode($this->path).'Default';
+		return $classname;
+	}
+	
+	/**
+	 * Formats the indentifier as a string
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		$string = $this->extension.'.'.$this->library;
@@ -81,17 +111,4 @@ class KFactoryIdentifierKoowa extends KObject implements KFactoryIdentifierInter
 		$string .= '.'.$this->name;
 		return $string;
 	}
-
-	public function getClassName()
-	{
-        $classname = 'K'.KInflector::implode($this->path).ucfirst($this->name);
-		return $classname;
-	}
-
-	public function getDefaultClass()
-	{
-	    $classname = 'K'.KInflector::implode($this->path).'Default';
-		return $classname;
-	}
-
 }

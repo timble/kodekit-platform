@@ -81,18 +81,8 @@ abstract class KViewAbstract extends KObject
         $this->setEscape($options['escape']);
 
 		// Add default template paths
-		// @todo use identifier?
-		$template	= KFactory::get('lib.joomla.application')->getTemplate();
-
-		$component 	= str_replace('_', DS, $this->identifier->component);
-		$name 	= str_replace('_', DS, $this->identifier->name);
-
-		// @todo use identifier?
-		$path 		= JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.'views'.DS.$name.DS.'tmpl';
-		$override 	= JPATH_BASE.DS.'templates'.DS.$template.DS.'html'.DS.'com_'.$component.DS.$name;
-
+		$path = $this->identifier->getFilePath().DS.'tmpl';
 		$this->addTemplatePath($path);
-		$this->addTemplatePath($override);
 
 		if($options['template_path']) {
 			$this->addTemplatePath($options['template_path']);
@@ -126,7 +116,6 @@ abstract class KViewAbstract extends KObject
         $defaults = array(
             'base_url'      => KRequest::base(),
         	'media_url'		=> JURI::root(true).'/media',
-            'charset'       => null, // TODO unused?
             'document'      => null,
             'escape'        => 'htmlspecialchars',
             'layout'        => 'default',
@@ -322,7 +311,7 @@ abstract class KViewAbstract extends KObject
 		// load the template script
 		Koowa::import('lib.joomla.filesystem.path');
 		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
-
+		
 		if ($this->_template === false) {
 			throw new KViewException( 'Layout "' . $file . '" not found' );
 		}

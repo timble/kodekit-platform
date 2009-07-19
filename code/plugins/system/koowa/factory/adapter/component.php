@@ -29,11 +29,11 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		// we accept either a string or an identifier object.
+		// We accept either a string or an identifier object.
 		if(!($identifier instanceof KFactoryIdentifierInterface)) {
 			$identifier = new KFactoryIdentifierComponent($identifier);
 		}
-
+		
 		if($identifier->extension == 'com') {
 			$instance = self::_createInstance($identifier, $options);
 		}
@@ -53,17 +53,13 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
+		//Get the class name from the identifier
         $classname = $identifier->getClassName();
 
       	if (!class_exists( $classname ))
 		{
-			//Create path
-			if(!isset($options['base_path'])) {
-				$options['base_path'] = $identifier->getBasePath();
-			}
-
 			//Find the file
-			$file = $options['base_path'].DS.$identifier->getFileName();
+			$file = $identifier->getFilePath().DS.$identifier->getFileName();
 			if(file_exists($file))
 			{
 				include $file;
@@ -71,9 +67,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 					throw new KFactoryAdapterException("Class [$classname] not found in file [$file]" );
 				}
 			}
-			else {
-				$classname = $identifier->getDefaultClass();
-			}
+			else $classname = $identifier->getDefaultClassName();
 		}
 
 		if(class_exists( $classname ))
@@ -84,6 +78,4 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 
 		return $instance;
 	}
-
-
 }
