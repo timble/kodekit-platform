@@ -101,7 +101,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	protected function _getClassName($identifier)
 	{
 		$path      = KInflector::camelize(implode('_', $identifier->path));
-        $classname = ucfirst($identifier->component).$path.ucfirst($identifier->name);
+        $classname = ucfirst($identifier->package).$path.ucfirst($identifier->name);
 		
 		return $classname;
 	}
@@ -115,7 +115,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	{
 		// Admin is an alias for administrator
 		$app  = ($identifier->application == 'admin') ? 'administrator' : $identifier->application;
-		$path = JApplicationHelper::getClientInfo($app, true)->path.DS.'components'.DS.'com_'.$identifier->component;
+		$path = JApplicationHelper::getClientInfo($app, true)->path.DS.'components'.DS.'com_'.$identifier->package;
 
 		if(!empty($identifier->name))
 		{

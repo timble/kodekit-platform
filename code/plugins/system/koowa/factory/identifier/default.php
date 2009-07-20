@@ -11,7 +11,7 @@
 /**
  * Factory Identifier
  *
- * Wraps identifiers of the form [application::]type.component.[.path].name
+ * Wraps identifiers of the form [application::]type.package.[.path].name
  * in an object, providing public accessors and methods for derived formats.
  *
  * @author		Johan Janssens <johan@koowa.org>
@@ -36,11 +36,11 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 	public $type = '';
 	
 	/**
-	 * The identifier component
+	 * The identifier package
 	 * 
 	 * @var string
 	 */
-	public $component = '';
+	public $package = '';
 
 	/**
 	 * The identifier path 
@@ -73,7 +73,7 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 	/**
 	 * Constructor
 	 *
-	 * @param	string|object	Identifier string or object in [application::]type.component.[.path].name format
+	 * @param	string|object	Identifier string or object in [application::]type.package.[.path].name format
 	 */
 	public function __construct($identifier)
 	{
@@ -92,7 +92,7 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 		$this->type = array_shift($parts);
 		
 		// Set the extension
-		$this->component = array_shift($parts);
+		$this->package = array_shift($parts);
 
 		// Set the name (last part)
 		if(count($parts)) {
@@ -106,7 +106,7 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 	}
 
 	/**
-	 * Formats the indentifier as a [application::]type.component.[.path].name string
+	 * Formats the indentifier as a [application::]type.package.[.path].name string
 	 *
 	 * @return string
 	 */
@@ -120,7 +120,11 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 		}
 		
 		if(!empty($this->type)) {
-			$identifier .= '.'.$this->type;
+			$identifier .= $this->type;
+		}
+		
+		if(!empty($this->package)) {
+			$identifier .= '.'.$this->package;
 		}
 		
 		if(count($this->path)) {

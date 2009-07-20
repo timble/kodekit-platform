@@ -151,16 +151,12 @@ class KControllerForm extends KControllerBread
 			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
 		}
 
-		// Get the table object
-		$app   		= $this->identifier->application;
-		$component 	= $this->identifier->component;
-		$name    	= KInflector::pluralize($this->identifier->name);
-
-		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
-				->update(array('enabled' => $enable), $id);
+		//Update the table
+		$table = $this->_getTable()
+					->update(array('enabled' => $enable), $id);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($name)
+			'view='.KInflector::pluralize($this->identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 
@@ -176,17 +172,13 @@ class KControllerForm extends KControllerBread
 	{
 		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
-
-		// Get the table object
-		$app   		= $this->identifier->application;
-		$component 	= $this->identifier->component;
-		$name     	= KInflector::pluralize($this->identifier->name);
-
-		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
-				->update(array('access' => $access), $id);
+	
+		//Update the table
+		$table = $this->_getTable()
+					->update(array('access' => $access), $id);
 
 		$this->setRedirect(
-			'view='.$name
+			'view='.KInflector::pluralize($this->identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html'),
 			JText::_( 'Changed items access level')
 		);
@@ -202,17 +194,13 @@ class KControllerForm extends KControllerBread
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
 
-		// Get the table object
-		$app   = $this->identifier->application;
-		$component = $this->identifier->component;
-		$name      = KInflector::pluralize($this->identifier->name);
-
-		$row = KFactory::get($app.'::com.'.$component.'.table.'.$name)
+		//Change the order
+		$row = $this->_getTable()
 				->fetchRow($id)
 				->order($change);
 
 		$this->setRedirect(
-			'view='.$name
+			'view='.KInflector::pluralize($this->identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 

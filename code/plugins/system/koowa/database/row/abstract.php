@@ -56,7 +56,7 @@ abstract class KDatabaseRowAbstract extends KObject
         $options  = $this->_initialize($options);
         
    		// Set table object and class name
-		$this->_table_class = $this->identifier->application.'::com.'.$this->identifier->component.'.table.'.$this->identifier->name;
+		$this->_table_class = $this->identifier->application.'::com.'.$this->identifier->package.'.table.'.$this->identifier->name;
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 
 		// Reset the row
@@ -358,7 +358,6 @@ abstract class KDatabaseRowAbstract extends KObject
 
         return $result;
     }
-
 
     /**
      * Set the object properties based on a named array/hash

@@ -60,14 +60,14 @@ class KControllerBread extends KControllerAbstract
 
 		// Get the table object
 		$app   		= $this->identifier->application;
-		$component 	= $this->identifier->component;
+		$package 	= $this->identifier->package;
 		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$row		= KFactory::get($app.'::com.'.$component.'.table.'.$name)
-					->fetchRow($id)
-					->setProperties($data)
-					->save();
-
+		$row		= $this->_getTable()
+						->fetchRow($id)
+						->setProperties($data)
+						->save();
+						
 		return $row;
 	}
 
@@ -83,13 +83,13 @@ class KControllerBread extends KControllerAbstract
 
 		// Get the table object
 		$app   		= $this->identifier->application;
-		$component 	= $this->identifier->component;
+		$package 	= $this->identifier->package;
 		$name    	= KInflector::pluralize($this->identifier->name);
 
-		$row 		= KFactory::get($app.'::com.'.$component.'.table.'.$name)
-					->fetchRow()
-					->setProperties($data)
-					->save();
+		$row 		= $this->_getTable()
+						->fetchRow()
+						->setProperties($data)
+						->save();
 
 		return $row;
 	}
@@ -103,14 +103,28 @@ class KControllerBread extends KControllerAbstract
 	{
 		$id = (array) KRequest::get('post.id', 'int');
 
-		// Get the table object
-		$app   		= $this->identifier->application;
-		$component 	= $this->identifier->component;
-		$name    	= KInflector::pluralize($this->identifier->name);
-
-
-		$table = KFactory::get($app.'::com.'.$component.'.table.'.$name)
+		$table = $this->_getTable()
 				->delete($id);
+				
+		return $table;
+	}
+	
+	/**
+	 * Method to get a table object
+	 * 
+	 * @param	array An optional associative array of configuration settings.
+	 * @return	object	The table.
+	 */
+	protected function _getTable(array $options = array())
+	{
+		// Get the table object
+		$app   	 = $this->identifier->application;
+		$package = $this->identifier->package;
+		
+		// Table names are always plural
+		$name    = KInflector::pluralize($this->identifier->name);
+		
+		$table = KFactory::get($app.'::com.'.$package.'.table.'.$name, $options);
 		return $table;
 	}
 }

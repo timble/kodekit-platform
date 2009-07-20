@@ -75,7 +75,7 @@ abstract class KDispatcherAbstract extends KObject
         KRequest::set('get.view', $view);
 
         //Get/Create the controller
-        $controller = $this->getController();
+        $controller = $this->_getController();
 
         // Perform the Request action
         $action  = KRequest::get('request.action', 'cmd', null);
@@ -115,10 +115,10 @@ abstract class KDispatcherAbstract extends KObject
 	 *
 	 * @return	object	The controller.
 	 */
-	public function getController(array $options = array())
+	protected function _getController(array $options = array())
 	{
 		$application 	= $this->identifier->application;
-		$component 		= $this->identifier->component;
+		$package 		= $this->identifier->package;
 		$view 			= KRequest::get('get.view', 'cmd');
 		$controller 	= KRequest::get('get.controller', 'cmd', $view);
 
@@ -134,6 +134,6 @@ abstract class KDispatcherAbstract extends KObject
 		// Controller names are always singular
 		$controller = KInflector::singularize($controller);
 
-		return KFactory::get($application.'::com.'.$component.'.controller.'.$controller, $options);
+		return KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $options);
 	}
 }

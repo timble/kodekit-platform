@@ -36,12 +36,12 @@ class KViewHtml extends KViewAbstract
 	public function display()
 	{
 		$app 		= $this->identifier->application;
-		$component 	= $this->identifier->component;
+		$package 	= $this->identifier->package;
 		$name 		= $this->identifier->name;
 
 		//Push the toolbar output into the document buffer
 		$this->_document->setBuffer(
-			KFactory::get($app.'::com.'.$component.'.toolbar.'.$name)->render(),
+			KFactory::get($app.'::com.'.$package.'.toolbar.'.$name)->render(),
 			'modules',
 			'toolbar'
 		);

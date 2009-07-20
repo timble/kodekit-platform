@@ -30,7 +30,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		if($identifier->type == 'lib' && $identifier->component == 'koowa')
+		if($identifier->type == 'lib' && $identifier->package == 'koowa')
 		{
 			$classname = 'K'.KInflector::implode($identifier->path).ucfirst($identifier->name);
 			

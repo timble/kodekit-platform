@@ -20,7 +20,7 @@ class KViewDefault extends KViewHtml
 	public function display()
 	{
 		$app 		= $this->identifier->application;
-		$component 	= $this->identifier->component;
+		$package 	= $this->identifier->package;
 		$name 		= $this->identifier->name;
 
 		if(KInflector::isPlural($name))

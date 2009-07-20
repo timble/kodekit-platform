@@ -408,7 +408,7 @@ abstract class KViewAbstract extends KObject
 
 		// Check to see if there is component information in the route if not add it
 		if(!isset($parts['option'])) {
-			$result[] = 'option=com_'.$this->identifier->component;
+			$result[] = 'option=com_'.$this->identifier->package;
 		}
 
 		// Check to see if there is view information in the route if not add it

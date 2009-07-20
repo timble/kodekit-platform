@@ -206,7 +206,7 @@ abstract class KModelAbstract extends KObject
 		$app 	= KFactory::get('lib.joomla.application');
 		 
 		//Get the namespace
-		$ns  = $this->identifier->component.'.'.$this->identifier->name;
+		$ns  = $this->identifier->package.'.'.$this->identifier->name;
 
 		$state = array();
 		$state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');

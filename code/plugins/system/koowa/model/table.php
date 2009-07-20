@@ -51,9 +51,9 @@ class KModelTable extends KModelAbstract
 		else
 		{
 			$table 			= KInflector::tableize($this->identifier->name);
-			$component		= $this->identifier->component;
+			$package		= $this->identifier->package;
 			$application 	= $this->identifier->application;
-			$this->_table   = $application.'::com.'.$component.'.table.'.$table;
+			$this->_table   = $application.'::com.'.$package.'.table.'.$table;
 		}
 	}
 
@@ -278,7 +278,7 @@ class KModelTable extends KModelAbstract
 		$app 	= KFactory::get('lib.joomla.application');
 
     	// Get the namespace
-    	$ns  	= $this->identifier->application.'::'.'com.'.$this->identifier->component.'.model.'.$this->identifier->name;
+    	$ns  	= $this->identifier->application.'::'.'com.'.$this->identifier->package.'.model.'.$this->identifier->name;
 
         $state = parent::getDefaultState();
         $state['order']      = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', '', 'cmd');

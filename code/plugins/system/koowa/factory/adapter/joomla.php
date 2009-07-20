@@ -29,7 +29,7 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		if($identifier->type == 'lib' && $identifier->component == 'joomla')
+		if($identifier->type == 'lib' && $identifier->package == 'joomla')
 		{
 			$name = ucfirst($identifier->name);
 

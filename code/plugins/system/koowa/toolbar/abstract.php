@@ -117,8 +117,8 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 			if(!($button instanceof KToolbarButtonInterface))
 			{
 				$app		= $this->identifier->application;
-				$component	= $this->identifier->component;
-				$button = KFactory::tmp($app.'::com.'.$component.'.toolbar.button.'.$button);
+				$package	= $this->identifier->package;
+				$button = KFactory::tmp($app.'::com.'.$package.'.toolbar.button.'.$button);
 			}
 
 			$button->setParent($this);

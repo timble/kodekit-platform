@@ -103,7 +103,7 @@ class KFactory
 	 */
 	public static function tmp($identifier, array $options = array())
 	{
-		if(is_object($identifier)&& !($identifier instanceof KFactoryIdentifierInterface)) {
+		if(is_object($identifier) && !($identifier instanceof KFactoryIdentifierInterface)) {
 			return $identifier;
 		}
 

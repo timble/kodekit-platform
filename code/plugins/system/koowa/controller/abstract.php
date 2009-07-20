@@ -194,10 +194,10 @@ abstract class KControllerAbstract extends KObject
 	public function getView(array $options = array())
 	{
 		$application	= $this->identifier->application;
-		$component 		= $this->identifier->component;
+		$package 		= $this->identifier->package;
 		$viewName		= KRequest::get('get.view', 'cmd', $this->identifier->name);
 
-		if ( !$view = KFactory::get($application.'::com.'.$component.'.view.'.$viewName, $options) )
+		if ( !$view = KFactory::get($application.'::com.'.$package.'.view.'.$viewName, $options) )
 		{
             $format = isset($options['format']) ? $options['format'] : 'html';
 			throw new KControllerException(
@@ -208,7 +208,6 @@ abstract class KControllerAbstract extends KObject
 
 		return $view;
 	}
-
 
 	/**
 	 * Register (map) a action to a method in the class.
@@ -249,7 +248,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		//Create the url if no full URL was passed
 		if(strrpos($url, '?') === false) {
-			$url = 'index.php?option=com_'.$this->identifier->component.'&'.$url;
+			$url = 'index.php?option=com_'.$this->identifier->package.'&'.$url;
 		}
 
 		$this->_redirect    =  JRoute::_($url, false);
@@ -278,5 +277,4 @@ abstract class KControllerAbstract extends KObject
 
 		return $result;
 	}
-
 }

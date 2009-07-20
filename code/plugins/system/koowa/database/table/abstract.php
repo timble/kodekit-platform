@@ -82,10 +82,10 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 		else
 		{
-            $component      = $this->identifier->component;
-            $name         = $this->identifier->name;
+            $package = $this->identifier->package;
+            $name    = $this->identifier->name;
 
-			$this->_table_name = empty($component) ? $name : $component.'_'.$name;
+			$this->_table_name = empty($package) ? $name : $package.'_'.$name;
 		}
 
 		// Set a primary key
@@ -261,9 +261,9 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-        $app   	   = $this->identifier->application;
-		$component = $this->identifier->component;
-		$row       = KInflector::singularize($this->identifier->name);
+        $app   	 = $this->identifier->application;
+		$package = $this->identifier->package;
+		$row     = KInflector::singularize($this->identifier->name);
 
         //Get the data and push it in the row
 		if(isset($query))
@@ -292,7 +292,7 @@ abstract class KDatabaseTableAbstract extends KObject
             $options['data'] = (array) $this->_db->fetchAssoc($query);
         }
 
-        $row = KFactory::tmp($app.'::com.'.$component.'.row.'.$row, $options);
+        $row = KFactory::tmp($app.'::com.'.$package.'.row.'.$row, $options);
         return $row;
     }
 
@@ -310,9 +310,9 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-    	$component = $this->identifier->component;
-   		$rowset    = $this->identifier->name;
-   	 	$app       = $this->identifier->application;
+    	$package = $this->identifier->package;
+   		$rowset  = $this->identifier->name;
+   	 	$app     = $this->identifier->application;
 
         // Get the data
         if(isset($query))
@@ -344,7 +344,7 @@ abstract class KDatabaseTableAbstract extends KObject
         }
 
         //return a row set
-    	$rowset = KFactory::tmp($app.'::com.'.$component.'.rowset.'.$rowset, $options);
+    	$rowset = KFactory::tmp($app.'::com.'.$package.'.rowset.'.$rowset, $options);
     	return $rowset;
     }
 
