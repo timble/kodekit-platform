@@ -11,10 +11,10 @@
 /**
  * Identifier interface
  *
- * Wraps identifiers of the form application::extension.component.type[[.path].name]
+ * Wraps identifiers of the form [application::]type.component.[.path].name
  * in an object, providing public accessors and methods for derived formats
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Factory
  * @subpackage 	Identifier
@@ -22,14 +22,14 @@
 interface KFactoryIdentifierInterface
 {
 	/**
-	 * Returns the classname for the identifier
+	 * Constructor
 	 *
-	 * @return string
+	 * @param	string|object	Identifier string or object in [application::]type.component.[.path].name format
 	 */
-	public function getClassName();
-	
+	public function __construct($identifier);
+
 	/**
-	 * Converts the identifer back to a string
+	 * Formats the indentifier as a [application::]type.component.[.path].name string
 	 *
 	 * @return string
 	 */

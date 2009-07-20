@@ -21,7 +21,7 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  The class identifier
+	 * @param mixed  Identifier or Identifier object - lib.joomla.[.path].name
 	 * @param array  An optional associative array of configuration settings.
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
@@ -29,10 +29,9 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		$parts = explode('.', $identifier);
-		if($parts[0] == 'lib' && $parts[1] == 'joomla')
+		if($identifier->type == 'lib' && $identifier->component == 'joomla')
 		{
-			$name = ucfirst($parts[2]);
+			$name = ucfirst($identifier->name);
 
 			//Handle exceptions
 			if($name == 'Database') {

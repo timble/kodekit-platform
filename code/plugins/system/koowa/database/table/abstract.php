@@ -265,7 +265,6 @@ abstract class KDatabaseTableAbstract extends KObject
 		$component = $this->identifier->component;
 		$row       = KInflector::singularize($this->identifier->name);
 
-
         //Get the data and push it in the row
 		if(isset($query))
         {

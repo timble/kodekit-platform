@@ -78,7 +78,7 @@ abstract class KViewAbstract extends KObject
         $this->setEscape($options['escape']);
 
 		// Add default template paths
-		$path = $this->identifier->getFilePath().DS.'tmpl';
+		$path = $this->identifier->filepath.DS.'tmpl';
 		$this->addTemplatePath($path);
 
 		if($options['template_path']) {

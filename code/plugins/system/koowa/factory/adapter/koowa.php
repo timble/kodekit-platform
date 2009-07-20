@@ -22,7 +22,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  The class identifier
+	 * @param mixed  Identifier or Identifier object - lib.koowa.[.path].name
 	 * @param array  An optional associative array of configuration settings.
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
@@ -30,19 +30,15 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	{
 		$instance = false;
 
-		// We accept either a string or an identifier object.
-		if(!($identifier instanceof KFactoryIdentifierInterface)) {
-			$identifier = new KFactoryIdentifierKoowa($identifier);
-		}
-
-		if($identifier->extension == 'lib' && $identifier->library == 'koowa')
+		if($identifier->type == 'lib' && $identifier->component == 'koowa')
 		{
-			$classname = $identifier->getClassName();
-
+			$classname = 'K'.KInflector::implode($identifier->path).ucfirst($identifier->name);
+			
 			if (!class_exists($classname))
 			{
 				// use default class instead
-				$classname = $identifier->getDefaultClassName();
+				$classname = 'K'.KInflector::implode($identifier->path).'Default';
+				
 				if (!class_exists($classname)) {
 					throw new KFactoryAdapterException("Could't create instance for $identifier");
 				}
