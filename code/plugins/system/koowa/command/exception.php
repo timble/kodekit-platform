@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Command
  */
-class KCommandException extends Exception {}
+class KCommandException extends KException {}

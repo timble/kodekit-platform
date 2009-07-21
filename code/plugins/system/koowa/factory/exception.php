@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Factory
  */
-class KFactoryException extends Exception {}
+class KFactoryException extends KException {}

@@ -17,4 +17,4 @@
  * @package     Koowa_Template
  * @subpackage 	Filter
  */
-class KTemplateFilterException extends Exception {}
+class KTemplateFilterException extends KTemplateException {}

@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Chart
  */
-class KChartException extends Exception {}
+class KChartException extends KException {}

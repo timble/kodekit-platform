@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Request
  */
-class KRequestException extends Exception {}
+class KRequestException extends KException {}

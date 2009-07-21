@@ -79,7 +79,7 @@ abstract class KDispatcherAbstract extends KObject
 
         // Perform the Request action
         $action  = KRequest::get('request.action', 'cmd', null);
-
+        
         //Execute the controller, handle exeception if thrown.
         try
         {

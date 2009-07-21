@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Inflector
  */
-class KInflectorException extends Exception {}
+class KInflectorException extends KException {}

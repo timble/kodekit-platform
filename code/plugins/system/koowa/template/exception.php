@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Template
  */
-class KTemplateException extends Exception {}
+class KTemplateException extends KException {}

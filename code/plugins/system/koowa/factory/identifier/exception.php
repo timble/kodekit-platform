@@ -1,18 +1,20 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: exception.php 1051 2009-07-13 22:08:57Z Johan $
  * @category	Koowa
- * @package     Koowa_Mixin
+ * @package     Koowa_Factory
+ * @subpackage 	Adapter
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license     GNU GPL <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.koowa.org
  */
 
 /**
- * Koowa Mixin Exception class
+ * Factory Identifier Exception class
  *
  * @author      Johan Janssens <johan@koowa.org>
  * @category	Koowa
- * @package     Koowa_Mixin
+ * @package     Koowa_Factory
+ * @subpackage 	Identifier
  */
-class KMixinException extends KException {}
+class KFactoryIdentifierException extends KFactoryException {}

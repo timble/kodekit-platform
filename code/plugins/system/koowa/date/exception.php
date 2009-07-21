@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Date
  */
-class KDateException extends Exception {}
+class KDateException extends KException {}

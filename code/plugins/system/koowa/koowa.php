@@ -8,7 +8,7 @@
 */
 
 /**
- * Koowa is active
+ * Koowa constant, if true koowa is loaded
  */
 define('KOOWA', 1);
 
@@ -18,6 +18,11 @@ define('KOOWA', 1);
 if(!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
+
+/**
+ * Set the error handler
+ */
+//set_error_handler(array('Koowa', 'errorHandler'),  E_ALL & ~E_WARNING & ~E_NOTICE);
 
 /**
  * Koowa class
@@ -159,4 +164,9 @@ class Koowa
 
 		return $result;
 	}
+	   
+    public static function errorHandler($errno, $errstr, $errfile, $errline )
+    {
+    	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
 }

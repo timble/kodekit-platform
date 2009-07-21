@@ -17,4 +17,4 @@
  * @package     Koowa_Toolbar
  * @subpackage  Button
  */
-class KToolbarButtonException extends Exception {}
+class KToolbarButtonException extends KToolbarException {}

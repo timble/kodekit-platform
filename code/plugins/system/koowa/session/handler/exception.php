@@ -17,4 +17,4 @@
  * @package		Koowa_Session
  * @subpackage  Handler
  */
-class KSessionHandlerException extends Exception {}
+class KSessionHandlerException extends KSessionException {}

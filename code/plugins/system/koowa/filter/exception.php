@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterException extends Exception {}
+class KFilterException extends KException {}

@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Decorator
  */
-class KDecoratorException extends Exception {}
+class KDecoratorException extends KException {}

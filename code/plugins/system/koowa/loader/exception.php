@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Loader
  */
-class KLoaderException extends Exception {}
+class KLoaderException extends KException {}

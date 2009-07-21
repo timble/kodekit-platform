@@ -17,4 +17,4 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-class KFactoryAdapterException extends Exception {}
+class KFactoryAdapterException extends KFactoryException {}

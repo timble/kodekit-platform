@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package		Koowa_Session
  */
-class KSessionException extends Exception {}
+class KSessionException extends KException {}

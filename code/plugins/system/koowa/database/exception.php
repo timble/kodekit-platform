@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Database
  */
-class KDatabaseException extends Exception {}
+class KDatabaseException extends KException {}

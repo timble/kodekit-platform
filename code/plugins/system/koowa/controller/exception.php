@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Controller
  */
-class KControllerException extends Exception {}
+class KControllerException extends KException {}

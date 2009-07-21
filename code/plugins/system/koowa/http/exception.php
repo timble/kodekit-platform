@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Http
  */
-class KHttpException extends Exception {}
+class KHttpException extends KException {}

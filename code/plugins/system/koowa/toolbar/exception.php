@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Toolbar
  */
-class KToolbarException extends Exception {}
+class KToolbarException extends KException {}

@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_Helper
  */
-class KHelperException extends Exception {}
+class KHelperException extends KException {}

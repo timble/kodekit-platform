@@ -15,4 +15,4 @@
  * @category	Koowa
  * @package     Koowa_View
  */
-class KViewException extends Exception {}
+class KViewException extends KException {}
