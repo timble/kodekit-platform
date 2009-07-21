@@ -29,7 +29,7 @@ class KTemplateHelperTabs extends KObject
 	{
 		//Load koowa javascript
 		KTemplate::loadHelper('behavior.mootools');
-		KTemplate::loadHelper('script', Koowa::getURL('js').'tabs.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/tabs.js');
 	}
 
 	/**

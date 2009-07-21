@@ -48,7 +48,7 @@ class KTemplateHelperGrid extends KObject
 	public function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
@@ -67,7 +67,7 @@ class KTemplateHelperGrid extends KObject
 	public function publish( $publish, $id, $imgY = 'tick.png', $imgX = 'publish_x.png' )
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 
 		$img 	= $publish ? $imgY : $imgX;
 		$alt 	= $publish ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
@@ -86,7 +86,7 @@ class KTemplateHelperGrid extends KObject
 	public function enable( $enable, $id, $imgY = 'tick.png', $imgX = 'publish_x.png')
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 
 		$img 	= $enable ? $imgY : $imgX;
 		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
@@ -105,10 +105,10 @@ class KTemplateHelperGrid extends KObject
 	public function order($id)
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 
-		$up   = Koowa::getURL('images').'/arrow_up.png';
-		$down = Koowa::getURL('images').'/arrow_down.png';
+		$up   = KRequest::root().'/media/plg_koowa/images/arrow_up.png';
+		$down = KRequest::root().'/media/plg_koowa/images/arrow_down.png';
 
 		$result =
 			 '<a href="javascript:Koowa.Grid.order('.$id.', -1)" >'
@@ -124,7 +124,7 @@ class KTemplateHelperGrid extends KObject
 	public function access( $access, $id )
 	{
 		//Load koowa javascript
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 
 		switch($access)
 		{

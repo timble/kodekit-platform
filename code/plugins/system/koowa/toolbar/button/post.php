@@ -25,7 +25,7 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 		parent::__construct($options);
 		$this->setMethod('post');
 		
-		KTemplate::loadHelper('script', Koowa::getURL('js').'koowa.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
 	}
 	
 	public function getOnClick()

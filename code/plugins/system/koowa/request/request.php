@@ -58,6 +58,13 @@ class KRequest
 	 * @var	KHttpUri
 	 */
 	protected static $_base = null;
+	
+	/**
+	 * Root path of the request.
+	 *
+	 * @var	KHttpUri
+	 */
+	protected static $_root = null;
 
 	/**
 	 * Base path of the request.
@@ -250,7 +257,7 @@ class KRequest
 	/**
 	 * Returns the base path of the request.
 	 *
-	 * @return  string
+	 * @return  object 	A KHttpUri object
 	 */
 	public static function base()
 	{
@@ -270,8 +277,34 @@ class KRequest
 
 			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
 		}
-
+		
 		return self::$_base;
+	}
+	
+	/**
+	 * Returns the root path of the request.
+	 * 
+	 * In most case this value will be the same as KRequest::base however it can be
+	 * changed by pushing in a different value
+	 *
+	 * @return  object 	A KHttpUri object
+	 */
+	public static function root($path = null)
+	{
+		if(!is_null($path)) 
+		{
+			if(!$path instanceof KhttpUri) {
+				$path = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
+			}
+			
+			self::$_root = $path;
+		}
+		
+		if(is_null(self::$_root)) {
+			self::$_root = self::$_base;
+		}
+		
+		return self::$_root;
 	}
 
 	/**

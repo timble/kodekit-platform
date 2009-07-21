@@ -35,7 +35,7 @@ class KTemplateHelperImage extends KObject
 		$title		= addslashes(htmlspecialchars($title));
 
 		if ( !$text ) {
-			$image 	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;
+			$image 	= KRequest::root().'/includes/js/ThemeOffice/'. $image;
 			$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 		} else {
 			$text 	= JText::_( $text, true );

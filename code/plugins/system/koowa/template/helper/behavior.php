@@ -42,28 +42,28 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		if ($debug) {
-			KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/mootools-uncompressed.js');
+			KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootools-uncompressed.js');
 		} else {
-			KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/mootools.js');
+			KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootools.js');
 		}
 		$loaded = true;
 		return;
 	}
 
 	public function caption() {
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/caption.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/caption.js');
 	}
 
 	public function formvalidation() {
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/validate.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/validate.js');
 	}
 
 	public function switcher() {
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/switcher.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/switcher.js');
 	}
 
 	public function combobox() {
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/combobox.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/combobox.js');
 	}
 
 	public function tooltip($selector='.hasTip', $params = array())
@@ -83,8 +83,8 @@ class KTemplateHelperBehavior extends KObject
 		if (!isset($included)) 
 		{
 			// Load the javascript and css
-			KTemplate::loadHelper('script',     JURI::root(true).'/media/system/js/modal.js');
-			KTemplate::loadHelper('stylesheet', JURI::root(true).'/media/system/css/modal.css');
+			KTemplate::loadHelper('script',     KRequest::root().'/media/system/js/modal.js');
+			KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/css/modal.css');
 
 			$included = true;
 		}
@@ -132,8 +132,8 @@ class KTemplateHelperBehavior extends KObject
 
 	public function uploader($id='file-upload', $params = array())
 	{
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/swf.js');
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/uploader.js' );
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/swf.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/uploader.js' );
 
 		static $uploaders;
 
@@ -147,7 +147,7 @@ class KTemplateHelperBehavior extends KObject
 
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
-		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
+		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : KRequest::root().'/media/system/swf/uploader.swf';
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
 		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
 		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
@@ -192,8 +192,8 @@ class KTemplateHelperBehavior extends KObject
 
 		// Include mootools framework
 		$this->mootools();
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/js/mootree.js');
-		KTemplate::loadHelper('script', JURI::root(true).'/media/system/cssmootree.css');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootree.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/cssmootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -203,7 +203,7 @@ class KTemplateHelperBehavior extends KObject
 		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
 		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
 		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JURI::root(true).'/media/system/images/mootree.gif';
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : KRequest::root().'/media/system/images/mootree.gif';
 
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
@@ -240,9 +240,9 @@ class KTemplateHelperBehavior extends KObject
 	{
 		$document = KFactory::get('lib.joomla.document');
 
-		KTemplate::loadHelper('stylesheet', JURI::root(true).'/media/system/css/calendar-jos.css', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		KTemplate::loadHelper('stylesheet', JURI::root(true).'/media/system/js/calendar.js');
-		KTemplate::loadHelper('script',  JURI::root(true).'/media/system/js/calendar-setup.js');
+		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/css/calendar-jos.css', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/js/calendar.js');
+		KTemplate::loadHelper('script',  KRequest::root().'/media/system/js/calendar-setup.js');
 
 		$translation = $this->_calendartranslation();
 		if($translation) {

@@ -112,7 +112,7 @@ abstract class KViewAbstract extends KObject
     {
         $defaults = array(
             'base_url'      => KRequest::base(),
-        	'media_url'		=> JURI::root(true).'/media',
+        	'media_url'		=> KRequest::root().'/media',
             'document'      => null,
             'escape'        => 'htmlspecialchars',
             'layout'        => 'default',
@@ -397,7 +397,7 @@ abstract class KViewAbstract extends KObject
 		}
 
 		// strip 'index.php?'
-		if(substr($route, 0, 10)=='index.php?') {
+		if(substr($route, 0, 10) == 'index.php?') {
 			$route = substr($route, 10);
 		}
 

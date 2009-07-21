@@ -33,6 +33,9 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		
 		// Mixin the command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this)));
+        
+     	//Set the root path for the request based on the application name
+        KRequest::root(str_replace('/'.$this->_object->getName(), '', KRequest::base()));
 	}
 	
 	/**

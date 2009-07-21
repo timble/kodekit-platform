@@ -20,11 +20,6 @@ if(!defined('DS')) {
 }
 
 /**
- * Set the error handler
- */
-//set_error_handler(array('Koowa', 'errorHandler'),  E_ALL & ~E_WARNING & ~E_NOTICE);
-
-/**
  * Koowa class
  *
  * Loads classes and files, and provides metadata for Koowa such as version info
@@ -90,7 +85,7 @@ class Koowa
     			$url = JURI::root(true).'/media/plg_koowa/images/';
     			break;
     		case 'js' :
-    			$url = JURI::root(true).'/media/plg_koowa/js/';
+    			$url = KRequest::root().'/media/plg_koowa/js/';
     			break;	
     		default:
     			throw new KException('No url of type: '.$type);	
@@ -164,9 +159,4 @@ class Koowa
 
 		return $result;
 	}
-	   
-    public static function errorHandler($errno, $errstr, $errfile, $errline )
-    {
-    	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    }
 }
