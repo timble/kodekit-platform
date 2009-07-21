@@ -60,41 +60,6 @@ class Koowa
         return self::$_path;
     }
     
-  	/**
-     * Get the URL to a Koowa folder
-     *
-     * @param string	$type	The type of URL to return [root|media|...]
-     * @return 	string	URL
-     */
-    public static function getURL($type)
-    {
-    	$url = '';
-    	
-    	switch($type) 
-    	{
-    		case 'root' :
-    			$url = JURI::root(true);
-    			break;
-    		case 'media' :
-    			$url = JURI::root(true).'/media/plg_koowa/';
-    			break;
-    		case 'css' :
-    			$url = JURI::root(true).'/media/plg_koowa/css/';
-    			break;
-    		case 'images' :
-    			$url = JURI::root(true).'/media/plg_koowa/images/';
-    			break;
-    		case 'js' :
-    			$url = KRequest::root().'/media/plg_koowa/js/';
-    			break;	
-    		default:
-    			throw new KException('No url of type: '.$type);	
-    			break;
-    	}
-    	
-    	return $url;
-    }
-
 	/**
  	 * Intelligent file importer
 	 *
