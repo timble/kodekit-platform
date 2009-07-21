@@ -64,7 +64,7 @@ class KRequest
 	 *
 	 * @var	KHttpUri
 	 */
-	protected static $_referer = null;
+	protected static $_referrer = null;
 
 
 	/**
@@ -171,41 +171,30 @@ class KRequest
 	}
 
 	/**
-	 * Alias of referrer()
-	 *
-	 * 'referer' is the a commonly used misspelling of 'referrer'
+ 	 * Returns the HTTP referrer.
+ 	 * 
+ 	 * 'referer' a commonly used misspelling word for 'referrer'
 	 * @see 	http://en.wikipedia.org/wiki/HTTP_referrer
-	 *
-	 * @param	boolean		Only allow internal url's
-	 * @return  KHttpUri	A KHttpUri object
-	 */
-	public static function referer($isInternal = true)
-	{
-		return self::referrer($isInternal);
-	}
-
-	/**
- 	 * Returns the HTTP referer.
 	 *
 	 * @param	boolean		Only allow internal url's
 	 * @return  KHttpUri	A KHttpUri object
 	 */
 	public static function referrer($isInternal = true)
 	{
-		if(empty(self::$_referer))
+		if(empty(self::$_referrer))
 		{
-			$referer = KRequest::get('server.HTTP_REFERER', 'url');
-			self::$_referer = KFactory::get('lib.koowa.http.uri', array('uri' => $referer));
+			$referrer = KRequest::get('server.HTTP_REFERER', 'url');
+			self::$_referrer = KFactory::get('lib.koowa.http.uri', array('uri' => $referrer));
 		}
 
 		if($isInternal)
 		{
-			if(!KFactory::get('lib.koowa.filter.internalurl')->validate(self::$_referer)) {
+			if(!KFactory::get('lib.koowa.filter.internalurl')->validate(self::$_referrer)) {
 				return null;
 			}
 		}
 
-		return self::$_referer;
+		return self::$_referrer;
 	}
 
 	/**
