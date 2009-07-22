@@ -43,7 +43,7 @@ class KTemplateHelperTabs extends KObject
 		$id = strtolower($id);
 	
 		$js = 'window.addEvent(\'domready\', function(){ $$(\'dl#tabs-'.$id.'\').each(function(tabs){ new KTabs(tabs, \''.json_encode($options).'\'); }); });';
-		$document = KFactory::get('lib.joomla.document')->addScriptDeclaration( $js );	
+		$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );	
 	
 		$attribs = KHelperArray::toString($attribs);	
 		return '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';

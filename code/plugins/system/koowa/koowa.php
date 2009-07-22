@@ -104,7 +104,7 @@ class Koowa
 					$app  = explode( '::', $parts[0] );	
 					$name =  $app[0];
 				} else {
-					$app  = KFactory::get('lib.joomla.application');
+					$app  = KFactory::get('lib.koowa.application');
 					$name = $app->getName(); 
 				}
 				

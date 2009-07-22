@@ -89,7 +89,7 @@ abstract class KDispatcherAbstract extends KObject
         {
         	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
         	{
-				KFactory::get('lib.joomla.application')
+				KFactory::get('lib.koowa.application')
 					->redirect( 'index.php', JText::_($e->getMessage()) );
         	}
         	else

@@ -59,6 +59,9 @@ class plgSystemKoowa extends JPlugin
 			//ACL uses the unwrapped DBO
 	        $acl = JFactory::getACL();
 	        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
+	        
+	        //Set factory identifier aliasses
+	        KFactory::map('lib.koowa.application', 'lib.joomla.application');
 
 			//Load the koowa plugins
 			JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
@@ -84,6 +87,9 @@ class plgSystemKoowa extends JPlugin
 
 			$doc =& JFactory::getDocument();
 			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
+			
+			//@TODO : Rework document package, implement factory method and restructure
+		 	KFactory::map('lib.koowa.document', 'lib.koowa.document.'.$format);
 		}
 	}
 

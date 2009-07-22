@@ -34,7 +34,7 @@ class KDocumentHtmlRendererMessage extends KDocumentRenderer
 		$lists		= null;
 
 		// Get the message queue
-		$messages = KFactory::get('lib.joomla.application')->getMessageQueue(); 
+		$messages = KFactory::get('lib.koowa.application')->getMessageQueue(); 
 
 		// Build the sorted message list
 		if (is_array($messages) && count($messages)) 

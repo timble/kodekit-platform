@@ -27,7 +27,7 @@ class KTemplateHelperDefault extends KObject
 	 */
 	public function script($url)
 	{
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 		$document->addScript($url);
 		return;
 	}
@@ -40,7 +40,7 @@ class KTemplateHelperDefault extends KObject
 	 */
 	public function stylesheet($url, array $attribs = array())
 	{
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 		$document->addStylesheet($url, 'text/css', null, $attribs);
 		return;
 	}

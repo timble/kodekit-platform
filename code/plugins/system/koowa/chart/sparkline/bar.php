@@ -56,6 +56,6 @@ class KChartSparklineBar extends KChartSparkline
         }
         
         $c->output();
-        KFactory::get('lib.joomla.application')->close();
+        KFactory::get('lib.koowa.application')->close();
     }
 }

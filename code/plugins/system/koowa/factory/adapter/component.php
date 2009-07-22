@@ -145,7 +145,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 		
 		if(isset($identifier->path[0]) && $identifier->path[0] == 'view') 
 		{
-			$type     = KFactory::get('lib.joomla.document')->getType();
+			$type     = KFactory::get('lib.koowa.document')->getType();
 			$filename = $type.'.php';
 		}
 

@@ -148,7 +148,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		$html .= "$title\n";
 		$html .= "</div>\n";
 
-		KFactory::get('lib.joomla.application')->set('JComponentTitle', $html);
+		KFactory::get('lib.koowa.application')->set('JComponentTitle', $html);
 
 		return $this;
 	}

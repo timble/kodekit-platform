@@ -275,7 +275,7 @@ class KModelTable extends KModelAbstract
      */
     public function getDefaultState()
     {
-		$app 	= KFactory::get('lib.joomla.application');
+		$app 	= KFactory::get('lib.koowa.application');
 
     	// Get the namespace
     	$ns  	= $this->identifier->application.'::'.'com.'.$this->identifier->package.'.model.'.$this->identifier->name;

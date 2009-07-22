@@ -89,7 +89,7 @@ abstract class KViewAbstract extends KObject
 		if ($options['document']) {
 			$this->_document = $options['document'];
 		} else {
-			$this->_document = KFactory::get('lib.joomla.document');
+			$this->_document = KFactory::get('lib.koowa.document');
 		}
 
 		// set the layout

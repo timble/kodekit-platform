@@ -77,7 +77,7 @@ class KTemplateHelperBehavior extends KObject
 		static $modals;
 		static $included;
 
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) 
@@ -169,7 +169,7 @@ class KTemplateHelperBehavior extends KObject
 		$options = $this->_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
 				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
 				window.addEvent(\'load\', function(){
@@ -228,7 +228,7 @@ class KTemplateHelperBehavior extends KObject
 			tree'.$treeName.'.adopt(\''.$id.'\');})';
 
 		// Attach tooltips to document
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 		$document->addScriptDeclaration($js);
 
 		// Set static array
@@ -238,7 +238,7 @@ class KTemplateHelperBehavior extends KObject
 
 	public function calendar()
 	{
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 
 		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/css/calendar-jos.css', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/js/calendar.js');
@@ -263,7 +263,7 @@ class KTemplateHelperBehavior extends KObject
 		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
-		$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.koowa.document');
 
 		$script  = '';
 		$script .= 'function keepAlive( ) {';

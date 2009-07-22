@@ -80,7 +80,7 @@ class KTemplateHelperImage extends KObject
 			$attribs = KHelperArray::toString( $attribs );
 		}
 
-		$template = KFactory::get('lib.joomla.application')->getTemplate();
+		$template = KFactory::get('lib.koowa.application')->getTemplate();
 		$path = JPATH_BASE .'/templates/'. $template .'/images/'. $file;
 		if (!isset( $paths[$path] ))
 		{

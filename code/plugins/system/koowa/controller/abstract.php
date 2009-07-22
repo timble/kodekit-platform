@@ -210,7 +210,7 @@ abstract class KControllerAbstract extends KObject
 	}
 
 	/**
-	 * Register (map) a action to a method in the class.
+	 * Register (map) an action to a method in the class.
 	 *
 	 * @param	string	The action.
 	 * @param	string	The name of the method in the derived class to perform
@@ -224,7 +224,7 @@ abstract class KControllerAbstract extends KObject
 	}
 
 	/**
-	 * Unregister a action
+	 * Unregister (unmap) an action
 	 *
 	 * @param	string	The action
 	 * @return	KControllerAbstract
