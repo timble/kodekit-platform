@@ -221,7 +221,7 @@ class KDocumentPdf extends KDocumentAbstract
 		$pdf->setHeaderData('',0,$this->getTitle(), $this->getHeader());
 
 		// Set PDF Header and Footer fonts
-		$lang = KFactory::get('lib.joomla.language');;
+		$lang = KFactory::get('lib.koowa.language');;
 		$font = $lang->getPdfFontName();
 		$font = ($font) ? $font : 'freesans';
 

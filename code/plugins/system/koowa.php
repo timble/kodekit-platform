@@ -51,6 +51,10 @@ class plgSystemKoowa extends JPlugin
 			// Decorate the database object
 			$jdb  =& JFactory::getDBO();
 			$jdb  = new KDecoratorJoomlaDatabase($jdb);
+			
+			// Decortae the language object
+			$lang =& JFactory::getLanguage();
+			$lang = new KDecoratorJoomlaLanguage($lang);
 
 			// Create the koowa database object
 			$kdb->setConnection($jdb->_resource);
@@ -62,6 +66,7 @@ class plgSystemKoowa extends JPlugin
 	        
 	        //Set factory identifier aliasses
 	        KFactory::map('lib.koowa.application', 'lib.joomla.application');
+	        KFactory::map('lib.koowa.language',    'lib.joomla.language');
 
 			//Load the koowa plugins
 			JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));

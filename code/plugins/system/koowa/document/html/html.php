@@ -224,7 +224,7 @@ class KDocumentHtml extends KDocumentAbstract
 		}
 
 		// Load the language file for the template
-		$lang = KFactory::get('lib.joomla.language');
+		$lang = KFactory::get('lib.koowa.language');
 		$lang->load( 'tpl_'.$template );
 
 		// Assign the variables
