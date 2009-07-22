@@ -19,6 +19,17 @@
 class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 {
 	/**
+	 * The alias type map
+	 *
+	 * @var	array
+	 */
+	protected $_alias_map = array(
+      	'Database'  	=> 'DBO',
+        'Authorization' => 'ACL',
+      	'Xml'    		=> 'XMLParser'
+	);
+
+	/**
 	 * Create an instance of a class based on a class identifier
 	 *
 	 * @param mixed  Identifier or Identifier object - lib.joomla.[.path].name
@@ -32,14 +43,10 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 		if($identifier->type == 'lib' && $identifier->package == 'joomla')
 		{
 			$name = ucfirst($identifier->name);
-
-			//Handle exceptions
-			if($name == 'Database') {
-				$name = 'DBO';
-			}
-
-			if($name == 'Authorization') {
-				$name = 'ACL';
+			
+			//Check to see of the type is an alias
+			if(array_key_exists($name, $this->_alias_map)) {
+				$name = $this->_alias_map[$name];
 			}
 
 			$instance = call_user_func_array(array('JFactory', 'get'.$name), $options);

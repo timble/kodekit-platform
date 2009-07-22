@@ -19,11 +19,11 @@
 class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 {
 	/**
-	 * The alias type map
+	 * The alias map
 	 *
 	 * @var	array
 	 */
-	protected $_typeAliasMap = array(
+	protected $_alias_map = array(
       	'table'     => 'DatabaseTable',
         'row'       => 'DatabaseRow',
       	'rowset'    => 'DatabaseRowset'
@@ -64,8 +64,8 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 					$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
 					
 					//Check to see of the type is an alias
-					if(array_key_exists($classtype, $this->_typeAliasMap)) {
-						$classtype = $this->_typeAliasMap[$classtype];
+					if(array_key_exists($classtype, $this->_alias_map)) {
+						$classtype = $this->_alias_map[$classtype];
 					}
 					
 					//Create the classpath
