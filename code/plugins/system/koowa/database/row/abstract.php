@@ -41,11 +41,11 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @var string
      */
     protected $_table_class;
-    
+
     /**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -58,10 +58,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     {
          // Set the objects identifier
         $this->_identifier = $options['identifier'];
-    	
+
     	// Initialize the options
         $options  = $this->_initialize($options);
-        
+
    		// Set table object and class name
 		$this->_table_class = $this->_identifier->application.'::com.'.$this->_identifier->package.'.table.'.$this->_identifier->name;
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
@@ -92,7 +92,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
 	 * Get the identifier
 	 *
@@ -315,7 +315,6 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     	if($columnName == 'id') {
         	$columnName = $this->_table->getPrimaryKey();
         }
-
     	return $this->_data[$columnName];
     }
 

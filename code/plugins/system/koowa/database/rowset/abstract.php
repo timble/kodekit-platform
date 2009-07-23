@@ -21,13 +21,6 @@
 abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryIdentifiable
 {
 	/**
-	 * Original data passed to the object
-	 *
-	 * @var 	array
-	 */
-	protected $_data = array();
-
-	/**
      * KDatabaseTableAbstract parent class or instance.
      *
      * @var object
@@ -42,16 +35,9 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     protected $_table_class;
 
     /**
-     * Empty row to use for cloning
-     *
-     * @var object	KDatabaseRowAbstract
-     */
-    protected $_empty_row;
-    
-    /**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -64,24 +50,17 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     {
         // Set the objects identifier
         $this->_identifier = $options['identifier'];
-    	
+
     	// Initialize the options
         $options  = $this->_initialize($options);
-        
+
 		// Set table object and class name
-		$this->_table_class  = $this->_identifier->application.'::com.'.$this->_identifier->package.'.table.'.$this->_identifier->name;
+		$this->_table_class  = clone $this->_identifier;
+		$this->_table_class->path = array('table');
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 
 		// Set the data
-		if(isset($options['data']))  {
-			$this->_data = $options['data'];
-		}
-
-		// Count the data
-		$this->resetCount();
-
-		// Instantiate an empty row to use for cloning later
-		$this->_empty_row = $this->_table->fetchRow();
+		$this->setArray($options['data']);
     }
 
     /**
@@ -96,12 +75,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     {
         $defaults = array(
             'table'      => null,
-        	'identifier' => null
+        	'identifier' => null,
+        	'data'		 => array()
         );
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
 	 * Get the identifier
 	 *
@@ -113,81 +93,24 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 		return $this->_identifier;
 	}
 
-	/**
-     * Overridden current() method
-     *
-     * Used to delay de creation of KDatabaseRow objects, for performance reasons
-     *
-     * @return KDatabaseRowAbstract Current element from the collection
-     */
-    public function current()
-    {
-    	if ($this->valid() === false) {
-            return null;
-        }
-
-		// do we already have a row object for this position?
-        if (!isset($this[$this->key()]))
-        {
-        	// cloning is faster than instantiating
-        	$row = clone $this->_empty_row;
-        	$row->setProperties($this->_data[$this->key()]);
-            parent::offsetSet($this->key(), $row);
-        }
-
-    	// return the row object
-        return parent::offsetGet($this->key());
-    }
-
-    /**
-     * Overridden offsetSet() method
-     *
-     * @param 	int 	The offset of the item
-     * @param 	mixed	The item's value
-     * @return  this
-     */
-	public function offsetSet($offset, $value)
+	public function setArray($rows)
 	{
-		if($value instanceof KDatabaseRowAbstract) {
-			$value = $value->toArray();
+		$empty_row = $this->_table->fetchRow();
+		$result = array();
+		foreach($rows as $k => $row)
+		{
+			if($row instanceof KDatabaseRowAbstract) {
+				$result[] = $row;
+			} else {
+				// cloning is faster than instantiation
+				$new = clone $empty_row;
+        		$new->setProperties($row);
+        		$result[] = $new;
+			}
+
 		}
-
-		if(empty($offset)) {
-			$this->_data[] = $value;
-		} else {
-			$this->_data[$offset] = $value;
-		}
-
-		$this->resetCount();
-		return $this;
+		return parent::setArray($result);
 	}
-
- 	/**
-     * Overridden offsetSet() method
-     *
-     * All numerical array keys will be modified to start counting from zero
-     * while literal keys won't be touched.
-     *
-     * @param 	int 	The offset of the item
-     * @return 	this
-     */
-	public function offsetUnset($offset)
-	{
-		//We need to use array_splice instead of unset to reset the keys
-		array_splice($this->_data, $offset, 1);
-        return parent::offsetUnset($offset);
-	}
-
-	/**
-     * Overridden resetCount() method
-     *
-     * @return this
-     */
-    public function resetCount()
-    {
-    	$this->setCount(count($this->_data));
-    	return $this;
-    }
 
 	/**
      * Returns the table object, or null if this is disconnected row
@@ -273,7 +196,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     public function toArray()
     {
     	$result = array();
-    	foreach ($this->_data as $i => $row) {
+    	foreach ($this as $i => $row) {
             $result[$i] = is_array($row) ? $row :  $row->toArray();
         }
         return $result;
