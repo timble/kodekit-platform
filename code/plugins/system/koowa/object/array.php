@@ -25,14 +25,14 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      * @var array
      */
     private $__data = array();
-    
+
     /**
      * Array count
      *
      * @var int
      */
     private $__count = 0;
-    
+
 	/**
      * Iterator pointer
      *
@@ -68,7 +68,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
             return null;
         }
 
-        return $this->__data[$this->key()];
+        return $this[$this->key()];
     }
 
 	/**
@@ -83,7 +83,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
     {
     	return $this->__pointer;
     }
-    
+
 	/**
 	 * Set the identifying key of the current element.
 	 *
@@ -134,7 +134,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
     {
         return $this->__count;
     }
-    
+
     /**
      * Set the count of the array
      *
@@ -146,7 +146,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
     	$this->__count = $count;
     	return $this;
     }
-    
+
 	/**
      * Reset the count of the array
      *
@@ -160,7 +160,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 
 	/**
      * Take the Iterator to position $position
-     * 
+     *
      * Required by interface SeekableIterator.
      *
      * @param 	int $position The position to seek to
@@ -176,60 +176,60 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
         $this->__pointer = $position;
         return $this;
     }
-    
+
     /**
      * Check if the offset exists
-     * 
+     *
      * Required by interface ArrayAccess
      *
      * @param 	int 	The offset
      * @return  bool
      */
-	public function offsetExists($offset) 
+	public function offsetExists($offset)
 	{
         return isset($this->__data[$offset]);
 	}
 
     /**
      * Get an item from the array by offset
-     * 
+     *
      * Required by interface ArrayAccess
      *
      * @param 	int 	The offset
      * @return  mixed	The item from the array
      */
-	public function offsetGet($offset) 
+	public function offsetGet($offset)
 	{
         return $this->__data[$offset];
 	}
 
     /**
      * Set an item in the array
-     * 
+     *
      * Required by interface ArrayAccess
      *
      * @param 	int 	The offset of the item
      * @param 	mixed	The item's value
      * @return 	object KObjectArray
      */
-	public function offsetSet($offset, $value) 
+	public function offsetSet($offset, $value)
 	{
 		if(empty($offset)) {
 			$this->__data[] = $value;
 		} else {
 			$this->__data[$offset] = $value;
 		}
-			
+
 		$this->resetCount();
 		return $this;
 	}
 
     /**
      * Unset an item in the array
-     * 
-     * All numerical array keys will be modified to start counting from zero while 
+     *
+     * All numerical array keys will be modified to start counting from zero while
      * literal keys won't be touched.
-     * 
+     *
      * Required by interface ArrayAccess
      *
      * @param 	int 	The offset of the item
@@ -242,7 +242,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 		$this->resetCount();
         return $this;
 	}
-	
+
 	/**
 	 * Get the array
 	 *
@@ -252,7 +252,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 	{
 		return $this->__data;
 	}
-	
+
 	/**
 	 * Set the array
 	 *
