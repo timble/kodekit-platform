@@ -22,7 +22,7 @@
  * @uses        KObject
  * @uses        KFactory
  */
-abstract class KControllerAbstract extends KObject
+abstract class KControllerAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
 	 * Array of class methods to call for a given action.
@@ -58,6 +58,13 @@ abstract class KControllerAbstract extends KObject
 	 * @var	string
 	 */
 	protected $_messageType = 'message';
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	/**
 	 * Constructor.
@@ -68,11 +75,12 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function __construct( array $options = array() )
 	{
-		$this->identifier = $options['identifier'];
-
-        // Initialize the options
+         // Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
+		// Initialize the options
         $options  = $this->_initialize($options);
-
+        
         // Mixin a command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 
@@ -91,11 +99,23 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'command_chain' =>  new KPatternCommandChain()
+            'command_chain' =>  new KPatternCommandChain(),
+        	'identifier'	=> null
         );
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
 	 * Execute an action by triggering a method in the derived class.
@@ -193,10 +213,10 @@ abstract class KControllerAbstract extends KObject
 	 */
 	public function getView(array $options = array())
 	{
-		$application	= $this->identifier->application;
-		$package 		= $this->identifier->package;
-		$viewName		= KRequest::get('get.view', 'cmd', $this->identifier->name);
-
+		$application	= $this->_identifier->application;
+		$package 		= $this->_identifier->package;
+		$viewName		= KRequest::get('get.view', 'cmd', $this->_identifier->name);
+		
 		if ( !$view = KFactory::get($application.'::com.'.$package.'.view.'.$viewName, $options) )
 		{
             $format = isset($options['format']) ? $options['format'] : 'html';
@@ -248,7 +268,7 @@ abstract class KControllerAbstract extends KObject
 	{
 		//Create the url if no full URL was passed
 		if(strrpos($url, '?') === false) {
-			$url = 'index.php?option=com_'.$this->identifier->package.'&'.$url;
+			$url = 'index.php?option=com_'.$this->_identifier->package.'&'.$url;
 		}
 
 		$this->_redirect    =  JRoute::_($url, false);

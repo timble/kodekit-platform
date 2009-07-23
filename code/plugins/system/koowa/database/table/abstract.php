@@ -23,7 +23,7 @@
  * @uses        KFactory
  * @uses 		KFilter
  */
-abstract class KDatabaseTableAbstract extends KObject
+abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
 	 * Name of the table in the db schema
@@ -59,6 +59,13 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * @var 	array
 	 */
 	protected $_defaults;
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	/**
 	 * Object constructor to set table and key field
@@ -71,19 +78,20 @@ abstract class KDatabaseTableAbstract extends KObject
 	 */
 	public function __construct( array $options = array() )
 	{
-		$this->identifier = $options['identifier'];
-
-        // Initialize the options
+        // Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
+		// Initialize the options
         $options  = $this->_initialize($options);
-
+        
 		// Set the tablename
 		if (isset($options['table_name'])) {
 			$this->_table_name	= $options['table_name'];
 		}
 		else
 		{
-            $package = $this->identifier->package;
-            $name    = $this->identifier->name;
+            $package = $this->_identifier->package;
+            $name    = $this->_identifier->name;
 
 			$this->_table_name = empty($package) ? $name : $package.'_'.$name;
 		}
@@ -108,11 +116,23 @@ abstract class KDatabaseTableAbstract extends KObject
         $defaults = array(
             'db'       		=> null,
             'primary'       => null,
-            'table_name'    => null
+            'table_name'    => null,
+        	'identifier'	=> null
         );
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
 	 * Get the database adapter
@@ -261,9 +281,9 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-        $app   	 = $this->identifier->application;
-		$package = $this->identifier->package;
-		$row     = KInflector::singularize($this->identifier->name);
+        $app   	 = $this->_identifier->application;
+		$package = $this->_identifier->package;
+		$row     = KInflector::singularize($this->_identifier->name);
 
         //Get the data and push it in the row
 		if(isset($query))
@@ -310,9 +330,9 @@ abstract class KDatabaseTableAbstract extends KObject
     {
         $options['table']     = $this;
 
-    	$package = $this->identifier->package;
-   		$rowset  = $this->identifier->name;
-   	 	$app     = $this->identifier->application;
+    	$package = $this->_identifier->package;
+   		$rowset  = $this->_identifier->name;
+   	 	$app     = $this->_identifier->application;
 
         // Get the data
         if(isset($query))

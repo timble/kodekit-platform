@@ -44,8 +44,11 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 				}
 			}
 
-			$options['identifier'] = $identifier;
-
+			//If the object is indentifiable push the identifier in through the constructor
+			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) {
+				$options['identifier'] = $identifier;
+			}
+			
 			// If the class has a factory method call it
 			if(is_callable(array($classname, 'factory'), false, $function)) {
 				$instance = call_user_func($function, $options);

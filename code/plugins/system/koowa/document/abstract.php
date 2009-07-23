@@ -16,15 +16,8 @@
  * @package		Koowa_Document
  * @uses		KFactory
  */
-abstract class KDocumentAbstract extends KObject
+abstract class KDocumentAbstract extends KObject implements KFactoryIdentifiable
 {
-	/**
-	 * Identifier
-	 *
-	 * @var KFactoryIdentifierInterface
-	 */
-	public $identifier;
-
 	/**
 	 * Document title
 	 *
@@ -157,7 +150,13 @@ abstract class KDocumentAbstract extends KObject
 	 * @var		mixed (depends on the renderer)
 	 */
 	protected $_buffer = null;
-
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	/**
 	 * Class constructor
@@ -165,9 +164,13 @@ abstract class KDocumentAbstract extends KObject
 	 * @param	array	$options Associative array of options
 	 */
 	public function __construct( array $options = array())
-	{
-		$this->identifier = $options['identifier'];
-
+	{		
+		// Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
+		// Initialize the options
+        $options  = $this->_initialize($options);
+        
 		if (array_key_exists('charset', $options)) {
 			$this->setCharset($options['charset']);
 		}
@@ -189,6 +192,34 @@ abstract class KDocumentAbstract extends KObject
 		}
 
 	}
+	
+ 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param	array	Options
+     * @return 	array	Options
+     */
+    protected function _initialize(array $options)
+    {
+        $defaults = array(
+        	'identifier'	=> null
+        );
+
+        return array_merge($defaults, $options);
+    }
+	
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
 	 * Returns the document type
@@ -197,7 +228,7 @@ abstract class KDocumentAbstract extends KObject
 	 */
 	public function getType()
 	{
-		return $this->identifier->name;
+		return $this->_identifier->name;
 	}
 
 	/**

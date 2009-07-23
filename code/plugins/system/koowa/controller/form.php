@@ -79,7 +79,7 @@ class KControllerForm extends KControllerBread
 	{
 		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
 
-		$view 	= KInflector::pluralize( $this->identifier->name);
+		$view 	= KInflector::pluralize( $this->_identifier->name);
 		$format = KRequest::get('get.format', 'cmd', 'html');
 
 		$redirect = 'view='.$view.'&format='.$format;
@@ -97,7 +97,7 @@ class KControllerForm extends KControllerBread
 	{
 		$result = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 
-		$view 	= $this->identifier->name;
+		$view 	= $this->_identifier->name;
 		$format = KRequest::get('get.format', 'cmd', 'html');
 
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
@@ -114,7 +114,7 @@ class KControllerForm extends KControllerBread
 	protected function _actionCancel()
 	{
 		$this->setRedirect(
-			'view='.KInflector::pluralize($this->identifier->name)
+			'view='.KInflector::pluralize($this->_identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 			);
 	}
@@ -130,7 +130,7 @@ class KControllerForm extends KControllerBread
 		$result = parent::_actionDelete();
 
 		// Redirect
-		$view	   = KInflector::pluralize($this->identifier->name);
+		$view	   = KInflector::pluralize($this->_identifier->name);
 		$format	   = KRequest::get('get.format', 'cmd', 'html');
 		$this->setRedirect('view='.$view.'&format='.$format);
 
@@ -156,7 +156,7 @@ class KControllerForm extends KControllerBread
 					->update(array('enabled' => $enable), $id);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($this->identifier->name)
+			'view='.KInflector::pluralize($this->_identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 
@@ -178,7 +178,7 @@ class KControllerForm extends KControllerBread
 					->update(array('access' => $access), $id);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($this->identifier->name)
+			'view='.KInflector::pluralize($this->_identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html'),
 			JText::_( 'Changed items access level')
 		);
@@ -200,7 +200,7 @@ class KControllerForm extends KControllerBread
 				->order($change);
 
 		$this->setRedirect(
-			'view='.KInflector::pluralize($this->identifier->name)
+			'view='.KInflector::pluralize($this->_identifier->name)
 			.'&format='.KRequest::get('get.format', 'cmd', 'html')
 		);
 

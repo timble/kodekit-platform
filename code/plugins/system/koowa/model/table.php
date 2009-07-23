@@ -50,9 +50,9 @@ class KModelTable extends KModelAbstract
 		}
 		else
 		{
-			$table 			= KInflector::tableize($this->identifier->name);
-			$package		= $this->identifier->package;
-			$application 	= $this->identifier->application;
+			$table 			= KInflector::tableize($this->_identifier->name);
+			$package		= $this->_identifier->package;
+			$application 	= $this->_identifier->application;
 			$this->_table   = $application.'::com.'.$package.'.table.'.$table;
 		}
 	}
@@ -278,7 +278,7 @@ class KModelTable extends KModelAbstract
 		$app 	= KFactory::get('lib.koowa.application');
 
     	// Get the namespace
-    	$ns  	= $this->identifier->application.'::'.'com.'.$this->identifier->package.'.model.'.$this->identifier->name;
+    	$ns  	= $this->_identifier->application.'::'.'com.'.$this->_identifier->package.'.model.'.$this->_identifier->name;
 
         $state = parent::getDefaultState();
         $state['order']      = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', '', 'cmd');

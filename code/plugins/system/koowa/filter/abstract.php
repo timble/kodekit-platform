@@ -29,10 +29,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 *
 	 * @param	array	Options array
 	 */
-	public function __construct(array $options = array())
-	{
-		
-	}
+	public function __construct(array $options = array()) { }
 	
 	/**
 	 * Generic Command handler

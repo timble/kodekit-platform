@@ -16,9 +16,8 @@
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
- * @uses 		KMixinClass
  */
-abstract class KDatabaseRowAbstract extends KObject
+abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
      * The data for each column in the row (column_name => value).
@@ -42,6 +41,13 @@ abstract class KDatabaseRowAbstract extends KObject
      * @var string
      */
     protected $_table_class;
+    
+    /**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
     /**
      * Constructor
@@ -50,13 +56,14 @@ abstract class KDatabaseRowAbstract extends KObject
      */
     public function __construct(array $options = array())
     {
-    	$this->identifier = $options['identifier'];
-    
-        // Initialize the options
+         // Set the objects identifier
+        $this->_identifier = $options['identifier'];
+    	
+    	// Initialize the options
         $options  = $this->_initialize($options);
         
    		// Set table object and class name
-		$this->_table_class = $this->identifier->application.'::com.'.$this->identifier->package.'.table.'.$this->identifier->name;
+		$this->_table_class = $this->_identifier->application.'::com.'.$this->_identifier->package.'.table.'.$this->_identifier->name;
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 
 		// Reset the row
@@ -79,11 +86,23 @@ abstract class KDatabaseRowAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'table'     => null
+            'table'      => null,
+        	'identifier' => null
         );
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
     /**
      * Returns the table object, or null if this is disconnected row

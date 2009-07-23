@@ -18,7 +18,7 @@
  * @uses 		KTemplate
  * @uses 		KFactory
  */
-abstract class KViewAbstract extends KObject
+abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
 	 * Layout name
@@ -61,6 +61,13 @@ abstract class KViewAbstract extends KObject
 	 * @var object
 	 */
 	protected $_document;
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	/**
 	 * Constructor
@@ -69,16 +76,17 @@ abstract class KViewAbstract extends KObject
 	 */
 	public function __construct(array $options = array())
 	{
-		$this->identifier = $options['identifier'];
-
+		// Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
 		// Initialize the options
         $options  = $this->_initialize($options);
-
+        
 		 // user-defined escaping callback
         $this->setEscape($options['escape']);
 
 		// Add default template paths
-		$path = $this->identifier->filepath.DS.'tmpl';
+		$path = $this->_identifier->filepath.DS.'tmpl';
 		$this->addTemplatePath($path);
 
 		if($options['template_path']) {
@@ -121,11 +129,23 @@ abstract class KViewAbstract extends KObject
                         KFactory::get('lib.koowa.template.filter.token'),
                         KFactory::get('lib.koowa.template.filter.variable')
 						),
-            'template_path' => null
+            'template_path' => null,
+			'identifier'	=> null
         );
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
 	 * Execute and echo's the views output
@@ -408,13 +428,13 @@ abstract class KViewAbstract extends KObject
 
 		// Check to see if there is component information in the route if not add it
 		if(!isset($parts['option'])) {
-			$result[] = 'option=com_'.$this->identifier->package;
+			$result[] = 'option=com_'.$this->_identifier->package;
 		}
 
 		// Check to see if there is view information in the route if not add it
 		if(!isset($parts['view']))
 		{
-			$result[] = 'view='.$this->identifier->name;
+			$result[] = 'view='.$this->_identifier->name;
 			if(!isset($parts['layout']) && $this->_layout != 'default') {
 				$result[] = 'layout='.$this->_layout;
 			}

@@ -18,7 +18,7 @@
  * @subpackage  Rowset
  * @uses 		KMixinClass
  */
-abstract class KDatabaseRowsetAbstract extends KObjectArray
+abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryIdentifiable
 {
 	/**
 	 * Original data passed to the object
@@ -47,6 +47,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      * @var object	KDatabaseRowAbstract
      */
     protected $_empty_row;
+    
+    /**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	 /**
      * Constructor
@@ -55,13 +62,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
      */
     public function __construct(array $options = array())
     {
-    	$this->identifier = $options['identifier'];
-
-        // Initialize the options
+        // Set the objects identifier
+        $this->_identifier = $options['identifier'];
+    	
+    	// Initialize the options
         $options  = $this->_initialize($options);
-
+        
 		// Set table object and class name
-		$this->_table_class  = $this->identifier->application.'::com.'.$this->identifier->package.'.table.'.$this->identifier->name;
+		$this->_table_class  = $this->_identifier->application.'::com.'.$this->_identifier->package.'.table.'.$this->_identifier->name;
 		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
 
 		// Set the data
@@ -87,12 +95,23 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'table'     => null
+            'table'      => null,
+        	'identifier' => null
         );
 
         return array_merge($defaults, $options);
     }
-
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
      * Overridden current() method

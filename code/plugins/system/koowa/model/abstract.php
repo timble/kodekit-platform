@@ -19,7 +19,7 @@
  * @uses		KObject
  * @uses		KFactory
  */
-abstract class KModelAbstract extends KObject
+abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
 	 * A state object
@@ -55,6 +55,13 @@ abstract class KModelAbstract extends KObject
 	 * @var mixed
 	 */
 	protected $_item;
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
 
 	/**
 	 * Constructor
@@ -63,8 +70,9 @@ abstract class KModelAbstract extends KObject
 	 */
 	public function __construct(array $options = array())
 	{
-		$this->identifier = $options['identifier'];
-	
+		// Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
 		// Initialize the options
 		$options  = $this->_initialize($options);
 		
@@ -85,11 +93,23 @@ abstract class KModelAbstract extends KObject
 	protected function _initialize(array $options)
 	{
 		$defaults = array(
-            'state'  => array()
-                        );
+            'state'      => array(),
+			'identifier' => null
+      	);
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
     /**
      * Reset all cached data
@@ -206,7 +226,7 @@ abstract class KModelAbstract extends KObject
 		$app 	= KFactory::get('lib.koowa.application');
 		 
 		//Get the namespace
-		$ns  = $this->identifier->package.'.'.$this->identifier->name;
+		$ns  = $this->_identifier->package.'.'.$this->_identifier->name;
 
 		$state = array();
 		$state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');

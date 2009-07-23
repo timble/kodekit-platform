@@ -35,9 +35,9 @@ class KViewHtml extends KViewAbstract
 
 	public function display()
 	{
-		$app 		= $this->identifier->application;
-		$package 	= $this->identifier->package;
-		$name 		= $this->identifier->name;
+		$app 		= $this->_identifier->application;
+		$package 	= $this->_identifier->package;
+		$name 		= $this->_identifier->name;
 
 		//Push the toolbar output into the document buffer
 		$this->_document->setBuffer(

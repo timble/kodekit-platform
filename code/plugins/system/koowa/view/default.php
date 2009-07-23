@@ -19,20 +19,20 @@ class KViewDefault extends KViewHtml
 {
 	public function display()
 	{
-		$app 		= $this->identifier->application;
-		$package 	= $this->identifier->package;
-		$name 		= $this->identifier->name;
+		$app 		= $this->_identifier->application;
+		$package 	= $this->_identifier->package;
+		$name 		= $this->_identifier->name;
 
 		if(KInflector::isPlural($name))
 		{
-			$model = KFactory::get($app.'::com.'.$component.'.model.'.$name);
+			$model = KFactory::get($app.'::com.'.$package.'.model.'.$name);
 			$this->assign($name, 		$model->getList());
 			$this->assign('filter',  	$model->getFilters());
 			$this->assign('pagination', $model->getPagination());
 		}
 		else
 		{
-			$model = KFactory::get($app.'::com.'.$component.'.model.'.KInflector::pluralize($name));
+			$model = KFactory::get($app.'::com.'.$package.'.model.'.KInflector::pluralize($name));
 			$this->assign($name, $model->getItem());
 		}
 

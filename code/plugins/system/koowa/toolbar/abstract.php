@@ -17,7 +17,7 @@
  * @uses		KMixinClass
  * @uses 		KFactory
  */
-abstract class KToolbarAbstract extends KObject implements KToolbarInterface
+abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KFactoryIdentifiable
 {
 	/**
 	 * Buttons in the toolbar
@@ -27,34 +27,31 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 	protected $_buttons = array();
 
 	/**
+	 * The object identifier
+	 *
+	 * @var object 
+	 */
+	protected $_identifier = null;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param array	Options array
 	 */
 	public function __construct(array $options = array())
 	{
-		$this->identifier = $options['identifier'];
-
-        // Initialize the options
+        // Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
+		// Initialize the options
         $options  = $this->_initialize($options);
-
-
+        
         // Set the title
         $title = empty($options['title']) ? KInflector::humanize($this->getName()) : $options['title'];
         $this->setTitle($title);
 	}
-
-	/**
-	 * Get the toolbar's name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->identifier->name;
-	}
-
-    /**
+	
+ 	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -65,11 +62,35 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'title'		=> null
+            'title'	 	 => null,
+        	'identifier' => null
         );
 
         return array_merge($defaults, $options);
     }
+	
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
+
+	/**
+	 * Get the toolbar's name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->_identifier->name;
+	}
+
+   
 
 	/**
 	 * Append a button
@@ -116,8 +137,8 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface
 		{
 			if(!($button instanceof KToolbarButtonInterface))
 			{
-				$app		= $this->identifier->application;
-				$package	= $this->identifier->package;
+				$app		= $this->_identifier->application;
+				$package	= $this->_identifier->package;
 				$button = KFactory::tmp($app.'::com.'.$package.'.toolbar.button.'.$button);
 			}
 

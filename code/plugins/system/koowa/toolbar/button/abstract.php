@@ -18,7 +18,7 @@
  *
  * @uses		KInflector
  */
-abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonInterface
+abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonInterface,  KFactoryIdentifiable
 {
 	/**
 	 * Method used to submit the form
@@ -34,10 +34,12 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 */
 	public function __construct(array $options = array())
 	{
-		$this->identifier = $options['identifier'];
-
-        // Initialize the options
+		// Set the objects identifier
+        $this->_identifier = $options['identifier'];
+		
+		// Initialize the options
         $this->_options  = $this->_initialize($options);
+        
         if($this->_options['parent']) {
         	$this->setParent($this->_options['parent']);
         }
@@ -55,18 +57,30 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
      */
     protected function _initialize(array $options)
     {
-    	$name = $this->identifier->name;
+    	$name = $this->_identifier->name;
 
         $defaults = array(
-            'parent'	=> null,
-            'icon'		=> 'icon-32-'.$name,
-            'id'		=> $name,
-			'text'		=> ucfirst($name),
-            'method'	=> 'get'
+            'parent'	 => null,
+            'icon'		 => 'icon-32-'.$name,
+            'id'		 => $name,
+			'text'		 => ucfirst($name),
+            'method'	 => 'get',
+        	'identifier' => null
         );
 
         return array_merge($defaults, $options);
     }
+    
+	/**
+	 * Get the identifier
+	 *
+	 * @return 	object A KFactoryIdentifier object
+	 * @see 	KFactoryIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
     /**
 	 * Set the parent toolbar
@@ -109,7 +123,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 */
 	public function getName()
 	{
-		return $this->identifier->name;
+		return $this->_identifier->name;
 	}
 
 	public function render()

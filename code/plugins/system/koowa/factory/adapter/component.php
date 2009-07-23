@@ -40,7 +40,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	public function instantiate($identifier, array $options)
 	{
 		$instance = false;
-
+		
 		if($identifier->type == 'com') 
 		{
 			$classname = $this->_getClassName($identifier);
@@ -82,9 +82,13 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			
 			if(class_exists( $classname ))
 			{
-				$identifier->filename = $filename;
-				$identifier->filepath = $filepath;
-				$options['identifier'] = $identifier;
+				//If the object is indentifiable push the identifier in through the constructor
+				if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) 
+				{
+					$identifier->filename = $filename;
+					$identifier->filepath = $filepath;
+					$options['identifier'] = $identifier;
+				}
 				
 				$instance = new $classname($options);
 			}

@@ -59,9 +59,9 @@ class KControllerBread extends KControllerAbstract
 		$id	 = KRequest::get('get.id', 'int');
 
 		// Get the table object
-		$app   		= $this->identifier->application;
-		$package 	= $this->identifier->package;
-		$name    	= KInflector::pluralize($this->identifier->name);
+		$app   		= $this->_identifier->application;
+		$package 	= $this->_identifier->package;
+		$name    	= KInflector::pluralize($this->_identifier->name);
 
 		$row		= $this->_getTable()
 						->fetchRow($id)
@@ -82,9 +82,9 @@ class KControllerBread extends KControllerAbstract
 		$data = KRequest::get('post', 'string');
 
 		// Get the table object
-		$app   		= $this->identifier->application;
-		$package 	= $this->identifier->package;
-		$name    	= KInflector::pluralize($this->identifier->name);
+		$app   		= $this->_identifier->application;
+		$package 	= $this->_identifier->package;
+		$name    	= KInflector::pluralize($this->_identifier->name);
 
 		$row 		= $this->_getTable()
 						->fetchRow()
@@ -118,11 +118,11 @@ class KControllerBread extends KControllerAbstract
 	protected function _getTable(array $options = array())
 	{
 		// Get the table object
-		$app   	 = $this->identifier->application;
-		$package = $this->identifier->package;
+		$app   	 = $this->_identifier->application;
+		$package = $this->_identifier->package;
 		
 		// Table names are always plural
-		$name    = KInflector::pluralize($this->identifier->name);
+		$name    = KInflector::pluralize($this->_identifier->name);
 		
 		$table = KFactory::get($app.'::com.'.$package.'.table.'.$name, $options);
 		return $table;
