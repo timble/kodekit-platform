@@ -95,7 +95,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 
 	public function setArray($rows)
 	{
-		$empty_row = $this->_table->fetchRow();
+		$prototype = $this->_table->fetchRow();
 		$result = array();
 		foreach($rows as $k => $row)
 		{
@@ -103,7 +103,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 				$result[] = $row;
 			} else {
 				// cloning is faster than instantiation
-				$new = clone $empty_row;
+				$new = clone $prototype;
         		$new->setProperties($row);
         		$result[] = $new;
 			}
@@ -168,7 +168,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function findRow($key, $value)
     {
-   		$result = $this->_empty_row;
+   		$result = $this->_table->fetchRow();
 
     	$this->rewind();
 
