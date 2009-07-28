@@ -27,50 +27,47 @@ class plgSystemKoowa extends JPlugin
     		return;
 		}
 
-		if( self::canEnable())
-		{
-			// Require the library loader
-			JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
-			JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
+		// Require the library loader
+		JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
+		JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
 
-			//Add loader adapters
-			KLoader::addAdapter(new KLoaderAdapterJoomla());
-        	KLoader::addAdapter(new KLoaderAdapterComponent());
+		//Add loader adapters
+		KLoader::addAdapter(new KLoaderAdapterJoomla());
+        KLoader::addAdapter(new KLoaderAdapterComponent());
 
-			//Add factory adapters
-			KFactory::addAdapter(new KFactoryAdapterJoomla());
-        	KFactory::addAdapter(new KFactoryAdapterComponent());
+		//Add factory adapters
+		KFactory::addAdapter(new KFactoryAdapterJoomla());
+        KFactory::addAdapter(new KFactoryAdapterComponent());
 
-			// Decorate the application object
-			$app  =& JFactory::getApplication();
-			$app  = new KDecoratorJoomlaApplication($app);
+		// Decorate the application object
+		$app  =& JFactory::getApplication();
+		$app  = new KDecoratorJoomlaApplication($app);
 
-			//Create the koowa database object
-			$kdb = KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'));
+		//Create the koowa database object
+		$kdb = KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'));
 
-			// Decorate the database object
-			$jdb  =& JFactory::getDBO();
-			$jdb  = new KDecoratorJoomlaDatabase($jdb);
-			
-			// Decortae the language object
-			$lang =& JFactory::getLanguage();
-			$lang = new KDecoratorJoomlaLanguage($lang);
+		// Decorate the database object
+		$jdb  =& JFactory::getDBO();
+		$jdb  = new KDecoratorJoomlaDatabase($jdb);
 
-			// Create the koowa database object
-			$kdb->setConnection($jdb->_resource);
-			$kdb->setTablePrefix($jdb->_table_prefix);
+		// Decortae the language object
+		$lang =& JFactory::getLanguage();
+		$lang = new KDecoratorJoomlaLanguage($lang);
 
-			//ACL uses the unwrapped DBO
-	        $acl = JFactory::getACL();
-	        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
-	        
-	        //Set factory identifier aliasses
-	        KFactory::map('lib.koowa.application', 'lib.joomla.application');
-	        KFactory::map('lib.koowa.language',    'lib.joomla.language');
+		// Create the koowa database object
+		$kdb->setConnection($jdb->_resource);
+		$kdb->setTablePrefix($jdb->_table_prefix);
 
-			//Load the koowa plugins
-			JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
-		}
+		//ACL uses the unwrapped DBO
+        $acl = JFactory::getACL();
+        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
+
+        //Set factory identifier aliasses
+        KFactory::map('lib.koowa.application', 'lib.joomla.application');
+        KFactory::map('lib.koowa.language',    'lib.joomla.language');
+
+		//Load the koowa plugins
+		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 
 		parent::__construct($subject, $config = array());
 	}
@@ -92,32 +89,10 @@ class plgSystemKoowa extends JPlugin
 
 			$doc =& JFactory::getDocument();
 			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
-			
+
 			//@TODO : Rework document package, implement factory method and restructure
 		 	KFactory::map('lib.koowa.document', 'lib.koowa.document.'.$format);
 		}
 	}
 
-	/**
-	 * Check if the current request requires Koowa to be turned off
-	 *
-	 * Eg. Koowa should be disabled when uninstalling plugins
-	 *
-	 * @return	bool
-	 */
-	public static function canEnable()
-	{
-		$result = true;
-
-		// Note: can't use KRequest, Koowa isn't loaded yet
-
-		// Are we uninstalling a plugin?
-		if(JRequest::getCmd('option') == 'com_installer'
-			&& JRequest::getCmd('action') == 'remove'
-			&& JRequest::getCmd('type') == 'plugins' ) {
-			$result = false;
-		}
-
-		return $result;
-	}
 }
