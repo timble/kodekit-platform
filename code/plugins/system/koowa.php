@@ -74,25 +74,24 @@ class plgSystemKoowa extends JPlugin
 
 	public function onAfterRoute()
 	{
-		if(self::canEnable())
-		{
-			//Replace the document object
-			$lang = KFactory::get('lib.joomla.language');
 
-			$options = array (
-				'charset'	=> 'utf-8',
-				'language'	=> $lang->getTag(),
-				'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
-			);
+		//Replace the document object
+		$lang = KFactory::get('lib.joomla.language');
 
-			$format = KRequest::get('get.format', 'word', 'html');
+		$options = array (
+			'charset'	=> 'utf-8',
+			'language'	=> $lang->getTag(),
+			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
+		);
 
-			$doc =& JFactory::getDocument();
-			$doc = KFactory::get('lib.koowa.document.'.$format, $options);
+		$format = KRequest::get('get.format', 'word', 'html');
 
-			//@TODO : Rework document package, implement factory method and restructure
-		 	KFactory::map('lib.koowa.document', 'lib.koowa.document.'.$format);
-		}
+		$doc =& JFactory::getDocument();
+		$doc = KFactory::get('lib.koowa.document.'.$format, $options);
+
+		//@TODO : Rework document package, implement factory method and restructure
+	 	KFactory::map('lib.koowa.document', 'lib.koowa.document.'.$format);
+
 	}
 
 }
