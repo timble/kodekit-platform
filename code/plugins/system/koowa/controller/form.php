@@ -77,7 +77,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionSave()
 	{
-		$result = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
+		$row = KRequest::get('post.id', 'int') ? $this->execute('edit') : $this->execute('add');
 
 		$view 	= KInflector::pluralize( $this->_identifier->name);
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -85,7 +85,7 @@ class KControllerForm extends KControllerBread
 		$redirect = 'view='.$view.'&format='.$format;
 		$this->setRedirect($redirect);
 
-		return $result;
+		return $row;
 	}
 
 	/*
@@ -95,7 +95,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$result = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
+		$row = KRequest::get('post.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 
 		$view 	= $this->_identifier->name;
 		$format = KRequest::get('get.format', 'cmd', 'html');
@@ -103,7 +103,7 @@ class KControllerForm extends KControllerBread
 		$redirect = 'view='.$view.'&layout=form&id='.$row->id.'&format='.$format;
 		$this->setRedirect($redirect);
 
-		return $result;
+		return $row;
 	}
 
 	/*
@@ -123,18 +123,18 @@ class KControllerForm extends KControllerBread
 	 * Generic delete function
 	 *
 	 * @throws KControllerException
-	 * @return void
+	 * @return KDatabaseTableAbstract
 	 */
 	protected function _actionDelete()
 	{
-		$result = parent::_actionDelete();
+		$table = parent::_actionDelete();
 
 		// Redirect
 		$view	   = KInflector::pluralize($this->_identifier->name);
 		$format	   = KRequest::get('get.format', 'cmd', 'html');
 		$this->setRedirect('view='.$view.'&format='.$format);
 
-		return $result;
+		return $table;
 	}
 
 	/*
@@ -172,7 +172,7 @@ class KControllerForm extends KControllerBread
 	{
 		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
-	
+
 		//Update the table
 		$table = $this->_getTable()
 					->update(array('access' => $access), $id);
