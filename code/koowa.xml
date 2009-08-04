@@ -21,6 +21,7 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>swf</folder>
+		<folder>css</folder>
 	</media>
 	
 </install>
