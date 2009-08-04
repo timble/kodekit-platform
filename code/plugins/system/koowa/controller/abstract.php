@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$$
+ * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -58,11 +58,11 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 * @var	string
 	 */
 	protected $_messageType = 'message';
-	
+
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -77,7 +77,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	{
          // Set the objects identifier
         $this->_identifier = $options['identifier'];
-		
+
 		// Initialize the options
         $options  = $this->_initialize($options);
 
@@ -106,7 +106,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
 	 * Get the identifier
 	 *
@@ -213,9 +213,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function getView(array $options = array())
 	{
-		$identifier			= clone $this->identifier;
+		$identifier			= clone $this->_identifier;
 		$identifier->type	= 'view';
-		$identifier->name	= KRequest::get('get.view', 'cmd', $this->identifier->name);
+		$identifier->name	= KRequest::get('get.view', 'cmd', $identifier->name);
 
 		return KFactory::get($identifier, $options);
 	}
@@ -227,9 +227,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function getModel(array $options = array())
 	{
-		$identifier			= clone $this->identifier;
+		$identifier			= clone $this->_identifier;
 		$identifier->type	= 'model';
-		$identifier->name	= KInflector::pluralize($this->identifier->name);
+		$identifier->name	= KInflector::pluralize($identifier->name);
 
 		return KFactory::get($identifier, $options);
 	}
