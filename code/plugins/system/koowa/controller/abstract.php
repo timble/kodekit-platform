@@ -214,7 +214,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	public function getView(array $options = array())
 	{
 		$identifier			= clone $this->_identifier;
-		$identifier->type	= 'view';
+		$identifier->path	= array('view');
 		$identifier->name	= KRequest::get('get.view', 'cmd', $identifier->name);
 
 		return KFactory::get($identifier, $options);
@@ -228,7 +228,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	public function getModel(array $options = array())
 	{
 		$identifier			= clone $this->_identifier;
-		$identifier->type	= 'model';
+		$identifier->path	= array('model');
 		$identifier->name	= KInflector::pluralize($identifier->name);
 
 		return KFactory::get($identifier, $options);
