@@ -26,15 +26,16 @@ class KViewDefault extends KViewHtml
 		if(KInflector::isPlural($name))
 		{
 			$model = KFactory::get($app.'::com.'.$package.'.model.'.$name);
-			$this->assign($name, 		$model->getList());
-			$this->assign('filter',  	$model->getFilters());
-			$this->assign('pagination', $model->getPagination());
+			$this->assign($name, 	$model->getList())
+				 ->assign('total',	$model->getTotal());
 		}
 		else
 		{
 			$model = KFactory::get($app.'::com.'.$package.'.model.'.KInflector::pluralize($name));
 			$this->assign($name, $model->getItem());
 		}
+
+		$this->assign('state', $model->getState());
 
 		// Display the layout
 		parent::display();

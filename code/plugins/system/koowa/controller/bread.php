@@ -17,6 +17,12 @@
  */
 class KControllerBread extends KControllerAbstract
 {
+	public function __construct(array $options = array())
+	{
+		parent::__construct($options);
+		$this->_setModelState();
+	}
+
 	/**
 	 * Browse a list of items
 	 *
@@ -58,11 +64,7 @@ class KControllerBread extends KControllerAbstract
 		// Get the id
 		$id	 = KRequest::get('get.id', 'int');
 
-		// Get the table object
-		$app   		= $this->_identifier->application;
-		$package 	= $this->_identifier->package;
-		$name    	= KInflector::pluralize($this->_identifier->name);
-
+		// Get the row and save
 		$row		= $this->_getTable()
 						->fetchRow($id)
 						->setProperties($data)
@@ -81,11 +83,7 @@ class KControllerBread extends KControllerAbstract
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
 
-		// Get the table object
-		$app   		= $this->_identifier->application;
-		$package 	= $this->_identifier->package;
-		$name    	= KInflector::pluralize($this->_identifier->name);
-
+		// Get the row and save
 		$row 		= $this->_getTable()
 						->fetchRow()
 						->setProperties($data)
@@ -126,5 +124,26 @@ class KControllerBread extends KControllerAbstract
 		
 		$table = KFactory::get($app.'::com.'.$package.'.table.'.$name, $options);
 		return $table;
+	}
+
+
+	/**
+	 * Sets the state of the model related to this controller
+	 *
+	 * @return KControllerBread
+	 */
+	protected function _setModelState()
+	{
+		$default = KFactory::get('lib.joomla.application')->getCfg('list_limit', 20);
+
+		$this->getModel()
+			->setState('id',		KRequest::get('get.id', 'int'))
+			->setState('limit',		KRequest::get('get.f.limit', 'int', $default))
+			->setState('offset',	KRequest::get('get.f.offset', 'int', 0))
+			->setState('order', 	KRequest::get('get.f.order', 'cmd'))
+			->setState('direction',	KRequest::get('get.f.direction', 'word', 'asc'))
+			->setState('search', 	KRequest::get('get.f.search', 'string'));
+
+        return $this;
 	}
 }

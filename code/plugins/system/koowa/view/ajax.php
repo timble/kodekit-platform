@@ -17,19 +17,19 @@
  * @package		Koowa_View
  * @subpackage 	Ajax
  */
-class KViewAjax extends KViewAbstract 
-{ 
+class KViewAjax extends KViewAbstract
+{
 	public function __construct($options = array())
 	{
 		$options = $this->_initialize($options);
-		
+
 		// Add a rule to the template for form handling and secrity tokens
 		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
-		
-		// Set a base and media path for use by the view
-		$this->assign('baseurl' , $options['base_url']);
-		$this->assign('mediaurl', $options['media_url']);
-		
+
+		// Set base and media urls for use by the view
+		$this->assign('baseurl' , $options['base_url'])
+			 ->assign('mediaurl', $options['media_url']);
+
 		parent::__construct($options);
 	}
 }

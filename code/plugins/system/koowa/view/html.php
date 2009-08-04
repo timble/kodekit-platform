@@ -26,9 +26,9 @@ class KViewHtml extends KViewAbstract
 		// Add a rule to the template for form handling and secrity tokens
 		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
 
-		// Set a base and media path for use by the view
-		$this->assign('baseurl' , $options['base_url']);
-		$this->assign('mediaurl', $options['media_url']);
+		// Set base and media urls for use by the view
+		$this->assign('baseurl' , $options['base_url'])
+			 ->assign('mediaurl', $options['media_url']);
 
 		parent::__construct($options);
 	}

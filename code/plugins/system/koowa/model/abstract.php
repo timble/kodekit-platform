@@ -55,7 +55,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 * @var mixed
 	 */
 	protected $_item;
-	
+
 	/**
 	 * The object identifier
 	 *
@@ -75,11 +75,10 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		
 		// Initialize the options
 		$options  = $this->_initialize($options);
-		
+
 		//Use KObject to store the model state
 		$this->_state = new KObject();
 		$this->_state->setProperties($options['state']);
-		$this->_state->setProperties($this->getDefaultState());
 	}
 
 	/**
@@ -95,12 +94,12 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		$defaults = array(
             'state'      => array(),
 			'identifier' => null
-      	);
+                        );
 
         return array_merge($defaults, $options);
     }
-    
-	/**
+
+    /**
 	 * Get the identifier
 	 *
 	 * @return 	object A KFactoryIdentifier object
@@ -183,54 +182,5 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	public function getTotal()
 	{
 		return $this->_total;
-	}
-
-	/**
-	 * Get a Pagination object
-	 *
-	 * @return  JPagination
-	 */
-	public function getPagination()
-	{
-		// Get the data if it doesn't already exist
-		if (!isset($this->_pagination))
-		{
-			Koowa::import('lib.joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('offset'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
-	}
-
-	/**
-	 * Get a list of filters
-	 *
-	 * @return  array
-	 */
-	public function getFilters()
-	{
-		$filters = array();
-		$filters['limit']       = $this->getState('limit');
-		$filters['limitstart']  = $this->getState('offset');
-
-		return $filters;
-	}
-
-	/**
-	 * Get the default states
-	 *
-	 * @return array The array with the default state information
-	 */
-	public function getDefaultState()
-	{
-		$app 	= KFactory::get('lib.koowa.application');
-		 
-		//Get the namespace
-		$ns  = $this->_identifier->package.'.'.$this->_identifier->name;
-
-		$state = array();
-		$state['limit']  = $app->getUserStateFromRequest('global.list.limit', 'limit', '20', 'int');
-		$state['offset'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');
-		return $state;
 	}
 }
