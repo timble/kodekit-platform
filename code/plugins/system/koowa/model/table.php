@@ -160,21 +160,6 @@ class KModelTable extends KModelAbstract
         return parent::getTotal();
     }
 
-    /**
-     * Get a list of filters
-     *
-     * @return  array
-     */
-    public function getFilters()
-    {
-       $filters = parent::getFilters();
-
-       $filters['order']       = $this->getState('order');
-       $filters['direction']   = $this->getState('direction');
-       $filters['filter']      = $this->getState('filter');
-
-        return $filters;
-    }
 
     /**
      * Builds a generic SELECT query
@@ -193,7 +178,6 @@ class KModelTable extends KModelAbstract
         $this->_buildQueryWhere($query);
         $this->_buildQueryOrder($query);
         $this->_buildQueryLimit($query);
-
 
 		return $query;
     }
@@ -250,7 +234,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
-    	$columns = $this->getTable()->getColumns();
+    	$columns 	= $this->getTable()->getColumns();
        	$order      = $this->getState('order');
        	$direction  = strtoupper($this->getState('direction'));
     	if($order && in_array($order, $columns)) {
@@ -270,26 +254,5 @@ class KModelTable extends KModelAbstract
 		$query->limit($this->getState('limit'), $this->getState('offset'));
     }
 
- 	/**
-     * Get the default states
-     */
-    public function getDefaultState()
-    {
-		$app 	= KFactory::get('lib.koowa.application');
 
-    	// Get the namespace
-    	$ns  	= $this->_identifier->application.'::'.'com.'.$this->_identifier->package.'.model.'.$this->_identifier->name;
-
-        $state = parent::getDefaultState();
-        $state['order']      = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', '', 'cmd');
-        $state['direction']  = $app->getUserStateFromRequest($ns.'.filter_direction', 'filter_direction', 'ASC', 'word');
-        $state['filter']     = $app->getUserStateFromRequest($ns.'.filter', 'filter', '', 'string');
-        $default		     = KRequest::get('get.id', 'raw', 0, 'int');
-        $state['id']         = KRequest::get('post.id', 'raw', $default, 'int');
-
-        // making sure
-        $state['filter']   	= KFactory::get('lib.koowa.filter.string')->sanitize($state['filter']);
-
-  		return $state;
-    }
 }
