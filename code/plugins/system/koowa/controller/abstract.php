@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$$
  * @category	Koowa
  * @package		Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
@@ -80,13 +80,14 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		
 		// Initialize the options
         $options  = $this->_initialize($options);
-        
+
         // Mixin a command chain
         $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 
         //Mixin a filter
         $this->mixin(new KMixinFilter(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 	}
+
 
     /**
      * Initializes the options for the object
@@ -206,27 +207,31 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	}
 
 	/**
-	 * Method to get a reference to the current view and load it if necessary.
+	 * Get the view, based on the request
 	 *
 	 * @return	KViewAbstract	A KView object
-	 * @throws KControllerException
 	 */
 	public function getView(array $options = array())
 	{
-		$application	= $this->_identifier->application;
-		$package 		= $this->_identifier->package;
-		$viewName		= KRequest::get('get.view', 'cmd', $this->_identifier->name);
-		
-		if ( !$view = KFactory::get($application.'::com.'.$package.'.view.'.$viewName, $options) )
-		{
-            $format = isset($options['format']) ? $options['format'] : 'html';
-			throw new KControllerException(
-					'View not found [application, component, name, format]:'
-                    ." $application, $component, $viewName, $format"
-			);
-		}
+		$identifier			= clone $this->identifier;
+		$identifier->type	= 'view';
+		$identifier->name	= KRequest::get('get.view', 'cmd', $this->identifier->name);
 
-		return $view;
+		return KFactory::get($identifier, $options);
+	}
+
+	/**
+	 * Get the model with the same identifier
+	 *
+	 * @return	KModelAbstract	A KModel object
+	 */
+	public function getModel(array $options = array())
+	{
+		$identifier			= clone $this->identifier;
+		$identifier->type	= 'model';
+		$identifier->name	= KInflector::pluralize($this->identifier->name);
+
+		return KFactory::get($identifier, $options);
 	}
 
 	/**
@@ -297,4 +302,5 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 
 		return $result;
 	}
+
 }
