@@ -169,7 +169,6 @@ class KModelTable extends KModelAbstract
     protected function _buildQuery()
     {
     	$query = $this->_db->getQuery();
-    	$key   = $this->getTable()->getPrimaryKey();
         $query->select(array('tbl.*'));
 
         $this->_buildQueryFields($query);
@@ -251,6 +250,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryLimit(KDatabaseQuery $query)
     {
+//die(var_dump(__METHOD__, __LINE__, $this->getState('limit'), $this->getState('offset')));
 		$query->limit($this->getState('limit'), $this->getState('offset'));
     }
 
