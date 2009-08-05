@@ -47,20 +47,35 @@ class KTemplateHelperGrid extends KObject
 	 */
 	public function sort( $title, $order, $direction = 'asc', $selected = 0)
 	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
+		$img = '';
 
-		$direction	= strtolower( $direction );
-		$images		= array( 'sort_asc.png', 'sort_desc.png' );
-		$index		= intval( $direction == 'desc' );
-		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		// cleanup
+		$direction	= strtolower($direction);
+		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
 
-		$html = '<a href="javascript:Koowa.Table.sorting(\''.$order.'\',\''.$direction.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
-		$html .= JText::_( $title );
-		if ($order == $selected ) {
-			$html .= KTemplate::loadHelper('image.template',  $images[$index], 'images/', NULL, NULL);
+
+		// only for the current sorting
+		if($order == $selected)
+		{
+			$img = KTemplate::loadHelper('image.template',   'sort_'.$direction.'.png', 'images/', NULL, NULL);
+			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
 		}
+
+		// modify url
+		$url = clone KRequest::url();
+		$query = $url->getquery(1);
+		if(!isset($query['f'])) {
+			$query['f'] = array();
+		}
+		$query['f']['order'] 	 = $order;
+		$query['f']['direction'] = $direction;
+		$url->setQuery($query);
+
+		// render html
+		$html  = '<a href="'.JRoute::_($url).'" title="'.JText::_('Click to sort by this column').'">';
+		$html .= JText::_($title).$img;
 		$html .= '</a>';
+
 		return $html;
 	}
 

@@ -233,14 +233,14 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
-    	$columns 	= $this->getTable()->getColumns();
-       	$order      = $this->getState('order');
-       	$direction  = strtoupper($this->getState('direction'));
-    	if($order && in_array($order, $columns)) {
+    	$order      = $this->getState('order');
+       	$direction  = strtoupper($this->getState('direction', 'ASC'));
+
+    	if($order) {
     		$query->order($order, $direction);
     	}
 
-		if(in_array('ordering', $columns)) {
+		if(in_array('ordering', $this->getTable()->getColumns())) {
     		$query->order('ordering', 'ASC');
     	}
     }
@@ -250,7 +250,6 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryLimit(KDatabaseQuery $query)
     {
-//die(var_dump(__METHOD__, __LINE__, $this->getState('limit'), $this->getState('offset')));
 		$query->limit($this->getState('limit'), $this->getState('offset'));
     }
 

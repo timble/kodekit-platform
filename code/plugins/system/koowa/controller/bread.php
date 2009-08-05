@@ -69,7 +69,7 @@ class KControllerBread extends KControllerAbstract
 						->fetchRow($id)
 						->setProperties($data)
 						->save();
-						
+
 		return $row;
 	}
 
@@ -103,13 +103,13 @@ class KControllerBread extends KControllerAbstract
 
 		$table = $this->_getTable()
 				->delete($id);
-				
+
 		return $table;
 	}
-	
+
 	/**
 	 * Method to get a table object
-	 * 
+	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * @return	object	The table.
 	 */
@@ -118,10 +118,10 @@ class KControllerBread extends KControllerAbstract
 		// Get the table object
 		$app   	 = $this->_identifier->application;
 		$package = $this->_identifier->package;
-		
+
 		// Table names are always plural
 		$name    = KInflector::pluralize($this->_identifier->name);
-		
+
 		$table = KFactory::get($app.'::com.'.$package.'.table.'.$name, $options);
 		return $table;
 	}
