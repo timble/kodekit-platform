@@ -29,10 +29,10 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -42,15 +42,15 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	{
         // Set the objects identifier
         $this->_identifier = $options['identifier'];
-		
+
 		// Initialize the options
         $options  = $this->_initialize($options);
-        
+
         // Set the title
         $title = empty($options['title']) ? KInflector::humanize($this->getName()) : $options['title'];
         $this->setTitle($title);
 	}
-	
+
  	/**
      * Initializes the options for the object
      *
@@ -68,7 +68,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 
         return array_merge($defaults, $options);
     }
-	
+
 	/**
 	 * Get the identifier
 	 *
@@ -90,7 +90,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 		return $this->_identifier->name;
 	}
 
-   
+
 
 	/**
 	 * Append a button
@@ -164,6 +164,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	{
 		//strip the extension
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
+		$title = JText::_($title);
 
 		$html  = "<div class=\"header icon-48-$icon\">\n";
 		$html .= "$title\n";
