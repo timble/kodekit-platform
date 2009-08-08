@@ -61,11 +61,11 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	 * @var object
 	 */
 	protected $_document;
-	
+
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -78,10 +78,10 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	{
 		// Set the objects identifier
         $this->_identifier = $options['identifier'];
-		
+
 		// Initialize the options
         $options  = $this->_initialize($options);
-        
+
 		 // user-defined escaping callback
         $this->setEscape($options['escape']);
 
@@ -135,7 +135,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
 	 * Get the identifier
 	 *
@@ -209,11 +209,10 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 					$this->$key = $val;
 				}
 			}
-			return $this;
 		}
 
 		// assign by associative array
-		if (is_array($arg0))
+		elseif (is_array($arg0))
 		{
 			foreach ($arg0 as $key => $val)
 			{
@@ -221,11 +220,10 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 					$this->$key = $val;
 				}
 			}
-			return $this;
 		}
 
 		// assign by string name and mixed value.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
+		elseif (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
 		}
@@ -328,7 +326,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		// load the template script
 		Koowa::import('lib.joomla.filesystem.path');
 		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
-		
+
 		if ($this->_template === false) {
 			throw new KViewException( 'Layout "' . $file . '" not found' );
 		}
