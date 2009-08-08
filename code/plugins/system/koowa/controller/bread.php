@@ -99,10 +99,10 @@ class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionDelete()
 	{
-		$id = (array) KRequest::get('post.id', 'int');
+		$ids = (array) KRequest::get('post.id', 'int');
 
 		$table = $this->_getTable()
-				->delete($id);
+				->delete($ids);
 
 		return $table;
 	}
