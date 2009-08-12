@@ -26,12 +26,17 @@ class KTemplateHelperSelect extends KObject
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	public function option( $value, $text = '', $value_name = 'value', $text_name = 'text', $disable = false )
+	public function option( $value, $text = '', $value_name = 'value', $text_name = 'text', $disable = false, $attribs = null)
 	{
+		if (is_array($attribs)) {
+			$attribs = KHelperArray::toString($attribs);
+		}
+
 		$obj = new stdClass;
 		$obj->$value_name	= $value;
 		$obj->$text_name	= trim( $text ) ? $text : $value;
 		$obj->disable		= $disable;
+		$obj->attribs		= $attribs;
 		return $obj;
 	}
 
@@ -76,6 +81,9 @@ class KTemplateHelperSelect extends KObject
 				if(isset($element['disable']) && $element['disable']) {
 					$extra .= ' disabled="disabled"';
 				}
+				if(isset($element['attribs'])) {
+					$extra .= ' '.$element['attribs'];
+				}
 			}
 			else
 			{
@@ -84,6 +92,9 @@ class KTemplateHelperSelect extends KObject
 				$id 	= ( isset( $element->id ) ? $element->id : null );
 				if(isset( $element->disable ) && $element->disable) {
 					$extra .= ' disabled="disabled"';
+				}
+				if(isset($element->attribs)) {
+					$extra .= ' '.$element->attribs;
 				}
 			}
 
