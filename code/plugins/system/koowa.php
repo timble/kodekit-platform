@@ -65,33 +65,11 @@ class plgSystemKoowa extends JPlugin
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language',    'lib.joomla.language');
+        KFactory::map('lib.koowa.document',    'lib.joomla.document');
 
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 
 		parent::__construct($subject, $config = array());
 	}
-
-	public function onAfterRoute()
-	{
-
-		//Replace the document object
-		$lang = KFactory::get('lib.joomla.language');
-
-		$options = array (
-			'charset'	=> 'utf-8',
-			'language'	=> $lang->getTag(),
-			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
-		);
-
-		$format = KRequest::get('get.format', 'word', 'html');
-
-		$doc =& JFactory::getDocument();
-		$doc = KFactory::get('lib.koowa.document.'.$format, $options);
-
-		//@TODO : Rework document package, implement factory method and restructure
-	 	KFactory::map('lib.koowa.document', 'lib.koowa.document.'.$format);
-
-	}
-
 }
