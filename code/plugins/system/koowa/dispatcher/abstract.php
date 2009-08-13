@@ -26,11 +26,11 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	 * @var array
 	 */
 	protected $_default_view;
-	
+
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -44,10 +44,10 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	{
         // Set the objects identifier
         $this->_identifier = $options['identifier'];
-		
+
 		// Initialize the options
         $options  = $this->_initialize($options);
-        
+
         // Figure out defaulview if none is set
         $this->_default_view = empty($options['default_view']) ? $this->_identifier->name : $options['default_view'];
 	}
@@ -69,7 +69,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
 	 * Get the identifier
 	 *
@@ -99,7 +99,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 
         // Perform the Request action
         $action  = KRequest::get('request.action', 'cmd', null);
-        
+
         //Execute the controller, handle exeception if thrown.
         try
         {
@@ -152,7 +152,9 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		}
 
 		// Controller names are always singular
-		$controller = KInflector::singularize($controller);
+		if(KInflector::isPlural($controller)) {
+			$controller = KInflector::singularize($controller);
+		}
 
 		return KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $options);
 	}
