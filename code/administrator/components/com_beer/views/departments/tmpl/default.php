@@ -7,19 +7,19 @@
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="action" value="browse" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?= @$filter['order']?>" />
-	<input type="hidden" name="filter_direction" value="<?= @$filter['direction']?>" />
+	<input type="hidden" name="filter_order" value="<?= @$state->order?>" />
+	<input type="hidden" name="filter_direction" value="<?= @$state->direction?>" />
 
 	<table>
 		<tr>
 			<td align="left" width="100%">
 				<?=@text('Filter')?>:
-				<input type="text" name="search" id="search" value="<?= @$filter['search']?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?= @$state->search?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?= @text('Go')?></button>
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?= @helper('admin::com.beer.helper.select.enabled',  @$filter['enabled'] ); ?>
+				<?= @helper('admin::com.beer.helper.select.enabled',  @$state->enabled ); ?>
 			</td>
 		</tr>
 	</table>
@@ -34,16 +34,16 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count(@$departments); ?>);" />
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'Title', 'title', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'Title', 'title', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'Enabled', 'enabled', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'Enabled', 'enabled', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'People', 'people', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'People', 'people', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'ID', 'beer_profile_id', @$filter['direction'], @$filter['order']); ?>
+					<?= @helper('grid.sort', 'ID', 'beer_profile_id', @$state->direction, @$state->order); ?>
 				</th>
 			</tr>
 		</thead>
@@ -89,7 +89,8 @@
 		<tfoot>
 			<tr>
 				<td colspan="20">
-					<?= @$pagination->getListFooter(); ?>
+					<?= @helper('pagination.limit', @$state->limit) ?>
+					<?= @helper('pagination.pages', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>

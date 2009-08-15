@@ -21,8 +21,8 @@ class BeerViewDepartments extends KViewHtml
 		$this->displayMenubar();
 
 	 	$this->assign('departments', 	$model->getList());
-		$this->assign('filter',     $model->getFilters());
-		$this->assign('pagination', $model->getPagination());
+		$this->assign('state',     		$model->getState());
+		$this->assign('total', 			$model->getTotal());
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.departments')

@@ -21,8 +21,8 @@ class BeerViewOffices extends KViewHtml
 		$this->displayMenubar();
 
 	 	$this->assign('offices', 	$model->getList());
-		$this->assign('filter',     $model->getFilters());
-		$this->assign('pagination', $model->getPagination());
+		$this->assign('state',     	$model->getState());
+		$this->assign('total', 		$model->getTotal());
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.offices')

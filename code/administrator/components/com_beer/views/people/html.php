@@ -20,12 +20,10 @@ class BeerViewPeople extends KViewHtml
 		$this->displayMenutitle();
 		$this->displayMenubar();
 
-		$attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'submitform();');
-
 	 	$this->assign('people', 	$model->getList());
-		$this->assign('filter',     $model->getFilters());
-		$this->assign('pagination', $model->getPagination());
-		$this->assign('attribs', 	$attribs);
+		$this->assign('state',     	$model->getState());
+		$this->assign('total', 		$model->getTotal());
+
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.people')
