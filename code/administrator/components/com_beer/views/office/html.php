@@ -1,7 +1,6 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
- * Developed for Brian Teeman's Developer Showdown, using Nooku Framework
  * @version		$Id$
  * @package		Beer
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.

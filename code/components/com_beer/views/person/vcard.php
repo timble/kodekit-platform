@@ -1,8 +1,7 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
- * Developed for Brian Teeman's Developer Showdown, using Nooku Framework
- * @version		$Id: groups.php 56 2009-07-05 03:40:20Z shayne $
+ * @version		$Id$
  * @package		Beer
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.nooku.org
