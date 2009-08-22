@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Request
  * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPL <http://www.gnu.org/licenses/gpl.html>
+ * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
  */
 

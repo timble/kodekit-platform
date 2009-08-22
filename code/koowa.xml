@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="system">
 	<name>System - Koowa</name>
-	<author>Joomlatools</author>
+	<author>Johan Janssens and Mathias Verraes</author>
 	<creationDate>April 2009</creationDate>
 	<copyright>(C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2</license>
 	<authorEmail>support@koowa.org</authorEmail>
 	<authorUrl>www.koowa.org</authorUrl>
 	<version>0.7.0</version>
