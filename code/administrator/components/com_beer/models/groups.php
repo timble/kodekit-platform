@@ -17,7 +17,7 @@ abstract class BeerModelGroups extends KModelTable
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
-		$this->setTable('admin::com.beer.table.view'.$this->getClassName('suffix'));
+		$this->setTable('admin::com.beer.table.view'.$this->getIdentifier()->name);
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)

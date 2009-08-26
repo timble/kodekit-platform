@@ -50,7 +50,7 @@ abstract class BeerControllerAbstract extends KControllerForm
 	 */
 	public function setFilters()
 	{
-		$suffix = KInflector::pluralize($this->getClassName('suffix'));
+		$suffix = KInflector::pluralize($this->getIdentifier()->package);
 		$model = KFactory::get('admin::com.beer.model.'.$suffix);
 
 		$model->setState('enabled',				KRequest::get('post.enabled', 'int'));

@@ -23,14 +23,14 @@ class BeerMixinMenu extends KMixinAbstract
 
 		foreach($views as $view => $title)
 		{
-			$active = ($view == strtolower($this->_mixer->getClassName('suffix')) );
+			$active = ($view == strtolower($this->_mixer->getIdentifier()->name) );
 			JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_beer&view='.$view, $active );
 		}
 	}
 
 	public function displayMenutitle($title = null)
 	{
-		$title = $title ? $title : ucfirst($this->_mixer->getClassName('suffix'));
+		$title = $title ? $title : ucfirst($this->_mixer->getIdentifier()->name);
 		JToolBarHelper::title( JText::_($title), 'langmanager');
 	}
 
