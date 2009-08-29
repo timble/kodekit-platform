@@ -50,8 +50,8 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 			}
 			
 			// If the class has a factory method call it
-			if(is_callable(array($classname, 'factory'), false, $function)) {
-				$instance = call_user_func($function, $options);
+			if(is_callable(array($classname, 'factory'), false)) {
+				$instance = call_user_func(array($classname, 'factory'), $options);
 			} else {
 				$instance = new $classname($options);
 			}
