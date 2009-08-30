@@ -128,8 +128,7 @@ class KObject
     {
         array_unshift($this->_mixinObjects, $object);
 
-        $remove = array('__construct', '__destruct');
-        $methods = array_diff(get_class_methods($object), get_class_methods($this), $remove);
+       	$methods = $object->getMixinMethods();
 
         foreach($methods as $method) {
             $this->_mixinMethods[$method] = $object;
