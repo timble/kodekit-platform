@@ -22,14 +22,14 @@ abstract class BeerModelGroups extends KModelTable
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$filter = $this->getFilters();
+		$state = $this->getState();
 
-		if($filter['search']) {
-			$query->where('tbl.title', 'LIKE',  '%'.$filter['search'].'%');
+		if($state->search) {
+			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
 		}
 
-		if($filter['enabled']) {
-			$query->where('tbl.enabled','=', $filter['enabled']);
+		if($state->enabled) {
+			$query->where('tbl.enabled','=', $state->enabled);
 		}
 	}
 
@@ -46,16 +46,4 @@ abstract class BeerModelGroups extends KModelTable
         return $this->_all;
 	}
 
-
-	public function getFilters()
-	{
-		$filter = parent::getFilters();
-
-		$filter['enabled']		= $this->getState('enabled');
-		$filter['search']   	= $this->getState('search');
-		$filter['beer_department_id']	= $this->getState('beer_department_id');
-		$filter['beer_office_id']		= $this->getState('beer_office_id');
-
-		return $filter;
-    }
 }

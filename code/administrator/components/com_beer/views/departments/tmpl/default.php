@@ -43,7 +43,7 @@
 					<?= @helper('grid.sort', 'People', 'people', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'ID', 'beer_profile_id', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', 'ID', 'beer_department_id', @$state->direction, @$state->order); ?>
 				</th>
 			</tr>
 		</thead>

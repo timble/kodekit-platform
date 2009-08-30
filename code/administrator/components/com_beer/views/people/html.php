@@ -8,21 +8,14 @@
  * @link     	http://www.nooku.org
  */
 
-class BeerViewPeople extends KViewHtml
+class BeerViewPeople extends KViewDefault
 {
 	public function display()
 	{
-		$model = KFactory::get('admin::com.beer.model.people');
-
 		// Mixin a menubar object
 		$this->mixin( KFactory::get('admin::com.beer.mixin.menu', array('mixer' => $this)));
 		$this->displayMenutitle();
 		$this->displayMenubar();
-
-	 	$this->assign('people', 	$model->getList());
-		$this->assign('state',     	$model->getState());
-		$this->assign('total', 		$model->getTotal());
-
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.people')
