@@ -124,7 +124,7 @@ class KObject
      * @param	object
      * @return	this
      */
-    public function mixin($object)
+    public function mixin(KMixinInterface $object)
     {
         array_unshift($this->_mixinObjects, $object);
 
