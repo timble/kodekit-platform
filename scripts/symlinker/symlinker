@@ -9,9 +9,35 @@ if(!class_exists('Console_CommandLine')) {
 	die(PHP_EOL."You need PEAR Console_CommandLine to use this script. Install using the following command: ".PHP_EOL."pear install --alldeps Console_CommandLine\n\n");
 }
 
+// General
+$parser = new Console_CommandLine();
+$parser->description = "Make symlinks for Joomla extensions.";
+$parser->version = '$Id$';
+
+// Arguments
+$parser->addArgument('source', array(
+    'description' => 'The source dir (usually from an IDE workspace)',
+    'help_name'   => 'SOURCE'
+));
+
+$parser->addArgument('target', array(
+    'description' => "the target dir (usually where a joomla installation resides",
+    'help_name'   => 'TARGET'
+));
+
+// Parse input
+try {
+    $result = $parser->parse();
+    $srcdir = realpath($result->args['source']);
+    $tgtdir = realpath($result->args['target']);
+} catch (Exception $exc) {
+    $parser->displayError($exc->getMessage());
+    die;
+}
+
 // Defines
 define('DS', DIRECTORY_SEPARATOR);
-define('SRCDIR', '..'.DS.'..'.DS.'code');
+define('SRCDIR', $srcdir);
 $srcdirs = array(
 	SRCDIR.DS.'administrator'.DS.'components',
 	SRCDIR.DS.'administrator'.DS.'language'.DS.'en-GB',
@@ -29,26 +55,6 @@ $srcdirs = array(
 	SRCDIR.DS.'plugins'.DS.'user',
 	SRCDIR.DS.'plugins'.DS.'xmlrpc',
 );
-
-// General
-$parser = new Console_CommandLine();
-$parser->description = "Make symlinks for Joomla extensions.";
-$parser->version = '$Id$';
-
-// Arguments
-$parser->addArgument('target', array(
-    'description' => "the target dir (usually where a joomla installation resides",
-    'help_name'   => 'TARGET'
-));
-
-// Parse input
-try {
-    $result = $parser->parse();
-    $tgtdir = realpath($result->args['target']);
-} catch (Exception $exc) {
-    $parser->displayError($exc->getMessage());
-    die;
-}
 
 
 // Make symlinks
