@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
 	<name>Harbour</name>
-	<author>Joomlatools</author>
+	<author>Johan Janssens and Mathias Verraes</author>
 	<creationDate>May 2009</creationDate>
-	<copyright>(C) 2007 - 2009 Joomlatools. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>support@joomlatools.eu</authorEmail>
-	<authorUrl>www.joomlatools.eu</authorUrl>
+	<copyright>(C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2</license>
+	<authorEmail>support@koowa.org</authorEmail>
+	<authorUrl>www.koowa.org</authorUrl>
 	<version>0.7.0</version>
-	<description>Eexample Koowa component</description>
+	<description>Example Koowa component</description>
 
 	
 	<!-- Application/administrator -->
