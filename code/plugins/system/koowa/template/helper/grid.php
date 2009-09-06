@@ -207,7 +207,7 @@ class KTemplateHelperGrid extends KObject
 		if ( $result ) {
 			$checked = self::_checkedOut( $row );
 		} else {
-			$checked = KTemplateDefault::loadHelper('grid.id', $i, $row->$identifier );
+			$checked = KTemplate::loadHelper('grid.id', $i, $row->$identifier );
 		}
 
 		return $checked;
