@@ -147,13 +147,13 @@ class KRequest
 				throw new KRequestException("Couldn't set cookie, headers already sent.");
 			}
 		}
-
+		
 		// Store in $GLOBALS
 		foreach(array_reverse($keys, true) as $key) {
 			$value = array($key => $value);
 		}
-		$GLOBALS['_'.$hash] = array_merge($GLOBALS['_'.$hash], $value);
-
+		
+		$GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
 	}
 
 	/**

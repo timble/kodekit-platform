@@ -1,3 +1,4 @@
+<? defined('KOOWA') or die; ?>
 <ul>
 <? foreach(@$boats as $boat) : ?>
     <li>

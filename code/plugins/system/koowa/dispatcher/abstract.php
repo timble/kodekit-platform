@@ -49,7 +49,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
         $options  = $this->_initialize($options);
 
         // Figure out defaulview if none is set
-        $this->_default_view = empty($options['default_view']) ? $this->_identifier->name : $options['default_view'];
+        $this->_default_view = $options['default_view'];
 	}
 
     /**
@@ -63,7 +63,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
     protected function _initialize(array $options)
     {
         $defaults = array(
-        	'default_view'  => 'default',
+        	'default_view'  => $this->_identifier->name,
         	'identifier'	=> null
         );
 

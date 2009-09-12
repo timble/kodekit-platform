@@ -99,12 +99,15 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 		$result = array();
 		foreach($rows as $k => $row)
 		{
-			if($row instanceof KDatabaseRowAbstract) {
+			if($row instanceof KDatabaseRowAbstract) 
+			{
 				$result[] = $row;
-			} else {
+			} 
+			else 
+			{
 				// cloning is faster than instantiation
 				$new = clone $prototype;
-        		$new->setProperties($row);
+        		$new->setData($row);
         		$result[] = $new;
 			}
 
@@ -197,7 +200,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     {
     	$result = array();
     	foreach ($this as $i => $row) {
-            $result[$i] = is_array($row) ? $row :  $row->toArray();
+            $result[$i] = is_array($row) ? $row :  $row->getData();
         }
         return $result;
     }

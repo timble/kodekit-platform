@@ -3,7 +3,6 @@
  * @version		$Id$
  * @category	Koowa
  * @package     Koowa_View
- * @subpackage  Html
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
@@ -15,7 +14,6 @@
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_View
- * @subpackage  Html
  */
 class KViewHtml extends KViewAbstract
 {
@@ -31,21 +29,5 @@ class KViewHtml extends KViewAbstract
 			 ->assign('mediaurl', $options['media_url']);
 
 		parent::__construct($options);
-	}
-
-	public function display()
-	{
-		$app 		= $this->_identifier->application;
-		$package 	= $this->_identifier->package;
-		$name 		= $this->_identifier->name;
-
-		//Push the toolbar output into the document buffer
-		$this->_document->setBuffer(
-			KFactory::get($app.'::com.'.$package.'.toolbar.'.$name)->render(),
-			'modules',
-			'toolbar'
-		);
-
-		parent::display();
 	}
 }

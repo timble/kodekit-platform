@@ -71,7 +71,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 
 		// Set the row data
 		if(isset($options['data']))  {
-			$this->setProperties($options['data']);
+			$this->setData($options['data']);
 		}
     }
 
@@ -139,18 +139,18 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     {
         $key = $this->_table->getPrimaryKey();
 
-        $properties = $this->getProperties();
+        $data = $this->getData();
 
-        if(array_key_exists('ordering', $properties) && $properties['ordering'] <= 0) {
-        	$properties['ordering'] = $this->getTable()->getMaxOrder();
+        if(array_key_exists('ordering', $data) && $data['ordering'] <= 0) {
+        	$data['ordering'] = $this->getTable()->getMaxOrder();
         }
 
         if($this->_data[$key]) {
-        	$this->_table->update($properties, $this->_data[$key]);
+        	$this->_table->update($data, $this->_data[$key]);
         }
         else
         {
-        	if($this->_table->insert($properties)) {
+        	if($this->_table->insert($data)) {
         		$this->id = $this->_table->getDatabase()->getInsertId();
         	}
         }
@@ -292,19 +292,6 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	}
 
 	/**
-     * Returns the column/value data as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = $this->_data;
-        $array['id'] = $this->id;
-
-        return $array;
-    }
-
-	/**
      * Retrieve row field value
      *
      * @param  	string 	The user-specified column name.
@@ -363,40 +350,40 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 
         unset($this->_data[$columnName]);
     }
-
-    /**
-     * Returns an associative array of object properties
-     *
-     * @return  array
-     */
-    public function getProperties()
-    {
-    	$result = $this->_data;
-    	$result['id'] = $this->id;
-
-        return $result;
-    }
-
-    /**
-     * Set the object properties based on a named array/hash
-     *
-     * @param   mixed Either and associative array or another object
-     * @return 	KDatabaseRowAbstract
-     */
-    public function setProperties( $properties )
-    {
-    	$properties = (array) $properties;
-        $pk = $this->_table->getPrimaryKey();
-
-        foreach ($properties as $k => $v)
-        {
-         	if('id' == $k) {
-         		$this->_data[$pk] = $v;
-         	} else {
-         		$this->_data[$k] = $v;
-         	}
-        }
-
-        return $this;
-    }
+ 
+   /**
+ 	* Returns an associative array of object properties
+  	*
+  	* @return  array
+  	*/
+ 	public function getData()
+  	{
+  		$result = $this->_data;
+  		$result['id'] = $this->id;
+   
+  		return $result;
+  	}
+  
+  	/**
+  	 * Set the row data based on a named array/hash
+  	 *
+  	 * @param   mixed Either and associative array or another object
+ 	 * @return 	KDatabaseRowAbstract
+  	 */
+  	 public function setData( $data )
+  	 {
+ 		$data = (array) $data;
+  		$pk = $this->_table->getPrimaryKey();
+  
+ 		foreach ($data as $k => $v)
+  		{
+  			if('id' == $k) {
+ 				$this->_data[$pk] = $v;
+  			} else {
+ 				$this->_data[$k] = $v;
+  			}
+  		}
+ 
+  		return $this;
+	}
 }

@@ -63,12 +63,9 @@ class KTemplateHelperGrid extends KObject
 
 		// modify url
 		$url = clone KRequest::url();
-		$query = $url->getquery(1);
-		if(!isset($query['f'])) {
-			$query['f'] = array();
-		}
-		$query['f']['order'] 	 = $order;
-		$query['f']['direction'] = $direction;
+		$query = $url->getQuery(1);
+		$query['order'] 	 = $order;
+		$query['direction'] = $direction;
 		$url->setQuery($query);
 
 		// render html

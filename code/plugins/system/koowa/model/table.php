@@ -39,23 +39,50 @@ class KModelTable extends KModelAbstract
 	 */
 	public function __construct(array $options = array())
 	{
-		//Set the database adapter
-		$this->_db = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
-
 		parent::__construct($options);
+		
+		// Initialize the options
+		$options  = $this->_initialize($options);
+		
+		// Set the database adapter
+		$this->_db = $options['adapter'];
 
-		// set the table associated to the model
-		if(isset($options['table'])) {
-			$this->_table = $options['table'];
-		}
-		else
-		{
-			$table 			= KInflector::tableize($this->_identifier->name);
-			$package		= $this->_identifier->package;
-			$application 	= $this->_identifier->application;
-			$this->_table   = $application.'::com.'.$package.'.table.'.$table;
-		}
+		// Set the table associated to the model
+		$this->_table = $options['table'];
+		
+		// Set the state
+		$this->_state
+			->insert('id'       , 'int')
+			->insert('limit'    , 'int', 20)
+			->insert('offset'   , 'int', 0)
+			->insert('order'    , 'cmd')
+			->insert('direction', 'word', 'asc')
+			->insert('search'   , 'string');
 	}
+	
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param   array   Options
+	 * @return  array   Options
+	 */
+	protected function _initialize(array $options)
+	{
+		$options = parent::_initialize($options);
+		
+		$table 			= KInflector::tableize($this->_identifier->name);
+		$package		= $this->_identifier->package;
+		$application 	= $this->_identifier->application;
+		
+		$defaults = array(
+            'adapter' => KFactory::get('lib.koowa.database'),
+			'table'   => $application.'::com.'.$package.'.table.'.$table
+       	);
+
+        return array_merge($defaults, $options);
+    }
 
 	/**
 	 * Method to get the database adapter object
@@ -71,7 +98,7 @@ class KModelTable extends KModelAbstract
 	 * Method to set the database connector object
 	 *
 	 * @param	object	A KDatabaseAdapterAbstract object
-	 * @return this
+	 * @return KDatabaseAdapterAbstract
 	 */
 	public function setDatabase($db)
 	{
@@ -98,7 +125,7 @@ class KModelTable extends KModelAbstract
 	 * Method to set a table object or identifier
 	 *
 	 * @param	string|object The table identifier to be used in KFactory or a table object
-	 * @return	this
+	 * @return	KDatabaseAdapterAbstract
 	 */
 	public function setTable($identifier)
 	{
@@ -117,7 +144,7 @@ class KModelTable extends KModelAbstract
         if (!isset($this->_item))
         {
             $table = $this->getTable();
-        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->getState('id'));
+        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
         	$this->_item = $table->fetchRow($query);
         }
 
@@ -233,8 +260,8 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
-    	$order      = $this->getState('order');
-       	$direction  = strtoupper($this->getState('direction', 'ASC'));
+    	$order      = $this->_state->order;
+       	$direction  = strtoupper($this->_state->direction);
 
     	if($order) {
     		$query->order($order, $direction);
@@ -250,8 +277,6 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryLimit(KDatabaseQuery $query)
     {
-		$query->limit($this->getState('limit'), $this->getState('offset'));
+		$query->limit($this->_state->limit, $this->_state->offset);
     }
-
-
 }

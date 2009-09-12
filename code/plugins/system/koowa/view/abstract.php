@@ -150,10 +150,11 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Execute and echo's the views output
  	 *
-	 * @return 	this
+	 * @return KViewAbstract
 	 */
 	public function display()
-	{
+	{	
+		//Render the template
 		echo $this->loadTemplate();
 		return $this;
 	}
@@ -191,7 +192,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	*
 	* </code>
 	*
-	* @return object KViewAbstract
+	* @return KViewAbstract
 	*/
 	public function assign()
 	{
@@ -256,8 +257,8 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
    /**
 	* Sets the layout name to use
 	*
-	* @param	string 	$template The template name.
-	* @return 	object 	KViewAbstract
+	* @param	string 	The template name.
+	* @return 	KViewAbstract
 	*/
 	public function setLayout($layout)
 	{
@@ -268,8 +269,8 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	 /**
      * Sets the _escape() callback.
      *
-     * @param 	mixed 	$spec The callback for _escape() to use.
-     * @return 	object 	KViewAbstract
+     * @param 	mixed The callback for _escape() to use.
+     * @return 	KViewAbstract
      */
     public function setEscape($spec)
     {
@@ -281,7 +282,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
 	 * @param string|array The directory (-ies) to add.
-	 * @return object KViewAbstract
+	 * @return  KViewAbstract
 	 */
 	public function addTemplatePath($path)
 	{
@@ -310,8 +311,8 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param string $tpl The name of the template source file ...
-	 * automatically searches the template paths and compiles as needed.
+	 * @param 	string 	The name of the template source file automatically searches 
+	 * 					the template paths and compiles as needed.
 	 * @throws KViewException
 	 * @return string The output of the the template script.
 	 */
@@ -396,10 +397,12 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 
 	/**
 	 * Create a route. Index.php, option, view and layout can be ommitted. The
-	 * following variations will all result in the same route
-	 * foo=bar
-	 * option=com_mycomp&view=myview&foo=bar
-	 * index.php?option=com_mycomp&view=myview&foo=bar
+	 * following variations will all result in the same route 
+	 * 
+	 * - foo=bar
+	 * - option=com_mycomp&view=myview&foo=bar
+	 * - index.php?option=com_mycomp&view=myview&foo=bar
+	 * 
 	 * In templates, use @route()
 	 *
 	 * @param	string	The data to use to create the route
@@ -410,7 +413,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		$route = trim($route);
 
 		// special cases
-		if($route == 'index.php' || $route == 'index.php?' || empty($route)) {
+		if($route == 'index.php' || $route == 'index.php?') {
 			return JRoute::_($route);
 		}
 
@@ -439,7 +442,10 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		}
 
 		// Reconstruct the route
-		$result[] = $route;
+		if(!empty($route)) {
+			$result[] = $route;
+		}
+		
 		$result = implode('&', $result);
 		return JRoute::_('index.php?'.$result);
 	}

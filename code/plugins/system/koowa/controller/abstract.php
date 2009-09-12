@@ -152,13 +152,14 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		if (!method_exists($this, $doMethod)) {
 			throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
 		}
+		
 
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['notifier']   = $this;
 		$args['action']     = $action;
 		$args['result']     = false;
-
+	
 		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
 			$args['result'] = $this->$doMethod();
 			$this->getCommandChain()->run('controller.after.'.$action, $args);

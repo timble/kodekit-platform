@@ -33,39 +33,82 @@ class KObject
      * @var array
      */
     protected $_mixinMethods = array();
-
-    /**
-     * Returns a property of the object or the default value if the property is not set.
+    
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
+	public function __construct( array $options = array() ) { }
+	    
+ 	/**
+     * Set the object properties
      *
-     * @param   string $property The name of the property
-     * @param   mixed  $default The default value
-     * @return  mixed The value of the property
+     * @param   string|array|object	The name of the property, an associative array or an object
+     * @param   mixed  				The value of the property
+     * @throws	KObjectException
+     * @return  KObject
      */
-    public function get($property, $default=null)
+    public function set( $property, $value = null )
     {
-        if(isset($this->$property)) {
-            return $this->$property;
+    	if(is_object($property)) {
+    		$property = (array) $property;
+    	}
+    	
+    	if(is_array($property)) 
+        {
+        	foreach ($property as $k => $v) {
+            	$this->set($k, $v);
+        	}
         }
-        return $default;
+        else 
+        {
+       		if('_' == substr($property, 0, 1)) {
+        		throw new KObjectException("Protected or private properties can't be set outside of object scope in ".get_class($this));
+        	}
+        	
+        	$this->$property = $value;
+        }
+    	
+        return $this;
     }
 
     /**
-     * Returns an associative array of object properties
+     * Get the object properties
+     * 
+     * If no property name is given then the function will return an associative
+     * array of all properties.
+     * 
+     * If the property does not exist and a  default value is specified this is
+     * returned, otherwise the function return NULL.
      *
-     * @return  array
+     * @param   string	The name of the property
+     * @param   mixed  	The default value
+     * @return  mixed 	The value of the property, an associative array or NULL
      */
-    public function getProperties()
+    public function get($property = null, $default = null)
     {
-        $vars  = get_object_vars($this);
-
-        foreach ($vars as $key => $value)
+        $result = $default;
+    	
+    	if(is_null($property)) 
         {
-            if ('_' == substr($key, 0, 1)) {
-                unset($vars[$key]);
-            }
-        }
+        	$result  = get_object_vars($this);
 
-        return $vars;
+        	foreach ($result as $key => $value)
+        	{
+            	if ('_' == substr($key, 0, 1)) {
+                	unset($result[$key]);
+            	}
+        	}
+        } 
+        else
+        {
+    		if(isset($this->$property)) {
+            	$result = $this->$property;
+        	}
+        }
+        
+        return $result;
     }
 
 	/**
@@ -82,47 +125,13 @@ class KObject
 	}
 
     /**
-     * Modifies a property of the object, creating it if it does not already exist.
-     *
-     * @param   string $property The name of the property
-     * @param   mixed  $value The value of the property to set
-     * @throws KObjectException
-     * @return  this
-     */
-    public function set( $property, $value = null )
-    {
-        if('_' == substr($property, 0, 1)) {
-        	throw new KObjectException("Protected or private properties can't be set outside of object scope in ".get_class($this));
-        }
-        $this->$property = $value;
-        return $this;
-    }
-
-    /**
-    * Set the object properties based on a named array/hash
-    *
-    * @param    $array  mixed Either and associative array or another object
-    * @return   this
-    */
-    public function setProperties( $properties )
-    {
-        $properties = (array) $properties;
-
-        foreach ($properties as $k => $v) {
-            $this->set($k, $v);
-        }
-
-        return $this;
-    }
-
-    /**
      * Mixin an object
      *
      * When using mixin(), the calling object inherits the methods of the mixed
      * in objects, in a LIFO order
      *
      * @param	object
-     * @return	this
+     * @return	KObject
      */
     public function mixin(KMixinInterface $object)
     {

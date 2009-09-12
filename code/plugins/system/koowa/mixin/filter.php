@@ -139,74 +139,96 @@ class KMixinFilter extends KMixinAbstract implements KPatternCommandInterface
 	/**
  	 *  Registers a single filter or an array of filters
  	 * 
- 	 * @param  	string			The method to register the filter too
+ 	 * @param  	string|array		The method name to register the filter too or an array of method names
  	 * @param 	string|array	A single filter or an array of filters to register
  	 * @return KMixinFilter
  	 */
-	public function registerFilterBefore($method, $filters)
+	public function registerFilterBefore($methods, $filters)
 	{
-		$method = strtolower($method);
+		$methods = (array) $methods;
 		
-		if (!isset($this->_filters_before[$method]) ) {
-       	 	$this->_filters_before[$method] = array();	
-		}
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (!isset($this->_filters_before[$method]) ) {
+       	 		$this->_filters_before[$method] = array();	
+			}
 
-    	$this->_filters_before[$method] = array_unique(array_merge($this->_filters_before[$method], (array) $filters));
+    		$this->_filters_before[$method] = array_unique(array_merge($this->_filters_before[$method], (array) $filters));
+		}
+		
 		return $this;
 	}
 	
 	/**
  	 * Unregister a single filter or an array of filters
  	 * 
- 	 * @param  	string			The method to unregister the filters from
+ 	 * @param  	string|array		The method name to register the filter from or an array of method names
  	 * @param 	string|array	A single filter or an array of filters to unregister
  	 * @return KMixinFilter
  	 */
-	public function unregisterFilterBefore($method, $filters)
+	public function unregisterFilterBefore($methods, $filters)
 	{
-		$method = strtolower($method);
+		$methods = (array) $methods;
 		
-		if (isset($this->_filters_before[$method]) ) {
-       	 	$this->_filters_before[$method] = array_diff($this->_filters_before[$method], (array) $filters);
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+			
+			if (isset($this->_filters_before[$method]) ) {
+       	 		$this->_filters_before[$method] = array_diff($this->_filters_before[$method], (array) $filters);
+			}
 		}
-
+		
 		return $this;
 	}
 	
 	/**
  	 * Registers a single filter or an array of filters
  	 * 
- 	 * @param  	string			The method to register the filter too
+ 	 * @param  	string|array		The method name to register the filter too or an array of method names
  	 * @param 	string|array	A single filter or an array of filters to register
  	 * @return KMixinFilter
  	 */
-	public function registerFilterAfter($method, $filters)
+	public function registerFilterAfter($methods, $filters)
 	{
-		$method = strtolower($method);
+		$methods = (array) $methods;
 		
-		if (!isset($this->_filters_after[$method]) ) {
-       	 	$this->_filters_after[$method] = array();	
-		}
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (!isset($this->_filters_after[$method]) ) {
+       	 		$this->_filters_after[$method] = array();	
+			}
 
-    	$this->_filters_after[$method] = array_unique(array_merge($this->_filters_after[$method], (array) $filters));
+    		$this->_filters_after[$method] = array_unique(array_merge($this->_filters_after[$method], (array) $filters));
+		}
+		
     	return $this;
 	}
 	
 	/**
  	 * Unregister a single filter or an array of filters
  	 * 
- 	 * @param  	string			The method to unregister the filters from
+ 	 * @param  	string|array	The method name to register the filter too or an array of method names
  	 * @param 	string|array	A single filter or an array of filters to unregister
  	 * @return KMixinFilter
  	 */
-	public function unregisterFilterAfter($method, $filters)
+	public function unregisterFilterAfter($methods, $filters)
 	{
-		$method = strtolower($method);
+		$methods = (array) $methods;
 		
-		if (isset($this->_filters_after[$method]) ) {
-       	 	$this->_filters_after[$method] = array_diff($this->_filters_after[$method], (array) $filters);
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (isset($this->_filters_after[$method]) ) {
+       	 		$this->_filters_after[$method] = array_diff($this->_filters_after[$method], (array) $filters);
+			}
 		}
-
+			
 		return $this;
 	}
 }

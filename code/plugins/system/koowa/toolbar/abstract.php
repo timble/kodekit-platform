@@ -20,6 +20,20 @@
 abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KFactoryIdentifiable
 {
 	/**
+	 * The toolbar title
+	 *
+	 * @var		string
+	 */
+	protected $_title = '';
+	
+	/**
+	 * The toolbar icon
+	 *
+	 * @var		string
+	 */
+	protected $_icon = '';
+	
+	/**
 	 * Buttons in the toolbar
 	 *
 	 * @var		array
@@ -49,6 +63,9 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
         // Set the title
         $title = empty($options['title']) ? KInflector::humanize($this->getName()) : $options['title'];
         $this->setTitle($title);
+        
+        // Set the icon
+        $this->setIcon($options['icon']);
 	}
 
  	/**
@@ -63,6 +80,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
     {
         $defaults = array(
             'title'	 	 => null,
+        	'icon'		 => 'generic.png',
         	'identifier' => null
         );
 
@@ -89,8 +107,30 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	{
 		return $this->_identifier->name;
 	}
-
-
+	
+	/**
+	 * Set the toolbar's title
+	 *
+	 * @param 	string	Title
+	 * @return 	KToolbarInterface
+	 */
+	public function setTitle($title)
+	{
+		$this->_title = $title;
+		return $this;
+	}
+	
+	/**
+	 * Set the toolbar's icon
+	 *
+	 * @param 	string	Icon
+	 * @return 	KToolbarInterface
+	 */
+	public function setIcon($icon)
+	{
+		$this->_icon = $icon;
+		return $this;
+	}
 
 	/**
 	 * Append a button
@@ -115,6 +155,17 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 		array_unshift($this->_buttons, $button);
 		return $this;
 	}
+	
+	/**
+	 * Reset the button array
+	 *
+	 * @return	this
+	 */
+	public function reset()
+	{
+		$this->_buttons = array();
+		return $this;
+	}
 
 	/**
 	 * Render the toolbar
@@ -124,7 +175,6 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	 */
 	public function render()
 	{
-
 		$id		= 'toolbar-'.$this->getName();
 		$html = array ();
 
@@ -160,18 +210,16 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	 * @param 	string	Icon
 	 * @return 	KToolbarInterface
 	 */
-	public function setTitle($title, $icon = 'generic.png')
+	public function renderTitle()
 	{
 		//strip the extension
-		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
-		$title = JText::_($title);
+		$icon  = preg_replace('#\.[^.]*$#', '', $this->_icon);
+		$title = JText::_($this->_title);
 
 		$html  = "<div class=\"header icon-48-$icon\">\n";
 		$html .= "$title\n";
 		$html .= "</div>\n";
 
-		KFactory::get('lib.koowa.application')->set('JComponentTitle', $html);
-
-		return $this;
+		return $html;
 	}
 }

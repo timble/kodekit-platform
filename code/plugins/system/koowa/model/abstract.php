@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Model
- * @copyright	Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
@@ -14,17 +14,14 @@
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Model
- * @uses		KMixinClass
- * @uses		KInflector
  * @uses		KObject
- * @uses		KFactory
  */
 abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
 	 * A state object
 	 *
-	 * @var KRegistry object
+	 * @var object
 	 */
 	protected $_state;
 
@@ -34,13 +31,6 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 * @var integer
 	 */
 	protected $_total;
-
-	/**
-	 * Pagination object
-	 *
-	 * @var object
-	 */
-	protected $_pagination;
 
 	/**
 	 * Model list data
@@ -75,10 +65,9 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		
 		// Initialize the options
 		$options  = $this->_initialize($options);
-
-		//Use KObject to store the model state
-		$this->_state = new KObject();
-		$this->_state->setProperties($options['state']);
+		
+		// Set the state
+		$this->_state = $options['state'];
 	}
 
 	/**
@@ -92,9 +81,9 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	protected function _initialize(array $options)
 	{
 		$defaults = array(
-            'state'      => array(),
+            'state'      => KFactory::tmp('lib.koowa.model.state', array($options['state'])),
 			'identifier' => null
-                        );
+       	);
 
         return array_merge($defaults, $options);
     }
@@ -119,45 +108,27 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     {
     	unset($this->_list);
     	unset($this->_item);
-    	unset($this->_pagination);
     	unset($this->_total);
+    	
+    	//$this->_state = new KObject();
 
     	return $this;
     }
 
 	/**
-	 * Method to set model state variables
+	 * Method to get state object
 	 *
-	 * @param	string	The name of the property
-	 * @param	mixed	The value of the property to set
-	 * @return	this
+	 * @return	object	The state object
 	 */
-	public function setState( $property, $value = null )
+	public function getState()
 	{
-		$this->_state->set($property, $value);
-
-		// changing state empties the model's cache because the data is now different
-		$this->reset();
-
-		return $this;
+		return $this->_state;
 	}
 
 	/**
-	 * Method to get model state variables
+	 * Method to get a ite
 	 *
-	 * @param	string	Optional parameter name
-	 * @param   mixed	Optional default value
-	 * @return	object	The property where specified, the state object where omitted
-	 */
-	public function getState($property = null, $default = null)
-	{
-		return $property === null ? $this->_state : $this->_state->get($property, $default);
-	}
-
-	/**
-	 * Method to get a item object which represents a table row
-	 *
-	 * @return  object KDatabaseRow
+	 * @return  object
 	 */
 	public function getItem()
 	{
@@ -165,9 +136,9 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	}
 
 	/**
-	 * Get a list of items which represnts a  table rowset
+	 * Get a list of items
 	 *
-	 * @return  object KDatabaseRowset
+	 * @return  object
 	 */
 	public function getList()
 	{

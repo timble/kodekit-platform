@@ -16,5 +16,32 @@
  */
 class KToolbarDefault extends KToolbarAbstract
 {
-	
+	/**
+	 * Constructor
+	 *
+	 * @param array	Options array
+	 */
+	public function __construct(array $options = array())
+	{
+        parent::__construct($options);
+		
+		$app 		= $this->_identifier->application;
+		$package 	= $this->_identifier->package;
+		$name 		= $this->_identifier->name;
+		
+		if(KInflector::isPlural($name))
+		{		 
+			//Create the toolbar
+			$this->append('new')
+				 ->append('edit')
+				 ->append('delete');	
+		}
+		else
+		{
+			// Create the toolbar
+			$this->append('save')
+				 ->append('apply')
+    			 ->append('cancel');
+		}
+	}
 }

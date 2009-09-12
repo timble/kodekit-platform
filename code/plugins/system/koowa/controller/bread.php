@@ -20,9 +20,46 @@ class KControllerBread extends KControllerAbstract
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
-		$this->_setModelState();
+		
+		// Register filter functions
+		$this->registerFilterBefore(array('browse' , 'read') , 'filterloadState')
+			 ->registerFilterAfter(array('browse', 'read')   , 'filterSaveState');
 	}
-
+	
+	/**
+	 * Filter that handles loading of the model state from the session
+	 *
+	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 */
+	public function filterLoadState(ArrayObject $args)
+	{
+		$model   = $this->getModel();
+		$state   = KRequest::get('session.'.$model->getIdentifier(), 'raw', array());
+		$request = KRequest::get('get', 'string');
+		
+		//Set the state in the model
+		$model->getState()
+			  ->setData( KHelperArray::merge($state, $request));
+			  
+		return true;	
+	}
+	
+	/**
+	 * Filter that handles saving of the model state in the session
+	 *
+	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 */
+	public function filterSaveState(ArrayObject $args)
+	{
+		$model  = $this->getModel();
+		$state  = $model->getState()->getData();
+					
+		//Set the state in the session
+		KRequest::set('session.'.$model->getIdentifier(), $state);
+		
+		return true;
+	}
+	
 	/**
 	 * Browse a list of items
 	 *
@@ -60,15 +97,16 @@ class KControllerBread extends KControllerAbstract
 	{
 		// Get the post data from the request
 		$data = KRequest::get('post', 'string');
-
+		
 		// Get the id
 		$id	 = KRequest::get('get.id', 'int');
 
 		// Get the row and save
-		$row		= $this->_getTable()
-						->fetchRow($id)
-						->setProperties($data)
-						->save();
+		$row= $this->getModel()
+					->getTable()
+					->fetchRow($id)
+					->setData($data)
+					->save();
 
 		return $row;
 	}
@@ -84,10 +122,11 @@ class KControllerBread extends KControllerAbstract
 		$data = KRequest::get('post', 'string');
 
 		// Get the row and save
-		$row 		= $this->_getTable()
-						->fetchRow()
-						->setProperties($data)
-						->save();
+		$row = $this->getModel()
+					->getTable()
+					->fetchRow()
+					->setData($data)
+					->save();
 
 		return $row;
 	}
@@ -101,49 +140,10 @@ class KControllerBread extends KControllerAbstract
 	{
 		$ids = (array) KRequest::get('post.id', 'int');
 
-		$table = $this->_getTable()
-				->delete($ids);
+		$table = $this->getModel()
+					  ->getTable()
+					  ->delete($ids);
 
 		return $table;
-	}
-
-	/**
-	 * Method to get a table object
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @return	object	The table.
-	 */
-	protected function _getTable(array $options = array())
-	{
-		// Get the table object
-		$app   	 = $this->_identifier->application;
-		$package = $this->_identifier->package;
-
-		// Table names are always plural
-		$name    = KInflector::pluralize($this->_identifier->name);
-
-		$table = KFactory::get($app.'::com.'.$package.'.table.'.$name, $options);
-		return $table;
-	}
-
-
-	/**
-	 * Sets the state of the model related to this controller
-	 *
-	 * @return KControllerBread
-	 */
-	protected function _setModelState()
-	{
-		$default = KFactory::get('lib.joomla.application')->getCfg('list_limit', 20);
-
-		$this->getModel()
-			->setState('id',		KRequest::get('get.id', 'int'))
-			->setState('limit',		KRequest::get('get.f.limit', 'int', $default))
-			->setState('offset',	KRequest::get('get.f.offset', 'int', 0))
-			->setState('order', 	KRequest::get('get.f.order', 'cmd'))
-			->setState('direction',	KRequest::get('get.f.direction', 'word', 'asc'))
-			->setState('search', 	KRequest::get('get.f.search', 'string'));
-
-        return $this;
 	}
 }

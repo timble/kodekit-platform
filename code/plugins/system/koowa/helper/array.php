@@ -62,6 +62,41 @@ class KHelperArray
     }
 
     /**
+ 	 * Merge two arrays recursively
+ 	 * 
+ 	 * Matching keys' values in the second array overwrite those in the first array, as is the
+ 	 * case with array_merge, i.e.:
+ 	 * 
+ 	 * KHelperArray::merge(array('key' => 'org value'), array('key' => 'new value'));
+ 	 *     => array('key' => array('new value'));
+ 	 * 
+ 	 * Parameters are passed by reference, though only for performance reasons. They're not
+ 	 * altered by this function and the datatypes of the values in the arrays are unchanged.
+ 	 *
+ 	 * @param array $array1
+ 	 * @param array $array2	
+ 	 * @return array	An array of values resulted from merging the arguments together. 
+ 	 */
+	public static function merge( array &$array1, array &$array2 )
+	{
+  		$merged = $array1;
+
+  		foreach ( $array2 as $key => &$value )
+  		{
+    		if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+    		{
+      			$merged [$key] = self::merge ( $merged [$key], $value );
+    		}
+    		else
+    		{
+      			$merged [$key] = $value;
+    		}
+  		}
+
+  		return $merged;
+	}
+
+    /**
      * Extracts a column from an array of arrays or objects
      *
      * @param 	array	List of arrays or objects
