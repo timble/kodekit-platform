@@ -30,4 +30,18 @@ class KViewHtml extends KViewAbstract
 
 		parent::__construct($options);
 	}
+	
+	/**
+	 * Execute and echo's the views output
+ 	 *
+	 * @return KViewHtml
+	 */
+	public function display()
+	{
+		//Auto-assign the state to the view
+		$this->assign('state', $this->getModel()->getState());
+		
+		// Display the layout
+		parent::display();
+	}
 }

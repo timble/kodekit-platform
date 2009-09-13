@@ -29,6 +29,11 @@
  */
 class KViewFile extends KViewAbstract
 {
+	/**
+	 * Execute and echo's the views output
+ 	 *
+	 * @return KViewFile
+	 */
 	public function display()
 	{
 		// For a certain unmentionable browser

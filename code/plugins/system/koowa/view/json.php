@@ -25,6 +25,11 @@ class KViewJson extends KViewAbstract
 		$this->_document->setMimeEncoding('application/json');
 	}
 
+	/**
+	 * Execute and echo's the views output
+ 	 *
+	 * @return KViewJson
+	 */
     public function display()
     {
     	echo json_encode($this->get());

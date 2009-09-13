@@ -17,31 +17,31 @@
  */
 class KViewDefault extends KViewHtml
 {
+	/**
+	 * Execute and echo's the views output
+ 	 *
+	 * @return KViewDefault
+	 */
 	public function display()
 	{
-		$app 		= $this->_identifier->application;
-		$package 	= $this->_identifier->package;
-		$name 		= $this->_identifier->name;
+		//Get the model
+		$model = $this->getModel();
+		$name  = $this->_identifier->name;
 		
 		if(KInflector::isPlural($name))
 		{
 			//Assign the data of the model to the view
-			$model = KFactory::get($app.'::com.'.$package.'.model.'.$name);
 			$this->assign($name, 	$model->getList())
 				 ->assign('total',	$model->getTotal());
 		}
 		else
 		{
 			//Assign the data of the model to the view
-			$model = KFactory::get($app.'::com.'.$package.'.model.'.KInflector::pluralize($name));
 			$this->assign($name, $model->getItem());
 		}
 		
-		//Auto-assign the state to the view
-		$this->assign('state', $model->getState());
-		
 		// Create the toolbar
-		$toolbar = KFactory::get($app.'::com.'.$package.'.toolbar.'.$name);
+		$toolbar = $this->getToolbar();
 		
 		// Render the toolbar
 		if($this->_layout == 'form') {
@@ -53,5 +53,18 @@ class KViewDefault extends KViewHtml
 		
 		// Display the layout
 		parent::display();
+	}
+	
+	/**
+	 * Get the model with the same identifier
+	 *
+	 * @return	KToolbarAbstract	A KToolbar object
+	 */
+	public function getToolbar(array $options = array())
+	{
+		$identifier			= clone $this->_identifier;
+		$identifier->path	= array('toolbar');
+
+		return KFactory::get($identifier, $options);
 	}
 }

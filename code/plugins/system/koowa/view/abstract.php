@@ -277,7 +277,21 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
         $this->_escape = $spec;
         return $this;
     }
+    
+	/**
+	 * Get the model with the same identifier
+	 *
+	 * @return	KModelAbstract	A KModel object
+	 */
+	public function getModel(array $options = array())
+	{
+		$identifier			= clone $this->_identifier;
+		$identifier->path	= array('model');
+		$identifier->name	= KInflector::pluralize($identifier->name);
 
+		return KFactory::get($identifier, $options);
+	}
+	
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
