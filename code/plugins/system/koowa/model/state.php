@@ -92,18 +92,18 @@ class KModelState extends KModelAbstract
      * Insert a new state
      *
      * @param   string		The name of the state
-     * @param   string  	The type of the state
+     * @param   mixed		Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
      * @param   mixed  		The default value of the state
      * @return  KModelState
      */
-    public function insert($name, $type, $default = null)
+    public function insert($name, $filter, $default = null)
     {
     	if(!isset($this->_state[$name])) 
     	{
     		$state = new stdClass();
-    		$state->name  = $name;
-    		$state->type  = $type;
-    		$state->value = $default; 
+    		$state->name   = $name;
+    		$state->filter = $filter;
+    		$state->value  = $default; 
     		$this->_state[$name] = $state;
     	}
     
@@ -130,13 +130,26 @@ class KModelState extends KModelAbstract
      */
     public function setData(array $data)
     {
-		// Filter data based on column type
+		// Filter data
 		foreach($data as $key => $value)
 		{
 			if(isset($this->_state[$key])) 
     		{
-    			$type = $this->_state[$key]->type;
-				$this->_state[$key]->value = KFactory::tmp('lib.koowa.filter.'.$type)->sanitize($value);
+    			$filter = $this->_state[$key]->filter;
+				
+    			if(!($filter instanceof KFilterInterface))
+				{
+					$names = (array) $filter;
+
+					$name   = array_shift($names);
+					$filter = self::_createFilter($name);
+
+					foreach($names as $name) {
+						$filter->addFilter($this->_createFilter($name));
+					}
+				}
+    			
+    			$this->_state[$key]->value = $filter->sanitize($value);
     		}
 		}
    
@@ -158,4 +171,22 @@ class KModelState extends KModelAbstract
        
         return $result;
     }
+    
+	/**
+	 * Create a filter based on it's name
+	 *
+	 * @param 	string	Filter name
+	 * @throws	KModelException	When the filter could not be found
+	 * @return  KFilterInterface
+	 */
+	protected static function _createFilter($name)
+	{
+		try {
+			$filter = KFactory::get('lib.koowa.filter.'.$name);
+		} catch(KFactoryAdapterException $e) {
+			throw new KModelException('Invalid filter: '.$name);
+		}
+
+		return $filter;
+	}
 }
