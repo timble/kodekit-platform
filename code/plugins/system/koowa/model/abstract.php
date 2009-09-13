@@ -81,7 +81,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	protected function _initialize(array $options)
 	{
 		$defaults = array(
-            'state'      => KFactory::tmp('lib.koowa.model.state', array($options['state'])),
+            'state'      => KFactory::tmp('lib.koowa.model.state'),
 			'identifier' => null
        	);
 
