@@ -78,7 +78,7 @@ class KRequest
 	 * Get sanitized data from the request.
 	 *
 	 * @param	string				Variable identifier, prefixed by hash name eg post.foo.bar
-	 * @param 	mixed				Filter(s), can be a KFilterInterface object, or array of filter names
+	 * @param 	mixed				Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
 	 * @param 	mixed				Default value when the variable doesn't exist
 	 * @throws	KRequestException	When an invalid filter was passed
 	 * @return 	mixed				The sanitized data
