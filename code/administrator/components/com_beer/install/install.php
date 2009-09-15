@@ -17,8 +17,8 @@ jimport('joomla.filesystem.file');
 // Move the search plugin
 $admin_path = 'administrator'.DS.'components'.DS.'com_beer'.DS.'search';
 $plugins_path = 'plugins'.DS.'search';
-JFile::move($admin_path.DS.$plugins_path.DS.'beer.xml',  $plugins_path.DS.'beer.xml', JPATH_ROOT);
-JFile::move($admin_path.DS.$plugins_path.DS.'beer.php',  $plugins_path.DS.'beer.php', JPATH_ROOT);
+JFile::move($admin_path.DS.'beer.xml',  $plugins_path.DS.'beer.xml', JPATH_ROOT);
+JFile::move($admin_path.DS.'beer.php',  $plugins_path.DS.'beer.php', JPATH_ROOT);
 
 $status = new JObject();
 

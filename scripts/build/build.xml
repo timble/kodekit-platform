@@ -10,6 +10,10 @@
 		<mkdir dir="${dir.packages}" />
 		<mkdir dir="${dir.tmp}" />
 		<phingcall target="export_from_${dir.source}" />
+
+		<move file="${dir.tmp}/plugins/search/beer.xml" todir="${dir.tmp}/administrator/components/com_beer/search" />
+		<move file="${dir.tmp}/plugins/search/beer.php" todir="${dir.tmp}/administrator/components/com_beer/search" />
+
 		<tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
 		<delete dir="${dir.tmp}" includeemptydirs="true" />
 	</target>
