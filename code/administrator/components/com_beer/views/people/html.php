@@ -16,15 +16,14 @@ class BeerViewPeople extends KViewDefault
 		$this->mixin( KFactory::get('admin::com.beer.mixin.menu', array('mixer' => $this)));
 		$this->displayMenutitle();
 		$this->displayMenubar();
+		
+		$this->setLayout('form'); //@todo added this line because the View is looking for the default.php layout
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.people')
+			->append('divider')	
 			->append('enable')
-			->append('disable')
-			->append('divider')
-			->append('new')
-			->append('edit')
-			->append('delete');
+			->append('disable');
 
 		//Display the layout
 		parent::display();

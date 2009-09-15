@@ -8,7 +8,7 @@
  * @link     	http://www.nooku.org
  */
 
-class BeerViewDepartments extends KViewHtml
+class BeerViewDepartments extends KViewDefault
 {
 	public function display()
 	{
@@ -19,18 +19,11 @@ class BeerViewDepartments extends KViewHtml
 		$this->displayMenutitle();
 		$this->displayMenubar();
 
-	 	$this->assign('departments', 	$model->getList());
-		$this->assign('state',     		$model->getState());
-		$this->assign('total', 			$model->getTotal());
-
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.departments')
+			->append('divider')	
 			->append('enable')
-			->append('disable')
-			->append('divider')
-			->append('new')
-			->append('edit')
-			->append('delete');
+			->append('disable');
 
 		//Display the layout
 		parent::display();

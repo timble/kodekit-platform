@@ -4,7 +4,7 @@
 <? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css'); ?>
 
-<form action="<?= @route()?>" method="post" name="adminForm">
+<form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_beer" />
 	<input type="hidden" name="view" value="people" />
 
@@ -17,7 +17,7 @@
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('beer_department_id').value='';this.form.getElementById('beer_office_id').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'submitform();');?>
+				<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
 				<?=@helper('admin::com.beer.helper.select.departments', @$state->beer_department_id, 'beer_department_id', $attribs, '', true) ?>
 				<?=@helper('admin::com.beer.helper.select.offices', @$state->beer_office_id, 'beer_office_id', $attribs, '', true) ?>
 				<?=@helper('admin::com.beer.helper.select.enabled',  @$state->enabled ); ?>
@@ -25,6 +25,10 @@
 		</tr>
 	</table>
 
+<form action="<?= @route()?>" method="post" name="adminForm">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>

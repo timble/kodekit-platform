@@ -19,12 +19,9 @@ class BeerViewOffices extends KViewDefault
 
 		//Create the toolbar
 		KFactory::get('admin::com.beer.toolbar.offices')
+			->append('divider')	
 			->append('enable')
-			->append('disable')
-			->append('divider')
-			->append('new')
-			->append('edit')
-			->append('delete');
+			->append('disable');
 
 		//Display the layout
 		parent::display();

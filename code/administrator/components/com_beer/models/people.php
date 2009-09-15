@@ -15,6 +15,11 @@ class BeerModelPeople extends KModelTable
 	{
 		parent::__construct($options);
 		$this->setTable('admin::com.beer.table.viewpeople');
+		
+		// Set the state
+		$this->_state
+		 ->insert('beer_department_id'       , 'int')
+		 ->insert('beer_office_id'       , 'int');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -34,11 +39,11 @@ class BeerModelPeople extends KModelTable
 		}
 
 		if ( $state->search) {
-			$state->search = '%'.$state->search.'%';
+			$search = '%'.$state->search.'%';
 
-			$query->where('tbl.firstname', 'LIKE',  $state->search)
-				  ->where('tbl.lastname', 'LIKE', $state->search, 'or')
-				  ->where('tbl.bio', 'LIKE', $state->search, 'or');
+			$query->where('tbl.firstname', 'LIKE',  $search)
+				  ->where('tbl.lastname', 'LIKE', $search, 'or')
+				  ->where('tbl.bio', 'LIKE', $search, 'or');
 		}
 
 	}
