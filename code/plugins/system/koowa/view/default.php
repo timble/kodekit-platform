@@ -38,17 +38,19 @@ class KViewDefault extends KViewHtml
 		{
 			//Assign the data of the model to the view
 			$this->assign($name, $model->getItem());
+
+			// Disable the main menu
+			if($this->_layout == 'form') {
+				KRequest::set('get.hidemainmenu', 1);
+			}
 		}
 
 		// Create the toolbar
 		$toolbar = $this->getToolbar();
 
-		if($this->_layout == 'form')
-		{
-			// Render the toolbar
+		// Render the toolbar
+		if($this->_layout == 'form') {
 			$this->_document->setBuffer($toolbar->render(), 'modules', 'toolbar');
-			// Disable the main menu
-			KRequest::set('get.hidemainmenu', 1);
 		}
 
 		// Render the title
