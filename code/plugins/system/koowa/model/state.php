@@ -60,7 +60,7 @@ class KModelState extends KModelAbstract
     public function __set($name, $value)
     {
     	if(isset($this->_state[$name])) {
-    		$this->_data[$name]->value = $value;
+    		$this->_state[$name]->value = $value;
     	}
    }
 
