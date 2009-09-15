@@ -110,8 +110,6 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     	unset($this->_item);
     	unset($this->_total);
     	
-    	//$this->_state = new KObject();
-
     	return $this;
     }
 
