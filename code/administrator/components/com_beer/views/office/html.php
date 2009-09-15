@@ -14,8 +14,6 @@ class BeerViewOffice extends KViewHtml
 	{
 		$model = KFactory::get('admin::com.beer.model.office');
 
-		KRequest::set( 'get.hidemainmenu', 1 );
-
 		$this->assign('office', $model->getItem());
 
 		// Create the toolbar

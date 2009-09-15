@@ -19,7 +19,7 @@ class BeerModelPeople extends KModelTable
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$state = $this->getState();
+		$state = $this->_state;
 
 		if($state->enabled) {
 			$query->where('tbl.enabled','=', $state->enabled);

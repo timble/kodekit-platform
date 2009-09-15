@@ -22,7 +22,7 @@ abstract class BeerModelGroups extends KModelTable
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$state = $this->getState();
+		$state = $this->_state;
 
 		if($state->search) {
 			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');

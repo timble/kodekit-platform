@@ -4,17 +4,15 @@
 <? @style(@$mediaurl.'/com_beer/css/grid.css') ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
-<form action="<?= @route()?>" method="post" name="adminForm">
-	<input type="hidden" name="action" value="browse" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?= @$state->order?>" />
-	<input type="hidden" name="filter_direction" value="<?= @$state->direction?>" />
+<form action="<?= @route()?>" method="get">
+	<input type="hidden" name="option" value="com_beer" />
+	<input type="hidden" name="view" value="departments" />
 
 	<table>
 		<tr>
 			<td align="left" width="100%">
 				<?=@text('Filter')?>:
-				<input type="text" name="search" id="search" value="<?= @$state->search?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input name="search" id="search" value="<?= @$state->search?>" />
 				<button onclick="this.form.submit();"><?= @text('Go')?></button>
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
@@ -23,7 +21,12 @@
 			</td>
 		</tr>
 	</table>
+</form>
 
+<form action="<?= @route()?>" method="post" name="adminForm">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>
@@ -89,8 +92,8 @@
 		<tfoot>
 			<tr>
 				<td colspan="20">
-					<?= @helper('pagination.limit', @$state->limit) ?>
-					<?= @helper('pagination.pages', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.limit', @$state->limit) ?>
+					<?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>

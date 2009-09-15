@@ -28,7 +28,7 @@ abstract class BeerControllerAbstract extends KControllerForm
 		$this->registerFilterBefore('save'   , 'filterInput');
 		$this->registerFilterBefore('apply'   , 'filterInput');
 		$this->registerFilterBefore('add'   , 'filterCreated');
-		$this->setFilters();
+		//$this->setFilters();
 	}
 
 
