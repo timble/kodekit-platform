@@ -18,12 +18,13 @@ abstract class BeerModelGroups extends KModelTable
 	{
 		parent::__construct($options);
 		$this->setTable('admin::com.beer.table.view'.$this->getIdentifier()->name);
+
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$state = $this->_state;
-
+		
 		if($state->search) {
 			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
 		}

@@ -20,8 +20,10 @@ class BeerHelperIso extends KObject
  	{
  		$countries = array();
  		$countries[] = KTemplate::loadHelper('select.option',  '', '- '. JText::_( 'Select a Country' ) .' -' );
-		$list = KFactory::get('admin::com.beer.model.regions')
-			->setState('region', 'world')->getList();
+ 		
+ 		$list = KFactory::get('admin::com.beer.model.regions')
+			//->setState('region', 'world') @todo need to be fixed
+			->getList();
  		foreach($list as $code => $country) {
  			$countries[] = KTemplate::loadHelper('select.option',  $code, $country);
  		}
@@ -33,7 +35,8 @@ class BeerHelperIso extends KObject
  	{
  		$region = strtolower($region);
   		$list = KFactory::get('admin::com.beer.model.regions')
- 				->setState('region', $region)->getList();
+ 				//->setState('region', $region) @todo need to be fixed
+ 				->getList();
 
  		$states = array();
  		if(count($list))

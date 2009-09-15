@@ -16,7 +16,7 @@ class BeerModelRegions extends KModelAbstract
 {
 	public function getList()
 	{
-		$file = JPATH_COMPONENT_ADMINISTRATOR.DS.'data'.DS.$this->getState('region').'.json';
+		$file = JPATH_COMPONENT_ADMINISTRATOR.DS.'data'.DS.$this->_state->region.'.json';
 		if(file_exists($file)) {
 			return (array) json_decode(file_get_contents($file));
 		} else {
