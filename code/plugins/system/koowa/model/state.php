@@ -123,6 +123,17 @@ class KModelState extends KModelAbstract
     }
     
 	/**
+     * Reset all cached data
+     *
+     * @return KModelState
+     */
+    public function reset()
+    {
+    	unset($this->_state);  	
+    	return $this;
+    }
+    
+	/**
      * Set the state data
      *
      * @param   array|object	An associative array of state data by name
