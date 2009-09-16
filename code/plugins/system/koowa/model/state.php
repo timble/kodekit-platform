@@ -34,7 +34,7 @@ class KModelState extends KModelAbstract
 
         return array_merge($defaults, $options);
     }
-    
+
 	/**
      * Get a state value
      *
@@ -46,7 +46,7 @@ class KModelState extends KModelAbstract
     	if(isset($this->_state[$name])) {
     		return $this->_state[$name]->value;
     	}
-    	
+
     	return null;
     }
 
@@ -87,7 +87,7 @@ class KModelState extends KModelAbstract
     		$this->_state[$name]->value = null;
     	}
     }
-    
+
 	/**
      * Insert a new state
      *
@@ -98,20 +98,20 @@ class KModelState extends KModelAbstract
      */
     public function insert($name, $filter, $default = null)
     {
-    	if(!isset($this->_state[$name])) 
+    	if(!isset($this->_state[$name]))
     	{
     		$state = new stdClass();
     		$state->name   = $name;
     		$state->filter = $filter;
-    		$state->value  = $default; 
+    		$state->value  = $default;
     		$this->_state[$name] = $state;
     	}
-    
+
         return $this;
     }
-    
+
 	/**
-     * Remove an excisting state
+     * Remove an existing state
      *
      * @param   string		The name of the state
      * @return  KModelState
@@ -121,7 +121,7 @@ class KModelState extends KModelAbstract
     	unset($this->_state[$name]);
         return $this;
     }
-    
+
 	/**
      * Reset all cached data
      *
@@ -144,10 +144,10 @@ class KModelState extends KModelAbstract
 		// Filter data
 		foreach($data as $key => $value)
 		{
-			if(isset($this->_state[$key])) 
+			if(isset($this->_state[$key]))
     		{
     			$filter = $this->_state[$key]->filter;
-				
+
     			if(!($filter instanceof KFilterInterface))
 				{
 					$names = (array) $filter;
@@ -159,11 +159,11 @@ class KModelState extends KModelAbstract
 						$filter->addFilter($this->_createFilter($name));
 					}
 				}
-    			
+
     			$this->_state[$key]->value = $filter->sanitize($value);
     		}
 		}
-   
+
         return $this;
     }
 
@@ -175,14 +175,14 @@ class KModelState extends KModelAbstract
     public function getData()
     {
         $result = array();
-    	
+
    		foreach ($this->_state as $k => $v) {
             $result[$k] = $v->value;
         }
-       
+
         return $result;
     }
-    
+
 	/**
 	 * Create a filter based on it's name
 	 *
