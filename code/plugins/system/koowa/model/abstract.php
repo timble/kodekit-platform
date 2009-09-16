@@ -49,7 +49,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var object
 	 */
 	protected $_identifier = null;
 
@@ -62,10 +62,10 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	{
 		// Set the objects identifier
         $this->_identifier = $options['identifier'];
-		
+
 		// Initialize the options
 		$options  = $this->_initialize($options);
-		
+
 		// Set the state
 		$this->_state = $options['state'];
 	}
@@ -109,12 +109,12 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     	unset($this->_list);
     	unset($this->_item);
     	unset($this->_total);
-    	
+
     	return $this;
     }
 
 	/**
-	 * Method to get state object
+	 * Get the state object
 	 *
 	 * @return	object	The state object
 	 */
@@ -124,7 +124,40 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	}
 
 	/**
-	 * Method to get a ite
+	 * Set the state object
+	 *
+	 * @param 	State object
+	 * @return 	KModelAbstract
+	 */
+	public function setState($state)
+	{
+		$this->_state = $state;
+		return $this;
+	}
+
+	/**
+	 * Get a state, alias for getState()->get()
+	 *
+	 * @see KModelState#get($property, $default)
+	 */
+	public function get($property, $default = null)
+	{
+		return $this->getState()->get($property, $default);
+	}
+
+	/**
+	 * Set a state, alias for getState()->set()
+	 *
+	 * @see KModelState#set($property, $value)
+	 */
+	public function set($property, $value)
+	{
+		$this->getState()->set($property, $value);
+		return $this;
+	}
+
+	/**
+	 * Method to get an item
 	 *
 	 * @return  object
 	 */
