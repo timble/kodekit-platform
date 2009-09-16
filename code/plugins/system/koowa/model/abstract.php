@@ -21,7 +21,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * A state object
 	 *
-	 * @var object
+	 * @var KModelStateInterface
 	 */
 	protected $_state;
 
@@ -67,7 +67,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		$options  = $this->_initialize($options);
 
 		// Set the state
-		$this->_state = $options['state'];
+		$this->setState($options['state']);
 	}
 
 	/**
@@ -116,7 +116,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Get the state object
 	 *
-	 * @return	object	The state object
+	 * @return	KModelStateInterface The state object
 	 */
 	public function getState()
 	{
@@ -126,10 +126,10 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Set the state object
 	 *
-	 * @param 	State object
+	 * @param 	KModelStateInterface State object
 	 * @return 	KModelAbstract
 	 */
-	public function setState($state)
+	public function setState(KModelStateInterface $state)
 	{
 		$this->_state = $state;
 		return $this;
