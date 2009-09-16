@@ -14,6 +14,14 @@
  */
 class BeerModelRegions extends KModelAbstract
 {
+	public function __construct(array $options = array())
+	{
+		parent::__construct($options);
+		
+		// Set the state
+		$this->_state->insert('region'       , 'string');
+	}
+	
 	public function getList()
 	{
 		$file = JPATH_COMPONENT_ADMINISTRATOR.DS.'data'.DS.$this->_state->region.'.json';
