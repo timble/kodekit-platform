@@ -19,7 +19,7 @@ class BeerModelRegions extends KModelAbstract
 		parent::__construct($options);
 		
 		// Set the state
-		$this->_state->insert('region'       , 'string');
+		$this->_state->insert('region' , 'word');
 	}
 	
 	public function getList()
