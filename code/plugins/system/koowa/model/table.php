@@ -80,7 +80,7 @@ class KModelTable extends KModelAbstract
             'adapter' => KFactory::get('lib.koowa.database'),
 			'table'   => $application.'::com.'.$package.'.table.'.$table
        	);
-
+       	
         return array_merge($defaults, $options);
     }
 

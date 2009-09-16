@@ -21,7 +21,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * A state object
 	 *
-	 * @var KModelStateInterface
+	 * @var object
 	 */
 	protected $_state;
 
@@ -49,7 +49,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * The object identifier
 	 *
-	 * @var object
+	 * @var object 
 	 */
 	protected $_identifier = null;
 
@@ -62,12 +62,12 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	{
 		// Set the objects identifier
         $this->_identifier = $options['identifier'];
-
+		
 		// Initialize the options
 		$options  = $this->_initialize($options);
-
+				
 		// Set the state
-		$this->setState($options['state']);
+		$this->_state = $options['state'];
 	}
 
 	/**
@@ -84,8 +84,65 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
             'state'      => KFactory::tmp('lib.koowa.model.state'),
 			'identifier' => null
        	);
-
+       	
         return array_merge($defaults, $options);
+    }
+    
+	/**
+     * Set the model state properties
+     * 
+     * This function overloads the KObject::set() function and only acts on state properties.
+     *
+     * @param   string|array|object	The name of the property, an associative array or an object
+     * @param   mixed  				The value of the property
+     * @return	KModelAbstract
+     */
+    public function set( $property, $value = null )
+    {
+    	if(is_object($property)) {
+    		$property = (array) $property;
+    	}
+    	
+    	if(is_array($property)) {
+        	$this->_state->setData($property);
+        } else {
+        	$this->_state = $value;
+        }
+    	
+        return $this;
+    }
+
+    /**
+     * Get the model state properties
+     * 
+     * This function overloads the KObject::get() function and only acts on state 
+     * properties
+     * 
+     * If no property name is given then the function will return an associative
+     * array of all properties.
+     * 
+     * If the property does not exist and a  default value is specified this is
+     * returned, otherwise the function return NULL.
+     *
+     * @param   string	The name of the property
+     * @param   mixed  	The default value
+     * @return  mixed 	The value of the property, an associative array or NULL
+     */
+    public function get($property = null, $default = null)
+    {
+        $result = $default;
+        	
+    	if(is_null($property)) {
+        	$result = $this->_state->getData();
+        } 
+        else 
+        {
+    		if(isset($this->_state->$property)) {
+        		$result = $this->_state->$property;
+    		}
+        }
+        
+        return $result;
     }
 
     /**
@@ -109,14 +166,14 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     	unset($this->_list);
     	unset($this->_item);
     	unset($this->_total);
-
+    	
     	return $this;
     }
 
 	/**
-	 * Get the state object
+	 * Method to get state object
 	 *
-	 * @return	KModelStateInterface The state object
+	 * @return	object	The state object
 	 */
 	public function getState()
 	{
@@ -124,40 +181,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	}
 
 	/**
-	 * Set the state object
-	 *
-	 * @param 	KModelStateInterface State object
-	 * @return 	KModelAbstract
-	 */
-	public function setState(KModelStateInterface $state)
-	{
-		$this->_state = $state;
-		return $this;
-	}
-
-	/**
-	 * Get a state, alias for getState()->get()
-	 *
-	 * @see KModelState#get($property, $default)
-	 */
-	public function get($property, $default = null)
-	{
-		return $this->getState()->get($property, $default);
-	}
-
-	/**
-	 * Set a state, alias for getState()->set()
-	 *
-	 * @see KModelState#set($property, $value)
-	 */
-	public function set($property, $value)
-	{
-		$this->getState()->set($property, $value);
-		return $this;
-	}
-
-	/**
-	 * Method to get an item
+	 * Method to get a ite
 	 *
 	 * @return  object
 	 */

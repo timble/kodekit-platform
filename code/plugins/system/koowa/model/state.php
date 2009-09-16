@@ -3,55 +3,20 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Model
- * @subpackage	State
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
  */
 
 /**
- * State object
+ * State Model
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Model
- * @subpackage	State
  */
-class KModelState extends KObject implements KFactoryIdentifiable, KModelStateInterface
+class KModelState extends KModelAbstract
 {
-
-	/**
-	 * Array to hold the state
-	 *
-	 * @var array
-	 */
-	protected $_data;
-
-	/**
-	 * The object identifier
-	 *
-	 * @var object
-	 */
-	protected $_identifier = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 */
-	public function __construct(array $options = array())
-	{
-		// Set the objects identifier
-        $this->_identifier = $options['identifier'];
-
-		// Initialize the options
-		$options  = $this->_initialize($options);
-
-		//
-		$this->_data = $options['data'];
-
-	}
-
 	/**
 	 * Initializes the options for the object
 	 *
@@ -63,24 +28,12 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
 	protected function _initialize(array $options)
 	{
 		$defaults = array(
-            'data'      => array(),
+            'state'      => array(),
 			'identifier' => null
        	);
 
         return array_merge($defaults, $options);
     }
-
-    /**
-	 * Get the identifier
-	 *
-	 * @return 	object A KFactoryIdentifier object
-	 * @see 	KFactoryIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-
 
 	/**
      * Get a state value
@@ -90,8 +43,8 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function __get($name)
     {
-    	if(isset($this->_data[$name])) {
-    		return $this->_data[$name]->value;
+    	if(isset($this->_state[$name])) {
+    		return $this->_state[$name]->value;
     	}
 
     	return null;
@@ -106,10 +59,8 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function __set($name, $value)
     {
-    	if(isset($this->_data[$name])) {
-    		$this->_data[$name]->value = $value;
-    	} else {
-    		throw new KModelException('Cannot set a state before it is inserted');
+    	if(isset($this->_state[$name])) {
+    		$this->_state[$name]->value = $value;
     	}
    }
 
@@ -121,7 +72,7 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function __isset($name)
     {
-    	return array_key_exists($name, $this->_data);
+    	return array_key_exists($name, $this->_state);
     }
 
     /**
@@ -132,8 +83,8 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function __unset($name)
     {
-    	if(isset($this->_data[$name])) {
-    		$this->_data[$name]->value = null;
+    	if(isset($this->_state[$name])) {
+    		$this->_state[$name]->value = null;
     	}
     }
 
@@ -147,13 +98,13 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function insert($name, $filter, $default = null)
     {
-    	if(!isset($this->_data[$name]))
+    	if(!isset($this->_state[$name]))
     	{
     		$state = new stdClass();
     		$state->name   = $name;
     		$state->filter = $filter;
     		$state->value  = $default;
-    		$this->_data[$name] = $state;
+    		$this->_state[$name] = $state;
     	}
 
         return $this;
@@ -167,7 +118,7 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function remove( $name )
     {
-    	unset($this->_data[$name]);
+    	unset($this->_state[$name]);
         return $this;
     }
 
@@ -178,10 +129,10 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
      */
     public function reset()
     {
-    	$this->_data = array();
+    	unset($this->_state);  	
     	return $this;
     }
-
+    
 	/**
      * Set the state data
      *
@@ -193,9 +144,9 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
 		// Filter data
 		foreach($data as $key => $value)
 		{
-			if(isset($this->_data[$key]))
+			if(isset($this->_state[$key]))
     		{
-    			$filter = $this->_data[$key]->filter;
+    			$filter = $this->_state[$key]->filter;
 
     			if(!($filter instanceof KFilterInterface))
 				{
@@ -209,7 +160,7 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
 					}
 				}
 
-    			$this->_data[$key]->value = $filter->sanitize($value);
+    			$this->_state[$key]->value = $filter->sanitize($value);
     		}
 		}
 
@@ -225,7 +176,7 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
     {
         $result = array();
 
-   		foreach ($this->_data as $k => $v) {
+   		foreach ($this->_state as $k => $v) {
             $result[$k] = $v->value;
         }
 
@@ -249,30 +200,4 @@ class KModelState extends KObject implements KFactoryIdentifiable, KModelStateIn
 
 		return $filter;
 	}
-
-	/**
-	 * Get a property
-	 *
-	 * @param   string	The name of the property
-     * @param   mixed  	The default value
-     * @return  mixed 	The value of the property
-	 */
-	public function get($property, $default = null)
-	{
-		return isset($this->$property) ? $this->$property : $default;
-	}
-
- 	/**
-     * Set the object properties
-     *
-     * @param   string				The name of the property
-     * @param   mixed  				The value of the property
-     * @return  KModelState
-     */
-	public function set($property, $value)
-	{
-		$this->$property = $value;
-		return $this;
-	}
-
 }

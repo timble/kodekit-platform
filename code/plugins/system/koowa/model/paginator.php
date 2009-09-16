@@ -10,9 +10,9 @@
 
 /**
  * Pagination Model
- *
+ * 
  * To use, set the following states
- *
+ * 
  * total:  		Total number of items
  * limit:  		Number of items per page
  * offset: 		The starting item for the current page
@@ -34,7 +34,7 @@ class KModelPaginator extends KModelState
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
-
+		
 		// Set the state
 		$this->insert('total'    , 'int')
 			 ->insert('limit'    , 'int', 20)
@@ -43,7 +43,7 @@ class KModelPaginator extends KModelState
 			 ->insert('current'  , 'int')
 			 ->insert('display'  , 'int', 4);
 	}
-
+	
 	/**
      * Set the state data
      *
@@ -53,7 +53,7 @@ class KModelPaginator extends KModelState
     public function setData(array $data)
     {
 		parent::setData($data);
-
+		
 		$total	= (int) $this->total;
 		$limit	= (int) max($this->limit, 1);
 		$offset	= (int) max($this->offset, 0);
@@ -61,8 +61,8 @@ class KModelPaginator extends KModelState
 		if($limit > $total) {
 			$offset = 0;
 		}
-
-		if(!$limit)
+		
+		if(!$limit) 
 		{
 			$offset = 0;
 			$limit  =  $total;
@@ -76,15 +76,15 @@ class KModelPaginator extends KModelState
 
 		$current = (int) floor($offset / $limit) +1;
 
-		$this->set('total', $total)
-			->set('limit', $limit)
-			->set('offset', $offset)
-			->set('count',  $count)
-			->set('current',  $current);
-
+		$this->total = $total;
+		$this->limit = $limit;
+		$this->offset = $offset;
+		$this->count = $count;
+		$this->current = $current;
+		
 		return $this;
     }
-
+	
     /**
 	 * Get a list of pages
 	 *
@@ -141,7 +141,7 @@ class KModelPaginator extends KModelState
 
     	return $elements;
     }
-
+    
  	/**
      * Get the offset for each page, optionally with a range
      *

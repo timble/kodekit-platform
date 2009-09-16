@@ -23,7 +23,7 @@ class KControllerBread extends KControllerAbstract
 		
 		// Register filter functions
 		$this->registerFilterBefore(array('browse' , 'read') , 'filterloadState')
-			 ->registerFilterAfter(array('browse', 'read')   , 'filterSaveState');
+			 ->registerFilterAfter(array('browse')           , 'filterSaveState');
 	}
 	
 	/**
@@ -38,8 +38,7 @@ class KControllerBread extends KControllerAbstract
 		$request = KRequest::get('get', 'string');
 		
 		//Set the state in the model
-		$model->getState()
-			  ->setData( KHelperArray::merge($state, $request));
+		$model->set( KHelperArray::merge($state, $request));
 			  
 		return true;	
 	}
@@ -52,7 +51,7 @@ class KControllerBread extends KControllerAbstract
 	public function filterSaveState(ArrayObject $args)
 	{
 		$model  = $this->getModel();
-		$state  = $model->getState()->getData();
+		$state  = $model->get();
 					
 		//Set the state in the session
 		KRequest::set('session.'.$model->getIdentifier(), $state);
