@@ -61,6 +61,8 @@ class KModelState extends KModelAbstract
     {
     	if(isset($this->_state[$name])) {
     		$this->_state[$name]->value = $value;
+    	} else {
+    		throw new KModelException('Cannot set a state before it is inserted');
     	}
    }
 
@@ -129,10 +131,10 @@ class KModelState extends KModelAbstract
      */
     public function reset()
     {
-    	unset($this->_state);  	
+    	unset($this->_state);
     	return $this;
     }
-    
+
 	/**
      * Set the state data
      *
@@ -200,4 +202,30 @@ class KModelState extends KModelAbstract
 
 		return $filter;
 	}
+
+	/**
+	 * Set a property
+	 *
+	 * @param   string	The name of the property
+     * @param   mixed  	The default value
+     * @return  mixed 	The value of the property
+	 */
+	public function get($property, $default = null)
+	{
+		return property_exists($this, $property) ? $this->$property : $default;
+	}
+
+ 	/**
+     * Set the object properties
+     *
+     * @param   string				The name of the property, an associative array or an object
+     * @param   mixed  				The value of the property
+     * @return  KModelState
+     */
+	public function set($property, $value)
+	{
+		$this->$property = $value;
+		return $this;
+	}
+
 }
