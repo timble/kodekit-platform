@@ -212,13 +212,13 @@ class KModelState extends KModelAbstract
 	 */
 	public function get($property, $default = null)
 	{
-		return property_exists($this, $property) ? $this->$property : $default;
+		return isset($this->$property) ? $this->$property : $default;
 	}
 
  	/**
      * Set the object properties
      *
-     * @param   string				The name of the property, an associative array or an object
+     * @param   string				The name of the property
      * @param   mixed  				The value of the property
      * @return  KModelState
      */
