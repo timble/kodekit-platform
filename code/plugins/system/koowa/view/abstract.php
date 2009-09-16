@@ -153,7 +153,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	 * @return KViewAbstract
 	 */
 	public function display()
-	{	
+	{
 		//Render the template
 		echo $this->loadTemplate();
 		return $this;
@@ -277,7 +277,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
         $this->_escape = $spec;
         return $this;
     }
-    
+
 	/**
 	 * Get the model with the same identifier
 	 *
@@ -287,11 +287,13 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('model');
-		$identifier->name	= KInflector::pluralize($identifier->name);
+
+		// Models are always plural
+		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
 
 		return KFactory::get($identifier, $options);
 	}
-	
+
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
@@ -325,7 +327,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param 	string 	The name of the template source file automatically searches 
+	 * @param 	string 	The name of the template source file automatically searches
 	 * 					the template paths and compiles as needed.
 	 * @throws KViewException
 	 * @return string The output of the the template script.
@@ -411,12 +413,12 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 
 	/**
 	 * Create a route. Index.php, option, view and layout can be ommitted. The
-	 * following variations will all result in the same route 
-	 * 
+	 * following variations will all result in the same route
+	 *
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 * - index.php?option=com_mycomp&view=myview&foo=bar
-	 * 
+	 *
 	 * In templates, use @route()
 	 *
 	 * @param	string	The data to use to create the route
@@ -459,7 +461,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		if(!empty($route)) {
 			$result[] = $route;
 		}
-		
+
 		$result = implode('&', $result);
 		return JRoute::_('index.php?'.$result);
 	}

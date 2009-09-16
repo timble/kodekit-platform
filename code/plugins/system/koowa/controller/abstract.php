@@ -230,8 +230,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('model');
-		$identifier->name	= KInflector::pluralize($identifier->name);
 
+		// Models are always plural
+		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
 		return KFactory::get($identifier, $options);
 	}
 
