@@ -1,6 +1,7 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
+ * 
  * @version		$Id$
  * @package		Beer
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -10,12 +11,6 @@
 
 class BeerHelperIso extends KObject
 {
-	/**
-	 * Select
-	 * @param $name
-	 * @param $selected
-	 * @return unknown_type
-	 */
 	public function country($name='country', $selected = '')
  	{
  		$countries = array();
@@ -54,8 +49,6 @@ class BeerHelperIso extends KObject
  			$states[] = KTemplate::loadHelper('select.option', '', '('.JText::_('No states for this country').')' );
  			$disabled = ' disabled="disabled"';
  		}
-
-
 
  		return KTemplate::loadHelper('select.genericlist', $states, $name, $disabled.' class="inputbox" size="1" ', 'value', 'text', $selected );
  	}

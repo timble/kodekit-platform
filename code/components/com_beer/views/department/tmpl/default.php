@@ -5,7 +5,7 @@
 <h1 class="componentheading"><?= @$department->title; ?></h1>
 <div id="beer_info">
 	<span class="people">
-		<a href="<?=@route('option=com_beer&view=people&beer_department_id='.@$department->id) ?>">
+		<a href="<?=@route('view=people&beer_department_id='.@$department->id) ?>">
 			<?= @$department->people; ?> <?=@text('Employee(s)')?>
 		</a>
 	</span>

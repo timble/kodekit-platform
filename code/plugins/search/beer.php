@@ -29,7 +29,8 @@ function &plgSearchProfilesAreas()
 */
 function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 {
-	if (is_array( $areas )) {
+	if (is_array( $areas )) 
+	{
 		if (!array_intersect( $areas, array_keys( plgSearchProfilesAreas() ) )) {
 			return array();
 		}
@@ -43,7 +44,8 @@ function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 		return array();
 	}
 
-	switch ( $ordering ) {
+	switch ( $ordering ) 
+	{
 		case 'alpha':
 			$order = 'name ASC';
 			break;
@@ -62,9 +64,9 @@ function plgSearchProfiles( $text, $phrase='', $ordering='', $areas=null )
 
 	//$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 	$list = KFactory::get('admin::com.beer.model.people')
-		->setState('search', $text)
-		->setState('enabled', 1)
-		//->setState('order', $order) //TODO
+		->set('search', $text)
+		->set('enabled', 1)
+		//->set('order', $order) //TODO
 		->getList();
 
 	// Bit hackish. Don't blame me, com_search is a piece of M**bo crap

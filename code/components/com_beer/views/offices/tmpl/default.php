@@ -16,8 +16,8 @@
 		<tfoot>
 			<tr>
 				<td align="center" colspan="6" class="sectiontablefooter">
-					<?= @helper('pagination.limit', @$state->limit) ?>
-					<?= @helper('pagination.pages', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.limit', @$state->limit) ?>
+					<?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>

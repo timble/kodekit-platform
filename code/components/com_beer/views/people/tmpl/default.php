@@ -4,9 +4,7 @@
 <? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
 
 <div class="joomla ">
-	<form action="<?= @route()?>" method="post" name="adminForm">
-	<input type="hidden" name="filter_order" value="<?= @$state->order; ?>" />
-	<input type="hidden" name="filter_direction" value="<?= @$state->direction; ?>" />
+	<form action="<?= @route()?>" method="get" name="adminForm">
 	<div class="people_filters">
 		<h3><?=@text('People');?></h3>
 		<p></p>
@@ -16,13 +14,14 @@
 		<?=@helper('admin::com.beer.helper.select.offices', @$state->beer_office_id) ?>
 		<input type="submit" value="<?=@text('Go')?>" />
 	</div>
-
+	</form>
+	<form action="<?= @route()?>" method="post" name="adminForm">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tfoot>
 			<tr>
 				<td align="center" colspan="6" class="sectiontablefooter">
-					<?= @helper('pagination.limit', @$state->limit) ?>
-					<?= @helper('pagination.pages', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.limit', @$state->limit) ?>
+					<?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -35,16 +34,17 @@
 					<?= @helper('grid.sort', 'Name', 'name', @$state->direction, @$state->order); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Position', 'Position', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', 'Position', 'position', @$state->direction, @$state->order); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Office', 'Office', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', 'Office', 'office', @$state->direction, @$state->order); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Department', 'Department', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', 'Department', 'department', @$state->direction, @$state->order); ?>
 				</td>
 			</tr>
-			<?php echo $this->loadTemplate('items'); ?>
+			
+			<?= $this->loadTemplate('items'); ?>
 		</tbody>
 	</table>
 	</form>

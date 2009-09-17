@@ -1,6 +1,7 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
+ * 
  * @version		$Id$
  * @package		Beer
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -25,8 +26,8 @@ abstract class BeerControllerAbstract extends KControllerForm
 		parent::__construct($options);
 
 		$this->registerFilterBefore('save'   , 'filterInput');
-		$this->registerFilterBefore('apply'   , 'filterInput');
-		$this->registerFilterBefore('add'   , 'filterCreated');
+		$this->registerFilterBefore('apply'  , 'filterInput');
+		$this->registerFilterBefore('add'    , 'filterCreated');
 	}
 
 	/**

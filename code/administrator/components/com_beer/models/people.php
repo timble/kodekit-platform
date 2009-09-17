@@ -1,6 +1,7 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
+ * 
  * @version		$Id$
  * @package		Beer
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -18,14 +19,14 @@ class BeerModelPeople extends KModelTable
 		
 		// Set the state
 		$this->_state
-		 ->insert('beer_department_id'       , 'int')
+		 ->insert('beer_department_id'   , 'int')
 		 ->insert('beer_office_id'       , 'int');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$state = $this->_state;
-
+		
 		if($state->enabled) {
 			$query->where('tbl.enabled','=', $state->enabled);
 		}
@@ -45,8 +46,5 @@ class BeerModelPeople extends KModelTable
 				  ->where('tbl.lastname', 'LIKE', $search, 'or')
 				  ->where('tbl.bio', 'LIKE', $search, 'or');
 		}
-
 	}
-
-
 }

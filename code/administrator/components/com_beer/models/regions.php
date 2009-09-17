@@ -1,6 +1,7 @@
 <?php
 /**
  * Business Enterprise Employee Repository (B.E.E.R)
+ * 
  * @version		$Id$
  * @package		Beer
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -10,7 +11,7 @@
 
 /**
  * Regions Model represents countries, as well as states for some countries.
- * $model->setState('region', 'countries|us|au|...')->getList()
+ * $model->set('region', 'countries|us|au|...')->getList()
  */
 class BeerModelRegions extends KModelAbstract
 {
