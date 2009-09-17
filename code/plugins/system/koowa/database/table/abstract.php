@@ -99,8 +99,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		// Set a primary key
 		$this->_primary	= $options['primary'];
 
-		//set the dbo
+		// Set the dbo
 		$this->_db = isset($options['database']) ? $options['database'] : KFactory::get('lib.koowa.database');
+		
+		// Set the table fields
+		$this->_fields = $this->getFields();
 	}
 
     /**
@@ -199,13 +202,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Gets the fields for the table
 	 *
-	 * @return string
+	 * @return  array
+	 * @throws 	KDatabaseTableException
 	 */
 	public function getFields()
 	{
 		if(!isset($this->_fields))
 		{
-			$fields = $this->_db->fetchTableFields($this->getTableName());
+			try {
+				$fields = $this->_db->fetchTableFields($this->getTableName());
+			} catch(KDatabaseException $e) {
+				throw new KDatabaseTableException($e->getMessage());
+			}
+			
         	$fields = $fields[$this->getTableName()];
 
         	foreach ($fields as $field)
@@ -227,6 +236,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 
     /**
      * Get default values for all fields
+     * 
+     * @return  array
      */
     public function getDefaults()
     {
