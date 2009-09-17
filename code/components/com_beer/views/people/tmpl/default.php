@@ -5,6 +5,8 @@
 
 <div class="joomla ">
 	<form action="<?= @route()?>" method="get" name="adminForm">
+	<input type="hidden" name="option" value="com_beer" />
+	<input type="hidden" name="view" value="people" />
 	<div class="people_filters">
 		<h3><?=@text('People');?></h3>
 		<p></p>
