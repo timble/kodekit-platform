@@ -10,6 +10,7 @@
 
 /**
  * Table Model Class
+ * 
  * Provides interaction with a database table
  *
  * @author		Johan Janssens <johan@koowa.org>
@@ -46,10 +47,10 @@ class KModelTable extends KModelAbstract
 		
 		// Set the database adapter
 		$this->_db = $options['adapter'];
-
+		
 		// Set the table associated to the model
 		$this->_table = $options['table'];
-		
+				
 		// Set the state
 		$this->_state
 			->insert('id'       , 'int')
@@ -110,12 +111,17 @@ class KModelTable extends KModelAbstract
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param	array	Options array for view. Optional.
-	 * @return	object	The table object
+	 * @return	object	The table object or NULL if an table object could not be created
 	 */
 	public function getTable(array $options = array())
 	{
-		if(!is_object($this->_table)) {
-			$this->_table = KFactory::get($this->_table, $options);
+		if(!($this->_table instanceof KDatabaseTableAbstract || is_null($this->_table))) 
+		{
+			try	{
+				$this->_table = KFactory::get($this->_table, $options);
+			} catch ( KDatabaseTableException $e ) { 
+				$this->_table = null;
+			}
 		}
 
 		return $this->_table;
@@ -143,9 +149,12 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_item))
         {
-            $table = $this->getTable();
-        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
-        	$this->_item = $table->fetchRow($query);
+        	if($table = $this->getTable()) 
+        	{
+         		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
+        		$this->_item = $table->fetchRow($query);
+        	} 
+        	else $this->_item = null;
         }
 
         return parent::getItem();
@@ -161,9 +170,12 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_list))
         {
-        	$table = $this->getTable();
-        	$query = $this->_buildQuery();
-        	$this->_list = $table->fetchRowset($query);
+        	if($table = $this->getTable()) 
+        	{
+        		$query = $this->_buildQuery();
+        		$this->_list = $table->fetchRowset($query);
+        	}
+        	else $this->_list = array(); 
         }
 
         return parent::getList();
@@ -179,9 +191,12 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
-            $table = $this->getTable();
-        	$query = $this->_buildCountQuery();
-			$this->_total = $table->count($query);
+            if($table = $this->getTable())
+            {
+        		$query = $this->_buildCountQuery();
+				$this->_total = $table->count($query);
+            } 
+            else $this->_total = 0; 
         }
 
         return parent::getTotal();
@@ -204,7 +219,7 @@ class KModelTable extends KModelAbstract
         $this->_buildQueryWhere($query);
         $this->_buildQueryOrder($query);
         $this->_buildQueryLimit($query);
-
+  
 		return $query;
     }
 
@@ -235,7 +250,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryFrom(KDatabaseQuery $query)
     {
-    	$name = $this->getTable()->getTableName();
+      	$name = $this->getTable()->getTableName();
     	$query->from($name.' AS tbl');
     }
 
