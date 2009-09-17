@@ -15,6 +15,16 @@
 		<input type="submit" value="<?=@text('Go')?>" />
 	</div>
 	</form>
+	<br>
+	<p>
+	<?=@text('View as');?> 
+	<strong>
+				<?=@text('List');?>
+			</strong>
+	<a href="<?=@route('view=people&layout=grid') ?>" />
+				<?=@text('Grid');?>
+			</a>
+			</p>
 	<form action="<?= @route()?>" method="post" name="adminForm">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tfoot>
