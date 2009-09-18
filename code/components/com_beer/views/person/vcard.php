@@ -11,20 +11,19 @@ class BeerViewPerson extends KViewVcard
 {
 	public function display($tpl = null)
 	{
-		$doc 		= KFactory::get('lib.joomla.document');
-		$filter		= KFactory::tmp('lib.koowa.filter.filename');
-		$person 	= KFactory::get('site::com.beer.model.people')->getItem();
+		$person = KFactory::get('site::com.beer.model.people')->getItem();
 
-		$doc->setAddress($person->address);
-		$doc->setEmail($person->email);
-		$doc->setFilename($filter->sanitize($person->name));
-		$doc->setFormattedName($person->name);
-		//$doc->setNote($profile->information);
-		$doc->setOrg($person->department);
-		//$doc->setPhoneNumber($person->phone, 'PREF');
-		$doc->setPhoneNumber($person->mobile, 'CELL');
-		//$doc->setUrl($person->website, 'WORK');
-		$doc->setTitle($person->title);
-
+		$this->setName($person->lastname, $person->firstname, $person->middlename)
+			 ->setOrg($person->department)
+			 ->setTitle($person->position)
+			 ->setPhoneNumber($person->phone , 'PREF;WORK;VOICE')
+			 ->setPhoneNumber($person->mobile, 'WORK;VOICE;CELL')
+			 //->setAddress($person->address   , 'WORK;POSTAL')
+			 //->setLabel($person->address     , 'WORK;POSTAL')
+			 ->setEmail($person->email)
+			 //->setUrl($person->website		   , 'WORK')
+			 ->setNote($person->bio);
+			
+		parent::display();
 	}
 }
