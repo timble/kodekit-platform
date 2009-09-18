@@ -625,7 +625,9 @@ abstract class KDatabaseAdapterAbstract extends KObject
         }
         else
         {
-        	$value = $this->_quoteString($value);
+        	if(!is_numeric($value) && !is_null($value)) {
+        		$value = $this->_quoteString($value);
+        	}
         }
 
         return $value;
