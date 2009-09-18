@@ -10,5 +10,8 @@
  */
 
 defined('KOOWA') or die('Restricted access');
-Koowa::import('admin::com.beer.models.groups');
-class BeerModelDepartments extends BeerModelGroups{}
+
+class BeerModelDepartments extends BeerModelGroups
+{
+	
+}

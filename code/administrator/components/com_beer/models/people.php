@@ -9,18 +9,16 @@
  * @link     	http://www.nooku.org
  */
 
-class BeerModelPeople extends KModelTable
+class BeerModelPeople extends BeerModelView
 {
-
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
-		$this->setTable('admin::com.beer.table.viewpeople');
 		
 		// Set the state
 		$this->_state
-		 ->insert('beer_department_id'   , 'int')
-		 ->insert('beer_office_id'       , 'int');
+		 	->insert('beer_department_id'   , 'int')
+		 	->insert('beer_office_id'       , 'int');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)

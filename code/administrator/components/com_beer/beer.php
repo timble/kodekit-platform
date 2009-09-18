@@ -15,8 +15,6 @@ if(!defined('KOOWA')) {
     return;
 }
 
-KInflector::addWord('people', 'people');
-
 // Create the controller dispatcher
 KFactory::get('admin::com.beer.dispatcher', array('default_view' => 'offices'))
 	->dispatch();

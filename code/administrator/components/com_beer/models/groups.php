@@ -13,15 +13,30 @@
  * Because Offices and departments work basically in the same way, we have an
  * abstract model to represent them both
  */
-abstract class BeerModelGroups extends KModelTable
+abstract class BeerModelGroups extends BeerModelView
 {
-	public function __construct(array $options = array())
+    /**
+	 * All the items
+	 *
+	 * @var array
+	 */
+	protected $_all;
+	
+	public function getAll()
 	{
-		parent::__construct($options);
-		$this->setTable('admin::com.beer.table.view'.$this->getIdentifier()->name);
+        // Get the data if it doesn't already exist
+        if (!isset($this->_all))
+        {
+        	if($table = $this->getView())
+            {
+        		$query = $this->_db->getQuery()->select(array('*'));
+        		$this->_all = $table->fetchRowset($query);
+            }	
+        }
 
+        return $this->_all;
 	}
-
+	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$state = $this->_state;
@@ -34,18 +49,4 @@ abstract class BeerModelGroups extends KModelTable
 			$query->where('tbl.enabled','=', $state->enabled);
 		}
 	}
-
-	public function getAll()
-	{
-        // Get the data if it doesn't already exist
-        if (!isset($this->_all))
-        {
-        	$query = $this->_db->getQuery()
-        		->select(array('*'));
-        	$this->_all = $this->getTable()->fetchRowset($query);
-        }
-
-        return $this->_all;
-	}
-
 }
