@@ -14,7 +14,6 @@
 	<files folder="components/com_beer">
 		<file>beer.php</file>
 		<file>router.php</file>
-		<folder>controllers</folder>
 		<folder>views</folder>
 	</files>
 	
@@ -30,7 +29,6 @@
 			<folder>install</folder>
 			<folder>mixins</folder>
 			<folder>models</folder>
-			<folder>tables</folder>
 			<folder>views</folder>
 			<folder>search</folder>
 		</files>
