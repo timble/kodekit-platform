@@ -18,6 +18,8 @@
  * @package     Koowa_View
  * @see 		http://www.imc.org/pdi/
  * @see 		http://en.wikipedia.org/wiki/VCard
+ * @uses		KFilter
+ * @uses		KFactory
  */
 class KViewVcard extends KViewFile
 {
@@ -60,7 +62,7 @@ class KViewVcard extends KViewFile
 		$data	.= "\r\n";
 		
 		echo $data;
-		
+			
 		parent::display();
 	}
 	
@@ -89,7 +91,7 @@ class KViewVcard extends KViewFile
 	 */
 	public function setFormattedName($name) 
 	{
-		$this->_properties['FN'] = $this->quoted_printable_encode($name);
+		$this->_properties['FN'] = $this->_quoted_printable_encode($name);
 		return $this;
 	}
 	
@@ -161,13 +163,13 @@ class KViewVcard extends KViewFile
 	 */
 	public function setAddress( $postoffice = '', $extended = '', $street = '', $city = '', $region = '', $zip = '', $country = '', $type = 'WORK;POSTAL' ) 
 	{
-		$data = $this->encode( $postoffice );
-		$data .= ';' . $this->encode( $extended );
-		$data .= ';' . $this->encode( $street );
-		$data .= ';' . $this->encode( $city );
-		$data .= ';' . $this->encode( $region);
-		$data .= ';' . $this->encode( $zip );
-		$data .= ';' . $this->encode( $country );
+		$data = $this->_encode( $postoffice );
+		$data .= ';' . $this->_encode( $extended );
+		$data .= ';' . $this->_encode( $street );
+		$data .= ';' . $this->_encode( $city );
+		$data .= ';' . $this->_encode( $region);
+		$data .= ';' . $this->_encode( $zip );
+		$data .= ';' . $this->_encode( $country );
 
 		$this->_properties['ADR;'.$type] = $data;
 		return $this;
@@ -223,7 +225,7 @@ class KViewVcard extends KViewFile
 			$label.= "\r\n";
 		}
 
-		$this->_properties["LABEL;$type;ENCODING=QUOTED-PRINTABLE"] = $this->quoted_printable_encode($label);
+		$this->_properties["LABEL;$type;ENCODING=QUOTED-PRINTABLE"] = $this->_quoted_printable_encode($label);
 		return $this;
 	}
 	
@@ -286,7 +288,7 @@ class KViewVcard extends KViewFile
 	 */
 	public function setNote($note) 
 	{
-		$this->_properties['NOTE;ENCODING=QUOTED-PRINTABLE'] = $this->quoted_printable_encode($note);
+		$this->_properties['NOTE;ENCODING=QUOTED-PRINTABLE'] = $this->_quoted_printable_encode($note);
 		return $this;
 	}
 
@@ -296,9 +298,9 @@ class KViewVcard extends KViewFile
 	 * @param 	string	String to encode
 	 * @return 	string	Encoded string
 	 */
-	public function encode($string) 
+	protected function _encode($string) 
 	{
-		return $this->escape($this->quoted_printable_encode($string));
+		return $this->escape($this->_quoted_printable_encode($string));
 	}
 
 	/**
@@ -307,7 +309,7 @@ class KViewVcard extends KViewFile
 	 * @param 	string	String to escape
 	 * @return 	string	Escaped string
 	 */
-	public function escape($string) 
+	protected function _escape($string) 
 	{
 		return str_replace(';',"\;",$string);
 	}
@@ -319,7 +321,7 @@ class KViewVcard extends KViewFile
 	 * @param 	int		Max line length
 	 * @return 	string
 	 */
-	public function quoted_printable_encode($input, $line_max = 76) 
+	protected function _quoted_printable_encode($input, $line_max = 76) 
 	{
 		$hex 		= array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
 		$lines 		= preg_split("/(?:\r\n|\r|\n)/", $input);
@@ -328,7 +330,7 @@ class KViewVcard extends KViewFile
 		$escape 	= '=';
 		$output 	= '';
 
-		for ($j=0;$j<count($lines);$j++) 
+		for ($j = 0; $j < count($lines); $j++) 
 		{
 			$line 		= $lines[$j];
 			$linlen 	= strlen($line);
@@ -341,17 +343,21 @@ class KViewVcard extends KViewFile
 
 				if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
 					$c = '=20';
-				} elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
+				} 
+				elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
 					$h2 = floor($dec/16);
 					$h1 = floor($dec%16);
 					$c 	= $escape.$hex["$h2"] . $hex["$h1"];
 				}
+				
 				if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
 					$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
 					$newline = "    ";
 				}
+				
 				$newline .= $c;
-			} // end of for
+			}
+			
 			$output .= $newline;
 			if ($j<count($lines)-1) {
 				$output .= $linebreak;
