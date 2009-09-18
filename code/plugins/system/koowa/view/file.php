@@ -15,7 +15,7 @@
  * public function display()
  * {
  * 		$this->assign('filename', 'foobar.pdf');
- * 		$this->assign('path', 'path/to/file');
+ * 		$this->assign('filepath', 'path/to/file');
  *
  * 		// optional:
  * 		$this->assign('mimetype', 'application/pdf');
@@ -47,26 +47,30 @@ class KViewFile extends KViewAbstract
 		} else {
 			header('Content-type: application/force-download');
 		}
+		
 		if($this->filename) {
 			header('Content-Disposition: attachment; filename="'.$this->filename.'"');
 		}
+		
 		header('Content-Transfer-Encoding: binary');
 		header('Accept-Ranges: bytes');
 
-		// prevent caching
+		//Prevent caching
 		header("Cache-control: private");
 		header('Pragma: private');
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
-		// Filesize
-		$filesize = filesize($this->path);
-		header('Content-Length: '.$filesize);
-
-		// @TODO split in chunks,  support multipart
-
 		// Output
-		if($this->path) {
-			readfile($this->path);
+		if(isset($this->filepath)) 
+		{
+			// Filesize
+			$filesize = filesize($this->filepath);
+			header('Content-Length: '.$filesize);
+
+			// @TODO split in chunks,  support multipart
+			readfile($this->filepath);
 		}
+		
+		return $this;
 	}
 }
