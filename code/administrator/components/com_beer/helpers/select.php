@@ -70,4 +70,20 @@ class BeerHelperSelect extends KObject
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'beer_department_id', 'title', $selected, $idtag );
  	}
+
+    public function users($selected, $name, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+    {
+       $items = KFactory::get('admin::com.beer.model.users')->getUsers();
+
+		// Add first option to list
+        $list = array();
+        if($allowAny) {
+            $list[] = KTemplate::loadHelper('select.option', '', JText::_( 'Select User' ), 'id', 'name' );
+        }
+
+        $list = array_merge( $list, $items );
+
+        // build the HTML list
+        return KTemplate::loadHelper('select.genericlist',  $list, $name, $attribs, 'id', 'name', $selected, $idtag );
+    }	
 }
