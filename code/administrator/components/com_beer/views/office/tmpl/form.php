@@ -1,10 +1,14 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
+<script>var coordinate_lat = <?=@helper('admin::com.beer.helper.geocoding.coordinates', 'latitude', @$office) ?>;</script>
+<script>var coordinate_lng = <?=@helper('admin::com.beer.helper.geocoding.coordinates', 'longitude', @$office) ?>;</script>
+
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
 <? @script(@$mediaurl.'/com_beer/js/admin.office.js'); ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
+<? @script("http://maps.google.com/maps/api/js?sensor=false"); ?>
 
 <? $editor = KFactory::get('lib.joomla.editor', array('tinymce')); ?>
 
@@ -48,6 +52,10 @@
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>
 			<?= $editor->display( 'description',  @$office->description , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
+		</fieldset>
+		<fieldset>
+			<legend><?= @text('Map'); ?></legend>
+			<div id="map_canvas" style="width: 100%; height: 300px"></div>
 		</fieldset>
 	</div>
 	<input type="hidden" name="id" value="<?= @$office->id ?>" />
