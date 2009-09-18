@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `beer_person_id` SERIAL,
   `beer_department_id` bigint(20) UNSIGNED NOT NULL,
   `beer_office_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL COMMENT 'Joomla user id',
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
