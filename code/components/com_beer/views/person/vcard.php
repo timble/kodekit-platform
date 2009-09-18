@@ -18,11 +18,12 @@ class BeerViewPerson extends KViewVcard
 			 ->setTitle($person->position)
 			 ->setPhoneNumber($person->phone , 'PREF;WORK;VOICE')
 			 ->setPhoneNumber($person->mobile, 'WORK;VOICE;CELL')
-			 //->setAddress($person->address   , 'WORK;POSTAL')
-			 //->setLabel($person->address     , 'WORK;POSTAL')
+			 ->setAddress('', $person->address1, $person->address2, $person->city, $person->state, $person->postcode, $person->country   , 'WORK;POSTAL')
+			 ->setLabel('', $person->address1, $person->address2, $person->city, $person->state, $person->postcode, $person->country   , 'WORK;POSTAL')
 			 ->setEmail($person->email)
-			 //->setUrl($person->website		   , 'WORK')
 			 ->setNote($person->bio);
+			  //->setUrl($person->website       , 'WORK')
+			  //->setPhoto($person->website       , 'WORK')
 			
 		parent::display();
 	}
