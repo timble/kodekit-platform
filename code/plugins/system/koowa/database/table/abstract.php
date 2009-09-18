@@ -85,17 +85,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         $options  = $this->_initialize($options);
         
 		// Set the tablename
-		if (isset($options['table_name'])) {
-			$this->_table_name	= $options['table_name'];
-		}
-		else
-		{
-            $package = $this->_identifier->package;
-            $name    = $this->_identifier->name;
-
-			$this->_table_name = empty($package) ? $name : $package.'_'.$name;
-		}
-
+		$this->_table_name	= $options['table_name'];
+		
 		// Set a primary key
 		$this->_primary	= $options['primary'];
 
@@ -116,10 +107,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
      */
     protected function _initialize(array $options)
     {
-        $defaults = array(
+        $package = $this->_identifier->package;
+        $name    = $this->_identifier->name;
+        
+    	$defaults = array(
             'db'       		=> null,
-            'primary'       => null,
-            'table_name'    => null,
+            'primary'       => empty($package) ? $name.'_id' : $package.'_'.KInflector::singularize($name).'_id',
+            'table_name'    => empty($package) ? $name : $package.'_'.$name,
         	'identifier'	=> null
         );
 
