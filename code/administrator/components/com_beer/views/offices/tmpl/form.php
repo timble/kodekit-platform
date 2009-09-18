@@ -63,7 +63,7 @@
 				</td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($office->title); ?>">
-						<a href="<?= @route('view=office&layout=form&id='.$office->id); ?>">
+						<a href="<?= @route('view=office&id='.$office->id); ?>">
 							<?= @$escape($office->title); ?>
 						</a>
 					</span>
