@@ -22,3 +22,7 @@
 </p>
 
 <?= $this->loadTemplate('items'); ?>
+
+
+<?= @helper('paginator.limit', @$state->limit) ?>
+<?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
