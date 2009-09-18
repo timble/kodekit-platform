@@ -1,6 +1,6 @@
 
 
-CREATE TABLE IF NOT EXISTS `jos_beer_departments` (
+CREATE TABLE IF NOT EXISTS `#__beer_departments` (
   `beer_department_id` SERIAL,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `jos_beer_departments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `jos_beer_offices` (
+CREATE TABLE IF NOT EXISTS `#__beer_offices` (
   `beer_office_id` SERIAL,
   `title` varchar(250) NOT NULL,
   `alias` varchar(255) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `jos_beer_offices` (
 
 
 
-CREATE TABLE IF NOT EXISTS `jos_beer_people` (
+CREATE TABLE IF NOT EXISTS `#__beer_people` (
   `beer_person_id` SERIAL,
   `beer_department_id` bigint(20) UNSIGNED NOT NULL,
   `beer_office_id` bigint(20) UNSIGNED NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `jos_beer_people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE OR REPLACE VIEW jos_beer_viewpeople AS 
+CREATE OR REPLACE VIEW #__beer_viewpeople AS 
 SELECT p.*, 
 	CONCAT_WS(' ', p.`firstname`, p.`middlename`, p.`lastname`) AS name,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
@@ -72,36 +72,36 @@ SELECT p.*,
 	CONCAT(p.beer_person_id, ':', p.alias) AS slug,
 	CONCAT(d.beer_department_id, ':', d.alias) AS department_slug,
 	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug
-FROM jos_beer_people AS p
-LEFT JOIN jos_beer_departments AS d ON d.beer_department_id = p.beer_department_id
-LEFT JOIN jos_beer_offices AS o ON o.beer_office_id = p.beer_office_id;
+FROM #__beer_people AS p
+LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
+LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id;
 
 
-CREATE OR REPLACE VIEW jos_beer_viewdepartments AS 
+CREATE OR REPLACE VIEW #__beer_viewdepartments AS 
 SELECT d.*, 
 	COUNT( DISTINCT p.beer_person_id ) AS people,
 	CONCAT(d.beer_department_id, ':', d.alias) AS slug
-FROM jos_beer_departments AS d
-LEFT JOIN jos_beer_people AS p ON p.beer_department_id = d.beer_department_id AND p.enabled > 0
+FROM #__beer_departments AS d
+LEFT JOIN #__beer_people AS p ON p.beer_department_id = d.beer_department_id AND p.enabled > 0
 GROUP BY d.beer_department_id;
 
 
-CREATE OR REPLACE VIEW jos_beer_viewoffices AS 
+CREATE OR REPLACE VIEW #__beer_viewoffices AS 
 SELECT o.*, 
 	COUNT( DISTINCT p.beer_person_id ) AS people,
 	CONCAT_WS('\n', address1, address2, CONCAT_WS(' ', city, state, postcode), country) AS address,
 	CONCAT(o.beer_office_id, ':', o.alias) AS slug
-FROM jos_beer_offices AS o
-LEFT JOIN jos_beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
+FROM #__beer_offices AS o
+LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
 GROUP BY o.beer_office_id;
 
 -- --------------------------------------------------------
 
 --
--- Dumping data for table `jos_beer_departments`
+-- Dumping data for table `#__beer_departments`
 --
 
-INSERT INTO `jos_beer_departments` (`beer_department_id`, `title`, `alias`, `description`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
+INSERT INTO `#__beer_departments` (`beer_department_id`, `title`, `alias`, `description`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
 (1, 'Marketing', 'marketing', 'The world-class marketing team at Showdown is focused on leading-edge hardware and software that define the solutions that customers want, prompting the competition to emulate us. As the only company that designs the hardware, the software, and the operating system, we stand alone in our ability to innovate beyond the status quo. Part of what drives this innovation is our challenging and creative environment and the fierce dedication and talent of our team. In marketing, you have the unique opportunity to work on revolutionary products from concept to launch with the best creative minds in the industry.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (2, 'Sales', 'sales', 'Showdown is committed to delivering the finest and most innovative computing solutions to students, educators, consumers, businesses, and creative professionals around the world. On the Sales team, our primary focus is to drive revenue for hardware, software, and professional services. One of the benefits of selling Showdown products is that they are completely integrated platforms. We focus on selling the value inherent in the complete product, rather than just individual boxes, and giving our customers a solution that address their needs. Our high-performance sales teams constantly strive to increase customer satisfaction and grow our market share.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 'Finance', 'finance', 'The Finance department is an integral part of Showdown\\''s success, supporting the growth and change of all functional areas of the company with flexibility and integrity. Having a team of talented thinkers who can balance a detail-oriented and quantifiable function within a dynamic, forward-thinking organization enables Showdown to create products that defy the status quo. The Finance department at Showdown offers opportunities for career development and growth as varied and engaging as the products we build.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
@@ -112,10 +112,10 @@ INSERT INTO `jos_beer_departments` (`beer_department_id`, `title`, `alias`, `des
 -- --------------------------------------------------------
 
 --
--- Dumping data for table `jos_beer_people`
+-- Dumping data for table `#__beer_people`
 --
 
-INSERT INTO `jos_beer_people` (`beer_person_id`, `beer_department_id`, `beer_office_id`, `firstname`, `middlename`, `lastname`, `alias`, `position`, `birthday`, `gender`, `mobile`, `email`, `bio`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
+INSERT INTO `#__beer_people` (`beer_person_id`, `beer_department_id`, `beer_office_id`, `firstname`, `middlename`, `lastname`, `alias`, `position`, `birthday`, `gender`, `mobile`, `email`, `bio`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
 (2, 1, 1, 'Eberhardt', '', 'Terkki', 'eberhardt_terkki', 'Employee', '1964-06-02', 1, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 1, 2, 'Bamford', '', 'Parto', 'bamford_parto', 'Employee', '1959-11-30', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:13', 62, '1970-01-01 01:00:00', 0, 1),
 (4, 1, 3, 'Chirstian', '', 'Koblick', 'chirstian_koblick', 'Employee', '1954-05-01', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:18', 62, '1970-01-01 01:00:00', 0, 1),
@@ -171,10 +171,10 @@ INSERT INTO `jos_beer_people` (`beer_person_id`, `beer_department_id`, `beer_off
 -- --------------------------------------------------------
 
 --
--- Dumping data for table `jos_beer_offices`
+-- Dumping data for table `#__beer_offices`
 --
 
-INSERT INTO `jos_beer_offices` (`beer_office_id`, `title`, `alias`, `description`, `address1`, `address2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`, `coordinates`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
+INSERT INTO `#__beer_offices` (`beer_office_id`, `title`, `alias`, `description`, `address1`, `address2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`, `coordinates`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
 (1, 'Unites States', 'belgium', '', '1 Infinite Loop', '', 'Cupertino', 'CA', '95014', 'US', '147258369', '13456789', '50.9873946,5.0474845', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (2, 'Belgium', 'belgium', '', 'Grote Markt 1', '', 'Brussel', '', '1000', 'BE', '1592648', '2615948', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 'Netherlands', 'netherlands', '', 'Klavermarkt 1', '', 'Den Haag', '', '', 'NL', '147258369', '147258369', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
