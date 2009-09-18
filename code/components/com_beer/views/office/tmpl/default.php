@@ -1,7 +1,14 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
-<? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 <? @helper('behavior.mootools'); ?>
+
+<script>var coordinate_lat = <?=@helper('admin::com.beer.helper.geocoding.coordinates', 'latitude', @$office) ?>;</script>
+<script>var coordinate_lng = <?=@helper('admin::com.beer.helper.geocoding.coordinates', 'longitude', @$office) ?>;</script>
+
+<? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
+<? @script(@$mediaurl.'/com_beer/js/site.office.js'); ?>
+<? @script("http://maps.google.com/maps/api/js?sensor=false"); ?>
+
 
 <h1 class="componentheading"><?= @$office->title; ?></h1>
 <div id="beer_info">
@@ -19,6 +26,4 @@
 	<?= @$office->description; ?>
 </div>
 
-
-
-
+<div id="map_canvas" style="width: 100%; height: 300px"></div>
