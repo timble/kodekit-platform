@@ -245,7 +245,7 @@ class KDatabaseQuery extends KObject
 	 * @param	string			The where condition, defaults to 'AND'
 	 * @return 	this
 	 */
-	public function where( $property, $constraint, $value, $condition = 'AND' )
+	public function where( $property, $constraint, $value = null, $condition = 'AND' )
 	{
 		if(empty($property)) {
 			return $this;
@@ -263,7 +263,7 @@ class KDatabaseQuery extends KObject
        	//Create the where clause
         if(in_array($constraint, array('IN', 'NOT IN'))) {
         	$value = ' ( '.$value. ' ) ';
-        }
+        } 
 		
 		$where = $property.' '.$constraint.' '.$value;
         

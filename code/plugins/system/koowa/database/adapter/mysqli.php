@@ -322,7 +322,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function _quoteString($value)
     {
-        if(!is_numeric($value)) {
+        if(!is_numeric($value) && !is_null($value)) {
         	$value =  '\''.mysqli_real_escape_string( $this->_connection, $value ).'\'';
         }
         	
