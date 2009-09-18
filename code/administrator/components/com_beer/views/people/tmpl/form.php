@@ -1,4 +1,4 @@
-<? /** $Id$ */ ?>
+<? /** $Id: form.php 166 2009-09-15 13:01:09Z tom $ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>
@@ -24,6 +24,7 @@
 			</td>
 		</tr>
 	</table>
+</form>
 
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="id" value="" />
