@@ -37,7 +37,7 @@ class KViewVcard extends KViewFile
 	{
 		//Set the filename
 		$filename = KFactory::tmp('lib.koowa.filter.filename')->sanitize($this->_properties['FN']);
-		$this->assign('filename', $filename.'.vcf');
+		$this->assign('filename', $filename.'.vcard');
 		
 		//Set the mimetype
 		$this->assign('mimetype', 'text/x-vcard');
