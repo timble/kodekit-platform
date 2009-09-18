@@ -9,6 +9,8 @@
  * @link     	http://www.nooku.org
  */
 
+koowa::import('admin::com.beer.models.view');
+
 class BeerModelPeople extends BeerModelView
 {
 	public function __construct(array $options = array())

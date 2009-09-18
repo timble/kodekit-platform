@@ -9,6 +9,8 @@
  * @link     	http://www.nooku.org
  */
 
+koowa::import('admin::com.beer.models.groups');
+
 class BeerModelOffices extends BeerModelGroups
 {
 	

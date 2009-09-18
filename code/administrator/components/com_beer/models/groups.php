@@ -9,6 +9,8 @@
  * @link     	http://www.nooku.org
  */
 
+koowa::import('admin::com.beer.models.view');
+
 /**
  * Because Offices and departments work basically in the same way, we have an
  * abstract model to represent them both

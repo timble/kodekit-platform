@@ -1,3 +1,4 @@
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <div id="beer_grid">
