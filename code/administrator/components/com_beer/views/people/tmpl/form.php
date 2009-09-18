@@ -1,4 +1,4 @@
-<? /** $Id: form.php 166 2009-09-15 13:01:09Z tom $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>
@@ -69,16 +69,24 @@
 				</td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->name); ?>">
-						<a href="<?= @route('view=person&layout=form&id='.$person->id)?>">
+						<a href="<?= @route('view=person&id='.$person->id)?>">
 							<?= @$escape($person->name)?>
 						</a>
 					</span>
 				</td>
 				<td align="center">
-					<?= $person->department?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Department' );?>::<?= @$escape($person->department); ?>">
+						<a href="<?= @route('view=department&id='.$person->beer_department_id)?>">
+							<?= @$escape($person->department)?>
+						</a>
+					</span>
 				</td>
 				<td align="center">
-					<?= $person->office?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Office' );?>::<?= @$escape($person->office); ?>">
+						<a href="<?= @route('view=office&id='.$person->beer_office_id)?>">
+							<?= @$escape($person->office)?>
+						</a>
+					</span>
 				</td>
 				<td align="center" width="15px">
 					<?= @helper('grid.enable', $person->enabled, $i)?>
