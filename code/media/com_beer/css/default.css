@@ -198,6 +198,13 @@
 	margin-left: 10px;
 }
 
+.edituser {
+	background-image: url(../images/icons/user_edit.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
 /* @end */
 
 /* @group Map */

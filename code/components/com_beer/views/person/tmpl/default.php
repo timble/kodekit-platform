@@ -17,6 +17,9 @@
 		<span class="bday"><?= JHTML::date(@$person->birthday)?></span>
 		<span class="gender_<?= @$person->gender?>"><?= @$person->gender == "1" ? @text('Male') : @text('Female'); ?></span>
 		<span class="getvcard"><a href="<?=@route('view=person&format=vcard&id='.@$person->slug) ?>" /><?= @text('VCard'); ?></a></span>
+		<? if(@$user->id == @$person->user_id) : ?>
+			<span class="edituser"><a href="<?=@route('view=person&layout=form&id='.@$person->slug) ?>" alt="<?= @text('Edit Profile'); ?>"/><?= @text('Edit Profile'); ?></a></span>
+		<? endif ; ?>
 	</div>
 	<div id="beer_desc">
 		<h2><?= @text('Bio'); ?></h2>
