@@ -69,11 +69,15 @@
 }
 
 #beer_grid img {
-	border: #ababab solid 1px;
+	padding:9px;
+	background: #fff;
 }
 
-#beer_grid a:grid img {
-	border-color: #FFF;
+#beer_grid a img {
+	border: #ababab solid 1px;
+}
+#beer_grid a:hover img {
+	background: #fff;
 }
 
 #beer_grid .grid:after {
