@@ -33,8 +33,8 @@ class KFilterInternalurl extends KFilterAbstract
 		if(!is_string($value)) {
 			return false;
 		}
-		
-		if(stripos($value, print(KRequest::base())) === false) {
+			
+		if(stripos($value, (string) KRequest::base()) === false) {
 			return false;
 		}
 		
