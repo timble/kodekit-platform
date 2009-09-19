@@ -22,8 +22,10 @@ class KControllerBread extends KControllerAbstract
 		parent::__construct($options);
 		
 		// Register filter functions
-		$this->registerFilterBefore(array('browse' , 'read') , 'filterloadState')
-			 ->registerFilterAfter(array('browse')           , 'filterSaveState');
+		$this->registerFilterBefore('browse' , 'filterloadState')
+		     ->registerFilterBefore('read'   , 'filterloadState');
+		     
+		$this->registerFilterAfter('browse'  , 'filterSaveState');
 	}
 	
 	/**
