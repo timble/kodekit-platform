@@ -1,3 +1,5 @@
+/* @override http://localhost/joomla/media/com_beer/css/default.css */
+
 #beer_header {
 	width: 100%;
 	padding-top: 5px;
@@ -37,83 +39,8 @@
 	clear: both;
 }
 
-.phone {
-	background-image: url(../images/icons/phone.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
+/* @group Grid */
 
-.fax {
-	background-image: url(../images/icons/fax.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.people {
-	background-image: url(../images/icons/people.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.mobile {
-	background-image: url(../images/icons/mobile.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.email {
-	background-image: url(../images/icons/email.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.gender_2 {
-	background-image: url(../images/icons/female.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.gender_1 {
-	background-image: url(../images/icons/male.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.vcard {
-	background-image: url(../images/icons/vcard.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.office {
-	background-image: url(../images/icons/office.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.dob {
-	background-image: url(../images/icons/cake.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-
-.map {
-	background-image: url(../images/icons/map.png);
-	background-repeat: no-repeat;
-	padding-left: 20px;
-	margin-left: 10px;
-}
-/*--------- start grid items-------------*/
 #beer_grid {
 	clear: both;
 	line-height: 1.3;
@@ -180,4 +107,99 @@
 	overflow: hidden;
 }
 
-/*--------- end grid items-------------*/
+
+
+/* @end */
+
+/* @group Microformats & Icons */
+
+.phone {
+	background-image: url(../images/icons/phone.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.fax {
+	background-image: url(../images/icons/fax.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.people {
+	background-image: url(../images/icons/people.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.tel {
+	background-image: url(../images/icons/mobile.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.tel .type {
+	display: none;
+}
+
+.email {
+	background-image: url(../images/icons/email.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.gender_2 {
+	background-image: url(../images/icons/female.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.gender_1 {
+	background-image: url(../images/icons/male.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.getvcard {
+	background-image: url(../images/icons/vcard.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.office {
+	background-image: url(../images/icons/office.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.bday {
+	background-image: url(../images/icons/cake.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+.map {
+	background-image: url(../images/icons/map.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	margin-left: 10px;
+}
+
+/* @end */
+
+/* @group Map */
+
+div#map_canvas {
+	border: solid 5px #ddd;
+}
+
+/* @end */

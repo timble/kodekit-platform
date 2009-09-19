@@ -16,7 +16,7 @@
 		<span class="email"><?= @$person->email ? JHTML::_('email.cloak',@$person->email) : ''?></span>
 		<span class="bday"><?= JHTML::date(@$person->birthday)?></span>
 		<span class="gender_<?= @$person->gender?>"><?= @$person->gender == "1" ? @text('Male') : @text('Female'); ?></span>
-		<span class="vcarddownload"><a href="<?=@route('view=person&format=vcard&id='.@$person->slug) ?>" /><?= @text('VCard'); ?></a></span>
+		<span class="getvcard"><a href="<?=@route('view=person&format=vcard&id='.@$person->slug) ?>" /><?= @text('VCard'); ?></a></span>
 	</div>
 	<div id="beer_desc">
 		<h2><?= @text('Bio'); ?></h2>
