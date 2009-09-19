@@ -38,6 +38,7 @@ class BeerHelperLetters extends KObject
 		}
 
 		$letters .='</ul>';
+		$letters .='</div>';
 		return $letters;
 	}
 	
@@ -64,6 +65,7 @@ class BeerHelperLetters extends KObject
 		}
 
 		$letters .='</ul>';
+		$letters .='</div>';
 		return $letters;
 	}
 }
