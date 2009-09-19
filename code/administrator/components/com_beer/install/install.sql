@@ -188,7 +188,7 @@ INSERT INTO `#__beer_people` (`beer_person_id`, `beer_department_id`, `beer_offi
 --
 
 INSERT INTO `#__beer_offices` (`beer_office_id`, `title`, `alias`, `description`, `address1`, `address2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`, `coordinates`, `created`, `created_by`, `modified`, `modified_by`, `enabled`) VALUES
-(1, 'United States', 'belgium', '', '1 Infinite Loop', '', 'Cupertino', 'CA', '95014', 'US', '147258369', '13456789', '50.9873946,5.0474845', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
+(1, 'United States', 'united-states', '', '1 Infinite Loop', '', 'Cupertino', 'CA', '95014', 'US', '147258369', '13456789', '50.9873946,5.0474845', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (2, 'Belgium', 'belgium', '', 'Grote Markt 1', '', 'Brussel', '', '1000', 'BE', '1592648', '2615948', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 'Netherlands', 'netherlands', '', 'Klavermarkt 1', '', 'Den Haag', '', '', 'NL', '147258369', '147258369', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (4, 'Australia', 'australia', '', '', '', 'Sydney', 'QLD', '2000', 'AU', '147258369', '147258369', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
