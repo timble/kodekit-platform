@@ -72,10 +72,12 @@ SELECT p.*,
 	o.phone, o.address1, o.address2, o.city, o.state, o.postcode, o.country, o.fax, o.coordinates,
 	CONCAT(p.beer_person_id, ':', p.alias) AS slug,
 	CONCAT(d.beer_department_id, ':', d.alias) AS department_slug,
-	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug	
+	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug,
+	u.name	
 FROM #__beer_people AS p
 LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
-LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id;
+LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id
+LEFT JOIN #__users AS u ON u.user_id = p.user_id;
 
 
 CREATE OR REPLACE VIEW #__beer_viewdepartments AS 

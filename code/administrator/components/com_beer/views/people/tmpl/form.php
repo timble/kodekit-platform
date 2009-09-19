@@ -61,6 +61,9 @@
 					<?= @helper('grid.sort', 'Office', 'office', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
+					<?= @helper('grid.sort', 'User', 'user_name', @$state->direction, @$state->order); ?>
+				</th>
+				<th>
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
@@ -97,6 +100,13 @@
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Office' );?>::<?= @$escape($person->office); ?>">
 						<a href="<?= @route('view=office&id='.$person->beer_office_id)?>">
 							<?= @$escape($person->office)?>
+						</a>
+					</span>
+				</td>
+				<td align="center">
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->user_name); ?>">
+						<a href="<?= @route('option=com_users&task=edit&view=user&cid[]='.$person->user_id)?>">
+							<?= @$escape($person->user_name)?>
 						</a>
 					</span>
 				</td>
