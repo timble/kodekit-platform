@@ -1,3 +1,43 @@
 .icon-48-generic {
  background: transparent url(../images/logo.png) no-repeat !important;
 }
+
+
+
+.lettersmenu{
+width: 100%;
+font-size:0.9em;
+
+}
+
+.lettersmenu ul{
+padding: 3px 0 3px 0; /*6px should equal top padding of "ul li a" below, 7px should equal bottom padding + bottom border of "ul li a" below*/
+margin:10px 0px 10px 0px;
+text-align: left; 
+}
+
+.lettersmenu ul li{
+display: inline;
+}
+
+.lettersmenu ul li a{
+color: #0B55C4;
+padding: 3px; 
+margin-right: 5px; 
+text-decoration: none;
+border: 1px solid #ccc;
+background-color:#F6F6F6;
+}
+
+.lettersmenu ul li a:hover, .lettersmenu ul li a.selected{
+background-color:grey;
+color:white;
+}
+
+.lettersmenu ul li a.active{
+	font-weight:900;
+	color: #000;
+	text-decoration: underline;
+}
+
+

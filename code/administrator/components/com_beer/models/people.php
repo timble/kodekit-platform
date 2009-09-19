@@ -19,8 +19,10 @@ class BeerModelPeople extends BeerModelView
 		
 		// Set the state
 		$this->_state
-		 	->insert('beer_department_id'   , 'int')
-		 	->insert('beer_office_id'       , 'int');
+		 	->insert('beer_department_id'   	, 'int')
+		 	->insert('beer_office_id'      	    , 'int')
+		 	->insert('beer_firstnameletter_id'  , 'string')
+		 	->insert('beer_lastnameletter_id'   , 'string');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -45,6 +47,12 @@ class BeerModelPeople extends BeerModelView
 			$query->where('tbl.firstname', 'LIKE',  $search)
 				  ->where('tbl.lastname', 'LIKE', $search, 'or')
 				  ->where('tbl.bio', 'LIKE', $search, 'or');
+		}
+		if ( $state->beer_firstnameletter_id) {
+			$query->where('tbl.firstname', 'Like',  $state->beer_firstnameletter_id.'%');	
+		}
+		if ( $state->beer_lastnameletter_id) {
+			$query->where('tbl.lastname', 'Like',  $state->beer_lastnameletter_id.'%');	
 		}
 	}
 }

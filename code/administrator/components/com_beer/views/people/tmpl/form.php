@@ -7,7 +7,19 @@
 <form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_beer" />
 	<input type="hidden" name="view" value="people" />
-
+	<table width="100%">
+		<tr>
+			<td align="left" width="50%">
+				<?= @text('Sort by first letter of firstname'); ?>:
+				<?=@helper('admin::com.beer.helper.letters.firstnameletters', @$state->beer_firstnameletter_id); ?>
+				
+			</td>
+			<td align="left" width="50%">
+			<?= @text('Sort by first letter of lastname'); ?>:
+			<?=@helper('admin::com.beer.helper.letters.lastnameletters', @$state->beer_lastnameletter_id); ?>
+			</td>
+		</tr>
+	</table>
 	<table>
 		<tr>
 			<td align="left" width="100%">
