@@ -3,13 +3,20 @@
 <? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 
 <? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
-
+	
 <form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_beer" />
 	<input type="hidden" name="view" value="people" />
 	
 	<div class="people_filters">
 		<h3><?=@text('People');?></h3>
+		
+<?= @text('Sort by first letter of firstname'); ?>:
+<?=@helper('admin::com.beer.helper.letters.firstnameletters', @$state->beer_firstnameletter_id); ?>
+<?= @text('Sort by first letter of lastname'); ?>:
+<?=@helper('admin::com.beer.helper.letters.lastnameletters', @$state->beer_lastnameletter_id); ?>
+	
+	
 		<?=@text('Search'); ?>: <input type="text" name="search" maxlength="40" value="<?=@$state->search?>" /> 
 		<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
 		<?=@helper('admin::com.beer.helper.select.departments', @$state->beer_department_id, 'beer_department_id', $attribs, '', true) ?>

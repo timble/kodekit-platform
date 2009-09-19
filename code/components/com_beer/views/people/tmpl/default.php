@@ -1,10 +1,16 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
-
+<? @style(@$mediaurl.'/com_beer/css/default.css'); ?>
 <? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
 
 <div class="joomla">
 	<h3><?=@text('People');?></h3>
+	
+	<?= @text('Sort by first letter of firstname'); ?>:
+	<?=@helper('admin::com.beer.helper.letters.firstnameletters', @$state->beer_firstnameletter_id); ?>
+	<?= @text('Sort by first letter of lastname'); ?>:
+    <?=@helper('admin::com.beer.helper.letters.lastnameletters', @$state->beer_lastnameletter_id); ?>
+	
 	<form action="<?= @route()?>" method="get">
 		<input type="hidden" name="option" value="com_beer" />
 		<input type="hidden" name="view" value="people" />
@@ -24,6 +30,9 @@
 		<strong><?=@text('List');?></strong>
 		<a href="<?=@route('view=people&layout=grid') ?>" /><?=@text('Grid');?></a>
 	</p>
+		
+				
+
 	<form action="<?= @route()?>" method="post" name="adminForm">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tfoot>
