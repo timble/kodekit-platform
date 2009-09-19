@@ -42,6 +42,11 @@ class KControllerForm extends KControllerBread
 			 ->registerFilterBefore('disable', 'filterToken')
 			 ->registerFilterBefore('access' , 'filterToken')
 			 ->registerFilterBefore('order'  , 'filterToken');
+			 
+		$this->registerFilterAfter('read'   , 'filterGetRedirect');
+		
+		$this->registerFilterAfter('save'   , 'filterSetRedirect')
+			 ->registerFilterAfter('cancel' , 'filterSetRedirect');
 	}
 
 	/**
@@ -67,6 +72,40 @@ class KControllerForm extends KControllerBread
 		}
 
 		return $this->_action;
+	}
+	
+	/**
+	 * Filter that gets the redirect URL from the sesison and sets it in the
+	 * controller
+	 *
+	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 */
+	public function filterSetRedirect(ArrayObject $args)
+	{
+		if(!$redirect = KRequest::get('session.admin::com.redirect', 'url')) {
+			$redirect = 'view='. KInflector::pluralize( $this->_identifier->name);
+		}
+		
+		$this->setRedirect($redirect);	  
+		return true;	
+	}
+	
+	/**
+	 * Filter that gets the redirect URL from the referrer and sets in the
+	 * session.
+	 *
+	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 */
+	public function filterGetRedirect(ArrayObject $args)
+	{
+		$referrer = (string) KRequest::referrer();
+				
+		//Prevent referrer getting lost at a subsequent read action
+		if($referrer != (string) KRequest::url()) {
+			KRequest::set('session.admin::com.redirect', $referrer);
+		}
+			
+		return true;
 	}
 	
 	/**
@@ -121,10 +160,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionSave()
 	{
-		$format = KRequest::get('get.format', 'cmd', 'html');
-		$row    = KRequest::get('get.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
-
-		$this->setRedirect('view='. KInflector::pluralize( $this->_identifier->name).'&format='.$format);
+		$row = KRequest::get('get.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 		return $row;
 	}
 
@@ -135,10 +171,9 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$format = KRequest::get('get.format', 'cmd', 'html');
 		$row    = KRequest::get('get.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
 	
-		$this->setRedirect('view='.$this->_identifier->name.'&layout=form&id='.$row->id.'&format='.$format);
+		$this->setRedirect('view='.$this->_identifier->name.'&id='.$row->id);
 		return $row;
 	}
 
@@ -149,9 +184,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionCancel()
 	{
-		$format	= KRequest::get('get.format', 'cmd', 'html');
 		
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name).'&format='.$format);
 	}
 
 	/*
@@ -162,12 +195,9 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionDelete()
 	{
-		$format	  = KRequest::get('get.format', 'cmd', 'html');
-		
 		$table = parent::_actionDelete();
 
-		// Redirect
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name).'&format='.$format);
+		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
 		return $table;
 	}
 
