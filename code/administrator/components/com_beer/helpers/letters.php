@@ -17,7 +17,7 @@ class BeerHelperLetters extends KObject
 	public function firstnameletters($selected)
 	{
 
-		$firstnameletters = KFactory::get('admin::com.beer.model.firstnameletters')->getList();
+		$firstnameletters = KFactory::get('admin::com.beer.model.viewfirstnameletters')->getList();
 		
 
 		$letters ='<div class="lettersmenu"><ul>';
@@ -44,7 +44,7 @@ class BeerHelperLetters extends KObject
 	public function lastnameletters($selected)
 	{
 
-		$lastnameletters = KFactory::get('admin::com.beer.model.lastnameletters')->getList();
+		$lastnameletters = KFactory::get('admin::com.beer.model.viewlastnameletters')->getList();
 	
 		$letters ='<div class="lettersmenu"><ul>';
 		// a reset button, probably there is a better way doing this?
