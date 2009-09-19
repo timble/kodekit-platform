@@ -100,13 +100,13 @@ CREATE OR REPLACE VIEW #__beer_firstnameletters AS
 SELECT
 	DISTINCT LEFT(tbl.firstname, 1) AS beer_firstnameletter_id
 FROM #__beer_people AS tbl
-ORDER BY tbl.firstname
+ORDER BY tbl.firstname;
 
 CREATE OR REPLACE VIEW #__beer_lastnameletters AS
 SELECT
 	DISTINCT LEFT(tbl.lastname, 1) AS beer_lastnameletter_id
 FROM #__beer_people AS tbl
-ORDER BY tbl.lastname
+ORDER BY tbl.lastname;
 
 -- --------------------------------------------------------
 
