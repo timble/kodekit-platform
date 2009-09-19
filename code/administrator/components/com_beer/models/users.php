@@ -11,7 +11,7 @@
 
 class BeerModelUsers extends BeerModelView
 {
-	public function getUsers($selected=null)
+	public function getUsers($selected = null)
 	{
 		$db = KFactory::get('lib.koowa.database');
 		$query = $db->getQuery()
@@ -21,8 +21,7 @@ class BeerModelUsers extends BeerModelView
 				->where('p.user_id', 'IS NULL')
 				->order('name')	;	
 
-		if ($selected)
-		{
+		if ($selected) {
 			$query->where('u.id', '=', $selected, 'OR');
 		}
 
