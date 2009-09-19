@@ -11,13 +11,21 @@
 
 class BeerModelUsers extends BeerModelView
 {
-	public function getUsers()
+	public function getUsers($selected=null)
 	{
 		$db = KFactory::get('lib.koowa.database');
 		$query = $db->getQuery()
-				->select(array('id', 'name'))
-        		->from('users')
+				->select(array('u.id AS id', 'u.name AS name'))
+        		->from('users AS u')
+				->join('LEFT OUTER', 'beer_people AS p', 'p.user_id = u.id')
+				->where('p.user_id', 'IS NULL')
 				->order('name')	;	
+
+		if ($selected)
+		{
+			$query->where('u.id', '=', $selected, 'OR');
+		}
+
 		return $db->fetchObjectList($query);			 
 	}
 

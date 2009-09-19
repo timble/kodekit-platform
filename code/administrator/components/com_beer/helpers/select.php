@@ -73,7 +73,8 @@ class BeerHelperSelect extends KObject
 
     public function users($selected, $name, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
     {
-       $items = KFactory::get('admin::com.beer.model.users')->getUsers();
+
+       $items = KFactory::get('admin::com.beer.model.users')->getUsers($selected);
 
 		// Add first option to list
         $list = array();
