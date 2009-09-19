@@ -196,7 +196,7 @@ class KRequest
 
 		if($isInternal)
 		{
-			if(!KFactory::get('lib.koowa.filter.internalurl')->validate(self::$_referrer)) {
+			if(!KFactory::get('lib.koowa.filter.internalurl')->validate((string)self::$_referrer)) {
 				return null;
 			}
 		}
