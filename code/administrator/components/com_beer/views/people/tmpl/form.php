@@ -4,22 +4,23 @@
 <? @style(@$mediaurl.'/com_beer/css/grid.css'); ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css'); ?>
 
+<table width="100%">
+	<tr>
+		<td align="left" width="50%">
+			<?= @text('Sort by first letter of firstname'); ?>:
+			<?= @template('filter_firstname'); ?>
+				
+		</td>
+		<td align="left" width="50%">
+		<?= @text('Sort by first letter of lastname'); ?>:
+		<?= @template('filter_lastname'); ?>
+		</td>
+	</tr>
+</table>
+
 <form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_beer" />
 	<input type="hidden" name="view" value="people" />
-	<table width="100%">
-		<tr>
-			<td align="left" width="50%">
-				<?= @text('Sort by first letter of firstname'); ?>:
-				<?= @template('filter_firstname'); ?>
-				
-			</td>
-			<td align="left" width="50%">
-			<?= @text('Sort by first letter of lastname'); ?>:
-			<?= @template('filter_lastname'); ?>
-			</td>
-		</tr>
-	</table>
 	<table>
 		<tr>
 			<td align="left" width="100%">
