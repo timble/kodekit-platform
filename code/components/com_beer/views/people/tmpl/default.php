@@ -6,10 +6,13 @@
 <div class="joomla">
 	<h3><?=@text('People');?></h3>
 	
-	<?= @text('Sort by first letter of firstname'); ?>:
-	<?=@helper('admin::com.beer.helper.letters.firstnameletters', @$state->beer_firstnameletter_id); ?>
-	<?= @text('Sort by first letter of lastname'); ?>:
-    <?=@helper('admin::com.beer.helper.letters.lastnameletters', @$state->beer_lastnameletter_id); ?>
+
+<?= @text('Sort by first letter of firstname'); ?>:
+<?= @template('filter_firstname'); ?>
+				
+<?= @text('Sort by first letter of lastname'); ?>:
+<?= @template('filter_lastname'); ?>
+
 	
 	<form action="<?= @route()?>" method="get">
 		<input type="hidden" name="option" value="com_beer" />
