@@ -71,10 +71,10 @@ class BeerModelPeople extends BeerModelView
 		}
 		
 		if ( $state->lletter) {
-			$query->where('tbl.firstname', 'Like',  $state->lletter.'%');	
+			$query->where('tbl.lastname', 'Like',  $state->lletter.'%');	
 		}
 		if ( $state->fletter) {
-			$query->where('tbl.lastname', 'Like',  $state->fletter.'%');	
+			$query->where('tbl.firstname', 'Like',  $state->fletter.'%');	
 		}
 	}
 }
