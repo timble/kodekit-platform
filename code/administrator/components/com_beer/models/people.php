@@ -27,19 +27,23 @@ class BeerModelPeople extends BeerModelView
 	
 	public function getLettersFirstname()
 	{
-		$query = 'SELECT DISTINCT LEFT(tbl.firstname, 1) AS fletter' 
-				.' FROM #__beer_viewpeople AS tbl'
-				.' ORDER BY tbl.firstname';
+		$query = $this->_db->getQuery()
+			->select('letter_firstname AS fletter')
+			->distinct()
+			->from('beer_viewpeople AS tbl')
+			->order('tbl.letter_firstname');
 					
 		return $this->getView()->fetchRowset($query);
 	}
 	
 	public function getLettersLastname()
 	{
-		$query = 'SELECT DISTINCT LEFT(tbl.lastname, 1) AS lletter' 
-				.' FROM #__beer_viewpeople AS tbl'
-				.' ORDER BY tbl.lastname';
-					        
+		$query = $this->_db->getQuery()
+			->select('letter_lastname AS lletter')
+			->distinct()
+			->from('beer_viewpeople AS tbl')
+			->order('tbl.letter_lastname');
+						        
 		return $this->getView()->fetchRowset($query);
 	}
 

@@ -73,7 +73,9 @@ SELECT p.*,
 	CONCAT(p.beer_person_id, ':', p.alias) AS slug,
 	CONCAT(d.beer_department_id, ':', d.alias) AS department_slug,
 	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug,
-	u.name AS user_name
+	u.name AS user_name,
+	LEFT(p.lastname, 1) AS letter_lastname,
+	LEFT(p.firstname, 1) AS letter_firstname
 FROM #__beer_people AS p
 LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
 LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id
