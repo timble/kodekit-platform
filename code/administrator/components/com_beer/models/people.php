@@ -19,10 +19,28 @@ class BeerModelPeople extends BeerModelView
 		
 		// Set the state
 		$this->_state
-		 	->insert('beer_department_id'   	, 'int')
-		 	->insert('beer_office_id'      	    , 'int')
-		 	->insert('beer_firstnameletter_id'  , 'string')
-		 	->insert('beer_lastnameletter_id'   , 'string');
+		 	->insert('beer_department_id'   , 'int')
+		 	->insert('beer_office_id'      	, 'int')
+		 	->insert('fletter'  			, 'word')
+		 	->insert('lletter'   			, 'word');
+	}
+	
+	public function getLettersFirstname()
+	{
+		$query = 'SELECT DISTINCT LEFT(tbl.firstname, 1) AS fletter' 
+				.' FROM #__beer_viewpeople AS tbl'
+				.' ORDER BY tbl.firstname';
+					
+		return $this->getView()->fetchRowset($query);
+	}
+	
+	public function getLettersLastname()
+	{
+		$query = 'SELECT DISTINCT LEFT(tbl.lastname, 1) AS lletter' 
+				.' FROM #__beer_viewpeople AS tbl'
+				.' ORDER BY tbl.lastname';
+					        
+		return $this->getView()->fetchRowset($query);
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -41,18 +59,20 @@ class BeerModelPeople extends BeerModelView
 			$query->where('tbl.beer_office_id','=', $state->beer_office_id);
 		}
 
-		if ( $state->search) {
+		if ( $state->search) 
+		{
 			$search = '%'.$state->search.'%';
 
 			$query->where('tbl.firstname', 'LIKE',  $search)
 				  ->where('tbl.lastname', 'LIKE', $search, 'or')
 				  ->where('tbl.bio', 'LIKE', $search, 'or');
 		}
-		if ( $state->beer_firstnameletter_id) {
-			$query->where('tbl.firstname', 'Like',  $state->beer_firstnameletter_id.'%');	
+		
+		if ( $state->lletter) {
+			$query->where('tbl.firstname', 'Like',  $state->lletter.'%');	
 		}
-		if ( $state->beer_lastnameletter_id) {
-			$query->where('tbl.lastname', 'Like',  $state->beer_lastnameletter_id.'%');	
+		if ( $state->fletter) {
+			$query->where('tbl.lastname', 'Like',  $state->fletter.'%');	
 		}
 	}
 }

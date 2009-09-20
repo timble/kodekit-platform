@@ -98,18 +98,6 @@ FROM #__beer_offices AS o
 LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
 GROUP BY o.beer_office_id;
 
-CREATE OR REPLACE VIEW #__beer_viewfirstnameletters AS
-SELECT
-	DISTINCT LEFT(tbl.firstname, 1) AS beer_firstnameletter_id
-FROM #__beer_people AS tbl
-ORDER BY tbl.firstname;
-
-CREATE OR REPLACE VIEW #__beer_viewlastnameletters AS
-SELECT
-	DISTINCT LEFT(tbl.lastname, 1) AS beer_lastnameletter_id
-FROM #__beer_people AS tbl
-ORDER BY tbl.lastname;
-
 -- --------------------------------------------------------
 
 --

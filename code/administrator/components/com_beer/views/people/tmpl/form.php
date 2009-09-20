@@ -11,12 +11,12 @@
 		<tr>
 			<td align="left" width="50%">
 				<?= @text('Sort by first letter of firstname'); ?>:
-				<?=@helper('admin::com.beer.helper.letters.firstnameletters', @$state->beer_firstnameletter_id); ?>
+				<?= @template('filter_firstname'); ?>
 				
 			</td>
 			<td align="left" width="50%">
 			<?= @text('Sort by first letter of lastname'); ?>:
-			<?=@helper('admin::com.beer.helper.letters.lastnameletters', @$state->beer_lastnameletter_id); ?>
+			<?= @template('filter_lastname'); ?>
 			</td>
 		</tr>
 	</table>
