@@ -31,7 +31,7 @@ class KControllerBread extends KControllerAbstract
 	/**
 	 * Filter that handles loading of the model state from the session
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @return void
 	 */
 	public function filterLoadState(ArrayObject $args)
 	{
@@ -41,14 +41,12 @@ class KControllerBread extends KControllerAbstract
 		
 		//Set the state in the model
 		$model->set( KHelperArray::merge($state, $request));
-			  
-		return true;	
 	}
 	
 	/**
 	 * Filter that handles saving of the model state in the session
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @return void
 	 */
 	public function filterSaveState(ArrayObject $args)
 	{
@@ -57,8 +55,6 @@ class KControllerBread extends KControllerAbstract
 					
 		//Set the state in the session
 		KRequest::set('session.'.$model->getIdentifier(), $state);
-		
-		return true;
 	}
 	
 	/**

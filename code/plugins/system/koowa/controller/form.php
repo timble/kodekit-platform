@@ -78,7 +78,7 @@ class KControllerForm extends KControllerBread
 	 * Filter that gets the redirect URL from the sesison and sets it in the
 	 * controller
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @return void
 	 */
 	public function filterSetRedirect(ArrayObject $args)
 	{
@@ -87,14 +87,13 @@ class KControllerForm extends KControllerBread
 		}
 		
 		$this->setRedirect($redirect);	  
-		return true;	
 	}
 	
 	/**
 	 * Filter that gets the redirect URL from the referrer and sets in the
 	 * session.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @return void
 	 */
 	public function filterGetRedirect(ArrayObject $args)
 	{
@@ -104,14 +103,12 @@ class KControllerForm extends KControllerBread
 		if($referrer != (string) KRequest::url()) {
 			KRequest::set('session.admin::com.redirect', $referrer);
 		}
-			
-		return true;
 	}
 	
 	/**
 	 * Filter the token to prevent CSRF exploits
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise return false;
+	 * @return void
 	 * @throws KControllerException
 	 */
 	public function filterToken(ArrayObject $args)
@@ -122,7 +119,6 @@ class KControllerForm extends KControllerBread
         if($req !== $token) {
         	throw new KControllerException('Invalid token or session time-out.', KHttp::STATUS_UNAUTHORIZED);
         }
-        return true;
 	}
 	
 	/**
