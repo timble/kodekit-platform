@@ -152,7 +152,7 @@ class KDatabaseQuery extends KObject
 	 * Built a select query
 	 *
 	 * @param	array|string	A string or an array of field names
-	 * @return 	this
+	 * @return 	KDatabaseQuery
 	 */
 	public function select( $columns = '*')
 	{
@@ -169,7 +169,7 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Built a count query
 	 *
-	 * @return this
+	 * @return KDatabaseQuery
 	 */
 	public function count()
 	{
@@ -181,7 +181,7 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Make the query distinct
 	 *
-	 * @return this
+	 * @return KDatabaseQuery
 	 */
 	public function distinct()
 	{
@@ -193,7 +193,7 @@ class KDatabaseQuery extends KObject
 	 * Built the from clause of the query
 	 *
 	 * @param	array|string	A string or array of table names
-	 * @return 	this
+	 * @return 	KDatabaseQuery
 	 */
 	public function from( $tables )
 	{
@@ -215,7 +215,7 @@ class KDatabaseQuery extends KObject
      * @param string 		The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
      * @param string 		The table name to join to.
      * @param string|array 	Join on this condition.
-     * @return this
+     * @return KDatabaseQuery
      */
     public function join($type, $table, $condition)
     {     
@@ -243,7 +243,7 @@ class KDatabaseQuery extends KObject
 	 * @param	string  		The comparison used for the constraint
 	 * @param	string|array	The value compared to the property value using the constraint
 	 * @param	string			The where condition, defaults to 'AND'
-	 * @return 	this
+	 * @return 	KDatabaseQuery
 	 */
 	public function where( $property, $constraint, $value = null, $condition = 'AND' )
 	{
@@ -280,7 +280,7 @@ class KDatabaseQuery extends KObject
 	 * Built the group clause of the query
 	 *
 	 * @param	array|string	A string or array of ordering columns
-	 * @return 	this
+	 * @return 	KDatabaseQuery
 	 */
 	public function group( $columns )
 	{
@@ -297,7 +297,7 @@ class KDatabaseQuery extends KObject
 	 * Built the having clause of the query
 	 *
 	 * @param	array|string	A string or array of ordering columns
-	 * @return 	this
+	 * @return 	KDatabaseQuery
 	 */
 	public function having( $columns )
 	{
@@ -315,7 +315,7 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @param	array|string  A string or array of ordering columns
 	 * @param	string		  Either DESC or ASC
-	 * @return this
+	 * @return 	KDatabaseQuery
 	 */
 	public function order( $columns, $direction = 'ASC' )
 	{
@@ -340,7 +340,7 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @param 	integer Number of items to fetch.
 	 * @param 	integer Offset to start fetching at.
-	 * @return this
+	 * @return 	KDatabaseQuery
 	 */
 	public function limit( $limit, $offset = 0 )
 	{
@@ -357,7 +357,7 @@ class KDatabaseQuery extends KObject
      * 					and all the key-value pairs in the array (or all 
      *   				properties of the object) are added to the bind.
      * @param 	mixed 	The value to use for the replacement key.
-     * @return this
+     * @return 	KDatabaseQuery
      */
     public function bind($key, $val = null)
     {
@@ -378,7 +378,7 @@ class KDatabaseQuery extends KObject
      * @param 	mixed 	The key to unset.  If a string, unsets that one
      * 					bound value; if an array, unsets the list of values; 
      * 					if empty, unsets all bound values (the default).
-     * @return this
+     * @return 	KDatabaseQuery
      */
     public function unbind($spec = null)
     {
