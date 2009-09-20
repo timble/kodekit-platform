@@ -84,6 +84,28 @@ class KModelTable extends KModelAbstract
        	
         return array_merge($defaults, $options);
     }
+    
+	/**
+     * Set the model state properties
+     * 
+     * This function overloads the KObject::set() function and only acts on state properties.
+     *
+     * @param   string|array|object	The name of the property, an associative array or an object
+     * @param   mixed  				The value of the property
+     * @return	KModelTable
+     */
+    public function set( $property, $value = null )
+    {
+    	parent::set($property, $value);
+    	
+    	$limit  = $this->_state->limit;
+    	$offset = $this->_state->offset;
+    	
+    	// If limit has been changed, adjust offset accordingly
+    	$this->_state->offset = ($limit != 0 ? (floor($offset / $limit) * $limit) : 0);
+    	
+    	return $this;
+    }
 
 	/**
 	 * Method to get the database adapter object
