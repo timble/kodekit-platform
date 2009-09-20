@@ -112,7 +112,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         
     	$defaults = array(
             'db'       		=> null,
-            'primary'       => empty($package) ? $name.'_id' : $package.'_'.KInflector::singularize($name).'_id',
+            'primary'       => '',
             'table_name'    => empty($package) ? $name : $package.'_'.$name,
         	'identifier'	=> null
         );
