@@ -412,58 +412,75 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	}
 
 	/**
-	 * Create a route. Index.php, option, view and layout can be ommitted. The
-	 * following variations will all result in the same route
+	 * Create a route based on a full or partial query string 
+	 * 
+	 * index.php, option, view and layout can be ommitted. The following variations 
+	 * will all result in the same route
 	 *
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 * - index.php?option=com_mycomp&view=myview&foo=bar
+	 * 
+	 * If the route starts '&' the information will be appended to the current URL.
 	 *
 	 * In templates, use @route()
 	 *
-	 * @param	string	The data to use to create the route
+	 * @param	string	The query string used to create the route
 	 * @return 	string 	The route
 	 */
 	public function createRoute( $route = '')
 	{
 		$route = trim($route);
 
-		// special cases
-		if($route == 'index.php' || $route == 'index.php?') {
-			return JRoute::_($route);
-		}
-
-		// strip 'index.php?'
-		if(substr($route, 0, 10) == 'index.php?') {
-			$route = substr($route, 10);
-		}
-
-		// parse
-		$parts = array();
-		parse_str($route, $parts);
-		$result = array();
-
-		// Check to see if there is component information in the route if not add it
-		if(!isset($parts['option'])) {
-			$result[] = 'option=com_'.$this->_identifier->package;
-		}
-
-		// Check to see if there is view information in the route if not add it
-		if(!isset($parts['view']))
+		// Special cases
+		if($route == 'index.php' || $route == 'index.php?') 
 		{
-			$result[] = 'view='.$this->_identifier->name;
-			if(!isset($parts['layout']) && $this->_layout != 'default') {
-				$result[] = 'layout='.$this->_layout;
+			$result = $route;
+		} 
+		else if (substr($route, 0, 1) == '&') 
+		{
+			$url   = clone KRequest::url();
+			$vars  = array();
+			parse_str($route, $vars);
+			
+			$result = (string) $url->setQuery(array_merge($url->getQuery(true), $vars));;
+		}
+		else 
+		{
+			// Strip 'index.php?'
+			if(substr($route, 0, 10) == 'index.php?') {
+				$route = substr($route, 10);
 			}
+
+			// Parse route
+			$parts = array();
+			parse_str($route, $parts);
+			$result = array();
+
+			// Check to see if there is component information in the route if not add it
+			if(!isset($parts['option'])) {
+				$result[] = 'option=com_'.$this->_identifier->package;
+			}
+
+			// Check to see if there is view information in the route if not add it
+			if(!isset($parts['view']))
+			{
+				$result[] = 'view='.$this->_identifier->name;
+				if(!isset($parts['layout']) && $this->_layout != 'default') {
+					$result[] = 'layout='.$this->_layout;
+				}
+			}
+
+			// Reconstruct the route
+			if(!empty($route)) {
+				$result[] = $route;
+			}
+
+			$result = 'index.php?'.implode('&', $result);
+			
 		}
 
-		// Reconstruct the route
-		if(!empty($route)) {
-			$result[] = $route;
-		}
-
-		$result = implode('&', $result);
-		return JRoute::_('index.php?'.$result);
+		return JRoute::_($result);
 	}
 
 	/**
