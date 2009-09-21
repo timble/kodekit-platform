@@ -67,7 +67,6 @@ Koowa.Grid =
         	} 
         	
         	cb.checked = true;
-        	form.boxchecked.value = 1;
         	form.access.value = value;
         	form.action.value = action;
 			form.submit();
@@ -79,15 +78,14 @@ Koowa.Grid =
 		var form = document.adminForm;
    	 	cb = eval( 'form.' + id );
     	if (cb) 
-    	{
-        	for (i = 0; true; i++) {
+    	{    		
+    		for (i = 0; true; i++) {
             	cbx = eval('form.cb'+i);
             	if (!cbx) break;
             	cbx.checked = false;
         	} 
         	
         	cb.checked = true;
-        	form.boxchecked.value = 1;
         	form.action.value = action;
 			form.submit();
     	}
