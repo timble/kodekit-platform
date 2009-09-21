@@ -338,7 +338,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		$this->_output = null;
 
 		//create the template file name based on the layout
-		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
+		$file = isset($tpl) ? $tpl : $this->_layout;
 
 		// load the template script
 		Koowa::import('lib.joomla.filesystem.path');
