@@ -156,7 +156,7 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionSave()
 	{
-		$row = KRequest::get('get.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
+		$row = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
 		return $row;
 	}
 
@@ -167,8 +167,8 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$row    = KRequest::get('get.id', 'boolean') ? $this->execute('edit') : $this->execute('add');
-	
+		$row    = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
+		
 		$this->setRedirect('view='.$this->_identifier->name.'&id='.$row->id);
 		return $row;
 	}
