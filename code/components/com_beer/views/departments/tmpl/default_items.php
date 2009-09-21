@@ -13,7 +13,7 @@
 			</a>
 		</td>
 		<td>
-				<?= @$escape($department->people); ?>
+			<?= @$escape($department->people); ?>
 		</td>
 	</tr>
 	<? $i = $i + 1; $m = (1 - $m); ?>

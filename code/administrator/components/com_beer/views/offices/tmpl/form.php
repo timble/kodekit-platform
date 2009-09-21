@@ -11,10 +11,10 @@
 	<table>
 		<tr>
 			<td align="left" width="100%">
-				<?= @text('Filter')?>:
+				<?= @text('Search')?>:
 				<input name="search" id="search" value="<?= @$state->search;?>" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<button onclick="this.form.submit();"><?= @text('Go'); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?= @text('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?= @helper('admin::com.beer.helper.select.enabled',  @$state->enabled ); ?>
@@ -51,35 +51,8 @@
 			</tr>
 		</thead>
 		<tbody>
-		<? $i = 0; $m = 0; ?>
-		<? foreach (@$offices as $office) : ?>
-			<tr class="<?= 'row'.$m?>">
-				<td align="center">
-					<?= $i + 1; ?>
-				</td>
-				<td align="center">
-					<? // @helper('grid.checkedOut', $project, $i, $project->id); ?>
-					<?= @helper('grid.id', $i, $office->id); ?>
-				</td>
-				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($office->title); ?>">
-						<a href="<?= @route('view=office&id='.$office->id); ?>">
-							<?= @$escape($office->title); ?>
-						</a>
-					</span>
-				</td>
-				<td align="center" width="15px">
-					<?= @helper('grid.enable', $office->enabled, $i) ?>
-				</td>
-				<td align="center" width="1%">
-					<?= $office->people; ?>
-				</td>
-				<td align="center" width="1%">
-					<?= $office->id; ?>
-				</td>
-			</tr>
-		<? $i = $i + 1; $m = (1 - $m); ?>
-		<? endforeach; ?>
+		
+		<?= @template('form_items'); ?>
 
 		<? if (!count(@$offices)) : ?>
 			<tr>

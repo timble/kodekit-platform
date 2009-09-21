@@ -16,7 +16,7 @@
 			return true;
 		}
 		if (form.title.value == ""){
-			alert( "<?php echo JText::_( 'Department must have a title', true ); ?>" );
+			alert( "<?= @text( 'Department must have a title', true ); ?>" );
 			submitOK=false;
 			// remove the action field to allow another submit
 			form.action.remove();
@@ -29,9 +29,14 @@
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-			<label for="title" id="mainlabel"><?= @text('Title'); ?></label><input id="title" type="text" name="title" value="<?= @$department->title; ?>" /><br />
-			<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label><input id="alias" type="text" name="alias" value="<?= @$department->alias; ?>" /><br />
-			<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?><br />
+			<label for="title" id="mainlabel"><?= @text('Title'); ?></label>
+			<input id="title" type="text" name="title" value="<?= @$department->title; ?>" />
+			<br />
+			<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label>
+			<input id="alias" type="text" name="alias" value="<?= @$department->alias; ?>" />
+			<br />
+			<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
+			<?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?>
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>

@@ -24,10 +24,10 @@
 	<table>
 		<tr>
 			<td align="left" width="100%">
-				<?= @text('Filter'); ?>:
+				<?= @text('Search'); ?>:
 				<input name="search" id="search" value="<?= @$state->search;?>" />
 				<button onclick="this.form.submit();"><?= @text('Go')?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('beer_department_id').value='';this.form.getElementById('beer_office_id').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.submit();"><?= @text('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
@@ -73,60 +73,15 @@
 			</tr>
 		</thead>
 		<tbody>
-		<? $i = 0; $m = 0; ?>
-		<? foreach (@$people as $person) : ?>
-			<tr class="<?= 'row'.$m; ?>">
-				<td align="center">
-					<?= $i + 1; ?>
-				</td>
-				<td align="center">
-					<? // @helper('grid.checkedOut', $project, $i, $project->id); ?>
-					<?= @helper('grid.id', $i, $person->id); ?>
-				</td>
-				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->name); ?>">
-						<a href="<?= @route('view=person&id='.$person->id)?>">
-							<?= @$escape($person->name)?>
-						</a>
-					</span>
-				</td>
-				<td align="center">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Department' );?>::<?= @$escape($person->department); ?>">
-						<a href="<?= @route('view=department&id='.$person->beer_department_id)?>">
-							<?= @$escape($person->department)?>
-						</a>
-					</span>
-				</td>
-				<td align="center">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Office' );?>::<?= @$escape($person->office); ?>">
-						<a href="<?= @route('view=office&id='.$person->beer_office_id)?>">
-							<?= @$escape($person->office)?>
-						</a>
-					</span>
-				</td>
-				<td align="center">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->user_name); ?>">
-						<a href="<?= @route('option=com_users&task=edit&view=user&cid[]='.$person->user_id)?>">
-							<?= @$escape($person->user_name)?>
-						</a>
-					</span>
-				</td>
-				<td align="center" width="15px">
-					<?= @helper('grid.enable', $person->enabled, $i)?>
-				</td>
-				<td align="center" width="1%">
-					<?= $person->id?>
-				</td>
-			</tr>
-		<? $i = $i + 1; $m = (1 - $m);?>
-		<? endforeach; ?>
-
+		
+		<?= @template('form_items'); ?>
+			
 		<? if (!count(@$people)) : ?>
-			<tr>
-				<td colspan="8" align="center">
-					<?= @text('No items found'); ?>
-				</td>
-			</tr>
+		<tr>
+			<td colspan="8" align="center">
+				<?= @text('No items found'); ?>
+			</td>
+		</tr>
 		<? endif; ?>
 		</tbody>
 		<tfoot>

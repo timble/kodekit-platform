@@ -1,10 +1,10 @@
-<? /** $Id: form_filter_firstname.php 215 2009-09-20 03:27:20Z johan $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <div class="lettersmenu">
 <ul>
 	<li>
-		<a href="<?= @route('&fletter=') ?>">
+		<a href="<?= @route('fletter=') ?>">
 			<?= @text('Reset'); ?>
 		</a>
 	</li>
@@ -16,7 +16,7 @@
 		$class = '';
 	endif; ?>
 	<li>
-		<a href="<?= @route('&fletter='.$alfa->fletter) ?>" <?= $class ?>>
+		<a href="<?= @route('fletter='.$alfa->fletter) ?>" <?= $class ?>>
 		<?= $alfa->fletter; ?>
 		</a>
 	</li>

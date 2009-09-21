@@ -29,18 +29,42 @@
 	<div style="width:100%; float: left"  id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-				<label for="firstname" id="mainlabel"><?= @text('Firstname'); ?></label><input id="firstname" type="text" name="firstname" value="<?= @$person->firstname; ?>" /><br />
-				<label for="middlename" id="mainlabel"><?= @text('Middlename'); ?></label><input id="middlename" type="text" name="middlename" value="<?= @$person->middlename; ?>" /><br />
-				<label for="lastname" id="mainlabel"><?= @text('Lastname'); ?></label><input id="lastname" type="text" name="lastname" value="<?= @$person->lastname; ?>" /><br />
-				<label for="user_id" id="mainlabel"><?= @text('Linked User'); ?></label><?=@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?><br />
-				<label for="office" id="mainlabel"><?= @text('Office'); ?></label><?=@helper('admin::com.beer.helper.select.offices', @$person->beer_office_id, 'beer_office_id', '', '', true) ?><br />
-				<label for="departmen" id="mainlabel"><?= @text('Department'); ?></label><?=@helper('admin::com.beer.helper.select.departments', @$person->beer_department_id, 'beer_department_id', '', '', true) ?><br />
-				<label for="position" id="mainlabel"><?= @text('Position'); ?></label><input id="position" type="text" name="position" value="<?= @$person->position; ?>" /><br />
-				<label for="birthday" id="mainlabel"><?= @text('Birthday'); ?></label><input id="birthday" type="text" name="birthday" value="<?= @$person->birthday; ?>" /><br />
-				<label for="gender" id="mainlabel"><?= @text('Gender'); ?></label><?=@helper('admin::com.beer.helper.select.gender', @$person->gender, 'gender', '', '', true) ?><br />
-				<label for="mobile" id="mainlabel"><?= @text('Mobile'); ?></label><input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" /><br />
-				<label for="email" id="mainlabel"><?= @text('Email'); ?></label><input id="email" type="text" name="email" value="<?= @$person->email; ?>" /><br />
-				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label><?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?><br />
+				<label for="firstname" id="mainlabel"><?= @text('Firstname'); ?></label>
+				<input id="firstname" type="text" name="firstname" value="<?= @$person->firstname; ?>" />
+				<br />
+				<label for="middlename" id="mainlabel"><?= @text('Middlename'); ?></label>
+				<input id="middlename" type="text" name="middlename" value="<?= @$person->middlename; ?>" />
+				<br />
+				<label for="lastname" id="mainlabel"><?= @text('Lastname'); ?></label>
+				<input id="lastname" type="text" name="lastname" value="<?= @$person->lastname; ?>" />
+				<br />
+				<label for="user_id" id="mainlabel"><?= @text('Linked User'); ?></label>
+				<?=@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
+				<br />
+				<label for="office" id="mainlabel"><?= @text('Office'); ?></label>
+				<?=@helper('admin::com.beer.helper.select.offices', @$person->beer_office_id, 'beer_office_id', '', '', true) ?>
+				<br />
+				<label for="departmen" id="mainlabel"><?= @text('Department'); ?></label>
+				<?=@helper('admin::com.beer.helper.select.departments', @$person->beer_department_id, 'beer_department_id', '', '', true) ?>
+				<br />
+				<label for="position" id="mainlabel"><?= @text('Position'); ?></label>
+				<input id="position" type="text" name="position" value="<?= @$person->position; ?>" />
+				<br />
+				<label for="birthday" id="mainlabel"><?= @text('Birthday'); ?></label>
+				<input id="birthday" type="text" name="birthday" value="<?= @$person->birthday; ?>" />
+				<br />
+				<label for="gender" id="mainlabel"><?= @text('Gender'); ?></label>
+				<?=@helper('admin::com.beer.helper.select.gender', @$person->gender, 'gender', '', '', true) ?>
+				<br />
+				<label for="mobile" id="mainlabel"><?= @text('Mobile'); ?></label>
+				<input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" />
+				<br />
+				<label for="email" id="mainlabel"><?= @text('Email'); ?></label>
+				<input id="email" type="text" name="email" value="<?= @$person->email; ?>" />
+				<br />
+				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
+				<?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?>
+				<br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Bio'); ?></legend>

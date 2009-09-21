@@ -13,19 +13,19 @@
 			</a>
 		</td>
 		<td>
-				<?= nl2br(@$escape($office->address)); ?>
+			<?= nl2br(@$escape($office->address)); ?>
 		</td>
 		<td>
-				<?= @$escape($office->state); ?>
+			<?= @$escape($office->state); ?>
 		</td>
 		<td>
-				<?= @$escape($office->phone); ?>
+			<?= @$escape($office->phone); ?>
 		</td>
 		<td>
-				<?= @$escape($office->fax); ?>
+			<?= @$escape($office->fax); ?>
 		</td>
 		<td>
-				<?= @$escape($office->people); ?>
+			<?= @$escape($office->people); ?>
 		</td>
 	</tr>
 	<? $i = $i + 1; $m = (1 - $m); ?>

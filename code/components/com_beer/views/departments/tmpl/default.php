@@ -32,7 +32,7 @@
 					<?= @helper('grid.sort', 'People', 'people', @$state->direction, @$state->order); ?>
 				</td>
 			</tr>
-			<?php echo $this->loadTemplate('items'); ?>
+			<?= @template('default_items'); ?>
 		</tbody>
 	</table>
 	</form>
