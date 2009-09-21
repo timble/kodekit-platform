@@ -22,7 +22,8 @@ class BeerModelPeople extends BeerModelView
 		 	->insert('beer_department_id'   , 'int')
 		 	->insert('beer_office_id'      	, 'int')
 		 	->insert('fletter'  			, 'word')
-		 	->insert('lletter'   			, 'word');
+		 	->insert('lletter'   			, 'word')
+		 	->insert('enabled'   			, 'boolean', false);
 	}
 	
 	public function getLettersFirstname()
