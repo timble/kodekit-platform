@@ -12,28 +12,28 @@
 		<?= @helper('grid.id', $i, $person->id); ?>
 	</td>
 	<td>
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->name); ?>">
+		<span class="editlinktip hasTip" title="<?= @text('Edit Profile');?>::<?= @$escape($person->name); ?>">
 			<a href="<?= @route('view=person&id='.$person->id)?>">
 				<?= @$escape($person->name)?>
 			</a>
 		</span>
 	</td>
 	<td align="center">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Department' );?>::<?= @$escape($person->department); ?>">
+		<span class="editlinktip hasTip" title="<?= @text('Edit Department');?>::<?= @$escape($person->department); ?>">
 			<a href="<?= @route('view=department&id='.$person->beer_department_id)?>">
 				<?= @$escape($person->department)?>
 			</a>
 		</span>
 	</td>
 	<td align="center">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Office' );?>::<?= @$escape($person->office); ?>">
+		<span class="editlinktip hasTip" title="<?= @text('Edit Office');?>::<?= @$escape($person->office); ?>">
 			<a href="<?= @route('view=office&id='.$person->beer_office_id)?>">
 				<?= @$escape($person->office)?>
 			</a>
 		</span>
 	</td>
 	<td align="center">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Profile' );?>::<?= @$escape($person->user_name); ?>">
+		<span class="editlinktip hasTip" title="<?= @text('Edit Profile');?>::<?= @$escape($person->user_name); ?>">
 			<a href="<?= @route('option=com_users&task=edit&view=user&cid[]='.$person->user_id)?>">
 				<?= @$escape($person->user_name)?>
 			</a>
