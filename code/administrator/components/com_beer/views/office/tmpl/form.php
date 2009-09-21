@@ -76,5 +76,4 @@
 			<div id="map_canvas" style="width: 100%; height: 300px"></div>
 		</fieldset>
 	</div>
-	<input type="hidden" name="id" value="<?= @$office->id ?>" />
 </form>

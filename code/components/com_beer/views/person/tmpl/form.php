@@ -54,7 +54,6 @@
 			<legend><?= @text('Bio'); ?></legend>
 			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
-			<button class="button validate" type="submit" onclick="submitbutton( this.form );return false;">Save</button>
+		<button class="button validate" type="submit" onclick="submitbutton( this.form );return false;">Save</button>
 	</div>
-	<input type="hidden" name="id" value="<?= @$person->id ?>" />
 </form>

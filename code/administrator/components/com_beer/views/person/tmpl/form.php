@@ -25,7 +25,7 @@
 	}
 </script>
 
-<form action="<?= @route('&id='. @$person->id)?>" method="post" class="adminform" name="adminForm">
+<form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left"  id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
@@ -71,5 +71,4 @@
 			<?= $editor->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
 	</div>
-	<input type="hidden" name="id" value="<?= @$person->id ?>" />
 </form>

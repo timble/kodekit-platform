@@ -5,8 +5,6 @@
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
-<? $editor =& KFactory::get('lib.joomla.editor', array('tinymce')); ?>
-
 <script language="javascript" type="text/javascript">
 	function checksubmit(form) {
 		var submitOK=true;
@@ -25,7 +23,7 @@
 	}
 </script>
 
-<form action="<?= @route('&id='. @$department->id)?>" method="post" class="adminform" name="adminForm">
+<form action="<?= @route('&id='.@$department->id)?>" method="post" class="adminform" name="adminForm">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
@@ -40,8 +38,7 @@
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>
-			<?= $editor->display( 'description',  @$department->description , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
+			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'description',  @$department->description , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
 	</div>
-	<input type="hidden" name="id" value="<?= @$department->id ?>" />
 </form>
