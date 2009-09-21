@@ -91,7 +91,7 @@ class KFilterHtml extends KFilterAbstract
 		
 		//If false, only auto clean essentials, if true allow clean blacklisted tags/attr
 		if(isset($options['xss_auto'])) {
-			$this->_xssAuto = $options['xss_autoe'];
+			$this->_xssAuto = $options['xss_auto'];
 		}
 	}
 	
