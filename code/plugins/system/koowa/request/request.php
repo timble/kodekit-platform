@@ -86,7 +86,7 @@ class KRequest
 	public static function get($identifier, $filter, $default = null)
 	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
-
+		
 		$result = $GLOBALS['_'.$hash];
 		foreach($keys as $key)
 		{
@@ -97,10 +97,15 @@ class KRequest
 				break;
 			}
 		}
-
+		
 		// If the value is null return the default
 		if(is_null($result)) {
 			return $default;
+		}
+		
+		// Handle magic quotes compatability
+		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
+			$result = self::_stripSlashes( $result );
 		}
 
 		if(!($filter instanceof KFilterInterface))
@@ -441,5 +446,17 @@ class KRequest
 		}
 
 		return $filter;
+	}
+	
+	/**
+	 * Strips slashes recursively on an array
+	 *
+	 * @param	array	Array of (nested arrays of) strings
+	 * @return	array	The input array with stripshlashes applied to it
+	 */
+	protected static function _stripSlashes( $value )
+	{
+		$value = is_array( $value ) ? array_map( array( 'KRequest', '_stripSlashes' ), $value ) : stripslashes( $value );
+		return $value;
 	}
 }
