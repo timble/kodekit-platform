@@ -106,7 +106,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     	if(is_array($property)) {
         	$this->_state->setData($property);
         } else {
-        	$this->_state = $value;
+        	$this->_state->$property = $value;
         }
     	
         return $this;
