@@ -41,7 +41,6 @@ class KTemplate extends KTemplateAbstract
 	 */
 	public static function loadHelper($type)
 	{
-		//Initialise variables
 		$base  = 'lib.koowa.template.helper';
 		$file  = 'default';
 		$func  = $type;
@@ -65,7 +64,7 @@ class KTemplate extends KTemplateAbstract
 			} break;
 		}
 		
-		//Create the object
+		//Create the template helper
 		$helper = KFactory::get($base.'.'.$file);
 		
 		if (!is_callable( array( $helper, $func ) )) {
