@@ -84,14 +84,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		// Initialize the options
         $options  = $this->_initialize($options);
         
-		// Set the tablename
 		$this->_table_name	= $options['table_name'];
-		
-		// Set a primary key
-		$this->_primary	= $options['primary'];
-
-		// Set the dbo
-		$this->_db = isset($options['database']) ? $options['database'] : KFactory::get('lib.koowa.database');
+		$this->_primary	    = $options['primary'];
+		$this->_db          = isset($options['database']) ? $options['database'] : KFactory::get('lib.koowa.database');
 		
 		// Set the table fields
 		$this->_fields = $this->getFields();
