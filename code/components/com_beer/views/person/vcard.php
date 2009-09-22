@@ -21,9 +21,9 @@ class BeerViewPerson extends KViewVcard
 			 ->setAddress('', $person->address1, $person->address2, $person->city, $person->state, $person->postcode, $person->country   , 'WORK;POSTAL')
 			 ->setLabel('', $person->address1, $person->address2, $person->city, $person->state, $person->postcode, $person->country   , 'WORK;POSTAL')
 			 ->setEmail($person->email)
-			 ->setNote($person->bio);
-			  //->setUrl($person->website       , 'WORK')
-			  //->setPhoto($person->website       , 'WORK')
+			 ->setNote($person->bio)
+			 ->setPhoto(file_get_contents('http://www.gravatar.com/avatar.php?gravatar_id='.strtolower($person->email)).'&size=64');
+		   //->setUrl($person->website    , 'WORK')
 			
 		parent::display();
 	}
