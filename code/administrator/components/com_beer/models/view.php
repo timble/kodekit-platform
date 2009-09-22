@@ -65,6 +65,7 @@ abstract class BeerModelView extends KModelTable
 			
 			$options['table_name'] = 'beer_view'.$name;
 			$options['primary']    = 'beer_'.KInflector::singularize($name).'_id';
+			$options['database']   = $this->_db;
 			
 			try	{
 				$this->_view = KFactory::get($this->_view, $options);
