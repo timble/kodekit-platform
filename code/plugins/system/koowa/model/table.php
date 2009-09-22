@@ -45,13 +45,9 @@ class KModelTable extends KModelAbstract
 		// Initialize the options
 		$options  = $this->_initialize($options);
 		
-		// Set the database adapter
-		$this->_db = $options['adapter'];
-		
-		// Set the table associated to the model
+		$this->_db    = $options['adapter'];
 		$this->_table = $options['table'];
 				
-		// Set the state
 		$this->_state
 			->insert('id'       , 'int')
 			->insert('limit'    , 'int', 20)
@@ -139,6 +135,9 @@ class KModelTable extends KModelAbstract
 	{
 		if(!($this->_table instanceof KDatabaseTableAbstract || is_null($this->_table))) 
 		{
+			//Push the database object into the table
+			$options['database'] = $this->_db;
+			
 			try	{
 				$this->_table = KFactory::get($this->_table, $options);
 			} catch ( KDatabaseTableException $e ) { 
