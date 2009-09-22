@@ -10,7 +10,7 @@
 
 /**
  * Koowa Exception Class
- * 
+ *
  * KException is the base class for all koowa related exceptions and
  * provides an additional method for printing up a detailed view of an
  * exception.
@@ -24,7 +24,7 @@ class KException extends Exception implements KExceptionInterface
     /**
 	 * Constructor
 	 *
-	 * @parem string  The exception message
+	 * @param string  The exception message
 	 * @param integer The exception code
 	 */
     public function __construct($message = null, $code = 0)
@@ -32,10 +32,10 @@ class KException extends Exception implements KExceptionInterface
     	if (!$message) {
             throw new $this('Unknown '. get_class($this));
         }
-        
+
         parent::__construct($message, $code);
     }
-      
+
  	/**
 	 * Format the exception for display
 	 *
@@ -46,5 +46,5 @@ class KException extends Exception implements KExceptionInterface
 		 return "exception '".get_class($this) ."' with message '".$this->getMessage()."' in ".$this->getFile().":".$this->getLine()
 		 		."\nStack trace:\n"
 		 		. "  " . str_replace("\n", "\n  ", $this->getTraceAsString());
-    }        
+    }
 }

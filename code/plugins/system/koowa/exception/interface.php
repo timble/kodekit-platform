@@ -22,54 +22,54 @@ interface KExceptionInterface
 	 *
 	 * @return string
 	 */
-    public function getMessage();      
+    public function getMessage();
 
     /**
 	 * Return the user defined exception code
 	 *
 	 * @return integer
 	 */
-    public function getCode(); 
+    public function getCode();
 
     /**
 	 * Return the source filename
 	 *
 	 * @return string
 	 */
-    public function getFile();                    
-    
+    public function getFile();
+
     /**
 	 * Return the source line number
 	 *
 	 * @return integer
 	 */
-    public function getLine();                    
-    
+    public function getLine();
+
     /**
 	 * Return the backtrace information
 	 *
 	 * @return array
 	 */
-    public function getTrace();                  
-    
+    public function getTrace();
+
     /**
 	 * Return the backtrace as a string
 	 *
 	 * @return string
 	 */
-    public function getTraceAsString();           
-   
+    public function getTraceAsString();
+
     /**
 	 * Format the exception for display
 	 *
 	 * @return string
 	 */
-    public function __toString();                 
-    
+    public function __toString();
+
     /**
 	 * Constructor
 	 *
-	 * @parem string  The exception message
+	 * @param string  The exception message
 	 * @param integer The exception code
 	 */
     public function __construct($message = null, $code = 0);
