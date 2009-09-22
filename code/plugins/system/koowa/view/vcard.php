@@ -257,8 +257,8 @@ class KViewVcard extends KViewFile
 	/**
 	 * An image or photograph of the individual associated with the vCard
 	 *
-	 * @param	string 	Type [GIF|JPEG]
-	 * @param 	string	Photo
+	 * @param	string 	Photo data to be encoded
+	 * @param 	string	Type [GIF|JPEG]
 	 * @return  KViewVCard
 	 */
 	public function setPhoto($photo, $type = 'JPEG') 
