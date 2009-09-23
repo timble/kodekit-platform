@@ -17,7 +17,8 @@ class BeerMixinMenu extends KMixinAbstract
 	public function displayMenubar()
 	{
 		$views  = array();
-
+		
+		$views['dashboard'] 	= JText::_('Dashboard');
 		$views['people'] 		= JText::_('People');
 		$views['offices'] 		= JText::_('Offices');
 		$views['departments'] 	= JText::_('Departments');
