@@ -74,6 +74,8 @@ SELECT p.*,
 	CONCAT(d.beer_department_id, ':', d.alias) AS department_slug,
 	CONCAT(o.beer_office_id, ':', o.alias) AS office_slug,
 	u.name AS user_name,
+	u.username AS user_username,
+	u.email AS user_email,
 	LEFT(p.lastname, 1) AS letter_lastname,
 	LEFT(p.firstname, 1) AS letter_firstname
 FROM #__beer_people AS p

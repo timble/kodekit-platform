@@ -26,7 +26,7 @@
 </script>
 
 <form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm">
-	<div style="width:100%; float: left"  id="mainform">
+	<div style="width:49%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
 				<label for="firstname" id="mainlabel"><?= @text('Firstname'); ?></label>
@@ -37,9 +37,6 @@
 				<br />
 				<label for="lastname" id="mainlabel"><?= @text('Lastname'); ?></label>
 				<input id="lastname" type="text" name="lastname" value="<?= @$person->lastname; ?>" />
-				<br />
-				<label for="user_id" id="mainlabel"><?= @text('Linked User'); ?></label>
-				<?=@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
 				<br />
 				<label for="office" id="mainlabel"><?= @text('Office'); ?></label>
 				<?=@helper('admin::com.beer.helper.select.offices', @$person->beer_office_id, 'beer_office_id', '', '', true) ?>
@@ -60,12 +57,35 @@
 				<input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" />
 				<br />
 				<label for="email" id="mainlabel"><?= @text('Email'); ?></label>
-				<input id="email" type="text" name="email" value="<?= @$person->email; ?>" />
+				<input id="email" type="text" name="email" value="<?= @$person->email; ?>"/>
 				<br />
 				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
 				<?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?>
 				<br />
 		</fieldset>
+	</div>
+	<div style="width:49%; float: right" id="mainform">
+		<fieldset>
+			<legend><?= @text('Joomla User'); ?></legend>
+				<label for="user_id" id="mainlabel"><?= @text('Linked User'); ?></label>
+				<?=@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
+				<? if (@$person->user_id) : ?>
+				<a href="<?= @route('option=com_users&task=edit&view=user&cid[]='.@$person->user_id)?>">
+					<?= @text('Go to Joomla Profile'); ?>
+				</a>
+				<? endif; ?>
+				<br />
+				<label for="user_name" id="mainlabel"><?= @text('Name'); ?></label>
+				<input id="user_name" type="text" name="user_name" value="<?= @$person->user_name; ?>" DISABLED />
+				<br />
+				<label for="user_username" id="mainlabel"><?= @text('Username'); ?></label>
+				<input id="user_username" type="text" name="user_username" value="<?= @$person->user_username; ?>" DISABLED />
+				<br />
+				<label for="user_email" id="mainlabel"><?= @text('E-mail'); ?></label>
+				<input id="user_email" type="text" name="user_email" value="<?= @$person->user_email; ?>" DISABLED />
+		</fieldset>
+	</div>
+	<div style="width:100%; float: left">
 		<fieldset>
 			<legend><?= @text('Bio'); ?></legend>
 			<?= $editor->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
