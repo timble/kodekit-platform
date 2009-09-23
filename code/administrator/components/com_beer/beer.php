@@ -15,6 +15,9 @@ if(!defined('KOOWA')) {
     return;
 }
 
+// Require the defines
+Koowa::import('admin::com.beer.defines');
+
 // Create the controller dispatcher
 KFactory::get('admin::com.beer.dispatcher', array('default_view' => 'dashboard'))
 	->dispatch();

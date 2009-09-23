@@ -5,22 +5,44 @@
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
 <div style="width:49%;float:left;">
-	<div style="text-align:center;">
-		<h3><?= @text('Offices Population')?></h3>
-		<img src="<?=@helper('admin::com.beer.helper.chart.pie', 'offices') ?>" alt="<?= @text('Offices Population')?>" />
-	</div>
-	<h3><?= @text('Largest offices'); ?></h3>
-	<?= @template('default_offices'); ?>
+	<?= @helper('tabs.startPane', 'graphs', array('height' => '275px')) ?>
+	
+	<?= @helper('tabs.startPanel', @text('Offices')) ?>
+	    <div style="text-align:center;">
+	    	<h3><?= @text('Population')?></h3>
+	        <img src="<?=@helper('admin::com.beer.helper.chart.pie', 'offices') ?>" alt="<?= @text('Offices')?>" />
+	    </div>
+	<?= @helper('tabs.endPanel') ?>
+	
+	<?= @helper('tabs.startPanel', @text('Departments')) ?>
+	    <div style="text-align:center;">
+	    	<h3><?= @text('Population')?></h3>
+	        <img src="<?=@helper('admin::com.beer.helper.chart.pie', 'departments') ?>" alt="<?= @text('Departments')?>" />
+	    </div>
+ 	<?= @helper('tabs.endPanel') ?>
+ 	
+	<?= @helper('tabs.endPane') ?>
 </div>
 
+	
 <div style="width:49%;float:right;">
-	<div style="text-align:center;">
-		<h3><?= @text('Departments Population')?></h3>
-		<img src="<?=@helper('admin::com.beer.helper.chart.pie', 'departments') ?>" alt="<?= @text('Departments Population')?>" />
-	</div>
-	<h3><?= @text('Largest Departments'); ?></h3>	
-	<?= @template('default_departments'); ?>
+
+	<?= @helper('tabs.startPane', 'items', array('height' => '275px')) ?>
+	
+	<?= @helper('tabs.startPanel', @text('Largest Departments')) ?>
+    <?= @template('default_offices'); ?>
+    <?= @helper('tabs.endPanel') ?>
+    
+    <?= @helper('tabs.startPanel', @text('Largest Ooffices')) ?>
+    <?= @template('default_departments'); ?>
+    <?= @helper('tabs.endPanel') ?>
+    
+    <?= @helper('tabs.startPanel', @text('Latest People')) ?>
+	<?= @template('default_offices'); ?>
+    <?= @helper('tabs.endPanel') ?>
+    
+    <?= @helper('tabs.endPane') ?>
+
 </div>
 
-<h3><?= @text('Latest People'); ?></h3>
-<?= @template('default_people'); ?>
+<?= @template('default_footer'); ?>
