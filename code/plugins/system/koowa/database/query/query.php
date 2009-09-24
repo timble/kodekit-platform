@@ -449,11 +449,11 @@ class KDatabaseQuery extends KObject
 			$query .= ' WHERE '.implode(' ', $this->where).PHP_EOL;
 		}
 
-		if (!empty($this->_group)) {
+		if (!empty($this->group)) {
 			$query .= ' GROUP BY '.implode(' , ', $this->group).PHP_EOL;
 		}
 
-		if (!empty($this->_having)) {
+		if (!empty($this->having)) {
 			$query .= ' HAVING '.implode(' , ', $this->having).PHP_EOL;
 		}
 		
