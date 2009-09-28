@@ -1,9 +1,23 @@
-ul.pagination {
-	margin:15px auto;
-	padding:10px 0;
+.pagination .limit {
+	float: left;
 }
 
-ul.pagination li {
+.pagination .count {
+	padding:3px 0 0 10px;
+	float: left;
+}
+
+.pagination .pages {
+	margin:0px;
+	padding:3px 0 0 0;
+	float: left;
+}
+
+.pagination .active {
+	font-weight: bold;
+}
+
+.pagination li {
 	display:inline;
 	margin:0;
 	padding:4px;

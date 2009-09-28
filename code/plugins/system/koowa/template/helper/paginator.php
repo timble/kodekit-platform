@@ -20,7 +20,91 @@
 class KTemplateHelperPaginator extends KObject
 {
 	/**
-	 * Render a select box with limit values for a grid
+	 * Render item pagination
+	 *
+	 * @param	int	Total number of items
+	 * @param	int	Offset for the current page
+	 * @param	int	Limit of items per page
+	 * @param	int	Number of links to show before and after the current page link
+	 * @return	string	Html
+	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/item.html
+	 */
+	public function pagination($total, $offset, $limit, $display = 4)
+	{
+		KFactory::get('lib.joomla.document')->addStylesheet(KRequest::root().'/media/plg_koowa/css/pagination.css');
+		
+		// Paginator object
+		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
+				array('total'  => $total,
+					  'offset' => $offset,
+					  'limit'  => $limit,
+					  'display' => $display)
+		);
+				
+		// Get the paginator data
+		$list = $paginator->getList();
+		
+		$html  = '<div class="pagination">';
+		$html .= '<div class="limit">'.JText::_('Display').'# '.$this->limit($limit).'</div>';
+		$html .=  $this->pages($list);
+		$html .= '<div class="count"> '.JText::_('Pages').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
+		$html .= '</div>';
+		
+		return $html;
+	}
+	
+	/**
+	 * Render a list of pages links
+	 *
+	 * @param	araay 	An array of page data
+	 * @return	string	Html
+	 */
+	public function pages($pages)
+	{
+		$html = '<ul class="pages">';
+		
+		$html .= '<li class="first">&laquo; '.$this->link($pages['first'], 'First').'</li>';
+		$html .= '<li class="previous">&lt; '.$this->link($pages['previous'], 'Previous').'</li>';
+		
+		foreach($pages['pages'] as $page) {
+			$html .= '<li>'.$this->link($page, $page->page).'</li>';
+		}
+		
+		$html .= '<li class="next">'.$this->link($pages['next'], 'Next').' &gt;</li>';
+		$html .= '<li class="previous">'.$this->link($pages['last'], 'Last').' &raquo;</li>';
+
+		$html .= '</ul>';
+		return $html;
+	}
+	
+	/**
+	 * Render a page link
+	 *
+	 * @param	object The page data
+	 * @param	string The link title
+	 * @return	string	Html
+	 */
+	public function link($page, $title)
+	{
+		$url   = clone KRequest::url();
+		$query = $url->getQuery(true);
+		
+		$query['limit']  = $page->limit;	
+		$query['offset'] = $page->offset;
+		
+		$class = $page->current ? 'class="active"' : '';
+		
+		if($page->active && !$page->current) {
+			$html = '<a href="'.(string) $url->setQuery($query).'" '.$class.'>'.JText::_($title).'</a>';
+		} else {
+			$html = '<span '.$class.'>'.JText::_($title).'</span>';
+		}
+		
+		return $html;
+	}
+	
+	/**
+	 * Render a select box with limit values
 	 *
 	 * @param 	int		Currenct limit
 	 * @return 	string	Html select box
@@ -29,71 +113,24 @@ class KTemplateHelperPaginator extends KObject
 	{
 		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/pagination.js');
 
-		// modify url
+		// Modify the url to include the limit
 		$url   = clone KRequest::url();
 		$query = $url->getQuery(true);
 		
 		$selected = '';
-		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 =>'all' ) as $value => $text)
+		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 => 'all' ) as $value => $text)
 		{
 			$query['limit'] = $value;
-			$redirect = (string) $url->setQuery($query);
+			$redirect       = (string) $url->setQuery($query);
 			
-			if($value==$limit) {
+			if($value == $limit) {
 				$selected = $redirect;
 			}
+			
 			$limits[] = KTemplate::loadHelper('select.option', $redirect,  JText::_($text));
 		}
 
-		// Build the select list
 		$html = KTemplate::loadHelper('select.genericlist',  $limits, 'limit', 'class="inputbox autoredirect"', 'value', 'text', $selected);
-
-		return $html;
-	}
-
-	/*
-	 * Render a list of pages links
-	 *
-	 * @param	int	Total number of items
-	 * @param	int	Offset for the current page
-	 * @param	int	Limit of items per page
-	 * @param	int	Number of links to show before and after the current page link
-	 * @return	string	Html
-	 */
-	public function pages($total, $offset, $limit, $display = 4)
-	{
-		KFactory::get('lib.joomla.document')->addStylesheet(KRequest::root().'/media/plg_koowa/css/pagination.css');
-		
-		// Paginator object
-		$p = KFactory::tmp('lib.koowa.model.paginator')->setData(
-				array('total'  => $total,
-					  'offset' => $offset,
-					  'limit'  => $limit,
-					  'display' => $display));
-
-		// modify url
-		$url = clone KRequest::url();
-		$query = $url->getQuery(true);
-		
-		$query['limit'] = $p->limit;
-
-		// Html
-		$html = '<ul class="pagination"><li>«</li>';
-
-		foreach($p->getList() as $elem)
-		{
-			if($elem->active && !$elem->current)
-			{
-				$query['offset']	= $elem->offset;
-				$link = (string) $url->setQuery($query);
-				$link = '<a href="'.$link.'">'.JText::_($elem->text).'</a>';
-			} else {
-				$link = JText::_($elem->text);
-			}
-			$html .= '<li><span>'.$link.'</span></li>';
-		}
-
-		$html .= '<li>»</li></ul>';
 		return $html;
 	}
 }

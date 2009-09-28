@@ -25,7 +25,6 @@
  */
 class KModelPaginator extends KModelState
 {
-
 	/**
 	 * Constructor
      *
@@ -92,52 +91,47 @@ class KModelPaginator extends KModelState
 	 */
     public function getList()
     {
-    	$elements = array();
+    	$elements  = array();
     	$prototype = new KObject();
-    	$current = ($this->current - 1) * $this->limit;
+    	$current   = ($this->current - 1) * $this->limit;
 
     	// First
-    	$page = 1;
-    	$offset = 0;
-    	$active = $offset != $this->offset;
-    	$props = array('page' => $page, 'offset' => $offset, 'current' => false, 'active' => $active, 'text' => 'First');
-    	$element 	= clone $prototype;
-    	$elements[] = $element->set($props);
+    	$page    = 1;
+    	$offset  = 0;
+    	$active  = $offset != $this->offset;
+    	$props   = array('page' => 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active );
+    	$element = clone $prototype;
+    	$elements['first'] = $element->set($props);
 
     	// Previous
-    	$page = $this->current - 1;
-    	$offset = max(0, ($page - 1) * $this->limit);
-		$active = $offset != $this->offset;
-    	$props = array('page' => $page, 'offset' => $offset, 'current' => false, 'active' => $active, 'text' => 'Previous');
-    	$element 	= clone $prototype;
-    	$elements[] = $element->set($props);
+    	$offset  = max(0, ($this->current - 2) * $this->limit);
+    	$active  = $offset != $this->offset;
+    	$props   = array('page' => $this->current - 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active);
+    	$element = clone $prototype;
+    	$elements['previous'] = $element->set($props);
 
 		// Pages
 		foreach($this->_getOffsets() as $page => $offset)
 		{
 			$current = $offset == $this->offset;
-			$props = array('page' => $page, 'offset' => $offset, 'current' => $current, 'active' => !$current, 'text' => $page);
+			$props = array('page' => $page, 'offset' => $offset, 'limit' => $this->limit, 'current' => $current, 'active' => !$current);
     		$element 	= clone $prototype;
-    		$elements[] = $element->set($props);
+    		$elements['pages'][] = $element->set($props);
 		}
 
 		// Next
-    	$page = $this->current + 1;
-    	$offset = min(
-    				($this->count-1) * $this->limit,
-    				($page - 1) * $this->limit);
- 		$active = $offset != $this->offset;
-    	$props = array('page' => $page, 'offset' => $offset, 'current' => false, 'active' => $active, 'text' => 'Next');
-    	$element 	= clone $prototype;
-    	$elements[] = $element->set($props);
+    	$offset  = min(($this->count-1) * $this->limit, ($this->current) * $this->limit);
+ 		$active  = $offset != $this->offset;
+    	$props   = array('page' => $this->current + 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active);
+    	$element = clone $prototype;
+    	$elements['next'] = $element->set($props);
 
     	// Last
-    	$page = $this->count;
-    	$offset = ($page - 1) * $this->limit;
-    	$active = $offset != $this->offset;
-    	$props = array('page' => $page, 'offset' => $offset, 'current' => false, 'active' => $active, 'text' => 'Last');
-    	$element 	= clone $prototype;
-    	$elements[] = $element->set($props);
+    	$offset  = ($this->count - 1) * $this->limit;
+    	$active  = $offset != $this->offset;
+    	$props   = array('page' => $this->count, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active);
+    	$element = clone $prototype;
+    	$elements['last'] = $element->set($props);
 
     	return $elements;
     }
