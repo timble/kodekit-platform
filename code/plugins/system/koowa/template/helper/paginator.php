@@ -27,7 +27,7 @@ class KTemplateHelperPaginator extends KObject
 	 * @param	int	Limit of items per page
 	 * @param	int	Number of links to show before and after the current page link
 	 * @return	string	Html
-	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/item.html
+	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
 	 */
 	public function pagination($total, $offset, $limit, $display = 4)
 	{
