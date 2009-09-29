@@ -238,6 +238,8 @@ class KModelTable extends KModelAbstract
         $this->_buildQueryFrom($query);
         $this->_buildQueryJoins($query);
         $this->_buildQueryWhere($query);
+        $this->_buildQueryGroup($query);
+        $this->_buildQueryHaving($query);
         $this->_buildQueryOrder($query);
         $this->_buildQueryLimit($query);
   
@@ -289,6 +291,22 @@ class KModelTable extends KModelAbstract
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
 
+    }
+    
+  	/**
+     * Builds a GROUP BY clause for the query
+     */
+    protected function _buildQueryGroup(KDatabaseQuery $query)
+    {
+    	
+    }
+
+    /**
+     * Builds a HAVING clause for the query
+     */
+    protected function _buildQueryHaving(KDatabaseQuery $query)
+    {
+    	
     }
 
     /**

@@ -205,7 +205,7 @@ class KInflector
  	   return $word;
 	}
 
-   	/**
+   		/**
 	 * Returns given word as CamelCased
 	 *
 	 * Converts a word like "foo_bar" or "foo bar" to "FooBar". It

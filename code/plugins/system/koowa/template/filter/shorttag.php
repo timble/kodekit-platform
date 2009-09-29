@@ -41,13 +41,13 @@ class KTemplateFilterShorttag extends KObject implements KTemplateFilterInterfac
          * probably be the biggest headache.
          */
                 
-        // convert "<?=" to "<?php echo"
-        $find = '/\<\?\=\s?(.*?)/';
+         // convert "<?=" to "<?php echo"
+        $find = '/\<\?\s*=\s*(.*?)/';
         $replace = "<?php echo \$1";
         $text = preg_replace($find, $replace, $text);
-        
+
         // convert "<?" to "<?php"
-        $find = '/\<\?\s(.*?)/';
+        $find = '/\<\?(?:php)?\s*(.*?)/';
         $replace = "<?php \$1";
         $text = preg_replace($find, $replace, $text);
 	}

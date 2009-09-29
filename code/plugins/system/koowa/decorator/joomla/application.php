@@ -147,7 +147,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		$args['code']		= $code;
 		$args['action']     = 'close';
 		
-		if($this->getCommandChain()->run('application.before.execute', $args) === true) {
+		if($this->getCommandChain()->run('application.before.close', $args) === true) {
 			$this->getObject()->close($args['code']);
 		}
 

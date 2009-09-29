@@ -8,7 +8,7 @@
 	<authorEmail>support@koowa.org</authorEmail>
 	<authorUrl>www.koowa.org</authorUrl>
 	<version>0.7.0</version>
-	<description>Rapid Application Development framework. Please check if you have PHP 5.2+ before publishing this plugin.</description>	
+	<description>Rapid Extension Development framework. Please check if you have PHP 5.2+ before publishing this plugin.</description>	
 	
 	<!--  Files -->
 	<files folder="plugins/system">

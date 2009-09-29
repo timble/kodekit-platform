@@ -103,32 +103,38 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
                 }
 				
 				$this->insert($table, $data);
+				$this->_object->setQuery(''); //prevent duplicate queries
 			} break;
 
 			case 'UPDATE' :
 			{
 				//Make sure the where statement is uppercase
 				$sql   = str_replace('where', 'WHERE', $sql);
-
+				
 				//Split the sql string
-				$where = substr($sql, strpos($sql, 'WHERE'));
-				$query = substr_replace($sql, 'WHERE 1 = 1', strpos($sql, 'WHERE'));
-
+				$where = '';
+				$query = $sql.' WHERE 1 = 1';
+				
+				if($pos = strpos($sql, 'WHERE')) {
+					$where = substr($sql, $pos);
+					$query = substr_replace($sql, 'WHERE 1 = 1', $pos);
+				}
+			
 				$parser = new KDatabaseQueryParser();
 				if(!$query  = $parser->parse($this->replaceTablePrefix($query, '', $prefix))) {
 					$this->select($sql);
 					break;
 				}
-
+				
 				//Remove prefix from the table name
 				$table = str_replace($this->getPrefix(), '', $query['table_names'][0]);
-
 				$data  = array();
 				foreach($query['column_names'] as $key => $column_name) {
 					$data[$column_name] = $query['values'][$key]['value'];
 				}
 
 				$this->update($table, $data, $where);
+				$this->_object->setQuery(''); //prevent duplicate queries
 			} break;
 
 			case 'DELETE'  :
@@ -137,8 +143,13 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 				$sql = str_replace('where', 'WHERE', $sql);
 
 				//Split the sql string
-				$where = substr($sql, strpos($sql, 'WHERE'));
-				$query = substr_replace($sql, 'WHERE 1 = 1', strpos($sql, 'WHERE'));
+				$where = '';
+				$query = $sql.' WHERE 1 = 1';
+				
+				if($pos = strpos($sql, 'WHERE')) {
+					$where = substr($sql, $pos);
+					$query = substr_replace($sql, 'WHERE 1 = 1', $pos);
+				}
 
 				$parser = new KDatabaseQueryParser();
 				if(!$query  = $parser->parse($this->replaceTablePrefix($query, '', $prefix))) {
@@ -150,6 +161,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 				$table = str_replace($this->getPrefix(), '', $query['table_names'][0]);
 
 				$this->delete($table, $where);
+				$this->_object->setQuery(''); //prevent duplicate queries
 			} break;
 
 			default : $this->select( $sql, $offset, $limit );
@@ -438,15 +450,12 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 	 *
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	/*public function query()
+	public function query()
 	{
 		if(!empty($this->_object->_sql))
 		{
 			//Execute the actual query
 			$result = $this->_object->query();
-
-			//Empty the sql to prevent the query from being executed twice
-			$this->_object->setQuery('');
 			return $result;
 		}
 
@@ -455,7 +464,8 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 		}
 
 		return $this->_cursor;
-	}*/
+	}
+	
 
     /**
      * The database's date and time

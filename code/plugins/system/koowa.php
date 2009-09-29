@@ -42,25 +42,29 @@ class plgSystemKoowa extends JPlugin
 		// Decorate the application object
 		$app  =& JFactory::getApplication();
 		$app  = new KDecoratorJoomlaApplication($app);
+		
+		// Get the Joomla database object
+		$jdb  =& JFactory::getDBO();
 
 		//Create the koowa database object
-		$kdb = KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'));
-
-		// Decorate the database object
-		$jdb  =& JFactory::getDBO();
-		$jdb  = new KDecoratorJoomlaDatabase($jdb);
+		KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'))
+			->setConnection($jdb->_resource)
+			->setTablePrefix($jdb->_table_prefix);
+		
+		// Don't proxy the dataase if we are in com_installer
+		if(KRequest::get('request.option', 'cmd') != 'com_installer')
+		{
+			// Decorate the database object
+			$jdb = new KDecoratorJoomlaDatabase($jdb);
+			
+			//ACL uses the unwrapped DBO
+       		$acl = JFactory::getACL();
+        	$acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
+		}
 
 		// Decortae the language object
 		$lang =& JFactory::getLanguage();
 		$lang = new KDecoratorJoomlaLanguage($lang);
-
-		// Create the koowa database object
-		$kdb->setConnection($jdb->_resource);
-		$kdb->setTablePrefix($jdb->_table_prefix);
-
-		//ACL uses the unwrapped DBO
-        $acl = JFactory::getACL();
-        $acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
 
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
