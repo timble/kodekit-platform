@@ -115,6 +115,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 *
 	 * $db = new KDatabaseAdapterMysqli($config);
 	 * </code>
+	 * 
+	 * @return KDatabaseAdapterMysqli
 	 */
 	 public function connect()
 	 {
@@ -154,10 +156,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  
 		$this->_connection = $mysqli;
 		$this->_active = true;	
+		
+		return $this;
  	}
  	
 	/**
 	 * Disconnect from db
+	 * 
+	 * @return KDatabaseAdapterMysqli
 	 */
 	public function disconnect()
 	{
@@ -167,6 +173,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			$this->_connection = null;
 			$this->_active = false;
 		}
+		
+		return $this;
 	}
  
 	/**

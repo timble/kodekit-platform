@@ -139,6 +139,8 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 	/**
 	 * Connect to the db
+	 * 
+	 * @return  KDatabaseAdapterAbstract
 	 */
 	abstract public function connect();
 
@@ -151,20 +153,28 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 	/**
 	 * Reconnect to the db
+	 * 
+	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function reconnect()
 	{
 		$this->disconnect();
 		$this->connect();
+		
+		return $this;
 	}
 
 	/**
 	 * Disconnect from db
+	 * 
+	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function disconnect()
 	{
 		$this->_connection = null;
 		$this->_active = false;
+		
+		return $this;
 	}
 
 	/**
@@ -183,11 +193,13 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	/**
 	 * Set the connection
 	 *
-	 * @param $resource The connection resource
+	 * @param 	resource 	The connection resource
+	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function setConnection($resource)
 	{
 		$this->_connection = $resource;
+		return $this;
 	}
 
 	/**
@@ -496,7 +508,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * Set the table prefix
 	 *
 	 * @param string The table prefix
-	 * return KDatabaseAdapterAbstract
+	 * @return KDatabaseAdapterAbstract
 	 */
 	public function setTablePrefix($prefix)
 	{
