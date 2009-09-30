@@ -24,8 +24,7 @@ class BeerViewPeople extends KViewDefault
 			->append('enable')
 			->append('disable');
 			
-		$this->assign('letters_lastname', $this->getModel()->getLettersLastname());
-		$this->assign('letters_firstname', $this->getModel()->getLettersFirstname());
+		$this->assign('letters_name', $this->getModel()->getLetters());
 
 		//Display the layout
 		parent::display();

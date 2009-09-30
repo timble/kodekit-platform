@@ -21,33 +21,22 @@ class BeerModelPeople extends BeerModelView
 		$this->_state
 		 	->insert('beer_department_id'   , 'int')
 		 	->insert('beer_office_id'      	, 'int')
-		 	->insert('fletter'  			, 'word')
-		 	->insert('lletter'   			, 'word')
+		 	->insert('letter_name'  		, 'word')
 		 	->insert('enabled'   			, 'boolean', false);
 	}
 	
-	public function getLettersFirstname()
+	public function getLetters()
 	{
 		$query = $this->_db->getQuery()
-			->select('letter_firstname AS fletter')
+			->select('letter_name')
 			->distinct()
 			->from('beer_viewpeople AS tbl')
-			->order('tbl.letter_firstname');
-					
-		return $this->getView()->fetchRowset($query);
+			->order('tbl.letter_name');
+		
+		$result = (array) $this->_db->fetchResultList($query);
+		return $result; 
 	}
 	
-	public function getLettersLastname()
-	{
-		$query = $this->_db->getQuery()
-			->select('letter_lastname AS lletter')
-			->distinct()
-			->from('beer_viewpeople AS tbl')
-			->order('tbl.letter_lastname');
-						        
-		return $this->getView()->fetchRowset($query);
-	}
-
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$state = $this->_state;
@@ -73,11 +62,8 @@ class BeerModelPeople extends BeerModelView
 				  ->where('tbl.bio', 'LIKE', $search, 'or');
 		}
 		
-		if ( $state->lletter) {
-			$query->where('tbl.lastname', 'Like',  $state->lletter.'%');	
-		}
-		if ( $state->fletter) {
-			$query->where('tbl.firstname', 'Like',  $state->fletter.'%');	
+		if ( $state->letter_name) {
+			$query->where('tbl.lastname', 'Like',  $state->letter_name.'%');	
 		}
 	}
 }

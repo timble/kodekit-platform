@@ -61,9 +61,9 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE OR REPLACE VIEW #__beer_viewpeople AS 
+CREATE OR REPLACE VIEW jos_beer_viewpeople AS 
 SELECT p.*, 
-	CONCAT_WS(' ', p.`firstname`, p.`middlename`, p.`lastname`) AS name,
+	CONCAT_WS(' ', p.`lastname`, ' , ', p.`firstname`) AS name,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
 	d.enabled AS department_enabled, 
 	IF(o.enabled < 1, CONCAT('[', o.title, ']'), o.title) AS office,
@@ -76,12 +76,11 @@ SELECT p.*,
 	u.name AS user_name,
 	u.username AS user_username,
 	u.email AS user_email,
-	LEFT(p.lastname, 1) AS letter_lastname,
-	LEFT(p.firstname, 1) AS letter_firstname
-FROM #__beer_people AS p
-LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
-LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id
-LEFT JOIN #__users AS u ON u.id = p.user_id;
+	LEFT(p.lastname, 1) AS letter_name
+FROM jos_beer_people AS p
+LEFT JOIN jos_beer_departments AS d ON d.beer_department_id = p.beer_department_id
+LEFT JOIN jos_beer_offices AS o ON o.beer_office_id = p.beer_office_id
+LEFT JOIN jos_users AS u ON u.id = p.user_id;
 
 
 CREATE OR REPLACE VIEW #__beer_viewdepartments AS 

@@ -1,41 +1,48 @@
 .icon-48-generic {
 	background: transparent url(../images/logo.png) no-repeat !important;
 }
-/* @group lettersmenu */
 
-.lettersmenu {
-	width: 100%;
+
+.filter-search {
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.filter-letters {
+	text-align: left;
+	margin: 0;
+	padding: 3px 0;
+	float: right;
+}
+
+.filter-letters li {
+	display: inline;
+	margin-right: 5px;
 	font-size: 0.9em;
 }
 
-.lettersmenu ul {
-	text-align: left;
-	margin: 10px 0;
-	padding: 3px 0;
-}
-
-.lettersmenu ul li {
-	display: inline;
-}
-
-.lettersmenu ul li a {
-	color: #0B55C4;
-	margin-right: 5px;
+.filter-letters li span {
 	text-decoration: none;
 	border: 1px solid #ccc;
 	background-color: #F6F6F6;
 	padding: 3px;
 }
 
-.lettersmenu ul li a:hover,.lettersmenu ul li a.selected {
+.filter-letters li a {
+	color: #0B55C4;
+	text-decoration: none;
+	border: 1px solid #ccc;
+	background-color: #F6F6F6;
+	padding: 3px;
+}
+
+.filter-letters li a:hover, .filter-letters li a.selected {
 	background-color: grey;
 	color: #FFF;
 }
 
-.lettersmenu ul li a.active {
-	font-weight: 900;
-	color: #000;
-	text-decoration: underline;
+.filter-letters li a.active {
+	background-color: grey;
+	color: #FFF;
+	font-weight: bold;
 }
-
-/* @end */
