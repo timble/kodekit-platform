@@ -260,12 +260,12 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 		}
 
 		//Get the user object
-		$user = KFactory::get('lib.joomla.user')->get('id');
+		$userid = KFactory::get('lib.joomla.user')->get('id');
 
 		//force to integer
-		settype($user, 'int');
+		settype($userid, 'int');
 
-		$this->checked_out = $user->get('id');
+		$this->checked_out = $userid;
 		$this->save();
 
 		return $this;
