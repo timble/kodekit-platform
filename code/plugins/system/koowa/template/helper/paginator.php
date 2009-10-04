@@ -94,7 +94,7 @@ class KTemplateHelperPaginator extends KObject
 		
 		$class = $page->current ? 'class="active"' : '';
 		
-		if($page->active && !$page->current) {
+		if($page->active && !$page->current && $page->offset >= 0) {
 			$html = '<a href="'.(string) $url->setQuery($query).'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
