@@ -219,7 +219,7 @@ class KControllerForm extends KControllerBread
 					  ->getTable()
 					  ->update(array('enabled' => $enable), $id);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name).'&format='.$format);
+		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
 
 		return $this->table;
 	}
@@ -233,14 +233,13 @@ class KControllerForm extends KControllerBread
 	{
 		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
-		$fomat  = KRequest::get('get.format', 'cmd', 'html');
 
 		//Update the table
 		$table = $this->getModel()
 					  ->getTable()
 					  ->update(array('access' => $access), $id);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name).'&format='.$format,
+		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name),
 			JText::_( 'Changed items access level')
 		);
 	}
@@ -254,7 +253,6 @@ class KControllerForm extends KControllerBread
 	{
 		$id 	= KRequest::get('post.id', 'int');
 		$change = KRequest::get('post.order_change', 'int');
-		$format = KRequest::get('get.format', 'cmd', 'html');
 
 		//Change the order
 		$row = $this->getModel()
@@ -262,7 +260,7 @@ class KControllerForm extends KControllerBread
 					->fetchRow($id)
 					->order($change);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name).'&format='.$format);
+		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
 		return $row;
 	}
 }
