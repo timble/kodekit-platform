@@ -72,8 +72,7 @@
 		<tfoot>
             <tr>
                 <td colspan="20">
-                     <?= @helper('paginator.limit', @$state->limit) ?>
-					 <?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
+                     <?= @helper('paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
                 </td>
             </tr>
         </tfoot>
