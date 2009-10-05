@@ -22,6 +22,6 @@ class KToolbarButtonNew extends KToolbarButtonAbstract
 	{
 		$option = KRequest::get('get.option', 'cmd');
 		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		return 'index.php?option='.$option.'&view='.$view.'&layout=form';
+		return 'index.php?option='.$option.'&view='.$view;
 	}
 }
