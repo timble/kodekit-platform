@@ -37,7 +37,7 @@ class KControllerBread extends KControllerAbstract
 	{
 		$model   = $this->getModel();
 		$state   = KRequest::get('session.'.$model->getIdentifier(), 'raw', array());
-		$request = KRequest::get('get', 'string');
+		$request = KRequest::get('request', 'string');
 		
 		//Set the state in the model
 		$model->set( KHelperArray::merge($state, $request));
