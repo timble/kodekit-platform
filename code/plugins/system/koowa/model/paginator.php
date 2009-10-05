@@ -53,28 +53,39 @@ class KModelPaginator extends KModelState
     {
 		parent::setData($data);
 		
-		$total	= (int) $this->total;
-		$limit	= (int) max($this->limit, 1);
-		$offset	= (int) max($this->offset, 0);
+		if($this->total == 0)
+		{
+			$total   = 0;
+			$limit   = 0;
+			$offset  = 0;
+			$count   = 0;
+			$current = 0;
+		} 
+		else
+		{
+			$total	= (int) $this->total;
+			$limit	= (int) max($this->limit, 1);
+			$offset	= (int) max($this->offset, 0);
+			
+			if($limit > $total) {
+				$offset = 0;
+			}
+			
+			if(!$this->limit) 
+			{
+				$offset = 0;
+				$limit  =  $total;
+			}
+			
+			$count	= (int) ceil($total / $limit);
 
-		if($limit > $total) {
-			$offset = 0;
+    		if($offset > $total) {
+				$offset = ($count-1) * $limit;
+			}
+
+			$current = (int) floor($offset / $limit) + 1;
 		}
 		
-		if(!$limit) 
-		{
-			$offset = 0;
-			$limit  =  $total;
-		}
-
-		$count	= (int) ceil($total / $limit);
-
-    	if($offset > $total) {
-			$offset = ($count-1) * $limit;
-		}
-
-		$current = (int) floor($offset / $limit) +1;
-
 		$this->total = $total;
 		$this->limit = $limit;
 		$this->offset = $offset;
@@ -111,6 +122,7 @@ class KModelPaginator extends KModelState
     	$elements['previous'] = $element->set($props);
 
 		// Pages
+		$elements['pages'] = array();
 		foreach($this->_getOffsets() as $page => $offset)
 		{
 			$current = $offset == $this->offset;
@@ -156,8 +168,11 @@ class KModelPaginator extends KModelState
     	}
 
     	$result = array();
-    	foreach(range($start, $stop) as $pagenumber) {
-    		$result[$pagenumber] = 	($pagenumber-1) * $this->limit;
+    	if($start > 0)
+    	{
+    		foreach(range($start, $stop) as $pagenumber) {
+    			$result[$pagenumber] = 	($pagenumber-1) * $this->limit;
+    		}
     	}
 
     	return $result;

@@ -47,7 +47,7 @@ class KTemplateHelperPaginator extends KObject
 		$html  = '<div class="pagination">';
 		$html .= '<div class="limit">'.JText::_('Display').'# '.$this->limit($limit).'</div>';
 		$html .=  $this->pages($list);
-		$html .= '<div class="count"> '.JText::_('Pages').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
+		$html .= '<div class="count"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
 		$html .= '</div>';
 		
 		return $html;
@@ -94,7 +94,7 @@ class KTemplateHelperPaginator extends KObject
 		
 		$class = $page->current ? 'class="active"' : '';
 		
-		if($page->active && !$page->current && $page->offset >= 0) {
+		if($page->active && !$page->current) {
 			$html = '<a href="'.(string) $url->setQuery($query).'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
@@ -129,8 +129,9 @@ class KTemplateHelperPaginator extends KObject
 			
 			$limits[] = KTemplate::loadHelper('select.option', $redirect,  JText::_($text));
 		}
-
-		$html = KTemplate::loadHelper('select.genericlist',  $limits, 'limit', 'class="inputbox autoredirect"', 'value', 'text', $selected);
+		
+		$attribs = array('class' => 'inputbox autoredirect');
+		$html = KTemplate::loadHelper('select.genericlist',  $limits, 'limit', $attribs, 'value', 'text', $selected);
 		return $html;
 	}
 }
