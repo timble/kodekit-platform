@@ -66,7 +66,7 @@ class KTemplateHelperDefault extends KObject
 			$offset = $config->getValue('config.offset');
 		}
 
-		$instance = KFactory::get('lib.joomla.date', array($date));
+		$instance = KFactory::tmp('lib.joomla.date', array($date));
 		$instance->setOffset($offset);
 
 		return $instance->toFormat($format);
