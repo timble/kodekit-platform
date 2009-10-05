@@ -38,7 +38,7 @@ class BeerHelperPaginator extends KTemplateHelperPaginator
 		$html  = '<div class="pagination">';
 		$html .= '<div class="limit">'.JText::_('Display').'# '.$this->limit($limit).'</div>';
 		$html .=  $this->pages($list);
-		$html .= '<div class="limit"> '.JText::_('Pages').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
+		$html .= '<div class="limit"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
 		$html .= '</div>';
 		$html .= '</del>';
 		
