@@ -86,5 +86,22 @@ class BeerHelperSelect extends KObject
 
         // build the HTML list
         return KTemplate::loadHelper('select.genericlist',  $list, $name, $attribs, 'id', 'name', $selected, $idtag );
-    }	
+    }
+    
+	public function groups($selected, $name = 'gid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
+    {
+
+       $items = KFactory::get('admin::com.beer.model.users')->getGroups();
+
+		// Add first option to list
+        $list = array();
+        if($allowAny) {
+            $list[] = KTemplate::loadHelper('select.option', '', JText::_( 'Select Group' ), 'gid', 'usertype' );
+        }
+
+        $list = array_merge( $list, $items );
+
+        // build the HTML list
+        return KTemplate::loadHelper('select.genericlist',  $list, $name, $attribs, 'gid', 'usertype', $selected, $idtag );
+    }
 }

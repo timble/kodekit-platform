@@ -22,6 +22,7 @@ class BeerMixinMenu extends KMixinAbstract
 		$views['people'] 		= JText::_('People');
 		$views['offices'] 		= JText::_('Offices');
 		$views['departments'] 	= JText::_('Departments');
+		$views['users']			= Jtext::_('Users');
 
 		foreach($views as $view => $title)
 		{

@@ -101,6 +101,11 @@ FROM #__beer_offices AS o
 LEFT JOIN #__beer_people AS p ON p.beer_office_id = o.beer_office_id AND p.enabled > 0
 GROUP BY o.beer_office_id;
 
+
+CREATE OR REPLACE VIEW #__beer_viewusers AS
+SELECT u.*
+FROM #__users AS u;
+
 -- --------------------------------------------------------
 
 --
