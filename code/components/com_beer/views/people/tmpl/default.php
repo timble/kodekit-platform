@@ -6,12 +6,6 @@
 
 <h3><?=@text('People');?></h3>
 	
-<?= @text('Sort by first letter of firstname'); ?>:
-<?= @template('filter_firstname'); ?>
-				
-<?= @text('Sort by first letter of lastname'); ?>:
-<?= @template('filter_lastname'); ?>
-
 <form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_beer" />
 	<input type="hidden" name="view" value="people" />
@@ -26,6 +20,8 @@
 	</div>
 </form>
 
+<?= @template('filter_name'); ?>
+
 <div>
 	<?=@text('View as');?> 
 	<strong><?=@text('List');?></strong>
@@ -37,8 +33,7 @@
 		<tfoot>
 			<tr>
 				<td align="center" colspan="6" class="sectiontablefooter">
-					<?= @helper('paginator.limit', @$state->limit) ?>
-					<?= @helper('paginator.pages', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>
