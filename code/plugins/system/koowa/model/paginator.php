@@ -47,7 +47,7 @@ class KModelPaginator extends KModelState
      * Set the state data
      *
      * @param   array|object	An associative array of state data by name
-     * @return  KModelState
+     * @return  KModelPaginator
      */
     public function setData(array $data)
     {
@@ -55,7 +55,6 @@ class KModelPaginator extends KModelState
 		
 		if($this->total == 0)
 		{
-			$total   = 0;
 			$limit   = 0;
 			$offset  = 0;
 			$count   = 0;
@@ -86,10 +85,9 @@ class KModelPaginator extends KModelState
 			$current = (int) floor($offset / $limit) + 1;
 		}
 		
-		$this->total = $total;
-		$this->limit = $limit;
-		$this->offset = $offset;
-		$this->count = $count;
+		$this->limit   = $limit;
+		$this->offset  = $offset;
+		$this->count   = $count;
 		$this->current = $current;
 		
 		return $this;
