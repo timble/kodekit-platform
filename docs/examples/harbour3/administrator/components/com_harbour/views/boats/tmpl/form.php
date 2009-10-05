@@ -19,7 +19,7 @@
 
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="action" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<table class="adminlist"  style="clear: both;">
 		<thead>
@@ -50,7 +50,9 @@
 					<?= @helper('grid.id', $i, $boat->id); ?>
 				</td>
 				<td align="left">
-					<?= $boat->name; ?>
+					<a href="<?= @route('view=boat&id='.$boat->id); ?>">
+    					<?=$boat->name?>
+    				</a>
 				</td>
 				<td align="center">
                    	<?= @helper('grid.enable', $boat->enabled, $i ); ?>
