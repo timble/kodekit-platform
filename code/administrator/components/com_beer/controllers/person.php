@@ -9,6 +9,8 @@
  * @link     	http://www.nooku.org
  */
 
+Koowa::import('admin::com.beer.controllers.abstract');
+
 /**
  * Person Controller
  *
