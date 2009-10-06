@@ -19,7 +19,7 @@
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?= @text('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
-				<?= @helper('admin::com.beer.helper.select.groups', @$state->gid, 'gid', $attribs, '', true) ?>
+				<?= @helper('admin::com.beer.helper.filter.groups', @$state->gid, 'gid', $attribs, '', true) ?>
 			</td>
 		</tr>
 	</table>
