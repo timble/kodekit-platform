@@ -15,4 +15,16 @@
  * @category	Koowa
  * @package     Koowa_Model
  */
-class KModelDefault extends KModelTable {}
+class KModelDefault extends KModelTable 
+{
+	public function getTable(array $options = array())
+	{
+		$table = null;
+		try	{
+			$table = parent::getTable($options);
+		} catch ( KDatabaseTableException $e ) { 
+			JError::raiseNotice(0, $e->getMessage());
+		}
+		return $table;
+	}
+}

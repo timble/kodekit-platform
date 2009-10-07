@@ -135,14 +135,8 @@ class KModelTable extends KModelAbstract
 	{
 		if(!($this->_table instanceof KDatabaseTableAbstract || is_null($this->_table))) 
 		{
-			//Push the database object into the table
 			$options['database'] = $this->_db;
-			
-			try	{
-				$this->_table = KFactory::get($this->_table, $options);
-			} catch ( KDatabaseTableException $e ) { 
-				$this->_table = null;
-			}
+			$this->_table = KFactory::get($this->_table, $options);
 		}
 
 		return $this->_table;
