@@ -21,4 +21,4 @@ KFactory::map('site::com.beer.model.offices', 		'admin::com.beer.model.offices')
 KFactory::map('site::com.beer.model.people', 		'admin::com.beer.model.people');
 
 // Create the controller dispatcher
-KFactory::get('site::com.beer.dispatcher', array('default_view' => 'people'))->dispatch();
+KFactory::get('site::com.beer.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'people'));
