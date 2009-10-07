@@ -95,7 +95,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
         KRequest::set('get.view', $view);
 
         //Get/Create the controller
-        $controller = $this->_getController();
+        $controller = $this->getController();
 
         // Perform the Request action
         $action  = KRequest::get('request.action', 'cmd', null);
@@ -135,10 +135,11 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	 *
 	 * @return	object	The controller.
 	 */
-	protected function _getController(array $options = array())
+	public function getController(array $options = array())
 	{
 		$application 	= $this->_identifier->application;
 		$package 		= $this->_identifier->package;
+		
 		$view 			= KRequest::get('get.view', 'cmd');
 		$controller 	= KRequest::get('get.controller', 'cmd', $view);
 
