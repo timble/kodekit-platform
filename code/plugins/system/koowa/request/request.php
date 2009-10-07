@@ -169,12 +169,12 @@ class KRequest
 	 */
 	public static function has($identifier)
 	{
-		list($hashes, $keys) = self::_parseIdentifier($identifier);
+		list($hash, $keys) = self::_parseIdentifier($identifier);
 
 		// find $var in the hashe
 		foreach($keys as $key)
 		{
-			if(array_key_exists($part, $GLOBALS['_'.$hash])) {
+			if(array_key_exists($key, $GLOBALS['_'.$hash])) {
 				return true;;
 			}
 		}
