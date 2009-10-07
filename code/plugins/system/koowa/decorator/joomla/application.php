@@ -66,6 +66,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		$args = new ArrayObject();
 		$args['notifier'] = $this;
 		$args['options']  = $options;
+		$args['action']   = 'initialise';
 	
 		if($this->getCommandChain()->run('application.before.initialise', $args) === true) {
 			$args['result'] = $this->getObject()->initialise($args['options']);
@@ -85,6 +86,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['notifier'] = $this;
+		$args['action']   = 'route';
 	
 		if($this->getCommandChain()->run('application.before.route', $args) === true) {
 			$args['result'] = $this->getObject()->route();
@@ -104,10 +106,11 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		//Create the arguments object
 		$args = new ArrayObject();
 		$args['notifier']   = $this;
-		$args['component']  = $component;
+		$args['component']  =  substr( $component, 4 );
+		$args['action']     = 'dispatch';
 		
 		if($this->getCommandChain()->run('application.before.dispatch', $args) === true) {
-			$args['result'] = $this->getObject()->dispatch($args['component']);
+			$args['result'] = $this->getObject()->dispatch('com_'.$args['component']);
 			$this->getCommandChain()->run('application.after.dispatch', $args);
 		}
 
@@ -123,7 +126,8 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	{
 		//Create the arguments object
 		$args = new ArrayObject();
-		$args['notifier']     = $this;
+		$args['notifier']   = $this;
+		$args['action']     = 'render';
 		
 		if($this->getCommandChain()->run('application.before.render', $args) === true) {
 			$args['result'] = $this->getObject()->render();
