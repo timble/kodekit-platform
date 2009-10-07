@@ -161,13 +161,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	/**
 	 * Decorate the application redirect() method
 	 *
-	 * @param	string	$url	The URL to redirect to.
-	 * @param	string	$msg	An optional message to display on redirect.
-	 * @param	string  $msgType An optional message type.
+	 * @param	string	The URL to redirect to.
+	 * @param	string	An optional message to display on redirect.
+	 * @param	string  An optional message type.
 	 * @return	none|false The value returned by the proxied method, false in error case.
 	 * @see		JApplication::enqueueMessage()
 	 */
-	public function redirect( $url, $msg = '', $msgType = 'message' )
+	public function redirect( $url, $msg = '', $type = 'message' )
 	{
 		//Create the arguments object
 		$args = new ArrayObject();
@@ -211,8 +211,8 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	/**
 	 * Decorate the application logout() method
 	 *
-	 * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
-	 * @param	array 	$options  Array( 'clientid' => array of client id's )
+	 * @param 	int 	The user to load - Can be an integer or string - If string, it is converted to ID automatically
+	 * @param	array 	Array( 'clientid' => array of client id's )
 	 * @return	mixed|false The value returned by the proxied method, false in error case.
 	 */
 	public function logout($userid = null, array $options = array())
