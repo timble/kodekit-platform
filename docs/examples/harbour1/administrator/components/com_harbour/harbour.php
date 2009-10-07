@@ -1,3 +1,2 @@
 <?php
-$options = array('default_view' => 'boats');
-KFactory::get('admin::com.harbour.dispatcher', $options)->dispatch();
+KFactory::get('admin::com.harbour.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'boats'));
