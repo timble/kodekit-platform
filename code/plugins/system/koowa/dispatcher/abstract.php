@@ -21,13 +21,6 @@
 abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
-	 * The default view
-	 *
-	 * @var array
-	 */
-	protected $_default_view;
-
-	/**
 	 * The object identifier
 	 *
 	 * @var object
@@ -47,9 +40,9 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 
 		// Initialize the options
         $options  = $this->_initialize($options);
-
-        // Figure out defaulview if none is set
-        $this->_default_view = $options['default_view'];
+        
+         // Mixin a command chain
+        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 	}
 
     /**
@@ -63,7 +56,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
     protected function _initialize(array $options)
     {
         $defaults = array(
-        	'default_view'  => $this->_identifier->name,
+        	'command_chain' =>  new KPatternCommandChain(),
         	'identifier'	=> null
         );
 
@@ -83,42 +76,46 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 
 	/**
 	 * Dispatch the controller and redirect
+	 * 
+	 * @param	string		The controller to dispatch. If null, it will default to
+	 * 						retrieve the controller information from the request or
+	 * 						default to the component name if no controller info can
+	 * 						be found.
 	 *
-	 * @return	this
+	 * @return	KDispatcherAbstract
 	 */
-	public function dispatch()
+	public function dispatch($controller)
 	{
-		// Require specific controller if requested
-		$view = KRequest::get('get.view', 'cmd', $this->_default_view);
-
-        // Push the view back in the request in case a default view is used
-        KRequest::set('get.view', $view);
-
-        //Get/Create the controller
-        $controller = $this->getController();
-
-        // Perform the Request action
-        $action  = KRequest::get('request.action', 'cmd', null);
-
-        //Execute the controller, handle exeception if thrown.
-        try
-        {
-        	$controller->execute($action);
-        }
-        catch (KControllerException $e)
-        {
-        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
+		//Create the controller object
+		$controller = $this->_getController($controller);
+		
+		//Create the arguments object
+		$args = new ArrayObject();
+		$args['notifier']   = $this;
+		$args['result']     = false;
+		$args['controller'] = $controller;
+			
+		if($this->getCommandChain()->run('dispatcher.before.dispatch', $args) === true) 
+		{
+			//Execute the controller, handle exeception if thrown. 
+        	try
         	{
-				KFactory::get('lib.koowa.application')
-					->redirect( 'index.php', JText::_($e->getMessage()) );
+        		$args['result'] = $controller->execute(KRequest::get('request.action', 'cmd', null));
         	}
-        	else
+        	catch (KControllerException $e)
         	{
-        		// rethrow, we don't know what to do with other error codes yet
-        		throw $e;
+        		if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
+        		{
+					KFactory::get('lib.koowa.application')
+						->redirect( 'index.php', JText::_($e->getMessage()) );
+        		}
+        		// Re-throw, we don't know what to do with other error codes yet
+        		else throw $e;
         	}
-        }
-
+        	
+			$this->getCommandChain()->run('dispatcher.after.dispatch', $args);
+		}
+		
 		// Redirect if set by the controller
 		if($redirect = $controller->getRedirect())
 		{
@@ -129,20 +126,19 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		return $this;
 	}
 
-
 	/**
 	 * Method to get a controller object
 	 *
 	 * @return	object	The controller.
 	 */
-	public function getController(array $options = array())
+	protected function _getController($controller, array $options = array())
 	{
 		$application 	= $this->_identifier->application;
 		$package 		= $this->_identifier->package;
 		
-		$view 			= KRequest::get('get.view', 'cmd');
-		$controller 	= KRequest::get('get.controller', 'cmd', $view);
-
+		//Get the controller name
+		$controller = KRequest::get('get.controller', 'cmd', $controller);
+		
 		//In case we are loading a subview, we use the first part of the name as controller name
 		if(strpos($controller, '.') !== false)
 		{
@@ -156,7 +152,8 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		if(KInflector::isPlural($controller)) {
 			$controller = KInflector::singularize($controller);
 		}
-
-		return KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $options);
+		
+		$controller = KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $options);
+		return $controller;
 	}
 }
