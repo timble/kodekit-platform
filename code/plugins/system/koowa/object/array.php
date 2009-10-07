@@ -265,4 +265,75 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 		$this->resetCount();
 		return $this;
 	}
+	
+    /**
+     * Extracts a column from the array
+     *
+     * @param 	string	Column name
+     * @return  array   Column of values from the source array
+     */
+	public function getColumn($column)
+	{
+		$result = new KObjectArray();
+
+        foreach($this as $key => $elem)
+        {
+            if(is_object($elem)) {
+                $result[$key] = $elem->$column;
+            } else {
+                $result[$key] = $elem[$column];
+            }
+        }
+
+        return $result;
+	}
+	
+	
+	
+	/**
+     * Extracts columns from the array
+     *
+     * @param 	array			List of column names
+     * @return  KObjectArray   	Array with the columns
+     */
+	public function getColumns($columns)
+	{
+		settype($columns, 'array');
+		
+		$result = array();
+	  	foreach($this as $key => $elem)
+        {
+        	$result[$key] = array();
+        	foreach($columns as $column)
+        	{
+	        	if(is_object($elem)) {
+	                $result[$key][$column] = $elem->$column;
+	            } else {
+	                $result[$key][$column] = $elem[$column];
+	            }
+        	}
+            
+        }
+
+        $arr = new KObjectArray();
+		$arr->setArray($result);
+        return $arr;
+	}
+	
+	/**
+	 * Return an KObjectArray with only unique items. 
+	 * @return KObjectArray
+	 */
+	public function unique()
+	{
+		$tmp = array(); 
+		// array_unique doesn't work with nested arrays in all php 5.2 versions
+		foreach($this as $elem) {
+			$tmp[serialize($elem)] = $elem;
+		}
+
+		$result = new KObjectArray();
+		$result->setArray(array_values($tmp));
+		return $result;
+	}
 }
