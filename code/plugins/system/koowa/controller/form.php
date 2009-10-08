@@ -86,7 +86,7 @@ class KControllerForm extends KControllerBread
 			$redirect = 'view='. KInflector::pluralize( $this->_identifier->name);
 		}
 		
-		$this->setRedirect($redirect);	  
+		$this->_redirect = $redirect;	  
 	}
 	
 	/**
@@ -169,9 +169,9 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$row    = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
+		$row = $this->execute('save');
 		
-		$this->setRedirect('view='.$this->_identifier->name.'&id='.$row->id);
+		$this->_redirect = 'view='.$this->_identifier->name.'&id='.$row->id;
 		return $row;
 	}
 
@@ -195,7 +195,7 @@ class KControllerForm extends KControllerBread
 	{
 		$table = parent::_actionDelete();
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
+		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $table;
 	}
 
@@ -219,9 +219,8 @@ class KControllerForm extends KControllerBread
 					  ->getTable()
 					  ->update(array('enabled' => $enable), $id);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
-
-		return $this->table;
+		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
+		return $table;
 	}
 
 	/**
@@ -239,9 +238,8 @@ class KControllerForm extends KControllerBread
 					  ->getTable()
 					  ->update(array('access' => $access), $id);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name),
-			JText::_( 'Changed items access level')
-		);
+		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
+		return $table;
 	}
 
 	/**
@@ -260,7 +258,7 @@ class KControllerForm extends KControllerBread
 					->fetchRow($id)
 					->order($change);
 
-		$this->setRedirect('view='.KInflector::pluralize($this->_identifier->name));
+		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $row;
 	}
 }

@@ -138,29 +138,29 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 			$action = strtolower( $action );
 		}
 
-		//Set the action in the controller
+		//Set the original action in the controller to allow it to be retrieved
 		$this->setAction($action);
 
-		//Find the mapped action
+		//Find the mapped action if one exists
 		if (isset( $this->_actionMap[$action] )) {
 			$action = $this->_actionMap[$action];
 		}
 
-		//Create the method name
-		$doMethod = '_action'.ucfirst($action);
-
-		if (!method_exists($this, $doMethod)) {
-			throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
-		}
-		
-
-		//Create the arguments object
+		//Create the command arguments object
 		$args = new ArrayObject();
 		$args['notifier']   = $this;
 		$args['action']     = $action;
 		$args['result']     = false;
+		
+		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) 
+		{
+			$action   = $args['action'];
+			$doMethod = '_action'.ucfirst($action);
 	
-		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) {
+			if (!method_exists($this, $doMethod)) {
+				throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
+			}
+			
 			$args['result'] = $this->$doMethod();
 			$this->getCommandChain()->run('controller.after.'.$action, $args);
 		}
@@ -273,12 +273,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function setRedirect( $url, $msg = null, $type = 'message' )
 	{
-		//Create the url if no full URL was passed
-		if(strrpos($url, '?') === false) {
-			$url = 'index.php?option=com_'.$this->_identifier->package.'&'.$url;
-		}
-
-		$this->_redirect    =  JRoute::_($url, false);
+		$this->_redirect    = $url;
 		$this->_message	    = $msg;
 		$this->_messageType	= $type;
 
@@ -292,17 +287,23 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function getRedirect()
 	{
-		$result = null;
+		$result = array();
 		if(!empty($this->_redirect))
 		{
+			$url = $this->_redirect;
+		
+			//Create the url if no full URL was passed
+			if(strrpos($url, '?') === false) {
+				$url = 'index.php?option=com_'.$this->_identifier->package.'&'.$url;
+			}
+		
 			$result = array(
-				'url' 			=> $this->_redirect,
+				'url' 			=> JRoute::_($url, false),
 				'message' 		=> $this->_message,
 				'messageType' 	=> $this->_messageType,
 			);
 		}
-
+		
 		return $result;
 	}
-
 }
