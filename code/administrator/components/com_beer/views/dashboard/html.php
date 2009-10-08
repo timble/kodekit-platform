@@ -9,7 +9,7 @@
  * @link     	http://www.nooku.org
  */
 
-class BeerViewDashboard extends KViewDefault
+class BeerViewDashboard extends KViewHtml
 {
 	public function display()
 	{
