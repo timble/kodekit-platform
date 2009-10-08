@@ -24,7 +24,7 @@ class BeerControllerPerson extends BeerControllerAbstract
 	 * @params	Arguments
 	 * @return 	void
 	 */
-	public function filterInput($args)
+	public function filterInput(ArrayObject $args)
 	{
 		$alias 	= KRequest::get('post.alias', 'ascii');
 		if(empty($alias)) {

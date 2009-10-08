@@ -25,9 +25,16 @@ abstract class BeerControllerAbstract extends KControllerForm
 	{
 		parent::__construct($options);
 
-		$this->registerFilterBefore('save'   , 'filterInput');
-		$this->registerFilterBefore('apply'  , 'filterInput');
+		//Register input filter
+		$this->registerFilterBefore('save'   , 'filterInput')
+			 ->registerFilterBefore('apply'  , 'filterInput');
+		
+		//Register created by filter
 		$this->registerFilterBefore('add'    , 'filterCreated');
+		
+		//Register redirect messages
+		$this->registerFilterAfter('save',		'filterSetMessage')
+			 ->registerFilterAfter('delete',	'filterSetMessage');
 	}
 
 	/**
@@ -36,8 +43,27 @@ abstract class BeerControllerAbstract extends KControllerForm
 	 * @param	Arguments
 	 * @return 	void
 	 */
-	public function filterCreated($args)
+	public function filterCreated(ArrayObject $args)
 	{
 		KRequest::set('post.created_by', KFactory::get('lib.joomla.user')->get('id'));
+	}
+	
+    /**
+	 * Filter that creates a redirect message based on the 
+	 * controller
+	 *
+	 * @return void
+	 */
+	public function filterSetMessage(ArrayObject $args)
+	{
+		$count  = count((array) KRequest::get('post.id', 'int', 1));
+		$action = $args['action'];
+		$name	= $this->getIdentifier()->name;
+			
+		if($count > 1) {
+			$this->_message = JText::sprintf('%s ' . ucfirst(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
+		} else {
+			$this->_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
+		}
 	}
 }

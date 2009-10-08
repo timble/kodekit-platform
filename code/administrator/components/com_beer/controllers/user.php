@@ -9,8 +9,6 @@
  * @link     	http://www.nooku.org
  */
 
-Koowa::import('admin::com.beer.controllers.abstract');
-
 /**
  * User Controller
  *
@@ -24,7 +22,7 @@ class BeerControllerUser extends BeerControllerAbstract
 	 * @params	Arguments
 	 * @return 	void
 	 */
-	public function filterInput($args)
+	public function filterInput(ArrayObject $args)
 	{
 		
 	}
