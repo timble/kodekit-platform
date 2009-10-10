@@ -174,7 +174,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		$args['notifier']     = $this;
 		$args['url']          = $url;
 		$args['message']      = $msg;
-		$args['message_type'] = $msgType;
+		$args['message_type'] = $type;
 		$args['action']       = 'redirect';
 		
 		if($this->getCommandChain()->run('application.before.redirect', $args) === true) {
