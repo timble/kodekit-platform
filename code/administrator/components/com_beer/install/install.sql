@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `#__beer_people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE OR REPLACE VIEW jos_beer_viewpeople AS 
+CREATE OR REPLACE VIEW #__beer_viewpeople AS 
 SELECT p.*, 
 	CONCAT_WS(' ', p.`lastname`, ' , ', p.`firstname`) AS name,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
@@ -77,10 +77,10 @@ SELECT p.*,
 	u.username AS user_username,
 	u.email AS user_email,
 	LEFT(p.lastname, 1) AS letter_name
-FROM jos_beer_people AS p
-LEFT JOIN jos_beer_departments AS d ON d.beer_department_id = p.beer_department_id
-LEFT JOIN jos_beer_offices AS o ON o.beer_office_id = p.beer_office_id
-LEFT JOIN jos_users AS u ON u.id = p.user_id;
+FROM #__beer_people AS p
+LEFT JOIN #__beer_departments AS d ON d.beer_department_id = p.beer_department_id
+LEFT JOIN #__beer_offices AS o ON o.beer_office_id = p.beer_office_id
+LEFT JOIN #__users AS u ON u.id = p.user_id;
 
 
 CREATE OR REPLACE VIEW #__beer_viewdepartments AS 
@@ -154,7 +154,7 @@ INSERT INTO `#__beer_people` (`beer_person_id`, `beer_department_id`, `beer_offi
 (26, 3, 5, 'Domenick', '', 'Tempesti', 'domenick_tempesti', 'Employee', '1953-04-20', 1, '147258369', 'info@show.down', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (27, 3, 6, 'Otmar', '', 'Herbst', 'otmar_herbst', 'Employee', '1953-04-20', 1, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (28, 3, 7, 'Elvis', '', 'Demeyer', 'elvis_demeyer', 'Employee', '1954-05-01', 2, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
-(29, 3, 8, 'Karsten', '', 'Joslin', 'karsten_joslin', 'Employee', '1959-12-05', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:07', 62, '1970-01-01 01:00:00', 0, 1),
+(29, 3, 8, 'Karsten', '', '#_lin', 'karsten_#_lin', 'Employee', '1959-12-05', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:07', 62, '1970-01-01 01:00:00', 0, 1),
 (30, 3, 9, 'Jeong', '', 'Reistad', 'jeong_reistad', 'Employee', '1986-01-08', 2, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (31, 3, 10, 'Arif', '', 'Merlo', 'arif_merlo', 'Employee', '1954-05-01', 1, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (32, 4, 1, 'Bader', '', 'Swan', 'bader_swan', 'Employee', '1964-06-02', 1, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
@@ -174,7 +174,7 @@ INSERT INTO `#__beer_people` (`beer_person_id`, `beer_department_id`, `beer_offi
 (46, 5, 5, 'Domenick', '', 'Tempesti', 'domenick_tempesti', 'Employee', '1953-04-20', 1, '147258369', 'info@show.down', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
 (47, 5, 6, 'Otmar', '', 'Herbst', 'otmar_herbst', 'Employee', '1953-04-20', 1, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
 (48, 5, 7, 'Elvis', '', 'Demeyer', 'elvis_demeyer', 'Employee', '1954-05-01', 2, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
-(49, 5, 8, 'Karsten', '', 'Joslin', 'karsten_joslin', 'Employee', '1959-12-05', 1, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
+(49, 5, 8, 'Karsten', '', '#_lin', 'karsten_#_lin', 'Employee', '1959-12-05', 1, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
 (50, 5, 9, 'Jeong', '', 'Reistad', 'jeong_reistad', 'Employee', '1986-01-08', 2, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1),
 (51, 5, 10, 'Arif', '', 'Merlo', 'arif_merlo', 'Employee', '1954-05-01', 1, '147258369', 'info@down.show', '', '2009-07-05 23:35:01', 62, '1970-01-01 01:00:00', 0, 1);
 
