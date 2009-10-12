@@ -6,6 +6,10 @@
 <? @style(@$mediaurl.'/com_beer/css/form.css'); ?>
 <? @style(@$mediaurl.'/com_beer/css/beer_admin.css') ?>
 
+<? @script(@$mediaurl.'/com_tags/js/view.js') ?>
+<script>var row_id = <?= (int) @$person->id?>;</script>
+<script>var table_name = 'beer_people';</script>
+
 <script language="javascript" type="text/javascript">
 	function checksubmit(form) {
 		var submitOK=true;
@@ -65,7 +69,7 @@
 		<fieldset>
 			<legend><?= @text('Linked To'); ?></legend>
 				<label for="user_id" id="mainlabel"><?= @text('User'); ?></label>
-				<?=@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
+				<?//@helper('admin::com.beer.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
 				<? if (@$person->user_id) : ?>
 				<a class="modal" rel="{handler: 'iframe', size: {x: 875, y: 500}}" href="<?= @route('option=com_users&task=edit&view=user&tmpl=component&cid[]='.@$person->user_id)?>">
 					<?= @text('Open User Profile'); ?>
@@ -90,3 +94,11 @@
 		
 	</div>
 </form>
+
+<div style="width:100%; float: right">
+	<fieldset>
+		<legend><?= @text('Tags'); ?></legend>
+		<div id="tags_panel">
+		</div>
+	</fieldset>
+</div>
