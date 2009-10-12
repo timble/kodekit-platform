@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
 	<name>beer</name>
-	<author>BEER Team</author>
+	<author>Nooku</author>
 	<creationDate>July 2009</creationDate>
-	<copyright>(C) 2009 BEER Team. All rights reserved.</copyright>
+	<copyright>(C) 2009 Nooku. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>1.0 ALPHA</version>
+	<version>1.0 Alpha</version>
 	<description>Business Enterprise Employee Repository</description>
 
 	<!-- Application/site -->
-	<files folder="components/com_beer">
-		<file>beer.php</file>
+	<files folder="components/com_profiles">
+		<file>profiles.php</file>
 		<file>router.php</file>
 		<folder>views</folder>
 	</files>
 	
 	<!-- Application/administrator -->
 	<administration>
-		<menu>Beer</menu>
+		<menu>Profiles</menu>
 
-		<files folder="administrator/components/com_beer">
-			<file>beer.php</file>
+		<files folder="administrator/components/com_profiles">
+			<file>profiles.php</file>
 			<folder>controllers</folder>
 			<folder>data</folder>
 			<folder>helpers</folder>
@@ -35,7 +35,7 @@
 	</administration>
 	
 	<!--  Media -->
-	<media destination="com_beer" folder="media/com_beer">
+	<media destination="com_beer" folder="media/com_profiles">
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>		

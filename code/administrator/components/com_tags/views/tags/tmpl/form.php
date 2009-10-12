@@ -48,7 +48,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="20">
-					<?= @helper('admin::com.beer.helper.paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('admin::com.profiles.helper.paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
 				</td>
 			</tr>
 		</tfoot>
