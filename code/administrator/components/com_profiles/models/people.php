@@ -17,10 +17,10 @@ class ProfilesModelPeople extends KoowaModelView
 		
 		// Set the state
 		$this->_state
-		 	->insert('profile_department_id'   , 'int')
-		 	->insert('profile_office_id'      	, 'int')
-		 	->insert('letter_name'  		, 'word')
-		 	->insert('enabled'   			, 'boolean', false);
+		 	->insert('profiles_department_id'   , 'int')
+		 	->insert('profiles_office_id'      	, 'int')
+		 	->insert('letter_name'  			, 'word')
+		 	->insert('enabled'   				, 'boolean', false);
 	}
 	
 	public function getLetters()
@@ -44,11 +44,11 @@ class ProfilesModelPeople extends KoowaModelView
 		}
 
 		if ( $state->profiles_department_id) {
-			$query->where('tbl.profile_department_id','=', $state->profiles_department_id);
+			$query->where('tbl.profiles_department_id','=', $state->profiles_department_id);
 		}
 
 		if ( $state->profiles_office_id) {
-			$query->where('tbl.profile_office_id','=', $state->profiles_office_id);
+			$query->where('tbl.profiles_office_id','=', $state->profiles_office_id);
 		}
 
 		if ( $state->search) 
