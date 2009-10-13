@@ -7,9 +7,9 @@
  * @link     	http://www.nooku.org
  */
 
-koowa::import('admin::com.koowa.models.groups');
+koowa::import('admin::com.profiles.models.groups');
 
-class ProfilesModelOffices extends KoowaModelGroups
+class ProfilesModelOffices extends ProfilesModelGroups
 {
 	
 }
