@@ -17,7 +17,9 @@ class TagsModelMaps extends KModelTable
 		
 		// Set the state
 		$this->_state
-		 	->insert('tags_tag_id', 'int');
+		 	->insert('tags_tag_id', 'int')
+		 	->insert('table_name', 'string')
+		 	->insert('row_id', 'int');
 	}
 	
 	/**
@@ -32,7 +34,10 @@ class TagsModelMaps extends KModelTable
         {
         	if($table = $this->getTable()) 
         	{
-         		$query = $this->_buildQuery()->where('tbl.tags_tag_id', '=', $this->_state->tags_tag_id);
+         		$query = $this->_buildQuery()
+         						->where('tbl.tags_tag_id', '=', $this->_state->tags_tag_id, 'AND')
+         						->where('tbl.table_name', '=', $this->_state->table_name, 'AND')
+         						->where('tbl.row_id', '=', $this->_state->row_id);
         		$this->_item = $table->fetchRow($query);
         	} 
         	else $this->_item = null;

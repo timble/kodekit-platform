@@ -48,18 +48,24 @@ class TagsControllerTag extends KControllerForm
 		$format 	= KRequest::get('post.format', 'string');
 		
 		// Get existing Tag ID
-		$tag_id = KFactory::tmp('admin::com.tags.model.tags')->set('name', KRequest::get('post.name', 'string'))->getItem()->id;
+		$tags_tag_id = KFactory::tmp('admin::com.tags.model.tags')
+						->set('name', KRequest::get('post.name', 'string'))->getItem()->id;
 		
-		// Check if Tag exists, if not then add a new Tag
-		if(!$tag_id){
-			$row = parent::_actionSave();
-			$tag_id = $row->id;
-		}
+		// Check if Tag exists, if not then add a new Tag and use the ID for storing in Maps table
+		if(!$tags_tag_id) $tags_tag_id = parent::_actionSave()->id;
 		
+		// Check for existing Map ID
+		$tags_map_id = KFactory::tmp('admin::com.tags.model.maps')
+						->set('tags_tag_id', $tags_tag_id)
+						->set('table_name', $table_name)
+						->set('row_id', $row_id)->getItem()->id;
+
 		// Add mapping
-		KRequest::set('post.id', false);
-		KRequest::set('post.tags_tag_id', $tag_id);
-		KFactory::tmp('admin::com.tags.controller.map')->execute('add');
+		if(!$tags_map_id){
+			KRequest::set('post.id', false);
+			KRequest::set('post.tags_tag_id', $tags_tag_id);
+			KFactory::tmp('admin::com.tags.controller.map')->execute('add');
+		}
 		
 		$this->setRedirect('view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name);
 	}
