@@ -7,13 +7,13 @@
  * @link     	http://www.nooku.org
  */
 
-koowa::import('admin::com.profiles.models.view');
+koowa::import('admin::com.koowa.models.view');
 
 /**
  * Because Offices and departments work basically in the same way, we have an
  * abstract model to represent them both
  */
-abstract class ProfilesModelGroups extends ProfilesModelView
+abstract class ProfilesModelGroups extends KoowaModelView
 {
     /**
 	 * All the items

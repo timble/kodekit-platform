@@ -1,13 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Profiles
+ * @package		Koowa
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.nooku.org
  */
 
-abstract class ProfilesModelView extends KModelTable
+abstract class KoowaModelView extends KModelTable
 {	
 	/**
 	 * Database View object or identifier (APP::com.COMPONENT.table.TABLENAME)
