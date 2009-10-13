@@ -59,10 +59,11 @@ abstract class KoowaModelView extends KModelTable
 	{
 		if(!($this->_view instanceof KDatabaseTableAbstract || is_null($this->_view))) 
 		{
-			$name = $this->_identifier->name;
+			$package	= $this->_identifier->package;
+			$name 		= $this->_identifier->name;
 			
-			$options['table_name'] = 'profiles_view_'.$name;
-			$options['primary']    = 'profiles_'.KInflector::singularize($name).'_id';
+			$options['table_name'] = $package.'_view_'.$name;
+			$options['primary']    = $package.'_'.KInflector::singularize($name).'_id';
 			$options['database']   = $this->_db;
 			
 			try	{
