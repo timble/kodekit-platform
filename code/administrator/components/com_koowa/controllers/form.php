@@ -14,5 +14,36 @@
  */
 class KoowaControllerForm extends KControllerForm
 {
+/**
+	 * Constructor
+	 *
+	 * @return void
+	 */
+	public function __construct($options = array())
+	{
+		parent::__construct($options);
+
+		//Register redirect messages
+		$this->registerFilterAfter('save',		'filterSetMessage')
+			 ->registerFilterAfter('delete',	'filterSetMessage');
+	}
 	
+ 	/**
+	 * Filter that creates a redirect message based on the 
+	 * controller
+	 *
+	 * @return void
+	 */
+	public function filterSetMessage(ArrayObject $args)
+	{
+		$count  = count((array) KRequest::get('post.id', 'int', 1));
+		$action = $args['action'];
+		$name	= $this->getIdentifier()->name;
+			
+		if($count > 1) {
+			$this->_message = JText::sprintf('%s ' . ucfirst(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
+		} else {
+			$this->_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
+		}
+	}
 }
