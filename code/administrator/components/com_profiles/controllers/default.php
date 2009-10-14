@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-abstract class ProfilesControllerAbstract extends KControllerForm
+abstract class ProfilesControllerDefault extends KoowaControllerForm
 {
 	/**
 	 * Constructor

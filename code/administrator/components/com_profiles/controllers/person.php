@@ -7,14 +7,12 @@
  * @link     	http://www.nooku.org
  */
 
-Koowa::import('admin::com.profiles.controllers.abstract');
-
 /**
  * Person Controller
  *
  * @package		Profiles
  */
-class ProfilesControllerPerson extends ProfilesControllerAbstract
+class ProfilesControllerPerson extends ProfilesControllerDefault
 {
 	/**
 	 * Filter input values, modify request

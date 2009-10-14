@@ -58,7 +58,7 @@
 		</thead>
 		<tbody>
 		
-		<?= @template('form_items'); ?>
+		<?= @template('default_items'); ?>
 			
 		<? if (!count(@$people)) : ?>
 		<tr>

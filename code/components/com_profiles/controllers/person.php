@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class ProfilesControllerPerson extends KControllerDefault
+class ProfilesControllerPerson extends KoowaControllerForm
 {
 	public function __construct(array $options = array())
 	{
