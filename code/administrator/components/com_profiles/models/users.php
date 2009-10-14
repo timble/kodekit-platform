@@ -7,8 +7,6 @@
  * @link     	http://www.nooku.org
  */
 
-Koowa::import('admin::com.koowa.models.view');
-
 class ProfilesModelUsers extends KoowaModelView
 {
 	public function __construct(array $options = array())
