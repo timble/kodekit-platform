@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPerson extends KViewVcard
+class ProfilesViewPersonVcard extends KViewVcard
 {
 	public function display($tpl = null)
 	{

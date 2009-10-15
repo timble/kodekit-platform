@@ -1,7 +1,5 @@
 <?php
-/**
- * Taxonomy
- * 
+/** 
  * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -9,15 +7,10 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsViewTags extends KViewDefault
+class TagsViewTagsHtml extends TagsViewHtml
 {
 	public function display()
 	{
-		// Mixin a menubar object
-		$this->mixin( KFactory::get('admin::com.tags.mixin.menu', array('mixer' => $this)));
-		$this->displayMenutitle();
-		$this->displayMenubar();
-
 		//Create the toolbar
 		KFactory::get('admin::com.tags.toolbar.tags');
 

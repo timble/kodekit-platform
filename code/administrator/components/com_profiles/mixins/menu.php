@@ -24,14 +24,8 @@ class ProfilesMixinMenu extends KMixinAbstract
 
 		foreach($views as $view => $title)
 		{
-			$active = ($view == strtolower($this->_mixer->getIdentifier()->name) );
+			$active = ($view == strtolower($this->_mixer->getName()) );
 			JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_profiles&view='.$view, $active );
 		}
-	}
-
-	public function displayMenutitle($title = null)
-	{
-		$title = $title ? $title : ucfirst($this->_mixer->getIdentifier()->name);
-		JToolBarHelper::title( JText::_($title), 'langmanager');
 	}
 }

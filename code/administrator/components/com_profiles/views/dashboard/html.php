@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewDashboard extends KViewHtml
+class ProfilesViewDashboardHtml extends ProfilesViewHtml
 {
 	public function display()
 	{
@@ -26,11 +26,6 @@ class ProfilesViewDashboard extends KViewHtml
 		$offices->getState()->order 	= 'people';
 		$offices->getState()->direction = 'desc';
 		$offices->getState()->limit 	= '5';
-		
-		// Mixin a menubar object
-		$this->mixin( KFactory::get('admin::com.profiles.mixin.menu', array('mixer' => $this)));
-		$this->displayMenutitle();
-		$this->displayMenubar();
 		
 		//Create the toolbar
 		KFactory::get('admin::com.profiles.toolbar.dashboard');

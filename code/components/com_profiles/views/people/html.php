@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPeople extends KViewDefault
+class ProfilesViewPeopleHtml extends KViewHtml
 {
 	public function display()
 	{		

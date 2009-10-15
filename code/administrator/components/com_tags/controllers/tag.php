@@ -1,7 +1,5 @@
 <?php
 /**
- * Taxonomy
- * 
  * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -9,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsControllerTag extends KControllerForm
+class TagsControllerTag extends KoowaControllerForm
 {
 	public function _actionBrowse()
 	{

@@ -1,7 +1,5 @@
 <?php
 /**
- * Taxonomy
- * 
  * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -9,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsViewTags extends KViewAjax
+class TagsViewTagsAjax extends KViewAjax
 {
 	public function display($tpl = 'ajax')
 	{
@@ -24,6 +22,7 @@ class TagsViewTags extends KViewAjax
 		$this->assign('row_id', $id);
 		$this->assign('table_name', $model->get('table_name'));
 		$this->assign('format', 'ajax');
+		
 		parent::display($tpl);
 	}
 

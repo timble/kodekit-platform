@@ -46,7 +46,7 @@ class ProfilesHelperSelect extends KObject
 		}
 
 		// Marge first option with departments
-		$list = array_merge( $list, $items->toArray());
+		$list = array_merge( $list, $items->getData());
 
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_office_id', 'title', $selected, $idtag );
@@ -63,7 +63,7 @@ class ProfilesHelperSelect extends KObject
 		}
 
 		// Marge first option with departments
-		$list = array_merge( $list, $items->toArray());
+		$list = array_merge( $list, $items->getData());
 
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_department_id', 'title', $selected, $idtag );

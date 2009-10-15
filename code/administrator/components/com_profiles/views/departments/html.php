@@ -7,22 +7,16 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewDepartments extends KViewDefault
+class ProfilesViewDepartmentsHtml extends ProfilesViewHtml
 {
 	public function display()
 	{
-		// Mixin a menubar object
-		$this->mixin( KFactory::get('admin::com.profiles.mixin.menu', array('mixer' => $this)));
-		$this->displayMenutitle();
-		$this->displayMenubar();
-
 		//Create the toolbar
 		KFactory::get('admin::com.profiles.toolbar.departments')
 			->append('divider')	
 			->append('enable')
 			->append('disable');
 
-		//Display the layout
 		parent::display();
 	}
 }

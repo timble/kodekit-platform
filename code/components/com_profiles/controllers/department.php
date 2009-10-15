@@ -1,5 +1,5 @@
 <?php
-/**
+/** 
  * @version		$Id$
  * @package		Profiles
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
@@ -7,14 +7,12 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPersonHtml extends KViewHtml
+/**
+ * Departments Controller
+ *
+ * @package		Profiles
+ */
+class ProfilesControllerDepartment extends KoowaControllerForm
 {
-	public function display()
-	{
-		$user = KFactory::get('lib.joomla.user');
-		$this->assign('user', $user);
-		
-		//Display the layout
-		parent::display();
-	}
+	
 }

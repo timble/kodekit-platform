@@ -7,14 +7,12 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPersonHtml extends KViewHtml
+/**
+ * Abstract Controller
+ *
+ * @package		Profiles
+ */
+class ProfilesControllerDashboard extends KControllerBread
 {
-	public function display()
-	{
-		$user = KFactory::get('lib.joomla.user');
-		$this->assign('user', $user);
-		
-		//Display the layout
-		parent::display();
-	}
+	
 }
