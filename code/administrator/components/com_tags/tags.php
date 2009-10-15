@@ -1,7 +1,5 @@
 <?php
-/**
- * Taxonomy
- * 
+/** 
  * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.

@@ -59,7 +59,8 @@ class TagsControllerTag extends KoowaControllerForm
 						->set('row_id', $row_id)->getItem()->id;
 
 		// Add mapping
-		if(!$tags_map_id){
+		if(!$tags_map_id)
+		{
 			KRequest::set('post.id', false);
 			KRequest::set('post.tags_tag_id', $tags_tag_id);
 			KFactory::tmp('admin::com.tags.controller.map')->execute('add');
