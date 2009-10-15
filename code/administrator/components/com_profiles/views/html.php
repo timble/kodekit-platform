@@ -17,8 +17,16 @@ class ProfilesViewHtml extends KoowaViewHtml
 		
 		if(KInflector::isPlural($name))
 		{
+			$views = array(
+				'dashboard' 	=> JText::_('Dashboard'),
+				'people' 		=> JText::_('People'),
+				'offices' 		=> JText::_('Offices'),
+				'departments' 	=> JText::_('Departments'),
+				'users'			=> JText::_('Users')
+			);
+			
 			// Mixin a menubar object
-			$this->mixin( KFactory::get('admin::com.profiles.mixin.menu', array('mixer' => $this)));
+			$this->mixin( KFactory::get('admin::com.koowa.mixin.menubar', array('mixer' => $this, 'views' => $views)));
 			$this->displayMenubar();
 		}
 		
