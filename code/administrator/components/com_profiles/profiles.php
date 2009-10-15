@@ -14,7 +14,7 @@ if(!defined('KOOWA')) {
 }
 
 // Require the defines
-Koowa::import('admin::com.profiles.defines');
+KLoader::load('admin::com.profiles.defines');
 
 // Create the controller dispatcher
 KFactory::get('admin::com.profiles.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'dashboard'));
