@@ -77,3 +77,5 @@
 		</fieldset>
 	</div>
 </form>
+
+<?= @template('admin::com.profiles.view.dashboard.default_footer'); ?>
