@@ -19,7 +19,7 @@
 	</div>
 </form>
 
-<?= @template('filter_name'); ?>
+<?= @template('admin::com.profiles.view.people.filter_name'); ?>
 
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<p>

@@ -20,7 +20,7 @@
 	</div>
 </form>
 
-<?= @template('filter_name'); ?>
+<?= @template('admin::com.profiles.view.people.filter_name'); ?>
 
 <div>
 	<?=@text('View as');?> 
