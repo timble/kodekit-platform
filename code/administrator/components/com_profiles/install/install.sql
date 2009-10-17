@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `#__profiles_people` (
 
 CREATE OR REPLACE VIEW #__profiles_view_people AS 
 SELECT p.*, 
-	CONCAT_WS(' ', p.`lastname`, ' , ', p.`firstname`) AS name,
+	CONCAT_WS(', ', p.`lastname`, p.`firstname`) AS name,
 	IF(d.enabled < 1, CONCAT('[', d.title, ']'), d.title) AS department,
 	d.enabled AS department_enabled, 
 	IF(o.enabled < 1, CONCAT('[', o.title, ']'), o.title) AS office,
