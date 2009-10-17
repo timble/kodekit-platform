@@ -41,6 +41,6 @@ class ProfilesHelperChart extends KObject
      */
     protected function _cleanLabels(&$label)
     {
-    	$label = JText::_(ucfirst(strtolower($label)));
+    	$label = JText::_($label);
     }
 }
