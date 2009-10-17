@@ -33,7 +33,7 @@
     <?= @template('default_offices'); ?>
     <?= @helper('tabs.endPanel') ?>
     
-    <?= @helper('tabs.startPanel', @text('Largest Ooffices')) ?>
+    <?= @helper('tabs.startPanel', @text('Largest Offices')) ?>
     <?= @template('default_departments'); ?>
     <?= @helper('tabs.endPanel') ?>
     
