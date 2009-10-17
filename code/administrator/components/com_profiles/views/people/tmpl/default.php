@@ -33,7 +33,7 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count(@$people); ?>);" />
 				</th>
 				<th>
-					<?= @helper('grid.sort', 'Name', 'firstname', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', 'Name', 'lastname', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Department', 'department', @$state->direction, @$state->order); ?><br/>
