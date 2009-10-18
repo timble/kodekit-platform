@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsControllerTag extends KoowaControllerForm
+class TagsControllerTag extends KoowaControllerAction
 {
 	public function _actionBrowse()
 	{
