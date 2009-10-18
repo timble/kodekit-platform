@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-abstract class ProfilesControllerDefault extends KoowaControllerAction
+class ProfilesControllerDefault extends KoowaControllerAction
 {
 	/**
 	 * Constructor

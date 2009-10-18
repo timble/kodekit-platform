@@ -29,7 +29,7 @@ class ProfilesViewHtml extends KoowaViewHtml
 			$this->mixin( KFactory::get('admin::com.koowa.mixin.menubar', array('mixer' => $this, 'views' => $views)));
 			$this->displayMenubar();
 		}
-		
+			
 		parent::display();
 	}
 }
