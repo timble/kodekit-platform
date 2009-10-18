@@ -12,7 +12,7 @@
  *
  * @package		Koowa
  */
-class KoowaControllerAction extends KControllerAction
+class KoowaControllerPage extends KControllerPage
 {
 /**
 	 * Constructor
