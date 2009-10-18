@@ -131,7 +131,7 @@ class KControllerForm extends KControllerBread
 	protected function _actionBrowse()
 	{
 		if(!KRequest::get('get.layout', 'cmd')) {
-			KRequest::set('get.layout', $layout);
+			KRequest::set('get.layout', 'form');
 		}
 
 		return parent::_actionBrowse();
@@ -145,7 +145,7 @@ class KControllerForm extends KControllerBread
 	protected function _actionRead()
 	{
 		if(!KRequest::get('get.layout', 'cmd')) {
-			KRequest::set('get.layout', $layout);
+			KRequest::set('get.layout', 'form');
 		}
 		return parent::_actionRead();
 	}
