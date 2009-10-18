@@ -130,11 +130,11 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionBrowse()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'form' );
+		if(!KRequest::get('get.layout', 'cmd')) {
+			KRequest::set('get.layout', $layout);
+		}
 
-		$this->getView()
-			->setLayout($layout)
-			->display();
+		return parent::_actionBrowse();
 	}
 
 	/**
@@ -144,11 +144,10 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionRead()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'form' );
-
-		$this->getView()
-			->setLayout($layout)
-			->display();
+		if(!KRequest::get('get.layout', 'cmd')) {
+			KRequest::set('get.layout', $layout);
+		}
+		return parent::_actionRead();
 	}
 
 	/*
