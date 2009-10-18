@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class ProfilesControllerOffice extends KoowaControllerForm
+class ProfilesControllerOffice extends KoowaControllerAction
 {
 	
 }

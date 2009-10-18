@@ -12,7 +12,7 @@
  *
  * @package		Koowa
  */
-class KoowaControllerForm extends KControllerForm
+class KoowaControllerAction extends KControllerAction
 {
 	/**
 	 * Display a single item
