@@ -9,21 +9,16 @@
 
 class TagsViewTagsAjax extends KViewAjax
 {
-	public function display($tpl = 'ajax')
+	public function display()
 	{
-		$model = KFactory::get('admin::com.tags.model.tags');
-		
-		if(!$id = $model->get('row_id')) {
+		parent::display();
+			
+		if(!$id = $this->getModel()->get('row_id')) {
 			echo JText::_("Please click 'Apply' to add tags for this profile");
 			return;
 		}
 		
-		$this->assign('tags', $model->getList());
-		$this->assign('row_id', $id);
-		$this->assign('table_name', $model->get('table_name'));
 		$this->assign('format', 'ajax');
-		
-		parent::display($tpl);
+		return $this;
 	}
-
 }

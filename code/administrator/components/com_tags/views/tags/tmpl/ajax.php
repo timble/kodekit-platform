@@ -39,8 +39,8 @@
 		</tbody>
 	</table>
 
-	<input type="hidden" name="row_id" value="<?= @$row_id ?>" />
-	<input type="hidden" name="table_name" value="<?= @$table_name ?>" />
+	<input type="hidden" name="row_id" value="<?= @$state->row_id ?>" />
+	<input type="hidden" name="table_name" value="<?= @$state->table_name ?>" />
 	<input type="hidden" name="format" value="<?= @$format ?>" />
 	<input type="hidden" name="view" value="tags" />	
 	<input type="hidden" name="option" value="com_tags" />

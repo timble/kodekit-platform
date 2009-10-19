@@ -8,20 +8,8 @@
  */
 
 class TagsControllerTag extends KoowaControllerPage
-{
-	public function _actionBrowse()
-	{
-		$row_id 	= KRequest::get('get.row_id', 'int');
-		$table_name = KRequest::get('get.table_name', 'string');
-		
-		KFactory::get('admin::com.tags.model.tags')
-			->set('row_id', $row_id)
-			->set('table_name', $table_name);
-		
-		parent::_actionBrowse();
-	}
-	
-	public function _actionDeleteMapping() 
+{	
+	protected function _actionDeleteMapping() 
 	{		
 		$row_id 	= KRequest::get('post.row_id', 'int');
 		$tag_id 	= KRequest::get('post.tags_tag_id', 'int');
@@ -39,7 +27,7 @@ class TagsControllerTag extends KoowaControllerPage
 		$this->setRedirect('view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name);
 	}
 	
-	public function _actionAddtag() 
+	protected function _actionAddtag() 
 	{
 		$row_id 	= KRequest::get('post.row_id', 'int');
 		$table_name = KRequest::get('post.table_name', 'string');
