@@ -205,18 +205,18 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionEnable()
 	{
-		$id      = (array) KRequest::get('post.id', 'int');
-		$format  = KRequest::get('get.format', 'cmd', 'html');
-		$enable  = $this->getAction() == 'enable' ? 1 : 0;
+		$ids	= (array) KRequest::get('post.id', 'int');
+		$format	= KRequest::get('get.format', 'cmd', 'html');
+		$enable	= $this->getAction() == 'enable' ? 1 : 0;
 
-		if (count( $id ) < 1) {
+		if (count( $ids ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
 		}
 
 		//Update the table
 		$table = $this->getModel()
 					  ->getTable()
-					  ->update(array('enabled' => $enable), $id);
+					  ->update(array('enabled' => $enable), $ids);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $table;
@@ -229,13 +229,13 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionAccess()
 	{
-		$id 	= (array) KRequest::get('post.id', 'int');
+		$ids 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
 
 		//Update the table
 		$table = $this->getModel()
 					  ->getTable()
-					  ->update(array('access' => $access), $id);
+					  ->update(array('access' => $access), $ids);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $table;
