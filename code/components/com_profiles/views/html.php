@@ -7,14 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPersonHtml extends KViewHtml
+class ProfilesViewHtml extends KoowaViewHtml
 {
-	public function display()
-	{
-		$user = KFactory::get('lib.joomla.user');
-		$this->assign('user', $user);
-		
-		//Display the layout
-		parent::display();
-	}
+	
 }

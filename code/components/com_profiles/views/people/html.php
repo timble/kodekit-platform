@@ -7,11 +7,19 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPeopleHtml extends KViewHtml
+class ProfilesViewPeopleHtml extends ProfilesViewHtml
 {
 	public function display()
 	{		
 		$this->assign('letters_name', $this->getModel()->getLetters());
+		
+		//Add RSS link
+		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+		$this->_document->addHeadLink($this->createRoute('view=people&format=feed&type=rss'), 'alternate', 'rel', $attribs);
+		
+		//Add Atom link
+		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+		$this->_document->addHeadLink(JRoute::_('view=people&format=feed&type=atom'), 'alternate', 'rel', $attribs);
 
 		//Display the layout
 		parent::display();
