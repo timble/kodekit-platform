@@ -28,7 +28,7 @@ class ProfilesViewDashboardHtml extends ProfilesViewHtml
 		$offices->getState()->limit 	= '5';
 		
 		//Create the toolbar
-		KFactory::get('admin::com.profiles.toolbar.dashboard');
+		KFactory::get('admin::com.profiles.toolbar.dashboard')->reset();
 		
 		$this->assign('departments', 	$departments->getList());
 		$this->assign('offices', 		$offices->getList());
