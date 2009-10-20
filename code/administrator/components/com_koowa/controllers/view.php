@@ -8,11 +8,11 @@
  */
 
 /**
- * Form Controller
+ * View Controller
  *
  * @package		Koowa
  */
-class KoowaControllerPage extends KControllerView
+class KoowaControllerView extends KControllerView
 {
 /**
 	 * Constructor
