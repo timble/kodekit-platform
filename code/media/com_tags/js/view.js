@@ -7,8 +7,12 @@ new Asset.javascript('../media/com_tags/js/ajax.js', {id: 'TagsAjax'});
 var Tags = {
     url: "index.php?option=com_tags&view=tags&layout=ajax",
 
+    // It seems like the problem is, that this call here happens
+    // after the ajax call is made (and the user is already redirected)
     addBehaviors: function(){
-  		$$('.tags_tag_button').addEvent('click', function() {
+  		$('tags_tags_form').addEvent('submit', function(e) {alert();
+			// Prevent regular submit
+			new Event(e).stop();
  		    // send the delete request
     		new TagsAjax(Tags.url, {
 				method: 'post',
