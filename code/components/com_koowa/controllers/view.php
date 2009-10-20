@@ -12,7 +12,7 @@
  *
  * @package		Koowa
  */
-class KoowaControllerPage extends KControllerPage
+class KoowaControllerPage extends KControllerView
 {
 	/**
 	 * Display a single item

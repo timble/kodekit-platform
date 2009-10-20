@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsControllerTag extends KoowaControllerPage
+class TagsControllerTag extends KoowaControllerView
 {	
 	protected function _actionDeleteMapping() 
 	{		
