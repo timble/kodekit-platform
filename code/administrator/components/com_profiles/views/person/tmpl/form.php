@@ -26,6 +26,21 @@
 		}
 		return submitOK;
 	}
+
+	opennewframe = function () {
+		// remove rows
+		// change index.php?option=com_users&view=user&task=edit&cid[]=62
+		// This adds a class to the iframe
+		$$('#sboxiframe').addClass('test');
+		// But this fails to select anything within the iframe
+		$$('#sboxiframe .adminlist').addClass('test');
+		// Same for this
+		$$('#sboxiframe').getElement('.adminlist').each(
+			function(item, index) {
+				item.addClass('test');
+			}
+			)
+		}
 </script>
 
 <form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm">
@@ -74,6 +89,10 @@
 				<a class="modal" rel="{handler: 'iframe', size: {x: 875, y: 500}}" href="<?= @route('option=com_users&task=edit&view=user&tmpl=component&cid[]='.@$person->user_id)?>">
 					<?= @text('Open User Profile'); ?>
 				</a>
+				<? else : ?>
+				<a class="modal newselect" rel="{handler: 'iframe', size: {x: 875, y: 500}, onOpen: opennewframe}" href="<?= @route('option=com_users&task=view&view=users&tmpl=component') ?>">
+					<?= @text('Select User'); ?>
+				</a>
 				<? endif; ?>
 				<br />
 				<label for="user_name" id="mainlabel"><?= @text('Name'); ?></label>
@@ -91,7 +110,7 @@
 			<legend><?= @text('Bio'); ?></legend>
 			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '370', '100', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
-		
+
 	</div>
 </form>
 
