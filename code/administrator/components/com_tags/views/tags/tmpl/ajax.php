@@ -26,13 +26,10 @@
 			</tr>
 			<? $m = (1 - $m); ?>
 			<? endforeach; ?>
-			
+
 			<tr class="<?php echo 'row'.$m; ?>">
-				<td align="center">
+				<td align="center" colspan="2">
 					<input name="name" value="" />
-				</td>
-				<td align="center">
-					<input type="button" class="tags_tag_button" rel="action=addtag" value="<?= @text('Save') ?>" />
 				</td>
 			</tr>
 
@@ -41,8 +38,9 @@
 
 	<input type="hidden" name="row_id" value="<?= @$state->row_id ?>" />
 	<input type="hidden" name="table_name" value="<?= @$state->table_name ?>" />
-	<input type="hidden" name="format" value="<?= @$format ?>" />
-	<input type="hidden" name="view" value="tags" />	
+	<input type="hidden" name="format" value="ajax" />
+	<input type="hidden" name="layout" value="ajax" />
+	<input type="hidden" name="view" value="tags" />
 	<input type="hidden" name="option" value="com_tags" />
 	<?// @token(true) ?>
 </form>

@@ -32,7 +32,7 @@ class ProfilesHelperSelect extends KObject
 		$options[] = KTemplate::loadHelper('select.option',  1, JText::_( 'Male' ));
 		$options[] = KTemplate::loadHelper('select.option',  2, JText::_( 'Female'));
 
-		return KTemplate::loadHelper('select.genericlist', $options, 'gender', 'class="inputbox" size="1"', 'value', 'text', $gender );
+		return KTemplate::loadHelper('select.genericlist', $options, 'gender', 'class="inputbox" size="1" style="width:142px"', 'value', 'text', $gender );
 	}
 
 	public function offices($selected, $name = 'profiles_office_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
@@ -47,6 +47,8 @@ class ProfilesHelperSelect extends KObject
 
 		// Marge first option with departments
 		$list = array_merge( $list, $items->getData());
+
+		$attribs['style'] = "width:142px";
 
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_office_id', 'title', $selected, $idtag );
@@ -64,6 +66,8 @@ class ProfilesHelperSelect extends KObject
 
 		// Marge first option with departments
 		$list = array_merge( $list, $items->getData());
+
+		$attribs['style'] = "width:142px";
 
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_department_id', 'title', $selected, $idtag );
@@ -85,6 +89,6 @@ class ProfilesHelperSelect extends KObject
         // build the HTML list
         return KTemplate::loadHelper('select.genericlist',  $list, $name, $attribs, 'id', 'name', $selected, $idtag );
     }
-    
+
 
 }

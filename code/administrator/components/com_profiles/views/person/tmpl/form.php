@@ -44,7 +44,7 @@
 </script>
 
 <form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm">
-	<div style="width:39%; float: left" id="mainform">
+	<div style="width:28%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
 				<label for="firstname" id="mainlabel"><?= @text('Firstname'); ?></label>
@@ -59,7 +59,7 @@
 				<label for="office" id="mainlabel"><?= @text('Office'); ?></label>
 				<?=@helper('admin::com.profiles.helper.select.offices', @$person->profiles_office_id, 'profiles_office_id', '', '', true) ?>
 				<br />
-				<label for="departmen" id="mainlabel"><?= @text('Department'); ?></label>
+				<label for="department" id="mainlabel"><?= @text('Department'); ?></label>
 				<?=@helper('admin::com.profiles.helper.select.departments', @$person->profiles_department_id, 'profiles_department_id', '', '', true) ?>
 				<br />
 				<label for="position" id="mainlabel"><?= @text('Position'); ?></label>
@@ -105,16 +105,15 @@
 				<input id="user_email" type="text" name="user_email" value="<?= @$person->user_email; ?>" disabled="disabled" />
 		</fieldset>
 	</div>
-	<div style="width:59%; float: right" id="mainform">
+	<div style="width:48%; float: left; margin-left: 12px" id="mainform">
 		<fieldset>
 			<legend><?= @text('Bio'); ?></legend>
-			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '370', '100', '20', null, array('theme' => 'simple')) ; ?>
+			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '400', '100', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
 
 	</div>
 </form>
-
-<div style="width:100%; float: right">
+<div style="width:22%; float: right">
 	<fieldset>
 		<legend><?= @text('Tags'); ?></legend>
 		<div id="tags_panel">
