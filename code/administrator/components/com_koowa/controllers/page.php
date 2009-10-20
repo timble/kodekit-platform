@@ -41,7 +41,7 @@ class KoowaControllerPage extends KControllerPage
 		$name	= $this->getIdentifier()->name;
 			
 		if($count > 1) {
-			$this->_message = JText::sprintf('%s ' . ucfirst(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
+			$this->_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
 		} else {
 			$this->_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
 		}
