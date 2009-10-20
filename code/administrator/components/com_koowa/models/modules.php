@@ -16,7 +16,7 @@ class KoowaModelModules extends KModelAbstract
 	 */
 	public function __construct(array $options = array())
 	{
-		parent::__construc($options);
+		parent::__construct($options);
 		
 		$this->_list = JModuleHelper::_load();
 		$this->_total = count($this->_list);
