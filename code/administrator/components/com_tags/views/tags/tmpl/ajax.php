@@ -29,7 +29,7 @@
 
 			<tr class="<?php echo 'row'.$m; ?>">
 				<td align="center" colspan="2">
-					<input name="name" value="" />
+					<input name="name" value="" style="width: 80%"/>
 				</td>
 			</tr>
 
