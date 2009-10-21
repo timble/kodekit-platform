@@ -3,7 +3,7 @@
 /**
  * Adds a loading icon in statusElem
  */
-var TagsAjax = Ajax.extend({
+Koowa.Ajax = Ajax.extend({
 
 	options: 
 	{

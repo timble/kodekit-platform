@@ -21,7 +21,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<input type="button" class="tags_tag_button" rel="id=<?= $tag->tags_map_id; ?>&amp;tags_tag_id=<?= $tag->tags_tag_id; ?>" value="<?= @text('Remove') ?>" />
+					<a class="tags_tag_button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Koowa.Tags.delete(this)"><?= @text('Remove') ?></a/>
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
@@ -34,8 +34,4 @@
 			</tr>
 		</tbody>
 	</table>
-
-	<input type="hidden" name="row_id" value="<?= @$state->row_id ?>" />
-	<input type="hidden" name="table_name" value="<?= @$state->table_name ?>" />
-	<input type="hidden" name="action" value="add" />
 </form>
