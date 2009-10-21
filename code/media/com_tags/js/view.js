@@ -26,10 +26,11 @@ var Tags = {
 }
 
 /** Main execution flow */
-window.addEvent('domready', function() {
-
+window.addEvent('domready', function() 
+{
 	// get the html with the list of tags and add behavior
 	new TagsAjax(
+			
 		Tags.url+"&format=ajax&row_id="+row_id+"&table_name="+table_name,
 		{
 			method: 'get',

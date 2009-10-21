@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<form method="post" id="tags_tags_form">
+<form action="<?= @route() ?>" method="post" id="tags_tags_form">
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>
@@ -38,9 +38,5 @@
 
 	<input type="hidden" name="row_id" value="<?= @$state->row_id ?>" />
 	<input type="hidden" name="table_name" value="<?= @$state->table_name ?>" />
-	<input type="hidden" name="format" value="ajax" />
-	<input type="hidden" name="layout" value="ajax" />
-	<input type="hidden" name="view" value="tags" />
-	<input type="hidden" name="option" value="com_tags" />
 	<input type="hidden" name="action" value="add" />
 </form>

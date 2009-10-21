@@ -5,7 +5,8 @@
  */
 var TagsAjax = Ajax.extend({
 
-	options: {
+	options: 
+	{
 		data: null,
 		update: null,
 		onComplete: Class.empty,
@@ -14,12 +15,14 @@ var TagsAjax = Ajax.extend({
 		statusElem: null
 	},
 
-    initialize: function(url, options){
+    initialize: function(url, options) 
+    {
     	//this.statusElem = statusElem;
         this.parent(url, options); //will call the previous initialize;
     },
 
-    request: function(data){
+    request: function(data)
+    {
     	if(null !== this.options.statusElem) {
     		new Element('div', {
     			'class': 'ajax-status'
@@ -28,7 +31,8 @@ var TagsAjax = Ajax.extend({
     	this.parent(data);
     },
 
-    onComplete: function(){
+    onComplete: function()
+    {
     	$(this.options.statusElem).getElement('.ajax-status').remove();
     	this.parent();
     }
