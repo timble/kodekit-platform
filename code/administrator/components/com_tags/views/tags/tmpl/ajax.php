@@ -21,7 +21,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<input type="button" class="tags_tag_button" rel="id=<?= $tag->tags_map_id; ?>&amp;tags_tag_id=<?= $tag->tags_tag_id; ?>&amp;action=delete" value="<?= @text('Remove') ?>" />
+					<input type="button" class="tags_tag_button" rel="id=<?= $tag->tags_map_id; ?>&amp;tags_tag_id=<?= $tag->tags_tag_id; ?>" value="<?= @text('Remove') ?>" />
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
@@ -32,7 +32,6 @@
 					<input name="name" value="" style="width: 80%"/>
 				</td>
 			</tr>
-
 		</tbody>
 	</table>
 

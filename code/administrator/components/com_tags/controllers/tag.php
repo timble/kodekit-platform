@@ -31,7 +31,7 @@ class TagsControllerTag extends KControllerBread
 	{
 		$row_id 	= KRequest::get('post.row_id', 'int');
 		$table_name = KRequest::get('post.table_name', 'string');
-		$format 	= KRequest::get('post.format', 'string');
+		$format 	= KRequest::get('get.format', 'string');
 		
 		// Get existing Tag ID
 		$tags_tag_id = KFactory::tmp('admin::com.tags.model.tags')

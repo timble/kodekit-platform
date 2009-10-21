@@ -5,7 +5,7 @@ new Asset.javascript('../media/com_tags/js/ajax.js', {id: 'TagsAjax'});
 
 /** Tagging Singleton */
 var Tags = {
-    url: "index.php?option=com_tags&view=tags&layout=ajax",
+    url: "index.php?option=com_tags&view=tags&layout=ajax&format=ajax",
 
     addBehaviors: function()
     {
