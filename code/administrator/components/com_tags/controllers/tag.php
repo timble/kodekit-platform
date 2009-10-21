@@ -9,7 +9,7 @@
 
 class TagsControllerTag extends KoowaControllerView
 {	
-	protected function _actionDeleteMapping() 
+	protected function _actionDelete() 
 	{		
 		$row_id 	= KRequest::get('post.row_id', 'int');
 		$tag_id 	= KRequest::get('post.tags_tag_id', 'int');
@@ -24,10 +24,10 @@ class TagsControllerTag extends KoowaControllerView
 			parent::_actionDelete();
 		}
 				
-		$this->setRedirect('view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name);
+		$this->_redirect  = 'view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
 	}
 	
-	protected function _actionAddtag() 
+	protected function _actionAdd() 
 	{
 		$row_id 	= KRequest::get('post.row_id', 'int');
 		$table_name = KRequest::get('post.table_name', 'string');
@@ -54,6 +54,6 @@ class TagsControllerTag extends KoowaControllerView
 			KFactory::tmp('admin::com.tags.controller.map')->execute('add');
 		}
 		
-		$this->setRedirect('view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name);
+		$this->_redirect = 'view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
 	}
 }

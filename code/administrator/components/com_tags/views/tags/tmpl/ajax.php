@@ -21,7 +21,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<input type="button" class="tags_tag_button" rel="id=<?= $tag->tags_map_id; ?>&amp;tags_tag_id=<?= $tag->tags_tag_id; ?>&amp;action=deletemapping" value="<?= @text('Remove') ?>" />
+					<input type="button" class="tags_tag_button" rel="id=<?= $tag->tags_map_id; ?>&amp;tags_tag_id=<?= $tag->tags_tag_id; ?>&amp;action=delete" value="<?= @text('Remove') ?>" />
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
@@ -42,5 +42,4 @@
 	<input type="hidden" name="layout" value="ajax" />
 	<input type="hidden" name="view" value="tags" />
 	<input type="hidden" name="option" value="com_tags" />
-	<?// @token(true) ?>
 </form>
