@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsControllerTag extends KoowaControllerView
+class TagsControllerTag extends KControllerBread
 {	
 	protected function _actionDelete() 
 	{		
@@ -36,9 +36,11 @@ class TagsControllerTag extends KoowaControllerView
 		// Get existing Tag ID
 		$tags_tag_id = KFactory::tmp('admin::com.tags.model.tags')
 						->set('name', KRequest::get('post.name', 'string'))->getItem()->id;
-		
+													
 		// Check if Tag exists, if not then add a new Tag and use the ID for storing in Maps table
-		if(!$tags_tag_id) $tags_tag_id = parent::_actionSave()->id;
+		if(!$tags_tag_id) {
+			$tags_tag_id = parent::_actionAdd()->id;
+		}
 		
 		// Check for existing Map ID
 		$tags_map_id = KFactory::tmp('admin::com.tags.model.maps')
