@@ -42,4 +42,5 @@
 	<input type="hidden" name="layout" value="ajax" />
 	<input type="hidden" name="view" value="tags" />
 	<input type="hidden" name="option" value="com_tags" />
+	<input type="hidden" name="action" value="add" />
 </form>
