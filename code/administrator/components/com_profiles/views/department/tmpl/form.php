@@ -27,13 +27,13 @@
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-			<label for="title" id="mainlabel"><?= @text('Title'); ?></label>
+			<label for="title" class="mainlabel"><?= @text('Title'); ?></label>
 			<input id="title" type="text" name="title" value="<?= @$department->title; ?>" />
 			<br />
-			<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label>
+			<label for="alias" class="mainlabel"><?= @text('Alias'); ?></label>
 			<input id="alias" type="text" name="alias" value="<?= @$department->alias; ?>" />
 			<br />
-			<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
+			<label for="enabled" class="mainlabel"><?= @text('Published'); ?></label>
 			<?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?>
 		</fieldset>
 		<fieldset>

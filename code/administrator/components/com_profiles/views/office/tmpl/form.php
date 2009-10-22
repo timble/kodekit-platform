@@ -32,39 +32,39 @@
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-				<label for="title" id="mainlabel"><?= @text('Title'); ?></label>
+				<label for="title" class="mainlabel"><?= @text('Title'); ?></label>
 				<input id="title" type="text" name="title" value="<?= @$office->title; ?>" />
 				<br />
-				<label for="alias" id="mainlabel"><?= @text('Alias'); ?></label>
+				<label for="alias" class="mainlabel"><?= @text('Alias'); ?></label>
 				<input id="alias" type="text" name="alias" value="<?= @$office->alias; ?>" />
 				<br />
-				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
+				<label for="enabled" class="mainlabel"><?= @text('Published'); ?></label>
 				<?= @helper('select.booleanlist', 'enabled', null, @$office->enabled, 'yes', 'no', 'enabled'); ?>
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Location'); ?></legend>
-				<label for="country" id="mainlabel"><?= @text('Country'); ?></label>
+				<label for="country" class="mainlabel"><?= @text('Country'); ?></label>
 				<?=@helper('admin::com.profiles.helper.iso.country', 'country', @$office->country, 'country', '', '', true) ?>
 				<br />
-				<label for="address1" id="mainlabel"><?= @text('Address'); ?> 1</label>
+				<label for="address1" class="mainlabel"><?= @text('Address'); ?> 1</label>
 				<input id="address1" type="text" name="address1" value="<?= @$office->address1; ?>" />
 				<br />
-				<label for="address2" id="mainlabel"><?= @text('Address'); ?> 2</label>
+				<label for="address2" class="mainlabel"><?= @text('Address'); ?> 2</label>
 				<input id="address2" type="text" name="address2" value="<?= @$office->address2; ?>" />
 				<br />
-				<label for="city" id="mainlabel"><?= @text('City'); ?></label>
+				<label for="city" class="mainlabel"><?= @text('City'); ?></label>
 				<input id="city" type="text" name="city" value="<?= @$office->city; ?>" />
 				<br />
-				<label for="state" id="mainlabel"><?= @text('State'); ?></label>
+				<label for="state" class="mainlabel"><?= @text('State'); ?></label>
 				<div id="statecontainer"><?=@helper('admin::com.profiles.helper.iso.states', @$office->country, 'state', @$office->state) ?></div>
 				<br />
-				<label for="postcode" id="mainlabel"><?= @text('Postcode'); ?></label>
+				<label for="postcode" class="mainlabel"><?= @text('Postcode'); ?></label>
 				<input id="postcode" type="text" name="postcode" value="<?= @$office->postcode; ?>" />
 				<br />
-				<label for="phone" id="mainlabel"><?= @text('Phone'); ?></label>
+				<label for="phone" class="mainlabel"><?= @text('Phone'); ?></label>
 				<input id="phone" type="text" name="phone" value="<?= @$office->phone; ?>" />
 				<br />
-				<label for="fax" id="mainlabel"><?= @text('Fax'); ?></label>
+				<label for="fax" class="mainlabel"><?= @text('Fax'); ?></label>
 				<input id="fax" type="text" name="fax" value="<?= @$office->fax; ?>" />
 		</fieldset>
 		<fieldset>

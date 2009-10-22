@@ -47,43 +47,43 @@
 	<div style="width:28%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
-				<label for="firstname" id="mainlabel"><?= @text('Firstname'); ?></label>
+				<label for="firstname" class="mainlabel"><?= @text('Firstname'); ?></label>
 				<input id="firstname" type="text" name="firstname" value="<?= @$person->firstname; ?>" />
 				<br />
-				<label for="middlename" id="mainlabel"><?= @text('Middlename'); ?></label>
+				<label for="middlename" class="mainlabel"><?= @text('Middlename'); ?></label>
 				<input id="middlename" type="text" name="middlename" value="<?= @$person->middlename; ?>" />
 				<br />
-				<label for="lastname" id="mainlabel"><?= @text('Lastname'); ?></label>
+				<label for="lastname" class="mainlabel"><?= @text('Lastname'); ?></label>
 				<input id="lastname" type="text" name="lastname" value="<?= @$person->lastname; ?>" />
 				<br />
-				<label for="office" id="mainlabel"><?= @text('Office'); ?></label>
+				<label for="office" class="mainlabel"><?= @text('Office'); ?></label>
 				<?=@helper('admin::com.profiles.helper.select.offices', @$person->profiles_office_id, 'profiles_office_id', '', '', true) ?>
 				<br />
-				<label for="department" id="mainlabel"><?= @text('Department'); ?></label>
+				<label for="department" class="mainlabel"><?= @text('Department'); ?></label>
 				<?=@helper('admin::com.profiles.helper.select.departments', @$person->profiles_department_id, 'profiles_department_id', '', '', true) ?>
 				<br />
-				<label for="position" id="mainlabel"><?= @text('Position'); ?></label>
+				<label for="position" class="mainlabel"><?= @text('Position'); ?></label>
 				<input id="position" type="text" name="position" value="<?= @$person->position; ?>" />
 				<br />
-				<label for="birthday" id="mainlabel"><?= @text('Birthday'); ?></label>
+				<label for="birthday" class="mainlabel"><?= @text('Birthday'); ?></label>
 				<input id="birthday" type="text" name="birthday" value="<?= @$person->birthday; ?>" />
 				<br />
-				<label for="gender" id="mainlabel"><?= @text('Gender'); ?></label>
+				<label for="gender" class="mainlabel"><?= @text('Gender'); ?></label>
 				<?=@helper('admin::com.profiles.helper.select.gender', @$person->gender, 'gender', '', '', true) ?>
 				<br />
-				<label for="mobile" id="mainlabel"><?= @text('Mobile'); ?></label>
+				<label for="mobile" class="mainlabel"><?= @text('Mobile'); ?></label>
 				<input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" />
 				<br />
-				<label for="email" id="mainlabel"><?= @text('Email'); ?></label>
+				<label for="email" class="mainlabel"><?= @text('Email'); ?></label>
 				<input id="email" type="text" name="email" value="<?= @$person->email; ?>"/>
 				<br />
-				<label for="enabled" id="mainlabel"><?= @text('Published'); ?></label>
+				<label for="enabled" class="mainlabel"><?= @text('Published'); ?></label>
 				<?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?>
 				<br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Linked To'); ?></legend>
-				<label for="user_id" id="mainlabel"><?= @text('User'); ?></label>
+				<label for="user_id" class="mainlabel"><?= @text('User'); ?></label>
 				<?//@helper('admin::com.profiles.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
 				<? if (@$person->user_id) : ?>
 				<a class="modal" rel="{handler: 'iframe', size: {x: 875, y: 500}}" href="<?= @route('option=com_users&task=edit&view=user&tmpl=component&cid[]='.@$person->user_id)?>">
@@ -95,13 +95,13 @@
 				</a>
 				<? endif; ?>
 				<br />
-				<label for="user_name" id="mainlabel"><?= @text('Name'); ?></label>
+				<label for="user_name" class="mainlabel"><?= @text('Name'); ?></label>
 				<input id="user_name" type="text" name="user_name" value="<?= @$person->user_name; ?>" disabled="disabled" />
 				<br />
-				<label for="user_username" id="mainlabel"><?= @text('Username'); ?></label>
+				<label for="user_username" class="mainlabel"><?= @text('Username'); ?></label>
 				<input id="user_username" type="text" name="user_username" value="<?= @$person->user_username; ?>" disabled="disabled" />
 				<br />
-				<label for="user_email" id="mainlabel"><?= @text('E-mail'); ?></label>
+				<label for="user_email" class="mainlabel"><?= @text('E-mail'); ?></label>
 				<input id="user_email" type="text" name="user_email" value="<?= @$person->user_email; ?>" disabled="disabled" />
 		</fieldset>
 	</div>
