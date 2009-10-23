@@ -11,12 +11,6 @@ class ProfilesViewUsersHtml extends ProfilesViewHtml
 {
 	public function display()
 	{
-		//Create the toolbar
-		KFactory::get('admin::com.profiles.toolbar.users')
-			->append('divider')	
-			->append('enable')
-			->append('disable');
-
 		parent::display();
 	}
 }

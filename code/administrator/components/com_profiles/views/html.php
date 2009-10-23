@@ -17,19 +17,32 @@ class ProfilesViewHtml extends KoowaViewHtml
 		
 		if(KInflector::isPlural($name))
 		{
-			$views = array(
-				'dashboard' 	=> JText::_('Dashboard'),
-				'people' 		=> JText::_('People'),
-				'offices' 		=> JText::_('Offices'),
-				'departments' 	=> JText::_('Departments'),
-				'users'			=> JText::_('Users')
-			);
-			
-			// Mixin a menubar object
-			$this->mixin( KFactory::get('admin::com.koowa.mixin.menubar', array('mixer' => $this, 'views' => $views)));
-			$this->displayMenubar();
+		    $this->_createToolbar($name);
+            $this->_mixinMenubar();
 		}
 			
 		parent::display();
+	}
+	
+	protected function _createToolbar($name)
+	{
+		KFactory::get('admin::com.profiles.toolbar.'.$name)
+			->append('divider')	
+			->append('enable')
+			->append('disable');	    
+	}
+	
+	protected function _mixinMenubar()
+	{
+		$views = array(
+			'dashboard' 	=> JText::_('Dashboard'),
+			'people' 		=> JText::_('People'),
+			'offices' 		=> JText::_('Offices'),
+			'departments' 	=> JText::_('Departments'),
+			'users'			=> JText::_('Users')
+		);
+		
+		$this->mixin( KFactory::get('admin::com.koowa.mixin.menubar', array('mixer' => $this, 'views' => $views)));
+		$this->displayMenubar();	    
 	}
 }

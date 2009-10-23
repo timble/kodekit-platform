@@ -9,14 +9,5 @@
 
 class ProfilesViewOfficesHtml extends ProfilesViewHtml
 {
-	public function display()
-	{
-		//Create the toolbar
-		KFactory::get('admin::com.profiles.toolbar.offices')
-			->append('divider')	
-			->append('enable')
-			->append('disable');
 
-		parent::display();
-	}
 }

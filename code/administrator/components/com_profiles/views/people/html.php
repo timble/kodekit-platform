@@ -10,13 +10,7 @@
 class ProfilesViewPeopleHtml extends ProfilesViewHtml
 {
 	public function display()
-	{
-		//Create the toolbar
-		KFactory::get('admin::com.profiles.toolbar.people')
-			->append('divider')	
-			->append('enable')
-			->append('disable');
-			
+	{		
 		$this->assign('letters_name', $this->getModel()->getLetters());
 
 		parent::display();
