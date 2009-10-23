@@ -54,6 +54,6 @@
 			<legend><?= @text('Bio'); ?></legend>
 			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
 		</fieldset>
-		<button class="button validate" type="submit" onclick="Koowa.Form.addField('action', 'save'); Koowa.Form.submit('post');">Save</button>
+		<button class="button validate" type="submit" onclick="KForm.addField('action', 'save'); KForm.submit('post');">Save</button>
 	</div>
 </form>

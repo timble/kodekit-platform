@@ -1,16 +1,13 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="<?= @route() ?>" method="post" id="tags_tags_form">
-	<table class="adminlist" style="clear: both;">
+<div id="tags-panel">
+	<form action="<?= @route(); ?>" method="post" id="tags-form">
+		<table class="adminlist" style="clear: boyth;">
 		<thead>
 			<tr>
-				<th>
-					<?= @text('Tag')?>
-				</th>
-				<th>
-					&nbsp;
-				</th>
+				<th><?= @text('Tag')?></th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -21,7 +18,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<a class="tags_tag_button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Tags.delete(this)"><?= @text('Remove') ?></a/>
+					<a class="tags-button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Tags.delete(this)"><?= @text('Remove') ?></a/>
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
@@ -35,3 +32,4 @@
 		</tbody>
 	</table>
 </form>
+</div>

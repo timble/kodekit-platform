@@ -6,12 +6,10 @@
 <? @style(@$mediaurl.'/com_profiles/css/form.css'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
 
-<? @script(@$mediaurl.'/com_tags/js/view.js') ?>
-<script>var row_id = <?= (int) @$person->id?>;</script>
-<script>var table_name = 'profiles_people';</script>
-
 <script language="javascript" type="text/javascript">
-	function checksubmit(form) {
+
+	function checksubmit(form) 
+	{
 		var submitOK=true;
 		var checkaction=form.action.value;
 		// do field validation
@@ -27,7 +25,8 @@
 		return submitOK;
 	}
 
-	opennewframe = function () {
+	opennewframe = function () 
+	{
 		// remove rows
 		// change index.php?option=com_users&view=user&task=edit&cid[]=62
 		// This adds a class to the iframe
@@ -38,8 +37,7 @@
 		$$('#sboxiframe').getElement('.adminlist').each(
 			function(item, index) {
 				item.addClass('test');
-			}
-			)
+			});
 		}
 </script>
 
@@ -116,7 +114,6 @@
 <div style="width:22%; float: right">
 	<fieldset>
 		<legend><?= @text('Tags'); ?></legend>
-		<div id="tags_panel">
-		</div>
+		<?= @overlay(@route('option=com_tags&view=tags&layout=ajax&format=ajax&row_id='.@$person->id.'&table_name=profiles_people#tags-panel')); ?>
 	</fieldset>
 </div>
