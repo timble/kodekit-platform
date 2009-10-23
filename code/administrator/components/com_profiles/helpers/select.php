@@ -72,7 +72,7 @@ class ProfilesHelperSelect extends KObject
 		// build the HTML list
 		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_department_id', 'title', $selected, $idtag );
  	}
-
+/* Unused
     public function users($selected, $name, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
     {
 
@@ -89,6 +89,6 @@ class ProfilesHelperSelect extends KObject
         // build the HTML list
         return KTemplate::loadHelper('select.genericlist',  $list, $name, $attribs, 'id', 'name', $selected, $idtag );
     }
-
+*/
 
 }
