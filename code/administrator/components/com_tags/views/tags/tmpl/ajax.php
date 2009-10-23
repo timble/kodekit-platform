@@ -21,7 +21,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<a class="tags_tag_button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Koowa.Tags.delete(this)"><?= @text('Remove') ?></a/>
+					<a class="tags_tag_button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Tags.delete(this)"><?= @text('Remove') ?></a/>
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
