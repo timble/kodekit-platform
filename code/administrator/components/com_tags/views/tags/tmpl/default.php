@@ -1,56 +1,35 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="<?= @route()?>" method="post" name="adminForm">
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="action" value="" />
-	<table class="adminlist" style="clear: both;">
+<div id="tags-panel">
+	<form action="<?= @route(); ?>" method="post" id="tags-form">
+		<table class="adminlist" style="clear: boyth;">
 		<thead>
 			<tr>
-				<th width="5">
-					<?= @text('NUM'); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count(@$tags); ?>);" />
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Name', 'name', @$state->direction, @$state->order); ?>
-				</th>
+				<th><?= @text('Tag')?></th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
-		
-		<? $i = 0; $m = 0; ?>
-		<? foreach (@$tags as $tag) : ?>
-		<tr class="<?= 'row'.$m?>">
-			<td align="center">
-				<?= $i + 1; ?>
-			</td>
-			<td align="center">
-				<? // @helper('grid.checkedOut', $tag, $i, $tag->id); ?>
-				<?= @helper('grid.id', $i, $tag->id); ?>
-			</td>
-			<td align="center">
-				<?= $tag->name; ?>
-			</td>
-		</tr>
-		<? $i = $i + 1; $m = (1 - $m); ?>
-		<? endforeach; ?>
+			<? $m = 0; ?>
+			<? foreach (@$tags as $tag) : ?>
+			<tr class="<?php echo 'row'.$m; ?>">
+				<td align="center">
+					<?= $tag->name; ?>
+				</td>
+				<td align="center">
+					<a class="tags-button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Tags.delete(this)"><?= @text('Remove') ?></a/>
+				</td>
+			</tr>
+			<? $m = (1 - $m); ?>
+			<? endforeach; ?>
 
-		<? if (!count(@$tags)) : ?>
-			<tr>
-				<td colspan="8" align="center">
-					<?= @text('No items found'); ?>
+			<tr class="<?php echo 'row'.$m; ?>">
+				<td align="center" colspan="2">
+					<input name="name" value="" style="width: 80%"/>
 				</td>
 			</tr>
-		<? endif; ?>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="20">
-					<?= @helper('admin::com.koowa.helper.paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
 </form>
+</div>
