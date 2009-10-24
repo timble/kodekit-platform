@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `#__terms_relationships` (
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row_id` BIGINT(20) UNSIGNED NOT NULL,	
   	`table_name` VARCHAR( 255 ) NOT NULL COMMENT 'Table name',
-  	UNIQUE KEY `table_row_tag` (`table_name`, `row_id`, `tags_tag_id`)
+  	UNIQUE KEY `table_row_tag` (`table_name`, `row_id`, `terms_term_id`)
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'Relationships table for taxonomy';
 
 -- --------------------------------------------------------

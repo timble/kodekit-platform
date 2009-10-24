@@ -16,7 +16,7 @@
 		</thead>
 		<tbody>
 			<? $m = 0; ?>
-			<? foreach (@$tags as $tag) : ?>
+			<? foreach (@$terms as $term) : ?>
 			<tr class="<?php echo 'row'.$m; ?>">
 				<td align="center">
 					<?= $tag->name; ?>
