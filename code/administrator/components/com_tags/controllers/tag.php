@@ -35,7 +35,7 @@ class TagsControllerTag extends KControllerBread
 			parent::_actionDelete();
 		}
 		
-		$this->_redirect  = 'view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		$this->_redirect  = 'view=tags&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
 	}
 	
 	protected function _actionAdd() 
@@ -67,6 +67,6 @@ class TagsControllerTag extends KControllerBread
 			KFactory::tmp('admin::com.tags.controller.map')->execute('add');
 		}
 	
-		$this->_redirect = 'view=tags&layout='.$format.'&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		$this->_redirect = 'view=tags&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
 	}
 }

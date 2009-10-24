@@ -1,58 +1,47 @@
 /** $Id$ */
 
-/** Tagging Singleton */
-var Tags = {
-   
-	initialize: function(options) 
-	{
-		if (this.options) {
-			return this;
-		}
-		
-		this.presets = $merge(this.presets, options)
-		this.setOptions(this.presets);
-		this.build();
-		
-		return this;
-	},
-		
-	build: function()
-    {
-		$('tags_tags_form').addEvent('submit', function(e) {
-  			new Event(e).stop();
-  			this.add;
- 		});
-    },
-    
-    add   : function() 
-    {
-    	form   = $('tags_tags_form');
-    	action = 'add';
-    	data   = form.toQueryString();
-    	
-    	new Ajax(form.getAttribute('action'), {
-			method: 'post',
-			data: data+'&row_id='+row_id+'&table_name='+table_name+'&action='+action,
-			update: 'tags_panel',
-			onComplete: this.build,
-			statusElem: 'tags-tags-overlay'
-		}).request();
-    },
-    
-    delete: function(element)
-    {
-    	form   = $('tags_tags_form');
-    	data   = element.rel.cleanQueryString();
-    	action = 'delete'; 
-    	
-    	new Ajax(form.getAttribute('action'), {
-			method: 'post',
-			data: data+'&row_id='+row_id+'&table_name='+table_name+'&action='+action,
-			update: 'tags_panel',
-			onComplete: this.build,
-			statusElem: 'tags-tags-overlay'
-		}).request();
-    }
-}
+var Tags = Ajax.extend({
 
-Tags.implement(new Events, new Options);
+	element : null,
+	form    : null,
+	
+	options: 
+	{
+		method      : 'post',
+		evalScripts : false
+	},
+	
+	initialize: function(element, options)
+    {
+		this.element = $(element);
+		this.form    = this.element.getElement('form');
+		this.parent(this.form.getAttribute('action'), Json.evaluate(options));
+		
+		this.onComplete();
+		
+        if (this.options.initialize) this.options.initialize.call(this);
+    },
+    
+    execute: function(action, data)
+    {	
+    	this.options.data = data.cleanQueryString()+'&action='+action;
+    	this.request();
+    },
+    
+    onComplete: function()
+    { 
+    	if(typeof this.response !== 'undefined') {
+        	this.element.empty().setHTML(this.response.text);
+        }
+    	
+    	form = this.element.getElement('form');
+        form.addEvent('submit', function(e) {
+   			new Event(e).stop();
+   			this.execute('add', form.toQueryString());
+  		}.bind(this));
+    }    
+});
+
+window.addEvent('domready', function() {
+	Tags = new Tags('tags-panel');
+});
