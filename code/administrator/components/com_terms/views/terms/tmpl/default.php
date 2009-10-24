@@ -19,10 +19,10 @@
 			<? foreach (@$terms as $term) : ?>
 			<tr class="<?php echo 'row'.$m; ?>">
 				<td align="center">
-					<?= $tag->name; ?>
+					<?= $term->name; ?>
 				</td>
 				<td align="center">
-					<a class="tags-button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Terms.execute('delete', this.rel)"><?= @text('Remove') ?></a/>
+					<a class="tags-button" rel="<?= http_build_query($term->getData(), '', '&amp;') ?>" onclick="Terms.execute('delete', this.rel)"><?= @text('Remove') ?></a/>
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
