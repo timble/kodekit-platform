@@ -26,6 +26,13 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 * @var string	[get|post|delete]
 	 */
 	protected $_method;
+	
+	/**
+	 * The object identifier
+	 *
+	 * @var KFactoryIdentifierInterface
+	 */
+	protected $_identifier;
 
 	/**
 	 * Constructor
@@ -74,7 +81,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()

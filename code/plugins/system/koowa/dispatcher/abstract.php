@@ -23,9 +23,9 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * The object identifier
 	 *
-	 * @var object
+	 * @var KFactoryIdentifierInterface
 	 */
-	protected $_identifier = null;
+	protected $_identifier;
 
 	/**
 	 * Constructor.
@@ -66,7 +66,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()

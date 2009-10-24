@@ -20,9 +20,9 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var KFactoryIdentifierInterface 
 	 */
-	protected $_identifier = null;
+	protected $_identifier;
 
 	/**
 	 * Constructor.

@@ -49,9 +49,9 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * The object identifier
 	 *
-	 * @var object 
+	 * @var KFactoryIdentifierInterface 
 	 */
-	protected $_identifier = null;
+	protected $_identifier;
 
 	/**
 	 * Constructor
@@ -148,7 +148,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     /**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()

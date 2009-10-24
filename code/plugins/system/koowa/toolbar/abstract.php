@@ -43,9 +43,9 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	/**
 	 * The object identifier
 	 *
-	 * @var object
+	 * @var KFactoryIdentifierInterface
 	 */
-	protected $_identifier = null;
+	protected $_identifier;
 
 	/**
 	 * Constructor
@@ -90,7 +90,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()

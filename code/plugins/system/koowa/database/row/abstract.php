@@ -45,9 +45,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     /**
 	 * The object identifier
 	 *
-	 * @var object
+	 * @var KFactoryIdentifierInterface
 	 */
-	protected $_identifier = null;
+	protected $_identifier;
 
     /**
      * Constructor
@@ -96,7 +96,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
