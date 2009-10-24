@@ -1,6 +1,6 @@
 <?php
 /** 
- * @version		$Id$
+ * @version		$Id: tags.php 301 2009-10-24 21:32:57Z johan $
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -14,5 +14,5 @@ if(!defined('KOOWA')) {
 }
 
 // Create the controller dispatcher
-KFactory::get('admin::com.tags.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'tags'));
+KFactory::get('admin::com.terms.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'terms'));
 	

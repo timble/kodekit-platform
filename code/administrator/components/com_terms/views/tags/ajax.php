@@ -7,14 +7,13 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsViewTagsAjax extends KViewAjax
+class TermsViewTermsAjax extends KViewAjax
 {
 	public function display()
 	{
 		parent::display();
 			
 		if(!$id = $this->getModel()->get('row_id')) {
-			echo JText::_("Please click 'Apply' to add tags for this profile");
 			return;
 		}
 		

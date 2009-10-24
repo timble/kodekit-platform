@@ -114,6 +114,6 @@
 <div style="width:22%; float: right">
 	<fieldset>
 		<legend><?= @text('Tags'); ?></legend>
-		<?= @overlay(@route('option=com_tags&view=tags&row_id='.@$person->id.'&table_name=profiles_people#tags-panel')); ?>
+		<?= @overlay(@route('option=com_terms&view=terms&row_id='.@$person->id.'&table_name=profiles_people#terms-panel')); ?>
 	</fieldset>
 </div>

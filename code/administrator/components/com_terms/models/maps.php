@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsModelMaps extends KModelTable
+class TermsModelMaps extends KModelTable
 {
 	public function __construct($options = array())
 	{
@@ -15,7 +15,7 @@ class TagsModelMaps extends KModelTable
 		
 		// Set the state
 		$this->_state
-		 	->insert('tags_tag_id', 'int')
+		 	->insert('terms_term_id', 'int')
 		 	->insert('table_name', 'string')
 		 	->insert('row_id', 'int');
 	}
@@ -33,7 +33,7 @@ class TagsModelMaps extends KModelTable
         	if($table = $this->getTable()) 
         	{
          		$query = $this->_buildQuery()
-         						->where('tbl.tags_tag_id', '=', $this->_state->tags_tag_id, 'AND')
+         						->where('tbl.terms_term_id', '=', $this->_state->terms_term_id, 'AND')
          						->where('tbl.table_name', '=', $this->_state->table_name, 'AND')
          						->where('tbl.row_id', '=', $this->_state->row_id);
         		$this->_item = $table->fetchRow($query);

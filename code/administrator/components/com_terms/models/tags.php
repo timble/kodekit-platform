@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsModelTags extends KModelTable
+class TermsModelTerm extends KModelTable
 {
 	public function __construct($options = array())
 	{
@@ -15,7 +15,7 @@ class TagsModelTags extends KModelTable
 		
 		// Set the state
 		$this->_state
-		 	->insert('tags_tag_id', 'int')
+		 	->insert('terms_term_id', 'int')
 			->insert('row_id', 'int')
 		 	->insert('name', 'string')
 		 	->insert('table_name', 'string');
@@ -45,12 +45,12 @@ class TagsModelTags extends KModelTable
 	protected function _buildQueryFields(KDatabaseQuery $query)
 	{
 		$query->select('tbl.*')
-			  ->select('maps.tags_map_id');
+			  ->select('maps.terms_map_id');
 	}
 
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-		$query->join('LEFT', 'tags_maps AS maps', 'maps.tags_tag_id = tbl.tags_tag_id');
+		$query->join('LEFT', 'terms_maps AS maps', 'terms.terms_term_id = tbl.terms_term_id');
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -58,7 +58,7 @@ class TagsModelTags extends KModelTable
 		$state = $this->_state;
 		
 		if($state->tags_tag_id) {
-			$query->where('maps.tags_tag_id','=', $state->tags_tag_id);
+			$query->where('terms.terms_term_id','=', $state->tags_tag_id);
 		}
 		
 		if($state->row_id) {

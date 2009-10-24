@@ -1,10 +1,10 @@
 <? /** $Id: default.php 299 2009-10-24 00:19:50Z johan $ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @script(@$mediaurl.'/com_tags/js/tags.js') ?>
+<? @script(@$mediaurl.'/com_terms/js/terms.js') ?>
 
-<div id="tags-panel">
-	<form action="<?= @route(); ?>" method="post" id="tags-form">
+<div id="terms-panel">
+	<form action="<?= @route(); ?>" method="post" id="terms-form">
 		<input type="hidden" name="row_id"     value="<?= @$state->row_id?>" />
 		<input type="hidden" name="table_name" value="<?= @$state->table_name?>" />
 		<table class="adminlist" style="clear: boyth;">
@@ -22,7 +22,7 @@
 					<?= $tag->name; ?>
 				</td>
 				<td align="center">
-					<a class="tags-button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Tags.execute('delete', this.rel)"><?= @text('Remove') ?></a/>
+					<a class="tags-button" rel="<?= http_build_query($tag->getData(), '', '&amp;') ?>" onclick="Terms.execute('delete', this.rel)"><?= @text('Remove') ?></a/>
 				</td>
 			</tr>
 			<? $m = (1 - $m); ?>
