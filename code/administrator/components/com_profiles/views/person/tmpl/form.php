@@ -5,6 +5,8 @@
 <? @helper('behavior.modal'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/form.css'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
+<? @style(@$mediaurl.'/com_terms/css/default.css') ?>
+
 
 <script language="javascript" type="text/javascript">
 

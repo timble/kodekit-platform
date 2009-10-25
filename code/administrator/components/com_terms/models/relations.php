@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsModelMaps extends KModelTable
+class TermsModelRelations extends KModelTable
 {
 	public function __construct($options = array())
 	{

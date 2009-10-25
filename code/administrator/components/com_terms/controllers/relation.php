@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TagsControllerMap extends KControllerBread
+class TermsControllerRelation extends KControllerBread
 {	
 	public function __construct(array $options = array())
 	{

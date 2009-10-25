@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsModelTerm extends KModelTable
+class TermsModelTerms extends KModelTable
 {
 	public function __construct($options = array())
 	{
@@ -45,12 +45,12 @@ class TermsModelTerm extends KModelTable
 	protected function _buildQueryFields(KDatabaseQuery $query)
 	{
 		$query->select('tbl.*')
-			  ->select('maps.terms_map_id');
+			  ->select('relations.terms_relation_id');
 	}
 
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-		$query->join('LEFT', 'terms_maps AS maps', 'terms.terms_term_id = tbl.terms_term_id');
+		$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -58,15 +58,15 @@ class TermsModelTerm extends KModelTable
 		$state = $this->_state;
 		
 		if($state->tags_tag_id) {
-			$query->where('terms.terms_term_id','=', $state->tags_tag_id);
+			$query->where('relations.terms_term_id','=', $state->tags_tag_id);
 		}
 		
 		if($state->row_id) {
-			$query->where('maps.row_id', 'LIKE',  $state->row_id);
+			$query->where('relations.row_id', 'LIKE',  $state->row_id);
 		}
 
 		if($state->table_name) {
-			$query->where('maps.table_name','=', $state->table_name);
+			$query->where('relations.table_name','=', $state->table_name);
 		}
 	}
 }

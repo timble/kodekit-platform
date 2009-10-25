@@ -1,7 +1,5 @@
 <?php
 /**
- * Business Enterprise Employee Repository (B.E.E.R)
- * 
  * @version		$Id$
  * @package		profiles
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.

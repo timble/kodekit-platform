@@ -1,4 +1,5 @@
-window.addEvent('domready', function() { 
+window.addEvent('domready', function() 
+{	
 	var myLatlng = new google.maps.LatLng(coordinate_lat, coordinate_lng);
     var myOptions = {
       zoom: 2,
@@ -6,8 +7,7 @@ window.addEvent('domready', function() {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    
+    var map    = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     var marker = new google.maps.Marker({
         position: myLatlng, 
         map: map
