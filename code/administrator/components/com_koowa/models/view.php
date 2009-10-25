@@ -83,7 +83,7 @@ abstract class KoowaModelView extends KModelTable
         {
         	if($table = $this->getView()) 
         	{
-         		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
+         		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id)->limit(0);
         		$this->_item = $table->fetchRow($query);
         	} 
         	else $this->_item = null;
