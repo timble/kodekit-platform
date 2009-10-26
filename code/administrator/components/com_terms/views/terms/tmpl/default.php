@@ -9,11 +9,11 @@
 		<? foreach (@$terms as $term) : ?>
 		<div class="term">
 			<span><?= $term->name; ?></span>
-			<a title="<?= @text('Delete this tag ?') ?>" class="button-delete" rel="<?= http_build_query($term->getData(), '', '&amp;') ?>" onclick="Terms.execute('delete', this.rel)" href="#"><span>[x]</span></a/>
+			<a title="<?= @text('Delete this tag ?') ?>" class="button-delete"  onclick="Terms.execute('delete', <?= $term->terms_relation_id; ?>)" href="#"><span>[x]</span></a/>
 		</div>
 		<? endforeach; ?>
 	</div>
-	<form action="<?= @route(); ?>" method="post">
+	<form action="<?= @route('row_id='.@$state->row_id.'&table_name='.@$state->table_name); ?>" method="post">
 		<input type="hidden" name="row_id"     value="<?= @$state->row_id?>" />
 		<input type="hidden" name="table_name" value="<?= @$state->table_name?>" />
 		<input name="name" type="text" value="" />

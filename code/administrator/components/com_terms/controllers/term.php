@@ -19,54 +19,38 @@ class TermsControllerTerm extends KControllerBread
 	
 	protected function _actionDelete() 
 	{		
+		// Get the relation id to be deleted
+		$ids = (array) KRequest::get('post.terms_relation_id', 'int');
+		
+		// Delete the relations
+		$rowset = KFactory::get('admin::com.terms.table.relations')
+					  ->fetchRowset($ids)
+					  ->delete();
+		
 		$row_id 	 = KRequest::get('post.row_id', 'int');
-		$term_id 	 = KRequest::get('post.terms_term_id', 'int');
-		$relation_id = KRequest::get('post.terms_relation_id', 'int');
 		$table_name  = KRequest::get('post.table_name', 'string');
 		$format 	 = KRequest::get('get.format', 'string');
-	
-		//Delete the term relation
-		KRequest::set('post.id', $relation_id);
-		KFactory::tmp('admin::com.terms.controller.relation')->execute('delete');
-			
-		// Check for other relations of this term, if none then delete the term
-		if(!KFactory::get('admin::com.terms.model.terms')->set('terms_term_id', $term_id)->getTotal()){
-			KRequest::set('post.id', $term_id);
-			parent::_actionDelete();
-		}
 		
-		$this->_redirect  = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		
+		return $rowset;
 	}
 	
 	protected function _actionAdd() 
 	{
-		$row_id 	= KRequest::get('post.row_id', 'int');
-		$table_name = KRequest::get('post.table_name', 'string');
-		$format 	= KRequest::get('get.format', 'string');
+		// Get term data
+		$data = KRequest::get('post', 'string');
 		
-		// Get existing Tag ID
-		$term_id = KFactory::tmp('admin::com.terms.model.terms')
-						->set('name', KRequest::get('post.name', 'string'))->getItem()->id;
-																	
-		// Check if term exists, if not then add a new terms and use the id for storing in relations table
-		if(!$term_id) {
-			$term_id = parent::_actionAdd()->id;
-		}
-		
-		// Check for existing Map ID
-		$relation_id = KFactory::tmp('admin::com.terms.model.relations')
-						->set('terms_term_id', $term_id)
-						->set('table_name', $table_name)
-						->set('row_id', $row_id)->getItem()->id;
-						
-		// Add relation
-		if(!$relation_id)
-		{
-			KRequest::set('post.id', false);
-			KRequest::set('post.terms_term_id', $term_id);
-			KFactory::tmp('admin::com.terms.controller.relation')->execute('add');
-		}
+		// Add a relation
+		$rows = KFactory::get('admin::com.terms.table.relations')
+					  ->fetchRow()
+					  ->setData($data)
+					  ->save();
 	
+		$row_id 	 = KRequest::get('post.row_id', 'int');
+		$table_name  = KRequest::get('post.table_name', 'string');
+		$format 	 = KRequest::get('get.format', 'string');
+		
 		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
 	}
 }

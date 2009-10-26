@@ -8,6 +8,7 @@ var Terms = Ajax.extend({
 	options: 
 	{
 		method      : 'post',
+		action      : '',
 		evalScripts : false
 	},
 	
@@ -15,7 +16,7 @@ var Terms = Ajax.extend({
     {
 		this.element = $(element);
 		this.form    = this.element.getElement('form');
-		this.parent(this.form.getAttribute('action'), Json.evaluate(options));
+		this.parent(this.form.getProperty('action'), Json.evaluate(options));
 		
 		this.onComplete();
 		
@@ -24,8 +25,35 @@ var Terms = Ajax.extend({
     
     execute: function(action, data)
     {	
-    	this.options.data = data.cleanQueryString()+'&action='+action;
+    	var method = '_action'+action.capitalize();
+    	
+    	if($type(this[method]) == 'function') 
+    	{
+    		this.options.action = action;
+    		this[method].call(this, data);
+    	}
+    },
+    
+    _actionDelete: function(data)
+    {
+    	this.request({terms_relation_id: data});
+    },
+    
+    _actionAdd: function(data)
+    {
     	this.request();
+    },
+    
+    request: function(data)
+    {
+    	data = data || this.options.data;
+		switch($type(data)) {
+			case 'element': data = $(data).toQueryString(); break;
+			case 'object' : data = Object.toQueryString(data); break;
+		}
+    	
+    	data = [data, this.form.toQueryString(), 'action='+this.options.action].join('&');
+    	this.parent(data);
     },
     
     onComplete: function()
@@ -34,10 +62,10 @@ var Terms = Ajax.extend({
         	this.element.empty().setHTML(this.response.text);
         }
     	
-    	form = this.element.getElement('form');
-        form.addEvent('submit', function(e) {
+    	this.form = this.element.getElement('form');
+        this.form.addEvent('submit', function(e) {
    			new Event(e).stop();
-   			this.execute('add', form.toQueryString());
+   			this.execute('add');
   		}.bind(this));
     }    
 });
