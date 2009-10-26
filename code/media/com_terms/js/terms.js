@@ -51,7 +51,7 @@ var Terms = Ajax.extend({
 			case 'element': data = $(data).toQueryString(); break;
 			case 'object' : data = Object.toQueryString(data); break;
 		}
-    	
+		
     	data = [data, this.form.toQueryString(), 'action='+this.options.action].join('&');
     	this.parent(data);
     },

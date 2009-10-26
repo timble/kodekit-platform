@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: term.php 308 2009-10-25 04:35:37Z johan $
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
