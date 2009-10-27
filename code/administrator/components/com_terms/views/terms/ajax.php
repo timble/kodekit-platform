@@ -11,13 +11,25 @@ class TermsViewTermsAjax extends KViewAjax
 {
 	public function display()
 	{
-		parent::display();
-			
-		if(!$id = $this->getModel()->get('row_id')) {
-			return;
+		//If no row_id exists assign an empty array
+		if($this->getModel()->get('row_id')) {
+			KViewAbstract::display();
+		}  else {
+			$this->assign('terms'   , array());
+			$this->assign('disabled', true);
 		}
+				
+		//Auto-assign the state to the view
+		$this->assign('state', $this->getModel()->getState());
 		
-		$this->assign('format', 'ajax');
-		return $this;
+		//Load the template
+		$template = $this->loadTemplate();
+		
+		//Render the scripts
+		foreach ($this->_document->_scripts as $source => $type) {
+			echo '<script type="'.$type.'" src="'.$source.'"></script>'."\n";
+		}
+	
+		echo $template;
 	}
 }

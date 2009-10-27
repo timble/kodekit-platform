@@ -4,6 +4,8 @@
 <? @script(@$mediaurl.'/com_terms/js/terms.js') ?>
 <? @style(@$mediaurl.'/com_terms/css/default.css') ?>
 
+<? $disabled = @$disabled ? 'disabled="disabled"' : ''; ?>
+
 <div id="terms-panel">
 	<div class="list">
 		<? foreach (@$terms as $term) : ?>
@@ -16,8 +18,8 @@
 	<form action="<?= @route('row_id='.@$state->row_id.'&table_name='.@$state->table_name); ?>" method="post">
 		<input type="hidden" name="row_id"     value="<?= @$state->row_id?>" />
 		<input type="hidden" name="table_name" value="<?= @$state->table_name?>" />
-		<input name="name" type="text" value="" />
-		<input class="button" type="submit" value="<?= @text('Add') ?>"/>
+		<input name="name" type="text" value="" <?= $disabled ?> />
+		<input class="button" type="submit" <?= $disabled ?> value="<?= @text('Add') ?>"/>
 	</form>
 	<?= @text('Seperate tags with commas'); ?>
 </div>

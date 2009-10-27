@@ -28,7 +28,7 @@ class TermsControllerTerm extends KControllerBread
 					  ->delete();
 		
 		$row_id 	 = KRequest::get('post.row_id', 'int');
-		$table_name  = KRequest::get('post.table_name', 'string');
+		$table_name  = KRequest::get('post.table_name', 'cmd');
 		$format 	 = KRequest::get('get.format', 'string');
 		
 		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
@@ -48,7 +48,7 @@ class TermsControllerTerm extends KControllerBread
 					  ->save();
 	
 		$row_id 	 = KRequest::get('post.row_id', 'int');
-		$table_name  = KRequest::get('post.table_name', 'string');
+		$table_name  = KRequest::get('post.table_name', 'cmd');
 		$format 	 = KRequest::get('get.format', 'string');
 		
 		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;

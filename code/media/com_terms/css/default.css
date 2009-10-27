@@ -40,6 +40,10 @@
 #terms-panel .button:hover {
 	background-color:#07316f;
 }
+
+#terms-panel .button[disabled] {
+	background:silver;
+}
  
 #terms-panel form {
 	padding-top: 15px;
