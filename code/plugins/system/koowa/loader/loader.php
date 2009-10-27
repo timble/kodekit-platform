@@ -82,9 +82,9 @@ class KLoader
 		}
 
 		//Use LIFO to allow for new adapters to override existing ones
-		$adpters = array_reverse(self::$_adapters);
+		$adapters = array_reverse(self::$_adapters);
 
-		foreach(self::$_adapters as $adapter)
+		foreach($adapters as $adapter)
 		{
     		$result = $adapter->load( $class );
 			if ($result !== false)
