@@ -169,7 +169,9 @@ class KModelTable extends KModelAbstract
          		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
         		$this->_item = $table->fetchRow($query);
         	} 
-        	else $this->_item = null;
+        	else {
+        		$this->_item = null;
+        	}
         }
 
         return parent::getItem();
@@ -190,7 +192,9 @@ class KModelTable extends KModelAbstract
         		$query = $this->_buildQuery();
         		$this->_list = $table->fetchRowset($query);
         	}
-        	else $this->_list = array(); 
+        	else {
+        		$this->_list = array();
+        	} 
         }
 
         return parent::getList();
@@ -211,7 +215,9 @@ class KModelTable extends KModelAbstract
         		$query = $this->_buildCountQuery();
 				$this->_total = $table->count($query);
             } 
-            else $this->_total = 0; 
+            else {
+            	$this->_total = 0;
+            } 
         }
 
         return parent::getTotal();
