@@ -210,6 +210,17 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		return $this->_total;
 	}
 	
+	/**
+	 * Supports a simple form Fluent Interfaces. Allows you to set states by 
+	 * using the state name as the method name. 
+	 * @example $model->order('name')->limit(10)->getList();
+	 * 
+	 * @param	string	Method name
+	 * @param	array	Array containing all the arguments for the original call
+	 * @return	KModelAbstract
+	 * 
+	 * @see http://martinfowler.com/bliki/FluentInterface.html
+	 */
 	public function __call($method, $args)
 	{
 		if(isset($this->_state->$method)) 
