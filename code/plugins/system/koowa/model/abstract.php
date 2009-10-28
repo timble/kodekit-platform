@@ -209,4 +209,14 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	{
 		return $this->_total;
 	}
+	
+	public function __call($method, $args)
+	{
+		if(isset($this->_state->$method)) 
+		{
+			return $this->set($method, $args[0]);	
+		} 
+		
+		return parent::__call($method, $args);
+	}
 }
