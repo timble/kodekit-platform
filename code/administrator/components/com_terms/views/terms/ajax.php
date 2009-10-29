@@ -12,9 +12,13 @@ class TermsViewTermsAjax extends KViewAjax
 	public function display()
 	{
 		//If no row_id exists assign an empty array
-		if($this->getModel()->get('row_id')) {
+		if($this->getModel()->get('row_id')) 
+		{
+			$this->assign('disabled', false);
 			KViewAbstract::display();
-		}  else {
+		}  
+		else 
+		{
 			$this->assign('terms'   , array());
 			$this->assign('disabled', true);
 		}
