@@ -357,6 +357,25 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 		return $this->fetchObjectList( 'SHOW TABLE STATUS'.$like.$where, 'Name' );
 	}
+	
+	/**
+	 * Fetch the primary key for a table
+	 * 
+	 * @param	string	Table name
+	 * @return	string	Primary key name or false if no primary key available
+	 */
+	public function fetchPrimaryKey($table)
+	{
+		$fields = $this->fetchTableFields($table);
+		foreach($fields[$table] as $name => $field)
+		{
+			if($field->Key == 'PRI') {
+				return $name;
+			}
+		}
+		
+		return false;
+	}
 
 	/**
      * Inserts a row of data into a table.
@@ -393,7 +412,12 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			//Execute the query
 			$this->execute($sql);
 
+			// Add the inserted id 
 			$args['result'] = $this->_insert_id;
+			if($key = $this->fetchPrimaryKey($table) || empty($args['data'][$key])) {
+				$args['data'][$key] = $this->_insert_id;
+			}
+
 			$this->getCommandChain()->run('database.after.insert', $args);
 		}
 
