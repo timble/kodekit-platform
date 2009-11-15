@@ -178,8 +178,8 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		$result = array();
 		foreach(get_class_methods($this) as $action)
 		{
-			if(substr($action, 0, 8) == '_action') {
-				$result[] = strtolower(substr($action, 8));
+			if(substr($action, 0, 7) == '_action') {
+				$result[] = strtolower(substr($action, 7));
 			}
 		}
 		return $result;
