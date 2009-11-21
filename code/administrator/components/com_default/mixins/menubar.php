@@ -10,7 +10,7 @@
 /**
  * Menubar mixin, can be used in all views to display to main menu
  */
-class KoowaMixinMenubar extends KMixinAbstract
+class DefaultMixinMenubar extends KMixinAbstract
 {
 	/**
 	 * Associatives array of view names

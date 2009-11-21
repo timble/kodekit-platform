@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesModelUsers extends KoowaModelView
+class ProfilesModelUsers extends DefaultModelView
 {
 	public function __construct(array $options = array())
 	{

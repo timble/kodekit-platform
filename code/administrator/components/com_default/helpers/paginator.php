@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class KoowaHelperPaginator extends KTemplateHelperPaginator
+class DefaultHelperPaginator extends KTemplateHelperPaginator
 {
 	/**
 	 * Render item pagination

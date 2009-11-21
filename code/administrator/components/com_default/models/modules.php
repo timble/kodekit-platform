@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class KoowaModelModules extends KModelAbstract
+class DefaultModelModules extends KModelAbstract
 {	
 	/**
 	 * Constructor

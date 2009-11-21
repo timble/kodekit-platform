@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewHtml extends KoowaViewHtml
+class ProfilesViewHtml extends DefaultViewHtml
 {
 	public function display()
 	{
@@ -42,7 +42,7 @@ class ProfilesViewHtml extends KoowaViewHtml
 			'users'			=> JText::_('Users')
 		);
 		
-		$this->mixin( KFactory::get('admin::com.koowa.mixin.menubar', array('mixer' => $this, 'views' => $views)));
+		$this->mixin( KFactory::get('admin::com.default.mixin.menubar', array('mixer' => $this, 'views' => $views)));
 		$this->displayMenubar();	    
 	}
 }

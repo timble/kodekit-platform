@@ -9,13 +9,13 @@
  */
 
 /**
- * Component Html View Class
+ * Default Html View Class
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_View
  */
-class KoowaViewHtml extends KViewHtml
+class DefaultViewHtml extends KViewHtml
 {
 	
 }

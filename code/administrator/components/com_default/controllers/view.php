@@ -12,7 +12,7 @@
  *
  * @package		Koowa
  */
-class KoowaControllerView extends KControllerView
+class DefaultControllerView extends KControllerView
 {
 /**
 	 * Constructor

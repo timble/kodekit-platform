@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_View
  */
-class KoowaViewHtml extends KViewHtml
+class DefaultViewHtml extends KViewHtml
 {
 	/**
 	 * Execute and echo's the views output

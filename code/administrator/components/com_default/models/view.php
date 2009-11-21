@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-abstract class KoowaModelView extends KModelTable
+abstract class DefaultModelView extends KModelTable
 {	
 	/**
 	 * Database View object or identifier (APP::com.COMPONENT.table.TABLENAME)
