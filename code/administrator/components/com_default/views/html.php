@@ -18,6 +18,20 @@
 class DefaultViewHtml extends KViewHtml
 {
 	/**
+	 * Constructor
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
+	public function __construct(array $options = array())
+	{
+        parent::__construct($options);
+        
+        $template = KFactory::get('lib.koowa.application')->getTemplate();
+        $override = JPATH_THEMES.DS.$template.DS.'html'.DS.'com_'.$this->_identifier->package.DS.$this->getName();
+        $this->addTemplatePath($override);
+	}
+	
+	/**
 	 * Execute and echo's the views output
  	 *
 	 * @return KViewDefault
