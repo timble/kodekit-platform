@@ -26,9 +26,22 @@ class DefaultViewHtml extends KViewHtml
 	{
         parent::__construct($options);
         
+        //Add the template override path
+        $parts = $this->_identifier->path;
+        
+        array_shift($parts);
+        if(count($parts) > 1) 
+		{
+			$path    = KInflector::pluralize(array_shift($parts));
+			$path   .= count($parts) ? DS.implode(DS, $parts) : '';
+			$path   .= DS.strtolower($this->getName());	
+		} 
+		else $path  = strtolower($this->getName());
+		       
         $template = KFactory::get('lib.koowa.application')->getTemplate();
-        $override = JPATH_THEMES.DS.$template.DS.'html'.DS.'com_'.$this->_identifier->package.DS.$this->getName();
-        $this->addTemplatePath($override);
+        $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'com_'.$this->_identifier->package.DS.$path;
+          
+        $this->addTemplatePath($path);
 	}
 	
 	/**
