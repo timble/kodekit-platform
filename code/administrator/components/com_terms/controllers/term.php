@@ -14,7 +14,7 @@ class TermsControllerTerm extends KControllerBread
 		parent::__construct($options);
 
 		//Prevent state from being saved
-		$this->unregisterFilterAfter('browse'  , 'filterSaveState');
+		$this->unregisterFunctionAfter('browse'  , 'saveState');
 	}
 	
 	protected function _actionDelete() 

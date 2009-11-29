@@ -24,11 +24,11 @@ class ProfilesControllerDefault extends DefaultControllerView
 		parent::__construct($options);
 
 		//Register input filter
-		$this->registerFilterBefore('save'   , 'filterInput')
-			 ->registerFilterBefore('apply'  , 'filterInput');
+		$this->registerFunctionBefore('save'   , 'filterInput')
+			 ->registerFunctionBefore('apply'  , 'filterInput');
 		
 		//Register created by filter
-		$this->registerFilterBefore('add'    , 'filterCreated');
+		$this->registerFunctionBefore('add'    , 'filterCreated');
 	}
 
 	/**
