@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Profiles</name>
+	<author>Nooku</author>
+	<creationDate>November 2009</creationDate>
+	<copyright>(C) 2009 Nooku. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>0.1.0</version>
+	<description>Profiles Module</description>
+	<files>
+		<filename module="mod_profiles">mod_profiles.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<params>
+	</params>
+</install>
