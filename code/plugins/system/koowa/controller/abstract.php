@@ -208,32 +208,32 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	}
 
 	/**
-	 * Get the view, based on the request
+	 * Get the identifier for the view with the same name
 	 *
-	 * @return	KViewAbstract	A KView object
+	 * @return	KFactoryIdentifierInterface
 	 */
-	public function getView(array $options = array())
+	final public function getView()
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('view');
 		$identifier->name	= KRequest::get('get.view', 'cmd', $identifier->name);
 
-		return KFactory::get($identifier, $options);
+		return $identifier;
 	}
 
 	/**
-	 * Get the model with the same identifier
+	 * Get the identifier for the model with the same name
 	 *
-	 * @return	KModelAbstract	A KModel object
+	 * @return	KFactoryIdentifierInterface
 	 */
-	public function getModel(array $options = array())
+	final public function getModel()
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('model');
 
 		// Models are always plural
 		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
-		return KFactory::get($identifier, $options);
+		return $identifier;
 	}
 
 	/**

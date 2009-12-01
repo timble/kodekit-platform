@@ -25,7 +25,7 @@ class KViewDefault extends KViewHtml
 	public function display()
 	{
 		//Get the model
-		$model = $this->getModel();
+		$model = KFactory::get($this->getModel());
 		$name  = $this->_identifier->name;
 
 		if(KInflector::isPlural($name))
@@ -46,7 +46,7 @@ class KViewDefault extends KViewHtml
 		}
 
 		// Create the toolbar
-		$toolbar = $this->getToolbar();
+		$toolbar = KFactory::get($this->getToolbar());
 
 		// Render the toolbar
 		if($this->_layout == 'form') {
@@ -61,15 +61,15 @@ class KViewDefault extends KViewHtml
 	}
 
 	/**
-	 * Get the toolbar with the same identifier
+	 * Get the identifier for the toolbar with the same name
 	 *
 	 * @return	KToolbarAbstract	A KToolbar object
 	 */
-	public function getToolbar(array $options = array())
+	final public function getToolbar()
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('toolbar');
 
-		return KFactory::get($identifier, $options);
+		return $identifier;
 	}
 }

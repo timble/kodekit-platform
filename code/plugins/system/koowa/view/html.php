@@ -39,7 +39,7 @@ class KViewHtml extends KViewAbstract
 	public function display()
 	{
 		//Auto-assign the state to the view
-		$this->assign('state', $this->getModel()->getState());
+		$this->assign('state', KFactory::get($this->getModel())->getState());
 		
 		// Display the layout
 		parent::display();

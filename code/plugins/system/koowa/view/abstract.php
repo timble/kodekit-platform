@@ -279,11 +279,11 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
     }
 
 	/**
-	 * Get the model with the same identifier
+	 * Get the identifier for the model with the same name
 	 *
-	 * @return	KModelAbstract	A KModel object
+	 * @return	KFactoryIdentifierInterface
 	 */
-	public function getModel(array $options = array())
+	final public function getModel()
 	{
 		$identifier			= clone $this->_identifier;
 		$identifier->path	= array('model');
@@ -291,7 +291,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		// Models are always plural
 		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
 
-		return KFactory::get($identifier, $options);
+		return $identifier;
 	}
 
 	/**

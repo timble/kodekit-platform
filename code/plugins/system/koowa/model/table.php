@@ -69,13 +69,9 @@ class KModelTable extends KModelAbstract
 	{
 		$options = parent::_initialize($options);
 		
-		$table 			= KInflector::tableize($this->_identifier->name);
-		$package		= $this->_identifier->package;
-		$application 	= $this->_identifier->application;
-		
 		$defaults = array(
             'adapter' => KFactory::get('lib.koowa.database'),
-			'table'   => $application.'::com.'.$package.'.table.'.$table
+			'table'   => null,
        	);
        	
         return array_merge($defaults, $options);
@@ -126,27 +122,29 @@ class KModelTable extends KModelAbstract
 	}
 
 	/**
-	 * Method to get a table object, load it if necessary.
+	 * Get the identifier for the table with the same name
 	 *
-	 * @param	array	Options array for view. Optional.
-	 * @return	object	The table object or NULL if an table object could not be created
+	 * @return	KFactoryIdentifierInterface
 	 */
-	public function getTable(array $options = array())
+	final public function getTable()
 	{
-		if(!($this->_table instanceof KDatabaseTableAbstract || is_null($this->_table))) 
+		if(!$this->_table)
 		{
-			$options['database'] = $this->_db;
-			$this->_table = KFactory::get($this->_table, $options);
+			$identifier 		= clone $this->_identifier;
+			$identifier->name	= KInflector::tableize($identifier->name);
+			$identifier->path	= array('table');
+		
+			$this->_table 		= $identifier;
 		}
-
+       	
 		return $this->_table;
 	}
 
 	/**
 	 * Method to set a table object or identifier
 	 *
-	 * @param	string|object The table identifier to be used in KFactory or a table object
-	 * @return	KDatabaseAdapterAbstract
+	 * @param	string|KFactoryIdentifierInterface The table identifier to be used in KFactory or a table object
+	 * @return	KModelTable
 	 */
 	public function setTable($identifier)
 	{
@@ -164,7 +162,7 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_item))
         {
-        	if($table = $this->getTable()) 
+        	if($table = KFactory::get($this->getTable())) 
         	{
          		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
         		$this->_item = $table->fetchRow($query);
@@ -187,7 +185,7 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_list))
         {
-        	if($table = $this->getTable()) 
+        	if($table = KFactory::get($this->getTable())) 
         	{
         		$query = $this->_buildQuery();
         		$this->_list = $table->fetchRowset($query);
@@ -210,7 +208,7 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
-            if($table = $this->getTable())
+            if($table = KFactory::get($this->getTable()))
             {
         		$query = $this->_buildCountQuery();
 				$this->_total = $table->count($query);
@@ -273,7 +271,7 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryFrom(KDatabaseQuery $query)
     {
-      	$name = $this->getTable()->getTableName();
+      	$name = KFactory::get($this->getTable())->getTableName();
     	$query->from($name.' AS tbl');
     }
 
@@ -321,7 +319,7 @@ class KModelTable extends KModelAbstract
     		$query->order($order, $direction);
     	}
 
-		if(in_array('ordering', $this->getTable()->getColumns())) {
+		if(in_array('ordering', KFactory::get($this->getTable())->getColumns())) {
     		$query->order('ordering', 'ASC');
     	}
     }

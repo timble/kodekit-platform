@@ -214,8 +214,8 @@ class KControllerForm extends KControllerBread
 		}
 
 		//Update the table
-		$table = $this->getModel()
-					  ->getTable()
+		$model	= KFactory::get($this->getModel());		
+		$table 	= KFactory::get($model->getTable())
 					  ->update(array('enabled' => $enable), $ids);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
@@ -233,8 +233,8 @@ class KControllerForm extends KControllerBread
 		$access = KRequest::get('post.access', 'int');
 
 		//Update the table
-		$table = $this->getModel()
-					  ->getTable()
+		$model	= KFactory::get($this->getModel());		
+		$table 	= KFactory::get($model->getTable())
 					  ->update(array('access' => $access), $ids);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
@@ -252,8 +252,8 @@ class KControllerForm extends KControllerBread
 		$change = KRequest::get('post.order_change', 'int');
 
 		//Change the order
-		$row = $this->getModel()
-					->getTable()
+		$model	= KFactory::get($this->getModel());		
+		$row 	= KFactory::get($model->getTable())
 					->fetchRow($id)
 					->order($change);
 

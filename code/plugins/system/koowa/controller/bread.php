@@ -35,7 +35,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function filterLoadState(ArrayObject $args)
 	{
-		$model   = $this->getModel();
+		$model   = KFactory::get($this->getModel());
 		$state   = KRequest::get('session.'.$model->getIdentifier(), 'raw', array());
 		$request = KRequest::get('request', 'string');
 		
@@ -50,7 +50,7 @@ class KControllerBread extends KControllerAbstract
 	 */
 	public function filterSaveState(ArrayObject $args)
 	{
-		$model  = $this->getModel();
+		$model  = KFactory::get($this->getModel());
 		$state  = $model->get();
 					
 		//Set the state in the session
@@ -66,7 +66,7 @@ class KControllerBread extends KControllerAbstract
 	{
 		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 
-		$this->getView()
+		KFactory::get($this->getView())
 			->setLayout($layout)
 			->display();
 	}
@@ -80,7 +80,7 @@ class KControllerBread extends KControllerAbstract
 	{
 		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 
-		$this->getView()
+		KFactory::get($this->getView())
 			->setLayout($layout)
 			->display();
 	}
@@ -93,14 +93,14 @@ class KControllerBread extends KControllerAbstract
 	protected function _actionEdit()
 	{
 		// Get the post data from the request
-		$data = KRequest::get('post', 'string');
+		$data 	= KRequest::get('post', 'string');
 		
 		// Get the id
-		$id	 = KRequest::get('get.id', 'int');
+		$id	 	= KRequest::get('get.id', 'int');
 
 		// Get the row and save
-		$row= $this->getModel()
-					->getTable()
+		$model 	= KFactory::get($this->getModel());
+		$row	= KFactory::get($model->getTable())
 					->fetchRow($id)
 					->setData($data)
 					->save();
@@ -119,8 +119,8 @@ class KControllerBread extends KControllerAbstract
 		$data = KRequest::get('post', 'string');
 
 		// Get the row and save
-		$row = $this->getModel()
-					->getTable()
+		$model 	= KFactory::get($this->getModel());
+		$row	= KFactory::get($model->getTable())
 					->fetchRow()
 					->setData($data)
 					->save();
@@ -137,8 +137,8 @@ class KControllerBread extends KControllerAbstract
 	{
 		$ids = (array) KRequest::get('post.id', 'int');
 
-		$table = $this->getModel()
-					  ->getTable()
+		$model 	= KFactory::get($this->getModel());
+		$table	= KFactory::get($model->getTable())
 					  ->delete($ids);
 
 		return $table;
