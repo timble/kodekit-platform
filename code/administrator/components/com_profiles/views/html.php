@@ -12,7 +12,7 @@ class ProfilesViewHtml extends DefaultViewHtml
 	public function display()
 	{
 		//Get the model
-		$model = $this->getModel();
+		$model = KFactory::get($this->getModel());
 		$name  = $model->getIdentifier()->name;
 		
 		if(KInflector::isPlural($name))
