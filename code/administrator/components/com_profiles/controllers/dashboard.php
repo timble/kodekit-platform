@@ -8,11 +8,18 @@
  */
 
 /**
- * Abstract Controller
+ * Dashboard Controller
  *
  * @package		Profiles
  */
-class ProfilesControllerDashboard extends KControllerBread
+class ProfilesControllerDashboard extends KControllerAbstract
 {
-	
+	protected function _actionRead()
+	{
+		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
+
+		KFactory::get('admin::com.profiles.view.dashboard.html')
+			->setLayout($layout)
+			->display();
+	}
 }
