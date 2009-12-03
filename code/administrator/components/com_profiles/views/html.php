@@ -11,25 +11,20 @@ class ProfilesViewHtml extends DefaultViewHtml
 {
 	public function display()
 	{
-		//Get the model
-		$model = KFactory::get($this->getModel());
-		$name  = $model->getIdentifier()->name;
+		$name = $this->getName();
 		
-		if(KInflector::isPlural($name))
+		//Apend enable and disbale button for all the list views
+		if($name != 'dashboard' && KInflector::isPlural($name))
 		{
-		    $this->_createToolbar($name);
-            $this->_mixinMenubar();
+			KFactory::get('admin::com.profiles.toolbar.'.$name)
+				->append('divider')	
+				->append('enable')
+				->append('disable');	
 		}
+				
+        $this->_mixinMenubar();
 			
 		parent::display();
-	}
-	
-	protected function _createToolbar($name)
-	{
-		KFactory::get('admin::com.profiles.toolbar.'.$name)
-			->append('divider')	
-			->append('enable')
-			->append('disable');	    
 	}
 	
 	protected function _mixinMenubar()
