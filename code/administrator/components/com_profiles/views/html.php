@@ -9,6 +9,24 @@
 
 class ProfilesViewHtml extends DefaultViewHtml
 {
+	/**
+	 * Constructor
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
+	public function __construct(array $options = array())
+	{
+        $options['views'] = array(
+			'dashboard' 	=> JText::_('Dashboard'),
+			'people' 		=> JText::_('People'),
+			'offices' 		=> JText::_('Offices'),
+			'departments' 	=> JText::_('Departments'),
+			'users'			=> JText::_('Users')
+		);
+		
+		parent::__construct($options);
+	}
+	
 	public function display()
 	{
 		$name = $this->getName();
@@ -21,23 +39,7 @@ class ProfilesViewHtml extends DefaultViewHtml
 				->append('enable')
 				->append('disable');	
 		}
-				
-        $this->_mixinMenubar();
-			
+					
 		parent::display();
-	}
-	
-	protected function _mixinMenubar()
-	{
-		$views = array(
-			'dashboard' 	=> JText::_('Dashboard'),
-			'people' 		=> JText::_('People'),
-			'offices' 		=> JText::_('Offices'),
-			'departments' 	=> JText::_('Departments'),
-			'users'			=> JText::_('Users')
-		);
-		
-		$this->mixin( KFactory::get('admin::com.default.mixin.menubar', array('mixer' => $this, 'views' => $views)));
-		$this->displayMenubar();	    
 	}
 }
