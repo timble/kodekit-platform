@@ -11,7 +11,8 @@ class ProfilesViewPeopleHtml extends ProfilesViewHtml
 {
 	public function display()
 	{		
-		$this->assign('letters_name', $this->getModel()->getLetters());
+		$model = KFactory::get($this->getModel());
+		$this->assign('letters_name', $model->getLetters());
 
 		parent::display();
 	}
