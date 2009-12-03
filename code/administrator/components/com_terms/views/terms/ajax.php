@@ -11,8 +11,11 @@ class TermsViewTermsAjax extends KViewAjax
 {
 	public function display()
 	{
+		
+		$model = KFactory::get($this->getModel());
+		
 		//If no row_id exists assign an empty array
-		if($this->getModel()->get('row_id')) 
+		if($model->get('row_id')) 
 		{
 			$this->assign('disabled', false);
 			KViewAbstract::display();
@@ -24,7 +27,7 @@ class TermsViewTermsAjax extends KViewAjax
 		}
 				
 		//Auto-assign the state to the view
-		$this->assign('state', $this->getModel()->getState());
+		$this->assign('state', $model->getState());
 		
 		//Load the template
 		$template = $this->loadTemplate();
