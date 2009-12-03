@@ -17,13 +17,6 @@ class ProfilesModelUsers extends DefaultModelView
 		$this->_state->insert('gid', 'int');
 	}
 	
-	/*public function getTable(array $options = array())
-	{
-		$options['primary'] = 'id';
-		
-		return parent::getTable($options);
-	}*/
-	
 	public function getGroups()
 	{
 		$query = $this->_db->getQuery()
@@ -68,21 +61,4 @@ class ProfilesModelUsers extends DefaultModelView
 			$query->where('tbl.gid','=', $state->gid);
 		}
 	}
-	
-	/*public function getUsers($selected = null)
-	{
-		$db = KFactory::get('lib.koowa.database');
-		$query = $db->getQuery()
-				->select(array('u.id AS id', 'u.name AS name'))
-        		->from('users AS u')
-				->join('LEFT OUTER', 'profiles_people AS p', 'p.user_id = u.id')
-				->where('p.user_id', 'IS NULL')
-				->order('name')	;	
-
-		if ($selected) {
-			$query->where('u.id', '=', $selected, 'OR');
-		}
-
-		return $db->fetchObjectList($query);			 
-	}*/
 }
