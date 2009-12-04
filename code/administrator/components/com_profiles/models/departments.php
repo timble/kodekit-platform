@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesModelDepartments extends ProfilesModelGroups
+class comProfilesModelDepartments extends comProfilesModelGroups
 {
 	
 }

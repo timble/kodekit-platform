@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesHelperGeocoding extends KObject
+class comProfilesHelperGeocoding extends KObject
 {
 	public function coordinates($coordinate, $data)
  	{

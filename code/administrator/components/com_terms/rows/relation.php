@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsRowRelation extends KDatabaseRowAbstract
+class comTermsRowRelation extends KDatabaseRowAbstract
 {
 	/**
      * Save the term in the database.

@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesTableUsers extends KDatabaseTableAbstract
+class comProfilesTableUsers extends KDatabaseTableAbstract
 {
 	public function __construct(array $options = array())
 	{

@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class ProfilesControllerDepartment extends ProfilesControllerDefault
+class comProfilesControllerDepartment extends comProfilesControllerDefault
 {
 	/**
 	 * Filter input values, modify request

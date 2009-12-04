@@ -7,10 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewUsersHtml extends ProfilesViewHtml
+class comProfilesViewUsersHtml extends comProfilesViewHtml
 {
-	public function display()
-	{
-		parent::display();
-	}
+	
 }

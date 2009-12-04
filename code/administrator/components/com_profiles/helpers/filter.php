@@ -10,11 +10,10 @@
 /**
  * View helper for creating filters
  */
-class ProfilesHelperFilter extends KObject
+class comProfilesHelperFilter extends KObject
 {
 	public function groups($selected, $name = 'gid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
     {
-
        $items = KFactory::get('admin::com.profiles.model.users')->getGroups();
 
 		// Add first option to list

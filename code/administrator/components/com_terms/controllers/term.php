@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsControllerTerm extends KControllerBread
+class comTermsControllerTerm extends KControllerBread
 {	
 	public function __construct(array $options = array())
 	{

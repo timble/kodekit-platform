@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsModelTerms extends KModelTable
+class comTermsModelTerms extends KModelTable
 {
 	public function __construct($options = array())
 	{

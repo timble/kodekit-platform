@@ -7,25 +7,25 @@
  * @link     	http://www.nooku.org
  */
 
-class TermsViewTermsAjax extends KViewAjax
+class comTermsViewTermsAjax extends KViewAjax
 {
 	public function display()
 	{
-		
 		$model = KFactory::get($this->getModel());
 		
 		//If no row_id exists assign an empty array
 		if($model->get('row_id')) 
 		{
-			$this->assign('disabled', false);
-			KViewAbstract::display();
+			$this->assign('disabled', false)
+				 ->assign('terms' , $model->getList())
+				 ->assign('total' ,	$model->getTotal());
 		}  
 		else 
 		{
 			$this->assign('terms'   , array());
 			$this->assign('disabled', true);
 		}
-				
+			
 		//Auto-assign the state to the view
 		$this->assign('state', $model->getState());
 		

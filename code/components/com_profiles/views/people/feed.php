@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ProfilesViewPeopleFeed extends KViewAbstract
+class comProfilesViewPeopleFeed extends KViewAbstract
 {
 	public function display()
 	{

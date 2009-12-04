@@ -10,7 +10,7 @@
 /**
  * View helper for creating different select lists
  */
-class ProfilesHelperSelect extends KObject
+class comProfilesHelperSelect extends KObject
 {
 	public function enabled( $enabled=0)
 	{
