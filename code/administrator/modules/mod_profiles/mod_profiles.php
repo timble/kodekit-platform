@@ -13,5 +13,4 @@ if(!defined('KOOWA')) {
 	return;
 }
 
-$module = KFactory::get('admin::mod.profiles.html');
-$module->display();
+KFactory::get('admin::mod.profiles.html')->display();
