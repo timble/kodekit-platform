@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ModProfilesHtml extends modDefaultHtml
+class ModProfilesHtml extends ModDefaultHtml
 {
 	
 }
