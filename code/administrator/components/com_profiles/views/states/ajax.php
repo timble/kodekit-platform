@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesViewStatesAjax extends KViewAjax
+class ComProfilesViewStatesAjax extends KViewAjax
 {
 	public function display($tpl = 'ajax')
 	{

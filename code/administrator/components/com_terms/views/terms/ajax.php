@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comTermsViewTermsAjax extends KViewAjax
+class ComTermsViewTermsAjax extends KViewAjax
 {
 	public function display()
 	{

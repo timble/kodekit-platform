@@ -12,7 +12,7 @@
  * Because Offices and departments work basically in the same way, we have an
  * abstract model to represent them both
  */
-abstract class comProfilesModelGroups extends comDefaultModelView
+abstract class ComProfilesModelGroups extends ComDefaultModelView
 {
     /**
 	 * All the items

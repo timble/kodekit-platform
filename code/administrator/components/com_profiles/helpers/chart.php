@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesHelperChart extends KObject
+class ComProfilesHelperChart extends KObject
 {
 	public function pie($name)
  	{

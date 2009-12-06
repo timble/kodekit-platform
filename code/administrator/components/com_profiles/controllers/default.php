@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class comProfilesControllerDefault extends comDefaultControllerView
+class ComProfilesControllerDefault extends ComDefaultControllerView
 {
 	/**
 	 * Constructor

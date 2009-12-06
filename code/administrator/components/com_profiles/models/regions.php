@@ -11,7 +11,7 @@
  * Regions Model represents countries, as well as states for some countries.
  * $model->set('region', 'countries|us|au|...')->getList()
  */
-class comProfilesModelRegions extends KModelAbstract
+class ComProfilesModelRegions extends KModelAbstract
 {
 	public function __construct(array $options = array())
 	{

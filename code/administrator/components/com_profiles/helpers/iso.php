@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesHelperIso extends KObject
+class ComProfilesHelperIso extends KObject
 {
 	public function country($name='country', $selected = '')
  	{

@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comTermsModelRelations extends KModelTable
+class ComTermsModelRelations extends KModelTable
 {
 	public function __construct($options = array())
 	{

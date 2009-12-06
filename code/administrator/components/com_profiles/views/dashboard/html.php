@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesViewDashboardHtml extends comProfilesViewHtml
+class ComProfilesViewDashboardHtml extends ComProfilesViewHtml
 {
 	public function display()
 	{

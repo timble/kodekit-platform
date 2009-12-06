@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class comProfilesControllerPerson extends comProfilesControllerDefault
+class ComProfilesControllerPerson extends ComProfilesControllerDefault
 {
 	public function __construct(array $options = array())
 	{

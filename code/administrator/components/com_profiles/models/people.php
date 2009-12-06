@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesModelPeople extends comDefaultModelView
+class ComProfilesModelPeople extends ComDefaultModelView
 {
 	public function __construct(array $options = array())
 	{

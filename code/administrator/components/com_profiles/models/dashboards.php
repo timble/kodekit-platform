@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesModelDashboards extends KModelAbstract
+class ComProfilesModelDashboards extends KModelAbstract
 {
 	
 }

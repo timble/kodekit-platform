@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesViewUsersHtml extends comProfilesViewHtml
+class ComProfilesViewUsersHtml extends ComProfilesViewHtml
 {
 	
 }

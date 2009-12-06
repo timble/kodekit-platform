@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class comProfilesViewHtml extends comDefaultViewHtml
+class ComProfilesViewHtml extends ComDefaultViewHtml
 {
 	/**
 	 * Constructor

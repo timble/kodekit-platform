@@ -14,7 +14,7 @@
  * 
  *  @package	Profiles
  */
-class comProfiles
+class ComProfiles
 {
     /**
      * Wersion

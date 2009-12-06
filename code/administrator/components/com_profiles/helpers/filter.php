@@ -10,7 +10,7 @@
 /**
  * View helper for creating filters
  */
-class comProfilesHelperFilter extends KObject
+class ComProfilesHelperFilter extends KObject
 {
 	public function groups($selected, $name = 'gid', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
     {
