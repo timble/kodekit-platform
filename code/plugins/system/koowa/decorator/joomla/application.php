@@ -32,8 +32,8 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		parent::__construct($app);
 		
 		// Mixin the command chain
-        $this->mixin(new KMixinCommand(array('mixer' => $this)));
-        
+        $this->mixin(new KMixinCommandchain(array('mixer' => $this)));
+            
      	//Set the root path for the request based on the application name
         KRequest::root(str_replace('/'.$this->_object->getName(), '', KRequest::base()));
 	}
@@ -62,18 +62,17 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function initialise(array $options = array())
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier'] = $this;
-		$args['options']  = $options;
-		$args['action']   = 'initialise';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] 	= $this;
+		$context['options'] = $options;
+		$context['action']  = 'initialise';
 	
-		if($this->getCommandChain()->run('application.before.initialise', $args) === true) {
-			$args['result'] = $this->getObject()->initialise($args['options']);
-			$this->getCommandChain()->run('application.after.initialise', $args);
+		if($this->getCommandChain()->run('application.before.initialise', $context) === true) {
+			$context['result'] = $this->getObject()->initialise($context['options']);
+			$this->getCommandChain()->run('application.after.initialise', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 	
   	/**
@@ -83,17 +82,16 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function route()
  	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier'] = $this;
-		$args['action']   = 'route';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] 	= $this;
+		$context['action']   = 'route';
 	
-		if($this->getCommandChain()->run('application.before.route', $args) === true) {
-			$args['result'] = $this->getObject()->route();
-			$this->getCommandChain()->run('application.after.route', $args);
+		if($this->getCommandChain()->run('application.before.route', $context) === true) {
+			$context['result'] = $this->getObject()->route();
+			$this->getCommandChain()->run('application.after.route', $context);
 		}
 		
-		return $args['result'];
+		return $context['result'];
  	}
  	
    	/**
@@ -103,18 +101,17 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
  	public function dispatch($component)
  	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']   = $this;
-		$args['component']  =  substr( $component, 4 );
-		$args['action']     = 'dispatch';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] 	   = $this;
+		$context['component']  = substr( $component, 4 );
+		$context['action']     = 'dispatch';
 		
-		if($this->getCommandChain()->run('application.before.dispatch', $args) === true) {
-			$args['result'] = $this->getObject()->dispatch('com_'.$args['component']);
-			$this->getCommandChain()->run('application.after.dispatch', $args);
+		if($this->getCommandChain()->run('application.before.dispatch', $context) === true) {
+			$context['result'] = $this->getObject()->dispatch('com_'.$context['component']);
+			$this->getCommandChain()->run('application.after.dispatch', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
  	}
  	
 	/**
@@ -124,17 +121,16 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function render()
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']   = $this;
-		$args['action']     = 'render';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] = $this;
+		$context['action'] = 'render';
 		
-		if($this->getCommandChain()->run('application.before.render', $args) === true) {
-			$args['result'] = $this->getObject()->render();
-			$this->getCommandChain()->run('application.after.render', $args);
+		if($this->getCommandChain()->run('application.before.render', $context) === true) {
+			$context['result'] = $this->getObject()->render();
+			$this->getCommandChain()->run('application.after.render', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 	
 	/**
@@ -145,14 +141,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function close( $code = 0 ) 
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']   = $this;
-		$args['code']		= $code;
-		$args['action']     = 'close';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] 	 = $this;
+		$context['code']	 = $code;
+		$context['action']   = 'close';
 		
-		if($this->getCommandChain()->run('application.before.close', $args) === true) {
-			$this->getObject()->close($args['code']);
+		if($this->getCommandChain()->run('application.before.close', $context) === true) {
+			$this->getObject()->close($context['code']);
 		}
 
 		return false;
@@ -169,16 +164,15 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function redirect( $url, $msg = '', $type = 'message' )
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']     = $this;
-		$args['url']          = $url;
-		$args['message']      = $msg;
-		$args['message_type'] = $type;
-		$args['action']       = 'redirect';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] 	 	 = $this;
+		$context['url']          = $url;
+		$context['message']      = $msg;
+		$context['message_type'] = $type;
+		$context['action']       = 'redirect';
 		
-		if($this->getCommandChain()->run('application.before.redirect', $args) === true) {
-			$this->getObject()->redirect($args['url'], $args['message'], $args['message_type']);
+		if($this->getCommandChain()->run('application.before.redirect', $context) === true) {
+			$this->getObject()->redirect($context['url'], $context['message'], $context['message_type']);
 		}
 
 		return false;
@@ -193,19 +187,18 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function login($credentials, array $options = array())
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']    = $this;
-		$args['credentials'] = $credentials;
-		$args['options']     = $options;
-		$args['action']        = 'login';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']    	= $this;
+		$context['credentials'] = $credentials;
+		$context['options']     = $options;
+		$context['action']      = 'login';
 		
-		if($this->getCommandChain()->run('application.before.login', $args) === true) {
-			$args['result'] = $this->getObject()->login($args['credentials'], $args['options']);
-			$this->getCommandChain()->run('application.after.login', $args);
+		if($this->getCommandChain()->run('application.before.login', $context) === true) {
+			$context['result'] = $this->getObject()->login($context['credentials'], $context['options']);
+			$this->getCommandChain()->run('application.after.login', $context);
 		}
 		
-		return $args['result'];
+		return $context['result'];
 	}
 	
 	/**
@@ -217,18 +210,17 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function logout($userid = null, array $options = array())
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']    = $this;
-		$args['credentials'] = array('userid' => $userid);
-		$args['options']     = $options;
-		$args['action']        = 'logout';
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']    	= $this;
+		$context['credentials'] = array('userid' => $userid);
+		$context['options']     = $options;
+		$context['action']      = 'logout';
 		
-		if($this->getCommandChain()->run('application.before.logout', $args) === true) {
-			$args['result'] = $this->getObject()->logout($args['credentials']['userid'], $args['options']);
-			$this->getCommandChain()->run('application.after.logout', $args);
+		if($this->getCommandChain()->run('application.before.logout', $context) === true) {
+			$context['result'] = $this->getObject()->logout($context['credentials']['userid'], $context['options']);
+			$this->getCommandChain()->run('application.after.logout', $context);
 		}
 		
-		return $args['result'];
+		return $context['result'];
 	}
 }

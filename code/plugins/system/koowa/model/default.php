@@ -17,4 +17,5 @@
  */
 class KModelDefault extends KModelTable 
 {
+
 }

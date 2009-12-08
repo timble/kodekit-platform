@@ -24,6 +24,11 @@ class KViewOpenflashchart extends KViewAbstract
      */
     public $chart;
 
+    /**
+	 * Constructor
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
     public function __construct(array $options = array())
     {
         parent::__construct($options);
@@ -35,13 +40,15 @@ class KViewOpenflashchart extends KViewAbstract
     }
 
     /**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewOpenflashchart
 	 */
     public function display()
     {
-        $this->loadTemplate();
+    	$this->loadTemplate();
 		echo $this->chart->render();
+		
+		return $this;
     }
 }

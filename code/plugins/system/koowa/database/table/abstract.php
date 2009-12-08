@@ -63,7 +63,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface 
+	 * @var KIdentifierInterface 
 	 */
 	protected $_identifier;
 
@@ -78,7 +78,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	 */
 	public function __construct( array $options = array() )
 	{
-        // Set the objects identifier
+        // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 		
 		// Initialize the options
@@ -118,7 +118,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -485,7 +485,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         	}
        	}
 
-       	$result = $this->_db->fetchResult($query);
+       	$result = (int) $this->_db->fetchResult($query);
     	return $result;
     }
 

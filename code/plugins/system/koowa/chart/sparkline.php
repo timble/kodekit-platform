@@ -9,7 +9,7 @@
  * @link        http://www.koowa.org
  */
 
-Koowa::import('lib.koowa.chart.renderer.sparkline.Sparkline');
+KLaoder::load('lib.koowa.chart.renderer.sparkline.Sparkline');
 
 /**
  * Sparkline

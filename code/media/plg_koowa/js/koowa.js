@@ -9,14 +9,29 @@
  */
 
 /**
- * Global Koowa namespace
+ * Koowa global namespace
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
  */
-var Koowa = {};
+var Koowa = {
+	version: '0.7'
+};
+
+/* Section: Functions */
+function $get(key, defaultValue) {
+	return location.search.get(key, defaultValue);
+}	
+
+/* Section: Classes */
 
 /**
  * Form class
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
  */
-Koowa.Form = 
+KForm = 
 {	
 	addField: function(name, value)
 	{
@@ -42,8 +57,11 @@ Koowa.Form =
  
 /**
  * Grid class
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
  */
-Koowa.Grid = 
+KGrid = 
 {
 	order: function (id, value) 
 	{
@@ -110,14 +128,92 @@ Koowa.Grid =
 	}
 }
 
-function $get(key, defaultValue) 
-{
-	return location.search.get(key, defaultValue);
-}	
+/**
+ * Query class
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
+ */
+KQuery = new Class({
+	
+	toString: function() 
+	{
+		var result = [];
+		
+		for (var key in this) 
+		{
+			// make sure it's not a function
+			if (!(this[key] instanceof Function)) 
+			{
+				// we only go one level deep for now
+				if(this[key] instanceof Object) 
+				{
+					for (var subkey in this[key]) {
+						result.push(key + '[' + subkey + ']' + '=' + this[key][subkey]);
+					}
+				} else {
+					result.push(key + '=' + this[key]);
+				}
+			}
+		}
+		
+		return result.join('&');
+	}
+});
 
+
+/**
+ * Overlay class
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
+ */
+var KOverlay = Ajax.extend ({
+
+	element : null,
+	
+	options: 
+	{
+		method      : 'get',
+		evalScripts : true,
+		evalStyles  : true
+	},
+	
+	initialize: function(element, options)
+    {
+		this.element = $(element); 
+        this.parent(element.getAttribute('href'), Json.evaluate(options));
+        
+        this.request();
+
+        if (this.options.initialize) this.options.initialize.call(this);
+    },
+    
+    onComplete: function()
+    {
+    	var element = new Element('div').setHTML(this.response.text);
+    		
+    	scripts = element.getElementsBySelector('script[type=text/javascript]');
+    	scripts.each(function(script) {
+    		if (this.options.evalScripts) {
+    			new Asset.javascript(script.src, {id: script.id });
+    		}
+			script.remove();
+		}.bind(this));
+    	
+    	this.element.replaceWith(element.getElement('#'+this.element.id));
+    }
+});
+
+
+/**
+ * String class
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
+ */
 String.extend(
 {
- 
 	get : function(key, defaultValue)
 	{
 		if(key == "") return;
@@ -143,9 +239,10 @@ String.extend(
 	},
 	
 	// backported from Mootools 1.2.3
-	parseQueryString: function(){
+	parseQueryString: function()
+	{
 		//var vars = this.split(/[&;]/), res = {};
-		var vars = this.split(/[&;]/), res = new Koowa.Query;
+		var vars = this.split(/[&;]/), res = new KQuery;
 		if (vars.length) vars.each(function(val){
 			var index = val.indexOf('='),
 				keys = index < 0 ? [''] : val.substr(0, index).match(/[^\]\[]+/g),
@@ -165,34 +262,13 @@ String.extend(
 	},
 
 	// backported from Mootools 1.2.3
-	cleanQueryString: function(method){
+	cleanQueryString: function(method)
+	{
 		return this.split('&').filter(function(val){
 			var index = val.indexOf('='),
 			key = index < 0 ? '' : val.substr(0, index),
 			value = val.substr(index + 1);
 			return method ? method.run([key, value]) : $chk(value);
 		}).join('&');
-	}
-	
-});
-
-
-Koowa.Query = new Class({
-	toString: function() {
-		var result = [];
-		for (var key in this) {
-			// Make sure it's not a function
-			if (!(this[key] instanceof Function)) {
-				// we only go one level deep for now
-				if(this[key] instanceof Object) {
-					for (var subkey in this[key]) {
-						result.push(key + '[' + subkey + ']' + '=' + this[key][subkey]);
-					}
-				} else {
-					result.push(key + '=' + this[key]);
-				}
-			}
-		}
-		return result.join('&');
-	}
+	},
 });

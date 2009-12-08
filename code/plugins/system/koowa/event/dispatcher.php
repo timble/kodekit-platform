@@ -20,7 +20,7 @@ class KEventDispatcher extends KPatternObservable
 	/**
 	 * Registers an event handler to the event dispatcher
 	 *
-	 * @param	string|object	$handler	Name of the event handler or an instance
+	 * @param	string|object	Name of the event handler or an instance
 	 */
 	public function register($handler)
 	{
@@ -36,8 +36,8 @@ class KEventDispatcher extends KPatternObservable
 	 * Triggers an event by dispatching arguments to all observers that handle
 	 * the event and returning their return values.
 	 *
-	 * @param	string	$event			The event name
-	 * @param	object	$args			An associative array of arguments
+	 * @param	string	The event name
+	 * @param	object	An associative array of arguments
 	 * @return	array	An array of results from each function call
 	 */
 	public function dispatch($event, ArrayObject $args)

@@ -19,10 +19,10 @@
 interface KLoaderAdapterInterface
 {
 	/**
-	 * Load the class
+	 * Get the path based on a class name or an identifier
 	 *
 	 * @param string  The class name
 	 * @return boolean Return TRUE on success, FALSE on failure
 	 */
-	public function load($class);
+	public function path($class);
 }

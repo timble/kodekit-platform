@@ -49,7 +49,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface 
+	 * @var KIdentifierInterface 
 	 */
 	protected $_identifier;
 
@@ -60,13 +60,11 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 */
 	public function __construct(array $options = array())
 	{
-		// Set the objects identifier
+		// Set the objects identifier first to allow to use it in the initli
         $this->_identifier = $options['identifier'];
 		
-		// Initialize the options
 		$options  = $this->_initialize($options);
 				
-		// Set the state
 		$this->_state = $options['state'];
 	}
 
@@ -148,7 +146,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
     /**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -210,6 +208,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 		return $this->_total;
 	}
 	
+	
 	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set states by 
 	 * using the state name as the method name. 
@@ -223,8 +222,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 */
 	public function __call($method, $args)
 	{
-		if(isset($this->_state->$method)) 
-		{
+		if(isset($this->_state->$method)) {
 			return $this->set($method, $args[0]);	
 		} 
 		

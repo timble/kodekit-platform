@@ -362,6 +362,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	$description->default = $field->Default;
  	   	$description->require = (bool) ($field->Null != 'YES');
  	    $description->primary = (bool) ($field->Key == 'PRI');
+ 	    $description->unique  = (bool) ($field->Key == 'UNI' || $field->Key == 'PRI'); 
  	    $description->autoinc = (bool) (strpos($field->Extra, 'auto_increment') !== false);
 
  	 	// don't keep "size" for integers

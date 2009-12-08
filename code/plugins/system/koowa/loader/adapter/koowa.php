@@ -17,42 +17,66 @@
  * @subpackage 	Adapter
  * @uses 		Koowa
  */
-class KLoaderAdapterKoowa implements KLoaderAdapterInterface
+class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 {
 	/**
-	 * Load a class based on a class name
+	 * Get the path based on a class name
 	 *
-	 * Is capable of autoloading Koowa library classes based on a camelcased
-     * classname that represents the directory structure.
-	 *
-	 * @param string  The class name
-	 * @return string|false	Returns the path on success FALSE on failure
+	 * @param  string		  	The class name 
+	 * @return string|false		Returns the path on success FALSE on failure
 	 */
-	public function load($class)
+	protected function _pathFromClassname($classname)
 	{
+		$path     = false;
+		
+		$word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1',  $classname);
+		$parts = explode('_', $word);
+		
 		// If class start with a 'K' it is a Koowa framework class and we handle it
-		if(substr($class, 0, 1) == 'K')
-		{
-			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', substr_replace($class, '', 0, 1)));
-			$parts = explode('_', $word);
-
-			if(count($parts) > 1) {
-				$path = str_replace('_', DS, $word);
-			} else {
-				$path = $word.DS.$word;
-			}
-
-			//Get the basepath
+		if(array_shift($parts) == 'K')
+		{	
 			$basepath = Koowa::getPath();
-
+			$path     = strtolower(implode(DS, $parts));
+				
+			if(count($parts) == 1) {
+				$path = $path.DS.$path;
+			}
+			
 			if(!is_file($basepath.DS.$path.'.php')) {
-				$path = $path.DS.array_pop($parts);
+				$path = $path.DS.strtolower(array_pop($parts));
 			}
 
-			//Return the full path
-			return $basepath.DS.$path.'.php';
+			$path = $basepath.DS.$path.'.php';
 		}
+		
+		return $path;
+	}	
+	
+	/**
+	 * Get the path based on an identifier
+	 *
+	 * @param  object  			An Identifier object - lib.joomla.[.path].name
+	 * @return string|false		Returns the path on success FALSE on failure
+	 */
+	protected function _pathFromIdentifier($identifier)
+	{
+		$path = false;
+		
+		if($identifier->type == 'lib' && $identifier->package == 'koowa')
+		{
+			$basepath = Koowa::getPath();
+			
+			if(count($identifier->path)) {
+				$path .= implode(DS,$identifier->path);
+			}
 
-        return false;
+			if(!empty($this->name)) {
+				$path .= DS.$identifier->name;
+			}
+				
+			$path = $basepath.DS.$path.'.php';
+		}
+		
+		return $path;
 	}
 }

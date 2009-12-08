@@ -16,14 +16,14 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-interface KFactoryAdapterInterface extends KPatternCommandInterface
+interface KFactoryAdapterInterface extends KCommandInterface
 {
 	/**
 	 * Create an object instance based on a class identifier
 	 *
-	 * @param mixed The class identifier
-	 * @param array An optional associative array of configuration settings.
-	 * @return object|false  Return object on success, returns FALSE on failure
+	 * @param 	mixed 	The class identifier
+	 * @param 	array 	An optional associative array of configuration settings.
+	 * @return 	object|false 	Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, array $options);
 }

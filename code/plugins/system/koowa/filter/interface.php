@@ -17,7 +17,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-interface KFilterInterface extends KPatternCommandInterface
+interface KFilterInterface extends KCommandInterface
 {
 	/**
 	 * Validate a value or data collection

@@ -33,26 +33,29 @@ class plgSystemKoowa extends JPlugin
 
 		//Add loader adapters
 		KLoader::addAdapter(new KLoaderAdapterJoomla());
+		KLoader::addAdapter(new KLoaderAdapterModule());
+		KLoader::addAdapter(new KLoaderAdapterPlugin());
         KLoader::addAdapter(new KLoaderAdapterComponent());
-
+            
 		//Add factory adapters
 		KFactory::addAdapter(new KFactoryAdapterJoomla());
-        KFactory::addAdapter(new KFactoryAdapterComponent());
-
+		KFactory::addAdapter(new KFactoryAdapterModule());
+		KFactory::addAdapter(new KFactoryAdapterPlugin());
+		KFactory::addAdapter(new KFactoryAdapterComponent());
+		
 		// Decorate the application object
 		$app  =& JFactory::getApplication();
 		$app  = new KDecoratorJoomlaApplication($app);
 		
-		// Get the Joomla database object
-		$jdb  =& JFactory::getDBO();
-
 		//Create the koowa database object
+		$jdb  =& JFactory::getDBO();
+		
 		KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'))
 			->setConnection($jdb->_resource)
 			->setTablePrefix($jdb->_table_prefix);
 		
 		// Don't proxy the dataase if we are in com_installer
-		if(KRequest::get('request.option', 'cmd') != 'com_installer')
+		/*if(KRequest::get('request.option', 'cmd') != 'com_installer')
 		{
 			// Decorate the database object
 			$jdb = new KDecoratorJoomlaDatabase($jdb);
@@ -60,16 +63,17 @@ class plgSystemKoowa extends JPlugin
 			//ACL uses the unwrapped DBO
        		$acl = JFactory::getACL();
         	$acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
-		}
-
-		// Decortae the language object
-		$lang =& JFactory::getLanguage();
-		$lang = new KDecoratorJoomlaLanguage($lang);
+		}*/
 
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language',    'lib.joomla.language');
         KFactory::map('lib.koowa.document',    'lib.joomla.document');
+        
+        //Force the format to ajax is request type is AJAX
+        if(KRequest::type() == 'AJAX') {
+        	KRequest::set('get.format', 'ajax');
+        }
 
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));

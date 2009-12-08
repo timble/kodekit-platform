@@ -32,9 +32,9 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 	{
 		$js = '';
 		foreach($this->_fields as $name => $value) {
-			$js .= "Koowa.Form.addField('$name', '$value');";
+			$js .= "KForm.addField('$name', '$value');";
 		}
-		$js .= "Koowa.Form.submit('{$this->_method}');";
+		$js .= "KForm.submit('{$this->_method}');";
 		return $js;
 	}
 	

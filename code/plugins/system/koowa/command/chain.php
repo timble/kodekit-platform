@@ -2,8 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_Pattern
- * @subpackage	Command
+ * @package		Koowa_Command
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
@@ -12,15 +11,15 @@
 /**
  * Command Chain
  * 
- * The command queue implements a double linked list. The command handle is used as
- * the key.
+ * The command queue implements a double linked list. The command handle is used 
+ * as the key. Each command can have a priority, default priority is 3 The queue 
+ * is ordered by priority, command with a higher priority are called first.
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
- * @package     Koowa_Pattern
- * @subpackage  Command
+ * @package     Koowa_Command
  */
-class KPatternCommandChain extends KObject
+class KCommandChain extends KObject
 {
 	/**
 	 * Command list
@@ -51,12 +50,11 @@ class KPatternCommandChain extends KObject
   	/**
 	 * Attach a command to the chain
 	 * 
-	 * @param object 	$cmd		A KPatternCommandHandler 
-	 * @param integer	$priority	The command priority, usually between 1 (high priority) and 5 (low), default is 3
-	 *
-	 * @return	this
+	 * @param 	object 		A KCommandHandler 
+	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (low), default is 3
+	 * @return	 KCommandChain
 	 */
-	public function enqueue( KPatternCommandInterface $cmd, $priority = 3)
+	public function enqueue( KCommandInterface $cmd, $priority = 3)
 	{
 		$handle = $cmd->getHandle(); //get the object handle
 		
@@ -70,22 +68,19 @@ class KPatternCommandChain extends KObject
 	/**
 	 * Remove a command from the chain
 	 * 
-	 * @param object 	$cmd		A KPatternCommandHandler 
-	 * @param integer	$priority	The command priority
-	 *
-	 * @return 	boolean True if the command handler was detached
+	 * @param 	object 		A KCommandHandler 
+	 * @param 	integer		The command priority
+	 * @return 	KCommandChain
 	 */
-	public function dequeue( KPatternCommandInterface $cmd)
+	public function dequeue( KCommandInterface $cmd)
 	{
 		$handle = $cmd->getHandle(); //get the object handle
 		
-		$result = false;
   		if($this->_command->offsetExist($handle)) {
 			$this->_command->offsetUnset($handle);	
-  			$result = true;
 		}
 
-		return $result;
+		return $this;
   	}
   	
   	/**
@@ -93,12 +88,11 @@ class KPatternCommandChain extends KObject
 	 * 
 	 * If a command return false the executing is halted
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
-	 *
-	 * @return	void
+	 * @param 	string  The command name
+	 * @param 	mixed   The command context
+	 * @return	boolean True if successfull, otherwise false
 	 */
-  	public function run( $name, $args )
+  	public function run( $name, KCommandContext $context )
   	{
   		$iterator = $this->_priority->getIterator();
 
@@ -106,7 +100,7 @@ class KPatternCommandChain extends KObject
 		{
     		$cmd = $this->_command[ $iterator->key()];
     		
-			if ( $cmd->execute( $name, $args ) === false) {
+			if ( $cmd->execute( $name, $context ) === false) {
       			return false;
       		}
 
@@ -119,14 +113,13 @@ class KPatternCommandChain extends KObject
   	/**
 	 * Set the priority of a command
 	 * 
-	 * @param object 	$cmd		A KPatternCommandHandler 
-	 * @param integer	$priority	The command priority
-	 *
-	 * @return	void
+	 * @param object 	A KCommandHandler 
+	 * @param integer	The command priority
+	 * @return KCommandChain
 	 */
-  	public function setPriority(KPatternCommandInterface $cmd, $priority)
+  	public function setPriority(KCommandInterface $cmd, $priority)
   	{
-  		$hanlde = $cmd->getHandle(); //get the object handle
+  		$handle = $cmd->getHandle();
 		
 		if($this->_priority->offsetExists($handle)) {
 			$this->_priority->offsetSet($handle, $priority);
@@ -138,14 +131,13 @@ class KPatternCommandChain extends KObject
   	/**
 	 * Get the priority of a command
 	 * 
-	 * @param object 	$cmd		A KPatternCommandHandler 
-	 * @param integer	$priority	The command priority
-	 *
+	 * @param object 	A KCommandHandler 
+	 * @param integer	The command priority
 	 * @return	integer The command priority
 	 */
-  	public function getPriority(KPatternCommandInterface $cmd)
+  	public function getPriority(KCommandInterface $cmd)
   	{
-  		$hanlde = $cmd->getHandle(); //get the object handle
+  		$handle = $cmd->getHandle();
   	
   		$result = null;
   		if($this->_priority->offsetExist($handle)) {

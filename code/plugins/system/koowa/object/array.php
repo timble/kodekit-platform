@@ -322,11 +322,13 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 	
 	/**
 	 * Return an KObjectArray with only unique items. 
+	 * 
 	 * @return KObjectArray
 	 */
 	public function unique()
 	{
 		$tmp = array(); 
+		
 		// array_unique doesn't work with nested arrays in all php 5.2 versions
 		foreach($this as $elem) {
 			$tmp[serialize($elem)] = $elem;

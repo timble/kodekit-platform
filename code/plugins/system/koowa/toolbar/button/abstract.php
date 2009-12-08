@@ -30,7 +30,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
 
@@ -41,7 +41,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 */
 	public function __construct(array $options = array())
 	{
-		// Set the objects identifier
+		// Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 		
 		// Initialize the options
@@ -81,7 +81,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()

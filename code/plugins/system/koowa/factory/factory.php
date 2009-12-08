@@ -77,18 +77,22 @@ class KFactory
 	public static function get($identifier, array $options = array())
 	{
 		$identifier = (string) $identifier;
-		
+				
 		if(array_key_exists($identifier, self::$_identifier_map)) {
 			$identifier = self::$_identifier_map[$identifier];
 		}
-
+		
 		//Check if the object already exists
 		if(self::$_container->offsetExists($identifier)) {
 			return self::$_container->offsetGet($identifier);
 		}
 
 		//Get an instance based on the identifier
-		$instance = self::$_chain->run($identifier, $options);
+		//Cannot use KFactory to create KCommandContext object. Would create a loop
+		$context = new KCommandContext(); 
+		$context['options'] = $options;
+		
+		$instance = self::$_chain->run($identifier, $context);
 		if(!is_object($instance)) {
 			throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
 		}
@@ -115,12 +119,16 @@ class KFactory
 		}
 
 		//Get an instance based on the identifier
-		$object = self::$_chain->run($identifier, $options);
-		if($object === false) {
+		//Cannot use KFactory to create KCommandContext object. Would create a loop
+		$context = new KCommandContext();
+		$context['options'] = $options;
+		
+		$instance = self::$_chain->run($identifier, $context);
+		if(!is_object($instance)) {
 			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
 		}
 
-		return $object;
+		return $instance;
 	}
 
 	/**

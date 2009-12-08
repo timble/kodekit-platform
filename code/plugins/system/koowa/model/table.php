@@ -45,11 +45,14 @@ class KModelTable extends KModelAbstract
 		// Initialize the options
 		$options  = $this->_initialize($options);
 		
-		$this->_db    = $options['adapter'];
-		$this->_table = $options['table'];
+		// Set the databse adapter
+		$this->setDatabase($options['adapter']);
+		
+		// Set the table indentifier
+		$this->setTable($options['table']);
 				
 		$this->_state
-			->insert('id'       , 'int')
+			->insert('id'       , 'int', 0)
 			->insert('limit'    , 'int', 20)
 			->insert('offset'   , 'int', 0)
 			->insert('order'    , 'cmd')
@@ -92,9 +95,17 @@ class KModelTable extends KModelAbstract
     	
     	$limit  = $this->_state->limit;
     	$offset = $this->_state->offset;
+    	$total  = $this->getTotal();
     	
     	// If limit has been changed, adjust offset accordingly
-    	$this->_state->offset = ($limit != 0 ? (floor($offset / $limit) * $limit) : 0);
+    	$offset = ($limit != 0 ? (floor($offset / $limit) * $limit) : 0);
+    	
+    	//If the offset is higher than the total, reset offset to total
+    	if($total !== 0 && $offset >= $total) { 
+    		$offset = floor(($total-1) / $limit) * $limit;
+    	}
+    	
+    	$this->_state->offset = $offset;
     	
     	return $this;
     }
@@ -124,7 +135,7 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Get the identifier for the table with the same name
 	 *
-	 * @return	KFactoryIdentifierInterface
+	 * @return	KIdentifierInterface
 	 */
 	final public function getTable()
 	{
@@ -134,21 +145,31 @@ class KModelTable extends KModelAbstract
 			$identifier->name	= KInflector::tableize($identifier->name);
 			$identifier->path	= array('table');
 		
-			$this->_table 		= $identifier;
+			$this->_table = $identifier;
 		}
        	
 		return $this->_table;
 	}
 
 	/**
-	 * Method to set a table object or identifier
+	 * Method to set a table object attached to the model
 	 *
-	 * @param	string|KFactoryIdentifierInterface The table identifier to be used in KFactory or a table object
+	 * @param	object	An KIdentifier object or a KFactoryIdentifiable object
 	 * @return	KModelTable
 	 */
-	public function setTable($identifier)
+	public function setTable($table)
 	{
-		$this->_table = $identifier;
+		if(is_object($table)) 
+		{
+			if($model instanceof KIndentifier) {
+				$this->_table = $table;
+			}
+			
+			if(array_key_exists('KFactoryIdentifiable', class_implements($table))) {
+				$this->_table = $table->getIdentifier();
+			}
+		} 
+		
 		return $this;
 	}
 
@@ -162,14 +183,9 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_item))
         {
-        	if($table = KFactory::get($this->getTable())) 
-        	{
-         		$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
-        		$this->_item = $table->fetchRow($query);
-        	} 
-        	else {
-        		$this->_item = null;
-        	}
+        	$table = KFactory::get($this->getTable());
+        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
+        	$this->_item = $table->fetchRow($query);
         }
 
         return parent::getItem();
@@ -185,14 +201,9 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_list))
         {
-        	if($table = KFactory::get($this->getTable())) 
-        	{
-        		$query = $this->_buildQuery();
-        		$this->_list = $table->fetchRowset($query);
-        	}
-        	else {
-        		$this->_list = array();
-        	} 
+        	$table = KFactory::get($this->getTable());
+        	$query = $this->_buildQuery();
+        	$this->_list = $table->fetchRowset($query);
         }
 
         return parent::getList();
@@ -208,14 +219,9 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
-            if($table = KFactory::get($this->getTable()))
-            {
-        		$query = $this->_buildCountQuery();
-				$this->_total = $table->count($query);
-            } 
-            else {
-            	$this->_total = 0;
-            } 
+            $table = KFactory::get($this->getTable());
+            $query = $this->_buildCountQuery();
+			$this->_total = $table->count($query);
         }
 
         return parent::getTotal();

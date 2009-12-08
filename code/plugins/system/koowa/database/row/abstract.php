@@ -46,6 +46,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	 * The object identifier
 	 *
 	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
 
@@ -56,7 +57,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function __construct(array $options = array())
     {
-         // Set the objects identifier
+       // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
     	// Initialize the options
@@ -96,7 +97,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -126,48 +127,42 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     }
 
     /**
-     * Saves the properties to the database.
+     * Saves the row to the database.
      *
-     * This performs an intelligent insert/update, and reloads the
-     * properties with fresh data from the table on success.
+     * This performs an intelligent insert/update and reloads the properties 
+     * with fresh data from the table on success.
      *
-     *
-     * @return mixed The primary key value(s), as an associative array if the
-     *     			 key is compound, or a scalar if the key is single-column.
+     * @return KDatabaseRowAbstract
      */
     public function save()
     {
-        $key = $this->_table->getPrimaryKey();
-
+        //Remove the primary key, it either exists or will be created by the database
         $data = $this->getData();
-
-        if(array_key_exists('ordering', $data) && $data['ordering'] <= 0) {
+        unset($data[$this->_table->getPrimaryKey()]);
+    	
+    	if(isset($this->ordering) && $this->ordering <= 0) {
         	$data['ordering'] = $this->getTable()->getMaxOrder();
         }
-
-        if($this->_data[$key]) {
-        	$this->_table->update($data, $this->_data[$key]);
-        }
-        else
+        
+        if(empty($this->id)) 
         {
         	if($this->_table->insert($data)) {
         		$this->id = $this->_table->getDatabase()->getInsertId();
         	}
         }
-
+        else $this->_table->update($data, $this->id);
+        
         return $this;
     }
 
 	/**
-     * Deletes existing rows.
+     * Deletes the row form the database.
      *
      * @return KDatabaseRowAbstract
      */
     public function delete()
     {
-		$key = $this->_table->getPrimaryKey();
-
-    	$this->_table->delete($this->_data[$key]);
+    	$this->_table->delete($this->id);
         return $this;
     }
 
@@ -192,7 +187,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
 	public function hit()
 	{
-		if (!in_array('hits', $this->_table->getColumns())) {
+		if (!isset($this->hits)) {
 			throw new KDatabaseRowException("The table ".$this->_table->getName()." doesn't have a 'hits' column.");
 		}
 
@@ -213,7 +208,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	 */
 	public function order($change)
 	{
-		if (!in_array('ordering', $this->_table->getColumns())) {
+		if (!isset($this->ordering)) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'ordering' column.");
 		}
 
@@ -255,7 +250,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	 */
 	public function checkout()
 	{
-		if (!in_array('checked_out', $this->_table->getColumns())) {
+		if (!isset($this->checked_out)) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
 		}
 
@@ -281,7 +276,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	 */
 	public function checkin()
 	{
-		if (!in_array('checked_out', $this->_table->getColumns())) {
+		if (!isset($this->checked_out)) {
 			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
 		}
 

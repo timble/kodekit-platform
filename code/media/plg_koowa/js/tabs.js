@@ -8,6 +8,12 @@
  * @link     	http://www.koowa.org
  */
  
+/**
+ * Tabs behavior
+ *
+ * @package     Koowa_Media
+ * @subpackage	Javascript
+ */
 var KTabs = new Class({
 
     getOptions: function()
@@ -30,8 +36,8 @@ var KTabs = new Class({
 
     initialize: function(dlist, options)
     {
-        this.dlist = $(dlist);
-        this.setOptions(this.getOptions(), Json.evaluate(options));
+    	this.dlist = $(dlist);
+        this.setOptions(this.getOptions(), options);
         this.titles = this.dlist.getElements('dt');
         this.descriptions = this.dlist.getElements('dd');
         this.content = new Element('div').injectAfter(this.dlist).addClass('current');
@@ -68,5 +74,4 @@ var KTabs = new Class({
     }
 });
 
-KTabs.implement(new Events);
-KTabs.implement(new Options);
+KTabs.implement(new Events, new Options);

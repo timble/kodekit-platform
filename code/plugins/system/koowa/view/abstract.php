@@ -65,9 +65,16 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
+	
+	/**
+	 * Model identifier (APP::com.COMPONENT.model.MODELNAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_model;
 
 	/**
 	 * Constructor
@@ -76,7 +83,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	 */
 	public function __construct(array $options = array())
 	{
-		// Set the objects identifier
+		// Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
 		// Initialize the options
@@ -84,21 +91,17 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 
 		 // user-defined escaping callback
         $this->setEscape($options['escape']);
-
+        
 		// Add default template paths
-		$path = $this->_identifier->filepath.DS.'tmpl';
-		$this->addTemplatePath($path);
-
 		if($options['template_path']) {
 			$this->addTemplatePath($options['template_path']);
 		}
 
 		// assign the document object
-		if ($options['document']) {
-			$this->_document = $options['document'];
-		} else {
-			$this->_document = KFactory::get('lib.koowa.document');
-		}
+		$this->_document = $options['document'];
+		
+		// set the model
+		$this->setModel($options['model']);
 
 		// set the layout
 		$this->setLayout($options['layout']);
@@ -121,7 +124,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
         $defaults = array(
             'base_url'      => KRequest::base(),
         	'media_url'		=> KRequest::root().'/media',
-            'document'      => null,
+            'document'      => KFactory::get('lib.koowa.document'),
             'escape'        => 'htmlspecialchars',
             'layout'        => 'default',
 			'template_rules' => array(
@@ -130,7 +133,8 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
                         KFactory::get('lib.koowa.template.filter.variable')
 						),
             'template_path' => null,
-			'identifier'	=> null
+			'identifier'	=> null,
+			'model'   		=> null
         );
 
         return array_merge($defaults, $options);
@@ -139,25 +143,31 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
 	}
+	
+	/**
+	 * Get the name
+	 *
+	 * @return 	string 	The name of the object
+	 */
+	public function getName()
+	{
+		$total = count($this->_identifier->path);
+		return $this->_identifier->path[$total - 1];
+	}
 
 	/**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewAbstract
 	 */
-	public function display()
-	{
-		//Render the template
-		echo $this->loadTemplate();
-		return $this;
-	}
+	abstract public function display();
 
 	/**
 	* Assigns variables to the view script via differing strategies.
@@ -278,20 +288,48 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
         return $this;
     }
 
-	/**
+/**
 	 * Get the identifier for the model with the same name
 	 *
-	 * @return	KFactoryIdentifierInterface
+	 * @return	KIdentifierInterface
 	 */
 	final public function getModel()
 	{
-		$identifier			= clone $this->_identifier;
-		$identifier->path	= array('model');
-
-		// Models are always plural
-		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
-
-		return $identifier;
+		if(!$this->_model)
+		{
+			$identifier	= clone $this->_identifier;
+		
+			// Models are always plural
+			$name = array_pop($identifier->path);
+			$identifier->name	= KInflector::isPlural($name) ? $name : KInflector::pluralize($name);
+			$identifier->path	= array('model');
+			
+			$this->_model = $identifier;
+		}
+       	
+		return $this->_model;
+	}
+	
+	/**
+	 * Method to set the model attached to the view
+	 *
+	 * @param	object	An KIdentifier object or a KFactoryIdentifiable object
+	 * @return	KViewAbstract
+	 */
+	public function setModel($model)
+	{
+		if(is_object($model)) 
+		{
+			if($model instanceof KIndentifier) {
+				$this->_model = $model;
+			}
+			
+			if(array_key_exists('KFactoryIdentifiable', class_implements($model))) {
+				$this->_model = $model->getIdentifier();
+			}
+		} 
+	
+		return $this;
 	}
 
 	/**
@@ -311,10 +349,9 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 			// no surrounding spaces allowed!
 			$dir = trim($dir);
 
-			// add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-				// directory
-				$dir .= DIRECTORY_SEPARATOR;
+			// remove trailing slash
+			if (substr($dir, -1) == DIRECTORY_SEPARATOR) {
+				$dir = substr_replace($dir, '', -1);
 			}
 
 			// add to the top of the search dirs
@@ -326,22 +363,41 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 
 	/**
 	 * Load a template file -- first look in the templates folder for an override
+	 * 
+	 * This functions accepts both template local template file names or identifiers
+	 * - application::com.component.view.[.path].name
 	 *
 	 * @param 	string 	The name of the template source file automatically searches
 	 * 					the template paths and compiles as needed.
 	 * @throws KViewException
 	 * @return string The output of the the template script.
 	 */
-	public function loadTemplate( $tpl = null)
+	public function loadTemplate( $identifier = null)
 	{
-		// clear prior output
+		// Clear prior output
 		$this->_output = null;
-
-		//create the template file name based on the layout
-		$file = isset($tpl) ? $tpl : $this->_layout;
-
+		
+		// If no identifier has been specified using the view layout
+		$identifier = isset($identifier) ? $identifier : $this->_layout;
+		
+		try
+		{
+			$identifier = new KIdentifier($identifier);
+			
+			$file = $identifier->name;
+			$path = dirname(KLoader::path($identifier)).DS.'tmpl';
+		} 
+		catch(KIdentifierException $e) 
+		{
+			$file = $identifier;
+			$path = dirname($this->_identifier->filepath).DS.'tmpl';
+		}
+		
+		//add the default path to the end of the array
+		array_push( $this->_template_path, $path);
+		
 		// load the template script
-		Koowa::import('lib.joomla.filesystem.path');
+		KLoader::load('lib.joomla.filesystem.path');
 		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
 
 		if ($this->_template === false) {
@@ -462,13 +518,18 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 				$result[] = 'option=com_'.$this->_identifier->package;
 			}
 
-			// Check to see if there is view information in the route if not add it
+			// Add the layout information to the route only if it's not 'default'
 			if(!isset($parts['view']))
 			{
-				$result[] = 'view='.$this->_identifier->name;
+				$result[] = 'view='.$this->getName();
 				if(!isset($parts['layout']) && $this->_layout != 'default') {
 					$result[] = 'layout='.$this->_layout;
 				}
+			}
+			
+			// Add the format information to the URL only if it's not 'html'
+			if(!isset($parts['format']) && $this->_identifier->name != 'html') {
+				$result[] = 'format='.$this->_identifier->name;
 			}
 
 			// Reconstruct the route

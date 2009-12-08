@@ -29,20 +29,24 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 *
 	 * @param	array	Options array
 	 */
-	public function __construct(array $options = array()) { }
+	public function __construct(array $options = array()) 
+	{
+		 $this->_chain = new KFilterChain();
+		 $this->addFilter($this);
+	}
 	
 	/**
 	 * Generic Command handler
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
+	 * @param string  The command name
+	 * @param object  The command context
 	 *
 	 * @return object
 	 */
-	final public function execute($name, $args) 
+	final public function execute($name, KCommandContext $context) 
 	{	
 		$function = '_'.$name;
-		return $this->$function($args);
+		return $this->$function($context['data']);
 	}
 
 	/**
@@ -66,8 +70,10 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 		} 
 		else 
 		{	
-			//Only run the chain if it exists
-			$result = isset($this->_chain) ? $this->_chain->run('validate', $data) : $this->_validate($data);
+			$context = KFactory::tmp('lib.koowa.command.context');
+			$context['data'] = $data;
+			
+			$result = $this->_chain->run('validate', $context);
 			
 			if($result ===  false) {
 				return false;
@@ -102,8 +108,10 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 		}
 		else
 		{
-			//Only run the chain if it exists
-			$data = isset($this->_chain) ? $this->_chain->run('sanitize', $data) : $this->_sanitize($data);
+			$context = KFactory::tmp('lib.koowa.command.context');
+			$context['data'] = $data;
+			
+			$data = $this->_chain->run('sanitize', $context);
 		}
 		
 		return $data;
@@ -118,14 +126,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 * @return this
 	 */
 	public function addFilter(KFilterInterface $filter, $priority = 3)
-	{
-		//If the chain doesn't exist create it and enqueue this as the first filter
-		if(!isset($this->_chain)) 
-		{
-			$this->_chain = new KFilterChain();
-			$this->_chain->enqueue($this, 3);
-		}
-			
+	{	
 		$this->_chain->enqueue($filter, $priority);
 		return $this;
 	}

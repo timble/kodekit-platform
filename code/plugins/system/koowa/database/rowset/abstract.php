@@ -37,7 +37,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     /**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
 
@@ -48,7 +48,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function __construct(array $options = array())
     {
-        // Set the objects identifier
+        // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
     	// Initialize the options
@@ -85,34 +85,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
-	}
-
-	public function setArray($rows)
-	{
-		$prototype = $this->_table->fetchRow();
-		$result = array();
-		foreach($rows as $k => $row)
-		{
-			if($row instanceof KDatabaseRowAbstract) 
-			{
-				$result[] = $row;
-			} 
-			else 
-			{
-				// cloning is faster than instantiation
-				$new = clone $prototype;
-        		$new->setData($row);
-        		$result[] = $new;
-			}
-
-		}
-		return parent::setArray($result);
 	}
 
 	/**
@@ -139,8 +117,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 	 /**
      * Returns a KDatabaseRow from a known position into the Iterator
      *
-     * @param int $position the position of the row expected
-     * @param bool $seek wether or not seek the iterator to that position after
+     * @param int	The position of the row expected
+     * @param bool	Wether or not seek the iterator to that position after
      * @return KDatabaseRowAbstract
      * @throws KDatabaseRowsetException
      */
@@ -171,7 +149,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function findRow($key, $value)
     {
-   		$result = $this->_table->fetchRow();
+   		//Get an empty row
+    	$result = $this->_table->fetchRow();
 
     	$this->rewind();
 
@@ -187,6 +166,24 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 
 		return $result;
     }
+    
+	/**
+     * Deletes all rows in the rowset from the database
+     *
+     * @return KDatabaseRowsetAbstract
+     */
+    public function delete()
+    {
+    	$this->rewind();
+    	
+    	while($this->valid())
+		{
+			$row = $this->current();
+			$row->delete();
+    		$this->next();
+		}
+        return $this;
+    }
 
 	/**
      * Returns all data as an array.
@@ -196,7 +193,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      *
      * @return array
      */
-    public function toArray()
+    public function getData()
     {
     	$result = array();
     	foreach ($this as $i => $row) {
@@ -204,4 +201,39 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
         }
         return $result;
     }
+    
+	/**
+  	 * Set the row data based on a named array/hash
+  	 *
+  	 * @param   mixed Either and associative array or another object
+ 	 * @return 	KDatabaseRowsetAbstract
+  	 */
+  	 public function setData( $data )
+  	 {
+ 		//not yet implemented
+ 
+  		return $this;
+	}
+	
+	public function setArray($rows)
+	{
+		$prototype = $this->_table->fetchRow();
+		$result = array();
+		foreach($rows as $k => $row)
+		{
+			if($row instanceof KDatabaseRowAbstract) 
+			{
+				$result[] = $row;
+			} 
+			else 
+			{
+				// cloning is faster than instantiation
+				$new = clone $prototype;
+        		$new->setData($row);
+        		$result[] = $new;
+			}
+
+		}
+		return parent::setArray($result);
+	}
 }

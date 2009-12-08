@@ -20,7 +20,7 @@
  * @category	Koowa
  * @package     Koowa_Factory
  */
-class KFactoryChain extends KPatternCommandChain
+class KFactoryChain extends KCommandChain
 {
   	/**
 	 * Run the commands in the chain
@@ -28,10 +28,10 @@ class KFactoryChain extends KPatternCommandChain
 	 * If a command returns not false the exection is halted
 	 *
 	 * @param string  The command name
-	 * @param mixed   The command arguments
+	 * @param object  The command context
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-  	final public function run( $name, $args )
+  	final public function run( $name, KCommandContext $context )
   	{
   		$iterator = $this->_priority->getIterator();
 
@@ -39,7 +39,7 @@ class KFactoryChain extends KPatternCommandChain
 		{
     		$cmd = $this->_command[ $iterator->key()];
 
-			$result = $cmd->execute( $name, $args );
+			$result = $cmd->execute( $name, $context );
     		if ($result !== false) {
       			return $result; //halt execution and return result
       		}

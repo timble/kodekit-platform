@@ -49,6 +49,7 @@ class KViewSparkline extends KViewAbstract
     	if(!isset($this->_chart)) {
         	$this->_chart = KChartSparkline::getInstance($type);
         }
+        
         return $this->_chart;
     }
 }

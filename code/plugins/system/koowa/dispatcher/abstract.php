@@ -23,7 +23,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
 
@@ -35,14 +35,14 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function __construct(array $options = array())
 	{
-        // Set the objects identifier
+       // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
 		// Initialize the options
         $options  = $this->_initialize($options);
         
          // Mixin a command chain
-        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 	}
 
     /**
@@ -56,7 +56,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
     protected function _initialize(array $options)
     {
         $defaults = array(
-        	'command_chain' =>  new KPatternCommandChain(),
+        	'command_chain' =>  new KCommandChain(),
         	'identifier'	=> null
         );
 
@@ -66,7 +66,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -89,18 +89,17 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		//Create the controller object
 		$controller = $this->_getController($controller);
 		
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['notifier']   = $this;
-		$args['result']     = false;
-		$args['controller'] = $controller;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']     = $this;
+		$context['result']     = false;
+		$context['controller'] = $controller;
 			
-		if($this->getCommandChain()->run('dispatcher.before.dispatch', $args) === true) 
+		if($this->getCommandChain()->run('dispatcher.before.dispatch', $context) === true) 
 		{
 			//Execute the controller, handle exeception if thrown. 
         	try
         	{
-        		$args['result'] = $controller->execute(KRequest::get('request.action', 'cmd', null));
+        		$context['result'] = $controller->execute(KRequest::get('request.action', 'cmd', null));
         	}
         	catch (KControllerException $e)
         	{
@@ -113,7 +112,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
         		else throw $e;
         	}
         	
-			$this->getCommandChain()->run('dispatcher.after.dispatch', $args);
+			$this->getCommandChain()->run('dispatcher.after.dispatch', $context);
 		}
 		
 		// Redirect if set by the controller

@@ -82,7 +82,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
         $options  = $this->_initialize($options);
 
         // Mixin the command chain
-        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($options['charset'])) {
@@ -114,7 +114,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'command_chain' =>  new KPatternCommandChain(),
+            'command_chain' =>  new KCommandChain(),
         	'charset'		=> 'UTF-8',
         	'table_prefix'  => 'jos_'
         );
@@ -224,21 +224,20 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function select($sql, $offset = 0, $limit = 0)
 	{
-		// Create the arguments object
-		$args = new ArrayObject();
-		$args['sql'] 		= $sql;
-		$args['offset'] 	= $offset;
-		$args['limit'] 		= $limit;
-		$args['notifier']   = $this;
-		$args['operation']	= KDatabase::OPERATION_SELECT;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['sql'] 		= $sql;
+		$context['offset'] 		= $offset;
+		$context['limit'] 		= $limit;
+		$context['operation']	= KDatabase::OPERATION_SELECT;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('database.before.select', $args) === true) {
-			$args['result'] = $this->execute( $args['sql'], $args['offset'], $args['limit'] );
-			$this->getCommandChain()->run('database.after.select', $args);
+		if($this->getCommandChain()->run('database.before.select', $context) === true) {
+			$context['result'] = $this->execute( $context['sql'], $context['offset'], $context['limit'] );
+			$this->getCommandChain()->run('database.after.select', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
    /**
@@ -390,38 +389,37 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function insert($table, array $data)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data'] 		= $data;
-		$args['notifier']   = $this;
-		$args['operation']	= KDatabase::OPERATION_INSERT;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data'] 		= $data;
+		$context['operation']	= KDatabase::OPERATION_INSERT;
 
 		//Excute the insert operation
-		if($this->getCommandChain()->run('database.before.insert', $args) === true)
+		if($this->getCommandChain()->run('database.before.insert', $context) === true)
 		{
-			foreach($args['data'] as $key => $val)
+			foreach($context['data'] as $key => $val)
 			{
 				$vals[] = $this->quoteString($val);
 				$keys[] = '`'.$key.'`';
 			}
 
-			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
+			$sql = 'INSERT INTO '.$this->quoteName('#__'.$context['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
-
+				 
 			//Execute the query
 			$this->execute($sql);
 
 			// Add the inserted id 
-			$args['result'] = $this->_insert_id;
-			if($key = $this->fetchPrimaryKey($table) || empty($args['data'][$key])) {
-				$args['data'][$key] = $this->_insert_id;
+			$context['result'] = $this->_insert_id;
+			if($key = $this->fetchPrimaryKey($table) || empty($context['data'][$key])) {
+				$context['data'][$key] = $this->_insert_id;
 			}
 
-			$this->getCommandChain()->run('database.after.insert', $args);
+			$this->getCommandChain()->run('database.after.insert', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**
@@ -438,35 +436,34 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function update($table, array $data, $where = null)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data']  		= $data;
-		$args['notifier']   = $this;
-		$args['where']   	= $where;
-		$args['operation']	= KDatabase::OPERATION_UPDATE;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data']  		= $data;
+		$context['where']   	= $where;
+		$context['operation']	= KDatabase::OPERATION_UPDATE;
 
 		//Excute the update operation
-		if($this->getCommandChain()->run('database.before.update', $args) ===  true)
+		if($this->getCommandChain()->run('database.before.update', $context) ===  true)
 		{
-			foreach($args['data'] as $key => $val) {
+			foreach($context['data'] as $key => $val) {
 				$vals[] = '`'.$key.'` = '.$this->quoteString($val);
 			}
 
 			//Create query statement
-			$sql = 'UPDATE '.$this->quoteName('#__'.$args['table'])
+			$sql = 'UPDATE '.$this->quoteName('#__'.$context['table'])
 			  	.' SET '.implode(', ', $vals)
-			  	.' '.$args['where']
+			  	.' '.$context['where']
 			;
 
 			//Execute the query
 			$this->execute($sql);
 
-			$args['result'] = $this->_affected_rows;
-			$this->getCommandChain()->run('database.after.update', $args);
+			$context['result'] = $this->_affected_rows;
+			$this->getCommandChain()->run('database.after.update', $context);
 		}
 
-        return $args['result'];
+        return $context['result'];
 	}
 
 	/**
@@ -479,30 +476,30 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function delete($table, $where)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data']  		= null;
-		$args['notifier']   = $this;
-		$args['where']   	= $where;
-		$args['operation']	= KDatabase::OPERATION_DELETE;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data']  		= null;
+		$context['notifier']    = $this;
+		$context['where']   	= $where;
+		$context['operation']	= KDatabase::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->getCommandChain()->run('database.before.delete', $args) ===  true)
+		if($this->getCommandChain()->run('database.before.delete', $context) ===  true)
 		{
 			//Create query statement
-			$sql = 'DELETE FROM '.$this->quoteName('#__'.$args['table'])
-				  .' '.$args['where']
+			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context['table'])
+				  .' '.$context['where']
 			;
 
 			//Execute the query
 			$this->execute($sql);
 
-			$args['result'] = $this->_affected_rows;
-			$this->getCommandChain()->run('database.after.delete', $args);
+			$context['result'] = $this->_affected_rows;
+			$this->getCommandChain()->run('database.after.delete', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**
@@ -741,7 +738,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
             return "$orig AS $alias";
         }
 
-     	// `original` `alias`
+     	// `original` = `alias`
         $pos = strrpos($spec, ' = ');
         if ($pos)
         {
@@ -751,7 +748,29 @@ abstract class KDatabaseAdapterAbstract extends KObject
             $alias = $this->quoteName(substr($spec, $pos + 3));
             return "$orig = $alias";
         }
-
+        
+         // `original` > `alias`
+	   	$pos = strrpos($spec, ' > ');
+	  	if ($pos)
+	  	{
+	   		// recurse to allow for "table.col"	
+	      	$orig = $this->quoteName(substr($spec, 0, $pos));
+            // recurse to allow for "table.col"
+            $alias = $this->quoteName(substr($spec, $pos + 3));
+            return "$orig > $alias";
+        }
+        
+        // `original` < `alias`
+        $pos = strrpos($spec, ' < ');
+        if ($pos)
+        {
+            // recurse to allow for "table.col"
+            $orig = $this->quoteName(substr($spec, 0, $pos));
+            // recurse to allow for "table.col"
+            $alias = $this->quoteName(substr($spec, $pos + 3));
+            return "$orig < $alias";
+        }
+        
         // `original` `alias`
         $pos = strrpos($spec, ' ');
         if ($pos)

@@ -30,7 +30,7 @@ abstract class KPatternDecorator extends KObject
 	/**
 	 * Constructor
 	 *
-	 * @param	object	$object	The object to decorate
+	 * @param	object	The object to decorate
 	 * @return	void
 	 */
 	public function __construct($object)
@@ -51,8 +51,8 @@ abstract class KPatternDecorator extends KObject
 	/**
 	 * Overloaded set function
 	 *
-	 * @param  string 	$key 	The variable name
-	 * @param  mixed 	$value 	The variable value.
+	 * @param  string	The variable name
+	 * @param  mixed 	The variable value.
 	 * @return mixed
 	 */
 	public function __set($key, $value) 
@@ -63,7 +63,7 @@ abstract class KPatternDecorator extends KObject
 	/**
 	 * Overloaded get function
 	 *
-	 * @param  string $key The variable name.
+	 * @param  string 	The variable name.
 	 * @return mixed
 	 */
 	public function __get($key)
@@ -76,8 +76,7 @@ abstract class KPatternDecorator extends KObject
 	 *
 	 * Allows testing with empty() and isset() functions
 	 *
-	 * @param  string 	$name 	The variable name
-	 * @param  mixed 	$val 	The variable value.
+	 * @param  string 	The variable name
 	 * @return boolean
 	 */
 	public function __isset($key)
@@ -90,7 +89,7 @@ abstract class KPatternDecorator extends KObject
 	 *
 	 * Allows unset() on object properties to work
 	 *
-	 * @param string $key The variable name.
+	 * @param string 	The variable name.
 	 * @return void
 	 */
 	public function __unset($key)
@@ -103,8 +102,8 @@ abstract class KPatternDecorator extends KObject
    	/**
 	 * Overloaded call function
 	 *
-	 * @param  string $method		The function name
-	 * @param  array  $arguments	The function arguments
+	 * @param  string 	The function name
+	 * @param  array  	The function arguments
 	 * @return mixed The result of the function
 	 */
 	public function __call($method, array $arguments)

@@ -19,6 +19,9 @@
  */
 class KTemplateHelperBehavior extends KObject
 {
+	
+	protected $_loaded = false;
+	
 	/**
 	 * Method to load the mootools framework into the document head
 	 *
@@ -28,10 +31,8 @@ class KTemplateHelperBehavior extends KObject
 	 */
 	public function mootools($debug = null)
 	{
-		static $loaded;
-
 		// Only load once
-		if ($loaded) {
+		if ($this->_loaded) {
 			return;
 		}
 
@@ -46,7 +47,8 @@ class KTemplateHelperBehavior extends KObject
 		} else {
 			KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootools.js');
 		}
-		$loaded = true;
+		
+		$this->_loaded = true;
 		return;
 	}
 
@@ -130,7 +132,7 @@ class KTemplateHelperBehavior extends KObject
 		return;
 	}
 
-	public function uploader($id='file-upload', $params = array())
+	public function uploader($id = 'file-upload', $params = array())
 	{
 		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/swf.js');
 		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/uploader.js' );
@@ -191,7 +193,6 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		// Include mootools framework
-		$this->mootools();
 		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootree.js');
 		KTemplate::loadHelper('script', KRequest::root().'/media/system/cssmootree.css');
 
@@ -238,16 +239,26 @@ class KTemplateHelperBehavior extends KObject
 
 	public function calendar()
 	{
-		$document = KFactory::get('lib.koowa.document');
-
 		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/css/calendar-jos.css', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/system/js/calendar.js');
-		KTemplate::loadHelper('script',  KRequest::root().'/media/system/js/calendar-setup.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/calendar.js');
+		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/calendar-setup.js');
 
-		$translation = $this->_calendartranslation();
-		if($translation) {
-			$document->addScriptDeclaration($translation);
+		if($translation = $this->_calendartranslation()) {
+			KFactory::get('lib.koowa.document')->addScriptDeclaration($translation);
 		}
+	}
+	
+	public function overlay($url, array $options = array(), array $attribs = array())
+	{
+		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/plg_koowa/css/koowa.css');
+		
+		$uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
+		
+		$js = 'window.addEvent(\'domready\', function(){ $$(\'.koowa-overlay\').each(function(overlay){ new KOverlay(overlay, \''.json_encode($options).'\'); }); });';
+		$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );	
+	
+		$attribs = KHelperArray::toString($attribs);	
+		return '<div href="'.$uri.'" class="koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="koowa-ajax-status">'.JText::_('Loading...').'</div></div>';
 	}
 
 	/**
@@ -255,9 +266,6 @@ class KTemplateHelperBehavior extends KObject
 	 */
 	public function keepalive()
 	{
-		// Include mootools framework
-		$this->mootools();
-
 		$config 	 = KFactory::get('lib.joomla.config');
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;

@@ -2,8 +2,7 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_Pattern
- * @subpackage	Command
+ * @package		Koowa_Command
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
@@ -14,20 +13,18 @@
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
- * @package     Koowa_Pattern
- * @subpackage  Command
+ * @package     Koowa_Command
  */
-interface KPatternCommandInterface
+interface KCommandInterface
 {
 	/**
 	 * Generic Command handler
 	 * 
-	 * @param string $name		The command name
-	 * @param mixed  $args		The command arguments
-	 *
+	 * @param 	string 	The command name
+	 * @param 	object  The command context
 	 * @return	boolean
 	 */
-	public function execute( $name, $args);
+	public function execute( $name, KCommandContext $context);
 	
 	/**
 	 * This function returns an unique identifier for the object. This id can be used as 

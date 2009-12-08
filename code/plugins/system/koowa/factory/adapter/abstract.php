@@ -22,17 +22,12 @@ abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapte
 	 * Generic Command handler
 	 *
 	 * @param string  The object identifier
-	 * @param mixed   The command arguments
+	 * @param object  The command context
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	final public function execute($identifier, $args)
+	final public function execute($identifier, KCommandContext $context)
 	{
-		// We accept either a string or an identifier object.
-		if(!($identifier instanceof KFactoryIdentifierInterface)) {
-			$identifier = new KFactoryIdentifierDefault($identifier);
-		}
-		
-		$result = $this->instantiate($identifier, $args);
+		$result = $this->instantiate(new KIdentifier($identifier), $context['options']);
 		return $result;
 	}
 }

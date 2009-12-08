@@ -17,7 +17,7 @@
  * @package     Koowa_Controller
  * @uses        KInflector
  */
-class KControllerForm extends KControllerBread
+class KControllerView extends KControllerBread
 {
 	/**
 	 * Constructor
@@ -32,21 +32,21 @@ class KControllerForm extends KControllerBread
 		$this->registerActionAlias('disable', 'enable');
 
 		// Register filter functions
-		$this->registerFilterBefore('save'   , 'filterToken')
-			 ->registerFilterBefore('edit'   , 'filterToken')
-			 ->registerFilterBefore('add'    , 'filterToken')
-			 ->registerFilterBefore('apply'  , 'filterToken')
-			 ->registerFilterBefore('cancel' , 'filterToken')
-			 ->registerFilterBefore('delete' , 'filterToken')
-			 ->registerFilterBefore('enable' , 'filterToken')
-			 ->registerFilterBefore('disable', 'filterToken')
-			 ->registerFilterBefore('access' , 'filterToken')
-			 ->registerFilterBefore('order'  , 'filterToken');
+		$this->registerFunctionBefore('save'   , 'checkToken')
+			 ->registerFunctionBefore('edit'   , 'checkToken')
+			 ->registerFunctionBefore('add'    , 'checkToken')
+			 ->registerFunctionBefore('apply'  , 'checkToken')
+			 ->registerFunctionBefore('cancel' , 'checkToken')
+			 ->registerFunctionBefore('delete' , 'checkToken')
+			 ->registerFunctionBefore('enable' , 'checkToken')
+			 ->registerFunctionBefore('disable', 'checkToken')
+			 ->registerFunctionBefore('access' , 'checkToken')
+			 ->registerFunctionBefore('order'  , 'checkToken');
 			 
-		$this->registerFilterAfter('read'   , 'filterGetRedirect');
+		$this->registerFunctionAfter('read'   , 'saveRedirect');
 		
-		$this->registerFilterAfter('save'   , 'filterSetRedirect')
-			 ->registerFilterAfter('cancel' , 'filterSetRedirect');
+		$this->registerFunctionAfter('save'   , 'loadRedirect')
+			 ->registerFunctionAfter('cancel' , 'loadRedirect');
 	}
 
 	/**
@@ -75,27 +75,25 @@ class KControllerForm extends KControllerBread
 	}
 	
 	/**
-	 * Filter that gets the redirect URL from the sesison and sets it in the
-	 * controller
+	 * Gets the redirect URL from the sesison and sets it in the controller
 	 *
 	 * @return void
 	 */
-	public function filterSetRedirect(ArrayObject $args)
+	public function loadRedirect(KCommandContext $context)
 	{
 		if(!$redirect = KRequest::get('session.admin::com.redirect', 'url')) {
 			$redirect = 'view='. KInflector::pluralize( $this->_identifier->name);
 		}
-		
+			
 		$this->_redirect = $redirect;	  
 	}
 	
 	/**
-	 * Filter that gets the redirect URL from the referrer and sets in the
-	 * session.
+	 * Get's the redirect URL from the referrer and saves in the session.
 	 *
 	 * @return void
 	 */
-	public function filterGetRedirect(ArrayObject $args)
+	public function saveRedirect(KCommandContext $context)
 	{
 		$referrer = (string) KRequest::referrer();
 				
@@ -106,12 +104,12 @@ class KControllerForm extends KControllerBread
 	}
 	
 	/**
-	 * Filter the token to prevent CSRF exploits
+	 * Check the token to prevent CSRF exploits
 	 *
 	 * @return void
 	 * @throws KControllerException
 	 */
-	public function filterToken(ArrayObject $args)
+	public function checkToken(KCommandContext $context)
 	{
 		$req	= KRequest::get('post._token', 'md5');
         $token	= JUtility::getToken();
@@ -130,11 +128,11 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionBrowse()
 	{
-		if(!KRequest::get('get.layout', 'cmd')) {
-			KRequest::set('get.layout', 'form');
-		}
-
-		return parent::_actionBrowse();
+		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
+		
+		KFactory::get($this->getView())
+			->setLayout($layout)
+			->display();
 	}
 
 	/**
@@ -144,10 +142,11 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionRead()
 	{
-		if(!KRequest::get('get.layout', 'cmd')) {
-			KRequest::set('get.layout', 'form');
-		}
-		return parent::_actionRead();
+		$layout	= KRequest::get('get.layout', 'cmd', 'form' );
+		
+		KFactory::get($this->getView())
+			->setLayout($layout)
+			->display();
 	}
 
 	/*
@@ -205,18 +204,18 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionEnable()
 	{
-		$ids	= (array) KRequest::get('post.id', 'int');
-		$format	= KRequest::get('get.format', 'cmd', 'html');
-		$enable	= $this->getAction() == 'enable' ? 1 : 0;
+		$id      = (array) KRequest::get('post.id', 'int');
+		$format  = KRequest::get('get.format', 'cmd', 'html');
+		$enable  = $this->getAction() == 'enable' ? 1 : 0;
 
-		if (count( $ids ) < 1) {
+		if (count( $id ) < 1) {
 			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
 		}
 
 		//Update the table
 		$model	= KFactory::get($this->getModel());		
 		$table 	= KFactory::get($model->getTable())
-					  ->update(array('enabled' => $enable), $ids);
+					  ->update(array('enabled' => $enable), $id);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $table;
@@ -229,13 +228,13 @@ class KControllerForm extends KControllerBread
 	 */
 	protected function _actionAccess()
 	{
-		$ids 	= (array) KRequest::get('post.id', 'int');
+		$id 	= (array) KRequest::get('post.id', 'int');
 		$access = KRequest::get('post.access', 'int');
 
 		//Update the table
 		$model	= KFactory::get($this->getModel());		
 		$table 	= KFactory::get($model->getTable())
-					  ->update(array('access' => $access), $ids);
+					  ->update(array('access' => $access), $id);
 
 		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
 		return $table;

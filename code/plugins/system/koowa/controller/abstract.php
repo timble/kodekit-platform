@@ -62,7 +62,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
+	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
 
@@ -75,17 +75,17 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function __construct( array $options = array() )
 	{
-         // Set the objects identifier
+        // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
 		// Initialize the options
         $options  = $this->_initialize($options);
 
         // Mixin a command chain
-        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 
         //Mixin a filter
-        $this->mixin(new KMixinFilter(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
+        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 	}
 
 
@@ -100,7 +100,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
     protected function _initialize(array $options)
     {
         $defaults = array(
-            'command_chain' =>  new KPatternCommandChain(),
+            'command_chain' =>  new KCommandChain(),
         	'identifier'	=> null
         );
 
@@ -110,7 +110,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return 	KIdentifierInterface
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -147,25 +147,25 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		}
 
 		//Create the command arguments object
-		$args = new ArrayObject();
-		$args['notifier']   = $this;
-		$args['action']     = $action;
-		$args['result']     = false;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller'] = $this;
+		$context['action'] = $action;
+		$context['result'] = false;
 		
-		if($this->getCommandChain()->run('controller.before.'.$action, $args) === true) 
+		if($this->getCommandChain()->run('controller.before.'.$action, $context) === true) 
 		{
-			$action   = $args['action'];
-			$doMethod = '_action'.ucfirst($action);
+			$action = $context['action'];
+			$method = '_action'.ucfirst($action);
 	
-			if (!method_exists($this, $doMethod)) {
-				throw new KControllerException("Can't execute '$action', method: '$doMethod' does not exist");
+			if (!method_exists($this, $method)) {
+				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
 			
-			$args['result'] = $this->$doMethod();
-			$this->getCommandChain()->run('controller.after.'.$action, $args);
+			$context['result'] = $this->$method();
+			$this->getCommandChain()->run('controller.after.'.$action, $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**
@@ -210,21 +210,21 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Get the identifier for the view with the same name
 	 *
-	 * @return	KFactoryIdentifierInterface
+	 * @return	KIdentifierInterface
 	 */
 	final public function getView()
 	{
 		$identifier			= clone $this->_identifier;
-		$identifier->path	= array('view');
-		$identifier->name	= KRequest::get('get.view', 'cmd', $identifier->name);
-
+		$identifier->path	= array('view', KRequest::get('get.view', 'cmd', $identifier->name));
+		$identifier->name	= KRequest::get('get.format', 'cmd', 'html');
+		
 		return $identifier;
 	}
 
 	/**
 	 * Get the identifier for the model with the same name
 	 *
-	 * @return	KFactoryIdentifierInterface
+	 * @return	KIdentifierInterface
 	 */
 	final public function getModel()
 	{

@@ -16,7 +16,7 @@
  * @category	Koowa
  * @package 	Koowa_Decorator
  * @subpackage 	Joomla
- * @uses 		KPatternCommandChain
+ * @uses 		KCommandChain
  * @uses        KPatternDecorator
  */
 class KDecoratorJoomlaDatabase extends KPatternDecorator
@@ -61,7 +61,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
 		parent::__construct($db);
 
 		 // Mixin the command chain
-         $this->mixin(new KMixinCommand(array('mixer' => $this)));
+         $this->mixin(new KMixinCommandchain(array('mixer' => $this)));
 	}
 
 	/**
@@ -286,21 +286,20 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function select($sql, $offset = 0, $limit = 0)
 	{
-		// Create the arguments object
-		$args = new ArrayObject();
-		$args['sql'] 		= $sql;
-		$args['offset'] 	= $offset;
-		$args['limit'] 		= $limit;
-		$args['notifier']   = $this;
-		$args['operation']	= self::OPERATION_SELECT;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['sql'] 		= $sql;
+		$context['offset'] 		= $offset;
+		$context['limit'] 		= $limit;
+		$context['operation']	= self::OPERATION_SELECT;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('database.before.select', $args) === true) {
-			$args['result'] = $this->_object->setQuery( $args['sql'], $args['offset'], $args['limit'] );
-			$this->getCommandChain()->run('database.after.select', $args);
+		if($this->getCommandChain()->run('database.before.select', $context) === true) {
+			$context['result'] = $this->_object->setQuery( $context['sql'], $context['offset'], $context['limit'] );
+			$this->getCommandChain()->run('database.after.select', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**
@@ -316,33 +315,32 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function insert($table, array $data)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data'] 		= $data;
-		$args['notifier']   = $this;
-		$args['operation']	= self::OPERATION_INSERT;
-		$args['insertid']	= null;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data'] 		= $data;
+		$context['operation']	= self::OPERATION_INSERT;
+		$context['insertid']	= null;
 
 		//Excute the insert operation
-		if($this->getCommandChain()->run('database.before.insert', $args) === true)
+		if($this->getCommandChain()->run('database.before.insert', $context) === true)
 		{
-			foreach($args['data'] as $key => $val)
+			foreach($context['data'] as $key => $val)
 			{
 				$vals[] = $this->_object->quote($val);
 				$keys[] = '`'.$key.'`';
 			}
 
-			$sql = 'INSERT INTO '.$this->quoteName('#__'.$args['table'] )
+			$sql = 'INSERT INTO '.$this->quoteName('#__'.$context['table'] )
 				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 
-			$args['result']     = $this->execute($sql);
-			$args['insertid']	= $this->insertid();
+			$context['result']   = $this->execute($sql);
+			$context['insertid'] = $this->insertid();
 
-			$this->getCommandChain()->run('database.after.insert', $args);
+			$this->getCommandChain()->run('database.after.insert', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**
@@ -359,32 +357,31 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function update($table, array $data, $where = null)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data']  		= $data;
-		$args['notifier']   = $this;
-		$args['where']   	= $where;
-		$args['operation']	= self::OPERATION_UPDATE;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data']  		= $data;
+		$context['where']   	= $where;
+		$context['operation']	= self::OPERATION_UPDATE;
 
 		//Excute the update operation
-		if($this->getCommandChain()->run('database.before.update', $args) ===  true)
+		if($this->getCommandChain()->run('database.before.update', $context) ===  true)
 		{
-			foreach($args['data'] as $key => $val) {
+			foreach($context['data'] as $key => $val) {
 				$vals[] = '`'.$key.'` = '.$this->_object->quote($val);
 			}
 
 			//Create query statement
-			$sql = 'UPDATE '.$this->quoteName('#__'.$args['table'])
+			$sql = 'UPDATE '.$this->quoteName('#__'.$context['table'])
 			  	.' SET '.implode(', ', $vals)
-			  	.' '.$args['where']
+			  	.' '.$context['where']
 			;
 
-			$args['result'] = $this->execute($sql);
-			$this->getCommandChain()->run('database.after.update', $args);
+			$context['result'] = $this->execute($sql);
+			$this->getCommandChain()->run('database.after.update', $context);
 		}
 
-        return $args['result'];
+        return $context['result'];
 	}
 
 	/**
@@ -397,27 +394,26 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function delete($table, $where)
 	{
-		//Create the arguments object
-		$args = new ArrayObject();
-		$args['table'] 		= $table;
-		$args['data']  		= null;
-		$args['notifier']   = $this;
-		$args['where']   	= $where;
-		$args['operation']	= self::OPERATION_DELETE;
+		$context = KFactory::tmp('lib.koowa.command.context');
+		$context['caller']      = $this;
+		$context['table'] 		= $table;
+		$context['data']  		= null;
+		$context['where']   	= $where;
+		$context['operation']	= self::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->getCommandChain()->run('database.before.delete', $args) ===  true)
+		if($this->getCommandChain()->run('database.before.delete', $context) ===  true)
 		{
 			//Create query statement
-			$sql = 'DELETE FROM '.$this->quoteName('#__'.$args['table'])
-				  .' '.$args['where']
+			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context['table'])
+				  .' '.$context['where']
 			;
 
-			$args['result'] = $this->execute($sql);
-			$this->getCommandChain()->run('database.after.delete', $args);
+			$context['result'] = $this->execute($sql);
+			$this->getCommandChain()->run('database.after.delete', $context);
 		}
 
-		return $args['result'];
+		return $context['result'];
 	}
 
 	/**

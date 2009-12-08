@@ -1,54 +1,55 @@
 <?php
 /**
- * @version     $Id$
+ * @version		$Id$
  * @category	Koowa
- * @package     Koowa_Mixin
- * @copyright   Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link        http://www.koowa.org
+ * @package		Koowa_Mixin
+ * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
+ * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     	http://www.koowa.org
  */
 
 /**
- * Chain of command mixin
- * 
- * Class can be used as a mixin in classes that want to implement a chain 
- * of responsability or chain of command pattern.
- *  
- * @author      Mathias Verraes <mathias@koowa.org>
+ * Filter Command
+ *
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Mixin
- * @uses 		KPatternCommandChain
- * @uses 		KPatternCommandInterface
- * @uses		KCommandEvent
  */
-class KMixinCommand extends KMixinAbstract
-{   
-    /**
-     * Chain of command object
-     *
-     * @var	KPatternCommandInterface
-     */
-    protected $_command_chain;
+class KMixinCommand extends KMixinAbstract implements KCommandInterface 
+{
+ 	/**
+ 	 * Array of fucntions to be executed on before commands
+ 	 * 
+ 	 * $var array
+ 	 */
+	protected $_functions_before = array();
 	
+	/**
+ 	 * Array of functions to be executed on after commands
+ 	 * 
+ 	 * $var array
+ 	 */
+	protected $_functions_after = array();
+
 	/**
 	 * Object constructor
 	 *
 	 * @param	array 	An optional associative array of configuration settings.
-	 * Recognized key values include 'mixer', 'command_chain' 
-	 * (this list is not meant to be comprehensive).
+	 * Recognized key values include 'mixer' (this list is not meant to be comprehensive).
 	 */
 	public function __construct(array $options = array())
 	{
 		// Initialize the options
-        $options  = $this->_initialize($options);
+        $options = $this->_initialize($options);
+        
+        parent::__construct($options);
 		
-		parent::__construct($options);
-		
-		//Create a command chain object 
-		$this->_command_chain = $options['command_chain'];
-
-		//Enqueue the event command 
-		$this->_command_chain->enqueue(new KCommandEvent());
+		if(is_null($options['command_chain'])) {
+			throw new KMixinException('command_chain [KCommandChain] option is required');
+		}
+	
+		//Enque the command in the mixer's command chain
+		$options['command_chain']->enqueue($this, 2);
 	}
 	
 	/**
@@ -61,34 +62,173 @@ class KMixinCommand extends KMixinAbstract
      */
     protected function _initialize(array $options)
     {
-        $options = parent::_initialize($options);
-        
+        parent::_initialize($options);
+    	
     	$defaults = array(
-            'command_chain' =>  new KPatternCommandChain(),
-        );
+    		'command_chain'	=> null,
+    	);
 
         return array_merge($defaults, $options);
     }
-	
+    
 	/**
-	 * Get the chain of command object
+	 * Command handler
+	 * 
+	 * @param string  The command name
+	 * @param object  The command context
 	 *
-	 * @return 	KPatternCommandInterface
+	 * @return boolean
 	 */
-	public function getCommandChain()
+	public function execute( $name, KCommandContext $context) 
 	{
-		return $this->_command_chain;
+		$parts = explode('.', $name);
+		
+		$functions = ($parts[1] == 'before') ? $this->_functions_before :$this->_functions_after;
+					
+		if (isset($functions[$parts[2]]))
+		{ 
+			$functions = $functions[$parts[2]];
+			
+   		 	foreach($functions as $function) 
+   		 	{
+        		if ( $this->_mixer->$function($context) === false) {
+        			return false;
+        		}
+   		 	}
+		}
+		
+		return true;
 	}
 	
 	/**
-	 * Set the chain of command object
-	 *
-	 * @var 	KPatternCommandInterface
-	 * @return 	this
-	 */
-	public function setCommandChain(KPatternCommandInterface $command_chain)
+ 	 * Get the registered before functions for a method
+ 	 *  	  
+ 	 * @param  	string	The method to return the functions for
+ 	 * @return  array	A list of registered functions	
+ 	 */
+	public function getFunctionsBefore($method)
 	{
-		$this->_command_chain = $command_chain;
-		return $this->_mixer;
+		$result = array();
+		$method = strtolower($method);
+		
+		if (isset($this->_functions_before[$method]) ) {
+       	 	$result = $this->_functions_before[$method];
+		}
+		
+    	return $result;
+	}
+	
+	/**
+ 	 * Get the registered after functions for a method
+ 	 *  	  
+ 	 * @param  	string	The method to return the functions for
+ 	 * @return  array	A list of registered functions	
+ 	 */
+	public function getFunctionsAfter($method)
+	{
+		$result = array();
+		$method = strtolower($method);
+		
+		if (isset($this->_functions_after[$method]) ) {
+       	 	$result = $this->_functions_after[$method];
+		}
+		
+    	return $result;
+	}
+	
+	/**
+ 	 *  Registers a single function or an array of functions
+ 	 * 
+ 	 * @param  	string|array	The method name to register the funtion for or an array of method names
+ 	 * @param 	string|array	A single function or an array of functions to register
+ 	 * @return KMixinCommand
+ 	 */
+	public function registerFunctionBefore($methods, $functions)
+	{
+		$methods = (array) $methods;
+		
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (!isset($this->_functions_before[$method]) ) {
+       	 		$this->_functions_before[$method] = array();	
+			}
+
+    		$this->_functions_before[$method] = array_unique(array_merge($this->_functions_before[$method], (array) $functions));
+		}
+		
+		return $this;
+	}
+	
+	/**
+ 	 * Unregister a single function or an array of functions
+ 	 * 
+ 	 * @param  	string|array	The method name to register the function from or an array of method names
+ 	 * @param 	string|array	A single function or an array of functions to unregister
+ 	 * @return KMixinCommand
+ 	 */
+	public function unregisterFunctionBefore($methods, $functions)
+	{
+		$methods = (array) $methods;
+		
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+			
+			if (isset($this->_functions_before[$method]) ) {
+       	 		$this->_functions_before[$method] = array_diff($this->_functions_before[$method], (array) $functions);
+			}
+		}
+		
+		return $this;
+	}
+	
+	/**
+ 	 * Registers a single function or an array of functions
+ 	 * 
+ 	 * @param  	string|array	The method name to register the function too or an array of method names
+ 	 * @param 	string|array	A single function or an array of functions to register
+ 	 * @return KMixinCommand
+ 	 */
+	public function registerFunctionAfter($methods, $functions)
+	{
+		$methods = (array) $methods;
+		
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (!isset($this->_functions_after[$method]) ) {
+       	 		$this->_functions_after[$method] = array();	
+			}
+
+    		$this->_functions_after[$method] = array_unique(array_merge($this->_functions_after[$method], (array) $functions));
+		}
+		
+    	return $this;
+	}
+	
+	/**
+ 	 * Unregister a single function or an array of functions
+ 	 * 
+ 	 * @param  	string|array	The method name to register the function too or an array of method names
+ 	 * @param 	string|array	A single function or an array of function to unregister
+ 	 * @return KMixinCommand
+ 	 */
+	public function unregisterFunctionAfter($methods, $functions)
+	{
+		$methods = (array) $methods;
+		
+		foreach($methods as $method)
+		{
+			$method = strtolower($method);
+		
+			if (isset($this->_functions_after[$method]) ) {
+       	 		$this->_functions_after[$method] = array_diff($this->_functions_after[$method], (array) $functions);
+			}
+		}
+			
+		return $this;
 	}
 }

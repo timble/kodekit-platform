@@ -18,19 +18,19 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterChain extends KPatternCommandChain
+class KFilterChain extends KCommandChain
 {
 	/**
 	 * Run the commands in the chain
 	 * 
-	 * @param string  $name		The command name
-	 * @param mixed   $args		The command arguments
+	 * @param string  The filter name
+	 * @param array   The data to be filtered
 	 * @return	mixed
 	 */
-  	final public function run( $name, $args )
+  	final public function run( $name, KCommandContext $context )
   	{
   		$function = '_'.$name;
-  		return $this->$name($args);
+  		return $this->$function($context);
   	}
 
 	/**
@@ -39,7 +39,7 @@ class KFilterChain extends KPatternCommandChain
 	 * @param	scalar	Value to be validated
 	 * @return	bool	True when the data is valid
 	 */
-  	final protected function _validate( $data )
+  	final protected function _validate( KCommandContext $context )
   	{
   		$iterator = $this->_priority->getIterator();
 
@@ -47,7 +47,7 @@ class KFilterChain extends KPatternCommandChain
 		{
     		$cmd = $this->_command[ $iterator->key()];
    
-			if ( $cmd->execute( 'validate', $data ) === false) {
+			if ( $cmd->execute( 'validate', $context ) === false) {
       			return false;
       		}
     		
@@ -63,14 +63,14 @@ class KFilterChain extends KPatternCommandChain
 	 * @param	scalar	Valuae to be sanitized
 	 * @return	mixed
 	 */
-  	final protected function _sanitize( $data )
+  	final protected function _sanitize( KCommandContext $context )
   	{
   		$iterator = $this->_priority->getIterator();
 
 		while($iterator->valid()) 
 		{
     		$cmd = $this->_command[ $iterator->key()];
-			$data = $cmd->execute( 'sanitize', $data ); 
+			$data = $cmd->execute( 'sanitize', $context ); 
     		$iterator->next();
 		}
 		

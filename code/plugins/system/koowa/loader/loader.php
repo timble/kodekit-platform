@@ -8,14 +8,25 @@
  */
 
 /**
- * Loader Adapter Interface
+ * Excpetion Classes
  */
-require_once dirname(__FILE__).'/adapter/interface.php';
+require_once Koowa::getPath().'/exception/interface.php';
+require_once Koowa::getPath().'/exception/exception.php';
 
 /**
- * Loader Adapter for the Koowa framework
+ * Indentifier Classes
  */
-require_once dirname(__FILE__).'/adapter/koowa.php';
+require_once Koowa::getPath().'/identifier/interface.php';
+require_once Koowa::getPath().'/identifier/identifier.php';
+require_once Koowa::getPath().'/identifier/exception.php';
+
+/**
+ * Loader Classes
+ */
+require_once Koowa::getPath().'/loader/adapter/interface.php';
+require_once Koowa::getPath().'/loader/adapter/exception.php';
+require_once Koowa::getPath().'/loader/adapter/abstract.php';
+require_once Koowa::getPath().'/loader/adapter/koowa.php';
 
 //Initialise the loader
 KLoader::initialize();
@@ -37,6 +48,13 @@ class KLoader
 	 * @var array
 	 */
 	protected static $_adapters = null;
+	
+	/**
+	 * Paths array
+	 *
+	 * @var array
+	 */
+	protected static $_paths = null;
 
 	/**
 	 * Constructor
@@ -54,7 +72,7 @@ class KLoader
 	{
 		//Created the adapter container
 		self::$_adapters = array();
-
+		
 		// Register the autoloader in a way to play well with as many configurations as possible.
 		spl_autoload_register(array(__CLASS__, 'load'));
 
@@ -67,41 +85,64 @@ class KLoader
 	}
 
 	/**
-	 * Load a class based on a class name
+	 * Load a class based on a class name or an identifier
 	 *
-	 * @param string  The class name
-	 * @return boolean	Returns TRUE on success throws exception on failure
+	 * @param string|object The class name, identifier or identifier object
+	 * @return boolean		Returns TRUE on success throws exception on failure
 	 */
 	public static function load($class)
 	{
-		// pre-empt further searching for the named class or interface.
-		// do not use autoload, because this method is registered with
-		// spl_autoload already.
+		//Pre-empt further searching for the named class or interface.
+		//Do not use autoload, because this method is registered with
+		//spl_autoload already.
 		if (class_exists($class, false) || interface_exists($class, false)) {
 			return true;
 		}
-
-		//Use LIFO to allow for new adapters to override existing ones
-		//@TODO : LIFO does not work yet due to issue with component loader
-		//$adapters = array_reverse(self::$_adapters);
 		
-		foreach(self::$_adapters as $adapter)
+		//Get the path
+		$result = self::path( $class );
+		
+		//Don't re-include files
+		if ($result !== false && !in_array($result, get_included_files()))
 		{
-    		$result = $adapter->load( $class );
-			if ($result !== false)
+			$mask = E_ALL ^ E_WARNING;
+			if (defined('E_DEPRECATED')) {
+				$mask = $mask ^ E_DEPRECATED;
+			}
+			
+			$old = error_reporting($mask);
+			$included = include $result;
+			error_reporting($old);
+
+			if ($included) {
+				return true;
+			}
+      	}
+
+		return false;
+	}
+	
+	/**
+	 * Get the path based on a class name or an identifier
+	 *
+	 * @param string|object The class name, identifier or identifier object
+	 * @return string	Returns canonicalized absolute pathname
+	 */
+	public static function path($class)
+	{
+		//Use LIFO to allow for new adapters to override existing ones
+		$adapters = array_reverse(self::$_adapters);
+
+		foreach($adapters as $adapter)
+		{
+    		$result = $adapter->path( $class );
+			if ($result !== false) 
 			{
-				$mask = E_ALL ^ E_WARNING;
-				if (defined('E_DEPRECATED')) {
-					$mask = $mask ^ E_DEPRECATED;
-				}
-
-				$old = error_reporting($mask);
-				$included = include $result;
-				error_reporting($old);
-
-				if ($included) {
-					return true;
-				}
+				//Get the canonicalized absolute pathname
+				$path = realpath($result);
+				
+				//If realpath failed return $result
+				return $path !== false ? $path : $result;
       		}
 		}
 

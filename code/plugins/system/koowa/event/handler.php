@@ -20,7 +20,7 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	/**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface 
+	 * @var KIdentifierInterface 
 	 */
 	protected $_identifier;
 
@@ -31,7 +31,7 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	 */
 	public function __construct(array $options = array())
 	{
-        // Set the objects identifier
+        // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 		
 		// Initialize the options
@@ -58,7 +58,7 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	/**
 	 * Get the identifier
 	 *
-	 * @return 	object A KFactoryIdentifier object
+	 * @return 	object A KIdentifier object
 	 * @see 	KFactoryIdentifiable
 	 */
 	public function getIdentifier()
@@ -69,10 +69,10 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	/**
 	 * Method to trigger events
 	 *
-	 * @param  object	$args	 The event arguments
+	 * @param  object	The event arguments
 	 * @return mixed Routine return value
 	 */
-	public function onNotify(ArrayObject $args)
+	public function update(ArrayObject $args)
 	{		
 		if (method_exists($this, $args['event'])) {
 			return $this->{$args['event']}($args);

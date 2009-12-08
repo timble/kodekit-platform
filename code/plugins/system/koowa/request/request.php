@@ -38,12 +38,6 @@ class KRequest
 	 */
 	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'CLI');
 
-	/**
-	 * Accepted request types
-	 *
-	 * @var	array
-	 */
-	protected static $_types = array('AJAX', 'FLASH');
 
 	/**
 	 * URL of the request regardless of the server
@@ -277,7 +271,7 @@ class KRequest
 				$path =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
 
-			// Sanitize the url since we can't trust the server var
+			// Sanitize the url since we can't trust the server var			
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
 
 			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
@@ -390,10 +384,6 @@ class KRequest
 
 		if( isset($_SERVER['HTTP_X_FLASH_VERSION'])) {
 			$type = 'FLASH';
-		}
-
-		if ( ! in_array($type, self::$_type)) {
-			throw new KRequestException('Unknown type : '.$method);
 		}
 
 		return $type;

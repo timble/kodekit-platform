@@ -19,7 +19,7 @@ interface KFactoryIdentifiable
 	/**
 	 * Get the identifier
 	 *
-	 * @return KFactoryIdentifierInterface A KFactoryIdentifier object
+	 * @return KIdentifierInterface
 	 */
 	public function getIdentifier();
 }

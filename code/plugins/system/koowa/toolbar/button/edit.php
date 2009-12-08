@@ -21,7 +21,7 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 	public function getOnClick()
 	{
 		$msg = JText::_('Please select an item from the list');
-		return 'var id = Koowa.Grid.getFirstSelected();'
+		return 'var id = KGrid.getFirstSelected();'
 			.'if(id){this.href+=id;} '
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}

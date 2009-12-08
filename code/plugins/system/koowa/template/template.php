@@ -39,14 +39,14 @@ class KTemplate extends KTemplateAbstract
 	 * @return 	string	Helper output
 	 * @throws 	KTemplateException
 	 */
-	public static function loadHelper($type)
+	public static function loadHelper($identifier)
 	{
 		$base  = 'lib.koowa.template.helper';
 		$file  = 'default';
-		$func  = $type;
+		$func  = $identifier;
 		
 		// Check to see if we need to load a helper file
-		$parts = explode('.', $type);
+		$parts = explode('.', $identifier);
 		
 		switch(count($parts))
 		{

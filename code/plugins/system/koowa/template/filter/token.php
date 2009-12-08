@@ -32,6 +32,7 @@ class KTemplateFilterToken extends KObject implements KTemplateFilterInterface
 		'@script('    	=> "KTemplate::loadHelper('script',",
 		'@style('    	=> "KTemplate::loadHelper('stylesheet',",
 		'@date('    	=> "KTemplate::loadHelper('date',",
+		'@overlay('    	=> "KTemplate::loadHelper('behavior.overlay', ",
 	);
 	
 	/**

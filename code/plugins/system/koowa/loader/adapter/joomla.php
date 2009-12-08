@@ -16,24 +16,62 @@
  * @package     Koowa_Loader
  * @subpackage 	Adapter
  */
-class KLoaderAdapterJoomla implements KLoaderAdapterInterface
+class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 {
 	/**
-	 * Load the class
+	 * Get the path based on a class name
 	 *
-	 * @param string  The class name
-	 * @return string|false	Returns the path on success FALSE on failure
+	 * @param  string		  	The class name 
+	 * @return string|false		Returns the path on success FALSE on failure
 	 */
-	public function load($class)
+	protected function _pathFromClassname($classname)
 	{
+		$path = false; 
+		
+		$word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname);
+		$parts = explode('_', $word);
+			
 		// If class start with a 'J' it is a Joomla framework class and we handle it
-		if(substr($class, 0, 1) == 'J')
+		if(array_shift($parts) == 'J')
 		{
-			if(JLoader::load($class)) {
-				return false;
+			$class = strtolower($classname); //force to lower case
+
+			if (class_exists($class)) {
+				 return;
 			}
+
+			$classes = JLoader::register();
+			if(array_key_exists( $class, $classes)) {
+				$path = $classes[$class];
+			}
+		} 
+		
+		return $path;
+	}
+	
+	/**
+	 * Get the path based on an identifier
+	 *
+	 * @param  object  			An Identifier object - lib.joomla.[.path].name
+	 * @return string|false		Returns the path on success FALSE on failure
+	 */
+	protected function _pathFromIdentifier($identifier)
+	{
+		$path = false;
+		
+		if($identifier->type == 'lib' && $identifier->package == 'joomla')
+		{
+			if(count($identifier->path)) {
+				$path .= implode('.',$identifier->path);
+			}
+
+			if(!empty($identifier->name)) {
+				$path .= '.'.$identifier->name;
+			}
+				
+			$path = JLoader::import('joomla.'.$path );
 		}
 
-        return false;
+		return $path;
 	}
 }

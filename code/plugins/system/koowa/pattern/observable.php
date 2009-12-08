@@ -40,8 +40,8 @@ abstract class KPatternObservable extends KObject
 	/**
 	 * Update each attached observer object and return an array of their return values
 	 *
-	 * @param object	$args	An associative array of arguments
-	 * @return array Array of return values from the observers
+	 * @param 	object	An associative array of arguments
+	 * @return 	array 	Array of return values from the observers
 	 */
 	public function notify(ArrayObject $args)
 	{
@@ -52,7 +52,7 @@ abstract class KPatternObservable extends KObject
 		while($iterator->valid()) 
 		{
     		$observer = $iterator->current();
-			$result[] = $observer->onNotify($args);
+			$result[] = $observer->update($args);
     		$iterator->next();
 		}	
 	
@@ -62,7 +62,7 @@ abstract class KPatternObservable extends KObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param 	object 	$observer An observer object to attach
+	 * @param 	object 	An observer object to attach
 	 * @return void
 	 */
 	public function attach( KPatternObserver $observer )
@@ -75,7 +75,7 @@ abstract class KPatternObservable extends KObject
 	/**
 	 * Detach an observer object
 	 *
-	 * @param 	object 	$observer An observer object to detach
+	 * @param 	object 	An observer object to detach
 	 * @return 	boolean True if the observer object was detached
 	 */
 	public function detach( KPatternObserver $observer)

@@ -24,19 +24,21 @@ class KTemplateHelperDefault extends KObject
 	 * Write a <script></script> element
 	 *
 	 * @param	string 	The name of the script file
+	 * return 	KTemplateHelperDefault
 	 */
 	public function script($url)
 	{
 		$document = KFactory::get('lib.koowa.document');
 		$document->addScript($url);
-		return;
+		return $this;
 	}
-
+	
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
 	 *
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @param	array	Attributes
+	 * return 	return 	KTemplateHelperDefault
 	 */
 	public function stylesheet($url, array $attribs = array())
 	{
@@ -49,7 +51,7 @@ class KTemplateHelperDefault extends KObject
 	 * Returns formated date according to current local and adds time offset
 	 *
 	 * @access	public
-	 * @param	string	date in an US English date format
+	 * @param	string	A date in an US English date format
 	 * @param	string	format optional format for strftime
 	 * @returns	string	formated date
 	 * @see		strftime

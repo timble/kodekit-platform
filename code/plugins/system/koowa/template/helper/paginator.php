@@ -20,6 +20,17 @@
 class KTemplateHelperPaginator extends KObject
 {
 	/**
+	 * Constructor
+	 *
+	 * @param array Associative array of values
+	 */
+	public function __construct( array $params = array() )
+	{
+		//Load koowa javascript
+		KTemplate::loadHelper('behavior.mootools');
+	}
+	
+	/**
 	 * Render item pagination
 	 *
 	 * @param	int	Total number of items
@@ -31,7 +42,7 @@ class KTemplateHelperPaginator extends KObject
 	 */
 	public function pagination($total, $offset, $limit, $display = 4)
 	{
-		KFactory::get('lib.joomla.document')->addStylesheet(KRequest::root().'/media/plg_koowa/css/pagination.css');
+		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/plg_koowa/css/koowa.css');
 		
 		// Paginator object
 		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
@@ -44,7 +55,7 @@ class KTemplateHelperPaginator extends KObject
 		// Get the paginator data
 		$list = $paginator->getList();
 		
-		$html  = '<div class="pagination">';
+		$html  = '<div class="koowa-pagination">';
 		$html .= '<div class="limit">'.JText::_('Display').'# '.$this->limit($limit).'</div>';
 		$html .=  $this->pages($list);
 		$html .= '<div class="count"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
@@ -111,8 +122,9 @@ class KTemplateHelperPaginator extends KObject
 	 */
 	public function limit($limit)
 	{
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/pagination.js');
-
+		$js = 'window.addEvent(\'domready\', function(){ $$(\'select.koowa-redirect\').addEvent(\'change\', function(){ window.location = this.value;}); });';
+		$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );	
+		
 		// Modify the url to include the limit
 		$url   = clone KRequest::url();
 		$query = $url->getQuery(true);
@@ -130,7 +142,7 @@ class KTemplateHelperPaginator extends KObject
 			$limits[] = KTemplate::loadHelper('select.option', $redirect,  JText::_($text));
 		}
 		
-		$attribs = array('class' => 'inputbox autoredirect');
+		$attribs = array('class' => 'inputbox koowa-redirect');
 		$html = KTemplate::loadHelper('select.genericlist',  $limits, 'limit', $attribs, 'value', 'text', $selected);
 		return $html;
 	}

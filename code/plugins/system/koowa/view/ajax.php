@@ -30,4 +30,28 @@ class KViewAjax extends KViewAbstract
 
 		parent::__construct($options);
 	}
+	
+	/**
+	 * Renders and echo's the views output
+ 	 *
+	 * @return KViewAjax
+	 */
+	public function display()
+	{
+		//Auto-assign the state to the view
+		$this->assign('state', $this->getModel()->getState());
+		
+		//Load the template
+		$template = $this->loadTemplate();
+		
+		//Render the scripts
+		foreach ($this->_document->_scripts as $source => $type) {
+			echo '<script type="'.$type.'" src="'.$source.'"></script>'."\n";
+		}
+	
+		//Render the template
+		echo $template;
+		
+		return $this;
+	}
 }

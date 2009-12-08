@@ -18,7 +18,7 @@
 class KViewDefault extends KViewHtml
 {
 	/**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewDefault
 	 */
@@ -26,8 +26,10 @@ class KViewDefault extends KViewHtml
 	{
 		//Get the model
 		$model = KFactory::get($this->getModel());
-		$name  = $this->_identifier->name;
 
+		//Get the view name
+		$name  = $this->getName();
+		
 		if(KInflector::isPlural($name))
 		{
 			//Assign the data of the model to the view
@@ -38,38 +40,8 @@ class KViewDefault extends KViewHtml
 		{
 			//Assign the data of the model to the view
 			$this->assign($name, $model->getItem());
-
-			// Disable the main menu
-			if($this->_layout == 'form') {
-				KRequest::set('get.hidemainmenu', 1);
-			}
 		}
 
-		// Create the toolbar
-		$toolbar = KFactory::get($this->getToolbar());
-
-		// Render the toolbar
-		if($this->_layout == 'form') {
-			$this->_document->setBuffer($toolbar->render(), 'modules', 'toolbar');
-		}
-
-		// Render the title
-		$this->_document->setBuffer($toolbar->renderTitle(), 'modules', 'title');
-
-		// Display the layout
-		parent::display();
-	}
-
-	/**
-	 * Get the identifier for the toolbar with the same name
-	 *
-	 * @return	KToolbarAbstract	A KToolbar object
-	 */
-	final public function getToolbar()
-	{
-		$identifier			= clone $this->_identifier;
-		$identifier->path	= array('toolbar');
-
-		return $identifier;
+		return parent::display();
 	}
 }

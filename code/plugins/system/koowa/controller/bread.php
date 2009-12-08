@@ -15,25 +15,25 @@
  * @category	Koowa
  * @package		Koowa_Controller
  */
-class KControllerBread extends KControllerAbstract
+abstract class KControllerBread extends KControllerAbstract
 {
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
 		
 		// Register filter functions
-		$this->registerFilterBefore('browse' , 'filterloadState')
-		     ->registerFilterBefore('read'   , 'filterloadState');
+		$this->registerFunctionBefore('browse' , 'loadState')
+		     ->registerFunctionBefore('read'   , 'loadState');
 		     
-		$this->registerFilterAfter('browse'  , 'filterSaveState');
+		$this->registerFunctionAfter('browse'  , 'saveState');
 	}
 	
 	/**
-	 * Filter that handles loading of the model state from the session
+	 * Load the model state from the session
 	 *
 	 * @return void
 	 */
-	public function filterLoadState(ArrayObject $args)
+	public function loadState(KCommandContext $context)
 	{
 		$model   = KFactory::get($this->getModel());
 		$state   = KRequest::get('session.'.$model->getIdentifier(), 'raw', array());
@@ -44,11 +44,11 @@ class KControllerBread extends KControllerAbstract
 	}
 	
 	/**
-	 * Filter that handles saving of the model state in the session
+	 * Saves the model state in the session
 	 *
 	 * @return void
 	 */
-	public function filterSaveState(ArrayObject $args)
+	public function saveState(KCommandContext $context)
 	{
 		$model  = KFactory::get($this->getModel());
 		$state  = $model->get();
@@ -85,7 +85,7 @@ class KControllerBread extends KControllerAbstract
 			->display();
 	}
 
-	/*
+	/**
 	 * Generic edit action, saves over an existing item
 	 *
 	 * @return KDatabaseRow 	A row object containing the updated data
@@ -108,7 +108,7 @@ class KControllerBread extends KControllerAbstract
 		return $row;
 	}
 
-	/*
+	/**
 	 * Generic add action, saves a new item
 	 *
 	 * @return KDatabaseRow 	A row object containing the new data
@@ -128,19 +128,21 @@ class KControllerBread extends KControllerAbstract
 		return $row;
 	}
 
-	/*
+	/**
 	 * Generic delete function
 	 *
-	 * @return KDatabaseTableAbstract
+	 * @return KDatabaseRowset	A rowset object containing the deleted rows
 	 */
 	protected function _actionDelete()
 	{
+		//Get the ids
 		$ids = (array) KRequest::get('post.id', 'int');
 
 		$model 	= KFactory::get($this->getModel());
-		$table	= KFactory::get($model->getTable())
-					  ->delete($ids);
+		$rowset = KFactory::get($model->getTable())
+					  ->fetchRowset($ids)
+					  ->delete();
 
-		return $table;
+		return $rowset;
 	}
 }

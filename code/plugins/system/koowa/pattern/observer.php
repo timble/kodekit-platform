@@ -22,10 +22,10 @@ interface KPatternObserver
 	/**
 	 * Event received in case the observables states has changed
 	 *
-	 * @param	object	$args	An associative array of arguments
+	 * @param	object	An associative array of arguments
 	 * @return mixed
 	 */
-	public function onNotify(ArrayObject $args);
+	public function update(ArrayObject $args);
 	
 	/**
 	 * This function returns an unique identifier for the object. This id can be used as 

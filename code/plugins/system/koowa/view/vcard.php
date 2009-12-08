@@ -62,8 +62,6 @@ class KViewVcard extends KViewFile
 		$data	.= "\r\n";
 		
 		echo $data;
-			
-		parent::display();
 	}
 	
 	/**

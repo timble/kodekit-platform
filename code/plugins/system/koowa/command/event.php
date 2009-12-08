@@ -21,23 +21,22 @@
  * @uses 		KEventDispatcher
  * @uses 		KInflector
  */
-class KCommandEvent extends KObject implements KPatternCommandInterface 
+class KCommandEvent extends KObject implements KCommandInterface 
 {
 	/**
 	 * Command handler
 	 * 
-	 * @param string  The command name
-	 * @param mixed   The command arguments
-	 *
-	 * @return boolean	Always returns true
+	 * @param 	string  	The command name
+	 * @param 	object   	The command context
+	 * @return 	boolean		Always returns true
 	 */
-	final public function execute( $name, $args) 
+	final public function execute( $name, KCommandContext $context) 
 	{
 		$parts = explode('.', $name);	
 		$event = 'on'.KInflector::implode($parts);
 	
 		$dispatcher = KFactory::get('lib.koowa.event.dispatcher');
-		$dispatcher->dispatch($event, $args);
+		$dispatcher->dispatch($event, $context);
 		
 		return true;
 	}

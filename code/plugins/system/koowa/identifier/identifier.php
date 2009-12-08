@@ -2,14 +2,14 @@
 /**
  * @version 	$Id$
  * @category	Koowa
- * @package		Koowa_Factory
+ * @package		Koowa_Identifier
  * @subpackage 	Identifier
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
 
 /**
- * Factory Identifier
+ * Domain Object Identifier
  *
  * Wraps identifiers of the form [application::]type.package.[.path].name
  * in an object, providing public accessors and methods for derived formats.
@@ -19,7 +19,7 @@
  * @package     Koowa_Factory
  * @subpackage 	Identifier
  */
-class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInterface
+class KIdentifier implements KIdentifierInterface
 {
 	/**
 	 * The application name
@@ -64,22 +64,20 @@ class KFactoryIdentifierDefault extends KObject implements KFactoryIdentifierInt
 	public $filepath = '';
 	
 	/**
-	 * The file name
-	 *
-	 * @var	string
-	 */
-	public $filename = '';
-
-	/**
 	 * Constructor
 	 *
 	 * @param	string|object	Identifier string or object in [application::]type.package.[.path].name format
+	 * @throws 	KIndetifierException if the identfier is not valid
 	 */
 	public function __construct($identifier)
 	{
-		// We also accept objects
+		// We also accept objects to allow for auto-cloning
 		$identifier = (string) $identifier;
 		
+		if(strpos($identifier, '.') === FALSE) {
+			throw new KIdentifierException('Wrong identifier format : '.$identifier);
+		}
+	
 		//Set the application name (if present)
 		if(strpos($identifier, '::')) {	
 			list($this->application, $identifier) = explode('::', $identifier);

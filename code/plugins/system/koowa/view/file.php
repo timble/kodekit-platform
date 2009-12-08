@@ -35,7 +35,7 @@
 class KViewFile extends KViewAbstract
 {
 	/**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewFile
 	 */
@@ -86,14 +86,11 @@ class KViewFile extends KViewAbstract
 			}
 			$filesize = @filesize($this->path);
 			header('Content-Length: '.$filesize);
-			$this->_disposition();
+    		$this->_disposition();
 			flush();
 			$this->_readChunked($this->path);
     	}
-    	else
-    	{
-    		throw new KViewException('No body or path supplied');
-    	}
+    	else throw new KViewException('No body or path supplied');
 		
 		die;
 	}

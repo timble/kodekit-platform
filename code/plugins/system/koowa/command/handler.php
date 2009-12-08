@@ -20,23 +20,22 @@
  * @uses 		KFactory
  * @uses 		KInflector
  */
-class KCommandHandler extends KObject implements KPatternCommandInterface 
+class KCommandHandler extends KObject implements KCommandInterface 
 {
 	/**
 	 * Command handler
 	 * 
-	 * @param string  The command name
-	 * @param mixed   The command arguments
-	 *
-	 * @return boolean  Can return both true or false.  
+	 * @param 	string  	The command name
+	 * @param 	object  	The command context
+	 * @return 	boolean  	Can return both true or false.  
 	 */
-	final public function execute( $name, $args) 
+	final public function execute( $name, KCommandContext $context) 
 	{
 		$parts    = explode('.', $name);	
 		$function = 'on'.KInflector::implode($parts);
 		
 		if(method_exists($this, $function)) {
-			return $this->$function($args);
+			return $this->$function($context);
 		}
 	
 		return true;

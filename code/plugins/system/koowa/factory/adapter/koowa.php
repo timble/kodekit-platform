@@ -22,8 +22,8 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  Identifier or Identifier object - lib.koowa.[.path].name
-	 * @param array  An optional associative array of configuration settings.
+	 * @param mixed  		 Identifier or Identifier object - lib.koowa.[.path].name
+	 * @param array  		 An optional associative array of configuration settings.
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, array $options)
@@ -33,6 +33,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 		if($identifier->type == 'lib' && $identifier->package == 'koowa')
 		{
 			$classname = 'K'.KInflector::implode($identifier->path).ucfirst($identifier->name);
+			$filepath  = KLoader::path($identifier);
 			
 			if (!class_exists($classname))
 			{
@@ -40,12 +41,14 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 				$classname = 'K'.KInflector::implode($identifier->path).'Default';
 				
 				if (!class_exists($classname)) {
-					throw new KFactoryAdapterException("Could't create instance for $identifier");
+					throw new KFactoryAdapterException("Class [$classname] not found in file [".basename($filepath)."]" );
 				}
 			}
 
 			//If the object is indentifiable push the identifier in through the constructor
-			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) {
+			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) 
+			{
+				$identifier->filepath  = $filepath;
 				$options['identifier'] = $identifier;
 			}
 			

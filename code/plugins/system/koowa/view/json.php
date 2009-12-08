@@ -17,6 +17,11 @@
  */
 class KViewJson extends KViewAbstract
 {
+	/**
+	 * Constructor
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
 	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
@@ -26,12 +31,17 @@ class KViewJson extends KViewAbstract
 	}
 
 	/**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewJson
 	 */
     public function display()
-    {
-    	echo json_encode($this->get());
+    {	
+		//Get the view name
+		$name = $this->getName();
+		
+    	echo json_encode($this->$name->getData());
+    	
+    	return $this;
     }
 }

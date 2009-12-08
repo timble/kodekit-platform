@@ -1,5 +1,5 @@
 <?php
-class HarbourModelBoats extends KModelTable
+class ComHarbourModelBoats extends KModelTable
 {
   	protected function _buildQueryWhere(KDatabaseQuery $query)
     {

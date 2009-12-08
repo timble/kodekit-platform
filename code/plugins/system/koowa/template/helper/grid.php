@@ -87,7 +87,7 @@ class KTemplateHelperGrid extends KObject
 		$action = $publish ? 'disable' : 'enable';
 
 		$href = '
-		<a href="javascript:Koowa.Grid.action(\''.$action.'\', \'cb'. $i .'\')" title="'. $text .'">
+		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $i .'\')" title="'. $text .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
@@ -106,7 +106,7 @@ class KTemplateHelperGrid extends KObject
 		$action = $enable ? 'disable' : 'enable';
 
 		$href = '
-		<a href="javascript:Koowa.Grid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
+		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
@@ -123,10 +123,10 @@ class KTemplateHelperGrid extends KObject
 		$down = KRequest::root().'/media/plg_koowa/images/arrow_down.png';
 
 		$result =
-			 '<a href="javascript:Koowa.Grid.order('.$id.', -1)" >'
+			 '<a href="javascript:KGrid.order('.$id.', -1)" >'
 			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
 			.'</a>'
-			.'<a href="javascript:Koowa.Grid.order('.$id.', 1)" >'
+			.'<a href="javascript:KGrid.order('.$id.', 1)" >'
 			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
 			.'</a>';
 
@@ -164,7 +164,7 @@ class KTemplateHelperGrid extends KObject
 		}
 
 		$href = '
-			<a href="javascript:Koowa.Grid.access(\''.$action.'\', \'cb'. $i .'\',  \''. $access .'\')" '. $color .'>
+			<a href="javascript:KGrid.access(\''.$action.'\', \'cb'. $i .'\',  \''. $access .'\')" '. $color .'>
 			'. $group .'</a>'
 			;
 

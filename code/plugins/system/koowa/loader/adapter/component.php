@@ -17,35 +17,100 @@
  * @subpackage 	Adapter
  * @uses		KInflector
  */
-class KLoaderAdapterComponent implements KLoaderAdapterInterface
+class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 {
 	/**
-	 * Load the class
-	 *
-	 * @param string  The class name
-	 * @return string|false	Returns the path on success FALSE on failure
+	 * The basepath 
+	 * 
+	 * @var string
 	 */
-	public function load($class)
+	protected $_basepath = JPATH_BASE;
+	
+	/**
+	 * Get the path based on a class name
+	 *
+	 * @param  string		  	The class name 
+	 * @return string|false		Returns the path on success FALSE on failure
+	 */
+	protected function _pathFromClassname($classname)
 	{
-		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class));
-		$parts = explode('_', $word);
-
-		$component = 'com_'.strtolower(array_shift($parts));
-
-		if(JComponentHelper::getComponent($component, true)->enabled)
+		$path = false; 
+		
+		if (strpos(strtolower($classname),'com') === 0) 
 		{
-			if(count($parts) > 1) {
-				$path = KInflector::pluralize(array_shift($parts)).DS.implode(DS, $parts);
-			} else {
-				$path = $word;
+			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
+			$parts = explode('_', $word);
+			
+			if (array_shift($parts) == 'com') 
+			{
+				$component = 'com_'.strtolower(array_shift($parts));
+			
+				if(count($parts) > 1) {
+					$path = KInflector::pluralize(array_shift($parts)).DS.implode(DS, $parts);
+				} else {
+					$path = $word;
+				}
+			
+				$path = $this->_basepath.DS.'components'.DS.$component.DS.$path.'.php';
 			}
-
-			//Get the basepath
-			$basepath = JPATH_BASE.DS.'components';
-
-			return $basepath.DS.$component.DS.$path.'.php';
 		}
+		
+		return $path;
+	}
 
-		return false;
+	/**
+	 * Get the path based on an identifier
+	 *
+	 * @param  object  			An Identifier object - [application::]com.component.view.[.path].name
+	 * @return string|false		Returns the path on success FALSE on failure
+	 */
+	protected function _pathFromIdentifier($identifier)
+	{
+		$path = false;
+		
+		if($identifier->type == 'com')
+		{
+			$parts = $identifier->path;
+				
+			$component = 'com_'.strtolower($identifier->package);
+			
+			//Store the basepath for re-use
+			$this->_setBasePath($identifier);
+
+			if(!empty($identifier->name))
+			{
+				if(count($parts)) 
+				{
+					$path    = KInflector::pluralize(array_shift($parts));
+					$path   .= count($parts) ? DS.implode(DS, $parts) : '';
+					$path   .= DS.strtolower($identifier->name);	
+				} 
+				else $path  = strtolower($identifier->name);	
+			}
+				
+			$path = $this->_basepath.DS.'components'.DS.$component.DS.$path.'.php';
+		}	
+		
+		return $path;
+	}
+		
+	/**
+	 * Set the base path
+	 *
+	 * @param  object  	The class name or an identifier
+	 */
+	protected function _setBasePath($identifier)
+	{
+		if(!$app = $identifier->application) {
+			$app = KFactory::get('lib.koowa.application')->getName();
+		}
+		
+		switch($app)
+		{
+			case 'admin' : $this->_basepath = JPATH_ADMINISTRATOR; break;
+			case 'site'  : $this->_basepath = JPATH_SITE;			break;
+ 		}
+		
+		return $this;
 	}
 }

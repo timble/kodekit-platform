@@ -17,6 +17,11 @@
  */
 class KViewHtml extends KViewAbstract
 {
+	/**
+	 * Constructor
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 */
 	public function __construct($options = array())
 	{
 		$options = $this->_initialize($options);
@@ -32,7 +37,7 @@ class KViewHtml extends KViewAbstract
 	}
 	
 	/**
-	 * Execute and echo's the views output
+	 * Renders and echo's the views output
  	 *
 	 * @return KViewHtml
 	 */
@@ -41,7 +46,9 @@ class KViewHtml extends KViewAbstract
 		//Auto-assign the state to the view
 		$this->assign('state', KFactory::get($this->getModel())->getState());
 		
-		// Display the layout
-		parent::display();
+		//Render the template
+		echo $this->loadTemplate();
+		
+		return $this;
 	}
 }
