@@ -39,7 +39,7 @@ class KViewAjax extends KViewAbstract
 	public function display()
 	{
 		//Auto-assign the state to the view
-		$this->assign('state', $this->getModel()->getState());
+		$this->assign('state', KFactory::get($this->getModel())->getState());
 		
 		//Load the template
 		$template = $this->loadTemplate();
