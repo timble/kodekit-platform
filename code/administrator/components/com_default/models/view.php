@@ -64,7 +64,7 @@ abstract class ComDefaultModelView extends KModelTable
        	
         return array_merge($defaults, $options);
     }
-	
+    	
     /**
      * @todo this doesn't follow the new convention of returning identifiers instead of objects
      * 
@@ -85,7 +85,7 @@ abstract class ComDefaultModelView extends KModelTable
 			$options['database']   = $this->_db;
 			
 			try	{
-				$this->_view = KFactory::get($this->_view, $options);
+				$this->_view = KFactory::tmp($this->_view, $options);
 			} catch ( KDatabaseTableException $e ) { 
 				$this->_view = null;
 			}
