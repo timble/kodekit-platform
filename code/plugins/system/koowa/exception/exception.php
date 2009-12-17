@@ -43,8 +43,6 @@ class KException extends Exception implements KExceptionInterface
 	 */
     public function __toString()
     {
-		 return "exception '".get_class($this) ."' with message '".$this->getMessage()."' in ".$this->getFile().":".$this->getLine()
-		 		."\nStack trace:\n"
-		 		. "  " . str_replace("\n", "\n  ", $this->getTraceAsString());
+		 return "Exception '".get_class($this) ."' with message '".$this->getMessage()."' in ".$this->getFile().":".$this->getLine();
     }
 }
