@@ -17,7 +17,6 @@
 
 		<files folder="administrator/components/com_harbour">
 			<file>harbour.php</file>
-			<folder>controllers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
 			<folder>views</folder>
