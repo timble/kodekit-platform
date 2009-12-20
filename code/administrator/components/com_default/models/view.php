@@ -90,7 +90,7 @@ abstract class ComDefaultModelView extends KModelTable
 				$this->_view = null;
 			}
 		}
-
+		
 		return $this->_view;
 	}
 	
@@ -140,5 +140,14 @@ abstract class ComDefaultModelView extends KModelTable
         }
 
         return parent::getTotal();
+    }
+    
+	/**
+     * Builds FROM tables list for the query
+     */
+    protected function _buildQueryFrom(KDatabaseQuery $query)
+    {
+      	$name = $this->getView()->getTableName();
+    	$query->from($name.' AS tbl');
     }
 }
