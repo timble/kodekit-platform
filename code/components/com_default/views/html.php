@@ -17,7 +17,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultViewHtml extends KViewHtml
+class ComDefaultViewHtml extends KViewDefault
 {
 	/**
 	 * Constructor
