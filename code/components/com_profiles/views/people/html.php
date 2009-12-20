@@ -11,7 +11,7 @@ class ComProfilesViewPeopleHtml extends ComProfilesViewHtml
 {
 	public function display()
 	{		
-		$this->assign('letters_name', $this->getModel()->getLetters());
+		$this->assign('letters_name', KFactory::get($this->getModel())->getLetters());
 		
 		//Add RSS link
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
