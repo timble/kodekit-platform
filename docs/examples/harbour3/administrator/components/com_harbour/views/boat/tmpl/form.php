@@ -1,3 +1,5 @@
+<? defined('KOOWA') or die('Restricted access'); ?>
+
 <form action="<?= @route('id='.@$boat->id) ?>" method="post" class="adminform" name="adminForm">
 	<dl>
 		<dt>
