@@ -43,8 +43,24 @@ class KViewHtml extends KViewAbstract
 	 */
 	public function display()
 	{
+		$model = KFactory::get($this->getModel());
+		
 		//Auto-assign the state to the view
-		$this->assign('state', KFactory::get($this->getModel())->getState());
+		$this->assign('state', $model->getState());
+		
+		//Get the view name
+		$name  = $this->getName();
+		
+		//Assign the data of the model to the view
+		if(KInflector::isPlural($name))
+		{
+			$this->assign($name, 	$model->getList())
+				 ->assign('total',	$model->getTotal());
+		}
+		else
+		{
+			$this->assign($name, $model->getItem());
+		}
 		
 		//Render the template
 		echo $this->loadTemplate();

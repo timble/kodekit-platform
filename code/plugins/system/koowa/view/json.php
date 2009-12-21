@@ -37,10 +37,19 @@ class KViewJson extends KViewAbstract
 	 */
     public function display()
     {	
-		//Get the view name
+		$model = KFactory::get($this->getModel());
+    	
+    	//Get the view name
 		$name = $this->getName();
+			
+		//Assign the data of the model to the view
+		if(KInflector::isPlural($name)) {
+			$data = $model->getList();
+		} else {
+			$data = $model->getItem();
+		}
 		
-    	echo json_encode($this->$name->getData());
+    	echo json_encode($data->getData());
     	
     	return $this;
     }

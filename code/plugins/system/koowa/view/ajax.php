@@ -15,22 +15,8 @@
  * @category	Koowa
  * @package		Koowa_View
  */
-class KViewAjax extends KViewAbstract
+class KViewAjax extends KViewHtml
 {
-	public function __construct($options = array())
-	{
-		$options = $this->_initialize($options);
-
-		// Add a rule to the template for form handling and secrity tokens
-		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
-
-		// Set base and media urls for use by the view
-		$this->assign('baseurl' , $options['base_url'])
-			 ->assign('mediaurl', $options['media_url']);
-
-		parent::__construct($options);
-	}
-	
 	/**
 	 * Renders and echo's the views output
  	 *
@@ -38,8 +24,24 @@ class KViewAjax extends KViewAbstract
 	 */
 	public function display()
 	{
+		$model = KFactory::get($this->getModel());
+		
 		//Auto-assign the state to the view
-		$this->assign('state', KFactory::get($this->getModel())->getState());
+		$this->assign('state', $model->getState());
+		
+		//Get the view name
+		$name  = $this->getName();
+		
+		//Assign the data of the model to the view
+		if(KInflector::isPlural($name))
+		{
+			$this->assign($name, 	$model->getList())
+				 ->assign('total',	$model->getTotal());
+		}
+		else
+		{
+			$this->assign($name, $model->getItem());
+		}
 		
 		//Load the template
 		$template = $this->loadTemplate();

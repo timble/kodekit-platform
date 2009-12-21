@@ -52,7 +52,7 @@ class KViewFile extends KViewAbstract
         }
 
 		// Mimetype
-		// @todo magic mimetypes?
+		// @TODO magic mimetypes
 		if($this->mimetype) {
 			header('Content-type: '.$this->mimetype);
 		} 
@@ -97,8 +97,7 @@ class KViewFile extends KViewAbstract
 
 	protected function _disposition()
 	{
-		// @todo:
-		// Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123;
+		// @TODO :Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123;
 			
 		if(isset($this->disposition) && $this->disposition == 'inline') 
 		{		

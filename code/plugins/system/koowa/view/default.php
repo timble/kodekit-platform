@@ -17,31 +17,5 @@
  */
 class KViewDefault extends KViewHtml
 {
-	/**
-	 * Renders and echo's the views output
- 	 *
-	 * @return KViewDefault
-	 */
-	public function display()
-	{
-		//Get the model
-		$model = KFactory::get($this->getModel());
-
-		//Get the view name
-		$name  = $this->getName();
-		
-		if(KInflector::isPlural($name))
-		{
-			//Assign the data of the model to the view
-			$this->assign($name, 	$model->getList())
-				 ->assign('total',	$model->getTotal());
-		}
-		else
-		{
-			//Assign the data of the model to the view
-			$this->assign($name, $model->getItem());
-		}
-
-		return parent::display();
-	}
+	
 }
