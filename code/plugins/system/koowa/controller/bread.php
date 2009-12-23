@@ -66,8 +66,6 @@ abstract class KControllerBread extends KControllerAbstract
 		$identifier  = $model->getIdentifier();
 		$identifier .= $this->_action == 'browse' ? '.list' : '.item';	
 		
-		echo $this->getView();
-		
 		$state   = KRequest::get('session.'.$identifier, 'raw', array());
 		$request = KRequest::get('request', 'string');
 		
