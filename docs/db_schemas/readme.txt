@@ -1,1 +1,0 @@
-*.mwb and *.mwb.xml files can be read using MySQL Workbench
