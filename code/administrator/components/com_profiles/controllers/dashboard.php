@@ -12,7 +12,7 @@
  *
  * @package		Profiles
  */
-class ComProfilesControllerDashboard extends KControllerAbstract
+class ComProfilesControllerDashboard extends ComProfilesControllerDefault
 {
 	protected function _actionRead()
 	{
