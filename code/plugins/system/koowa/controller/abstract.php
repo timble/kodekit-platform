@@ -121,23 +121,12 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Execute an action by triggering a method in the derived class.
 	 *
-	 * @param	string		The action to perform. If null, it will default to
-	 * 						either 'browse' (for list views) or 'read' (for item views)
+	 * @param	string		The action to execute
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
 	public function execute($action = null)
 	{
-		if(empty($action))
-		{
-			// default action is browse (list) or read (item)
-			$view 	= KRequest::get('get.view', 'cmd');
-			$action = KInflector::isPlural($view) ? 'browse' : 'read';
-		} else {
-			//Convert to lower case for lookup
-			$action = strtolower( $action );
-		}
-
 		//Set the original action in the controller to allow it to be retrieved
 		$this->setAction($action);
 

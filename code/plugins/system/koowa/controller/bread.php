@@ -23,9 +23,34 @@ abstract class KControllerBread extends KControllerAbstract
 		
 		// Register filter functions
 		$this->registerFunctionBefore('browse' , 'loadState')
-		     ->registerFunctionBefore('read'   , 'loadState');
+		      ->registerFunctionBefore('read'   , 'loadState');
 		     
 		$this->registerFunctionAfter('browse'  , 'saveState');
+	}
+	
+	/**
+	 * Execute an action by triggering a method in the derived class.
+	 *
+	 * @param	string		The action to perform. If null, it will default to
+	 * 						either 'browse' (for list views) or 'read' (for item views)
+	 * @return	mixed|false The value returned by the called method, false in error case.
+	 * @throws 	KControllerException
+	 */
+	public function execute($action = null)
+	{
+		if(empty($action))
+		{
+			// default action is browse (list) or read (item)
+			$view 	= KRequest::get('get.view', 'cmd');
+			$action = KInflector::isPlural($view) ? 'browse' : 'read';
+		} 
+		else
+		{
+			//Convert to lower case for lookup
+			$action = strtolower( $action );
+		}
+
+		return parent::execute($action);
 	}
 	
 	/**
@@ -36,7 +61,14 @@ abstract class KControllerBread extends KControllerAbstract
 	public function loadState(KCommandContext $context)
 	{
 		$model   = KFactory::get($this->getModel());
-		$state   = KRequest::get('session.'.$model->getIdentifier(), 'raw', array());
+		
+		// Built the session identifier based on the action
+		$identifier  = $model->getIdentifier();
+		$identifier .= $this->_action == 'browse' ? '.list' : '.item';	
+		
+		echo $this->getView();
+		
+		$state   = KRequest::get('session.'.$identifier, 'raw', array());
 		$request = KRequest::get('request', 'string');
 		
 		//Set the state in the model
@@ -52,9 +84,13 @@ abstract class KControllerBread extends KControllerAbstract
 	{
 		$model  = KFactory::get($this->getModel());
 		$state  = $model->get();
-					
+		
+		// Built the session identifier based on the action
+		$identifier  = $model->getIdentifier();
+		$identifier .= $this->_action == 'browse' ? '.list' : '.item';	
+		
 		//Set the state in the session
-		KRequest::set('session.'.$model->getIdentifier(), $state);
+		KRequest::set('session.'.$identifier, $state);
 	}
 	
 	/**
