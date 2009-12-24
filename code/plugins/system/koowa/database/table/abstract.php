@@ -38,7 +38,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	 * @var		string
 	 */
 	protected $_primary;
-
+	
 	/**
 	 * Field metadata information
 	 *
@@ -170,7 +170,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 
 		return $this->_primary;
 	}
-
+	
 	/**
 	 * Get the highest ordering
 	 *
@@ -215,7 +215,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
                 if(!isset($this->_primary) && $description->primary) {
                 	$this->_primary = $description->name;
                 }
-
+                
  	            $this->_fields[$description->name] = $description;
  	        }
         }
@@ -244,6 +244,24 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         }
     	return $this->_defaults;
     }
+    
+	/**
+	 * Gets the unqiue key(s) of the table
+	 *
+	 * @return array	An asscociate array of unique table fields by field name
+	 */
+	public function getUniques()
+	{
+		$uniques = array();
+        foreach($this->getFields() as $name => $description)
+        {
+       		if($description->unique) {
+       			$uniques[$name] = $description;
+       		}
+     	}
+		
+		return $uniques;
+ 	}
 
     /**
      * Get the description of a field
