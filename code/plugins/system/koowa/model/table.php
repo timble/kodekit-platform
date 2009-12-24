@@ -192,7 +192,7 @@ class KModelTable extends KModelAbstract
         	$table = KFactory::get($this->getTable());
         	$query = $this->_buildQuery();
         	
-         	foreach($this->getTable()->getUniques() as $key)
+         	foreach($table->getUniques() as $key)
          	{
          		if($value = $this->_state->{$key->name}) {
          			$query->where('tbl.'.$key->name, '=', $value);
