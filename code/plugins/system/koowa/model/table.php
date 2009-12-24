@@ -50,14 +50,20 @@ class KModelTable extends KModelAbstract
 		
 		// Set the table indentifier
 		$this->setTable($options['table']);
-				
+
+		// Set the static states
 		$this->_state
-			->insert('id'       , 'int', 0)
 			->insert('limit'    , 'int', 20)
 			->insert('offset'   , 'int', 0)
 			->insert('order'    , 'cmd')
 			->insert('direction', 'word', 'asc')
 			->insert('search'   , 'string');
+			
+		// Set the dynamic states based on the unique table keys
+		$table = KFactory::get($this->getTable());
+      	foreach($table->getUniques() as $key) {
+			$this->_state->insert($key->name, $key->type);
+		}	
 	}
 	
 	/**
@@ -184,7 +190,16 @@ class KModelTable extends KModelAbstract
         if (!isset($this->_item))
         {
         	$table = KFactory::get($this->getTable());
-        	$query = $this->_buildQuery()->where('tbl.'.$table->getPrimaryKey(), '=', $this->_state->id);
+        	$query = $this->_buildQuery();
+        	
+         	foreach($this->getTable()->getUniques() as $key)
+         	{
+         		if($value = $this->_state->{$key->name}) {
+         			$query->where('tbl.'.$key->name, '=', $value);
+         			break;
+         		}
+         	}
+         				        	
         	$this->_item = $table->fetchRow($query);
         }
 
