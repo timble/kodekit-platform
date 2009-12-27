@@ -10,12 +10,14 @@
 class ComProfilesViewPeopleFeed extends KViewAbstract
 {
 	public function display()
-	{
-		parent::display();
-		
+	{	
+		//Set the document link
 		$this->_document->link = $this->createRoute('view=people');
 		
-		foreach ( $this->people as $person )
+		//Get the list of people
+		$people = KFactory::get($this->getModel())->getList();
+		
+		foreach ( $people as $person )
 		{
 			// strip html from feed item title
 			$title = $this->escape( $person->name );
