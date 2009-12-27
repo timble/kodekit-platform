@@ -197,7 +197,7 @@ class KModelTable extends KModelAbstract
         	
          	foreach($table->getUniques() as $key)
          	{
-         		//$name = $key->primary ? 'id' : $key->name;
+         		$name = $key->primary ? 'id' : $key->name;
          		if($value = $this->_state->{$name}) 
          		{
          			$query = $this->_buildQuery();
