@@ -94,18 +94,28 @@ abstract class ComDefaultModelView extends KModelTable
 		return $this->_view;
 	}
 	
+	 /**
+     * Method to get a item object which represents a table row 
+     * 
+     * This method matches the model state against the table's unqiue keys. If a key
+     * is found it is used to fetch the table row. If no state iformation can be used 
+     * to retrieve the item an empty row will be returned instead
+     * 
+     * @return KDatabaseRow
+     */
 	public function getItem()
     {
-        // Get the data if it doesn't already exist
         if (!isset($this->_item))
         {
         	if($table = $this->getView()) 
         	{
-        		$query = $this->_buildQuery();
+        		$query = null;
         	
          		foreach($table->getUniques() as $key)
          		{
-         			if($value = $this->_state->{$key->name}) {
+         			if($value = $this->_state->{$key->name}) 
+         			{
+         				$query = $this->_buildQuery();
          				$query->where('tbl.'.$key->name, '=', $value);
          				break;
          			}
