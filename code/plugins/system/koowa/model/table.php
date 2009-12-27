@@ -62,7 +62,7 @@ class KModelTable extends KModelAbstract
 		// Set the dynamic states based on the unique table keys
 		$table = KFactory::get($this->getTable());
       	foreach($table->getUniques() as $key) {
-			$this->_state->insert($key->name, $key->type, $key->default);
+      		$this->_state->insert($key->primary ? 'id' : $key->name, $key->type, $key->default);
 		}	
 	}
 	
@@ -197,14 +197,15 @@ class KModelTable extends KModelAbstract
         	
          	foreach($table->getUniques() as $key)
          	{
-         		if($value = $this->_state->{$key->name}) 
+         		//$name = $key->primary ? 'id' : $key->name;
+         		if($value = $this->_state->{$name}) 
          		{
          			$query = $this->_buildQuery();
          			$query->where('tbl.'.$key->name, '=', $value);
          			break;
          		}
          	}
-         					        	
+         						        	
         	$this->_item = $table->fetchRow($query);
         }
 

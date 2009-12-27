@@ -110,10 +110,11 @@ abstract class ComDefaultModelView extends KModelTable
         	if($table = $this->getView()) 
         	{
         		$query = null;
-        	
-         		foreach($table->getUniques() as $key)
+        		
+         		foreach(KFactory::get($this->getTable())->getUniques() as $key)
          		{
-         			if($value = $this->_state->{$key->name}) 
+         			$name = $key->primary ? 'id' : $key->name;
+         			if($value = $this->_state->{$name}) 
          			{
          				$query = $this->_buildQuery();
          				$query->where('tbl.'.$key->name, '=', $value);
