@@ -36,7 +36,7 @@ class KDispatcherDefault extends KDispatcherAbstract
 		//Redirect if no view information can be found in the request
 		if(!KRequest::has('get.view')) 
 		{
-			KFactory::get('lib.joomla.application')
+			KFactory::get('lib.koowa.application')
 				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
 		}
 	

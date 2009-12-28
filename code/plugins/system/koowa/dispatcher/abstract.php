@@ -118,7 +118,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		// Redirect if set by the controller
 		if($redirect = $controller->getRedirect())
 		{
-			KFactory::get('lib.joomla.application')
+			KFactory::get('lib.koowa.application')
 				->redirect($redirect['url'], $redirect['message'], $redirect['messageType']);
 		}
 
