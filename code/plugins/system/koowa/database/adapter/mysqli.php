@@ -100,6 +100,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Example of how to connect using SSL:
 	 * <code>
 	 * $config = array(
+	 *   'adpater'  => 'mysqli'
 	 * 	 'username' => 'someuser',
 	 * 	'password' => 'apasswd',
 	 * 	'hostspec' => 'localhost',
@@ -113,7 +114,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * 	),
 	 * );
 	 *
-	 * $db = new KDatabaseAdapterMysqli($config);
+	 * $db = KFactory::get('lib.koowa.database', $config)
 	 * </code>
 	 * 
 	 * @return KDatabaseAdapterMysqli
@@ -123,6 +124,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		if (!empty($this->_options['ssl'])) 
 		{
 			$mysqli = mysqli_init();
+			
 			$mysqli->ssl_set(
 				empty($this->_options['ssl']['key']) ? null : $this->_options['ssl']['key'],
 				empty($this->_options['ssl']['cert']) ? null : $this->_options['ssl']['cert'],
@@ -132,15 +134,18 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			);
 
 			$mysqli->real_connect(	
-				$this->_options['host'], $config['username'], $config['password'],
-				$config['dbname'], $config['port'], $config['socket']
+				$this->_options['host'], $this->_options['username'], $this->_options['password'],
+				$this->_options['dbname'], $this->_options['port'], $this->_options['socket']
 			);	
-		} else {
+		} 
+		else 
+		{
 			$oldErrorReporting = error_reporting(0);
 			$mysqli = new mysqli(
-				$config['host'], $config['username'], $config['password'],
-				$config['dbname'], $config['port'], $config['socket']
+				$this->_options['host'], $this->_options['username'], $this->_options['password'],
+				$this->_options['dbname'], $this->_options['port'], $this->_options['socket']
 			);
+			
 			error_reporting($oldErrorReporting);
 		}
 
