@@ -29,7 +29,7 @@ class KFilterTimestamp extends KFilterAbstract
      * 
      * Also checks that the date itself is valid (for example, no Feb 30).
 	 * 
-	 * @param mixed $value The value to validate.
+	 * @param mixed The value to validate.
 	 * @return	bool	True when the variable is valid
 	 */
 	protected function _validate($value)
@@ -77,23 +77,29 @@ class KFilterTimestamp extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
-		 // look for YmdHis keys?
+		// look for YmdHis keys?
         if (is_array($value)) {
             $value = $this->_arrayToTimestamp($value);
         }
 		
-        $format = 'Y-m-d H:i:s';
-        if (is_int($value)) {
-            return date($format, $value);
+		$result = '0000-00-00 00:00:00';
+        if (!(empty($value) || $value == $result))
+        {
+             $format = 'Y-m-d H:i:s';
+        	if (is_int($value)) {
+            	$result = date($format, $value);
+        	} else {
+        		$result = date($format, strtotime($value));
+        	}	 
         } 
-        
-        return date($format, strtotime($value));
+		
+        return $result;
 	}
 	
 	/**
      * Converts an array of timestamp parts to a string timestamp.
      * 
-     * @param array $array The array of timestamp parts.
+     * @param array The array of timestamp parts.
      * @return string
      */
     protected function _arrayToTimestamp($array)
