@@ -20,7 +20,9 @@
 class KTemplateHelperBehavior extends KObject
 {
 	
-	protected $_loaded = false;
+	protected $_mootools = false;
+	
+	protected $_overlay  = false;
 	
 	/**
 	 * Method to load the mootools framework into the document head
@@ -32,12 +34,13 @@ class KTemplateHelperBehavior extends KObject
 	public function mootools($debug = null)
 	{
 		// Only load once
-		if ($this->_loaded) {
+		if ($this->_mootools) {
 			return;
 		}
 
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
+		if ($debug === null) 
+		{
 			$config = KFactory::get('lib.joomla.config');
 			$debug = $config->getValue('config.debug');
 		}
@@ -48,7 +51,7 @@ class KTemplateHelperBehavior extends KObject
 			KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootools.js');
 		}
 		
-		$this->_loaded = true;
+		$this->_mootools = true;
 		return;
 	}
 
@@ -253,12 +256,18 @@ class KTemplateHelperBehavior extends KObject
 		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js'); 
 		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/plg_koowa/css/koowa.css');
 		
-		$uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
-		
-		$js = 'window.addEvent(\'domready\', function(){ $$(\'.koowa-overlay\').each(function(overlay){ new KOverlay(overlay, \''.json_encode($options).'\'); }); });';
-		$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );	
-	
-		$attribs = KHelperArray::toString($attribs);	
+		// Only load once
+		if (!$this->_overlay) 
+		{	
+			$js = 'window.addEvent(\'domready\', function(){ $$(\'.koowa-overlay\').each(function(overlay){ new KOverlay(overlay, \''.json_encode($options).'\'); }); });';
+			$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );
+			
+			$this->_overlay = true;
+		}
+
+		$uri     = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
+		$attribs = KHelperArray::toString($attribs);
+			
 		return '<div href="'.$uri.'" class="koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="koowa-ajax-status">'.JText::_('Loading...').'</div></div>';
 	}
 
