@@ -2,7 +2,7 @@ window.addEvent('domready', function()
 { 
 	$('country').addEvent('change', function() 
 	{
-		new Ajax('index.php?option=com_profiles&view=states&format=ajax&region='+this.value, {
+		new Ajax('index.php?option=com_profiles&view=states&region='+this.value, {
 			method: 'get',
 			update: 'statecontainer'
 		}).request();

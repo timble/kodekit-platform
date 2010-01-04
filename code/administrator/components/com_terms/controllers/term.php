@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: term.php 308 2009-10-25 04:35:37Z johan $
+ * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
@@ -29,9 +29,8 @@ class ComTermsControllerTerm extends KControllerBread
 		
 		$row_id 	 = KRequest::get('post.row_id', 'int');
 		$table_name  = KRequest::get('post.table_name', 'cmd');
-		$format 	 = KRequest::get('get.format', 'string');
 		
-		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
 		
 		return $rowset;
 	}
@@ -49,8 +48,7 @@ class ComTermsControllerTerm extends KControllerBread
 	
 		$row_id 	 = KRequest::get('post.row_id', 'int');
 		$table_name  = KRequest::get('post.table_name', 'cmd');
-		$format 	 = KRequest::get('get.format', 'string');
 		
-		$this->_redirect = 'view=terms&format='.$format.'&row_id='.$row_id.'&table_name='.$table_name;
+		$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
 	}
 }

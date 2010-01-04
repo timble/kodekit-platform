@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ComTermsViewTermsAjax extends KViewAjax
+class ComTermsViewTermsHtml extends KViewHtml
 {
 	public function display()
 	{
@@ -22,8 +22,8 @@ class ComTermsViewTermsAjax extends KViewAjax
 		}  
 		else 
 		{
-			$this->assign('terms'   , array());
-			$this->assign('disabled', true);
+			$this->assign('terms'   , array())
+				 ->assign('disabled', true);
 		}
 			
 		//Auto-assign the state to the view

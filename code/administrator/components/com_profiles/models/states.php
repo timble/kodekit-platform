@@ -7,13 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ComProfilesViewStatesAjax extends KViewAjax
+class ComProfilesModelStates extends KModelAbstract
 {
-	public function display($tpl = 'ajax')
-	{
-		$this->assign('region', KRequest::get( 'get.region', 'string' ));
-		$this->assign('format', 'ajax');
-		parent::display($tpl);
-	}
-
+	
 }

@@ -31,12 +31,10 @@ class ComTermsModelTerms extends KModelTable
         // Get the data if it doesn't already exist
         if (!isset($this->_item))
         {
-        	if($table = $this->getTable()) 
-        	{
-         		$query = $this->_buildQuery()->where('tbl.name', '=', $this->_state->name);
-        		$this->_item = $table->fetchRow($query);
-        	} 
-        	else $this->_item = null;
+        	$table = KFactory::get($this->getTable()); 
+        	
+      		$query = $this->_buildQuery()->where('tbl.name', '=', $this->_state->name);
+        	$this->_item = $table->fetchRow($query);
         }
 
         return parent::getItem();

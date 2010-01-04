@@ -32,7 +32,7 @@ class ComProfilesViewHtml extends ComDefaultViewHtml
 		$name = $this->getName();
 		
 		//Apend enable and disbale button for all the list views
-		if($name != 'dashboard' && KInflector::isPlural($name))
+		if($name != 'dashboard' && KInflector::isPlural($name) && KRequest::type() != 'AJAX')
 		{
 			KFactory::get('admin::com.profiles.toolbar.'.$name)
 				->append('divider')	
