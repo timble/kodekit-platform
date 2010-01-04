@@ -250,6 +250,7 @@ class KTemplateHelperBehavior extends KObject
 	
 	public function overlay($url, array $options = array(), array $attribs = array())
 	{
+		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js'); 
 		KTemplate::loadHelper('stylesheet', KRequest::root().'/media/plg_koowa/css/koowa.css');
 		
 		$uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
