@@ -14,29 +14,12 @@ class ComTermsViewTermsHtml extends KViewHtml
 		$model = KFactory::get($this->getModel());
 		
 		//If no row_id exists assign an empty array
-		if($model->get('row_id')) 
-		{
-			$this->assign('disabled', false)
-				 ->assign('terms' , $model->getList())
-				 ->assign('total' ,	$model->getTotal());
-		}  
-		else 
-		{
-			$this->assign('terms'   , array())
-				 ->assign('disabled', true);
+		if($model->get('row_id')) {
+			$this->assign('disabled', false);
+		} else {
+			$this->assign('disabled', true);
 		}
 			
-		//Auto-assign the state to the view
-		$this->assign('state', $model->getState());
-		
-		//Load the template
-		$template = $this->loadTemplate();
-		
-		//Render the scripts
-		foreach ($this->_document->_scripts as $source => $type) {
-			echo '<script type="'.$type.'" src="'.$source.'"></script>'."\n";
-		}
-	
-		echo $template;
+		parent::display();
 	}
 }
