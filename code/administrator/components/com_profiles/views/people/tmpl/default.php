@@ -11,13 +11,8 @@
 	<input type="hidden" name="view" value="people" />
 	
 	<div class="filter-search">
-	<?= @text('Search'); ?>:
-	<input name="search" id="search" value="<?= @$state->search;?>" />
-	<button onclick="this.form.submit();"><?= @text('Go')?></button>
-	<button onclick="document.getElementById('search').value='';this.form.submit();"><?= @text('Reset'); ?></button>
+		<?= @template('filter_name'); ?>
 	</div>
-	<?= @template('filter_name'); ?>
-
 </form>
 
 <form action="<?= @route()?>" method="post" name="adminForm" class="form-grid">
@@ -37,23 +32,43 @@
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Department', 'department', @$state->direction, @$state->order); ?><br/>
-					<?= @helper('admin::com.profiles.helper.select.departments', @$state->profiles_department_id, 'profiles_department_id', $attribs, '', true) ?>
-					
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Office', 'office', @$state->direction, @$state->order); ?><br/>
-					<?= @helper('admin::com.profiles.helper.select.offices', @$state->profiles_office_id, 'profiles_office_id', $attribs, '', true) ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'User', 'user_name', @$state->direction, @$state->order); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$state->direction, @$state->order); ?><br/>
-					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
+					
 				</th>
 				<th>
 					<?= @helper('grid.sort', 'ID', 'profiles_person_id', @$state->direction, @$state->order); ?>
 				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<?= @text('Filters'); ?>	
+				</td>
+				<td>
+					<input name="search" id="search" value="<?= @$state->search;?>" />
+					<button onclick="this.form.submit();"><?= @text('Go')?></button>
+					<button onclick="document.getElementById('search').value='';this.form.submit();"><?= @text('Reset'); ?></button>
+				</td>
+				<td align="center">
+					<?= @helper('admin::com.profiles.helper.select.departments', @$state->profiles_department_id, 'profiles_department_id', $attribs, '', true) ?>
+				</td>
+				<td align="center">
+					<?= @helper('admin::com.profiles.helper.select.offices', @$state->profiles_office_id, 'profiles_office_id', $attribs, '', true) ?>
+				</td>
+				<td align="center">
+					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
 			</tr>
 		</thead>
 		<tbody>

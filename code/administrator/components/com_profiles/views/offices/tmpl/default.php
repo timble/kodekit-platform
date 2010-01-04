@@ -4,25 +4,6 @@
 <? @style(@$mediaurl.'/com_profiles/css/grid.css'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/admin.css'); ?>
 
-<form action="<?= @route()?>" method="get">
-	<input type="hidden" name="option" value="com_profiles" />
-	<input type="hidden" name="view" value="offices" />
-
-	<table>
-		<tr>
-			<td align="left" width="100%">
-				<?= @text('Search')?>:
-				<input name="search" id="search" value="<?= @$state->search;?>" />
-				<button onclick="this.form.submit();"><?= @text('Go'); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('enabled').value='';this.form.submit();"><?= @text('Reset'); ?></button>
-			</td>
-			<td nowrap="nowrap">
-				<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
-			</td>
-		</tr>
-	</table>
-</form>
-
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="id" value="" />
 	<input type="hidden" name="action" value="" />
@@ -47,6 +28,23 @@
 				<th>
 					<?= @helper('grid.sort', 'ID', 'profiles_office_id', @$state->direction, @$state->order); ?>
 				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<?= @text('Filters'); ?>	
+				</td>
+				<td>
+					<input name="search" id="search" value="<?= @$state->search;?>" />
+					<button onclick="this.form.submit();"><?= @text('Go')?></button>
+					<button onclick="document.getElementById('search').value='';this.form.submit();"><?= @text('Reset'); ?></button>
+				</td>
+				<td>
+					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
+				</td>
+				<td>	
+				</td>
+				<td>
+				</td>
 			</tr>
 		</thead>
 		<tbody>
