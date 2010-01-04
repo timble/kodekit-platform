@@ -62,8 +62,19 @@ class KViewHtml extends KViewAbstract
 			$this->assign($name, $model->getItem());
 		}
 		
+		//Load the template
+		$template = $this->loadTemplate();
+		
+		//Render the scripts
+		if(KRequest::type() == 'AJAX')
+		{
+			foreach ($this->_document->_scripts as $source => $type) {
+				echo '<script type="'.$type.'" src="'.$source.'"></script>'."\n";
+			}
+		}
+	
 		//Render the template
-		echo $this->loadTemplate();
+		echo $template;
 		
 		return $this;
 	}

@@ -71,10 +71,10 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language',    'lib.joomla.language');
         KFactory::map('lib.koowa.document',    'lib.joomla.document');
-        
+         
         //Force the format to ajax is request type is AJAX
         if(KRequest::type() == 'AJAX') {
-        	KRequest::set('get.format', 'ajax');
+        	$GLOBALS['_JREQUEST']['format']['DEFAULTWORD0'] = 'raw';
         }
 
 		//Load the koowa plugins
