@@ -28,18 +28,25 @@ class KFactory
 	protected static $_container = null;
 	
 	/**
-	 * The identifier alias map
-	 *
-	 * @var	array
-	 */
-	protected static $_identifier_map = array();
-
-	/**
 	 * The commandchain
 	 *
 	 * @var	KLoaderChain
 	 */
 	protected static $_chain = null;
+	
+	/**
+	 * The identifier alias map
+	 *
+	 * @var	array
+	 */
+	protected static $_identifier_map = array();
+	
+	/**
+     * The identifier mixin map
+     *
+     * @var array
+     */
+   	protected static $_mixin_map = array(); 
 
 	/**
 	 * Constructor
@@ -96,6 +103,15 @@ class KFactory
 		if(!is_object($instance)) {
 			throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
 		}
+		
+		//Mix the mixins for this identifier
+		if(isset(self::$_mixin_map[$identifier]))
+		{
+			$mixins = self::$_mixin_map[$identifier];
+      		foreach($mixins as $mixin) {
+          		$instance->mixin(KFactory::tmp($mixin, array('mixer'=> $instance)));
+      		}
+		}
 
 		self::$_container->offsetSet($identifier, $instance);
 		return $instance;
@@ -126,6 +142,15 @@ class KFactory
 		$instance = self::$_chain->run($identifier, $context);
 		if(!is_object($instance)) {
 			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
+		}
+		
+		//Mix the mixins for this identifier
+		if(isset(self::$_mixin_map[$identifier]))
+		{
+			$mixins = self::$_mixin_map[$identifier];
+      		foreach($mixins as $mixin) {
+          		$instance->mixin(KFactory::tmp($mixin, array('mixer'=> $instance)));
+      		}
 		}
 
 		return $instance;
@@ -200,6 +225,47 @@ class KFactory
 		
 		self::$_identifier_map[$alias] = $identifier;
 	}
+	
+	/**
+     * Set a mixin or an array of mixins for an identifier
+     * 
+     * The mixins are mixed when indentied object is first instantiated
+     * see {@linkk get} and {$link tmp}
+     *
+     * @param  mixed        An identifier string, KIdentfier object or an array of identifiers 
+     * @param  string|array	A mixin identifier or a array of mixin identifiers
+     * @see KObject::mixin
+   	 */
+   	public static function mix($identifiers, $mixins)
+   	{
+     	settype($identifiers, 'array');
+       	settype($mixins,      'array');
+
+     	foreach($identifiers as $identifier) 
+     	{
+       		$identifier = (string) $identifier;
+       		
+     		if(array_key_exists($identifier, self::$_identifier_map)) {
+				$identifier = self::$_identifier_map[$identifier];
+			}
+       		
+     		if (!isset(self::$_mixin_map[$identifier]) ) {
+       			self::$_mixin_map[$identifier] = array();
+       		}
+
+         	self::$_mixin_map[$identifier] = array_unique(array_merge(self::$_mixin_map[$identifier], $mixins));
+
+          	if (self::has($identifier) ) 
+			{
+				$mixins = self::$_mixin_map[$identifier];
+      			foreach($mixins as $mixin) 
+      			{
+        			$mixin = KFactory::tmp($mixin, array('mixer'=> self::get($identifier)));
+          			$object->mixin($mixin);
+      			}
+          	}
+     	}
+ 	}
 
 	/**
 	 * Add a factory adapter
