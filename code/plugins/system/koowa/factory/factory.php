@@ -229,8 +229,9 @@ class KFactory
 	/**
      * Set a mixin or an array of mixins for an identifier
      * 
-     * The mixins are mixed when indentied object is first instantiated
-     * see {@linkk get} and {$link tmp}
+     * The mixins are mixed when the indentified object is first instantiated see {@linkk get} and 
+     * {$link tmp} Mixins are also added to existing singleton objects that already exist in the
+     * object store.
      *
      * @param  mixed        An identifier string, KIdentfier object or an array of identifiers 
      * @param  string|array	A mixin identifier or a array of mixin identifiers
