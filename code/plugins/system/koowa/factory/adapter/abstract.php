@@ -27,7 +27,7 @@ abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapte
 	 */
 	final public function execute($identifier, KCommandContext $context)
 	{
-		$result = $this->instantiate(new KIdentifier($identifier), $context['options']);
+		$result = $this->instantiate($identifier, $context['options']);
 		return $result;
 	}
 }
