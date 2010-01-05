@@ -17,6 +17,8 @@ KFactory::initialize();
  * @category	Koowa
  * @package     Koowa_Factory
  * @static
+ * @uses 		KIdentifier
+ * @uses		KCommandContext
  */
 class KFactory
 {
@@ -64,9 +66,9 @@ class KFactory
 	/**
 	 * Returns an identifier string. 
 	 * 
-	 * Accepts vairous types of parameters and returns a valid identifier. Parameters can either be an 
+	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
 	 * object that implements KFactoryIdentifiable, or a KIndentifierInterface, or valid identifier 
-	 * string. Fucntion will also check for identifier mappings and return the mapped identifier.
+	 * string. Function will also check for identifier mappings and return the mapped identifier.
 	 *
 	 * @param	mixed	The identifier, an object that implements KFactoryIdentifiable, 
 	 *                   a KIndentifierInterface or valid identifier string
