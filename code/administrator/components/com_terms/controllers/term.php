@@ -30,7 +30,9 @@ class ComTermsControllerTerm extends KControllerBread
 		$row_id 	 = KRequest::get('post.row_id', 'int');
 		$table_name  = KRequest::get('post.table_name', 'cmd');
 		
-		$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
+		//$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
+		//@TODO : Ajax requests shouldn't redirect, while normal requests should
+		$this->execute('read');
 		
 		return $rowset;
 	}
@@ -49,6 +51,8 @@ class ComTermsControllerTerm extends KControllerBread
 		$row_id 	 = KRequest::get('post.row_id', 'int');
 		$table_name  = KRequest::get('post.table_name', 'cmd');
 		
-		$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
+		//$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
+		//@TODO : Ajax requests shouldn't redirect, while normal requests should
+		$this->execute('read');
 	}
 }
