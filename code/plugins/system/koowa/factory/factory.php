@@ -116,9 +116,16 @@ class KFactory
 			throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
 		}
 		
-		$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-        $instance->mixin($mixin);
-
+		if (isset(self::$_mixin_map[(string) $identifier]))
+		{
+			$mixins = self::$_mixin_map[(string) $identifier];
+      		foreach($mixins as $mixin) 
+      		{
+      			$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+          		$instance->mixin($mixin);
+      		}
+		}
+		
 		self::$_container->offsetSet((string) $identifier, $instance);
 		return $instance;
 	}
@@ -144,8 +151,15 @@ class KFactory
 			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
 		}
 	
-      	$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-        $instance->mixin($mixin);
+		if (isset(self::$_mixin_map[(string) $identifier]))
+		{
+			$mixins = self::$_mixin_map[(string)$identifier];
+      		foreach($mixins as $mixin) 
+      		{
+      			$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+          		$instance->mixin($mixin);
+      		}
+		}
 
 		return $instance;
 	}
