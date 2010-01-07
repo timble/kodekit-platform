@@ -30,18 +30,25 @@ class KFactory
 	protected static $_container = null;
 	
 	/**
-	 * The identifier alias map
-	 *
-	 * @var	array
-	 */
-	protected static $_identifier_map = array();
-
-	/**
 	 * The commandchain
 	 *
 	 * @var	KLoaderChain
 	 */
 	protected static $_chain = null;
+	
+	/**
+	 * The identifier alias map
+	 *
+	 * @var	array
+	 */
+	protected static $_identifier_map = array();
+	
+	/**
+	 * The mixin map
+	 *
+	 * @var	array
+	 */
+	protected static $_mixin_map = array();
 
 	/**
 	 * Constructor
