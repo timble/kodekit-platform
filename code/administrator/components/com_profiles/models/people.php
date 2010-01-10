@@ -52,10 +52,7 @@ class ComProfilesModelPeople extends ComDefaultModelView
 		if ( $state->search) 
 		{
 			$search = '%'.$state->search.'%';
-
-			$query->where('tbl.firstname', 'LIKE',  $search)
-				  ->where('tbl.lastname', 'LIKE', $search, 'or')
-				  ->where('tbl.bio', 'LIKE', $search, 'or');
+			$query->where('tbl.name', 'LIKE',  $search);
 		}
 		
 		if ( $state->letter_name) {
