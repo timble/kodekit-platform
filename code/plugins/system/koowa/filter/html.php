@@ -117,8 +117,10 @@ class KFilterHtml extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
+		$value = (string) $value;
+		
 		// Filter var for XSS and other 'bad' code etc.
-		if (is_string($value) && !empty ($value)) {
+		if (!empty ($value)) {
 			$value = $this->_remove($this->_decode($value));
 		}
 		
