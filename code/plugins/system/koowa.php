@@ -28,6 +28,11 @@ class plgSystemKoowa extends JPlugin
 		}
 		
 		set_exception_handler(array($this, 'exceptionHandler'));
+		
+		//Turn off Zend Optimiser
+		//@TODO : Investigate issues caused by Zend Optimiser
+		ini_set('zend_extension_manager.optimizer', null);
+		ini_set('zend_extension_manager.optimizer_ts', null);
 
 		// Require the library loader
 		JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
