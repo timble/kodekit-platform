@@ -8,5 +8,7 @@ class ComHarbourModelBoats extends KModelTable
        	if ($search) {
          	$query->where('tbl.name', 'LIKE', '%'.$search.'%');
        	}
+       	
+       	parent::_buildQueryWhere($query);
     }
 }
