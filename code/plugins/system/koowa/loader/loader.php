@@ -79,7 +79,7 @@ class KLoader
 		if (function_exists('__autoload')) {
 			spl_autoload_register('__autoload');
 		}
-
+		
         //Add the koowa adapter
         self::addAdapter(new KLoaderAdapterKoowa());
 	}
@@ -92,6 +92,11 @@ class KLoader
 	 */
 	public static function load($class)
 	{
+		//Extra filter added to circomvent issues with Zend Optimiser and strange classname.		
+		if((!ctype_upper(substr($class, 0, 1)) && preg_match('#[0-9]#',$class))) {
+			return false;
+		}
+		
 		//Pre-empt further searching for the named class or interface.
 		//Do not use autoload, because this method is registered with
 		//spl_autoload already.
@@ -118,7 +123,7 @@ class KLoader
 				return true;
 			}
       	}
-
+      	
 		return false;
 	}
 	
