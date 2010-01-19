@@ -320,7 +320,9 @@ abstract class KChartGoogle extends KObject
     protected function getApplicableLabels($labels)
     {
         $trimmedValueLabels = $labels;
-        return array_splice($trimmedValueLabels, 0, count($this->_data));
+        // fix for http://groups.google.com/group/nooku-framework/browse_thread/thread/2a02ffdc174ce9cf?hl=en#
+        return array_splice($trimmedValueLabels, 0, count($this->_data[0]));
+        
     }
     public function getUrl()
     {
