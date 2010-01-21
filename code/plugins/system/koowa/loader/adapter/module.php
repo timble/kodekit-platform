@@ -20,6 +20,24 @@
 class KLoaderAdapterModule extends KLoaderAdapterAbstract
 {
 	/**
+	 * The prefix
+	 * 
+	 * @var string
+	 */
+	protected $_prefix = 'Mod';
+	
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix()
+	{
+		return $this->_prefix;
+	}
+	
+	/**
 	 * The basepath 
 	 * 
 	 * @var string
@@ -36,7 +54,7 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 	{	
 		$path = false; 
 		
-		if (strpos(strtolower($classname),'mod') === 0) 
+		if (strpos($classname, $this->_prefix) === 0) 
 		{	
 			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
 			$parts = explode('_', $word);

@@ -29,10 +29,9 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 	{
 		$path = false;
 		
-		try
-		{
-			$path = $this->_pathFromIdentifier(new KIdentifier($identifier));
-		} catch(KIdentifierException $e) {
+		if($identifier instanceof KIdentifierInterface) {
+			$path = $this->_pathFromIdentifier($identifier);
+		} else {
 			$path = $this->_pathFromClassname($identifier);
 		}
 		

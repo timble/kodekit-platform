@@ -421,18 +421,24 @@ class KRequest
 	}
 
 	/**
-	 * Create a filter based on it's name
+	 * Create a filter based on it's name or identifier
 	 *
-	 * @param 	string	Variable name
+	 * @param 	string				The filter name or identifier
 	 * @throws	KRequestException	When the filter could not be found
 	 * @return  KFilterInterface
 	 */
-	protected static function _createFilter($name)
+	protected static function _createFilter($filter)
 	{
-		try {
-			$filter = KFactory::get('lib.koowa.filter.'.$name);
+		try 
+		{
+			if(is_string($filter) && strpos($filter, '.') === false ) 
+			{
+				$filter = 'KFilter'.ucfirst($filter);
+				$filter = new $filter();
+			} else $filter = KFactory::get($filter);
+			
 		} catch(KFactoryAdapterException $e) {
-			throw new KRequestException('Invalid filter: '.$name);
+			throw new KRequestException('Invalid filter: '.$filter);
 		}
 
 		return $filter;

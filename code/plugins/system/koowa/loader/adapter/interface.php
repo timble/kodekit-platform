@@ -25,4 +25,11 @@ interface KLoaderAdapterInterface
 	 * @return boolean Return TRUE on success, FALSE on failure
 	 */
 	public function path($class);
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix();
 }

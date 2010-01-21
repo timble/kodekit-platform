@@ -32,7 +32,7 @@ class KFactoryChain extends KCommandChain
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
   	final public function run( $name, KCommandContext $context )
-  	{
+  	{	
   		$iterator = $this->_priority->getIterator();
 
 		while($iterator->valid())

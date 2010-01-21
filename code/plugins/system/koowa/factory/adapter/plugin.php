@@ -33,18 +33,18 @@ class KFactoryAdapterPlugin extends KFactoryAdapterAbstract
 		
 		if($identifier->type == 'plg') 
 		{			
-			$path      = KInflector::camelize(implode('_', $identifier->path));
-			$classname = 'Plg'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
+			$classpath = KInflector::camelize(implode('_', $identifier->path));
+			$classname = 'Plg'.ucfirst($identifier->package).$classpath.ucfirst($identifier->name);
 			
       		//Don't allow the auto-loader to load plugin classes if they don't exists yet
-			if (!class_exists( $classname)) {
-				throw new KFactoryAdapterException("Class [$classname] not found in file [".KLoader::path($identifier)."]" );
+			if (!$path = KLoader::load( $classname )) {
+				throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
 			}
 			
 			//If the object is indentifiable push the identifier in through the constructor
 			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) 
 			{
-				$identifier->filepath = KLoader::path($identifier);
+				$identifier->filepath = $path;
 				$options['identifier'] = $identifier;
 			}
 							

@@ -62,7 +62,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function initialise(array $options = array())
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] 	= $this;
 		$context['options'] = $options;
 		$context['action']  = 'initialise';
@@ -82,7 +82,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function route()
  	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] 	= $this;
 		$context['action']   = 'route';
 	
@@ -101,7 +101,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
  	public function dispatch($component)
  	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] 	   = $this;
 		$context['component']  = substr( $component, 4 );
 		$context['action']     = 'dispatch';
@@ -121,7 +121,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function render()
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] = $this;
 		$context['action'] = 'render';
 		
@@ -141,7 +141,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function close( $code = 0 ) 
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] 	 = $this;
 		$context['code']	 = $code;
 		$context['action']   = 'close';
@@ -164,7 +164,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function redirect( $url, $msg = '', $type = 'message' )
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] 	 	 = $this;
 		$context['url']          = $url;
 		$context['message']      = $msg;
@@ -187,7 +187,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function login($credentials, array $options = array())
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']    	= $this;
 		$context['credentials'] = $credentials;
 		$context['options']     = $options;
@@ -210,7 +210,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function logout($userid = null, array $options = array())
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']    	= $this;
 		$context['credentials'] = array('userid' => $userid);
 		$context['options']     = $options;

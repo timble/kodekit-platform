@@ -25,7 +25,7 @@ class KModelState extends KModelAbstract
 	 * @param   array   Options
 	 * @return  array   Options
 	 */
-	protected function _initialize(array $options)
+	protected function _initialize(array $options = array())
 	{
 		$defaults = array(
             'state'      => array(),
@@ -190,12 +190,18 @@ class KModelState extends KModelAbstract
 	 * @throws	KModelException	When the filter could not be found
 	 * @return  KFilterInterface
 	 */
-	protected static function _createFilter($name)
+	protected static function _createFilter($filter)
 	{
-		try {
-			$filter = KFactory::get('lib.koowa.filter.'.$name);
+		try 
+		{
+			if(is_string($filter) && strpos($filter, '.') === false ) 
+			{
+				$filter = 'KFilter'.ucfirst($filter);
+				$filter = new $filter();
+			} else $filter = KFactory::get($filter);
+			
 		} catch(KFactoryAdapterException $e) {
-			throw new KModelException('Invalid filter: '.$name);
+			throw new KModelException('Invalid filter: '.$filter);
 		}
 
 		return $filter;

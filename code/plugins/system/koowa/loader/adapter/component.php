@@ -27,6 +27,24 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	protected $_basepath = JPATH_BASE;
 	
 	/**
+	 * The prefix
+	 * 
+	 * @var string
+	 */
+	protected $_prefix = 'Com';
+	
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix()
+	{
+		return $this->_prefix;
+	}
+	
+	/**
 	 * Get the path based on a class name
 	 *
 	 * @param  string		  	The class name 
@@ -36,7 +54,7 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	{
 		$path = false; 
 		
-		if (strpos(strtolower($classname),'com') === 0) 
+		if (strpos($classname, $this->_prefix) === 0) 
 		{
 			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
 			$parts = explode('_', $word);

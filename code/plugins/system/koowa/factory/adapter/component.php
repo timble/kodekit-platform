@@ -55,11 +55,11 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			if (!class_exists( $classname, false ))
 			{
 				//Find the file
-				if(KLoader::load($identifier))
+				if($path = KLoader::load($identifier))
 				{
 					//Don't allow the auto-loader to load component classes if they don't exists yet
 					if (!class_exists( $classname, false )) {
-						throw new KFactoryAdapterException("Class [$classname] not found in file [".KLoader::path($identifier)."]" );
+						throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
 					}
 				}
 				else 

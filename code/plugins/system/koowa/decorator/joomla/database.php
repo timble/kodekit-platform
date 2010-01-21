@@ -286,7 +286,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function select($sql, $offset = 0, $limit = 0)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['sql'] 		= $sql;
 		$context['offset'] 		= $offset;
@@ -315,7 +315,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function insert($table, array $data)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data'] 		= $data;
@@ -357,7 +357,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function update($table, array $data, $where = null)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= $data;
@@ -394,7 +394,7 @@ class KDecoratorJoomlaDatabase extends KPatternDecorator
      */
 	public function delete($table, $where)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= null;

@@ -134,7 +134,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			$options['adapter'] = $this;
 		}
 
-		return KFactory::tmp('lib.koowa.database.query', $options);
+		return new KDatabaseQuery($options);
 	}
 
 	/**
@@ -224,7 +224,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function select($sql, $offset = 0, $limit = 0)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['sql'] 		= $sql;
 		$context['offset'] 		= $offset;
@@ -389,7 +389,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function insert($table, array $data)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data'] 		= $data;
@@ -436,7 +436,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function update($table, array $data, $where = null)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= $data;
@@ -476,7 +476,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function delete($table, $where)
 	{
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= null;

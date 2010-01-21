@@ -525,8 +525,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		// Filter data based on column type
 		foreach($data as $key => $value)
 		{
-			$type = $this->getField($key)->type;
-			$data[$key] = KFactory::tmp('lib.koowa.filter.'.$type)->sanitize($value);
+			$filter = 'KFilter'.ucfirst($this->getField($key)->type);
+			$filter = new $filter();
+			
+			$data[$key] = $filter->sanitize($value);
 		}
 
 		return $data;

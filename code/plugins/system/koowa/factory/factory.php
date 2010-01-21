@@ -32,7 +32,7 @@ class KFactory
 	/**
 	 * The commandchain
 	 *
-	 * @var	KLoaderChain
+	 * @var	KFactoryChain
 	 */
 	protected static $_chain = null;
 	
@@ -111,30 +111,30 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 		
-		if(self::$_container->offsetExists((string)$identifier)) {
-			return self::$_container->offsetGet((string)$identifier);
-		}
-
-		$context = new KCommandContext(); //Cannot use KFactory to avoid looping
-		$context['options'] = $options;
-		
-		$instance = self::$_chain->run($identifier, $context);
-		if(!is_object($instance)) {
-			throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
-		}
-		
-		if (isset(self::$_mixin_map[(string) $identifier]))
+		if(!self::$_container->offsetExists((string)$identifier))
 		{
-			$mixins = self::$_mixin_map[(string) $identifier];
-      		foreach($mixins as $mixin) 
-      		{
-      			$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-          		$instance->mixin($mixin);
-      		}
+			$context = new KCommandContext(); //Cannot use KFactory to avoid looping
+			$context['options'] = $options;
+		
+			$instance = self::$_chain->run($identifier, $context);
+			if(!is_object($instance)) {
+				throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
+			}
+		
+			if (isset(self::$_mixin_map[(string) $identifier]))
+			{
+				$mixins = self::$_mixin_map[(string) $identifier];
+      			foreach($mixins as $mixin) 
+      			{
+      				$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+          			$instance->mixin($mixin);
+      			}
+			}
+			
+			self::$_container->offsetSet((string) $identifier, $instance);
 		}
 		
-		self::$_container->offsetSet((string) $identifier, $instance);
-		return $instance;
+		return self::$_container->offsetGet((string)$identifier);
 	}
 
 	/**

@@ -20,6 +20,24 @@
 class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 {
 	/**
+	 * The prefix
+	 * 
+	 * @var string
+	 */
+	protected $_prefix = 'K';
+	
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix()
+	{
+		return $this->_prefix;
+	}
+	
+	/**
 	 * Get the path based on a class name
 	 *
 	 * @param  string		  	The class name 
@@ -33,7 +51,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		$parts = explode('_', $word);
 		
 		// If class start with a 'K' it is a Koowa framework class and we handle it
-		if(array_shift($parts) == 'K')
+		if(array_shift($parts) == $this->_prefix)
 		{	
 			$basepath = Koowa::getPath();
 			$path     = strtolower(implode(DS, $parts));

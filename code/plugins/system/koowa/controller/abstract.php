@@ -136,7 +136,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		}
 
 		//Create the command arguments object
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller'] = $this;
 		$context['action'] = $action;
 		$context['result'] = false;

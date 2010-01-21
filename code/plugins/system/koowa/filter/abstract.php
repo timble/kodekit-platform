@@ -70,7 +70,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 		} 
 		else 
 		{	
-			$context = KFactory::tmp('lib.koowa.command.context');
+			$context = new KCommandContext();
 			$context['data'] = $data;
 			
 			$result = $this->_chain->run('validate', $context);
@@ -108,7 +108,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 		}
 		else
 		{
-			$context = KFactory::tmp('lib.koowa.command.context');
+			$context = new KCommandContext();
 			$context['data'] = $data;
 			
 			$data = $this->_chain->run('sanitize', $context);

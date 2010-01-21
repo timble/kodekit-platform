@@ -41,7 +41,13 @@ KLoader::initialize();
  */
 class KLoader
 {
-
+	/**
+	 * The file container
+	 *
+	 * @var	array
+	 */
+	protected static $_container = null;
+	
 	/**
 	 * Adapter list
 	 *
@@ -71,7 +77,8 @@ class KLoader
 	public static function initialize()
 	{
 		//Created the adapter container
-		self::$_adapters = array();
+		self::$_adapters  = array();
+		self::$_container = new ArrayObject();
 		
 		// Register the autoloader in a way to play well with as many configurations as possible.
 		spl_autoload_register(array(__CLASS__, 'load'));
@@ -93,36 +100,35 @@ class KLoader
 	public static function load($class)
 	{
 		//Extra filter added to circomvent issues with Zend Optimiser and strange classname.		
-		if((!ctype_upper(substr($class, 0, 1)) && preg_match('#[0-9]#',$class))) {
-			return false;
-		}
-		
-		//Pre-empt further searching for the named class or interface.
-		//Do not use autoload, because this method is registered with
-		//spl_autoload already.
-		if (class_exists($class, false) || interface_exists($class, false)) {
-			return true;
-		}
-		
-		//Get the path
-		$result = self::path( $class );
-		
-		//Don't re-include files
-		if ($result !== false && !in_array($result, get_included_files()))
+		if((ctype_upper(substr($class, 0, 1)) || (strpos($class, '.') !== false)))
 		{
-			$mask = E_ALL ^ E_WARNING;
-			if (defined('E_DEPRECATED')) {
-				$mask = $mask ^ E_DEPRECATED;
-			}
-			
-			$old = error_reporting($mask);
-			$included = include $result;
-			error_reporting($old);
-
-			if ($included) {
+			//Pre-empt further searching for the named class or interface.
+			//Do not use autoload, because this method is registered with
+			//spl_autoload already.
+			if (class_exists($class, false) || interface_exists($class, false)) {
 				return true;
 			}
-      	}
+		
+			//Get the path
+			$result = self::path( $class );
+		
+			//Don't re-include files and stat the file if it exists
+			if ($result !== false && !in_array($result, get_included_files()) && file_exists($result))
+			{
+				$mask = E_ALL ^ E_WARNING;
+				if (defined('E_DEPRECATED')) {
+					$mask = $mask ^ E_DEPRECATED;
+				}
+			
+				$old = error_reporting($mask);
+				$included = include $result;
+				error_reporting($old);
+
+				if ($included) {
+					return $result;
+				}
+      		}
+		}
       	
 		return false;
 	}
@@ -135,23 +141,47 @@ class KLoader
 	 */
 	public static function path($class)
 	{
-		//Use LIFO to allow for new adapters to override existing ones
-		$adapters = array_reverse(self::$_adapters);
-
-		foreach($adapters as $adapter)
-		{
-    		$result = $adapter->path( $class );
-			if ($result !== false) 
-			{
-				//Get the canonicalized absolute pathname
-				$path = realpath($result);
-				
-				//If realpath failed return $result
-				return $path !== false ? $path : $result;
-      		}
+		if(self::$_container->offsetExists((string)$class)) {
+			return self::$_container->offsetGet((string)$class);
 		}
-
-		return false;
+		
+		$result = false;
+		
+		//If the class is a classname try to find the adapter based on the 
+		//class prefix to reduce overhead in running through the chain, if 
+		//it's an identifier run through all 
+		if(ctype_upper(substr($class, 0, 1)))
+		{
+			$word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
+			$parts = explode('_', $word);
+			
+			$result = self::$_adapters[$parts[0]]->path( $class );
+		} 
+		else 
+		{
+			$class = new KIdentifier($class);
+			
+			$adapters = array_reverse(self::$_adapters);
+			foreach($adapters as $adapter)
+			{
+				if($result = $adapter->path( $class )) {
+					break;
+				}
+			}
+		}
+		
+		if ($result !== false) 
+		{
+			//Get the canonicalized absolute pathname
+			$path = realpath($result);
+			$result = $path !== false ? $path : $result;
+			
+			if($result !== false) {
+				self::$_container->offsetSet((string) $class, $result);
+			}
+      	}
+      	
+		return $result;
 	}
 
 	/**
@@ -162,6 +192,6 @@ class KLoader
 	 */
 	public static function addAdapter(KLoaderAdapterInterface $adapter)
 	{
-		self::$_adapters[] = $adapter;
+		self::$_adapters[$adapter->getPrefix()] = $adapter;
 	}
 }

@@ -19,6 +19,24 @@
 class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 {
 	/**
+	 * The prefix
+	 * 
+	 * @var string
+	 */
+	protected $_prefix = 'J';
+	
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix()
+	{
+		return $this->_prefix;
+	}
+	
+	/**
 	 * Get the path based on a class name
 	 *
 	 * @param  string		  	The class name 
@@ -32,7 +50,7 @@ class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 		$parts = explode('_', $word);
 			
 		// If class start with a 'J' it is a Joomla framework class and we handle it
-		if(array_shift($parts) == 'J')
+		if(array_shift($parts) == $this->_prefix)
 		{
 			$class = strtolower($classname); //force to lower case
 

@@ -89,7 +89,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		//Create the controller object
 		$controller = $this->_getController($controller);
 		
-		$context = KFactory::tmp('lib.koowa.command.context');
+		$context = new KCommandContext();
 		$context['caller']     = $this;
 		$context['result']     = false;
 		$context['controller'] = $controller;
