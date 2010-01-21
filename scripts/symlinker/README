@@ -1,0 +1,28 @@
+Nooku Symlinker
+---------------
+
+Make symlinks for Joomla extensions. This very useful to separate your Joomla 
+installation from your extension project, but connect them using symlinks. That 
+way you don't have to copy changes back and forth.
+
+Works on *nix, OSX, Vista+
+
+
+Installation:
+
+Put the files somewhere in your operating system's include path. Install PEAR Command Line using this command:
+pear install --alldeps Console_CommandLine
+
+
+Usage:
+
+  symlinker <SOURCE> <TARGET>
+
+Options:
+  -h, --help     show this help message and exit
+  -v, --version  show the program version and exit
+
+Arguments:
+  SOURCE  The source dir (usually from an IDE workspace containing the extension)
+  TARGET  the target dir (usually where a Joomla installation resides)
+

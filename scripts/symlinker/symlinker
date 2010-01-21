@@ -1,9 +1,13 @@
 #!/usr/bin/php
 <?php
-/*
- * Dependencies: 
- * pear install --alldeps Console_CommandLine
+/**
+ * @version     $Id$
+ * @package     NookuSymlinker
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
+ * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link        http://www.koowa.org
  */
+ 
 include_once 'Console/CommandLine.php';
 if(!class_exists('Console_CommandLine')) {
 	die(PHP_EOL."You need PEAR Console_CommandLine to use this script. Install using the following command: ".PHP_EOL."pear install --alldeps Console_CommandLine\n\n");
