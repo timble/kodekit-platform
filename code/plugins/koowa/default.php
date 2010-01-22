@@ -10,11 +10,48 @@
 
 /**
  * Default Koowa plugin
+ * 
+ * Koowa plugins can handle a number of events that are dynamically generated. The following 
+ * is a list of available events. This list is not meant to be exclusive.
+ * 
+ * onApplicationBefore[Action]
+ * onApplicationAfte[Action]  
+ * where [Action] is Initialise, Route, Dispatch, Render, Login, Logout, Redirect or Close
+ * 
+ * onControllerBefore[Action]
+ * onControllerAfter[Action]
+ * where [Action] is Browse, Read, Edit, Add, Delete or any custom controller action
+ * 
+ * onDatabaseBefore[Action]
+ * onDatabaseAfter[Action]
+ * where [Action] is Select, Insert, Update or Delete
+ * 
+ * You can create your own Koowa plugins very easily :
+ * 
+ * <code>
+ * <?php
+ *  class plgKoowaFoo extends plgKoowaDefault
+ * {
+ * 		public function onApplicationBeforeRoute(KCommandcontext $context)
+ * 		{
+ * 			//The caller is a reference to the object that is triggering this event
+ * 			$caller = $context['caller'];
+ * 
+ * 			//The result is the actual result of the event, if this is an after event 
+ * 			//the result will contain the result of the action.
+ * 			$result = $context['result'];
+ * 
+ * 			//The context object can also contain a number of custom properties
+ *          print_r($content);
+ * 		}	
+ * }	
+}
+ * </code>
  *
  * @author		Johan Janssens <johan@koowa.org>
- * @category   	Nooku
- * @package     Nooku_Plugins
- * @subpackage  System
+ * @category   	Koowa
+ * @package     Koowa_Plugins
+ * @subpackage  Koowa
  */
 class plgKoowaDefault extends KEventHandler
 {	
@@ -63,12 +100,26 @@ class plgKoowaDefault extends KEventHandler
 		
 		//Register the plugin with the dispatcher
 		$dispatcher->register($this);
-
-		parent::__construct();
-	}
 		
-	public function onDatabaseBeforeDispatch(ArrayObject $args) 
-	{	
-		die;
+		//Force the identifier to NULL for now
+		$config['identifier'] = null;
+
+		parent::__construct($config);
+	}
+	
+	/**
+	 * Loads the plugin language file
+	 *
+	 * @param	string 	$extension 	The extension for which a language file should be loaded
+	 * @param	string 	$basePath  	The basepath to use
+	 * @return	boolean	True, if the file has successfully loaded.
+	 */
+	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	{
+		if(empty($extension)) {
+			$extension = 'plg_'.$this->_type.'_'.$this->_name;
+		}
+
+		return KFactory::get('lib.joomla.language')->load( strtolower($extension), $basePath);
 	}
 }
