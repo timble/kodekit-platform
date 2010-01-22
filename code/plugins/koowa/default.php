@@ -53,7 +53,7 @@
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */
-class plgKoowaDefault extends KEventHandler
+abstract class plgKoowaDefault extends KEventHandler
 {	
 	/**
 	 * A JParameter object holding the parameters for the plugin
