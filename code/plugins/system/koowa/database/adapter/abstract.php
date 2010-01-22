@@ -480,7 +480,6 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= null;
-		$context['notifier']    = $this;
 		$context['where']   	= $where;
 		$context['operation']	= KDatabase::OPERATION_DELETE;
 
