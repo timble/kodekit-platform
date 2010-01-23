@@ -146,7 +146,7 @@ class KLoader
 		}
 		
 		$result = false;
-		
+				
 		//If the class is a classname try to find the adapter based on the 
 		//class prefix to reduce overhead in running through the chain, if 
 		//it's an identifier run through all 
@@ -155,7 +155,9 @@ class KLoader
 			$word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
 			$parts = explode('_', $word);
 			
-			$result = self::$_adapters[$parts[0]]->path( $class );
+			if(isset(self::$_adapters[$parts[0]])) {
+				$result = self::$_adapters[$parts[0]]->path( $class );
+			}
 		} 
 		else 
 		{
