@@ -54,6 +54,7 @@ $srcdirs = array(
 	SRCDIR.DS.'plugins'.DS.'content',
 	SRCDIR.DS.'plugins'.DS.'editors',
 	SRCDIR.DS.'plugins'.DS.'editors-xtd',
+	SRCDIR.DS.'plugins'.DS.'koowa',
 	SRCDIR.DS.'plugins'.DS.'search',
 	SRCDIR.DS.'plugins'.DS.'system',
 	SRCDIR.DS.'plugins'.DS.'user',
