@@ -24,9 +24,7 @@ class KTemplate extends KTemplateAbstract
      */
 	public static function register()
 	{	
-		if (!in_array('tmpl', stream_get_wrappers())) 
-		{
-			ini_set('suhosin.executor.include.whitelist', ini_get('suhosin.executor.include.whitelist'). ', tmpl://');
+		if (!in_array('tmpl', stream_get_wrappers())) {
 			stream_wrapper_register('tmpl', __CLASS__);
 		}
     } 
