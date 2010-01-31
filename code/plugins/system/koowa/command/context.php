@@ -40,7 +40,7 @@ class KCommandContext extends ArrayObject
 	 *
 	 * @return	string 	The error
 	 */
-	function getError($error) {
+	function getError() {
 		return $this->_error;
 	}
 }
