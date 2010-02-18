@@ -136,7 +136,13 @@ abstract class KPatternDecorator extends KObject
  		            $result = call_user_func_array(array($object, $method), $arguments);                               
  	         } 
  	         
- 	         return $result;
+ 	         //Allow for method chaining through the decorator
+ 	         $class = get_class($object);
+             if ($result instanceof $class) {
+          		return $this;
+             }
+             
+             return $result; 
 		}
 	
 		return parent::__call($method, $arguments);
