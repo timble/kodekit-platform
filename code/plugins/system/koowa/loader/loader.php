@@ -28,9 +28,6 @@ require_once Koowa::getPath().'/loader/adapter/exception.php';
 require_once Koowa::getPath().'/loader/adapter/abstract.php';
 require_once Koowa::getPath().'/loader/adapter/koowa.php';
 
-//Initialise the loader
-KLoader::initialize();
-
 /**
  * KLoader class
  *
@@ -55,27 +52,14 @@ class KLoader
 	 */
 	protected static $_adapters = null;
 	
-	/**
-	 * Paths array
-	 *
-	 * @var array
-	 */
-	protected static $_paths = null;
 
 	/**
 	 * Constructor
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	private function __construct() { }
-
-	/**
-	 * Initialize
-	 *
-	 * @return void
-	 */
-	public static function initialize()
-	{
+	final private function __construct(array $options = array()) 
+	{ 
 		//Created the adapter container
 		self::$_adapters  = array();
 		self::$_container = new ArrayObject();
@@ -86,9 +70,34 @@ class KLoader
 		if (function_exists('__autoload')) {
 			spl_autoload_register('__autoload');
 		}
-		
-        //Add the koowa adapter
+			
+		//Add the koowa adapter
         self::addAdapter(new KLoaderAdapterKoowa());
+	}
+		
+	/**
+	 * Clone 
+	 *
+	 * Prevent creating clones of this class
+	 */
+	final private function __clone() { }
+
+	/**
+	 * Singleton instance
+	 * 
+	 * @param 	array	Options containing 'table', 'name'
+	 *
+	 * @return void
+	 */
+	public static function instantiate(array $options = array())
+	{
+		static $instance;
+		
+		if ($instance === NULL) {
+			$instance = new KLoader($options);
+		}
+		
+		return $instance;
 	}
 
 	/**

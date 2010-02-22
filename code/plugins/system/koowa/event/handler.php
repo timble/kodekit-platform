@@ -74,7 +74,7 @@ class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentif
 	 */
 	public function update(ArrayObject $args)
 	{		
-		if (method_exists($this, $args['event'])) {
+		if (in_array($args['event'], $this->getMethods())) {
 			return $this->{$args['event']}($args);
 		} 
 		

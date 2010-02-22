@@ -1,26 +1,22 @@
 <?php
 /**
- * @version		$Id$
+ * @version 	$Id$
  * @category	Koowa
- * @package		Koowa_Command
+ * @package		Koowa_Database
+ * @subpackage 	Behavior
  * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.koowa.org
  */
 
 /**
- * Command handler
- * 
- * The command handler will translate the command name to a onCommandName format 
- * and call it for the object class to handle it if the method exists.
+ * Database Chekcable Behavior 
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
- * @package     Koowa_Command
- * @uses 		KFactory
- * @uses 		KInflector
+ * @package     Koowa_Database
+ * @subpackage 	Behavior
  */
-class KCommandHandler extends KObject implements KCommandInterface 
+abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KDatabaseBehaviorInterface
 {
 	/**
 	 * Command handler
@@ -31,10 +27,10 @@ class KCommandHandler extends KObject implements KCommandInterface
 	 */
 	final public function execute( $name, KCommandContext $context) 
 	{
-		$parts  = explode('.', $name);	
+		$parts = explode('.', $name);	
 		$method = '_'.lcfirst(KInflector::implode($parts));
-	
-		if(in_array($method, $this->getMethods())) {
+		
+		if(method_exists($this, $method)) {
 			return $this->$method($context);
 		}
 		

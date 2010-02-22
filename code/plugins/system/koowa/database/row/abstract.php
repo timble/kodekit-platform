@@ -35,17 +35,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     protected $_table;
 
-	/**
-     * Name of the class of the KDatabaseTableAbstract object.
-     *
-     * @var string
-     */
-    protected $_table_class;
-
     /**
 	 * The object identifier
 	 *
-	 * @var KFactoryIdentifierInterface
 	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
@@ -62,11 +54,12 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 
     	// Initialize the options
         $options  = $this->_initialize($options);
-
-   		// Set table object and class name
-		$this->_table_class = $this->_identifier->application.'::com.'.$this->_identifier->package.'.table.'.$this->_identifier->name;
-		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
-
+        
+  		// Set the table indentifier
+    	if(isset($options['table'])) {
+			$this->setTable($options['table']);
+		}
+			
 		// Reset the row
 		$this->reset();
 
@@ -105,26 +98,44 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 		return $this->_identifier;
 	}
 
-    /**
-     * Returns the table object, or null if this is disconnected row
-     *
-     * @return object|null 	KDatabaseTableAbstract
-     */
-    public function getTable()
-    {
-        return $this->_table;
-    }
+	/**
+	 * Get the identifier for the table with the same name
+	 *
+	 * @return	KIdentifierInterface
+	 */
+	final public function getTable()
+	{
+		if(!$this->_table)
+		{
+			$identifier 		= clone $this->_identifier;
+			$identifier->name	= KInflector::tableize($identifier->name);
+			$identifier->path	= array('table');
+		
+			$this->_table = $identifier;
+		}
+       	
+		return $this->_table;
+	}
 
 	/**
-     * Query the class name of the Table object for which this
-     * Row was created.
-     *
-     * @return string
-     */
-    public function getTableClass()
-    {
-        return $this->_table_class;
-    }
+	 * Method to set a table object attached to the rowset
+	 *
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowException	If the identifier is not a table identifier
+	 * @return	KDatabaseRowsetAbstract
+	 */
+	public function setTable($table)
+	{
+		$identifier = KFactory::identify($table);
+
+		if($identifier->path[0] != 'table') {
+			throw new KDatabaseRowException('Identifier: '.$identifier.' is not a table identifier');
+		}
+		
+		$this->_table = $identifier;
+		return $this;
+	}
 
     /**
      * Saves the row to the database.
@@ -138,20 +149,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     {
         //Remove the primary key, it either exists or will be created by the database
         $data = $this->getData();
-        unset($data[$this->_table->getPrimaryKey()]);
-    	
-    	if(isset($this->ordering) && $this->ordering <= 0) {
-        	$data['ordering'] = $this->getTable()->getMaxOrder();
+        unset($data[KFactory::get($this->getTable())->getPrimaryKey()]);
+    	  
+        if(empty($this->id)) {
+        	$result = KFactory::get($this->getTable())->insert($data); 
+        } else {
+        	$result = KFactory::get($this->getTable())->update($data, $this->id);
         }
-        
-        if(empty($this->id)) 
-        {
-        	if($this->_table->insert($data)) {
-        		$this->id = $this->_table->getDatabase()->getInsertId();
-        	}
-        }
-        else $this->_table->update($data, $this->id);
-        
+         
+        $this->setData($result);
+         
         return $this;
     }
 
@@ -162,7 +169,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function delete()
     {
-    	$this->_table->delete($this->id);
+    	KFactory::get($this->getTable())->delete($this->id);
         return $this;
     }
 
@@ -173,118 +180,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function reset()
     {
-        $this->_data = $this->_table->getDefaults();
+        $this->_data = KFactory::get($this->getTable())->getDefaults();
         return $this;
     }
-
-    /**
-     * Increase hit counter by 1
-     *
-     * Requires a hit field to be present in the table
-     *
-     * @return KDatabaseRowAbstract
-     * @throws KDatabaseRowException
-     */
-	public function hit()
-	{
-		if (!isset($this->hits)) {
-			throw new KDatabaseRowException("The table ".$this->_table->getName()." doesn't have a 'hits' column.");
-		}
-
-		$this->hits++;
-		$this->save();
-
-		return $this;
-	}
-
-	/**
-	 * Move the row up or down in the ordering
-	 *
-	 * Requires an ordering field to be present in the table
-	 *
-	 * @param	integer	Amount to move up or down
-	 * @return 	KDatabaseRowAbstract
-	 * @throws 	KDatabaseRowException
-	 */
-	public function order($change)
-	{
-		if (!isset($this->ordering)) {
-			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'ordering' column.");
-		}
-
-		//force to integer
-		settype($change, 'int');
-
-		if($change !== 0)
-		{
-			$old = $this->ordering;
-			$new = $this->ordering + $change;
-			$new = $new <= 0 ? 1 : $new;
-
-			$query =  'UPDATE `#__'.$this->_table->getTableName().'` ';
-
-			if($change < 0) {
-				$query .= 'SET ordering = ordering+1 WHERE '.$new.' <= ordering AND ordering < '.$old;
-			} else {
-				$query .= 'SET ordering = ordering-1 WHERE '.$old.' < ordering AND ordering <= '.$new;
-			}
-
-			$this->_table->getDatabase()->execute($query);
-
-			$this->ordering = $new;
-			$this->save();
-
-			$this->_table->order();
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Checks out a row
-	 *
-	 * Requires an checked_out field to be present in the table
-	 *
-	 * @return 	KDatabaseRowAbstract
-	 * @throws 	KDatabaseRowException
-	 */
-	public function checkout()
-	{
-		if (!isset($this->checked_out)) {
-			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
-		}
-
-		//Get the user object
-		$userid = KFactory::get('lib.joomla.user')->get('id');
-
-		//force to integer
-		settype($userid, 'int');
-
-		$this->checked_out = $userid;
-		$this->save();
-
-		return $this;
-	}
-
-	/**
-	 * Checks in a row
-	 *
-	 * Requires an checked_out field to be present in the table
-	 *
-	 * @return 	KDatabaseRowAbstract
-	 * @throws 	KDatabaseRowException
-	 */
-	public function checkin()
-	{
-		if (!isset($this->checked_out)) {
-			throw new KDatabaseRowException("The table ".$this->_table->getTableName()." doesn't have a 'checked_out' column.");
-		}
-
-		$this->checked_out = 0;
-		$this->save();
-
-		return $this;
-	}
 
 	/**
      * Retrieve row field value
@@ -295,7 +193,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     public function __get($columnName)
     {
     	if($columnName == 'id') {
-        	$columnName = $this->_table->getPrimaryKey();
+        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
         }
     	return $this->_data[$columnName];
     }
@@ -310,7 +208,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     public function __set($columnName, $value)
     {
     	if($columnName == 'id') {
-        	$columnName = $this->_table->getPrimaryKey();
+        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
         }
 
         $this->_data[$columnName] = $value;
@@ -325,7 +223,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     public function __isset($columnName)
     {
         if($columnName == 'id') {
-        	$columnName = $this->_table->getPrimaryKey();
+        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
         }
 
     	return array_key_exists($columnName, $this->_data);
@@ -340,7 +238,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     public function __unset($columnName)
     {
    	 	if($columnName == 'id') {
-        	$columnName = $this->_table->getPrimaryKey();
+        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
         }
 
         unset($this->_data[$columnName]);
@@ -360,15 +258,20 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
   	}
   
   	/**
-  	 * Set the row data based on a named array/hash
+  	 * Set the row data
   	 *
-  	 * @param   mixed Either and associative array or another object
+  	 * @param   mixed 	Either and associative array, a KDatabaseRow object or object
  	 * @return 	KDatabaseRowAbstract
   	 */
   	 public function setData( $data )
   	 {
- 		$data = (array) $data;
-  		$pk = $this->_table->getPrimaryKey();
+  	 	if($data instanceof KDatabaseRowAbstract) {
+			$data = $data->getData();
+		} else {
+			$data = (array) $data;
+		}
+  	 	
+  		$pk = KFactory::get($this->getTable())->getPrimaryKey();
   
  		foreach ($data as $k => $v)
   		{
@@ -381,4 +284,27 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
  
   		return $this;
 	}
+	
+ 	/**
+     * Search the mixin method map and call the method or trigger an error
+     * 
+     * This functions overloads KObject::__call and implements a just in time
+     *  mixin strategy. Available table behaviors are only mixed when needed.
+     *
+   	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
+	 * @return mixed The result of the function
+     */
+    public function __call($method, array $arguments)
+    {
+        if(!isset($this->_mixed_methods[$method])) 
+        {
+			foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
+				$this->mixin($behavior);
+			}
+        }
+        
+       return parent::__call($method, $arguments);
+    }
 }

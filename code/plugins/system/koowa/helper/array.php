@@ -73,25 +73,26 @@ class KHelperArray
  	 * Parameters are passed by reference, though only for performance reasons. They're not
  	 * altered by this function and the datatypes of the values in the arrays are unchanged.
  	 *
- 	 * @param array $array1
- 	 * @param array $array2	
+ 	 * @param array 
+ 	 * @param array 
  	 * @return array	An array of values resulted from merging the arguments together. 
  	 */
 	public static function merge( array &$array1, array &$array2 )
 	{
-  		$merged = $array1;
-
-  		foreach ( $array2 as $key => &$value )
-  		{
-    		if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
-    		{
-      			$merged [$key] = self::merge ( $merged [$key], $value );
-    		}
-    		else
-    		{
-      			$merged [$key] = $value;
-    		}
-  		}
+  		$args   = func_get_args();
+		$merged = array_shift($args);
+		
+		foreach($args as $array)
+		{
+			foreach ( $array as $key => &$value )
+  			{
+    			if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ){
+      				$merged [$key] = self::merge ( $merged [$key], $value );
+    			} else {
+      				$merged [$key] = $value;
+    			}
+  			}
+		}
 
   		return $merged;
 	}
@@ -123,10 +124,10 @@ class KHelperArray
 	 * Utility function to map an array to a string
 	 *
 	 * @static
-	 * @param	array	$array		The array to map.
-	 * @param	string	$inner_glue 	The inner glue to use, default '='
-	 * @param	string	$outer_glue		The outer glue to use, defaut  ' '
-	 * @param	boolean	$keepOuterKey
+	 * @param	array		The array to map.
+	 * @param	string		The inner glue to use, default '='
+	 * @param	string		The outer glue to use, default ' '
+	 * @param	boolean	
 	 * @return	string	The string mapped from the given array
 	 */
 	public static function toString( array $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )

@@ -148,16 +148,8 @@ class KModelState extends KModelAbstract
     		{
     			$filter = $this->_state[$key]->filter;
 
-    			if(!($filter instanceof KFilterInterface))
-				{
-					$names = (array) $filter;
-
-					$name   = array_shift($names);
-					$filter = self::_createFilter($name);
-
-					foreach($names as $name) {
-						$filter->addFilter($this->_createFilter($name));
-					}
+    			if(!($filter instanceof KFilterInterface)) {
+					$filter = KFilter::instantiate(array('filter' => $filter));
 				}
 
     			$this->_state[$key]->value = $filter->sanitize($value);
@@ -182,28 +174,4 @@ class KModelState extends KModelAbstract
 
         return $result;
     }
-
-	/**
-	 * Create a filter based on it's name
-	 *
-	 * @param 	string	Filter name
-	 * @throws	KModelException	When the filter could not be found
-	 * @return  KFilterInterface
-	 */
-	protected static function _createFilter($filter)
-	{
-		try 
-		{
-			if(is_string($filter) && strpos($filter, '.') === false ) 
-			{
-				$filter = 'KFilter'.ucfirst($filter);
-				$filter = new $filter();
-			} else $filter = KFactory::get($filter);
-			
-		} catch(KFactoryAdapterException $e) {
-			throw new KModelException('Invalid filter: '.$filter);
-		}
-
-		return $filter;
-	}
 }

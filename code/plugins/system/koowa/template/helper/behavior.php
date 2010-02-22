@@ -196,8 +196,10 @@ class KTemplateHelperBehavior extends KObject
 		}
 
 		// Include mootools framework
+		$this->mootools(); 
+		
 		KTemplate::loadHelper('script', KRequest::root().'/media/system/js/mootree.js');
-		KTemplate::loadHelper('script', KRequest::root().'/media/system/cssmootree.css');
+		KTemplate::loadHelper('stylesheet',KRequest::root().'/media/system/css/mootree.css'); 
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;

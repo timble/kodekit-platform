@@ -79,9 +79,10 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 	 *
 	 * @return boolean
 	 */
-	public function execute( $name, KCommandContext $context) 
+	final public function execute( $name, KCommandContext $context) 
 	{
-		$parts = explode('.', $name);
+		$parts  = explode('.', $name);
+		$result = true;
 		
 		$functions = ($parts[1] == 'before') ? $this->_functions_before :$this->_functions_after;
 					
@@ -89,15 +90,21 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 		{ 
 			$functions = $functions[$parts[2]];
 			
-   		 	foreach($functions as $function) 
+   		 	foreach($functions as $function => $parameters) 
    		 	{
-        		if ( $this->_mixer->$function($context) === false) {
-        			return false;
+   		 		if(empty($parameters)) {
+        			$result = $this->_mixer->$function();
+        		} else {
+        			$result = call_user_func_array(array($this->_mixer, $function), $parameters);
+        		}
+        		
+				if ( $result === false) {
+        			break;
         		}
    		 	}
 		}
 		
-		return true;
+		return $result === false ? false : true;
 	}
 	
 	/**
@@ -141,11 +148,13 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the funtion for or an array of method names
  	 * @param 	string|array	A single function or an array of functions to register
- 	 * @return KMixinCommand
+ 	 * @param 	array			The parameters to be passed to the function, as an indexed array. 
+ 	 * @return  KObject	The mixer object
  	 */
-	public function registerFunctionBefore($methods, $functions)
+	public function registerFunctionBefore($methods, $functions, array $parameters = array())
 	{
-		$methods = (array) $methods;
+		$methods   = (array) $methods;
+		$functions = array_flip((array)$functions);
 		
 		foreach($methods as $method)
 		{
@@ -154,11 +163,15 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 			if (!isset($this->_functions_before[$method]) ) {
        	 		$this->_functions_before[$method] = array();	
 			}
+		
+			foreach ($functions as $key => $value) {
+				$functions[$key] = $parameters; 
+			}
 
-    		$this->_functions_before[$method] = array_unique(array_merge($this->_functions_before[$method], (array) $functions));
+    		$this->_functions_before[$method] = array_merge($this->_functions_before[$method], $functions);
 		}
 		
-		return $this;
+		return $this->_mixer;
 	}
 	
 	/**
@@ -166,7 +179,7 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the function from or an array of method names
  	 * @param 	string|array	A single function or an array of functions to unregister
- 	 * @return KMixinCommand
+ 	 * @return  KObject The mixer object
  	 */
 	public function unregisterFunctionBefore($methods, $functions)
 	{
@@ -176,12 +189,15 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 		{
 			$method = strtolower($method);
 			
-			if (isset($this->_functions_before[$method]) ) {
-       	 		$this->_functions_before[$method] = array_diff($this->_functions_before[$method], (array) $functions);
+			if (isset($this->_functions_before[$method]) ) 
+			{
+				foreach ((array) $functions as $function) {
+					unset($this->_functions_before[$method][$function]);
+				}
 			}
 		}
 		
-		return $this;
+		return $this->_mixer;
 	}
 	
 	/**
@@ -189,11 +205,13 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the function too or an array of method names
  	 * @param 	string|array	A single function or an array of functions to register
- 	 * @return KMixinCommand
+ 	 * @param 	array			The parameters to be passed to the function, as an indexed array. 
+ 	 * @return  KObject The mixer object
  	 */
-	public function registerFunctionAfter($methods, $functions)
+	public function registerFunctionAfter($methods, $functions,  array $parameters = array())
 	{
-		$methods = (array) $methods;
+		$methods   = (array) $methods;
+		$functions = array_flip((array)$functions);
 		
 		foreach($methods as $method)
 		{
@@ -202,11 +220,15 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 			if (!isset($this->_functions_after[$method]) ) {
        	 		$this->_functions_after[$method] = array();	
 			}
+			
+			foreach ($functions as $key => $value) {
+				$functions[$key] = $parameters; 
+			}
 
-    		$this->_functions_after[$method] = array_unique(array_merge($this->_functions_after[$method], (array) $functions));
+    		$this->_functions_after[$method] = array_merge($this->_functions_after[$method], $functions);
 		}
 		
-    	return $this;
+    	return $this->_mixer;
 	}
 	
 	/**
@@ -214,7 +236,7 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the function too or an array of method names
  	 * @param 	string|array	A single function or an array of function to unregister
- 	 * @return KMixinCommand
+ 	 * @return  KObject The mixer object
  	 */
 	public function unregisterFunctionAfter($methods, $functions)
 	{
@@ -224,11 +246,27 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 		{
 			$method = strtolower($method);
 		
-			if (isset($this->_functions_after[$method]) ) {
-       	 		$this->_functions_after[$method] = array_diff($this->_functions_after[$method], (array) $functions);
+			if (isset($this->_functions_after[$method]) ) 
+			{
+       	 		foreach ((array) $functions as $function) {
+					unset($this->_functions_after[$method][$function]);
+				}
 			}
 		}
-			
-		return $this;
+				
+		return $this->_mixer;
+	}
+	
+	/**
+	 * Get the methods that are available for mixin. 
+	 * 
+	 * This functions overloads KMixinAbstract::getMixableMethods and excludes the execute()
+	 * function from the list of available mixable methods.
+	 * 
+	 * @return array An array of methods
+	 */
+	public function getMixableMethods(KObject $mixer = null) 
+	{
+        return array_diff(parent::getMixableMethods(), array('execute'));  
 	}
 }

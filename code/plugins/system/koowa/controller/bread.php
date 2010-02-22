@@ -21,11 +21,12 @@ abstract class KControllerBread extends KControllerAbstract
 	{
 		parent::__construct($options);
 		
-		// Register filter functions
+		// Register command functions
 		$this->registerFunctionBefore('browse' , 'loadState')
-		      ->registerFunctionBefore('read'   , 'loadState');
+		     ->registerFunctionBefore('read'   , 'loadState');
 		     
-		$this->registerFunctionAfter('browse'  , 'saveState');
+		$this->registerFunctionAfter('browse'  , array('displayView', 'saveState'))
+			 ->registerFunctionAfter('read'    , 'displayView');
 	}
 	
 	/**
@@ -38,27 +39,59 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function execute($action = null)
 	{
-		if(empty($action))
-		{
-			// default action is browse (list) or read (item)
-			$view 	= KRequest::get('get.view', 'cmd');
-			$action = KInflector::isPlural($view) ? 'browse' : 'read';
+		if(empty($action)){
+			$action = $this->getAction();
 		} 
-		else
-		{
-			//Convert to lower case for lookup
-			$action = strtolower( $action );
-		}
-
+		
 		return parent::execute($action);
 	}
 	
 	/**
+	 * Get the action that is was/will be performed.
+	 *
+	 * @return	 string Action name
+	 */
+	public function getAction()
+	{
+		if(!isset($this->_action))
+		{
+			switch(KRequest::method())
+			{
+				case 'GET'    :
+				{
+					//Determine if the action is browse or read based on the view information
+					$view   = KRequest::get('get.view', 'cmd');
+					$action = KInflector::isPlural($view) ? 'browse' : 'read';	
+				} break; 
+				
+				case 'POST'   :
+				{
+					//If an action override exists in the post request use it
+					if(!$action = KRequest::get('post.action', 'cmd')) {
+						$action = 'add';
+					}
+					
+				} break;
+				
+				case 'PUT'    : $action = 'edit'; break;
+				case 'DELETE' : $action = 'delete';	break;
+			}
+			
+			$this->_action = $action;
+		}
+
+		return $this->_action;
+	}
+	
+	/**
 	 * Load the model state from the session
+	 * 
+	 * This functions merges the request state information with any state information
+	 * that was saved in the session and pushed the result back into the request.
 	 *
 	 * @return void
 	 */
-	public function loadState(KCommandContext $context)
+	public function loadState()
 	{
 		$model   = KFactory::get($this->getModel());
 		
@@ -70,7 +103,7 @@ abstract class KControllerBread extends KControllerAbstract
 		$request = KRequest::get('request', 'string');
 		
 		//Set the state in the model
-		$model->set( KHelperArray::merge($state, $request));
+		KRequest::set('request',  KHelperArray::merge($state, $request));
 	}
 	
 	/**
@@ -78,7 +111,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 *
 	 * @return void
 	 */
-	public function saveState(KCommandContext $context)
+	public function saveState()
 	{
 		$model  = KFactory::get($this->getModel());
 		$state  = $model->get();
@@ -92,54 +125,59 @@ abstract class KControllerBread extends KControllerAbstract
 	}
 	
 	/**
-	 * Browse a list of items
+	 * Display the view
 	 *
 	 * @return void
 	 */
+	public function displayView()
+	{
+		KFactory::get($this->getView())
+			->setLayout(KRequest::get('get.layout', 'cmd', 'default' ))
+			->display();
+	}
+	
+	/**
+	 * Browse a list of items
+	 *
+	 * @return KDatabaseRowset	A rowset object containing the selected rows
+	 */
 	protected function _actionBrowse()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
-
-		KFactory::get($this->getView())
-			->setLayout($layout)
-			->display();
+		$rowset = KFactory::get($this->getModel())
+					->set(KRequest::get('request', 'string'))
+					->getList();
+			
+		return $rowset;
 	}
 
 	/**
 	 * Display a single item
 	 *
-	 * @return void
+	 * @return KDatabaseRow	A row object containing the selected row
 	 */
 	protected function _actionRead()
-	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
-
-		KFactory::get($this->getView())
-			->setLayout($layout)
-			->display();
+	{		
+		$row = KFactory::get($this->getModel())
+					->set(KRequest::get('request', 'string'))
+					->getItem();
+					
+		return $row;
 	}
 
 	/**
 	 * Generic edit action, saves over an existing item
 	 *
-	 * @return KDatabaseRow 	A row object containing the updated data
+	 * @return KDatabaseRowset 	A rowset object containing the updated rows
 	 */
 	protected function _actionEdit()
 	{
-		// Get the post data from the request
-		$data 	= KRequest::get('post', 'string');
-		
-		// Get the id
-		$id	 	= KRequest::get('get.id', 'int');
+		$rowset = KFactory::get($this->getModel())
+				->set(KRequest::get('request', 'string'))
+				->getList()
+				->setData(KRequest::get('post', 'raw'))
+				->save();
 
-		// Get the row and save
-		$model 	= KFactory::get($this->getModel());
-		$row	= KFactory::get($model->getTable())
-					->fetchRow($id)
-					->setData($data)
-					->save();
-
-		return $row;
+		return $rowset;
 	}
 
 	/**
@@ -149,15 +187,10 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionAdd()
 	{
-		// Get the post data from the request
-		$data = KRequest::get('post', 'string');
-
-		// Get the row and save
-		$model 	= KFactory::get($this->getModel());
-		$row	= KFactory::get($model->getTable())
-					->fetchRow()
-					->setData($data)
-					->save();
+		$row = KFactory::get($this->getModel())
+				->getItem()
+				->setData(KRequest::get('post', 'raw'))
+				->save();
 
 		return $row;
 	}
@@ -168,15 +201,12 @@ abstract class KControllerBread extends KControllerAbstract
 	 * @return KDatabaseRowset	A rowset object containing the deleted rows
 	 */
 	protected function _actionDelete()
-	{
-		//Get the ids
-		$ids = (array) KRequest::get('post.id', 'int');
-
-		$model 	= KFactory::get($this->getModel());
-		$rowset = KFactory::get($model->getTable())
-					  ->fetchRowset($ids)
-					  ->delete();
-
+	{	
+		$rowset = KFactory::get($this->getModel())
+					->set(KRequest::get('request', 'string'))
+					->getList()
+					->delete();
+			
 		return $rowset;
 	}
 }

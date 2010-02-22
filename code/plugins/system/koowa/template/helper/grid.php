@@ -171,59 +171,20 @@ class KTemplateHelperGrid extends KObject
 		return $href;
 	}
 
-
-	/**
-	* @param int The row index
-	* @param int The record id
-	* @param boolean
-	* @param string The name of the form element
-	* @return string
-	*/
-	public function id( $rowNum, $recId, $checkedOut = false, $name = 'id' )
+	public function id( $id, $row, $name = 'id' )
 	{
-		if ( $checkedOut ) {
-			return '';
-		}
-
-		return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
-	}
-
-	public function checkedOut( $row, $i, $identifier = 'id' )
-	{
-		$user   = KFactory::get('lib.joomla.user');
-		$userid = $user->get('id');
-
-		$result = false;
-		if(is_a($row, 'JTable')) {
-			$result = $row->isCheckedOut($userid);
-		} else {
-			$result = JTable::isCheckedOut($userid, $row->checked_out);
-		}
-
-		$checked = '';
-		if ( $result ) {
-			$checked = self::_checkedOut( $row );
-		} else {
-			$checked = KTemplate::loadHelper('grid.id', $i, $row->$identifier );
-		}
-
-		return $checked;
-	}
-
-	protected function _checkedOut( $row, $overlib = 1 )
-	{
-		$hover = '';
-		if ( $overlib )
+		if(isset($row->locked) && $row->locked) 
 		{
-			$text = addslashes(htmlspecialchars($row->editor));
+			$text = $row->locked_by;
+			$date = KTemplate::loadHelper('date',  $row->locked_on, '%A, %d %B %Y' );
+			$time = KTemplate::loadHelper('date',  $row->locked_on, '%H:%M' );
 
-			$date 	= KTemplate::loadHelper('date',  $row->checked_out_time, '%A, %d %B %Y' );
-			$time	= KTemplate::loadHelper('date',  $row->checked_out_time, '%H:%M' );
-
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		}
-		$checked = $hover .'<img src="images/checked_out.png"/></span>';
-
-		return $checked;
+			$html = '<span class="editlinktip hasTip" title="'. JText::_( 'Locked by ' ) . $text .' on '. $date .' at '. $time .'">
+						<img src="images/checked_out.png"/>
+					</span>';
+		} 
+		else $html = '<input type="checkbox" id="cb'.$id.'" name="'.$name.'[]" value="'.$row->$name.'" />';
+		
+		return $html;
 	}
 }

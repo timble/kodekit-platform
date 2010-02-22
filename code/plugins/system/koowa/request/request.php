@@ -61,18 +61,39 @@ class KRequest
 	protected static $_root = null;
 
 	/**
-	 * Base path of the request.
+	 * Referrer of the request
 	 *
 	 * @var	KHttpUri
 	 */
 	protected static $_referrer = null;
+	
+	/**
+	 * The raw post data
+	 *
+	 * @var	string
+	 */
+	protected static $_raw = null;
+	
+	/**
+	 * Constructor
+	 *
+	 * Prevent creating instances of this class by making the contructor private
+	 */
+	final private function __construct() { }
+	
+	/**
+	 * Clone 
+	 *
+	 * Prevent creating clones of this class
+	 */
+	final private function __clone() { }
 
 
 	/**
 	 * Get sanitized data from the request.
 	 *
 	 * @param	string				Variable identifier, prefixed by hash name eg post.foo.bar
-	 * @param 	mixed				Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
+	 * @param 	mixed				Filter(s), can be a KFilter object, a filter name, an array of filter names or a filter identifier
 	 * @param 	mixed				Default value when the variable doesn't exist
 	 * @throws	KRequestException	When an invalid filter was passed
 	 * @return 	mixed				The sanitized data
@@ -102,16 +123,8 @@ class KRequest
 			$result = self::_stripSlashes( $result );
 		}
 
-		if(!($filter instanceof KFilterInterface))
-		{
-			$names = (array) $filter;
-
-			$name   = array_shift($names);
-			$filter = self::_createFilter($name);
-
-			foreach($names as $name) {
-				$filter->addFilter($this->_createFilter($name));
-			}
+		if(!($filter instanceof KFilterInterface)) {
+			$filter = KFilter::instantiate(array('filter' => $filter));
 		}
 
 		return $filter->sanitize($result);
@@ -127,12 +140,12 @@ class KRequest
 	{
 		list($hash, $keys) = self::_parseIdentifier($identifier);
 
-		// Add to _REQUEST hash if original hash is get, post, or cookies
-		if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
+		// Add to _REQUEST hash if original hash is get, post, or cookies 
+		if(in_array($hash, array('GET', 'POST', 'COOKIE')) && !empty($keys)) {
 			self::set('request.'.implode('.', $keys), $value);
 		}
 
-		// store cookies persistently
+		// Store cookies persistently
 		if($hash == 'COOKIE')
 		{
 			// rewrite the $keys as foo[bar][bar]
@@ -152,7 +165,7 @@ class KRequest
 			$value = array($key => $value);
 		}
 		
-		$GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
+		$GLOBALS['_'.$hash] = !empty($keys) ? KHelperArray::merge($GLOBALS['_'.$hash], $value) : $value;
 	}
 
 	/**
@@ -174,6 +187,34 @@ class KRequest
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Get the raw POST data
+	 * 
+	 * The raw post data is not available with enctype="multipart/form-data". 
+	 *
+	 * @return 	string
+	 */
+	public static function raw()
+	{
+		if(!isset(self::$_raw))
+		{
+			$data = '';
+			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) 
+			{	
+				$input = fopen('php://input', 'r');
+          		while ($chunk = fread($input, 1024)) {
+              		$data .= $chunk;
+           		}
+
+         		fclose($input);
+      		}
+      		
+      		$this->_raw = $data;
+		}
+      	
+      	return $this->_raw;
 	}
 
 	/**
@@ -233,8 +274,8 @@ class KRequest
 			}
 			else
 			{
-				// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-				$url = self::protocol.'://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+				// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable
+				$url = self::protocol().'://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 				// If the query string exists append it to the URI string
 				if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
@@ -273,7 +314,7 @@ class KRequest
 
 			// Sanitize the url since we can't trust the server var			
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
-
+			
 			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
 		}
 		
@@ -376,7 +417,7 @@ class KRequest
 	 */
 	public static function type()
 	{
-		$type = '';
+		$type = 'HTTP';
 
 		if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 			$type = 'AJAX';
@@ -420,30 +461,6 @@ class KRequest
 		return array($hash, $parts);
 	}
 
-	/**
-	 * Create a filter based on it's name or identifier
-	 *
-	 * @param 	string				The filter name or identifier
-	 * @throws	KRequestException	When the filter could not be found
-	 * @return  KFilterInterface
-	 */
-	protected static function _createFilter($filter)
-	{
-		try 
-		{
-			if(is_string($filter) && strpos($filter, '.') === false ) 
-			{
-				$filter = 'KFilter'.ucfirst($filter);
-				$filter = new $filter();
-			} else $filter = KFactory::get($filter);
-			
-		} catch(KFactoryAdapterException $e) {
-			throw new KRequestException('Invalid filter: '.$filter);
-		}
-
-		return $filter;
-	}
-	
 	/**
 	 * Strips slashes recursively on an array
 	 *

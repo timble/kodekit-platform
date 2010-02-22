@@ -21,18 +21,11 @@
 class KObject
 {
     /**
-     * Mixed in objects
-     *
-     * @var array
-     */
-    protected $_mixinObjects = array();
-
-    /**
      * Mixed in methods
      *
      * @var array
      */
-    protected $_mixinMethods = array();
+    protected $_mixed_methods = array();
     
 	/**
 	 * Constructor.
@@ -111,6 +104,26 @@ class KObject
         return $result;
     }
 
+    /**
+     * Mixin an object
+     *
+     * When using mixin(), the calling object inherits the methods of the mixed
+     * in objects, in a LIFO order. 
+     *
+     * @param	object	An object that implements KMinxInterface
+     * @return	KObject
+     */
+    public function mixin(KMixinInterface $object)
+    {
+       	$methods = $object->getMixableMethods($this);
+
+        foreach($methods as $method) {
+            $this->_mixed_methods[$method] = $object;
+        }
+
+        return $this;
+    }
+    
 	/**
 	 * Get a handle for this object
 	 *
@@ -123,43 +136,63 @@ class KObject
 	{
 		return spl_object_hash( $this );
 	}
+	
+	/**
+	 * Get a list of all the available methods
+	 *
+	 * This function returns an array of all the methods, both native and mixed in
+	 *
+	 * @return array An array 
+	 */
+	public function getMethods()
+	{
+		$native = get_class_methods(get_class($this));
+		$mixed  = array_keys($this->_mixed_methods);
+		
+		return array_merge($native, $mixed);
+	}
 
     /**
-     * Mixin an object
+     * Search the mixin method map and call the method or trigger an error
      *
-     * When using mixin(), the calling object inherits the methods of the mixed
-     * in objects, in a LIFO order
-     *
-     * @param	object
-     * @return	KObject
-     */
-    public function mixin(KMixinInterface $object)
-    {
-        array_unshift($this->_mixinObjects, $object);
-
-       	$methods = $object->getMixinMethods();
-
-        foreach($methods as $method) {
-            $this->_mixinMethods[$method] = $object;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Search the method map, and call the method or trigger an error
-     *
-   	 * @param  string $function		The function name
-	 * @param  array  $arguments	The function arguments
+   	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
      */
-    public function __call($method, $args)
+    public function __call($method, array $arguments)
     {
-        if(isset($this->_mixinMethods[$method])) {
-            return call_user_func_array(array($this->_mixinMethods[$method], $method), $args);
+        if(isset($this->_mixed_methods[$method])) 
+        {
+            $object = $this->_mixed_methods[$method];
+ 			$result = null;
+ 			
+ 			//Switch the mixin's attached mixer
+ 			$object->mixer = $this;
+ 			
+			// Call_user_func_array is ~3 times slower than direct method calls. 
+ 		    switch(count($arguments)) 
+ 		    { 
+ 		    	case 0 :
+ 		    		$result = $object->$method();
+ 		    		break;
+ 		    	case 1 : 
+ 	              	$result = $object->$method($arguments[0]); 
+ 		           	break; 
+ 	           	case 2: 
+ 	               	$result = $object->$method($arguments[0], $arguments[1]); 
+ 		           	break; 
+ 		      	case 3: 
+ 	              	$result = $object->$method($arguments[0], $arguments[1], $arguments[2]); 
+ 	               	break; 
+ 	           	default: 
+ 	             	// Resort to using call_user_func_array for many segments 
+ 		            $result = call_user_func_array(array($object, $method), $arguments);                               
+ 	         } 
+ 	         
+        	return $result;
         }
-
-        $trace = debug_backtrace();
-        trigger_error("Call to undefined method {$trace[1]['class']}::$method()", E_USER_ERROR);
+        
+      	throw new BadMethodCallException('Call to undefined method :'.$method); 	
     }
 }

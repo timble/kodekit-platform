@@ -26,6 +26,13 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	protected $_state;
 
 	/**
+	 * The object identifier
+	 *
+	 * @var KIdentifierInterface 
+	 */
+	protected $_identifier;
+	
+	/**
 	 * List total
 	 *
 	 * @var integer
@@ -45,13 +52,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 * @var mixed
 	 */
 	protected $_item;
-
-	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface 
-	 */
-	protected $_identifier;
+	
 
 	/**
 	 * Constructor
@@ -177,8 +178,8 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	{
 		return $this->_state;
 	}
-
-	/**
+	
+/**
 	 * Method to get a ite
 	 *
 	 * @return  object
@@ -207,8 +208,7 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	{
 		return $this->_total;
 	}
-	
-	
+
 	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set states by 
 	 * using the state name as the method name. 

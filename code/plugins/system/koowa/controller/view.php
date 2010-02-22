@@ -17,7 +17,7 @@
  * @package     Koowa_Controller
  * @uses        KInflector
  */
-class KControllerView extends KControllerBread
+abstract class KControllerView extends KControllerBread
 {
 	/**
 	 * Constructor
@@ -28,127 +28,80 @@ class KControllerView extends KControllerBread
 	{
 		parent::__construct($options);
 
-		// Register extra actions
+		// Register actions aliasses
 		$this->registerActionAlias('disable', 'enable');
-
-		// Register filter functions
-		$this->registerFunctionBefore('save'   , 'checkToken')
-			 ->registerFunctionBefore('edit'   , 'checkToken')
-			 ->registerFunctionBefore('add'    , 'checkToken')
-			 ->registerFunctionBefore('apply'  , 'checkToken')
-			 ->registerFunctionBefore('cancel' , 'checkToken')
-			 ->registerFunctionBefore('delete' , 'checkToken')
-			 ->registerFunctionBefore('enable' , 'checkToken')
-			 ->registerFunctionBefore('disable', 'checkToken')
-			 ->registerFunctionBefore('access' , 'checkToken')
-			 ->registerFunctionBefore('order'  , 'checkToken');
-			 
-		$this->registerFunctionAfter('read'   , 'saveRedirect');
-		
-		$this->registerFunctionAfter('save'   , 'loadRedirect')
-			 ->registerFunctionAfter('cancel' , 'loadRedirect');
+		$this->registerActionAlias('unlock' , 'lock');
+	 
+		$this->registerFunctionBefore('read', 'saveReferrer');
 	}
-
+	
 	/**
-	 * Get the action that is was/will be performed.
+	 * Check the token to prevent CSRF exploits before executing the action
 	 *
-	 * @return	 string Action name
+	 * @param	string		The action to perform. If null, it will default to
+	 * 						either 'browse' (for list views) or 'read' (for item views)
+	 * @return	mixed|false The value returned by the called method, false in error case.
+	 * @throws 	KControllerException
 	 */
-	public function getAction()
+	public function execute($action = null)
 	{
-		if(!isset($this->_action))
+		if(KRequest::method() == 'POST') 
 		{
-			if($action = KRequest::get('post.action', 'cmd'))
-			{
-				// action is set in the POST body
-				$this->_action = $action;
-			}
-			else
-			{
-				// we assume either browse or read
-				$view = KRequest::get('get.view', 'cmd');
-				$this->_action = KInflector::isPlural($view) ? 'browse' : 'read';
-			}
-		}
+			$req	= KRequest::get('request._token', 'md5');
+       	 	$token	= JUtility::getToken();
 
-		return $this->_action;
-	}
-	
-	/**
-	 * Gets the redirect URL from the sesison and sets it in the controller
-	 *
-	 * @return void
-	 */
-	public function loadRedirect(KCommandContext $context)
-	{
-		if(!$redirect = KRequest::get('session.admin::com.redirect', 'url')) {
-			$redirect = 'view='. KInflector::pluralize( $this->_identifier->name);
+        	if($req !== $token) 
+        	{
+        		throw new KControllerException('Invalid token or session time-out.', KHttp::STATUS_UNAUTHORIZED);
+        		return false;
+        	}
 		}
-			
-		$this->_redirect = $redirect;	  
-	}
-	
-	/**
-	 * Get's the redirect URL from the referrer and saves in the session.
-	 *
-	 * @return void
-	 */
-	public function saveRedirect(KCommandContext $context)
-	{
-		$referrer = (string) KRequest::referrer();
-				
-		//Prevent referrer getting lost at a subsequent read action
-		if($referrer != (string) KRequest::url()) {
-			KRequest::set('session.admin::com.redirect', $referrer);
-		}
-	}
-	
-	/**
-	 * Check the token to prevent CSRF exploits
-	 *
-	 * @return void
-	 * @throws KControllerException
-	 */
-	public function checkToken(KCommandContext $context)
-	{
-		$req	= KRequest::get('post._token', 'md5');
-        $token	= JUtility::getToken();
-
-        if($req !== $token) 
-        {
-        	throw new KControllerException('Invalid token or session time-out.', KHttp::STATUS_UNAUTHORIZED);
-        	return false;
-        }
-	}
-	
-	/**
-	 * Browse a list of items
-	 *
-	 * @return void
-	 */
-	protected function _actionBrowse()
-	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
 		
-		KFactory::get($this->getView())
-			->setLayout($layout)
-			->display();
+		return parent::execute($action);
 	}
-
+	
+	/**
+	 * Store the referrer in the session
+	 *
+	 * @return void
+	 */
+	public function saveReferrer()
+	{
+		if(KRequest::type() == 'HTTP') 
+		{
+			$referrer = (string) KRequest::referrer();
+				
+			//Prevent referrer getting lost at a subsequent read action
+			if($referrer != (string) KRequest::url()) {
+				KRequest::set('session.com.dispatcher.referrer', $referrer);
+			}
+		}
+	}
+	
 	/**
 	 * Display a single item
 	 *
-	 * @return void
+	 * @return KDatabaseRow	A row object containing the selected row
 	 */
 	protected function _actionRead()
-	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'form' );
+	{		
+		$row = parent::_actionRead();
 		
-		KFactory::get($this->getView())
-			->setLayout($layout)
-			->display();
-	}
-
+		if($row instanceof KDatabaseRowAbstract)
+		{	
+			//Get the table behaviors
+			$behaviors = KFactory::get($row->getTable())->getBehaviors();
+			$layout    = KRequest::get('get.layout', 'cmd');
+		
+			//Lock the row 
+			if(in_array('lockable', array_keys($behaviors)) &&  $layout == 'form') {
+				$row->lock();
+			}				
+		}
+			
+		return $row;
+	}		
+			
 	/*
 	 * Generic save action
 	 *
@@ -157,19 +110,32 @@ class KControllerView extends KControllerBread
 	protected function _actionSave()
 	{
 		$row = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
+		
+		if($row instanceof KDatabaseRowAbstract)
+		{
+			//Get the table behaviors
+			$behaviors = KFactory::get($row->getTable())->getBehaviors();
+		
+			//Unlock the row 
+			if(in_array('lockable', array_keys($behaviors))) {
+				$row->unlock();
+			}
+		}
+			
+		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
 	}
-
+	
 	/*
 	 * Generic apply action
 	 *
-	 * @return KDatabaseRow 	A row object containing the saved data
+	 * @return 	void
 	 */
 	protected function _actionApply()
 	{
-		$row = $this->execute('save');
+		$row = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
 		
-		$this->_redirect = 'view='.$this->_identifier->name.'&id='.$row->id;
+		$this->_redirect = KRequest::url();
 		return $row;
 	}
 
@@ -180,83 +146,66 @@ class KControllerView extends KControllerBread
 	 */
 	protected function _actionCancel()
 	{
+		$row = KFactory::get($this->getModel())
+					->set(KRequest::get('request', 'string'))
+					->getItem();
+					
+		if($row instanceof KDatabaseRowAbstract)
+		{
+			//Get the table behaviors
+			$behaviors = KFactory::get($row->getTable())->getBehaviors();
 		
+			//Unlock the row 
+			if(in_array('lockable', array_keys($behaviors))) {
+				$row->unlock();
+			}
+		}
+		
+		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
+		return $row;
 	}
 
 	/*
-	 * Generic delete function
+	 * Generic method to modify the enabled state of and item(s)
 	 *
-	 * @throws KControllerException
-	 * @return KDatabaseTableAbstract
-	 */
-	protected function _actionDelete()
-	{
-		$table = parent::_actionDelete();
-
-		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
-		return $table;
-	}
-
-	/*
-	 * Generic enable action
-	 *
-	 * @return KDatabaseTableAbstract
+	 * @return KDatabaseRowset
 	 */
 	protected function _actionEnable()
 	{
-		$id      = (array) KRequest::get('post.id', 'int');
-		$format  = KRequest::get('get.format', 'cmd', 'html');
-		$enable  = $this->getAction() == 'enable' ? 1 : 0;
-
-		if (count( $id ) < 1) {
-			throw new KControllerException(JText::sprintf( 'Select a item to %s', JText::_($this->getAction()), true ));
-		}
-
-		//Update the table
-		$model	= KFactory::get($this->getModel());		
-		$table 	= KFactory::get($model->getTable())
-					  ->update(array('enabled' => $enable), $id);
-
-		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
-		return $table;
+		KRequest::set('post', array('enabled' => $this->getAction() == 'enable' ? '1' : '0'));
+		$rowset = $this->execute('edit');
+		
+		$this->_redirect = KRequest::url();	
+		return $rowset;
 	}
 
 	/**
-	 * Generic method to modify the access level of items
+	 * Generic method to modify the access level of an item(s)
 	 *
-	 * @return void
+	 * @return KDatabaseRowset
 	 */
 	protected function _actionAccess()
 	{
-		$id 	= (array) KRequest::get('post.id', 'int');
-		$access = KRequest::get('post.access', 'int');
-
-		//Update the table
-		$model	= KFactory::get($this->getModel());		
-		$table 	= KFactory::get($model->getTable())
-					  ->update(array('access' => $access), $id);
-
-		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
-		return $table;
+		Request::set('post', array('access' => KRequest::get('post.access', 'int')));
+		$rowset = $this->execute('edit');
+					
+		$this->_redirect = KRequest::url();
+		return $rowser;
 	}
-
+	
 	/**
-	 * Generic method to modify the order level of items
+	 * Generic method to modify the order level of an item(s)
 	 *
 	 * @return KDatabaseRow 	A row object containing the reordered data
 	 */
-	protected function _actionOrder()
+	/*protected function _actionOrder()
 	{
-		$id 	= KRequest::get('post.id', 'int');
-		$change = KRequest::get('post.order_change', 'int');
-
-		//Change the order
 		$model	= KFactory::get($this->getModel());		
 		$row 	= KFactory::get($model->getTable())
-					->fetchRow($id)
-					->order($change);
-
-		$this->_redirect = 'view='.KInflector::pluralize($this->_identifier->name);
+					->fetchRow(KRequest::get('post.id', 'int'))
+					->order(KRequest::get('post.order_change', 'int'));
+					
+		$this->_redirect = KRequest::url();		
 		return $row;
-	}
+	}*/
 }

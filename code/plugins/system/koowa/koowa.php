@@ -33,9 +33,11 @@ class Koowa
 {
     /**
      * Koowa version
+     * 
+     * @var string
      */
-    const _VERSION = '0.7.0';
-
+    const VERSION = '0.7.0';
+    
     /**
      * Path to Koowa libraries
      */
@@ -46,7 +48,7 @@ class Koowa
      */
     public static function getVersion()
     {
-   	    return self::_VERSION;
+   	    return self::VERSION;
     }
 
     /**

@@ -20,16 +20,15 @@
 class ComDefaultControllerView extends KControllerView
 {
 	/**
-	 * Display a single item
+	 * Browse a list of items
 	 *
 	 * @return void
 	 */
-	protected function _actionRead()
+	protected function _actionBrowse()
 	{
-		$layout	= KRequest::get('get.layout', 'cmd', 'default' );
-		
-		KFactory::get($this->getView())
-			->setLayout($layout)
-			->display();
+		KFactory::get($this->getModel())
+			->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+			
+		return parent::_actionBrowse();
 	}
 }

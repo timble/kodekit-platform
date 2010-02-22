@@ -89,6 +89,25 @@
 class KHttpUri extends KObject 
 {
 	/**
+	 * The URI parts
+	 * 
+	 * @see get()
+	 */
+	const PART_SCHEME   = 1;
+	const PART_USER  	= 2;
+	const PART_PASS  	= 4;
+	const PART_HOST     = 8;
+	const PART_PORT 	= 16;
+	const PART_PATH 	= 32;
+	const PART_FORMAT 	= 64;
+	const PART_QUERY 	= 128;
+	const PART_FRAGMENT = 256;
+	
+	const PART_AUTH 	= 6;
+	const PART_BASE		= 63;
+	const PART_ALL 		= 511;
+	
+	/**
 	 * The scheme [http|https|ftp|mailto|...]
 	 *
 	 * @var	string
@@ -205,7 +224,6 @@ class KHttpUri extends KObject
      * 
      * @param 	string 	The virtual property to set.
      * @param 	string 	Set the virtual property to this value.
-     * @return 	mixed 	The value of the virtual property.
      */
     public function __set($key, $val)
     {
@@ -223,7 +241,7 @@ class KHttpUri extends KObject
      * a public $query property.
      * 
      * @param 	string	The virtual property to return.
-     * @return 	array
+     * @return 	array 	The value of the virtual property.
      */
     public function &__get($key)
     {
@@ -235,46 +253,58 @@ class KHttpUri extends KObject
 	/**
 	 * Get the full URI, of the format scheme://user:pass@host/path?query#fragment';
 	 *
-	 * @param bool If true, returns a full URI with scheme, user, pass, host, and port.  
-	 * Otherwise, just returns the path, format, query, and fragment.  Default false.
+	 * @param integer A bitmask of binary or'ed HTTP_URL constants; PART_ALL is the default
 	 * @return	string
 	 */
-	public function get($full = false)
+	public function get($parts = self::PART_ALL)
 	{
 		$uri = '';
 		
-		 // are we doing a full URI?
-        if ($full) 
-        {
-			//Add the scheme
-			$uri .= !empty($this->scheme)  ? urlencode($this->scheme).'://' : '';
+		//Add the scheme
+		if(($parts & self::PART_SCHEME) && !empty($this->scheme)) {
+			$uri .=  urlencode($this->scheme).'://';
+		}  
 		
-			//Add the username and password
-       		if (! empty($this->user)) 
-       		{
-        		$uri .= urlencode($this->user);
-          		if (! empty($this->pass)) {
-            		$uri .= ':' . urlencode($this->pass);
-          		}
+		//Add the username and password
+		if(($parts & self::PART_USER) && !empty($this->user)) 
+		{
+			$uri .= urlencode($this->user);
+          	if(($parts & self::PART_PASS) && !empty($this->pass)) {
+            	$uri .= ':' . urlencode($this->pass);
+          	}
           	
-          		$uri .= '@';
-       		}
-       	
-       		// Add the host and port, if any.
-      		$uri .= (empty($this->host) ? '' : urlencode($this->host))
-            	 . (empty($this->port) ? '' : ':' . (int) $this->port);
-        }
-             
-		// Get the query as a string
-        $query = $this->getQuery();
-        
-        // Add the rest of the URI. we use trim() instead of empty() on string
+          	$uri .= '@';
+		}
+		
+		// Add the host and port, if any.
+		if(($parts & self::PART_HOST) && !empty($this->host)) 
+		{
+			$uri .=  urlencode($this->host);
+			
+			if(($parts & self::PART_PORT) && !empty($this->port)) {
+				$uri .=  ':' . (int) $this->port;
+			}
+		}
+		
+		// Add the rest of the URI. we use trim() instead of empty() on string
         // elements to allow for string-zero values.
-        $uri .= (empty($this->path)           ? '' : $this->_pathEncode($this->path));
-        $uri .= (trim($this->format) === ''   ? '' : '.' . urlencode($this->format));
-        $uri .= (empty($query)                ? '' : '?' . $query);
-        $uri .= (trim($this->fragment) === '' ? '' : '#' . urlencode($this->fragment));
-             
+		if(($parts & self::PART_PATH) && !empty($this->path)) 
+		{
+			$uri .= $this->_pathEncode($this->path);
+			if(($parts & self::PART_FORMAT) && trim($this->format) !== '') {
+				$uri .= '.' . urlencode($this->format);
+			}
+		}
+		
+		$query = $this->getQuery();
+		if(($parts & self::PART_QUERY) && !empty($query)) {
+			$uri .= '?' . $this->getQuery();
+		}
+		
+		if(($parts & self::PART_FRAGMENT) && trim($this->fragment) !== '') {
+			$uri .=  '#' . urlencode($this->fragment);
+		}
+			         
 		return $uri;
 	}
 	
@@ -385,7 +415,7 @@ class KHttpUri extends KObject
      */
     public function __toString()
     {
-        return $this->get(true);
+        return $this->get(self::PART_ALL);
     }
     
     /**

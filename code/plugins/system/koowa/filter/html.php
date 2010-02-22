@@ -9,7 +9,7 @@
 */
 
 /**
- * Html filter
+ * Html XSS Filter
  * 
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, 

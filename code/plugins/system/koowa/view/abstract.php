@@ -101,7 +101,9 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		$this->_document = $options['document'];
 		
 		// set the model
-		$this->setModel($options['model']);
+		if(isset($options['model'])) {
+			$this->setModel($options['model']);
+		}
 
 		// set the layout
 		$this->setLayout($options['layout']);
@@ -288,7 +290,7 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
         return $this;
     }
 
-/**
+	/**
 	 * Get the identifier for the model with the same name
 	 *
 	 * @return	KIdentifierInterface
@@ -298,8 +300,6 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 		if(!$this->_model)
 		{
 			$identifier	= clone $this->_identifier;
-		
-			// Models are always plural
 			$name = array_pop($identifier->path);
 			$identifier->name	= KInflector::isPlural($name) ? $name : KInflector::pluralize($name);
 			$identifier->path	= array('model');
@@ -311,24 +311,22 @@ abstract class KViewAbstract extends KObject implements KFactoryIdentifiable
 	}
 	
 	/**
-	 * Method to set the model attached to the view
+	 * Method to set a model object attached to the view
 	 *
-	 * @param	object	An KIdentifier object or a KFactoryIdentifiable object
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
 	 */
 	public function setModel($model)
 	{
-		if(is_object($model)) 
-		{
-			if($model instanceof KIndentifier) {
-				$this->_model = $model;
-			}
-			
-			if(array_key_exists('KFactoryIdentifiable', class_implements($model))) {
-				$this->_model = $model->getIdentifier();
-			}
-		} 
-	
+		$identifier = KFactory::identify($model);
+		
+		if($identifier->path[0] != 'model') {
+			throw new KModelException('Identifier: '.$identifier.' is not a model identifier');
+		}
+		
+		$this->_model = $identifier;
 		return $this;
 	}
 

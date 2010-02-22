@@ -23,10 +23,10 @@ class KDatabase
 	const OPERATION_SELECT = 1;
 	const OPERATION_INSERT = 2;
 	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8;  
+	const OPERATION_DELETE = 8; 
 
 	/**
-	 * Factory for KDatabaseAdapterInterface classes.
+	 * instantiate method KDatabaseAdapterInterface classes.
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * 				  Recognized key values include 'adapter', ...(this list is 
@@ -34,10 +34,10 @@ class KDatabase
 	 * @return KDatabaseAdapterAbstract
 	 * @throws KDatabaseException
 	 */
-	public static function factory(array $options = array())
+	public static function instantiate(array $options = array())
 	{
 		if(!isset($options['adapter'])) {
-			throw new KDatabaseException('adapter [string] option is required');
+			throw new InvalidArgumentException('adapter [string] option is required');
 		}
 	
 		$class = 'KDatabaseAdapter'.ucfirst($options['adapter']);

@@ -25,11 +25,25 @@
 abstract class KControllerAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
+	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_model;
+	
+	/**
+	 * View object or identifier (APP::com.COMPONENT.view.NAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_view;
+	
+	/**
 	 * Array of class methods to call for a given action.
 	 *
 	 * @var	array
 	 */
-	protected $_actionMap = array();
+	protected $_action_map = array();
 
 	/**
 	 * Current or most recent action to be performed.
@@ -50,14 +64,14 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 *
 	 * @var	string
 	 */
-	protected $_message = null;
+	protected $_redirect_message = null;
 
 	/**
 	 * Redirect message type.
 	 *
 	 * @var	string
 	 */
-	protected $_messageType = 'message';
+	protected $_redirect_type = 'message';
 
 	/**
 	 * The object identifier
@@ -80,6 +94,15 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 
 		// Initialize the options
         $options  = $this->_initialize($options);
+        
+        // Set identifiers
+		if(isset($options['view'])) {
+			$this->setView($options['view']);
+		}
+		
+		if(isset($options['model'])) {
+			$this->setModel($options['model']);
+		}
 
         // Mixin a command chain
         $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
@@ -101,7 +124,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
     {
         $defaults = array(
             'command_chain' =>  new KCommandChain(),
-        	'identifier'	=> null
+        	'identifier'	=> null,
+        	'model'			=> null,
+        	'view'			=> null
         );
 
         return array_merge($defaults, $options);
@@ -127,12 +152,14 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function execute($action = null)
 	{
+		$action = strtolower($action);
+	
 		//Set the original action in the controller to allow it to be retrieved
 		$this->setAction($action);
 
 		//Find the mapped action if one exists
-		if (isset( $this->_actionMap[$action] )) {
-			$action = $this->_actionMap[$action];
+		if (isset( $this->_action_map[$action] )) {
+			$action = $this->_action_map[$action];
 		}
 
 		//Create the command arguments object
@@ -146,7 +173,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 			$action = $context['action'];
 			$method = '_action'.ucfirst($action);
 	
-			if (!method_exists($this, $method)) {
+			if (!in_array($method, $this->getMethods())) {
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
 			
@@ -170,6 +197,8 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 			if(substr($action, 0, 7) == '_action') {
 				$result[] = strtolower(substr($action, 7));
 			}
+			
+			$result = array_unique(array_merge($result, array_keys($this->_action_map)));
 		}
 		return $result;
 	}
@@ -203,11 +232,36 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	final public function getView()
 	{
-		$identifier			= clone $this->_identifier;
-		$identifier->path	= array('view', KRequest::get('get.view', 'cmd', $identifier->name));
-		$identifier->name	= KRequest::get('get.format', 'cmd', 'html');
+		if(!$this->_view)
+		{
+			$identifier			= clone $this->_identifier;
+			$identifier->path	= array('view', KRequest::get('get.view', 'cmd', $identifier->name));
+			$identifier->name	= KRequest::get('get.format', 'cmd', 'html');
 		
-		return $identifier;
+			$this->_view = $identifier;
+		}	
+		
+		return $this->_view;
+	}
+	
+	/**
+	 * Method to set a view object attached to the controller
+	 *
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
+	 * @return	KControllerAbstract
+	 */
+	public function setView($view)
+	{
+		$identifier = KFactory::identify($view);
+
+		if($identifier->path[0] != 'view') {
+			throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
+		}
+		
+		$this->_view = $identifier;
+		return $this;
 	}
 
 	/**
@@ -217,12 +271,38 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	final public function getModel()
 	{
-		$identifier			= clone $this->_identifier;
-		$identifier->path	= array('model');
+		if(!$this->_model)
+		{
+			$identifier			= clone $this->_identifier;
+			$identifier->path	= array('model');
 
-		// Models are always plural
-		$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
-		return $identifier;
+			// Models are always plural
+			$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
+		
+			$this->_model = $identifier;
+		}
+		
+		return $this->_model;
+	}
+	
+	/**
+	 * Method to set a model object attached to the controller
+	 *
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a model identifier
+	 * @return	KControllerAbstract
+	 */
+	public function setModel($model)
+	{
+		$identifier = KFactory::identify($model);
+
+		if($identifier->path[0] != 'model') {
+			throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
+		}
+		
+		$this->_model = $identifier;
+		return $this;
 	}
 
 	/**
@@ -235,7 +315,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function registerActionAlias( $alias, $action )
 	{
-		$this->_actionMap[strtolower( $alias )] = $action;
+		$this->_action_map[strtolower( $alias )] = $action;
 		return $this;
 	}
 
@@ -247,7 +327,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function unregisterActionAlias( $action )
 	{
-		unset($this->_actionMap[strtolower($action)]);
+		unset($this->_action_map[strtolower($action)]);
 		return $this;
 	}
 
@@ -262,9 +342,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 */
 	public function setRedirect( $url, $msg = null, $type = 'message' )
 	{
-		$this->_redirect    = $url;
-		$this->_message	    = $msg;
-		$this->_messageType	= $type;
+		$this->_redirect   		 = $url;
+		$this->_redirect_message = $msg;
+		$this->_redirect_type	 = $type;
 
 		return $this;
 	}
@@ -277,6 +357,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	public function getRedirect()
 	{
 		$result = array();
+		
 		if(!empty($this->_redirect))
 		{
 			$url = $this->_redirect;
@@ -287,12 +368,28 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 			}
 		
 			$result = array(
-				'url' 			=> JRoute::_($url, false),
-				'message' 		=> $this->_message,
-				'messageType' 	=> $this->_messageType,
+				'url' 		=> JRoute::_($url, false),
+				'message' 	=> $this->_redirect_message,
+				'type' 		=> $this->_redirect_type,
 			);
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * Executse a controller action by it's name. 
+	 * 
+	 * @param	string	Method name
+	 * @param	array	Array containing all the arguments for the original call
+	 * @see execute()
+	 */
+	public function __call($method, $args)
+	{
+		if(in_array($method, $this->getActions())) {
+			return $this->execute($method);
+		}
+		
+		return parent::__call($method, $args);
 	}
 }

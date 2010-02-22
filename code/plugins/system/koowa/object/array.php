@@ -9,48 +9,58 @@
  */
 
 /**
- * Object Array class
+ * ArrayObject
  *
- * Allows objects to be handled as arrays
+ * Allows objects to be handled as arrays, and at the same time implement the features of KObject
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Object
  */
-class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Countable
+class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable, Countable
 {
 	/**
-     * Array data
+     * Array object
      *
-     * @var array
+     * @var ArrayObject
      */
-    private $__data = array();
+    private $__array;
 
+    public function __construct(array $options = array())
+    {
+    	$options  = $this->_initialize($options);
+    	
+    	$this->__array = new ArrayObject((array)$options['data']);
+    }
+    
     /**
-     * Array count
+     * Initializes the options for the object
      *
-     * @var int
-     */
-    private $__count = 0;
-
-	/**
-     * Iterator pointer
+     * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @var integer
+     * @param   array   Options
+     * @return  array   Options
      */
-    private $__pointer = 0;
+    protected function _initialize(array $options)
+    {
+    	$defaults = array(
+            'data'  => array(),
+        );
 
+        return array_merge($defaults, $options);
+    }
+    
 	/**
      * Rewind the Iterator to the first element.
      *
      * Similar to the reset() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return this
+     * @return KObjectArray
      */
     public function rewind()
     {
-        $this->setKey(0);
+        reset($this->__array);
         return $this;
     }
 
@@ -64,11 +74,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
     public function current()
     {
-    	if ($this->valid() === false) {
-            return null;
-        }
-
-        return $this[$this->key()];
+        return current($this->__array);
     }
 
 	/**
@@ -81,20 +87,8 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
     public function key()
     {
-    	return $this->__pointer;
+    	return key($this->__array);
     }
-
-	/**
-	 * Set the identifying key of the current element.
-	 *
-	 * @param 	int	Pointer
-	 * @return 	object KObjectArray
-	 */
-	public function setKey($pointer)
-	{
-		$this->__pointer = $pointer;
-		return $this;
-	}
 
 	/**
      * Move forward to next element.
@@ -102,11 +96,11 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      * Similar to the next() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return 	object KObjectArray
+     * @return 	KObjectArray
      */
     public function next()
     {
-    	++$this->__pointer;
+    	next($this->__array);
     	return $this;
     }
 
@@ -120,7 +114,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
     public function valid()
     {
-        return $this->key() < $this->count();
+        return (bool) current($this->__array);
     }
 
 	/**
@@ -132,49 +126,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
     public function count()
     {
-        return $this->__count;
-    }
-
-    /**
-     * Set the count of the array
-     *
-     * @param 	int	Count
-     * @return 	object KObjectArray
-     */
-    public function setCount($count)
-    {
-    	$this->__count = $count;
-    	return $this;
-    }
-
-	/**
-     * Reset the count of the array
-     *
-     * @return 	object KObjectArray
-     */
-    public function resetCount()
-    {
-    	$this->__count	= count($this->__data);
-    	return $this;
-    }
-
-	/**
-     * Take the Iterator to position $position
-     *
-     * Required by interface SeekableIterator.
-     *
-     * @param 	int $position The position to seek to
-     * @throws 	KObjectException
-     * @return 	object KObjectArray
-     */
-    public function seek($position)
-    {
-        settype($position, 'int');
-        if ($position < 0 || $position > $this->count()) {
-            throw new KObjectException("Illegal index $position");
-        }
-        $this->__pointer = $position;
-        return $this;
+        return count($this->__array);
     }
 
     /**
@@ -187,7 +139,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
 	public function offsetExists($offset)
 	{
-        return isset($this->__data[$offset]);
+        return $this->__array->offsetExists($offset);
 	}
 
     /**
@@ -200,7 +152,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
 	public function offsetGet($offset)
 	{
-        return $this->__data[$offset];
+        return $this->__array->offsetGet($offset);
 	}
 
     /**
@@ -214,13 +166,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
 	public function offsetSet($offset, $value)
 	{
-		if(empty($offset)) {
-			$this->__data[] = $value;
-		} else {
-			$this->__data[$offset] = $value;
-		}
-
-		$this->resetCount();
+		$this->__array->offsetSet($offset, $value);
 		return $this;
 	}
 
@@ -237,10 +183,39 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
      */
 	public function offsetUnset($offset)
 	{
-		//We need to use array_splice instead of unset to reset the keys
-		array_splice($this->__data, $offset, 1);
-		$this->resetCount();
+		$this->__array->offsetUnset($offset);
         return $this;
+	}
+	
+	/**
+	 * Get a new iterator
+	 * 
+	 * @return	ArrayIterator
+	 */
+	public function getIterator()
+	{
+		return $this->__array->getIterator();
+	}
+	
+	/**
+	 * Serialize
+	 *
+	 * @return	ArrayObject 	A serialized object
+	 */
+	public function serialize()
+	{
+		return serialize($this->__array);
+	}
+	
+	/**
+	 * Unserialize
+	 * 
+	 * @param	string			An serialized ArrayObject
+	 * @return	ArrayObject 	The unserialized object
+	 */
+	public function unserialize($serialized)
+	{
+		return unserialize($this->__array);
 	}
 
 	/**
@@ -250,7 +225,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 	 */
 	public function getArray()
 	{
-		return $this->__data;
+		return $this->__array->getArrayCopy();
 	}
 
 	/**
@@ -261,8 +236,7 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 	 */
 	public function setArray($array)
 	{
-		$this->__data 	= $array;
-		$this->resetCount();
+		$this->__array->exchangeArray($array);
 		return $this;
 	}
 	
@@ -287,8 +261,6 @@ class KObjectArray extends KObject implements ArrayAccess, SeekableIterator, Cou
 
         return $result;
 	}
-	
-	
 	
 	/**
      * Extracts columns from the array

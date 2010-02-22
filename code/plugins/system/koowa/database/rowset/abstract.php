@@ -27,13 +27,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     protected $_table;
 
-	/**
-     * Name of the class of the KDatabaseTableAbstract object.
-     *
-     * @var string
-     */
-    protected $_table_class;
-
     /**
 	 * The object identifier
 	 *
@@ -51,16 +44,17 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
         // Allow the identifier to be used in the initalise function
         $this->_identifier = $options['identifier'];
 
-    	// Initialize the options
-        $options  = $this->_initialize($options);
-
-		// Set table object and class name
-		$this->_table_class  = clone $this->_identifier;
-		$this->_table_class->path = array('table');
-		$this->_table       = isset($options['table']) ? $options['table'] : KFactory::get($this->_table_class);
-
-		// Set the data
-		$this->setArray($options['data']);
+  		parent::__construct($options);      
+  
+		// Set the table indentifier
+    	if(isset($options['table'])) {
+			$this->setTable($options['table']);
+		}
+		
+		// Insert the data, if exists
+		if(!empty($options['data'])) {
+			$this->insert($options['data']);
+		}
     }
 
     /**
@@ -73,10 +67,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     protected function _initialize(array $options)
     {
-        $defaults = array(
+        $options = parent::_initialize($options);
+    	
+    	$defaults = array(
             'table'      => null,
         	'identifier' => null,
-        	'data'		 => array()
+        	'data'		 => null
         );
 
         return array_merge($defaults, $options);
@@ -94,77 +90,91 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 	}
 
 	/**
-     * Returns the table object, or null if this is disconnected row
-     *
-     * @return KDatabaseTableAbstract
-     */
-    public function getTable()
-    {
-        return $this->_table;
-    }
+	 * Get the identifier for the table with the same name
+	 *
+	 * @return	KIdentifierInterface
+	 */
+	final public function getTable()
+	{
+		if(!$this->_table)
+		{
+			$identifier 		= clone $this->_identifier;
+			$identifier->name	= KInflector::tableize($identifier->name);
+			$identifier->path	= array('table');
+		
+			$this->_table = $identifier;
+		}
+       	
+		return $this->_table;
+	}
 
 	/**
-     * Query the class name of the Table object for which this row was
-     * created.
-     *
-     * @return string
-     */
-    public function getTableClass()
-    {
-        return $this->_table_class;
-    }
+	 * Method to set a table object attached to the rowset
+	 *
+	  * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
+	 * @return	KDatabaseRowsetAbstract
+	 */
+	public function setTable($table)
+	{
+		$identifier = KFactory::identify($table);
 
-	 /**
-     * Returns a KDatabaseRow from a known position into the Iterator
-     *
-     * @param int	The position of the row expected
-     * @param bool	Wether or not seek the iterator to that position after
-     * @return KDatabaseRowAbstract
-     * @throws KDatabaseRowsetException
-     */
-    public function getRow($position, $seek = false)
-    {
-        $key = $this->key();
-        try
-        {
-            $this->seek($position);
-            $row = $this->current();
-        }
-        catch (KDatabaseRowsetException $e) {
-            throw new KDatabaseRowsetException('No row could be found at position ' . (int) $position);
-        }
-
-        if ($seek == false) {
-            $this->seek($key);
-        }
-        return $row;
-    }
+		if($identifier->path[0] != 'table') {
+			throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
+		}
+		
+		$this->_table = $identifier;
+		return $this;
+	}
 
 	/**
-     * Returns a row from a known position
+     * Returns a KDatabaseRow from a known position or based on a key/value pair
      *
-     * @param 	string 	The key to search for
+     * @param 	string 	The position or the key to search for
      * @param 	mixed  	The value to search for
      * @return KDatabaseRowAbstract
      */
-    public function findRow($key, $value)
+    public function find($key, $value = null)
     {
-   		//Get an empty row
-    	$result = $this->_table->fetchRow();
+    	if(!is_null($value))
+    	{
+    		$result = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array('table' => $this->getTable()));
 
+    		$this->rewind();
+
+    		while($this->valid())
+			{
+				$row = $this->current();
+				if($row->$key == $value) {
+					$result = $row;
+					break;
+				}
+    			$this->next();
+			}
+    	} 
+    	else $result = $this[$key];
+    	
+		return $result;
+    }
+    
+	/**
+     * Saves all rows in the rowset to the database
+     *
+     * @return KDatabaseRowsetAbstract
+     */
+    public function save()
+    {
     	$this->rewind();
-
+    	
     	while($this->valid())
 		{
 			$row = $this->current();
-			if($row->$key == $value) {
-				$result = $row;
-				break;
-			}
+			$row->save();
     		$this->next();
 		}
-
-		return $result;
+		
+        return $this;
     }
     
 	/**
@@ -182,7 +192,73 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 			$row->delete();
     		$this->next();
 		}
+		
         return $this;
+    }
+    
+	/**
+     * Reset all rows in the rowset
+     *
+     * @return KDatabaseRowsetAbstract
+     */
+    public function reset()
+    {
+    	$this->rewind();
+    	
+    	while($this->valid())
+		{
+			$row = $this->current();
+			$row->reset();
+    		$this->next();
+		}
+		
+        return $this;
+    }
+    
+	/**
+     * Insert a new row, a list of rows or an empty row in the rowset
+     *
+     * @param   array|object 	Either and associative array, a KDatabaseRow object or object
+     * @return KDatabaseRowsetAbstract
+     */
+    public function insert($data = array())
+    {
+    	$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array('table' => $this->getTable()));
+		$result = array();
+		
+		if(empty($data))
+		{
+			$new = clone $prototype;
+        	$result[] = $new;
+		}
+		
+		if(is_object($data))
+		{
+			if(!$row instanceof KDatabaseRowAbstract) 
+			{
+				$new = clone $prototype;
+        		$new->setData($data);
+        		$result[] = $new;
+			} 
+			else $result[] = $data;
+		}
+		
+		if(is_array($data))
+		{
+			foreach($data as $k => $row)
+			{
+				if(!$row instanceof KDatabaseRowAbstract) 
+				{
+					$new = clone $prototype;
+        			$new->setData($row);
+        			$result[] = $new;
+				
+				} 
+				else $result[] = $row;
+			}
+		}
+		
+		return parent::setArray($result);
     }
 
 	/**
@@ -197,7 +273,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     {
     	$result = array();
     	foreach ($this as $i => $row) {
-            $result[$i] = is_array($row) ? $row :  $row->getData();
+            $result[$i] = $row->getData();
         }
         return $result;
     }
@@ -205,35 +281,32 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 	/**
   	 * Set the row data based on a named array/hash
   	 *
-  	 * @param   mixed Either and associative array or another object
+  	 * @param   mixed 	Either and associative array, a KDatabaseRow object or object
  	 * @return 	KDatabaseRowsetAbstract
   	 */
   	 public function setData( $data )
   	 {
- 		//not yet implemented
- 
-  		return $this;
+  	 	foreach ($this as $i => $row) {
+  	 		$row->setData($data);
+        }
+        
+        return $this;
 	}
 	
-	public function setArray($rows)
-	{
-		$prototype = $this->_table->fetchRow();
-		$result = array();
-		foreach($rows as $k => $row)
-		{
-			if($row instanceof KDatabaseRowAbstract) 
-			{
-				$result[] = $row;
-			} 
-			else 
-			{
-				// cloning is faster than instantiation
-				$new = clone $prototype;
-        		$new->setData($row);
-        		$result[] = $new;
-			}
-
-		}
-		return parent::setArray($result);
-	}
+	/**
+     * Forward the call to each row
+     *
+   	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
+	 * @return mixed The result of the function
+     */
+    public function __call($method, array $arguments)
+    {
+    	foreach ($this as $i => $row) {
+            $row->__call($method, $arguments);
+        }
+    	
+       return parent::__call($method, $arguments);
+    }
 }

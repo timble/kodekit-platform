@@ -27,12 +27,20 @@ class plgSystemKoowa extends JPlugin
     		return;
 		}
 		
+		//Set constants
+		define('KDEBUG', JDEBUG);
+		
+		//Set exception handler
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
 		// Require the library loader
 		JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
 		JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
-
+		
+		//Initialise the factory
+		KLoader::instantiate();
+		KFactory::instantiate();
+	
 		//Add loader adapters
 		KLoader::addAdapter(new KLoaderAdapterJoomla());
 		KLoader::addAdapter(new KLoaderAdapterModule());
@@ -56,21 +64,11 @@ class plgSystemKoowa extends JPlugin
 			->setConnection($jdb->_resource)
 			->setTablePrefix($jdb->_table_prefix);
 		
-		// Don't proxy the dataase if we are in com_installer
-		/*if(KRequest::get('request.option', 'cmd') != 'com_installer')
-		{
-			// Decorate the database object
-			$jdb = new KDecoratorJoomlaDatabase($jdb);
-			
-			//ACL uses the unwrapped DBO
-       		$acl = JFactory::getACL();
-        	$acl->_db = $jdb->getObject(); // getObject returns the unwrapped DBO
-		}*/
-
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language',    'lib.joomla.language');
         KFactory::map('lib.koowa.document',    'lib.joomla.document');
+        KFactory::map('lib.koowa.user',        'lib.joomla.user');
          
         //Force the format to ajax is request type is AJAX
         if(KRequest::type() == 'AJAX') {
@@ -81,6 +79,29 @@ class plgSystemKoowa extends JPlugin
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 
 		parent::__construct($subject, $config = array());
+	}
+	
+	/**
+	 * Prettify the output using Tidy filter (if available) and debug has been
+	 * enabled
+	 *
+	 * @return void
+	 */
+	public function onAfterRender()
+	{
+		if(KDEBUG)
+		{
+			$config =  array(
+					'indent'            => true,
+                	'indent-attributes' => true,
+                	'wrap'              => 120,
+			);
+	
+			$filter = new KFilterTidy(array('config' => $config));
+			$result = $filter->sanitize(JResponse::getBody());
+		
+			JResponse::setBody($result);
+		}
 	}
 	
  	/**
@@ -123,4 +144,21 @@ class plgSystemKoowa extends JPlugin
 		
 		JError::customErrorPage($error);
 	}
+}
+
+/**
+ * PHP5.3 compatibility
+ */
+if(false === function_exists('lcfirst'))
+{
+    /**
+     * Make a string's first character lowercase
+     *
+     * @param string $str
+     * @return string the resulting string.
+     */
+    function lcfirst( $str ) {
+        $str[0] = strtolower($str[0]);
+        return (string)$str;
+    }
 }

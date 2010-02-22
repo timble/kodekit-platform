@@ -29,9 +29,8 @@ class ComDefaultControllerView extends KControllerView
 	{
 		parent::__construct($options);
 
-		//Register redirect messages
-		$this->registerFunctionAfter('save',	'setMessage')
-			 ->registerFunctionAfter('delete',	'setMessage');
+		//Register command functions
+		$this->registerFunctionAfter(array('save', 'delete'), 'setMessage');
 	}
 	
  	/**
@@ -39,17 +38,30 @@ class ComDefaultControllerView extends KControllerView
 	 *
 	 * @return void
 	 */
-	public function setMessage(KCommandContext $context)
+	public function setMessage()
 	{
 		$count  = count((array) KRequest::get('post.id', 'int', 1));
-		$action = $context['action'];
+		$action = KRequest::get('post.action', 'cmd');
 		$name	= $this->getIdentifier()->name;
 			
 		if($count > 1) {
-			$this->_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
+			$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
 		} else {
-			$this->_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
+			$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
 		}
+	}
+	
+	/**
+	 * Browse a list of items
+	 *
+	 * @return KDatabaseRowset	A rowset object containing the selected rows
+	 */
+	protected function _actionBrowse()
+	{
+		KFactory::get($this->getModel())
+			->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+			
+		return parent::_actionBrowse();
 	}
 	
 	/**
@@ -58,7 +70,7 @@ class ComDefaultControllerView extends KControllerView
 	 * This functions implements an extra check to hide the main menu is the view name
 	 * is singular (item views)
 	 *
-	 * @return void
+	 *  @return KDatabaseRow	A row object containing the selected row
 	 */
 	protected function _actionRead()
 	{
@@ -66,6 +78,11 @@ class ComDefaultControllerView extends KControllerView
 			KRequest::set('get.hidemainmenu', 1);
 		}
 		
-		parent::_actionRead();
+		//Force the default layout to form for read actions
+		if(!KRequest::has('get.layout')) {
+			KRequest::set('get.layout', 'form');
+		}
+		
+		return parent::_actionRead();
 	}
 }

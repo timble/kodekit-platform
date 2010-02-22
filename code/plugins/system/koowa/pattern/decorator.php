@@ -104,15 +104,26 @@ abstract class KPatternDecorator extends KObject
 	 *
 	 * @param  string 	The function name
 	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
 	 */
 	public function __call($method, array $arguments)
 	{
 		$object = $this->getObject();
-		if(method_exists($object, $method)) 
+		
+		//Check if the method exists
+		if($object instanceof KObject) 
+		{
+			$mathods = $object->getMethods();
+			$exists  = in_array($method, $methods);
+		} 
+		else $exists = method_exists($object, $method);
+		
+		//Call the method if it exists
+		if($exists) 
 		{
  			$result = null;
-			
+ 				
 			// Call_user_func_array is ~3 times slower than direct method calls. 
  		    switch(count($arguments)) 
  		    { 
@@ -128,9 +139,6 @@ abstract class KPatternDecorator extends KObject
  		      	case 3: 
  	              	$result = $object->$method($arguments[0], $arguments[1], $arguments[2]); 
  	               	break; 
- 	           	case 4: 
- 	               	$result = $object->$method($arguments[0], $arguments[1], $arguments[2], $arguments[3]); 
- 		            break; 
  	           	default: 
  	             	// Resort to using call_user_func_array for many segments 
  		            $result = call_user_func_array(array($object, $method), $arguments);                               
@@ -144,7 +152,7 @@ abstract class KPatternDecorator extends KObject
              
              return $result; 
 		}
-	
+		
 		return parent::__call($method, $arguments);
 	}
 }

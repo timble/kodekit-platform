@@ -7,9 +7,6 @@
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  */
 
-//Initialise the factory
-KFactory::initialize();
-
 /**
  * KFactory class
  *
@@ -32,7 +29,7 @@ class KFactory
 	/**
 	 * The commandchain
 	 *
-	 * @var	KFactoryChain
+	 * @var	KLoaderChain
 	 */
 	protected static $_chain = null;
 	
@@ -55,15 +52,8 @@ class KFactory
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	private function __construct() { }
-
-	/**
-	 * Initialize
-	 *
-	 * @return void
-	 */
-	public static function initialize()
-	{
+	final private function __construct() 
+	{ 
 		self::$_container = new ArrayObject();
         self::$_chain     = new KFactoryChain();
 
@@ -71,14 +61,39 @@ class KFactory
 	}
 	
 	/**
+	 * Clone 
+	 *
+	 * Prevent creating clones of this class
+	 */
+	final private function __clone() { }
+	
+	/**
+	 * Force creation of a singleton
+	 * 
+	 * @param 	array	Options containing 'table', 'name'
+	 *
+	 * @return void
+	 */
+	public static function instantiate(array $options = array())
+	{
+		static $instance;
+		
+		if ($instance === NULL) {
+			$instance = new KFactory($options);
+		}
+		
+		return $instance;
+	}
+
+	/**
 	 * Returns an identifier string. 
 	 * 
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
 	 * object that implements KFactoryIdentifiable, or a KIndentifierInterface, or valid identifier 
 	 * string. Function will also check for identifier mappings and return the mapped identifier.
 	 *
-	 * @param	mixed	The identifier, an object that implements KFactoryIdentifiable, 
-	 *                   a KIndentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
 	 * @return KIdentifier
 	 */
 	public static function identify($identifier)

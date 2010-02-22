@@ -22,7 +22,7 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 	{
 		$msg = JText::_('Please select an item from the list');
 		return 'var id = KGrid.getFirstSelected();'
-			.'if(id){this.href+=id;} '
+			.'if(id){this.href+=\'&id=\'+id;} ' 
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}
 	
@@ -30,6 +30,6 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 	{
 		$option = KRequest::get('get.option', 'cmd');
 		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		return 'index.php?option='.$option.'&view='.$view.'&id=';
+		return 'index.php?option='.$option.'&view='.$view; 
 	}
 }

@@ -1,0 +1,112 @@
+<?php
+/**
+ * @version 	$Id$
+ * @category	Koowa
+ * @package		Koowa_Database
+ * @subpackage 	Behavior
+ * @copyright	Copyright (C) 2007 - 2009 Johan Janssens and Mathias Verraes. All rights reserved.
+ * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ */
+
+/**
+ * Database Behavior Interface
+ *
+ * @author		Johan Janssens <johan@koowa.org>
+ * @category	Koowa
+ * @package     Koowa_Database
+ * @subpackage 	Behavior
+ */
+class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
+{
+	/**
+	 * Lock a row
+	 *
+	 * Requires an locked_on and locked_by field to be present in the table
+	 *
+	 * @return 	KDatabaseRowAbstract
+	 */
+	public function lock()
+	{
+		//Prevent lock take over, only an unlocked row and be locked
+		if(isset($this->locked) && !$this->locked) 
+		{
+			$this->locked_by = (int) KFactory::get('lib.koowa.user')->get('id');
+			$this->locked_on = gmdate('Y-m-d H:i:s');
+			
+			$this->save();
+		}
+		
+		return $this->_mixer;
+	}
+
+	/**
+	 * Unlock a row
+	 *
+	 * Requires an locked_on and locked_by field to be present in the table
+	 *
+	 * @return 	KDatabaseRowAbstract
+	 */
+	public function unlock()
+	{
+		if(isset($this->locked)) 
+		{
+			$this->locked_by = 0;
+			$this->locked_on = 0;
+			$this->locked    = false;
+		
+			$this->save();
+		}
+
+		return $this->_mixer;
+	}
+	
+	/**
+	 * Insert a virtual 'locked' property for each row. 
+	 * 
+	 * This function adds a virtual 'locked' property to each row which holds the row's locked 
+	 * state. If the row was locked by the logged in user the locked property will be false, 
+	 * otherwise true
+	 * 
+	 * @return boolean	False if failed.
+	 */
+	protected function _afterTableSelect(KCommandContext $context)
+	{
+		$rowset = $context['data'];
+		$userid = KFactory::get('lib.koowa.user')->get('id');
+		
+		foreach($rowset as $row)
+		{
+			if(isset($row->locked_by) && $row->locked_by != 0 && $row->locked_by != $userid) {
+				$row->locked = true;
+			} else {
+				$row->locked = false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Checks if a row can be updated
+	 * 
+	 * This function determines if a row can be updated based on it's locked_by information.
+	 * If a row is locked, and not by the logged in user, the function will return false, 
+	 * otherwise it will return true 
+	 * 
+	 * @return boolean True if row can be updated, false otherwise 
+	 */
+	protected function _beforeTableUpdate(KCommandContext $context)
+	{
+		$data   = $context['data'];
+		$userid = KFactory::get('lib.koowa.user')->get('id');
+		
+		if(isset($data['locked_by']) && $data['locked_by'] != 0) 
+		{
+			if($data['locked_by'] != $userid) {
+				return false;	
+			}
+		}
+	
+		return true;
+	}
+}

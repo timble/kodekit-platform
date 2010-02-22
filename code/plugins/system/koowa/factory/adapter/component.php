@@ -26,8 +26,9 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	protected $_alias_map = array(
       	'table'     => 'DatabaseTable',
         'row'       => 'DatabaseRow',
-      	'rowset'    => 'DatabaseRowset'
-	);
+      	'rowset'    => 'DatabaseRowset',
+      	'behavior'  => 'DatabaseBehavior'
+ 	);
 
 
 	/**
@@ -99,9 +100,9 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 				$options['identifier'] = $identifier;
 			}
 							
-			// If the class has a factory method call it
-			if(is_callable(array($classname, 'factory'), false)) {
-				$instance = call_user_func(array($classname, 'factory'), $options);
+			// If the class has an instantiate method call it
+			if(is_callable(array($classname, 'instantiate'), false)) {
+				$instance = call_user_func(array($classname, 'instantiate'), $options);
 			} else {
 				$instance = new $classname($options);
 			}

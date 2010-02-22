@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-abstract class KFilterAbstract extends KObject implements KFilterInterface
+abstract class KFilterAbstract implements KFilterInterface
 {
 	/**
 	 * The filter chain
@@ -129,6 +129,19 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	{	
 		$this->_chain->enqueue($filter, $priority);
 		return $this;
+	}
+	
+	/**
+	 * Get a handle for this object
+	 *
+	 * This function returns an unique identifier for the object. This id can be used as
+	 * a hash key for storing objects or for identifying an object
+	 *
+	 * @return string A string that is unique
+	 */
+	public function getHandle()
+	{
+		return spl_object_hash( $this );
 	}
 
 

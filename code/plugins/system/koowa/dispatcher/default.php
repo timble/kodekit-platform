@@ -19,9 +19,22 @@
 class KDispatcherDefault extends KDispatcherAbstract 
 { 
 	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_view'
+	 */
+	public function __construct(array $options = array())
+	{
+	  	parent::__construct($options);
+	  	
+		$this->registerFunctionAfter('dispatch'   , 'forward');
+	}
+	
+	/**
 	 * Dispatch the controller and redirect
 	 * 
-	 * This function divert the standard behavior and will redirect if now view
+	 * This function divert the standard behavior and will redirect if no view
 	 * information can be found in the request.
 	 * 
 	 * @param	string		The view to dispatch. If null, it will default to
@@ -39,7 +52,37 @@ class KDispatcherDefault extends KDispatcherAbstract
 			KFactory::get('lib.koowa.application')
 				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
 		}
-	
+		
 		return parent::dispatch($view);
+	}
+	
+	/**
+	 * Forward after a post request
+	 * 
+	 * Either do a redirect or a execute a browse or read action in the controller
+	 * depending on the request method adn type
+	 *
+	 * @return void
+	 */
+	public function forward()
+	{
+		if(KRequest::method() == 'POST') 
+		{
+			if (KRequest::type() == 'HTTP') 
+			{
+				// Redirect if set by the controller
+				if($redirect = KFactory::get($this->getController())->getRedirect())
+				{
+					KFactory::get('lib.koowa.application')
+						->redirect($redirect['url'], $redirect['message'], $redirect['type']);
+				}
+			} 
+			
+			if(KRequest::type() == 'AJAX')  
+			{
+				$view = KRequest::get('get.view', 'cmd');
+				KFactory::get($this->getController())->execute(KInflector::isPlural($view) ? 'browse' : 'read');		
+			}
+		}
 	}
 }

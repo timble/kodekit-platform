@@ -29,9 +29,6 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	/**
  	 * Map of native MySQL types to generic types used when reading
  	 * table column information.
- 	 * 
- 	 *  Note that fetchTableFields() will programmatically convert TINYINT(1) to
-     * 'bool' independent of this map.
  	 *
  	 * @var array
  	 */
@@ -51,6 +48,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	'float'				=> 'float'  ,
 		'double'            => 'float'  ,
 		'real' 				=> 'float'  ,
+ 	
+ 		// boolean
+ 		'bool'				=> 'boolean',
+ 		'boolean' 			=> 'boolean',
 
  	   	// date & time
  	   	'date'              => 'date'     ,
@@ -80,9 +81,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	 	'longblob'          => 'raw',
  	
  		//other
- 		'set'				=> 'raw',
- 		'enum'				=> 'raw',
- 	
+ 		'set'				=> 'string',
+ 		'enum'				=> 'string', 	
 	);
 
 	/**
@@ -328,6 +328,93 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 	
 	/**
+	 * Retrieves the field schema information about the given tables
+	 *
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return	array 	An associative array of fields by table
+	 */
+	public function fetchTableFields($tables)
+	{
+		settype($tables, 'array'); //force to array
+		$result = array();
+
+		foreach ($tables as $tblval)
+		{
+			$table = $tblval;
+			
+			//Check the table if it already has a table prefix applied.
+			if(strpos($tblval, '#__') === false)
+			{
+				if(substr($tblval, 0, 3) != '#__') {
+					$table = '#__'.$tblval;
+				}
+			}
+			else $tblval = $this->replaceTablePrefix($tblval, '');
+
+			if(!isset($this->_table_schema[$tblval]['fields']))
+			{
+				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));
+				foreach ($fields as $field) 
+				{
+					//Parse the field raw schema data
+        			$field = $this->_parseFieldInfo($field);
+        			
+              		//Cache the field schame data	
+					$this->_table_schema[$tblval]['fields'][$field->name] = $field;
+				}
+			}
+
+			//Add the requested table to the result
+			$result[$tblval] = $this->_table_schema[$tblval]['fields'];
+		}
+			
+		return $result;
+	}
+
+	/**
+	 * Retrieves the table schema information about the given tables
+	 *
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return	array 	An associative array of table information by table
+	 */
+	public function fetchTableInfo($tables)
+	{
+		settype($tables, 'array'); //force to array
+		$result = array();
+
+		foreach ($tables as $tblval)
+		{
+			$table = $tblval;
+			
+			//Check the table if it already has a table prefix applied.
+			if(strpos($tblval, '#__') === false)
+			{
+				if(substr($tblval, 0, 3) != '#__') {
+					$table = '#__'.$tblval;
+				}
+			}
+			else $tblval = $this->replaceTablePrefix($tblval, '');
+
+			if(!isset($this->_table_schema[$tblval]['info']))
+			{
+				$table = $this->replaceTablePrefix($table);
+				$info  = $this->fetchObject( 'SHOW TABLE STATUS LIKE '.$this->quoteString($table));
+				
+				//Parse the table raw schema data
+        		$table = $this->_parseTableInfo($info);
+				
+        		//Cache the table schame data
+				$this->_table_schema[$tblval]['info'] = $table;
+			}
+
+			//Add the requested table to the result
+			$result[$tblval] = $this->_table_schema[$tblval]['info'];
+		}
+	
+		return $result;
+	}
+	
+	/**
      * Safely quotes a value for an SQL statement.
      * 
      * @param 	mixed 	The value to quote
@@ -340,50 +427,60 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     }
     
 	/**
-	 * Gets the fields for the table
+	 * Parse the raw table schema information
 	 *
-	 * @param  	object 	The raw field data
-	 * @return object
+	 * @param  	object 	The raw table schema information
+	 * @return KDatabaseSchemaTable
 	 */
-	public function parseField($field)
+	protected function _parseTableInfo($info)
 	{	
-		$name = $field->Field;
+		$table = new KDatabaseSchemaTable;
+ 	   	$table->name        = $info->Name;
+ 	   	$table->engine      = $info->Engine;
+ 	   	$table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
+ 	    $table->size        = $info->Data_length;
+ 	    $table->autoinc     = $info->Auto_increment;
+ 	    $table->collation   = $info->Collation;
+ 	    $table->description = $info->Comment != 'VIEW' ? $info->Comment : '';
 
- 	   	// override $type to find tinyint(1) as boolean
- 	    if (strtolower($field->Type) == 'tinyint(1)') {
- 	      	$type 	= 'boolean';
- 	       	$size 	= null;
- 	        $scope 	= null;
- 	    } else {
- 	    	list($type, $size, $scope) = $this->_parseFieldType($field->Type);
- 	   	}
-
- 	  	// save the column description
- 	   	$description = new stdClass();
- 	   	$description->name    = $name;
- 	   	$description->type    = $type;
- 	   	$description->size    = ($size  ? (int) $size  : null);
- 	   	$description->scope   = ($scope ? (int) $scope : null);
- 	   	$description->default = $field->Default;
- 	   	$description->require = (bool) ($field->Null != 'YES');
- 	    $description->primary = (bool) ($field->Key == 'PRI');
- 	    $description->unique  = (bool) ($field->Key == 'UNI' || $field->Key == 'PRI'); 
- 	    $description->autoinc = (bool) (strpos($field->Extra, 'auto_increment') !== false);
-
- 	 	// don't keep "size" for integers
- 	    if (substr($type, -3) == 'int') {
- 	       	$description->size = null;
- 	   	}
-
- 	    return $description;
+ 	    return $table;
 	}
     
 	/**
-	 * Given a column specification, parse into datatype, size, and decimal 
-	 * scope.
+	 * Parse the raw field schema information
 	 *
-	 * @param string $spec The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
+	 * @param  	object 	The raw field schema information
+	 * @return KDatabaseSchemaField
+	 */
+	protected function _parseFieldInfo($info)
+	{		
+		list($type, $size, $scope) = $this->_parseFieldType($info->Type);
+
+ 	   	$field = new KDatabaseSchemaField;
+ 	   	$field->name    = $info->Field;
+ 	   	$field->type    = $type;
+ 	   	$field->size    = ($size  ? $size  : null);
+ 	   	$field->scope   = ($scope ? (int) $scope : null);
+ 	   	$field->default = $info->Default;
+ 	   	$field->require = (bool) ($info->Null != 'YES');
+ 	    $field->primary = (bool) ($info->Key == 'PRI');
+ 	    $field->unique  = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
+ 	    $field->autoinc = (bool) (strpos($info->Extra, 'auto_increment') !== false);
+ 	    $field->filter = $this->_typemap[$type];
+ 	       
+ 	 	// don't keep "size" for integers
+ 	    if (substr($type, -3) == 'int') {
+ 	       	$field->size = null;
+ 	   	}
+
+ 	    return $field;
+	}
+    
+	/**
+	 * Given a raw column specification, parse into datatype, size, and decimal scope.
+	 *
+	 * @param string The column specification; for example,
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)" or ENUM('yes','no','maybe')
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
@@ -403,30 +500,27 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	}
  	   	else
  	   	{
- 	     	// find the type first.
+ 	   		// find the type first.
  	      	$type = substr($spec, 0, $pos);
-
+ 	      	
  	      	// there were parens, so there's at least a size.
  	       	// remove parens to get the size.
  	      	$size = trim(substr($spec, $pos), '()');
-
- 	      	// a comma in the size indicates a scope.
- 	      	$pos = strpos($size, ',');
- 	      	if ($pos !== false) {
- 	        	$scope = substr($size, $pos + 1);
- 	           	$size  = substr($size, 0, $pos);
- 	       	}
+ 	      	
+ 	   		if($type != 'enum' && $type != 'set')
+ 	     	{
+ 	     		// A comma in the size indicates a scope.
+ 	      		$pos = strpos($size, ',');
+ 	      		if ($pos !== false) {
+ 	        		$scope = substr($size, $pos + 1);
+ 	           		$size  = substr($size, 0, $pos);
+ 	       		}
+ 	     		
+ 	     		
+ 	     	}
+ 	     	else $size = explode(',', str_replace("'", "", $size));
  	   	}
-
- 	   	foreach ($this->_typemap as $native => $system)
- 	   	{
- 	      	// $type is already lowered
- 	       	if ($type == strtolower($native)) {
- 	         	$type = strtolower($system);
- 	           	break;
- 	       	}
- 	   	}
-
+	 	
  	  	return array($type, $size, $scope);
  	}
 }

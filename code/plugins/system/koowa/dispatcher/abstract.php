@@ -21,6 +21,13 @@
 abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
+	 * Controller object or identifier (APP::com.COMPONENT.controller.NAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_controller;
+	
+	/**
 	 * The object identifier
 	 *
 	 * @var KIdentifierInterface
@@ -41,8 +48,15 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		// Initialize the options
         $options  = $this->_initialize($options);
         
+		if(isset($options['controller'])) {
+			$this->setController($options['controller']);
+		}
+        
          // Mixin a command chain
         $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        
+         //Mixin a filter
+        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 	}
 
     /**
@@ -57,7 +71,8 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
     {
         $defaults = array(
         	'command_chain' =>  new KCommandChain(),
-        	'identifier'	=> null
+        	'identifier'	=> null,
+        	'controller'	=> null
         );
 
         return array_merge($defaults, $options);
@@ -75,7 +90,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	}
 
 	/**
-	 * Dispatch the controller and redirect
+	 * Dispatch the controller
 	 * 
 	 * @param	string		The controller to dispatch. If null, it will default to
 	 * 						retrieve the controller information from the request or
@@ -87,13 +102,13 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	public function dispatch($controller)
 	{
 		//Create the controller object
-		$controller = $this->_getController($controller);
+		$controller = KFactory::get($this->getController($controller));
 		
 		$context = new KCommandContext();
 		$context['caller']     = $this;
 		$context['result']     = false;
 		$context['controller'] = $controller;
-			
+
 		if($this->getCommandChain()->run('dispatcher.before.dispatch', $context) === true) 
 		{
 			//Execute the controller, handle exeception if thrown. 
@@ -114,45 +129,62 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
         	
 			$this->getCommandChain()->run('dispatcher.after.dispatch', $context);
 		}
-		
-		// Redirect if set by the controller
-		if($redirect = $controller->getRedirect())
-		{
-			KFactory::get('lib.koowa.application')
-				->redirect($redirect['url'], $redirect['message'], $redirect['messageType']);
-		}
-
+	
 		return $this;
 	}
 
 	/**
-	 * Method to get a controller object
+	 * Method to get a controller identifier
 	 *
 	 * @return	object	The controller.
 	 */
-	protected function _getController($controller, array $options = array())
+	final public function getController($controller = null)
 	{
-		$application 	= $this->_identifier->application;
-		$package 		= $this->_identifier->package;
-		
-		//Get the controller name
-		$controller = KRequest::get('get.controller', 'cmd', $controller);
-		
-		//In case we are loading a subview, we use the first part of the name as controller name
-		if(strpos($controller, '.') !== false)
+		if($controller && !$this->_controller)
 		{
-			$result = explode('.', $controller);
+			$application 	= $this->_identifier->application;
+			$package 		= $this->_identifier->package;
+		
+			//Get the controller name
+			$controller = KRequest::get('get.controller', 'cmd', $controller);
+		
+			//In case we are loading a subview, we use the first part of the name as controller name
+			if(strpos($controller, '.') !== false)
+			{
+				$result = explode('.', $controller);
 
-			//Set the controller based on the parent
-			$controller = $result[0];
-		}
+				//Set the controller based on the parent
+				$controller = $result[0];
+			}
 
-		// Controller names are always singular
-		if(KInflector::isPlural($controller)) {
-			$controller = KInflector::singularize($controller);
+			// Controller names are always singular
+			if(KInflector::isPlural($controller)) {
+				$controller = KInflector::singularize($controller);
+			}
+		
+			$this->_controller = new KIdentifier($application.'::com.'.$package.'.controller.'.$controller);
 		}
 		
-		$controller = KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $options);
-		return $controller;
+		return $this->_controller;
+	}
+	
+	/**
+	 * Method to set a controller object attached to the dispatcher
+	 *
+	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a controller identifier
+	 * @return	KDispatcherAbstract
+	 */
+	public function setController($controller)
+	{
+		$identifier = KFactory::identify($controller);
+
+		if($identifier->path[0] != 'controller') {
+			throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
+		}
+		
+		$this->_controller = $identifier;
+		return $this;
 	}
 }

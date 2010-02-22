@@ -13,7 +13,7 @@
  * 
  * The command queue implements a double linked list. The command handle is used 
  * as the key. Each command can have a priority, default priority is 3 The queue 
- * is ordered by priority, command with a higher priority are called first.
+ * is ordered by priority, commands with a higher priority are called first.
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -35,6 +35,13 @@ class KCommandChain extends KObject
 	 * @var array
 	 */
 	protected $_priority = null;
+	
+	/**
+	 * Command context
+	 *
+	 * @var KCommandContext
+	 */
+	protected $_context = null;
 
 	/**
 	 * Constructor
@@ -96,17 +103,23 @@ class KCommandChain extends KObject
   	{
   		$iterator = $this->_priority->getIterator();
 
+  		//Store a reference to the active context
+  		$this->_context = $context;
+  		
 		while($iterator->valid()) 
 		{
     		$cmd = $this->_command[ $iterator->key()];
     		
-			if ( $cmd->execute( $name, $context ) === false) {
+			if ( $cmd->execute( $name, $context ) === false) 
+			{
+				$this->_context = null;
       			return false;
       		}
 
     		$iterator->next();
 		}
 		
+		$this->_context = null;
 		return true;
   	}
   	
@@ -145,5 +158,15 @@ class KCommandChain extends KObject
 		}
 		
 		return $result;
+  	}
+  	
+	/**
+	 * Get the active command context.
+	 * 
+	 * @return	KCommandContext 	The current command context or null if the chain is not running.
+	 */
+  	public function getContext()
+  	{
+		return $this->_context;
   	}
 }
