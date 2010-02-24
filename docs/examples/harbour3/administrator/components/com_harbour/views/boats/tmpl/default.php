@@ -47,7 +47,7 @@
 					<?= $i + 1; ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.id', $i, $boat->id); ?>
+					<?= @helper('grid.id', $i, $boat); ?>
 				</td>
 				<td align="left">
 					<a href="<?= @route('view=boat&id='.$boat->id); ?>">
