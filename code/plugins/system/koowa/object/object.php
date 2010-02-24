@@ -146,7 +146,7 @@ class KObject
 	 */
 	public function getMethods()
 	{
-		$native = get_class_methods(get_class($this));
+		$native = get_class_methods($this);
 		$mixed  = array_keys($this->_mixed_methods);
 		
 		return array_merge($native, $mixed);
