@@ -33,7 +33,7 @@ class KFilterTidy extends KFilterAbstract
      * 
      * @var string
      */
-    protected $_encoding = 'UTF-8';
+    protected $_encoding = 'utf8';
     
     /**
      * @var array
