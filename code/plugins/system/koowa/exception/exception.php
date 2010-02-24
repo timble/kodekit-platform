@@ -29,7 +29,7 @@ class KException extends Exception implements KExceptionInterface
      *
      * @var Exception
      */ 
-	protected $previous;
+	private $_previous = null;
     
     /**
 	 * Constructor
@@ -44,19 +44,38 @@ class KException extends Exception implements KExceptionInterface
             throw new $this('Unknown '. get_class($this));
         }
 
-        parent::__construct($message, $code);
-        
-    	if (!is_null($previous)) {
-            $this->previous = $previous;
-        }
+   		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+			parent::__construct($message, (int) $code);		
+			$this->_previous = $previous;	
+   		} else {
+			parent::__construct($message, (int) $code, $previous);
+		}
     }
+    
+	/**
+	 * Overloading
+	 *
+	 * For PHP < 5.3.0, provides access to the getPrevious() method.
+	 *
+	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @return mixed
+	 */	
+    public function __call($method, array $args)
+	{
+		if ('getprevious' == strtolower($method)) {
+			return $this->_getPrevious();
+		}
+		
+		return null;
+	}
     
     /**
 	 * Get the previous Exception
 	 *
 	 * @return Exception
 	 */
-	public function getPrevious()
+	protected function _getPrevious()
     {
     	return $this->previous;
    	}
