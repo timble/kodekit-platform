@@ -114,7 +114,7 @@ abstract class KPatternDecorator extends KObject
 		//Check if the method exists
 		if($object instanceof KObject) 
 		{
-			$mathods = $object->getMethods();
+			$methods = $object->getMethods();
 			$exists  = in_array($method, $methods);
 		} 
 		else $exists = method_exists($object, $method);
