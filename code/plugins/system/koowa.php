@@ -89,7 +89,7 @@ class plgSystemKoowa extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		/*if(KDEBUG)
+		if(KDEBUG)
 		{
 			$config =  array(
 					'indent'            => true,
@@ -101,7 +101,7 @@ class plgSystemKoowa extends JPlugin
 			$result = $filter->sanitize(JResponse::getBody());
 		
 			JResponse::setBody($result);
-		}*/
+		}
 	}
 	
  	/**
