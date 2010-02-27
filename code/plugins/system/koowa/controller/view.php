@@ -33,6 +33,9 @@ abstract class KControllerView extends KControllerBread
 		$this->registerActionAlias('unlock' , 'lock');
 	 
 		$this->registerFunctionBefore('read', 'saveReferrer');
+		
+		//Set default redirect
+		$this->_redirect = KRequest::url();
 	}
 	
 	/**
@@ -68,12 +71,15 @@ abstract class KControllerView extends KControllerBread
 	public function saveReferrer()
 	{
 		if(KRequest::type() == 'HTTP') 
-		{
-			$referrer = (string) KRequest::referrer();
-				
+		{	
+			$referrer = KRequest::referrer();
+			$request  = KRequest::url();
+					
 			//Prevent referrer getting lost at a subsequent read action
-			if($referrer != (string) KRequest::url()) {
-				KRequest::set('session.com.dispatcher.referrer', $referrer);
+			if($referrer->query['option'] != $request->query['option'] || 
+			   $referrer->query['view']   != $request->query['view'])  
+			{
+				KRequest::set('session.com.dispatcher.referrer', (string) $referrer);
 			}
 		}
 	}
@@ -85,18 +91,15 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionRead()
 	{		
+		//Handle the action
 		$row = parent::_actionRead();
 		
-		if($row instanceof KDatabaseRowAbstract)
-		{	
-			//Get the table behaviors
-			$behaviors = KFactory::get($row->getTable())->getBehaviors();
-			$layout    = KRequest::get('get.layout', 'cmd');
-		
+		if(isset($row)) 
+		{
 			//Lock the row 
-			if(in_array('lockable', array_keys($behaviors)) &&  $layout == 'form') {
+			if(KRequest::get('get.layout', 'cmd') == 'form' && $row->isLockable()) {
 				$row->lock();
-			}				
+			}
 		}
 			
 		return $row;
@@ -109,21 +112,20 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionSave()
 	{
-		$row = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
-		
-		if($row instanceof KDatabaseRowAbstract)
+		//Handle the action
+		if((bool) KRequest::get('get.id', 'int')) 
 		{
-			//Get the table behaviors
-			$behaviors = KFactory::get($row->getTable())->getBehaviors();
-		
-			//Unlock the row 
-			if(in_array('lockable', array_keys($behaviors))) {
-				$row->unlock();
-			}
-		}
+			$result = $this->execute('edit');
 			
+			//Unlock the row 
+			if($result[0]->isLockable()) {
+				$result[0]->unlock();
+			}
+			
+		} else $result = $this->execute('add');
+		
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
-		return $row;
+		return $result;
 	}
 	
 	/*
@@ -133,10 +135,26 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionApply()
 	{
-		$row = (bool) KRequest::get('get.id', 'int') ? $this->execute('edit') : $this->execute('add');
-		
-		$this->_redirect = KRequest::url();
-		return $row;
+		//Handle the action
+		if((bool) KRequest::get('get.id', 'int')) 
+		{
+			//Edit returns a rowset
+			$result = $this->execute('edit');
+			
+			//Unlock the row 
+			if($result[0]->isLockable()) {
+				$result[0]->unlock();
+			}
+			
+			$this->_redirect = 'view='.$this->_identifier->name.'&id='.$result[0]->id;
+		}
+		else 
+		{
+			$result = $this->execute('add');
+			$this->_redirect = 'view='.$this->_identifier->name.'&id='.$result->id;
+		}
+					
+		return $result;
 	}
 
 	/*
@@ -150,20 +168,14 @@ abstract class KControllerView extends KControllerBread
 					->set(KRequest::get('request', 'string'))
 					->getItem();
 					
-		if($row instanceof KDatabaseRowAbstract)
-		{
-			//Get the table behaviors
-			$behaviors = KFactory::get($row->getTable())->getBehaviors();
-		
-			//Unlock the row 
-			if(in_array('lockable', array_keys($behaviors))) {
-				$row->unlock();
-			}
+		if($row->isLockable()) {
+			$row->unlock();
 		}
 		
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
 	}
+	
 
 	/*
 	 * Generic method to modify the enabled state of and item(s)
@@ -175,7 +187,6 @@ abstract class KControllerView extends KControllerBread
 		KRequest::set('post', array('enabled' => $this->getAction() == 'enable' ? '1' : '0'));
 		$rowset = $this->execute('edit');
 		
-		$this->_redirect = KRequest::url();	
 		return $rowset;
 	}
 
@@ -188,8 +199,7 @@ abstract class KControllerView extends KControllerBread
 	{
 		Request::set('post', array('access' => KRequest::get('post.access', 'int')));
 		$rowset = $this->execute('edit');
-					
-		$this->_redirect = KRequest::url();
+
 		return $rowser;
 	}
 	
@@ -204,8 +214,7 @@ abstract class KControllerView extends KControllerBread
 		$row 	= KFactory::get($model->getTable())
 					->fetchRow(KRequest::get('post.id', 'int'))
 					->order(KRequest::get('post.order_change', 'int'));
-					
-		$this->_redirect = KRequest::url();		
+		
 		return $row;
 	}*/
 }

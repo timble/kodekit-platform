@@ -18,24 +18,26 @@
  */
 class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 {
- 	/**
-     * Saves the row to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties 
-     * with fresh data from the table on success.
-     *
-     * @return KDatabaseRowAbstract
-     */
-    protected function _beforeTableInsert(KCommandContext $context)
-    {
-    	$data = $context['data'];
-    	
-    	if(isset($context['data']['ordering']) && $context['data']['ordering'] <= 0) 
-    	{
-        	$query = 'SELECT MAX(ordering) FROM `#__'.$context['table'];
-    		$context['data']['ordering'] = (int) $context['caller']->getDatabase()->fetchResult($query) + 1;
-        }
-    }
+	/**
+	 * Get the methods that are available for mixin based
+	 * 
+	 * This functions allows for conditional mixing of the behavior. Only 
+	 * if the mixer has a 'ordering' property the behavior will allow to 
+	 * be mixed in.
+	 * 
+	 * @param object The mixer requesting the mixable methods. 
+	 * @return array An array of methods
+	 */
+	public function getMixableMethods(KObject $mixer = null)
+	{
+		$methods = array();
+		
+		if(isset($mixer->ordering)) {
+			$methods = parent::getMixableMethods($mixer);
+		}
+	
+		return $methods;
+	}
 	
 	/**
 	 * Move the row up or down in the ordering
@@ -100,4 +102,23 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 		return $this;
 	}
+ 	
+ 	/**
+     * Saves the row to the database.
+     *
+     * This performs an intelligent insert/update and reloads the properties 
+     * with fresh data from the table on success.
+     *
+     * @return KDatabaseRowAbstract
+     */
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
+    	$row = $context['data']; //get the row data being inserted
+    	
+    	if(isset($row->ordering) && $row->ordering <= 0) 
+    	{
+        	$query = 'SELECT MAX(ordering) FROM `#__'.$context['table'];
+    		$row->ordering = (int) $context['caller']->getDatabase()->fetchResult($query) + 1;
+        }
+    }
 }

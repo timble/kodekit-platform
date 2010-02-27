@@ -16,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
-interface KDatabaseBehaviorInterface extends KCommandInterface
+interface KDatabaseBehaviorInterface extends KCommandInterface, KFactoryIdentifiable
 {
 	
 }

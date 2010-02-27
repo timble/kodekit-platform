@@ -246,7 +246,7 @@ class KHttpUri extends KObject
     public function &__get($key)
     {
         if ($key == 'query') {
-           return $this->_vars;
+           return $this->_query;
         }
     }
     

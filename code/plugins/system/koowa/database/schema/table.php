@@ -89,7 +89,7 @@ class KDatabaseSchemaTable extends KObject
     public function __set($key, $value)
     {
     	if ($key == 'behaviors') {
-        	$this->_behaviors = array_flip((array)$value);
+        	$this->_behaviors = (array) $value;
         }
     }
 	
@@ -104,13 +104,18 @@ class KDatabaseSchemaTable extends KObject
     {
     	if ($key == 'behaviors') 
         {
-       		foreach($this->_behaviors as $key => $behavior)
+       		foreach($this->_behaviors as $key => $identifier)
 			{
-				if(!($behavior instanceof KDatabaseBehaviorInterface)) {
-					$this->_behaviors[$key] = KDatabaseBehavior::instantiate(array('behavior' => $key));
+				if(!($identifier instanceof KDatabaseBehaviorInterface)) 
+				{
+					if(is_string($identifier) && strpos($identifier, '.') === false ) {
+						$identifier = 'lib.koowa.database.behavior.'.$identifier;
+					} 
+										
+					$this->_behaviors[$key] =  KFactory::get($identifier);
 				}
 			}
-			
+				
 			return $this->_behaviors;
         }
     }

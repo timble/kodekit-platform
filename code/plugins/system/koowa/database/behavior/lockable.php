@@ -19,6 +19,27 @@
 class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 {
 	/**
+	 * Get the methods that are available for mixin based
+	 * 
+	 * This functions allows for conditional mixing of the behavior. Only 
+	 * if the mixer has a 'locked_by' property the behavior will allow to 
+	 * be mixed in.
+	 * 
+	 * @param object The mixer requesting the mixable methods. 
+	 * @return array An array of methods
+	 */
+	public function getMixableMethods(KObject $mixer = null)
+	{
+		$methods = array();
+		
+		if(isset($mixer->locked_by)) {
+			$methods = parent::getMixableMethods($mixer);
+		}
+	
+		return $methods;
+	}
+	
+	/**
 	 * Lock a row
 	 *
 	 * Requires an locked_on and locked_by field to be present in the table
@@ -97,12 +118,12 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		$data   = $context['data'];
+		$row    = $context['data'];
 		$userid = KFactory::get('lib.koowa.user')->get('id');
 		
-		if(isset($data['locked_by']) && $data['locked_by'] != 0) 
+		if(isset($row->locked_by) && $row->locked_by != 0) 
 		{
-			if($data['locked_by'] != $userid) {
+			if($row->locked_by != $userid) {
 				return false;	
 			}
 		}

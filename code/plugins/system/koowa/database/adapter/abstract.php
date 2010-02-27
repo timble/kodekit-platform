@@ -346,7 +346,6 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$context['table'] 		= $table;
 		$context['data'] 		= $data;
 		$context['operation']	= KDatabase::OPERATION_INSERT;
-		$context['insert_id']   = 0;
 
 		//Excute the insert operation
 		if($this->getCommandChain()->run('database.before.insert', $context) === true)
@@ -389,7 +388,6 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$context['data']  		= $data;
 		$context['where']   	= $where;
 		$context['operation']	= KDatabase::OPERATION_UPDATE;
-		$context['affected']   	= 0;
 
 		//Excute the update operation
 		if($this->getCommandChain()->run('database.before.update', $context) ===  true)
@@ -403,7 +401,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
 			  	.' SET '.implode(', ', $vals)
 			  	.' '.$context['where']
 			;
-			
+				
 			//Execute the query
 			$this->execute($sql);
 
@@ -429,7 +427,6 @@ abstract class KDatabaseAdapterAbstract extends KObject
 		$context['data']  		= null;
 		$context['where']   	= $where;
 		$context['operation']	= KDatabase::OPERATION_DELETE;
-		$context['affected']   	= 0;
 
 		//Excute the delete operation
 		if($this->getCommandChain()->run('database.before.delete', $context) ===  true)

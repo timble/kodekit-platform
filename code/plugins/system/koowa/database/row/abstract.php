@@ -20,6 +20,8 @@
 abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
+     * The data container
+     * 
      * The data for each column in the row (column_name => value).
      * The keys must match the physical names of columns in the
      * table for which this row is defined.
@@ -27,7 +29,14 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @var array
      */
     protected $_data = array();
-
+    
+    /**
+     * Array of column name mappings
+     *
+     * @var array
+     */
+    protected $_column_map = array();
+    
 	/**
      * KDatabaseTableAbstract parent class or instance.
      *
@@ -41,7 +50,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	 * @var KIdentifierInterface
 	 */
 	protected $_identifier;
-
+	
     /**
      * Constructor
      *
@@ -54,12 +63,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 
     	// Initialize the options
         $options  = $this->_initialize($options);
-        
+         
   		// Set the table indentifier
     	if(isset($options['table'])) {
 			$this->setTable($options['table']);
 		}
-			
+		
+		//Set the column mappings
+		 $this->_column_map       = $options['column_map'];
+		 $this->_column_map['id'] = KFactory::get($this->getTable())->getPrimaryKey();
+		
 		// Reset the row
 		$this->reset();
 
@@ -81,7 +94,8 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     {
         $defaults = array(
             'table'      => null,
-        	'identifier' => null
+        	'identifier' => null,
+        	'column_map' => array()
         );
 
         return array_merge($defaults, $options);
@@ -147,14 +161,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function save()
     {
-        //Remove the primary key, it either exists or will be created by the database
-        $data = $this->getData();
-        unset($data[KFactory::get($this->getTable())->getPrimaryKey()]);
-    	  
-        if(empty($this->id)) {
-        	$result = KFactory::get($this->getTable())->insert($data); 
+    	if(empty($this->id)) {
+        	$result = KFactory::get($this->getTable())->insert($this); 
         } else {
-        	$result = KFactory::get($this->getTable())->update($data, $this->id);
+        	$result = KFactory::get($this->getTable())->update($this);
         }
          
         $this->setData($result);
@@ -169,7 +179,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function delete()
     {
-    	KFactory::get($this->getTable())->delete($this->id);
+    	KFactory::get($this->getTable())->delete($this);
         return $this;
     }
 
@@ -190,12 +200,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @param  	string 	The user-specified column name.
      * @return 	string 	The corresponding column value.
      */
-    public function __get($columnName)
+    public function __get($column)
     {
-    	if($columnName == 'id') {
-        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
-        }
-    	return $this->_data[$columnName];
+    	if(isset($this->_column_map[$column])) {
+    		$column = $this->_column_map[$column];
+    	}
+    	
+    	return $this->_data[$column];
     }
 
     /**
@@ -205,13 +216,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @param  	mixed  	The value for the property.
      * @return 	void
      */
-    public function __set($columnName, $value)
+    public function __set($column, $value)
     {
-    	if($columnName == 'id') {
-        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
-        }
+    	if(isset($this->_column_map[$column])) {
+    		$column = $this->_column_map[$column];
+    	}
 
-        $this->_data[$columnName] = $value;
+        $this->_data[$column] = $value;
    }
 
 	/**
@@ -220,13 +231,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @param  string  The column key.
      * @return boolean
      */
-    public function __isset($columnName)
+    public function __isset($column)
     {
-        if($columnName == 'id') {
-        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
-        }
+   	 	if(isset($this->_column_map[$column])) {
+    		$column = $this->_column_map[$column];
+    	}
 
-    	return array_key_exists($columnName, $this->_data);
+    	return array_key_exists($column, $this->_data);
     }
 
     /**
@@ -235,26 +246,23 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * @param	string  The column key.
      * @return	void
      */
-    public function __unset($columnName)
+    public function __unset($column)
     {
-   	 	if($columnName == 'id') {
-        	$columnName = KFactory::get($this->getTable())->getPrimaryKey();
-        }
+    	if(isset($this->_column_map[$column])) {
+    		$column = $this->_column_map[$column];
+    	}
 
-        unset($this->_data[$columnName]);
+        unset($this->_data[$column]);
     }
  
    /**
- 	* Returns an associative array of object properties
+ 	* Returns an associative array of the raw data
   	*
   	* @return  array
   	*/
  	public function getData()
   	{
-  		$result = $this->_data;
-  		$result['id'] = $this->id;
-   
-  		return $result;
+  		return $this->_data;
   	}
   
   	/**
@@ -270,18 +278,11 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 		} else {
 			$data = (array) $data;
 		}
-  	 	
-  		$pk = KFactory::get($this->getTable())->getPrimaryKey();
-  
- 		foreach ($data as $k => $v)
-  		{
-  			if('id' == $k) {
- 				$this->_data[$pk] = $v;
-  			} else {
- 				$this->_data[$k] = $v;
-  			}
+	
+ 		foreach ($data as $k => $v) {
+  			$this->$k = $v;
   		}
- 
+  		
   		return $this;
 	}
 	
@@ -290,6 +291,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      * 
      * This functions overloads KObject::__call and implements a just in time
      *  mixin strategy. Available table behaviors are only mixed when needed.
+     *  
+     * It's also capable of checking is a behavior has been mixed succesfully
+     * using is[Behavior] function. If the behavior exists the function will
+     * return TRUE, otherwise FALSE.
      *
    	 * @param  string 	The function name
 	 * @param  array  	The function arguments
@@ -298,13 +303,27 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function __call($method, array $arguments)
     {
-        if(!isset($this->_mixed_methods[$method])) 
+   	 	//If the method hasn't been mixed yet, load all the behaviors
+    	if(!isset($this->_mixed_methods[$method])) 
         {
 			foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
 				$this->mixin($behavior);
 			}
         }
-        
+    	
+        //If the method is of the formet is[Bahavior] handle it 
+    	$parts = KInflector::explode($method);
+    	
+    	if($parts[0] == 'is' && isset($parts[1])) 
+        {
+			if(isset($this->_mixed_methods[$method])) {
+				return true;
+			}
+			
+			return false;
+        }
+    	
+    	
        return parent::__call($method, $arguments);
     }
 }

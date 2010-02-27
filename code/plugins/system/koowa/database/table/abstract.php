@@ -320,13 +320,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
             $this->_defaults = array();
             $fields = $this->getFields();
         	
-            foreach($fields as $name => $description)
-        	{
+            foreach($fields as $name => $description) {
         	    $this->_defaults[$name] = $description->default;
-        	    if($name == $this->getPrimaryKey()) {
-        	  		$this->_defaults['id'] = $description->default;
-        	  	}
-
             }
         }
     	return $this->_defaults;
@@ -405,12 +400,12 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
      */
 	public function select( $query = null)
 	{
-       if(is_numeric($query) || is_array($query))
-       {
+       //Create query object
+		if(is_numeric($query) || is_array($query))
+       	{
         	$key    = $this->getPrimaryKey();
            	$values = (array) $query;
 
-         	//Create query object
        		$query = $this->_database->getQuery()
         				->where($key, 'IN', $values);
      	}
@@ -426,49 +421,64 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         	}
       	}
         
+      	//Create commandchain context
 		$context = new KCommandContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_SELECT;
-		$context['data'] 	  = null;
 		$context['query']	  = $query;
 		$context['table']	  = $this->getBase();
-		$context['options']	  = array('table' => $this);
 		
 		if($this->getCommandChain()->run('before.table.select', $context) === true) 
 		{	
-			//Only fetch the data if we have a valid query, otherwise create an empty rowset
-			$context['options']['data']  = $this->_database->fetchAssocList($query);
-    		$context['data'] = KFactory::tmp($this->getRowset(), $context['options']);
+			//Fetch the raw data
+			$options  = array('table' => $this);
+			$options['data']  = $this->_database->fetchAssocList($query);
+			
+			//Build the rowset object
+    		$context['data'] = KFactory::tmp($this->getRowset(), $options);
 			
 			$this->getCommandChain()->run('after.table.select', $context);
 		}
-
+		
 		return $context['data'];
 	}
 
 	/**
 	 * Table insert method
 	 *
-	 * @param  array	An associative array of data to be inserted
-	 * @return array 	An associative array of the inserted data
+	 * @param  array|object	An associative array or a KDatabaseRow object
+	 * @return array 		An associative array of the inserted data
 	 */
-	public function insert( array $data )
+	public function insert( $data )
 	{
+		//Create commandchain context
 		$context = new KCommandContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_INSERT;
-		$context['result'] 	  = 0;
 		$context['data']	  = $data;
 		$context['table']	  = $this->getBase();
 		
 		if($this->getCommandChain()->run('before.table.insert', $context) === true) 
 		{
-			//Remove unwanted colums and filter data
-			$context['data']   = $this->filter($context['data']);
-			$context['result'] = $this->_database->insert($context['table'], $context['data']);
+			//Get the raw data 
+			if($context['data'] instanceof KDatabaseRowAbstract) {
+				$data = $context['data']->getData();
+			} else {
+				$data = $context['data']; 
+			}
+		
+			//Filter the data
+			$data = $this->filter($data);
 			
-			//Set the primary key value from the insert id
-			$context['data'][$this->getPrimaryKey()] = $context['result'];
+			//Execute the insert query
+			$data[$this->getPrimaryKey()] = $this->_database->insert($context['table'], $data);
+			
+			//Set the actual data
+			if($context['data'] instanceof KDatabaseRowAbstract) {
+				$context['data']->setData($data);
+			} else {
+				$context['data'] = $data;
+			}
 			
 			$this->getCommandChain()->run('after.table.insert', $context);
 		}
@@ -479,38 +489,51 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Table update method
 	 *
-	 * @param  array	An associative array of data to be updated
-	 * @param  mixed	Can either be a row, an array of rows or a KDatabaseQuery object
+	 * @param  array|mixed	An associative array or a KDatabaseRow object
+	 * @param  mixed		Can either be a row id, an array of rows or a KDatabaseQuery object
 	 * @return array    An associative array of the updated data
 	 */
-	public function update( array $data, $where = null)
+	public function update( $data, $where = null)
 	{
 		//Create where statement
 		if(!($where instanceof KDatabaseQuery))
 		{
-			$rows = (array) $where;
-
-			//Create where statement
-			if (count($rows))
-			{
-            	$where = $this->_database->getQuery()
-            		->where($this->getPrimaryKey(), 'IN', $rows);
+			$rows = $data instanceof KDatabaseRowAbstract ?  (array) $data->id : (array) $where;
+		
+			if (count($rows)) {
+            	$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
 
+		//Create commandchain context
 		$context = new KCommandContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_UPDATE;
-		$context['result'] 	  = 0;
 		$context['data']   	  = $data;
 		$context['table']	  = $this->getBase();
 		$context['where']	  = $where;
 			
 		if($this->getCommandChain()->run('before.table.update', $context) === true) 
 		{
-			//Remove unwanted colums and filter data
-			$context['data']   = $this->filter($context['data']);
-			$context['result'] = $this->_database->update($context['table'], $context['data'], $context['where']);
+			//Get the raw data 
+			if($context['data'] instanceof KDatabaseRowAbstract) {
+				$data = $context['data']->getData();
+			} else {
+				$data = $context['data']; 
+			}
+		
+			//Filter the data
+			$data = $this->filter($data);
+			
+			//Execute the update query
+			$context['affected'] = $this->_database->update($context['table'], $data, $context['where']);
+			
+			//Set the actual data
+			if($context['data'] instanceof KDatabaseRowAbstract) {
+				$context['data']->setData($data);
+			} else {
+				$context['data'] = $data;
+			}
 			
 			$this->getCommandChain()->run('after.table.update', $context);
 		}
@@ -521,7 +544,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Table delete method
 	 *
-	 * @param  mixed	Can either be a row, an array of rows or a query object
+	 * @param  mixed	Can either be a row id, an array of rows, a query object or a KDatabaseRow object
 	 * @return boolean True if successful otherwise returns false
 	 */
 	public function delete( $where )
@@ -529,30 +552,27 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		//Create where statement
 		if(!($where instanceof KDatabaseQuery))
 		{
-			$rows = (array) $where;
-
-			//Create where statement
-			if (count($rows))
-			{
-            	$where = $this->_database->getQuery()
-            		->where($this->getPrimaryKey(), 'IN', $rows);
+			$rows = $where instanceof KDatabaseRowAbstract ?  (array) $where->id : (array) $where;
+			
+			if (count($rows)) {
+            	$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', $rows);
 			}
 		}
 
+		//Create commandchain context
 		$context = new KCommandContext();
 		$context['caller']    = $this;
 		$context['operation'] = KDatabase::OPERATION_DELETE;
-		$context['result']    = false;
 		$context['table']	  = $this->getBase();
 		$context['where']	  = $where;
 		
 		if($this->getCommandChain()->run('before.table.delete', $context) === true) 
 		{
-			$context['result'] = $this->_database->delete($context['table'], $context['where']);
+			$context['affected'] = $this->_database->delete($context['table'], $context['where']);
 			$this->getCommandChain()->run('after.table.delete', $context);
 		}
 
-		return $context['result'];
+		return $context['affected'];
 	}
 
 	/**

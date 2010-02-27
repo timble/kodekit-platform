@@ -136,10 +136,16 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	public function render()
 	{
 		$text	= JText::_($this->_options['text']);
+		
+		$link   = $this->getLink();
+		$href   = !empty($link) ? 'href="'.JRoute::_($link).'"' : '';
+		
+		$onclick =  $this->getOnClick();
+		$onclick = !empty($onclick) ? 'onclick="'. $onclick.'"' : '';
 
 		$html 	= array ();
 		$html[]	= '<td class="button" id="'.$this->getId().'">';
-		$html[]	= '<a href="'.JRoute::_($this->getLink()).'" onclick="'. $this->getOnClick().'" class="toolbar">';
+		$html[]	= '<a '.$href.' '.$onclick.' class="toolbar">';
 
 		$html[]	= '<span class="'.$this->getClass().'" title="'.$text.'">';
 		$html[]	= '</span>';
@@ -152,7 +158,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
 	public function getLink()
 	{
-		return '#';
+		return '';
 	}
 
 	public function getOnClick()
