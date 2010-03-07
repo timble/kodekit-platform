@@ -18,41 +18,24 @@ class ComTermsControllerTerm extends KControllerBread
 	}
 	
 	protected function _actionDelete() 
-	{		
-		// Get the relation id to be deleted
-		$ids = (array) KRequest::get('post.terms_relation_id', 'int');
-		
-		// Delete the relations
-		$rowset = KFactory::get('admin::com.terms.table.relations')
-					  ->fetchRowset($ids)
-					  ->delete();
-		
-		$row_id 	 = KRequest::get('post.row_id', 'int');
-		$table_name  = KRequest::get('post.table_name', 'cmd');
-		
-		//$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
-		//@TODO : Ajax requests shouldn't redirect, while normal requests should
-		$this->execute('read');
-		
+	{			
+		// Delete a relation
+		$rowset = KFactory::get('admin::com.terms.model.relations')
+					->set(KRequest::get('request', 'string'))
+					->getList()
+					->delete();
+						
 		return $rowset;
 	}
 	
 	protected function _actionAdd() 
-	{
-		// Get term data
-		$data = KRequest::get('post', 'string');
-		
+	{			
 		// Add a relation
-		$rows = KFactory::get('admin::com.terms.table.relations')
-					  ->fetchRow()
-					  ->setData($data)
-					  ->save();
-	
-		$row_id 	 = KRequest::get('post.row_id', 'int');
-		$table_name  = KRequest::get('post.table_name', 'cmd');
-		
-		//$this->_redirect = 'view=terms&row_id='.$row_id.'&table_name='.$table_name;
-		//@TODO : Ajax requests shouldn't redirect, while normal requests should
-		$this->execute('read');
+		$row = KFactory::get('admin::com.terms.model.relations')
+				->getItem()
+				->setData(KRequest::get('post', 'raw'))
+				->save();
+							
+		return $row;
 	}
 }

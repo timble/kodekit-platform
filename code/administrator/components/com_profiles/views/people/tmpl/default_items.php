@@ -8,14 +8,19 @@
 		<?= $i + 1; ?>
 	</td>
 	<td align="center">
-		<? // @helper('grid.checkedOut', $project, $i, $project->id); ?>
-		<?= @helper('grid.id', $i, $person->id); ?>
+		<?= @helper('grid.id', $i, $person); ?>
 	</td>
 	<td>
 		<span class="editlinktip hasTip" title="<?= @text('Edit Profile')?>::<?= @$escape($person->name); ?>">
+		<? if($person->locked) : ?>
+			<span>
+				<?= @$escape($person->name)?>
+			</span>
+		<? else : ?>
 			<a href="<?= @route('view=person&id='.$person->id)?>">
 				<?= @$escape($person->name)?>
 			</a>
+		<? endif; ?>
 		</span>
 	</td>
 	<td align="center">
@@ -41,6 +46,9 @@
 	</td>
 	<td align="center" width="15px">
 		<?= @helper('grid.enable', $person->enabled, $i)?>
+	</td>
+	<td align="center" width="15px">
+		<?= @$escape($person->hits)?>
 	</td>
 	<td align="center" width="1%">
 		<?= $person->id?>

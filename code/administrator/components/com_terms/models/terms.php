@@ -20,26 +20,7 @@ class ComTermsModelTerms extends KModelTable
 		 	->insert('name', 'string')
 		 	->insert('table_name', 'string');
 	}
-	
-	/**
-     * Get a tag object
-     *
-     * @return KDatabaseRow
-     */
-    public function getItem()
-    {
-        // Get the data if it doesn't already exist
-        if (!isset($this->_item))
-        {
-        	$table = KFactory::get($this->getTable()); 
-        	
-      		$query = $this->_buildQuery()->where('tbl.name', '=', $this->_state->name);
-        	$this->_item = $table->fetchRow($query);
-        }
-
-        return parent::getItem();
-    }
-    
+	 
 	protected function _buildQueryFields(KDatabaseQuery $query)
 	{
 		$query->select('tbl.*')
@@ -53,18 +34,14 @@ class ComTermsModelTerms extends KModelTable
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$state = $this->_state;
+		$query->where('relations.row_id', 'LIKE',  $this->_state->row_id);
 		
-		if($state->tags_tag_id) {
-			$query->where('relations.terms_term_id','=', $state->tags_tag_id);
+		if($this->_state->tags_tag_id) {
+			$query->where('relations.terms_term_id','=', $this->_state->tags_tag_id);
 		}
 		
-		if($state->row_id) {
-			$query->where('relations.row_id', 'LIKE',  $state->row_id);
-		}
-
-		if($state->table_name) {
-			$query->where('relations.table_name','=', $state->table_name);
+		if($this->_state->table_name) {
+			$query->where('relations.table_name','=', $this->_state->table_name);
 		}
 	}
 }

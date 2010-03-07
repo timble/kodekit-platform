@@ -11,8 +11,8 @@ class ComProfilesTableUsers extends KDatabaseTableAbstract
 {
 	public function __construct(array $options = array())
 	{
-		$options['table_name']	= 'users';
-		$options['primary']		= 'id';
+		$options['name'] = 'profiles_users';
+		$options['base'] = 'users';
 		
 		parent::__construct($options);
 	}

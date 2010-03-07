@@ -12,7 +12,7 @@
  * Because Offices and departments work basically in the same way, we have an
  * abstract model to represent them both
  */
-abstract class ComProfilesModelGroups extends ComDefaultModelView
+abstract class ComProfilesModelGroups extends KModelTable
 {
     /**
 	 * All the items
@@ -21,16 +21,22 @@ abstract class ComProfilesModelGroups extends ComDefaultModelView
 	 */
 	protected $_all;
 	
+	public function __construct(array $options = array())
+	{
+		$options['table_behaviors'] = array('hittable', 'lockable', 'creatable', 'modifiable');
+		
+		parent::__construct($options);
+	}
+	
 	public function getAll()
 	{
         // Get the data if it doesn't already exist
         if (!isset($this->_all))
         {
-        	if($table = $this->getView())
-            {
-        		$query = $this->_db->getQuery()->select(array('*'));
-        		$this->_all = $table->fetchRowset($query);
-            }	
+        	$table = KFactory::get($this->getTable());
+        	$query = $table->getDatabase()->getQuery()->select(array('*'));
+        	
+        	$this->_all = $table->select($query);	
         }
 
         return $this->_all;
@@ -47,5 +53,7 @@ abstract class ComProfilesModelGroups extends ComDefaultModelView
 		if($state->enabled) {
 			$query->where('tbl.enabled','=', $state->enabled);
 		}
+		
+		parent::_buildQueryWhere($query);
 	}
 }

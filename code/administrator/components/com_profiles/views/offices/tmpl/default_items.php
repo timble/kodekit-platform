@@ -8,14 +8,19 @@
 		<?= $i + 1; ?>
 	</td>
 	<td align="center">
-		<? // @helper('grid.checkedOut', $project, $i, $project->id); ?>
-		<?= @helper('grid.id', $i, $office->id); ?>
+		<?= @helper('grid.id', $i, $office); ?>
 	</td>
 	<td>
 		<span class="editlinktip hasTip" title="<?= @text('Edit Profile');?>::<?= @$escape($office->title); ?>">
+		<? if($office->locked) : ?>
+			<span>
+				<?= @$escape($office->title); ?>
+			</span>
+		<? else : ?>
 			<a href="<?= @route('view=office&id='.$office->id); ?>">
 				<?= @$escape($office->title); ?>
 			</a>
+		<? endif; ?>
 		</span>
 	</td>
 	<td align="center" width="15px">

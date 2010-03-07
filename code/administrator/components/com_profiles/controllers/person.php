@@ -7,34 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-/**
- * Person Controller
- *
- * @package		Profiles
- */
-class ComProfilesControllerPerson extends ComProfilesControllerDefault
+class ComProfilesControllerPerson extends ComDefaultControllerView
 {
-	/**
-	 * Filter input values, modify request
-	 *
-	 * @params	Arguments
-	 * @return 	void
-	 */
-	public function filterInput(ArrayObject $args)
-	{
-		$alias 	= KRequest::get('post.alias', 'ascii');
-		if(empty($alias)) {
-			$alias = KRequest::get('post.firstname', 'ascii').'_'.KRequest::get('post.lastname', 'ascii');
-		}
-		
-		KRequest::set('post.alias', $alias);
 
-		// @todo proper email validation
-		$filter = KFactory::tmp('lib.koowa.filter.email');
-		if(!$filter->validate(KRequest::get('post.email', $filter))) 
-		{
-			KRequest::set('post.email', '');
-			JError::raiseNotice(0, 'Not a valid email address');
-		}
-	}
 }

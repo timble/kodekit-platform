@@ -21,10 +21,10 @@ class ComTermsRowRelation extends KDatabaseRowAbstract
     public function save()
     {
     	// Check if term exists, if not then add a new term
-    	$table  = KFactory::get('admin::com.terms.table.terms');
-    	$query  = $table->getDatabase()->getQuery();
-    	$term   = $table->fetchRow($query->where('name', '=', $this->_data['name']));
-       			
+    	$term = KFactory::tmp('admin::com.terms.model.terms')
+    				->set('name', $this->_data['name'])
+    				->getItem();
+    												
 		if(!$term->id) 
 		{
 			$term->name = $this->_data['name'];
@@ -48,16 +48,17 @@ class ComTermsRowRelation extends KDatabaseRowAbstract
     public function delete()
     {
     	// If not other relations exists, delete the term
-    	$query  = $this->_table->getDatabase()->getQuery();
-       	$result = $this->_table->count($query->where('terms_term_id', '=', $this->terms_term_id));
-       	 	
+    	$query  = KFactory::get($this->getTable())->getDatabase()->getQuery();
+       	$result = KFactory::get($this->getTable())->count($query->where('terms_term_id', '=', $this->terms_term_id));
+       	 	 	
 		if($result == 1) 
 		{
-			KFactory::get('admin::com.terms.table.terms')
-				->fetchRow($this->terms_term_id)
+			KFactory::tmp('admin::com.terms.model.terms')
+				->set('id', $this->terms_term_id)
+				->getItem()
 				->delete();
 		}
-		
+	
 		// Delete the relation
     	parent::delete();
     	

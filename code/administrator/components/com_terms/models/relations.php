@@ -20,27 +20,19 @@ class ComTermsModelRelations extends KModelTable
 		 	->insert('row_id', 'int');
 	}
 	
-	/**
-     * Get a tag object
-     *
-     * @return KDatabaseRow
-     */
     public function getItem()
     {
-        // Get the data if it doesn't already exist
         if (!isset($this->_item))
-        {
-        	if($table = $this->getTable()) 
-        	{
-         		$query = $this->_buildQuery()
-         						->where('tbl.terms_term_id', '=', $this->_state->terms_term_id, 'AND')
-         						->where('tbl.table_name', '=', $this->_state->table_name, 'AND')
-         						->where('tbl.row_id', '=', $this->_state->row_id);
-        		$this->_item = $table->fetchRow($query);
-        	} 
-        	else $this->_item = null;
+        {	
+        	$table = KFactory::get($this->getTable());
+        	
+        	if($this->_state->terms_term_id && $this->_state->table_name && $this->_state->row_id) {
+        		$this->_item = parent::getItem();
+        	} else  {
+        		$this->_item =  KFactory::tmp($table->getRow(), array('table' => $table));
+        	}
         }
 
-        return parent::getItem();
+        return $this->_item;
     }
 }

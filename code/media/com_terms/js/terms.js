@@ -36,7 +36,7 @@ var Terms = Ajax.extend({
     
     _actionDelete: function(data)
     {
-    	this.request({terms_relation_id: data});
+    	this.request({id: data});
     },
     
     _actionAdd: function(data)

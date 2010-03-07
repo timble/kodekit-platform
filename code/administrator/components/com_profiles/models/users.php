@@ -51,14 +51,14 @@ class ComProfilesModelUsers extends ComDefaultModelView
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$state = $this->_state;
-		
-		if($state->search) {
-			$query->where('tbl.name', 'LIKE',  '%'.$state->search.'%');
+		if($this->_state->search) {
+			$query->where('tbl.name', 'LIKE',  '%'.$this->_state->search.'%');
 		}
 		
-		if ($state->gid) {
-			$query->where('tbl.gid','=', $state->gid);
+		if ($this->_state->gid) {
+			$query->where('tbl.gid','=', $this->_state->gid);
 		}
+		
+		parent::_buildQueryWhere($query);
 	}
 }

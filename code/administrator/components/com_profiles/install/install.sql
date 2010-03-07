@@ -1,14 +1,14 @@
-
-
 CREATE TABLE IF NOT EXISTS `#__profiles_departments` (
   `profiles_department_id` SERIAL,
   `title` varchar(250) NOT NULL,
-  `alias` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `alias` varchar(255) NOT NULL COMMENT = '@Filter("alias")',
+  `description` text NOT NULL COMMENT = '@Filter("html, tidy")',
+  `created_on` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL default 0,
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default 0,
+  `locked_on` datetime NOT NULL default '0000-00-00 00:00:00',
+  `locked_by` int(11) NOT NULL default 0,
   `enabled` tinyint(1) SIGNED  NOT NULL default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `#__profiles_departments` (
 CREATE TABLE IF NOT EXISTS `#__profiles_offices` (
   `profiles_office_id` SERIAL,
   `title` varchar(250) NOT NULL,
-  `alias` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `alias` varchar(255) NOT NULL COMMENT = '@Filter("alias")',
+  `description` text NOT NULL COMMENT = '@Filter("html, tidy")',
   `address1` varchar(255) NOT NULL,
   `address2` varchar(255) NOT NULL,
   `city` varchar(45) NOT NULL,
@@ -27,10 +27,12 @@ CREATE TABLE IF NOT EXISTS `#__profiles_offices` (
   `phone` varchar(20) NOT NULL,
   `fax` varchar(20) NOT NULL,
   `coordinates` varchar(250) NOT NULL,
-  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `created_on` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL default 0,
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) NOT NULL default 0,
+  `locked_on` datetime NOT NULL default '0000-00-00 00:00:00',
+  `locked_by` int(11) NOT NULL default 0,
   `enabled` tinyint(1) SIGNED NOT NULL default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -40,22 +42,25 @@ CREATE TABLE IF NOT EXISTS `#__profiles_people` (
   `profiles_person_id` SERIAL,
   `profiles_department_id` bigint(20) UNSIGNED NOT NULL,
   `profiles_office_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` int(11) NULL COMMENT 'Joomla user id',
+  `user_id` int(11) NULL,
   `firstname` varchar(45) NOT NULL,
   `middlename` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
-  `alias` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL COMMENT = '@Filter("alias")',
   `position` varchar(45) NOT NULL,
   `birthday` date NOT NULL default '0000-00-00',
   `gender` tinyint(3) NOT NULL,
   `mobile` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `bio` text NOT NULL,
-  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `email` varchar(45) NOT NULL COMMENT = '@Filter("email")',
+  `bio` text NOT NULL COMMENT = '@Filter("html, tidy")',
+  `created_on` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created_by` bigint(20) UNSIGNED NOT NULL default 0,
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` bigint(20) UNSIGNED NOT NULL default 0,
+  `locked_on` datetime NOT NULL default '0000-00-00 00:00:00',
+  `locked_by` int(11) NOT NULL default 0,
   `enabled` tinyint(1) SIGNED NOT NULL default 1,
+  `hits` int(11) SIGNED NOT NULL default 0
   KEY `department` (`profiles_department_id`),
   KEY `office` (`profiles_office_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

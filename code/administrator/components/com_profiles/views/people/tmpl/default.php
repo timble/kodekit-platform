@@ -17,7 +17,7 @@
 
 <form action="<?= @route()?>" method="post" name="adminForm" class="form-grid">
 	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="action" value="" />
+	<input type="hidden" name="action" value="browse" />
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>
@@ -44,6 +44,9 @@
 					
 				</th>
 				<th>
+					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
+				</th>
+				<th>
 					<?= @helper('grid.sort', 'ID', 'profiles_person_id', @$state->direction, @$state->order); ?>
 				</th>
 			</tr>
@@ -64,6 +67,8 @@
 				</td>
 				<td align="center">
 					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
+				</td>
+				<td>
 				</td>
 				<td>
 				</td>

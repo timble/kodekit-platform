@@ -8,7 +8,7 @@
 		<?= $i + 1; ?>
 	</td>
 	<td align="center">
-		<?= @helper('grid.id', $i, $user->id); ?>
+		<?= @helper('grid.id', $i, $user); ?>
 	</td>
 	<td>
 		<span class="editlinktip hasTip" title="<?= @text('Edit User')?>::<?= @$escape($user->name); ?>">

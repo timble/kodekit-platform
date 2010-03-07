@@ -11,6 +11,8 @@ class ComProfilesModelPeople extends ComDefaultModelView
 {
 	public function __construct(array $options = array())
 	{
+		$options['table_behaviors'] = array('hittable', 'lockable', 'creatable', 'modifiable');
+		
 		parent::__construct($options);
 		
 		// Set the state
@@ -58,5 +60,7 @@ class ComProfilesModelPeople extends ComDefaultModelView
 		if ( $state->letter_name) {
 			$query->where('tbl.lastname', 'Like',  $state->letter_name.'%');	
 		}
+		
+		parent::_buildQueryWhere($query);
 	}
 }

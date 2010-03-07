@@ -14,9 +14,11 @@
  */
 class ComProfilesControllerDashboard extends ComProfilesControllerDefault
 {
-	protected function _actionRead()
+	public function displayView()
 	{
-		KFactory::get('admin::com.profiles.view.dashboard.html')
-			->display();
+		KRequest::set('get.hidemainmenu', 0);
+		KRequest::set('get.layout', 'default');
+		
+		parent::displayView();
 	}
 }

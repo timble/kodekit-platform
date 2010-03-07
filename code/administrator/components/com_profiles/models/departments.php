@@ -9,5 +9,10 @@
 
 class ComProfilesModelDepartments extends ComProfilesModelGroups
 {
-	
+	public function __construct(array $options = array())
+	{
+		$options['table_behaviors'] = array('lockable', 'creatable', 'modifiable');
+		
+		parent::__construct($options);
+	}
 }

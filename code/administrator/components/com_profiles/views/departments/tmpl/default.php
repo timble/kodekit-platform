@@ -6,7 +6,7 @@
 
 <form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="action" value="" />
+	<input type="hidden" name="action" value="browse" />
 	<table class="adminlist" style="clear: both;">
 		<thead>
 			<tr>

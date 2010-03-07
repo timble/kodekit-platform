@@ -7,30 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-/**
- * Department Controller
- *
- * @package		Profiles
- */
-class ComProfilesControllerDepartment extends ComProfilesControllerDefault
+class ComProfilesControllerDepartment extends ComDefaultControllerView
 {
-	/**
-	 * Filter input values, modify request
-	 *
-	 * @params	Arguments
-	 * @return 	void
-	 */
-	public function filterInput(ArrayObject $args)
-	{
-		$alias 			= KRequest::get('post.alias', 'ascii');
-		$title 			= KRequest::get('post.title', 'string');
-		$description	= KRequest::get('post.description', 'raw' );
-
-		if(empty($alias)) {
-			$alias = KRequest::get('post.title', 'ascii');
-		}
-
-		KRequest::set('post.alias', $alias);
-		KRequest::set('post.description', $description);
-	}
+	
 }

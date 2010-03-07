@@ -42,7 +42,7 @@ class ComProfilesHelperSelect extends KObject
 		// Add first option to list
         $list = array();
 		if($allowAny) {
-			$list[] =  KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Office' ).' -', 'profiles_office_id', 'title' );
+			$list[] =  KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Office' ).' -', 'id', 'title' );
 		}
 
 		// Marge first option with departments
@@ -51,7 +51,7 @@ class ComProfilesHelperSelect extends KObject
 		$attribs['style'] = "width:142px";
 
 		// build the HTML list
-		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_office_id', 'title', $selected, $idtag );
+		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'id', 'title', $selected, $idtag );
  	}
 
 	public function departments($selected, $name = 'profiles_department_id', $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = true)
@@ -61,7 +61,7 @@ class ComProfilesHelperSelect extends KObject
 		// Add first option to list
         $list = array();
 		if($allowAny) {
-			$list[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Department' ).' -', 'profiles_department_id', 'title' );
+			$list[] = KTemplate::loadHelper('select.option', '', '- '.JText::_( 'Select Department' ).' -', 'id', 'title' );
 		}
 
 		// Marge first option with departments
@@ -70,7 +70,7 @@ class ComProfilesHelperSelect extends KObject
 		$attribs['style'] = "width:142px";
 
 		// build the HTML list
-		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'profiles_department_id', 'title', $selected, $idtag );
+		return KTemplate::loadHelper('select.genericlist', $list, $name, $attribs, 'id', 'title', $selected, $idtag );
  	}
 /* Unused
     public function users($selected, $name, $attribs = array('class' => 'inputbox', 'size' => '1'), $idtag = null, $allowAny = false)
