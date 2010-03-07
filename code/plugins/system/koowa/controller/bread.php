@@ -39,21 +39,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function execute($action = null)
 	{
-		if(empty($action)){
-			$action = $this->getAction();
-		} 
-		
-		return parent::execute($action);
-	}
-	
-	/**
-	 * Get the action that is was/will be performed.
-	 *
-	 * @return	 string Action name
-	 */
-	public function getAction()
-	{
-		if(!isset($this->_action))
+		if(empty($action))
 		{
 			switch(KRequest::method())
 			{
@@ -69,18 +55,15 @@ abstract class KControllerBread extends KControllerAbstract
 					//If an action override exists in the post request use it
 					if(!$action = KRequest::get('post.action', 'cmd')) {
 						$action = 'add';
-					}
-					
+					}	
 				} break;
 				
 				case 'PUT'    : $action = 'edit'; break;
 				case 'DELETE' : $action = 'delete';	break;
 			}
-			
-			$this->_action = $action;
-		}
-
-		return $this->_action;
+		} 
+		
+		return parent::execute($action);
 	}
 	
 	/**

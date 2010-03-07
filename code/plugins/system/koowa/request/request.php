@@ -314,7 +314,7 @@ class KRequest
 
 			// Sanitize the url since we can't trust the server var			
 			$path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
-			
+				
 			self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
 		}
 		

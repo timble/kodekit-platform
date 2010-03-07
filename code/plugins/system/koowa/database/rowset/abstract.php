@@ -20,6 +20,21 @@
  */
 abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryIdentifiable
 {
+	/** 
+     * The column names of a row in the rowset
+     *
+     * @var array
+     */
+    protected $_columns = array();
+    
+    /**
+     * Tracks columns where data has been updated. Allows more specific 
+     * save operations.
+     *
+     * @var array
+     */
+    protected $_modified = array();
+    
 	/**
      * KDatabaseTableAbstract parent class or instance.
      *
@@ -51,9 +66,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 			$this->setTable($options['table']);
 		}
 		
+		// Reset the rowset
+		$this->reset();
+		
 		// Insert the data, if exists
 		if(!empty($options['data'])) {
-			$this->insert($options['data']);
+			$this->insert($options['data'], $options['new']);
 		}
     }
 
@@ -72,7 +90,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
     	$defaults = array(
             'table'      => null,
         	'identifier' => null,
-        	'data'		 => null
+        	'data'		 => null,
+    		'new'		 => true
         );
 
         return array_merge($defaults, $options);
@@ -165,14 +184,9 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function save()
     {
-    	$this->rewind();
-    	
-    	while($this->valid())
-		{
-			$row = $this->current();
-			$row->save();
-    		$this->next();
-		}
+    	foreach ($this as $i => $row) {
+            $row->save();
+        }
 		
         return $this;
     }
@@ -184,60 +198,51 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function delete()
     {
-    	$this->rewind();
-    	
-    	while($this->valid())
-		{
-			$row = $this->current();
-			$row->delete();
-    		$this->next();
-		}
+    	foreach ($this as $i => $row) {
+            $row->delete();
+        }
 		
         return $this;
     }
     
 	/**
-     * Reset all rows in the rowset
+     * Reset the rowset
      *
      * @return KDatabaseRowsetAbstract
      */
     public function reset()
     {
-    	$this->rewind();
+    	$this->_columns  = KFactory::get($this->getTable())->getColumns();
+    	$this->_modified = array();
     	
-    	while($this->valid())
-		{
-			$row = $this->current();
-			$row->reset();
-    		$this->next();
-		}
-		
+    	$this->setArray(array());
+    	  		
         return $this;
     }
     
 	/**
      * Insert a new row, a list of rows or an empty row in the rowset
      *
-     * @param   array|object 	Either and associative array, a KDatabaseRow object or object
+     * @param   array|object 	Either and associative array an object or a KDatabaseRow object
      * @return KDatabaseRowsetAbstract
      */
-    public function insert($data = array())
+    public function insert($data, $new = true)
     {
-    	$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array('table' => $this->getTable()));
+    	//Set the row options
+    	$options = array(
+    		'table' => $this->getTable(),
+    		'new'   => $new
+     	);
+    	
+    	$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), $options);
 		$result = array();
-		
-		if(empty($data))
-		{
-			$new = clone $prototype;
-        	$result[] = $new;
-		}
 		
 		if(is_object($data))
 		{
 			if(!$row instanceof KDatabaseRowAbstract) 
 			{
 				$new = clone $prototype;
-        		$new->setData($data);
+        		$new->setData($data, $new);
         		$result[] = $new;
 			} 
 			else $result[] = $data;
@@ -250,7 +255,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 				if(!$row instanceof KDatabaseRowAbstract) 
 				{
 					$new = clone $prototype;
-        			$new->setData($row);
+        			$new->setData($row, $new);
         			$result[] = $new;
 				
 				} 
@@ -260,20 +265,86 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
 		
 		return parent::setArray($result);
     }
+    
+	/**
+     * Retrieve rowset column value
+     *
+     * @param  	string 	The column name.
+     * @return 	array 	An array of all the column values
+     */
+    public function __get($column)
+    {
+    	$result = array();
+    	foreach ($this as $i => $row) {
+            $result [] = $row->$column;
+        }
+    	
+    	return $result;
+    }
+
+    /**
+     * Set row field value
+     *
+     * @param  	string 	The column name.
+     * @param  	mixed  	The value for the property.
+     * @return 	void
+     */
+    public function __set($column, $value)
+    {
+    	//Set the value in each row
+    	foreach ($this as $i => $row) {
+            $row->$column = $value;
+        }
+        
+        //Add the column 
+        if(!in_array($column, $this->_columns)) {
+        	$this->_columns[] = $column;
+        }
+        
+        //Track the column as modified
+        $this->_modified[$column] = true;
+   }
+
+	/**
+     * Test existence of rowset field
+     *
+     * @param  string  The column name.
+     * @return boolean
+     */
+    public function __isset($column)
+    {
+    	return in_array($column, $this->_columns);
+    }
+
+    /**
+     * Unset a row field
+     * 
+     * This function will reset required column to their default value, not required
+     * fields will be unset.
+     * 
+     * @param	string  The column key.
+     * @return	void
+     */
+    public function __unset($column)
+    {
+    	foreach ($this as $i => $row) {
+            unset($row->$column);
+        }
+        
+        unset($this->_columns[array_search($column, $this->_columns)]);
+    }
 
 	/**
      * Returns all data as an array.
      *
-     * This works only if we have iterated through the result set once to
-     * instantiate the rows.
-     *
+     * @param   boolean 	If TRUE, only return the modified data. Default FALSE
      * @return array
      */
-    public function getData()
+    public function getData($modified = false)
     {
     	$result = array();
-    	foreach ($this as $i => $row) {
-            $result[$i] = $row->getData();
+    	foreach ($this as $i => $row)  {
+    		$result[$i] = $row->getData($modified);
         }
         return $result;
     }
@@ -282,15 +353,52 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
   	 * Set the row data based on a named array/hash
   	 *
   	 * @param   mixed 	Either and associative array, a KDatabaseRow object or object
+  	 * @param   boolean If TRUE, update the modified information for each column being set. 
+  	 * 					Default TRUE
  	 * @return 	KDatabaseRowsetAbstract
   	 */
-  	 public function setData( $data )
+  	 public function setData( $data, $modified = true )
   	 {
-  	 	foreach ($this as $i => $row) {
-  	 		$row->setData($data);
-        }
-        
-        return $this;
+  		//Get the data
+  	 	if($data instanceof KDatabaseRowAbstract) {
+			$data = $data->getData();
+		} else {
+			$data = (array) $data;
+		}
+		
+		//Set the data in the rows 
+		if($modified) 
+  	 	{
+  	 		foreach($data as $column => $value) {
+  	 			$this->$column = $value;
+  	 		}
+  	 	}
+  	 	else
+  	 	{
+  	 		foreach ($this as $i => $row) {
+  	 			$row->setData($data, false);
+        	}
+  	 	}
+  	 	
+  	 	//Track any new columbs being added
+  	 	foreach ($this as $i => $row) 
+  	 	{
+  	 	 	if(!in_array($column, $this->_columns)) {
+        		$this->_columns[] = $column;
+        	}
+       }
+
+  		return $this;
+	}
+	
+	/**
+	 * Get a list of columns that have been modified
+	 * 
+	 * @return array	An array of column names that have been modified
+	 */
+	public function getModified()
+	{
+		return $this->_modified;
 	}
 	
 	/**
@@ -303,10 +411,36 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KFactoryI
      */
     public function __call($method, array $arguments)
     {
-    	foreach ($this as $i => $row) {
-            $row->__call($method, $arguments);
+   	 	//If the method hasn't been mixed yet, load all the behaviors
+    	if(!isset($this->_mixed_methods[$method])) 
+        {
+			foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
+				$this->mixin(KFactory::get($behavior));
+			}
+        }
+        
+   	 	//If the method is of the formet is[Bahavior] handle it 
+    	$parts = KInflector::explode($method);
+    	
+    	if($parts[0] == 'is' && isset($parts[1])) 
+        {
+			if(isset($this->_mixed_methods[$method])) {
+				return true;
+			}
+			
+			return false;
+        }
+        else
+        {
+       		 //If the mixed method exists call it for all the rows
+        	if(isset($this->_mixed_methods[$method])) 
+        	{
+        		foreach ($this as $i => $row) {
+            		$row->__call($method, $arguments);
+        		}
+        	}
         }
     	
-       return parent::__call($method, $arguments);
+        return parent::__call($method, $arguments);
     }
 }

@@ -33,7 +33,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		
 		// Mixin the command chain
         $this->mixin(new KMixinCommandchain(array('mixer' => $this)));
-            
+        
      	//Set the root path for the request based on the application name
         KRequest::root(str_replace('/'.$this->_object->getName(), '', KRequest::base()));
 	}
@@ -62,7 +62,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function initialise(array $options = array())
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	= $this;
 		$context['options'] = $options;
 		$context['action']  = 'initialise';
@@ -82,7 +82,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function route()
  	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	= $this;
 		$context['action']   = 'route';
 	
@@ -101,7 +101,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
  	public function dispatch($component)
  	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	   = $this;
 		$context['component']  = substr( $component, 4 );
 		$context['action']     = 'dispatch';
@@ -121,7 +121,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function render()
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] = $this;
 		$context['action'] = 'render';
 		
@@ -141,7 +141,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function close( $code = 0 ) 
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	 = $this;
 		$context['code']	 = $code;
 		$context['action']   = 'close';
@@ -164,7 +164,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function redirect( $url, $msg = '', $type = 'message' )
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	 	 = $this;
 		$context['url']          = $url;
 		$context['message']      = $msg;
@@ -187,7 +187,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function login($credentials, array $options = array())
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']    	= $this;
 		$context['credentials'] = $credentials;
 		$context['options']     = $options;
@@ -210,7 +210,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function logout($userid = null, array $options = array())
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']    	= $this;
 		$context['credentials'] = array('userid' => $userid);
 		$context['options']     = $options;

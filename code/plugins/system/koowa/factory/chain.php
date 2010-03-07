@@ -40,13 +40,16 @@ class KFactoryChain extends KCommandChain
     		$cmd = $this->_command[ $iterator->key()];
 
 			$result = $cmd->execute( $name, $context );
-    		if ($result !== false) {
-      			return $result; //halt execution and return result
+    		if ($result !== false) 
+    		{
+      			$this->_context = null;
+    			return $result; //halt execution and return result
       		}
 
     		$iterator->next();
 		}
 
+		$this->_context = null;
 		return false;
   	}
 }

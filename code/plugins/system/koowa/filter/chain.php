@@ -30,7 +30,10 @@ class KFilterChain extends KCommandChain
   	final public function run( $name, KCommandContext $context )
   	{
   		$function = '_'.$name;
-  		return $this->$function($context);
+  		$result =  $this->$function($context);
+  		
+  		$this->_context = null;
+  		return $result;
   	}
 
 	/**
@@ -48,7 +51,7 @@ class KFilterChain extends KCommandChain
     		$cmd = $this->_command[ $iterator->key()];
    
 			if ( $cmd->execute( 'validate', $context ) === false) {
-      			return false;
+				return false;
       		}
     		
     		$iterator->next();
@@ -70,10 +73,10 @@ class KFilterChain extends KCommandChain
 		while($iterator->valid()) 
 		{
     		$cmd = $this->_command[ $iterator->key()];
-			$data = $cmd->execute( 'sanitize', $context ); 
+			$context['data'] = $cmd->execute( 'sanitize', $context ); 
     		$iterator->next();
 		}
 		
-		return $data;
+		return $context['data'];
   	}
 }

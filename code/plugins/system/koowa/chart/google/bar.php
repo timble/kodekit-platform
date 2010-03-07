@@ -74,7 +74,7 @@ abstract class KChartGoogleBar extends KChartGoogle
      * Set group spacer width
      *
      * @param	integer	width
-     * @retun 	this
+     * @return 	this
      */
     public function setGroupSpacerWidth($width)
     {

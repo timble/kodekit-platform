@@ -34,7 +34,7 @@ class KMixinCommandchain extends KMixinAbstract
 	 * Object constructor
 	 *
 	 * @param	array 	An optional associative array of configuration settings.
-	 * Recognized key values include 'mixer', 'command_chain' 
+	 * Recognized key values include 'mixer', 'command_chain', 'dispatch_events'
 	 * (this list is not meant to be comprehensive).
 	 */
 	public function __construct(array $options = array())
@@ -47,8 +47,11 @@ class KMixinCommandchain extends KMixinAbstract
 		//Create a command chain object 
 		$this->_command_chain = $options['command_chain'];
 
-		//Enqueue the event command 
-		$this->_command_chain->enqueue(new KCommandEvent());
+		//Enqueue the event command with a low priority to make sure that all other
+		//commands and ran first
+		if($options['auto_events']) {
+			$this->_command_chain->enqueue(new KCommandEvent(), KCommandChain::PRIORITY_LOWEST);
+		}
 	}
 	
 	/**
@@ -64,7 +67,8 @@ class KMixinCommandchain extends KMixinAbstract
         $options = parent::_initialize($options);
         
     	$defaults = array(
-            'command_chain' =>  new KCommandChain(),
+            'command_chain'   =>  new KCommandChain(),
+    		'auto_events'     => true
         );
 
         return array_merge($defaults, $options);

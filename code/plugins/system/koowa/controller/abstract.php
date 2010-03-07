@@ -161,9 +161,9 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		if (isset( $this->_action_map[$action] )) {
 			$action = $this->_action_map[$action];
 		}
-
+		
 		//Create the command arguments object
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] = $this;
 		$context['action'] = $action;
 		$context['result'] = false;

@@ -42,7 +42,7 @@
  * 			$result = $context['result'];
  * 
  * 			//The context object can also contain a number of custom properties
- *          print_r($content);
+ *          print_r($context);
  * 		}	
  * }	
 }

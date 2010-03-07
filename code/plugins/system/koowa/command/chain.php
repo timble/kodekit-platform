@@ -22,12 +22,20 @@
 class KCommandChain extends KObject
 {
 	/**
+	 * Priority levels
+	 */
+	const PRIORITY_HIGHEST = 1;
+	const PRIORITY_HIGH    = 2;
+	const PRIORITY_NORMAL  = 3;
+	const PRIORITY_LOW     = 4;
+	const PRIORITY_LOWEST  = 5;
+	
+	/**
 	 * Command list
 	 *
 	 * @var array
 	 */
 	protected $_command = null;
-	
 	
 	/**
 	 * Priority list
@@ -58,17 +66,19 @@ class KCommandChain extends KObject
 	 * Attach a command to the chain
 	 * 
 	 * @param 	object 		A KCommandHandler 
-	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (low), default is 3
+	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (lowest), default is 3
 	 * @return	 KCommandChain
 	 */
-	public function enqueue( KCommandInterface $cmd, $priority = 3)
+	public function enqueue( KCommandInterface $cmd, $priority = self::PRIORITY_NORMAL)
 	{
-		$handle = $cmd->getHandle(); //get the object handle
+		if($handle = $cmd->getHandle()) 
+		{
+			$this->_command->offsetSet($handle, $cmd);
 		
-		$this->_command->offsetSet($handle, $cmd);
+			$this->_priority->offsetSet($handle, $priority);
+			$this->_priority->asort(); //sort the entries by priority
+		}
 		
-		$this->_priority->offsetSet($handle, $priority);
-		$this->_priority->asort(); //sort the entries by priority
 		return $this;
   	}
   	
@@ -81,10 +91,11 @@ class KCommandChain extends KObject
 	 */
 	public function dequeue( KCommandInterface $cmd)
 	{
-		$handle = $cmd->getHandle(); //get the object handle
-		
-  		if($this->_command->offsetExist($handle)) {
-			$this->_command->offsetUnset($handle);	
+		if($handle = $cmd->getHandle())
+		{
+			if($this->_command->offsetExist($handle)) {
+				$this->_command->offsetUnset($handle);	
+			}
 		}
 
 		return $this;
@@ -132,11 +143,12 @@ class KCommandChain extends KObject
 	 */
   	public function setPriority(KCommandInterface $cmd, $priority)
   	{
-  		$handle = $cmd->getHandle();
-		
-		if($this->_priority->offsetExists($handle)) {
-			$this->_priority->offsetSet($handle, $priority);
-		}
+  		if($handle = $cmd->getHandle())
+  		{
+			if($this->_priority->offsetExists($handle)) {
+				$this->_priority->offsetSet($handle, $priority);
+			}
+  		}
 		
 		return $this;
   	}
@@ -150,23 +162,29 @@ class KCommandChain extends KObject
 	 */
   	public function getPriority(KCommandInterface $cmd)
   	{
-  		$handle = $cmd->getHandle();
-  	
-  		$result = null;
-  		if($this->_priority->offsetExist($handle)) {
-			$result = $this->_priority->offsetGet($handle);
-		}
+  		if($handle = $cmd->getHandle())
+  		{
+  			$result = null;
+  			if($this->_priority->offsetExist($handle)) {
+				$result = $this->_priority->offsetGet($handle);
+			}
+  		}	
 		
 		return $result;
   	}
   	
 	/**
-	 * Get the active command context.
+	 * Get a command context.
 	 * 
-	 * @return	KCommandContext 	The current command context or null if the chain is not running.
+	 * @return	KCommandContext 	The current command context or an empty command context if
+	 * 								the chain is not running.
 	 */
   	public function getContext()
   	{
-		return $this->_context;
+		if(!isset($this->_context)) {
+			$this->_context = new KCommandContext();
+		}
+		
+  		return $this->_context;
   	}
 }

@@ -60,7 +60,7 @@ class KDatabaseSchemaField extends KObject
 	 * 
 	 * @var bool
 	 */
-	public $require = false;
+	public $required = false;
 
 	/**
 	 * Is the field a primary key
@@ -122,7 +122,7 @@ class KDatabaseSchemaField extends KObject
            if(!isset($this->_filter)) {
 				$this->_filter = $this->type;
 			}
-		
+			
 			if(!($this->_filter instanceof KFilterInterface)) {
 				$this->_filter = KFilter::instantiate(array('filter' => $this->_filter));
 			}

@@ -20,22 +20,52 @@
 abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifiable
 {
 	/**
-     * The data container
-     * 
+	 * Row states
+	 */
+	const STATUS_DELETED    = 'deleted';
+    const STATUS_INSERTED   = 'inserted';
+    const STATUS_UPDATED    = 'updated';
+	
+	/** 
      * The data for each column in the row (column_name => value).
-     * The keys must match the physical names of columns in the
-     * table for which this row is defined.
      *
      * @var array
      */
     protected $_data = array();
     
     /**
-     * Array of column name mappings
+     * Tracks columns where data has been updated. Allows more specific 
+     * save operations.
      *
      * @var array
      */
-    protected $_column_map = array();
+    protected $_modified = array();
+    
+    /**
+     * Tracks the the status the row
+     * 
+     * Status values are:
+     * 
+     * `deleted`
+     * : This row has been deleted successfully
+     * 
+     * `inserted`
+     * : The row was inserted successfully.
+     * 
+     * `updated`
+     * : The row was updated successfully.
+     * 
+     * @var string
+     * 
+     */
+    protected $_status = null;
+    
+    /**
+     * Tracks if row data is new (i.e., not in the database yet).
+     * 
+     * @var bool
+     */
+    protected $_new = true;
     
 	/**
      * KDatabaseTableAbstract parent class or instance.
@@ -69,16 +99,15 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 			$this->setTable($options['table']);
 		}
 		
-		//Set the column mappings
-		 $this->_column_map       = $options['column_map'];
-		 $this->_column_map['id'] = KFactory::get($this->getTable())->getPrimaryKey();
-		
 		// Reset the row
 		$this->reset();
+		
+		// Set the new state of the row
+		$this->_new = $options['new'];
 
 		// Set the row data
 		if(isset($options['data']))  {
-			$this->setData($options['data']);
+			$this->setData($options['data'], $this->_new);
 		}
     }
 
@@ -95,7 +124,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
         $defaults = array(
             'table'      => null,
         	'identifier' => null,
-        	'column_map' => array()
+       		 'new'		 => true
         );
 
         return array_merge($defaults, $options);
@@ -111,7 +140,17 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	{
 		return $this->_identifier;
 	}
-
+	
+	/**
+     * Returns the status of this row.
+     * 
+     * @return string The status value.
+     */
+    public function getStatus()
+    {
+        return $this->_status;
+    }
+	
 	/**
 	 * Get the identifier for the table with the same name
 	 *
@@ -161,14 +200,25 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function save()
     {
-    	if(empty($this->id)) {
-        	$result = KFactory::get($this->getTable())->insert($this); 
-        } else {
-        	$result = KFactory::get($this->getTable())->update($this);
-        }
-         
-        $this->setData($result);
-         
+    	if(!empty($this->_modified))
+    	{
+    		if($this->_new) 
+    		{
+    			if(KFactory::get($this->getTable())->insert($this)) {
+        			$this->_status = self::STATUS_INSERTED;
+        		}
+       	 	} 
+       	 	else 
+       	 	{
+        		if(KFactory::get($this->getTable())->update($this)) {
+        			$this->_status = self::STATUS_UPDATED;
+        		}
+        	}
+        	
+        	//Reset the modified array
+        	$this->_modified = array();
+    	}
+            
         return $this;
     }
 
@@ -179,7 +229,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function delete()
     {
-    	KFactory::get($this->getTable())->delete($this);
+    	if(!$this->_new) 
+    	{
+    		if(KFactory::get($this->getTable())->delete($this)) 
+    		{
+    			$this->_status   = self::STATUS_DELETED;
+    			$this->_modified = array();
+    			$this->_new      = false;
+    		}
+    	}
+    	
         return $this;
     }
 
@@ -190,100 +249,140 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function reset()
     {
-        $this->_data = KFactory::get($this->getTable())->getDefaults();
+    	$this->_data     = KFactory::get($this->getTable())->getDefaults();
+        $this->_modified = array();
+        $this->_status   = null;
+        $this->_new      = true;
+        
         return $this;
     }
 
 	/**
      * Retrieve row field value
      *
-     * @param  	string 	The user-specified column name.
+     * @param  	string 	The column name.
      * @return 	string 	The corresponding column value.
      */
     public function __get($column)
     {
-    	if(isset($this->_column_map[$column])) {
-    		$column = $this->_column_map[$column];
-    	}
+    	$result = null;
+    	if(isset($this->_data[$column])) {
+    		$result = $this->_data[$column];
+    	} 
     	
-    	return $this->_data[$column];
+    	return $result;
     }
 
     /**
      * Set row field value
+     * 
+     * If the value is the same as the current value it will not be set
      *
-     * @param  	string 	The column key.
+     * @param  	string 	The column name.
      * @param  	mixed  	The value for the property.
      * @return 	void
      */
     public function __set($column, $value)
     {
-    	if(isset($this->_column_map[$column])) {
-    		$column = $this->_column_map[$column];
-    	}
-
-        $this->_data[$column] = $value;
+        //If data is unchanged return
+    	if(isset($this->_data[$column]) && $this->_data[$column] == $value) {
+        	return;
+        } 
+        
+        $this->_data[$column]     = $value;
+       	$this->_modified[$column] = true;
+       	$this->_status            = null;
    }
 
 	/**
      * Test existence of row field
      *
-     * @param  string  The column key.
+     * @param  string  The column name.
      * @return boolean
      */
     public function __isset($column)
     {
-   	 	if(isset($this->_column_map[$column])) {
-    		$column = $this->_column_map[$column];
-    	}
-
     	return array_key_exists($column, $this->_data);
     }
 
     /**
      * Unset a row field
-     *
-     * @param	string  The column key.
+     * 
+     * This function will reset required column to their default value, not required
+     * fields will be unset.
+     * 
+     * @param	string  The column name.
      * @return	void
      */
     public function __unset($column)
     {
-    	if(isset($this->_column_map[$column])) {
-    		$column = $this->_column_map[$column];
+    	$field = KFactory::get($this->getTable())->getField($column);
+    	
+    	if(isset($field) && $field->required) {
+    		$this->_data[$column] = $field->default;
+    	} 
+    	else 
+    	{
+    		unset($this->_data[$column]);
+    		unset($this->_modified[$column]);
     	}
-
-        unset($this->_data[$column]);
     }
  
    /**
  	* Returns an associative array of the raw data
   	*
+  	* @param   boolean 	If TRUE, only return the modified data. Default FALSE
   	* @return  array
   	*/
- 	public function getData()
+ 	public function getData($modified = false)
   	{
-  		return $this->_data;
+  		if($modified) {
+  			$result = array_intersect_key($this->_data, $this->_modified);	
+  		} else {
+  			$result = $this->_data;
+  		}
+  			
+  		return $result;
   	}
   
   	/**
   	 * Set the row data
   	 *
-  	 * @param   mixed 	Either and associative array, a KDatabaseRow object or object
+  	 * @param   mixed 	Either and associative array, an object or a KDatabaseRow
+  	 * @param   boolean If TRUE, update the modified information for each column being set. 
+  	 * 					Default TRUE
  	 * @return 	KDatabaseRowAbstract
   	 */
-  	 public function setData( $data )
+  	 public function setData( $data, $modified = true )
   	 {
   	 	if($data instanceof KDatabaseRowAbstract) {
 			$data = $data->getData();
 		} else {
 			$data = (array) $data;
 		}
-	
- 		foreach ($data as $k => $v) {
-  			$this->$k = $v;
-  		}
+		
+		if($modified) 
+  	 	{
+  	 		foreach($data as $column => $value) {
+  	 			$this->$column = $value;
+  	 		}
+  	 	}
+  	 	else
+  	 	{
+  	 		$this->_data = array_merge($this->_data, $data);
+  	 	}
   		
   		return $this;
+	}
+	
+	/**
+	 * Get a list of columns that have been modified
+	 * 
+	 * @return array	An array of column names that have been modified
+	 */
+	public function getModified()
+	{
+		return $this->_modified;
 	}
 	
  	/**
@@ -306,8 +405,8 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
    	 	//If the method hasn't been mixed yet, load all the behaviors
     	if(!isset($this->_mixed_methods[$method])) 
         {
-			foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
-				$this->mixin($behavior);
+        	foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
+				$this->mixin(KFactory::get($behavior));
 			}
         }
     	

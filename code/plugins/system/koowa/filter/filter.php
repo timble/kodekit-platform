@@ -38,11 +38,11 @@ class KFilter
 		//Create the filter chain
 		$filter  = array_shift($filters);
 		$filter = self::_createFilter($filter, $options);
-
+		
 		foreach($filters as $name) {
-			$filter->addFilter($this->_createFilter($name));
+			$filter->addFilter(self::_createFilter($name, $options));
 		}
-	
+		
 		return $filter;
 	}
 
@@ -58,6 +58,8 @@ class KFilter
 	 */
 	protected static function _createFilter($filter, $options)
 	{
+		$filter = trim($filter);
+		
 		try 
 		{
 			if(is_string($filter) && strpos($filter, '.') === false ) 
@@ -70,7 +72,7 @@ class KFilter
 		} catch(KFactoryAdapterException $e) {
 			throw new KFilterException('Invalid filter: '.$filter);
 		}
-
+		
 		return $filter;
 	}
 }

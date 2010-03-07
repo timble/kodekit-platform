@@ -47,6 +47,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	protected $_primary_key;
 	
 	/**
+     * Array of column mappings by column name
+     *
+     * @var array
+     */
+    protected $_column_map = array();
+	
+	/**
 	 * Database adapter
 	 *
 	 * @var	object
@@ -100,9 +107,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
         
 		$this->_name 	    = $options['name'];
 		$this->_base 	    = $options['base'];
-		$this->_primary_key	= $options['primary_key'];
 		$this->_database    = $options['database'];
 			
+		//Set the column mappings
+		 $this->_column_map = $options['column_map'];
+		 if(!isset( $this->_column_map['id'])) {
+		 	$this->_column_map['id'] = $this->getPrimaryKey();
+		 }
+		 
 		// Set the field filters
 		if(!empty($options['filters'])) 
 		{
@@ -113,13 +125,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		
 		// Set the table behaviors
 		if(!empty($options['behaviors'])) {
-			$this->getInfo()->behaviors = $options['behaviors'];
+			$this->addBehaviors($options['behaviors']);
 		} 
-		
-		// Enqueue the table behaviors in the command chain
-		foreach($this->getInfo()->behaviors as $behavior) {
-			$options['command_chain']->enqueue($behavior);
-		}
 		
 		 // Mixin the command chain
         $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
@@ -142,13 +149,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
             'database'      => KFactory::get('lib.koowa.database'),
             'row'   		=> null,
     		'rowset'   		=> null,
-            'primary_key'   => empty($package) ? $name.'_id' : $package.'_'.KInflector::singularize($name).'_id',
             'name'   	    => empty($package) ? $name : $package.'_'.$name,
     		'base'     	    => empty($package) ? $name : $package.'_'.$name,
         	'identifier'    => null,
     		'command_chain' => new KCommandChain(),
+    		'column_map'	=> array(),
     		'filters'       => array(),
-    		'behaviors'		=> array('lockable', 'modifiable', 'creatable')
+    		'behaviors'		=> array()
 		);
 
         return array_merge($defaults, $options);
@@ -179,10 +186,12 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	 * Set the database adapter
 	 *
 	 * @param	object A KDatabaseAdapterAbstract
+	 * @return	KDatabaseTableAbstract
 	 */
 	public function setDatabase(KDatabaseAdapterAbstract $database)
     {
 		$this->_database = $database;
+		return $this;
 	}
 
 	/**
@@ -218,13 +227,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	{
         if(!isset($this->_primary_key)) 
         {
-        	$fields = $this->getFields();
+        	$fields = $this->getFields(true);
         	
          	foreach ($fields as $field)
         	{
            		// Set the primary key (if not set)
            		if($field->primary) {
-                	$this->_primary = $field->name;
+                	$this->_primary_key = $field->name;
                 	break;
            		}
  	  		}
@@ -241,7 +250,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	public function getUniqueKeys()
 	{
 		$keys   = array();
-        $fields = $this->getFields();
+        $fields = $this->getFields(true);
 		
 		foreach($fields as $name => $description)
         {
@@ -262,6 +271,41 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	{
 		$keys = array();
 		return $keys;
+ 	}
+ 	
+ 	/**
+	 * Add a behavior to the table
+	 *
+	 * @return	KDatabaseTableAbstract
+	 */
+ 	public function addBehaviors($behaviors)
+ 	{
+ 		$behaviors = (array) $behaviors;
+ 		
+ 		$result = array();
+ 		foreach($behaviors as $identifier)
+		{
+			if(!($identifier instanceof KDatabaseBehaviorInterface)) 
+			{
+				if(is_string($identifier) && strpos($identifier, '.') === false ) {
+					$identifier = 'lib.koowa.database.behavior.'.trim($identifier);
+				}
+			}
+			
+			//Get the actual identifier, take mappings into account
+			$identifier = KFactory::identify($identifier);
+			$name       = (string) $identifier;
+			
+			$result[$name] = $identifier; 
+			
+			//Enqueue the behavior in the command chain
+			$this->getCommandChain()->enqueue(KFactory::get($identifier));
+		}
+		
+		//Set the behaviors in the database schema
+		$this->getInfo()->behaviors = array_merge($this->getInfo()->behaviors, $result);
+		
+		return $this;
  	}
  	
 	/**
@@ -294,18 +338,45 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Gets the fields for the table
 	 *
+	 * @param	boolean  If TRUE, get the field information from the base table. Default is FALSE.
 	 * @return  array	 Associative array of KDatabaseSchemaField objects
 	 * @throws 	KDatabaseTableException
 	 */
-	public function getFields()
+	public function getFields($base = false)
 	{
+		//Get the table name
+		$name = $base ? $this->getBase() : $this->getName();
+		
 		try {
-			$fields = $this->_database->fetchTableFields($this->getBase());
+			$fields = $this->_database->fetchTableFields($name);
 		} catch(KDatabaseException $e) {
 			throw new KDatabaseTableException($e->getMessage());
 		}
 	
-		return $fields[$this->getBase()];
+		return $this->map($fields[$name], true);
+	}
+	
+ 	/**
+     * Get a field by name
+     *
+     * @return KDatabaseField 	Returns a KDatabaseField object or NULL if the 
+     * 							field does not exist
+     */
+     public function getField($fieldname)
+     {
+     	$fields = $this->getFields();
+        return isset($fields[$fieldname]) ? $fields[$fieldname] : null;
+     }
+     
+	/**
+	 * Gets the columns of the table
+	 *
+	 * @param	boolean  If TRUE, get the field information from the base table. Default is FALSE.
+	 * @return array
+	 */
+	public function getColumns($base = false)
+	{
+		return array_keys($this->getFields($base));
 	}
 
     /**
@@ -317,38 +388,31 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
     {
         if(!isset($this->_defaults))
         {
-            $this->_defaults = array();
-            $fields = $this->getFields();
-        	
+            $defaults = array();
+            $fields  = $this->getFields();
+            
             foreach($fields as $name => $description) {
-        	    $this->_defaults[$name] = $description->default;
+        	    $defaults[$name] = $description->default;
             }
+            
+           	$this->_defaults = $defaults;
         }
+        
     	return $this->_defaults;
     }
     
-    /**
-     * Get a field by name
-     *
-     * @return KDatabaseField 	Returns a KDatabaseField object or NULL if the field does 
-     *                          not exist
-     */
-     public function getField($fieldname)
-     {
-     	$fields = $this->getFields();
-        return isset($fields[$fieldname]) ? $fields[$fieldname] : null;
-     }
-
 	/**
-	 * Gets the columns of the table
-	 *
-	 * @return array
-	 */
-	public function getColumns()
-	{
-		return array_keys($this->getFields());
-	}
-	
+     * Get a default by name
+     *
+     * @return mixed 	Returns the field default value or NULL if the 
+     * 				    field does not exist
+     */
+     public function getDefault($fieldname)
+     {
+     	$defaults = $this->getDefaults();
+        return isset($defaults[$fieldname]) ? $defaults[$fieldname] : null;
+     }
+    
 	/**
 	 * Get the identifier for a row with the same name
 	 *
@@ -422,7 +486,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
       	}
         
       	//Create commandchain context
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_SELECT;
 		$context['query']	  = $query;
@@ -431,12 +495,22 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		if($this->getCommandChain()->run('before.table.select', $context) === true) 
 		{	
 			//Fetch the raw data
-			$options  = array('table' => $this);
-			$options['data']  = $this->_database->fetchAssocList($query);
+			$data = $this->_database->fetchAssocList($query);
+			
+			//Reverse apply the column mappings
+			foreach($data as $key => $value) {
+				$data[$key] = $this->map($value, true);
+			}
 			
 			//Build the rowset object
-    		$context['data'] = KFactory::tmp($this->getRowset(), $options);
+			$options  = array(
+				'table' => $this, 
+				'data' => $data,
+			    'new'  => false
+ 			);
 			
+    		$context['data'] = KFactory::tmp($this->getRowset(), $options);
+    		
 			$this->getCommandChain()->run('after.table.select', $context);
 		}
 		
@@ -446,133 +520,105 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Table insert method
 	 *
-	 * @param  array|object	An associative array or a KDatabaseRow object
-	 * @return array 		An associative array of the inserted data
+	 * @param  object	A KDatabaseRow object
+	 * @return boolean  TRUE if successfull, otherwise false
 	 */
-	public function insert( $data )
+	public function insert( KDatabaseRowAbstract $row )
 	{
 		//Create commandchain context
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_INSERT;
-		$context['data']	  = $data;
+		$context['data']	  = $row;
 		$context['table']	  = $this->getBase();
 		
 		if($this->getCommandChain()->run('before.table.insert', $context) === true) 
 		{
-			//Get the raw data 
-			if($context['data'] instanceof KDatabaseRowAbstract) {
-				$data = $context['data']->getData();
-			} else {
-				$data = $context['data']; 
-			}
-		
-			//Filter the data
-			$data = $this->filter($data);
+			//Filter the data and remove unwanted fields
+			$data = $this->filter($context['data']->getData(), true);
+			
+			//Get the data and apply the column mappings
+			$data = $this->map($data);
 			
 			//Execute the insert query
-			$data[$this->getPrimaryKey()] = $this->_database->insert($context['table'], $data);
-			
-			//Set the actual data
-			if($context['data'] instanceof KDatabaseRowAbstract) {
-				$context['data']->setData($data);
-			} else {
-				$context['data'] = $data;
+			if($result = $this->_database->insert($context['table'], $data)) {
+				$data[$this->getPrimaryKey()] = $result;
 			}
+				
+			//Reverse apply the column mappings and set the data in the row
+			$context['data']->setData($this->map($data, true), false);
 			
 			$this->getCommandChain()->run('after.table.insert', $context);
 		}
 
-		return $context['data'];
+		return true;
 	}
 
 	/**
 	 * Table update method
 	 *
-	 * @param  array|mixed	An associative array or a KDatabaseRow object
-	 * @param  mixed		Can either be a row id, an array of rows or a KDatabaseQuery object
-	 * @return array    An associative array of the updated data
+	 * @param  object	A KDatabaseRow object
+	 * @return boolean  TRUE if successfull, otherwise false
 	 */
-	public function update( $data, $where = null)
+	public function update( KDatabaseRowAbstract $row)
 	{
-		//Create where statement
-		if(!($where instanceof KDatabaseQuery))
-		{
-			$rows = $data instanceof KDatabaseRowAbstract ?  (array) $data->id : (array) $where;
-		
-			if (count($rows)) {
-            	$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', $rows);
-			}
-		}
-
 		//Create commandchain context
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller'] 	  = $this;
 		$context['operation'] = KDatabase::OPERATION_UPDATE;
-		$context['data']   	  = $data;
+		$context['data']   	  = $row;
 		$context['table']	  = $this->getBase();
-		$context['where']	  = $where;
 			
 		if($this->getCommandChain()->run('before.table.update', $context) === true) 
 		{
-			//Get the raw data 
-			if($context['data'] instanceof KDatabaseRowAbstract) {
-				$data = $context['data']->getData();
-			} else {
-				$data = $context['data']; 
-			}
-		
-			//Filter the data
-			$data = $this->filter($data);
+			//Create where statement
+			$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', (array) $context['data']->id);
+			
+			//Filter the data and remove unwanted fields
+			$data = $this->filter($context['data']->getData(true), true);
+			
+			//Get the data and apply the column mappings
+			$data = $this->map($data);
 			
 			//Execute the update query
-			$context['affected'] = $this->_database->update($context['table'], $data, $context['where']);
+			$context['affected'] = $this->_database->update($context['table'], $data, $where);
 			
-			//Set the actual data
-			if($context['data'] instanceof KDatabaseRowAbstract) {
-				$context['data']->setData($data);
-			} else {
-				$context['data'] = $data;
-			}
+			//Reverse apply the column mappings and set the data in the row
+			$context['data']->setData($this->map($data, true), false);
 			
 			$this->getCommandChain()->run('after.table.update', $context);
 		}
 
-		return $context['data'];
+		return (bool) $context['affected'];
 	}
 
 	/**
 	 * Table delete method
 	 *
-	 * @param  mixed	Can either be a row id, an array of rows, a query object or a KDatabaseRow object
-	 * @return boolean True if successful otherwise returns false
+	 * @param  object	A KDatabaseRow object
+	 * @return boolean  TRUE if successfull, otherwise false
 	 */
-	public function delete( $where )
+	public function delete( KDatabaseRowAbstract $row )
 	{
-		//Create where statement
-		if(!($where instanceof KDatabaseQuery))
-		{
-			$rows = $where instanceof KDatabaseRowAbstract ?  (array) $where->id : (array) $where;
-			
-			if (count($rows)) {
-            	$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', $rows);
-			}
-		}
-
 		//Create commandchain context
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']    = $this;
 		$context['operation'] = KDatabase::OPERATION_DELETE;
 		$context['table']	  = $this->getBase();
-		$context['where']	  = $where;
+		$context['data']   	  = $row;
 		
 		if($this->getCommandChain()->run('before.table.delete', $context) === true) 
 		{
-			$context['affected'] = $this->_database->delete($context['table'], $context['where']);
+			//Create where statement
+			$where = $this->_database->getQuery()->where($this->getPrimaryKey(), 'IN', (array) $context['data']->id);
+			
+			//Execute the delete query
+			$context['affected'] = $this->_database->delete($context['table'], $where);
+			
 			$this->getCommandChain()->run('after.table.delete', $context);
 		}
 
-		return $context['affected'];
+		return (bool) $context['affected'];
 	}
 
 	/**
@@ -604,17 +650,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 	/**
 	 * Table filter method
 	 *
-	 * This function removes extra columns and filters the data based on the field type
+	 * This function removes extra columns based on the table fields taking any table mappings into
+	 * account and filters the data based on each field type.
 	 *
-	 * @param  array
-	 * @return array The filtered data
+	 * @param	boolean  If TRUE, get the field information from the base table. Default is TRUE.
+	 * @param  array	An associative array of data to be filtered
+	 * @return array 	The filtered data array
 	 */
-	public function filter($data)
+	public function filter($data, $base = true)
 	{
 		settype($data, 'array'); //force to array
-
+		
 		// Filter out any extra columns.
-		$data = array_intersect_key($data, array_flip($this->getColumns()));
+		$data = array_intersect_key($data, array_flip($this->getColumns($base)));
 
 		// Filter data based on column type
 		foreach($data as $key => $value) {
@@ -622,5 +670,33 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 		}
 
 		return $data;
+	}
+	
+	/**
+	 * Table map method
+	 * 
+	 * This functions maps the data column names to those in the table schema 
+	 *
+	 * @param  array	An associative array of data to be mapped
+	 * @param  boolean	If TRUE, perform a reverse mapping
+	 * @return array The mapped data array
+	 */
+	public function map($data, $reverse = false)
+	{
+		settype($data, 'array'); //force to array
+		
+		$map = $reverse ? array_flip($this->_column_map) : $this->_column_map;
+		
+		$result = array();
+		foreach($data as $column => $value)
+		{
+			if(isset($map[$column])) {
+    			$column = $map[$column];
+    		}
+    		
+    		$result[$column] = $value;
+		}
+		
+		return $result;
 	}
 }

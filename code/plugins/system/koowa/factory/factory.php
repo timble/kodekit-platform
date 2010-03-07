@@ -128,7 +128,7 @@ class KFactory
 		
 		if(!self::$_container->offsetExists((string)$identifier))
 		{
-			$context = new KCommandContext(); //Cannot use KFactory to avoid looping
+			$context = self::$_chain->getContext();
 			$context['options'] = $options;
 		
 			$instance = self::$_chain->run($identifier, $context);
@@ -136,7 +136,7 @@ class KFactory
 				throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
 			}
 		
-			if (isset(self::$_mixin_map[(string) $identifier]))
+			if (isset(self::$_mixin_map[(string) $identifier]) && $instance instanceof KObject)
 			{
 				$mixins = self::$_mixin_map[(string) $identifier];
       			foreach($mixins as $mixin) 
@@ -165,7 +165,7 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 	
-		$context = new KCommandContext(); //Cannot use KFactory to avoid looping
+		$context =  self::$_chain->getContext();
 		$context['options'] = $options;
 		
 		$instance = self::$_chain->run($identifier, $context);
@@ -173,7 +173,7 @@ class KFactory
 			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
 		}
 	
-		if (isset(self::$_mixin_map[(string) $identifier]))
+		if (isset(self::$_mixin_map[(string) $identifier]) && $instance instanceof KObject)
 		{
 			$mixins = self::$_mixin_map[(string)$identifier];
       		foreach($mixins as $mixin) 
@@ -273,8 +273,12 @@ class KFactory
       			foreach($mixins as $mixin) 
       			{
         			$instance = self::$_container->offsetGet($identifier);
-      				$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-          			$instance->mixin($mixin);
+        			
+        			if($instance instanceof KObject)
+        			{
+      					$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+          				$instance->mixin($mixin);
+        			}
       			}
           	}
      	}
@@ -287,7 +291,7 @@ class KFactory
 	 * @param integer	The adapter priority
 	 * @return void
 	 */
-	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = 3)
+	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = KCommandChain::PRIORITY_NORMAL)
 	{
 		self::$_chain->enqueue($adapter, $priority);
 	}

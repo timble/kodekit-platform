@@ -353,7 +353,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 
 			if(!isset($this->_table_schema[$tblval]['fields']))
 			{
-				$fields = $this->fetchObjectList( 'SHOW FIELDS FROM ' . $this->quoteName($table));
+				$fields = $this->fetchObjectList( 'SHOW FULL FIELDS FROM ' . $this->quoteName($table));
 				foreach ($fields as $field) 
 				{
 					//Parse the field raw schema data
@@ -433,7 +433,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @return KDatabaseSchemaTable
 	 */
 	protected function _parseTableInfo($info)
-	{	
+	{		
 		$table = new KDatabaseSchemaTable;
  	   	$table->name        = $info->Name;
  	   	$table->engine      = $info->Engine;
@@ -441,8 +441,9 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	    $table->size        = $info->Data_length;
  	    $table->autoinc     = $info->Auto_increment;
  	    $table->collation   = $info->Collation;
+ 	    $table->behaviors   = array();
  	    $table->description = $info->Comment != 'VIEW' ? $info->Comment : '';
-
+ 	    
  	    return $table;
 	}
     
@@ -454,19 +455,23 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	protected function _parseFieldInfo($info)
 	{		
+		//Parse the filter information from the comment
+		$filter = array();
+		preg_match('#@Filter\("(.*)"\)#Ui', $info->Comment, $filter);
+	
 		list($type, $size, $scope) = $this->_parseFieldType($info->Type);
 
  	   	$field = new KDatabaseSchemaField;
- 	   	$field->name    = $info->Field;
- 	   	$field->type    = $type;
- 	   	$field->size    = ($size  ? $size  : null);
- 	   	$field->scope   = ($scope ? (int) $scope : null);
- 	   	$field->default = $info->Default;
- 	   	$field->require = (bool) ($info->Null != 'YES');
- 	    $field->primary = (bool) ($info->Key == 'PRI');
- 	    $field->unique  = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
- 	    $field->autoinc = (bool) (strpos($info->Extra, 'auto_increment') !== false);
- 	    $field->filter = $this->_typemap[$type];
+ 	   	$field->name     = $info->Field;
+ 	   	$field->type     = $type;
+ 	   	$field->size     = ($size  ? $size  : null);
+ 	   	$field->scope    = ($scope ? (int) $scope : null);
+ 	   	$field->default  = $info->Default;
+ 	   	$field->required = (bool) ($info->Null != 'YES');
+ 	    $field->primary  = (bool) ($info->Key == 'PRI');
+ 	    $field->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
+ 	    $field->autoinc  = (bool) (strpos($info->Extra, 'auto_increment') !== false);
+ 	    $field->filter   =  isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
  	       
  	 	// don't keep "size" for integers
  	    if (substr($type, -3) == 'int') {

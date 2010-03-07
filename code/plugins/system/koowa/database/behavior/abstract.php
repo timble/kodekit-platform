@@ -42,6 +42,10 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	/**
 	 * Command handler
 	 * 
+	 * This function transmlated the command name to a command handler function of 
+	 * the format '_beforeTable[Command]' or '_afterTable[Command]. Command handler
+	 * functions should be declared protected.
+	 * 
 	 * @param 	string  	The command name
 	 * @param 	object   	The command context
 	 * @return 	boolean		Can return both true or false.  
@@ -70,6 +74,31 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	}
 	
 	/**
+	 * Get an object handle
+	 * 
+	 * This function only returns a valid handle if one or more command handler 
+	 * functions are defined. A commend handler function needs to follow the 
+     * following format : '_afterTable[Event]' or '_beforeTable[Event]' to be 
+     * recognised.
+	 * 
+	 * @return string A string that is unique, or NULL
+	 * @see execute()
+	 */
+	public function getHandle()
+	{
+		$methods = get_class_methods(get_class($this));
+		
+		foreach($methods as $method) 
+		{
+			if(substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
+				return parent::getHandle();	
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Get the methods that are available for mixin based 
 	 * 
 	 * This function also dynamically adds a function of format is[Behavior] 
@@ -82,7 +111,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	{
 		$methods   = parent::getMixableMethods($mixer);
 		$methods[] = 'is'.ucfirst($this->_identifier->name);
-		
+			
 		return array_diff($methods, array('getIdentifier', 'execute'));
 	}
 }

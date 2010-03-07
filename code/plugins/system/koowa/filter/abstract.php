@@ -70,7 +70,7 @@ abstract class KFilterAbstract implements KFilterInterface
 		} 
 		else 
 		{	
-			$context = new KCommandContext();
+			$context = $this->_chain->getContext();
 			$context['data'] = $data;
 			
 			$result = $this->_chain->run('validate', $context);
@@ -108,7 +108,7 @@ abstract class KFilterAbstract implements KFilterInterface
 		}
 		else
 		{
-			$context = new KCommandContext();
+			$context = $this->_chain->getContext();
 			$context['data'] = $data;
 			
 			$data = $this->_chain->run('sanitize', $context);
@@ -125,7 +125,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 *
 	 * @return this
 	 */
-	public function addFilter(KFilterInterface $filter, $priority = 3)
+	public function addFilter(KFilterInterface $filter, $priority = KCommandChain::PRIORITY_NORMAL)
 	{	
 		$this->_chain->enqueue($filter, $priority);
 		return $this;

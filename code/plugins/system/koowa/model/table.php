@@ -35,6 +35,8 @@ class KModelTable extends KModelAbstract
 	{
 		parent::__construct($options);
 		
+		$options  = $this->_initialize($options);
+		
 		if(isset($options['table'])) {
 			$this->setTable($options['table']);
 		}
@@ -47,8 +49,14 @@ class KModelTable extends KModelAbstract
 			->insert('direction', 'word', 'asc')
 			->insert('search'   , 'string');
 			
-		// Set the dynamic states based on the unique table keys
+		
+		//Get the table object
 		$table = KFactory::get($this->getTable());
+		
+		//Set the table behaviors
+		$table->addBehaviors($options['table_behaviors']);
+			
+		// Set the dynamic states based on the unique table keys
       	foreach($table->getUniqueKeys() as $key) {
       		$this->_state->insert($key->primary ? 'id' : $key->name, $key->filter, $key->default);
 		}	
@@ -67,7 +75,8 @@ class KModelTable extends KModelAbstract
 		$options = parent::_initialize($options);
 		
 		$defaults = array(
-			'table'   => null,
+			'table'   			=> null,
+			'table_behaviors'	=> array()
        	);
        	
         return array_merge($defaults, $options);

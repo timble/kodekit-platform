@@ -35,7 +35,7 @@ class KFilterAlias extends KFilterAbstract
 	 * Sanitize a value
 	 * 
 	 * Replace all accented UTF-8 characters by unaccented ASCII-7 "equivalents", 
-	 * replace hitespaces by hyphens and lowercase the result.
+	 * replace whitespaces by hyphens and lowercase the result.
 	 * 
 	 * @param	scalar	Variable to be sanitized
 	 * @return	scalar

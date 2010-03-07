@@ -71,52 +71,10 @@ class KDatabaseSchemaTable extends KObject
 	/**
 	 * List of behaviors
 	 * 
-	 * Public access is allowed via __get() with $behaviors.
+	 * Associative array of behaviors, where key holds the behavior identifier string
+	 * and the value is an identifier object.
 	 * 
 	 * @var	array
 	 */
-	protected $_behaviors = array();
-	
-	/** 
-     * Implements the virtual $behaviors property.
-     * 
-     * The value can be a KDatabaseBehavior object, a behavior name or identifier, an array of 
-     * behavior names or identifiers
-     * 
-     * @param 	string 	The virtual property to set, only accepts 'filter'
-     * @param 	string 	Set the virtual property to this value.
-     */
-    public function __set($key, $value)
-    {
-    	if ($key == 'behaviors') {
-        	$this->_behaviors = (array) $value;
-        }
-    }
-	
-    /**
-     * Implements access to $_behaviors by reference so that it appears to be 
-     * a public $behaviors property.
-     * 
-     * @param 	string	The virtual property to return, only accepts 'behaviors'
-     * @return 	mixed 	The value of the virtual property.
-     */
-    public function &__get($key)
-    {
-    	if ($key == 'behaviors') 
-        {
-       		foreach($this->_behaviors as $key => $identifier)
-			{
-				if(!($identifier instanceof KDatabaseBehaviorInterface)) 
-				{
-					if(is_string($identifier) && strpos($identifier, '.') === false ) {
-						$identifier = 'lib.koowa.database.behavior.'.$identifier;
-					} 
-										
-					$this->_behaviors[$key] =  KFactory::get($identifier);
-				}
-			}
-				
-			return $this->_behaviors;
-        }
-    }
+	public $behaviors = array();
 }

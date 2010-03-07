@@ -21,9 +21,8 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 * 
-	 * This functions allows for conditional mixing of the behavior. Only if 
-	 * the mixer has a 'modified_by' property the behavior will allow to be 
-	 * mixed in.
+	 * This function conditionaly mixes the behavior. Only if the mixer 
+	 * has a 'modified_by' property the behavior will be mixed in.
 	 * 
 	 * @param object The mixer requesting the mixable methods. 
 	 * @return array An array of methods
@@ -44,15 +43,18 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	 * 	
 	 * Requires a modified_on and modified_by field in the table schema
 	 * 
-	 * @return boolean	False if failed.
+	 * @return void
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
 		$row = $context['data']; //get the row data being inserted
 		
-		$row->modified_on = gmdate('Y-m-d H:i:s');
-		$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
-	
-		return true;
+		if(isset($row->modified_by)) {
+			$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
+		}
+		
+		if(isset($row->modified_on)) {
+			$row->modified_on = gmdate('Y-m-d H:i:s');
+		}
 	}
 }

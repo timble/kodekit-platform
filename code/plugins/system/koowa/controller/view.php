@@ -74,12 +74,17 @@ abstract class KControllerView extends KControllerBread
 		{	
 			$referrer = KRequest::referrer();
 			$request  = KRequest::url();
-					
+			
 			//Prevent referrer getting lost at a subsequent read action
-			if($referrer->query['option'] != $request->query['option'] || 
-			   $referrer->query['view']   != $request->query['view'])  
+			foreach(array('option', 'view') as $var) 
 			{
-				KRequest::set('session.com.dispatcher.referrer', (string) $referrer);
+				if(isset($referrer->query[$var]) && isset($request->query[$var])) 
+				{
+					if($referrer->query[$var] != $request->query[$var]) {
+						 KRequest::set('session.com.dispatcher.referrer', (string) $referrer);
+						 break;
+					}
+				}
 			}
 		}
 	}
@@ -118,8 +123,8 @@ abstract class KControllerView extends KControllerBread
 			$result = $this->execute('edit');
 			
 			//Unlock the row 
-			if($result[0]->isLockable()) {
-				$result[0]->unlock();
+			if($result->isLockable()) {
+				$result->unlock();
 			}
 			
 		} else $result = $this->execute('add');
@@ -142,8 +147,8 @@ abstract class KControllerView extends KControllerBread
 			$result = $this->execute('edit');
 			
 			//Unlock the row 
-			if($result[0]->isLockable()) {
-				$result[0]->unlock();
+			if($result->isLockable()) {
+				$result->unlock();
 			}
 			
 			$this->_redirect = 'view='.$this->_identifier->name.'&id='.$result[0]->id;

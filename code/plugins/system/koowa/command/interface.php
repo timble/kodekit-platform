@@ -27,10 +27,15 @@ interface KCommandInterface
 	public function execute( $name, KCommandContext $context);
 	
 	/**
+	 * Get an object handle
+	 * 
 	 * This function returns an unique identifier for the object. This id can be used as 
 	 * a hash key for storing objects or for identifying an object
 	 * 
-	 * @return string A string that is unique
+	 * Override this function to implement implement dynamic commands. If you don't want
+	 * the command to be enqueued in a chain return NULL instead of a valid handle.
+	 * 
+	 * @return string A string that is unique, or NULL
 	 */
 	public function getHandle();
 }

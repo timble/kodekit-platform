@@ -21,9 +21,8 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 * 
-	 * This functions allows for conditional mixing of the behavior. Only 
-	 * if the mixer has a 'ordering' property the behavior will allow to 
-	 * be mixed in.
+	 * This functions conditionaly mixes the behavior. Only if the mixer 
+	 * has a 'ordering' property the behavior will be mixed in.
 	 * 
 	 * @param object The mixer requesting the mixable methods. 
 	 * @return array An array of methods
@@ -50,10 +49,6 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function order($change)
 	{
-		if (!isset($this->ordering)) {
-			throw new KDatabaseBehaviorException("The table ".KFactory::get($this->getTable())->getName()." doesn't have a 'ordering' column.");
-		}
-
 		//force to integer
 		settype($change, 'int');
 
@@ -89,10 +84,6 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function reorder()
 	{
-		if (!in_array('ordering', $this->getColumns())) {
-			throw new KDatabaseBehaviorException("The table ".$this->getBase()." doesn't have a 'ordering' column.");
-		}
-
 		$this->_database->execute("SET @order = 0");
 		$this->_database->execute(
 			 'UPDATE #__'.$this->getBase().' '

@@ -11,8 +11,9 @@
 /**
  * Command handler
  * 
- * The command handler will translate the command name to a onCommandName format 
- * and call it for the object class to handle it if the method exists.
+ * The command handler will translate the command name to a _beforeCommandName or
+ * _afterCommandName format and call it for the object class to handle it if the 
+ * method exists.
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

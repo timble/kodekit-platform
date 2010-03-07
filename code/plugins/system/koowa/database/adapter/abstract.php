@@ -224,7 +224,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function select($sql, $offset = 0, $limit = 0)
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']      = $this;
 		$context['sql'] 		= $sql;
 		$context['offset'] 		= $offset;
@@ -341,7 +341,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function insert($table, array $data)
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data'] 		= $data;
@@ -382,7 +382,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function update($table, array $data, $where = null)
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= $data;
@@ -421,7 +421,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      */
 	public function delete($table, $where)
 	{
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']      = $this;
 		$context['table'] 		= $table;
 		$context['data']  		= null;

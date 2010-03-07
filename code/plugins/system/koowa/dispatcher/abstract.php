@@ -104,7 +104,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 		//Create the controller object
 		$controller = KFactory::get($this->getController($controller));
 		
-		$context = new KCommandContext();
+		$context = $this->getCommandChain()->getContext();
 		$context['caller']     = $this;
 		$context['result']     = false;
 		$context['controller'] = $controller;
@@ -114,7 +114,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 			//Execute the controller, handle exeception if thrown. 
         	try
         	{
-        		$context['result'] = $controller->execute(KRequest::get('request.action', 'cmd', null));
+        		$context['result'] = $controller->execute(KRequest::get('post.action', 'cmd', null));
         	}
         	catch (KControllerException $e)
         	{
