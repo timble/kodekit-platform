@@ -9,11 +9,6 @@
 
 class ComProfilesViewHtml extends ComDefaultViewHtml
 {
-	/**
-	 * Constructor
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 */
 	public function __construct(array $options = array())
 	{
         $options['views'] = array(

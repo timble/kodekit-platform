@@ -107,7 +107,7 @@ LEFT JOIN #__profiles_people AS p ON p.profiles_office_id = o.profiles_office_id
 GROUP BY o.profiles_office_id;
 
 
-CREATE OR REPLACE VIEW #__profiles_view_users AS
+CREATE OR REPLACE VIEW #__profiles_users AS
 SELECT u.*
 FROM #__users AS u;
 

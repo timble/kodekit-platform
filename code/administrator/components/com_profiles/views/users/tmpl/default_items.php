@@ -12,16 +12,11 @@
 	</td>
 	<td>
 		<span class="editlinktip hasTip" title="<?= @text('Edit User')?>::<?= @$escape($user->name); ?>">
-			<a href="<?= @route('view=user&id='.$user->id)?>">
-				<?= @$escape($user->name)?>
-			</a>
+			<?= @$escape($user->name)?>
 		</span>
 	</td>
 	<td width="15%">
 		<?= $user->username ?>
-	</td>
-	<td width="5%">
-		TODO
 	</td>
 	<td width="5%">
 		<?= @helper('grid.enable', !$user->block, $i)?>

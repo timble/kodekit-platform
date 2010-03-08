@@ -7,12 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-/**
- * Dashboard Controller
- *
- * @package		Profiles
- */
-class ComProfilesControllerDashboard extends ComProfilesControllerDefault
+class ComProfilesControllerDashboard extends ComDefaultControllerView
 {
 	public function displayView()
 	{

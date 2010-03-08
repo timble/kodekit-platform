@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ComProfilesModelPeople extends ComDefaultModelView
+class ComProfilesModelPeople extends KModelTable
 {
 	public function __construct(array $options = array())
 	{
@@ -25,13 +25,15 @@ class ComProfilesModelPeople extends ComDefaultModelView
 	
 	public function getLetters()
 	{
-		$query = $this->_db->getQuery()
+		$database = KFactory::get($this->getTable())->getDatabase();
+		
+		$query = $database->getQuery()
 			->select('letter_name')
 			->distinct()
 			->from('profiles_view_people AS tbl')
 			->order('tbl.letter_name');
 		
-		$result = (array) $this->_db->fetchResultList($query);
+		$result = (array) $database->fetchResultList($query);
 		return $result; 
 	}
 	

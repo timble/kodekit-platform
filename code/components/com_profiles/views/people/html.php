@@ -21,7 +21,6 @@ class ComProfilesViewPeopleHtml extends ComProfilesViewHtml
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$this->_document->addHeadLink(JRoute::_('view=people&format=feed&type=atom'), 'alternate', 'rel', $attribs);
 
-		//Display the layout
 		parent::display();
 	}
 }

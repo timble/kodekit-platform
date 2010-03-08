@@ -16,14 +16,8 @@
  */
 class ComProfiles
 {
-    /**
-     * Wersion
-     */
     const _VERSION = '0.1.0';
 
-    /**
-     * Get the version
-     */
     public static function getVersion()
     {
         return self::_VERSION;

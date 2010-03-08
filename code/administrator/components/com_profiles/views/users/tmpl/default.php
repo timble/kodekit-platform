@@ -24,7 +24,6 @@
 				<th>
 					<?= @helper('grid.sort', 'Username', 'username', @$state->direction, @$state->order); ?>
 				</th>
-				<th>Logged In</th>
 				<th>
 					<?= @helper('grid.sort', 'Enabled', 'enabled', @$state->direction, @$state->order); ?><br/>
 				</th>
