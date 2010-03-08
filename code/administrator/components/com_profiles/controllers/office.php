@@ -7,6 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
+
 class ComProfilesControllerOffice extends ComDefaultControllerView
 {
 	
