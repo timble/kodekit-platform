@@ -13,6 +13,6 @@
 			<label for="description_field"><?= @text('Description'); ?></label>
 		</dt>
 		<dd>
-			<textarea id="description_field" name="description"><?= @$boat->description;?></textarea>
+			<?= KFactory::get('lib.koowa.editor', array('tinymce'))->display( 'description',  @$boat->description , '600', '300', '100', '20', null, array('theme' => 'simple')) ; ?>
 		</dd>
 </form>
