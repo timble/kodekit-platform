@@ -123,13 +123,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KFactoryIdentif
 			}		
 		}
 		
+		 // Mixin the command chain
+        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+	
 		// Set the table behaviors
 		if(!empty($options['behaviors'])) {
 			$this->addBehaviors($options['behaviors']);
 		} 
-		
-		 // Mixin the command chain
-        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
 	}
 
     /**
