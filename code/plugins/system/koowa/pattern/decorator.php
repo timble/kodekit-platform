@@ -98,6 +98,26 @@ abstract class KPatternDecorator extends KObject
             unset($this->getObject()->$key);
         }
 	}
+	
+	/**
+	 * Get a list of all the available methods
+	 *
+	 * This function returns an array of all the methods, both native and mixed in
+	 *
+	 * @return array An array 
+	 */
+	public function getMethods()
+  	{
+      	$object = $this->getObject();
+  		
+  		if($object instanceof KObject) { 
+      		$methods = $object->getMethods();
+      	} else {
+      		$methods = get_class_methods($object);
+      	}
+
+      	return array_merge(parent::getMethods(), $methods);
+ 	} 
 
    	/**
 	 * Overloaded call function
@@ -111,16 +131,8 @@ abstract class KPatternDecorator extends KObject
 	{
 		$object = $this->getObject();
 		
-		//Check if the method exists
-		if($object instanceof KObject) 
-		{
-			$methods = $object->getMethods();
-			$exists  = in_array($method, $methods);
-		} 
-		else $exists = method_exists($object, $method);
-		
 		//Call the method if it exists
-		if($exists) 
+		if(in_array($method, $this->getMethods())) 
 		{
  			$result = null;
  				
