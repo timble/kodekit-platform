@@ -154,8 +154,14 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionEdit()
 	{
+		if(KInflector::isPlural(KRequest::get('get.view', 'cmd'))) {
+			$state = KRequest::get('request', 'string');
+		} else {
+			$state = KRequest::get('get', 'string');
+		}
+		
 		$rowset = KFactory::get($this->getModel())
-				->set(KRequest::get('request', 'string'))
+				->set($state)
 				->getList()
 				->setData(KRequest::get('post', 'raw'))
 				->save();
@@ -185,8 +191,14 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionDelete()
 	{	
+		if(KInflector::isPlural(KRequest::get('get.view', 'cmd'))) {
+			$state = KRequest::get('request', 'string');
+		} else {
+			$state = KRequest::get('get', 'string');
+		}
+		
 		$rowset = KFactory::get($this->getModel())
-					->set(KRequest::get('request', 'string'))
+					->set($state)
 					->getList()
 					->delete();
 			
