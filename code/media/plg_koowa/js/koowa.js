@@ -267,5 +267,5 @@ String.extend(
 			value = val.substr(index + 1);
 			return method ? method.run([key, value]) : $chk(value);
 		}).join('&');
-	},
+	}
 });
