@@ -9,12 +9,12 @@
 
 class ComProfilesTablePeople extends KDatabaseTableAbstract
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		$options['name'] = 'profiles_view_people';
-		$options['base'] = 'profiles_people';
+		$config->name = 'profiles_view_people';
+		$config->base = 'profiles_people';
 		
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 	
 	public function filter($data)

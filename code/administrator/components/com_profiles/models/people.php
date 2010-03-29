@@ -9,11 +9,11 @@
 
 class ComProfilesModelPeople extends KModelTable
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		$options['table_behaviors'] = array('hittable', 'lockable', 'creatable', 'modifiable');
+		$config->table_behaviors = array('hittable', 'lockable', 'creatable', 'modifiable');
 		
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		// Set the state
 		$this->_state
@@ -33,7 +33,7 @@ class ComProfilesModelPeople extends KModelTable
 			->from('profiles_view_people AS tbl')
 			->order('tbl.letter_name');
 		
-		$result = (array) $database->fetchResultList($query);
+		$result = (array) $database->fetchFieldList($query);
 		return $result; 
 	}
 	

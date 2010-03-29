@@ -29,9 +29,6 @@
 	<td align="center" width="1%">
 		<?= $office->people; ?>
 	</td>
-	<td align="center" width="1%">
-		<?= $office->id; ?>
-	</td>
 </tr>
 <? $i = $i + 1; $m = (1 - $m); ?>
 <? endforeach; ?>

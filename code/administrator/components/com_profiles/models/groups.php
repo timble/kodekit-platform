@@ -21,11 +21,11 @@ abstract class ComProfilesModelGroups extends KModelTable
 	 */
 	protected $_all;
 	
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		$options['table_behaviors'] = array('hittable', 'lockable', 'creatable', 'modifiable');
+		$config->table_behaviors = array('hittable', 'lockable', 'creatable', 'modifiable');
 		
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 	
 	public function getAll()

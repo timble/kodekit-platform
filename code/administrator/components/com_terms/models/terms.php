@@ -9,9 +9,9 @@
 
 class ComTermsModelTerms extends KModelTable
 {
-	public function __construct($options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		// Set the state
 		$this->_state
@@ -21,7 +21,7 @@ class ComTermsModelTerms extends KModelTable
 		 	->insert('table_name', 'string');
 	}
 	 
-	protected function _buildQueryFields(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
 		$query->select('tbl.*')
 			  ->select('relations.terms_relation_id');

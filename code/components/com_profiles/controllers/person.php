@@ -12,14 +12,19 @@
  *
  * @package		Profiles
  */
-class ComProfilesControllerPerson extends ComProfilesControllerDefault
+class ComProfilesControllerPerson extends ComDefaultControllerView
 {
-	public function __construct(array $options = array())
+	/**
+	 * Load the model state
+	 * 
+	 * Force load enabled items onlye
+	 *
+	 * @return void
+	 */
+	public function getRequest()
 	{
-		parent::__construct($options);
-		
-		//Only load enabled items
-		KRequest::set('get.enabled', 1);
+		$state = array_merge(parent::getRequest(), array('enabled' => 1));
+		return $state;
 	}
 	
 	/**
@@ -30,7 +35,10 @@ class ComProfilesControllerPerson extends ComProfilesControllerDefault
 	protected function _actionRead()
 	{		
 		$row = parent::_actionRead();
-		$row->hit();
+		
+		if(KRequest::get('get.layout', 'cmd') != 'form' && $row->isHittable()) {
+			$row->hit();
+		}
 			
 		return $row;
 	}

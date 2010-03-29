@@ -36,9 +36,6 @@
 				<th>
 					<?= @helper('grid.sort', 'Last Visit', 'lastvisitDate', @$state->direction, @$state->order); ?>
 				</th>
-				<th>
-					<?= @helper('grid.sort', 'ID', 'id', @$state->direction, @$state->order); ?>
-				</th>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -61,22 +58,18 @@
 				</td>
 				<td>
 				</td>
-				<td>
-				</td>
-				<td>
-				</td>
 			</tr>
 		</thead>
 		<tbody>
 		
-		<?= @template('default_items'); ?>
-			
-		<? if (!count(@$users)) : ?>
-		<tr>
-			<td colspan="10" align="center">
-				<?= @text('No items found'); ?>
-			</td>
-		</tr>
+		<? if (count(@$users)) : ?>
+			<?= @template('default_users'); ?>
+		<? else : ?>
+			<tr>
+				<td colspan="10" align="center">
+					<?= @text('No items found'); ?>
+				</td>
+			</tr>
 		<? endif; ?>
 		</tbody>
 				

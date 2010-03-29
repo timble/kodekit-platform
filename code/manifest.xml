@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>1.0 Alpha</version>
+	<version>0.7</version>
 	<description>Business Enterprise Employee Repository</description>
 
 	<!-- Application/site -->
@@ -15,6 +15,7 @@
 		<file>profiles.php</file>
 		<file>router.php</file>
 		<folder>views</folder>
+		<folder>controllers</folder>
 	</files>
 	
 	<!-- Application/administrator -->
@@ -23,11 +24,11 @@
 
 		<files folder="administrator/components/com_profiles">
 			<file>profiles.php</file>
+			<file>defines.php</file>
 			<folder>controllers</folder>
 			<folder>data</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
-			<folder>mixins</folder>
 			<folder>models</folder>
 			<folder>views</folder>
 			<folder>search</folder>

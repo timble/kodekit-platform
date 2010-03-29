@@ -9,11 +9,11 @@
 
 class ComProfilesTableUsers extends KDatabaseTableAbstract
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		$options['name'] = 'profiles_users';
-		$options['base'] = 'users';
+		$config->name = 'profiles_users';
+		$config->base = 'users';
 		
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 }

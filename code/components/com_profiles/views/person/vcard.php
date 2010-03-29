@@ -9,7 +9,7 @@
 
 class ComProfilesViewPersonVcard extends KViewVcard
 {
-	public function display($tpl = null)
+	public function display()
 	{
 		$person = KFactory::get('site::com.profiles.model.people')->getItem();
 

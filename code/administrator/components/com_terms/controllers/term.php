@@ -9,9 +9,9 @@
 
 class ComTermsControllerTerm extends KControllerBread
 {	
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 
 		//Prevent state from being saved
 		$this->unregisterFunctionAfter('browse'  , 'saveState');

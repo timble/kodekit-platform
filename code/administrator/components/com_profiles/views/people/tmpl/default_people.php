@@ -50,9 +50,6 @@
 	<td align="center" width="15px">
 		<?= @$escape($person->hits)?>
 	</td>
-	<td align="center" width="1%">
-		<?= $person->id?>
-	</td>
 </tr>
 <? $i = $i + 1; $m = (1 - $m);?>
 <? endforeach; ?>		

@@ -9,9 +9,9 @@
 
 class ComProfilesModelUsers extends KModelTable
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		// Set the state
 		$this->_state->insert('gid', 'int');

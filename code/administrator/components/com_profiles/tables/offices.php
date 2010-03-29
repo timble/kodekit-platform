@@ -9,12 +9,12 @@
 
 class ComProfilesTableOffices extends KDatabaseTableAbstract
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{	
-		$options['name'] = 'profiles_view_offices';
-		$options['base'] = 'profiles_offices';
+		$config->name = 'profiles_view_offices';
+		$config->base = 'profiles_offices';
 		
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 	
 	public function filter($data)

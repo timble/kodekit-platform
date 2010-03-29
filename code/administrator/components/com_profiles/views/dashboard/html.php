@@ -25,15 +25,15 @@ class ComProfilesViewDashboardHtml extends ComProfilesViewHtml
 		
 		$offices->getState()->order 	= 'people';
 		$offices->getState()->direction = 'desc';
-		$offices->getState()->limit 	= '5';
+		$offices->getState()->limit 	= '5';	
 		
 		//Reset the toolbar
 		KFactory::get('admin::com.profiles.toolbar.dashboard')->reset();
-		
+	
 		$this->assign('departments', 	$departments->getList());
 		$this->assign('offices', 		$offices->getList());
 		$this->assign('people', 		$people->getList());
-
+		
 		parent::display();
 	}
 }

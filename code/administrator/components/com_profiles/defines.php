@@ -16,7 +16,7 @@
  */
 class ComProfiles
 {
-    const _VERSION = '0.1.0';
+    const _VERSION = '0.7.0';
 
     public static function getVersion()
     {

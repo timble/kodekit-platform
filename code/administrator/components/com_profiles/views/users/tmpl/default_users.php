@@ -30,9 +30,6 @@
 	<td width="10%">
 		<?= ($user->lastvisitDate == '0000-00-00 00:00:00') ? @text('Never') : @helper('date', $user->lastvisitDate, '%Y-%m-%d %H:%M:%S') ?>
 	</td>
-	<td align="center" width="1%">
-		<?= $user->id?>
-	</td>
 </tr>
 <? $i = $i + 1; $m = (1 - $m);?>
 <? endforeach; ?>		

@@ -25,9 +25,6 @@
 				<th>
 					<?= @helper('grid.sort', 'People', 'people', @$state->direction, @$state->order); ?>
 				</th>
-				<th>
-					<?= @helper('grid.sort', 'ID', 'profiles_office_id', @$state->direction, @$state->order); ?>
-				</th>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -43,15 +40,12 @@
 				</td>
 				<td>	
 				</td>
-				<td>
-				</td>
 			</tr>
 		</thead>
 		<tbody>
-		
-		<?= @template('default_items'); ?>
-
-		<? if (!count(@$offices)) : ?>
+		<? if (count(@$offices)) : ?>
+			<?= @template('default_offices'); ?>
+		<? else : ?>
 			<tr>
 				<td colspan="8" align="center">
 					<?= @text('No items found'); ?>

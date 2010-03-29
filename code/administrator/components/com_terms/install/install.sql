@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS `#__terms_terms` (
-	`terms_term_id` SERIAL COMMENT 'Primary key',
-	`name` VARCHAR( 255 ) NOT NULL COMMENT 'Name',
-	`alias` VARCHAR( 255 ) NOT NULL COMMENT 'Alias',
-	`params` text NOT NULL COMMENT 'Parameters',
+	`terms_term_id` SERIAL,
+	`name` VARCHAR( 255 ) NOT NULL,
+	`alias` VARCHAR( 255 ) NOT NULL,
+	`params` text NOT NULL,
 	PRIMARY KEY ( `terms_term_id` ) ,
 	UNIQUE KEY ( `name` )
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT = 'Terms table for taxonomy ';
 
 CREATE TABLE IF NOT EXISTS `#__terms_relations` (
-	`terms_relation_id` SERIAL COMMENT 'Primary key',
+	`terms_relation_id` SERIAL,
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row_id` BIGINT(20) UNSIGNED NOT NULL,	
-  	`table_name` VARCHAR( 255 ) NOT NULL COMMENT 'Table name',
+  	`table_name` VARCHAR( 255 ) NOT NULL,
   	UNIQUE KEY `table_row_tag` (`table_name`, `row_id`, `terms_term_id`)
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'Relations table for taxonomy';
 

@@ -9,9 +9,9 @@
 
 class ComProfilesViewHtml extends ComDefaultViewHtml
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-        $options['views'] = array(
+        $config->views = array(
 			'dashboard' 	=> JText::_('Dashboard'),
 			'people' 		=> JText::_('People'),
 			'offices' 		=> JText::_('Offices'),
@@ -19,7 +19,7 @@ class ComProfilesViewHtml extends ComDefaultViewHtml
 			'users'			=> JText::_('Users')
 		);
 		
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 	
 	public function display()

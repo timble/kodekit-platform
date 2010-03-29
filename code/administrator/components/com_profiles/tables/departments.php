@@ -9,22 +9,22 @@
 
 class ComProfilesTableDepartments extends KDatabaseTableAbstract
 {
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{	
-		$options['name'] = 'profiles_view_departments';
-		$options['base'] = 'profiles_departments';
-		
-		parent::__construct($options);
+		$config->name = 'profiles_view_departments';
+		$config->base = 'profiles_departments';
+	
+		parent::__construct($config);
 	}
 	
-	public function filter($data)
+	public function filter($data, $base = false)
 	{
 		settype($data, 'array'); //force to array
 		
-		if(empty($data['alias'])) {
+		if(isset($data['title']) && empty($data['alias'])) {
 			$data['alias'] = $data['title'];
 		}
 		
-		return parent::filter($data);
+		return parent::filter($data, $base);
 	}
 }

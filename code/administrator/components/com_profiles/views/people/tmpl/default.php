@@ -46,9 +46,6 @@
 				<th>
 					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
 				</th>
-				<th>
-					<?= @helper('grid.sort', 'ID', 'profiles_person_id', @$state->direction, @$state->order); ?>
-				</th>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -72,20 +69,17 @@
 				</td>
 				<td>
 				</td>
-				<td>
-				</td>
 			</tr>
 		</thead>
 		<tbody>
-		
-		<?= @template('default_items'); ?>
-			
-		<? if (!count(@$people)) : ?>
-		<tr>
-			<td colspan="8" align="center">
-				<?= @text('No items found'); ?>
-			</td>
-		</tr>
+		<? if (count(@$people)) : ?>
+			<?= @template('default_people'); ?>
+		<? else : ?>
+			<tr>
+				<td colspan="8" align="center">
+					<?= @text('No items found'); ?>
+				</td>
+			</tr>
 		<? endif; ?>
 		</tbody>
 		<tfoot>
