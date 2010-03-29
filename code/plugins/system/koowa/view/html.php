@@ -15,25 +15,25 @@
  * @category	Koowa
  * @package     Koowa_View
  */
-class KViewHtml extends KViewAbstract
+abstract class KViewHtml extends KViewTemplate
 {
 	/**
 	 * Constructor
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct($options = array())
+	public function __construct(KConfig $config)
 	{
-		$options = $this->_initialize($options);
+		parent::__construct($config);
 
 		// Add a rule to the template for form handling and secrity tokens
 		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
 
 		// Set base and media urls for use by the view
-		$this->assign('baseurl' , $options['base_url'])
-			 ->assign('mediaurl', $options['media_url']);
+		$this->assign('baseurl' , $config->base_url)
+			 ->assign('mediaurl', $config->media_url);
 
-		parent::__construct($options);
+		parent::__construct($config);
 	}
 	
 	/**

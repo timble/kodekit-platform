@@ -141,7 +141,7 @@ class KRequest
 		list($hash, $keys) = self::_parseIdentifier($identifier);
 
 		// Add to _REQUEST hash if original hash is get, post, or cookies 
-		if(in_array($hash, array('GET', 'POST', 'COOKIE')) && !empty($keys)) {
+		if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
 			self::set('request.'.implode('.', $keys), $value);
 		}
 
@@ -165,7 +165,7 @@ class KRequest
 			$value = array($key => $value);
 		}
 		
-		$GLOBALS['_'.$hash] = !empty($keys) ? KHelperArray::merge($GLOBALS['_'.$hash], $value) : $value;
+		$GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
 	}
 
 	/**

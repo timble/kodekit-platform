@@ -51,22 +51,22 @@ class KFilterTidy extends KFilterAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param	array	Options array
+	 * @@param 	object	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
-		if(isset($options['diagnose'])) {
-			$this->_diagnose = $options['diagnose'];
+		if(isset($config->diagnose)) {
+			$this->_diagnose = $config->diagnose;
 		}
 		
-		if(isset($options['encoding'])) {
-			$this->_encdoing = $options['encoding'];
+		if(isset($config->encoding)) {
+			$this->_encdoing = $config->encoding;
 		}
 		
-		if(isset($options['config'])) {
-			$this->_config = array_merge($this->_config, $options['config']);
+		if(isset($config->config)) {
+			//$this->_config = array_merge($this->_config, $config['config']);
 		}
 	}
 	

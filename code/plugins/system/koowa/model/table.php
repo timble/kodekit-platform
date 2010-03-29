@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * @version		$Id$
  * @category	Koowa
@@ -29,16 +29,14 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Constructor
      *
-     * @param	array An optional associative array of configuration settings.
+     * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
-		$options  = $this->_initialize($options);
-		
-		if(isset($options['table'])) {
-			$this->setTable($options['table']);
+		if(!empty($config->table)) {
+			$this->setTable($config->table);
 		}
 
 		// Set the static states
@@ -54,32 +52,30 @@ class KModelTable extends KModelAbstract
 		$table = KFactory::get($this->getTable());
 		
 		//Set the table behaviors
-		$table->addBehaviors($options['table_behaviors']);
+		$table->addBehaviors($config->table_behaviors);
 			
 		// Set the dynamic states based on the unique table keys
-      	foreach($table->getUniqueKeys() as $key) {
-      		$this->_state->insert($key->primary ? 'id' : $key->name, $key->filter, $key->default);
+      	foreach($table->getUniqueColumns() as $key => $data) {
+      		$this->_state->insert($key, $data->filter, $data->default, true);
 		}	
 	}
 	
 	/**
-	 * Initializes the options for the object
+	 * Initializes the config for the object
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
-	 * @param   array   Options
-	 * @return  array   Options
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
 	 */
-	protected function _initialize(array $options)
+	protected function _initialize(KConfig $config)
 	{
-		$options = parent::_initialize($options);
-		
-		$defaults = array(
+		$config->append(array(
 			'table'   			=> null,
 			'table_behaviors'	=> array()
-       	);
+       	));
        	
-        return array_merge($defaults, $options);
+       	parent::_initialize($config);
     }
     
 	/**
@@ -104,32 +100,6 @@ class KModelTable extends KModelAbstract
     }
     
 	/**
-     * Set the model state properties
-     * 
-     * This function overloads the KModelAbstract::getState() function and calculates
-     * the offset based on the list length.
-     *
-     * @return	KModelTable
-     */
-    public function getState()
-    {
-    	$limit  = $this->_state->limit;
-    	$offset = $this->_state->offset;
-    	
-    	//If the offset is higher than the total recalculate the offset 
-    	if($limit !== 0 && $offset !== 0)
-    	{
-    		$total = $this->getTotal();
-    		
-    		if($total !== 0 && $offset >= $total) { 
-    			$this->_state->offset = floor(($total-1) / $limit) * $limit;
-    		}
-    	}
-    	
-    	return parent::getState();
-    }
-
-	/**
 	 * Get the identifier for the table with the same name
 	 *
 	 * @return	KIdentifierInterface
@@ -151,7 +121,7 @@ class KModelTable extends KModelAbstract
 	/**
 	 * Method to set a table object attached to the model
 	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIndentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
 	 * @return	KModelTable
@@ -171,9 +141,8 @@ class KModelTable extends KModelAbstract
     /**
      * Method to get a item object which represents a table row 
      * 
-     * This method matches the model state against the table's unqiue keys. If a key
-     * is found it is used to fetch the table row. If no state iformation can be used 
-     * to retrieve the item an empty row will be returned instead
+     * If the model state is unique a row is fetched from the database based on the state. 
+     * If not, an empty row is be returned instead.
      * 
      * @return KDatabaseRow
      */
@@ -181,43 +150,22 @@ class KModelTable extends KModelAbstract
     {
         if (!isset($this->_item))
         {
-        	$table = KFactory::get($this->getTable());
-        	$query = null; 
+        	$table  = KFactory::get($this->getTable());
+        	$query  = null;
         	
-        	$keys = $table->getUniqueKeys();
-        	if(!empty($keys))
+        	if($this->_state->isUnique())
         	{
-        		$table = KFactory::get($this->getTable());
-        		$query = $table->getDatabase()->getQuery();
+       			$query = $table->getDatabase()->getQuery();
         		
-        		foreach($keys as $key)
-         		{
-         			$name = $key->primary ? 'id' : $key->name;
-         			if($value = $this->_state->{$name}) 
-         			{
-         				$query->where('tbl.'.$key->name, '=', $value);
-     				
-         				//If the key is a primary key break loop
-         				if($key->primary) break;
-         			}
-         		}
-        	}
-        	
-        	//If we have a valid query get a rowset and retrieve the first row
-        	if(!empty($query->where)) 
-        	{
-        		$this->_buildQueryFields($query);
+        		$this->_buildQueryColumns($query);
         		$this->_buildQueryFrom($query);
         		$this->_buildQueryJoins($query);
+        		$this->_buildQueryWhere($query);
         		$this->_buildQueryGroup($query);
-        		$this->_buildQueryHaving($query);
-        		
-        		$row = $table->select($query)->current();
-        	} 
-        	else $row = false;
-        	 
-         	//Set the item, create an empty row if no data was returned from the database
-        	$this->_item = ($row !== false) ? $row : KFactory::tmp($table->getRow(), array('table' => $table));
+        		$this->_buildQueryHaving($query);	
+         	}
+         	
+         	$this->_item = $table->select($query, KDatabase::FETCH_ROW);
         }
 
         return $this->_item;
@@ -236,7 +184,7 @@ class KModelTable extends KModelAbstract
         	$table = KFactory::get($this->getTable());
         	$query = $table->getDatabase()->getQuery();
         	
-       	 	$this->_buildQueryFields($query);
+       	 	$this->_buildQueryColumns($query);
         	$this->_buildQueryFrom($query);
         	$this->_buildQueryJoins($query);
         	$this->_buildQueryWhere($query);
@@ -244,8 +192,8 @@ class KModelTable extends KModelAbstract
         	$this->_buildQueryHaving($query);
         	$this->_buildQueryOrder($query);
         	$this->_buildQueryLimit($query);
-        		
-        	$this->_list = $table->select($query);
+
+        	$this->_list = $table->select($query, KDatabase::FETCH_ROWSET);	
         }
 
         return $this->_list;
@@ -267,17 +215,35 @@ class KModelTable extends KModelAbstract
         	$this->_buildQueryFrom($query);
         	$this->_buildQueryJoins($query);
         	$this->_buildQueryWhere($query);
+        	
+        	$total = $table->count($query);
+        	$limit  = $this->_state->limit;
+    		$offset = $this->_state->offset;
+    	
+    		//If the offset is higher than the total recalculate the offset 
+    		if($limit !== 0 && $offset !== 0)
+    		{
+    			if($total !== 0 && $offset >= $total) { 
+    				$this->_state->offset = floor(($total-1) / $limit) * $limit;
+    			}
+    		}
 			
-        	$this->_total = $table->count($query);
+        	$this->_total = $total;
         }
-
+        
         return $this->_total;
     }
     
+
+	public function getState()
+	{
+		return $this->_state;
+	}
+    
     /**
-     * Builds SELECT fields list for the query
+     * Builds SELECT columns list for the query
      */
-    protected function _buildQueryFields(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuery $query)
     {
 		$query->select(array('tbl.*'));
     }
@@ -304,15 +270,16 @@ class KModelTable extends KModelAbstract
      */
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
-    	foreach(KFactory::get($this->getTable())->getUniqueKeys() as $key)
-      	{
-      		$name = $key->primary ? 'id' : $key->name;
-         	if($value = $this->_state->{$name}) 
-         	{	
-         		$query->where('tbl.'.$key->name, 'IN', $value);
-         		break;
-         	}
-         }
+    	//Get only the unique states
+    	$states = $this->_state->getData(true);
+    	
+    	if(!empty($states))
+    	{
+    		$states = KFactory::get($this->getTable())->map($states); 
+    		foreach($states as $key => $value) {
+         		$query->where('tbl.'.$key, 'IN', $value);
+        	}
+    	}
     }
     
   	/**

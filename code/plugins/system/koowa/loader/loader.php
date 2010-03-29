@@ -58,7 +58,7 @@ class KLoader
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	final private function __construct(array $options = array()) 
+	final private function __construct() 
 	{ 
 		//Created the adapter container
 		self::$_adapters  = array();
@@ -89,12 +89,12 @@ class KLoader
 	 *
 	 * @return void
 	 */
-	public static function instantiate(array $options = array())
+	public static function instantiate()
 	{
 		static $instance;
 		
 		if ($instance === NULL) {
-			$instance = new KLoader($options);
+			$instance = new KLoader();
 		}
 		
 		return $instance;

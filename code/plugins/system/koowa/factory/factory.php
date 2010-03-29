@@ -56,7 +56,7 @@ class KFactory
 	{ 
 		self::$_container = new ArrayObject();
         self::$_chain     = new KFactoryChain();
-
+        
         self::addAdapter(new KFactoryAdapterKoowa());
 	}
 	
@@ -74,12 +74,12 @@ class KFactory
 	 *
 	 * @return void
 	 */
-	public static function instantiate(array $options = array())
+	public static function instantiate()
 	{
 		static $instance;
 		
 		if ($instance === NULL) {
-			$instance = new KFactory($options);
+			$instance = new KFactory();
 		}
 		
 		return $instance;
@@ -89,16 +89,16 @@ class KFactory
 	 * Returns an identifier string. 
 	 * 
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
-	 * object that implements KFactoryIdentifiable, or a KIndentifierInterface, or valid identifier 
+	 * object that implements KObjectIdentifiable, or a KIndentifierInterface, or valid identifier 
 	 * string. Function will also check for identifier mappings and return the mapped identifier.
 	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIndentifierInterface or valid identifier string
 	 * @return KIdentifier
 	 */
 	public static function identify($identifier)
 	{
-		if(is_object($identifier) && $identifier instanceof KFactoryIdentifiable) {
+		if(is_object($identifier) && $identifier instanceof KObjectIdentifiable) {
 			$identifier = $identifier->getIdentifier();
 		} 
 		
@@ -122,14 +122,14 @@ class KFactory
 	 * @throws	KFactoryException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
-	public static function get($identifier, array $options = array())
+	public static function get($identifier, array $config = array())
 	{
 		$identifier = self::identify($identifier);
 		
 		if(!self::$_container->offsetExists((string)$identifier))
 		{
 			$context = self::$_chain->getContext();
-			$context['options'] = $options;
+			$context->config = new KConfig($config);
 		
 			$instance = self::$_chain->run($identifier, $context);
 			if(!is_object($instance)) {
@@ -161,12 +161,12 @@ class KFactory
 	 * @throws 	KFactoryException
 	 * @return 	object  		Return object on success, throws exception on failure
 	 */
-	public static function tmp($identifier, array $options = array())
+	public static function tmp($identifier, array $config = array())
 	{
 		$identifier = self::identify($identifier);
 	
 		$context =  self::$_chain->getContext();
-		$context['options'] = $options;
+		$context->config = new KConfig($config);
 		
 		$instance = self::$_chain->run($identifier, $context);
 		if(!is_object($instance)) {

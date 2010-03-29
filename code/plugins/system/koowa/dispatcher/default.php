@@ -21,12 +21,11 @@ class KDispatcherDefault extends KDispatcherAbstract
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_view'
+	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-	  	parent::__construct($options);
+	  	parent::__construct($config);
 	  	
 		$this->registerFunctionAfter('dispatch'   , 'forward');
 	}
@@ -44,7 +43,7 @@ class KDispatcherDefault extends KDispatcherAbstract
 	 *
 	 * @return	KDispatcherDefault
 	 */
-	public function dispatch($view)
+	protected function _actionDispatch($view)
 	{
 		//Redirect if no view information can be found in the request
 		if(!KRequest::has('get.view')) 
@@ -53,7 +52,7 @@ class KDispatcherDefault extends KDispatcherAbstract
 				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
 		}
 		
-		return parent::dispatch($view);
+		return parent::_actionDispatch($view);
 	}
 	
 	/**
@@ -64,7 +63,7 @@ class KDispatcherDefault extends KDispatcherAbstract
 	 *
 	 * @return void
 	 */
-	public function forward()
+	public function _actionForward()
 	{
 		if(KRequest::method() == 'POST') 
 		{

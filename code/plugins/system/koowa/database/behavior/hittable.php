@@ -41,7 +41,7 @@ class KDatabaseBehaviorHittable extends KDatabaseBehaviorAbstract
 	/**
      * Increase hit counter by 1
      *
-     * Requires a hits field to be present in the table
+     * Requires a 'hits' column
      */
 	public function hit()
 	{

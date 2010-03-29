@@ -15,15 +15,15 @@
  * // in child view class
  * public function display()
  * {
- * 		$this->assign('path', 'path/to/file');
+ * 		$this->path = path/to/file');
  * 		// OR
- * 		$this->assign('body', $file_contents);
+ * 		$this->output = $file_contents;
  * 
- * 		$this->assign('filename', 'foobar.pdf'); 
+ * 		$this->filename = foobar.pdf'; 
  *
  * 		// optional:
- * 		$this->assign('mimetype', 'application/pdf');
- * 		$this->assign('disposition', 'inline'); // defaults to 'attachment' to force download
+ * 		$this->mimetype    = 'application/pdf';
+ * 		$this->disposition =  'inline'; // defaults to 'attachment' to force download
  *
  * 		return parent::display();
  * }
@@ -34,6 +34,66 @@
  */
 class KViewFile extends KViewAbstract
 {
+	/**
+	 * The file path
+	 * 
+	 * @var string
+	 */
+	public $path = '';
+	
+	/**
+	 * The file name
+	 * 
+	 * @var string
+	 */
+	public $filename = '';
+	
+	/**
+	 * The mimetype
+	 * 
+	 * @var string
+	 */
+	public $mimetype = '';
+	
+	/**
+	 * The file disposition
+	 * 
+	 * @var string
+	 */
+	public $disposition = 'attachment';
+	
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
+	{
+        parent::__construct($config);
+        
+        $this->set($config->toArray());
+	}
+	
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
+	 */
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+            'path'		  => '',
+			'filename'	  => array_pop($this->_identifier->path).'.'.$this->_identifier->name,
+			'mimetype'	  => '',
+			'disposition' => 'attachment'
+       	));
+       	
+       	parent::_initialize($config);
+    }
+	
 	/**
 	 * Renders and echo's the views output
  	 *
@@ -55,7 +115,8 @@ class KViewFile extends KViewAbstract
 		// @TODO magic mimetypes
 		if($this->mimetype) {
 			header('Content-type: '.$this->mimetype);
-		} 
+		}
+		 
 		header('Content-Transfer-Encoding: binary');
 		header('Accept-Ranges: bytes');
 
@@ -68,16 +129,16 @@ class KViewFile extends KViewAbstract
         while (@ob_end_clean());
     
 		$this->filename = basename($this->filename);		
-    	if(isset($this->body)) // File body is passed as string
+    	if(isset($this->output)) // File body is passed as string
     	{
 			if(empty($this->filename)) {
 				throw new KViewException('No filename supplied');
 			}
 			$this->_disposition();
-			$filesize = strlen($this->body);
+			$filesize = strlen($this->output);
 			header('Content-Length: '.$filesize);
 			flush();
-			echo $this->body;
+			echo $this->output;
     	}
     	elseif(isset($this->path)) // File is read from disk
     	{
@@ -86,21 +147,25 @@ class KViewFile extends KViewAbstract
 			}
 			$filesize = @filesize($this->path);
 			header('Content-Length: '.$filesize);
-    		$this->_disposition();
+    		$this->_setDisposition();
 			flush();
 			$this->_readChunked($this->path);
     	}
-    	else throw new KViewException('No body or path supplied');
+    	else throw new KViewException('No output or path supplied');
 		
 		die;
 	}
 
-	protected function _disposition()
+	
+	/**
+	 * Set the header disposition headers
+ 	 *
+	 * @return KViewFile
+	 */
+	protected function _setDisposition()
 	{
-		// @TODO :Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123;
-			
-		if(isset($this->disposition) && $this->disposition == 'inline') 
-		{		
+		// @TODO :Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123;	
+		if(isset($this->disposition) && $this->disposition == 'inline') {		
 			header('Content-Disposition: inline; filename="'.$this->filename.'"');
 		} else {	
 			header('Content-Description: File Transfer');
@@ -110,6 +175,13 @@ class KViewFile extends KViewAbstract
 		return $this;
 	}
 	
+	
+	/**
+	 * Read a file in chunks and flush it to the output stream
+ 	 *
+ 	 * @param  string 	Path to a file to be read
+	 * @return integer 	Number of chunks being flushed
+	 */
     protected function _readChunked($path)
     {
    		$chunksize	= 1*(1024*1024); // Chunk size
@@ -121,13 +193,15 @@ class KViewFile extends KViewAbstract
        		throw new KViewException('Cannot open file');
    		}
    		
-   		while (!feof($handle)) {
+   		while (!feof($handle)) 
+   		{
        		$buffer = fread($handle, $chunksize);
        		echo $buffer;
 			@ob_flush();
 			flush();
        		$cnt += strlen($buffer);
    		}
+   		
        $status = fclose($handle);
    	   return $cnt; 
 	}

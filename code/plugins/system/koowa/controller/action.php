@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @version		$Id$
@@ -9,7 +10,7 @@
  */
 
 /**
- * Form Controller Class
+ * Action Controller Class
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @author 		Mathias Verraes <mathias@koowa.org>
@@ -17,16 +18,16 @@
  * @package     Koowa_Controller
  * @uses        KInflector
  */
-abstract class KControllerView extends KControllerBread
+abstract class KControllerAction extends KControllerBread
 {
 	/**
 	 * Constructor
 	 *
-	 * @param array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 
 		// Register actions aliasses
 		$this->registerActionAlias('disable', 'enable');
@@ -46,7 +47,7 @@ abstract class KControllerView extends KControllerBread
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
-	public function execute($action = null)
+	public function execute($action = null, $data = null)
 	{
 		if(KRequest::method() == 'POST') 
 		{
@@ -60,7 +61,7 @@ abstract class KControllerView extends KControllerBread
         	}
 		}
 		
-		return parent::execute($action);
+		return parent::execute($action, $data);
 	}
 	
 	/**
@@ -96,7 +97,6 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionRead()
 	{		
-		//Handle the action
 		$row = parent::_actionRead();
 		
 		if(isset($row)) 
@@ -113,53 +113,57 @@ abstract class KControllerView extends KControllerBread
 	/*
 	 * Generic save action
 	 *
+	 *	@param	mixed 	Either a scalar, an associative array, an object 
+	 * 					or a KDatabaseRow
 	 * @return KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _actionSave()
+	protected function _actionSave($data)
 	{
-		//Handle the action
-		if((bool) KRequest::get('get.id', 'int')) 
+		if(KFactory::get($this->getModel())->getState()->isUnique()) 
 		{
-			$result = $this->execute('edit');
+			//Edit returns a rowset
+			$rowset = $this->execute('edit', $data);
+			
+			// Get the row based on the identity key
+			$row = $rowset->find(KFactory::get($this->getModel())->getState()->id);
 			
 			//Unlock the row 
-			if($result->isLockable()) {
-				$result->unlock();
+			if($row->isLockable()) {
+				$row->unlock();
 			}
 			
-		} else $result = $this->execute('add');
+		} else $row = $this->execute('add', $data);
 		
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
-		return $result;
+		return $row;
 	}
 	
 	/*
 	 * Generic apply action
 	 *
-	 * @return 	void
+	 *	@param	mixed 	Either a scalar, an associative array, an object 
+	 * 					or a KDatabaseRow
+	 * @return 	KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _actionApply()
+	protected function _actionApply($data)
 	{
-		//Handle the action
-		if((bool) KRequest::get('get.id', 'int')) 
+		if(KFactory::get($this->getModel())->getState()->isUnique()) 
 		{
 			//Edit returns a rowset
-			$result = $this->execute('edit');
+			$rowset = $this->execute('edit', $data);
+			
+			// Get the row based on the identity key
+			$row = $rowset->find(KFactory::get($this->getModel())->getState()->id);
 			
 			//Unlock the row 
-			if($result->isLockable()) {
-				$result->unlock();
+			if($row->isLockable()) {
+				$row->unlock();
 			}
-			
-			$this->_redirect = 'view='.$this->_identifier->name.'&id='.$result[0]->id;
 		}
-		else 
-		{
-			$result = $this->execute('add');
-			$this->_redirect = 'view='.$this->_identifier->name.'&id='.$result->id;
-		}
-					
-		return $result;
+		else $row = $this->execute('add', $data);
+		
+		$this->_redirect = 'view='.$this->_identifier->name.'&id='.$row->id;		
+		return $row;
 	}
 
 	/*
@@ -169,9 +173,8 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionCancel()
 	{
-		$row = KFactory::get($this->getModel())
-					->set(KRequest::get('request', 'string'))
-					->getItem();
+		//Don't pass through the command chain
+		$row = parent::_actionRead();
 					
 		if($row->isLockable()) {
 			$row->unlock();
@@ -189,8 +192,8 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionEnable()
 	{
-		KRequest::set('post', array('enabled' => $this->getAction() == 'enable' ? '1' : '0'));
-		$rowset = $this->execute('edit');
+		$data = array('enabled' => $this->getAction() == 'enable' ? '1' : '0');
+		$rowset = $this->execute('edit', $data);
 		
 		return $rowset;
 	}
@@ -202,10 +205,10 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionAccess()
 	{
-		Request::set('post', array('access' => KRequest::get('post.access', 'int')));
-		$rowset = $this->execute('edit');
+		$data = array('access' => KRequest::get('post.access', 'int'));
+		$rowset = $this->execute('edit', $data);
 
-		return $rowser;
+		return $rowset;
 	}
 	
 	/**

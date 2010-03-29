@@ -108,33 +108,29 @@ class KDatabaseQuery extends KObject
 	 *
 	 * Can be overloaded/supplemented by the child class
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 *                Recognized key values include 'adapter' (this list is not
-	 * 				  meant to be comprehensive).
+	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct( array $options = array() )
+	public function __construct( KConfig $config)
 	{
-        // Initialize the options
-        $options  = $this->_initialize($options);
+        parent::__construct($config);
 
 		//set the model adapter
-		$this->_adapter  = isset($options['adapter']) ? $options['adapter'] : KFactory::get('lib.koowa.database');
+		$this->_adapter  = $config->adapter;
 	}
 
 
     /**
      * Initializes the options for the object
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options.
      */
-    protected function _initialize($options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
-            'adapter' => null
-        );
-
-        return array_merge($defaults, $options);
+    	$config->append(array(
+            'adapter' => KFactory::get('lib.koowa.database')
+        ));
+        
+        parent::_initialize($config);
     }
     
     /**
@@ -151,7 +147,7 @@ class KDatabaseQuery extends KObject
 	/**
 	 * Built a select query
 	 *
-	 * @param	array|string	A string or an array of field names
+	 * @param	array|string	A string or an array of column names
 	 * @return 	KDatabaseQuery
 	 */
 	public function select( $columns = '*')
@@ -258,7 +254,7 @@ class KDatabaseQuery extends KObject
 		$property = $this->_adapter->quoteName($property);
 		
 		// Apply quotes to the value
-		$value    = $this->_adapter->quoteString($value);
+		$value    = $this->_adapter->quoteValue($value);
 		
        	//Create the where clause
         if(in_array($constraint, array('IN', 'NOT IN'))) {

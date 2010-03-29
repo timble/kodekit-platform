@@ -55,15 +55,17 @@ class KFilterDate extends KFilterTimestamp
         if (is_array($value)) {
             $value = $this->_arrayToDate($value);
         }
-		
-		// Normal sanitize
-        $format = 'Y-m-d';
         
-        if (is_int($value)) {
-            return date($format, $value);
+        $result = '0000-00-00';
+        if (!(empty($value) || $value == $result))
+        {
+        	$format = 'Y-m-d';
+        
+        	if (is_int($value)) {
+            	return date($format, $value);
+        	} 	 
         } 
-        
-        return date($format, strtotime($value));
+		
+        return $result;
 	}
 }
-

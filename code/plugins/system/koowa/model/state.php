@@ -22,17 +22,14 @@ class KModelState extends KModelAbstract
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
-	 * @param   array   Options
-	 * @return  array   Options
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  array   void
 	 */
-	protected function _initialize(array $options = array())
+	protected function _initialize(KConfig $config)
 	{
-		$defaults = array(
+		$config->append(array(
             'state'      => array(),
-			'identifier' => null
-       	);
-
-        return array_merge($defaults, $options);
+       	));
     }
 
 	/**
@@ -84,7 +81,7 @@ class KModelState extends KModelAbstract
     public function __unset($name)
     {
     	if(isset($this->_state[$name])) {
-    		$this->_state[$name]->value = null;
+    		$this->_state[$name]->value = $this->_state[$name]->default;
     	}
     }
 
@@ -94,9 +91,10 @@ class KModelState extends KModelAbstract
      * @param   string		The name of the state
      * @param   mixed		Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
      * @param   mixed  		The default value of the state
+     * @param   boolean 	TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
      * @return  KModelState
      */
-    public function insert($name, $filter, $default = null)
+    public function insert($name, $filter, $default = null, $unique = false)
     {
     	if(!isset($this->_state[$name]))
     	{
@@ -104,6 +102,7 @@ class KModelState extends KModelAbstract
     		$state->name   = $name;
     		$state->filter = $filter;
     		$state->value  = $default;
+    		$state->unique = $unique;
     		$this->_state[$name] = $state;
     	}
 
@@ -136,7 +135,7 @@ class KModelState extends KModelAbstract
 	/**
      * Set the state data
      *
-     * @param   array|object	An associative array of state data by name
+     * @param   array|object	An associative array of state values by name
      * @return  KModelState
      */
     public function setData(array $data)
@@ -161,17 +160,40 @@ class KModelState extends KModelAbstract
 
     /**
      * Get the state data
+     * 
+     * This function only returns states that have been been set.
      *
-     * @return  array 	An associative array of state data by name
+     * @param   boolean	If TRUE only retrieve unique state values, default FALSE
+     * @return  array 	An associative array of state values by name
      */
-    public function getData()
+    public function getData($unique = false)
     {
-        $result = array();
+        $data = array();
 
-   		foreach ($this->_state as $k => $v) {
-            $result[$k] = $v->value;
+   		foreach ($this->_state as $name => $state) 
+   		{
+            if($state->value)
+            {
+           		 if($unique) 
+           		 {
+   					if($state->unique) {
+           		 		$data[$name] = $state->value;
+   					}
+   					
+            	} else $data[$name] = $state->value;	
+            }
         }
-
-        return $result;
+       
+        return $data;
+    }
+    
+    /**
+     * Check if the state information is unique 
+     * 
+     * @return  boolean TRUE if the state is unique, otherwise FALSE.
+     */
+    public function isUnique()
+    {
+    	return (bool) count($this->getData(true));
     }
 }

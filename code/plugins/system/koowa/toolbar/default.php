@@ -19,11 +19,11 @@ class KToolbarDefault extends KToolbarAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param array	Options array
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-        parent::__construct($options);
+        parent::__construct($config);
 		
 		$app 		= $this->_identifier->application;
 		$package 	= $this->_identifier->package;

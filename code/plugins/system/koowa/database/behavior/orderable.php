@@ -41,7 +41,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	/**
 	 * Move the row up or down in the ordering
 	 *
-	 * Requires an ordering field to be present in the table
+	 * Requires an 'ordering' column
 	 *
 	 * @param	integer	Amount to move up or down
 	 * @return 	KDatabaseRowAbstract
@@ -104,12 +104,12 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-    	$row = $context['data']; //get the row data being inserted
+    	$row = $context->data; //get the row data being inserted
     	
     	if(isset($row->ordering) && $row->ordering <= 0) 
     	{
-        	$query = 'SELECT MAX(ordering) FROM `#__'.$context['table'];
-    		$row->ordering = (int) $context['caller']->getDatabase()->fetchResult($query) + 1;
+        	$query = 'SELECT MAX(ordering) FROM `#__'.$context->table;
+    		$row->ordering = (int) $context->caller->getDatabase()->fetchField($query) + 1;
         }
     }
 }

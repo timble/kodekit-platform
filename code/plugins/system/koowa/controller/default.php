@@ -9,13 +9,13 @@
  */
 
 /**
- * Default Controller Class
+ * Action Controller Class
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerView
+class KControllerDefault extends KControllerAction
 {
 
 }

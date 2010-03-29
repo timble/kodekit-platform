@@ -34,22 +34,18 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 	/**
 	 * Object constructor
 	 *
-	 * @param	array 	An optional associative array of configuration settings.
-	 * Recognized key values include 'mixer' (this list is not meant to be comprehensive).
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		// Initialize the options
-        $options = $this->_initialize($options);
+		parent::__construct($config);
         
-        parent::__construct($options);
-		
-		if(is_null($options['command_chain'])) {
+		if(is_null($config->command_chain)) {
 			throw new KMixinException('command_chain [KCommandChain] option is required');
 		}
 	
 		//Enque the command in the mixer's command chain
-		$options['command_chain']->enqueue($this, 2);
+		$config->command_chain->enqueue($this, 2);
 	}
 	
 	/**
@@ -57,18 +53,16 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        parent::_initialize($options);
-    	
-    	$defaults = array(
+    	$config->append(array(
     		'command_chain'	=> null,
-    	);
-
-        return array_merge($defaults, $options);
+    	));
+    	
+    	parent::_initialize($config);
     }
     
 	/**

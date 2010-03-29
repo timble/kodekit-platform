@@ -27,12 +27,46 @@ class KObject
      */
     protected $_mixed_methods = array();
     
+   /**
+	 * The object identifier
+	 * 
+	 * Public access is allowed via __get() with $identifier. The identifier
+	 * is only available of the object implements the KObjectIndetifiable
+	 * interface
+	 *
+	 * @var KIdentifierInterface
+	 */
+	protected $_identifier;
+     
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct( array $options = array() ) { }
+	public function __construct( KConfig $config = null) 
+	{ 
+		//Set the identifier before initialise is called
+		if($this instanceof KObjectIdentifiable) {
+			$this->_identifier = $config->identifier;
+		}
+		
+		if($config) {
+			$this->_initialize($config);
+		}
+	}
+	
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return 	void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	//do nothing
+    }
 	    
  	/**
      * Set the object properties
@@ -151,7 +185,7 @@ class KObject
 		
 		return array_merge($native, $mixed);
 	}
-
+	
     /**
      * Search the mixin method map and call the method or trigger an error
      *

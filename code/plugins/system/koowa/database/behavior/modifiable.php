@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Behavior Interface
+ * Database Modifiable Behavior
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -41,13 +41,13 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	/**
 	 * Set modified information
 	 * 	
-	 * Requires a modified_on and modified_by field in the table schema
+	 * Requires a 'modified_on' and 'modified_by' column
 	 * 
 	 * @return void
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		$row = $context['data']; //get the row data being inserted
+		$row = $context->data; //get the row data being inserted
 		
 		if(isset($row->modified_by)) {
 			$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');

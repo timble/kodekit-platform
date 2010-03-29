@@ -18,10 +18,15 @@
  */
 class KToolbarButtonDisable extends KToolbarButtonPost
 {
-	public function __construct(array $options = array())
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
 	{
-		$options['icon'] = 'icon-32-unpublish';
-		parent::__construct($options);
+		$config->icon = 'icon-32-unpublish';
+		parent::__construct($config);
 		$this->setField('action' , 'disable');
 	}
 }

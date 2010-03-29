@@ -197,10 +197,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 *
 	 * @return The value returned in the query or null if the query failed.
 	 */
-	public function fetchResult($sql)
+	public function fetchField($sql)
 	{
 		$return = null;
-		if ($result = $this->select($sql)) 
+		if ($result = $this->select($sql, KDatabase::RESULT_USE)) 
 		{
 			if($row = $result->fetch_row( )) {
 				$return = $row[0];
@@ -216,10 +216,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 *
 	 * @return array
 	 */
-	public function fetchResultList($sql)
+	public function fetchFieldList($sql)
 	{
 		$array = array();
-		if ($result = $this->select($sql))
+		if ($result = $this->select($sql, KDatabase::RESULT_USE))
 		{
 			while ($row = $result->fetch_row( )) {
 				$array[] = $row[0];
@@ -237,10 +237,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      * @param	string  The SQL query
      * @return array
      */
-	public function fetchAssoc($sql)
+	public function fetchArray($sql)
 	{
 		$array = array();
-		if ($result = $this->select($sql)) 
+		if ($result = $this->select($sql, KDatabase::RESULT_USE)) 
 		{
 			$array = $result->fetch_assoc( );
 			$result->free();
@@ -259,10 +259,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If key is empty as sequential list of returned records.
 	 */
-	public function fetchAssocList($sql, $key = '')
+	public function fetchArrayList($sql, $key = '')
 	{
 		$array = array();
-		if ($result = $this->select($sql))
+		if ($result = $this->select($sql, KDatabase::RESULT_USE))
 		{
 			while ($row = $result->fetch_assoc( )) 
 			{
@@ -288,7 +288,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function fetchObject($sql)
 	{
 		$object = null;
-		if ($result = $this->select($sql)) 
+		if ($result = $this->select($sql, KDatabase::RESULT_USE)) 
 		{
 			$object = $result->fetch_object( );
 			$result->free();
@@ -310,7 +310,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function fetchObjectList($sql, $key='')
 	{
 		$array = array();
-		if ($result = $this->select($sql))
+		if ($result = $this->select($sql, KDatabase::RESULT_USE))
 		{
 			while ($row = $result->fetch_object( )) 
 			{
@@ -328,12 +328,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 	
 	/**
-	 * Retrieves the field schema information about the given tables
+	 * Retrieves the column schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of fields by table
+	 * @return	array 	An associative array of columns by table
 	 */
-	public function fetchTableFields($tables)
+	public function fetchTableColumns($tables)
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
@@ -351,21 +351,21 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			}
 			else $tblval = $this->replaceTablePrefix($tblval, '');
 
-			if(!isset($this->_table_schema[$tblval]['fields']))
+			if(!isset($this->_table_schema[$tblval]['columns']))
 			{
-				$fields = $this->fetchObjectList( 'SHOW FULL FIELDS FROM ' . $this->quoteName($table));
-				foreach ($fields as $field) 
+				$columns = $this->fetchObjectList( 'SHOW FULL COLUMNS FROM ' . $this->quoteName($table));
+				foreach ($columns as $column) 
 				{
-					//Parse the field raw schema data
-        			$field = $this->_parseFieldInfo($field);
+					//Parse the column raw schema data
+        			$column = $this->_parseColumnInfo($column);
         			
-              		//Cache the field schame data	
-					$this->_table_schema[$tblval]['fields'][$field->name] = $field;
+              		//Cache the column schame data	
+					$this->_table_schema[$tblval]['columns'][$column->name] = $column;
 				}
 			}
 
 			//Add the requested table to the result
-			$result[$tblval] = $this->_table_schema[$tblval]['fields'];
+			$result[$tblval] = $this->_table_schema[$tblval]['columns'];
 		}
 			
 		return $result;
@@ -398,7 +398,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			if(!isset($this->_table_schema[$tblval]['info']))
 			{
 				$table = $this->replaceTablePrefix($table);
-				$info  = $this->fetchObject( 'SHOW TABLE STATUS LIKE '.$this->quoteString($table));
+				$info  = $this->fetchObject( 'SHOW TABLE STATUS LIKE '.$this->quoteValue($table));
 				
 				//Parse the table raw schema data
         		$table = $this->_parseTableInfo($info);
@@ -420,7 +420,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      * @param 	mixed 	The value to quote
      * @return string An SQL-safe quoted value
      */
-    public function _quoteString($value)
+    public function _quoteValue($value)
     {
         $value =  '\''.mysqli_real_escape_string( $this->_connection, $value ).'\'';	
         return $value;
@@ -448,37 +448,37 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
     
 	/**
-	 * Parse the raw field schema information
+	 * Parse the raw column schema information
 	 *
-	 * @param  	object 	The raw field schema information
-	 * @return KDatabaseSchemaField
+	 * @param  	object 	The raw column schema information
+	 * @return KDatabaseSchemaColumn
 	 */
-	protected function _parseFieldInfo($info)
+	protected function _parseColumnInfo($info)
 	{		
 		//Parse the filter information from the comment
 		$filter = array();
 		preg_match('#@Filter\("(.*)"\)#Ui', $info->Comment, $filter);
 	
-		list($type, $size, $scope) = $this->_parseFieldType($info->Type);
+		list($type, $size, $scope) = $this->_parseColumnType($info->Type);
 
- 	   	$field = new KDatabaseSchemaField;
- 	   	$field->name     = $info->Field;
- 	   	$field->type     = $type;
- 	   	$field->size     = ($size  ? $size  : null);
- 	   	$field->scope    = ($scope ? (int) $scope : null);
- 	   	$field->default  = $info->Default;
- 	   	$field->required = (bool) ($info->Null != 'YES');
- 	    $field->primary  = (bool) ($info->Key == 'PRI');
- 	    $field->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
- 	    $field->autoinc  = (bool) (strpos($info->Extra, 'auto_increment') !== false);
- 	    $field->filter   =  isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
+ 	   	$column = new KDatabaseSchemaColumn;
+ 	   	$column->name     = $info->Field;
+ 	   	$column->type     = $type;
+ 	   	$column->size     = ($size  ? $size  : null);
+ 	   	$column->scope    = ($scope ? (int) $scope : null);
+ 	   	$column->default  = $info->Default;
+ 	   	$column->required = (bool) ($info->Null != 'YES');
+ 	    $column->primary  = (bool) ($info->Key == 'PRI');
+ 	    $column->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
+ 	    $column->autoinc  = (bool) (strpos($info->Extra, 'auto_increment') !== false);
+ 	    $column->filter   =  isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
  	       
  	 	// don't keep "size" for integers
  	    if (substr($type, -3) == 'int') {
- 	       	$field->size = null;
+ 	       	$column->size = null;
  	   	}
 
- 	    return $field;
+ 	    return $column;
 	}
     
 	/**
@@ -489,7 +489,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
-	protected function _parseFieldType($spec)
+	protected function _parseColumnType($spec)
  	{
  	 	$spec  = strtolower($spec);
  	  	$type  = null;

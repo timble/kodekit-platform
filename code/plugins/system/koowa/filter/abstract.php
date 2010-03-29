@@ -27,9 +27,9 @@ abstract class KFilterAbstract implements KFilterInterface
 	/**
 	 * Constructor
 	 *
-	 * @param	array	Options array
+	 * @param 	object	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array()) 
+	public function __construct(KConfig $config) 
 	{
 		 $this->_chain = new KFilterChain();
 		 $this->addFilter($this);
@@ -46,7 +46,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	final public function execute($name, KCommandContext $context) 
 	{	
 		$function = '_'.$name;
-		return $this->$function($context['data']);
+		return $this->$function($context->data);
 	}
 
 	/**
@@ -71,7 +71,7 @@ abstract class KFilterAbstract implements KFilterInterface
 		else 
 		{	
 			$context = $this->_chain->getContext();
-			$context['data'] = $data;
+			$context->data = $data;
 			
 			$result = $this->_chain->run('validate', $context);
 			
@@ -109,7 +109,7 @@ abstract class KFilterAbstract implements KFilterInterface
 		else
 		{
 			$context = $this->_chain->getContext();
-			$context['data'] = $data;
+			$context->data = $data;
 			
 			$data = $this->_chain->run('sanitize', $context);
 		}

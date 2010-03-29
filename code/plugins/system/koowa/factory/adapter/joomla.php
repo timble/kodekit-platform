@@ -32,11 +32,11 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  		 Identifier or Identifier object - lib.joomla.[.path].name
-	 * @param array  		 An optional associative array of configuration settings.
+	 * @param 	mixed  		 Identifier or Identifier object - lib.joomla.[.path].name
+	 * @param 	object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	public function instantiate($identifier, array $options)
+	public function instantiate($identifier, KConfig $config)
 	{
 		$instance = false;
 
@@ -49,7 +49,7 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 				$name = $this->_alias_map[$name];
 			}
 
-			$instance = call_user_func_array(array('JFactory', 'get'.$name), $options);
+			$instance = call_user_func_array(array('JFactory', 'get'.$name), $config->toArray());
 		}
 
 		return $instance;

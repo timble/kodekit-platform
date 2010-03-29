@@ -17,7 +17,7 @@
  * @uses		KMixinClass
  * @uses 		KFactory
  */
-abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KFactoryIdentifiable
+abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KObjectIdentifiable
 {
 	/**
 	 * The toolbar title
@@ -41,57 +41,45 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KF
 	protected $_buttons = array();
 
 	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface
-	 */
-	protected $_identifier;
-
-	/**
 	 * Constructor
 	 *
-	 * @param array	Options array
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-        // Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
-
-		// Initialize the options
-        $options  = $this->_initialize($options);
+		parent::__construct($config);
 
         // Set the title
-        $title = empty($options['title']) ? KInflector::humanize($this->getName()) : $options['title'];
+        $title = empty($config->title) ? KInflector::humanize($this->getName()) : $config->title;
         $this->setTitle($title);
         
         // Set the icon
-        $this->setIcon($options['icon']);
+        $this->setIcon($config->icon);
 	}
 
  	/**
-     * Initializes the options for the object
+     * Initializes the config for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
+    	$config->append(array(
             'title'	 	 => null,
         	'icon'		 => 'generic.png',
-        	'identifier' => null
-        );
-
-        return array_merge($defaults, $options);
+        ));
+        
+        parent::_initialize($config);
     }
-
+    
 	/**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{

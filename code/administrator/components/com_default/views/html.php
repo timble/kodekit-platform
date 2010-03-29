@@ -29,16 +29,13 @@ class ComDefaultViewHtml extends KViewDefault
 	/**
 	 * Constructor
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-        parent::__construct($options);
+        parent::__construct($config);
 		
-		// Initialize the options
-		$options  = $this->_initialize($options);
-        
-        $this->_views = $options['views'];
+        $this->_views = $config->views;
         
         //Add the template override path
         $parts = $this->_identifier->path;
@@ -59,22 +56,20 @@ class ComDefaultViewHtml extends KViewDefault
 	}
 	
 	/**
-     * Initializes the options for the object
+     * Initializes the configuration for the object
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param   array   Configuration settings
+     * @return  array   Configuration settings
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-    	$options = parent::_initialize($options);
-    	
-    	$defaults = array(
+    	$config->append(array(
             'views' =>  array(),
-        );
-
-        return array_merge($defaults, $options);
+        ));
+        
+        parent::_initialize($config);
     }
 	
 	/**

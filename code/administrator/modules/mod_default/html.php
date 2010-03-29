@@ -15,17 +15,14 @@ class ModDefaultHtml extends KViewHtml
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-        parent::__construct($options);
-        
-         // Initialize the options
-		$options  = $this->_initialize($options);
-        
+        parent::__construct($config);
+         
 		//Assign module specific options
-        $this->params  = $options['params'];
-        $this->module  = $options['module'];
-        $this->attribs = $options['attribs'];
+        $this->params  = $config->params;
+        $this->module  = $config->module;
+        $this->attribs = $config->attribs;
                
         $template = KFactory::get('lib.koowa.application')->getTemplate();
         $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'mod_'.$this->_identifier->package;
@@ -34,24 +31,22 @@ class ModDefaultHtml extends KViewHtml
 	}
 	
 	/**
-	 * Initializes the options for the object
+	 * Initializes the default configuration for the object
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
 	 * @param   array   Options
 	 * @return  array   Options
 	 */
-	protected function _initialize(array $options)
+	protected function _initialize(KConfig $config)
 	{
-		$options = parent::_initialize($options);
-		
-		$defaults = array(
+		$config->append(array(
             'params'  => null,
 			'module'  => null,
 			'attribs' => array(),
-       	);
+       	));
        	
-        return array_merge($defaults, $options);
+       	parent::_initialize($config);
     }
 	
 	/**

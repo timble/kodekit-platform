@@ -40,10 +40,10 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 * Sequence : Component Generic -> Component Default -> Framework Generic -> Framework Default
 	 *
 	 * @param mixed  		 Identifier or Identifier object - application::com.component.[.path].name
-	 * @param array  		 An optional associative array of configuration settings.
+	 * @param 	object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	public function instantiate($identifier, array $options)
+	public function instantiate($identifier, KConfig $config)
 	{
 		$instance = false;
 		
@@ -94,17 +94,17 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			}
 			
 			//If the object is indentifiable push the identifier in through the constructor
-			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) 
+			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
 			{
 				$identifier->filepath = KLoader::path($identifier);
-				$options['identifier'] = $identifier;
+				$config->identifier = $identifier;
 			}
 							
 			// If the class has an instantiate method call it
 			if(is_callable(array($classname, 'instantiate'), false)) {
-				$instance = call_user_func(array($classname, 'instantiate'), $options);
+				$instance = call_user_func(array($classname, 'instantiate'), $config);
 			} else {
-				$instance = new $classname($options);
+				$instance = new $classname($config);
 			}
 		}
 

@@ -29,6 +29,23 @@ class KViewVcard extends KViewFile
 	 * @var	array
 	 */
 	protected $_properties;
+	
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
+	 */
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+			'mimetype'	  => 'text/x-vcard',
+       	));
+       	
+       	parent::_initialize($config);
+    }
 		
 	/**
 	 * Execute and echo's the views output
@@ -39,11 +56,8 @@ class KViewVcard extends KViewFile
 	{
 		//Set the filename
 		$filename = KFactory::tmp('lib.koowa.filter.filename')->sanitize($this->_properties['FN']);
-		$this->assign('filename', $filename.'.vcf');
+		$this->filename = $filename.'.vcf';
 		
-		//Set the mimetype
-		$this->assign('mimetype', 'text/x-vcard');
-	
 		//Render the vcard	
 		$data 	= 'BEGIN:VCARD';
 		$data	.= "\r\n";
@@ -61,7 +75,7 @@ class KViewVcard extends KViewFile
 		$data	.= 'END:VCARD';
 		$data	.= "\r\n";
 		
-		$this->assign('body', $data);
+		$this->output = $data;
 		
 		parent::display();
 	}

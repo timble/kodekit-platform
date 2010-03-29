@@ -22,8 +22,8 @@ interface KFactoryAdapterInterface extends KCommandInterface
 	 * Create an object instance based on a class identifier
 	 *
 	 * @param 	mixed 	The class identifier
-	 * @param 	array 	An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return 	object|false 	Return object on success, returns FALSE on failure
 	 */
-	public function instantiate($identifier, array $options);
+	public function instantiate($identifier, KConfig $config);
 }

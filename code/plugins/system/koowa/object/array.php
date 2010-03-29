@@ -9,7 +9,7 @@
  */
 
 /**
- * ArrayObject
+ * ObjectArray class
  *
  * Allows objects to be handled as arrays, and at the same time implement the features of KObject
  *
@@ -17,119 +17,52 @@
  * @category	Koowa
  * @package		Koowa_Object
  */
-class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable, Countable
+class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Countable, Serializable
 {
 	/**
-     * Array object
+     * The data container
      *
-     * @var ArrayObject
+     * @var array
      */
-    private $__array;
-
-    public function __construct(array $options = array())
-    {
-    	$options  = $this->_initialize($options);
-    	
-    	$this->__array = new ArrayObject((array)$options['data']);
-    }
+    protected $_data;
     
     /**
+     * The column names
+     *
+     * @var array
+     */
+    protected $_columns = array();
+
+    /**
+	 * Constructor.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+    public function __construct(KConfig $config)
+    {
+    	parent::__construct($config);
+    		
+    	$this->_data = $config->data;
+    }
+    
+   /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-    	$defaults = array(
+    	$config->append(array(
             'data'  => array(),
-        );
+        ));
 
-        return array_merge($defaults, $options);
+        parent::_initialize($config);
     }
     
 	/**
-     * Rewind the Iterator to the first element.
-     *
-     * Similar to the reset() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return KObjectArray
-     */
-    public function rewind()
-    {
-        reset($this->__array);
-        return $this;
-    }
-
-	/**
-     * Return the current element.
-     *
-     * Similar to the current() function for arrays in PHP
-     * Required by interface Iterator.
-     *
-     * @return Current element from the collection
-     */
-    public function current()
-    {
-        return current($this->__array);
-    }
-
-	/**
-     * Return the identifying key of the current element.
-     *
-     * Similar to the key() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return int
-     */
-    public function key()
-    {
-    	return key($this->__array);
-    }
-
-	/**
-     * Move forward to next element.
-     *
-     * Similar to the next() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return 	KObjectArray
-     */
-    public function next()
-    {
-    	next($this->__array);
-    	return $this;
-    }
-
-	/**
-     * Check if there is a current element after calls to rewind() or next().
-     *
-     * Used to check if we've iterated to the end of the collection.
-     * Required by interface Iterator.
-     *
-     * @return bool False if there's nothing more to iterate over
-     */
-    public function valid()
-    {
-        return (bool) current($this->__array);
-    }
-
-	/**
-     * Returns the number of elements in the collection.
-     *
-     * Implements Countable::count()
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->__array);
-    }
-
-    /**
      * Check if the offset exists
      *
      * Required by interface ArrayAccess
@@ -139,7 +72,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
 	public function offsetExists($offset)
 	{
-        return $this->__array->offsetExists($offset);
+		return $this->__isset($offset);
 	}
 
     /**
@@ -151,8 +84,8 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      * @return  mixed	The item from the array
      */
 	public function offsetGet($offset)
-	{
-        return $this->__array->offsetGet($offset);
+	{	
+		return $this->__get($offset);
 	}
 
     /**
@@ -166,7 +99,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
 	public function offsetSet($offset, $value)
 	{
-		$this->__array->offsetSet($offset, $value);
+		$this->__set($offset, $value);
 		return $this;
 	}
 
@@ -183,19 +116,29 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
 	public function offsetUnset($offset)
 	{
-		$this->__array->offsetUnset($offset);
+		$this->__unset($offset);
         return $this;
 	}
-	
+        
 	/**
 	 * Get a new iterator
 	 * 
 	 * @return	ArrayIterator
 	 */
-	public function getIterator()
+	public function getIterator() 
 	{
-		return $this->__array->getIterator();
-	}
+        return new ArrayIterator($this->_data);
+    }
+    
+    /**
+	 * Get a list of the rowset columns
+	 * 
+	 * @return	array
+	 */
+    public function getColumns()
+    {
+    	return $this->_columns;
+    }
 	
 	/**
 	 * Serialize
@@ -204,7 +147,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
 	 */
 	public function serialize()
 	{
-		return serialize($this->__array);
+		return serialize($this->_data);
 	}
 	
 	/**
@@ -215,99 +158,95 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
 	 */
 	public function unserialize($serialized)
 	{
-		return unserialize($this->__array);
-	}
-
-	/**
-	 * Get the array
-	 *
-	 * @return 	array
-	 */
-	public function getArray()
-	{
-		return $this->__array->getArrayCopy();
-	}
-
-	/**
-	 * Set the array
-	 *
-	 * @param 	array 	$array
-	 * @return 	object KObjectArray
-	 */
-	public function setArray($array)
-	{
-		$this->__array->exchangeArray($array);
-		return $this;
+		return unserialize($this->_data);
 	}
 	
-    /**
-     * Extracts a column from the array
+	/**
+     * Returns the number of elements in the collection.
      *
-     * @param 	string	Column name
-     * @return  array   Column of values from the source array
+     * Required by the Countable interface
+     *
+     * @return int
      */
-	public function getColumn($column)
-	{
-		$result = new KObjectArray();
+    public function count()
+    {
+    	return count($this->_data);
+    }
 
-        foreach($this as $key => $elem)
+	/**
+     * Retrieve an array of column values
+     *
+     * @param  	string 	The column name.
+     * @return 	array 	An array of all the column values
+     */
+    public function __get($column)
+    {
+    	$result = array();
+    	foreach($this->_data as $key => $item)
         {
-            if(is_object($elem)) {
-                $result[$key] = $elem->$column;
+            if(is_object($item)) {
+                $result[$key] = $item->$column;
             } else {
-                $result[$key] = $elem[$column];
+                $result[$key] = $item[$column];
             }
         }
 
-        return $result;
-	}
-	
-	/**
-     * Extracts columns from the array
+    	return $result;
+    }
+
+    /**
+     * Set the value of all the columns
      *
-     * @param 	array			List of column names
-     * @return  KObjectArray   	Array with the columns
+     * @param  	string 	The column name.
+     * @param  	mixed  	The value for the property.
+     * @return 	void
      */
-	public function getColumns($columns)
-	{
-		settype($columns, 'array');
-		
-		$result = array();
-	  	foreach($this as $key => $elem)
+    public function __set($column, $value)
+    {
+    	foreach($this->_data as $key => $item)
         {
-        	$result[$key] = array();
-        	foreach($columns as $column)
-        	{
-	        	if(is_object($elem)) {
-	                $result[$key][$column] = $elem->$column;
-	            } else {
-	                $result[$key][$column] = $elem[$column];
-	            }
-        	}
-            
+            if(is_object($item)) {
+                $item->$column = $value;
+            } else {
+                $item[$column] = $value;
+            }
+        }
+        
+     	//Add the column
+        if(!in_array($column, $this->_columns)) {
+        	$this->_columns[] = $column;
+        }
+   }
+   
+	/**
+     * Test existence of a column
+     *
+     * @param  string  The column name.
+     * @return boolean
+     */
+    public function __isset($column)
+    {
+    	return in_array($column, $this->_columns);
+    }
+
+    /**
+     * Unset a column
+     *
+     *
+     * @param	string  The column key.
+     * @return	void
+     */
+    public function __unset($column)
+    {
+    	foreach($this->_data as $key => $item)
+        {
+            if(is_object($item)) {
+                unset($item->$column);
+            } else {
+                unset($item[$column]);
+            }
         }
 
-        $arr = new KObjectArray();
-		$arr->setArray($result);
-        return $arr;
-	}
-	
-	/**
-	 * Return an KObjectArray with only unique items. 
-	 * 
-	 * @return KObjectArray
-	 */
-	public function unique()
-	{
-		$tmp = array(); 
-		
-		// array_unique doesn't work with nested arrays in all php 5.2 versions
-		foreach($this as $elem) {
-			$tmp[serialize($elem)] = $elem;
-		}
-
-		$result = new KObjectArray();
-		$result->setArray(array_values($tmp));
-		return $result;
-	}
+        unset($this->_columns[array_search($column, $this->_columns)]);
+    }
 }

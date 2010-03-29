@@ -41,13 +41,13 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
 	/**
 	 * Set created information
 	 * 	
-	 * Requires an created_on and created_by field in the table schema
+	 * Requires an 'created_on' and 'created_by' column
 	 * 
 	 * @return void
 	 */
 	protected function _beforeTableInsert(KCommandContext $context)
 	{
-		$row = $context['data']; //get the row data being inserted
+		$row = $context->data; //get the row data being inserted
 		
 		if(isset($row->created_by)) {
 			$row->created_by  = (int) KFactory::get('lib.koowa.user')->get('id');

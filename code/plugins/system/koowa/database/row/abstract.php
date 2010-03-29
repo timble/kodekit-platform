@@ -17,7 +17,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifiable
+abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
 	 * Row states
@@ -75,39 +75,28 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
     protected $_table;
 
     /**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface
-	 */
-	protected $_identifier;
-	
-    /**
      * Constructor
      *
-     * @param 	array	Options containing 'table', 'name'
+     * @param 	object 	An optional KConfig object with configuration options.
      */
-    public function __construct(array $options = array())
+    public function __construct(KConfig $config)
     {
-       // Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
-
-    	// Initialize the options
-        $options  = $this->_initialize($options);
+    	parent::__construct($config);
          
   		// Set the table indentifier
-    	if(isset($options['table'])) {
-			$this->setTable($options['table']);
+    	if(isset($config->table)) {
+			$this->setTable($config->table);
 		}
 		
 		// Reset the row
 		$this->reset();
 		
 		// Set the new state of the row
-		$this->_new = $options['new'];
-
+		$this->_new = $config->new;
+		
 		// Set the row data
-		if(isset($options['data']))  {
-			$this->setData($options['data'], $this->_new);
+		if(isset($config->data))  {
+			$this->setData($config->data->toArray(), $this->_new);
 		}
     }
 
@@ -116,31 +105,31 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
-            'table'      => null,
-        	'identifier' => null,
-       		 'new'		 => true
-        );
-
-        return array_merge($defaults, $options);
+    	$config->append(array(
+            'table' => null,
+    		 'data'	=> null,
+       		 'new'	=> true
+        ));
+        
+        parent::_initialize($config);
     }
-
+    
 	/**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
 	}
-	
+
 	/**
      * Returns the status of this row.
      * 
@@ -173,7 +162,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
 	/**
 	 * Method to set a table object attached to the rowset
 	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIndentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowException	If the identifier is not a table identifier
 	 * @return	KDatabaseRowsetAbstract
@@ -200,25 +189,22 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function save()
     {
-    	if(!empty($this->_modified))
+    	if($this->_new) 
     	{
-    		if($this->_new) 
-    		{
-    			if(KFactory::get($this->getTable())->insert($this)) {
-        			$this->_status = self::STATUS_INSERTED;
-        		}
-       	 	} 
-       	 	else 
-       	 	{
-        		if(KFactory::get($this->getTable())->update($this)) {
-        			$this->_status = self::STATUS_UPDATED;
-        		}
+    		if(KFactory::get($this->getTable())->insert($this)) {
+        		$this->_status = self::STATUS_INSERTED;
         	}
+       	} 
+       	else 
+       	{
+        	if(KFactory::get($this->getTable())->update($this)) {
+        		$this->_status = self::STATUS_UPDATED;
+        	}
+        }
         	
-        	//Reset the modified array
-        	$this->_modified = array();
-    	}
-            
+        //Reset the modified array
+        $this->_modified = array();
+    	    
         return $this;
     }
 
@@ -316,7 +302,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KFactoryIdentifia
      */
     public function __unset($column)
     {
-    	$field = KFactory::get($this->getTable())->getField($column);
+    	$field = KFactory::get($this->getTable())->getColumn($column);
     	
     	if(isset($field) && $field->required) {
     		$this->_data[$column] = $field->default;

@@ -15,51 +15,13 @@
  * @category	Koowa
  * @package 	Koowa_Event
  */
-class KEventHandler extends KObject implements KPatternObserver, KFactoryIdentifiable
+class KEventHandler extends KObject implements KPatternObserver, KObjectIdentifiable
 {
 	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface 
-	 */
-	protected $_identifier;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 */
-	public function __construct(array $options = array())
-	{
-        // Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
-		
-		// Initialize the options
-        $options  = $this->_initialize($options);
-	}
-
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param	array	Options
-     * @return 	array	Options
-     */
-    protected function _initialize(array $options)
-    {
-        $defaults = array(
-        	'identifier'	=> null
-        );
-
-        return array_merge($defaults, $options);
-    }
-    
-	/**
-	 * Get the identifier
-	 *
-	 * @return 	object A KIdentifier object
-	 * @see 	KFactoryIdentifiable
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{

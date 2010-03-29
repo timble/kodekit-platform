@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_View
  */
-class KViewOpenflashchart extends KViewAbstract
+class KViewOpenflashchart extends KViewTemplate
 {
     /**
      * KChartOpenflashchart object
@@ -27,11 +27,11 @@ class KViewOpenflashchart extends KViewAbstract
     /**
 	 * Constructor
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-    public function __construct(array $options = array())
+    public function __construct(KConfig $config)
     {
-        parent::__construct($options);
+        parent::__construct($config);
 
         //Set the correct mime type
 		$this->_document->setMimeEncoding('text/plain');

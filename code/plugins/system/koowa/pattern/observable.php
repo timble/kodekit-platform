@@ -43,7 +43,7 @@ abstract class KPatternObservable extends KObject
 	 * @param 	object	An associative array of arguments
 	 * @return 	array 	Array of return values from the observers
 	 */
-	public function notify(ArrayObject $args)
+	public function notify(KConfig $args)
 	{
 		$result = array();
 		$iterator = $this->_observers->getIterator();

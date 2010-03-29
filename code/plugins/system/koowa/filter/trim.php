@@ -30,15 +30,15 @@ class KFilterTrim extends KFilterAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param	array	Options array
+	 * @param	object	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		// List of user-defined tags
-		if(isset($options['char_list'])) {
-			$this->_charList = $options['char_list'];
+		if(isset($config->char_list)) {
+			$this->_charList = $config->char_list;
 		}
 	}
     

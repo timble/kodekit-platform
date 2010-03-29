@@ -18,7 +18,7 @@
  *
  * @uses		KInflector
  */
-abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonInterface,  KFactoryIdentifiable
+abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonInterface,  KObjectIdentifiable
 {
 	/**
 	 * Method used to submit the form
@@ -28,30 +28,21 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	protected $_method;
 	
 	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface
-	 */
-	protected $_identifier;
-
-	/**
 	 * Constructor
 	 *
-	 * @param array	Options array
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		// Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
+		parent::__construct($config);
 		
-		// Initialize the options
-        $this->_options  = $this->_initialize($options);
-        
-        if($this->_options['parent']) {
-        	$this->setParent($this->_options['parent']);
+        if($config->parent) {
+        	$this->setParent($config->parent);
         }
-        $this->setMethod($this->_options['method']);
-
+        
+        $this->setMethod($config->method);
+        
+		$this->_options = $config;
 	}
 
     /**
@@ -59,36 +50,35 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
     	$name = $this->_identifier->name;
 
-        $defaults = array(
+        $config->append(array(
             'parent'	 => null,
             'icon'		 => 'icon-32-'.$name,
             'id'		 => $name,
 			'text'		 => ucfirst($name),
             'method'	 => 'get',
-        	'identifier' => null
-        );
+        ));
 
-        return array_merge($defaults, $options);
+        parent::_initialize($config);
     }
     
 	/**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
 	}
-
+    
     /**
 	 * Set the parent toolbar
 	 *
@@ -135,7 +125,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
 	public function render()
 	{
-		$text	= JText::_($this->_options['text']);
+		$text	= JText::_($this->_options->text);
 		
 		$link   = $this->getLink();
 		$href   = !empty($link) ? 'href="'.JRoute::_($link).'"' : '';
@@ -168,11 +158,11 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
 	public function getId()
 	{
-		return 'toolbar-'.$this->getParent()->getName().'-'.$this->_options['id'];
+		return 'toolbar-'.$this->getParent()->getName().'-'.$this->_options->id;
 	}
 
 	public function getClass()
 	{
-		return $this->_options['icon'];
+		return $this->_options->icon;
 	}
 }

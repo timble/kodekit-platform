@@ -17,7 +17,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerView
+class ComDefaultControllerView extends KControllerAction
 {
 	/**
 	 * Browse a list of items
@@ -26,8 +26,10 @@ class ComDefaultControllerView extends KControllerView
 	 */
 	protected function _actionBrowse()
 	{
-		KFactory::get($this->getModel())
-			->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+		$model = KFactory::get($this->getModel());
+		if($model->getState()->limit === 0) {
+			$model->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+		}
 			
 		return parent::_actionBrowse();
 	}

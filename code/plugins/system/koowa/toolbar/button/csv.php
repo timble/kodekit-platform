@@ -18,13 +18,18 @@
  */
 class KToolbarButtonCsv extends KToolbarButtonAbstract
 {
-	
-	public function __construct(array $options = array())
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
 	{
-		if(!isset($options['icon'])) {
-			$options['icon'] = 'icon-32-export';
+		if(!isset($config->icon)) {
+			$config->icon = 'icon-32-export';
 		}
-		parent::__construct($options);
+		
+		parent::__construct($config);
 		
 		KFactory::get('lib.koowa.document')->addStyleDeclaration('.icon-32-export { background-image: url('.KRequest::root().'/media/plg_koowa/images/32/export.png); }');		
 	}

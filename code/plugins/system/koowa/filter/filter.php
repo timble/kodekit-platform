@@ -20,27 +20,27 @@ class KFilter
 	/**
 	 * instantiate method for KFilterInterface classes.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KFilterAbstract
 	 */
-	public static function instantiate(array $options = array())
+	public static function instantiate($config = array())
 	{		
-		if(!isset($options['filter'])) {
+		if(!isset($config['filter'])) {
 			throw new InvalidArgumentException('filter [array] option is required');
 		}
 		
 		//Get the filter(s) we need to create
-		$filters = (array) $options['filter'];
+		$filters = (array) $config['filter'];
 		
 		//Unset the filters, we don't need to pass this
-		unset($options['filter']);
+		unset($config['filter']);
 
 		//Create the filter chain
 		$filter  = array_shift($filters);
-		$filter = self::_createFilter($filter, $options);
+		$filter = self::_createFilter($filter, $config);
 		
 		foreach($filters as $name) {
-			$filter->addFilter(self::_createFilter($name, $options));
+			$filter->addFilter(self::_createFilter($name, $config));
 		}
 		
 		return $filter;
@@ -56,7 +56,7 @@ class KFilter
 	 * @throws	KFilterException	When the filter could not be found
 	 * @return  KFilterInterface
 	 */
-	protected static function _createFilter($filter, $options)
+	protected static function _createFilter($filter, $config)
 	{
 		$filter = trim($filter);
 		
@@ -65,9 +65,14 @@ class KFilter
 			if(is_string($filter) && strpos($filter, '.') === false ) 
 			{
 				$filter = 'KFilter'.ucfirst($filter);
-				$filter = new $filter($options);
 				
-			} else $filter = KFactory::tmp($filter, $options);
+				if(!$config instanceof KConfig) {
+					$config = new KConfig($config);
+				}
+				
+				$filter = new $filter($config);
+				
+			} else $filter = KFactory::tmp($filter, $config);
 			
 		} catch(KFactoryAdapterException $e) {
 			throw new KFilterException('Invalid filter: '.$filter);

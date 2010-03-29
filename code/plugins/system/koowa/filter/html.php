@@ -63,35 +63,35 @@ class KFilterHtml extends KFilterAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param	array	Options array
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		// List of user-defined tags
-		if(isset($options['tag_list'])) {
-			$this->_tagsArray = array_map('strtolower', (array) $options['tag_list']);
+		if(isset($config->tag_list)) {
+			$this->_tagsArray = array_map('strtolower', (array) $config->tag_list);
 		}
 		
 		// List of user-defined attributes
-		if(isset($options['attribute_list'])) {
-			$this->_attrArray = array_map('strtolower', (array) $options['attribute_list']);
+		if(isset($config->attribute_list)) {
+			$this->_attrArray = array_map('strtolower', (array) $config->attribute_list);
 		}
 		
 		// WhiteList method = 0, BlackList method = 1
-		if(isset($options['tag_method'])) {
-			$this->_tagsMethod = $options['tag_method'];
+		if(isset($config->tag_method)) {
+			$this->_tagsMethod = $config->tag_method;
 		}
 		
 		// WhiteList method = 0, BlackList method = 1
-		if(isset($options['attribute_method'])) {
-			$this->_attrMethod = $options['attribute_method'];
+		if(isset($config->attribute_method)) {
+			$this->_attrMethod = $config->attribute_method;
 		}
 		
 		//If false, only auto clean essentials, if true allow clean blacklisted tags/attr
-		if(isset($options['xss_auto'])) {
-			$this->_xssAuto = $options['xss_auto'];
+		if(isset($config->xss_auto)) {
+			$this->_xssAuto = $config->xss_auto;
 		}
 	}
 	

@@ -10,7 +10,7 @@
  */
 
 /**
- * Database Schema Field Class
+ * Database Schema Column Class
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @author		Johan Janssens <johan@koowa.org>
@@ -18,66 +18,66 @@
  * @package     Koowa_Database
  * @subpackage  Schema
  */
-class KDatabaseSchemaField extends KObject
+class KDatabaseSchemaColumn extends KObject
 {
 	/**
-	 * Field name
+	 * Column name
 	 * 
 	 * @var string
 	 */
 	public $name;
 	
 	/**
-	 * Field type
+	 * Column type
 	 * 
 	 * @var	string
 	 */
 	public $type;
 	
 	/**
-	 * Field size
+	 * Column size
 	 * 
 	 * @var integer
 	 */
 	public $size;
 	
 	/**
-	 * Field scope
+	 * Column scope
 	 * 
 	 * @var string
 	 */
 	public $scope;
 	
 	/**
-	 * Field default value
+	 * Column default value
 	 * 
 	 * @var string
 	 */	
 	public $default;
 			
 	/**
-	 * Required field
+	 * Required column
 	 * 
 	 * @var bool
 	 */
 	public $required = false;
 
 	/**
-	 * Is the field a primary key
+	 * Is the column a primary key
 	 * 
 	 * @var bool
 	 */
 	public $primary = false;
 	
 	/**
-	 * Is the field autoincremented
+	 * Is the column autoincremented
 	 * 
 	 * @var	bool
 	 */
 	public $autoinc = false;
 	
 	/**
-	 * Is the field unqiue
+	 * Is the column unqiue
 	 * 
 	 * @var	bool
 	 */

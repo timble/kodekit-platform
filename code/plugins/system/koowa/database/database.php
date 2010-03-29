@@ -23,8 +23,20 @@ class KDatabase
 	const OPERATION_SELECT = 1;
 	const OPERATION_INSERT = 2;
 	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8; 
+	const OPERATION_DELETE = 8;
 
+	/**
+	 * Database result mode
+	 */
+	const RESULT_STORE = 0;
+	const RESULT_USE   = 1;
+	
+	/**
+	 * Database fetch mode
+	 */
+	const FETCH_ROWSET  = 0;
+	const FETCH_ROW     = 1;
+	
 	/**
 	 * instantiate method KDatabaseAdapterInterface classes.
 	 *
@@ -34,17 +46,21 @@ class KDatabase
 	 * @return KDatabaseAdapterAbstract
 	 * @throws KDatabaseException
 	 */
-	public static function instantiate(array $options = array())
+	public static function instantiate($config = array())
 	{
-		if(!isset($options['adapter'])) {
+		if(!isset($config->adapter)) {
 			throw new InvalidArgumentException('adapter [string] option is required');
 		}
 	
-		$class = 'KDatabaseAdapter'.ucfirst($options['adapter']);
+		$class = 'KDatabaseAdapter'.ucfirst($config->adapter);
 		if(!class_exists($class)) {
 			throw new KDatabaseException('Adapter class '.$class.' not found');
 		}
 		
-		return new $class($options);
+		if(!$config instanceof KConfig) {
+			$config = new KConfig($config);
+		}
+		
+		return new $class($config);
 	}
 }

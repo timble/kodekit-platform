@@ -20,9 +20,14 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 {
 	protected $_fields = array();
 	
-	public function __construct(array $options = array())
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		$this->setMethod('post');
 		
 		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');

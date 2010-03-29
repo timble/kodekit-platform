@@ -72,25 +72,27 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'command_chain', 'charset', 'table_prefix'
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 * Recognized key values include 'command_chain', 'charset', 'table_prefix',
 	 * (this list is not meant to be comprehensive).
 	 */
-	public function __construct( array $options = array() )
+	public function __construct( KConfig $config = null )
 	{
         // Initialize the options
-        $options  = $this->_initialize($options);
+        parent::__construct($config);
 
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
-		if (!empty($options['charset'])) {
-			//$this->setCharset($this->_options['charset']);
+		if (!empty($config->charset)) {
+			//$this->setCharset($config->charset);
 		}
 
 		// Set the table prefix
-		$this->_table_prefix = $options['table_prefix'];
+		$this->_table_prefix = $config->table_prefix;
 		
 		 // Mixin the command chain
-        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        $this->mixin(new KMixinCommandchain(new KConfig(
+        	array('mixer' => $this, 'command_chain' => $config->command_chain)
+        )));
 	}
 
 	/**
@@ -108,18 +110,18 @@ abstract class KDatabaseAdapterAbstract extends KObject
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
+    	$config->append(array(
             'command_chain' =>  new KCommandChain(),
         	'charset'		=> 'UTF-8',
         	'table_prefix'  => 'jos_'
-        );
-
-        return array_merge($defaults, $options);
+        ));
+        
+        parent::_initialize($config);
     }
 
 
@@ -128,13 +130,13 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 *
 	 * @return KDatabaseQuery
 	 */
-	public function getQuery(array $options = array())
+	public function getQuery(array $config = array())
 	{
-		if(!isset($options['adapter'])) {
-			$options['adapter'] = $this;
+		if(!isset($config['adapter'])) {
+			$config['adapter'] = $this;
 		}
 
-		return new KDatabaseQuery($options);
+		return new KDatabaseQuery(new KConfig($config));
 	}
 
 	/**
@@ -212,55 +214,27 @@ abstract class KDatabaseAdapterAbstract extends KObject
     	return $this->_insert_id;
     }
 
-	/**
-     * Preforms a select query
-     *
-     * Use for SELECT and anything that returns rows.
-     *
-     * @param	string  	A full SQL query to run
-     * @param	integer 	Offset
-     * @param	integer		Limit
-     * @return 	object A KRowset.
-     */
-	public function select($sql, $offset = 0, $limit = 0)
-	{
-		$context = $this->getCommandChain()->getContext();
-		$context['caller']      = $this;
-		$context['sql'] 		= $sql;
-		$context['offset'] 		= $offset;
-		$context['limit'] 		= $limit;
-		$context['operation']	= KDatabase::OPERATION_SELECT;
-
-		// Excute the insert operation
-		if($this->getCommandChain()->run('database.before.select', $context) === true) {
-			$context['result'] = $this->execute( $context['sql'], $context['offset'], $context['limit'] );
-			$this->getCommandChain()->run('database.after.select', $context);
-		}
-
-		return $context['result'];
-	}
-
    /**
 	 * Fetch the first field of the first row
 	 *
 	 * @return scalar The value returned in the query or null if the query failed.
 	 */
-	abstract public function fetchResult($sql);
+	abstract public function fetchField($sql);
 
 	/**
 	 * Fetch an array of single field results
 	 *
 	 * @return array
 	 */
-	abstract public function fetchResultList($sql);
+	abstract public function fetchFieldList($sql);
 
 	/**
      * Fetch the current row as an associative array
      *
-     * @param	string  The SQL query
+     * @param	string  The SQL query. Data inside the query should be properly escaped. 
      * @return array
      */
-	abstract public function fetchAssoc($sql);
+	abstract public function fetchArray($sql);
 
 	/**
 	 * Fetch all result rows as an array of associative arrays
@@ -268,16 +242,16 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
-	 * @param	string  The SQL query
+	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If key is empty as sequential list of returned records.
 	 */
-	abstract public function fetchAssocList($sql, $key = '');
+	abstract public function fetchArrayList($sql, $key = '');
 
 	/**
 	 * Fetch the current row of a result set as an object
 	 *
-	 * @param	string  The SQL query
+	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
 	 * @param object
 	 */
 	abstract public function fetchObject($sql);
@@ -288,19 +262,19 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
-	 * @param	string  The SQL query
+	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
 	 * @param 	string 	The column name of the index to use
 	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
 	 */
 	abstract public function fetchObjectList($sql, $key='' );
 
 	/**
-	 * Retrieves the field schema information about the given tables
+	 * Retrieves the column schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of fields by table
+	 * @return	array 	An associative array of columns by table
 	 */
-	abstract public function fetchTableFields($tables);
+	abstract public function fetchTableColumns($tables);
 	
 	/**
 	 * Retrieves the table schema information about the given tables
@@ -311,22 +285,31 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	abstract public function fetchTableInfo($tables);
 	
 	/**
-	 * Fetch the primary key for a table
-	 * 
-	 * @param	string	Table name
-	 * @return	string	Primary key name or false if no primary key available
-	 */
-	public function fetchPrimaryKey($table)
+     * Preforms a select query
+     *
+     * Use for SELECT and anything that returns rows.  
+     *
+     * @param	string  	A full SQL query to run. Data inside the query should be properly escaped. 
+     * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
+     * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
+     * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+     * 						unless you free the result first. 
+     * @return  mixed 		If successfull returns a result object otherwise FALSE
+     */
+	public function select($sql, $mode = KDatabase::RESULT_STORE)
 	{
-		$fields = $this->fetchTableFields($table);
-		foreach($fields[$table] as $name => $field)
-		{
-			if($field->primary)  {
-				return $name;
-			}
+		$context = $this->getCommandChain()->getContext();
+		$context->caller    = $this;
+		$context->sql	 	= $sql;
+		$context->operation = KDatabase::OPERATION_SELECT;
+
+		// Excute the insert operation
+		if($this->getCommandChain()->run('database.before.select', $context) === true) {
+			$context->result = $this->execute( $context->sql, $mode);
+			$this->getCommandChain()->run('database.after.select', $context);
 		}
-		
-		return false;
+
+		return $context->result;
 	}
 
 	/**
@@ -337,36 +320,41 @@ abstract class KDatabaseAdapterAbstract extends KObject
      * @param string  	The table to insert data into.
      * @param array 	An associative array where the key is the colum name and
      * 					the value is the value to insert for that column.
-     * @return integer  The new rows primary key value
+     * @return integer  If successfull the new rows primary key value, false is no row was inserted.
      */
 	public function insert($table, array $data)
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller']      = $this;
-		$context['table'] 		= $table;
-		$context['data'] 		= $data;
-		$context['operation']	= KDatabase::OPERATION_INSERT;
+		$context->caller    = $this;
+		$context->table 	= $table;
+		$context->data 		= $data;
+		$context->operation	= KDatabase::OPERATION_INSERT;
 
 		//Excute the insert operation
 		if($this->getCommandChain()->run('database.before.insert', $context) === true)
 		{
-			foreach($context['data'] as $key => $val)
+			//Check if we have valid data to insert, if not return false
+			if(!empty($context->data)) 
 			{
-				$vals[] = $this->quoteString($val);
-				$keys[] = '`'.$key.'`';
-			}
+				foreach($context->data as $key => $val)
+				{
+					$vals[] = $this->quoteValue($val);
+					$keys[] = '`'.$key.'`';
+				}
 
-			$sql = 'INSERT INTO '.$this->quoteName('#__'.$context['table'] )
-				 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
+				$sql = 'INSERT INTO '.$this->quoteName('#__'.$context->table )
+					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
-			//Execute the query
-			$this->execute($sql);
+				//Execute the query
+				$this->execute($sql);
 			
-			$context['insert_id'] = $this->_insert_id;
-			$this->getCommandChain()->run('database.after.insert', $context);
+				$context->insert_id = $this->_insert_id;
+				$this->getCommandChain()->run('database.after.insert', $context);
+			}
+			else $context->insert_id = false;
 		}
 
-		return $context['insert_id'];
+		return $context->insert_id;
 	}
 
 	/**
@@ -374,42 +362,46 @@ abstract class KDatabaseAdapterAbstract extends KObject
      *
      * Automatically quotes the data values
      *
-     * @param string The table to update
-     * @param array  An associative array where the key is the column name and
-     * 				 the value is the value to use ofr that column.
-     * @param mixed A sql string or KDatabaseQuery object to limit which rows are updated.
-     * @return integer Number of rows affected
+     * @param string 	The table to update
+     * @param array  	An associative array where the key is the column name and
+     * 				 	the value is the value to use ofr that column.
+     * @param mixed 	A sql string or KDatabaseQuery object to limit which rows are updated.
+     * @return integer  If successfull the Number of rows affected, otherwise false
      */
 	public function update($table, array $data, $where = null)
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller']      = $this;
-		$context['table'] 		= $table;
-		$context['data']  		= $data;
-		$context['where']   	= $where;
-		$context['operation']	= KDatabase::OPERATION_UPDATE;
+		$context->caller    = $this;
+		$context->table 	= $table;
+		$context->data  	= $data;
+		$context->where   	= $where;
+		$context->operation	= KDatabase::OPERATION_UPDATE;
 
 		//Excute the update operation
 		if($this->getCommandChain()->run('database.before.update', $context) ===  true)
 		{
-			foreach($context['data'] as $key => $val) {
-				$vals[] = '`'.$key.'` = '.$this->quoteString($val);
-			}
-
-			//Create query statement
-			$sql = 'UPDATE '.$this->quoteName('#__'.$context['table'])
-			  	.' SET '.implode(', ', $vals)
-			  	.' '.$context['where']
-			;
+			if(!empty($context->data)) 
+			{				
+				foreach($context->data as $key => $val) {
+					$vals[] = '`'.$key.'` = '.$this->quoteValue($val);
+				}
 				
-			//Execute the query
-			$this->execute($sql);
+				//Create query statement
+				$sql = 'UPDATE '.$this->quoteName('#__'.$context->table)
+			  		.' SET '.implode(', ', $vals)
+			  		.' '.$context->where
+				;
+						
+				//Execute the query
+				$this->execute($sql);
 
-			$context['affected'] = $this->_affected_rows;
-			$this->getCommandChain()->run('database.after.update', $context);
+				$context->affected = $this->_affected_rows;
+				$this->getCommandChain()->run('database.after.update', $context);
+			}
+			else $context->affected = false;
 		}
 
-        return $context['affected'];
+        return $context->affected;
 	}
 
 	/**
@@ -422,43 +414,48 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	public function delete($table, $where)
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller']      = $this;
-		$context['table'] 		= $table;
-		$context['data']  		= null;
-		$context['where']   	= $where;
-		$context['operation']	= KDatabase::OPERATION_DELETE;
+		$context->caller    = $this;
+		$context->table 	= $table;
+		$context->data  	= null;
+		$context->where   	= $where;
+		$context->operation	= KDatabase::OPERATION_DELETE;
 
 		//Excute the delete operation
 		if($this->getCommandChain()->run('database.before.delete', $context) ===  true)
 		{
 			//Create query statement
-			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context['table'])
-				  .' '.$context['where']
+			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
+				  .' '.$context->where
 			;
 
 			//Execute the query
 			$this->execute($sql);
 
-			$context['affected'] = $this->_affected_rows;
+			$context->affected = $this->_affected_rows;
 			$this->getCommandChain()->run('database.after.delete', $context);
 		}
 
-		return $context['affected'];
+		return $context->affected;
 	}
 
 	/**
-	 * Use for INSERT, UPDATE, DELETE, and other queries that don't return rows.
-	 * Returns number of affected rows.
+	 * Use and other queries that don't return rows
 	 *
-	 * @param  string 	The query to run.
-	 * @return boolean 	True if successfull, false otherwise
+	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
+	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
+     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
+     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+     * 					unless you free the result first.
+	 * @throws KDatabaseException
+	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
+	 * 					For other successful queries  return TRUE. 
 	 */
-	public function execute($sql)
-	{
+	public function execute($sql, $mode = KDatabase::RESULT_STORE )
+	{	
 		//Replace the database table prefix
 		$sql = $this->replaceTablePrefix( $sql );
 	
-		$result = $this->_connection->query($sql);
+		$result = $this->_connection->query($sql, $mode);
 		if($result === false) {
 			throw new KDatabaseException($this->_connection->error.' of the following query : '.$sql, $this->_connection->errno);
 		}
@@ -589,13 +586,13 @@ abstract class KDatabaseAdapterAbstract extends KObject
      * @return string An SQL-safe quoted value (or a string of separated-
      * 				  and-quoted values).
      */
-    public function quoteString($value)
+    public function quoteValue($value)
     {
         if (is_array($value))
         {
             // quote array values, not keys, then combine with commas.
             foreach ($value as $k => $v) {
-                $value[$k] = $this->quoteString($v);
+                $value[$k] = $this->quoteValue($v);
             }
 
             $value = implode(', ', $value);
@@ -603,7 +600,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
         else
         {
         	if(is_string($value) && !is_null($value)) {
-        		$value = $this->_quoteString($value);
+        		$value = $this->_quoteValue($value);
         	}
         }
 
@@ -620,12 +617,12 @@ abstract class KDatabaseAdapterAbstract extends KObject
 
 
 	/**
-	 * Parse the raw field schema information
+	 * Parse the raw column schema information
 	 *
-	 * @param  	object 	The raw field schema information
-	 * @return KDatabaseSchemaField
+	 * @param  	object 	The raw column schema information
+	 * @return KDatabaseSchemaColumn
 	 */
-	abstract protected function _parseFieldInfo($info);
+	abstract protected function _parseColumnInfo($info);
 
 	/**
 	 * Given a raw column specification, parse into datatype, size, and decimal scope.
@@ -635,7 +632,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
-	abstract protected function _parseFieldType($spec);
+	abstract protected function _parseColumnType($spec);
 
 	/**
      * Safely quotes a value for an SQL statement.
@@ -643,7 +640,7 @@ abstract class KDatabaseAdapterAbstract extends KObject
      * @param 	mixed 	The value to quote
      * @return string An SQL-safe quoted value
      */
-    abstract public function _quoteString($value);
+    abstract public function _quoteValue($value);
 
    	/**
      * Quotes a single identifier name (table, table alias, table column,

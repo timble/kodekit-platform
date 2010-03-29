@@ -22,11 +22,11 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param mixed  		 Identifier or Identifier object - lib.koowa.[.path].name
-	 * @param array  		 An optional associative array of configuration settings.
+	 * @param 	mixed  		 Identifier or Identifier object - lib.koowa.[.path].name
+	 * @param 	object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
-	public function instantiate($identifier, array $options)
+	public function instantiate($identifier, KConfig $config)
 	{
 		$instance = false;
 
@@ -46,17 +46,17 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 			}
 
 			//If the object is indentifiable push the identifier in through the constructor
-			if(array_key_exists('KFactoryIdentifiable', class_implements($classname))) 
+			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
 			{
 				$identifier->filepath  = $filepath;
-				$options['identifier'] = $identifier;
+				$config->identifier = $identifier;
 			}
 			
 			// If the class has an instantiate method call it
 			if(is_callable(array($classname, 'instantiate'), false)) {
-				$instance = call_user_func(array($classname, 'instantiate'), $options);
+				$instance = call_user_func(array($classname, 'instantiate'), $config);
 			} else {
-				$instance = new $classname($options);
+				$instance = new $classname($config);
 			}
 		}
 

@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Hittable Behavior
+ * Database Identifiable Behavior
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -49,18 +49,21 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 	}
 	
 	/**
-	 * Set created information
+	 * Set uuid information
 	 * 	
-	 * Requires an created_on and created_by field in the table schema
+	 * Requires an 'uuid' column, if the column type is char the uuid will be 
+	 * a string, if the column type is binary a hex value will be returned.
 	 * 
 	 * @return void
 	 */
 	protected function _beforeTableInsert(KCommandContext $context)
 	{
-		$row = $context['data']; //get the row data being inserted
+		$row = $context->data; //get the row data being inserted
 		
-		if(isset($row->uuid)) {
-			$row->uuid  = $this->_uuid();
+		if(isset($row->uuid)) 
+		{
+			$hex = $context->caller->getColumn('uuid')->type == 'char' ? false : true;
+			$row->uuid  = $this->_uuid($hex);
 		}
 	}
 	
@@ -69,19 +72,17 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      *
      * This function generates a truly random UUID.
      *
+     * @paream boolean	If TRUE return the uuid in hex format, otherwise as a string
      * @see http://tools.ietf.org/html/rfc4122#section-4.4
      * @see http://en.wikipedia.org/wiki/UUID
-     * @return string A UUID, made up of 32 hex digits and 4 hyphens.
+     * @return string A UUID, made up of 36 characters or 16 hex digits.
      */
-    protected function _uuid() 
+    protected function _uuid($hex = false) 
     {
         $pr_bits = false;
-        if (is_a ( $this, 'uuid' )) 
-        {
-            if (is_resource ( $this->_urand )) {
-                $pr_bits .= @fread ( $this->_urand, 16 );
-            }
-        }
+     	if (is_resource ( $this->_urand )) {
+         	$pr_bits .= @fread ( $this->_urand, 16 );
+       	}
         
         if (! $pr_bits) 
         {
@@ -125,7 +126,10 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
         $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
         $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
        
-        return sprintf ( '%08s-%04s-%04x-%04x-%012s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node );
+        //Either return as hex or as string
+        $format = $hex ? '%08s%04s%04x%04x%012s' : '%08s-%04s-%04x-%04x-%012s';
+        
+        return sprintf ( $format, $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node );
     }
 	
 }

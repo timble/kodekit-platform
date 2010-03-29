@@ -39,14 +39,16 @@ abstract class KMixinAbstract implements KMixinInterface
     /**
 	 * Object constructor
 	 *
-	 * @param	array 	An optional associative array of configuration settings.
-	 * 					Recognized key values include 'mixer' (this list is not 
-	 * 					meant to be comprehensive).
+	 * @param 	object	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		if(isset($options['mixer'])) {
-			$this->_mixer = $options['mixer'];
+		if(!empty($config)) {
+			$this->_initialize($config);
+		}
+			
+		if(!empty($config->mixer)) {
+			$this->_mixer = $config->mixer;
 		} else {
 			$this->_mixer = $this;
 		}
@@ -57,16 +59,14 @@ abstract class KMixinAbstract implements KMixinInterface
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-    	$defaults = array(
+    	$config->append(array(
             'mixer' =>  null,
-        );
-
-        return array_merge($defaults, $options);
+        ));
     }
     
 	/**
@@ -83,10 +83,12 @@ abstract class KMixinAbstract implements KMixinInterface
 	}
 	
 	/**
-	 * Get the methods that are available for mixin. 
+	 * Get the methods that are available for mixin.
+	 * 
+	 * Only public methods can be mixed
 	 * 
 	 * @param object The mixer requesting the mixable methods. 
-	 * @return array An array of methods
+	 * @return array An array of public methods
 	 */
 	public function getMixableMethods(KObject $mixer = null)
 	{
@@ -104,10 +106,10 @@ abstract class KMixinAbstract implements KMixinInterface
 				}
 			}
 		
-     	   	$this->_methods = array_diff($methods, get_class_methods(__CLASS__));  
+     	   	$this->__methods = array_diff($methods, get_class_methods(__CLASS__));  
 		}
      	
-		return $this->_methods;
+		return $this->__methods;
 	}
    
 	/**

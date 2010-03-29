@@ -18,7 +18,7 @@
  * @uses        KObject
  * @uses        KFactory
  */
-abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiable
+abstract class KDispatcherAbstract extends KControllerAbstract
 {
 	/**
 	 * Controller object or identifier (APP::com.COMPONENT.controller.NAME)
@@ -28,35 +28,17 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	protected $_controller;
 	
 	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface
-	 */
-	protected $_identifier;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_view'
+	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-       // Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
-
-		// Initialize the options
-        $options  = $this->_initialize($options);
-        
-		if(isset($options['controller'])) {
-			$this->setController($options['controller']);
+		parent::__construct($config);
+	
+		if($config->controller !== null) {
+			$this->setController($config->controller);
 		}
-        
-         // Mixin a command chain
-        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
-        
-         //Mixin a filter
-        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
 	}
 
     /**
@@ -64,30 +46,17 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param	array	Options
-     * @return 	array	Options
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return 	void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
-        	'command_chain' =>  new KCommandChain(),
-        	'identifier'	=> null,
+    	$config->append(array(
         	'controller'	=> null
-        );
-
-        return array_merge($defaults, $options);
+        ));
+        
+        parent::_initialize($config);
     }
-
-	/**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
 
 	/**
 	 * Dispatch the controller
@@ -99,38 +68,25 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	 *
 	 * @return	KDispatcherAbstract
 	 */
-	public function dispatch($controller)
+	protected function _actionDispatch($controller)
 	{
-		//Create the controller object
-		$controller = KFactory::get($this->getController($controller));
-		
-		$context = $this->getCommandChain()->getContext();
-		$context['caller']     = $this;
-		$context['result']     = false;
-		$context['controller'] = $controller;
-
-		if($this->getCommandChain()->run('dispatcher.before.dispatch', $context) === true) 
-		{
-			//Execute the controller, handle exeception if thrown. 
-        	try
+        try
+        {
+        	$result = KFactory::get($this->getController($controller))
+        							->execute(KRequest::get('post.action', 'cmd', null));
+        }
+        catch (KControllerException $e)
+        {
+        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
         	{
-        		$context['result'] = $controller->execute(KRequest::get('post.action', 'cmd', null));
+				KFactory::get('lib.koowa.application')
+					->redirect( 'index.php', JText::_($e->getMessage()) );
         	}
-        	catch (KControllerException $e)
-        	{
-        		if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
-        		{
-					KFactory::get('lib.koowa.application')
-						->redirect( 'index.php', JText::_($e->getMessage()) );
-        		}
-        		// Re-throw, we don't know what to do with other error codes yet
-        		else throw $e;
-        	}
-        	
-			$this->getCommandChain()->run('dispatcher.after.dispatch', $context);
-		}
-	
-		return $this;
+        	// Re-throw, we don't know what to do with other error codes yet
+        	else throw $e;
+        }
+        
+        return $result;
 	}
 
 	/**
@@ -171,7 +127,7 @@ abstract class KDispatcherAbstract extends KObject implements KFactoryIdentifiab
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIndentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a controller identifier
 	 * @return	KDispatcherAbstract

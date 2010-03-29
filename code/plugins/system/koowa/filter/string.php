@@ -20,11 +20,11 @@ class KFilterString extends KFilterHtml
 	/**
 	 * Constructor
 	 *
-	 * @param	array	Options array
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 		
 		$this->_tagsMethod = false;
 		$this->_attrMethod = false;

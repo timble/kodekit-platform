@@ -23,16 +23,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 {
 	/**
 	 * Constructor
-	 *
-	 * @param	object	The application object to decorate
-	 * @return	void
 	 */
 	public function __construct($app)
 	{
 		parent::__construct($app);
 		
 		// Mixin the command chain
-        $this->mixin(new KMixinCommandchain(array('mixer' => $this)));
+        $this->mixin(new KMixinCommandchain(new KConfig(array('mixer' => $this))));
         
      	//Set the root path for the request based on the application name
         KRequest::root(str_replace('/'.$this->_object->getName(), '', KRequest::base()));
@@ -63,16 +60,16 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function initialise(array $options = array())
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] 	= $this;
-		$context['options'] = $options;
-		$context['action']  = 'initialise';
-	
+		$context->caller  = $this;
+		$context->options = $options;
+		$context->action  = __FUNCTION__;
+		
 		if($this->getCommandChain()->run('application.before.initialise', $context) === true) {
-			$context['result'] = $this->getObject()->initialise($context['options']);
+			$context->result = $this->getObject()->initialise($context->option);
 			$this->getCommandChain()->run('application.after.initialise', $context);
 		}
 
-		return $context['result'];
+		return $context->result;
 	}
 	
   	/**
@@ -83,15 +80,15 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function route()
  	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] 	= $this;
-		$context['action']   = 'route';
-	
+		$context->caller 	= $this;
+		$context->action   = __FUNCTION__;
+		
 		if($this->getCommandChain()->run('application.before.route', $context) === true) {
-			$context['result'] = $this->getObject()->route();
+			$context->result = $this->getObject()->route();
 			$this->getCommandChain()->run('application.after.route', $context);
 		}
 		
-		return $context['result'];
+		return $context->result;
  	}
  	
    	/**
@@ -102,16 +99,16 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
  	public function dispatch($component)
  	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] 	   = $this;
-		$context['component']  = substr( $component, 4 );
-		$context['action']     = 'dispatch';
+		$context->caller 	 = $this;
+		$context->component  = substr( $component, 4 );
+		$context->action   	 = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.dispatch', $context) === true) {
-			$context['result'] = $this->getObject()->dispatch('com_'.$context['component']);
+			$context->results = $this->getObject()->dispatch('com_'.$context->component);
 			$this->getCommandChain()->run('application.after.dispatch', $context);
 		}
 
-		return $context['result'];
+		return $context->result;
  	}
  	
 	/**
@@ -122,15 +119,15 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function render()
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] = $this;
-		$context['action'] = 'render';
+		$context->caller = $this;
+		$context->action = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.render', $context) === true) {
-			$context['result'] = $this->getObject()->render();
+			$context->result = $this->getObject()->render();
 			$this->getCommandChain()->run('application.after.render', $context);
 		}
 
-		return $context['result'];
+		return $context->result;
 	}
 	
 	/**
@@ -142,12 +139,12 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function close( $code = 0 ) 
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] 	 = $this;
-		$context['code']	 = $code;
-		$context['action']   = 'close';
+		$context->caller = $this;
+		$context->code	 = $code;
+		$context->action = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.close', $context) === true) {
-			$this->getObject()->close($context['code']);
+			$this->getObject()->close($context->code);
 		}
 
 		return false;
@@ -165,14 +162,14 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function redirect( $url, $msg = '', $type = 'message' )
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] 	 	 = $this;
-		$context['url']          = $url;
-		$context['message']      = $msg;
-		$context['message_type'] = $type;
-		$context['action']       = 'redirect';
+		$context->caller 	   = $this;
+		$context->url          = $url;
+		$context->message      = $msg;
+		$context->message_type = $type;
+		$context->action       = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.redirect', $context) === true) {
-			$this->getObject()->redirect($context['url'], $context['message'], $context['message_type']);
+			$this->getObject()->redirect($context->url, $context->message, $context->message_type);
 		}
 
 		return false;
@@ -188,17 +185,17 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function login($credentials, array $options = array())
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller']    	= $this;
-		$context['credentials'] = $credentials;
-		$context['options']     = $options;
-		$context['action']      = 'login';
+		$context->caller      = $this;
+		$context->credentials = $credentials;
+		$context->options     = $options;
+		$context->action      = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.login', $context) === true) {
-			$context['result'] = $this->getObject()->login($context['credentials'], $context['options']);
+			$context->result = $this->getObject()->login($context->credentials, $context->options);
 			$this->getCommandChain()->run('application.after.login', $context);
 		}
 		
-		return $context['result'];
+		return $context->result;
 	}
 	
 	/**
@@ -211,16 +208,16 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	public function logout($userid = null, array $options = array())
 	{
 		$context = $this->getCommandChain()->getContext();
-		$context['caller']    	= $this;
-		$context['credentials'] = array('userid' => $userid);
-		$context['options']     = $options;
-		$context['action']      = 'logout';
+		$context->caller      = $this;
+		$context->credentials = array('userid' => $userid);
+		$context->options     = $options;
+		$context->action      = __FUNCTION__;
 		
 		if($this->getCommandChain()->run('application.before.logout', $context) === true) {
-			$context['result'] = $this->getObject()->logout($context['credentials']['userid'], $context['options']);
+			$context->result = $this->getObject()->logout($context->credentials->userid, $context->options);
 			$this->getCommandChain()->run('application.after.logout', $context);
 		}
 		
-		return $context['result'];
+		return $context->result;
 	}
 }

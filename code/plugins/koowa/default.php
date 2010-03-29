@@ -35,11 +35,11 @@
  * 		public function onApplicationBeforeRoute(KCommandcontext $context)
  * 		{
  * 			//The caller is a reference to the object that is triggering this event
- * 			$caller = $context['caller'];
+ * 			$caller = $context->caller;
  * 
  * 			//The result is the actual result of the event, if this is an after event 
  * 			//the result will contain the result of the action.
- * 			$result = $context['result'];
+ * 			$result = $context->result;
  * 
  * 			//The context object can also contain a number of custom properties
  *          print_r($context);

@@ -16,7 +16,7 @@
  * @package     Koowa_Model
  * @uses		KObject
  */
-abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
+abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
 	 * A state object
@@ -25,13 +25,6 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 */
 	protected $_state;
 
-	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface 
-	 */
-	protected $_identifier;
-	
 	/**
 	 * List total
 	 *
@@ -57,16 +50,13 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	/**
 	 * Constructor
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(array $options = array())
+	public function __construct(KConfig $config)
 	{
-		// Set the objects identifier first to allow to use it in the initli
-        $this->_identifier = $options['identifier'];
-		
-		$options  = $this->_initialize($options);
-				
-		$this->_state = $options['state'];
+        parent::__construct($config);
+            
+		$this->_state = $config->state;
 	}
 
 	/**
@@ -74,18 +64,28 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
-	 * @param   array   Options
-	 * @return  array   Options
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
 	 */
-	protected function _initialize(array $options)
+	protected function _initialize(KConfig $config)
 	{
-		$defaults = array(
+		$config->append(array(
             'state'      => KFactory::tmp('lib.koowa.model.state'),
-			'identifier' => null
-       	);
+       	));
        	
-        return array_merge($defaults, $options);
+       	parent::_initialize($config);
     }
+    
+	/**
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
     
 	/**
      * Set the model state properties
@@ -143,17 +143,6 @@ abstract class KModelAbstract extends KObject implements KFactoryIdentifiable
         
         return $result;
     }
-
-    /**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
 
     /**
      * Reset all cached data

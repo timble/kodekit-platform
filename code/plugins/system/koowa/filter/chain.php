@@ -73,10 +73,10 @@ class KFilterChain extends KCommandChain
 		while($iterator->valid()) 
 		{
     		$cmd = $this->_command[ $iterator->key()];
-			$context['data'] = $cmd->execute( 'sanitize', $context ); 
+			$context->data = $cmd->execute( 'sanitize', $context ); 
     		$iterator->next();
 		}
 		
-		return $context['data'];
+		return $context->data;
   	}
 }

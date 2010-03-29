@@ -14,12 +14,12 @@
  * @category	Koowa
  * @package     Koowa_Factory
  */
-interface KFactoryIdentifiable
+interface KObjectIdentifiable
 {
 	/**
-	 * Get the identifier
-	 *
-	 * @return KIdentifierInterface
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
 	 */
 	public function getIdentifier();
 }

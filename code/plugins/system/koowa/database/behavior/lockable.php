@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Behavior Interface
+ * Database Lockable Behavior
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -41,7 +41,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	/**
 	 * Lock a row
 	 *
-	 * Requires an locked_on and locked_by field to be present in the table
+	 * Requires an 'locked_on' and 'locked_by' column
 	 *
 	 * @return 	KDatabaseRowAbstract
 	 */
@@ -62,7 +62,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	/**
 	 * Unlock a row
 	 *
-	 * Requires an locked_on and locked_by field to be present in the table
+	 * Requires an locked_on and locked_by column to be present in the table
 	 *
 	 * @return 	KDatabaseRowAbstract
 	 */
@@ -91,7 +91,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _afterTableSelect(KCommandContext $context)
 	{
-		$rowset = $context['data'];
+		$rowset = $context->data;
 		$userid = KFactory::get('lib.koowa.user')->get('id');
 				
 		foreach($rowset as $row)
@@ -115,7 +115,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		$row    = $context['data'];
+		$row    = $context->data;
 		$userid = KFactory::get('lib.koowa.user')->get('id');
 		
 		if(isset($row->locked_by) && $row->locked_by != 0) 

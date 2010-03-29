@@ -22,22 +22,8 @@
  * @uses        KObject
  * @uses        KFactory
  */
-abstract class KControllerAbstract extends KObject implements KFactoryIdentifiable
+abstract class KControllerAbstract extends KObject implements KObjectIdentifiable
 {
-	/**
-	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
-	 *
-	 * @var	string|object
-	 */
-	protected $_model;
-	
-	/**
-	 * View object or identifier (APP::com.COMPONENT.view.NAME)
-	 *
-	 * @var	string|object
-	 */
-	protected $_view;
-	
 	/**
 	 * Array of class methods to call for a given action.
 	 *
@@ -74,69 +60,62 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	protected $_redirect_type = 'message';
 
 	/**
-	 * The object identifier
-	 *
-	 * @var KIdentifierInterface
-	 */
-	protected $_identifier;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_action', 'command_chain'
-	 * (this list is not meant to be comprehensive).
+	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct( array $options = array() )
+	public function __construct( KConfig $config)
 	{
-        // Allow the identifier to be used in the initalise function
-        $this->_identifier = $options['identifier'];
-
-		// Initialize the options
-        $options  = $this->_initialize($options);
+        parent::__construct($config);
         
-        // Set identifiers
-		if(isset($options['view'])) {
-			$this->setView($options['view']);
+        // Set the view identifier
+		if(!empty($config->view)) {
+			$this->setView($config->view);
 		}
 		
-		if(isset($options['model'])) {
-			$this->setModel($options['model']);
+		// Set the model identifier
+		if(!empty($config->model)) {
+			$this->setModel($config->model);
 		}
+		
+		//Set the action
+		$this->_action = $config->action;
 
         // Mixin a command chain
-        $this->mixin(new KMixinCommandchain(array('mixer' => $this, 'command_chain' => $options['command_chain'])));
+        $this->mixin(new KMixinCommandchain(new KConfig(
+        	array('mixer' => $this, 'command_chain' => $config->command_chain)
+        )));
 
         //Mixin a filter
-        $this->mixin(new KMixinCommand(array('mixer' => $this, 'command_chain' => $this->getCommandChain())));
+        $this->mixin(new KMixinCommand(new KConfig(
+        	array('mixer' => $this, 'command_chain' => $this->getCommandChain())
+        )));
 	}
 
 
     /**
-     * Initializes the options for the object
+     * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
+    	$config->append(array(
             'command_chain' =>  new KCommandChain(),
-        	'identifier'	=> null,
-        	'model'			=> null,
-        	'view'			=> null
-        );
-
-        return array_merge($defaults, $options);
+    		'action'		=> null
+        ));
+        
+        parent::_initialize($config);
     }
-
-	/**
-	 * Get the identifier
-	 *
-	 * @return 	KIdentifierInterface
-	 * @see 	KFactoryIdentifiable
+    
+    /**
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{
@@ -150,10 +129,10 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
-	public function execute($action = null)
+	public function execute($action = null, $data = null)
 	{
 		$action = strtolower($action);
-	
+		
 		//Set the original action in the controller to allow it to be retrieved
 		$this->setAction($action);
 
@@ -164,24 +143,25 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 		
 		//Create the command arguments object
 		$context = $this->getCommandChain()->getContext();
-		$context['caller'] = $this;
-		$context['action'] = $action;
-		$context['result'] = false;
+		$context->caller = $this;
+		$context->action = $action;
+		$context->data   = $data;
+		$context->result = false;
 		
 		if($this->getCommandChain()->run('controller.before.'.$action, $context) === true) 
 		{
-			$action = $context['action'];
+			$action = $context->action;
 			$method = '_action'.ucfirst($action);
 	
 			if (!in_array($method, $this->getMethods())) {
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
 			
-			$context['result'] = $this->$method();
+			$context->result = $this->$method($data);
 			$this->getCommandChain()->run('controller.after.'.$action, $context);
 		}
 
-		return $context['result'];
+		return $context->result;
 	}
 
 	/**
@@ -222,86 +202,6 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	public function setAction($action)
 	{
 		$this->_action = $action;
-		return $this;
-	}
-
-	/**
-	 * Get the identifier for the view with the same name
-	 *
-	 * @return	KIdentifierInterface
-	 */
-	final public function getView()
-	{
-		if(!$this->_view)
-		{
-			$identifier			= clone $this->_identifier;
-			$identifier->path	= array('view', KRequest::get('get.view', 'cmd', $identifier->name));
-			$identifier->name	= KRequest::get('get.format', 'cmd', 'html');
-		
-			$this->_view = $identifier;
-		}	
-		
-		return $this->_view;
-	}
-	
-	/**
-	 * Method to set a view object attached to the controller
-	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
-	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
-	 * @return	KControllerAbstract
-	 */
-	public function setView($view)
-	{
-		$identifier = KFactory::identify($view);
-
-		if($identifier->path[0] != 'view') {
-			throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
-		}
-		
-		$this->_view = $identifier;
-		return $this;
-	}
-
-	/**
-	 * Get the identifier for the model with the same name
-	 *
-	 * @return	KIdentifierInterface
-	 */
-	final public function getModel()
-	{
-		if(!$this->_model)
-		{
-			$identifier			= clone $this->_identifier;
-			$identifier->path	= array('model');
-
-			// Models are always plural
-			$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
-		
-			$this->_model = $identifier;
-		}
-		
-		return $this->_model;
-	}
-	
-	/**
-	 * Method to set a model object attached to the controller
-	 *
-	 * @param	mixed	An object that implements KFactoryIdentifiable, an object that 
-	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a model identifier
-	 * @return	KControllerAbstract
-	 */
-	public function setModel($model)
-	{
-		$identifier = KFactory::identify($model);
-
-		if($identifier->path[0] != 'model') {
-			throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
-		}
-		
-		$this->_model = $identifier;
 		return $this;
 	}
 
@@ -387,7 +287,7 @@ abstract class KControllerAbstract extends KObject implements KFactoryIdentifiab
 	public function __call($method, $args)
 	{
 		if(in_array($method, $this->getActions())) {
-			return $this->execute($method);
+			return $this->execute($method, !empty($args) ? $args[0] : null);
 		}
 		
 		return parent::__call($method, $args);

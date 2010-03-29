@@ -18,16 +18,16 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerView
+class ComDefaultControllerView extends KControllerAction
 {
 	/**
 	 * Constructor
 	 *
-	 * @return void
+	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct($options = array())
+	public function __construct(KConfig $config)
 	{
-		parent::__construct($options);
+		parent::__construct($config);
 
 		//Register command functions
 		$this->registerFunctionAfter(array('save', 'delete'), 'setMessage');
@@ -42,7 +42,7 @@ class ComDefaultControllerView extends KControllerView
 	{
 		$count  = count((array) KRequest::get('post.id', 'int', 1));
 		$action = KRequest::get('post.action', 'cmd');
-		$name	= $this->getIdentifier()->name;
+		$name	= $this->_identifier->name;
 			
 		if($count > 1) {
 			$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
@@ -53,14 +53,18 @@ class ComDefaultControllerView extends KControllerView
 	
 	/**
 	 * Browse a list of items
+	 * 
+	 * This function set the default list limit if the limit state is 0
 	 *
 	 * @return KDatabaseRowset	A rowset object containing the selected rows
 	 */
 	protected function _actionBrowse()
 	{
-		KFactory::get($this->getModel())
-			->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
-			
+		$model = KFactory::get($this->getModel());
+		if($model->getState()->limit === 0) {
+			$model->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+		}
+				
 		return parent::_actionBrowse();
 	}
 	
@@ -82,7 +86,7 @@ class ComDefaultControllerView extends KControllerView
 		if(!KRequest::has('get.layout')) {
 			KRequest::set('get.layout', 'form');
 		}
-		
+	
 		return parent::_actionRead();
 	}
 }

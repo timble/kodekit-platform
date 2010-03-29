@@ -194,12 +194,13 @@ class KHttpUri extends KObject
 	/**
 	 * Constructor
 	 *
-	 * @param	array	 An optional associative array of configuration settings.
+	 * @param	object	An optional KConfig object with configuration options
 	 */
-	public function __construct( array $options = array()) 
+	public function __construct(KConfig $config) 
 	{
-		$options = $this->_initialize($options);
-		$this->set($options['uri']); 
+		parent::__construct($config);
+		
+		$this->set($config->uri); 
 	}
 	
  	/**
@@ -207,16 +208,16 @@ class KHttpUri extends KObject
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object	An optional KConfig object with configuration options
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
+    	$config->append(array(
             'uri'  => '',
-        );
-
-        return array_merge($defaults, $options);
+        ));
+        
+        parent::_initialize($config);
     }
 	
 	/** 

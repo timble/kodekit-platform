@@ -25,7 +25,7 @@ class KTemplateHelperTabs extends KObject
 	 *
 	 * @param array Associative array of values
 	 */
-	public function __construct( array $params = array() )
+	public function __construct()
 	{
 		//Load koowa javascript
 		KTemplate::loadHelper('behavior.mootools');

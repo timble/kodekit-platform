@@ -56,7 +56,7 @@ class KCommandChain extends KObject
 	 *
 	 * @return	void
 	 */
-	public function __construct()
+	public function __construct(KConfig $config = null)
 	{
 		$this->_command  = new ArrayObject();
 		$this->_priority = new ArrayObject();

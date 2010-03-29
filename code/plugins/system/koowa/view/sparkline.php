@@ -16,7 +16,7 @@
  * @package     Koowa_View
  * @uses 		KChartSparkline
  */
-class KViewSparkline extends KViewAbstract
+class KViewSparkline extends KViewTemplate
 {
     /**
      * KChartSparkline object

@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Command
  */
-class KCommandContext extends ArrayObject
+class KCommandContext extends KConfig
 {
 	/**
 	 * Error
