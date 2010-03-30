@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_View
  */
-abstract class KViewHtml extends KViewTemplate
+class KViewHtml extends KViewTemplate
 {
 	/**
 	 * Constructor
