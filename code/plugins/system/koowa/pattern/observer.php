@@ -25,7 +25,7 @@ interface KPatternObserver
 	 * @param	object	An associative array of arguments
 	 * @return mixed
 	 */
-	public function update(ArrayObject $args);
+	public function update(KConfig $args);
 	
 	/**
 	 * This function returns an unique identifier for the object. This id can be used as 
