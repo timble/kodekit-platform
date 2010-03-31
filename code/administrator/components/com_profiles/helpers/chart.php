@@ -11,7 +11,7 @@ class ComProfilesHelperChart extends KObject
 {
 	public function pie($name)
  	{
-		$model = KFactory::get('admin::com.profiles.model.' . $name);
+		/*$model = KFactory::get('admin::com.profiles.model.' . $name);
 		$items = $model->getAll();
  		
 		$c = KChartGoogle::getInstance(KChartGoogle::PIE);
@@ -31,7 +31,7 @@ class ComProfilesHelperChart extends KObject
           ->setValueLabels($labels)
           ->setWidth('450');
 
-          return $c->getUrl();
+          return $c->getUrl();*/
  	}
  	
     protected function _cleanLabels(&$label)
