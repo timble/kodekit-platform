@@ -480,6 +480,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		$context->operation = KDatabase::OPERATION_SELECT;
 		$context->query	  	= $query;
 		$context->table	  	= $this->getBase();
+		$context->mode      = $mode;
 		
 		if($this->getCommandChain()->run('before.table.select', $context) === true) 
 		{	
@@ -494,7 +495,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			if($context->query)
 			{
 				//Fetch the raw data and applye reverse column mapping
-				if($mode == KDatabase::FETCH_ROWSET) 
+				if($context->mode == KDatabase::FETCH_ROWSET) 
 				{
 					$data = $this->_database->fetchArrayList($query);
 				
@@ -502,18 +503,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 						$data[$key] = $this->map($value, true);
 					}
 				} 
-				else 
-				{
-					$data = $this->_database->fetchArray($query);
-					$data = $this->map($data, true);
-				}
+				else $data = $this->map($this->_database->fetchArray($query), true);
 				
 				$options['data'] = $data;
 				$options['new']  = false;	
 			}
 			
 			//Create the row(set) object
- 			if($mode == KDatabase::FETCH_ROWSET) {
+ 			if($context->mode == KDatabase::FETCH_ROWSET) {
  				$context->data = KFactory::tmp($this->getRowset(), $options);
  			} else {
  				$context->data = KFactory::tmp($this->getRow(), $options);
