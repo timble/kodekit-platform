@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Profiles
- * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
+ * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.nooku.org
  */
@@ -11,15 +11,12 @@ class ComProfilesViewPeopleFeed extends KViewAbstract
 {
 	public function display()
 	{	
-		//Set the document link
 		$this->_document->link = $this->createRoute('view=people');
 		
-		//Get the list of people
 		$people = KFactory::get($this->getModel())->getList();
 		
 		foreach ( $people as $person )
 		{
-			// strip html from feed item title
 			$title = $this->escape( $person->name );
 			$title = html_entity_decode( $title );
 

@@ -2,11 +2,10 @@
 /**
  * @version		$Id$
  * @package		Profiles
- * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
+ * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.nooku.org
  */
-
 
 /**
  * Because Offices and departments work basically in the same way, we have an
@@ -30,7 +29,6 @@ abstract class ComProfilesModelGroups extends KModelTable
 	
 	public function getAll()
 	{
-        // Get the data if it doesn't already exist
         if (!isset($this->_all))
         {
         	$table = KFactory::get($this->getTable());

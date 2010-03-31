@@ -2,7 +2,7 @@
 /**
  * @version     $Id$
  * @package		Profiles
- * @copyright	Copyright (C) 2009 Nooku. All rights reserved.
+ * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
  * @license     GNU GPL <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
