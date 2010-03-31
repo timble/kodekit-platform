@@ -34,10 +34,10 @@ class KEventHandler extends KObject implements KPatternObserver, KObjectIdentifi
 	 * @param  object	The event arguments
 	 * @return mixed Routine return value
 	 */
-	public function update(ArrayObject $args)
+	public function update(KConfig $args)
 	{		
-		if (in_array($args['event'], $this->getMethods())) {
-			return $this->{$args['event']}($args);
+		if (in_array($args->event, $this->getMethods())) {
+			return $this->{$args->event}($args);
 		} 
 		
 		return null;
