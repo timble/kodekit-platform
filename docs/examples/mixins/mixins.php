@@ -11,7 +11,8 @@ class MyClass
     }
 }
 
-class OtherClass extends MyClass {
+class OtherClass extends MyClass 
+{
     public function myMethod()
     {
         echo __METHOD__.'<br />';
