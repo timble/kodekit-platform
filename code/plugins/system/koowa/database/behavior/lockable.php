@@ -90,10 +90,17 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 * @return void
 	 */
 	protected function _afterTableSelect(KCommandContext $context)
-	{
-		$rowset = $context->data;
+	{	
 		$userid = KFactory::get('lib.koowa.user')->get('id');
-				
+
+		//Force to an array
+		if($context->mode == KDatabase::FETCH_ROW) {
+			$rowset = array($context->data);
+		} else {
+			$rowset = $context->data;
+		}
+
+		//Add virtual locked property
 		foreach($rowset as $row)
 		{
 			if(isset($row->locked_by) && $row->locked_by != 0 && $row->locked_by != $userid) {
