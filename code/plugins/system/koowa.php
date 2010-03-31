@@ -71,9 +71,18 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.user',        'lib.joomla.user');
 	    KFactory::map('lib.koowa.editor',      'lib.joomla.editor');
         
-        //Force the format to ajax is request type is AJAX
-        if(KRequest::type() == 'AJAX') {
-        	$GLOBALS['_JREQUEST']['format']['DEFAULTWORD0'] = 'raw';
+        //If the format is AJAX we create a 'raw' document rendered and force it's type to the
+        //active format to maintain full backwards compatibility 
+        if(KRequest::type() == 'AJAX') 
+        {
+        	$format = JRequest::getWord('format', 'html');
+        	
+        	JRequest::setVar('format', 'raw');   //force format to raw
+        	JFactory::getDocument()->setType($format);
+        	JRequest::setVar('format', $format); //revert format to original
+        	
+        	//Register the module helper in case someone needs it
+        	JLoader::register('JModuleHelper', JPATH_LIBRARIES.DS.'joomla'.DS.'application'.DS.'module'.DS.'helper.php');
         }
 
 		//Load the koowa plugins
