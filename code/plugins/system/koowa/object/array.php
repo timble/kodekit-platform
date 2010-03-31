@@ -143,7 +143,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Co
 	/**
 	 * Serialize
 	 *
-	 * @return	ArrayObject 	A serialized object
+	 * @return	string 	A serialized object
 	 */
 	public function serialize()
 	{
@@ -153,12 +153,11 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Co
 	/**
 	 * Unserialize
 	 * 
-	 * @param	string			An serialized ArrayObject
-	 * @return	ArrayObject 	The unserialized object
+	 * @param	string	An serialized data
 	 */
-	public function unserialize($serialized)
+	public function unserialize($data)
 	{
-		return unserialize($this->_data);
+		$this->data = unserialize($data);
 	}
 	
 	/**
