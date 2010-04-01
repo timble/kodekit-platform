@@ -32,7 +32,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(KConfig $config = nul)
+	public function __construct(KConfig $config = null)
 	{
 		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
