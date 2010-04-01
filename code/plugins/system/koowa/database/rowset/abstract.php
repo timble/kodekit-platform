@@ -47,9 +47,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KObjectId
      *
      * @param 	object 	An optional KConfig object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(KConfig $config = null)
     {
-  		parent::__construct($config);
+  		//If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+    	
+    	parent::__construct($config);
   		
 		// Set the table indentifier
     	if(isset($config->table)) {

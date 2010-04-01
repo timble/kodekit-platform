@@ -18,7 +18,7 @@
  * @subpackage  Adapter
  * @uses 		KPatternCommandChain
  */
-abstract class KDatabaseAdapterAbstract extends KObject
+abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
 	 * Active state of the connection
@@ -78,7 +78,10 @@ abstract class KDatabaseAdapterAbstract extends KObject
 	 */
 	public function __construct( KConfig $config = null )
 	{
-        // Initialize the options
+        //If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		// Initialize the options
         parent::__construct($config);
 
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
@@ -123,20 +126,30 @@ abstract class KDatabaseAdapterAbstract extends KObject
         
         parent::_initialize($config);
     }
-
+    
+	/**
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
 
 	/**
 	 * Get a database query object
 	 *
 	 * @return KDatabaseQuery
 	 */
-	public function getQuery(array $config = array())
+	public function getQuery(KConfig $config = null)
 	{
-		if(!isset($config['adapter'])) {
-			$config['adapter'] = $this;
+		if(!isset($config)) {
+			$config = new KConfig(array('adapter', $this));
 		}
-
-		return new KDatabaseQuery(new KConfig($config));
+		
+		return new KDatabaseQuery($config);
 	}
 
 	/**

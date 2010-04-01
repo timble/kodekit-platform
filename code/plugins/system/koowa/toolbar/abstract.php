@@ -45,8 +45,11 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(KConfig $config = null)
 	{
+		//If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
 		parent::__construct($config);
 
         // Set the title

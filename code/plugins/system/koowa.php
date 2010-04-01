@@ -84,7 +84,7 @@ class plgSystemKoowa extends JPlugin
         	//Register the module helper in case someone needs it
         	JLoader::register('JModuleHelper', JPATH_LIBRARIES.DS.'joomla'.DS.'application'.DS.'module'.DS.'helper.php');
         }
-
+        
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 

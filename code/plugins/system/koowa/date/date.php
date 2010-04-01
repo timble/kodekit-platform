@@ -109,19 +109,21 @@ class KDate extends KObject
 	 * is used.
 	 *
 	 * @see setDate()
-	 * @param	array An optional associative array of configuration settings.
-	 * 				  Recognized key values include 'date'
+	 * @param object 	An optional KConfig object with configuration options
+						Recognized key values include 'date'
 	 * @return KDate The new Date object
 	 */
-	public function __construct( array $options = array() )
-	{
-		// Initialize the options
-        $options  = $this->_initialize($options);
+	public function __construct( KConfig $config = null)
+	{ 
+		//If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		parent::__construct($config);
 
-		if (is_a( $options['date'], 'KDate' )) {
-			$this->copy( $options['date'] );
+		if ($config->date instanceof KDate) {
+			$this->copy( $config->date );
 		} else {
-			$this->setDate( $options['date'] );
+			$this->setDate( $config->date );
 		}
 	}
 
@@ -130,16 +132,16 @@ class KDate extends KObject
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   array   Options
-     * @return  array   Options
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return  void
      */
-    protected function _initialize(array $options)
+    protected function _initialize(KConfig $config)
     {
-        $defaults = array(
+        $config->append(array(
             'date'  => date( 'Y-m-d H:i:s' )
-        );
+        ));
 
-        return array_merge($defaults, $options);
+         parent::_initialize($config);
     }
 
 	/**
@@ -550,9 +552,9 @@ class KDate extends KObject
 	public static function getWeekdayFullname( $day = null )
 	{
 		if ($day === null ) {
-			$day = new KDate;
+			$day = new KDate();
 		}
-		if (is_a( $day, 'KDate' )) {
+		if ($day instanceof KDate ) {
 			$weekday	= self::getDayOfWeek( $day );
 		} else if (is_int( $day )) {
 			$weekday	= $day;

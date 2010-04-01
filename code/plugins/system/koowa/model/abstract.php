@@ -52,9 +52,12 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(KConfig $config = null)
 	{
-        parent::__construct($config);
+        //If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		parent::__construct($config);
             
 		$this->_state = $config->state;
 	}

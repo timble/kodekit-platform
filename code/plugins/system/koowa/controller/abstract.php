@@ -64,9 +64,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct( KConfig $config)
+	public function __construct( KConfig $config = null)
 	{
-        parent::__construct($config);
+        //If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		parent::__construct($config);
         
         // Set the view identifier
 		if(!empty($config->view)) {
