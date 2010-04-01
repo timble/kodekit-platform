@@ -329,7 +329,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			throw new KDatabaseTableException($e->getMessage());
 		}
 	
-		return $this->Columns($columns[$name], true);
+		return $this->mapColumns($columns[$name], true);
 	}
 	
 	/**
