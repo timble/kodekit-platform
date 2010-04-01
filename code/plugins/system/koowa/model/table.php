@@ -275,7 +275,7 @@ class KModelTable extends KModelAbstract
     	
     	if(!empty($states))
     	{
-    		$states = KFactory::get($this->getTable())->map($states); 
+    		$states = KFactory::get($this->getTable())->mapColumns($states); 
     		foreach($states as $key => $value) {
          		$query->where('tbl.'.$key, 'IN', $value);
         	}

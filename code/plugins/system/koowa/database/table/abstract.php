@@ -329,7 +329,43 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			throw new KDatabaseTableException($e->getMessage());
 		}
 	
-		return $this->map($columns[$name], true);
+		return $this->Columns($columns[$name], true);
+	}
+	
+	/**
+	 * Table map method
+	 * 
+	 * This functions maps the column names to those in the table schema 
+	 *
+	 * @param  array|string	An associative array of data to be mapped, or a column name
+	 * @param  boolean	If TRUE, perform a reverse mapping
+	 * @return mixed 	The mapped data
+	 */
+	public function mapColumns($data, $reverse = false)
+	{
+		$map = $reverse ? array_flip($this->_column_map) : $this->_column_map;
+		
+		$result = null;
+		if(is_array($data))
+		{
+			foreach($data as $column => $value)
+			{
+				if(isset($map[$column])) {
+    				$column = $map[$column];
+    			}
+    		
+    			$result[$column] = $value;
+			}
+		} 
+		
+		if(is_string($data))
+		{
+			if(isset($map[$data])) {
+    			$result = $map[$data];
+    		}
+		}
+			
+		return $result;
 	}
 	    
 	/**
@@ -341,7 +377,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	{
 		$result = '';
 		if(isset($this->_identity_column)) {
-			$result = $this->map($this->_identity_column, true);
+			$result = $this->mapColumns($this->_identity_column, true);
 		}
 		
 		return $result;
@@ -456,7 +492,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
        //Create query object
 		if(is_numeric($query) || is_array($query))
        	{
-        	$key    = $this->map($this->getIdentityColumn());
+        	$key    = $this->mapColumns($this->getIdentityColumn());
            	$values = (array) $query;
 
        		$query = $this->_database->getQuery()
@@ -500,10 +536,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 					$data = $this->_database->fetchArrayList($query);
 				
 					foreach($data as $key => $value) {
-						$data[$key] = $this->map($value, true);
+						$data[$key] = $this->mapColumns($value, true);
 					}
 				} 
-				else $data = $this->map($this->_database->fetchArray($query), true);
+				else $data = $this->mapColumns($this->_database->fetchArray($query), true);
 				
 				$options['data'] = $data;
 				$options['new']  = false;	
@@ -543,7 +579,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			$data = $this->filter($context->data->getData(), true);
 			
 			//Get the data and apply the column mappings
-			$data = $this->map($data);
+			$data = $this->mapColumns($data);
 			
 			//Execute the insert query
 			if($result = $this->_database->insert($context->table, $data)) {
@@ -551,7 +587,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			}
 				
 			//Reverse apply the column mappings and set the data in the row
-			$context->data->setData($this->map($data, true), false);
+			$context->data->setData($this->mapColumns($data, true), false);
 			
 			$this->getCommandChain()->run('after.table.insert', $context);
 		}
@@ -578,19 +614,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		{
 			//Create where statement
 			$where = $this->_database->getQuery()
-						->where($this->map($this->getIdentityColumn()), 'IN', (array) $context->data->id);
+						->where($this->mapColumns($this->getIdentityColumn()), 'IN', (array) $context->data->id);
 			
 			//Filter the data and remove unwanted columns
 			$data = $this->filter($context->data->getData(true), true);
 			
 			//Get the data and apply the column mappings
-			$data = $this->map($data);
+			$data = $this->mapColumns($data);
 			
 			//Execute the update query
 			$context->affected = $this->_database->update($context->table, $data, $where);
 			
 			//Reverse apply the column mappings and set the data in the row
-			$context->data->setData($this->map($data, true), false);
+			$context->data->setData($this->mapColumns($data, true), false);
 			
 			$this->getCommandChain()->run('after.table.update', $context);
 		}
@@ -617,7 +653,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		{
 			//Create where statement
 			$where = $this->_database->getQuery()
-						->where($this->map($this->getIdentityColumn()), 'IN', (array) $context->data->id);
+						->where($this->mapColumns($this->getIdentityColumn()), 'IN', (array) $context->data->id);
 							
 			//Execute the delete query
 			$context->affected = $this->_database->delete($context->table, $where);
@@ -677,41 +713,5 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		}
 
 		return $data;
-	}
-	
-	/**
-	 * Table map method
-	 * 
-	 * This functions maps the column names to those in the table schema 
-	 *
-	 * @param  array|string	An associative array of data to be mapped, or a column name
-	 * @param  boolean	If TRUE, perform a reverse mapping
-	 * @return mixed 	The mapped data
-	 */
-	public function map($data, $reverse = false)
-	{
-		$map = $reverse ? array_flip($this->_column_map) : $this->_column_map;
-		
-		$result = null;
-		if(is_array($data))
-		{
-			foreach($data as $column => $value)
-			{
-				if(isset($map[$column])) {
-    				$column = $map[$column];
-    			}
-    		
-    			$result[$column] = $value;
-			}
-		} 
-		
-		if(is_string($data))
-		{
-			if(isset($map[$data])) {
-    			$result = $map[$data];
-    		}
-		}
-			
-		return $result;
 	}
 }
