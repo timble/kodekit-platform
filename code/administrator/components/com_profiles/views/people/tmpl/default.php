@@ -6,7 +6,7 @@
 
 <? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
 
-<form action="<?= @route()?>" method="get" class="form-filters">
+<form action="<?= @route()?>" method="get" class="form-filters" id="<?= @helper('admin::com.profiles.helper.behavior.id', 'filter') ?>">
 	<input type="hidden" name="option" value="com_profiles" />
 	<input type="hidden" name="view" value="people" />
 	
@@ -15,7 +15,7 @@
 	</div>
 </form>
 
-<form action="<?= @route()?>" method="post" name="adminForm" class="form-grid">
+<form action="<?= @route()?>" method="post" name="adminForm" class="form-grid" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
 	<input type="hidden" name="id" value="" />
 	<input type="hidden" name="action" value="browse" />
 	<table class="adminlist" style="clear: both;">
@@ -44,7 +44,14 @@
 					
 				</th>
 				<th>
+<<<<<<< .working
 					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
+=======
+					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
+				</th>
+				<th>
+					<?= @helper('grid.sort', 'ID', 'profiles_person_id', @$state->direction, @$state->order); ?>
+>>>>>>> .merge-right.r416
 				</th>
 			</tr>
 			<tr>
@@ -64,6 +71,8 @@
 				</td>
 				<td align="center">
 					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
+				</td>
+				<td>
 				</td>
 				<td>
 				</td>

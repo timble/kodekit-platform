@@ -117,7 +117,7 @@ FROM #__users AS u;
 -- Dumping data for table `#__profiles_departments`
 --
 
-INSERT INTO `#__profiles_departments` (`profiles_department_id`, `title`, `alias`, `description`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
+INSERT IGNORE INTO `#__profiles_departments` (`profiles_department_id`, `title`, `alias`, `description`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
 (1, 'Marketing', 'marketing', 'The world-class marketing team at Showdown is focused on leading-edge hardware and software that define the solutions that customers want, prompting the competition to emulate us. As the only company that designs the hardware, the software, and the operating system, we stand alone in our ability to innovate beyond the status quo. Part of what drives this innovation is our challenging and creative environment and the fierce dedication and talent of our team. In marketing, you have the unique opportunity to work on revolutionary products from concept to launch with the best creative minds in the industry.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (2, 'Sales', 'sales', 'Showdown is committed to delivering the finest and most innovative computing solutions to students, educators, consumers, businesses, and creative professionals around the world. On the Sales team, our primary focus is to drive revenue for hardware, software, and professional services. One of the benefits of selling Showdown products is that they are completely integrated platforms. We focus on selling the value inherent in the complete product, rather than just individual boxes, and giving our customers a solution that address their needs. Our high-performance sales teams constantly strive to increase customer satisfaction and grow our market share.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 'Finance', 'finance', 'The Finance department is an integral part of Showdown\\''s success, supporting the growth and change of all functional areas of the company with flexibility and integrity. Having a team of talented thinkers who can balance a detail-oriented and quantifiable function within a dynamic, forward-thinking organization enables Showdown to create products that defy the status quo. The Finance department at Showdown offers opportunities for career development and growth as varied and engaging as the products we build.', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
@@ -131,7 +131,7 @@ INSERT INTO `#__profiles_departments` (`profiles_department_id`, `title`, `alias
 -- Dumping data for table `#__profiles_people`
 --
 
-INSERT INTO `#__profiles_people` (`profiles_person_id`, `profiles_department_id`, `profiles_office_id`, `firstname`, `middlename`, `lastname`, `alias`, `position`, `birthday`, `gender`, `mobile`, `email`, `bio`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
+INSERT IGNORE INTO `#__profiles_people` (`profiles_person_id`, `profiles_department_id`, `profiles_office_id`, `firstname`, `middlename`, `lastname`, `alias`, `position`, `birthday`, `gender`, `mobile`, `email`, `bio`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
 (2, 1, 1, 'Eberhardt', '', 'Terkki', 'eberhardt_terkki', 'Employee', '1964-06-02', 1, '147258369', 'info@down.show', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 1, 2, 'Bamford', '', 'Parto', 'bamford_parto', 'Employee', '1959-11-30', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:13', 62, '1970-01-01 01:00:00', 0, 1),
 (4, 1, 3, 'Chirstian', '', 'Koblick', 'chirstian_koblick', 'Employee', '1954-05-01', 1, '147258369', 'info@down.show', '', '2009-07-05 23:32:18', 62, '1970-01-01 01:00:00', 0, 1),
@@ -190,7 +190,7 @@ INSERT INTO `#__profiles_people` (`profiles_person_id`, `profiles_department_id`
 -- Dumping data for table `#__profiles_offices`
 --
 
-INSERT INTO `#__profiles_offices` (`profiles_office_id`, `title`, `alias`, `description`, `address1`, `address2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`, `coordinates`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
+INSERT IGNORE INTO `#__profiles_offices` (`profiles_office_id`, `title`, `alias`, `description`, `address1`, `address2`, `city`, `state`, `postcode`, `country`, `phone`, `fax`, `coordinates`, `created_on`, `created_by`, `modified_on`, `modified_by`, `enabled`) VALUES
 (1, 'United States', 'united-states', '', '1 Infinite Loop', '', 'Cupertino', 'CA', '95014', 'US', '147258369', '13456789', '50.9873946,5.0474845', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (2, 'Belgium', 'belgium', '', 'Grote Markt 1', '', 'Brussel', '', '1000', 'BE', '1592648', '2615948', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),
 (3, 'Netherlands', 'netherlands', '', 'Klavermarkt 1', '', 'Den Haag', '', '', 'NL', '147258369', '147258369', '', '0000-00-00 00:00:00', 62, '1970-01-01 01:00:00', 0, 1),

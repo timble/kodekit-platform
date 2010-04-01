@@ -1,16 +1,21 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
+<? $coordinates = array(
+	'lat' => @helper('admin::com.profiles.helper.geocoding.coordinates', 'latitude', @$office),
+	'lng' => @helper('admin::com.profiles.helper.geocoding.coordinates', 'longitude', @$office)
+) ?>
+<? @js('var coordinate_lat = ' . $coordinates['lat'] . ', coordinate_lng = ' . $coordinates['lng'] . ';') ?>
 <script>var coordinate_lat = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', 'latitude', @$office) ?>;</script>
 <script>var coordinate_lng = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', 'longitude', @$office) ?>;</script>
 
 <? @helper('behavior.tooltip'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/form.css'); ?>
-<? @script(@$mediaurl.'/com_profiles/js/admin.office.js'); ?>
+<? @js('/admin.office.js'); ?>
 <? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
-<? @script("http://maps.google.com/maps/api/js?sensor=false"); ?>
+<? @js("http://maps.google.com/maps/api/js?sensor=false"); ?>
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function checksubmit(form) {
 		var submitOK=true;
 		var checkaction=form.action.value;
@@ -28,7 +33,7 @@
 	}
 </script>
 
-<form action="<?= @route('&id='. @$office->id)?>" method="post" class="adminform" name="adminForm">
+<form action="<?= @route('&id='. @$office->id)?>" method="post" class="adminform" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>

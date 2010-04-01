@@ -6,6 +6,7 @@
 <? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
 
 <script language="javascript" type="text/javascript">
+<? ob_start() ?>
 	function checksubmit(form) {
 		var submitOK=true;
 		var checkaction=form.action.value;
@@ -21,9 +22,10 @@
 		}
 		return submitOK;
 	}
+<? @helper('admin::com.profiles.helper.media.js', ob_get_clean()) ?>
 </script>
 
-<form action="<?= @route('&id='.@$department->id)?>" method="post" class="adminform" name="adminForm">
+<form action="<?= @route('&id='.@$department->id)?>" method="post" class="adminform" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>

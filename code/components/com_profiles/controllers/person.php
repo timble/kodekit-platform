@@ -30,4 +30,17 @@ class ComProfilesControllerPerson extends ComDefaultControllerView
 			
 		return $row;
 	}
+	
+	/**
+	 * Display a single item
+	 *
+	 * @return KDatabaseRow	A row object containing the selected row
+	 */
+	protected function _actionRead()
+	{		
+		$row = parent::_actionRead();
+		$row->hit();
+			
+		return $row;
+	}
 }

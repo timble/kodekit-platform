@@ -27,6 +27,7 @@
 			<file>defines.php</file>
 			<folder>controllers</folder>
 			<folder>data</folder>
+			<folder>filters</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>models</folder>

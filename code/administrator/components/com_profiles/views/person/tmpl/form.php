@@ -43,7 +43,7 @@
 		}
 </script>
 
-<form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm">
+<form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
 	<div style="width:28%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>

@@ -16,6 +16,19 @@ if(!defined('KOOWA')) {
 // Require the defines
 KLoader::load('admin::com.profiles.defines');
 
+
+/**
+ * Until lib.koowa.template.helper.behavior.framework is here, map it to our profiles helper for testing.
+ * Remove it once the patch is accepted.
+ */
+KFactory::map('lib.koowa.template.helper.behavior', 'admin::com.profiles.helper.behavior'); 
+
+/**
+ * Patch KTemplateFilterToken with this later
+ */
+KTemplate::addRules(array(KFactory::get('admin::com.profiles.filter.token')));
+
+ 
 // Create the controller dispatcher
 KFactory::get('admin::com.profiles.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'dashboard'));
 	

@@ -4,7 +4,7 @@
 <? @style(@$mediaurl.'/com_profiles/css/grid.css') ?>
 <? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
 
-<form action="<?= @route()?>" method="post" name="adminForm">
+<form action="<?= @route()?>" method="post" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
 	<input type="hidden" name="id" value="" />
 	<input type="hidden" name="action" value="browse" />
 	<table class="adminlist" style="clear: both;">
