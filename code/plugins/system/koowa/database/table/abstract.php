@@ -341,16 +341,17 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	 * This functions maps the column names to those in the table schema 
 	 *
 	 * @param  array|string	An associative array of data to be mapped, or a column name
-	 * @param  boolean	If TRUE, perform a reverse mapping
-	 * @return mixed 	The mapped data
+	 * @param  boolean		If TRUE, perform a reverse mapping
+	 * @return array|string The mapped data or column name
 	 */
 	public function mapColumns($data, $reverse = false)
 	{
 		$map = $reverse ? array_flip($this->_column_map) : $this->_column_map;
-		
+
 		$result = null;
 		if(is_array($data))
 		{
+			$result = array();
 			foreach($data as $column => $value)
 			{
 				if(isset($map[$column])) {
@@ -363,6 +364,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		
 		if(is_string($data))
 		{
+			$result = '';
 			if(isset($map[$data])) {
     			$result = $map[$data];
     		}
@@ -622,7 +624,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Filter the data and remove unwanted columns
 			$data = $this->filter($context->data->getData(true), true);
 			
-			//Get the data and apply the column mappings
+			//Cast to array in case $data is empty
 			$data = $this->mapColumns($data);
 			
 			//Execute the update query
