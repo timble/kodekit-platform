@@ -44,14 +44,7 @@
 					
 				</th>
 				<th>
-<<<<<<< .working
 					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
-=======
-					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'ID', 'profiles_person_id', @$state->direction, @$state->order); ?>
->>>>>>> .merge-right.r416
 				</th>
 			</tr>
 			<tr>
@@ -71,8 +64,6 @@
 				</td>
 				<td align="center">
 					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
-				</td>
-				<td>
 				</td>
 				<td>
 				</td>
