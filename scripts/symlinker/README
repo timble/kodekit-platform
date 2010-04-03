@@ -10,8 +10,8 @@ Works on *nix, OSX, Vista+
 
 Installation:
 
-Put the files somewhere in your operating system's include path. Install PEAR Command Line using this command:
-pear install --alldeps Console_CommandLine
+Put the files somewhere in your operating system's include path. Install PEAR 
+Command Line using this command: pear install --alldeps Console_CommandLine
 
 
 Usage:
