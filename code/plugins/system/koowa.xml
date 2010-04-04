@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Koowa</name>
+	<author>Johan Janssens and Mathias Verraes</author>
+	<creationDate>April 2010</creationDate>
+	<copyright>(C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2</license>
+	<authorEmail>support@koowa.org</authorEmail>
+	<authorUrl>www.koowa.org</authorUrl>
+	<version>0.7.0</version>
+	<description>Rapid Extension Development framework. Please check if you have PHP 5.2+ before publishing this plugin.</description>	
+	
+	<!--  Files -->
+	<files folder="plugins/system">
+		<filename plugin="koowa">koowa.php</filename>
+		<folder>koowa</folder>
+	</files>
+	
+	<!--  Media -->
+	<media destination="plg_koowa" folder="media/plg_koowa">
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>swf</folder>
+		<folder>css</folder>
+	</media>
+	
+</install>
