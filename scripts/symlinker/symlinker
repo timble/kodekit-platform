@@ -36,7 +36,7 @@ try {
 }
 
 // Make symlinks
-if(file_exists($srcdir)) 
+if(file_exists($source)) 
 {
 	$it = new KSymlinker($source, $target);
 	while($it->valid()) {

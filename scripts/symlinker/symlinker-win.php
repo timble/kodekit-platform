@@ -42,7 +42,7 @@ try {
 // Make symlinks
 if(file_exists($source)) 
 {
-	$it = new KSymlinker($source, $targte);
+	$it = new KSymlinker($source, $target);
 	while($it->valid()) {
 		$it->next();
 	}
