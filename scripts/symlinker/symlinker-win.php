@@ -39,46 +39,62 @@ try {
     die;
 }
 
-// Defines
-define('DS', DIRECTORY_SEPARATOR);
-define('SRCDIR', $source);
-$srcdirs = array(
-	SRCDIR.'/administrator/components',
-	SRCDIR.'/administrator/language/en-GB',
-	SRCDIR.'/administrator/modules',
-	SRCDIR.'/site/components',
-	SRCDIR.'/site/language/en-GB',
-	SRCDIR.'/site/modules',
-	SRCDIR.'/media',
-	SRCDIR.'/libraries',
-	SRCDIR.'/plugins/authentication',
-	SRCDIR.'/plugins/content',
-	SRCDIR.'/plugins/editors',
-	SRCDIR.'/plugins/editors-xtd',
-	SRCDIR.'/plugins/koowa',
-	SRCDIR.'/plugins/search',
-	SRCDIR.'/plugins/system',
-	SRCDIR.'/plugins/user',
-	SRCDIR.'/plugins/xmlrpc',
-);
-
-
 // Make symlinks
-$restricted = array('.git', '.svn', '.cvs', '.settings', '.buildpath', '.gitignore', '.project');
-foreach ($srcdirs as $srcdir) {
-	if (file_exists($srcdir)) {
-		$it = new DirectoryIterator($srcdir);
-		foreach ($it as $src) {
-			$filename = $src->getFilename();
-			if ($src->isDot() || in_array($filename, $restricted)) {
-				continue;
-			}
-			$full = realpath($src->getPathName());
-			$tgt = str_replace('/', DS, $target.str_replace(SRCDIR, '', $srcdir).'/'.$filename);
+if(file_exists($source)) 
+{
+	$it = new KSymlinker($source, $targte);
+	while($it->valid()) {
+		$it->next();
+	}
+}
+
+class KSymlinker extends RecursiveIteratorIterator
+{
+	protected $_srcdir;
+	protected $_tgtdir;
+	
+	public function __construct($srcdir, $tgtdir) 
+	{
+		$this->_srcdir = $srcdir;
+		$this->_tgtdir = $tgtdir;
+		
+		parent::__construct(new RecursiveDirectoryIterator($this->_srcdir));
+	}
+	
+	public function callHasChildren() 
+	{							
+		$filename = $this->getFilename();
+		if($filename[0] == '.') {
+			return false;
+		}
+				
+		$src = $this->key();
+				
+		$tgt = str_replace($this->_srcdir, '', $src);		
+		$tgt = str_replace('/site', '', $tgt);
+  		$tgt = $this->_tgtdir.$tgt;
+  		
+  		if(is_link($tgt)) {
+        	unlink($tgt);
+        }
+  		  		  		
+  		if(!is_dir($tgt)) {
+  			$this->createLink($src, $tgt); 		
+  			return false;
+  	  	}
+  	  	
+		return parent::callHasChildren();
+	}
+	
+	public function createLink($src, $tgt) 
+	{  		 
+        if(!file_exists($tgt)) 
+		{
 			$opts = '';
 			if ($src->isDir()) {
 				$opts = '/D';
 			}
+			
 			$cmd = "mklink $opts $tgt $full";
 			exec($cmd);
 			echo $full."\n\t--> $tgt\n";
