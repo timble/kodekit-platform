@@ -34,8 +34,8 @@ class plgSystemKoowa extends JPlugin
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
 		// Require the library loader
-		JLoader::import('plugins.system.koowa.koowa', JPATH_ROOT);
-		JLoader::import('plugins.system.koowa.loader.loader', JPATH_ROOT);
+		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
+		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
 		//Initialise the factory
 		KLoader::instantiate();
