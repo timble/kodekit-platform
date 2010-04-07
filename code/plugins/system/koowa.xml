@@ -20,7 +20,6 @@
 	<media destination="plg_koowa" folder="media/plg_koowa">
 		<folder>images</folder>
 		<folder>js</folder>
-		<folder>swf</folder>
 		<folder>css</folder>
 	</media>
 	
