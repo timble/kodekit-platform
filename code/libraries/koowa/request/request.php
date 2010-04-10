@@ -11,7 +11,7 @@
 /**
  * Request class
  *
- * Allows to get input from GET, POST, COOKIE, ENV, SERVER
+ * Allows to get input from GET, POST, REQUEST, COOKIE, ENV, SERVER, SESSION, FILES
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @author		Johan Janssens <johan@koowa.org>
@@ -36,7 +36,7 @@ class KRequest
 	 *
 	 * @var	array
 	 */
-	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'CLI');
+	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE');
 
 
 	/**
@@ -68,18 +68,39 @@ class KRequest
 	protected static $_referrer = null;
 	
 	/**
-	 * The raw post data
+	 * The raw post or put content information
 	 *
-	 * @var	string
+	 * @var	array
 	 */
-	protected static $_raw = null;
+	protected static $_content = null;
+	
 	
 	/**
 	 * Constructor
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	final private function __construct() { }
+	final private function __construct() 
+	{
+		$content = self::content();
+		
+		if(!empty($content['data']))
+	 	{
+	 		if (self::method() == 'PUT')
+			{
+				if($content['type'] == 'application/x-www-form-urlencoded') {
+					parse_str($content['data'], $_POST);
+				}
+			}
+		
+			if(self::method() == 'PUT' || self::method() == 'POST')
+			{
+				if($content['type'] == 'application/json') {
+					$_POST = json_decode($content['data'], true);
+				}
+			}	
+	 	}
+	}
 	
 	/**
 	 * Clone 
@@ -87,6 +108,22 @@ class KRequest
 	 * Prevent creating clones of this class
 	 */
 	final private function __clone() { }
+	
+	/**
+	 * Force creation of a singleton
+	 *
+	 * @return void
+	 */
+	public static function instantiate()
+	{
+		static $instance;
+		
+		if ($instance === NULL) {
+			$instance = new KRequest();
+		}
+		
+		return $instance;
+	}
 
 
 	/**
@@ -190,16 +227,33 @@ class KRequest
 	}
 	
 	/**
-	 * Get the raw POST data
+	 * Get the POST or PUT raw content information
 	 * 
 	 * The raw post data is not available with enctype="multipart/form-data". 
 	 *
+	 * @param	array   An associative array with the content data. Valid keys are
+	 * 					'type' and 'data'
 	 * @return 	string
 	 */
-	public static function raw()
+	public static function content()
 	{
-		if(!isset(self::$_raw))
-		{
+		$result = '';
+		
+		if (!isset(self::$_content) && isset($_SERVER['CONTENT_TYPE'])) 
+		{             
+			$type = $_SERVER['CONTENT_TYPE']; 
+			            
+			// strip parameters from content-type like "; charset=UTF-8"             
+			if (is_string($type)) 
+			{  	               
+				if (preg_match('/^([^,\;]*)/', $type, $matches)) {                    
+					$type = $matches[1];                 
+				}             
+			}             
+				
+			self::$_content['type'] = $type;  
+			
+			
 			$data = '';
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) 
 			{	
@@ -211,10 +265,10 @@ class KRequest
          		fclose($input);
       		}
       		
-      		$this->_raw = $data;
+      		self::$_content['data'] = $data;
 		}
-      	
-      	return $this->_raw;
+		    
+      	return self::$_content;
 	}
 
 	/**
@@ -400,7 +454,7 @@ class KRequest
 					$method =  strtoupper($_SERVER['X-HTTP-Method-Override']);
 				}
 			}
-		} else $method = 'CLI';
+		} 
 
 		if ( ! in_array($method, self::$_methods)) {
 			throw new KRequestException('Unknown method : '.$method);
@@ -410,9 +464,8 @@ class KRequest
 	}
 
 	/**
-	 * Return the current request type.
+	 * Return the current request transport type.
 	 *
-	 * @throws KControllerException When the type could not be found
 	 * @return  string
 	 */
 	public static function type()
