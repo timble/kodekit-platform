@@ -37,9 +37,10 @@ class plgSystemKoowa extends JPlugin
 		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
 		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
-		//Initialise the factory
+		//Instanciate the singletons
 		KLoader::instantiate();
 		KFactory::instantiate();
+		KRequest::instantiate();
 	
 		//Add loader adapters
 		KLoader::addAdapter(new KLoaderAdapterJoomla());
