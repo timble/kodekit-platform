@@ -203,8 +203,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KObjectId
         	}
   	 	}
 
-  	 	//Track any new columbs being added
-  	 	foreach ($this->_data as $i => $row)
+  	 	//Track any new colums being added
+  	 	foreach ($data as $column => $value)
   	 	{
   	 	 	if(!in_array($column, $this->_columns)) {
         		$this->_columns[] = $column;
