@@ -70,8 +70,6 @@ class KFactory
 	
 	/**
 	 * Force creation of a singleton
-	 * 
-	 * @param 	array	Options containing 'table', 'name'
 	 *
 	 * @return void
 	 */
