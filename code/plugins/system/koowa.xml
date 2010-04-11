@@ -13,7 +13,6 @@
 	<!--  Files -->
 	<files folder="plugins/system">
 		<filename plugin="koowa">koowa.php</filename>
-		<folder>koowa</folder>
 	</files>
 	
 	<!--  Media -->
