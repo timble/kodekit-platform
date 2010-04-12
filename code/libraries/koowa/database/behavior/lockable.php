@@ -99,14 +99,19 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 		} else {
 			$rowset = $context->data;
 		}
-
+		
+		
+		
 		//Add virtual locked property
 		foreach($rowset as $row)
 		{
-			if(isset($row->locked_by) && $row->locked_by != 0 && $row->locked_by != $userid) {
-				$row->locked = true;
-			} else {
-				$row->locked = false;
+			if(!$row->isNew())
+			{
+				if(isset($row->locked_by) && $row->locked_by != 0 && $row->locked_by != $userid) {
+					$row->locked = true;
+				} else {
+					$row->locked = false;
+				}
 			}
 		}
 	}
