@@ -374,6 +374,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
 		return $this->_modified;
 	}
 	
+	/**
+     * Checks if the row is new or not
+     * 
+     * @return bool 
+     */
+    public function isNew()
+    {
+        return (bool) $this->_new;
+    }
+
  	/**
      * Search the mixin method map and call the method or trigger an error
      * 
