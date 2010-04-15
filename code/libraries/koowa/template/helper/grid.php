@@ -144,27 +144,27 @@ class KTemplateHelperGrid extends KObject
 			{
 				$color   = 'style="color: green;"';
 				$group   = JText::_('Public');
-				$access  = 2;
+				$access  = 1;
 			} break;
 
 			case 1 :
 			{
 				$color   = 'style="color: red;"';
 				$group   = JText::_('Registered');
-				$access  = 3;
+				$access  = 2;
 			} break;
 
 			case 2 :
 			{
 				$color   = 'style="color: black;"';
 				$group   = JText::_('Special');
-				$access  = 1;
+				$access  = 0;
 			} break;
 
 		}
 
 		$href = '
-			<a href="javascript:KGrid.access(\''.$action.'\', \'cb'. $id .'\',  \''. $access .'\')" '. $color .'>
+			<a href="javascript:KGrid.access(\'cb'. $id .'\',  \''. $access .'\')" '. $color .'>
 			'. $group .'</a>'
 			;
 

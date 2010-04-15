@@ -86,7 +86,7 @@ KGrid =
         	
         	cb.checked = true;
         	form.access.value = value;
-        	form.action.value = action;
+        	form.action.value = 'access';
 			form.submit();
     	}
 	},
