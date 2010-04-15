@@ -172,7 +172,7 @@ class KModelState extends KModelAbstract
 
    		foreach ($this->_state as $name => $state) 
    		{
-            if($state->value)
+            if(isset($state->value))
             {
            		 if($unique) 
            		 {
@@ -183,7 +183,7 @@ class KModelState extends KModelAbstract
             	} else $data[$name] = $state->value;	
             }
         }
-       
+             
         return $data;
     }
     
