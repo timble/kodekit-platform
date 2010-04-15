@@ -87,7 +87,7 @@ class KTemplateHelperGrid extends KObject
 		$action = $publish ? 'disable' : 'enable';
 
 		$href = '
-		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $i .'\')" title="'. $text .'">
+		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
@@ -164,7 +164,7 @@ class KTemplateHelperGrid extends KObject
 		}
 
 		$href = '
-			<a href="javascript:KGrid.access(\''.$action.'\', \'cb'. $i .'\',  \''. $access .'\')" '. $color .'>
+			<a href="javascript:KGrid.access(\''.$action.'\', \'cb'. $id .'\',  \''. $access .'\')" '. $color .'>
 			'. $group .'</a>'
 			;
 
