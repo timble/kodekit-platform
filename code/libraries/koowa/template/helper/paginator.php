@@ -128,11 +128,13 @@ class KTemplateHelperPaginator extends KObject
 		// Modify the url to include the limit
 		$url   = clone KRequest::url();
 		$query = $url->getQuery(true);
+		$offset = array_key_exists('offset', $query) ? $query['offset'] : 0; 
 		
 		$selected = '';
 		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 => 'all' ) as $value => $text)
 		{
 			$query['limit'] = $value;
+			$query['offset']= $value ? $value * floor($offset/$value) : 0; 
 			$redirect       = (string) $url->setQuery($query);
 			
 			if($value == $limit) {
