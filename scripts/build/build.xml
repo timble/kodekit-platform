@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!-- $Id$ -->
-<project name="B.E.E.R" basedir="." default="build" description="Phing build script for B.E.E.R package.">
+<project name="Profiles" basedir="." default="build" description="Phing build script for Profiles package.">
 
 	<target name="config" description="Load configuration file">
 		<property file="build.properties"  override="false" />
@@ -11,10 +11,18 @@
 		<mkdir dir="${dir.tmp}" />
 		<phingcall target="export_from_${dir.source}" />
 
-		<move file="${dir.tmp}/plugins/search/beer.xml" todir="${dir.tmp}/administrator/components/com_beer/search" />
-		<move file="${dir.tmp}/plugins/search/beer.php" todir="${dir.tmp}/administrator/components/com_beer/search" />
+		<move file="${dir.tmp}/plugins/search/profiles.xml" todir="${dir.tmp}/administrator/components/com_profiles/search" />
+		<move file="${dir.tmp}/plugins/search/profiles.php" todir="${dir.tmp}/administrator/components/com_profiles/search" />
 
-		<tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
+        <!-- Move the manifest file so Joomla can find it -->
+        <move file="${dir.tmp}/administrator/components/com_profiles/manifest.xml" todir="${dir.tmp}/" />
+
+        <!-- Copy the install dir -->
+		<copy todir="${dir.tmp}/install">
+			<fileset dir="${dir.tmp}/administrator/components/com_profiles/install/" />
+		</copy>
+
+        <tar destfile="${dir.packages}/${file.package}${svn.lastrevision}${file.extension}" basedir="${dir.tmp}" compression="${file.compression}" />
 		<delete dir="${dir.tmp}" includeemptydirs="true" />
 	</target>
 	
