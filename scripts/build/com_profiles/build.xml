@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!-- $Id$ -->
+<!-- $Id: build.xml -1   $ -->
 <project name="Profiles" basedir="." default="build" description="Phing build script for Profiles package.">
 
 	<target name="config" description="Load configuration file">
