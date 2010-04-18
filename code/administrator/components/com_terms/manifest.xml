@@ -22,6 +22,7 @@
 
 		<files folder="administrator/components/com_terms">
 			<file>terms.php</file>
+            <folder>controllers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
             <folder>rows</folder>

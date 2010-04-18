@@ -32,8 +32,9 @@
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
-			<folder>views</folder>
 			<folder>search</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
 		</files>
 	</administration>
 	
