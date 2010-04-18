@@ -1,3 +1,5 @@
+-- $Id 
+
 CREATE TABLE IF NOT EXISTS `#__terms_terms` (
 	`terms_term_id` SERIAL,
 	`name` VARCHAR( 255 ) NOT NULL,

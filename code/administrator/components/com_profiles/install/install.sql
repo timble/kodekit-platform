@@ -1,3 +1,5 @@
+-- $Id$
+
 CREATE TABLE IF NOT EXISTS `#__profiles_departments` (
   `profiles_department_id` SERIAL,
   `title` varchar(250) NOT NULL,
