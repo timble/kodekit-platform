@@ -50,6 +50,4 @@
 		</sql>
 	</uninstall>
 
-	<installfile/>
-	<uninstallfile/>
 </install>
