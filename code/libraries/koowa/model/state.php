@@ -176,7 +176,8 @@ class KModelState extends KModelAbstract
             {
            		 if($unique) 
            		 {
-   					if($state->unique) {
+   					//Unique values cannot be empty
+           		 	if($state->unique && !empty($state->value)) {
            		 		$data[$name] = $state->value;
    					}
    					
