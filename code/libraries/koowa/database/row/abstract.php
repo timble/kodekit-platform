@@ -194,19 +194,20 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
     {
     	if($this->_new) 
     	{
-    		if(KFactory::get($this->getTable())->insert($this)) {
-        		$this->_status = self::STATUS_INSERTED;
+    		if(KFactory::get($this->getTable())->insert($this)) 
+    		{
+        		$this->_status   = self::STATUS_INSERTED;
+        		$this->_modified = array();
         	}
        	} 
        	else 
        	{
-        	if(KFactory::get($this->getTable())->update($this)) {
-        		$this->_status = self::STATUS_UPDATED;
+        	if(KFactory::get($this->getTable())->update($this)) 
+        	{
+        		$this->_status   = self::STATUS_UPDATED;
+       			$this->_modified = array();
         	}
         }
-        	
-        //Reset the modified array
-        $this->_modified = array();
     	    
         return $this;
     }
