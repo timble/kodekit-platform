@@ -158,6 +158,30 @@ class KObject
         return $this;
     }
     
+    /**
+     * Checks if the object or one of it's mixins inherits from a class. 
+     * 
+     * @param 	string|object 	The class to check
+     * @return 	boolean 		Returns TRUE if the object inherits from the class
+     */
+    public function inherits($class)
+    {
+        if ($this instanceof $class) {
+         	return true;
+        }
+
+        $objects = array_values($this->_mixed_methods);
+
+        foreach($objects as $object) 
+        {	
+        	if($object instanceof $class) {
+              	return true;
+        	}
+        }
+
+        return false;
+    } 
+    
 	/**
 	 * Get a handle for this object
 	 *
