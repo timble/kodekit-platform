@@ -547,7 +547,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 				else $data = $this->mapColumns($this->_database->fetchArray($query), true);
 				
 				$options['data'] = $data;
-				$options['new']  = false;	
+				$options['new']  = empty($data) ? true : false;	
 			}
 			
 			//Create the row(set) object
