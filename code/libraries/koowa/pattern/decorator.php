@@ -67,8 +67,28 @@ abstract class KPatternDecorator extends KObject
      	}
      	
 		return  array_merge(parent::getMethods(), $methods);
-	}   
+	}  
 
+    /**
+     * Checks if the decorated object or one of it's mixins inherits from a class. 
+     * 
+     * @param 	string|object 	The class to check
+     * @return 	boolean 		Returns TRUE if the object inherits from the class
+     */
+	public function inherits($class)
+    {
+		$result = false;
+    	$object = $this->getObject();
+      	
+        if($object instanceof KObject) {
+          	$result = $object->inherits($classs);
+        } else {
+        	$result = $object instanceof $class;
+        }
+        
+        return $result;
+    }
+    
 	/**
 	 * Overloaded set function
 	 *
