@@ -53,7 +53,7 @@
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */
-abstract class plgKoowaDefault extends KEventHandler
+abstract class PlgKoowaDefault extends KEventHandler
 {	
 	/**
 	 * A JParameter object holding the parameters for the plugin
@@ -104,7 +104,7 @@ abstract class plgKoowaDefault extends KEventHandler
 		//Force the identifier to NULL for now
 		$config['identifier'] = null;
 
-		parent::__construct($config);
+		parent::__construct(new KConfig($config));
 	}
 	
 	/**
