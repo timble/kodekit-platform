@@ -62,7 +62,6 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 			if (array_shift($parts) == 'plg') 
 			{	
 				$type = array_shift($parts);
-				$name = array_shift($parts);
 				
 				if(count($parts) > 1) {
 					$path = array_shift($parts).DS.implode(DS, $parts);
@@ -70,7 +69,7 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 					$path = array_shift($parts);
 				}
 					
-				$path = $this->_basepath.DS.$type.DS.$name.DS.$path.'.php';			
+				$path = $this->_basepath.DS.$type.DS.$path.'.php';			
 			}
 		}
 		
