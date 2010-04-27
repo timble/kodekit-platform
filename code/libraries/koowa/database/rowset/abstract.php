@@ -247,17 +247,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KObjectId
     	{
     		$result = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array('table' => $this->getTable()));
 
-    		$this->rewind();
-
-    		while($this->valid())
-			{
-				$row = $this->current();
-				if($row->$key == $value) {
+    		foreach ($this as $i => $row) 
+    		{
+				if($row->$key == $value) 
+				{
 					$result = $row;
 					break;
-				}
-				
-    			$this->next();
+				}	
 			}
     	}
     	else $result = $this->_data[$key];
