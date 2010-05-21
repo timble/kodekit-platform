@@ -280,9 +280,14 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function displayView()
 	{
-		KFactory::get($this->getView())
-			->setLayout(KRequest::get('get.layout', 'cmd', 'default' ))
-			->display();
+		$view = KFactory::get($this->getView());
+		
+		//Only override the template if it's explicitly set in the request
+		if(KRequest::has('get.layout')) {
+			$view->setLayout(KRequest::get('get.layout'));
+		}
+		
+		$view->display();
 	}
 	
 	/**
