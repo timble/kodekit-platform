@@ -284,7 +284,7 @@ abstract class KControllerBread extends KControllerAbstract
 		
 		//Only override the template if it's explicitly set in the request
 		if(KRequest::has('get.layout')) {
-			$view->setLayout(KRequest::get('get.layout'));
+			$view->setLayout(KRequest::get('get.layout', 'cmd'));
 		}
 		
 		$view->display();
