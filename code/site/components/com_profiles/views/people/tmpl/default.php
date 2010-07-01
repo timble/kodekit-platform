@@ -1,8 +1,9 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @style(@$mediaurl.'/com_profiles/css/default.css'); ?>
-<? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
+<style src="media://com_default/css/site.css" />
+<style src="media://com_profiles/css/default.css" />
+<script src="media://lib_koowa/js/koowa.js" />
 
 <h3><?=@text('People');?></h3>
 	
@@ -12,15 +13,15 @@
 	
 	<div class="people_filters">
 		<?=@text('Search'); ?>:
-		<input type="text" name="search" maxlength="40" value="<?=@$state->search?>" />
+		<input type="text" name="search" maxlength="40" value="<?=$state->search?>" />
 		<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
-		<?=@helper('admin::com.profiles.helper.select.departments', @$state->profiles_department_id, 'profiles_department_id', $attribs, '', true) ?>
-		<?=@helper('admin::com.profiles.helper.select.offices', @$state->profiles_office_id, 'profiles_office_id', $attribs, '', true) ?>
+		<?=@helper('admin::com.profiles.helper.listbox.departments') ?>
+		<?=@helper('admin::com.profiles.helper.listbox.offices') ?>
 		<input type="submit" value="<?=@text('Go')?>" />
 	</div>
 </form>
 
-<?= @template('admin::com.profiles.view.people.filter_name'); ?>
+<?= @template('admin::com.default.view.list.search_letters'); ?>
 
 <div>
 	<?=@text('View as');?> 
@@ -33,7 +34,7 @@
 		<tfoot>
 			<tr>
 				<td align="center" colspan="6" class="sectiontablefooter">
-					<?= @helper('paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -43,16 +44,16 @@
 					<?= @text('NUM'); ?>
 				</td>
 				<td align="left" class="sectiontableheader">
-					<?= @helper('grid.sort', 'Name', 'name', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'name')); ?>
 				</td>
 				<td align="left" class="sectiontableheader">
-					<?= @helper('grid.sort', 'Position', 'position', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'position')); ?>
 				</td>
 				<td align="left" class="sectiontableheader">
-					<?= @helper('grid.sort', 'Office', 'office', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'office')); ?>
 				</td>
 				<td align="left" class="sectiontableheader">
-					<?= @helper('grid.sort', 'Department', 'department', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'department')); ?>
 				</td>
 			</tr>
 				

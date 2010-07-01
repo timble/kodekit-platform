@@ -7,13 +7,20 @@
  * @link     	http://www.nooku.org
  */
 
-class ComProfilesControllerDashboard extends ComDefaultControllerView
+class ComProfilesControllerDashboard extends ComDefaultControllerDefault
 {
-	public function displayView()
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'request' => array('layout' => 'default'),
+        ));
+
+        parent::_initialize($config);
+    }
+	
+	public function displayView(KCommandContext $context)
 	{
-		KRequest::set('get.hidemainmenu', 0);
-		KRequest::set('get.layout', 'default');
-		
-		parent::displayView();
+		KRequest::set('get.hidemainmenu', 0);	
+		return parent::displayView($context);
 	}
 }

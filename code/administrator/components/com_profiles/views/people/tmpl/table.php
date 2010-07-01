@@ -1,4 +1,4 @@
-<? /** $Id$ */ ?>
+<? /** $Id: default_people.php 497 2010-05-13 01:25:03Z johanjanssens $ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <table class="adminlist" style="clear: both;">
@@ -7,30 +7,24 @@
 			<th>
 				<?= @text('Title'); ?>
 			</th>
-			<th>
-				<?= @text('People'); ?>
-			</th>
 		</tr>
 	</thead>
 	<tbody>	
 		<? $i = 0; $m = 0; ?>
-		<? foreach (@$offices as $office) : ?>
+		<? foreach (@$people as $person) : ?>
 		<tr class="<?php echo 'row'.$m; ?>">
 			<td>
-				<span class="editlinktip hasTip" title="<?= @text('Edit Profile') ?>::<?= @$escape($office->title); ?>">
-					<a href="<?= @route('view=office&id='.$office->id); ?>">
-						<?= @$escape($office->title); ?>
+				<span class="editlinktip hasTip" title="<?= @text('Edit Profile') ?>::<?= @escape($person->name); ?>">
+					<a href="<?= @route('view=person&id='.$person->id); ?>">
+						<?= @escape($person->name); ?>
 					</a>
 				</span>
-			</td>
-			<td align="center" width="1%">
-				<?= $office->people; ?>
 			</td>
 		</tr>
 		<? $i = $i + 1; $m = (1 - $m); ?>
 		<? endforeach; ?>
 
-		<? if (!count(@$offices)) : ?>
+		<? if (!count(@$people)) : ?>
 		<tr>
 			<td colspan="8" align="center">
 				<?= @text('No items found'); ?>
@@ -39,4 +33,3 @@
 		<? endif; ?>
 	</tbody>
 </table>
-

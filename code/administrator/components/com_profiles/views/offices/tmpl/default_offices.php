@@ -2,29 +2,23 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? $i = 0; $m = 0; ?>
-<? foreach (@$offices as $office) : ?>
+<? foreach ($offices as $office) : ?>
 <tr class="<?= 'row'.$m?>">
 	<td align="center">
 		<?= $i + 1; ?>
 	</td>
 	<td align="center">
-		<?= @helper('grid.id', $i, $office); ?>
+		<?= @helper('grid.checkbox', array('row'=>$office))?>
 	</td>
 	<td>
-		<span class="editlinktip hasTip" title="<?= @text('Edit Profile');?>::<?= @$escape($office->title); ?>">
-		<? if($office->locked) : ?>
-			<span>
-				<?= @$escape($office->title); ?>
-			</span>
-		<? else : ?>
+		<span class="editlinktip hasTip" title="<?= @text('Edit Profile');?>::<?= @escape($office->title); ?>">
 			<a href="<?= @route('view=office&id='.$office->id); ?>">
-				<?= @$escape($office->title); ?>
+			<?= @escape($office->title); ?>
 			</a>
-		<? endif; ?>
 		</span>
 	</td>
 	<td align="center" width="15px">
-		<?= @helper('grid.enable', $office->enabled, $i) ?>
+		<?= @helper('grid.enable', array('row'=>$office))?>
 	</td>
 	<td align="center" width="1%">
 		<?= $office->people; ?>
@@ -33,4 +27,3 @@
 <? $i = $i + 1; $m = (1 - $m); ?>
 <? endforeach; ?>
 
-		

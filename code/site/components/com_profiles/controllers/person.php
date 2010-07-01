@@ -12,19 +12,21 @@
  *
  * @package		Profiles
  */
-class ComProfilesControllerPerson extends ComDefaultControllerView
+class ComProfilesControllerPerson extends ComDefaultControllerDefault
 {
-	public function getRequest()
-	{
-		$state = array_merge(parent::getRequest(), array('enabled' => 1));
-		return $state;
-	}
+ 	protected function _initialize(KConfig $config)
+    {
+    	//Force to show only show enabled items
+    	$config->request->enabled = 1;
+    	
+        parent::_initialize($config);
+    }
 	
 	protected function _actionRead()
 	{		
 		$row = parent::_actionRead();
 		
-		if(KRequest::get('get.layout', 'cmd') != 'form' && $row->isHittable()) {
+		if($this->_request->layout != 'form' && $row->isHittable()) {
 			$row->hit();
 		}
 			

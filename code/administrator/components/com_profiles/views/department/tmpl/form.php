@@ -1,12 +1,11 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @helper('behavior.tooltip'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/form.css'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
+<?= @helper('behavior.tooltip'); ?>
+<style src="media://com_default/css/form.css" />
+<style src="media://com_profiles/css/admin.css" />
 
-<script language="javascript" type="text/javascript">
-<? ob_start() ?>
+<script>
 	function checksubmit(form) {
 		var submitOK=true;
 		var checkaction=form.action.value;
@@ -22,25 +21,24 @@
 		}
 		return submitOK;
 	}
-<? @helper('admin::com.profiles.helper.media.js', ob_get_clean()) ?>
 </script>
 
-<form action="<?= @route('&id='.@$department->id)?>" method="post" class="adminform" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
+<form action="<?= @route('&id='.$department->id)?>" method="post" name="adminForm">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
 			<label for="title" class="mainlabel"><?= @text('Title'); ?></label>
-			<input id="title" type="text" name="title" value="<?= @$department->title; ?>" />
+			<input id="title" type="text" name="title" value="<?= $department->title; ?>" />
 			<br />
-			<label for="alias" class="mainlabel"><?= @text('Alias'); ?></label>
-			<input id="alias" type="text" name="alias" value="<?= @$department->alias; ?>" />
+			<label for="slug" class="mainlabel"><?= @text('Slug'); ?></label>
+			<input id="slug" type="text" name="slug" value="<?= $department->slug; ?>" />
 			<br />
 			<label for="enabled" class="mainlabel"><?= @text('Published'); ?></label>
-			<?= @helper('select.booleanlist', 'enabled', null, @$department->enabled, 'yes', 'no', 'enabled'); ?>
+			<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $department->enabled)); ?>
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Description'); ?></legend>
-			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'description',  @$department->description , '100%', '50', '75', '20', null, array('theme' => 'simple')) ; ?>
+			<?= @editor(array('row' => $department, 'buttons' => array('pagebreak', 'readmore'),  'options' => array('theme' => 'simple'))) ?>
 		</fieldset>
 	</div>
 </form>

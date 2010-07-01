@@ -1,14 +1,14 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @helper('behavior.tooltip'); ?>
-<? @helper('behavior.modal'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/form.css'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/admin.css') ?>
-<? @style(@$mediaurl.'/com_terms/css/default.css') ?>
+<?= @helper('behavior.tooltip'); ?>
+<?= @helper('behavior.modal'); ?>
 
+<style src="media://com_default/css/form.css" />
+<style src="media://com_profiles/css/admin.css" />
+<style src="media://com_terms/css/default.css" />
 
-<script language="javascript" type="text/javascript">
+<script>
 
 	function checksubmit(form) 
 	{
@@ -43,50 +43,53 @@
 		}
 </script>
 
-<form action="<?= @route('&id='.@$person->id)?>" method="post" class="adminform" name="adminForm" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
+<form action="<?= @route('&id='.$person->id)?>" method="post" name="adminForm">
 	<div style="width:28%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
 				<label for="firstname" class="mainlabel"><?= @text('Firstname'); ?></label>
-				<input id="firstname" type="text" name="firstname" value="<?= @$person->firstname; ?>" />
+				<input id="firstname" type="text" name="firstname" value="<?= $person->firstname; ?>" />
 				<br />
 				<label for="middlename" class="mainlabel"><?= @text('Middlename'); ?></label>
-				<input id="middlename" type="text" name="middlename" value="<?= @$person->middlename; ?>" />
+				<input id="middlename" type="text" name="middlename" value="<?= $person->middlename; ?>" />
 				<br />
 				<label for="lastname" class="mainlabel"><?= @text('Lastname'); ?></label>
-				<input id="lastname" type="text" name="lastname" value="<?= @$person->lastname; ?>" />
+				<input id="lastname" type="text" name="lastname" value="<?= $person->lastname; ?>" />
 				<br />
+				<label for="slug" class="mainlabel"><?= @text('Slug'); ?></label>
+				<input id="slug" type="text" name="slug" value="<?= $person->slug; ?>"/>
+				<br /><br />
 				<label for="office" class="mainlabel"><?= @text('Office'); ?></label>
-				<?=@helper('admin::com.profiles.helper.select.offices', @$person->profiles_office_id, 'profiles_office_id', '', '', true) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.offices', array('state' => $person)) ?>
 				<br />
 				<label for="department" class="mainlabel"><?= @text('Department'); ?></label>
-				<?=@helper('admin::com.profiles.helper.select.departments', @$person->profiles_department_id, 'profiles_department_id', '', '', true) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.departments', array('state' => $person)) ?>
 				<br />
 				<label for="position" class="mainlabel"><?= @text('Position'); ?></label>
-				<input id="position" type="text" name="position" value="<?= @$person->position; ?>" />
-				<br />
+				<input id="position" type="text" name="position" value="<?= $person->position; ?>" />
+				<br /><br />
 				<label for="birthday" class="mainlabel"><?= @text('Birthday'); ?></label>
-				<input id="birthday" type="text" name="birthday" value="<?= @$person->birthday; ?>" />
+				<input id="birthday" type="text" name="birthday" value="<?= $person->birthday; ?>" />
 				<br />
 				<label for="gender" class="mainlabel"><?= @text('Gender'); ?></label>
-				<?=@helper('admin::com.profiles.helper.select.gender', @$person->gender, 'gender', '', '', true) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.genders',  array('state' => $person)) ?>
 				<br />
 				<label for="mobile" class="mainlabel"><?= @text('Mobile'); ?></label>
-				<input id="mobile" type="text" name="mobile" value="<?= @$person->mobile; ?>" />
+				<input id="mobile" type="text" name="mobile" value="<?= $person->mobile; ?>" />
 				<br />
 				<label for="email" class="mainlabel"><?= @text('Email'); ?></label>
-				<input id="email" type="text" name="email" value="<?= @$person->email; ?>"/>
-				<br />
+				<input id="email" type="text" name="email" value="<?= $person->email; ?>"/>
+				<br /><br />
 				<label for="enabled" class="mainlabel"><?= @text('Published'); ?></label>
-				<?= @helper('select.booleanlist', 'enabled', null, @$person->enabled, 'yes', 'no', 'enabled'); ?>
+				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $person->enabled)); ?>
 				<br />
 		</fieldset>
 		<fieldset>
 			<legend><?= @text('Linked To'); ?></legend>
 				<label for="user_id" class="mainlabel"><?= @text('User'); ?></label>
 				<?//@helper('admin::com.profiles.helper.select.users', @$person->user_id, 'user_id', '', '', true) ?>
-				<? if (@$person->user_id) : ?>
-				<a class="modal" rel="{handler: 'iframe', size: {x: 875, y: 500}}" href="<?= @route('option=com_users&task=edit&view=user&tmpl=component&cid[]='.@$person->user_id)?>">
+				<? if ($person->user_id) : ?>
+				<a class="modal" rel="{handler: 'iframe', size: {x: 875, y: 500}}" href="<?= @route('option=com_users&task=edit&view=user&tmpl=component&cid[]='.$person->user_id)?>">
 					<?= @text('Open User Profile'); ?>
 				</a>
 				<? else : ?>
@@ -96,19 +99,19 @@
 				<? endif; ?>
 				<br />
 				<label for="user_name" class="mainlabel"><?= @text('Name'); ?></label>
-				<input id="user_name" type="text" name="user_name" value="<?= @$person->user_name; ?>" disabled="disabled" />
+				<input id="user_name" type="text" name="user_name" value="<?= $person->user_name; ?>" disabled="disabled" />
 				<br />
 				<label for="user_username" class="mainlabel"><?= @text('Username'); ?></label>
-				<input id="user_username" type="text" name="user_username" value="<?= @$person->user_username; ?>" disabled="disabled" />
+				<input id="user_username" type="text" name="user_username" value="<?= $person->user_username; ?>" disabled="disabled" />
 				<br />
 				<label for="user_email" class="mainlabel"><?= @text('E-mail'); ?></label>
-				<input id="user_email" type="text" name="user_email" value="<?= @$person->user_email; ?>" disabled="disabled" />
+				<input id="user_email" type="text" name="user_email" value="<?= $person->user_email; ?>" disabled="disabled" />
 		</fieldset>
 	</div>
 	<div style="width:48%; float: left; margin-left: 12px" id="mainform">
 		<fieldset>
 			<legend><?= @text('Bio'); ?></legend>
-			<?= KFactory::get('lib.joomla.editor', array('tinymce'))->display( 'bio',  @$person->bio , '100%', '400', '100', '20', null, array('theme' => 'simple')) ; ?>
+			<?= @editor(array('name' => 'bio', 'row' => $person,'options' => array('theme' => 'simple'))) ?>
 		</fieldset>
 
 	</div>
@@ -116,6 +119,6 @@
 <div style="width:22%; float: right">
 	<fieldset>
 		<legend><?= @text('Tags'); ?></legend>
-		<?= @overlay(@route('option=com_terms&view=terms&row_id='.@$person->id.'&table_name=profiles_people#terms-panel')); ?>
+		<?= @overlay(array('uri' => @route('option=com_terms&view=terms&row='.$person->id.'&table=profiles_people&layout=list#terms-list'))); ?>
 	</fieldset>
 </div>

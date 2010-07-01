@@ -9,11 +9,13 @@
 
 class ComProfilesTableUsers extends KDatabaseTableAbstract
 {
-	public function __construct(KConfig $config)
-	{
+	protected function _initialize(KConfig $config)
+    {
+    	$config->behaviors = array('lockable', 'creatable', 'modifiable');
+		
 		$config->name = 'profiles_users';
 		$config->base = 'users';
-		
-		parent::__construct($config);
-	}
+    
+		parent::_initialize($config);
+    }
 }

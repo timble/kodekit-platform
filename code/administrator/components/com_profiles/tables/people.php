@@ -9,22 +9,18 @@
 
 class ComProfilesTablePeople extends KDatabaseTableAbstract
 {
-	public function __construct(KConfig $config)
-	{
+	protected function _initialize(KConfig $config)
+    {
+    	//Create a custom sluggable behavior
+    	$sluggable = KFactory::get('lib.koowa.database.behavior.sluggable',
+    		 array('columns' => array('id', 'firstname', 'lastname'))	
+    	);
+    	
+    	$config->behaviors = array('hittable', 'lockable', 'creatable', 'modifiable', $sluggable);
+		
 		$config->name = 'profiles_view_people';
 		$config->base = 'profiles_people';
-		
-		parent::__construct($config);
-	}
-	
-	public function filter($data)
-	{
-		settype($data, 'array'); //force to array
-		
-		if(empty($data['alias'])) {
-			$data['alias'] = strtolower($data['firstname'].'_'.$data['lastname']);
-		}
-	
-		return parent::filter($data);
-	}
+    
+		parent::_initialize($config);
+    }
 }

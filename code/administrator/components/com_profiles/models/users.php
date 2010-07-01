@@ -13,7 +13,7 @@ class ComProfilesModelUsers extends KModelTable
 	{
 		parent::__construct($config);
 		
-		$this->_state->insert('gid', 'int');
+		$this->_state->insert('gid'    , 'int');
 	}
 
 	public function getGroups()
@@ -37,6 +37,10 @@ class ComProfilesModelUsers extends KModelTable
 		
 		if ($this->_state->gid) {
 			$query->where('tbl.gid','=', $this->_state->gid);
+		}
+		
+		if( is_numeric($this->_state->enabled))  {
+			$query->where('tbl.enabled','=', $this->_state->enabled);
 		}
 		
 		parent::_buildQueryWhere($query);

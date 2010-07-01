@@ -7,19 +7,19 @@
  * @link     	http://www.nooku.org
  */
 
-class ComTermsViewTermsHtml extends KViewHtml
+class ComTermsViewTermsHtml extends ComTermsViewHtml
 {
 	public function display()
 	{
 		$model = KFactory::get($this->getModel());
 		
-		//If no row_id exists assign an empty array
-		if($model->get('row_id')) {
+		//If no row exists assign an empty array
+		if($model->get('row')) {
 			$this->assign('disabled', false);
 		} else {
 			$this->assign('disabled', true);
 		}
 			
-		parent::display();
+		return parent::display();
 	}
 }

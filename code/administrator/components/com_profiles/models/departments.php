@@ -9,10 +9,5 @@
 
 class ComProfilesModelDepartments extends ComProfilesModelGroups
 {
-	public function __construct(KConfig $config)
-	{
-		$config->table_behaviors = array('lockable', 'creatable', 'modifiable');
-		
-		parent::__construct($config);
-	}
+
 }

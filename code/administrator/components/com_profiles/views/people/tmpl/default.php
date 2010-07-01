@@ -1,93 +1,88 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @style(@$mediaurl.'/com_profiles/css/grid.css'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/admin.css'); ?>
+<style src="media://com_default/css/admin.css" />
+<style src="media://com_profiles/css/admin.css" />
 
-<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
+<div style="margin-bottom: 25px">
+	<div style="float: right">
+		<?= @template('admin::com.default.view.list.search_letters'); ?>
+	</div>
+</div>
 
-<form action="<?= @route()?>" method="get" class="form-filters" id="<?= @helper('admin::com.profiles.helper.behavior.id', 'filter') ?>">
+<table class="adminlist" style="clear: both;">
+
+<thead>
+	<form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_profiles" />
 	<input type="hidden" name="view" value="people" />
-	
-	<div class="filter-search">
-		<?= @template('filter_name'); ?>
-	</div>
-</form>
+	<tr>
+		<th width="5">
+			<?= @text('NUM'); ?>
+		</th>
+		<th width="20">
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($people); ?>);" />
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'lastname', 'title' => 'Name')); ?>
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'department')); ?><br/>
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'office')); ?><br/>
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'user_name', 'title' => 'Name')); ?>
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'enabled')); ?><br/>
+		</th>
+		<th>
+			<?= @helper('grid.sort', array('column' => 'hits')); ?><br/>
+		</th>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<?= @text('Filters'); ?>	
+		</td>
+		<td>
+			<?= @template('admin::com.default.view.list.search_form'); ?>
+		</td>
+		<td align="center">
+			<?= @helper('admin::com.profiles.helper.listbox.departments', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
+		</td>
+		<td align="center">
+			<?= @helper('admin::com.profiles.helper.listbox.offices', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
+		</td>
+		<td>
+		</td>
+		<td align="center">
+			<?= @helper('admin::com.profiles.helper.listbox.enabled',  array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
+		</td>
+		<td>
+		</td>
+	</tr>
+	</form>
+</thead>
 
-<form action="<?= @route()?>" method="post" name="adminForm" class="form-grid" id="<?= @helper('admin::com.profiles.helper.behavior.id') ?>">
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="action" value="browse" />
-	<table class="adminlist" style="clear: both;">
-		<thead>
-			<tr>
-				<th width="5">
-					<?= @text('NUM'); ?>
-				</th>
-				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count(@$people); ?>);" />
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Name', 'lastname', @$state->direction, @$state->order); ?>
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Department', 'department', @$state->direction, @$state->order); ?><br/>
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Office', 'office', @$state->direction, @$state->order); ?><br/>
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'User', 'user_name', @$state->direction, @$state->order); ?>
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Enabled', 'enabled', @$state->direction, @$state->order); ?><br/>
-					
-				</th>
-				<th>
-					<?= @helper('grid.sort', 'Hits', 'hits', @$state->direction, @$state->order); ?><br/>
-				</th>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<?= @text('Filters'); ?>	
-				</td>
-				<td>
-					<input name="search" id="search" value="<?= @$state->search;?>" />
-					<button onclick="this.form.submit();"><?= @text('Go')?></button>
-					<button onclick="document.getElementById('search').value='';this.form.submit();"><?= @text('Reset'); ?></button>
-				</td>
-				<td align="center">
-					<?= @helper('admin::com.profiles.helper.select.departments', @$state->profiles_department_id, 'profiles_department_id', $attribs, '', true) ?>
-				</td>
-				<td align="center">
-					<?= @helper('admin::com.profiles.helper.select.offices', @$state->profiles_office_id, 'profiles_office_id', $attribs, '', true) ?>
-				</td>
-				<td align="center">
-					<?= @helper('admin::com.profiles.helper.select.enabled',  @$state->enabled ); ?>
-				</td>
-				<td>
-				</td>
-				<td>
-				</td>
-			</tr>
-		</thead>
-		<tbody>
-		<? if (count(@$people)) : ?>
-			<?= @template('default_people'); ?>
-		<? else : ?>
-			<tr>
-				<td colspan="8" align="center">
-					<?= @text('No items found'); ?>
-				</td>
-			</tr>
-		<? endif; ?>
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="20">
-					<?= @helper('admin::com.default.helper.paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
-				</td>
-			</tr>
-		</tfoot>
-	</table>
-</form>
+<tbody>
+	<? if (count($people)) : ?>
+		<?= @template('default_people'); ?>
+	<? else : ?>
+		<tr>
+			<td colspan="8" align="center">
+				<?= @text('No items found'); ?>
+			</td>
+		</tr>
+	<? endif; ?>
+</tbody>
+
+<tfoot>
+	<tr>
+		<td colspan="20">
+			<?= @helper('admin::com.default.helper.paginator.pagination', array('total' => $total)) ?>
+		</td>
+	</tr>
+</tfoot>
+</table>

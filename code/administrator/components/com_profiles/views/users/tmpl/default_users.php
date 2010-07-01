@@ -2,24 +2,25 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? $i = 0; $m = 0; ?>
-<? foreach (@$users as $user) : ?>
+<? foreach ($users as $user) : ?>
 <tr class="<?= 'row'.$m; ?>">
 	<td align="center">
 		<?= $i + 1; ?>
 	</td>
 	<td align="center">
-		<?= @helper('grid.id', $i, $user); ?>
+		<?= @helper('grid.checkbox', array('row'=>$user)) ?>
 	</td>
 	<td>
-		<span class="editlinktip hasTip" title="<?= @text('Edit User')?>::<?= @$escape($user->name); ?>">
-			<?= @$escape($user->name)?>
+		<span class="editlinktip hasTip" title="<?= @text('Edit User')?>::<?= @escape($user->name); ?>">
+			<?= @escape($user->name)?>
 		</span>
 	</td>
 	<td width="15%">
 		<?= $user->username ?>
 	</td>
 	<td width="5%">
-		<?= @helper('grid.enable', !$user->block, $i)?>
+		 <?/*<?= @helper('grid.enable', !$user->block, $i)?> */?>
+		 TODO
 	</td>
 	<td width="15%">
 		<?= $user->usertype ?>
@@ -28,8 +29,8 @@
 		<?= $user->email ?>
 	</td>
 	<td width="10%">
-		<?= ($user->lastvisitDate == '0000-00-00 00:00:00') ? @text('Never') : @helper('date', $user->lastvisitDate, '%Y-%m-%d %H:%M:%S') ?>
+		<?= ($user->lastvisitDate == '0000-00-00 00:00:00') ? @text('Never') : @helper('date.format', array('date' => $user->lastvisitDate, 'format' => '%Y-%m-%d %H:%M:%S')) ?>
 	</td>
 </tr>
 <? $i = $i + 1; $m = (1 - $m);?>
-<? endforeach; ?>		
+<? endforeach; ?>

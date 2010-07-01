@@ -12,7 +12,7 @@
  *
  * @author		Stian Didriksen <stian@ninjaforge.com>
  */
-class ComProfilesHelperDate extends KObject
+class ComProfilesHelperDate extends KTemplateHelperAbstract
 {
 
 	/**

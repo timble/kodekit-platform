@@ -1,8 +1,8 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
-<? @style(@$mediaurl.'/com_profiles/css/default.css'); ?>
 
-<? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
+<style src="media://com_profiles/css/default.css" />
+<script src="media://lib_koowa/js/koowa.js" />
 					
 <form action="<?= @route()?>" method="get">
 	<input type="hidden" name="option" value="com_profiles" />
@@ -11,10 +11,9 @@
 	<div class="people_filters">
 		<h3><?=@text('People');?></h3>
 			
-		<?=@text('Search'); ?>: <input type="text" name="search" maxlength="40" value="<?=@$state->search?>" /> 
-		<? $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'this.form.submit();');?>
-		<?=@helper('admin::com.profiles.helper.select.departments', @$state->profiles_department_id, 'profiles_department_id', $attribs, '', true) ?>
-		<?=@helper('admin::com.profiles.helper.select.offices', @$state->profiles_office_id, 'profiles_office_id', $attribs, '', true) ?>
+		<?=@text('Search'); ?>: <input type="text" name="search" maxlength="40" value="<?=$state->search?>" /> 
+		<?=@helper('admin::com.profiles.helper.select.departments', array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
+		<?=@helper('admin::com.profiles.helper.select.offices', array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
 		<input type="submit" value="<?=@text('Go')?>" />
 	</div>
 </form>
@@ -32,5 +31,5 @@
 	
 	<?= @template('grid_items'); ?>
 
-	<?= @helper('paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
+	<?= @helper('paginator.pagination', array('total' => $total)) ?>
 </form>

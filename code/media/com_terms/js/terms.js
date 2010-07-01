@@ -36,12 +36,15 @@ var Terms = Ajax.extend({
     
     _actionDelete: function(data)
     {
-    	this.request({id: data});
+    	this.url = [this.url, 'id='+data].join('&');
+    	this.setHeader('X-HTTP-Method-Override', 'delete');
+    	this.request();
     },
     
     _actionAdd: function(data)
     {
-    	this.request();
+    	data = [data, this.form.toQueryString()].join('&');
+    	this.request(data);
     },
     
     request: function(data)
@@ -52,7 +55,6 @@ var Terms = Ajax.extend({
 			case 'object' : data = Object.toQueryString(data); break;
 		}
 		
-    	data = [data, this.form.toQueryString(), 'action='+this.options.action].join('&');
     	this.parent(data);
     },
     

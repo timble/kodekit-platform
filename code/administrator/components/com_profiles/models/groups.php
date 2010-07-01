@@ -13,31 +13,12 @@
  */
 abstract class ComProfilesModelGroups extends KModelTable
 {
-    /**
-	 * All the items
-	 *
-	 * @var array
-	 */
-	protected $_all;
-	
 	public function __construct(KConfig $config)
 	{
-		$config->table_behaviors = array('hittable', 'lockable', 'creatable', 'modifiable');
-		
 		parent::__construct($config);
-	}
-	
-	public function getAll()
-	{
-        if (!isset($this->_all))
-        {
-        	$table = KFactory::get($this->getTable());
-        	$query = $table->getDatabase()->getQuery()->select(array('*'));
-        	
-        	$this->_all = $table->select($query);	
-        }
-
-        return $this->_all;
+		
+		$this->_state
+		 	->insert('enabled', 'int'); 
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
@@ -48,7 +29,7 @@ abstract class ComProfilesModelGroups extends KModelTable
 			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
 		}
 
-		if($state->enabled) {
+		if( is_numeric($state->enabled)) {
 			$query->where('tbl.enabled','=', $state->enabled);
 		}
 		

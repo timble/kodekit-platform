@@ -1,8 +1,8 @@
-#terms-panel  {
+#terms-list  {
 	margin-left:10px; 
 }
 
-#terms-panel a.button-delete {
+#terms-list a.button-delete {
 	background:transparent url(../images/delete_x_small_sprite.gif) no-repeat scroll 3px 4px;
 	display:inline;
 	height:14px;
@@ -10,23 +10,23 @@
 	padding:0 7px;
 }
 
-#terms-panel a.button-delete:hover {
+#terms-list a.button-delete:hover {
 	background-position: 3px -34px;
 }
 
-#terms-panel a.button-delete span {
+#terms-list a.button-delete span {
 	left:-999em;
 	position:absolute;
 }
 
-#terms-panel .term {
+#terms-list .term {
 	padding: 3px;
 }
 
-#terms-panel .list {
+#terms-list .list {
 }
 
-#terms-panel .button {
+#terms-list .button {
 	border: 0 none;
 	background:#0B55C4 none repeat scroll 0 0;
 	padding:3px 5px;
@@ -37,20 +37,20 @@
 	color: white;
 }
 
-#terms-panel .button:hover {
+#terms-list .button:hover {
 	background-color:#07316f;
 }
 
-#terms-panel .button[disabled] {
+#terms-list .button[disabled] {
 	background:silver;
 }
  
-#terms-panel form {
+#terms-list form {
 	padding-top: 15px;
 	padding-bottom: 5px;
 }
 
-#terms-panel input {
+#terms-list input {
 	padding: 3px 5px;
 	border-radius: 4px;
 	-moz-border-radius: 4px;

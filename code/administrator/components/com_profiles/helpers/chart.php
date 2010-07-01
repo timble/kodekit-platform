@@ -7,12 +7,12 @@
  * @link     	http://www.nooku.org
  */
 
-class ComProfilesHelperChart extends KObject
+class ComProfilesHelperChart extends KTemplateHelperAbstract
 {
 	public function pie($name)
  	{
-		/*$model = KFactory::get('admin::com.profiles.model.' . $name);
-		$items = $model->getAll();
+		/*$model = KFactory::tmp('admin::com.profiles.model.' . $name);
+		$items = $model->getList();
  		
 		$c = KChartGoogle::getInstance(KChartGoogle::PIE);
     	

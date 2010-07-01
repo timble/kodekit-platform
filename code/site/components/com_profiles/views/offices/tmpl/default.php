@@ -1,14 +1,14 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @script(@$mediaurl.'/plg_koowa/js/koowa.js'); ?>
+<script src="media://lib_koowa/js/koowa.js" />
 
 <div class="joomla ">
 	<form action="<?= @route()?>" method="post" name="adminForm">
 	<input type="hidden" name="action" value="browse" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?= @$state->order; ?>" />
-	<input type="hidden" name="filter_direction" value="<?= @$state->direction; ?>" />
+	<input type="hidden" name="filter_order" value="<?= $state->order; ?>" />
+	<input type="hidden" name="filter_direction" value="<?= $state->direction; ?>" />
 
 	<h3><?=@text('Offices');?></h3>
 
@@ -16,7 +16,7 @@
 		<tfoot>
 			<tr>
 				<td align="center" colspan="6" class="sectiontablefooter">
-					<?= @helper('paginator.pagination', @$total, @$state->offset, @$state->limit) ?>
+					<?= @helper('paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -26,22 +26,22 @@
 					<?= @text('NUM'); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Title', 'title', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'title')); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Address', 'address', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'address')); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'State', 'state', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'state')); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Phone', 'phone', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'phone')); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'Fax', 'fax', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'fax')); ?>
 				</td>
 				<td class="sectiontableheader" align="left">
-					<?= @helper('grid.sort', 'People', 'people', @$state->direction, @$state->order); ?>
+					<?= @helper('grid.sort', array('column' => 'people')); ?>
 				</td>
 			</tr>
 			<?= @template('default_items'); ?>

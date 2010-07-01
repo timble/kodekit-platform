@@ -1,19 +1,20 @@
 <?php
 /**
  * @version		$Id$
- * @package		Profiles
+ * @package		Terms
  * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
  * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.nooku.org
  */
 
-class ComProfilesViewStatesHtml extends ComProfilesViewHtml
+class ComTermsViewHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function __construct(KConfig $config)
 	{
-		$this->assign('region', KRequest::get( 'get.region', 'string' ));
+        $config->views = array(
+			'terms' 		=> JText::_('Terms'),
+		);
 		
-		return parent::display();
+		parent::__construct($config);
 	}
-
 }

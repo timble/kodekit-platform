@@ -1,25 +1,59 @@
-<? /** $Id: default.php 299 2009-10-24 00:19:50Z johan $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<? @script(@$mediaurl.'/com_terms/js/terms.js') ?>
-<? @style(@$mediaurl.'/com_terms/css/default.css') ?>
+<style src="media://com_default/css/admin.css" />
+<style src="media://com_terms/css/admin.css" />
 
-<? $disabled = @$disabled ? 'disabled="disabled"' : ''; ?>
-
-<div id="terms-panel">
-	<div class="list">
-		<? foreach (@$terms as $term) : ?>
-		<div class="term">
-			<span><?= $term->name; ?></span>
-			<a title="<?= @text('Delete this tag ?') ?>" class="button-delete"  onclick="Terms.execute('delete', <?= $term->terms_relation_id; ?>)" href="#"><span>[x]</span></a/>
-		</div>
-		<? endforeach; ?>
+<div style="margin-bottom: 25px">
+	<div style="float: left">
+		<?= @template('admin::com.default.view.list.search_form'); ?>
 	</div>
-	<form action="<?= @route('row_id='.@$state->row_id.'&table_name='.@$state->table_name); ?>" method="post">
-		<input type="hidden" name="row_id"     value="<?= @$state->row_id?>" />
-		<input type="hidden" name="table_name" value="<?= @$state->table_name?>" />
-		<input name="name" type="text" value="" <?= $disabled ?> />
-		<input class="button" type="submit" <?= $disabled ?> value="<?= @text('Add') ?>"/>
-	</form>
-	<?= @text('Seperate tags with commas'); ?>
 </div>
+
+<form action="<?= @route()?>" method="post" name="adminForm">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="action" value="browse" />
+	<table class="adminlist" style="clear: both;">
+		<thead>
+			<tr>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($terms); ?>);" />
+				</th>
+				<th>
+					<?= @helper('grid.sort', array('column' => 'title')); ?>
+				</th>
+				<th>
+					<?= @helper('grid.sort', array('column' => 'slug')); ?>
+				</th>
+				<th>
+					<?= @helper('grid.sort', array('column' => 'count')); ?>
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<?= @text('Filters'); ?>	
+				</td>
+				<td>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+		<? if (count($terms)) : ?>
+			<?= @template('default_terms'); ?>
+		<? else : ?>
+			<tr>
+				<td colspan="8" align="center">
+					<?= @text('No items found'); ?>
+				</td>
+			</tr>
+		<? endif; ?>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="20">
+					<?= @helper('admin::com.default.helper.paginator.pagination', array('total' => $total)) ?>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>

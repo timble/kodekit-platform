@@ -11,15 +11,13 @@ class ComProfilesModelPeople extends KModelTable
 {
 	public function __construct(KConfig $config)
 	{
-		$config->table_behaviors = array('hittable', 'lockable', 'creatable', 'modifiable');
-		
 		parent::__construct($config);
 		
 		$this->_state
-		 	->insert('profiles_department_id'   , 'int')
-		 	->insert('profiles_office_id'      	, 'int')
-		 	->insert('letter_name'  			, 'word')
-		 	->insert('enabled'   				, 'boolean', false);
+		 	->insert('department'   , 'int')
+		 	->insert('office'      	, 'int')
+		 	->insert('letter_name'  , 'word')
+		 	->insert('enabled'   	, 'int');
 	}
 	
 	public function getLetters()
@@ -40,16 +38,16 @@ class ComProfilesModelPeople extends KModelTable
 	{
 		$state = $this->_state;
 		
-		if($state->enabled) {
+		if( is_numeric($state->enabled)) {
 			$query->where('tbl.enabled','=', $state->enabled);
 		}
 
-		if ( $state->profiles_department_id) {
-			$query->where('tbl.profiles_department_id','=', $state->profiles_department_id);
+		if ( $state->department) {
+			$query->where('tbl.profiles_department_id','=', $state->department);
 		}
 
-		if ( $state->profiles_office_id) {
-			$query->where('tbl.profiles_office_id','=', $state->profiles_office_id);
+		if ( $state->office) {
+			$query->where('tbl.profiles_office_id','=', $state->office);
 		}
 
 		if ( $state->search) 

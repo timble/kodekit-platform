@@ -9,22 +9,19 @@
 
 /**
  * List views are people/, offices/, departments/
- * Item views are people/id-firstname_lastname, offices/id-officealias, departments/id-departmentalias
+ * Item views are people/id-firstname_lastname, offices/officeslug, departments/departmentslug
  */
 function ProfilesBuildRoute(&$query)
 {
 	$segments = array();
 	if(array_key_exists('view', $query))
 	{
-		$segments[0] = $query['view'];
-
-		if(array_key_exists('id', $query)){
-			$segments[1] = $query['id'];
-			$segments[0] = KInflector::pluralize($segments[0]);
+		if(array_key_exists('slug', $query)){
+			$segments[0] = $query['slug'];
 		}
 
 		unset($query['view']);
-		unset($query['id']);
+		unset($query['slug']);
 	}
 
 	return $segments;
@@ -32,13 +29,24 @@ function ProfilesBuildRoute(&$query)
 
 function ProfilesParseRoute($segments)
 {
-	if(isset($segments[0]))
+	$item = JSite::getMenu()->getActive();
+	
+	//We are using the alias, circonvent the auto-segment decoding
+	$segments = str_replace(':', '-', $segments);
+
+	$vars = array();
+	$vars['view'] = $item->query['view'];
+	
+	if(count($segments) > 0)
 	{
-		$vars['view'] = $segments[0];
-		if(isset($segments[1])) {
-			$vars['id'] = (int) $segments[1];
-			$vars['view'] = KInflector::singularize($vars['view']);
+		$vars['view'] = KInflector::singularize($item->query['view']);
+        
+		if($id = (int) $segments[0]) {
+			$vars['id'] = $id;
+		} else {
+			$vars['slug'] = $segments[0];
 		}
 	}
+	
 	return $vars;
 }

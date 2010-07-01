@@ -35,6 +35,6 @@ class ComProfilesViewHtml extends ComDefaultViewHtml
 				->append('disable');	
 		}
 					
-		parent::display();
+		return parent::display();
 	}
 }

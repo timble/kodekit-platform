@@ -15,33 +15,50 @@ class ComTermsModelTerms extends KModelTable
 		
 		// Set the state
 		$this->_state
-		 	->insert('terms_term_id', 'int')
-			->insert('row_id', 'int')
-		 	->insert('name', 'string')
-		 	->insert('table_name', 'string');
+			->insert('row', 'int')
+		 	->insert('table', 'string');
 	}
-	 
+	
 	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
-		$query->select('tbl.*')
-			  ->select('relations.terms_relation_id');
+		if(!$this->_state->isUnique()) {
+			$query->select('COUNT( relations.terms_term_id ) AS count');
+		}
+		
+		return parent::_buildQueryColumns($query);
 	}
-
+	
+	protected function _buildQueryGroup(KDatabaseQuery $query)
+	{	
+		if(!$this->_state->isUnique()) {
+			$query->group('relations.terms_term_id');
+		}
+		
+		return parent::_buildQueryGroup($query);
+	}
+	 
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-		$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
+		if(!$this->_state->isUnique()) {
+			$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
+		}
+		
+		return parent::_buildQueryJoins($query);
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		$query->where('relations.row_id', 'LIKE',  $this->_state->row_id);
+		if(!$this->_state->isUnique()) 
+		{
+			if($this->_state->table) {
+				$query->where('relations.table','=', $this->_state->table);
+			}
 		
-		if($this->_state->tags_tag_id) {
-			$query->where('relations.terms_term_id','=', $this->_state->tags_tag_id);
+			if($this->_state->row) {
+				$query->where('relations.row', 'LIKE',  $this->_state->row);
+			}
 		}
 		
-		if($this->_state->table_name) {
-			$query->where('relations.table_name','=', $this->_state->table_name);
-		}
+		parent::_buildQueryWhere($query);
 	}
 }

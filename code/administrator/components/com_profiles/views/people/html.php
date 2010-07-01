@@ -14,6 +14,6 @@ class ComProfilesViewPeopleHtml extends ComProfilesViewHtml
 		$model = KFactory::get($this->getModel());
 		$this->assign('letters_name', $model->getLetters());
 
-		parent::display();
+		return parent::display();
 	}
 }
