@@ -28,7 +28,7 @@ class KTemplateFilterStyle extends KTemplateFilterAbstract implements KTemplateF
 	public function write(&$text)
 	{
 		$matches = array();
-		if(preg_match_all('#<style\ src="([^"]+)" (.*)\/>#iU', $text, $matches))
+		if(preg_match_all('#<style\ src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach($matches[1] as $key => $match) 
 			{
