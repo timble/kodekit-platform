@@ -20,7 +20,7 @@ class KToolbarButtonSpacer extends KToolbarButtonAbstract
 {
 	public function render()
 	{
-		return '<td class="spacer"></td>';
+		return '</tr></table><table class="toolbar"><td class="spacer"></td></table<table class="toolbar"><tr>';
 	}
 
 }

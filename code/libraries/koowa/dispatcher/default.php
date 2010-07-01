@@ -10,6 +10,9 @@
 
 /**
  * Default controller dispatcher
+ * 
+ * The default dispatcher mplements a signleton. After instantiation the object can
+ * be access using the mapped lib.koowa.dispatcher identifier.
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -19,69 +22,24 @@
 class KDispatcherDefault extends KDispatcherAbstract 
 { 
 	/**
-	 * Constructor.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-	  	parent::__construct($config);
-	  	
-		$this->registerFunctionAfter('dispatch'   , 'forward');
-	}
-	
-	/**
-	 * Dispatch the controller and redirect
-	 * 
-	 * This function divert the standard behavior and will redirect if no view
-	 * information can be found in the request.
-	 * 
-	 * @param	string		The view to dispatch. If null, it will default to
-	 * 						retrieve the controller information from the request or
-	 * 						default to the component name if no controller info can
-	 * 						be found.
-	 *
-	 * @return	KDispatcherDefault
-	 */
-	protected function _actionDispatch($view)
-	{
-		//Redirect if no view information can be found in the request
-		if(!KRequest::has('get.view')) 
-		{
-			KFactory::get('lib.koowa.application')
-				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
-		}
-		
-		return parent::_actionDispatch($view);
-	}
-	
-	/**
-	 * Forward after a post request
-	 * 
-	 * Either do a redirect or a execute a browse or read action in the controller
-	 * depending on the request method adn type
+	 * Force creation of a singleton
 	 *
 	 * @return void
 	 */
-	public function _actionForward()
+	public static function instantiate($config = array())
 	{
-		if(KRequest::method() == 'POST') 
+		static $instance;
+		
+		if ($instance === NULL) 
 		{
-			if (KRequest::type() == 'HTTP') 
-			{
-				// Redirect if set by the controller
-				if($redirect = KFactory::get($this->getController())->getRedirect())
-				{
-					KFactory::get('lib.koowa.application')
-						->redirect($redirect['url'], $redirect['message'], $redirect['type']);
-				}
-			} 
+			//Create the singleton
+			$classname = $config->identifier->classname;
+			$instance = new $classname($config);
 			
-			if(KRequest::type() == 'AJAX')  
-			{
-				$view = KRequest::get('get.view', 'cmd');
-				KFactory::get($this->getController())->execute(KInflector::isPlural($view) ? 'browse' : 'read');		
-			}
+			//Add the factory map to allow easy access to the singleton
+			KFactory::map('lib.koowa.dispatcher', $config->identifier);
 		}
+		
+		return $instance;
 	}
 }

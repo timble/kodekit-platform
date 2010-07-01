@@ -18,5 +18,10 @@
  */
 interface KDatabaseBehaviorInterface extends KCommandInterface, KObjectIdentifiable
 {
-	
+	/**
+	 * Get the priority of a behavior
+	 *
+	 * @return	integer The command priority
+	 */
+  	public function getPriority();
 }

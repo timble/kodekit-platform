@@ -26,7 +26,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	 * @var string	[get|post|delete]
 	 */
 	protected $_method;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -36,15 +36,15 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	{
 		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 		parent::__construct($config);
-		
+
         if($config->parent) {
         	$this->setParent($config->parent);
         }
-        
+
         $this->setMethod($config->method);
-        
+
 		$this->_options = $config;
 	}
 
@@ -70,18 +70,18 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
         parent::_initialize($config);
     }
-    
+
 	/**
 	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
+	 *
+	 * @return	KIdentifier
 	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
 	}
-    
+
     /**
 	 * Set the parent toolbar
 	 *
@@ -129,10 +129,10 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 	public function render()
 	{
 		$text	= JText::_($this->_options->text);
-		
+
 		$link   = $this->getLink();
 		$href   = !empty($link) ? 'href="'.JRoute::_($link).'"' : '';
-		
+
 		$onclick =  $this->getOnClick();
 		$onclick = !empty($onclick) ? 'onclick="'. $onclick.'"' : '';
 
@@ -151,7 +151,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
 	public function getLink()
 	{
-		return '';
+		return '#';
 	}
 
 	public function getOnClick()

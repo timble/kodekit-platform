@@ -54,17 +54,17 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		if(array_shift($parts) == $this->_prefix)
 		{	
 			$basepath = Koowa::getPath();
-			$path     = strtolower(implode(DS, $parts));
+			$path     = strtolower(implode('/', $parts));
 				
 			if(count($parts) == 1) {
-				$path = $path.DS.$path;
+				$path = $path.'/'.$path;
 			}
 			
-			if(!is_file($basepath.DS.$path.'.php')) {
-				$path = $path.DS.strtolower(array_pop($parts));
+			if(!is_file($basepath.'/'.$path.'.php')) {
+				$path = $path.'/'.strtolower(array_pop($parts));
 			}
 
-			$path = $basepath.DS.$path.'.php';
+			$path = $basepath.'/'.$path.'.php';
 		}
 		
 		return $path;
@@ -85,14 +85,14 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 			$basepath = Koowa::getPath();
 			
 			if(count($identifier->path)) {
-				$path .= implode(DS,$identifier->path);
+				$path .= implode('/',$identifier->path);
 			}
 
 			if(!empty($this->name)) {
-				$path .= DS.$identifier->name;
+				$path .= '/'.$identifier->name;
 			}
 				
-			$path = $basepath.DS.$path.'.php';
+			$path = $basepath.'/'.$path.'.php';
 		}
 		
 		return $path;

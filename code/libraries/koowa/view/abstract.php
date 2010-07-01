@@ -21,7 +21,7 @@
 abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
-	 * Model identifier (APP::com.COMPONENT.model.MODELNAME)
+	 * Model identifier (APP::com.COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -66,10 +66,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'base_url'      => KRequest::base(),
-        	'media_url'		=> KRequest::root().'/media',
 			'model'   		=> null,
-    		'output'		=> ''
+	    	'output'		=> '',
         ));
         
         parent::_initialize($config);
@@ -98,14 +96,13 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	}
 
 	/**
-	 * Echo's the views output
+	 * Return the views output
  	 *
-	 * @return KViewAbstract
+	 * @return string 	The output of the view
 	 */
 	public function display()
 	{
-		echo $this->output;
-		return $this;
+		return $this->output;
 	}
 
 	/**
@@ -113,7 +110,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @return	KIdentifierInterface
 	 */
-	final public function getModel()
+	public function getModel()
 	{
 		if(!$this->_model)
 		{
@@ -133,7 +130,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
+	 * @throws	KViewException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
 	 */
 	public function setModel($model)
@@ -141,7 +138,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		$identifier = KFactory::identify($model);
 		
 		if($identifier->path[0] != 'model') {
-			throw new KModelException('Identifier: '.$identifier.' is not a model identifier');
+			throw new KViewException('Identifier: '.$identifier.' is not a model identifier');
 		}
 		
 		$this->_model = $identifier;
@@ -232,6 +229,6 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function __toString()
 	{
-		return $this->output;
+		return $this->display();
 	}
 }

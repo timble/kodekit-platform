@@ -18,61 +18,83 @@
  * @subpackage	Helper
  * @uses		KArrayHelper
  */
-class KTemplateHelperTabs extends KObject
+class KTemplateHelperTabs extends KTemplateHelperBehavior
 {
-	/**
-	 * Constructor
-	 *
-	 * @param array Associative array of values
-	 */
-	public function __construct()
-	{
-		//Load koowa javascript
-		KTemplate::loadHelper('behavior.mootools');
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/tabs.js');
-	}
-
 	/**
 	 * Creates a pane and creates the javascript object for it
 	 *
-	 * @param	array	An associative array of behavior options
-	 * @param	array	An associative array of pane attributes
+	 * @param 	array 	An optional array with configuration options
+	 * @return 	string	Html
 	 */
-	public function startPane( $id, array $options = array(), array $attribs = array() )
+	public function startPane( $config = array() )
 	{
-		$id = strtolower($id);
+		$config = new KConfig($config);
+		$config->append(array(
+			'id'      => 'pane',
+			'attribs' => array(),
+			'options' => array()
+		));
+		
+		$html  = '';
+		
+		// Load the necessary files if they haven't yet been loaded
+		if (!isset($this->_loaded['tabs'])) 
+		{
+			$html .= $this->mootools();
+			$html .= '<script src="media://lib_koowa/js/tabs.js" />'; 
+			
+			$this->_loaded['tabs'] = true;
+		}
+		
+		$id      = strtolower($config->id);
+		$attribs = KHelperArray::toString($config->attribs);
 	
-		$js = 'window.addEvent(\'domready\', function(){ new KTabs(\'tabs-'.$id.'\', \''.json_encode($options).'\'); });';
-		$document = KFactory::get('lib.koowa.document')->addScriptDeclaration( $js );	
+		$html .= "
+			<script>
+				window.addEvent('domready', function(){ new KTabs('tabs-".$id."', '".json_encode($config->options)."'); });
+			</script>";
 	
-		$attribs = KHelperArray::toString($attribs);	
-		return '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';
+		$html .= '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';
+		return $html;
 	}
 
 	/**
 	 * Ends the pane
+	 * 
+	 * @param 	array 	An optional array with configuration options
+	 * @return 	string	Html
 	 */
-	public function endPane()
+	public function endPane($config = array())
 	{
-		return "</dl>";
+		return '</dl>';
 	}
 
 	/**
 	 * Creates a tab panel with title and starts that panel
 	 *
-	 * @param	string	The title of the tab
-	 * @param	array	An associative array of pane attributes
+	 * @param 	array 	An optional array with configuration options
+	 * @return 	string	Html
 	 */
-	public function startPanel( $title, array $attribs = array())
+	public function startPanel( $config = array())
 	{
-		$attribs = KHelperArray::toString($attribs);
-		return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
+		$config = new KConfig($config);
+		$config->append(array(
+			'title'   => '',
+			'attribs' => array(),
+			'options' => array()
+		));
+		
+		$attribs = KHelperArray::toString($config->attribs);
+		return '<dt '.$attribs.'><span>'.$config->title.'</span></dt><dd>';
 	}
 
 	/**
 	 * Ends a tab page
+	 * 
+	 * @param 	array 	An optional array with configuration options
+	 * @return 	string	Html
 	 */
-	public function endPanel()
+	public function endPanel($config = array())
 	{
 		return '</dd>';
 	}

@@ -20,19 +20,26 @@
 class KDatabaseQuery extends KObject
 {
 	/**
-	 * The operation to perform
+	 * Count operation
 	 *
-	 * @var array
+	 * @var boolean
 	 */
-	public $operation = '';
+	public $count	  = false;
 	
+	/**
+	 * Distinct operation
+	 *
+	 * @var boolean
+	 */
+	public $distinct  = false;
+
 	/**
 	 * The columns
 	 *
 	 * @var array
 	 */
 	public $columns = array();
-	
+
 	/**
 	 * The from element
 	 *
@@ -88,13 +95,6 @@ class KDatabaseQuery extends KObject
 	 * @var integer
 	 */
 	public $offset = 0;
-	
-	/**
-     * Data to bind into the query as key => value pairs.
-     * 
-     * @var array
-     */
-    protected $_bind = array();
 
 	/**
 	 * Database connector
@@ -114,7 +114,7 @@ class KDatabaseQuery extends KObject
 	{
         //If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 		parent::__construct($config);
 
 		//set the model adapter
@@ -132,10 +132,10 @@ class KDatabaseQuery extends KObject
     	$config->append(array(
             'adapter' => KFactory::get('lib.koowa.database')
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
     /**
      * Gets the database adapter for this particular KDatabaseQuery object.
      *
@@ -145,7 +145,7 @@ class KDatabaseQuery extends KObject
     {
         return $this->_adapter;
     }
-    
+
 
 	/**
 	 * Built a select query
@@ -156,15 +156,11 @@ class KDatabaseQuery extends KObject
 	public function select( $columns = '*')
 	{
 		settype($columns, 'array'); //force to an array
-		
-		//Quote the identifiers
-		$columns = $this->_adapter->quoteName($columns);
 
-		$this->operation = 'SELECT';
-		$this->columns   = array_unique( array_merge( $this->columns, $columns ) );
+		$this->columns = array_unique( array_merge( $this->columns, $columns ) );
 		return $this;
 	}
-	
+
 	/**
 	 * Built a count query
 	 *
@@ -172,11 +168,11 @@ class KDatabaseQuery extends KObject
 	 */
 	public function count()
 	{
-		$this->operation = 'SELECT COUNT(*) ';
-		$this->columns    = array();
+		$this->count   = true;
+		$this->columns = null;
 		return $this;
 	}
-	
+
 	/**
 	 * Make the query distinct
 	 *
@@ -184,7 +180,7 @@ class KDatabaseQuery extends KObject
 	 */
 	public function distinct()
 	{
-		$this->operation = 'SELECT DISTINCT ';
+		$this->distinct = true;
 		return $this;
 	}
 
@@ -197,81 +193,69 @@ class KDatabaseQuery extends KObject
 	public function from( $tables )
 	{
 		settype($tables, 'array'); //force to an array
-		
-		//Prepent the table prefix 
+
+		//Prepent the table prefix
 		array_walk($tables, array($this, '_prefix'));
-		
-		//Quote the identifiers
-		$tables = $this->_adapter->quoteName($tables);
-		
+
 		$this->from = array_unique( array_merge( $this->from, $tables ) );
 		return $this;
 	}
-	
+
 	/**
      * Built the join clause of the query
-     * 
+     *
      * @param string 		The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
      * @param string 		The table name to join to.
      * @param string|array 	Join on this condition.
      * @return KDatabaseQuery
      */
     public function join($type, $table, $condition)
-    {     
+    {
 		settype($condition, 'array'); //force to an array
-    	
+
 		$this->_prefix($table); //add a prefix to the table
-    	
-		//Quote the identifiers
-		$table     = $this->_adapter->quoteName($table);
-		$condition = $this->_adapter->quoteName($condition);
-	    	
+	
     	$this->join[] = array(
         	'type'  	=> strtoupper($type),
         	'table' 	=> $table,
         	'condition' => $condition,
         );
-          
+
         return $this;
     }
-	
+
 	/**
 	 * Built the where clause of the query
 	 *
-	 * @param   string 			The name of the property the constraint applies too
+	 * @param   string 			The name of the property the constraint applies too, or a SQL function or statement
 	 * @param	string  		The comparison used for the constraint
 	 * @param	string|array	The value compared to the property value using the constraint
 	 * @param	string			The where condition, defaults to 'AND'
 	 * @return 	KDatabaseQuery
 	 */
-	public function where( $property, $constraint, $value = null, $condition = 'AND' )
+	public function where( $property, $constraint = null, $value = null, $condition = 'AND' )
 	{
 		if(empty($property)) {
 			return $this;
 		}
 		
-		$constraint	= strtoupper($constraint);
-		$condition	= strtoupper($condition);
-		
-		// Apply quotes to the property name
-		$property = $this->_adapter->quoteName($property);
-		
-		// Apply quotes to the value
-		$value    = $this->_adapter->quoteValue($value);
-		
-       	//Create the where clause
-        if(in_array($constraint, array('IN', 'NOT IN'))) {
-        	$value = ' ( '.$value. ' ) ';
-        } 
-		
-		$where = $property.' '.$constraint.' '.$value;
-        
-		//Prepend the condition
-        if(count($this->where)) {
-            $where = $condition .' '. $where;
-        } 
+		$where = array();
+		$where['property'] = $property;
 
-        $this->where = array_unique( array_merge( $this->where, array($where) ));
+		if(isset($constraint) && isset($value))
+		{
+			$constraint	= strtoupper($constraint);
+			$condition	= strtoupper($condition);
+			
+        	$where['constraint'] = $constraint;
+        	$where['value']      = $value;
+		}
+		
+		$where['condition']  = count($this->where) ? $condition : '';
+
+		//Make sure we don't store the same where clauses twice
+		$signature = md5($property.$where.$value);
+        $this->where[$signature] = $where;
         return $this;
 	}
 
@@ -285,9 +269,6 @@ class KDatabaseQuery extends KObject
 	{
 		settype($columns, 'array'); //force to an array
 		
-		//Quote the identifiers
-		$columns = $this->_adapter->quoteName($columns);
-
 		$this->group = array_unique( array_merge( $this->group, $columns));
 		return $this;
 	}
@@ -301,16 +282,13 @@ class KDatabaseQuery extends KObject
 	public function having( $columns )
 	{
 		settype($columns, 'array'); //force to an array
-		
-		//Quote the identifiers
-		$columns = $this->_adapter->quoteName($columns);
 
 		$this->having = array_unique( array_merge( $this->having, $columns ));
 		return $this;
 	}
 
 	/**
-	 * Built the order clause of the query
+	 * Build the order clause of the query
 	 *
 	 * @param	array|string  A string or array of ordering columns
 	 * @param	string		  Either DESC or ASC
@@ -319,11 +297,8 @@ class KDatabaseQuery extends KObject
 	public function order( $columns, $direction = 'ASC' )
 	{
 		settype($columns, 'array'); //force to an array
-		
-		//Quote the identifiers
-		$columns = $this->_adapter->quoteName($columns);
-		
-		foreach($columns as $column) 
+
+		foreach($columns as $column)
 		{
 			$this->order[] = array(
         		'column'  	=> $column,
@@ -347,59 +322,14 @@ class KDatabaseQuery extends KObject
 		$this->offset = $offset;
 		return $this;
 	}
-	
-	/**
-     * Adds data to bind into the query.
-     * 
-     * @param 	mixed 	The replacement key in the query.  If this is an
-     * 					array or object, the $val parameter is ignored, 
-     * 					and all the key-value pairs in the array (or all 
-     *   				properties of the object) are added to the bind.
-     * @param 	mixed 	The value to use for the replacement key.
-     * @return 	KDatabaseQuery
-     */
-    public function bind($key, $val = null)
-    {
-        if (is_array($key)) {
-            $this->_bind = array_merge($this->_bind, $key);
-        } elseif (is_object($key)) {
-            $this->_bind = array_merge((array) $this->_bind, $key);
-        } else {
-            $this->_bind[$key] = $val;
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * Unsets bound data.
-     * 
-     * @param 	mixed 	The key to unset.  If a string, unsets that one
-     * 					bound value; if an array, unsets the list of values; 
-     * 					if empty, unsets all bound values (the default).
-     * @return 	KDatabaseQuery
-     */
-    public function unbind($spec = null)
-    {
-        if (empty($spec)) {
-            $this->_bind = array();
-        } else {
-            settype($spec, 'array');
-            foreach ($spec as $key) {
-                unset($this->_bind[$key]);
-            }
-        }
-        
-        return $this;
-    }
 
 	/*
 	 * Callback for array_walk to prefix elements of array with given prefix
-	 * 
+	 *
 	 * @param string The data to be prefixed
 	 */
 	protected function _prefix(&$data)
-	{	
+	{
 		// Prepend the table modifier
 		$prefix = $this->_adapter->getTablePrefix();
 		$data = $prefix.$data;
@@ -413,65 +343,124 @@ class KDatabaseQuery extends KObject
 	public function __toString()
 	{
 		$query = '';
+		if(!empty($this->columns) || $this->count)
+		{	
+			$query = 'SELECT';
+			
+			if($this->distinct) {
+				$query .= ' DISTINCT';
+			}
 		
-		$query .= $this->operation.PHP_EOL;
-
-		if (!empty($this->columns)) {
-			$query .= implode(' , ', $this->columns).PHP_EOL;
+			if($this->count) {
+				$query .= ' COUNT(*)';
+			}
 		}
 
-		if (!empty($this->from)) {
-			$query .= ' FROM '.implode(' , ', $this->from).PHP_EOL;
+		$query .= PHP_EOL;
+	
+		if (!empty($this->columns)) 
+		{
+			$columns = array();
+			foreach($this->columns as $column) {
+				$columns[] = $this->_adapter->quoteName($column);
+			} 
+			
+			$query .= ' '.implode(' , ', $columns).PHP_EOL;
 		}
-		
+
+		if (!empty($this->from)) 
+		{
+			$tables = array();
+			foreach($this->from as $table) {
+				$tables[] = $this->_adapter->quoteName($table);
+			} 
+			
+			$query .= ' FROM '.implode(' , ', $tables).PHP_EOL;
+		}
+
 		if (!empty($this->join))
 		{
 			$joins = array();
-            foreach ($this->join as $join) 
+            foreach ($this->join as $join)
             {
             	$tmp = '';
-                
+    
             	if (! empty($join['type'])) {
                     $tmp .= $join['type'] . ' ';
                 }
-               
-                $tmp .= 'JOIN ' . $join['table'];
-                $tmp .= ' ON ' . implode(' AND ', $join['condition']);
-           
+
+                $tmp .= 'JOIN ' . $this->_adapter->quoteName($join['table']);
+                $tmp .= ' ON ' . implode(' AND ', $this->_adapter->quoteName($join['condition']));
+
                 $joins[] = $tmp;
             }
-            
+
             $query .= implode(PHP_EOL, $joins) .PHP_EOL;
 		}
 
-		if (!empty($this->where)) {
-			$query .= ' WHERE '.implode(' ', $this->where).PHP_EOL;
+		if (!empty($this->where)) 
+		{
+			$query .= ' WHERE';
+			
+			foreach($this->where as $where)
+			{
+				if(isset($where['condition'])) {
+					$query .= ' '.$where['condition'];		
+				}
+				
+				$query .= ' '. $this->_adapter->quoteName($where['property']);
+				
+				if(isset($where['constraint'])) 
+				{
+					$value = $this->_adapter->quoteValue($where['value']);
+					
+					if(in_array($where['constraint'], array('IN', 'NOT IN'))) {
+        				$value = ' ( '.$value. ' ) ';
+        			}
+					
+					$query .= ' '.$where['constraint'].' '.$value;
+				}
+			}
+			
+			$query .= PHP_EOL;
 		}
 
-		if (!empty($this->group)) {
-			$query .= ' GROUP BY '.implode(' , ', $this->group).PHP_EOL;
+		if (!empty($this->group)) 
+		{
+			$columns = array();
+			foreach($this->group as $column) {
+				$columns[] = $this->_adapter->quoteName($column);
+			} 
+			
+			$query .= ' GROUP BY '.implode(' , ', $columns).PHP_EOL;
 		}
 
-		if (!empty($this->having)) {
-			$query .= ' HAVING '.implode(' , ', $this->having).PHP_EOL;
+		if (!empty($this->having)) 
+		{
+			$columns = array();
+			foreach($this->having as $column) {
+				$columns[] = $this->_adapter->quoteName($column);
+			} 
+			
+			$query .= ' HAVING '.implode(' , ', $columns).PHP_EOL;
 		}
-		
-		if (!empty($this->order) ) 
+
+		if (!empty($this->order) )
 		{
 			$query .= 'ORDER BY ';
-			
+
 			$list = array();
             foreach ($this->order as $order) {
-            	$list[] = $order['column'].' '.$order['direction'];
+            	$list[] = $this->_adapter->quoteName($order['column']).' '.$order['direction'];
             }
-            
+
             $query .= implode(' , ', $list) . PHP_EOL;
 		}
-		
+
 		if (!empty($this->limit)) {
 			$query .= ' LIMIT '.$this->offset.' , '.$this->limit.PHP_EOL;
 		}
-			
+
 		return $query;
 	}
 }

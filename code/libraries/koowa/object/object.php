@@ -14,7 +14,6 @@
  * Provides getters and setters, mixin, object handles
  *
  * @author		Johan Janssens <johan@koowa.org>
- * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Object
  */

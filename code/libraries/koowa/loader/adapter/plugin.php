@@ -64,12 +64,12 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 				$type = array_shift($parts);
 				
 				if(count($parts) > 1) {
-					$path = array_shift($parts).DS.implode(DS, $parts);
+					$path = array_shift($parts).'/'.implode('/', $parts);
 				} else {
 					$path = array_shift($parts);
 				}
 					
-				$path = $this->_basepath.DS.$type.DS.$path.'.php';			
+				$path = $this->_basepath.'/'.$type.'/'.$path.'.php';			
 			}
 		}
 		
@@ -99,13 +99,13 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 				if(count($parts)) 
 				{
 					$path    = array_shift($parts).
-					$path   .= count($parts) ? DS.implode(DS, $parts) : '';
+					$path   .= count($parts) ? '/'.implode('/', $parts) : '';
 					$path   .= DS.strtolower($identifier->name);	
 				} 
 				else $path  = strtolower($identifier->name);	
 			}
 				
-			$path = $this->_basepath.DS.$type.DS.$name.DS.$path.'.php';	
+			$path = $this->_basepath.'/'.$type.'/'.$name.'/'.$path.'.php';	
 		}	
 		
 		return $path;

@@ -13,13 +13,6 @@
 define('KOOWA', 1);
 
 /**
- * DS is a shortcut for DIRECTORY_SEPARATOR
- */
-if(!defined('DS')) {
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
-/**
  * Koowa class
  *
  * Loads classes and files, and provides metadata for Koowa such as version info

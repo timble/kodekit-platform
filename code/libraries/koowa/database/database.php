@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Factory
+ * Database Namespace class
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -36,31 +36,6 @@ class KDatabase
 	 */
 	const FETCH_ROWSET  = 0;
 	const FETCH_ROW     = 1;
+	const FETCH_FIELD   = 2;
 	
-	/**
-	 * instantiate method KDatabaseAdapterInterface classes.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * 				  Recognized key values include 'adapter', ...(this list is 
-	 *                not meant to be comprehensive).
-	 * @return KDatabaseAdapterAbstract
-	 * @throws KDatabaseException
-	 */
-	public static function instantiate($config = array())
-	{
-		if(!isset($config->adapter)) {
-			throw new InvalidArgumentException('adapter [string] option is required');
-		}
-	
-		$class = 'KDatabaseAdapter'.ucfirst($config->adapter);
-		if(!class_exists($class)) {
-			throw new KDatabaseException('Adapter class '.$class.' not found');
-		}
-		
-		if(!$config instanceof KConfig) {
-			$config = new KConfig($config);
-		}
-		
-		return new $class($config);
-	}
 }

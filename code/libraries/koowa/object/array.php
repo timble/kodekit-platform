@@ -13,11 +13,11 @@
  *
  * Allows objects to be handled as arrays, and at the same time implement the features of KObject
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_Object
  */
-class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Countable, Serializable
+class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, Serializable
 {
 	/**
      * The data container
@@ -134,7 +134,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Co
     }
     
     /**
-	 * Get a list of the rowset columns
+	 * Get a list of the columns
 	 * 
 	 * @return	array
 	 */
@@ -174,6 +174,56 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Co
     {
     	return count($this->_data);
     }
+    
+ /**
+     * Rewind the Iterator to the first element
+     *
+     * @return	void
+     */
+	public function rewind() 
+	{
+		reset($this->_data); 
+	} 
+	
+	/**
+     * Checks if current position is valid
+     *
+     * @return	boolean
+     */
+	public function valid() 
+	{
+		return !is_null(key($this->_data)); 
+	} 
+	
+	/**
+     * Return the key of the current element
+     *
+     * @return	scalar
+     */
+	public function key() 
+	{
+		return key($this->_data); 
+	} 
+	
+	/**
+     * Return the current element
+     *
+     * @return	mixed
+     */
+	public function current() 
+	{
+		return current($this->_data); 
+	} 
+	
+	/**
+     * Move forward to next element
+     *
+     * @return	void
+     */
+	public function next() 
+	{
+		next($this->_data); 
+	}
 
 	/**
      * Retrieve an array of column values
@@ -233,7 +283,6 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Co
 
     /**
      * Unset a column
-     *
      *
      * @param	string  The column key.
      * @return	void

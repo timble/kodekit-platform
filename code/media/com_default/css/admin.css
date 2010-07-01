@@ -1,0 +1,49 @@
+table.toolbar { float: left; }
+
+.search_form {
+	
+}
+
+.search_letters {
+	text-align: left;
+	margin: 0;
+	padding: 3px 0;
+	float: right;
+}
+
+.search_letters li {
+	display: inline;
+	margin-right: 5px;
+	font-size: 0.9em;
+}
+
+.search_letters li span {
+	text-decoration: none;
+	border: 1px solid #ccc;
+	background-color: #F6F6F6;
+	padding: 3px;
+}
+
+.search_letters li a {
+	color: #0B55C4;
+	text-decoration: none;
+	border: 1px solid #ccc;
+	background-color: #F6F6F6;
+	padding: 3px;
+}
+
+.search_letters li a:hover, .search_letters li a.selected {
+	background-color: grey;
+	color: #FFF;
+}
+
+.search_letters li a.active {
+	background-color: grey;
+	color: #FFF;
+	font-weight: bold;
+}
+
+.adminlist th a.asc  { background: url(../images/sort_asc.png) no-repeat right; padding-right: 10px;}
+.adminlist th a.desc { background: url(../images/sort_desc.png) no-repeat right; padding-right: 10px;}
+
+.submitable { cursor: pointer; }

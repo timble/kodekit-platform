@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Chekcable Behavior 
+ * Abstract Database Behavior
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -26,6 +26,13 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	protected $_identifier;
 	
 	/**
+	 * The behavior priority
+	 *
+	 * @var KIdentifierInterface
+	 */
+	protected $_priority;
+	
+	/**
 	 * Constructor.
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
@@ -34,7 +41,26 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	{ 
 		$this->_identifier = $config->identifier;
 		parent::__construct($config);
+		
+		$this->_priority = $config->priority;
 	}
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
+     */
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+			'priority'   => KCommandChain::PRIORITY_NORMAL,
+	  	));
+
+    	parent::_initialize($config);
+   	}
 	
 	/**
 	 * Get the object identifier
@@ -46,6 +72,16 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	{
 		return $this->_identifier;
 	}
+	
+	/**
+	 * Get the priority of a behavior
+	 *
+	 * @return	integer The command priority
+	 */
+  	public function getPriority()
+  	{
+  		return $this->_priority;
+  	}
 	
 	/**
 	 * Command handler
@@ -69,6 +105,43 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 		
 		return true;
 	}
+	
+	/**
+     * Saves the row or rowset in the database.
+     *
+     * This function specialises the KDatabaseRow or KDatabaseRowset save
+     * function and auto-disables the tables command chain to prevent recursive
+     * looping.
+     *
+     * @return KDatabaseRowAbstract or KDatabaseRowsetAbstract
+     * @see KDatabaseRow::save or KDatabaseRowset::save
+     */
+    public function save()
+    {
+   		KFactory::get($this->getTable())->getCommandChain()->disable();
+    	$this->_mixer->save();    
+    	KFactory::get($this->getTable())->getCommandChain()->enable();
+        
+   		return $this->_mixer;
+    }
+    
+	/**
+     * Deletes the row form the database.
+     * 
+     * This function specialises the KDatabaseRow or KDatabaseRowset delete
+     * function and auto-disables the tables command chain to prevent recursive
+     * looping.
+     *
+     * @return KDatabaseRowAbstract
+     */
+    public function delete()
+    {
+    	KFactory::get($this->getTable())->getCommandChain()->disable();
+    	$this->_mixer->delete();    
+    	KFactory::get($this->getTable())->getCommandChain()->enable();
+        
+   		return $this->_mixer;
+    }
 	
 	/**
 	 * Get an object handle
@@ -109,6 +182,6 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 		$methods   = parent::getMixableMethods($mixer);
 		$methods[] = 'is'.ucfirst($this->_identifier->name);
 			
-		return array_diff($methods, array('execute'));
+		return array_diff($methods, array('execute', 'save', 'delete'));
 	}
 }

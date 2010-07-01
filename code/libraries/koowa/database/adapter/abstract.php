@@ -18,7 +18,7 @@
  * @subpackage  Adapter
  * @uses 		KPatternCommandChain
  */
-abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdentifiable
+abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdapterInterface, KObjectIdentifiable
 {
 	/**
 	 * Active state of the connection
@@ -94,7 +94,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
 		
 		 // Mixin the command chain
         $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain)
+        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
         )));
 	}
 
@@ -121,7 +121,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
     	$config->append(array(
             'command_chain' =>  new KCommandChain(),
         	'charset'		=> 'UTF-8',
-        	'table_prefix'  => 'jos_'
+       	 	'table_prefix'  => 'jos_',
+    		'auto_events'	=> true
         ));
         
         parent::_initialize($config);
@@ -151,20 +152,6 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
 		
 		return new KDatabaseQuery($config);
 	}
-
-	/**
-	 * Connect to the db
-	 * 
-	 * @return  KDatabaseAdapterAbstract
-	 */
-	abstract public function connect();
-
-	/**
-	 * Determines if the connection to the server is active.
-	 *
-	 * @return      boolean
-	 */
-	abstract public function active();
 
 	/**
 	 * Reconnect to the db
@@ -227,76 +214,6 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
     	return $this->_insert_id;
     }
 
-   /**
-	 * Fetch the first field of the first row
-	 *
-	 * @return scalar The value returned in the query or null if the query failed.
-	 */
-	abstract public function fetchField($sql);
-
-	/**
-	 * Fetch an array of single field results
-	 *
-	 * @return array
-	 */
-	abstract public function fetchFieldList($sql);
-
-	/**
-     * Fetch the current row as an associative array
-     *
-     * @param	string  The SQL query. Data inside the query should be properly escaped. 
-     * @return array
-     */
-	abstract public function fetchArray($sql);
-
-	/**
-	 * Fetch all result rows as an array of associative arrays
-	 *
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param 	string 	The column name of the index to use
-	 * @return 	array 	If key is empty as sequential list of returned records.
-	 */
-	abstract public function fetchArrayList($sql, $key = '');
-
-	/**
-	 * Fetch the current row of a result set as an object
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param object
-	 */
-	abstract public function fetchObject($sql);
-
-	/**
-	 * Fetch all rows of a result set as an array of objects
-	 *
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param 	string 	The column name of the index to use
-	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
-	 */
-	abstract public function fetchObjectList($sql, $key='' );
-
-	/**
-	 * Retrieves the column schema information about the given tables
-	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of columns by table
-	 */
-	abstract public function fetchTableColumns($tables);
-	
-	/**
-	 * Retrieves the table schema information about the given tables
-	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of table information by table
-	 */
-	abstract public function fetchTableInfo($tables);
-	
 	/**
      * Preforms a select query
      *
@@ -514,78 +431,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
 	{
 		$replace = $replace ? $replace : $this->getTablePrefix();
 		$sql = trim( $sql );
-
-		$escaped = false;
-		$quoteChar = '';
-
-		$n = strlen( $sql );
-
-		$startPos = 0;
-		$literal = '';
-		while ($startPos < $n)
-		{
-			$ip = strpos($sql, $needle, $startPos);
-			if ($ip === false) {
-				break;
-			}
-
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
-
-			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
-				$quoteChar	= '"';
-				$j			= $k;
-			} else {
-				$quoteChar	= "'";
-			}
-
-			if ($j === false) {
-				$j = $n;
-			}
-
-			$literal .= str_replace( $needle, $replace, substr( $sql, $startPos, $j - $startPos ) );
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n) {
-				break;
-			}
-
-			// quote comes first, find end of quote
-			while (TRUE)
-			{
-				$k = strpos( $sql, $quoteChar, $j );
-				$escaped = false;
-				if ($k === false) {
-					break;
-				}
-				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\') {
-					$l--;
-					$escaped = !$escaped;
-				}
-				if ($escaped) {
-					$j	= $k+1;
-					continue;
-				}
-				break;
-			}
-
-			if ($k === FALSE) {
-				// error in the query - no end quote; ignore it
-				break;
-			}
-
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
-			$startPos = $k+1;
-		}
-
-		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
-		}
-
-		return $literal;
+		
+		$pattern = "($needle(?=[a-z]))";
+    	$sql = preg_replace($pattern, $replace, $sql);
+    	
+		return $sql;
 	}
 
     /**
@@ -658,19 +508,12 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
    	/**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
+     * 
+     * This function requires all SQL statements, operators and functions to be 
+     * uppercased.
      *
-     * If the name contains ' AS ', this method will separately quote the
-     * parts before and after the ' AS '.
-     *
-     * If the name contains a space, this method will separately quote the
-     * parts before and after the space.
-     *
-     * If the name contains a dot, this method will separately quote the
-     * parts before and after the dot.
-     *
-     * @param string|array $spec The identifier name to quote.  If an array,
-     * quotes each element in the array as an identifier name.
-     *
+     * @param string|array The identifier name to quote.  If an array, quotes 
+     *                      each element in the array as an identifier name.
      * @return string|array The quoted identifier name (or array of names).
      *
      * @see _quoteName()
@@ -682,84 +525,24 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
             foreach ($spec as $key => $val) {
                 $spec[$key] = $this->quoteName($val);
             }
+            
             return $spec;
         }
-
-        // no extraneous spaces
+         
+        // String spaces around the identifier
         $spec = trim($spec);
-
-        // `original` AS `alias`
-        $pos = strrpos($spec, ' AS ');
-        if ($pos)
-        {
-        	// recurse to allow for "table.col"
-            $orig  = $this->quoteName(substr($spec, 0, $pos));
-            // use as-is
-            $alias = $this->_quoteName(substr($spec, $pos + 4));
-
-            return "$orig AS $alias";
-        }
-
-     	// `original` = `alias`
-        $pos = strrpos($spec, ' = ');
-        if ($pos)
-        {
-            // recurse to allow for "table.col"
-            $orig = $this->quoteName(substr($spec, 0, $pos));
-            // recurse to allow for "table.col"
-            $alias = $this->quoteName(substr($spec, $pos + 3));
-            return "$orig = $alias";
-        }
-        
-         // `original` > `alias`
-	   	$pos = strrpos($spec, ' > ');
-	  	if ($pos)
-	  	{
-	   		// recurse to allow for "table.col"	
-	      	$orig = $this->quoteName(substr($spec, 0, $pos));
-            // recurse to allow for "table.col"
-            $alias = $this->quoteName(substr($spec, $pos + 3));
-            return "$orig > $alias";
-        }
-        
-        // `original` < `alias`
-        $pos = strrpos($spec, ' < ');
-        if ($pos)
-        {
-            // recurse to allow for "table.col"
-            $orig = $this->quoteName(substr($spec, 0, $pos));
-            // recurse to allow for "table.col"
-            $alias = $this->quoteName(substr($spec, $pos + 3));
-            return "$orig < $alias";
-        }
-        
-        // `original` `alias`
-        $pos = strrpos($spec, ' ');
-        if ($pos)
-        {
-            // recurse to allow for "table.col"
-            $orig = $this->quoteName(substr($spec, 0, $pos));
-            // use as-is
-            $alias = $this->_quoteName(substr($spec, $pos + 1));
-            return "$orig $alias";
-        }
-
-        // `table`.`column`
-        $pos = strrpos($spec, '.');
-        if ($pos)
-        {
-            // use both as-is
-            $table = $this->_quoteName(substr($spec, 0, $pos));
-            $col   = $this->_quoteName(substr($spec, $pos + 1));
-            return "$table.$col";
-        }
-
-        // `name`
-        return $this->_quoteName($spec);
+    	
+        // Quote all the lower case parts
+    	$spec = preg_replace_callback('#(?:\b|\#)+(?<!`)([a-z0-9\.\#\-_]+)(?!`)\b#', array($this, '_quoteName') , $spec);
+    	
+        return $spec;
     }
 
     /**
      * Quotes an identifier name (table, index, etc). Ignores empty values.
+     * 
+     * If the name contains a dot, this method will separately quote the
+     * parts before and after the dot.
      *
      * @param string 	The identifier name to quote.
      * @return string 	The quoted identifier name.
@@ -767,13 +550,28 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KObjectIdenti
      */
     protected function _quoteName($name)
     {
-        $name = trim($name);
-
+    	$result =  '';
+    	
+    	if(is_array($name)) {
+    		$name = $name[0];
+    	}
+    	
+    	$name   = trim($name);
+    	
         //Special cases
         if ($name == '*' || is_numeric($name)) {
             return $name;
         }
-
-        return $this->_name_quote. $name.$this->_name_quote;
+         
+        if ($pos = strrpos($name, '.'))
+        {
+            $table  = $this->_quoteName(substr($name, 0, $pos));
+            $column = $this->_quoteName(substr($name, $pos + 1));
+            		
+            $result =  "$table.$column";
+        }
+        else $result = $this->_name_quote. $name.$this->_name_quote;
+        
+        return $result;
     }
 }

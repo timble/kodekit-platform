@@ -43,7 +43,8 @@ class KFactoryAdapterPlugin extends KFactoryAdapterAbstract
 			//If the object is indentifiable push the identifier in through the constructor
 			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
 			{
-				$identifier->filepath = $path;
+				$identifier->filepath  = $path;
+				$identifier->classname = $classname;
 				$config->identifier = $identifier;
 			}
 							

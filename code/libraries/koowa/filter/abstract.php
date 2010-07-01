@@ -25,6 +25,14 @@ abstract class KFilterAbstract implements KFilterInterface
 	protected $_chain = null;
 	
 	/**
+	 * If the data to be santized or validated if an object or array,
+	 * walk over each individual property or element. Default TRUE.
+	 *
+	 * @var	boolean
+	 */
+	protected $_walk = true;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param 	object	An optional KConfig object with configuration options
@@ -33,10 +41,25 @@ abstract class KFilterAbstract implements KFilterInterface
 	{
 		 $this->_chain = new KFilterChain();
 		 $this->addFilter($this);
+		 
+		$this->_initialize($config);
 	}
 	
+ 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return 	void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	//do nothing
+    }
+	
 	/**
-	 * Generic Command handler
+	 * Command handler
 	 * 
 	 * @param string  The command name
 	 * @param object  The command context
@@ -57,7 +80,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 */
 	final public function validate($data)
 	{
-		if(is_array($data) || is_object($data)) 
+		if($this->_walk && (is_array($data) || is_object($data))) 
 		{
 			$arr = (array)$data;
 			
@@ -91,7 +114,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 */
 	public final function sanitize($data)
 	{
-		if(is_array($data) || is_object($data)) 
+		if($this->_walk && (is_array($data) || is_object($data))) 
 		{
 			$arr = (array)$data;
 				
@@ -143,7 +166,6 @@ abstract class KFilterAbstract implements KFilterInterface
 	{
 		return spl_object_hash( $this );
 	}
-
 
 	/**
 	 * Validate a variable

@@ -36,7 +36,7 @@ class KCommandEvent extends KObject implements KCommandInterface
 		$event = 'on'.KInflector::implode($parts);
 	
 		$dispatcher = KFactory::get('lib.koowa.event.dispatcher');
-		$dispatcher->dispatch($event, $context);
+		$dispatcher->dispatch($event, clone($context));
 		
 		return true;
 	}

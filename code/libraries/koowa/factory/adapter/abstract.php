@@ -19,7 +19,7 @@
 abstract class KFactoryAdapterAbstract extends KObject implements KFactoryAdapterInterface
 {
 	/**
-	 * Generic Command handler
+	 * Command handler
 	 *
 	 * @param string  The object identifier
 	 * @param object  The command context

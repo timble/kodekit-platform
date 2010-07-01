@@ -19,10 +19,28 @@
 class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 {
 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
+     */
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+			'priority'   => KCommandChain::PRIORITY_LOW,
+	  	));
+
+    	parent::_initialize($config);
+   	}
+	
+	/**
 	 * Get the methods that are available for mixin based
 	 * 
 	 * This function conditionaly mixes the behavior. Only if the mixer 
-	 * has a 'modified_by' property the behavior will be mixed in.
+	 * has a 'modified_by' or 'modified_by' property the behavior will 
+	 * be mixed in.
 	 * 
 	 * @param object The mixer requesting the mixable methods. 
 	 * @return array An array of methods
@@ -31,7 +49,7 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 		
-		if(isset($mixer->modified_by)) {
+		if(isset($mixer->modified_by) || isset($mixer->modified_on)) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 	
@@ -49,12 +67,18 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	{
 		$row = $context->data; //get the row data being inserted
 		
-		if(isset($row->modified_by)) {
-			$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
-		}
+		//Get the modified columns
+		$modified = $context->caller->filter(array_flip($row->getModified()));
 		
-		if(isset($row->modified_on)) {
-			$row->modified_on = gmdate('Y-m-d H:i:s');
+		if(!empty($modified))
+		{
+			if(isset($row->modified_by)) {
+				$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
+			}
+		
+			if(isset($row->modified_on)) {
+				$row->modified_on = gmdate('Y-m-d H:i:s');
+			}
 		}
 	}
 }

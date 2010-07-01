@@ -37,7 +37,12 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 * This factory will try to create an generic or default object based on the identifier information
 	 * if the actual object cannot be found using a predefined fallback sequence.
 	 * 
-	 * Sequence : Component Generic -> Component Default -> Framework Generic -> Framework Default
+	 * Fallback sequence : -> Named Component Specific
+	 *                     -> Named Component Default  
+	 *                     -> Default Component Specific
+	 *                     -> Default Component Default
+	 *                     -> Framework Specific 
+	 *                     -> Framework Default
 	 *
 	 * @param mixed  		 Identifier or Identifier object - application::com.component.[.path].name
 	 * @param 	object 		 An optional KConfig object with configuration options
@@ -79,12 +84,21 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 					/*
 					 * Find the classname to fallback too and auto-load the class
 					 * 
-					 * Fallback sequence : Component Generic -> Component Default -> Framework Generic -> Framework Default
+					 * Fallback sequence : -> Named Component Specific 
+					 *                     -> Named Component Default  
+					 *                     -> Default Component Specific 
+					 *                     -> Default Component Defaukt
+					 *                     -> Framework Specific 
+					 *                     -> Framework Default
 					 */
 					if(class_exists('Com'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name))) {
 						$classname = 'Com'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name);
 					} elseif(class_exists('Com'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default')) {
 						$classname = 'Com'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default';
+					} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
+						$classname = 'ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
+					} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.'Default')) {
+						$classname = 'ComDefault'.ucfirst($classtype).$path.'Default';
 					} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
 						$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
 					} else {
@@ -96,7 +110,8 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 			//If the object is indentifiable push the identifier in through the constructor
 			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
 			{
-				$identifier->filepath = KLoader::path($identifier);
+				$identifier->filepath  = KLoader::path($identifier);
+				$identifier->classname = $classname;
 				$config->identifier = $identifier;
 			}
 							

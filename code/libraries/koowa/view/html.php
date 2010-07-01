@@ -18,64 +18,59 @@
 class KViewHtml extends KViewTemplate
 {
 	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		// Add a rule to the template for form handling and secrity tokens
-		KTemplate::addRules(array(KFactory::get('lib.koowa.template.filter.form')));
-
-		// Set base and media urls for use by the view
-		$this->assign('baseurl' , $config->base_url)
-			 ->assign('mediaurl', $config->media_url);
-
-		parent::__construct($config);
-	}
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	parent::_initialize($config);
+    	
+    	$config->template_filters = array_merge($config->template_filters, array('form'));
+    }
 	
 	/**
-	 * Renders and echo's the views output
+	 * Return the views output
+	 * 
+	 * This function will auto assign the model data to the view if the auto_assign
+	 * property is set to TRUE. 
  	 *
-	 * @return KViewHtml
+	 * @return string 	The output of the view
 	 */
 	public function display()
 	{
 		$model = KFactory::get($this->getModel());
-		
+			
 		//Auto-assign the state to the view
 		$this->assign('state', $model->getState());
 		
-		//Get the view name
-		$name  = $this->getName();
+		//Auto-assign the data from the model
+		if($this->_auto_assign)
+		{
+			//Get the view name
+			$name  = $this->getName();
 		
-		//Assign the data of the model to the view
-		if(KInflector::isPlural($name))
-		{
-			$this->assign($name, 	$model->getList())
-				 ->assign('total',	$model->getTotal());
-		}
-		else
-		{
-			$this->assign($name, $model->getItem());
+			//Assign the data of the model to the view
+			if(KInflector::isPlural($name))
+			{
+				$this->assign($name, 	$model->getList())
+					 ->assign('total',	$model->getTotal());
+			}
+			else
+			{
+				$this->assign($name, $model->getItem());
+			}
 		}
 		
 		//Load the template
 		$template = $this->loadTemplate();
 		
-		//Render the scripts
-		if(KRequest::type() == 'AJAX')
-		{
-			foreach ($this->_document->_scripts as $source => $type) {
-				echo '<script type="'.$type.'" src="'.$source.'"></script>'."\n";
-			}
-		}
-	
 		//Render the template
-		echo $template;
-		
-		return $this;
+		$this->output .= $template;
+	
+		return parent::display();
 	}
 }

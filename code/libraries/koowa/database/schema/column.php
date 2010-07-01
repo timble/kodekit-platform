@@ -12,7 +12,6 @@
 /**
  * Database Schema Column Class
  *
- * @author		Mathias Verraes <mathias@koowa.org>
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Database
@@ -35,11 +34,11 @@ class KDatabaseSchemaColumn extends KObject
 	public $type;
 	
 	/**
-	 * Column size
+	 * Column length
 	 * 
 	 * @var integer
 	 */
-	public $size;
+	public $length;
 	
 	/**
 	 * Column scope
@@ -84,6 +83,13 @@ class KDatabaseSchemaColumn extends KObject
 	public $unique = false;
 	
 	/**
+	 * Related index columns
+	 * 
+	 * @var	bool
+	 */
+	public $related = array();
+	
+	/**
 	 * Filter object
 	 * 
 	 * Public access is allowed via __get() with $filter.
@@ -124,7 +130,7 @@ class KDatabaseSchemaColumn extends KObject
 			}
 			
 			if(!($this->_filter instanceof KFilterInterface)) {
-				$this->_filter = KFilter::instantiate(array('filter' => $this->_filter));
+				$this->_filter = KFilter::factory($this->_filter);
 			}
 		
 			return $this->_filter;

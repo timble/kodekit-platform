@@ -54,10 +54,18 @@ var KTabs = new Class({
             title.addEvent('click', this.display.bind(this, i));
             description.injectInside(this.content);
         }
+        
+        if(Cookie.get('ktabs.' + dlist)) {
+        	this.options.display = Cookie.get('ktabs.' + dlist);
+        }
+    
+        if ($chk(this.options.display)) {
+        	this.display(this.options.display);
+        }
 
-        if ($chk(this.options.display)) this.display(this.options.display);
-
-        if (this.options.initialize) this.options.initialize.call(this);
+        if (this.options.initialize) {
+        	this.options.initialize.call(this);
+        }
     },
 
     hideAllBut: function(but)
@@ -69,7 +77,8 @@ var KTabs = new Class({
 
     display: function(i)
     {
-        this.hideAllBut(i);
+    	Cookie.set('ktabs.' + this.dlist.getProperty('id'), i);
+    	this.hideAllBut(i);
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]])
     }
 });

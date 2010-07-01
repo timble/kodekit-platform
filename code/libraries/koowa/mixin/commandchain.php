@@ -14,7 +14,7 @@
  * Class can be used as a mixin in classes that want to implement a chain 
  * of responsability or chain of command pattern.
  *  
- * @author      Mathias Verraes <mathias@koowa.org>
+ * @author      Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Mixin
  * @uses 		KCommandChain

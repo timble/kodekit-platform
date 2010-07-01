@@ -45,11 +45,11 @@ class KCommandChain extends KObject
 	protected $_priority = null;
 	
 	/**
-	 * Command context
-	 *
-	 * @var KCommandContext
+	 * Enabled status of the chain
+	 * 
+	 * @var boolean
 	 */
-	protected $_context = null;
+	protected $_enabled = true;
 
 	/**
 	 * Constructor
@@ -112,26 +112,50 @@ class KCommandChain extends KObject
 	 */
   	public function run( $name, KCommandContext $context )
   	{
-  		$iterator = $this->_priority->getIterator();
-
-  		//Store a reference to the active context
-  		$this->_context = $context;
+  		if($this->_enabled)
+  		{
+  			$iterator = $this->_priority->getIterator();
+  			
+  			//Store a reference to the active context
+  			$this->_context = $context;
   		
-		while($iterator->valid()) 
-		{
-    		$cmd = $this->_command[ $iterator->key()];
-    		
-			if ( $cmd->execute( $name, $context ) === false) 
+			while($iterator->valid()) 
 			{
-				$this->_context = null;
-      			return false;
-      		}
+    			$cmd = $this->_command[ $iterator->key()];
+    		
+				if ( $cmd->execute( $name, $context ) === false) {
+      				return false;
+      			}
 
-    		$iterator->next();
-		}
+    			$iterator->next();
+			}
+  		}
 		
-		$this->_context = null;
 		return true;
+  	}
+  	
+  	/**
+	 * Enable the chain
+	 *
+	 * @return	void
+	 */
+  	public function enable()
+  	{
+  		$this->_enabled = true;
+  		return $this;
+  	}
+  	
+  	/**
+	 * Disable the chain
+	 * 
+	 * If the chain is disabled running the chain will always return TRUE
+	 *
+	 * @return	void
+	 */
+	public function disable()
+  	{
+  		$this->_enabled = false;
+  		return $this;
   	}
   	
   	/**
@@ -174,17 +198,13 @@ class KCommandChain extends KObject
   	}
   	
 	/**
-	 * Get a command context.
+	 * Factory method for a command context.
 	 * 
-	 * @return	KCommandContext 	The current command context or an empty command context if
-	 * 								the chain is not running.
+	 * @return	KCommandContext
 	 */
   	public function getContext()
   	{
-		if(!isset($this->_context)) {
-			$this->_context = new KCommandContext();
-		}
-		
-  		return $this->_context;
+		$context = new KCommandContext();	
+  		return $context;
   	}
 }

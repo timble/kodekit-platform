@@ -16,7 +16,13 @@
 	</files>
 	
 	<!--  Media -->
-	<media destination="plg_koowa" folder="media/plg_koowa">
+	<media destination="lib_koowa" folder="media/lib_koowa">
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>css</folder>
+	</media>
+	
+	<media destination="com_default" folder="media/com_default">
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>css</folder>

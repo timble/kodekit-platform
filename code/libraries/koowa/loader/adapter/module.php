@@ -64,12 +64,12 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 				$name = array_shift($parts);
 				
 				if(count($parts) > 1) {
-					$path = KInflector::pluralize(array_shift($parts)).DS.implode(DS, $parts);
+					$path = KInflector::pluralize(array_shift($parts)).'/'.implode('/', $parts);
 				} else {
 					$path = array_shift($parts);
 				}
 					
-				$path = $this->_basepath.DS.'modules'.DS.'mod_'.$name.DS.$path.'.php';			
+				$path = $this->_basepath.'/modules/mod_'.$name.'/'.$path.'.php';			
 			}
 		}
 		
@@ -100,13 +100,13 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 				if(count($parts)) 
 				{
 					$path    = KInflector::pluralize(array_shift($parts)).
-					$path   .= count($parts) ? DS.implode(DS, $parts) : '';
+					$path   .= count($parts) ? '/'.implode('/', $parts) : '';
 					$path   .= DS.strtolower($identifier->name);	
 				} 
 				else $path  = strtolower($identifier->name);	
 			}
 				
-			$path = $this->_basepath.DS.'modules'.DS.'mod_'.$name.DS.$path.'.php';			
+			$path = $this->_basepath.'/modules/mod_'.$name.'/'.$path.'.php';			
 		}	
 		
 		return $path;

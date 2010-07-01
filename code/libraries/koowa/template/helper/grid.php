@@ -12,179 +12,204 @@
 /**
  * Template Grid Helper
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
+ * @see 		http://ajaxpatterns.org/Data_Grid
  */
-class KTemplateHelperGrid extends KObject
+class KTemplateHelperGrid extends KTemplateHelperAbstract
 {
 	/**
-	 * Shows a true/false graphics
+	 * Render a checkbox field
 	 *
-	 * @param	bool	Value
-	 * @param 	string	Image for true
-	 * @param 	string	Image for false
-	 * @param 	string 	Text for true
-	 * @param 	string	Text for false
-	 * @return 	string	Html img
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
 	 */
-	public function boolean( $bool, $true_img = null, $false_img = null, $true_text = null, $false_text = null)
+	public function checkbox($config = array())
 	{
-		$true_img 	= $true_img 	? $true_img 	: 'tick.png';
-		$false_img 	= $false_img	? $false_img	: 'publish_x.png';
-		$true_text 	= $true_text 	? $true_text 	: 'Yes';
-		$false_text = $false_text 	? $false_text 	: 'No';
+		$config = new KConfig($config);
+		$config->append(array(
+			'row'  		=> null,
+		));
 
-		return '<img src="images/'. ($bool ? $true_img : $false_img) .'" border="0" alt="'. JText::_($bool ? $true_text : $false_text) .'" />';
+		if($config->row->isLockable() && $config->row->locked())
+		{
+			$html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
+						<img src="images/checked_out.png"/>
+					</span>';
+		}
+		else  $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="id[]" value="'.$config->row->id.'" />';
+
+		return $html;
 	}
 
 	/**
-	 * @param	string	The link title
-	 * @param	string	The order field for the column
-	 * @param	string	The current direction
-	 * @param	string	The selected ordering
+	 * Render a sorting field
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
 	 */
-	public function sort( $title, $order, $direction = 'asc', $selected = 0)
+	public function sort( $config = array())
 	{
-		$img = '';
+		$config = new KConfig($config);
+		$config->append(array(
+			'title'   => '',
+			'column'  => '',
+			'state'   => null
+		));
 
-		// cleanup
-		$direction	= strtolower($direction);
-		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
 
-
-		// only for the current sorting
-		if($order == $selected)
-		{
-			$img = KTemplate::loadHelper('image.template',   'sort_'.$direction.'.png', 'images/', NULL, NULL);
-			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
+		//Set the title
+		if(empty($config->title)) {
+			$config->title = ucfirst($config->column);
 		}
 
-		// modify url
+		//Set the direction
+		$direction	= strtolower($config->state->direction);
+		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
+
+		//Set the class
+		$class = '';
+		if($config->column == $config->state->sort)
+		{
+			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
+			$class = 'class="'.$direction.'"';
+		}
+
 		$url = clone KRequest::url();
-		$query = $url->getQuery(1);
-		$query['order'] 	 = $order;
+
+		$query 				= $url->getQuery(1);
+		$query['sort'] 		= $config->column;
 		$query['direction'] = $direction;
 		$url->setQuery($query);
 
-		// render html
-		$html  = '<a href="'.JRoute::_($url).'" title="'.JText::_('Click to sort by this column').'">';
-		$html .= JText::_($title).$img;
+		$html  = '<a href="'.JRoute::_($url).'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
+		$html .= JText::_($config->title);
 		$html .= '</a>';
 
 		return $html;
 	}
 
-	public function publish( $publish, $id, $imgY = 'tick.png', $imgX = 'publish_x.png' )
+	/**
+	 * Render an enable field
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function enable($config = array())
 	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
+		$config = new KConfig($config);
+		$config->append(array(
+			'row'  		=> null,
+		));
 
-		$img 	= $publish ? $imgY : $imgX;
-		$alt 	= $publish ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$text 	= $publish ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
-		$action = $publish ? 'disable' : 'enable';
+		$html = '';
+		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
+		
+		$img 	= $config->row->enabled ? 'tick.png' : 'publish_x.png';
+		$alt 	= $config->row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
+		$value 	= $config->row->enabled ? 0 : 1;
 
-		$href = '
-		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
-		;
+		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$token = JUtility::getToken();
 
-		return $href;
+		$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
+		$html .= '<img src="images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
+
+		return $html;
 	}
 
-	public function enable( $enable, $id, $imgY = 'tick.png', $imgX = 'publish_x.png')
+	/**
+	 * Render an order field
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function order($config = array())
 	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
+		$config = new KConfig($config);
+		$config->append(array(
+			'row'  		=> null,
+		));
 
-		$img 	= $enable ? $imgY : $imgX;
-		$alt 	= $enable ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$text 	= $enable ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-		$action = $enable ? 'disable' : 'enable';
+		$html = '';
+		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
+	
+		$up   = 'media://lib_koowa/images/arrow_up.png';
+		$down = 'media://lib_koowa/images/arrow_down.png';
 
-		$href = '
-		<a href="javascript:KGrid.action(\''.$action.'\', \'cb'. $id .'\')" title="'. $text .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
-		;
+		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$token = JUtility::getToken();
 
-		return $href;
+		$uprel = "{method:'post', url:'$url', params:{order:-1, action:'edit', _token:'$token'}}";
+		$downrel = "{method:'post', url:'$url', params:{order:1, action:'edit', _token:'$token'}}";
+
+		$html = '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" class="submitable" rel="'.$uprel.'" />'
+				 .$config->row->ordering
+			     .'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" class="submitable" rel="'.$downrel.'"/>';
+
+		return $html;
 	}
 
-	public function order($id)
+	/**
+	 * Render an access field
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function access($config = array())
 	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
+		$config = new KConfig($config);
+		$config->append(array(
+			'row'  		=> null,
+		));
+		
+		$html = '';
+		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 
-		$up   = KRequest::root().'/media/plg_koowa/images/arrow_up.png';
-		$down = KRequest::root().'/media/plg_koowa/images/arrow_down.png';
-
-		$result =
-			 '<a href="javascript:KGrid.order('.$id.', -1)" >'
-			.'<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" />'
-			.'</a>'
-			.'<a href="javascript:KGrid.order('.$id.', 1)" >'
-			.'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" />'
-			.'</a>';
-
-		return $result;
-	}
-
-	public function access( $access, $id )
-	{
-		//Load koowa javascript
-		KTemplate::loadHelper('script', KRequest::root().'/media/plg_koowa/js/koowa.js');
-
-		switch($access)
+		switch($config->row->access)
 		{
 			case 0 :
 			{
-				$color   = 'style="color: green;"';
+				$color   = 'green';
 				$group   = JText::_('Public');
 				$access  = 1;
 			} break;
 
 			case 1 :
 			{
-				$color   = 'style="color: red;"';
+				$color   = 'red';
 				$group   = JText::_('Registered');
 				$access  = 2;
 			} break;
 
 			case 2 :
 			{
-				$color   = 'style="color: black;"';
+				$color   = 'black';
 				$group   = JText::_('Special');
 				$access  = 0;
 			} break;
 
 		}
 
-		$href = '
-			<a href="javascript:KGrid.access(\'cb'. $id .'\',  \''. $access .'\')" '. $color .'>
-			'. $group .'</a>'
-			;
+		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$token = JUtility::getToken();
 
-		return $href;
+		$rel   = "{method:'post',  url:'$url', params:{access:$access, _token:'$token'}}";
+		$html .= '<span style="color:'.$color.'" class="submitable" rel="'.$rel.'" />'.$group.'</span>';
+
+		return $html;
 	}
 
-	public function id( $id, $row, $name = 'id' )
+	protected function _createURL(KDatabaseRowInterface $row)
 	{
-		if(isset($row->locked) && $row->locked) 
-		{
-			$text = $row->locked_by;
-			$date = KTemplate::loadHelper('date',  $row->locked_on, '%A, %d %B %Y' );
-			$time = KTemplate::loadHelper('date',  $row->locked_on, '%H:%M' );
+		$option = 'com_'.$row->getIdentifier()->package;
+		$view   = $row->getIdentifier()->name;
 
-			$html = '<span class="editlinktip hasTip" title="'. JText::_( 'Locked by ' ) . $text .' on '. $date .' at '. $time .'">
-						<img src="images/checked_out.png"/>
-					</span>';
-		} 
-		else $html = '<input type="checkbox" id="cb'.$id.'" name="'.$name.'[]" value="'.$row->$name.'" />';
-		
-		return $html;
+		$url = 'index.php?option='.$option.'&view='.$view;
+
+		return $url;
 	}
 }

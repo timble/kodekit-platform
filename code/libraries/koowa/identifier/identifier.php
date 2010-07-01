@@ -63,6 +63,13 @@ class KIdentifier implements KIdentifierInterface
 	public $filepath = '';
 	
 	/**
+	 * The classname
+	 *
+	 * @var	string
+	 */
+	public $classname = '';
+	
+	/**
 	 * Constructor
 	 *
 	 * @param	string|object	Identifier string or object in [application::]type.package.[.path].name format

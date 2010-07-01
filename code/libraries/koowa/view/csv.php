@@ -53,16 +53,16 @@ class KViewCsv extends KViewFile
 			'disposition' => 'inline',
 			'quote'		  => '"',
 			'separator'	  => ',',
-			'eol'		  => '\n'
+			'eol'		  => "\n"
        	));
        	
        	parent::_initialize($config);
     }
 	
 	/**
-	 * Renders and echo's the views output
+	 * Return the views output
  	 *
-	 * @return KViewCsv
+	 *  @return string 	The output of the view
 	 */
 	public function display()
 	{
@@ -70,11 +70,11 @@ class KViewCsv extends KViewFile
 		$rowset = KFactory::get($this->getModel())->getList();
 		
 		// Header
-		$this->output = $this->_renderRow(array_keys($rowset->getColumns()));
+		$this->output .= $this->_arrayToString($rowset->getColumns()).$this->eol;
 		
 		// Data
 		foreach($rowset as $row) {
-			$this->output .= $this->_arrayToString($row->getData());
+			$this->output .= $this->_arrayToString($row->getData()).$this->eol;
 		}
 	 	
 		return parent::display();
@@ -100,7 +100,7 @@ class KViewCsv extends KViewFile
             else $fields[] = $value;
         }
 
-        return  implode($this->separator, $fields).$this->eol;
+        return  implode($this->separator, $fields);
     }
 	
     /**

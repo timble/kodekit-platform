@@ -48,9 +48,9 @@ class KViewVcard extends KViewFile
     }
 		
 	/**
-	 * Execute and echo's the views output
+	 * Return the views output
  	 *
-	 * @return KViewVCard
+	 *  @return string 	The output of the view
 	 */
 	public function display()
 	{

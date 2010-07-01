@@ -23,38 +23,62 @@ function $get(key, defaultValue) {
 	return location.search.get(key, defaultValue);
 }	
 
+/* Section: onDomReady */
+window.addEvent('domready', function() {
+	$$('.submitable').addEvent('click', function(e){
+		e = new Event(e);
+		new KForm(Json.evaluate(e.target.getProperty('rel'))).submit();
+	});
+});
+
 /* Section: Classes */
 
 /**
- * Form class
- *
- * @package     Koowa_Media
- * @subpackage	Javascript
+ * Creates a 'virtual form'
+ * 
+ * @param	json	Configuration:  method, url, params, formelem
+ * @example new KForm({method:'post', url:'foo=bar&id=1', params:{field1:'val1', field2...}}).submit();
  */
-KForm = 
-{	
-	addField: function(name, value)
+KForm = new Class({
+	
+	initialize: function(config)
 	{
-		var el = document.createElement('input');
-		el.setAttribute('name', name)
-		el.setAttribute('value', value)
-		el.setAttribute('type', 'hidden');
-		document.adminForm.appendChild(el);	
+		this.config = config;
+		if(this.config.formelem) {
+			this.form = $(eval('document.'+this.config.formelem));
+		} 
+		else 
+		{
+			this.form = new Element('form', {
+				name: 'dynamicform',
+				method: this.config.method,
+				action: this.config.url
+			});
+			this.form.injectInside($E('body'));
+		}
 	},
 	
-	/**
-	 * Submit the grid's form
-	 *
-	 * @param	Method	[get|post]
-	 */
-	submit: function(action)
+	addField: function(name, value)
 	{
-		var form = document.adminForm;
-		form.method.value = action.toLowerCase();
-		form.submit();
+		var elem = new Element('input', {
+			name: name,
+			value: value,
+			type: 'hidden'
+		});
+		elem.injectInside(this.form);
+		return this;
+	},
+	
+	submit: function()
+	{
+		$each(this.config.params, function(value, name){
+			this.addField(name, value);
+		}.bind(this));
+		this.form.submit();
 	}
-} 
- 
+});
+
+
 /**
  * Grid class
  *
@@ -63,34 +87,6 @@ KForm =
  */
 KGrid = 
 {
-	order: function (id, value) 
-	{
-		var form = document.adminForm;
-		form.id.value= id;
-		form.order_change.value	= value;
-		form.action.value = 'order';
-		form.submit();
-	},
-	
-	access: function (id, value) 
-	{
-		var form = document.adminForm;
-   	 	cb = eval( 'form.' + id );
-    	if (cb) 
-    	{
-        	for (i = 0; true; i++) {
-            	cbx = eval('form.cb'+i);
-            	if (!cbx) break;
-            	cbx.checked = false;
-        	} 
-        	
-        	cb.checked = true;
-        	form.access.value = value;
-        	form.action.value = 'access';
-			form.submit();
-    	}
-	},
-	
 	action: function(action, id)
 	{
 		var form = document.adminForm;
@@ -110,20 +106,42 @@ KGrid =
 	},
 	
 	/**
+	 * Find all selected checkboxes' ids in the grid
+	 *
+	 * @return 	array	The items' ids
+	 */
+	getAllSelected: function()
+	{
+		var result = new Array;
+		var inputs = $$('input[name^=id]');
+		for (var i=0; i < inputs.length; i++) {
+		   if (inputs[i].checked) {
+		      result.include(inputs[i].value);
+		   }
+		}
+		return result;
+	},
+	
+	getIdQuery: function()
+	{
+		var result = new Array();
+		$each(this.getAllSelected(), function(value){
+			result.include('id[]='+value);
+		});
+		return result.join('&');
+	},
+	
+	/**
 	 * Find the first selected checkbox id in the grid
 	 *
 	 * @return 	integer	The item's id or false if no item is selected
 	 */
 	getFirstSelected: function()
 	{
-		var inputs = $(document.adminForm).getElements('input[name^=id]');
-		for (var i=0; i < inputs.length; i++) {
-		   if (inputs[i].checked) {
-		      return inputs[i].value;
-		   }
-		}
+		var all = this.getAllSelected();
+		if(all.length) return all[0];
 	}
-}
+};
 
 /**
  * Query class
@@ -190,13 +208,23 @@ var KOverlay = Ajax.extend ({
     {
     	var element = new Element('div').setHTML(this.response.text);
     		
-    	scripts = element.getElementsBySelector('script[type=text/javascript]');
-    	scripts.each(function(script) {
-    		if (this.options.evalScripts) {
+    	if (this.options.evalScripts) 
+    	{
+    		scripts = element.getElementsBySelector('script[type=text/javascript]');
+    		scripts.each(function(script) {
     			new Asset.javascript(script.src, {id: script.id });
-    		}
-			script.remove();
-		}.bind(this));
+    			script.remove();
+			}.bind(this))
+    	}
+    	
+    	if (this.options.evalStyles) 
+    	{
+    		styles  = element.getElementsBySelector('link[type=text/css]');
+    		styles.each(function(style) {
+    			new Asset.css(style.href, {id: style.id });
+    			style.remove();
+    		}.bind(this))
+    	}
     	
     	this.element.replaceWith(element.getElement('#'+this.element.id));
     }
@@ -220,7 +248,7 @@ String.extend(
 		{
 			var query = uri['query'].parseQueryString();
 			if($defined(query[key])) {
-				return query[key]
+				return query[key];
 			}
 		}
 		

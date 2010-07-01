@@ -21,21 +21,26 @@ class ComDefaultHelperPaginator extends KTemplateHelperPaginator
 {
 	/**
 	 * Render item pagination
-	 *
-	 * @param	int	Total number of items
-	 * @param	int	Offset for the current page
-	 * @param	int	Limit of items per page
-	 * @param	int	Number of links to show before and after the current page link
+	 * 
+	 * @param 	array 	An optional array with configuration options
 	 * @return	string	Html
+	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
 	 */
-	public function pagination($total, $offset, $limit, $display = 4)
+	public function pagination($config = array())
 	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'total'   => 0,
+			'state'   => null,
+			'display' => 4
+		));
+		
 		// Paginator object
 		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
-				array('total'  => $total,
-					  'offset' => $offset,
-					  'limit'  => $limit,
-					  'display' => $display)
+				array('total'  => $config->total,
+					  'offset' => $config->state->offset,
+					  'limit'  => $config->state->limit,
+					  'display' => $config->display)
 		);
 				
 		// Get the paginator data
@@ -43,8 +48,8 @@ class ComDefaultHelperPaginator extends KTemplateHelperPaginator
 		
 		$html  = '<del class="container">';
 		$html  = '<div class="pagination">';
-		$html .= '<div class="limit">'.JText::_('Display').'# '.$this->limit($limit).'</div>';
-		$html .=  $this->pages($list);
+		$html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config->toArray()).'</div>';
+		$html .=  $this->_pages($list);
 		$html .= '<div class="limit"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
 		$html .= '</div>';
 		$html .= '</del>';
@@ -61,25 +66,25 @@ class ComDefaultHelperPaginator extends KTemplateHelperPaginator
 	 * @param	araay 	An array of page data
 	 * @return	string	Html
 	 */
-	public function pages($pages)
+	protected function _pages($pages)
 	{
 		$class = $pages['first']->active ? '' : 'off';
-		$html  = '<div class="button2-right '.$class.'"><div class="start">'.$this->link($pages['first'], 'First').'</div></div>';
+		$html  = '<div class="button2-right '.$class.'"><div class="start">'.$this->_link($pages['first'], 'First').'</div></div>';
 		
 		$class = $pages['previous']->active ? '' : 'off';
-		$html  .= '<div class="button2-right '.$class.'"><div class="prev">'.$this->link($pages['previous'], 'Prev').'</div></div>';
+		$html  .= '<div class="button2-right '.$class.'"><div class="prev">'.$this->_link($pages['previous'], 'Prev').'</div></div>';
 		
 		$html  .= '<div class="button2-left"><div class="page">';
 		foreach($pages['pages'] as $page) {
-			$html .= self::link($page, $page->page);
+			$html .= $this->_link($page, $page->page);
 		}
 		$html .= '</div></div>';
 		
 		$class = $pages['next']->active ? '' : 'off';
-		$html  .= '<div class="button2-left '.$class.'"><div class="next">'.$this->link($pages['next'], 'Next').'</div></div>';
+		$html  .= '<div class="button2-left '.$class.'"><div class="next">'.$this->_link($pages['next'], 'Next').'</div></div>';
 		
 		$class = $pages['last']->active ? '' : 'off';
-		$html  .= '<div class="button2-left '.$class.'"><div class="end">'.$this->link($pages['last'], 'Last').'</div></div>';
+		$html  .= '<div class="button2-left '.$class.'"><div class="end">'.$this->_link($pages['last'], 'Last').'</div></div>';
 
 		return $html;
 	}

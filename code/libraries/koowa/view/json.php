@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_View
  */
-class KViewJson extends KViewTemplate
+class KViewJson extends KViewAbstract
 {
 	/**
 	 * Constructor
@@ -31,9 +31,9 @@ class KViewJson extends KViewTemplate
 	}
 
 	/**
-	 * Renders and echo's the views output
+	 * Return the views output
  	 *
-	 * @return KViewJson
+	 *  @return string 	The output of the view
 	 */
     public function display()
     {	
@@ -49,8 +49,8 @@ class KViewJson extends KViewTemplate
 			$data = $model->getItem();
 		}
 		
-    	echo json_encode($data->getData());
+    	$this->output = json_encode($data->getData());
     	
-    	return $this;
+    	return parent::display();
     }
 }

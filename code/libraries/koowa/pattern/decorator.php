@@ -43,35 +43,47 @@ abstract class KPatternDecorator extends KObject
 	 *
 	 * @return	object The decorated object
 	 */
-	public function getObject() 
+	public function getObject()
 	{
 		return $this->_object;
 	}
-	
+
+	/**
+	 * Set the decorated object
+	 *
+	 * @param 	object
+	 * @return 	KPatternDecorator
+	 */
+	public function setObject($object)
+	{
+		$this->_object = $object;
+		return $this;
+	}
+
 	/**
 	 * Get a list of all the available methods
 	 *
 	 * This function returns an array of all the methods, both native and mixed.
 	 * It will also return the methods exposed by the decorated object.
 	 *
-	 * @return array An array 
+	 * @return array An array
 	 */
 	public function getMethods()
 	{
 		$object = $this->getObject();
-		
-		if($object instanceof KObject) { 
+
+		if($object instanceof KObject) {
      		$methods = $object->getMethods();
      	} else {
      		$methods = get_class_methods(get_class($object));
      	}
-     	
-		return  array_merge(parent::getMethods(), $methods);
-	}  
 
-    /**
-     * Checks if the decorated object or one of it's mixins inherits from a class. 
-     * 
+		return  array_merge(parent::getMethods(), $methods);
+	}
+
+	/**
+     * Checks if the decorated object or one of it's mixins inherits from a class.
+     *
      * @param 	string|object 	The class to check
      * @return 	boolean 		Returns TRUE if the object inherits from the class
      */
@@ -79,16 +91,16 @@ abstract class KPatternDecorator extends KObject
     {
 		$result = false;
     	$object = $this->getObject();
-      	
+
         if($object instanceof KObject) {
-          	$result = $object->inherits($classs);
+          	$result = $object->inherits($class);
         } else {
         	$result = $object instanceof $class;
         }
-        
+
         return $result;
     }
-    
+
 	/**
 	 * Overloaded set function
 	 *
@@ -96,7 +108,7 @@ abstract class KPatternDecorator extends KObject
 	 * @param  mixed 	The variable value.
 	 * @return mixed
 	 */
-	public function __set($key, $value) 
+	public function __set($key, $value)
 	{
 		$this->getObject()->$key = $value;
 	}
@@ -151,49 +163,49 @@ abstract class KPatternDecorator extends KObject
 	public function __call($method, array $arguments)
 	{
 		$object = $this->getObject();
-		
+
 		//Check if the method exists
-		if($object instanceof KObject) 
+		if($object instanceof KObject)
 		{
 			$methods = $object->getMethods();
 			$exists  = in_array($method, $methods);
-		} 
+		}
 		else $exists = method_exists($object, $method);
-		
+
 		//Call the method if it exists
-		if($exists) 
+		if($exists)
 		{
  			$result = null;
- 				
-			// Call_user_func_array is ~3 times slower than direct method calls. 
- 		    switch(count($arguments)) 
- 		    { 
+
+			// Call_user_func_array is ~3 times slower than direct method calls.
+ 		    switch(count($arguments))
+ 		    {
  		    	case 0 :
  		    		$result = $object->$method();
  		    		break;
- 		    	case 1 : 
- 	              	$result = $object->$method($arguments[0]); 
- 		           	break; 
- 	           	case 2: 
- 	               	$result = $object->$method($arguments[0], $arguments[1]); 
- 		           	break; 
- 		      	case 3: 
- 	              	$result = $object->$method($arguments[0], $arguments[1], $arguments[2]); 
- 	               	break; 
- 	           	default: 
- 	             	// Resort to using call_user_func_array for many segments 
- 		            $result = call_user_func_array(array($object, $method), $arguments);                               
- 	         } 
- 	         
+ 		    	case 1 :
+ 	              	$result = $object->$method($arguments[0]);
+ 		           	break;
+ 	           	case 2:
+ 	               	$result = $object->$method($arguments[0], $arguments[1]);
+ 		           	break;
+ 		      	case 3:
+ 	              	$result = $object->$method($arguments[0], $arguments[1], $arguments[2]);
+ 	               	break;
+ 	           	default:
+ 	             	// Resort to using call_user_func_array for many segments
+ 		            $result = call_user_func_array(array($object, $method), $arguments);
+ 	         }
+
  	         //Allow for method chaining through the decorator
  	         $class = get_class($object);
              if ($result instanceof $class) {
           		return $this;
              }
-             
-             return $result; 
+
+             return $result;
 		}
-		
+
 		return parent::__call($method, $arguments);
 	}
 }

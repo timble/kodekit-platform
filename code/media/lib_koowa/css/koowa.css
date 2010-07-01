@@ -9,32 +9,32 @@
  */
  
  
-.koowa-ajax-status {
+.-koowa-overlay-status {
 	float: right;
 	background-color:#FFFFDD;
 	padding: 5px;
 }
 
-.koowa-pagination .limit {
+.-koowa-pagination .limit {
 	float: left;
 }
 
-.koowa-pagination .count {
+.-koowa-pagination .count {
 	padding:3px 0 0 10px;
 	float: left;
 }
 
-.koowa-pagination .pages {
+.-koowa-pagination .pages {
 	margin:0px;
 	padding:3px 0 0 0;
 	float: left;
 }
 
-.koowa-pagination .active {
+.-koowa-pagination .active {
 	font-weight: bold;
 }
 
-.koowa-pagination li {
+.-koowa-pagination li {
 	display:inline;
 	margin:0;
 	padding:4px;

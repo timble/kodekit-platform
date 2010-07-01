@@ -18,7 +18,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerAction
+class ComDefaultControllerDefault extends KControllerView
 {
 	/**
 	 * Constructor
@@ -78,15 +78,22 @@ class ComDefaultControllerView extends KControllerAction
 	 */
 	protected function _actionRead()
 	{
-		if(KInflector::isSingular(KFactory::get($this->getView())->getName())){
-			KRequest::set('get.hidemainmenu', 1);
+		//Force the default layout to form for read actions
+		if(!isset($this->_request->layout)) {
+			$this->_request->layout = 'form';
 		}
 		
-		//Force the default layout to form for read actions
-		if(!KRequest::has('get.layout')) {
-			KRequest::set('get.layout', 'form');
+		//Perform the read action
+		$row = parent::_actionRead();
+		
+		//Add the notice if the row is locked
+		if(isset($row)) 
+		{
+			if($this->_request->layout == 'form' && $row->isLockable() && $row->locked()) {
+				KFactory::get('lib.koowa.application')->enqueueMessage($row->lockMessage(), 'notice');
+			}
 		}
 	
-		return parent::_actionRead();
+		return $row;
 	}
 }

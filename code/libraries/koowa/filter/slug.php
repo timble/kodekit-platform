@@ -1,75 +1,111 @@
 <?php
 /**
-* @version 		$Id$
-* @category 	Koowa
-* @package 		Koowa_Filter
-* @copyright 	Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
-* @license 		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+* @version		$Id$
+* @category		Koowa
+* @package      Koowa_Filter
+* @copyright    Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
+* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 * @link 		http://www.koowa.org
 */
 
 /**
-* Slug filter
-*
-* A slug is an integer id followed by a colon and a string, eg 15:my_title
-*
-* @author Mathias Verraes <mathias@koowa.org>
-* @category Koowa
-* @package Koowa_Filter
-*/
+ * Slug filter
+ *
+ * @author		Johan Janssens <johan@koowa.org>
+ * @category	Koowa
+ * @package     Koowa_Filter
+ */
 class KFilterSlug extends KFilterAbstract
 {
 	/**
-	 * Validate a value
+	 * Separator character / string to use for replacing non alphabetic characters 
+	 * in generated slug
 	 *
-	 * @param 	scalar 	Value to be validated
-	 * @return 	bool 	True when the variable is valid
-	*/
+	 * @var	string
+	 */
+	protected $_separator;
+	
+	/**
+	 * Maximum length the generated slug can have. If this is null the length of
+	 * the slug column will be used.
+	 *
+	 * @var	integer
+	 */
+	protected $_length;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param 	object	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config) 
+	{
+		parent::__construct($config);
+
+		$this->_length    = $config->length;
+		$this->_separator = $config->separator;
+	}
+	
+	/**
+     * Initializes the options for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
+     */
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'separator' => '-',
+    		'length' 	=> 100
+	  	));
+    	
+    	parent::_initialize($config);
+   	}
+	
+	/**
+	 * Validate a value
+	 * 
+	 * Returns true if the string only contains US-ASCII and does not contain
+	 * any spaces
+	 *
+	 * @param	mixed	Variable to be validated
+	 * @return	bool	True when the variable is valid
+	 */
 	protected function _validate($value)
 	{
-		if(empty($value)) {
-			return true;
-		}
-
-		$int = KFactory::tmp('lib.koowa.filter.int');
-		$cmd = KFactory::tmp('lib.koowa.filter.cmd');
-		$parts = explode(':', $value, 2);
-		switch(count($parts))
-		{
-			case 1:
-				return $int->validate($parts[0]);
-				break;
-			case 2:
-				return $int->validate($parts[0]) && $cmd->validate($parts[1]);
-				break;
-		}
+		return KFactory::tmp('lib.koowa.filter.cmd')->validate($value);
 	}
-
+	
 	/**
 	 * Sanitize a value
-	 *
-	 * @param 	mixed 	Value to be sanitized
-	 * @return 	int
+	 * 
+	 * Replace all accented UTF-8 characters by unaccented ASCII-7 "equivalents", 
+	 * replace whitespaces by hyphens and lowercase the result.
+	 * 
+	 * @param	scalar	Variable to be sanitized
+	 * @return	scalar
 	 */
 	protected function _sanitize($value)
 	{
-		if(empty($value)) {
-			return 0;
+		//remove any '-' from the string they will be used as concatonater
+		$value = str_replace($this->_separator, ' ', $value);
+		
+		//convert to ascii characters
+		$value = KFactory::tmp('lib.koowa.filter.ascii')->sanitize($value);
+		
+		//lowercase and trim
+		$value = trim(strtolower($value));
+		
+		//remove any duplicate whitespace, and ensure all characters are alphanumeric
+		$value = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array($this->_separator,''), $value);
+		
+		//limit length
+		if (strlen($value) > $this->_length) {
+			$value = substr($value, 0, $this->_length);
 		}
-
-		$int = KFactory::tmp('lib.koowa.filter.int');
-		$cmd = KFactory::tmp('lib.koowa.filter.cmd');
-		$parts = explode(':', $value, 2);
-
-		switch(count($parts))
-		{
-			case 1:
-				return $int->sanitize($parts[0]);
-				break;
-
-			case 2:
-				return $int->sanitize($parts[0]) .':'. $cmd->sanitize($parts[1]);
-				break;
-		}
+		
+		return $value;
 	}
 }

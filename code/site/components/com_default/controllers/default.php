@@ -17,7 +17,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerAction
+class ComDefaultControllerDefault extends KControllerView
 {
 	/**
 	 * Browse a list of items

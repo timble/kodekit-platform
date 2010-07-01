@@ -181,7 +181,8 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function __call($method, array $arguments)
     {
-        if(isset($this->_mixer)) 
+        //Make sure we don't end up in a recursive loop
+    	if(isset($this->_mixer) && !($this->_mixer instanceof $this)) 
         {
 			// Call_user_func_array is ~3 times slower than direct method calls. 
  		    switch(count($arguments)) 

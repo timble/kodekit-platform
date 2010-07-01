@@ -27,7 +27,7 @@ class ModDefaultHtml extends KViewHtml
         $template = KFactory::get('lib.koowa.application')->getTemplate();
         $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'mod_'.$this->_identifier->package;
           
-        $this->addTemplatePath($path);
+         KFactory::get($this->getTemplate())->addPath($path);
 	}
 	
 	/**
@@ -41,24 +41,81 @@ class ModDefaultHtml extends KViewHtml
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'params'  => null,
-			'module'  => null,
-			'attribs' => array(),
+            'params'   => null,
+			'module'   => null,
+			'attribs'  => array(),
        	));
        	
        	parent::_initialize($config);
     }
+    
+	/**
+	 * Get the identifier for the model with the same name
+	 *
+	 * @return	KIdentifierInterface
+	 */
+	public function getModel()
+	{
+		if(!$this->_model)
+		{
+			$identifier	= clone $this->_identifier;
+			$identifier->name	= 'model';
+			
+			$this->_model = $identifier;
+		}
+       	
+		return $this->_model;
+	}
+	
+	/**
+	 * Get the identifier for the template with the same name
+	 *
+	 * @return	KIdentifierInterface
+	 */
+	public function getTemplate()
+	{
+		if(!$this->_template)
+		{
+			$identifier	= clone $this->_identifier;
+			$identifier->name	= 'template';
+			
+			$this->_template = $identifier;
+		}
+		
+		return $this->_template;
+	}
 	
 	/**
 	 * Renders and echo's the views output
  	 *
-	 * @return modDefaultHtml
+	 * @return ModDefaultHtml
 	 */
 	public function display()
 	{
 		//Render the template
-		echo $this->loadTemplate();
+		$template = $this->loadTemplate();
 		
+		$document = KFactory::get('lib.joomla.document');
+		
+		foreach($this->getStyles() as $style) 
+		{
+			if($style['link']) {
+				$document->addStyleSheet($style['data'], 'text/css', null, $style['attribs']);
+			} else {
+				$document->addStyleDeclaration($style['data']);
+			}
+		}
+			
+		foreach($this->getScripts() as $script) 
+		{
+			if($script['link']) {
+				$document->addScript($script['data'], 'text/javascript');
+			} else {
+				$document->addScriptDeclaration($script['data']);
+			}
+		}
+		
+		echo $template;
 		return $this;
 	}
 }

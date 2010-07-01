@@ -33,7 +33,6 @@ class KToolbarDefault extends KToolbarAbstract
 		{		 
 			//Create the toolbar
 			$this->append('new')
-				 ->append('edit')
 				 ->append('delete');	
 		}
 		else

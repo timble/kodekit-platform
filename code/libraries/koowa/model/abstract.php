@@ -46,6 +46,12 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	 */
 	protected $_item;
 	
+	/**
+	 * Model column data
+	 *
+	 * @var mixed
+	 */
+	protected $_column;
 
 	/**
 	 * Constructor
@@ -56,9 +62,9 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	{
         //If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 		parent::__construct($config);
-            
+
 		$this->_state = $config->state;
 	}
 
@@ -75,24 +81,24 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 		$config->append(array(
             'state'      => KFactory::tmp('lib.koowa.model.state'),
        	));
-       	
+
        	parent::_initialize($config);
     }
-    
+
 	/**
 	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
+	 *
+	 * @return	KIdentifier
 	 * @see 	KObjectIdentifiable
 	 */
 	public function getIdentifier()
 	{
 		return $this->_identifier;
 	}
-    
+
 	/**
      * Set the model state properties
-     * 
+     *
      * This function overloads the KObject::set() function and only acts on state properties.
      *
      * @param   string|array|object	The name of the property, an associative array or an object
@@ -101,28 +107,33 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
      */
     public function set( $property, $value = null )
     {
-    	if(is_object($property)) {
+    	if(is_object($property)) 
+    	{
+    		if($property instanceof KConfig) {
+    			$property = $property->toArray();
+    		}
+    		
     		$property = (array) $property;
     	}
-    	
+
     	if(is_array($property)) {
         	$this->_state->setData($property);
         } else {
         	$this->_state->$property = $value;
         }
-    	
+
         return $this;
     }
 
     /**
      * Get the model state properties
-     * 
-     * This function overloads the KObject::get() function and only acts on state 
+     *
+     * This function overloads the KObject::get() function and only acts on state
      * properties
-     * 
+     *
      * If no property name is given then the function will return an associative
      * array of all properties.
-     * 
+     *
      * If the property does not exist and a  default value is specified this is
      * returned, otherwise the function return NULL.
      *
@@ -133,22 +144,22 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
     public function get($property = null, $default = null)
     {
         $result = $default;
-        	
+
     	if(is_null($property)) {
         	$result = $this->_state->getData();
-        } 
-        else 
+        }
+        else
         {
     		if(isset($this->_state->$property)) {
         		$result = $this->_state->$property;
     		}
         }
-        
+
         return $result;
     }
 
     /**
-     * Reset all cached data
+     * Reset all cached data and reset the model state to it's default
      *
      * @return KModelAbstract
      */
@@ -158,6 +169,8 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
     	unset($this->_item);
     	unset($this->_total);
     	
+    	$this->_state->reset();
+
     	return $this;
     }
 
@@ -170,7 +183,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	{
 		return $this->_state;
 	}
-	
+
 /**
 	 * Method to get a ite
 	 *
@@ -200,25 +213,35 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	{
 		return $this->_total;
 	}
+	
+	/**
+     * Get the distinct values of a column
+     *
+     * @return object
+     */
+	public function getColumn($column)
+	{	
+		return $this->_column[$column];
+	}
 
 	/**
-	 * Supports a simple form Fluent Interfaces. Allows you to set states by 
-	 * using the state name as the method name. 
-	 * 
-	 * For example : $model->order('name')->limit(10)->getList();
-	 * 
+	 * Supports a simple form Fluent Interfaces. Allows you to set states by
+	 * using the state name as the method name.
+	 *
+	 * For example : $model->sort('name')->limit(10)->getList();
+	 *
 	 * @param	string	Method name
 	 * @param	array	Array containing all the arguments for the original call
 	 * @return	KModelAbstract
-	 * 
+	 *
 	 * @see http://martinfowler.com/bliki/FluentInterface.html
 	 */
 	public function __call($method, $args)
 	{
 		if(isset($this->_state->$method)) {
-			return $this->set($method, $args[0]);	
-		} 
-		
+			return $this->set($method, $args[0]);
+		}
+
 		return parent::__call($method, $args);
 	}
 }

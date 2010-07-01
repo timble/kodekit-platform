@@ -14,7 +14,6 @@
  * Note: Concrete controllers must have a singular name
  *
  * @author		Johan Janssens <johan@koowa.org>
- * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Controller
  * @uses		KMixinClass
@@ -38,26 +37,6 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 */
 	protected $_action;
 
-	/**
-	 * URL for redirection.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect = null;
-
-	/**
-	 * Redirect message.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_message = null;
-
-	/**
-	 * Redirect message type.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_type = 'message';
 
 	/**
 	 * Constructor.
@@ -71,22 +50,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		
 		parent::__construct($config);
         
-        // Set the view identifier
-		if(!empty($config->view)) {
-			$this->setView($config->view);
-		}
-		
-		// Set the model identifier
-		if(!empty($config->model)) {
-			$this->setModel($config->model);
-		}
-		
 		//Set the action
 		$this->_action = $config->action;
 
-        // Mixin a command chain
+        // Mixin the command chain
         $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain)
+        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
         )));
 
         //Mixin a filter
@@ -108,7 +77,8 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     {
     	$config->append(array(
             'command_chain' =>  new KCommandChain(),
-    		'action'		=> null
+    		'action'		=> null,
+    		'auto_events'	=> true
         ));
         
         parent::_initialize($config);
@@ -132,7 +102,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
-	public function execute($action = null, $data = null)
+	public function execute($action, $data = null)
 	{
 		$action = strtolower($action);
 		
@@ -235,53 +205,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	}
 
 	/**
-	 * Set a URL for browser redirection.
-	 *
-	 * @param	string URL to redirect to.
-	 * @param	string	Message to display on redirect. Optional, defaults to
-	 * 			value set internally by controller, if any.
-	 * @param	string	Message type. Optional, defaults to 'message'.
-	 * @return	KControllerAbstract
-	 */
-	public function setRedirect( $url, $msg = null, $type = 'message' )
-	{
-		$this->_redirect   		 = $url;
-		$this->_redirect_message = $msg;
-		$this->_redirect_type	 = $type;
-
-		return $this;
-	}
-
-	/**
-	 * Returns an array with the redirect url, the message and the message type
-	 *
-	 * @return array	Named array containing url, message and messageType, or null if no redirect was set
-	 */
-	public function getRedirect()
-	{
-		$result = array();
-		
-		if(!empty($this->_redirect))
-		{
-			$url = $this->_redirect;
-		
-			//Create the url if no full URL was passed
-			if(strrpos($url, '?') === false) {
-				$url = 'index.php?option=com_'.$this->_identifier->package.'&'.$url;
-			}
-		
-			$result = array(
-				'url' 		=> JRoute::_($url, false),
-				'message' 	=> $this->_redirect_message,
-				'type' 		=> $this->_redirect_type,
-			);
-		}
-		
-		return $result;
-	}
-	
-	/**
-	 * Executse a controller action by it's name. 
+	 * Execute a controller action by it's name. 
 	 * 
 	 * @param	string	Method name
 	 * @param	array	Array containing all the arguments for the original call

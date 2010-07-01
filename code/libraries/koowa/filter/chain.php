@@ -31,8 +31,6 @@ class KFilterChain extends KCommandChain
   	{
   		$function = '_'.$name;
   		$result =  $this->$function($context);
-  		
-  		$this->_context = null;
   		return $result;
   	}
 

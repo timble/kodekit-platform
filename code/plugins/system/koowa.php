@@ -37,7 +37,7 @@ class plgSystemKoowa extends JPlugin
 		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
 		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
-		//Instanciate the singletons
+		//Instantiate the singletons
 		KLoader::instantiate();
 		KFactory::instantiate();
 		KRequest::instantiate();
@@ -59,18 +59,17 @@ class plgSystemKoowa extends JPlugin
 		$app  = new KDecoratorJoomlaApplication($app);
 		
 		//Create the koowa database object
-		$jdb  =& JFactory::getDBO();
-		
-		KFactory::get('lib.koowa.database', array('adapter' => 'mysqli'))
-			->setConnection($jdb->_resource)
-			->setTablePrefix($jdb->_table_prefix);
+		$db  = KFactory::get('lib.koowa.database.adapter.mysqli')
+			->setConnection(JFactory::getDBO()->_resource)
+			->setTablePrefix(JFactory::getDBO()->_table_prefix);
 		
         //Set factory identifier aliasses
+        KFactory::map('lib.koowa.database'   , $db);
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
-        KFactory::map('lib.koowa.language',    'lib.joomla.language');
-        KFactory::map('lib.koowa.document',    'lib.joomla.document');
-        KFactory::map('lib.koowa.user',        'lib.joomla.user');
-	    KFactory::map('lib.koowa.editor',      'lib.joomla.editor');
+        KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
+        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
+        KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
+	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
         
         //If the format is AJAX we create a 'raw' document rendered and force it's type to the
         //active format to maintain full backwards compatibility 

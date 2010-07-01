@@ -10,7 +10,7 @@
 
 /**
  * Edit button class for a toolbar
- * 
+ *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Toolbar
@@ -20,16 +20,14 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 {
 	public function getOnClick()
 	{
-		$msg = JText::_('Please select an item from the list');
+		$option	= KRequest::get('get.option', 'cmd');
+		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
+		$json 	= "{method:'get', url:'index.php', params:{option:'$option',view='$view',id=id}}";
+
+		$msg 	= JText::_('Please select an item from the list');
 		return 'var id = KGrid.getFirstSelected();'
-			.'if(id){this.href+=\'&id=\'+id;} ' 
+			.'if(id){new KForm('.$json.').submit();} '
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}
-	
-	public function getLink()
-	{
-		$option = KRequest::get('get.option', 'cmd');
-		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		return 'index.php?option='.$option.'&view='.$view; 
-	}
+
 }

@@ -124,15 +124,23 @@ class KHelperArray
 	 * Utility function to map an array to a string
 	 *
 	 * @static
-	 * @param	array		The array to map.
-	 * @param	string		The inner glue to use, default '='
-	 * @param	string		The outer glue to use, default ' '
+	 * @param	array|object	The array or object to transform into a string
+	 * @param	string			The inner glue to use, default '='
+	 * @param	string			The outer glue to use, default ' '
 	 * @param	boolean	
 	 * @return	string	The string mapped from the given array
 	 */
-	public static function toString( array $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
+	public static function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
 	{
 		$output = array();
+		
+		if($array instanceof KConfig) {
+			$array = $array->toArray();
+		}
+		
+		if(is_object($array)) {
+			$array = (array) $array;
+		}
 
 		if (is_array($array))
 		{

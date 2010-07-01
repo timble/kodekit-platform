@@ -36,7 +36,7 @@ class KFilterInt extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
-		return (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+		return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
 	}
 }
 

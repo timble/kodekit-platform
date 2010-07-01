@@ -10,21 +10,22 @@
 */
 
 /**
- * Template rule to handle form html elements
+ * Template read filter to handle form html elements
  *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterForm extends KObject implements KTemplateFilterInterface
+class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFilterRead
 {
 	/**
 	 * Add unique token field
 	 *
-	 * @param string $text
+	 * @param string
+	 * @return KTemplateFilterForm
 	 */
-	public function parse(&$text)
+	public function read(&$text)
 	{
 		// match all forms where method="post"
 		$form 		= '<\s*form\s*';
@@ -39,7 +40,7 @@ class KTemplateFilterForm extends KObject implements KTemplateFilterInterface
 			.PHP_EOL
 			.'<input type="hidden" name="_token" value="'.JUtility::getToken().'" />';
 		$text = preg_replace($pattern, $replace, $text);
-
+		
 		return $this;
 	}
 }

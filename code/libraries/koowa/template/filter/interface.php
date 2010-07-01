@@ -12,19 +12,17 @@
 /**
  * Template filter interface
  *
- * Rewrite elements in a template
- *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Template
  * @subpackage	Filter 
  */
-interface KTemplateFilterInterface 
+interface KTemplateFilterInterface  extends KCommandInterface, KObjectIdentifiable
 {
 	/**
-	 * Parse the text and change it
+	 * Get the priority of the filter
 	 *
-	 * @param string Block of text to parse
+	 * @return	integer The command priority
 	 */
-	public function parse(&$text);
+  	public function getPriority();
 }

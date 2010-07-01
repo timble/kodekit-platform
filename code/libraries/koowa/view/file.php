@@ -84,9 +84,11 @@ class KViewFile extends KViewAbstract
 	 */
 	protected function _initialize(KConfig $config)
 	{
+		$count = count($this->_identifier->path);
+
 		$config->append(array(
             'path'		  => '',
-			'filename'	  => array_pop($this->_identifier->path).'.'.$this->_identifier->name,
+			'filename'	  => $this->_identifier->path[$count-1].'.'.$this->_identifier->name,
 			'mimetype'	  => '',
 			'disposition' => 'attachment'
        	));
@@ -95,7 +97,7 @@ class KViewFile extends KViewAbstract
     }
 	
 	/**
-	 * Renders and echo's the views output
+	 * Return the views output
  	 *
 	 * @return KViewFile
 	 */
@@ -134,7 +136,7 @@ class KViewFile extends KViewAbstract
 			if(empty($this->filename)) {
 				throw new KViewException('No filename supplied');
 			}
-			$this->_disposition();
+			$this->_setDisposition();
 			$filesize = strlen($this->output);
 			header('Content-Length: '.$filesize);
 			flush();

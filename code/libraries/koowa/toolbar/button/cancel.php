@@ -10,7 +10,7 @@
 
 /**
  * Cancel button class for a toolbar
- * 
+ *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Toolbar
@@ -18,14 +18,15 @@
  */
 class KToolbarButtonCancel extends KToolbarButtonPost
 {
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
+	public function getOnClick()
 	{
-		parent::__construct($config);
-		$this->setField('action', 'cancel');
+		$option	= KRequest::get('get.option', 'cmd');
+		$view	= KRequest::get('get.view', 'cmd');
+		$id		= KRequest::get('get.id', 'int');
+		$token 	= JUtility::getToken();
+		$json 	= "{method:'post', url:'index.php?option=$option&view=$view&id=$id', formelem:'adminForm', params:{action:'cancel', _token:'$token'}}";
+
+		return 'new KForm('.$json.').submit();';
 	}
+
 }

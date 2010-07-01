@@ -36,7 +36,7 @@ class KRequest
 	 *
 	 * @var	array
 	 */
-	protected static $_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE');
+	protected static $_methods = array('GET', 'POST', 'PUT', 'DELETE' /*,'HEAD', 'OPTIONS'*/ );
 
 
 	/**
@@ -74,13 +74,20 @@ class KRequest
 	 */
 	protected static $_content = null;
 	
+	/**
+	 * The request accepts information
+	 *
+	 * @var	array
+	 */
+	protected static $_accept = null;
+	
 	
 	/**
 	 * Constructor
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	final private function __construct() 
+	final private function __construct(KConfig $config) 
 	{
 		$content = self::content();
 		
@@ -89,14 +96,14 @@ class KRequest
 	 		if (self::method() == 'PUT')
 			{
 				if($content['type'] == 'application/x-www-form-urlencoded') {
-					parse_str($content['data'], $_POST);
+					parse_str($content['data'], $GLOBALS['_POST']);
 				}
 			}
 		
 			if(self::method() == 'PUT' || self::method() == 'POST')
 			{
 				if($content['type'] == 'application/json') {
-					$_POST = json_decode($content['data'], true);
+					$GLOBALS['_POST'] = json_decode($content['data'], true);
 				}
 			}	
 	 	}
@@ -114,12 +121,17 @@ class KRequest
 	 *
 	 * @return void
 	 */
-	public static function instantiate()
+	public static function instantiate($config = array())
 	{
 		static $instance;
 		
-		if ($instance === NULL) {
-			$instance = new KRequest();
+		if ($instance === NULL) 
+		{
+			if(!$config instanceof KConfig) {
+				$config = new KConfig($config);
+			}
+			
+			$instance = new self($config);
 		}
 		
 		return $instance;
@@ -161,7 +173,7 @@ class KRequest
 		}
 
 		if(!($filter instanceof KFilterInterface)) {
-			$filter = KFilter::instantiate(array('filter' => $filter));
+			$filter = KFilter::factory($filter);
 		}
 
 		return $filter->sanitize($result);
@@ -229,13 +241,14 @@ class KRequest
 	/**
 	 * Get the POST or PUT raw content information
 	 * 
-	 * The raw post data is not available with enctype="multipart/form-data". 
-	 *
-	 * @param	array   An associative array with the content data. Valid keys are
+	 * The raw post data is not available with enctype="multipart/form-data".
+	 *  
+	 * @param   string  The content data to return. Can be 'type' or 'data'. 
+	 *                  If not set, all the data will be returned.
+	 * @return	array   An associative array with the content data. Valid keys are
 	 * 					'type' and 'data'
-	 * @return 	string
 	 */
-	public static function content()
+	public static function content($key = null)
 	{
 		$result = '';
 		
@@ -268,9 +281,40 @@ class KRequest
       		self::$_content['data'] = $data;
 		}
 		    
-      	return self::$_content;
+      	return isset($key) ? self::$_content[$key] : self::$_content;
 	}
-
+	
+	/**
+	 * Get the accept request information 
+	 *
+	 * @param   string  The accept data to return. Can be 'format', 'encoding' or 'language'. 
+	 *                  If not set, all the accept data will be returned.
+	 * @return	array   An associative array with the content data. Valid keys are
+	 * 					'format', 'encoding' and 'language'
+	 */
+	public static function accept($type = null)
+	{
+		if (!isset(self::$_accept) && isset($_SERVER['HTTP_ACCEPT'])) 
+		{             
+			$accept = KRequest::get('server.HTTP_ACCEPT', 'string');
+			self::$_accept['format'] = self::_parseAccept($accept, array('*/*' => 1.0));
+			            	
+			if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) 
+			{	
+				$accept = KRequest::get('server.HTTP_ACCEPT_ENCODING', 'string');
+				self::$_accept['encoding'] = self::_parseAccept($accept);	
+      		}
+      		
+			if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) 
+			{	
+				$accept = KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
+				self::$_accept['language'] = self::_parseAccept($accept);	
+      		}	
+		}
+		    
+      	return $type ? self::$_accept[$type] : self::$_accept;
+	}
+	
 	/**
  	 * Returns the HTTP referrer.
  	 * 
@@ -421,22 +465,6 @@ class KRequest
 	}
 
 	/**
- 	 * Return the accepted languages
- 	 *
- 	 * @return	array locale
- 	 */
-	public static function languages()
-	{
-		$accept		= KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
-
-		$languages  = substr( $accept, 0, strcspn($accept, ';' ) );
-		$languages	= explode( ',', $languages );
-		$languages  = array_map('strtolower', $languages);
-
-		return $languages;
-	}
-
-	/**
 	 * Returns current request method.
 	 *
 	 * @throws 	KRequestException Wgen the method could not be found
@@ -450,8 +478,8 @@ class KRequest
 
 			if($method == 'POST')
 			{
-				if(isset($_SERVER['X-HTTP-Method-Override'])) {
-					$method =  strtoupper($_SERVER['X-HTTP-Method-Override']);
+				if(isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+					$method =  strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
 				}
 			}
 		} 
@@ -514,6 +542,62 @@ class KRequest
 		return array($hash, $parts);
 	}
 
+	/**
+	 * Parses an accept header and returns an array (type => quality) of the
+	 * accepted types, ordered by quality.
+	 *
+	 * @param string 	header to parse
+	 * @param array 	default values
+	 * @return array
+	 */
+	protected static function _parseAccept( $accept, array $defaults = NULL)
+	{
+		if (!empty($accept))
+		{
+			// Get all of the types
+			$types = explode(',', $accept);
+
+			foreach ($types as $type)
+			{
+				// Split the type into parts
+				$parts = explode(';', $type);
+
+				// Make the type only the MIME
+				$type = trim(array_shift($parts));
+
+				// Default quality is 1.0
+				$quality = 1.0;
+
+				foreach ($parts as $part)
+				{
+					// Prevent undefined $value notice below
+					if (strpos($part, '=') === FALSE)
+					continue;
+
+					// Separate the key and value
+					list ($key, $value) = explode('=', trim($part));
+
+					if ($key === 'q')
+					{
+						// There is a quality for this type
+						$quality = (float) trim($value);
+					}
+				}
+
+				// Add the accept type and quality
+				$defaults[$type] = $quality;
+			}
+		}
+
+		// Make sure that accepts is an array
+		$accepts = (array) $defaults;
+
+		// Order by quality
+		arsort($accepts);
+
+		return $accepts;
+	}
+	
 	/**
 	 * Strips slashes recursively on an array
 	 *

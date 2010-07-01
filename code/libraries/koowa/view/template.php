@@ -21,13 +21,6 @@
 abstract class KViewTemplate extends KViewAbstract
 {
 	/**
-	 * The document object
-	 *
-	 * @var object
-	 */
-	protected $_document;
-	
-	/**
 	 * Layout name
 	 *
 	 * @var		string
@@ -35,18 +28,11 @@ abstract class KViewTemplate extends KViewAbstract
 	protected $_layout = 'default';
 
 	/**
-	 * The set of search directories for templatex
+	 * Template identifier (APP::com.COMPONENT.template.NAME)
 	 *
-	 * @var array
+	 * @var	string|object
 	 */
-	protected $_template_path = array();
-
-	/**
-	 * The name of the default template source file.
-	 *
-	 * @var string
-	 */
-	protected $_template;
+    protected $_template;
 
 	/**
      * Callback for escaping.
@@ -54,6 +40,34 @@ abstract class KViewTemplate extends KViewAbstract
      * @var string
      */
     protected $_escape;
+    
+    /**
+     * Auto assign
+     *
+     * @var boolean
+     */
+    protected $_auto_assign;
+    
+    /**
+     * The assigned data
+     *
+     * @var boolean
+     */
+    protected $_data;
+    
+    /**
+	 * The view scripts
+	 *
+	 * @var	array
+	 */
+	protected $_scripts = array();
+	
+	/**
+	 * The view styles
+	 *
+	 * @var	array
+	 */
+	protected $_styles = array();
 
 	/**
 	 * Constructor
@@ -64,23 +78,46 @@ abstract class KViewTemplate extends KViewAbstract
 	{
 		parent::__construct($config);
 		
-		// assign the document object
-		$this->_document = $config->document;
-
+		// set the auto assign state
+		$this->_auto_assign = $config->auto_assign;
+		
 		 // user-defined escaping callback
         $this->setEscape($config->escape);
         
-		// Add default template paths
-		if(!empty($config->template_path)) {
-			$this->addTemplatePath($config->template_path);
-		}
-		
 		// set the layout
 		$this->setLayout($config->layout);
-
-		//Register the view stream wrapper
-		KTemplate::register();
-		KTemplate::addRules($config->template_rules);
+		
+		// set the template object
+		if(!empty($config->template)) {
+			$this->setTemplate($config->template);
+		}
+			
+		//Get the template object
+		$template = KFactory::get($this->getTemplate(),  array('view' => $this));
+		
+		//Set the template filters
+		if(!empty($config->template_filters)) {
+			$template->addFilters($config->template_filters);
+		}
+		
+		// Add default template paths
+		if(!empty($config->template_path)) {
+			$template->addPath($config->template_path);
+		}
+		
+		// Set base and media urls for use by the view
+		$this->assign('baseurl' , $config->base_url)
+			 ->assign('mediaurl', $config->media_url);
+		
+		//Add alias filter for media:// namespace
+        $template->getFilter('alias')->append(
+        	array('media://' => $config->media_url.'/'), KTemplateFilter::MODE_WRITE
+        );
+		
+        //Add alias filter for base:// namespace
+        $template->getFilter('alias')->append(
+        	array('base://' => $config->base_url.'/'), KTemplateFilter::MODE_WRITE
+        );
 	}
 
     /**
@@ -94,18 +131,44 @@ abstract class KViewTemplate extends KViewAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'escape'        => 'htmlspecialchars',
-            'layout'        => 'default',
-			'template_rules' => array(
-                        KFactory::get('lib.koowa.template.filter.shorttag'),
-                        KFactory::get('lib.koowa.template.filter.token'),
-                        KFactory::get('lib.koowa.template.filter.variable')
-						),
-            'template_path' => null,
-			'document'      => KFactory::get('lib.koowa.document'),
+            'escape'           => 'htmlspecialchars',
+            'layout'           => 'default',
+    		'template'		   => null,
+			'template_filters' => array('shorttag', 'alias', 'variable', 'style', 'script'),
+            'template_path'    => null,
+			'auto_assign'	   => true,
+    		'base_url'         => KRequest::base(),
+        	'media_url'		   => KRequest::root().'/media',
         ));
         
         parent::_initialize($config);
+    }
+    
+    /**
+     * Set a view properties
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {
+    	$this->_data[$property] = $value;
+  	}
+  	
+  	/**
+     * Get a view property
+     *
+     * @param  	string 	The property name.
+     * @return 	string 	The property value.
+     */
+    public function __get($property)
+    {
+    	$result = null;
+    	if(isset($this->_data[$property])) {
+    		$result = $this->_data[$property];
+    	} 
+    	
+    	return $result;
     }
 
 	/**
@@ -149,33 +212,14 @@ abstract class KViewTemplate extends KViewAbstract
 		$arg0 = @func_get_arg(0);
 		$arg1 = @func_get_arg(1);
 
-		// assign by object
-		if (is_object($arg0))
-		{
-			// assign public properties
-			foreach (get_object_vars($arg0) as $key => $val)
-			{
-				if (substr($key, 0, 1) != '_') {
-					$this->$key = $val;
-				}
-			}
-		}
-
-		// assign by associative array
-		elseif (is_array($arg0))
-		{
-			foreach ($arg0 as $key => $val)
-			{
-				if (substr($key, 0, 1) != '_') {
-					$this->$key = $val;
-				}
-			}
-		}
-
+		// assign by object or array
+		if (is_object($arg0) || is_array($arg0)) {
+			$this->set($arg0);
+		} 
+		
 		// assign by string name and mixed value.
-		elseif (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
-		{
-			$this->$arg0 = $arg1;
+		elseif (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) {
+			$this->set($arg0, $arg1);
 		}
 
 		return $this;
@@ -226,34 +270,101 @@ abstract class KViewTemplate extends KViewAbstract
         $this->_escape = $spec;
         return $this;
     }
-
+    
 	/**
-	 * Adds to the stack of view script paths in LIFO order.
+	 * Get the identifier for the template with the same name
 	 *
-	 * @param string|array The directory (-ies) to add.
-	 * @return  KViewAbstract
+	 * @return	KIdentifierInterface
 	 */
-	public function addTemplatePath($path)
+	public function getTemplate()
 	{
-		// just force to array
-		settype($path, 'array');
-
-		// loop through the path directories
-		foreach ($path as $dir)
+		if(!$this->_template)
 		{
-			// no surrounding spaces allowed!
-			$dir = trim($dir);
-
-			// remove trailing slash
-			if (substr($dir, -1) == DIRECTORY_SEPARATOR) {
-				$dir = substr_replace($dir, '', -1);
-			}
-
-			// add to the top of the search dirs
-			array_unshift($this->_template_path, $dir);
+			$identifier	= clone $this->_identifier;
+			$name = array_pop($identifier->path);
+			$identifier->name	= $name;
+			$identifier->path	= array('template');
+			
+			$this->_template = $identifier;
 		}
-
+		
+		return $this->_template;
+	}
+	
+	/**
+	 * Method to set a template object attached to the view
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
+	 * @return	KViewAbstract
+	 */
+	public function setTemplate($template)
+	{
+		$identifier = KFactory::identify($template);
+		
+		if($identifier->path[0] != 'template') {
+			throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
+		}
+		
+		$this->_template = $identifier;
 		return $this;
+	}
+	
+	/**
+	 * Add a style information
+	 * 
+	 * @param string	The style information
+	 * @param boolean	True, if the style information is a URL
+	 * @param array		Associative array of attributes
+	 * @return KViewTemplate 
+	 */
+	public function addStyle($data, $link = true, array $attribs = array())
+	{
+		$signature = md5($data);
+		$this->_styles[$signature] = array('data' => $data, 'link' => $link, 'attribs' => $attribs);
+		return $this;
+	}
+	
+	/**
+	 * Get the style information 
+	 * 
+	 * This function return an associative array with 'data', 'link' and 
+	 * 'attribs' keys. If the 'link' value is TRUE the data is a URL.
+	 *
+	 * @return array
+	 */
+	public function getStyles()
+	{
+		return $this->_styles;
+	}
+	
+	/**
+	 * Add a script information
+	 * 
+	 * @param string	The script information
+	 * @param boolean	True, if the script information is a URL.
+	 * @param array		Associative array of attributes
+	 * @return KViewTemplate 
+	 */
+	public function addScript($data, $link = true, array $attribs = array())
+	{
+		$signature = md5($data);
+		$this->_scripts[$signature] = array('data' => $data, 'link' => $link, 'attribs' => $attribs);
+		return $this;
+	}
+	
+	/**
+	 * Get the script information 
+	 * 
+	 * This function return an associative array with 'data', 'link' and 
+	 * 'attribs' keys. If the 'link' value is TRUE the data is a URL.
+	 *
+	 * @return array
+	 */
+	public function getScripts()
+	{
+		return $this->_scripts;
 	}
 
 	/**
@@ -264,10 +375,11 @@ abstract class KViewTemplate extends KViewAbstract
 	 *
 	 * @param 	string 	The name of the template source file automatically searches
 	 * 					the template paths and compiles as needed.
+	 * @param 	array	An associative array of data to be extracted in local template scope
 	 * @throws KViewException
 	 * @return string The output of the the template script.
 	 */
-	public function loadTemplate( $identifier = null)
+	public function loadTemplate( $identifier = null, $data = null)
 	{
 		// Clear prior output
 		$this->output = '';
@@ -280,88 +392,23 @@ abstract class KViewTemplate extends KViewAbstract
 			$identifier = new KIdentifier($identifier);
 			
 			$file = $identifier->name;
-			$path = dirname(KLoader::path($identifier)).DS.'tmpl';
+			$path = dirname(KLoader::path($identifier)).'/tmpl';
 		} 
 		catch(KIdentifierException $e) 
 		{
 			$file = $identifier;
-			$path = dirname($this->_identifier->filepath).DS.'tmpl';
+			$path = dirname($this->_identifier->filepath).'/tmpl';
 		}
+			
+		//Add the view to the data to allow accessing the view from inside the template
+		$data = isset($data) ? $data : $this->_data;
 		
-		//add the default path to the end of the array
-		array_push( $this->_template_path, $path);
+		$result = KFactory::get($this->getTemplate())
+					->find($path.'/'.$file.'.php', $data);
 		
-		// load the template script
-		KLoader::load('lib.joomla.filesystem.path');
-		$this->_template = $this->findTemplate($this->_template_path, $file.'.php');
-
-		if ($this->_template === false) {
-			throw new KViewException( 'Layout "' . $file . '" not found' );
-		}
-
-		// unset so as not to introduce into template scope
-		unset($tpl);
-		unset($file);
-
-		// never allow a 'this' property
-		if (isset($this->this)) {
-			unset($this->this);
-		}
-
-		// start capturing output into a buffer
-		ob_start();
-		// include the requested template filename in the local scope
-		// (this will execute the view logic).
-		include 'tmpl://'.$this->_template;
-
-		// done with the requested template; get the buffer and
-		// clear it.
-		$this->output = ob_get_contents();
-		ob_end_clean();
-
-		return $this->output;
+		return $result;  
 	}
-
-	/**
-	 * Searches the directory paths for a given file.
-	 *
-	 * @param	array|string	An path or array of path to search in
-	 * @param	string			The file name to look for.
-	 * @return	mixed			The full path and file name for the target file, or FALSE
-	 * 							if the file is not found in any of the paths
-	 */
-	public function findTemplate($paths, $file)
-	{
-		settype($paths, 'array'); //force to array
-
-		// start looping through the path set
-		foreach ($paths as $path)
-		{
-			// get the path to the file
-			$fullname = $path.DS.$file;
-
-			// is the path based on a stream?
-			if (strpos($path, '://') === false)
-			{
-				// not a stream, so do a realpath() to avoid directory
-				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
-			}
-
-			// the substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directores are not accessible via directory
-			// traversal attempts.
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path) {
-				return $fullname;
-			}
-		}
-
-		// could not find the file in the set of paths
-		return false;
-	}
-
+	
 	/**
 	 * Execute and return the views output
  	 *

@@ -25,7 +25,7 @@ class KFactory
 	 *
 	 * @var	array
 	 */
-	protected static $_container = null;
+	protected static $_registry = null;
 	
 	/**
 	 * The commandchain
@@ -53,9 +53,9 @@ class KFactory
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 */
-	final private function __construct() 
+	final private function __construct(KConfig $config) 
 	{ 
-		self::$_container = new ArrayObject();
+		self::$_registry = new ArrayObject();
         self::$_chain     = new KFactoryChain();
         
         self::addAdapter(new KFactoryAdapterKoowa());
@@ -73,12 +73,17 @@ class KFactory
 	 *
 	 * @return void
 	 */
-	public static function instantiate()
+	public static function instantiate($config = array())
 	{
 		static $instance;
 		
-		if ($instance === NULL) {
-			$instance = new KFactory();
+		if ($instance === NULL) 
+		{
+			if(!$config instanceof KConfig) {
+				$config = new KConfig($config);
+			}
+			
+			$instance = new self($config);
 		}
 		
 		return $instance;
@@ -96,7 +101,7 @@ class KFactory
 	 * @return KIdentifier
 	 */
 	public static function identify($identifier)
-	{
+	{		
 		if(is_object($identifier) && $identifier instanceof KObjectIdentifiable) {
 			$identifier = $identifier->getIdentifier();
 		} 
@@ -125,7 +130,7 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 		
-		if(!self::$_container->offsetExists((string)$identifier))
+		if(!self::$_registry->offsetExists((string)$identifier))
 		{
 			$context = self::$_chain->getContext();
 			$context->config = new KConfig($config);
@@ -145,10 +150,10 @@ class KFactory
       			}
 			}
 			
-			self::$_container->offsetSet((string) $identifier, $instance);
+			self::$_registry->offsetSet((string) $identifier, $instance);
 		}
 		
-		return self::$_container->offsetGet((string)$identifier);
+		return self::$_registry->offsetGet((string)$identifier);
 	}
 
 	/**
@@ -195,7 +200,7 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 		
-		self::$_container->offsetSet((string) $identifier, $object);
+		self::$_registry->offsetSet((string) $identifier, $object);
 	}
 
 	/**
@@ -208,8 +213,8 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 
-		if(self::$_container->offsetExists((string)$identifier)) {
-			self::$_container->offsetUnset((string)$identifier);
+		if(self::$_registry->offsetExists((string)$identifier)) {
+			self::$_registry->offsetUnset((string)$identifier);
 			return true;
 		}
 
@@ -226,7 +231,7 @@ class KFactory
 	{
 		$identifier = self::identify($identifier);
 
-		return (bool) self::$_container->offsetExists((string)$identifier);
+		return (bool) self::$_registry->offsetExists((string)$identifier);
 	}
 	
 	/**
@@ -237,6 +242,8 @@ class KFactory
 	 */
 	public static function map($alias, $identifier)
 	{		
+		$identifier = self::identify($identifier);
+		
 		self::$_identifier_map[$alias] = $identifier;
 	}
 	
@@ -266,12 +273,12 @@ class KFactory
 
          	self::$_mixin_map[$identifier] = array_unique(array_merge(self::$_mixin_map[$identifier], $mixins));
 
-          	if (self::$_container->offsetExists((string)$identifier)) 
+          	if (self::$_registry->offsetExists((string)$identifier)) 
 			{
 				$mixins = self::$_mixin_map[$identifier];
       			foreach($mixins as $mixin) 
       			{
-        			$instance = self::$_container->offsetGet($identifier);
+        			$instance = self::$_registry->offsetGet($identifier);
         			
         			if($instance instanceof KObject)
         			{

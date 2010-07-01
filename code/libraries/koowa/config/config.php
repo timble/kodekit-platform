@@ -29,10 +29,14 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An associative array of configuration settings.
+	 * @param	array|KConfig An associative array of configuration settings or a KConfig instance.
 	 */
-	public function __construct( array $config = array() )
+	public function __construct( $config = array() )
 	{ 
+		if ($config instanceof KConfig) {
+			$config = clone $config;
+		}
+		
 		$this->_data = array();
 		foreach ($config as $key => $value) 
 		{
@@ -242,52 +246,29 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
     }
     
 	/**
-     * Append an array. Only adding keys that don't exist.
+     * Merge an array. Only adding keys that don't exist.
      *
      * @param  array 	An associative array of configuration elements to be appended
      * @return KConfig
      */
-    public function append(array $data)
+    public function append(array $config)
     {
-    	foreach($data as $key => $value) 
+    	foreach($config as $key => $value) 
         {
-        	if(!isset($this->_data[$key])) {
-               $this->$key = $value;
-            }
+        	if(array_key_exists($key, $this->_data)) 
+            {
+                if(is_array($value))
+                {
+               	 	if($this->_data[$key] instanceof KConfig) {
+                    	$this->_data[$key] = $this->_data[$key]->append($value);
+                	} else if (is_array($this->_data[$key])) {
+                    	$this->_data[$key] = array_merge($value, $this->_data[$key]);
+                    }
+                }
+            } 
+            else $this->$key = $value;
         }
         
         return $this;
     } 
-    
-    /**
-     * Merge another KConfig with this one. The items in $merge will override the 
-     * same named items in the current config.
-     *
-     * @param object 	A KConfig object
-     * @return KConfig
-     */
-    public function merge(KConfig $merge)
-    {
-        foreach($merge as $key => $item) 
-        {
-            if(array_key_exists($key, $this->_data)) 
-            {
-                if($item instanceof KConfig && $this->$key instanceof KConfig) {
-                    $this->$key = $this->$key->merge(new KConfig($item->toArray()));
-                } else {
-                    $this->$key = $item;
-                }
-            } 
-            else 
-            {
-                if($item instanceof KConfig) {
-                    $this->$key = new KConfig($item->toArray());
-                } else {
-                    $this->$key = $item;
-                }
-            }
-        }
-
-        return $this;
-    }
 }

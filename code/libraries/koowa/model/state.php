@@ -92,17 +92,20 @@ class KModelState extends KModelAbstract
      * @param   mixed		Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
      * @param   mixed  		The default value of the state
      * @param   boolean 	TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
+     * @param   array 		Array of required states to determine if the state is unique. Only applicable if the state is unqiue. 
      * @return  KModelState
      */
-    public function insert($name, $filter, $default = null, $unique = false)
+    public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
     	if(!isset($this->_state[$name]))
     	{
     		$state = new stdClass();
-    		$state->name   = $name;
-    		$state->filter = $filter;
-    		$state->value  = $default;
-    		$state->unique = $unique;
+    		$state->name     = $name;
+    		$state->filter   = $filter;
+    		$state->value    = $default;
+    		$state->unique   = $unique;
+    		$state->required = $required;
+    		$state->default  = $default;
     		$this->_state[$name] = $state;
     	}
 
@@ -122,13 +125,16 @@ class KModelState extends KModelAbstract
     }
 
 	/**
-     * Reset all cached data
+     * Reset all state data and revert to the default state
      *
      * @return KModelState
      */
     public function reset()
     {
-    	unset($this->_state);  	
+    	foreach($this->_state as $state) {
+    		$state->value = $state->default;
+    	} 
+    	
     	return $this;
     }
     
@@ -148,7 +154,7 @@ class KModelState extends KModelAbstract
     			$filter = $this->_state[$key]->filter;
 
     			if(!($filter instanceof KFilterInterface)) {
-					$filter = KFilter::instantiate(array('filter' => $filter));
+					$filter = KFilter::factory($filter);
 				}
 
     			$this->_state[$key]->value = $filter->sanitize($value);
@@ -174,17 +180,39 @@ class KModelState extends KModelAbstract
    		{
             if(isset($state->value))
             {
-           		 if($unique) 
+           		//Only return unique data 
+            	if($unique) 
            		 {
    					//Unique values cannot be empty
-           		 	if($state->unique && !empty($state->value)) {
-           		 		$data[$name] = $state->value;
+           		 	if($state->unique && !empty($state->value)) 
+           		 	{
+           		 		$result = true;
+           		 		
+           		 		//Check related states to see if they are set
+           		 		foreach($state->required as $required)
+           		 		{
+           		 			if(!isset($this->_state[$required]->value)) 
+           		 			{
+           		 				$result = false;
+           		 				break;
+           		 			}
+           		 		}
+           		 		
+           		 		//Prepare the data to be returned. Include states
+           		 		if($result) 
+           		 		{
+           		 			$data[$name] = $state->value;
+           		 			
+           		 			foreach($state->required as $required) {
+           		 				$data[$required] = $this->_state[$required]->value;
+           		 			}
+           		 		}
    					}
    					
             	} else $data[$name] = $state->value;	
             }
         }
-             
+            
         return $data;
     }
     

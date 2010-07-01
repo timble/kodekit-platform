@@ -17,7 +17,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiable
+abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInterface
 {
 	/**
 	 * Row states
@@ -68,10 +68,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
     protected $_new = true;
     
 	/**
-     * KDatabaseTableAbstract parent class or instance.
-     *
-     * @var object
-     */
+	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
+	 *
+	 * @var	string|object
+	 */
     protected $_table;
 
     /**
@@ -148,7 +148,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
 	 *
 	 * @return	KIdentifierInterface
 	 */
-	final public function getTable()
+	public function getTable()
 	{
 		if(!$this->_table)
 		{
@@ -181,44 +181,82 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
 		$this->_table = $identifier;
 		return $this;
 	}
-
+	
+	/**
+     * Load the row from the database.
+     *
+     * @return boolean	If successfull return TRUE, otherwise FALSE
+     */
+	public function load()
+	{
+		$result = false;
+		
+		$table = KFactory::get($this->getTable());
+		
+		//Filter the data
+		$data  = $table->filter($this->getData(true), true);
+		
+		//Select the row
+		$row = $table->select($data, KDatabase::FETCH_ROW);
+		
+		//Set the data if the row was found
+		if(!$row->isNew()) 
+		{
+			$this->setData($row->getData(), false);
+			$this->_modified = array();
+    		$this->_new      = false;
+    		
+    		$result = true;
+		}
+		
+		return $result;
+	}
+	
     /**
      * Saves the row to the database.
      *
      * This performs an intelligent insert/update and reloads the properties 
      * with fresh data from the table on success.
      *
-     * @return KDatabaseRowAbstract
+     * @return boolean	If successfull return TRUE, otherwise FALSE
      */
     public function save()
     {
+    	$result = false;
+    	
     	if($this->_new) 
     	{
     		if(KFactory::get($this->getTable())->insert($this)) 
     		{
         		$this->_status   = self::STATUS_INSERTED;
         		$this->_modified = array();
+        		
+        		$result = true;
         	}
-       	} 
+       	}	 
        	else 
        	{
         	if(KFactory::get($this->getTable())->update($this)) 
         	{
         		$this->_status   = self::STATUS_UPDATED;
        			$this->_modified = array();
+       			
+       			$result = true;
         	}
         }
     	    
-        return $this;
+        return $result;
     }
 
 	/**
      * Deletes the row form the database.
      *
-     * @return KDatabaseRowAbstract
+     * @return boolean	If successfull return TRUE, otherwise FALSE
      */
     public function delete()
     {
+    	$result = false;
+    	
     	if(!$this->_new) 
     	{
     		if(KFactory::get($this->getTable())->delete($this)) 
@@ -226,16 +264,18 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
     			$this->_status   = self::STATUS_DELETED;
     			$this->_modified = array();
     			$this->_new      = false;
+    			
+    			$result = true;
     		}
     	}
     	
-        return $this;
+        return $result;
     }
 
 	/**
      * Resets to the default properties
      *
-     * @return KDatabaseRowAbstract
+     * @return boolean	If successfull return TRUE, otherwise FALSE
      */
     public function reset()
     {
@@ -244,8 +284,21 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
         $this->_status   = null;
         $this->_new      = true;
         
-        return $this;
+        return true;
     }
+    
+	/**
+     * Count the rows in the database based on the data in the row
+     *
+     * @return integer
+     */
+	public function count()
+	{
+		$data = KFactory::get($this->getTable())
+					->filter($this->getData(true), true);
+		
+		return KFactory::get($this->getTable())->count($data);
+	}
 
 	/**
      * Retrieve row field value
@@ -345,7 +398,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
   	 */
   	 public function setData( $data, $modified = true )
   	 {
-  	 	if($data instanceof KDatabaseRowAbstract) {
+  	 	if($data instanceof KDatabaseRowInterface) {
 			$data = $data->getData();
 		} else {
 			$data = (array) $data;
@@ -372,7 +425,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
 	 */
 	public function getModified()
 	{
-		return $this->_modified;
+		return array_keys($this->_modified);
 	}
 	
 	/**
@@ -406,7 +459,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KObjectIdentifiab
     	if(!isset($this->_mixed_methods[$method])) 
         {
         	foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
-				$this->mixin(KFactory::get($behavior));
+				$this->mixin($behavior);
 			}
         }
     	

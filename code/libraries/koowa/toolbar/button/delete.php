@@ -10,7 +10,7 @@
 
 /**
  * Delete button class for a toolbar
- * 
+ *
  * @author		Mathias Verraes <mathias@koowa.org>
  * @category	Koowa
  * @package		Koowa_Toolbar
@@ -18,14 +18,16 @@
  */
 class KToolbarButtonDelete extends KToolbarButtonPost
 {
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
+	public function getOnClick()
 	{
-		parent::__construct($config);
-		$this->setField('action', 'delete');
+		$option	= KRequest::get('get.option', 'cmd');
+		$view	= KRequest::get('get.view', 'cmd');
+		$token	= JUtility::getToken();
+		$json 	= "{method:'post', url:'index.php?option=$option&view=$view&'+id, params:{action:'delete', _token:'$token'}}";
+
+		$msg 	= JText::_('Please select an item from the list');
+		return 'var id = KGrid.getIdQuery();'
+			.'if(id){new KForm('.$json.').submit();} '
+			.'else { alert(\''.$msg.'\'); return false; }';
 	}
 }

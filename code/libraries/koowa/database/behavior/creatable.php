@@ -22,7 +22,8 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
 	 * Get the methods that are available for mixin based
 	 * 
 	 * This function conditionaly mixes the behavior. Only if the mixer 
-	 * has a 'created_b'y property the behavior will be mixed in.
+	 * has a 'created_by' or 'created_on' property the behavior will be 
+	 * mixed in.
 	 * 
 	 * @param object The mixer requesting the mixable methods. 
 	 * @return array An array of methods
@@ -31,7 +32,7 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 		
-		if(isset($mixer->created_by)) {
+		if(isset($mixer->created_by) || isset($mixer->created_on))  {
 			$methods = parent::getMixableMethods($mixer);
 		}
 	
@@ -49,11 +50,11 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
 	{
 		$row = $context->data; //get the row data being inserted
 		
-		if(isset($row->created_by)) {
+		if(isset($row->created_by) && empty($row->created_by)) {
 			$row->created_by  = (int) KFactory::get('lib.koowa.user')->get('id');
 		}
 		
-		if(isset($row->created_on)) {
+		if(isset($row->created_on) && (empty($row->created_on) || $row->created_on == $context->caller->getDefault('created_on'))) { 
 			$row->created_on  = gmdate('Y-m-d H:i:s');
 		}
 	}

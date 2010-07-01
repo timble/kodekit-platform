@@ -10,38 +10,38 @@
 */
 
 /**
- * Template filter to convert @$ and @ to $this->
+ * Template read filter to convert @ to $this->
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterVariable extends KObject implements KTemplateFilterInterface
+class KTemplateFilterVariable extends KTemplateFilterAbstract implements KTemplateFilterRead
 {
 	/**
-	 * Convert '@$' and '@' to '$this->', unless when they are escaped '\@'
+	 * Convert '@' to '$this->', unless when they are escaped '\@'
 	 *
-	 * @param string $text
+	 * @param string
+	 * @return KTemplateFilterVariable
 	 */
-	public function parse(&$text) 
+	public function read(&$text) 
 	{		 
         /**
-         * We could make a better effort at only finding @$ between <?php ?>
-         * but that's probably not necessary as @$ doesn't occur much in the wild
+         * We could make a better effort at only finding @ between <?php ?>
+         * but that's probably not necessary as @ doesn't occur much in the wild
          * and there's a significant performance gain by using str_replace().
-         * 
-         * @TODO when there is template caching, we can afford more expensive 
-         * transformations
          */
 		
 		// Replace \@ with \$
 		$text = str_replace('\@', '\$', $text);
         
         // Now replace non-eescaped @'s 
-         $text = str_replace(array('@$', '@'), '$this->', $text);
+         $text = str_replace(array('@$'), '$', $text);
         
         // Replace \$ with @
 		$text = str_replace('\$', '@', $text);
+		
+		return $this;
 	}
 }

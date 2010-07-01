@@ -343,11 +343,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			$table = $tblval;
 			
 			//Check the table if it already has a table prefix applied.
-			if(strpos($tblval, '#__') === false)
-			{
-				if(substr($tblval, 0, 3) != '#__') {
-					$table = '#__'.$tblval;
-				}
+			if(substr($tblval, 0, 3) != '#__') {
+				$table = '#__'.$tblval;
 			}
 			else $tblval = $this->replaceTablePrefix($tblval, '');
 
@@ -356,8 +353,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 				$columns = $this->fetchObjectList( 'SHOW FULL COLUMNS FROM ' . $this->quoteName($table));
 				foreach ($columns as $column) 
 				{
+					//Set the table name in the raw info (MySQL doesn't add this)
+					$column->Table = $tblval;
+					
 					//Parse the column raw schema data
-        			$column = $this->_parseColumnInfo($column);
+        			$column = $this->_parseColumnInfo($column, $table);
         			
               		//Cache the column schame data	
 					$this->_table_schema[$tblval]['columns'][$column->name] = $column;
@@ -387,11 +387,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			$table = $tblval;
 			
 			//Check the table if it already has a table prefix applied.
-			if(strpos($tblval, '#__') === false)
-			{
-				if(substr($tblval, 0, 3) != '#__') {
-					$table = '#__'.$tblval;
-				}
+			if(substr($tblval, 0, 3) != '#__') {
+				$table = '#__'.$tblval;
 			}
 			else $tblval = $this->replaceTablePrefix($tblval, '');
 
@@ -411,6 +408,42 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			$result[$tblval] = $this->_table_schema[$tblval]['info'];
 		}
 	
+		return $result;
+	}
+	
+	/**
+	 * Retrieves the index information about the given tables
+	 *
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return	array 	An associative array of indexes by table
+	 */
+	public function fetchTableIndexes($tables)
+	{
+		settype($tables, 'array');
+		$result = array();
+		
+		foreach($tables as $tblval)
+		{
+			$table = $tblval;
+			
+			//Check the table if it already has a table prefix applied.
+			if(substr($tblval, 0, 3) != '#__') {
+				$table = '#__'.$tblval;
+			}
+			else $tblval = $this->replaceTablePrefix($tblval, '');
+			
+			if(!isset($this->_table_schema[$tblval]['indexes']))
+			{
+				$indexes = $this->fetchObjectList('SHOW INDEX FROM ' . $this->quoteName($table));
+				
+				foreach($indexes as $index) {
+					$this->_table_schema[$tblval]['indexes'][$index->Key_name][$index->Seq_in_index] = $index;
+				}
+			}
+			
+			$result[$tblval] = $this->_table_schema[$tblval]['indexes'];
+		}
+		
 		return $result;
 	}
 	
@@ -438,7 +471,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	$table->name        = $info->Name;
  	   	$table->engine      = $info->Engine;
  	   	$table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
- 	    $table->size        = $info->Data_length;
+ 	    $table->length      = $info->Data_length;
  	    $table->autoinc     = $info->Auto_increment;
  	    $table->collation   = $info->Collation;
  	    $table->behaviors   = array();
@@ -458,31 +491,56 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		//Parse the filter information from the comment
 		$filter = array();
 		preg_match('#@Filter\("(.*)"\)#Ui', $info->Comment, $filter);
-	
-		list($type, $size, $scope) = $this->_parseColumnType($info->Type);
-
+		
+		list($type, $length, $scope) = $this->_parseColumnType($info->Type);
+		
  	   	$column = new KDatabaseSchemaColumn;
  	   	$column->name     = $info->Field;
  	   	$column->type     = $type;
- 	   	$column->size     = ($size  ? $size  : null);
+ 	   	$column->length   = ($length  ? $length  : null);
  	   	$column->scope    = ($scope ? (int) $scope : null);
  	   	$column->default  = $info->Default;
  	   	$column->required = (bool) ($info->Null != 'YES');
  	    $column->primary  = (bool) ($info->Key == 'PRI');
- 	    $column->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI'); 
+ 	    $column->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI');
  	    $column->autoinc  = (bool) (strpos($info->Extra, 'auto_increment') !== false);
  	    $column->filter   =  isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
- 	       
- 	 	// don't keep "size" for integers
+ 	    
+ 	 	// Don't keep "size" for integers
  	    if (substr($type, -3) == 'int') {
- 	       	$column->size = null;
+ 	       	$column->length = null;
  	   	}
+ 	   		
+ 	   	// Get the related fields if the column is part of a unqiue multi column index
+ 	  	if($info->Key == 'MUL') 
+ 	   	{
+ 	   		$indexes = $this->fetchTableIndexes($info->Table);
+ 	   		
+ 	   		foreach($indexes[$info->Table] as $index)
+			{
+				if(count($index) > 1)
+				{
+					//We only deal with unique indexes for now.
+					if($index[1]->Column_name == $column->name && !$index[1]->Non_unique) 
+					{
+						array_shift($index); //remove the first column of the index
+						
+						foreach($index as $key => $value) {
+							$column->related[] = $index[$key]->Column_name;
+						}
+						
+						$column->unique = true;	
+						break; 
+					}
+				}
+			}
+		}
 
  	    return $column;
 	}
     
 	/**
-	 * Given a raw column specification, parse into datatype, size, and decimal scope.
+	 * Given a raw column specification, parse into datatype, length, and decimal scope.
 	 *
 	 * @param string The column specification; for example,
  	 * "VARCHAR(255)" or "NUMERIC(10,2)" or ENUM('yes','no','maybe')
@@ -491,10 +549,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	 */
 	protected function _parseColumnType($spec)
  	{
- 	 	$spec  = strtolower($spec);
- 	  	$type  = null;
- 	   	$size  = null;
- 	   	$scope = null;
+ 	 	$spec    = strtolower($spec);
+ 	  	$type    = null;
+ 	   	$length  = null;
+ 	   	$scope   = null;
 
  	   	// find the parens, if any
  	   	$pos = strpos($spec, '(');
@@ -508,24 +566,24 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   		// find the type first.
  	      	$type = substr($spec, 0, $pos);
  	      	
- 	      	// there were parens, so there's at least a size.
+ 	      	// there were parens, so there's at least a length
  	       	// remove parens to get the size.
- 	      	$size = trim(substr($spec, $pos), '()');
+ 	      	$length = trim(substr($spec, $pos), '()');
  	      	
  	   		if($type != 'enum' && $type != 'set')
  	     	{
  	     		// A comma in the size indicates a scope.
- 	      		$pos = strpos($size, ',');
+ 	      		$pos = strpos($length, ',');
  	      		if ($pos !== false) {
- 	        		$scope = substr($size, $pos + 1);
- 	           		$size  = substr($size, 0, $pos);
+ 	        		$scope = substr($length, $pos + 1);
+ 	           		$length  = substr($length, 0, $pos);
  	       		}
  	     		
  	     		
  	     	}
- 	     	else $size = explode(',', str_replace("'", "", $size));
+ 	     	else $length = explode(',', str_replace("'", "", $length));
  	   	}
 	 	
- 	  	return array($type, $size, $scope);
+ 	  	return array($type, $length, $scope);
  	}
 }

@@ -43,7 +43,7 @@ class KLoader
 	 *
 	 * @var	array
 	 */
-	protected static $_container = null;
+	protected static $_registry = null;
 	
 	/**
 	 * Adapter list
@@ -60,9 +60,9 @@ class KLoader
 	 */
 	final private function __construct() 
 	{ 
-		//Created the adapter container
+		//Created the adapter registry
 		self::$_adapters  = array();
-		self::$_container = new ArrayObject();
+		self::$_registry = new ArrayObject();
 		
 		// Register the autoloader in a way to play well with as many configurations as possible.
 		spl_autoload_register(array(__CLASS__, 'load'));
@@ -94,7 +94,7 @@ class KLoader
 		static $instance;
 		
 		if ($instance === NULL) {
-			$instance = new KLoader();
+			$instance = new self();
 		}
 		
 		return $instance;
@@ -150,8 +150,8 @@ class KLoader
 	 */
 	public static function path($class)
 	{
-		if(self::$_container->offsetExists((string)$class)) {
-			return self::$_container->offsetGet((string)$class);
+		if(self::$_registry->offsetExists((string)$class)) {
+			return self::$_registry->offsetGet((string)$class);
 		}
 		
 		$result = false;
@@ -188,7 +188,7 @@ class KLoader
 			$result = $path !== false ? $path : $result;
 			
 			if($result !== false) {
-				self::$_container->offsetSet((string) $class, $result);
+				self::$_registry->offsetSet((string) $class, $result);
 			}
       	}
       	

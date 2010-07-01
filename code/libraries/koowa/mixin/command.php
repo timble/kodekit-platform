@@ -45,7 +45,7 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 		}
 	
 		//Enque the command in the mixer's command chain
-		$config->command_chain->enqueue($this, 2);
+		$config->command_chain->enqueue($this, KCommandChain::PRIORITY_HIGH);
 	}
 	
 	/**
@@ -84,14 +84,9 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 		{ 
 			$functions = $functions[$parts[2]];
 			
-   		 	foreach($functions as $function => $parameters) 
+   		 	foreach($functions as $function) 
    		 	{
-   		 		if(empty($parameters)) {
-        			$result = $this->_mixer->$function();
-        		} else {
-        			$result = call_user_func_array(array($this->_mixer, $function), $parameters);
-        		}
-        		
+   		 		$result = $this->_mixer->$function($context);
 				if ( $result === false) {
         			break;
         		}
@@ -142,13 +137,12 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the funtion for or an array of method names
  	 * @param 	string|array	A single function or an array of functions to register
- 	 * @param 	array			The parameters to be passed to the function, as an indexed array. 
  	 * @return  KObject	The mixer object
  	 */
-	public function registerFunctionBefore($methods, $functions, array $parameters = array())
+	public function registerFunctionBefore($methods, $functions)
 	{
 		$methods   = (array) $methods;
-		$functions = array_flip((array)$functions);
+		$functions = (array) $functions;
 		
 		foreach($methods as $method)
 		{
@@ -158,10 +152,6 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
        	 		$this->_functions_before[$method] = array();	
 			}
 		
-			foreach ($functions as $key => $value) {
-				$functions[$key] = $parameters; 
-			}
-
     		$this->_functions_before[$method] = array_merge($this->_functions_before[$method], $functions);
 		}
 		
@@ -177,7 +167,8 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 */
 	public function unregisterFunctionBefore($methods, $functions)
 	{
-		$methods = (array) $methods;
+		$methods  = (array) $methods;
+		$functions = (array) $functions;
 		
 		foreach($methods as $method)
 		{
@@ -199,13 +190,12 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
  	 * 
  	 * @param  	string|array	The method name to register the function too or an array of method names
  	 * @param 	string|array	A single function or an array of functions to register
- 	 * @param 	array			The parameters to be passed to the function, as an indexed array. 
  	 * @return  KObject The mixer object
  	 */
-	public function registerFunctionAfter($methods, $functions,  array $parameters = array())
+	public function registerFunctionAfter($methods, $functions)
 	{
 		$methods   = (array) $methods;
-		$functions = array_flip((array)$functions);
+		$functions = (array) $functions;
 		
 		foreach($methods as $method)
 		{
@@ -215,10 +205,6 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
        	 		$this->_functions_after[$method] = array();	
 			}
 			
-			foreach ($functions as $key => $value) {
-				$functions[$key] = $parameters; 
-			}
-
     		$this->_functions_after[$method] = array_merge($this->_functions_after[$method], $functions);
 		}
 		

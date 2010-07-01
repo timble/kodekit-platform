@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerAction
+class KControllerDefault extends KControllerView
 {
 
 }

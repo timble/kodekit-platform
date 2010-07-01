@@ -18,22 +18,16 @@
 class KFilter
 {
 	/**
-	 * instantiate method for KFilterInterface classes.
+	 * Factory method for KFilterInterface classes.
 	 *
+	 * @param	string 	Filter indentifier
 	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KFilterAbstract
 	 */
-	public static function instantiate($config = array())
+	public static function factory($identifier, $config = array())
 	{		
-		if(!isset($config['filter'])) {
-			throw new InvalidArgumentException('filter [array] option is required');
-		}
-		
 		//Get the filter(s) we need to create
-		$filters = (array) $config['filter'];
-		
-		//Unset the filters, we don't need to pass this
-		unset($config['filter']);
+		$filters = (array) $identifier;
 
 		//Create the filter chain
 		$filter  = array_shift($filters);
@@ -52,7 +46,7 @@ class KFilter
 	 * If the filter is not an identifier this function will create it directly
 	 * instead of going through the KFactory identification process.
 	 *
-	 * @param 	string	Filter name
+	 * @param 	string	Filter identifier
 	 * @throws	KFilterException	When the filter could not be found
 	 * @return  KFilterInterface
 	 */

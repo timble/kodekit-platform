@@ -49,6 +49,7 @@ class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
 			{
 				$identifier->filepath  = $filepath;
+				$identifier->classname = $classname;
 				$config->identifier = $identifier;
 			}
 			

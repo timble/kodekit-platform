@@ -41,11 +41,11 @@ class KDatabaseSchemaTable extends KObject
 	public $type;
 	
 	/**
-	 * Table size
+	 * Table length
 	 * 
 	 * @var integer
 	 */
-	public $size;
+	public $length;
 	
 	/**
 	 * Table next auto increment value
