@@ -119,10 +119,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		if(!empty($config->filters)) 
 		{
 			foreach($config->filters as $column => $filter) {
-				$this->getColumn($column)->filter = $filter instanceof KConfig ? $filter->toArray() : $filter;
+				$this->getColumn($column, true)->filter = $filter instanceof KConfig ? $filter->toArray() : $filter;
 			}		
 		}
-		
+	
 		 // Mixin the command chain
         $this->mixin(new KMixinCommandchain(new KConfig(
         	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
