@@ -18,5 +18,28 @@
  */
 class ComDefaultDispatcherDefault extends KDispatcherDefault
 { 
-	
+	/**
+	 * Dispatch the controller and redirect
+	 * 
+	 * This function divert the standard behavior and will redirect if no view
+	 * information can be found in the request.
+	 * 
+	 * @param	string		The view to dispatch. If null, it will default to
+	 * 						retrieve the controller information from the request or
+	 * 						default to the component name if no controller info can
+	 * 						be found.
+	 *
+	 * @return	KDispatcherDefault
+	 */
+	protected function _actionDispatch($view)
+	{
+		//Redirect if no view information can be found in the request
+		if(!KRequest::has('get.view')) 
+		{
+			KFactory::get('lib.koowa.application')
+				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
+		}
+		
+		return parent::_actionDispatch($view);
+	}
 }
