@@ -217,6 +217,7 @@ class KModelTable extends KModelAbstract
         	$this->_buildQueryFrom($query);
         	$this->_buildQueryJoins($query);
         	$this->_buildQueryWhere($query);
+        	$this->_buildQueryGroup($query);
 
         	$total = $table->count($query);
         	$limit  = $this->_state->limit;
