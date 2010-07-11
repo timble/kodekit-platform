@@ -136,7 +136,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		$action = KRequest::get('post.action', 'cmd');
 
-		if(is_empty($action))
+		if(empty($action))
 		{
 			switch(KRequest::method())
 			{
