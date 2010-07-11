@@ -142,6 +142,9 @@ class KObject
      *
      * When using mixin(), the calling object inherits the methods of the mixed
      * in objects, in a LIFO order. 
+     * 
+     * This function notifies the mixing through the onMixin function it is being
+     * mixed.
      *
      * @param	object	An object that implements KMinxInterface
      * @return	KObject
@@ -153,6 +156,9 @@ class KObject
         foreach($methods as $method) {
             $this->_mixed_methods[$method] = $object;
         }
+        
+        //Notify the mixin
+        $object->onMixin();
 
         return $this;
     }

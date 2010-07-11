@@ -23,4 +23,11 @@ interface KMixinInterface
 	 * @return array An array of methods
 	 */
 	public function getMixableMethods();
+	
+	/**
+	 * Notification function called when the mixin is being mixed
+	 * 
+	 * @return void
+	 */
+	public function onMixin();
 }
