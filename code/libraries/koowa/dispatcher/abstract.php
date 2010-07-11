@@ -122,8 +122,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	/**
 	 * Get the action that is was/will be performed.
 	 *
-	 * If the action cannot be found it will determined based on the request method and mapped
-	 * to one of the 5 BREAD actions.
+	 * If the action cannot be found in the POST request it will determined based on the request 
+	 * method and mapped to one of the 5 BREAD actions.
 	 *
 	 * - GET    : either 'browse' (for list views) or 'read' (for item views).
 	 * - POST   : add
@@ -136,7 +136,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		$action = KRequest::get('post.action', 'cmd');
 
-		if(!$action)
+		if(is_empty($action))
 		{
 			switch(KRequest::method())
 			{
