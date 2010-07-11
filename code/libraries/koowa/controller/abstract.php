@@ -188,7 +188,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 */
 	public function registerActionAlias( $alias, $action )
 	{
-		$this->_action_map[strtolower( $alias )] = $action;
+		$alias = strtolower( $alias ); 
+       	
+		if ( !in_array($alias, $this->getActions()) )  { 
+          	$this->_action_map[$alias] = $action; 
+       	} 
+	
 		return $this;
 	}
 
