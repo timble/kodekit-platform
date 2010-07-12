@@ -27,6 +27,10 @@ class KViewHtml extends KViewTemplate
      */
     protected function _initialize(KConfig $config)
     {
+    	$config->append(array(
+			'mimetype'	  => 'text/html',
+       	));
+    	
     	parent::_initialize($config);
     	
     	$config->template_filters = array_merge($config->template_filters, array('form'));

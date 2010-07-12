@@ -33,6 +33,13 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 * @var string
 	 */
 	public $output = '';
+	
+	/**
+	 * The mimetype
+	 * 
+	 * @var string
+	 */
+	public $mimetype = '';
 
 	/**
 	 * Constructor
@@ -48,6 +55,9 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		
 		//Set the output if defined in the config
 		$this->output = $config->output;
+		
+		//Set the mimetype of defined in the config
+		$this->mimetype = $config->mimetype;
 
 		// set the model
 		if(!empty($config->model)) {
@@ -68,7 +78,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     	$config->append(array(
 			'model'   		=> null,
 	    	'output'		=> '',
-        ));
+    		'mimetype'		=> ''
+	  	));
         
         parent::_initialize($config);
     }

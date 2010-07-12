@@ -55,11 +55,13 @@ class ComDefaultDispatcherDefault extends KDispatcherDefault
 	{
 		$controller = KFactory::get($this->getController());
 		$view       = KFactory::get($controller->getView());
+	
+		$document = KFactory::get('lib.joomla.document');
+		$document->setMimeEncoding($view->mimetype);
 		
 		if($view instanceof ComDefaultViewHtml)
 		{
 			$toolbar  = KFactory::get($view->getToolbar());
-			$document = KFactory::get('lib.joomla.document');
 			
 			$document->setBuffer($toolbar->render(), 'modules', 'toolbar');
 			$document->setBuffer($toolbar->renderTitle(), 'modules', 'title');

@@ -42,4 +42,23 @@ class ComDefaultDispatcherDefault extends KDispatcherDefault
 		
 		return parent::_actionDispatch($view);
 	}
+	
+	/**
+	 * Push the controller data into the document
+	 * 
+	 * This function divert the standard behavior and will push specific controller data
+	 * into the document
+	 *
+	 * @return	KDispatcherDefault
+	 */
+	protected function _actionRender(KCommandContext $context)
+	{
+		$controller = KFactory::get($this->getController());
+		$view       = KFactory::get($controller->getView());
+	
+		$document = KFactory::get('lib.joomla.document');
+		$document->setMimeEncoding($view->mimetype);
+		
+		return parent::_actionRender($context);
+	}
 }

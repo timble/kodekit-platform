@@ -18,17 +18,21 @@
 class KViewJson extends KViewAbstract
 {
 	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		//Set the correct mime type
-		$this->_document->setMimeEncoding('application/json');
-	}
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+			'mimetype'	  => 'application/json',
+       	));
+    	
+    	parent::_initialize($config);
+    }
 
 	/**
 	 * Return the views output

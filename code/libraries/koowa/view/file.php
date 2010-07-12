@@ -49,13 +49,6 @@ class KViewFile extends KViewAbstract
 	public $filename = '';
 	
 	/**
-	 * The mimetype
-	 * 
-	 * @var string
-	 */
-	public $mimetype = '';
-	
-	/**
 	 * The file disposition
 	 * 
 	 * @var string
@@ -89,7 +82,6 @@ class KViewFile extends KViewAbstract
 		$config->append(array(
             'path'		  => '',
 			'filename'	  => $this->_identifier->path[$count-1].'.'.$this->_identifier->name,
-			'mimetype'	  => '',
 			'disposition' => 'attachment'
        	));
        	
