@@ -158,8 +158,9 @@ class KObject
         }
         
         //Notify the mixin
+        $object->mixer = $this;
         $object->onMixin();
-
+        
         return $this;
     }
     
