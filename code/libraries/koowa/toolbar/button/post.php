@@ -30,6 +30,8 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 		parent::__construct($config);
 		$this->setMethod('post');
 	
+		//@TODO :  Refactor this. 
+		KFactory::get('lib.joomla.document')->addScript(KRequest::root().'/media/system/js/mootools.js');
 		KFactory::get('lib.joomla.document')->addScript(KRequest::root().'/media/lib_koowa/js/koowa.js');
 	}
 	
