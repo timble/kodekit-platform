@@ -114,7 +114,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
- 	protected function _beforeTableInsert(KCommandContext $context)
+ 	protected function _afterTableInsert(KCommandContext $context)
 	{
 		$row = $context->data;
 		
