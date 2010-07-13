@@ -19,13 +19,6 @@
  */
 abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInterface
 {
-	/**
-	 * Row states
-	 */
-	const STATUS_DELETED    = 'deleted';
-    const STATUS_INSERTED   = 'inserted';
-    const STATUS_UPDATED    = 'updated';
-	
 	/** 
      * The data for each column in the row (column_name => value).
      *
@@ -142,6 +135,21 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     {
         return $this->_status;
     }
+    
+	/**
+     * Set the status of this row
+     * 
+     * @param 	string|null 	The status value or NULL to reset the status
+     * @return	KDatabaseRowsetAbstract
+     */
+    public function setStatus($status)
+    {
+        $this->_status 	 = $status;
+        $this->_new 	 = ($status === NULL) ? true : false;
+        $this->_modified = array();
+    	
+    	return $this;
+    }
 	
 	/**
 	 * Get the identifier for the table with the same name
@@ -224,25 +232,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     {
     	$result = false;
     	
-    	if($this->_new) 
-    	{
-    		if(KFactory::get($this->getTable())->insert($this)) 
-    		{
-        		$this->_status   = self::STATUS_INSERTED;
-        		$this->_modified = array();
-        		
-        		$result = true;
-        	}
-       	}	 
-       	else 
-       	{
-        	if(KFactory::get($this->getTable())->update($this)) 
-        	{
-        		$this->_status   = self::STATUS_UPDATED;
-       			$this->_modified = array();
-       			
-       			$result = true;
-        	}
+    	if($this->_new) {
+    		$result = KFactory::get($this->getTable())->insert($this);
+       	} else {
+        	$result = KFactory::get($this->getTable())->update($this);
         }
     	    
         return $result;
@@ -257,16 +250,8 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     {
     	$result = false;
     	
-    	if(!$this->_new) 
-    	{
-    		if(KFactory::get($this->getTable())->delete($this)) 
-    		{
-    			$this->_status   = self::STATUS_DELETED;
-    			$this->_modified = array();
-    			$this->_new      = false;
-    			
-    			$result = true;
-    		}
+    	if(!$this->_new) {
+    		$result = KFactory::get($this->getTable())->delete($this);
     	}
     	
         return $result;
@@ -279,12 +264,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function reset()
     {
-    	$this->_data     = KFactory::get($this->getTable())->getDefaults();
-        $this->_modified = array();
-        $this->_status   = null;
-        $this->_new      = true;
+    	$this->_data = KFactory::get($this->getTable())->getDefaults();
+    	$this->setStatus(NULL);
         
-        return true;
+    	return true;
     }
     
 	/**

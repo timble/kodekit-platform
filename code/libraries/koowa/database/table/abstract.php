@@ -673,6 +673,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Reverse apply the column mappings and set the data in the row
 			$context->data->setData($this->mapColumns($data, true), false);
 			
+			//Set the row status
+			$context->data->setStatus(KDatabase::STATUS_INSERTED);
+			
 			$this->getCommandChain()->run('after.table.insert', $context);
 		}
 
@@ -713,6 +716,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Execute the update query
 			$context->affected = $this->_database->update($context->table, $data, $query);
 			
+			//Set the row status
+			if((bool) $context->affected) {
+				$context->data->setStatus(KDatabase::STATUS_UPDATED);
+			}
+			
 			//Reverse apply the column mappings and set the data in the row
 			$context->data->setData($this->mapColumns($data, true), false);
 			
@@ -748,6 +756,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			
 			//Execute the delete query
 			$context->affected = $this->_database->delete($context->table, $query);
+			
+			//Set the row status
+			if((bool) $context->affected) {
+				$context->data->setStatus(KDatabase::STATUS_DELETED);
+			}
 			
 			$this->getCommandChain()->run('after.table.delete', $context);
 		}
