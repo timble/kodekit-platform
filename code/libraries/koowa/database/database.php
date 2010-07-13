@@ -38,4 +38,11 @@ class KDatabase
 	const FETCH_ROW     = 1;
 	const FETCH_FIELD   = 2;
 	
+	/**
+	 * Row states
+	 */
+	const STATUS_DELETED  = 'deleted';
+    const STATUS_INSERTED = 'inserted';
+    const STATUS_UPDATED  = 'updated';
+	
 }
