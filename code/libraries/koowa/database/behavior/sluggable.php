@@ -127,6 +127,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 		}
 
 		$row->slug = implode($this->_separator, $slugs);
+		
+		$row->save();
 	}
 
 	/**
