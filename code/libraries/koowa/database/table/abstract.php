@@ -653,6 +653,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		$context->operation = KDatabase::OPERATION_INSERT;
 		$context->data	  	= $row;
 		$context->table	  	= $this->getBase();
+		$context->query     = null;
 		
 		if($this->getCommandChain()->run('before.table.insert', $context) === true) 
 		{
@@ -696,6 +697,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		$context->operation = KDatabase::OPERATION_UPDATE;
 		$context->data  	= $row;
 		$context->table	  	= $this->getBase();
+		$context->query     = null;
 			
 		if($this->getCommandChain()->run('before.table.update', $context) === true) 
 		{
@@ -724,6 +726,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Reverse apply the column mappings and set the data in the row
 			$context->data->setData($this->mapColumns($data, true), false);
 			
+			//Set the query in the context
+			$context->query = $query;
+			
 			$this->getCommandChain()->run('after.table.update', $context);
 		}
 
@@ -744,6 +749,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		$context->operation = KDatabase::OPERATION_DELETE;
 		$context->table	  	= $this->getBase();
 		$context->data   	= $row;
+		$context->query     = null;
 		
 		if($this->getCommandChain()->run('before.table.delete', $context) === true) 
 		{
@@ -761,6 +767,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			if((bool) $context->affected) {
 				$context->data->setStatus(KDatabase::STATUS_DELETED);
 			}
+			
+			//Set the query in the context
+			$context->query = $query;
 			
 			$this->getCommandChain()->run('after.table.delete', $context);
 		}
