@@ -123,7 +123,7 @@ class KViewFile extends KViewAbstract
         while (@ob_end_clean());
     
 		$this->filename = basename($this->filename);		
-    	if(isset($this->output)) // File body is passed as string
+    	if(!empty($this->output)) // File body is passed as string
     	{
 			if(empty($this->filename)) {
 				throw new KViewException('No filename supplied');
@@ -134,7 +134,7 @@ class KViewFile extends KViewAbstract
 			flush();
 			echo $this->output;
     	}
-    	elseif(isset($this->path)) // File is read from disk
+    	elseif(!empty($this->path)) // File is read from disk
     	{
      		if(empty($this->filename)) {
 				$this->filename = basename($this->path);				
