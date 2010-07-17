@@ -191,7 +191,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			
 			if ($config->selected instanceof KConfig)
 			{
-				foreach ($selected as $value)
+				foreach ($config->selected as $value)
 				{
 					$sel = is_object( $value ) ? $value->{$config->key} : $value;
 					if ($key == $sel)
