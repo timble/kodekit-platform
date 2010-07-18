@@ -390,7 +390,7 @@ class KDatabaseQuery extends KObject
                 }
 
                 $tmp .= 'JOIN ' . $this->_adapter->quoteName($join['table']);
-                $tmp .= ' ON ' . implode(' AND ', $this->_adapter->quoteName($join['condition']));
+                $tmp .= ' ON (' . implode(' AND ', $this->_adapter->quoteName($join['condition'])) . ')'; 
 
                 $joins[] = $tmp;
             }
