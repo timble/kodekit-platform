@@ -37,6 +37,7 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 		
 		$options = array();
 		$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+		
 		$options[] = $this->option(array('text' => JText::_( 'Enabled' ) , 'value' => 1 ));
 		$options[] = $this->option(array('text' => JText::_( 'Disabled' ), 'value' => 0 ));
 
@@ -60,9 +61,9 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
  	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'name'		=> 'access',
-			'state' 	=> null,
-			'attribs'	=> array(),
+			'name'			=> 'access',
+			'state' 		=> null,
+			'attribs'		=> array(),
 		));
 		
  		$options   = array();
