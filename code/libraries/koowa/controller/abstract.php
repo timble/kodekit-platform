@@ -130,7 +130,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
 			
-			$context->result = $this->$method($context->data);
+			$context->result = $this->$method($data);
 			$this->getCommandChain()->run('controller.after.'.$action, $context);
 		}
 
