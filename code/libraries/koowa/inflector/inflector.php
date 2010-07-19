@@ -90,7 +90,7 @@ class KInflector
 			'/([ti]|addend)a$/i' 	=> '\1um',
             '/(alumn|formul)ae$/i'  => '$1a',
 			'/(n)ews$/i' 			=> '\1ews',
-			'/(.*)ss/i'             => '\1ss', 
+			'/(.*)ss$/i'            => '\1ss',       
 			'/(.*)s$/i' 			=> '\1',
 		),
 
