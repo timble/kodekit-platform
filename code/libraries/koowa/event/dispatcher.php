@@ -40,9 +40,9 @@ class KEventDispatcher extends KPatternObservable
 	 * @param	array|object	An associative array of arguments or a KConfig object
 	 * @return	array			An array of results from each function call
 	 */
-	public function dispatch($event, $args)
+	public function dispatch($event, $args = null)
 	{
-		if(!$args instanceof KConfig) {
+		if(!($args instanceof KConfig)) {
 			$args = new KConfig($args);
 		}
 		
