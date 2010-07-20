@@ -102,7 +102,7 @@ abstract class KControllerView extends KControllerBread
 	 */
 	public function execute($action, $data = null)
 	{
-		if(KRequest::method() == 'POST')
+		if(KRequest::method() != 'GET')
 		{
 			$req	= KRequest::get('request._token', 'md5');
        	 	$token	= JUtility::getToken();
