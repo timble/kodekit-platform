@@ -152,7 +152,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		array_push( $this->_path, dirname($path));
 		
 		// load the template script
-		$template = $this->findPath($this->_path, basename($path));
+		$template = $this->findPath(basename($path));
 
 		if ($template === false) {
 			throw new KTemplateException( 'Template "' . $path . '" not found' );
@@ -298,17 +298,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	/**
 	 * Searches the directory paths for a given template file.
 	 *
-	 * @param	array|string	An path or array of path to search in
 	 * @param	string			The file name to look for.
 	 * @return	mixed			The full path and file name for the target file, or FALSE
 	 * 							if the file is not found in any of the paths
 	 */
-	public function findPath($paths, $file)
+	public function findPath($file)
 	{
 		settype($paths, 'array'); //force to array
 
 		// start looping through the path set
-		foreach ($paths as $path)
+		foreach ($this->_path as $path)
 		{
 			// get the path to the file
 			$fullname = $path.'/'.$file;
@@ -318,7 +317,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 			{
 				// not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
+				$path 	  = realpath($path); // needed for substr() later
 				$fullname = realpath($fullname);
 			}
 
