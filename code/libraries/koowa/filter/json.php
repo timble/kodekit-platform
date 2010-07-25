@@ -49,6 +49,10 @@ class KFilterJson extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
+		if(is_a($value, 'KConfig')) {
+			$value = $value->toArray(); 
+		}
+		
 		return json_encode($value);
 	}
 }
