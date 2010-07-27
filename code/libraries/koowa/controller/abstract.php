@@ -99,6 +99,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 * Execute an action by triggering a method in the derived class.
 	 *
 	 * @param	string		The action to execute
+	 * @param	array		The data to pass to the action method
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @throws 	KControllerException
 	 */
@@ -128,6 +129,13 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	
 			if (!in_array($method, $this->getMethods())) {
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
+			}
+			
+			//Transfrom the data to pass it to the action method
+			if(is_array($data) && $context->data instanceof KConfig) {
+				$data = $context->data->toArray();
+			} else {
+				$data = $context->data;
 			}
 			
 			$context->result = $this->$method($data);
