@@ -33,10 +33,14 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 			'name'		=> 'enabled',
 			'state' 	=> null,
 			'attribs'	=> array(),
+			'deselect'	=> true
 		));
 		
 		$options = array();
-		$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+		
+		if($config->select) {
+			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+		}
 		
 		$options[] = $this->option(array('text' => JText::_( 'Enabled' ) , 'value' => 1 ));
 		$options[] = $this->option(array('text' => JText::_( 'Disabled' ), 'value' => 0 ));
@@ -61,13 +65,17 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
  	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'name'			=> 'access',
-			'state' 		=> null,
-			'attribs'		=> array(),
+			'name'		=> 'access',
+			'state' 	=> null,
+			'attribs'	=> array(),
+			'deselect'	=> true
 		));
 		
  		$options   = array();
-		$options[] =  $this->option(array('text' => '- '.JText::_( 'Select' ).' -'));
+ 		
+ 		if($config->select) {
+			$options[] =  $this->option(array('text' => '- '.JText::_( 'Select' ).' -'));
+ 		}
 		
 		$options[] = $this->option(array('text' => JText::_( 'Public' ), 'value' => '0' ));
 		$options[] = $this->option(array('text' => JText::_( 'Registered' ), 'value' => '1' ));
