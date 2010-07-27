@@ -56,6 +56,41 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 	}
 	
 	/**
+	 * Generates an HTML published optionlist
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function published( $config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'name'		=> 'enabled',
+			'state' 	=> null,
+			'attribs'	=> array(),
+			'deselect'	=> true
+		));
+		
+		$options = array();
+		
+		if($config->select) {
+			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+		}
+		
+		$options[] = $this->option(array('text' => JText::_( 'Published' ) , 'value' => 1 ));
+		$options[] = $this->option(array('text' => JText::_( 'Draft' ), 'value' => 0 ));
+
+		$list = $this->optionlist(array(
+			'options' 	=> $options, 
+			'name' 		=> $config->name, 
+			'attribs' 	=> $config->attribs, 
+			'selected' 	=> $config->state->{$config->name},
+		));
+		
+		return $list;
+	}
+	
+	/**
 	 * Generates an HTML access optionlist
 	 *
 	 * @param 	array 	An optional array with configuration options
