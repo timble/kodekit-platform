@@ -16,6 +16,21 @@
 class ComTermsBehaviorTaggable extends KDatabaseBehaviorAbstract
 {
 	/**
+	 * Get a list of tags
+	 * 
+	 * @return ComTermsRowsetTerms
+	 */
+	public function getTags()
+	{
+		$tags = KFactory::tmp('admin::com.terms.model.terms')
+					->row($this->id)
+					->table(KFactory::get($this->getTable())->getName())
+					->getList();
+
+		return $tags;
+	}
+	
+	/**
 	 * Modify the select query
 	 * 
 	 * If the query's where information includes a tag propery, auto-join the terms tables
