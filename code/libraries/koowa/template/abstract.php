@@ -346,7 +346,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$view = KFactory::get($this->getView());
 		
 		if($state = KFactory::get($view->getModel())->getState()) {
-			$params = array_merge(array('state' => $state), $params);
+			$params = array_merge(array('state' => clone $state), $params);
 		}
 		
 		//Get the function to call based on the $identifier
