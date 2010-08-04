@@ -48,6 +48,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		))->append(array(
 			'text'		=> $config->value,
 			'column'    => $config->value,
+			'deselect'  => true
 		));
 		
 		$app        = $this->getIdentifier()->application;
@@ -57,7 +58,9 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
  		$list = KFactory::tmp($identifier)->getColumn($config->column);
 		
         $options   = array();
-		$options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
+ 		if($config->deselect) {
+         	$options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
+        }
 		
  		foreach($list as $item) {
 			$options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
