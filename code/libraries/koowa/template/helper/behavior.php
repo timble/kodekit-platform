@@ -167,7 +167,9 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$this->_loaded['overlay'] = true;
 		}
 
-		$uri     = KFactory::tmp('lib.koowa.http.uri', array('uri' => $config->uri));
+		$uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $config->uri));
+		$uri->query['tmpl'] = '';
+		
 		$attribs = KHelperArray::toString($config->attribs);
 
 		$html .= '<div href="'.$uri.'" class="-koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
