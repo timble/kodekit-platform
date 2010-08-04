@@ -67,22 +67,20 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.database'   , $db);
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
-        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
         KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
-	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
         
-        //If the format is AJAX we create a 'raw' document rendered and force it's type to the
-        //active format to maintain full backwards compatibility 
+	  	//If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
+        //if the format is 'html' or if the tmpl is empty.
         if(KRequest::type() == 'AJAX') 
         {
-        	$format = JRequest::getWord('format', 'html');
+        	if(KRequest::get('get.format', 'cmd', 'html') != 'html' || KRequest::get('get.tmpl', 'cmd') === '')
+        	{
+        		$format = JRequest::getWord('format', 'html');
         	
-        	JRequest::setVar('format', 'raw');   //force format to raw
-        	JFactory::getDocument()->setType($format);
-        	JRequest::setVar('format', $format); //revert format to original
-        	
-        	//Register the module helper in case someone needs it
-        	JLoader::register('JModuleHelper', JPATH_LIBRARIES.DS.'joomla'.DS.'application'.DS.'module'.DS.'helper.php');
+        		JRequest::setVar('format', 'raw');   //force format to raw
+        		JFactory::getDocument()->setType($format);
+        		JRequest::setVar('format', $format); //revert format to original
+        	}
         }
         
 		//Load the koowa plugins
