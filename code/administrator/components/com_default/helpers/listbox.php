@@ -38,7 +38,7 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 		
 		$options = array();
 		
-		if($config->select) {
+		if($config->deselect) {
 			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
 		}
 		
@@ -73,7 +73,7 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 		
 		$options = array();
 		
-		if($config->select) {
+		if($config->deselect) {
 			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
 		}
 		
@@ -108,7 +108,7 @@ class ComDefaultHelperListbox extends KTemplateHelperListbox
 		
  		$options   = array();
  		
- 		if($config->select) {
+ 		if($config->deselect) {
 			$options[] =  $this->option(array('text' => '- '.JText::_( 'Select' ).' -'));
  		}
 		
