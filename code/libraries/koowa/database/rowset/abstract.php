@@ -60,22 +60,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 		$this->reset();
 		
 		// Insert the data, if exists
-		if(!empty($config->data)) 
-		{
-			//Create a row prototype and clone it this is faster then instanciating a new row
-			$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array(
-    			'table' => $this->getTable(),
-    			'new'   => $config->new
-     		));
-     		
-     		//Set the data in the row object and insert the row
-			foreach($config->data as $k => $row)
-			{
-				$clone = clone $prototype;
-        		$clone->setData($row, $config->new);
-        		
-        		$this->addRow($clone);
-			}
+		if(!empty($config->data)) {
+			$this->_addRows($config->data->toArray(), $config->new);	
 		}
     }
 
@@ -383,5 +369,31 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 
         //If the method cannot be found throw an exception
         throw new BadMethodCallException('Call to undefined method :'.$method);
+    }
+    
+    /**
+     * Add rows to the rowset
+     *
+	 * @param  array  	An associative array of row data to be inserted. 
+	 * @param  boolean	If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+	 * @return void
+	 * @see __construct
+     */
+    protected function _addRows(array $data, $new = true)
+    {
+   		//Create a row prototype and clone it this is faster then instanciating a new row
+		$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array(
+    		'table' => $this->getTable(),
+    		'new'   => $new
+     	));
+     		
+     	//Set the data in the row object and insert the row
+		foreach($data as $k => $row)
+		{
+			$clone = clone $prototype;
+        	$clone->setData($row, $new);
+        		
+        	$this->addRow($clone);
+		}
     }
 }
