@@ -95,7 +95,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 						}
 					}
 				} 
-				else $extra .= ($value == $config->selected ? ' selected="selected"' : '');
+				else $extra .= ((string) $value == $config->selected ? ' selected="selected"' : '');
 			}
 				
 			$html[] = '<option value="'. $value .'" '. $extra .'>' . $text . '</option>';
