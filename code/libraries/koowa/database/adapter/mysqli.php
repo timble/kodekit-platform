@@ -267,7 +267,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			while ($row = $result->fetch_assoc( )) 
 			{
 				if ($key) {
-					$array[$row->$key] = $row;
+					$array[$row[$key]] = $row;
 				} else {
 					$array[] = $row;
 				}
