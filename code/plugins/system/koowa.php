@@ -67,7 +67,9 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.database'   , $db);
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
+        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
         KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
+	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
         
 	  	//If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
         //if the format is 'html' or if the tmpl is empty.
