@@ -568,10 +568,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Fetch the data based on the fecthmode
 			if($context->query)
 			{
-				//Fetch the raw data and apply reverse column mapping
+				//Fetch a rowset
 				if($context->mode == KDatabase::FETCH_ROWSET) 
 				{
-					$data = $this->_database->fetchArrayList($context->query);
+					$data = $this->_database->fetchArrayList($context->query, $this->_identity_column);
 				
 					foreach($data as $key => $value) {
 						$data[$key] = $this->mapColumns($value, true);
@@ -580,10 +580,12 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 					$context->data = $data;
 				} 
 				
+				//Fetch a row
 				if($context->mode == KDatabase::FETCH_ROW) {
 					$context->data = $this->mapColumns($this->_database->fetchArray($context->query), true);
 				}
 				
+				//Fetch a field
 				if($context->mode == KDatabase::FETCH_FIELD) {
 					$context->data = $this->_database->fetchField($context->query);
 				}
@@ -592,11 +594,12 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 				$options['new']  = empty($context->data) ? true : false;	
 			}
 			
-			//Create the row(set) object
+			//Create the rowset object
  			if($context->mode == KDatabase::FETCH_ROWSET) {
  				$context->data = KFactory::tmp($this->getRowset(), $options);
  			} 
  			
+ 			//Create the row object
 			if($context->mode == KDatabase::FETCH_ROW) {
  				$context->data = KFactory::tmp($this->getRow(), $options);
  			}
