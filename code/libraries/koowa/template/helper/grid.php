@@ -54,9 +54,10 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'title'   => '',
-			'column'  => '',
-			'state'   => null
+			'title'   	=> '',
+			'column'  	=> '',
+			'direction' => 'asc',
+			'sort'		=> ''
 		));
 
 
@@ -66,12 +67,12 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 
 		//Set the direction
-		$direction	= strtolower($config->state->direction);
+		$direction	= strtolower($config->direction);
 		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
 
 		//Set the class
 		$class = '';
-		if($config->column == $config->state->sort)
+		if($config->column == $config->sort)
 		{
 			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
 			$class = 'class="'.$direction.'"';
