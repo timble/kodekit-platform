@@ -73,15 +73,19 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			$this->_buildQueryWhere($query);
 
 			$update =  'UPDATE `#__'.KFactory::get($this->getTable())->getBase().'` ';
-			if($change < 0) {
+			if($change < 0) 
+			{
 				$update .= 'SET ordering = ordering+1 ';
 				$query->where('ordering', '>=', $new)
 					  ->where('ordering', '<', $old);
-			} else {
+			} 
+			else 
+			{
 				$update .= 'SET ordering = ordering-1 ';
 				$query->where('ordering', '>', $old)
 					  ->where('ordering', '<=', $new);
 			}
+			
 			$update .= (string) $query;
 
 			KFactory::get($this->getTable())->getDatabase()->execute($update);
