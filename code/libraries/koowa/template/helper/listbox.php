@@ -44,7 +44,8 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 			'attribs'	=> array(),
 			'model'		=> null
 		))->append(array(
-			'value'		=> $config->name
+			'value'		=> $config->name,
+			'selected'  => $config->{$config->name}
 		))->append(array(
 			'text'		=> $config->value,
 			'column'    => $config->value,
@@ -65,15 +66,11 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
  		foreach($list as $item) {
 			$options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
 		}
-
-		$list = $this->optionlist(array(
-			'options' 	=> $options, 
-			'name' 		=> $config->name, 
-			'selected' 	=> $config->state->{$config->name},
-			'attribs'	=> $config->attribs
-		));
 		
-		return $list;
+		//Add the options to the config object
+		$config->options = $options;
+
+		return $this->optionlist($config);
  	}
 	
 	/**
