@@ -45,6 +45,8 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 			'name'		=> 'gender',
 			'state' 	=> null,
 			'attribs'	=> array(),
+		))->append(array(
+			'selected'  => $config->{$config->name}
 		));
 			
 		$options = array();
@@ -52,14 +54,10 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 		$options[] = $this->option(array('text' => JText::_( 'Male' ) , 'value' => 1 ));
 		$options[] = $this->option(array('text' => JText::_( 'Female' ), 'value' => 2 ));
 
-		$list = $this->optionlist(array(
-			'options' 	=> $options, 
-			'name' 		=> $config->name, 
-			'attribs' 	=> $config->attribs, 
-			'selected' 	=> $config->state->gender,
-		));
+		//Add the options to the config object
+		$config->options = $options;
 		
-		return $list;
+		return $this->optionlist($config);
 	}
 	
 	public function country($config = array())
@@ -69,6 +67,8 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 			'name'		=> 'country',
 			'state' 	=> null,
 			'attribs'	=> array(),
+		))->append(array(
+			'selected'  => $config->{$config->name}
 		));
 		
 		$list = KFactory::get('admin::com.profiles.model.regions')
@@ -82,14 +82,10 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
  			$options[] = $this->option( array('value' => $code, 'text' => $country));
  		}
  		
- 		$list = $this->optionlist(array(
-			'options' 	=> $options, 
-			'name' 		=> $config->name, 
-			'attribs' 	=> $config->attribs, 
-			'selected' 	=> $config->state->country,
-		));
-		
-		return $list;
+ 		//Add the options to the config object
+		$config->options = $options;
+ 		
+ 		return $this->optionlist($config);
  	}
 
  	public function state($config = array())
@@ -99,17 +95,19 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 			'name'		=> 'state',
 			'state' 	=> null,
 			'attribs'	=> array(),
+		))->append(array(
+			'selected'  => $config->{$config->name}
 		));
 				
  		$list = KFactory::get('admin::com.profiles.model.regions')
-			->region($config->state->country)
+			->region($config->country)
 			->getList();
 
- 		$states   = array();
+ 		$options  = array();
  		$disabled = false;
  		if(count($list))
  		{
-	 		$options[] =  $this->option(array('text' => '- '.JText::_( 'Select a State/Provence' ).' -'  ));
+	 		$options =  $this->option(array('text' => '- '.JText::_( 'Select a State/Provence' ).' -'  ));
  			foreach($list as $code => $state) {
 	 			$options[] = $this->option( array('value' => $code, 'text' => $state));
 	 		}
@@ -119,15 +117,10 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
  			$options[] =  $this->option(array('text' => '('.JText::_('No states for this country').')'  ));
  			$disabled = true;
  		}
+ 		
+ 		//Add the options to the config object
+		$config->options = $options;
 
- 		$list = $this->optionlist(array(
-			'options' 	=> $options, 
-			'name' 		=> $config->name, 
-			'attribs' 	=> $config->attribs, 
-			'selected' 	=> $config->state->state,
- 			'disabled'  => $disabled
- 		));
-		
-		return $list;
+ 		return $this->optionlist($config);
  	}
 }
