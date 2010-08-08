@@ -31,8 +31,9 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$config = new KConfig($config);
 		$config->append(array(
 			'total'   => 0,
-			'state'   => null,
-			'display' => 4
+			'display' => 4,
+			'offset'  => 0,
+			'limit'	  => 0,
 		));
 		
 		$html = '';
@@ -41,8 +42,8 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		// Paginator object
 		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
 				array('total'  => $config->total,
-					  'offset' => $config->state->offset,
-					  'limit'  => $config->state->limit,
+					  'offset' => $config->offset,
+					  'limit'  => $config->limit,
 					  'display' => $config->display)
 		);
 
@@ -89,7 +90,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			$query['offset']= $value ? $value * floor($offset/$value) : 0;
 			$redirect       = (string) $url->setQuery($query);
 
-			if($value == $config->state->limit) {
+			if($value == $config->limit) {
 				$selected = $redirect;
 			}
 
