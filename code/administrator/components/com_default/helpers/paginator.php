@@ -31,15 +31,16 @@ class ComDefaultHelperPaginator extends KTemplateHelperPaginator
 		$config = new KConfig($config);
 		$config->append(array(
 			'total'   => 0,
-			'state'   => null,
-			'display' => 4
+			'display' => 4,
+			'offset'  => 0,
+			'limit'	  => 0,
 		));
 		
 		// Paginator object
 		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
 				array('total'  => $config->total,
-					  'offset' => $config->state->offset,
-					  'limit'  => $config->state->limit,
+					  'offset' => $config->offset,
+					  'limit'  => $config->limit,
 					  'display' => $config->display)
 		);
 				
