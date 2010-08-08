@@ -336,6 +336,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	
 	/**
 	 * Load a template helper
+	 * 
+	 * This function merges the elements of the attached view model state with the parameters passed to the helper
+	 * so that the values of one are appended to the end of the previous one. 
+	 * 
+	 * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
 	 *
 	 * @param	string	Name of the helper, dot separated including the helper function to call
 	 * @param	mixed	Parameters to be passed to the helper
@@ -346,7 +351,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$view = KFactory::get($this->getView());
 		
 		if($state = KFactory::get($view->getModel())->getState()) {
-			$params = array_merge(array('state' => clone $state), $params);
+			$params = array_merge($state->getData(), $params);
 		}
 		
 		//Get the function to call based on the $identifier
