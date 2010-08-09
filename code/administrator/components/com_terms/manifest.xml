@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <install type="component" version="1.5.0">
-	<name>terms</name>
+	<name>comments</name>
 	<author>Nooku</author>
 	<creationDate>July 2009</creationDate>
 	<copyright>(C) 2009 - 2010 Nooku. All rights reserved.</copyright>
@@ -9,19 +9,19 @@
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>0.7</version>
-	<description>A tagging component</description>
+	<description>A comments component</description>
 
 	<!-- Application/site -->
-	<files folder="site/components/com_terms">
-		<file>terms.php</file>
+	<files folder="site/components/com_comments">
+		<file>comments.php</file>
 	</files>
-	
+
 	<!-- Application/administrator -->
 	<administration>
-		<menu>Terms</menu>
+		<menu>Comments</menu>
 
-		<files folder="administrator/components/com_terms">
-			<file>terms.php</file>
+		<files folder="administrator/components/com_comments">
+			<file>comments.php</file>
             <folder>controllers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
@@ -29,14 +29,14 @@
 			<folder>views</folder>
 		</files>
 	</administration>
-	
+
 	<!--  Media -->
-	<media destination="com_terms" folder="media/com_terms">
+	<media destination="com_comments" folder="media/com_comments">
 		<folder>css</folder>
 		<folder>images</folder>
-		<folder>js</folder>		
+		<folder>js</folder>
 	</media>
-	
+
 	<!-- Installation -->
 	<install>
 		<sql>
