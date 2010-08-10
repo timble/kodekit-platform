@@ -93,8 +93,10 @@ class KCommandChain extends KObject
 	{
 		if($handle = $cmd->getHandle())
 		{
-			if($this->_command->offsetExist($handle)) {
-				$this->_command->offsetUnset($handle);	
+			if($this->_command->offsetExists($handle)) 
+			{
+				$this->_command->offsetUnset($handle);
+				$this->_priority->offsetUnSet($handle);	
 			}
 		}
 
