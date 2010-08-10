@@ -279,7 +279,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 	/**
      * Add a row in the rowset
      * 
-     * The row will be stored by i'ts identity_column if set or otherwise by
+     * The row will be stored by it's identity_column if set or otherwise by
      * it's object handle.
      *
      * @param  object 	A KDatabaseRow object to be inserted
