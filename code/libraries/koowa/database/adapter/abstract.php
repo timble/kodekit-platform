@@ -217,26 +217,62 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	/**
      * Preforms a select query
      *
-     * Use for SELECT and anything that returns rows.  
+     * Use for SELECT and anything that returns rows.
+     * 
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param	string  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
-     * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
-     * 						unless you free the result first. 
-     * @return  mixed 		If successfull returns a result object otherwise FALSE
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * 							value must be one of the KDatabase::FETCH_* constants.
+     * @param 	string 			The column name of the index to use
+     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * 					    	In all cases, FALSE is returned on failure.
      */
-	public function select($sql, $mode = KDatabase::RESULT_STORE)
+	public function select($query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
 	{
 		$context = $this->getCommandChain()->getContext();
 		$context->caller    = $this;
-		$context->sql	 	= $sql;
+		$context->query	 	= $query;
 		$context->operation = KDatabase::OPERATION_SELECT;
+		$context->mode		= $mode;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('database.before.select', $context) === true) {
-			$context->result = $this->execute( $context->sql, $mode);
-			$this->getCommandChain()->run('database.after.select', $context);
+		if($this->getCommandChain()->run('before.database.select', $context) === true) 
+		{
+			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
+			{
+				switch($context->mode)
+				{
+					case KDatabase::FETCH_ARRAY       : 
+						$context->result = $this->_fetchArray($result);	
+						break;
+						
+					case KDatabase::FETCH_ARRAY_LIST  : 
+						$context->result = $this->_fetchArrayList($result, $key); 
+						break;
+						
+					case KDatabase::FETCH_FIELD       : 
+						$context->result = $this->_fetchField($result); 
+						break;
+						
+					case KDatabase::FETCH_FIELD_LIST  : 
+						$context->result = $this->_fetchFieldList($result, $key); 
+						break;
+						
+					case KDatabase::FETCH_OBJECT      : 
+						$context->result = $this->_fetchObject($result); 
+						break;
+						
+					case KDatabase::FETCH_OBJECT_LIST : 
+						$context->result = $this->_fetchObjectList($result, $key); 
+						break;
+						
+					default : $result->free();
+				}
+			}
+				
+			$this->getCommandChain()->run('after.database.select', $context);
 		}
 
 		return $context->result;
@@ -261,7 +297,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_INSERT;
 
 		//Excute the insert operation
-		if($this->getCommandChain()->run('database.before.insert', $context) === true)
+		if($this->getCommandChain()->run('before.database.insert', $context) === true)
 		{
 			//Check if we have valid data to insert, if not return false
 			if(!empty($context->data)) 
@@ -276,10 +312,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
 				//Execute the query
-				$this->execute($sql);
+				$context->result = $this->execute($sql);
 			
 				$context->insert_id = $this->_insert_id;
-				$this->getCommandChain()->run('database.after.insert', $context);
+				$this->getCommandChain()->run('after.database.insert', $context);
 			}
 			else $context->insert_id = false;
 		}
@@ -308,7 +344,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_UPDATE;
 
 		//Excute the update operation
-		if($this->getCommandChain()->run('database.before.update', $context) ===  true)
+		if($this->getCommandChain()->run('before.database.update', $context) ===  true)
 		{
 			if(!empty($context->data)) 
 			{				
@@ -323,10 +359,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 				;
 						
 				//Execute the query
-				$this->execute($sql);
+				$context->result = $this->execute($sql);
 
 				$context->affected = $this->_affected_rows;
-				$this->getCommandChain()->run('database.after.update', $context);
+				$this->getCommandChain()->run('after.database.update', $context);
 			}
 			else $context->affected = false;
 		}
@@ -351,7 +387,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->getCommandChain()->run('database.before.delete', $context) ===  true)
+		if($this->getCommandChain()->run('before.database.delete', $context) ===  true)
 		{
 			//Create query statement
 			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
@@ -359,10 +395,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			;
 
 			//Execute the query
-			$this->execute($sql);
+			$context->result = $this->execute($sql);
 
 			$context->affected = $this->_affected_rows;
-			$this->getCommandChain()->run('database.after.delete', $context);
+			$this->getCommandChain()->run('after.database.delete', $context);
 		}
 
 		return $context->affected;
@@ -432,7 +468,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$replace = $replace ? $replace : $this->getTablePrefix();
 		$sql = trim( $sql );
 		
-		$pattern = "($needle(?=[a-z]))";
+		$pattern = "($needle(?= [a-z0-9]))";
     	$sql = preg_replace($pattern, $replace, $sql);
     	
 		return $sql;
@@ -470,42 +506,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         return $value;
     }
     
-    /**
-	 * Parse the raw table schema information
-	 *
-	 * @param  	object 	The raw table schema information
-	 * @return KDatabaseSchemaTable
-	 */
-	abstract protected function _parseTableInfo($info);
-
-
 	/**
-	 * Parse the raw column schema information
-	 *
-	 * @param  	object 	The raw column schema information
-	 * @return KDatabaseSchemaColumn
-	 */
-	abstract protected function _parseColumnInfo($info);
-
-	/**
-	 * Given a raw column specification, parse into datatype, size, and decimal scope.
-	 *
-	 * @param string The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
- 	 *
- 	 * @return array A sequential array of the column type, size, and scope.
- 	 */
-	abstract protected function _parseColumnType($spec);
-
-	/**
-     * Safely quotes a value for an SQL statement.
-     *
-     * @param 	mixed 	The value to quote
-     * @return string An SQL-safe quoted value
-     */
-    abstract public function _quoteValue($value);
-
-   	/**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
      * 
@@ -537,6 +538,100 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     	
         return $spec;
     }
+    
+   /**
+	 * Fetch the first field of the first row
+	 *
+	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
+	 * @return The value returned in the query or null if the query failed.
+	 */
+	abstract protected function _fetchField($result);
+
+	/**
+	 * Fetch an array of single field results
+	 * 
+	 * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
+	 *
+	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
+	 * @param 	string 			The column name of the index to use
+	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
+	 */
+	abstract protected function _fetchFieldList($result, $key = '');
+
+	/**
+     * Fetch the first row of a result set as an associative array
+     * 
+     * @param 	mysqli_result 	The result object. A result set identifier returned by the select() function
+     * @return array
+     */
+	abstract protected function _fetchArray($sql);
+
+	/**
+	 * Fetch all result rows of a result set as an array of associative arrays
+	 * 
+	 * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
+	 *
+	 * @param 	mysqli_result  	The result object. A result set identifier returned by the select() function
+	 * @param 	string 			The column name of the index to use
+	 * @return 	array 	If key is empty as sequential list of returned records.
+	 */
+	abstract protected function _fetchArrayList($result, $key = '');
+
+	/**
+	 * Fetch the first row of a result set as an object
+	 *
+	 * @param	mysqli_result  The result object. A result set identifier returned by the select() function
+	 * @param object
+	 */
+	abstract protected function _fetchObject($result);
+
+	/**
+	 * Fetch all rows of a result set as an array of objects
+	 * 
+	 * If <var>key</var> is not empty then the returned array is indexed by the value
+	 * of the database key.  Returns <var>null</var> if the query fails.
+	 *
+	 * @param	mysqli_result  The result object. A result set identifier returned by the select() function
+	 * @param 	string 		   The column name of the index to use
+	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
+	 */
+	abstract protected function _fetchObjectList($result, $key='' );
+    
+    /**
+	 * Parse the raw table schema information
+	 *
+	 * @param  	object 	The raw table schema information
+	 * @return KDatabaseSchemaTable
+	 */
+	abstract protected function _parseTableInfo($info);
+
+	/**
+	 * Parse the raw column schema information
+	 *
+	 * @param  	object 	The raw column schema information
+	 * @return KDatabaseSchemaColumn
+	 */
+	abstract protected function _parseColumnInfo($info);
+
+	/**
+	 * Given a raw column specification, parse into datatype, size, and decimal scope.
+	 *
+	 * @param string The column specification; for example,
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
+ 	 *
+ 	 * @return array A sequential array of the column type, size, and scope.
+ 	 */
+	abstract protected function _parseColumnType($spec);
+
+	/**
+     * Safely quotes a value for an SQL statement.
+     *
+     * @param 	mixed 	The value to quote
+     * @return string An SQL-safe quoted value
+     */
+    abstract protected function _quoteValue($value);
 
     /**
      * Quotes an identifier name (table, index, etc). Ignores empty values.
