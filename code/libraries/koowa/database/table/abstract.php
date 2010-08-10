@@ -297,7 +297,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	public function getInfo()
 	{
 		try {
-			$info = $this->_database->fetchTableInfo($this->getBase());
+			$info = $this->_database->getTableInfo($this->getBase());
 		} catch(KDatabaseException $e) {
 			throw new KDatabaseTableException($e->getMessage());
 		}
@@ -314,7 +314,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
   	public function getIndexes()
 	{
 		try {
-			$indexes = $this->_database->fetchTableIndexes($this->getBase());
+			$indexes = $this->_database->getTableIndexes($this->getBase());
 		} catch(KDatabaseException $e) {
 			throw new KDatabaseTableException($e->getMessage());
 		}
@@ -348,7 +348,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		$name = $base ? $this->getBase() : $this->getName();
 		
 		try {
-			$columns = $this->_database->fetchTableColumns($name);
+			$columns = $this->_database->getTableColumns($name);
 		} catch(KDatabaseException $e) {
 			throw new KDatabaseTableException($e->getMessage());
 		}
@@ -508,8 +508,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      * 
      * This function will return an empty rowset if called without a parameter.
      *
-     * @param	mixed	KDatabaseQuery, query string, array of row id's, or an id or null
-     * @param 	integer	The database fetch mode. Default FETCH_ROWSET.
+     * @param	mixed		KDatabaseQuery, query string, array of row id's, or an id or null
+     * @param 	integer		The database fetch style. Default FETCH_ROWSET.
      * @return	KDatabaseRow or KDatabaseRowset depending on the mode. By default will 
      * 			return a KDatabaseRowset 
      */
@@ -566,42 +566,42 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Fetch the data based on the fecthmode
 			if($context->query)
 			{
-				//Fetch a rowset
-				if($context->mode == KDatabase::FETCH_ROWSET) 
-				{
-					$data = $this->_database->fetchArrayList($context->query, $this->_identity_column);
+				$data = $this->_database->select($context->query, $context->mode, $this->_identity_column);
 				
+				//Map the columns
+				if($context->mode % 2)
+				{
 					foreach($data as $key => $value) {
 						$data[$key] = $this->mapColumns($value, true);
 					}
+				}
+				else
+				{ 
+					if($data instanceof KConfig) { 
+						$data = $data->toArray();	
+					}
 					
-					$context->data = $data;
-				} 
+					$data = $this->mapColumns($data, true);
+				}
 				
+				//Set the data
+				$context->data = $data;
+				 
 				//Fetch a row
-				if($context->mode == KDatabase::FETCH_ROW) {
-					$context->data = $this->mapColumns($this->_database->fetchArray($context->query), true);
-				}
-				
-				//Fetch a field
-				if($context->mode == KDatabase::FETCH_FIELD) {
-					$context->data = $this->_database->fetchField($context->query);
-				}
-				
 				$options['data'] = $context->data;
 				$options['new']  = empty($context->data) ? true : false;	
 			}
+			
+			//Create the row object
+			if($context->mode == KDatabase::FETCH_ROW) {
+ 				$context->data = KFactory::tmp($this->getRow(), $options);
+ 			}
 			
 			//Create the rowset object
  			if($context->mode == KDatabase::FETCH_ROWSET) {
  				$context->data = KFactory::tmp($this->getRowset(), $options);
  			} 
- 			
- 			//Create the row object
-			if($context->mode == KDatabase::FETCH_ROW) {
- 				$context->data = KFactory::tmp($this->getRow(), $options);
- 			}
-    		
+ 			 			
 			$this->getCommandChain()->run('after.table.select', $context);
 		}
 		
