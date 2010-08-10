@@ -87,7 +87,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	 * Command handler
 	 * 
 	 * This function transmlated the command name to a command handler function of 
-	 * the format '_beforeTable[Command]' or '_afterTable[Command]. Command handler
+	 * the format '_beforeX[Command]' or '_afterX[Command]. Command handler
 	 * functions should be declared protected.
 	 * 
 	 * @param 	string  	The command name
@@ -148,7 +148,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	 * 
 	 * This function only returns a valid handle if one or more command handler 
 	 * functions are defined. A commend handler function needs to follow the 
-     * following format : '_afterTable[Event]' or '_beforeTable[Event]' to be 
+     * following format : '_afterX[Event]' or '_beforeX[Event]' to be 
      * recognised.
 	 * 
 	 * @return string A string that is unique, or NULL
