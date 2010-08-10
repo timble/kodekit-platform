@@ -80,67 +80,13 @@ interface KDatabaseAdapterInterface
 	 */
  	public function getInsertId();
 
-   /**
-	 * Fetch the first field of the first row
-	 *
-	 * @return scalar The value returned in the query or null if the query failed.
-	 */
-	public function fetchField($sql);
-
-	/**
-	 * Fetch an array of single field results
-	 *
-	 * @return array
-	 */
-	public function fetchFieldList($sql);
-
-	/**
-     * Fetch the current row as an associative array
-     *
-     * @param	string  The SQL query. Data inside the query should be properly escaped. 
-     * @return array
-     */
-	public function fetchArray($sql);
-
-	/**
-	 * Fetch all result rows as an array of associative arrays
-	 *
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param 	string 	The column name of the index to use
-	 * @return 	array 	If key is empty as sequential list of returned records.
-	 */
-	public function fetchArrayList($sql, $key = '');
-
-	/**
-	 * Fetch the current row of a result set as an object
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param object
-	 */
-	public function fetchObject($sql);
-
-	/**
-	 * Fetch all rows of a result set as an array of objects
-	 *
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param	string  The SQL query. Data inside the query should be properly escaped. 
-	 * @param 	string 	The column name of the index to use
-	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
-	 */
-	public function fetchObjectList($sql, $key='' );
-
 	/**
 	 * Retrieves the column schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return	array 	An associative array of columns by table
 	 */
-	public function fetchTableColumns($tables);
+	public function getTableColumns($tables);
 	
 	/**
 	 * Retrieves the table schema information about the given tables
@@ -148,7 +94,7 @@ interface KDatabaseAdapterInterface
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return	array 	An associative array of table information by table
 	 */
-	public function fetchTableInfo($tables);
+	public function getTableInfo($tables);
 	
 	/**
 	 * Retrieves the index information about the given tables
@@ -156,7 +102,7 @@ interface KDatabaseAdapterInterface
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return	array 	An associative array of indexes by table
 	 */
-	public function fetchTableIndexes($tables);
+	public function getTableIndexes($tables);
 	
 	/**
      * Preforms a select query
