@@ -334,7 +334,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 			if ($key) {
 				$array[$row[$key]] = $row[0];
 			} else {
-				$array[] = $row;
+				$array[] = $row[0];
 			}
 		}
 		
