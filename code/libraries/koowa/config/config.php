@@ -245,6 +245,19 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         return $array;
     }
     
+    /**
+     * Return the data 
+     *
+     * If the data being passed is an instance of KConfig the data will be transformed
+     * to an associative array.
+     *
+     * @return array|scalar
+     */
+    public static function toData($data)
+    {
+    	return ($data instanceof KConfig) ? $data->toArray() : $data;
+    }
+    
 	/**
      * Merge an array. Only adding keys that don't exist.
      *
