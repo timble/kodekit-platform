@@ -176,8 +176,10 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 			
 			if (isset($this->_functions_before[$method]) ) 
 			{
-				foreach ((array) $functions as $function) {
-					unset($this->_functions_before[$method][$function]);
+				foreach ((array) $functions as $function) 
+				{
+					$key = array_search($function, $this->_functions_before[$method]);
+       	 			unset($this->_functions_before[$method][$key]);
 				}
 			}
 		}
@@ -207,7 +209,7 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 			
     		$this->_functions_after[$method] = array_merge($this->_functions_after[$method], $functions);
 		}
-		
+			
     	return $this->_mixer;
 	}
 	
@@ -221,15 +223,18 @@ class KMixinCommand extends KMixinAbstract implements KCommandInterface
 	public function unregisterFunctionAfter($methods, $functions)
 	{
 		$methods = (array) $methods;
+		$functions = (array) $functions;
 		
 		foreach($methods as $method)
 		{
 			$method = strtolower($method);
-		
+			
 			if (isset($this->_functions_after[$method]) ) 
 			{
-       	 		foreach ((array) $functions as $function) {
-					unset($this->_functions_after[$method][$function]);
+       	 		foreach ((array) $functions as $function) 
+       	 		{
+					$key = array_search($function, $this->_functions_after[$method]);
+       	 			unset($this->_functions_after[$method][$key]);
 				}
 			}
 		}
