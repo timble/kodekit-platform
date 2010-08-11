@@ -468,7 +468,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$replace = $replace ? $replace : $this->getTablePrefix();
 		$sql = trim( $sql );
 		
-		$pattern = "($needle(?= [a-z0-9]))";
+		$pattern = "($needle(?=[a-z0-9]))";
     	$sql = preg_replace($pattern, $replace, $sql);
     	
 		return $sql;
