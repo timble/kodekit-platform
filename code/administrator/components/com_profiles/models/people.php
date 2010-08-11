@@ -30,7 +30,7 @@ class ComProfilesModelPeople extends KModelTable
 			->from('profiles_view_people AS tbl')
 			->order('tbl.letter_name');
 		
-		$result = (array) $database->fetchFieldList($query);
+		$result = (array) $database->select($query, KDatabase::FETCH_FIELD_LIST);
 		return $result; 
 	}
 	

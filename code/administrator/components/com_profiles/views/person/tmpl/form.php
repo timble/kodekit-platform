@@ -60,10 +60,10 @@
 				<input id="slug" type="text" name="slug" value="<?= $person->slug; ?>"/>
 				<br /><br />
 				<label for="office" class="mainlabel"><?= @text('Office'); ?></label>
-				<?=@helper('admin::com.profiles.helper.listbox.offices', array('state' => $person)) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.office', array('state' => $person)) ?>
 				<br />
 				<label for="department" class="mainlabel"><?= @text('Department'); ?></label>
-				<?=@helper('admin::com.profiles.helper.listbox.departments', array('state' => $person)) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.department', array('state' => $person)) ?>
 				<br />
 				<label for="position" class="mainlabel"><?= @text('Position'); ?></label>
 				<input id="position" type="text" name="position" value="<?= $person->position; ?>" />
@@ -72,7 +72,7 @@
 				<input id="birthday" type="text" name="birthday" value="<?= $person->birthday; ?>" />
 				<br />
 				<label for="gender" class="mainlabel"><?= @text('Gender'); ?></label>
-				<?=@helper('admin::com.profiles.helper.listbox.genders',  array('state' => $person)) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.gender',  array('state' => $person)) ?>
 				<br />
 				<label for="mobile" class="mainlabel"><?= @text('Mobile'); ?></label>
 				<input id="mobile" type="text" name="mobile" value="<?= $person->mobile; ?>" />

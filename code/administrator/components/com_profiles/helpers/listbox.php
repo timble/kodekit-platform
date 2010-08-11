@@ -9,7 +9,7 @@
 
 class ComProfilesHelperListbox extends ComDefaultHelperListbox
 {
-	public function departments( $config = array())
+	public function department( $config = array())
 	{
 		$config['model'] = 'people';
 		$config['name']  = 'departments';
@@ -19,7 +19,7 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 		return parent::_listbox($config);
 	}
 	
-	public function offices( $config = array())
+	public function office( $config = array())
 	{
 		$config['model'] = 'people';
 		$config['name']  = 'offices';
@@ -29,7 +29,7 @@ class ComProfilesHelperListbox extends ComDefaultHelperListbox
 		return parent::_listbox($config);
 	}
 	
-	public function groups($config = array())
+	public function group($config = array())
     {
 		$config['model'] = 'users';
 		$config['value'] = 'gid';

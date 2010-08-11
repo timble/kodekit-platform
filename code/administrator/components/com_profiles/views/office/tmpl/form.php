@@ -2,13 +2,13 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? $coordinates = array(
-	'lat' => @helper('admin::com.profiles.helper.geocoding.coordinates', 'latitude', $office),
-	'lng' => @helper('admin::com.profiles.helper.geocoding.coordinates', 'longitude', $office)
+	'lat' => @helper('admin::com.profiles.helper.geocoding.coordinates', array('coordinate' => 'latitude', 'data' => $office)),
+	'lng' => @helper('admin::com.profiles.helper.geocoding.coordinates',  array('coordinate' => 'longtitude', 'data' => $office))
 ) ?>
 <script>var coordinate_lat = <?= $coordinates['lat'] ?></script>
 <script>var coordinate_lng = <?= $coordinates['lng'] ?></script>
-<script>var coordinate_lat = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', 'latitude', $office) ?>;</script>
-<script>var coordinate_lng = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', 'longitude', $office) ?>;</script>
+<script>var coordinate_lat = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', array('coordinate' => 'latitude', 'data' => $office)) ?>;</script>
+<script>var coordinate_lng = <?=@helper('admin::com.profiles.helper.geocoding.coordinates', array('coordinate' => 'longtitude', 'data' => $office)) ?>;</script>
 
 <?= @helper('behavior.tooltip'); ?>
 <style src="media://com_default/css/form.css" />
@@ -52,7 +52,7 @@
 		<fieldset>
 			<legend><?= @text('Location'); ?></legend>
 				<label for="country" class="mainlabel"><?= @text('Country'); ?></label>
-				<?=@helper('admin::com.profiles.helper.listbox.countries', array('state' => $office)) ?>
+				<?=@helper('admin::com.profiles.helper.listbox.country', array('state' => $office)) ?>
 				<br />
 				<label for="address1" class="mainlabel"><?= @text('Address'); ?> 1</label>
 				<input id="address1" type="text" name="address1" value="<?= $office->address1; ?>" />
@@ -64,7 +64,7 @@
 				<input id="city" type="text" name="city" value="<?= $office->city; ?>" />
 				<br />
 				<label for="state" class="mainlabel"><?= @text('State'); ?></label>
-				<div id="statecontainer"><?=@helper('admin::com.profiles.helper.listbox.states', array('state' => $office)) ?></div>
+				<div id="statecontainer"><?=@helper('admin::com.profiles.helper.listbox.state', array('state' => $office)) ?></div>
 				<br />
 				<label for="postcode" class="mainlabel"><?= @text('Postcode'); ?></label>
 				<input id="postcode" type="text" name="postcode" value="<?= $office->postcode; ?>" />
