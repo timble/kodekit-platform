@@ -24,7 +24,7 @@ class KDispatcherDefault extends KDispatcherAbstract
 	/**
 	 * Force creation of a singleton
 	 *
-	 * @return void
+	 * @return KDispatcherDefault
 	 */
 	public static function instantiate($config = array())
 	{
