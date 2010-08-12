@@ -55,8 +55,8 @@ abstract class KControllerBread extends KControllerAbstract
 		//Register the load and save request function to make the request persistent
 		if($config->persistent)
 		{
-			$this->registerFunctionBefore('browse' , 'loadRequest');
-			$this->registerFunctionAfter('browse'  , 'saveRequest');
+			$this->registerCallbackBefore('browse' , array($this, 'loadRequest'));
+			$this->registerCallbackAfter('browse'  , array($this, 'saveRequest'));
 		}	
 	}
 

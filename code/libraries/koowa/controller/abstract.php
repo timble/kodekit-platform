@@ -59,7 +59,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         )));
 
         //Mixin a filter
-        $this->mixin(new KMixinCommand(new KConfig(
+        $this->mixin(new KMixinCallback(new KConfig(
         	array('mixer' => $this, 'command_chain' => $this->getCommandChain())
         )));
 	}

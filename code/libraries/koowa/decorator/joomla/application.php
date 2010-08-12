@@ -16,7 +16,7 @@
  * @category	Koowa
  * @package 	Koowa_Decorator
  * @subpackage 	Joomla
- * @uses 		KMixinCommand
+ * @uses 		KMixinCommandchain
  * @uses 		KPatternDecorator
  */
 class KDecoratorJoomlaApplication extends KPatternDecorator
