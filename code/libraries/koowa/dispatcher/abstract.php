@@ -171,7 +171,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         try
         {
         	$config = array(
-        		'request' 	   => KRequest::get('get', 'raw'),
+        		'request' 	   => KRequest::get('get', 'url'),
         		'persistent'   => true,
         		'auto_display' => true
         	);
