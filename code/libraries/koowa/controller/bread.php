@@ -156,7 +156,11 @@ abstract class KControllerBread extends KControllerAbstract
 		$identifier  = KFactory::get($this->getModel())->getIdentifier().'.'.$this->_action;
 		$state       = KRequest::get('session.'.$identifier, 'raw', array());
 			
+		//Append the data to the request object
 		$this->_request->append($state);
+		
+		//Push the request in the model
+		KFactory::get($this->getModel())->set($this->getRequest());
 		
 		return $this;
 	}
@@ -173,7 +177,7 @@ abstract class KControllerBread extends KControllerAbstract
 
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$this->_action;
-
+		
 		//Set the state in the session
 		KRequest::set('session.'.$identifier, $state);
 
