@@ -29,8 +29,8 @@ class ComDefaultControllerDefault extends KControllerView
 	{
 		parent::__construct($config);
 
-		//Register command functions
-		$this->registerFunctionAfter(array('save', 'delete'), 'setMessage');
+		//Register command callbacks
+		$this->registerCallbackAfter(array('save', 'delete'), array($this, 'setMessage'));
 	}
 	
  	/**
