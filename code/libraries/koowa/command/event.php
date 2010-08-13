@@ -32,9 +32,22 @@ class KCommandEvent extends KObject implements KCommandInterface
 	 */
 	final public function execute( $name, KCommandContext $context) 
 	{
+		$type = '';
+		
+		if($context->caller)
+		{
+			$identifier = clone $context->caller->getIdentifier();
+			
+			if($identifier->path) {
+				$type = array_shift($identifier->path);
+			} else {
+				$type = $identifier->name;
+			}
+		}
+		
 		$parts = explode('.', $name);	
-		$event = 'on'.KInflector::implode($parts);
-	
+		$event = 'on'.ucfirst($type.KInflector::implode($parts));
+				
 		$dispatcher = KFactory::get('lib.koowa.event.dispatcher');
 		$dispatcher->dispatch($event, clone($context));
 		
