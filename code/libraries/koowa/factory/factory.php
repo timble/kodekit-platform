@@ -297,7 +297,7 @@ class KFactory
 	 * @param integer	The adapter priority
 	 * @return void
 	 */
-	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = KCommandChain::PRIORITY_NORMAL)
+	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = KCommand::PRIORITY_NORMAL)
 	{
 		self::$_chain->enqueue($adapter, $priority);
 	}
