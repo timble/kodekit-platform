@@ -123,10 +123,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			}		
 		}
 	
-		 // Mixin the command chain
-        $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
-        )));
+		// Mixin a command chain
+         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
            
         // Set the table behaviors
 		if(!empty($config->behaviors)) {
@@ -148,17 +146,18 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $name    = $this->_identifier->name;
         
     	$config->append(array(
-            'database'        => KFactory::get('lib.koowa.database'),
-            'row'   		  => null,
-    		'rowset'   	 	  => null,
-            'name'   	      => empty($package) ? $name : $package.'_'.$name,
-    		'base'     	      => empty($package) ? $name : $package.'_'.$name,
-    		'command_chain'   => new KCommandChain(),
-    		'column_map'	  => null,
-    		'filters'         => array(),
-    		'behaviors'		  => array(),
-    		'identity_column' => null,
-    		'auto_events' 	  => false
+            'database'        	=> KFactory::get('lib.koowa.database'),
+            'row'   		  	=> null,
+    		'rowset'   	 	  	=> null,
+            'name'   	      	=> empty($package) ? $name : $package.'_'.$name,
+    		'base'     	      	=> empty($package) ? $name : $package.'_'.$name,
+    		'column_map'	  	=> null,
+    		'filters'         	=> array(),
+    		'behaviors'		  	=> array(),
+    		'identity_column' 	=> null,
+    		'command_chain'  	=> new KCommandChain(),
+    		'dispatch_events'   => false,
+    		'enable_callbacks' 	=> false,
 		));
 		
 		 parent::_initialize($config);
