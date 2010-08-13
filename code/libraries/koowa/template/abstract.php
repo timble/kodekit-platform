@@ -206,8 +206,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function filter($data, $mode = KTemplateFilter::MODE_READ)
 	{	
-        $context = $this->getCommandChain()->getContext();
-		$context->caller 	= $this;
+        $context = $this->getCommandContext();
 		$context->data	  	= $data;
 				
         $result = $this->getCommandChain()->run($mode, $context);
