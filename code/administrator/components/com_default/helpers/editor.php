@@ -42,7 +42,7 @@ class ComDefaultHelperEditor extends KTemplateHelperAbstract
 		));
 
 		$editor  = KFactory::get('lib.joomla.editor', array($config->editor));
-		$options = $config->options instanceof KConfig ? $config->options->toArray() : $config->options;
+		$options = KConfig::toData($config->options);
 
 		return $editor->display($config->name, $config->row->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, $config->buttons, $options);
 	}
