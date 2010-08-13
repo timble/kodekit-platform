@@ -41,10 +41,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		}
 
 		if(KRequest::method() != 'GET') {
-			$this->registerCallbackAfter('dispatch', array($this, 'forward'));
+			$this->registerCallback('after.dispatch', array($this, 'forward'));
 	  	}
 
-	  	$this->registerCallbackAfter('dispatch', array($this, 'render'));
+	  	$this->registerCallback('after.dispatch', array($this, 'render'));
 	}
 
     /**
