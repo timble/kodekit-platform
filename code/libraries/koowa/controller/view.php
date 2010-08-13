@@ -64,12 +64,12 @@ abstract class KControllerView extends KControllerBread
 		//browse and read actions to the output stream
 		if($config->auto_display)
 		{
-			$this->registerCallbackAfter('browse'  , array($this, 'displayView'))
-				 ->registerCallbackAfter('read'    , array($this, 'displayView'));
+			$this->registerCallback('after.browse'  , array($this, 'displayView'))
+				 ->registerCallback('after.read'    , array($this, 'displayView'));
 		}
 
-		$this->registerCallbackBefore('read', array($this, 'saveReferrer'));
-		$this->registerCallbackBefore('browse', array($this, 'saveReferrer'));
+		$this->registerCallback('before.read', array($this, 'saveReferrer'));
+		$this->registerCallback('before.browse', array($this, 'saveReferrer'));
 
 		//Set default redirect
 		$this->_redirect = KRequest::referrer();
