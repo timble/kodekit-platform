@@ -22,15 +22,6 @@
 class KCommandChain extends KObject
 {
 	/**
-	 * Priority levels
-	 */
-	const PRIORITY_HIGHEST = 1;
-	const PRIORITY_HIGH    = 2;
-	const PRIORITY_NORMAL  = 3;
-	const PRIORITY_LOW     = 4;
-	const PRIORITY_LOWEST  = 5;
-	
-	/**
 	 * Command list
 	 *
 	 * @var array
@@ -65,11 +56,11 @@ class KCommandChain extends KObject
   	/**
 	 * Attach a command to the chain
 	 * 
-	 * @param 	object 		A KCommandHandler 
+	 * @param 	object 		A KCommand object
 	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (lowest), default is 3
 	 * @return	 KCommandChain
 	 */
-	public function enqueue( KCommandInterface $cmd, $priority = self::PRIORITY_NORMAL)
+	public function enqueue( KCommandInterface $cmd, $priority = KCommand::PRIORITY_NORMAL)
 	{
 		if($handle = $cmd->getHandle()) 
 		{
@@ -85,7 +76,7 @@ class KCommandChain extends KObject
 	/**
 	 * Remove a command from the chain
 	 * 
-	 * @param 	object 		A KCommandHandler 
+	 * @param 	object 		A KCommand object
 	 * @param 	integer		The command priority
 	 * @return 	KCommandChain
 	 */
@@ -163,7 +154,7 @@ class KCommandChain extends KObject
   	/**
 	 * Set the priority of a command
 	 * 
-	 * @param object 	A KCommandHandler 
+	 * @param object 	A KCommand object 
 	 * @param integer	The command priority
 	 * @return KCommandChain
 	 */
@@ -182,7 +173,7 @@ class KCommandChain extends KObject
   	/**
 	 * Get the priority of a command
 	 * 
-	 * @param object 	A KCommandHandler 
+	 * @param object 	A KCommand object
 	 * @param integer	The command priority
 	 * @return	integer The command priority
 	 */
