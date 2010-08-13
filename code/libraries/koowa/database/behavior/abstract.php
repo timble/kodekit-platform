@@ -96,8 +96,11 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	 */
 	final public function execute( $name, KCommandContext $context) 
 	{
-		$parts = explode('.', $name);	
-		$method = '_'.lcfirst(KInflector::implode($parts));
+		$identifier = clone $context->caller->getIdentifier();
+		$type       = array_shift($identifier->path);
+	
+		$parts  = explode('.', $name);
+		$method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
 		
 		if(method_exists($this, $method)) {
 			return $this->$method($context);
