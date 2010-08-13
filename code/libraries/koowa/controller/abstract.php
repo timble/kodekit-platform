@@ -116,13 +116,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		}
 		
 		//Create the command arguments object
-		$context = $this->getCommandChain()->getContext();
-		$context->caller = $this;
+		$context = $this->getCommandContext();
 		$context->action = $action;
 		$context->data   = $data;
 		$context->result = false;
 		
-		if($this->getCommandChain()->run('controller.before.'.$action, $context) === true) 
+		if($this->getCommandChain()->run('before.'.$action, $context) === true) 
 		{
 			$action = $context->action;
 			$method = '_action'.ucfirst($action);
@@ -139,7 +138,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 			}
 			
 			$context->result = $this->$method($data);
-			$this->getCommandChain()->run('controller.after.'.$action, $context);
+			$this->getCommandChain()->run('after.'.$action, $context);
 		}
 
 		return $context->result;
