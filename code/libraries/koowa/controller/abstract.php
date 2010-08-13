@@ -54,14 +54,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		$this->_action = $config->action;
 
         // Mixin the command chain
-        $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
-        )));
-
-        //Mixin a filter
-        $this->mixin(new KMixinCallback(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $this->getCommandChain())
-        )));
+        $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
 
 
@@ -76,9 +69,10 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'command_chain' =>  new KCommandChain(),
-    		'action'		=> null,
-    		'auto_events'	=> true
+            'command_chain'     =>  new KCommandChain(),
+    		'action'		    => null,
+    		'dispatch_events'   => true,
+    		'enable_callbacks' 	=> true
         ));
         
         parent::_initialize($config);
