@@ -55,7 +55,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
 	protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-			'priority'   => KCommandChain::PRIORITY_NORMAL,
+			'priority'   => KCommand::PRIORITY_NORMAL,
 	  	));
 
     	parent::_initialize($config);
