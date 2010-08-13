@@ -273,7 +273,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			$this->getCommandChain()->run('after.select', $context);
 		}
 
-		return ($context->result instanceof KConfig) ? $context->result->toArray() : $context->result;
+		return KConfig::toData($context->result);
 	}
 
 	/**

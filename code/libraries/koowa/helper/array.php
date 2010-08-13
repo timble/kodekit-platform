@@ -134,12 +134,8 @@ class KHelperArray
 	{
 		$output = array();
 		
-		if($array instanceof KConfig) {
-			$array = $array->toArray();
-		}
-		
 		if(is_object($array)) {
-			$array = (array) $array;
+			$array = (array) KConfig::toData($array);
 		}
 
 		if (is_array($array))

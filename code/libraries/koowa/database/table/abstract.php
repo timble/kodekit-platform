@@ -119,7 +119,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		if(!empty($config->filters)) 
 		{
 			foreach($config->filters as $column => $filter) {
-				$this->getColumn($column, true)->filter = $filter instanceof KConfig ? $filter->toArray() : $filter;
+				$this->getColumn($column, true)->filter = KConfig::toData($filter);
 			}		
 		}
 	
@@ -573,14 +573,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 						$data[$key] = $this->mapColumns($value, true);
 					}
 				}
-				else
-				{ 
-					if($data instanceof KConfig) { 
-						$data = $data->toArray();	
-					}
-					
-					$data = $this->mapColumns($data, true);
-				}
+				else $data = $this->mapColumns(KConfig::toData($data), true);
 				
 				//Set the data
 				$context->data = $data;

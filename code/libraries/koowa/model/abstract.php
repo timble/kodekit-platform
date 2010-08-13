@@ -107,13 +107,8 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
      */
     public function set( $property, $value = null )
     {
-    	if(is_object($property)) 
-    	{
-    		if($property instanceof KConfig) {
-    			$property = $property->toArray();
-    		}
-    		
-    		$property = (array) $property;
+    	if(is_object($property)) {
+    		$property = (array) KConfig::toData($property);
     	}
 
     	if(is_array($property)) {
