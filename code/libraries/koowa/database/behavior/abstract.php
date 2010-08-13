@@ -56,7 +56,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-			'priority'   => KCommandChain::PRIORITY_NORMAL,
+			'priority'   => KCommand::PRIORITY_NORMAL,
 	  	));
 
     	parent::_initialize($config);
