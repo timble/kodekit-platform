@@ -41,11 +41,20 @@ class KMixinCommandchain extends KMixinAbstract
 			
 		//Create a command chain object 
 		$this->_command_chain = $config->command_chain;
+		
+		//Mixin the callback mixer if callbacks have been enabled
+		if($config->enable_callbacks) 
+		{
+			$this->_mixer->mixin(new KMixinCallback(new KConfig(array(
+				'mixer' 			=> $this->_mixer, 
+				'command_chain' 	=> $this->_command_chain,
+				'command_priority'	=> $config->_callback_priority
+			))));
+		}
 
-		//Enqueue the event command with a low priority to make sure that all other
-		//commands and ran first
-		if($config->auto_events) {
-			$this->_command_chain->enqueue(new KCommandEvent(), KCommandChain::PRIORITY_LOWEST);
+		//Enqueue the event command with a lowest priority to make sure it runs last
+		if($config->dispatch_events) {
+			$this->_command_chain->enqueue(new KCommandEvent(), $config->_event_priority);
 		}
 	}
 	
@@ -60,8 +69,11 @@ class KMixinCommandchain extends KMixinAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'command_chain'   =>  new KCommandChain(),
-    		'auto_events'     => true
+            'command_chain'    	=> new KCommandChain(),
+    		'dispatch_events'   => true,
+    		'event_priority'	=> KCommandChain::PRIORITY_LOWEST,
+    		'enable_callbacks' 	=> false,
+    		'callback_priority'	=> KCommandChain::PRIORITY_HIGHEST,
         ));
         
         parent::_initialize($config);
