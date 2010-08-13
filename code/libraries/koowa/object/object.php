@@ -28,10 +28,6 @@ class KObject
     
    /**
 	 * The object identifier
-	 * 
-	 * Public access is allowed via __get() with $identifier. The identifier
-	 * is only available of the object implements the KObjectIndetifiable
-	 * interface
 	 *
 	 * @var KIdentifierInterface
 	 */
