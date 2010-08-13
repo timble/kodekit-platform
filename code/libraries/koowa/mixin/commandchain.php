@@ -71,9 +71,9 @@ class KMixinCommandchain extends KMixinAbstract
     	$config->append(array(
             'command_chain'    	=> new KCommandChain(),
     		'dispatch_events'   => true,
-    		'event_priority'	=> KCommandChain::PRIORITY_LOWEST,
+    		'event_priority'	=> KCommand::PRIORITY_LOWEST,
     		'enable_callbacks' 	=> false,
-    		'callback_priority'	=> KCommandChain::PRIORITY_HIGHEST,
+    		'callback_priority'	=> KCommand::PRIORITY_HIGHEST,
         ));
         
         parent::_initialize($config);
