@@ -53,7 +53,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     {
     	$config->append(array(
     		'command_chain'		=> null,
-    		'command_priority'	=> KCommandChain::PRIORITY_HIGH
+    		'command_priority'	=> KCommand::PRIORITY_HIGH
     	));
     	
     	parent::_initialize($config);
