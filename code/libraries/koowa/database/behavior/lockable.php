@@ -29,7 +29,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-			'priority'   => KCommandChain::PRIORITY_HIGH,
+			'priority'   => KCommand::PRIORITY_HIGH,
 	  	));
 
     	parent::_initialize($config);
