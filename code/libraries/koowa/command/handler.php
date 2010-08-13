@@ -32,8 +32,21 @@ class KCommandHandler extends KObject implements KCommandInterface
 	 */
 	final public function execute( $name, KCommandContext $context) 
 	{
+		$type = '';
+		
+		if($context->caller)
+		{
+			$identifier = clone $context->caller->getIdentifier();
+			
+			if($identifier->path) {
+				$type = array_shift($identifier->path);
+			} else {
+				$type = $identifier->name;
+			}
+		}
+		
 		$parts  = explode('.', $name);	
-		$method = '_'.lcfirst(KInflector::implode($parts));
+		$method = '_'.$type.lcfirst(KInflector::implode($parts));
 	
 		if(in_array($method, $this->getMethods())) {
 			return $this->$method($context);
