@@ -22,11 +22,21 @@
 class KDecoratorJoomlaApplication extends KPatternDecorator
 {
 	/**
+	 * The object identifier
+	 *
+	 * @var KIdentifierInterface
+	 */
+	protected $_identifier;
+	
+	/**
 	 * Constructor
 	 */
 	public function __construct($app)
 	{
 		parent::__construct($app);
+		
+		//Set the identifier
+		$this->_identifier = new KIdentifier('lib.koowa.application.'.$this->getName());
 		
 		// Mixin the command chain
         $this->mixin(new KMixinCommandchain(new KConfig(array('mixer' => $this, 'auto_events' => true))));
@@ -51,6 +61,17 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		return $name;
 	}
 	
+ 	/**
+	 * Get the object identifier
+	 * 
+	 * @return	KIdentifier	
+	 * @see 	KObjectIdentifiable
+	 */
+	public function getIdentifier()
+	{
+		return $this->_identifier;
+	}
+	
   	/**
 	 * Decorate the application initialise() method
 	 *
@@ -59,14 +80,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function initialise(array $options = array())
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller  = $this;
+		$context = $this->getCommandContext();
 		$context->options = $options;
 		$context->action  = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.initialise', $context) === true) {
+		if($this->getCommandChain()->run('before.initialise', $context) === true) {
 			$context->result = $this->getObject()->initialise($context->option);
-			$this->getCommandChain()->run('application.after.initialise', $context);
+			$this->getCommandChain()->run('after.initialise', $context);
 		}
 
 		return $context->result;
@@ -79,13 +99,12 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function route()
  	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	= $this;
+		$context = $this->getCommandContext();
 		$context->action   = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.route', $context) === true) {
+		if($this->getCommandChain()->run('before.route', $context) === true) {
 			$context->result = $this->getObject()->route();
-			$this->getCommandChain()->run('application.after.route', $context);
+			$this->getCommandChain()->run('after.route', $context);
 		}
 		
 		return $context->result;
@@ -98,14 +117,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
  	public function dispatch($component)
  	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	 = $this;
+		$context = $this->getCommandContext();
 		$context->component  = substr( $component, 4 );
 		$context->action   	 = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.dispatch', $context) === true) {
+		if($this->getCommandChain()->run('before.dispatch', $context) === true) {
 			$context->results = $this->getObject()->dispatch('com_'.$context->component);
-			$this->getCommandChain()->run('application.after.dispatch', $context);
+			$this->getCommandChain()->run('after.dispatch', $context);
 		}
 
 		return $context->result;
@@ -118,13 +136,12 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function render()
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller = $this;
+		$context = $this->getCommandContext();
 		$context->action = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.render', $context) === true) {
+		if($this->getCommandChain()->run('before.render', $context) === true) {
 			$context->result = $this->getObject()->render();
-			$this->getCommandChain()->run('application.after.render', $context);
+			$this->getCommandChain()->run('after.render', $context);
 		}
 
 		return $context->result;
@@ -138,12 +155,11 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function close( $code = 0 ) 
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller = $this;
+		$context = $this->getCommandContext();
 		$context->code	 = $code;
 		$context->action = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.close', $context) === true) {
+		if($this->getCommandChain()->run('before.close', $context) === true) {
 			$this->getObject()->close($context->code);
 		}
 
@@ -161,14 +177,13 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function redirect( $url, $msg = '', $type = 'message' )
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	   = $this;
+		$context = $this->getCommandContext();
 		$context->url          = $url;
 		$context->message      = $msg;
 		$context->message_type = $type;
 		$context->action       = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.redirect', $context) === true) {
+		if($this->getCommandChain()->run('before.redirect', $context) === true) {
 			$this->getObject()->redirect($context->url, $context->message, $context->message_type);
 		}
 
@@ -184,15 +199,14 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function login($credentials, array $options = array())
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller      = $this;
+		$context = $this->getCommandContext();
 		$context->credentials = $credentials;
 		$context->options     = $options;
 		$context->action      = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.login', $context) === true) {
+		if($this->getCommandChain()->run('before.login', $context) === true) {
 			$context->result = $this->getObject()->login($context->credentials, $context->options);
-			$this->getCommandChain()->run('application.after.login', $context);
+			$this->getCommandChain()->run('after.login', $context);
 		}
 		
 		return $context->result;
@@ -207,15 +221,14 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 	 */
 	public function logout($userid = null, array $options = array())
 	{
-		$context = $this->getCommandChain()->getContext();
-		$context->caller      = $this;
+		$context = $this->getCommandContext();
 		$context->credentials = array('userid' => $userid);
 		$context->options     = $options;
 		$context->action      = __FUNCTION__;
 		
-		if($this->getCommandChain()->run('application.before.logout', $context) === true) {
+		if($this->getCommandChain()->run('before.logout', $context) === true) {
 			$context->result = $this->getObject()->logout($context->credentials->userid, $context->options);
-			$this->getCommandChain()->run('application.after.logout', $context);
+			$this->getCommandChain()->run('after.logout', $context);
 		}
 		
 		return $context->result;
