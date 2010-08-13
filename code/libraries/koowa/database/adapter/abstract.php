@@ -92,10 +92,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		// Set the table prefix
 		$this->_table_prefix = $config->table_prefix;
 		
-		 // Mixin the command chain
-        $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => $config->auto_events)
-        )));
+		// Mixin a command chain
+        $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
 
 	/**
@@ -119,10 +117,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'command_chain' =>  new KCommandChain(),
-        	'charset'		=> 'UTF-8',
-       	 	'table_prefix'  => 'jos_',
-    		'auto_events'	=> true
+            'command_chain' 	=>  new KCommandChain(),
+        	'charset'			=> 'UTF-8',
+       	 	'table_prefix'  	=> 'jos_',
+    		'dispatch_events'   => true,
+    		'enable_callbacks' 	=> false,
         ));
         
         parent::_initialize($config);
