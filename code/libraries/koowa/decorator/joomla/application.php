@@ -39,7 +39,7 @@ class KDecoratorJoomlaApplication extends KPatternDecorator
 		$this->_identifier = new KIdentifier('lib.koowa.application.'.$this->getName());
 		
 		// Mixin the command chain
-        $this->mixin(new KMixinCommandchain(new KConfig(array('mixer' => $this, 'auto_events' => true))));
+        $this->mixin(new KMixinCommandchain(new KConfig(array('mixer' => $this, 'dispatch_events' => true))));
         
      	//Set the root path for the request based on the application name
         KRequest::root(str_replace('/'.$this->_object->getName(), '', KRequest::base()));
