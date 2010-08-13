@@ -66,6 +66,22 @@ class KMixinCommandchain extends KMixinAbstract
         
         parent::_initialize($config);
     }
+    
+	/**
+	 * Get the command chain context
+	 * 
+     * This functions inserts a 'caller' variable in the context which contains
+     * the mixer object.
+	 *
+	 * @return 	KCommandContext
+	 */
+	public function getCommandContext()
+	{
+		$context = $this->_command_chain->getContext();
+		$context->caller = $this->_mixer;
+		
+		return $context;
+	}
 	
 	/**
 	 * Get the chain of command object
