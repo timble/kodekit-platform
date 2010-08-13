@@ -9,7 +9,7 @@
  */
 
 /**
- * Callback Command
+ * Callback Command Mixin
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
@@ -18,19 +18,12 @@
 class KMixinCallback extends KMixinAbstract implements KCommandInterface 
 {
  	/**
- 	 * Array of fucntions to be executed on before commands
+ 	 * Array of callbacks
  	 * 
  	 * $var array
  	 */
-	protected $_callbacks_before = array();
+	protected $_callbacks = array();
 	
-	/**
- 	 * Array of functions to be executed on after commands
- 	 * 
- 	 * $var array
- 	 */
-	protected $_callbacks_after = array();
-
 	/**
 	 * Object constructor
 	 *
@@ -75,83 +68,62 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	 */
 	final public function execute( $name, KCommandContext $context) 
 	{
-		$parts  = explode('.', $name);
-		$result = true;
+		$result    = true;
 		
-		$callbacks = ($parts[1] == 'before') ? $this->_callbacks_before :$this->_callbacks_after;
+		if(isset($this->_callbacks[$name])) 
+		{
+			$callbacks = $this->_callbacks[$name];
 					
-		if (isset($callbacks[$parts[2]]))
-		{ 
-			$callbacks = $callbacks[$parts[2]];
-			
-   		 	foreach($callbacks as $callback) 
-   		 	{
+			foreach($callbacks as $callback) 
+   			{
    		 		$result = call_user_func($callback, $context);
 				if ( $result === false) {
         			break;
         		}
-   		 	}
+   			}
 		}
 		
 		return $result === false ? false : true;
 	}
 	
 	/**
- 	 * Get the registered before callbacks for a method
- 	 *  	  
- 	 * @param  	string	The method to return the callbacks for
- 	 * @return  array	A list of registered functions	
- 	 */
-	public function getCallbacksBefore($method)
-	{
-		$result = array();
-		$method = strtolower($method);
-		
-		if (isset($this->_callbacks_before[$method]) ) {
-       	 	$result = $this->_callbacks_before[$method];
-		}
-		
-    	return $result;
-	}
-	
-	/**
- 	 * Get the registered after functions for a method
+ 	 * Get the registered callbacks for a command
  	 *  	  
  	 * @param  	string	The method to return the functions for
  	 * @return  array	A list of registered functions	
  	 */
-	public function getCallbacksAfter($method)
+	public function getCallbacks($command)
 	{
 		$result = array();
-		$method = strtolower($method);
+		$command = strtolower($command);
 		
-		if (isset($this->_callbacks_after[$method]) ) {
-       	 	$result = $this->_callbacks_after[$method];
+		if (isset($this->_callbacks[$command]) ) {
+       	 	$result = $this->_callbacks[$command];
 		}
 		
     	return $result;
 	}
 	
 	/**
- 	 *  Registers a callback function
+ 	 * Registers a callback function
  	 * 
- 	 * @param  	string|array	The method name to register the callback for or an array of method names
+ 	 * @param  	string|array	The command name to register the callback for or an array of command names
  	 * @param 	callback		The callback function to register
  	 * @return  KObject	The mixer object
  	 */
-	public function registerCallbackBefore($methods, $callback)
+	public function registerCallback($commands, $callback)
 	{
-		$methods = (array) $methods;
+		$commands = (array) $commands;
 		
-		foreach($methods as $method)
+		foreach($commands as $command)
 		{
-			$method = strtolower($method);
+			$command = strtolower($command);
 		
-			if (!isset($this->_callbacks_before[$method]) ) {
-       	 		$this->_callbacks_before[$method] = array();	
+			if (!isset($this->_callbacks[$command]) ) {
+       	 		$this->_callbacks[$command] = array();	
 			}
 		
-    		$this->_callbacks_before[$method][] = $callback;
+    		$this->_callbacks[$command][] = $callback;
 		}
 		
 		return $this->_mixer;
@@ -164,74 +136,24 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
  	 * @param 	callback		The callback function to unregister
  	 * @return  KObject The mixer object
  	 */
-	public function unregisterCallbackBefore($methods, $callback)
+	public function unregisterCallback($commands, $callback)
 	{
-		$methods  = (array) $methods;
+		$commands  = (array) $commands;
 		
-		foreach($methods as $method)
+		foreach($commands as $command)
 		{
-			$method = strtolower($method);
+			$command = strtolower($command);
 			
-			if (isset($this->_callbacks_before[$method]) ) 
+			if (isset($this->_callbacks[$command]) ) 
 			{
-				$key = array_search($callback, $this->_callbacks_before[$method]);
-       	 		unset($this->_callbacks_before[$method][$key]);
+				$key = array_search($callback, $this->_callbacks[$command]);
+       	 		unset($this->_callbacks[$command][$key]);
 			}
 		}
 		
 		return $this->_mixer;
 	}
-	
-	/**
- 	 * Registers a callback function
- 	 * 
- 	 * @param  	string|array	The method name to register the callback too or an array of method names
- 	 * @param 	callback		The callback function to register
- 	 * @return  KObject The mixer object
- 	 */
-	public function registerCallbackAfter($methods, $callback)
-	{
-		$methods   = (array) $methods;
-		
-		foreach($methods as $method)
-		{
-			$method = strtolower($method);
-		
-			if (!isset($this->_callbacks_after[$method]) ) {
-       	 		$this->_callbacks_after[$method] = array();	
-			}
-			
-    		$this->_callbacks_after[$method][] = $callback;
-		}
-			
-    	return $this->_mixer;
-	}
-	
-	/**
- 	 * Unregister a callback function
- 	 * 
- 	 * @param  	string|array	The method name to register the function too or an array of method names
- 	 * @param 	callback		The callback function to unregister
- 	 * @return  KObject The mixer object
- 	 */
-	public function unregisterCallbackAfter($methods, $callback)
-	{
-		$methods = (array) $methods;
-	
-		foreach($methods as $method)
-		{
-			$method = strtolower($method);
-			
-			if (isset($this->_callbacks_after[$method]) ) 
-			{
-       	 		$key = array_search($callback, $this->_callbacks_after[$method]);
-       	 		unset($this->_callbacks_after[$method][$key]);
-			}
-		}
-				
-		return $this->_mixer;
-	}
-	
+
 	/**
 	 * Get the methods that are available for mixin. 
 	 * 
