@@ -148,7 +148,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 *
 	 * @return this
 	 */
-	public function addFilter(KFilterInterface $filter, $priority = KCommandChain::PRIORITY_NORMAL)
+	public function addFilter(KFilterInterface $filter, $priority = KCommand::PRIORITY_NORMAL)
 	{	
 		$this->_chain->enqueue($filter, $priority);
 		return $this;
