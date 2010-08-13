@@ -547,14 +547,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
       	}
         	
       	//Create commandchain context
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	= $this;
+		$context = $this->getCommandContext();
 		$context->operation = KDatabase::OPERATION_SELECT;
 		$context->query	  	= $query;
 		$context->table	  	= $this->getBase();
 		$context->mode      = $mode;
 		
-		if($this->getCommandChain()->run('before.table.select', $context) === true) 
+		if($this->getCommandChain()->run('before.select', $context) === true) 
 		{	
 			//The row(set) default options
 			$options  = array(
@@ -602,7 +601,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
  				$context->data = KFactory::tmp($this->getRowset(), $options);
  			} 
  			 			
-			$this->getCommandChain()->run('after.table.select', $context);
+			$this->getCommandChain()->run('after.select', $context);
 		}
 		
 		return $context->data;
@@ -649,14 +648,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	public function insert( KDatabaseRowInterface $row )
 	{
 		//Create commandchain context
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	= $this;
+		$context = $this->getCommandContext();
 		$context->operation = KDatabase::OPERATION_INSERT;
 		$context->data	  	= $row;
 		$context->table	  	= $this->getBase();
 		$context->query     = null;
 		
-		if($this->getCommandChain()->run('before.table.insert', $context) === true) 
+		if($this->getCommandChain()->run('before.insert', $context) === true) 
 		{
 			//Filter the data and remove unwanted columns
 			$data = $this->filter($context->data->getData(), true);
@@ -678,7 +676,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Set the row status
 			$context->data->setStatus(KDatabase::STATUS_INSERTED);
 			
-			$this->getCommandChain()->run('after.table.insert', $context);
+			$this->getCommandChain()->run('after.insert', $context);
 		}
 
 		return true;
@@ -693,14 +691,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	public function update( KDatabaseRowInterface $row)
 	{
 		//Create commandchain context
-		$context = $this->getCommandChain()->getContext();
-		$context->caller 	= $this;
+		$context = $this->getCommandContext();
 		$context->operation = KDatabase::OPERATION_UPDATE;
 		$context->data  	= $row;
 		$context->table	  	= $this->getBase();
 		$context->query     = null;
 			
-		if($this->getCommandChain()->run('before.table.update', $context) === true) 
+		if($this->getCommandChain()->run('before.update', $context) === true) 
 		{
 			$query = $this->_database->getQuery();
 			
@@ -730,7 +727,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Set the query in the context
 			$context->query = $query;
 			
-			$this->getCommandChain()->run('after.table.update', $context);
+			$this->getCommandChain()->run('after.update', $context);
 		}
 
 		return (bool) $context->affected;
@@ -745,14 +742,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	public function delete( KDatabaseRowInterface $row )
 	{
 		//Create commandchain context
-		$context = $this->getCommandChain()->getContext();
-		$context->caller    = $this;
+		$context = $this->getCommandContext();
 		$context->operation = KDatabase::OPERATION_DELETE;
 		$context->table	  	= $this->getBase();
 		$context->data   	= $row;
 		$context->query     = null;
 		
-		if($this->getCommandChain()->run('before.table.delete', $context) === true) 
+		if($this->getCommandChain()->run('before.delete', $context) === true) 
 		{
 			$query = $this->_database->getQuery();
 			
@@ -772,7 +768,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			//Set the query in the context
 			$context->query = $query;
 			
-			$this->getCommandChain()->run('after.table.delete', $context);
+			$this->getCommandChain()->run('after.delete', $context);
 		}
 
 		return (bool) $context->affected;
