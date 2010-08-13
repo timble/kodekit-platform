@@ -61,9 +61,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$this->_path = $config->path;
 		
 		 // Mixin a command chain
-        $this->mixin(new KMixinCommandchain(new KConfig(
-        	array('mixer' => $this, 'command_chain' => $config->command_chain, 'auto_events' => false)
-        )));
+        $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
 	
  	/**
@@ -77,9 +75,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'view '			=> null,
-    		'path'			=> array(),
-            'command_chain' => new KCommandChain(),
+    		'view '				=> null,
+    		'path'				=> array(),
+            'command_chain' 	=> new KCommandChain(),
+    		'dispatch_events'   => false,
+    		'enable_callbacks' 	=> false,
         ));
         
         parent::_initialize($config);
