@@ -9,6 +9,8 @@
  * @link        http://www.koowa.org
  */
 
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 /**
  * Koowa System plugin
  *
