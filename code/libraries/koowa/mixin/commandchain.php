@@ -48,7 +48,7 @@ class KMixinCommandchain extends KMixinAbstract
 			$this->_mixer->mixin(new KMixinCallback(new KConfig(array(
 				'mixer' 			=> $this->_mixer, 
 				'command_chain' 	=> $this->_command_chain,
-				'command_priority'	=> $config->_callback_priority
+				'command_priority'	=> $config->callback_priority
 			))));
 		}
 
@@ -73,7 +73,7 @@ class KMixinCommandchain extends KMixinAbstract
     		'dispatch_events'   => true,
     		'event_priority'	=> KCommand::PRIORITY_LOWEST,
     		'enable_callbacks' 	=> false,
-    		'callback_priority'	=> KCommand::PRIORITY_HIGHEST,
+    		'callback_priority'	=> KCommand::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
