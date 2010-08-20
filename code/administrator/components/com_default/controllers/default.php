@@ -43,11 +43,12 @@ class ComDefaultControllerDefault extends KControllerView
 		$count  = count((array) KRequest::get('post.id', 'int', 1));
 		$action = KRequest::get('post.action', 'cmd');
 		$name	= $this->_identifier->name;
+		$suffix = ($action == 'add' || $action == 'edit') ? 'ed' : 'd'; 
 			
 		if($count > 1) {
-			$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.'d', $count);
+			$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.$suffix, $count);
 		} else {
-			$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.'d');
+			$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
 		}
 	}
 	
