@@ -56,9 +56,8 @@ class plgSystemKoowa extends JPlugin
 		KFactory::addAdapter(new KFactoryAdapterPlugin());
 		KFactory::addAdapter(new KFactoryAdapterComponent());
 		
-		// Decorate the application object
-		$app  =& JFactory::getApplication();
-		$app  = new KDecoratorJoomlaApplication($app);
+		//Set the root path for the request based on the application name
+		KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
 		
 		//Create the koowa database object
 		$db  = KFactory::get('lib.koowa.database.adapter.mysqli')

@@ -119,8 +119,12 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	 */
 	protected function _setBasePath($identifier)
 	{
-		if(!$app = $identifier->application) {
+		if(!$app = $identifier->application) 
+		{
 			$app = KFactory::get('lib.koowa.application')->getName();
+			
+			//Add shortcuts
+			$app = ($app == 'administrator') ? 'admin' : $app;
 		}
 		
 		switch($app)
