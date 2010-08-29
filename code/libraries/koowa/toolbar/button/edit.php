@@ -22,7 +22,7 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 	{
 		$option	= KRequest::get('get.option', 'cmd');
 		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		$json 	= "{method:'get', url:'index.php', params:{option:'$option',view='$view',id=id}}";
+		$json 	= "{method:'get', url:'index.php', params:{option:'$option',view:'$view',id:id}}";
 
 		$msg 	= JText::_('Please select an item from the list');
 		return 'var id = KGrid.getFirstSelected();'
