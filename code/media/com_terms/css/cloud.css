@@ -1,13 +1,13 @@
 /* @group Tag cloud */
 /* display the individual items next to each other, not one-per-line */
-#tag-cloud 		{ text-align: center; padding: 0 15px; }
-#tag-cloud li 	{ display: inline; padding: 0 3px; }
+#terms-terms-cloud 		{ text-align: center; padding: 0 15px; }
+#terms-terms-cloud li 	{ display: inline; padding: 0 3px; }
 /* hide the extra context from CSS-enabled browsers, but not screenreaders */
-#tag-cloud span { position: absolute; left: -999px; width: 990px; }
+#terms-terms-cloud span { position: absolute; left: -999px; width: 990px; }
 /* size is purely presentational, based upon the class */
-#tag-cloud a.weight1 { font-size: 1.0em; font-weight: 400; }
-#tag-cloud a.weight2 { font-size: 1.2em; font-weight: 500; }
-#tag-cloud a.weight3 { font-size: 1.4em; font-weight: 600; }
-#tag-cloud a.weight4 { font-size: 1.6em; font-weight: 700; }
-#tag-cloud a.weight5 { font-size: 1.8em; font-weight: 800; }
+#terms-terms-cloud a.weight1 { font-size: 1.0em; font-weight: 400; }
+#terms-terms-cloud a.weight2 { font-size: 1.2em; font-weight: 500; }
+#terms-terms-cloud a.weight3 { font-size: 1.4em; font-weight: 600; }
+#terms-terms-cloud a.weight4 { font-size: 1.6em; font-weight: 700; }
+#terms-terms-cloud a.weight5 { font-size: 1.8em; font-weight: 800; }
 /* @end */
