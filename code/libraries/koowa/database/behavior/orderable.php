@@ -139,7 +139,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         	$query 	= KFactory::tmp('lib.koowa.database.query');
 			$this->_buildQueryWhere($query);
 			$select .= (string) $query;
-    		$row->ordering = (int) $context->caller->getDatabase()->fetchField($select) + 1;
+    		$row->ordering = (int) $context->caller->getDatabase()->select($select, KDatabase::FETCH_FIELD) + 1;
         }
     }
 
