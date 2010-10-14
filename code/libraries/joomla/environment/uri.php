@@ -173,14 +173,6 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-
-				// Now we need to clean what we got since we can't trust the server var
-				$theURI = urldecode($theURI);
-				$theURI = str_replace('"', '&quot;',$theURI);
-				$theURI = str_replace('<', '&lt;',$theURI);
-				$theURI = str_replace('>', '&gt;',$theURI);
-				$theURI = preg_replace('/eval\((.*)\)/', '', $theURI);
-				$theURI = preg_replace('/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/', '""', $theURI);
 			}
 			else
 			{
@@ -450,9 +442,7 @@ class JURI extends JObject
 		}
 
 		//If the query is empty build it first
-		if(is_null($this->_query)) {
-			$this->_query = $this->buildQuery($this->_vars);
-		}
+		$this->_query = $this->buildQuery($this->_vars);
 
 		return $this->_query;
 	}
@@ -470,27 +460,8 @@ class JURI extends JObject
 		if ( !is_array($params) || count($params) == 0 ) {
 			return false;
 		}
-
-		$out = array();
-
-		//reset in case we are looping
-		if( !isset($akey) && !count($out) )  {
-			unset($out);
-			$out = array();
-		}
-
-		foreach ( $params as $key => $val )
-		{
-			if ( is_array($val) ) {
-				$out[] = JURI::buildQuery($val,$key);
-				continue;
-			}
-
-			$thekey = ( !$akey ) ? $key : $akey.'['.$key.']';
-			$out[] = $thekey."=".urlencode($val);
-		}
-
-		return implode("&",$out);
+		
+		return http_build_query($params);
 	}
 
 	/**
@@ -773,6 +744,4 @@ class JURI extends JObject
 		}
 		return $parts;
 	}
-
-
 }
