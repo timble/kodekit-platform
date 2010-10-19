@@ -347,9 +347,8 @@ class JMenuTree extends JTree
 		{
 			// Handle SSL links
 			$iSecure = $iParams->def('secure', 0);
-			if ($tmp->home == 1) {
-				$tmp->url = JURI::base();
-			} elseif (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
+			
+			if (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
 				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
 			} else {
 				$tmp->url = str_replace('&', '&amp;', $tmp->url);
