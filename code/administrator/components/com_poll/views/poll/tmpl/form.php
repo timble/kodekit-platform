@@ -17,7 +17,6 @@
 	} else {
 		JToolBarHelper::cancel();
 	}
-	JToolBarHelper::help( 'screen.polls.edit' );
 ?>
 
 <?php

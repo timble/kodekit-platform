@@ -113,9 +113,6 @@ class MediaViewMedia extends JView
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 					$title</a>";
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
-
-		// Add a popup configuration button
-		JToolBarHelper::help( 'screen.mediamanager' );
 	}
 
 	function getFolderLevel($folder)

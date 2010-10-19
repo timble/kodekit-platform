@@ -37,7 +37,6 @@ class TOOLBAR_categories {
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.' . substr( $section, 4 ) . '.categories.edit' );
 	}
 
 	/**
@@ -80,6 +79,5 @@ class TOOLBAR_categories {
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.' . substr( $section, 4 ) . '.categories' );
 	}
 }

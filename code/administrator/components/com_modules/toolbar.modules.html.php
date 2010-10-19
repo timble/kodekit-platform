@@ -25,12 +25,6 @@ class TOOLBAR_modules {
 		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'module.png' );
 		JToolBarHelper::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
 		JToolBarHelper::cancel();
-		if ($client->name == 'site') {
-			JToolBarHelper::help( 'screen.modulessite.edit' );
-		} 
-		else {
-			JToolBarHelper::help( 'screen.modulesadministrator.edit');
-		}
 	}
 
 	/**
@@ -56,7 +50,6 @@ class TOOLBAR_modules {
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.modules.edit' );
 	}
 
 	function _DEFAULT($client)
@@ -68,6 +61,5 @@ class TOOLBAR_modules {
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.modules' );
 	}
 }

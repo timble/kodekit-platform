@@ -26,15 +26,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 				</td>
 			</tr>
 			<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Help Server' ); ?>::<?php echo JText::_( 'TIPHELPSERVER' ); ?>">
-					<?php echo JText::_( 'Help Server' ); ?>
-				</span>
-			</td>
-			<td>
-				<?php echo $lists['helpsites']; ?>
-				<input type="button" onclick="submitbutton('refreshhelp')" value="<?php echo JText::_('Reset'); ?>" />
-			</td>
 		</tr>
 		</tbody>
 	</table>

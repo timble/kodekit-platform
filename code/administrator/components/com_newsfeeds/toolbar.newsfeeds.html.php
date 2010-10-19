@@ -30,7 +30,6 @@ class TOOLBAR_newsfeeds
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences( 'com_newsfeeds','400');
-		JToolBarHelper::help( 'screen.newsfeeds' );
 	}
 
 	function _EDIT($edit)
@@ -49,6 +48,5 @@ class TOOLBAR_newsfeeds
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.newsfeeds.edit' );
 	}
 }

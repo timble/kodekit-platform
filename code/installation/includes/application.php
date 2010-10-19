@@ -223,7 +223,6 @@ class JInstallation extends JApplication
 		$tags =  $xml->document->children();
 		$ret = array();
 		$ret['lang'] 	= $tags[0]->data();
-		$ret['helpurl'] = $tags[1]->data();
 		$ret['debug']	= $tags[2]->data();
 		return  $ret;
 

@@ -32,7 +32,6 @@ class TOOLBAR_templates
 		}
 		JToolBarHelper::editListX( 'edit', 'Edit' );
 		//JToolBarHelper::addNew();
-		JToolBarHelper::help( 'screen.templates' );
 	}
  	function _VIEW(&$client){
 
@@ -46,7 +45,6 @@ class TOOLBAR_templates
 		JToolBarHelper::save( 'save_source' );
 		JToolBarHelper::apply( 'apply_source' );
 		JToolBarHelper::cancel('edit');
-		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _EDIT(&$client){
@@ -57,14 +55,12 @@ class TOOLBAR_templates
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel( 'cancel', 'Close' );
-		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _CHOOSE_CSS(&$client){
 		JToolBarHelper::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JToolBarHelper::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
 		JToolBarHelper::cancel('edit');
-		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _EDIT_CSS(&$client){
@@ -72,6 +68,5 @@ class TOOLBAR_templates
 		JToolBarHelper::save( 'save_css' );
 		JToolBarHelper::apply( 'apply_css');
 		JToolBarHelper::cancel('choose_css');
-		JToolBarHelper::help( 'screen.templates' );
 	}
 }

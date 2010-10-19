@@ -35,7 +35,6 @@ class TOOLBAR_content
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.content.edit' );
 	}
 /*
 	function _ARCHIVE()
@@ -43,7 +42,6 @@ class TOOLBAR_content
 		JToolBarHelper::title( JText::_( 'Archive Manager' ), 'addedit.png' );
 		JToolBarHelper::unarchiveList();
 		JToolBarHelper::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
-		JToolBarHelper::help( 'screen.content.archive' );
 	}
 */
 	function _MOVE()
@@ -79,6 +77,5 @@ class TOOLBAR_content
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_content', '550');
-		JToolBarHelper::help( 'screen.content' );
 	}
 }

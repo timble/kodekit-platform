@@ -133,9 +133,7 @@ class JToolBarHelper
 	*/
 	function help($ref, $com = false)
 	{
-		$bar = & JToolBar::getInstance('toolbar');
-		// Add a help button
-		$bar->appendButton( 'Help', $ref, $com );
+		
 	}
 
 	/**

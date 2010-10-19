@@ -11,7 +11,6 @@
 	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
 	JToolBarHelper::preferences('com_weblinks', '380');
-	JToolBarHelper::help( 'screen.weblink' );
 	$ordering = ($this->lists['order'] == 'a.ordering');
 ?>
 <form action="index.php" method="post" name="adminForm">

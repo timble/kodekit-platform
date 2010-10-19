@@ -741,12 +741,6 @@ class JInstallationModel extends JModel
 			$vars['bclang'] = $lang->getBackwardLang();
 		}
 
-		if ( empty( $forced['helpurl'] ) ) {
-			$vars['helpurl'] = 'http://help.joomla.org';
-		} else {
-			$vars['helpurl'] = $forced['helpurl'];
-		}
-
 		// If FTP has not been enabled, set the value to 0
 		if (!isset($vars['ftpEnable']))
 		{

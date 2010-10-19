@@ -21,15 +21,7 @@ switch ($task)
 	case 'sysinfo':
 		HTML_admin_misc::system_info( );
 		break;
-
-	case 'changelog':
-		HTML_admin_misc::changelog();
-		break;
-
-	case 'help':
-		HTML_admin_misc::help();
-		break;
-
+		
 	case 'version':
 		HTML_admin_misc::version();
 		break;

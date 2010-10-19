@@ -26,6 +26,5 @@ class TOOLBAR_checkin {
 	function _DEFAULT() {
 
 		JToolBarHelper::title( JText::_( 'Global Check-in' ), 'checkin.png' );
-		JToolBarHelper::help( 'screen.checkin' );
 	}
 }

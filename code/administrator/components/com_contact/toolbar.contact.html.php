@@ -41,7 +41,6 @@ class TOOLBAR_contact
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.contactmanager.edit' );
 	}
 
 	function _DEFAULT() {
@@ -53,7 +52,5 @@ class TOOLBAR_contact
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_contact', '500');
-
-		JToolBarHelper::help( 'screen.contactmanager' );
 	}
 }

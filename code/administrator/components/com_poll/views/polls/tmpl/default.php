@@ -9,7 +9,6 @@
 	JToolBarHelper::deleteList();
 	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
-	JToolBarHelper::help( 'screen.polls' );
 ?>
 
 <form action="index.php?option=com_poll" method="post" name="adminForm">

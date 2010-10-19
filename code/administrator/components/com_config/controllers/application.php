@@ -90,12 +90,6 @@ class ConfigControllerApplication extends ConfigController
 		$listLimit 				= array (JHTML::_('select.option', 5, 5), JHTML::_('select.option', 10, 10), JHTML::_('select.option', 15, 15), JHTML::_('select.option', 20, 20), JHTML::_('select.option', 25, 25), JHTML::_('select.option', 30, 30), JHTML::_('select.option', 50, 50), JHTML::_('select.option', 100, 100),);
 		$lists['list_limit'] 	= JHTML::_('select.genericlist',  $listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
-		jimport('joomla.language.help');
-		$helpsites 				= array ();
-		$helpsites 				= JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $row->helpurl);
-		array_unshift($helpsites, JHTML::_('select.option', '', JText::_('local')));
-		$lists['helpsites'] 	= JHTML::_('select.genericlist',  $helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
-
 		// DEBUG
 		$lists['debug'] 		= JHTML::_('select.booleanlist', 'debug', 'class="inputbox"', $row->debug);
 		$lists['debug_lang'] 	= JHTML::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $row->debug_lang);
@@ -299,7 +293,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['offline']	= JRequest::getVar('offline', 0, 'post', 'int');
 		$config_array['editor']		= JRequest::getVar('editor', 'tinymce', 'post', 'cmd');
 		$config_array['list_limit']	= JRequest::getVar('list_limit', 20, 'post', 'int');
-		$config_array['helpurl']	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post', 'string');
 
 		// DEBUG
 		$config_array['debug']		= JRequest::getVar('debug', 0, 'post', 'int');

@@ -27,6 +27,5 @@ class TOOLBAR_config
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel('cancel', 'Close');
-		JToolBarHelper::help( 'screen.config' );
 	}
 }

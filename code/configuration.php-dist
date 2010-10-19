@@ -51,7 +51,6 @@ class JConfig {
 	var $secret = 'FBVtggIk5lAzEU9H'; 		//Change this to something more secure
 	var $gzip = '0';
 	var $error_reporting = '-1';
-	var $helpurl = 'http://help.joomla.org';
 	var $ftp_host = '';
 	var $ftp_port = '';
 	var $ftp_user = '';

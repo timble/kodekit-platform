@@ -24,7 +24,6 @@ class BannersViewClients
 		JToolBarHelper::deleteList( '', 'remove' );
 		JToolBarHelper::editListX( 'edit' );
 		JToolBarHelper::addNewX( 'add' );
-		JToolBarHelper::help( 'screen.banners.client' );
 	}
 
 	function clients( &$rows, &$pageNav, &$lists )
@@ -146,7 +145,6 @@ class BannersViewClients
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply('apply');
 		JToolBarHelper::cancel( 'cancel' );
-		JToolBarHelper::help( 'screen.banners.client.edit' );
 	}
 
 	function client( &$row )

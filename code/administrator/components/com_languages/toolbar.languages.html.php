@@ -25,6 +25,5 @@ class TOOLBAR_languages
 	{
 		JToolBarHelper::title( JText::_( 'Language Manager' ), 'langmanager.png' );
 		JToolBarHelper::makeDefault( 'publish' );
-		JToolBarHelper::help( 'screen.languages' );
 	}
 }

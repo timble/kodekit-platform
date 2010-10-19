@@ -14,7 +14,6 @@
 		// for existing items the button is renamed `close`
 		JToolBarHelper::cancel( 'cancel', 'Close' );
 	}
-	JToolBarHelper::help( 'screen.weblink.edit' );
 ?>
 
 <script language="javascript" type="text/javascript">

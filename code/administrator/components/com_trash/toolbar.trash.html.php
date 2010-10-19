@@ -33,7 +33,6 @@ class TOOLBAR_Trash {
 		JToolBarHelper::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
 		JToolBarHelper::custom('restoreconfirm','restore.png','restore_f2.png', 'Restore', true);
 		JToolBarHelper::custom('deleteconfirm','delete.png','delete_f2.png', 'Delete', true);
-		JToolBarHelper::help( 'screen.trashmanager' );
 	}
 
 	function _RESTORE() {

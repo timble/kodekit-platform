@@ -16,7 +16,6 @@
 	} else {
 		JToolBarHelper::cancel();
 	}
-	JToolBarHelper::help( 'screen.users.edit' );
 	$cparams = JComponentHelper::getParams ('com_media');
 ?>
 

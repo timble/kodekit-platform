@@ -24,18 +24,11 @@ class TOOLBAR_admin
 	function _SYSINFO() {
 
 		JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
-		JToolBarHelper::help( 'screen.system.info' );
 	}
 
 	function _CPANEL() {
 
 		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
-		JToolBarHelper::help( 'screen.cpanel' );
-	}
-
-	function _HELP() {
-
-		JToolBarHelper::title( JText::_( 'Help' ), 'help_header.png' );
 	}
 
 	function _PREVIEW() {

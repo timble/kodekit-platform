@@ -38,7 +38,6 @@ class TOOLBAR_sections {
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.sections.edit' );
 	}
 	/**
 	* Draws the menu for Copying existing sections
@@ -61,6 +60,5 @@ class TOOLBAR_sections {
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.sections' );
 	}
 }

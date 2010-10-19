@@ -31,7 +31,6 @@ class BannersViewBanner
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_banners', '200');
-		JToolBarHelper::help( 'screen.banners' );
 	}
 
 	function banners( &$rows, &$pageNav, &$lists )
@@ -209,7 +208,6 @@ class BannersViewBanner
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply('apply');
 		JToolBarHelper::cancel( 'cancel' );
-		JToolBarHelper::help( 'screen.banners.edit' );
 	}
 
 	function banner( &$row, &$lists )

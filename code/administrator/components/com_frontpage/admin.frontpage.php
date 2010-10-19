@@ -106,7 +106,6 @@ function viewFrontPage( $option )
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
 	JToolBarHelper::custom('remove','delete.png','delete_f2.png','Remove', true);
-	JToolBarHelper::help( 'screen.frontpage' );
 
 	$where = array(
 		"c.state >= 0"

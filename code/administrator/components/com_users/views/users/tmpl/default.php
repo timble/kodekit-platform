@@ -8,7 +8,6 @@
 	JToolBarHelper::deleteList();
 	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
-	JToolBarHelper::help( 'screen.users' );
 ?>
 
 <form action="index.php?option=com_users" method="post" name="adminForm">

@@ -55,8 +55,7 @@ class MenusViewItem extends JView
 		} else {
 			JToolBarHelper::cancel('cancelItem');
 		}
-		JToolBarHelper::help( 'screen.menus.edit' );
-
+		
 		// Load component language files
 		$component		= &$this->get('Component');
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
@@ -140,7 +139,6 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		JToolBarHelper::cancel('view');
-		JToolBarHelper::help( 'screen.menus.edit' );
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();

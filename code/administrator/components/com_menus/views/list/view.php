@@ -50,7 +50,6 @@ class MenusViewList extends JView
 		JToolBarHelper::trash();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX('newItem');
-		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('View Menu Items'));
@@ -97,7 +96,6 @@ class MenusViewList extends JView
 		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Copy' ) .' ]</small></small>' );
 		JToolBarHelper::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JToolBarHelper::cancel('cancelItem');
-		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Copy Menu Items'));
@@ -133,7 +131,6 @@ class MenusViewList extends JView
 		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Move' ) .' ]</small></small>' );
 		JToolBarHelper::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
 		JToolBarHelper::cancel('cancelItem');
-		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Move Menu Items'));

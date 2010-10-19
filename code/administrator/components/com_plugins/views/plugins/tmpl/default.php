@@ -7,7 +7,6 @@
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
 	JToolBarHelper::editListX();
-	JToolBarHelper::help( 'screen.plugins' );
 	$ordering = ($this->lists['order'] == 'p.folder' || $this->lists['order'] == 'p.ordering');
 	$rows =& $this->items;
 

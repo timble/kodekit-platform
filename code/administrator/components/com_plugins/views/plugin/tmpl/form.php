@@ -7,7 +7,6 @@
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
 	JToolBarHelper::cancel( 'cancel', 'Close' );
-	JToolBarHelper::help( 'screen.plugins.edit' );
 ?>
 
 <?php

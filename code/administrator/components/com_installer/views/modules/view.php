@@ -35,7 +35,6 @@ class InstallerViewModules extends InstallerViewDefault
 		 * Set toolbar items for the page
 		 */
 		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
-		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model
 		$state		= &$this->get('State');

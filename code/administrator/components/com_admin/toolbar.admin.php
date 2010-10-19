@@ -23,10 +23,6 @@ switch ($task)
 		TOOLBAR_admin::_SYSINFO();
 		break;
 
-	case 'help':
-		TOOLBAR_admin::_HELP();
-		break;
-
 	case 'preview':
 	case 'preview2':
 		TOOLBAR_admin::_PREVIEW();
