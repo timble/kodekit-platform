@@ -66,7 +66,6 @@ $config =& JFactory::getConfig();
 			writableCell( 'plugins/search' );
 			writableCell( 'plugins/system' );
 			writableCell( 'plugins/user' );
-			writableCell( 'plugins/xmlrpc' );
 			writableCell( 'templates' );
 			writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
 			writableCell( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
