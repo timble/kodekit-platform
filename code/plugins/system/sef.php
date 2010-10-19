@@ -46,10 +46,6 @@ class plgSystemSef extends JPlugin
 	{
 		$app =& JFactory::getApplication();
 
-		if($app->getName() != 'site') {
-			return true;
-		}
-
 		//Replace src links
       	$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
