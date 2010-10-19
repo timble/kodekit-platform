@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Multisite</name>
+	<author>Johan Janssens</author>
+	<creationDate>October 2010</creationDate>
+	<copyright>Copyright (C) 2010 Timble CVBA and Contributors. All rights reserved.</copyright>
+	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
+	<authorEmail>johan@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>1.50</version>
+	<description>DESCPLGSYSTEMMULTISITE</description>
+	<files>
+		<filename plugin="multisite">multisite.php</filename>
+	</files>
+	<params/>
+</install>

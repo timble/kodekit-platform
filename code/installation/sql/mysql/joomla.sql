@@ -363,6 +363,9 @@ INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (34, 'System - Mootools Upgrade', 'mtupgrade', 'system', 0, 8, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 
+# Newly added for Nooku Server
+INSERT INTO `#__plugins` VALUES (29, 'System - Multisite','multisite','system',0,1,1,0,0,0,'0000-00-00 00:00:00','');
+
 # --------------------------------------------------------
 
 #
