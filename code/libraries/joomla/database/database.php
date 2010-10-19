@@ -516,6 +516,19 @@ class JDatabase extends JObject
 	{
 		return $this->_table_prefix;
 	}
+	
+	/**
+	 * Set the database table prefix
+	 *
+	 * @access public
+	 * @param string The database prefix
+	 * @return JDatabase
+	 */
+	function setPrefix($prefix)
+	{
+		$this->_table_prefix = $prefix;
+		return $this;
+	}
 
 	/**
 	 * Get the database null date
