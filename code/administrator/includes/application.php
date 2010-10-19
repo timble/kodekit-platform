@@ -197,6 +197,18 @@ class JAdministrator extends JApplication
 
 		return $result;
 	}
+	
+	/**
+	 * Redirect to another URL.
+	 *
+	 * We need to make sure that all the redirect URL's are routed. 
+     *
+	 * @see	JApplication::redirect()
+	 */
+	function redirect( $url, $msg='', $msgType='message', $moved = false )
+	{
+		parent::redirect(JRoute::_($url, false), $msg, $msgType, $moved);
+	}
 
 	/**
 	 * Get the template
