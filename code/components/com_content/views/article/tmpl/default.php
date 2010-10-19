@@ -8,7 +8,7 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>
 <?php endif; ?>
-<?php if ($canEdit || $this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
+<?php if ($canEdit || $this->params->get('show_title')  || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 <tr>
 	<?php if ($this->params->get('show_title')) : ?>
@@ -22,12 +22,6 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 	</td>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
-		<?php if ($this->params->get('show_pdf_icon')) : ?>
-		<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.pdf',  $this->article, $this->params, $this->access); ?>
-		</td>
-		<?php endif; ?>
-
 		<?php if ( $this->params->get( 'show_print_icon' )) : ?>
 		<td align="right" width="100%" class="buttonheading">
 		<?php echo JHTML::_('icon.print_popup',  $this->article, $this->params, $this->access); ?>

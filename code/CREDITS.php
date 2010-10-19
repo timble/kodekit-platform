@@ -394,11 +394,6 @@ Author:		John Heinstein
 Copyright:	Copyright (C) 2004 John Heinstein. All rights reserved
 License:	GNU Lesser General Public License (LGPL)
 
-ezpdf
------
-Author:		Wayne Munro, R&OS Ltd.
-License:	Public Domain
-
 Feedcreator
 -----------
 Author:		Kai Blankenhorn
