@@ -13,14 +13,18 @@
 	<!--  Files -->
 	<files folder="plugins/system">
 		<filename plugin="koowa">koowa.php</filename>
-		<folder>koowa</folder>
 	</files>
 	
 	<!--  Media -->
-	<media destination="plg_koowa" folder="media/plg_koowa">
+	<media destination="lib_koowa" folder="media/lib_koowa">
 		<folder>images</folder>
 		<folder>js</folder>
-		<folder>swf</folder>
+		<folder>css</folder>
+	</media>
+	
+	<media destination="com_default" folder="media/com_default">
+		<folder>images</folder>
+		<folder>js</folder>
 		<folder>css</folder>
 	</media>
 	

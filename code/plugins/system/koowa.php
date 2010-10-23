@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: koowa.php 2050 2010-05-15 20:30:30Z johanjanssens $
+ * @version     $Id: koowa.php 2677 2010-10-23 01:22:25Z johanjanssens $
  * @category	Koowa
  * @package     Koowa_Plugins
  * @subpackage  System
@@ -8,6 +8,8 @@
  * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link        http://www.koowa.org
  */
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Koowa System plugin
@@ -54,25 +56,28 @@ class plgSystemKoowa extends JPlugin
 		KFactory::addAdapter(new KFactoryAdapterPlugin());
 		KFactory::addAdapter(new KFactoryAdapterComponent());
 		
-		// Decorate the application object
-		$app  =& JFactory::getApplication();
-		$app  = new KDecoratorJoomlaApplication($app);
+		//Set the root path for the request based on the application name
+        KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
 		
 		//Create the koowa database object
-		$db  = KFactory::get('lib.koowa.database.adapter.mysqli')
-			->setConnection(JFactory::getDBO()->_resource)
-			->setTablePrefix(JFactory::getDBO()->_table_prefix);
+		$dbo = JFactory::getDBO();
+		
+		$resource = method_exists($dbo, 'getConnection') ? $dbo->getConnection() : $dbo->_resource;
+		$prefix   = method_exists($dbo, 'getPrefix')     ? $dbo->getPrefix()     : $dbo->_table_prefix;
+		
+		$db	= KFactory::get('lib.koowa.database.adapter.mysqli')
+				->setConnection($resource)
+				->setTablePrefix($prefix);
 		
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.database'   , $db);
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
+        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
         KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
+	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
         
-        //Send a header that tells Nooku Desktop that this is Nooku Server
-        JResponse::setHeader('x-nooku-desktop', 'version=1.0;');
-        
-        //If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
+	  	//If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
         //if the format is 'html' or if the tmpl is empty.
         if(KRequest::type() == 'AJAX') 
         {
@@ -92,29 +97,6 @@ class plgSystemKoowa extends JPlugin
 		parent::__construct($subject, $config = array());
 	}
 	
-	/**
-	 * Prettify the output using Tidy filter (if available) and debug has been
-	 * enabled
-	 *
-	 * @return void
-	 */
-	public function onAfterRender()
-	{
-		/*if(KDEBUG)
-		{
-			$config =  array(
-					'indent'            => true,
-                	'indent-attributes' => true,
-                	'wrap'              => 120,
-			);
-	
-			$filter = new KFilterTidy(array('config' => $config));
-			$result = $filter->sanitize(JResponse::getBody());
-		
-			JResponse::setBody($result);
-		}*/
-	}
-	
  	/**
 	 * Catch all exception handler
 	 *
@@ -129,7 +111,7 @@ class plgSystemKoowa extends JPlugin
 		
 		//Change the Joomla error handler to our own local handler and call it
 		JError::setErrorHandling( E_ERROR, 'callback', array($this,'errorHandler'));
-		JError::raiseError('500', $exception->getMessage());
+		JError::raiseError($exception->getCode(), $exception->getMessage());
 	}
 
 	/**
@@ -143,15 +125,20 @@ class plgSystemKoowa extends JPlugin
 	 */
 	public function errorHandler($error)
 	{
-		$error->backtrace = $this->_exception->getTrace();
-		$error->file      = $this->_exception->getFile();
-		$error->line      = $this->_exception->getLine();
+		$error->setProperties(array(
+			'backtrace'	=> $this->_exception->getTrace(),
+			'file'		=> $this->_exception->getFile(),
+			'line'		=> $this->_exception->getLine()
+		));
 		
 		if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
-			$error->message   = $this->_exception;
+			$error->set('message', (string) $this->_exception);
 		} else {
-			$error->message   = '';
+			$error->set('message', $this->_exception->getMessage());
 		}
+		
+		//Make sure the buffers are cleared
+		while(@ob_get_clean());
 		
 		JError::customErrorPage($error);
 	}
