@@ -529,6 +529,18 @@ class JDatabase extends JObject
 		$this->_table_prefix = $prefix;
 		return $this;
 	}
+	
+	/**
+	 * Get the connection
+	 *
+	 * Provides access to the underlying database connection.
+	 *
+	 * @return resource
+	 */
+	function getConnection()
+	{
+		return $this->_resource;
+	}
 
 	/**
 	 * Get the database null date
