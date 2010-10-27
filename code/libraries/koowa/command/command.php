@@ -31,16 +31,55 @@ class KCommand extends KObject implements KCommandInterface
 	const PRIORITY_LOWEST  = 5;
 	
 	/**
+	 * The command priority
+	 *
+	 * @var KIdentifierInterface
+	 */
+	protected $_priority;
+	
+	/**
+	 * Constructor.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct( KConfig $config = null) 
+	{ 
+		//If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		parent::__construct($config);
+		
+		$this->_priority = $config->priority;
+	}
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
+     */
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+			'priority'   => KCommand::PRIORITY_NORMAL,
+	  	));
+
+    	parent::_initialize($config);
+   	}
+	
+	/**
 	 * Command handler
 	 * 
 	 * @param 	string  	The command name
 	 * @param 	object   	The command context
 	 * @return 	boolean		Can return both true or false.  
 	 */
-	final public function execute( $name, KCommandContext $context) 
+	public function execute( $name, KCommandContext $context) 
 	{
 		$type = '';
-		
+				
 		if($context->caller)
 		{
 			$identifier = clone $context->caller->getIdentifier();
@@ -53,12 +92,22 @@ class KCommand extends KObject implements KCommandInterface
 		}
 		
 		$parts  = explode('.', $name);	
-		$method = '_'.$type.ucfirst(KInflector::implode($parts));
-	
+		$method = !empty($type) ? '_'.$type.ucfirst(KInflector::implode($parts)) : '_'.lcfirst(KInflector::implode($parts));
+		
 		if(in_array($method, $this->getMethods())) {
 			return $this->$method($context);
 		}
 		
 		return true;
 	}
+	
+	/**
+	 * Get the priority of a behavior
+	 *
+	 * @return	integer The command priority
+	 */
+  	public function getPriority()
+  	{
+  		return $this->_priority;
+  	}
 }
