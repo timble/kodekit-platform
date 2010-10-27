@@ -73,5 +73,5 @@ var Terms = Ajax.extend({
 });
 
 window.addEvent('domready', function() {
-	Terms = new Terms('terms-panel');
+	Terms = new Terms('terms-list');
 });

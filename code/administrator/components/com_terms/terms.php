@@ -14,5 +14,5 @@ if(!defined('KOOWA')) {
 }
 
 // Create the controller dispatcher
-KFactory::get('admin::com.terms.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'terms'));
+echo KFactory::get('admin::com.terms.dispatcher')->dispatch();
 	

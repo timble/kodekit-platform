@@ -23,6 +23,7 @@ class ComTermsModelTerms extends KModelTable
 	{
 		if(!$this->_state->isUnique()) {
 			$query->select('COUNT( relations.terms_term_id ) AS count');
+			$query->select('table');
 		}
 		
 		return parent::_buildQueryColumns($query);

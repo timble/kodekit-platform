@@ -7,7 +7,7 @@
  * @link     	http://www.nooku.org
  */
 
-class ComTermsTableTerms extends KDatabaseTableAbstract
+class ComTermsDatabaseTableTerms extends KDatabaseTableDefault
 {
 	protected function _initialize(KConfig $config)
     {

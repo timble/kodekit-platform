@@ -11,10 +11,8 @@ class ComTermsViewTermsHtml extends ComTermsViewHtml
 {
 	public function display()
 	{
-		$model = KFactory::get($this->getModel());
-		
 		//If no row exists assign an empty array
-		if($model->get('row')) {
+		if($this->getModel()->get('row')) {
 			$this->assign('disabled', false);
 		} else {
 			$this->assign('disabled', true);

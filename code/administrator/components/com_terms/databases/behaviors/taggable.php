@@ -13,7 +13,7 @@
  * @author      Johan Janssens <johan@koowa.org>
  * @package     Terms
  */
-class ComTermsBehaviorTaggable extends KDatabaseBehaviorAbstract
+class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of tags
@@ -24,7 +24,7 @@ class ComTermsBehaviorTaggable extends KDatabaseBehaviorAbstract
 	{
 		$tags = KFactory::tmp('admin::com.terms.model.terms')
 					->row($this->id)
-					->table(KFactory::get($this->getTable())->getName())
+					->table($this->getTable()->getName())
 					->getList();
 
 		return $tags;
