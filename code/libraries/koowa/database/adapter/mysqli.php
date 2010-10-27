@@ -169,7 +169,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	public function active() 
 	{
-		return isset($this->_connection) && $this->_connection->ping();
+		return is_resource($this->_connection) && $this->_connection->ping();
 	}
 	
 	/**
