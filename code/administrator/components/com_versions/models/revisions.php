@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
- * @package     Koowa_Components
+ * @category	Nooku
+ * @package     Nooku_Components
  * @subpackage  Versions
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,13 +10,13 @@
  */
 
 /**
- * Revisions model
-.*
+ * Revisions Model
+ *
  * @author      Torkil Johnsen <torkil@bedre.no>
- * @author      Johan Janssens <johan@timble.net>
- * @category	Koowa
- * @package     Koowa_Components
- * @subpackage  Versions
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Versions
  */
 class ComVersionsModelRevisions extends KModelTable
 {

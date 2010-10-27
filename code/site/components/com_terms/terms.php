@@ -1,12 +1,22 @@
 <?php
 /**
  * @version		$Id$
- * @package		profiles
- * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
- * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.nooku.org
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Terms
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
+/**
+ * Description
+ *   
+ * @author   	Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Terms
+ */
 // Check if Koowa is active
 if(!defined('KOOWA')) {
 	JError::raiseWarning(0, JText::_("Koowa wasn't found. Please install the Koowa plugin and enable it."));

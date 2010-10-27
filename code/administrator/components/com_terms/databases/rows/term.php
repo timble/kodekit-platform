@@ -1,12 +1,22 @@
 <?php
 /**
- * @version		$Id: terms.php 308 2009-10-25 04:35:37Z johan $
- * @package		Tags
- * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
- * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.nooku.org
+ * @version		$Id: dashboard.php 176 2010-10-27 03:39:39Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Terms
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
+/**
+ * Description
+ *   
+ * @author   	Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Terms
+ */
 class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 {
 	/**

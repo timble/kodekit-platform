@@ -1,3 +1,13 @@
+/**
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Terms
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
 /* @group Tag cloud */
 /* display the individual items next to each other, not one-per-line */
 #terms-terms-cloud 		{ text-align: center; padding: 0 15px; }

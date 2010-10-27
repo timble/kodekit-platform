@@ -1,17 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Tags
- * @copyright	Copyright (C) 2009 - 2010 Nooku. All rights reserved.
- * @license 	GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.nooku.org
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Terms
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
 /**
  * Database Taggable Behavior
- *
- * @author      Johan Janssens <johan@koowa.org>
- * @package     Terms
+ *   
+ * @author   	Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Terms
  */
 class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 {
