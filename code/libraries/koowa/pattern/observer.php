@@ -10,7 +10,7 @@
  */
 
 /**
- * Abstract observer class to implement the observer design pattern
+ * Observer interface that implements the observer design pattern
  *
  * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa

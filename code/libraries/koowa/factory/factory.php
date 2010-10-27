@@ -102,16 +102,23 @@ class KFactory
 	 */
 	public static function identify($identifier)
 	{		
-		if(is_object($identifier) && $identifier instanceof KObjectIdentifiable) {
-			$identifier = $identifier->getIdentifier();
+		if(!($identifier instanceof KIdentifier))
+		{
+			if(is_string($identifier)) 
+			{
+				$alias      = $identifier;
+				$identifier = new KIdentifier($identifier);
+			} 
+			elseif($identifier instanceof KObjectIdentifiable) 
+			{
+				$identifier = $identifier->getIdentifier();
+				$alias      = (string) $identifier;
+			} 
 		} 
+		else $alias = (string) $identifier;
 		
-		if(array_key_exists((string) $identifier, self::$_identifier_map)) {
-			$identifier = self::$_identifier_map[(string) $identifier];
-		}
-		
-		if(is_string($identifier)) {
-			$identifier = new KIdentifier($identifier);
+		if(array_key_exists($alias, self::$_identifier_map)) {
+			$identifier = self::$_identifier_map[$alias];
 		}
 		
 		return $identifier;
@@ -128,32 +135,21 @@ class KFactory
 	 */
 	public static function get($identifier, array $config = array())
 	{
-		$identifier = self::identify($identifier);
+		$objIdentifier = self::identify($identifier);
+		$strIdentifier = (string) $objIdentifier;
 		
-		if(!self::$_registry->offsetExists((string)$identifier))
+		if(!self::$_registry->offsetExists($strIdentifier))
 		{
-			$context = self::$_chain->getContext();
-			$context->config = new KConfig($config);
+			//Instantiate the identifier
+			$instance = self::_instantiate($objIdentifier, $config);
 		
-			$instance = self::$_chain->run($identifier, $context);
-			if(!is_object($instance)) {
-				throw new KFactoryException('Cannot create object instance from identifier : '.$identifier);
-			}
-		
-			if (isset(self::$_mixin_map[(string) $identifier]) && $instance instanceof KObject)
-			{
-				$mixins = self::$_mixin_map[(string) $identifier];
-      			foreach($mixins as $mixin) 
-      			{
-      				$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-          			$instance->mixin($mixin);
-      			}
-			}
+			//Perform the mixin 
+			self::_mixin($strIdentifier, $instance);
 			
-			self::$_registry->offsetSet((string) $identifier, $instance);
+			self::$_registry->offsetSet($strIdentifier, $instance);
 		}
 		
-		return self::$_registry->offsetGet((string)$identifier);
+		return self::$_registry->offsetGet($strIdentifier);
 	}
 
 	/**
@@ -167,26 +163,15 @@ class KFactory
 	 */
 	public static function tmp($identifier, array $config = array())
 	{
-		$identifier = self::identify($identifier);
+		$objIdentifier = self::identify($identifier);
+		$strIdentifier = (string) $objIdentifier;
 	
-		$context =  self::$_chain->getContext();
-		$context->config = new KConfig($config);
+		//Instantiate the identifier
+		$instance = self::_instantiate($objIdentifier, $config);
 		
-		$instance = self::$_chain->run($identifier, $context);
-		if(!is_object($instance)) {
-			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
-		}
-	
-		if (isset(self::$_mixin_map[(string) $identifier]) && $instance instanceof KObject)
-		{
-			$mixins = self::$_mixin_map[(string)$identifier];
-      		foreach($mixins as $mixin) 
-      		{
-      			$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-          		$instance->mixin($mixin);
-      		}
-		}
-
+		//Perform the mixin 
+		self::_mixin($strIdentifier, $instance);
+		
 		return $instance;
 	}
 
@@ -198,9 +183,10 @@ class KFactory
 	 */
 	public static function set($identifier, $object)
 	{
-		$identifier = self::identify($identifier);
+		$objIdentifier = self::identify($identifier);
+		$strIdentifier = (string) $objIdentifier;
 		
-		self::$_registry->offsetSet((string) $identifier, $object);
+		self::$_registry->offsetSet($strIdentifier, $object);
 	}
 
 	/**
@@ -211,10 +197,11 @@ class KFactory
 	 */
 	public static function del($identifier)
 	{
-		$identifier = self::identify($identifier);
+		$objIdentifier = self::identify($identifier);
+		$strIdentifier = (string) $objIdentifier;
 
-		if(self::$_registry->offsetExists((string)$identifier)) {
-			self::$_registry->offsetUnset((string)$identifier);
+		if(self::$_registry->offsetExists($strIdentifier)) {
+			self::$_registry->offsetUnset($strIdentifier);
 			return true;
 		}
 
@@ -229,9 +216,10 @@ class KFactory
 	 */
 	public static function has($identifier)
 	{
-		$identifier = self::identify($identifier);
+		$objIdentifier = self::identify($identifier);
+		$strIdentifier = (string) $objIdentifier;
 
-		return (bool) self::$_registry->offsetExists((string)$identifier);
+		return (bool) self::$_registry->offsetExists($strIdentifier);
 	}
 	
 	/**
@@ -265,27 +253,21 @@ class KFactory
 
      	foreach($identifiers as $identifier) 
      	{
-       		$identifier    = (string) self::identify($identifier);
+       		$objIdentifier = self::identify($identifier);
+			$strIdentifier = (string) $objIdentifier;
        		
-     		if (!isset(self::$_mixin_map[$identifier]) ) {
-       			self::$_mixin_map[$identifier] = array();
+     		if (!isset(self::$_mixin_map[$strIdentifier]) ) {
+       			self::$_mixin_map[$strIdentifier] = array();
        		}
 
-         	self::$_mixin_map[$identifier] = array_unique(array_merge(self::$_mixin_map[$identifier], $mixins));
+         	self::$_mixin_map[$strIdentifier] = array_unique(array_merge(self::$_mixin_map[$strIdentifier], $mixins));
 
-          	if (self::$_registry->offsetExists((string)$identifier)) 
+          	if (self::$_registry->offsetExists($strIdentifier)) 
 			{
-				$mixins = self::$_mixin_map[$identifier];
-      			foreach($mixins as $mixin) 
-      			{
-        			$instance = self::$_registry->offsetGet($identifier);
-        			
-        			if($instance instanceof KObject)
-        			{
-      					$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
-          				$instance->mixin($mixin);
-        			}
-      			}
+				$instance = self::$_registry->offsetGet($strIdentifier);
+				
+				//Perform the mixin 
+				self::_mixin($strIdentifier, $instance);
           	}
      	}
  	}
@@ -294,11 +276,75 @@ class KFactory
 	 * Add a factory adapter
 	 *
 	 * @param object 	A KFactoryAdapter
-	 * @param integer	The adapter priority
 	 * @return void
 	 */
-	public static function addAdapter(KFactoryAdapterInterface $adapter, $priority = KCommand::PRIORITY_NORMAL)
+	public static function addAdapter(KFactoryAdapterInterface $adapter)
 	{
-		self::$_chain->enqueue($adapter, $priority);
+		self::$_chain->enqueue($adapter, $adapter->getPriority());
 	}
+	
+	/**
+	 * Perform the actual mixin of all registered mixins with an object 
+	 * 
+	 * @param	string	The identifier string
+	 * @param	object  A KObject instance to used as the mixer
+	 * @return void
+	 */
+	protected static function _mixin($identifier, $instance)
+	{
+		if(isset(self::$_mixin_map[$identifier]) && $instance instanceof KObject)
+        {
+			$mixins = self::$_mixin_map[$identifier];
+      		foreach($mixins as $mixin) 
+      		{
+      			$mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+          		$instance->mixin($mixin);
+      		}
+        }
+	}
+	
+	/**
+	 * Get an instance of a class based on a class identifier
+	 *
+	 * @param	string			The identifier string 
+	 * @param	array  			An optional associative array of configuration settings.
+	 * @throws	KFactoryException
+	 * @return	object  		Return object on success, throws exception on failure
+	 */
+	protected static function _instantiate($identifier, array $config = array())
+  	{			
+  		$context =  self::$_chain->getContext();
+  		$config  =  new KConfig($config);
+		$context->config = $config;
+		
+		$result = self::$_chain->run($identifier, $context);
+		
+		//If we get a string returned we assume it's a classname
+		if(is_string($result)) 
+		{
+			//Set the classname
+			$identifier->classname = $result;
+			
+			//Set the filepath
+  			$identifier->filepath = KLoader::path($identifier);
+  		
+  			//If the object is indentifiable push the identifier in through the constructor
+			if(array_key_exists('KObjectIdentifiable', class_implements($identifier->classname))) {
+				$config->identifier = $identifier;
+			}
+							
+			// If the class has an instantiate method call it
+			if(is_callable(array($identifier->classname, 'instantiate'), false)) {
+				$result = call_user_func(array($identifier->classname, 'instantiate'), $config);
+			} else {
+				$result = new $identifier->classname($config);
+			}
+		}
+		
+		if(!is_object($result)) {
+			throw new KFactoryException('Cannot create object from identifier : '.$identifier);
+		}
+  				
+    	return $result;
+  	}
 }

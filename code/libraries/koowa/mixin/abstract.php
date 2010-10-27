@@ -30,11 +30,18 @@ abstract class KMixinAbstract implements KMixinInterface
     protected $_mixer;
     
     /**
+     * Class methods
+     *
+     * @var array
+     */
+    private $__methods = array();
+    
+    /**
      * List of mixable methods
      *
      * @var array
      */
-    private $__methods;
+    private $__mixable_methods;
         
     /**
 	 * Object constructor
@@ -83,6 +90,30 @@ abstract class KMixinAbstract implements KMixinInterface
 	}
 	
 	/**
+	 * Get a list of all the available methods
+	 *
+	 * This function returns an array of all the methods, both native and mixed in
+	 *
+	 * @return array An array 
+	 */
+	public function getMethods()
+	{
+		if(!$this->__methods)
+		{
+			$methods = array();
+			
+			$reflection	= new ReflectionClass($this);
+			foreach($reflection->getMethods() as $method) {
+				$methods[] = $method->name;
+			}
+		
+			$this->__methods = $methods;
+		}
+		
+		return $this->__methods;
+	}
+	
+	/**
 	 * Get the methods that are available for mixin.
 	 * 
 	 * Only public methods can be mixed
@@ -92,24 +123,29 @@ abstract class KMixinAbstract implements KMixinInterface
 	 */
 	public function getMixableMethods(KObject $mixer = null)
 	{
-		if(!$this->__methods)
+		if(!$this->__mixable_methods)
 		{
 			$methods = array();
-	
-			//get_class_methods also returns none-public method for inside object scope
-			foreach (get_class_methods($this) as $method)
+			
+			//Get all the public methods
+			$reflection	= new ReflectionClass($this);
+			foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+				$methods[$method->name] = $method->name;
+			}
+			
+			//Remove the base class methods
+			$reflection	= new ReflectionClass(__CLASS__);
+			foreach($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
 			{
-				$reflect = new ReflectionMethod(get_class($this), $method);
-	
-				if($reflect->isPublic()) {
-					$methods[] = $method;
+				if(isset($methods[$method->name])) {
+					unset($methods[$method->name]);
 				}
 			}
-		
-     	   	$this->__methods = array_diff($methods, get_class_methods(__CLASS__));  
+			
+     	   	$this->__mixable_methods = $methods;
 		}
      	
-		return $this->__methods;
+		return $this->__mixable_methods;
 	}
 	
 	/**

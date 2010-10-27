@@ -29,7 +29,7 @@ class KRequest
 	 *
 	 * @var	array
 	 */
-	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'SERVER', 'REQUEST', 'SESSION');
+	protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'PUT', 'DELETE', 'SERVER', 'REQUEST', 'SESSION');
 
 	/**
 	 * Accepted request methods
@@ -93,21 +93,25 @@ class KRequest
 		
 		if(!empty($content['data']))
 	 	{
-	 		if (self::method() == 'PUT')
+	 		if($content['type'] == 'application/x-www-form-urlencoded') 
 			{
-				if($content['type'] == 'application/x-www-form-urlencoded') {
-					parse_str($content['data'], $GLOBALS['_POST']);
+				if (in_array(self::method(), array('PUT', 'DELETE'))) 
+				{
+					parse_str($content['data'], $GLOBALS['_'.self::method()]);
+					$GLOBALS['_REQUEST'] = array_merge($GLOBALS['_REQUEST'],  $GLOBALS['_'.self::method()]); 
 				}
 			}
-		
-			if(self::method() == 'PUT' || self::method() == 'POST')
-			{
-				if($content['type'] == 'application/json') {
-					$GLOBALS['_POST'] = json_decode($content['data'], true);
+			
+	 		if($content['type'] == 'application/json') 
+	 		{
+	 			if(in_array(self::method(), array('POST', 'PUT', 'DELETE'))) 
+	 			{
+					$GLOBALS['_'.self::method()] = json_decode($content['data'], true);
+					$GLOBALS['_REQUEST'] = array_merge($GLOBALS['_REQUEST'],  $GLOBALS['_'.self::method()]); 
 				}
 			}	
 	 	}
-	}
+	 }
 	
 	/**
 	 * Clone 
@@ -166,9 +170,9 @@ class KRequest
 		if(is_null($result)) {
 			return $default;
 		}
-		
+	
 		// Handle magic quotes compatability
-		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
+		if (get_magic_quotes_gpc() && !in_array($hash, array('FILES', 'SESSION'))) {
 			$result = self::_stripSlashes( $result );
 		}
 
@@ -474,12 +478,16 @@ class KRequest
 	{
 		if(PHP_SAPI != 'cli')
 		{
-			$method   =  strtoupper($_SERVER['REQUEST_METHOD']);
+			$method  =  strtoupper($_SERVER['REQUEST_METHOD']);
 
 			if($method == 'POST')
 			{
 				if(isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
-					$method =  strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+					$method = strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+				}
+				
+				if(self::has('post._method')) {
+					$method = strtoupper(self::get('post._method', 'cmd'));
 				}
 			}
 		} 
@@ -606,7 +614,10 @@ class KRequest
 	 */
 	protected static function _stripSlashes( $value )
 	{
-		$value = is_array( $value ) ? array_map( array( 'KRequest', '_stripSlashes' ), $value ) : stripslashes( $value );
+		if(!is_object($value)) {
+			$value = is_array( $value ) ? array_map( array( 'KRequest', '_stripSlashes' ), $value ) : stripslashes( $value );
+		}
+		
 		return $value;
 	}
 }

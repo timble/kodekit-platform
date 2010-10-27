@@ -26,6 +26,27 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * @var	string|object
 	 */
 	protected $_controller;
+	
+	/**
+	 * Default controller name
+	 *
+	 * @var	string
+	 */
+	protected $_controller_default;
+	
+	/**
+	 * The request data
+	 * 
+	 * @var KConfig
+	 */
+	protected $_request;
+	
+	/**
+	 * The request persistency
+	 * 
+	 * @var boolean
+	 */
+	protected $_request_persistent;
 
 	/**
 	 * Constructor.
@@ -35,13 +56,24 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-
+		
+		//Set the request
+		$this->_request = $config->request;
+		
+		//Set the request persistency
+		$this->_request_persistent = $config->request_persistent;
+		
+		//Set the controller default
+		$this->_controller_default = $config->controller_default;
+		
 		if($config->controller !== null) {
 			$this->setController($config->controller);
 		}
 
-		if(KRequest::method() != 'GET') {
-			$this->registerCallback('after.dispatch', array($this, 'forward'));
+		if(KRequest::method() != 'GET') 
+		{
+			$this->registerCallback('before.dispatch', array($this, 'authorize'));
+			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
 
 	  	$this->registerCallback('after.dispatch', array($this, 'render'));
@@ -58,7 +90,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller'	=> null
+        	'controller'			=> null,
+    		'controller_default'	=> $this->_identifier->package,
+    		'request'				=> KRequest::get('get', 'string'),
+    		'request_persistent' 	=> false
         ));
 
         parent::_initialize($config);
@@ -69,16 +104,16 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 *
 	 * @return	object	The controller.
 	 */
-	public function getController($controller = null)
+	public function getController()
 	{
-		if($controller && !$this->_controller)
+		if(!$this->_controller)
 		{
 			$application 	= $this->_identifier->application;
 			$package 		= $this->_identifier->package;
 
 			//Get the controller name
-			$controller = KRequest::get('get.controller', 'cmd', $controller);
-
+			$controller = KRequest::get('get.view', 'cmd', $this->_controller_default);
+			
 			//In case we are loading a subview, we use the first part of the name as controller name
 			if(strpos($controller, '.') !== false)
 			{
@@ -92,8 +127,14 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			if(KInflector::isPlural($controller)) {
 				$controller = KInflector::singularize($controller);
 			}
+			
+			$config = array(
+        		'request' 	   => $this->_request,
+        		'persistent'   => $this->_request_persistent,
+        		'auto_display' => true
+        	);
 
-			$this->_controller = new KIdentifier($application.'::com.'.$package.'.controller.'.$controller);
+			$this->_controller = KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $config);
 		}
 
 		return $this->_controller;
@@ -109,13 +150,18 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function setController($controller)
 	{
-		$identifier = KFactory::identify($controller);
+		if(!($controller instanceof KControllerAbstract))
+		{
+			$identifier = KFactory::identify($controller);
 
-		if($identifier->path[0] != 'controller') {
-			throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
+			if($identifier->path[0] != 'controller') {
+				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
+			}
+
+			$this->_controller = $identifier;
 		}
-
-		$this->_controller = $identifier;
+		
+		$this->_controller = $controller;
 		return $this;
 	}
 
@@ -155,6 +201,19 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
 		return $action;
 	}
+	
+	/**
+	 * Get the data from the reques based the request method
+	 *
+	 * @return	array 	An array with the request data
+	 */
+	public function getData()
+	{
+		$method = KRequest::method();
+        $data   = $method != 'GET' ? KRequest::get(strtolower($method), 'raw') : null;
+        
+        return $data;
+	}
 
 	/**
 	 * Dispatch the controller
@@ -166,33 +225,32 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 *
 	 * @return	KDispatcherAbstract
 	 */
-	protected function _actionDispatch($controller)
-	{
-        try
-        {
-        	$config = array(
-        		'request' 	   => KRequest::get('get', 'url'),
-        		'persistent'   => true,
-        		'auto_display' => true
-        	);
-
-        	$data   = KRequest::get('post', 'raw');
-        	$action = $this->getAction();
-
-        	$result = KFactory::get($this->getController($controller), $config)->execute($action, $data);
+	protected function _actionDispatch(KCommandContext $context)
+	{        	
+		if($context->data) {
+        	$this->_controller_default = KConfig::toData($context->data);
         }
-        catch (KControllerException $e)
-        {
-        	if($e->getCode() == KHttp::STATUS_UNAUTHORIZED)
-        	{
-				KFactory::get('lib.koowa.application')
-					->redirect( 'index.php', JText::_($e->getMessage()) );
-        	}
-        	// Re-throw, we don't know what to do with other error codes yet
-        	else throw $e;
-        }
-
+        	
+        $result = $this->getController()->execute($this->getAction(), $this->getData());
         return $result;
+	}
+	
+	/**
+	 * Check the token to prevent CSRF exploits
+	 *
+	 * @return  void|false Returns false if the authorization failed
+	 * @throws 	KDispatcherException
+	 */
+	public function _actionAuthorize(KCommandContext $context)
+	{
+		$req	= KRequest::get('request._token', 'md5');
+       	$token	= JUtility::getToken();
+       	 	
+        if($req !== $token)
+        {
+        	throw new KDispatcherException('Invalid token or session time-out.', KHttp::UNAUTHORIZED);
+        	return false;
+        }
 	}
 
 	/**
@@ -232,7 +290,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	protected function _actionRender(KCommandContext $context)
 	{
 		if(is_string($context->result)) {
-			echo $context->result;
+			return $context->result;
 		}
 	}
 }

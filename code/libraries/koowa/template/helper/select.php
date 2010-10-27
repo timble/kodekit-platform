@@ -139,7 +139,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			
 			if ($config->selected instanceof KConfig)
 			{
-				foreach ($selected as $value)
+				foreach ($config->selected as $value)
 				{
 					$sel = is_object( $value ) ? $value->{$config->key} : $value;
 					if ($key == $sel)
@@ -151,8 +151,9 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			} 
 			else $extra .= ($key == $config->selected ? 'checked="checked"' : '');
 				
-			$html[] = '<label for="'.$name.$id.'">'.$text.'</label>';
 			$html[] = '<input type="radio" name="'.$name.'" id="'.$name.$id.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
+			$html[] = '<label for="'.$name.$id.'">'.$text.'</label>';
+			$html[] = '<br />';
 		}
 
 		return implode(PHP_EOL, $html);

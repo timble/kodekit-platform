@@ -38,4 +38,11 @@ interface KCommandInterface
 	 * @return string A string that is unique, or NULL
 	 */
 	public function getHandle();
+	
+	/**
+	 * Get the priority of the command
+	 *
+	 * @return	integer The command priority
+	 */
+  	public function getPriority();
 }

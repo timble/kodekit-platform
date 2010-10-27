@@ -20,20 +20,39 @@
 class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
 	/**
-	 * Find any <script src="" /> or <script></script> elements and push them into the document
+	 * Find any <script src="" /> or <script></script> elements and render them
 	 *
 	 * @param string Block of text to parse
 	 * @return KTemplateFilterStyle
 	 */
 	public function write(&$text)
 	{
+		//Parse the script information
+		$scripts = $this->_parseScripts($text);
+		
+		//Prepend the script information
+		$text = $scripts.$text; 
+		
+		return $this;
+	}
+	
+	/**
+	 * Parse the text for script tags
+	 * 
+	 * @param string Block of text to parse
+	 * @return string
+	 */
+	protected function _parseScripts(&$text)
+	{
+		$scripts = '';
+		
 		$matches = array();
 		if(preg_match_all('#<script\ src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
-			foreach($matches[1] as $key => $match) 
+			foreach(array_unique($matches[1]) as $key => $match) 
 			{
 				$attribs = $this->_parseAttributes( $matches[2][$key]);
-				KFactory::get($this->_template->getView())->addScript($match, true, $attribs);
+				$scripts .= $this->_renderScript($match, true, $attribs);
 			}
 			
 			$text = str_replace($matches[0], '', $text);
@@ -45,12 +64,35 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 			foreach($matches[2] as $key => $match) 
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
-				KFactory::get($this->_template->getView())->addScript($match, false, $attribs);
+				$scripts .= $this->_renderScript($match, false, $attribs);
 			}
 			
 			$text = str_replace($matches[0], '', $text);
 		}
 		
-		return $this;
+		return $scripts;
+	}
+	
+	/**
+	 * Render script information
+	 * 
+	 * @param string	The script information
+	 * @param boolean	True, if the script information is a URL.
+	 * @param array		Associative array of attributes
+	 * @return string 	
+	 */
+	protected function _renderScript($script, $link, $attribs = array())
+	{
+		$attribs = KHelperArray::toString($attribs);
+		
+		if(!$link) 
+		{
+			$html  = '<script type="text/javascript" '.$attribs.'>'."\n";
+			$html .= trim($script);
+			$html .= '</script>'."\n";
+		}
+		else $html = '<script type="text/javascript" src="'.$script.'" '.$attribs.'></script>'."\n";
+		
+		return $html;
 	}
 }

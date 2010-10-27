@@ -20,7 +20,7 @@ class KToolbarButtonDivider extends KToolbarButtonAbstract
 {
 	public function render()
 	{
-		return '</tr></table><table class="toolbar"><td class="divider"></td></table<table class="toolbar"><tr>';
+		return '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
 	}
 
 }

@@ -18,7 +18,6 @@
  */
 class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 {
-
 	/**
 	 * Get the methods that are available for mixin based
 	 *
@@ -47,6 +46,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function _buildQueryWhere(KDatabaseQuery $query)
 	{
+		
 	}
 
 	/**
@@ -69,10 +69,14 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			$new = $this->ordering + $change;
 			$new = $new <= 0 ? 1 : $new;
 
-			$query = KFactory::tmp('lib.koowa.database.query');
+			$table = $this->getTable();
+			$db    = $table->getDatabase();
+			$query = $db->getQuery();
+			
+			//Build the where query
 			$this->_buildQueryWhere($query);
 
-			$update =  'UPDATE `#__'.KFactory::get($this->getTable())->getBase().'` ';
+			$update =  'UPDATE `#__'.$table->getBase().'` ';
 			if($change < 0) 
 			{
 				$update .= 'SET ordering = ordering+1 ';
@@ -87,8 +91,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			}
 			
 			$update .= (string) $query;
-
-			KFactory::get($this->getTable())->getDatabase()->execute($update);
+			$db->execute($update);
 
 			$this->ordering = $new;
 			$this->save();
@@ -105,16 +108,18 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function reorder()
 	{
-		$table	= KFactory::get($this->getTable());
+		$table	= $this->getTable();
 		$db 	= $table->getDatabase();
-		$query 	= KFactory::tmp('lib.koowa.database.query');
+		$query 	= $db->getQuery();
+		
+		//Build the where query
 		$this->_buildQueryWhere($query);
 
 		$db->execute("SET @order = 0");
 		$db->execute(
 			 'UPDATE #__'.$table->getBase().' '
 			.'SET ordering = (@order := @order + 1) '
-			.(string) $query
+			.(string) $query.' '
 			.'ORDER BY ordering ASC'
 		);
 
@@ -135,11 +140,17 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
     	if(isset($row->ordering) && $row->ordering <= 0)
     	{
-        	$select = 'SELECT MAX(ordering) FROM `#__'.$context->table.'`';
-        	$query 	= KFactory::tmp('lib.koowa.database.query');
-			$this->_buildQueryWhere($query);
+        	$table	= $context->caller->getTable();
+			$db 	= $table->getDatabase();
+			$query 	= $db->getQuery();
+    		
+			//Build the where query
+			$this->_buildQueryWhere($query);;
+			
+    		$select = 'SELECT MAX(ordering) FROM `#__'.$context->table.'`';
 			$select .= (string) $query;
-    		$row->ordering = (int) $context->caller->getDatabase()->select($select, KDatabase::FETCH_FIELD) + 1;
+    		
+			$row->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
         }
     }
 

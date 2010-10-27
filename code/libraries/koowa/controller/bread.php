@@ -46,11 +46,7 @@ abstract class KControllerBread extends KControllerAbstract
 		}
 		
 		//Set the request
-		if(!empty($config->request)) {
-			$this->_request = $config->request;
-		} else {
-			$this->_request = new KConfig();
-		}
+		$this->setRequest((array) KConfig::toData($config->request));
 		
 		//Register the load and save request function to make the request persistent
 		if($config->persistent)
@@ -115,7 +111,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function execute($action, $data = null)
 	{
-		KFactory::get($this->getModel())->set($this->getRequest());
+		$this->getModel()->set($this->getRequest());
 
 		return parent::execute($action, $data);
 	}
@@ -148,19 +144,20 @@ abstract class KControllerBread extends KControllerAbstract
 	 * This functions merges the request information with any model state information
 	 * that was saved in the session and returns the result.
 	 *
+	 * @param 	KCommandContext		The active command context
 	 * @return array	An associative array of request information
 	 */
 	public function loadRequest(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
-		$identifier  = KFactory::get($this->getModel())->getIdentifier().'.'.$this->_action;
+		$identifier  = $this->getModel()->getIdentifier().'.'.$this->_action;
 		$state       = KRequest::get('session.'.$identifier, 'raw', array());
 			
 		//Append the data to the request object
 		$this->_request->append($state);
 		
 		//Push the request in the model
-		KFactory::get($this->getModel())->set($this->getRequest());
+		$this->getModel()->set($this->getRequest());
 		
 		return $this;
 	}
@@ -168,11 +165,12 @@ abstract class KControllerBread extends KControllerAbstract
 	/**
 	 * Saves the model state in the session
 	 *
+	 * @param 	KCommandContext		The active command context
 	 * @return KControllerBread
 	 */
 	public function saveRequest(KCommandContext $context)
 	{
-		$model  = KFactory::get($this->getModel());
+		$model  = $this->getModel();
 		$state  = $model->get();
 
 		// Built the session identifier based on the action
@@ -199,7 +197,7 @@ abstract class KControllerBread extends KControllerAbstract
 			// Models are always plural
 			$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
 
-			$this->_model = $identifier;
+			$this->_model = KFactory::get($identifier);
 		}
 
 		return $this->_model;
@@ -215,25 +213,30 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function setModel($model)
 	{
-		$identifier = KFactory::identify($model);
+		if(!($model instanceof $model))
+		{
+			$identifier = KFactory::identify($model);
 
-		if($identifier->path[0] != 'model') {
-			throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
+			if($identifier->path[0] != 'model') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
+			}
+
+			$model = KFactory::get($identifier);
 		}
-
-		$this->_model = $identifier;
+		
+		$this->_model = $model;
 		return $this;
 	}
 
 	/**
 	 * Browse a list of items
-	 *
-	 * @return KDatabaseRowset	A rowset object containing the selected rows
+	 * 
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRowset	A rowset object containing the selected rows
 	 */
-	protected function _actionBrowse()
+	protected function _actionBrowse(KCommandContext $context)
 	{
-		$rowset = KFactory::get($this->getModel())
-					->getList();
+		$rowset = $this->getModel()->getList();
 
 		return $rowset;
 	}
@@ -241,12 +244,13 @@ abstract class KControllerBread extends KControllerAbstract
 	/**
 	 * Display a single item
 	 *
-	 * @return KDatabaseRow	A row object containing the selected row
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow	A row object containing the selected row
 	 */
-	protected function _actionRead()
+	protected function _actionRead(KCommandContext $context)
 	{
-		$row = KFactory::get($this->getModel())
-					->getItem();
+		$row = $this->getModel()
+				->getItem();
 
 		return $row;
 	}
@@ -254,15 +258,14 @@ abstract class KControllerBread extends KControllerAbstract
 	/**
 	 * Generic edit action, saves over an existing item
 	 *
-	 * @param	mixed 	Either a scalar, an associative array, an object
-	 * 					or a KDatabaseRow
-	 * @return KDatabaseRowset 	A rowset object containing the updated rows
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRowset A rowset object containing the updated rows
 	 */
-	protected function _actionEdit($data)
+	protected function _actionEdit(KCommandContext $context)
 	{
-		$rowset = KFactory::get($this->getModel())
-				->getList()
-				->setData($data);
+		$rowset = $this->getModel()
+					->getList()
+					->setData(KConfig::toData($context->data));
 
 		$rowset->save();
 
@@ -272,16 +275,15 @@ abstract class KControllerBread extends KControllerAbstract
 	/**
 	 * Generic add action, saves a new item
 	 *
-	 * @param	mixed 	Either a scalar, an associative array, an object
-	 * 					or a KDatabaseRow
-	 * @return KDatabaseRow 	A row object containing the new data
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow 	A row object containing the new data
 	 */
-	protected function _actionAdd($data)
+	protected function _actionAdd(KCommandContext $context)
 	{
-		$row = KFactory::get($this->getModel())
+		$row = $this->getModel()
 				->getItem()
-				->setData($data);
-				
+				->setData(KConfig::toData($context->data));
+		
 		$row->save();
 
 		return $row;
@@ -290,15 +292,14 @@ abstract class KControllerBread extends KControllerAbstract
 	/**
 	 * Generic delete function
 	 *
-	 * @param	mixed 	Either a scalar, an associative array, an object
-	 * 					or a KDatabaseRow
-	 * @return KDatabaseRowset	A rowset object containing the deleted rows
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRowset	A rowset object containing the deleted rows
 	 */
-	protected function _actionDelete($data)
+	protected function _actionDelete(KCommandContext $context)
 	{
-		$rowset = KFactory::get($this->getModel())	
+		$rowset = $this->getModel()	
 					->getList()
-					->setData($data);
+					->setData(KConfig::toData($context->data));
 							
 		$rowset->delete();
 		
@@ -324,7 +325,7 @@ abstract class KControllerBread extends KControllerAbstract
 		if(!isset($this->_mixed_methods[$method])) 
         {
 			//Check if the method is a state property
-			$state = KFactory::get($this->getModel())->getState();
+			$state = $this->getModel()->getState();
 		
 			if(isset($state->$method) || in_array($method, array('layout', 'view', 'format'))) 
 			{

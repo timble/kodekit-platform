@@ -20,13 +20,18 @@ class ModDefaultTemplate extends KTemplateDefault
 	 */
 	public function setView($view)
 	{
-		$identifier = KFactory::identify($view);
+		if(!($view instanceof KViewAbstract))
+		{
+			$identifier = KFactory::identify($view);
 		
-		if($identifier->name != 'html') {
-			throw new KViewException('Identifier: '.$identifier.' is not a view identifier');
+			if($identifier->name != 'html') {
+				throw new KViewException('Identifier: '.$identifier.' is not a view identifier');
+			}
+		
+			$view = KFactory::get($identifier);
 		}
 		
-		$this->_view = $identifier;
+		$this->_view = $view;
 		return $this;
 	}
 }

@@ -19,10 +19,5 @@
  */
 interface KTemplateFilterInterface  extends KCommandInterface, KObjectIdentifiable
 {
-	/**
-	 * Get the priority of the filter
-	 *
-	 * @return	integer The command priority
-	 */
-  	public function getPriority();
+	
 }

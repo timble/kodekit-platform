@@ -16,7 +16,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcherDefault extends KDispatcherDefault
+class ComDefaultDispatcher extends KDispatcherDefault
 { 
 	/**
 	 * Dispatch the controller and redirect
@@ -31,16 +31,18 @@ class ComDefaultDispatcherDefault extends KDispatcherDefault
 	 *
 	 * @return	KDispatcherDefault
 	 */
-	protected function _actionDispatch($view)
+	protected function _actionDispatch(KCommandContext $context)
 	{
 		//Redirect if no view information can be found in the request
 		if(!KRequest::has('get.view')) 
 		{
+			$view = $context->data ? $context->data : $this->_controller_default;
+			
 			KFactory::get('lib.koowa.application')
 				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
 		}
 		
-		return parent::_actionDispatch($view);
+		return parent::_actionDispatch($context);
 	}
 	
 	/**

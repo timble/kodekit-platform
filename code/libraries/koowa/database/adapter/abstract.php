@@ -68,6 +68,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 * @var string
 	 */
 	protected $_name_quote = '`';
+	
+	/**
+	 * The connection options
+	 *
+	 * @var KConfig
+	 */
+	protected $_options = null;
 
 	/**
 	 * Constructor.
@@ -78,11 +85,16 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 */
 	public function __construct( KConfig $config = null )
 	{
-        //If no config is passed create it
+		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
 		
 		// Initialize the options
         parent::__construct($config);
+        
+        // Set the connection
+        if(is_resource($config->connection)) {
+        	$this->setConnection($config->connection);
+        }
 
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($config->charset)) {
@@ -91,6 +103,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
 		// Set the table prefix
 		$this->_table_prefix = $config->table_prefix;
+		
+		// Set the connection options
+		$this->_options = $config->options;
 		
 		// Mixin a command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
@@ -117,11 +132,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'command_chain' 	=>  new KCommandChain(),
-        	'charset'			=> 'UTF-8',
+    		'options'			=> array(),
+    		'charset'			=> 'UTF-8',
        	 	'table_prefix'  	=> 'jos_',
+    		'command_chain' 	=>  new KCommandChain(),
     		'dispatch_events'   => true,
     		'enable_callbacks' 	=> false,
+    		'connection'		=> null,
         ));
         
         parent::_initialize($config);
@@ -236,7 +253,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->mode		= $mode;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('before.select', $context) === true) 
+		if($this->getCommandChain()->run('before.select', $context) !== false) 
 		{
 			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
 			{
@@ -275,6 +292,63 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
 		return KConfig::toData($context->result);
 	}
+	
+	/**
+     * Preforms a show query
+     *
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * 							value must be one of the KDatabase::FETCH_* constants.
+     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * 					    	In all cases, FALSE is returned on failure.
+     */
+	public function show($query, $mode = KDatabase::FETCH_ARRAY_LIST)
+	{
+		$context = $this->getCommandContext();
+		$context->query	 	= $query;
+		$context->operation = KDatabase::OPERATION_SHOW;
+		$context->mode		= $mode;
+
+		// Excute the insert operation
+		if($this->getCommandChain()->run('before.show', $context) !== false) 
+		{
+			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
+			{
+				switch($context->mode)
+				{
+					case KDatabase::FETCH_ARRAY       : 
+						$context->result = $this->_fetchArray($result);	
+						break;
+						
+					case KDatabase::FETCH_ARRAY_LIST  : 
+						$context->result = $this->_fetchArrayList($result); 
+						break;
+						
+					case KDatabase::FETCH_FIELD       : 
+						$context->result = $this->_fetchField($result); 
+						break;
+						
+					case KDatabase::FETCH_FIELD_LIST  : 
+						$context->result = $this->_fetchFieldList($result); 
+						break;
+						
+					case KDatabase::FETCH_OBJECT      : 
+						$context->result = $this->_fetchObject($result); 
+						break;
+						
+					case KDatabase::FETCH_OBJECT_LIST : 
+						$context->result = $this->_fetchObjectList($result); 
+						break;
+						
+					default : $result->free();
+				}
+			}
+				
+			$this->getCommandChain()->run('after.show', $context);
+		}
+
+		return KConfig::toData($context->result);
+	}
 
 	/**
      * Inserts a row of data into a table.
@@ -284,7 +358,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param string  	The table to insert data into.
      * @param array 	An associative array where the key is the colum name and
      * 					the value is the value to insert for that column.
-     * @return integer  If successfull the new rows primary key value, false is no row was inserted.
+     * @return bool|integer  Returns the id on a table with a column having the AUTO_INCREMENT attribute. If the 
+     *                       table does not have a column with the AUTO_INCREMENT attribute, this function will 
+     *                       return zero or FALSE if the insert failed.
      */
 	public function insert($table, array $data)
 	{
@@ -294,10 +370,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_INSERT;
 
 		//Excute the insert operation
-		if($this->getCommandChain()->run('before.insert', $context) === true)
+		if($this->getCommandChain()->run('before.insert', $context) !== false)
 		{
 			//Check if we have valid data to insert, if not return false
-			if(!empty($context->data)) 
+			if(count($context->data)) 
 			{
 				foreach($context->data as $key => $val)
 				{
@@ -305,13 +381,16 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 					$keys[] = '`'.$key.'`';
 				}
 
-				$sql = 'INSERT INTO '.$this->quoteName('#__'.$context->table )
+				$context->query = 'INSERT INTO '.$this->quoteName('#__'.$context->table )
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
 				//Execute the query
-				$context->result = $this->execute($sql);
+				if($context->result = $this->execute($context->query)) {
+					$context->insert_id = $this->_insert_id;
+				} else {
+					$context->insert_id = false;
+				}
 			
-				$context->insert_id = $this->_insert_id;
 				$this->getCommandChain()->run('after.insert', $context);
 			}
 			else $context->insert_id = false;
@@ -340,22 +419,22 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_UPDATE;
 
 		//Excute the update operation
-		if($this->getCommandChain()->run('before.update', $context) ===  true)
+		if($this->getCommandChain()->run('before.update', $context) !==  false)
 		{
-			if(!empty($context->data)) 
+			if(count($context->data)) 
 			{				
 				foreach($context->data as $key => $val) {
 					$vals[] = '`'.$key.'` = '.$this->quoteValue($val);
 				}
 				
 				//Create query statement
-				$sql = 'UPDATE '.$this->quoteName('#__'.$context->table)
+				$context->query = 'UPDATE '.$this->quoteName('#__'.$context->table)
 			  		.' SET '.implode(', ', $vals)
 			  		.' '.$context->where
 				;
 						
 				//Execute the query
-				$context->result = $this->execute($sql);
+				$context->result = $this->execute($context->query);
 
 				$context->affected = $this->_affected_rows;
 				$this->getCommandChain()->run('after.update', $context);
@@ -382,15 +461,15 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->operation	= KDatabase::OPERATION_DELETE;
 
 		//Excute the delete operation
-		if($this->getCommandChain()->run('before.delete', $context) ===  true)
+		if($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
 			//Create query statement
-			$sql = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
+			$context->query = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
 				  .' '.$context->where
 			;
 
 			//Execute the query
-			$context->result = $this->execute($sql);
+			$context->result = $this->execute($context->query);
 
 			$context->affected = $this->_affected_rows;
 			$this->getCommandChain()->run('after.delete', $context);
@@ -415,8 +494,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	{	
 		//Replace the database table prefix
 		$sql = $this->replaceTablePrefix( $sql );
-	
+		
 		$result = $this->_connection->query($sql, $mode);
+		
 		if($result === false) {
 			throw new KDatabaseException($this->_connection->error.' of the following query : '.$sql, $this->_connection->errno);
 		}

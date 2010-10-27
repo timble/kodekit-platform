@@ -130,7 +130,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			$identifier->name	= KInflector::isPlural($name) ? $name : KInflector::pluralize($name);
 			$identifier->path	= array('model');
 			
-			$this->_model = $identifier;
+			$this->_model = KFactory::get($identifier);
 		}
        	
 		return $this->_model;
@@ -146,13 +146,18 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function setModel($model)
 	{
-		$identifier = KFactory::identify($model);
+		if(!($model instanceof $model))
+		{
+			$identifier = KFactory::identify($model);
+			
+			if($identifier->path[0] != 'model') {
+				throw new KViewException('Identifier: '.$identifier.' is not a model identifier');
+			}
 		
-		if($identifier->path[0] != 'model') {
-			throw new KViewException('Identifier: '.$identifier.' is not a model identifier');
+			$model = KFactory::get($identifier);
 		}
 		
-		$this->_model = $identifier;
+		$this->_model = $model;
 		return $this;
 	}
 

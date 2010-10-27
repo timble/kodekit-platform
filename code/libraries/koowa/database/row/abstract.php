@@ -35,7 +35,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     protected $_modified = array();
     
     /**
-     * Tracks the the status the row
+     * Tracks the status the row
      * 
      * Status values are:
      * 
@@ -52,6 +52,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      * 
      */
     protected $_status = null;
+    
+    /**
+     * The status message
+     * 
+     * @var string
+     */
+    protected $_status_message = '';
     
     /**
      * Tracks if row data is new (i.e., not in the database yet).
@@ -94,6 +101,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 		if(isset($config->data))  {
 			$this->setData($config->data->toArray(), $this->_new);
 		}
+		
+		//Set the status
+		if(isset($config->status)) {
+			$this->setStatus($config->status);
+		}
+		
+		//Set the status message
+		if(!empty($config->status_message)) {
+			$this->setStatusMessage($config->status_message);
+		}
     }
 
     /**
@@ -107,9 +124,11 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'table' => null,
-    		 'data'	=> null,
-       		 'new'	=> true
+            'table' 			=> null,
+    		 'data'				=> null,
+       		 'new'				=> true,
+    		 'status' 		    => null,
+    		 'status_message' 	=> '', 
         ));
         
         parent::_initialize($config);
@@ -127,9 +146,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 	}
 
 	/**
-     * Returns the status of this row.
+     * Returns the status
      * 
-     * @return string The status value.
+     * @return string The status
      */
     public function getStatus()
     {
@@ -137,10 +156,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     }
     
 	/**
-     * Set the status of this row
+     * Set the status
      * 
      * @param 	string|null 	The status value or NULL to reset the status
-     * @return	KDatabaseRowsetAbstract
+     * @return	KDatabaseRowAbstract
      */
     public function setStatus($status)
     {
@@ -150,6 +169,29 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     	
     	return $this;
     }
+    
+    /**
+     * Returns the status message
+     * 
+     * @return string The status message
+     */
+	public function getStatusMessage()
+   	{
+     	return $this->_status_message;
+  	}
+  	
+  	
+	/**
+     * Set the status message
+     * 
+     * @param 	string	 	The status message
+     * @return	KDatabaseRowAbstract
+     */
+	public function setStatusMessage($message)
+   	{
+     	$this->_status_message = $message;
+     	return $this;
+  	}
 	
 	/**
 	 * Get the identifier for the table with the same name
@@ -162,9 +204,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 		{
 			$identifier 		= clone $this->_identifier;
 			$identifier->name	= KInflector::tableize($identifier->name);
-			$identifier->path	= array('table');
+			$identifier->path	= array('database', 'table');
 		
-			$this->_table = $identifier;
+			$this->_table = KFactory::get($identifier);
 		}
        	
 		return $this->_table;
@@ -180,13 +222,18 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 	 */
 	public function setTable($table)
 	{
-		$identifier = KFactory::identify($table);
+		if(!($table instanceof KDatabaseTableAbstract))
+		{
+			$identifier = KFactory::identify($table);
+	
+			if($identifier->path[0] != 'table') {
+				throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
+			}
 
-		if($identifier->path[0] != 'table') {
-			throw new KDatabaseRowException('Identifier: '.$identifier.' is not a table identifier');
+			$table = KFactory::get($identifier);
 		}
 		
-		$this->_table = $identifier;
+		$this->_table = $table;
 		return $this;
 	}
 	
@@ -199,7 +246,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 	{
 		$result = false;
 		
-		$table = KFactory::get($this->getTable());
+		$table = $this->getTable();
 		
 		//Filter the data
 		$data  = $table->filter($this->getData(true), true);
@@ -233,9 +280,9 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     	$result = false;
     	
     	if($this->_new) {
-    		$result = KFactory::get($this->getTable())->insert($this);
+    		$result = $this->getTable()->insert($this);
        	} else {
-        	$result = KFactory::get($this->getTable())->update($this);
+        	$result = $this->getTable()->update($this);
         }
     	    
         return $result;
@@ -251,7 +298,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     	$result = false;
     	
     	if(!$this->_new) {
-    		$result = KFactory::get($this->getTable())->delete($this);
+    		$result = $this->getTable()->delete($this);
     	}
     	
         return $result;
@@ -264,7 +311,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function reset()
     {
-    	$this->_data = KFactory::get($this->getTable())->getDefaults();
+    	$this->_data = $this->getTable()->getDefaults();
     	$this->setStatus(NULL);
         
     	return true;
@@ -277,10 +324,10 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
 	public function count()
 	{
-		$data = KFactory::get($this->getTable())
-					->filter($this->getData(true), true);
+		$data  = $this->getTable()->filter($this->getData(true), true);
+		$count =  $this->getTable()->count($data);
 		
-		return KFactory::get($this->getTable())->count($data);
+		return $count;
 	}
 
 	/**
@@ -342,7 +389,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function __unset($column)
     {
-    	$field = KFactory::get($this->getTable())->getColumn($column);
+    	$field = $this->getTable()->getColumn($column);
     	
     	if(isset($field) && $field->required) {
     		$this->_data[$column] = $field->default;
@@ -441,12 +488,12 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
    	 	//If the method hasn't been mixed yet, load all the behaviors
     	if(!isset($this->_mixed_methods[$method])) 
         {
-        	foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
+        	foreach($this->getTable()->getBehaviors() as $behavior) {
 				$this->mixin($behavior);
 			}
         }
     	
-        //If the method is of the formet is[Bahavior] handle it 
+        //If the method is of the form is[Bahavior] handle it 
     	$parts = KInflector::explode($method);
     	
     	if($parts[0] == 'is' && isset($parts[1])) 

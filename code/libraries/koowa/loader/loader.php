@@ -170,7 +170,9 @@ class KLoader
 		} 
 		else 
 		{
-			$class = new KIdentifier($class);
+			if(!($class instanceof KIdentifier)) {
+				$class = new KIdentifier($class);
+			}
 			
 			$adapters = array_reverse(self::$_adapters);
 			foreach($adapters as $adapter)

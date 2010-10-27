@@ -148,9 +148,9 @@ abstract class KFilterAbstract implements KFilterInterface
 	 *
 	 * @return this
 	 */
-	public function addFilter(KFilterInterface $filter, $priority = KCommand::PRIORITY_NORMAL)
+	public function addFilter(KFilterInterface $filter)
 	{	
-		$this->_chain->enqueue($filter, $priority);
+		$this->_chain->enqueue($filter, $filter->getPriority());
 		return $this;
 	}
 	
@@ -166,6 +166,16 @@ abstract class KFilterAbstract implements KFilterInterface
 	{
 		return spl_object_hash( $this );
 	}
+	
+	/**
+	 * Get the priority of the filter
+	 *
+	 * @return	integer The command priority
+	 */
+  	public function getPriority()
+  	{
+  		return KCommand::PRIORITY_NORMAL;
+  	}
 
 	/**
 	 * Validate a variable

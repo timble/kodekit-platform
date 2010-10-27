@@ -2,7 +2,8 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package     Koowa_Dispatcher
+ * @package     Koowa_Components
+ * @subpackage  Default
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
  * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
  * @link     	http://www.koowa.org
@@ -16,8 +17,25 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcherDefault extends KDispatcherDefault
+class ComDefaultDispatcher extends KDispatcherDefault
 { 
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return 	void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'request_persistent' => true
+        ));
+
+        parent::_initialize($config);
+    }
+	
 	/**
 	 * Dispatch the controller and redirect
 	 * 
@@ -31,16 +49,18 @@ class ComDefaultDispatcherDefault extends KDispatcherDefault
 	 *
 	 * @return	KDispatcherDefault
 	 */
-	protected function _actionDispatch($view)
+	protected function _actionDispatch(KCommandContext $context)
 	{
 		//Redirect if no view information can be found in the request
 		if(!KRequest::has('get.view')) 
 		{
+			$view = $context->data ? $context->data : $this->_controller_default;
+			
 			KFactory::get('lib.koowa.application')
 				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
 		}
 		
-		return parent::_actionDispatch($view);
+		return parent::_actionDispatch($context);
 	}
 	
 	/**
@@ -54,17 +74,15 @@ class ComDefaultDispatcherDefault extends KDispatcherDefault
 	protected function _actionRender(KCommandContext $context)
 	{
 		$controller = KFactory::get($this->getController());
-		$view       = KFactory::get($controller->getView());
+		$view       = $controller->getView();
 	
 		$document = KFactory::get('lib.joomla.document');
 		$document->setMimeEncoding($view->mimetype);
 		
 		if($view instanceof ComDefaultViewHtml)
 		{
-			$toolbar  = KFactory::get($view->getToolbar());
-			
-			$document->setBuffer($toolbar->render(), 'modules', 'toolbar');
-			$document->setBuffer($toolbar->renderTitle(), 'modules', 'title');
+			$document->setBuffer($view->getToolbar()->render(), 'modules', 'toolbar');
+			$document->setBuffer($view->getToolbar()->renderTitle(), 'modules', 'title');
 			
 			if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
 				KRequest::set('get.hidemainmenu', 1);

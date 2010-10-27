@@ -14,10 +14,6 @@
  * Koowa plugins can handle a number of events that are dynamically generated. The following 
  * is a list of available events. This list is not meant to be exclusive.
  * 
- * onApplicationBefore[Action]
- * onApplicationAfte[Action]  
- * where [Action] is Initialise, Route, Dispatch, Render, Login, Logout, Redirect or Close
- * 
  * onControllerBefore[Action]
  * onControllerAfter[Action]
  * where [Action] is Browse, Read, Edit, Add, Delete or any custom controller action
@@ -32,7 +28,7 @@
  * <?php
  *  class plgKoowaFoo extends plgKoowaDefault
  * {
- * 		public function onApplicationBeforeRoute(KCommandcontext $context)
+ * 		public function onControllerBeforeBrowse(KCommandcontext $context)
  * 		{
  * 			//The caller is a reference to the object that is triggering this event
  * 			$caller = $context->caller;
@@ -53,7 +49,7 @@
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */
-abstract class PlgKoowaDefault extends KEventHandler
+abstract class PlgKoowaDefault extends KEventListener
 {	
 	/**
 	 * A JParameter object holding the parameters for the plugin

@@ -25,49 +25,56 @@ class KIdentifier implements KIdentifierInterface
 	 *
 	 * @var	string
 	 */
-	public $application = '';
+	protected $_application = '';
 
 	/**
 	 * The identifier type [com|plg|lib|mod]
 	 * 
 	 * @var string
 	 */
-	public $type = '';
+	protected $_type = '';
 	
 	/**
 	 * The identifier package
 	 * 
 	 * @var string
 	 */
-	public $package = '';
+	protected $_package = '';
 
 	/**
 	 * The identifier path 
 	 * 	 
 	 * @var array
 	 */
-	public $path = array();
+	protected $_path = array();
 
 	/**
 	 * The identifier object name
 	 *
 	 * @var string
 	 */
-	public $name = '';
+	protected $_name = '';
 	
 	/**
 	 * The file path
 	 *
 	 * @var	string
 	 */
-	public $filepath = '';
+	protected $_filepath = '';
 	
 	/**
 	 * The classname
 	 *
 	 * @var	string
 	 */
-	public $classname = '';
+	protected $_classname = '';
+	
+	/**
+	 * The identifier
+	 *
+	 * @var	string
+	 */
+	protected $_identifier = '';
 	
 	/**
 	 * Constructor
@@ -83,31 +90,79 @@ class KIdentifier implements KIdentifierInterface
 		if(strpos($identifier, '.') === FALSE) {
 			throw new KIdentifierException('Wrong identifier format : '.$identifier);
 		}
-	
+		
+		//Cache the identifier to increase performance
+		$this->_identifier = $identifier;
+		
 		//Set the application name (if present)
 		if(strpos($identifier, '::')) {	
-			list($this->application, $identifier) = explode('::', $identifier);
+			list($this->_application, $identifier) = explode('::', $identifier);
 		}
 
 		//Explode the parts
 		$parts = explode('.', $identifier);
 
 		// Set the extension
-		$this->type = array_shift($parts);
+		$this->_type = array_shift($parts);
 		
 		// Set the extension
-		$this->package = array_shift($parts);
+		$this->_package = array_shift($parts);
 
 		// Set the name (last part)
 		if(count($parts)) {
-			$this->name = array_pop($parts);
+			$this->_name = array_pop($parts);
 		}
 
 		// Set the path (rest)
 		if(count($parts)) {
-			$this->path = $parts;
+			$this->_path = $parts;
 		}
 	}
+	
+	/** 
+     * Implements the virtual class properties
+     * 
+     * This functions creates a string representation of the identifier.
+     * 
+     * @param 	string 	The virtual property to set.
+     * @param 	string 	Set the virtual property to this value.
+     */
+	public function __set($property, $value)
+	{
+		if(isset($this->{'_'.$property})) 
+		{
+			$this->{'_'.$property} = $value;
+			
+			//Recreate the identifier
+			$this->_identifier = '';
+			$this->_identifier = (string) $this;
+		}
+	}
+	
+	/**
+     * Implements access to virtual properties by reference so that it appears to be 
+     * a public property.
+     * 
+     * @param 	string	The virtual property to return.
+     * @return 	array 	The value of the virtual property.
+     */
+	public function &__get($property)
+	{
+		if(isset($this->{'_'.$property})) {
+			return $this->{'_'.$property};
+		}
+	}
+	
+	/**
+     * This function checks if a virtual property is set.
+     * 
+     * @param 	string	The virtual property to return.
+     * @return 	boolean True if it exists otherwise false.
+     */
+	public function __isset($property)
+    {
+    	return isset($this->{'_'.$property});
+    }
 
 	/**
 	 * Formats the indentifier as a [application::]type.package.[.path].name string
@@ -116,29 +171,29 @@ class KIdentifier implements KIdentifierInterface
 	 */
 	public function __toString()
 	{
-		//Create the identifier string		
-		$identifier = '';
+		if($this->_identifier == '')
+		{
+			if(!empty($this->_application)) {
+				$this->_identifier .= $this->_application.'::';
+			}
 		
-		if(!empty($this->application)) {
-			$identifier .= $this->application.'::';
-		}
+			if(!empty($this->_type)) {
+				$this->_identifier .= $this->_type;
+			}
 		
-		if(!empty($this->type)) {
-			$identifier .= $this->type;
-		}
+			if(!empty($this->_package)) {
+				$this->_identifier .= '.'.$this->_package;
+			}
 		
-		if(!empty($this->package)) {
-			$identifier .= '.'.$this->package;
-		}
-		
-		if(count($this->path)) {
-			$identifier .= '.'.implode('.',$this->path);
+			if(count($this->_path)) {
+				$this->_identifier .= '.'.implode('.',$this->_path);
+			}
+
+			if(!empty($this->_name)) {
+				$this->_identifier .= '.'.$this->_name;
+			}
 		}
 
-		if(!empty($this->name)) {
-			$identifier .= '.'.$this->name;
-		}
-
-		return $identifier;
+		return $this->_identifier;
 	}
 }

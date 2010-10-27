@@ -63,13 +63,14 @@ abstract class KPatternObservable extends KObject
 	 * Attach an observer object
 	 *
 	 * @param 	object 	An observer object to attach
-	 * @return void
+	 * @return KPatternObservable
 	 */
 	public function attach( KPatternObserver $observer )
 	{
 		$handle = $observer->getHandle(); //get the object handle
 		
 		$this->_observers->offsetSet($handle, $observer);
+		return $this;
 	}
 
 	/**

@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package 	Koowa_Event
  */
-class KEventHandler extends KObject implements KPatternObserver, KObjectIdentifiable
+class KEventListener extends KObject implements KPatternObserver, KObjectIdentifiable
 {
 	/**
 	 * Get the object identifier

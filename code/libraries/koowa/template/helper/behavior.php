@@ -175,31 +175,4 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$html .= '<div href="'.$uri.'" class="-koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
 		return $html;
 	}
-
-	/**
-	 * Keep session alive, for example, while editing or creating an article.
-	 */
-	public function keepalive($config = array())
-	{
-		$config = new KConfig($config);
-		$config->append(array(
-			'lifetime'  => 15,
-		));
-		
-		//refresh time is 1 minute less than the liftime
-		$lifetime  = $config->lifetime;
-		$refresh   = ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
-
-		$html  = 
-		"<script>
-		 	function keepAlive( ) {
-				var myAjax = new Ajax( 'index.php', { method: 'get' } ).request();	
-			}
-			window.addEvent('domready', function() { 
-				keepAlive.periodical(".$refresh." ); 
-			})	
-		</script>";		
-
-		return $html;
-	}
 }

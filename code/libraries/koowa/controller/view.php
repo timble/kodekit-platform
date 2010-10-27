@@ -94,32 +94,9 @@ abstract class KControllerView extends KControllerBread
     }
 
 	/**
-	 * Check the token to prevent CSRF exploits before executing the action
-	 *
-	 * @param	string		The action to perform.
-	 * @return	mixed|false The value returned by the called method, false in error case.
-	 * @throws 	KControllerException
-	 */
-	public function execute($action, $data = null)
-	{
-		if(KRequest::method() != 'GET')
-		{
-			$req	= KRequest::get('request._token', 'md5');
-       	 	$token	= JUtility::getToken();
-
-        	if($req !== $token)
-        	{
-        		throw new KControllerException('Invalid token or session time-out.', KHttp::STATUS_UNAUTHORIZED);
-        		return false;
-        	}
-		}
-
-		return parent::execute($action, $data);
-	}
-
-	/**
 	 * Store the referrer in the session
 	 *
+	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
 	public function saveReferrer(KCommandContext $context)
@@ -148,16 +125,17 @@ abstract class KControllerView extends KControllerBread
 	/**
 	 * Display the view
 	 *
+	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
 	public function displayView(KCommandContext $context)
 	{
-		$view = KFactory::get($this->getView());
-
+		$view = $this->getView();
+		
 		if($view instanceof KViewTemplate) {
 			$view->setLayout(isset($this->_request->layout) ? $this->_request->layout : 'default');
 		}
-
+		
 		$context->result = $view->display();
 	}
 
@@ -183,9 +161,9 @@ abstract class KControllerView extends KControllerBread
 			$identifier->path	= array('view', $this->_request->view);
 			$identifier->name	= isset($this->_request->format) ? $this->_request->format : 'html';
 
-			$this->_view = $identifier;
+			$this->_view = KFactory::get($identifier);
 		}
-
+		
 		return $this->_view;
 	}
 
@@ -199,13 +177,18 @@ abstract class KControllerView extends KControllerBread
 	 */
 	public function setView($view)
 	{
-		$identifier = KFactory::identify($view);
+		if(!($view instanceof KViewAbstract))
+		{
+			$identifier = KFactory::identify($view);
 
-		if($identifier->path[0] != 'view') {
-			throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
+			if($identifier->path[0] != 'view') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
+			}
+
+			$this->_view = $view;
 		}
-
-		$this->_view = $identifier;
+		
+		$this->_view = $view;
 		return $this;
 	}
 
@@ -258,12 +241,13 @@ abstract class KControllerView extends KControllerBread
 	/**
 	 * Display a single item
 	 *
-	 * @return KDatabaseRow	A row object containing the selected row
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow	A row object containing the selected row
 	 */
-	protected function _actionRead()
+	protected function _actionRead(KCommandContext $context)
 	{
-		$row = parent::_actionRead();
-
+		$row = parent::_actionRead($context);
+		
 		if(isset($row))
 		{
 			//Lock the row
@@ -275,71 +259,70 @@ abstract class KControllerView extends KControllerBread
 		return $row;
 	}
 
-	/*
+	/**
 	 * Generic save action
 	 *
-	 *	@param	mixed 	Either a scalar, an associative array, an object
-	 * 					or a KDatabaseRow
-	 * @return KDatabaseRow 	A row object containing the saved data
+	 * @param   KCommandContext	A command context object
+	 * @return 	KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _actionSave($data)
+	protected function _actionSave(KCommandContext $context)
 	{
-		if(KFactory::get($this->getModel())->getState()->isUnique())
+		if($this->getModel()->getState()->isUnique())
 		{
 			//Edit returns a rowset
-			$rowset = $this->execute('edit', $data);
+			$rowset = $this->execute('edit', $context);
 
 			// Get the row based on the identity key
-			$row = $rowset->find(KFactory::get($this->getModel())->getState()->id);
+			$row = $rowset->find($this->getModel()->getState()->id);
 
 			//Unlock the row
 			if($row->isLockable()) {
 				$row->unlock();
 			}
 
-		} else $row = $this->execute('add', $data);
+		} else $row = $this->execute('add', $context);
 		
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
 	}
 
-	/*
+	/**
 	 * Generic apply action
 	 *
-	 *	@param	mixed 	Either a scalar, an associative array, an object
-	 * 					or a KDatabaseRow
+	 * @param	KCommandContext	A command context object
 	 * @return 	KDatabaseRow 	A row object containing the saved data
 	 */
-	protected function _actionApply($data)
+	protected function _actionApply(KCommandContext $context)
 	{
-		if(KFactory::get($this->getModel())->getState()->isUnique())
+		if($this->getModel()->getState()->isUnique())
 		{
 			//Edit returns a rowset
-			$rowset = $this->execute('edit', $data);
+			$rowset = $this->execute('edit', $context);
 			
 			// Get the row based on the identity key
-			$row = $rowset->find(KFactory::get($this->getModel())->getState()->id);
+			$row = $rowset->find($this->getModel()->getState()->id);
 
 			//Unlock the row
 			if($row->isLockable()) {
 				$row->unlock();
 			}
 		}
-		else $row = $this->execute('add', $data);
+		else $row = $this->execute('add', $context);
 
 		$this->_redirect = 'view='.$this->_identifier->name.'&id='.$row->id;
 		return $row;
 	}
 
-	/*
+	/**
 	 * Generic cancel action
 	 *
-	 * @return 	void
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow	A row object containing the data of the cancelled object
 	 */
-	protected function _actionCancel()
+	protected function _actionCancel(KCommandContext $context)
 	{
 		//Don't pass through the command chain
-		$row = parent::_actionRead();
+		$row = parent::_actionRead($context);
 
 		if($row->isLockable()) {
 			$row->unlock();
@@ -347,5 +330,17 @@ abstract class KControllerView extends KControllerBread
 
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
+	}
+	
+	/**
+	 * Generic display function
+	 *
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow(set) 	A row(set) object containing the data to display
+	 */
+	protected function _actionDisplay(KCommandContext $context)
+	{
+		$action = KInflector::isPlural($this->getView()->getName()) ? 'browse' : 'read';
+		return $this->execute($action, $context);
 	}
 }

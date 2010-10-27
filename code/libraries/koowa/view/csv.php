@@ -67,7 +67,7 @@ class KViewCsv extends KViewFile
 	public function display()
 	{
 		//Get the rowset
-		$rowset = KFactory::get($this->getModel())->getList();
+		$rowset = $this->getModel()->getList();
 		
 		// Header
 		$this->output .= $this->_arrayToString($rowset->getColumns()).$this->eol;

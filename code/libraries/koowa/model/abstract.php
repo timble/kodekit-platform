@@ -179,7 +179,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 		return $this->_state;
 	}
 
-/**
+	/**
 	 * Method to get a ite
 	 *
 	 * @return  object

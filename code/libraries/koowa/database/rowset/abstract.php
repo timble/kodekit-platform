@@ -107,9 +107,9 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 		{
 			$identifier 		= clone $this->_identifier;
 			$identifier->name	= KInflector::tableize($identifier->name);
-			$identifier->path	= array('table');
+			$identifier->path	= array('database', 'table');
 
-			$this->_table = $identifier;
+			$table = KFactory::get($identifier);
 		}
 
 		return $this->_table;
@@ -125,13 +125,18 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 	 */
 	public function setTable($table)
 	{
-		$identifier = KFactory::identify($table);
+		if(!($table instanceof KDatabaseTableAbstract))
+		{
+			$identifier = KFactory::identify($table);
 	
-		if($identifier->path[0] != 'table') {
-			throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
-		}
+			if($identifier->path[0] != 'table') {
+				throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
+			}
 
-		$this->_table = $identifier;
+			$table = KFactory::get($identifier);
+		}
+		
+		$this->_table = $table;
 		return $this;
 	}
 	
@@ -216,9 +221,11 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function find($key, $value = null)
     {
+    	$result = null;
+    	
     	if(!is_null($value))
     	{
-    		$result = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array('table' => $this->getTable()));
+    		$result = $this->getTable()->getRow();
 
     		foreach ($this as $i => $row) 
     		{
@@ -229,7 +236,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 				}	
 			}
     	}
-    	else $result = $this->_data[$key];
+    	else 
+    	{
+    		if(isset($this->_data[$key])) {
+    			$result = $this->_data[$key];
+    		}
+    	}
 
 		return $result;
     }
@@ -241,11 +253,15 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function save()
     {
-    	foreach ($this as $i => $row) {
-            $row->save();
+    	$result = true;
+    	foreach ($this as $i => $row) 
+    	{
+            if(!$row->save()) {
+            	$result = false;
+            }
         }
 
-        return true;
+        return $result;
     }
 
 	/**
@@ -255,8 +271,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function delete()
     {
-    	foreach ($this as $i => $row) {
-            $row->delete();
+    	$result = true;
+    	foreach ($this as $i => $row) 
+    	{
+    		 if(!$row->delete()) {
+            	$result = false;
+            }
         }
 
         return true;
@@ -269,7 +289,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function reset()
     {
-    	$this->_columns  = array_keys(KFactory::get($this->getTable())->getColumns());
+    	$this->_columns  = array_keys($this->getTable()->getColumns());
 
     	$this->_data = array();
 
@@ -338,7 +358,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
    	 	//If the method hasn't been mixed yet, load all the behaviors
     	if(!isset($this->_mixed_methods[$method]))
         {
-			foreach(KFactory::get($this->getTable())->getBehaviors() as $behavior) {
+			foreach($this->getTable()->getBehaviors() as $behavior) {
 				$this->mixin($behavior);
 			}
         }
@@ -379,21 +399,16 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 	 * @return void
 	 * @see __construct
      */
-    protected function _addRows(array $data, $new = true)
-    {
-   		//Create a row prototype and clone it this is faster then instanciating a new row
-		$prototype = KFactory::tmp(KFactory::get($this->getTable())->getRow(), array(
-    		'table' => $this->getTable(),
-    		'new'   => $new
-     	));
-     		
+    public function addRows(array $data, $new = true)
+    {	
      	//Set the data in the row object and insert the row
 		foreach($data as $k => $row)
 		{
-			$clone = clone $prototype;
-        	$clone->setData($row, $new);
-        		
-        	$this->addRow($clone);
+			$instance = $this->getTable()->getRow()
+							->setData($row)
+							->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
+        	
+			$this->addRow($instance);
 		}
     }
 }

@@ -11,23 +11,33 @@
 /**
  * String filter
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@koowa.org>
  * @category	Koowa
  * @package     Koowa_Filter
  */
-class KFilterString extends KFilterHtml
+class KFilterString extends KFilterAbstract
 {
 	/**
-	 * Constructor
+	 * Validate a value
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param	scalar	Value to be validated
+	 * @return	bool	True when the variable is valid
 	 */
-	public function __construct(KConfig $config)
+	protected function _validate($value)
 	{
-		parent::__construct($config);
-		
-		$this->_tagsMethod = false;
-		$this->_attrMethod = false;
+		$value = trim($value);
+		return (is_string($value) && ($value === filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES)));
+	}
+	
+	/**
+	 * Sanitize a value
+	 *
+	 * @param	scalar	Value to be sanitized
+	 * @return	string
+	 */
+	protected function _sanitize($value)
+	{
+		return filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	}
 }
 

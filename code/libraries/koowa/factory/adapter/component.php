@@ -19,19 +19,6 @@
 class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 {
 	/**
-	 * The alias map
-	 *
-	 * @var	array
-	 */
-	protected $_alias_map = array(
-      	'table'     => 'DatabaseTable',
-        'row'       => 'DatabaseRow',
-      	'rowset'    => 'DatabaseRowset',
-      	'behavior'  => 'DatabaseBehavior'
- 	);
-
-
-	/**
 	 * Create an instance of a class based on a class identifier
 	 * 
 	 * This factory will try to create an generic or default object based on the identifier information
@@ -50,7 +37,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 	 */
 	public function instantiate($identifier, KConfig $config)
 	{
-		$instance = false;
+		$classname = false;
 		
 		if($identifier->type == 'com') 
 		{			
@@ -71,16 +58,11 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 				else 
 				{
 					$classpath = $identifier->path;
-					$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
-					
-					//Check to see of the type is an alias
-					if(array_key_exists($classtype, $this->_alias_map)) {
-						$classtype = $this->_alias_map[$classtype];
-					}
+					$classtype = !empty($classpath) ? array_shift($classpath) : '';
 					
 					//Create the fallback path and make an exception for views
 					$path = ($classtype != 'view') ? KInflector::camelize(implode('_', $classpath)) : '';
-				 	
+					
 					/*
 					 * Find the classname to fallback too and auto-load the class
 					 * 
@@ -106,23 +88,8 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 					}
 				}
 			}
-			
-			//If the object is indentifiable push the identifier in through the constructor
-			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
-			{
-				$identifier->filepath  = KLoader::path($identifier);
-				$identifier->classname = $classname;
-				$config->identifier = $identifier;
-			}
-							
-			// If the class has an instantiate method call it
-			if(is_callable(array($classname, 'instantiate'), false)) {
-				$instance = call_user_func(array($classname, 'instantiate'), $config);
-			} else {
-				$instance = new $classname($config);
-			}
 		}
 
-		return $instance;
+		return $classname;
 	}
 }

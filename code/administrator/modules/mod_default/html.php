@@ -27,7 +27,7 @@ class ModDefaultHtml extends KViewHtml
         $template = KFactory::get('lib.koowa.application')->getTemplate();
         $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'mod_'.$this->_identifier->package;
           
-        KFactory::get($this->getTemplate())->addPath($path);
+        $this->getTemplate()->addPath($path);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ class ModDefaultHtml extends KViewHtml
 			$identifier	= clone $this->_identifier;
 			$identifier->name	= 'model';
 			
-			$this->_model = $identifier;
+			$this->_model = KFactory::get($identifier);
 		}
        	
 		return $this->_model;
@@ -79,7 +79,7 @@ class ModDefaultHtml extends KViewHtml
 			$identifier	= clone $this->_identifier;
 			$identifier->name	= 'template';
 			
-			$this->_template = $identifier;
+			$this->_template = KFactory::get($identifier);
 		}
 		
 		return $this->_template;
@@ -93,7 +93,9 @@ class ModDefaultHtml extends KViewHtml
 	public function display()
 	{
 		//Render the template
-		$template = $this->loadTemplate();
+		$template = $this->getTemplate()
+				->loadIdentifier($this->_layout, $this->_data)
+				->render(true);
 		
 		$document = KFactory::get('lib.joomla.document');
 		

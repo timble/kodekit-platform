@@ -24,7 +24,7 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 	 * 
 	 * @var string
 	 */
-	protected $_basepath = JPATH_PLUGINS;
+	protected $_basepath = JPATH_BASE;
 	
 	/**
 	 * The prefix
@@ -69,7 +69,7 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 					$path = array_shift($parts);
 				}
 					
-				$path = $this->_basepath.'/'.$type.'/'.$path.'.php';			
+				$path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';			
 			}
 		}
 		
@@ -94,6 +94,9 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 			$name  = array_shift($parts);
 			$type  = $identifier->package;
 			
+			//Store the basepath for re-use
+			$this->_setBasePath($identifier);
+			
 			if(!empty($identifier->name))
 			{
 				if(count($parts)) 
@@ -105,9 +108,33 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 				else $path  = strtolower($identifier->name);	
 			}
 				
-			$path = $this->_basepath.'/'.$type.'/'.$name.'/'.$path.'.php';	
+			$path = $this->_basepath.'/plugins/'.$type.'/'.$name.'/'.$path.'.php';	
 		}	
 		
 		return $path;
-	}		
+	}
+
+	/**
+	 * Set the base path
+	 *
+	 * @param  object  	The class name or an identifier
+	 */
+	protected function _setBasePath($identifier)
+	{
+		if(!$app = $identifier->application) 
+		{
+			$app = KFactory::get('lib.koowa.application')->getName();
+			
+			//Add shortcuts
+			$app = ($app == 'administrator') ? 'admin' : $app;
+		}
+		
+		switch($app)
+		{
+			case 'admin' : $this->_basepath = JPATH_ADMINISTRATOR; break;
+			case 'site'  : $this->_basepath = JPATH_SITE;		   break;
+ 		}
+		
+		return $this;
+	}
 }

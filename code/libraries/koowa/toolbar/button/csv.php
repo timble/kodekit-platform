@@ -30,8 +30,6 @@ class KToolbarButtonCsv extends KToolbarButtonAbstract
 		}
 		
 		parent::__construct($config);
-		
-		KFactory::get('lib.joomla.document')->addStyleDeclaration('.icon-32-export { background-image: url('.KRequest::root().'/media/lib_koowa/images/32/export.png); }');		
 	}
 	
 	public function getLink()

@@ -69,7 +69,7 @@ class KModelState extends KModelAbstract
      */
     public function __isset($name)
     {
-    	return array_key_exists($name, $this->_state);
+    	return isset($this->_state[$name]);
     }
 
     /**
@@ -183,7 +183,7 @@ class KModelState extends KModelAbstract
            		//Only return unique data 
             	if($unique) 
            		 {
-   					//Unique values cannot be empty
+   					//Unique values cannot be null or an empty string
            		 	if($state->unique && !empty($state->value)) 
            		 	{
            		 		$result = true;
@@ -191,7 +191,7 @@ class KModelState extends KModelAbstract
            		 		//Check related states to see if they are set
            		 		foreach($state->required as $required)
            		 		{
-           		 			if(!isset($this->_state[$required]->value)) 
+           		 			if(empty($this->_state[$required]->value)) 
            		 			{
            		 				$result = false;
            		 				break;

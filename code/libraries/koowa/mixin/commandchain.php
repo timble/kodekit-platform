@@ -29,7 +29,7 @@ class KMixinCommandchain extends KMixinAbstract
      * @var	KCommandChain
      */
     protected $_command_chain;
-	
+    
 	/**
 	 * Object constructor
 	 *
@@ -51,10 +51,10 @@ class KMixinCommandchain extends KMixinAbstract
 				'command_priority'	=> $config->callback_priority
 			))));
 		}
-
+		
 		//Enqueue the event command with a lowest priority to make sure it runs last
 		if($config->dispatch_events) {
-			$this->_command_chain->enqueue(new KCommandEvent(), $config->_event_priority);
+			$this->_command_chain->enqueue(KFactory::get('lib.koowa.command.event'), $config->event_priority);
 		}
 	}
 	

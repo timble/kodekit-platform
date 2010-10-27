@@ -72,6 +72,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  		'text'				=> 'string',
  		'mediumtext'		=> 'string',
  		'tinytext'			=> 'string',
+ 		'longtext'			=> 'string',
 
  	   	// blob
  	   	'blob'				=> 'raw',
@@ -84,77 +85,56 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  		'set'				=> 'string',
  		'enum'				=> 'string', 	
 	);
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'options'	=> array(
+    			'host'		=> ini_get('mysqli.default_host'), 
+    			'username'	=> ini_get('mysqli.default_user'),
+    			'password'  => ini_get('mysqli.default_pw'),
+    			'database'	=> '',
+    			'port'		=> ini_get("mysqli.default_port"),
+    			'socket'	=> ini_get("mysqli.default_socket")
+    		)
+        ));
+        
+        parent::_initialize($config);
+    }
 
 	/**
 	 * Connect to the db
-	 *
-	 * MySQLi can connect using SSL if $config contains an 'ssl' sub-array
-	 * containing the following keys:
-	 * + key The path to the key file.
-	 * + cert The path to the certificate file.
-	 * + ca The path to the certificate authority file.
-	 * + capath The path to a directory that contains trusted SSL
-	 * CA certificates in pem format.
-	 * + cipher The list of allowable ciphers for SSL encryption.
-	 *
-	 * Example of how to connect using SSL:
-	 * <code>
-	 * $config = array(
-	 *   'adpater'  => 'mysqli'
-	 * 	 'username' => 'someuser',
-	 * 	'password' => 'apasswd',
-	 * 	'hostspec' => 'localhost',
-	 * 	'database' => 'thedb',
-	 * 	'ssl' => array(
-	 * 		'key' => 'client-key.pem',
-	 * 		'cert' => 'client-cert.pem',
-	 * 		'ca' => 'cacert.pem',
-	 * 		'capath' => '/path/to/ca/dir',
-	 * 		'cipher' => 'AES',
-	 * 	),
-	 * );
-	 *
-	 * $db = KFactory::get('lib.koowa.database', $config)
-	 * </code>
 	 * 
 	 * @return KDatabaseAdapterMysqli
 	 */
 	 public function connect()
 	 {
-		if (!empty($this->_options['ssl'])) 
-		{
-			$mysqli = mysqli_init();
+		$oldErrorReporting = error_reporting(0);
 			
-			$mysqli->ssl_set(
-				empty($this->_options['ssl']['key']) ? null : $this->_options['ssl']['key'],
-				empty($this->_options['ssl']['cert']) ? null : $this->_options['ssl']['cert'],
-				empty($this->_options['ssl']['ca']) ? null : $this->_options['ssl']['ca'],
-				empty($this->_options['ssl']['capath']) ? null : $this->_options['ssl']['capath'],
-				empty($this->_options['ssl']['cipher']) ? null : $this->_options['ssl']['cipher']
-			);
-
-			$mysqli->real_connect(	
-				$this->_options['host'], $this->_options['username'], $this->_options['password'],
-				$this->_options['dbname'], $this->_options['port'], $this->_options['socket']
-			);	
-		} 
-		else 
-		{
-			$oldErrorReporting = error_reporting(0);
-			$mysqli = new mysqli(
-				$this->_options['host'], $this->_options['username'], $this->_options['password'],
-				$this->_options['dbname'], $this->_options['port'], $this->_options['socket']
-			);
+		$mysqli = new mysqli(
+			$this->_options->host, 
+			$this->_options->username, 
+			$this->_options->password,
+			$this->_options->database, 
+			$this->_options->port, 
+			$this->_options->socket
+		);
 			
-			error_reporting($oldErrorReporting);
-		}
-
+		error_reporting($oldErrorReporting);
+		
 		if (mysqli_connect_errno()) {
 			throw new KDatabaseAdapterException('Connect failed: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error(), mysqli_connect_errno());
 		}
 		  
-		// If supported, request real datatypes from MySQL instead of returning
-		// everything as a string.
+		// If supported, request real datatypes from MySQL instead of returning everything as a string.
 		if (defined('MYSQLI_OPT_INT_AND_FLOAT_NATIVE')) {
 			$mysqli->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, true);
 		}
@@ -172,7 +152,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	public function disconnect()
 	{
-		if ($this->_connection) 
+		if ($this->active()) 
 		{
 			$this->_connection->close();
 			$this->_connection = null;
@@ -189,14 +169,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	public function active() 
 	{
-		return isset($this->_connection) && !$this->_connection->ping();
+		return isset($this->_connection) && $this->_connection->ping();
 	}
 	
 	/**
 	 * Retrieves the column schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of columns by table
+	 * @return	array|false 	An associative array of columns by table
 	 */
 	public function getTableColumns($tables)
 	{
@@ -207,9 +187,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		{
 			if(!isset($this->_table_schema[$table]['columns']))
 			{
-				if($identifier = $this->execute( 'SHOW FULL COLUMNS FROM ' . $this->quoteName($this->getTablePrefix().$table), KDatabase::RESULT_USE))
+				if($columns = $this->show( 'SHOW FULL COLUMNS FROM ' . $this->quoteName($this->getTablePrefix().$table), KDatabase::FETCH_OBJECT_LIST))
 				{
-					$columns = $this->_fetchObjectList($identifier);
 					foreach($columns as $column) 
 					{
 						//Set the table name in the raw info (MySQL doesn't add this)
@@ -221,11 +200,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
               			//Cache the column schame data	
 						$this->_table_schema[$table]['columns'][$column->name] = $column;
 					}
-				}
+				} 
+				else $this->_table_schema[$table]['columns'] = false;
 			}
 
 			//Add the requested table to the result
-			$result[$table] = $this->_table_schema[$table]['columns'];
+			if($this->_table_schema[$table]['columns'] !== false) {
+				$result[$table] = $this->_table_schema[$table]['columns'];
+			}
 		}
 			
 		return $result;
@@ -235,32 +217,33 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Retrieves the table schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of table information by table
+	 * @return	array			An associative array of table information by table
 	 */
 	public function getTableInfo($tables)
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
-
+		
 		foreach ($tables as $table)
 		{
 			if(!isset($this->_table_schema[$table]['info']))
 			{
 				$table = $this->replaceTablePrefix($table);
-				if($identifier  = $this->execute( 'SHOW TABLE STATUS LIKE '.$this->quoteValue($this->getTablePrefix().$table), KDatabase::RESULT_USE))
+				if($info  = $this->show( 'SHOW TABLE STATUS LIKE '.$this->quoteValue($this->getTablePrefix().$table), KDatabase::FETCH_OBJECT ))
 				{
-					$info = $this->_fetchObject($identifier);
-					
 					//Parse the table raw schema data
         			$info = $this->_parseTableInfo($info);
 				
         			//Cache the table schame data
 					$this->_table_schema[$table]['info'] = $info;
 				}
+				else $this->_table_schema[$table]['info'] = false;
 			}
 
 			//Add the requested table to the result
-			$result[$table] = $this->_table_schema[$table]['info'];
+			if($this->_table_schema[$table]['info']) {
+				$result[$table] = $this->_table_schema[$table]['info'];
+			}
 		}
 	
 		return $result;
@@ -270,7 +253,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Retrieves the index information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of indexes by table
+	 * @return	array 			An associative array of indexes by table
 	 */
 	public function getTableIndexes($tables)
 	{
@@ -281,17 +264,18 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		{
 			if(!isset($this->_table_schema[$table]['indexes']))
 			{
-				if($identifier = $this->execute('SHOW INDEX FROM ' . $this->quoteName($this->getTablePrefix().$table), KDatabase::RESULT_USE))
+				if($indexes = $this->show('SHOW INDEX FROM ' . $this->quoteName($this->getTablePrefix().$table), KDatabase::FETCH_OBJECT_LIST))
 				{
-					$indexes = $this->_fetchObjectList($identifier);
-					
 					foreach ($indexes as $index) {
 						$this->_table_schema[$table]['indexes'][$index->Key_name][$index->Seq_in_index] = $index;
 					}
 				}
+				else $this->_table_schema[$table]['indexes'] = false;
 			}
 			
-			$result[$table] = $this->_table_schema[$table]['indexes'];
+			if($this->_table_schema[$table]['indexes'] !== false) {
+				$result[$table] = $this->_table_schema[$table]['indexes'];
+			}
 		}
 		
 		return $result;
@@ -488,8 +472,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	       	$column->length = null;
  	   	}
  	   		
- 	   	// Get the related fields if the column is part of a unqiue multi column index
- 	  	if($info->Key == 'MUL') 
+ 	   	// Get the related fields if the column is primary key or part of a unqiue multi column index
+ 	  	if(!empty($info->Key)) 
  	   	{
  	   		$indexes = $this->getTableIndexes($info->Table);
  	   		
@@ -498,12 +482,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 				if(count($index) > 1)
 				{
 					//We only deal with unique indexes for now.
-					if($index[1]->Column_name == $column->name && !$index[1]->Non_unique) 
+					if(!$index[1]->Non_unique) 
 					{
-						array_shift($index); //remove the first column of the index
-						
-						foreach($index as $key => $value) {
-							$column->related[] = $index[$key]->Column_name;
+						foreach($index as $key => $value) 
+						{
+							if ($index[$key]->Column_name != $column->name) {
+								$column->related[] = $index[$key]->Column_name;
+							}
 						}
 						
 						$column->unique = true;	
@@ -512,7 +497,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 				}
 			}
 		}
-
+		
  	    return $column;
 	}
     

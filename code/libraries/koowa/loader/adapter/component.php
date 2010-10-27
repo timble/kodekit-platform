@@ -62,12 +62,18 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 			if (array_shift($parts) == 'com') 
 			{
 				$component = 'com_'.strtolower(array_shift($parts));
-			
-				if(count($parts) > 1) {
-					$path = KInflector::pluralize(array_shift($parts)).'/'.implode('/', $parts);
-				} else {
-					$path = $word;
-				}
+				$file 	   = array_pop($parts);
+				
+				if(count($parts)) 
+				{
+					foreach($parts as $key => $value) {
+						$parts[$key] = KInflector::pluralize($value);
+					}
+					
+					$path = implode('/', $parts);
+					$path = $path.'/'.$file;
+				} 
+				else $path = $file;
 			
 				$path = $this->_basepath.'/components/'.$component.'/'.$path.'.php';
 			}

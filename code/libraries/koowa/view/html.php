@@ -28,12 +28,11 @@ class KViewHtml extends KViewTemplate
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-			'mimetype'	  => 'text/html',
+			'mimetype'	  		=> 'text/html',
+    		'template_filters'	=> array('form'),
        	));
     	
     	parent::_initialize($config);
-    	
-    	$config->template_filters = array_merge($config->template_filters, array('form'));
     }
 	
 	/**
@@ -46,7 +45,7 @@ class KViewHtml extends KViewTemplate
 	 */
 	public function display()
 	{
-		$model = KFactory::get($this->getModel());
+		$model = $this->getModel();
 			
 		//Auto-assign the state to the view
 		$this->assign('state', $model->getState());
@@ -69,12 +68,6 @@ class KViewHtml extends KViewTemplate
 			}
 		}
 		
-		//Load the template
-		$template = $this->loadTemplate();
-		
-		//Render the template
-		$this->output .= $template;
-	
 		return parent::display();
 	}
 }

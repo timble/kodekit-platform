@@ -17,7 +17,7 @@
  * @package     Koowa_Components
  * @subpackage  Default
  */
-class ComDefaultHelperPaginator extends KTemplateHelperPaginator
+class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 {
 	/**
 	 * Render item pagination
@@ -86,6 +86,26 @@ class ComDefaultHelperPaginator extends KTemplateHelperPaginator
 		
 		$class = $pages['last']->active ? '' : 'off';
 		$html  .= '<div class="button2-left '.$class.'"><div class="end">'.$this->_link($pages['last'], 'Last').'</div></div>';
+
+		return $html;
+	}
+	
+	protected function _link($page, $title)
+	{
+		$url   = clone KRequest::url();
+		$query = $url->getQuery(true);
+
+		//For compatibility with Joomla use limitstart instead of offset
+		$query['limit']      = $page->limit;
+		$query['limitstart'] = $page->offset;
+
+		$class = $page->current ? 'class="active"' : '';
+
+		if($page->active && !$page->current) {
+			$html = '<a href="'.JRoute::_((string) $url->setQuery($query)).'" '.$class.'>'.JText::_($title).'</a>';
+		} else {
+			$html = '<span '.$class.'>'.JText::_($title).'</span>';
+		}
 
 		return $html;
 	}

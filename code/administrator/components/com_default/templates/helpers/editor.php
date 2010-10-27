@@ -18,7 +18,7 @@
  * @subpackage  Default
  */
 
-class ComDefaultHelperEditor extends KTemplateHelperAbstract
+class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
 {
 	/**
 	 * Generates an HTML editor
@@ -32,7 +32,6 @@ class ComDefaultHelperEditor extends KTemplateHelperAbstract
 		$config->append(array(
 			'editor' 	=> null,
 			'name'   	=> 'description',
-			'row' 		=> null,
 			'width' 	=> '100%',
 			'height' 	=> '500',
 			'cols' 		=> '75',
@@ -44,6 +43,6 @@ class ComDefaultHelperEditor extends KTemplateHelperAbstract
 		$editor  = KFactory::get('lib.joomla.editor', array($config->editor));
 		$options = KConfig::toData($config->options);
 
-		return $editor->display($config->name, $config->row->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, $config->buttons, $options);
+		return $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, $config->buttons, $options);
 	}
 }

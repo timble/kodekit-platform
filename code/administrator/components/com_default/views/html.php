@@ -20,13 +20,6 @@
 class ComDefaultViewHtml extends KViewDefault
 {
 	/**
-	 * The document object
-	 *
-	 * @var object
-	 */
-	protected $_document;
-	
-	/**
 	 * Associatives array of view names
 	 * 
 	 * @var array
@@ -42,14 +35,11 @@ class ComDefaultViewHtml extends KViewDefault
 	{
         parent::__construct($config);
         
-         // Assign the document object
-		$this->_document = $config->document;
-		
         $this->views = $config->views;
         
         //Add alias filter for editor helper
-        KFactory::get($this->getTemplate())->getFilter('alias')->append(array(
-        	'@editor(' => '$this->loadHelper(\'admin::com.default.helper.editor.display\', ')
+        $this->getTemplate()->getFilter('alias')->append(array(
+        	'@editor(' => '$this->loadHelper(\'admin::com.default.template.helper.editor.display\', ')
         );
          
         //Add the template override path
@@ -67,7 +57,7 @@ class ComDefaultViewHtml extends KViewDefault
         $template = KFactory::get('lib.koowa.application')->getTemplate();
         $path     = JPATH_THEMES.'/'.$template.'/html/com_'.$this->_identifier->package.DS.$path;
           
-        KFactory::get($this->getTemplate())->addPath($path);
+        $this->getTemplate()->addPath($path);
 	}
 	
 	/**
@@ -80,68 +70,10 @@ class ComDefaultViewHtml extends KViewDefault
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'views' 	=>  array(),
-    		'document'  => KFactory::get('lib.joomla.document'),
+            'views' 			=>  array(),
         ));
         
         parent::_initialize($config);
-    }
-    
-    /**
-	 * Return the views output
- 	 *
-	 * @return string 	The output of the view
-	 */
-    public function display()
-    {
-    	parent::display();
-    	
-    	if(KRequest::type() == 'AJAX')
-		{
-			$html = '';
-			foreach($this->getStyles() as $style) 
-			{
-				if($style['link']) 
-				{
-					$attribs = KHelperArray::toString($style['attribs']);
-					$html .= '<link type="text/css" rel="stylesheet" href="'.$style['data'].'" '.$attribs.' />'."\n";
-				}
-			}
-			
-			foreach ($this->getScripts() as $script) 
-			{
-				if($script['link']) 
-				{
-					$attribs = KHelperArray::toString($style['attribs']);
-					$html .= '<script type="text/javascript" src="'.$script['data'].'" '.$attribs.'></script>'."\n";
-				}
-			}
-			
-			$this->output = $html.$this->output;
-		}
-		else
-		{
-    		$document = KFactory::get('lib.joomla.document');
-			foreach($this->getStyles() as $style) 
-			{
-				if($style['link']) {
-					$document->addStyleSheet($style['data'], 'text/css', null, $style['attribs']);
-				} else {
-					$document->addStyleDeclaration($style['data']);
-				}
-			}
-			
-			foreach($this->getScripts() as $script) 
-			{
-				if($script['link']) {
-					$document->addScript($script['data'], 'text/javascript');
-				} else {
-					$document->addScriptDeclaration($script['data']);
-				}
-			}
-    	}
-    	
-    	return $this->output;
     }
         
 	/**
@@ -155,6 +87,6 @@ class ComDefaultViewHtml extends KViewDefault
 		$identifier->path	= array('toolbar');
 		$identifier->name   = $this->getName();
 		
-		return $identifier;
+		return KFactory::get($identifier);
 	}
 }

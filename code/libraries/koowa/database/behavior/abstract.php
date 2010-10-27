@@ -97,11 +97,11 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	final public function execute( $name, KCommandContext $context) 
 	{
 		$identifier = clone $context->caller->getIdentifier();
-		$type       = array_shift($identifier->path);
+		$type       = array_pop($identifier->path);
 	
 		$parts  = explode('.', $name);
 		$method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
-		
+	
 		if(method_exists($this, $method)) {
 			return $this->$method($context);
 		}
@@ -121,9 +121,9 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
      */
     public function save()
     {
-   		KFactory::get($this->getTable())->getCommandChain()->disable();
+   		$this->getTable()->getCommandChain()->disable();
     	$this->_mixer->save();    
-    	KFactory::get($this->getTable())->getCommandChain()->enable();
+    	$this->getTable()->getCommandChain()->enable();
         
    		return $this->_mixer;
     }
@@ -139,9 +139,9 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
      */
     public function delete()
     {
-    	KFactory::get($this->getTable())->getCommandChain()->disable();
+    	$this->getTable()->getCommandChain()->disable();
     	$this->_mixer->delete();    
-    	KFactory::get($this->getTable())->getCommandChain()->enable();
+    	$this->getTable()->getCommandChain()->enable();
         
    		return $this->_mixer;
     }
@@ -159,7 +159,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 	 */
 	public function getHandle()
 	{
-		$methods = get_class_methods(get_class($this));
+		$methods = $this->getMethods();
 		
 		foreach($methods as $method) 
 		{

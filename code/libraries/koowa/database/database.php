@@ -24,6 +24,7 @@ class KDatabase
 	const OPERATION_INSERT = 2;
 	const OPERATION_UPDATE = 4;
 	const OPERATION_DELETE = 8;
+	const OPERATION_SHOW   = 16;
 
 	/**
 	 * Database result mode
@@ -47,8 +48,10 @@ class KDatabase
 	/**
 	 * Row states
 	 */
+	const STATUS_LOADED   = 'loaded';
 	const STATUS_DELETED  = 'deleted';
     const STATUS_INSERTED = 'inserted';
     const STATUS_UPDATED  = 'updated';
+    const STATUS_FAILED   = 'failed';
 	
 }

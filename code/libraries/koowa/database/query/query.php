@@ -87,14 +87,14 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @var integer
 	 */
-	public $limit = 0;
+	public $limit = null;
 
 	/**
 	 * The limit offset element
 	 *
 	 * @var integer
 	 */
-	public $offset = 0;
+	public $offset = null;
 
 	/**
 	 * Database connector
@@ -318,8 +318,9 @@ class KDatabaseQuery extends KObject
 	 */
 	public function limit( $limit, $offset = 0 )
 	{
-		$this->limit  = $limit;
-		$this->offset = $offset;
+		$this->limit  = (int) $limit;
+		$this->offset = (int) $offset;
+		
 		return $this;
 	}
 
@@ -356,8 +357,6 @@ class KDatabaseQuery extends KObject
 			}
 		}
 
-		$query .= PHP_EOL;
-	
 		if (!empty($this->columns)) 
 		{
 			$columns = array();
@@ -365,7 +364,7 @@ class KDatabaseQuery extends KObject
 				$columns[] = $this->_adapter->quoteName($column);
 			} 
 			
-			$query .= ' '.implode(' , ', $columns).PHP_EOL;
+			$query .= ' '.implode(' , ', $columns);
 		}
 
 		if (!empty($this->from)) 
@@ -375,7 +374,7 @@ class KDatabaseQuery extends KObject
 				$tables[] = $this->_adapter->quoteName($table);
 			} 
 			
-			$query .= ' FROM '.implode(' , ', $tables).PHP_EOL;
+			$query .= ' FROM '.implode(' , ', $tables);
 		}
 
 		if (!empty($this->join))
@@ -389,13 +388,13 @@ class KDatabaseQuery extends KObject
                     $tmp .= $join['type'] . ' ';
                 }
 
-                $tmp .= 'JOIN ' . $this->_adapter->quoteName($join['table']);
+                $tmp .= ' JOIN ' . $this->_adapter->quoteName($join['table']);
                 $tmp .= ' ON (' . implode(' AND ', $this->_adapter->quoteName($join['condition'])) . ')'; 
 
                 $joins[] = $tmp;
             }
 
-            $query .= implode(PHP_EOL, $joins) .PHP_EOL;
+            $query .= implode(' ', $joins);
 		}
 
 		if (!empty($this->where)) 
@@ -421,8 +420,6 @@ class KDatabaseQuery extends KObject
 					$query .= ' '.$where['constraint'].' '.$value;
 				}
 			}
-			
-			$query .= PHP_EOL;
 		}
 
 		if (!empty($this->group)) 
@@ -432,7 +429,7 @@ class KDatabaseQuery extends KObject
 				$columns[] = $this->_adapter->quoteName($column);
 			} 
 			
-			$query .= ' GROUP BY '.implode(' , ', $columns).PHP_EOL;
+			$query .= ' GROUP BY '.implode(' , ', $columns);
 		}
 
 		if (!empty($this->having)) 
@@ -442,23 +439,23 @@ class KDatabaseQuery extends KObject
 				$columns[] = $this->_adapter->quoteName($column);
 			} 
 			
-			$query .= ' HAVING '.implode(' , ', $columns).PHP_EOL;
+			$query .= ' HAVING '.implode(' , ', $columns);
 		}
 
 		if (!empty($this->order) )
 		{
-			$query .= 'ORDER BY ';
+			$query .= ' ORDER BY ';
 
 			$list = array();
             foreach ($this->order as $order) {
             	$list[] = $this->_adapter->quoteName($order['column']).' '.$order['direction'];
             }
 
-            $query .= implode(' , ', $list) . PHP_EOL;
+            $query .= implode(' , ', $list);
 		}
 
 		if (!empty($this->limit)) {
-			$query .= ' LIMIT '.$this->offset.' , '.$this->limit.PHP_EOL;
+			$query .= ' LIMIT '.$this->offset.' , '.$this->limit;
 		}
 
 		return $query;

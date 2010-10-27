@@ -35,7 +35,7 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 	 */
 	public function instantiate($identifier, KConfig $config)
 	{
-		$instance = false;
+		$classname = false;
 		
 		if($identifier->type == 'mod') 
 		{			
@@ -77,25 +77,8 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 					}
 				}
 			}
-			
-			//If the object is indentifiable push the identifier in through the constructor
-			if(array_key_exists('KObjectIdentifiable', class_implements($classname))) 
-			{
-				$identifier->filepath = KLoader::path($identifier);
-				$identifier->classname = $classname;
-				$config->identifier = $identifier;
-			}
-			
-			// If the class has an instantiate method call it
-			if(is_callable(array($classname, 'instantiate'), false)) {
-				$instance = call_user_func(array($classname, 'instantiate'), $config);
-			} else {
-				$instance = new $classname($config);
-			}
-							
-			$instance = new $classname($config);
 		}
 
-		return $instance;
+		return $classname;
 	}
 }

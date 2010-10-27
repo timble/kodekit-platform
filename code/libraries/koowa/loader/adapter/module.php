@@ -61,15 +61,21 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 			
 			if (array_shift($parts) == 'mod') 
 			{	
-				$name = array_shift($parts);
+				$module = 'mod_'.strtolower(array_shift($parts));
+				$file 	   = array_pop($parts);
 				
-				if(count($parts) > 1) {
-					$path = KInflector::pluralize(array_shift($parts)).'/'.implode('/', $parts);
-				} else {
-					$path = array_shift($parts);
-				}
+				if(count($parts)) 
+				{
+					foreach($parts as $key => $value) {
+						$parts[$key] = KInflector::pluralize($value);
+					}
 					
-				$path = $this->_basepath.'/modules/mod_'.$name.'/'.$path.'.php';			
+					$path = implode('/', $parts);
+					$path = $path.'/'.$file;
+				} 
+				else $path = $file;
+				
+				$path = $this->_basepath.'/modules/'.$module.'/'.$path.'.php';			
 			}
 		}
 		

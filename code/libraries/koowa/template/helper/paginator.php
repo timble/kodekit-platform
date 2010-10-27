@@ -34,6 +34,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			'display' => 4,
 			'offset'  => 0,
 			'limit'	  => 0,
+			'attribs' => array('attribs' => array('onchange' => 'this.form.submit();'))
 		));
 		
 		$html = '';
@@ -51,7 +52,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$list = $paginator->getList();
 
 		$html .= '<div class="-koowa-pagination">';
-		$html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config->toArray()).'</div>';
+		$html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
 		$html .=  $this->_pages($list);
 		$html .= '<div class="count"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
 		$html .= '</div>';
@@ -68,37 +69,24 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	public function limit($config = array())
 	{
 		$config = new KConfig($config);
+		$config->append(array(
+			'limit'	  	=> 0,
+			'attribs'	=> array(),
+		));
 		
 		$html = '';
 		
-		$html .= KTemplateHelper::factory('behavior')->mootools();
-		$html .= 
-			"<script>
-				window.addEvent('domready', function(){ $$('select.-koowa-redirect').addEvent('change', function(){ window.location = this.value;}); });
-			</script>";
-		
-
-		// Modify the url to include the limit
-		$url   = clone KRequest::url();
-		$query = $url->getQuery(true);
-		$offset = array_key_exists('offset', $query) ? $query['offset'] : 0;
-
 		$selected = '';
 		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 => 'all' ) as $value => $text)
 		{
-			$query['limit'] = $value;
-			$query['offset']= $value ? $value * floor($offset/$value) : 0;
-			$redirect       = (string) $url->setQuery($query);
-
 			if($value == $config->limit) {
-				$selected = $redirect;
+				$selected = $value;
 			}
 
-			$options[] = $this->option(array('text' => $text, 'value' => $redirect));
+			$options[] = $this->option(array('text' => $text, 'value' => $value));
 		}
 
-		$attribs = array('class' => '-koowa-redirect');
-		$html .= $this->optionlist(array('options' => $options, 'name' => 'limitredirect', 'attribs' => $attribs, 'selected' => $selected));
+		$html .= $this->optionlist(array('options' => $options, 'name' => 'limit', 'attribs' => $config->attribs, 'selected' => $selected));
 		return $html;
 	}
 
@@ -144,7 +132,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$class = $page->current ? 'class="active"' : '';
 
 		if($page->active && !$page->current) {
-			$html = '<a href="'.(string) $url->setQuery($query).'" '.$class.'>'.JText::_($title).'</a>';
+			$html = '<a href="'.JRoute::_((string) $url->setQuery($query)).'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
 		}

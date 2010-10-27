@@ -21,6 +21,13 @@
 abstract class KPatternDecorator extends KObject
 {
 	/**
+     * Class methods
+     *
+     * @var array
+     */
+    private $__methods = array();
+	
+	/**
 	 * The decorated object
 	 *
 	 * @var object
@@ -70,15 +77,24 @@ abstract class KPatternDecorator extends KObject
 	 */
 	public function getMethods()
 	{
-		$object = $this->getObject();
+		if(!$this->__methods)
+		{
+			$methods = array();
+			$object  = $this->getObject();
 
-		if($object instanceof KObject) {
-     		$methods = $object->getMethods();
-     	} else {
-     		$methods = get_class_methods(get_class($object));
-     	}
-
-		return  array_merge(parent::getMethods(), $methods);
+			if(!($object instanceof KObject)) 
+			{
+				$reflection	= new ReflectionClass($object);
+     			foreach($reflection->getMethods() as $method) {
+     				$methods[] = $method->name;
+     			}
+     		} 
+     		else $methods = $object->getMethods();
+     		
+     		$this->__methods = array_merge(parent::getMethods(), $methods);
+		}
+     	
+		return $this->__methods;
 	}
 
 	/**

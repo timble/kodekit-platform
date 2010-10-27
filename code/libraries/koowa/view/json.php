@@ -41,7 +41,7 @@ class KViewJson extends KViewAbstract
 	 */
     public function display()
     {	
-		$model = KFactory::get($this->getModel());
+		$model = $this->getModel();
     	
     	//Get the view name
 		$name = $this->getName();

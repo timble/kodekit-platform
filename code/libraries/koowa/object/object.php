@@ -20,6 +20,13 @@
 class KObject
 {
     /**
+     * Class methods
+     *
+     * @var array
+     */
+    private $__methods = array();
+    
+    /**
      * Mixed in methods
      *
      * @var array
@@ -115,7 +122,7 @@ class KObject
     	if(is_null($property)) 
         {
         	$result  = get_object_vars($this);
-
+        	
         	foreach ($result as $key => $value)
         	{
             	if ('_' == substr($key, 0, 1)) {
@@ -206,10 +213,19 @@ class KObject
 	 */
 	public function getMethods()
 	{
-		$native = get_class_methods($this);
-		$mixed  = array_keys($this->_mixed_methods);
+		if(!$this->__methods)
+		{
+			$methods = array();
+			
+			$reflection	= new ReflectionClass($this);
+			foreach($reflection->getMethods() as $method) {
+				$methods[] = $method->name;
+			}
 		
-		return array_merge($native, $mixed);
+			$this->__methods = array_merge($methods, array_keys($this->_mixed_methods));
+		}
+		
+		return $this->__methods;
 	}
 	
     /**
@@ -222,7 +238,7 @@ class KObject
      */
     public function __call($method, array $arguments)
     {
-        if(isset($this->_mixed_methods[$method])) 
+    	if(isset($this->_mixed_methods[$method])) 
         {
             $object = $this->_mixed_methods[$method];
  			$result = null;

@@ -21,8 +21,8 @@ class KTemplateFilter
 	/**
 	 * Filter modes
 	 */
-	const MODE_READ  = 'read';
-	const MODE_WRITE = 'write'; 
+	const MODE_READ  = 1;
+	const MODE_WRITE = 2; 
 	
 	/**
 	 * Factory method for KTemplateFilterInterface classes.
@@ -36,7 +36,7 @@ class KTemplateFilter
 		try 
 		{
 			if(is_string($identifier) && strpos($identifier, '.') === false ) {
-				$identifier = 'lib.koowa.template.filter.'.trim($identifier);
+				$identifier = 'com.default.template.filter.'.trim($identifier);
 			} 
 			
 			$filter = KFactory::tmp($identifier, $config);

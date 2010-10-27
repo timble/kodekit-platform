@@ -93,7 +93,7 @@ abstract class KViewTemplate extends KViewAbstract
 		}
 			
 		//Get the template object
-		$template = KFactory::get($this->getTemplate(),  array('view' => $this));
+		$template = $this->getTemplate()->setView($this);
 		
 		//Set the template filters
 		if(!empty($config->template_filters)) {
@@ -111,12 +111,12 @@ abstract class KViewTemplate extends KViewAbstract
 		
 		//Add alias filter for media:// namespace
         $template->getFilter('alias')->append(
-        	array('media://' => $config->media_url.'/'), KTemplateFilter::MODE_WRITE
+        	array('media://' => $config->media_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
 		
         //Add alias filter for base:// namespace
         $template->getFilter('alias')->append(
-        	array('base://' => $config->base_url.'/'), KTemplateFilter::MODE_WRITE
+        	array('base://' => $config->base_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
 	}
 
@@ -134,7 +134,7 @@ abstract class KViewTemplate extends KViewAbstract
             'escape'           => 'htmlspecialchars',
             'layout'           => 'default',
     		'template'		   => null,
-			'template_filters' => array('shorttag', 'alias', 'variable', 'style', 'script'),
+			'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style'),
             'template_path'    => null,
 			'auto_assign'	   => true,
     		'base_url'         => KRequest::base(),
@@ -235,6 +235,21 @@ abstract class KViewTemplate extends KViewAbstract
     {
         return call_user_func($this->_escape, $var);
     }
+    
+	/**
+	 * Return the views output
+ 	 *
+	 * @return string 	The output of the view
+	 */
+	public function display()
+	{
+		//Load the template object
+		$this->output = $this->getTemplate()
+				->loadIdentifier($this->_layout, $this->_data)
+				->render(true);
+						
+		return parent::display();
+	}
 
 	/**
 	* Get the layout.
@@ -285,7 +300,7 @@ abstract class KViewTemplate extends KViewAbstract
 			$identifier->name	= $name;
 			$identifier->path	= array('template');
 			
-			$this->_template = $identifier;
+			$this->_template = KFactory::get($identifier);
 		}
 		
 		return $this->_template;
@@ -301,112 +316,18 @@ abstract class KViewTemplate extends KViewAbstract
 	 */
 	public function setTemplate($template)
 	{
-		$identifier = KFactory::identify($template);
-		
-		if($identifier->path[0] != 'template') {
-			throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
-		}
-		
-		$this->_template = $identifier;
-		return $this;
-	}
-	
-	/**
-	 * Add a style information
-	 * 
-	 * @param string	The style information
-	 * @param boolean	True, if the style information is a URL
-	 * @param array		Associative array of attributes
-	 * @return KViewTemplate 
-	 */
-	public function addStyle($data, $link = true, array $attribs = array())
-	{
-		$signature = md5($data);
-		$this->_styles[$signature] = array('data' => $data, 'link' => $link, 'attribs' => $attribs);
-		return $this;
-	}
-	
-	/**
-	 * Get the style information 
-	 * 
-	 * This function return an associative array with 'data', 'link' and 
-	 * 'attribs' keys. If the 'link' value is TRUE the data is a URL.
-	 *
-	 * @return array
-	 */
-	public function getStyles()
-	{
-		return $this->_styles;
-	}
-	
-	/**
-	 * Add a script information
-	 * 
-	 * @param string	The script information
-	 * @param boolean	True, if the script information is a URL.
-	 * @param array		Associative array of attributes
-	 * @return KViewTemplate 
-	 */
-	public function addScript($data, $link = true, array $attribs = array())
-	{
-		$signature = md5($data);
-		$this->_scripts[$signature] = array('data' => $data, 'link' => $link, 'attribs' => $attribs);
-		return $this;
-	}
-	
-	/**
-	 * Get the script information 
-	 * 
-	 * This function return an associative array with 'data', 'link' and 
-	 * 'attribs' keys. If the 'link' value is TRUE the data is a URL.
-	 *
-	 * @return array
-	 */
-	public function getScripts()
-	{
-		return $this->_scripts;
-	}
-
-	/**
-	 * Load a template file -- first look in the templates folder for an override
-	 * 
-	 * This functions accepts both template local template file names or identifiers
-	 * - application::com.component.view.[.path].name
-	 *
-	 * @param 	string 	The name of the template source file automatically searches
-	 * 					the template paths and compiles as needed.
-	 * @param 	array	An associative array of data to be extracted in local template scope
-	 * @throws KViewException
-	 * @return string The output of the the template script.
-	 */
-	public function loadTemplate( $identifier = null, $data = null)
-	{
-		// Clear prior output
-		$this->output = '';
-		
-		// If no identifier has been specified using the view layout
-		$identifier = isset($identifier) ? $identifier : $this->_layout;
-		
-		try
+		if(!($template instanceof KTemplateAbstract))
 		{
-			$identifier = new KIdentifier($identifier);
-			
-			$file = $identifier->name;
-			$path = dirname(KLoader::path($identifier)).'/tmpl';
-		} 
-		catch(KIdentifierException $e) 
-		{
-			$file = $identifier;
-			$path = dirname($this->_identifier->filepath).'/tmpl';
+			$identifier = KFactory::identify($template);
+		
+			if($identifier->path[0] != 'template') {
+				throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
+			}
+		
+			$this->_template = KFactory::get($identifier);
 		}
 			
-		//Add the view to the data to allow accessing the view from inside the template
-		$data = isset($data) ? $data : $this->_data;
-		
-		$result = KFactory::get($this->getTemplate())
-					->find($path.'/'.$file.'.php', $data);
-		
-		return $result;  
+		return $this;
 	}
 	
 	/**
@@ -416,6 +337,30 @@ abstract class KViewTemplate extends KViewAbstract
 	 */
 	public function __toString()
 	{
-		return $this->loadTemplate();
+		return $this->display();
+	}
+	
+	/**
+	 * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view 
+	 * by using the variable name as the method name. If the method name is a setter method the 
+	 * setter will be called instead.
+	 *
+	 * For example : $view->layout('foo')->title('name')->display().
+	 *
+	 * @param	string	Method name
+	 * @param	array	Array containing all the arguments for the original call
+	 * @return	KViewAbstract
+	 *
+	 * @see http://martinfowler.com/bliki/FluentInterface.html
+	 */
+	public function __call($method, $args)
+	{
+		if(method_exists($this, 'set'.ucfirst($method))) {
+			return $this->{'set'.ucfirst($method)}($args[0]);
+		} else {
+			return $this->set($method, $args[0]);
+		}
+		
+		return $this;
 	}
 }

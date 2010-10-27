@@ -29,9 +29,9 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
 		'@date('    	=> '$this->loadHelper(\'date.format\',',
 		'@overlay('    	=> '$this->loadHelper(\'behavior.overlay\', ',
 		'@text('	 	=> 'JText::_(',
-		'@template('	=> 'KFactory::get($this->getView())->loadTemplate(',
-		'@route('    	=> 'KFactory::get($this->getView())->createRoute(',
-		'@escape('		=> 'KFactory::get($this->getView())->escape(',
+		'@template('	=> '$this->loadIdentifier(',
+		'@route('    	=> '$this->getView()->createRoute(',
+		'@escape('		=> '$this->getView()->escape(',
 	);
 	
 	/**
@@ -66,11 +66,11 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
 	 */
 	public function append(array $alias, $mode = KTemplateFilter::MODE_READ)
 	{
-		if($mode == KTemplateFilter::MODE_READ) {
+		if($mode & KTemplateFilter::MODE_READ) {
 			$this->_alias_read = array_merge($this->_alias_read, $alias); 
 		}
 		
-		if($mode == KTemplateFilter::MODE_WRITE) {
+		if($mode & KTemplateFilter::MODE_WRITE) {
 			$this->_alias_write = array_merge($this->_alias_write, $alias); 
 		}
 		

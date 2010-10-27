@@ -41,6 +41,21 @@ class KCommandChain extends KObject
 	 * @var boolean
 	 */
 	protected $_enabled = true;
+	
+	/**
+	 * The chain's break condition
+	 * 
+	 * @see run()
+	 * @var boolean
+	 */
+	protected $_break_condition = false;
+	
+	/**
+	 * The command context object
+	 * 
+	 * @var KCommandContext
+	 */
+	protected $_context = null;
 
 	/**
 	 * Constructor
@@ -49,9 +64,38 @@ class KCommandChain extends KObject
 	 */
 	public function __construct(KConfig $config = null)
 	{
+		 //If no config is passed create it
+		if(!isset($config)) $config = new KConfig();
+		
+		parent::__construct($config);
+		
+		$this->_break_condition = (boolean) $config->break_condition;
+		$this->_enabled         = (boolean) $config->enabled;
+		$this->_context         = $config->context;
+		
 		$this->_command  = new ArrayObject();
 		$this->_priority = new ArrayObject();
+
 	}
+	
+    /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'context'		  =>  new KCommandContext(),
+    		'enabled'		  =>  true,
+            'break_condition' =>  false,
+        ));
+        
+        parent::_initialize($config);
+    }
 	
   	/**
 	 * Attach a command to the chain
@@ -97,11 +141,11 @@ class KCommandChain extends KObject
   	/**
 	 * Run the commands in the chain
 	 * 
-	 * If a command return false the executing is halted
+	 * If a command returns the 'break condition' the executing is halted.
 	 * 
 	 * @param 	string  The command name
 	 * @param 	mixed   The command context
-	 * @return	boolean True if successfull, otherwise false
+	 * @return  void|boolean	If the chain is broken, returns the break condition. Default returns void.
 	 */
   	public function run( $name, KCommandContext $context )
   	{
@@ -109,22 +153,17 @@ class KCommandChain extends KObject
   		{
   			$iterator = $this->_priority->getIterator();
   			
-  			//Store a reference to the active context
-  			$this->_context = $context;
-  		
 			while($iterator->valid()) 
 			{
     			$cmd = $this->_command[ $iterator->key()];
     		
-				if ( $cmd->execute( $name, $context ) === false) {
-      				return false;
+    			if ( $cmd->execute( $name, $context ) === $this->_break_condition) {
+      				return $this->_break_condition;
       			}
 
     			$iterator->next();
 			}
   		}
-		
-		return true;
   	}
   	
   	/**
@@ -196,8 +235,7 @@ class KCommandChain extends KObject
 	 * @return	KCommandContext
 	 */
   	public function getContext()
-  	{
-		$context = new KCommandContext();	
-  		return $context;
+  	{	
+  		return clone $this->_context;
   	}
 }

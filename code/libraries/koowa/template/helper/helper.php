@@ -32,10 +32,10 @@ class KTemplateHelper
 		try 
 		{
 			if(is_string($identifier) && strpos($identifier, '.') === false ) {
-				$identifier = 'lib.koowa.template.helper.'.trim($identifier);
+				$identifier = 'com.default.template.helper.'.trim($identifier);
 			} 
 			
-			$helper = KFactory::get($identifier, $config);
+			$helper = KFactory::tmp($identifier, $config);
 			
 		} catch(KFactoryAdapterException $e) {
 			throw new KTemplateHelperException('Invalid identifier: '.$identifier);

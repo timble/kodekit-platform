@@ -36,7 +36,13 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 * @var	string
 	 */
 	protected $_action;
-
+	
+	/**
+	 * The class actions
+	 *
+	 * @var	array
+	 */
+	protected $_actions;
 
 	/**
 	 * Constructor.
@@ -52,7 +58,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
 		//Set the action
 		$this->_action = $config->action;
-
+		
         // Mixin the command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
@@ -108,14 +114,20 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		if (isset( $this->_action_map[$action] )) {
 			$action = $this->_action_map[$action];
 		}
+
+		//Create the command context object
+		if(!($data instanceof KCommandContext))
+		{
+			$context = $this->getCommandContext();
+			$context->data   = $data;
+			$context->result = false;
+		} 
+		else $context = clone $data;
 		
-		//Create the command arguments object
-		$context = $this->getCommandContext();
+		//Set the action
 		$context->action = $action;
-		$context->data   = $data;
-		$context->result = false;
 		
-		if($this->getCommandChain()->run('before.'.$action, $context) === true) 
+		if($this->getCommandChain()->run('before.'.$action, $context) !== false) 
 		{
 			$action = $context->action;
 			$method = '_action'.ucfirst($action);
@@ -123,15 +135,8 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 			if (!in_array($method, $this->getMethods())) {
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
-			
-			//Transfrom the data to pass it to the action method
-			if(is_array($data) && $context->data instanceof KConfig) {
-				$data = $context->data->toArray();
-			} else {
-				$data = $context->data;
-			}
-			
-			$context->result = $this->$method($data);
+				
+			$context->result = $this->$method($context);
 			$this->getCommandChain()->run('after.'.$action, $context);
 		}
 
@@ -145,16 +150,21 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 */
 	public function getActions()
 	{
-		$result = array();
-		foreach(get_class_methods($this) as $action)
+		if(!$this->_actions)
 		{
-			if(substr($action, 0, 7) == '_action') {
-				$result[] = strtolower(substr($action, 7));
-			}
+			$this->_actions = array();
 			
-			$result = array_unique(array_merge($result, array_keys($this->_action_map)));
+			foreach($this->getMethods() as $action)
+			{
+				if(substr($action, 0, 7) == '_action') {
+					$this->_actions[] = strtolower(substr($action, 7));
+				}
+			
+				$this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
+			}
 		}
-		return $result;
+		
+		return $this->_actions;
 	}
 
 	/**

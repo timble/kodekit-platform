@@ -23,7 +23,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 	/**
 	 * Returns formated date according to current local and adds time offset
 	 *
-	 * @param	string	A date in an US English date format
+	 * @param	string	A date in ISO 8601 format or a unix time stamp
 	 * @param	string	format optional format for strftime
 	 * @returns	string	formated date
 	 * @see		strftime
@@ -32,13 +32,15 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'date'   => '',
-			'format' => JText::_('DATE_FORMAT_LC1'),
-			'offset' => KFactory::get('lib.joomla.config')->getValue('config.offset')
+			'date'   	 => '',
+			'format'	 => '%A, %d %B %Y',
+			'gmt_offset' => 0,
  		));
-		
-		$instance = KFactory::tmp('lib.joomla.date', array($config->date));
-		$instance->setOffset($config->offset);
-		return $instance->toFormat($config->format);
+ 		
+ 		if(!is_numeric($config->date)) {
+ 			$config->date =  strtotime($config->date);
+ 		}
+ 		
+		return strftime($config->format, $config->date + 3600 * $config->offset);
 	}
 }

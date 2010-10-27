@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: koowa.php 1296 2009-10-24 00:15:45Z johan $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Components
  * @subpackage  Default
@@ -33,68 +33,128 @@ class ComDefaultControllerDefault extends KControllerView
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
 	}
 	
- 	/**
-	 * Filter that creates a redirect message based on the action
+	/**
+	 * Set the request information
+	 * 
+	 * This function translates 'limitstart' to 'offset' for compatibility with Joomla
 	 *
-	 * @return void
+	 * @param array	An associative array of request information
+	 * @return KControllerBread
 	 */
-	public function setMessage()
+	public function setRequest(array $request = array())
 	{
-		$count  = count((array) KRequest::get('post.id', 'int', 1));
-		$action = KRequest::get('post.action', 'cmd');
-		$name	= $this->_identifier->name;
-		$suffix = ($action == 'add' || $action == 'edit') ? 'ed' : 'd'; 
-			
-		if($count > 1) {
-			$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.$suffix, $count);
-		} else {
-			$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
+		if(isset($request['limitstart'])) {
+			$request['offset'] = $request['limitstart'];
 		}
+		
+		$this->_request = new KConfig($request);
+		return $this;
 	}
 	
 	/**
-	 * Browse a list of items
+	 * Display the view
+	 *
+	 * @param 	KCommandContext		The active command context
+	 * @return void
+	 */
+	public function displayView(KCommandContext $context)
+	{
+		//Load the language file for HMVC requests who are not routed through the dispatcher
+		if($this->_request->option != $this->getIdentifier()->package) {
+			KFactory::get('lib.joomla.language')->load($this->_request->option); 
+		}
+		
+		parent::displayView($context);
+	}
+
+ 	/**
+	 * Filter that creates a redirect message based on the action
 	 * 
+	 * This function takes the row(set) status into account. If the status is STATUS_FAILED the status message information 
+	 * us used to generate an appropriate redirect message and set the redirect to the referrer. Otherwise, we generate the 
+	 * message based on the action and identifier name.
+	 *
+	 * @param KCommandContext	The active command context
+	 * @return void
+	 */
+	public function setMessage(KCommandContext $context)
+	{
+		$action	= KRequest::get('post.action', 'cmd');
+		$name	= $this->_identifier->name;
+		$rowset	= ($context->result instanceof KDatabaseRowAbstract) ? array($context->result) : $context->result;
+		$suffix = ($action == 'add' || $action == 'edit') ? 'ed' : 'd'; 
+		$failed	= false;
+
+		foreach($rowset as $row)
+		{
+			if($row->getStatus() == KDatabase::STATUS_FAILED)
+			{
+				$this->_redirect		= KRequest::referrer();
+				$this->_redirect_type	= 'error';
+
+				if($row->getStatusMessage()) {
+					$this->_redirect_message = $row->getStatusMessage();
+				} else {
+					$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.' failed');
+				}
+
+				$failed = true;
+				break;
+			}
+		}
+
+		if(!$failed)
+		{
+			if(count($rowset) > 1) {
+				$this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.$suffix, $count);
+			} else {
+				$this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
+			}
+		}
+	}
+
+	/**
+	 * Browse a list of items
+	 *
 	 * This function set the default list limit if the limit state is 0
 	 *
 	 * @return KDatabaseRowset	A rowset object containing the selected rows
 	 */
-	protected function _actionBrowse()
+	protected function _actionBrowse(KCommandContext $context)
 	{
-		$model = KFactory::get($this->getModel());
-		if($model->getState()->limit === 0) {
-			$model->set('limit', KFactory::get('lib.joomla.application')->getCfg('list_limit'));
+		if(empty($this->getModel()->getState()->limit)) {
+			$this->getModel()->limit(KFactory::get('lib.joomla.application')->getCfg('list_limit'));
 		}
-				
-		return parent::_actionBrowse();
+
+		return parent::_actionBrowse($context);
 	}
-	
+
 	/**
 	 * Display a single item
-	 * 
+	 *
 	 * This functions implements an extra check to hide the main menu is the view name
 	 * is singular (item views)
 	 *
 	 *  @return KDatabaseRow	A row object containing the selected row
 	 */
-	protected function _actionRead()
+	protected function _actionRead(KCommandContext $context)
 	{
 		//Force the default layout to form for read actions
 		if(!isset($this->_request->layout)) {
 			$this->_request->layout = 'form';
 		}
-		
+
 		//Perform the read action
-		$row = parent::_actionRead();
-		
+		$row = parent::_actionRead($context);
+
 		//Add the notice if the row is locked
-		if(isset($row)) 
+		if(isset($row))
 		{
 			if($this->_request->layout == 'form' && $row->isLockable() && $row->locked()) {
 				KFactory::get('lib.koowa.application')->enqueueMessage($row->lockMessage(), 'notice');
 			}
 		}
-	
+
 		return $row;
 	}
 }

@@ -18,7 +18,7 @@
  * @subpackage  Default
  */
 
-class ComDefaultHelperListbox extends KTemplateHelperListbox
+class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
 {
 	/**
 	 * Generates an HTML enabled optionlist
