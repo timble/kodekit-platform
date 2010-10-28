@@ -1,20 +1,20 @@
 <?php
 /**
- * @version     $Id: default.php 2576 2010-09-11 12:39:05Z johanjanssens $
- * @category	Koowa
- * @package     Koowa_Components
+ * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Components
  * @subpackage  Default
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link        http://www.koowa.org
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
- * Default Template
+ * Script Filter
 .*
- * @author		Johan Janssens <johan@koowa.org>
- * @category	Koowa
- * @package     Koowa_Components
+ * @author		Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultTemplateFilterScript extends KTemplateFilterScript
@@ -29,20 +29,16 @@ class ComDefaultTemplateFilterScript extends KTemplateFilterScript
 	 */
 	protected function _renderScript($script, $link, $attribs = array())
 	{
-		$html = '';
+		if(KRequest::type() == 'AJAX') {
+			return parent::_render($script, $link, $attribs);
+		}
 		
-		if(KRequest::type() != 'AJAX')
-		{
-			$document = KFactory::get('lib.joomla.document');
+		$document = KFactory::get('lib.joomla.document');
 		
-			if($link) {
-				$document->addScript($script, 'text/javascript');
-			} else {
-				$document->addScriptDeclaration($script);
-			}
-		} 
-		else $html = parent::_render($script, $link, $attribs);
-		
-		return $html;
+		if($link) {
+			$document->addScript($script, 'text/javascript');
+		} else {
+			$document->addScriptDeclaration($script);
+		}
 	}
 }

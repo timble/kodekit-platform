@@ -3,9 +3,9 @@
  * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Date
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link        http://www.koowa.org
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
@@ -42,8 +42,7 @@ define( 'SECONDS_IN_DAY', 86400 );
  * This class draws heavily on PEAR:Date Copyright (c) 1997-2005 Baba Buehler,
  * Pierre-Alain Joye Released under the New BSD license
  *
- * @author      Johan Janssens <johan@koowa.org>
- * @author      Mathias Verraes <mathias@koowa.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Date
  * @uses 		KObject

@@ -1,12 +1,13 @@
 <?php
 /**
-* @version		$Id$
-* @category		Koowa
-* @package      Koowa_Plugins
-* @copyright    Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
-* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-* @link         http://www.koowa.org
-*/
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Plugins
+ * @subpackage  Koowa
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
 /**
  * Default Koowa plugin

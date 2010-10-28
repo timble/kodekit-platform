@@ -3,9 +3,9 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Model
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.koowa.org
+ * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link     	http://www.nooku.org
  */
 
 /**
@@ -19,7 +19,7 @@
  * display: 	Number of links to generate before and after the current offset,
  * 				or 0 for all (Optional)
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Model
  */

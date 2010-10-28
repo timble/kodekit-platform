@@ -2,9 +2,9 @@
 /**
 * @version		$Id$
 * @category		Koowa
-* @copyright    Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
-* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-* @link         http://www.koowa.org
+* @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+* @link         http://www.nooku.org
 */
 
 /**
@@ -17,8 +17,7 @@ define('KOOWA', 1);
  *
  * Loads classes and files, and provides metadata for Koowa such as version info
  *
- * @author		Johan Janssens <johan@koowa.org>
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa
  */
 class Koowa

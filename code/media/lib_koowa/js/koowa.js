@@ -1,18 +1,20 @@
 /**
- * @version		$Id$
- * @category    Koowa
- * @package     Koowa_Media
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Media
  * @subpackage  Javascript
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license		GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link     	http://www.koowa.org
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
  * Koowa global namespace
- *
- * @package     Koowa_Media
- * @subpackage	Javascript
+.*
+ * @author		Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package     Nooku_Media
+ * @subpackage  Javascript
  */
 var Koowa = {
 	version: '0.7'

@@ -4,14 +4,14 @@
 * @category		Koowa
 * @package		Koowa_Toolbar
 * @subpackage	Button
-* @copyright    Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
-* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+* @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
 /**
  * Save button class for a toolbar
  *
- * @author		Mathias Verraes <mathias@koowa.org>
+ * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package		Koowa_Toolbar
  * @subpackage	Button
