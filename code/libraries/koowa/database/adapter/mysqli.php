@@ -168,8 +168,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @return boolean
 	 */
 	public function active() 
-	{
-		return is_resource($this->_connection) && $this->_connection->ping();
+	{		
+		return is_object($this->_connection) && @$this->_connection->ping();
 	}
 	
 	/**
