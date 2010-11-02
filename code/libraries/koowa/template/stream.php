@@ -223,6 +223,6 @@ class KTemplateStream
      */
     public function url_stat($path, $flags) 
     {
-    	return stat(str_replace('tmpl://', '', $path));
+    	return $this->_stat;
     }
 }
