@@ -140,7 +140,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
     	if(isset($row->ordering) && $row->ordering <= 0)
     	{
-        	$table	= $context->caller->getTable();
+        	$table	= $context->caller;
 			$db 	= $table->getDatabase();
 			$query 	= $db->getQuery();
     		
