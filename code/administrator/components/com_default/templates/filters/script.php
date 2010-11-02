@@ -30,7 +30,7 @@ class ComDefaultTemplateFilterScript extends KTemplateFilterScript
 	protected function _renderScript($script, $link, $attribs = array())
 	{	
 		if(KRequest::type() == 'AJAX') {
-			return parent::_render($script, $link, $attribs);
+			return parent::_renderScript($script, $link, $attribs);
 		}
 		
 		$document = KFactory::get('lib.joomla.document');
