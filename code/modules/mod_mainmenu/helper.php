@@ -370,7 +370,6 @@ class JMenuTree extends JTree
 					$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'.$this->_params->get('window_open');
 
 					// hrm...this is a bit dickey
-					$link = str_replace('index.php', 'index2.php', $tmp->url);
 					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$image.$tmp->name.'</a>';
 					break;
 			}

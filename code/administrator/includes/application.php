@@ -290,16 +290,4 @@ class JAdministrator extends JApplication
 			$db->query();
 		}
 	}
-
-   /**
-	* Deprecated, use JURI::root() instead.
-	*
-	* @since 1.5
-	* @deprecated As of version 1.5
-	* @see JURI::root()
-	*/
-	function getSiteURL()
-	{
-	   return JURI::root();
-	}
 }
