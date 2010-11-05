@@ -272,7 +272,7 @@ class KModelTable extends KModelAbstract
 				$query = $table->getDatabase()->getQuery()
 					->distinct()
 					->group('tbl.'.$table->mapColumns($column));
-					
+						
 				$this->_column[$column] = $table->select($query);
 			}
 		}
