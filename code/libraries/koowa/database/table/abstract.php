@@ -100,7 +100,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		
 		//Check if the table exists
 		if(!$info = $this->getInfo()) {
-			throw new KDatabaseTableException('Table '.$this->_name.' does not exists');
+			throw new KDatabaseTableException('Table '.$this->_name.' does not exist');
 		}
 			
 		// Set the identity column
