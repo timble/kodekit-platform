@@ -63,9 +63,6 @@ unset( $CONFIG );
  * Joomla! framework loading
  */
 
-// Include object abstract class
-require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'compat.php');
-
 // System profiler
 if (JDEBUG) {
 	jimport( 'joomla.error.profiler' );
