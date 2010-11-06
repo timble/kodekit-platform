@@ -131,41 +131,18 @@ class modMainMenuHelper
 
 	function render(&$params, $callback)
 	{
-		switch ( $params->get( 'menu_style', 'list' ) )
-		{
-			case 'list_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 1);
-				break;
+		// Include the new menu class
+		$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
+		if ($xml) {
+			$class = $params->get('class_sfx');
+			$xml->addAttribute('class', 'menu'.$class);
+			if ($tagId = $params->get('tag_id')) {
+				$xml->addAttribute('id', $tagId);
+			}
 
-			case 'horiz_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 0);
-				break;
-
-			case 'vert_indent' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowVIMenu($params);
-				break;
-
-			default :
-				// Include the new menu class
-				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				if ($xml) {
-					$class = $params->get('class_sfx');
-					$xml->addAttribute('class', 'menu'.$class);
-					if ($tagId = $params->get('tag_id')) {
-						$xml->addAttribute('id', $tagId);
-					}
-
-					$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
-					$result = str_replace(array('<ul/>', '<ul />'), '', $result);
-					echo $result;
-				}
-				break;
+			$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+			$result = str_replace(array('<ul/>', '<ul />'), '', $result);
+			echo $result;
 		}
 	}
 }

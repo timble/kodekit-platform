@@ -120,34 +120,6 @@ class JComponentHelper
 			JError::raiseError( 404, JText::_( 'Component Not Found' ) );
 		}
 
-		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy'))
-		{
-			// Include legacy globals
-			global $my, $database, $id, $acl, $task;
-
-			// For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$contentConfig = &JComponentHelper::getParams( 'com_content' );
-			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-
-		}
-
 		$task = JRequest::getString( 'task' );
 
 		// Load common language files

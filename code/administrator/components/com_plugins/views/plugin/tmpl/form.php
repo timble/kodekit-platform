@@ -136,15 +136,6 @@
 			echo $pane->endPanel();
 		}
 
-		if ($this->params->getNumParams('legacy')) {
-			echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
-			if($output = $this->params->render('params', 'legacy')) :
-				echo $output;
-			else :
-				echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no legacy parameters for this item')."</div>";
-			endif;
-			echo $pane->endPanel();
-		}
 		echo $pane->endPane();
 	?>
 	</fieldset>

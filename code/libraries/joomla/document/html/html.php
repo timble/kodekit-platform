@@ -313,18 +313,6 @@ class JDocumentHTML extends JDocument
 	{
 		global $mainframe, $option;
 
-		if ($mainframe->getCfg('legacy'))
-		{
-			global $task, $_VERSION, $my, $cur_template, $database, $acl, $Itemid;
-
-			//For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v) {
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-		}
-
 		$contents = '';
 
 		//Check to see if we have a valid template file

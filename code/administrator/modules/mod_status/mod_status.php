@@ -26,11 +26,6 @@ $session	=& JFactory::getSession();
 $sid	= $session->getId();
 $output = array();
 
-// Legacy Mode
-if (defined('_JLEGACY')) {
-	$output[] = '<span class="legacy-mode">'.JText::_('Legacy').': '._JLEGACY.'</span>';
-}
-
 // Print the preview button
 $output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
