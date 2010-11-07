@@ -110,11 +110,6 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		//Set the original action in the controller to allow it to be retrieved
 		$this->setAction($action);
 
-		//Find the mapped action if one exists
-		if (isset( $this->_action_map[$action] )) {
-			$action = $this->_action_map[$action];
-		}
-
 		//Create the command context object
 		if(!($data instanceof KCommandContext))
 		{
@@ -123,6 +118,11 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 			$context->result = false;
 		} 
 		else $context = clone $data;
+		
+		//Find the mapped action if one exists
+		if (isset( $this->_action_map[$action] )) {
+			$action = $this->_action_map[$action];
+		}
 		
 		//Set the action
 		$context->action = $action;
@@ -177,17 +177,24 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		return $this->_action;
 	}
 
-	/**
-	 * Set the action that will be performed.
-	 *
-	 * @param	string Action name
-	 * @return  KControllerAbstract
-	 */
-	public function setAction($action)
-	{
-		$this->_action = $action;
-		return $this;
-	}
+	/** 
+   	 * Set the action that will be performed. 
+     * 
+     * @param       string Action name 
+     * @return  KControllerAbstract 
+     */ 
+  	public function setAction($action) 
+   	{ 
+    	$action = strtolower($action);
+   		
+   		//Find the mapped action if one exists 
+      	if (isset( $this->_action_map[$action] )) { 
+           	$action = $this->_action_map[$action]; 
+       	} 
+        
+       	$this->_action = $action; 
+      	return $this; 
+   	} 
 
 	/**
 	 * Register (map) an action to a method in the class.
