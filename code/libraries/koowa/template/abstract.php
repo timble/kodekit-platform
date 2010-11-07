@@ -339,34 +339,81 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
  	}
  	
 	/**
-	 * Adds to the stack of view script paths
+	 * Get a list of template paths
 	 *
-	 * @param string|array The directory (-ies) to add.
+	 * @return  array	An array of template paths
+	 */
+	public function getPaths($paths)
+	{
+		return $this->_paths;
+	}
+ 	
+	/**
+	 * Remove one or more template path(s) from the stack
+	 *
+	 * @param string|array The path(s) to remove.
 	 * @return  KTemplateAbstract
 	 */
-	public function addPath($path, $append = false)
+	public function removePath($paths)
 	{
 		// just force to array
-		settype($path, 'array');
+		settype($paths, 'array');
 
 		// loop through the path directories
-		foreach ($path as $dir)
+		foreach ($paths as $path)
 		{
 			// no surrounding spaces allowed!
-			$dir = trim($dir);
+			$path = trim($path);
 
 			// remove trailing slash
-			if (substr($dir, -1) == DIRECTORY_SEPARATOR) {
-				$dir = substr_replace($dir, '', -1);
+			if (substr($path, -1) == DIRECTORY_SEPARATOR) {
+				$path = substr_replace($path, '', -1);
+			}
+			
+			// remove the path from the 
+			if($key = array_search($this->_paths, $path)) {
+				unset($this->_paths[$key]);
+			}
+		}
+
+		return $this;
+	}
+ 	
+	/**
+	 * Adds to the stack of template paths
+	 * 
+	 * If a duplicate path is added to the stack the first path in the stack 
+	 * will be kept all others are removed.
+	 *
+	 * @param string|array The path(s) to add.
+	 * @return  KTemplateAbstract
+	 */
+	public function addPath($paths, $append = false)
+	{
+		// just force to array
+		settype($paths, 'array');
+
+		// loop through the paths
+		foreach ($paths as $path)
+		{
+			// no surrounding spaces allowed!
+			$path = trim($path);
+
+			// remove trailing slash
+			if (substr($path, -1) == DIRECTORY_SEPARATOR) {
+				$dir = substr_replace($path, '', -1);
 			}
 
 			// add to the top of the search dirs
 			if(!$append) {
-				array_unshift( $this->_paths, $dir);
+				array_unshift( $this->_paths, $path);
 			} else {
-				array_push( $this->_paths, $dir);
+				array_push( $this->_paths, $path);
 			}
 		}
+		
+		//Filter out any duplicate values
+		$this->_paths = array_unique($this->_paths);
 
 		return $this;
 	}
