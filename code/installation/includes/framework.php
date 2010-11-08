@@ -41,13 +41,6 @@ require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
-/*
- * Joomla! framework loading
- */
-
-// Include object abstract class
-require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'compat.php');
-
 // Joomla! library imports
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');
