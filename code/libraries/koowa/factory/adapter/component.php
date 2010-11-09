@@ -83,7 +83,7 @@ class KFactoryAdapterComponent extends KFactoryAdapterAbstract
 						$classname = 'ComDefault'.ucfirst($classtype).$path.'Default';
 					} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
 						$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
-					} else {
+					} elseif(class_exists('K'.ucfirst($classtype).$path.'Default')) {
 						$classname = 'K'.ucfirst($classtype).$path.'Default';
 					}
 				}
