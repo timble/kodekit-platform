@@ -46,7 +46,10 @@ class KDatabaseBehaviorHittable extends KDatabaseBehaviorAbstract
 	public function hit()
 	{
 		$this->hits++;
-		$this->save();
+		
+		if(!$this->isNew()) {
+			$this->save();
+		}
 
 		return $this->_mixer;
 	}
