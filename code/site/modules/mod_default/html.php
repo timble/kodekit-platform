@@ -101,32 +101,7 @@ class ModDefaultHtml extends KViewHtml
 	 */
 	public function display()
 	{
-		//Render the template
-		$template = $this->getTemplate()
-				->loadIdentifier($this->_layout, $this->_data)
-				->render(true);
-		
-		$document = KFactory::get('lib.joomla.document');
-		
-		foreach($this->getStyles() as $style) 
-		{
-			if($style['link']) {
-				$document->addStyleSheet($style['data'], 'text/css', null, $style['attribs']);
-			} else {
-				$document->addStyleDeclaration($style['data']);
-			}
-		}
-			
-		foreach($this->getScripts() as $script) 
-		{
-			if($script['link']) {
-				$document->addScript($script['data'], 'text/javascript');
-			} else {
-				$document->addScriptDeclaration($script['data']);
-			}
-		}
-		
-		echo $template;
+		echo parent::display();
 		return $this;
 	}
 }
