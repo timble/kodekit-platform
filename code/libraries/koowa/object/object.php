@@ -81,7 +81,7 @@ class KObject
     public function set( $property, $value = null )
     {
     	if(is_object($property)) {
-    		$property = (array) $property;
+    		$property = get_object_vars($property);
     	}
     	
     	if(is_array($property)) 
