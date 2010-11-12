@@ -101,7 +101,11 @@ class ModDefaultHtml extends KViewHtml
 	 */
 	public function display()
 	{
-		echo parent::display();
+		$this->output = $this->getTemplate()
+				->loadIdentifier($this->_layout, $this->_data)
+				->render(true);
+				
+		echo $this->output;
 		return $this;
 	}
 }
