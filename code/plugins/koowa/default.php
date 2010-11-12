@@ -95,7 +95,7 @@ abstract class PlgKoowaDefault extends KEventListener
 		}
 		
 		//Register the plugin with the dispatcher
-		$dispatcher->register($this);
+		$dispatcher->addListener($this);
 		
 		//Force the identifier to NULL for now
 		$config['identifier'] = null;
