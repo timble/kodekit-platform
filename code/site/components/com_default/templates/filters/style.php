@@ -30,7 +30,7 @@ class ComDefaultTemplateFilterStyle extends KTemplateFilterStyle
 	protected function _renderStyle($style, $link, $attribs = array())
 	{
 		if(KRequest::type() == 'AJAX') {
-			return parent::_renderStyle($script, $link, $attribs);
+			return parent::_renderStyle($style, $link, $attribs);
 		}
 		
 		$document = KFactory::get('lib.joomla.document');
