@@ -218,7 +218,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$contents = file_get_contents($template);
 		
 		// load the contents
-		$this->loadString($contents, $data);
+		$this->loadString($contents, $data, $path);
 		
 		return $this;
 	}
@@ -228,12 +228,13 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template contents
 	 * @param	array	An associative array of data to be extracted in local template scope
+	 * @param	string	The template path. If empty the path will be calculated based on the template contents.
 	 * @return KTemplateAbstract
 	 */
-	public function loadString($string, $data = array())
+	public function loadString($string, $data = array(), $path = '')
 	{
 		$this->_contents = $string;
-		$this->_path     = md5($string);
+		$this->_path     = empt($path) ? md5($string) : $path;
 		
 		// set the data
 		if(!empty($data)) {
