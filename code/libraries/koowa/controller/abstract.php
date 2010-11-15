@@ -125,6 +125,8 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		//Find the mapped action if one exists
 		if (isset( $this->_action_map[$action] )) {
 			$command = $this->_action_map[$action];
+		} else {
+			$command = $action;
 		}
 		
 		if($this->getCommandChain()->run('before.'.$command, $context) !== false) 
