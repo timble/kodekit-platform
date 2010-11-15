@@ -119,25 +119,25 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		} 
 		else $context = clone $data;
 		
-		//Find the mapped action if one exists
-		if (isset( $this->_action_map[$action] )) {
-			$action = $this->_action_map[$action];
-		}
-		
 		//Set the action
 		$context->action = $action;
 		
-		if($this->getCommandChain()->run('before.'.$action, $context) !== false) 
+		//Find the mapped action if one exists
+		if (isset( $this->_action_map[$action] )) {
+			$command = $this->_action_map[$action];
+		}
+		
+		if($this->getCommandChain()->run('before.'.$command, $context) !== false) 
 		{
 			$action = $context->action;
-			$method = '_action'.ucfirst($action);
+			$method = '_action'.ucfirst($command);
 	
 			if (!in_array($method, $this->getMethods())) {
 				throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
 			}
 				
 			$context->result = $this->$method($context);
-			$this->getCommandChain()->run('after.'.$action, $context);
+			$this->getCommandChain()->run('after.'.$command, $context);
 		}
 
 		return $context->result;
