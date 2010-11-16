@@ -234,7 +234,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function loadString($string, $data = array(), $path = '')
 	{
 		$this->_contents = $string;
-		$this->_path     = empt($path) ? md5($string) : $path;
+		$this->_path     = empty($path) ? md5($string) : $path;
 		
 		// set the data
 		if(!empty($data)) {
