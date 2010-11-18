@@ -353,14 +353,18 @@ abstract class KViewTemplate extends KViewAbstract
 	 *
 	 * @see http://martinfowler.com/bliki/FluentInterface.html
 	 */
-	public function __call($method, $args)
-	{
-		if(method_exists($this, 'set'.ucfirst($method))) {
-			return $this->{'set'.ucfirst($method)}($args[0]);
-		} else {
-			return $this->set($method, $args[0]);
-		}
-		
-		return $this;
-	}
+	public function __call($method, $args) 
+	{ 
+        //If one argument is passed we assume a setter method is being called 
+        if(count($args) == 1) 
+        { 
+        	if(method_exists($this, 'set'.ucfirst($method))) { 
+             	return $this->{'set'.ucfirst($method)}($args[0]); 
+           	} else { 
+             	return $this->set($method, $args[0]); 
+          	} 
+        } 
+        
+        return parent::__call($method, $args); 
+	} 
 }
