@@ -36,6 +36,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 			'display' => 4,
 			'offset'  => 0,
 			'limit'	  => 0,
+			'attribs' => array('attribs' => array('onchange' => 'this.form.submit();'))
 		));
 		
 		// Paginator object
