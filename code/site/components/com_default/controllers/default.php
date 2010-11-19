@@ -60,7 +60,7 @@ class ComDefaultControllerDefault extends KControllerView
 	 */
 	protected function _actionBrowse(KCommandContext $context)
 	{
-		if(empty($this->getModel()->getState()->limit)) {
+		if($this->getModel()->getState()->limit == null) {
 			$this->getModel()->limit(KFactory::get('lib.joomla.application')->getCfg('list_limit'));
 		}
 			
