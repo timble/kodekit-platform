@@ -1,0 +1,25 @@
+/* -- Imported styles ----------------------------- */
+
+@import url("general_rtl.css");
+
+/* -- Specific styles ----------------------------- */
+
+#section-box{
+	float: left;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+#form-login label{
+	float: right;
+	text-align: left;
+}
+
+#form-login div.button_holder{
+ 	padding-left: 0px;
+}
+
+form .inputbox {
+	margin-left:0px;
+	margin-right:10px;
+}
