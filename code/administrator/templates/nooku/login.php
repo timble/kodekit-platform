@@ -22,11 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<?php  if($this->params->get('useRoundedCorners')) : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/rounded.css" />
-<?php  else : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/norounded.css" />
-<?php  endif; ?>
+<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/rounded.css" />
 
 <script language="javascript" type="text/javascript">
 	function setFocus() {
@@ -36,38 +32,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </script>
 </head>
 <body onload="javascript:setFocus()">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
-		<div>
-			<div>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
-			</div>
+	<div id="container">
+		<div id="border-top">
+			<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
 		</div>
-	</div>
-	<div id="content-box">
-		<div class="padding">
+		<div id="content-box">
 			<div id="element-box" class="login">
-				<div class="t">
-					<div class="t">
-						<div class="t"></div>
-					</div>
-				</div>
-				<div class="m">
-
-					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
-					<jdoc:include type="message" />
-					<jdoc:include type="component" />
-					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
-					<p>
-						<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
-					</p>
-					<div id="lock"></div>
-					<div class="clr"></div>
-				</div>
-				<div class="b">
-					<div class="b">
-						<div class="b"></div>
-					</div>
-				</div>
+				<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
+				<jdoc:include type="message" />
+				<jdoc:include type="component" />
+				<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
+				<p>
+					<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
+				</p>
+				<div id="lock"></div>
+				<div class="clr"></div>
 			</div>
 			<noscript>
 				<?php echo JText::_('WARNJAVASCRIPT') ?>
@@ -75,13 +54,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<div class="clr"></div>
 		</div>
 	</div>
-	<div id="border-bottom"><div><div></div></div>
-</div>
-<div id="footer">
-	<p class="copyright">
-		<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-		<?php echo JText::_('ISFREESOFTWARE') ?>
-	</p>
-</div>
+	<div id="footer">
+		<p class="copyright">
+			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+			<?php echo JText::_('ISFREESOFTWARE') ?>
+		</p>
+	</div>
 </body>
 </html>

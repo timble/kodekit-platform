@@ -25,22 +25,11 @@ p {
 	height: 137px;
 }
 
-#content-box .m {
-  padding: 10px;
-}
-
-#content-box .padding {
+#content-box {
   padding: 30px 0;
 }
 
 #section-box  { float: right; width: 320px; margin-left: 10px;}
-
-#section-box .m {
-  padding: 5px;
-}
-#section-box .padding {
-	background: none; padding: 0;
-}
 
 .button { text-align: right; }
 

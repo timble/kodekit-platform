@@ -64,17 +64,7 @@ textarea:focus { background-color: #ffd }
 
 /* -- overall styles ------------------------------ */
 
-#border-top.h_green          { background: url(../images/h_green/j_header_middle.png) repeat-x; }
-#border-top.h_green div      { background: url(../images/h_green/j_header_right.png) 100% 0 no-repeat; }
-#border-top.h_green div div  { background: url(../images/h_green/j_header_left.png) no-repeat; height: 54px; }
-
-#border-top.h_teal          { background: url(../images/h_teal/j_header_middle.png) repeat-x; }
-#border-top.h_teal div      { background: url(../images/h_teal/j_header_right.png) 100% 0 no-repeat; }
-#border-top.h_teal div div  { background: url(../images/h_teal/j_header_left.png) no-repeat; height: 54px; }
-
-#border-top.h_cherry          { background: url(../images/h_cherry/j_header_middle.png) repeat-x; }
-#border-top.h_cherry div      { background: url(../images/h_cherry/j_header_right.png) 100% 0 no-repeat; }
-#border-top.h_cherry div div  { background: url(../images/h_cherry/j_header_left.png) no-repeat; height: 54px; }
+#border-top         { background: url(../images/h_green/j_header_middle.png) repeat-x; }
 
 #border-top .title {
 	font-size: 22px; font-weight: bold; color: #fff; line-height: 44px;
@@ -87,25 +77,17 @@ textarea:focus { background-color: #ffd }
 	padding: 25px 5px 0 0;
 }
 
-#border-bottom 			{ background: url(../images/j_bottom.png) repeat-x; }
-#border-bottom div  		{ background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
-#border-bottom div div 	{ background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
-
 #footer .copyright { margin: 10px; text-align: center; }
 
 #header-box  { border: 1px solid #ccc; background: #f0f0f0; }
 
 #content-box {
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+	padding: 10px 10px 0 10px;
 }
-
-#content-box .padding  { padding: 10px 10px 0 10px; }
 
 #toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
 
 #submenu-box { background: #f6f6f6; margin-bottom: 10px; }
-#submenu-box .padding { padding: 0px;}
 
 
 /* -- status layout */

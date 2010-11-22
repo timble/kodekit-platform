@@ -21,11 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<?php if($this->params->get('useRoundedCorners')) : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
-<?php else : ?>
-	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
-<?php endif; ?>
+<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
 
 <?php if(JModuleHelper::isEnabled('menu')) : ?>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
@@ -34,60 +30,41 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 </head>
 <body id="minwidth-body">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
-		<div>
-			<div>
-				<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+	<div id="container">
+		<div id="border-top">
+			<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
+			<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+		</div>
+		<div id="header-box">
+			<div id="module-status">
+				<jdoc:include type="modules" name="status"  />
 			</div>
+			<div id="module-menu">
+				<jdoc:include type="modules" name="menu" />
+			</div>
+			<div class="clr"></div>
 		</div>
-	</div>
-	<div id="header-box">
-		<div id="module-status">
-			<jdoc:include type="modules" name="status"  />
-		</div>
-		<div id="module-menu">
-			<jdoc:include type="modules" name="menu" />
-		</div>
-		<div class="clr"></div>
-	</div>
-	<div id="content-box">
-		<div class="border">
-			<div class="padding">
-				<div id="element-box">
-					<jdoc:include type="message" />
-					<div class="t">
-						<div class="t">
-							<div class="t"></div>
-						</div>
-					</div>
-					<div class="m" >
-						<table class="adminform">
-						<tr>
-							<td width="55%" valign="top">
-								<jdoc:include type="modules" name="icon" />
-							</td>
-							<td width="45%" valign="top">
-								<jdoc:include type="component" />
-							</td>
-						</tr>
-						</table>
-						<div class="clr"></div>
-					</div>
-					<div class="b">
-						<div class="b">
-							<div class="b"></div>
-						</div>
-					</div>
-				</div>
-				<noscript>
-					<?php echo  JText::_('WARNJAVASCRIPT') ?>
-				</noscript>
+		<div id="content-box">
+			<div id="element-box">
+				<jdoc:include type="message" />
+				<table class="adminform">
+				<tr>
+					<td width="55%" valign="top">
+						<jdoc:include type="modules" name="icon" />
+					</td>
+					<td width="45%" valign="top">
+						<jdoc:include type="component" />
+					</td>
+				</tr>
+				</table>
 				<div class="clr"></div>
 			</div>
+			<noscript>
+				<?php echo  JText::_('WARNJAVASCRIPT') ?>
+			</noscript>
+			<div class="clr"></div>
 		</div>
 	</div>
-	<div id="border-bottom"><div><div></div></div></div>
 	<div id="footer">
 		<p class="copyright">
 			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
