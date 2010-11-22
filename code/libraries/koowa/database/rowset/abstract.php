@@ -109,7 +109,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 			$identifier->name	= KInflector::tableize($identifier->name);
 			$identifier->path	= array('database', 'table');
 
-			$table = KFactory::get($identifier);
+			$this->_table = KFactory::get($identifier);
 		}
 
 		return $this->_table;
