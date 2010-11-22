@@ -351,9 +351,9 @@ class KModelTable extends KModelAbstract
     	$sort       = $this->_state->sort;
        	$direction  = strtoupper($this->_state->direction);
 
-    	if($sort) {
-    		$query->order($sort, $direction);
-    	}
+   		if($sort) { 
+         	$query->order($this->getTable()->mapColumns($sort), $direction); 
+      	} 
 
     	if(array_key_exists('ordering', $this->getTable()->getColumns())) {
   	 		$query->order('ordering', 'ASC');
