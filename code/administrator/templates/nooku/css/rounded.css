@@ -7,7 +7,6 @@
 
 div#container,
 div#toolbar-box,
-div#submenu-box,
 div#element-box,
 div#element-box div#section-box {
   border: 1px solid #CDCDCD;
@@ -24,10 +23,6 @@ div#toolbar-box {
   padding: 6px 0;
   background: #f7f7f7;
   border: 1px solid #CDCDCD;
-}
-
-div#submenu-box {
-  padding: 6px 8px;
 }
 
 div#element-box {

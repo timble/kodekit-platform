@@ -87,9 +87,6 @@ textarea:focus { background-color: #ffd }
 
 #toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
 
-#submenu-box { background: #f6f6f6; margin-bottom: 10px; }
-
-
 /* -- status layout */
 #module-status      { float: right; }
 #module-status span { display: block; float: left; line-height: 16px; padding: 4px 10px 0 22px; margin-bottom: 5px; }
