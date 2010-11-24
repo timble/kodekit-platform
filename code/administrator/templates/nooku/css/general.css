@@ -1,10 +1,8 @@
 /* -- General styles ------------------------------ */
 
 body {
-	margin: 10px; padding: 0;
+	margin: 0; padding: 0;
 	background: #fff;
-	padding-bottom: 1px;
-
 	font-size: 11px;
 }
 
@@ -64,28 +62,38 @@ textarea:focus { background-color: #ffd }
 
 /* -- overall styles ------------------------------ */
 
-#border-top         { background: url(../images/h_green/j_header_middle.png) repeat-x; }
-
-#border-top .title {
-	font-size: 22px; font-weight: bold; color: #fff; line-height: 44px;
-	padding-left: 180px;
-}
-
-#border-top .version {
-	display: block; float: right;
-	color: #fff;
-	padding: 25px 5px 0 0;
-}
-
 #footer .copyright { margin: 10px; text-align: center; }
 
-#header-box  { border: 1px solid #ccc; background: #f0f0f0; }
-
-#content-box {
-	padding: 10px 10px 0 10px;
+#header-box  { 
+	background: #C8C8C8;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C8C8C8), to(#A8A8A8));
+	border-bottom: 1px solid #505050;
 }
 
-#toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
+#content-box {
+	padding: 10px 0 0 0;
+	border-bottom: 1px solid #CDCDCD;
+}
+
+#toolbar-box 			{ 
+	padding: 6px 0;
+	background: #f7f7f7;
+	border-top: 1px solid #CDCDCD;
+	border-bottom: 1px solid #CDCDCD;
+}
+
+div#element-box {
+  padding: 10px 10px;
+}
+
+div#element-box div#section-box {
+  background: #fbfbfb;
+  padding: 10px 0;
+  border: 1px solid #CDCDCD;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
 
 /* -- status layout */
 #module-status      { float: right; }
