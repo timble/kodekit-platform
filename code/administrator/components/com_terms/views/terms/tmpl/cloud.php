@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<style src="media://com_terms/css/cloud.css" />
+<style src="media://com_terms/css/terms-cloud.css" />
 
 <ul id="terms-terms-cloud">
 	<? foreach ($terms as $term) : ?>
