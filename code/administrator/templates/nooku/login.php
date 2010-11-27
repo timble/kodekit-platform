@@ -48,17 +48,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				<div id="lock"></div>
 				<div class="clr"></div>
 			</div>
-			<noscript>
-				<?php echo JText::_('WARNJAVASCRIPT') ?>
-			</noscript>
 			<div class="clr"></div>
 		</div>
-	</div>
-	<div id="footer">
-		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?php echo JText::_('ISFREESOFTWARE') ?>
-		</p>
 	</div>
 </body>
 </html>

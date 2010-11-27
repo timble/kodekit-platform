@@ -33,7 +33,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <body id="minwidth-body">
 	<div id="header-box">
 		<div id="module-status">
-			<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
 			<jdoc:include type="modules" name="status"  />
 		</div>
 		<div id="module-menu">
@@ -57,18 +56,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<jdoc:include type="component" />
 			<div class="clr"></div>
    		</div>
-		<noscript>
-			<?php echo  JText::_('WARNJAVASCRIPT') ?>
-		</noscript>
 		<div class="clr"></div>
-	</div>
-	
-	<div id="footer">
-		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?php echo  JText::_('ISFREESOFTWARE') ?>
-			
-		</p>
 	</div>
 </body>
 </html>

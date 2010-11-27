@@ -31,10 +31,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </head>
 <body id="minwidth-body">
 	<div id="container">
-		<div id="border-top">
-			<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
-			<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
-		</div>
 		<div id="header-box">
 			<div id="module-status">
 				<jdoc:include type="modules" name="status"  />
@@ -59,17 +55,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				</table>
 				<div class="clr"></div>
 			</div>
-			<noscript>
-				<?php echo  JText::_('WARNJAVASCRIPT') ?>
-			</noscript>
 			<div class="clr"></div>
 		</div>
-	</div>
-	<div id="footer">
-		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?php echo  JText::_('ISFREESOFTWARE') ?>
-		</p>
 	</div>
 </body>
 </html>
