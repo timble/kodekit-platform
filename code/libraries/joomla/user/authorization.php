@@ -134,9 +134,7 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'com_plugins', 'manage', 'users', 'administrator' );
 		// uncomment following to allow managers to edit modules
 		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
-
-		$this->addACL( 'com_massmail', 'manage', 'users', 'super administrator' );
-
+		
 		$this->addACL( 'com_media', 'manage', 'users', 'super administrator' );
 		$this->addACL( 'com_media', 'manage', 'users', 'administrator' );
 		$this->addACL( 'com_media', 'manage', 'users', 'manager' );

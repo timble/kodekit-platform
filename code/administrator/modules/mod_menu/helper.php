@@ -44,7 +44,6 @@ class modMenuHelper
 		$editAllPlugins		= $user->authorize('com_plugins', 'manage');
 		$installComponents	= $user->authorize('com_installer', 'component');
 		$editAllComponents	= $user->authorize('com_components', 'manage');
-		$canMassMail		= $user->authorize('com_massmail', 'manage');
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
 		// Menu Types
@@ -226,10 +225,6 @@ class modMenuHelper
 				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
-			if ($canMassMail) {
-				$menu->addChild(new JMenuNode(JText::_('Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
-				$menu->addSeparator();
-			}
 			if ($canCheckin) {
 				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
@@ -269,7 +264,6 @@ class modMenuHelper
 		$editAllPlugins		= $user->authorize('com_plugins', 'manage');
 		$installComponents	= $user->authorize('com_installer', 'component');
 		$editAllComponents	= $user->authorize('com_components', 'manage');
-		$canMassMail			= $user->authorize('com_massmail', 'manage');
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
 		$text = JText::_('Menu inactive for this Page', true);
