@@ -206,26 +206,8 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
-		if ($isNew)
+		if (!$isNew)
 		{
-			// messaging for new items
-			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
-
-			// load language for messaging
-			$lang =& JFactory::getLanguage();
-			$lang->load('com_messages');
-
-			$query = 'SELECT id' .
-					' FROM #__users' .
-					' WHERE sendEmail = 1';
-			$db->setQuery($query);
-			$users = $db->loadResultArray();
-			foreach ($users as $user_id)
-			{
-				$msg = new TableMessage($db);
-				$msg->send($user->get('id'), $user_id, JText::_('New Item'), JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $post['title'], $section, $category));
-			}
-		} else {
 			// If the article isn't new, then we need to clean the cache so that our changes appear realtime :)
 			$cache = &JFactory::getCache('com_content');
 			$cache->clean();

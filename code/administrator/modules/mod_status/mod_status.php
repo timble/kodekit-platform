@@ -29,27 +29,6 @@ $output = array();
 // Print the preview button
 $output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
-// Get the number of unread messages in your inbox
-$query = 'SELECT COUNT(*)'
-. ' FROM #__messages'
-. ' WHERE state = 0'
-. ' AND user_id_to = '.(int) $user->get('id');
-$db->setQuery( $query );
-$unread = $db->loadResult();
-
-if (JRequest::getInt('hidemainmenu')) {
-	$inboxLink = '<a>';
-} else {
-	$inboxLink = '<a href="index.php?option=com_messages">';
-}
-
-// Print the inbox message
-if ($unread) {
-	$output[] = $inboxLink.'<span class="unread-messages">'.$unread.'</span></a>';
-} else {
-	$output[] = $inboxLink.'<span class="no-unread-messages">'.$unread.'</span></a>';
-}
-
 // Get the number of logged in users
 $query = 'SELECT COUNT( session_id )'
 . ' FROM #__session'
