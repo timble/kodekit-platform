@@ -517,6 +517,26 @@ class KRequest
 
 		return $type;
 	}
+	
+	/**
+	 * Return the request token
+	 *
+	 * @return  string	The request token or NULL if no token could be found
+	 */
+	public static function token()
+	{
+		$token = null;
+		
+		if(isset($_SERVER['HTTP_X_TOKEN'])) {
+			$token = KFactory::tmp('lib.koowa.filter.md5')->sanitize($_SERVER['HTTP_X_TOKEN']);
+		}
+		
+		if(self::has('request._token')) {
+			$token = self::get('request._token', 'md5'));
+		}
+		
+		return $token;
+	}
 
 	/**
 	 * Parse the variable identifier
