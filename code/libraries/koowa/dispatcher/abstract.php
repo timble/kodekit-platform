@@ -243,10 +243,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function _actionAuthorize(KCommandContext $context)
 	{
-		$req	= KRequest::get('request._token', 'md5');
-       	$token	= JUtility::getToken();
-       	 	
-        if($req !== $token)
+        if( KRequest::token() !== JUtility::getToken())
         {
         	throw new KDispatcherException('Invalid token or session time-out.', KHttp::UNAUTHORIZED);
         	return false;
