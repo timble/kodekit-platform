@@ -532,7 +532,7 @@ class KRequest
 		}
 		
 		if(self::has('request._token')) {
-			$token = self::get('request._token', 'md5'));
+			$token = self::get('request._token', 'md5');
 		}
 		
 		return $token;
