@@ -203,13 +203,32 @@ textarea#mm_message { width: 100%; }
 	cursor: pointer;
 }
 
-.pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px;}
+.pane-sliders .panel   { 
+	border: 1px solid #DDD;
+	margin-bottom: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px; }
 
-.pane-sliders .panel h3 { background: #f6f6f6; color: #666}
+.pane-sliders .panel h3 { 
+	padding: 5px 0;
+	color: #464646;
+	background-color: #f6f6f6;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6f6f6), to(#e6e6e6));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#f6f6f6, #e6e6e6);
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.pane-sliders .panel h3.jpane-toggler-down {
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
 
-.pane-sliders .content { background: #f6f6f6; }
+.pane-sliders .content {  }
 
-.pane-sliders .adminlist     { border: 0 none; }
+.pane-sliders .adminlist     { border: 0 none; background-color: #f6f6f6; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
 .jpane-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
@@ -321,12 +340,10 @@ table.admintable td.key.vtop { vertical-align: top; }
 
 table.adminform {
 	background-color: #f9f9f9;
-	border: solid 1px #d5d5d5;
+	border: solid 1px #DDD;
 	width: 100%;
-	border-collapse: collapse;
-	margin: 8px 0 10px 0;
-	margin-bottom: 15px;
-	width: 100%;
+	margin: 8px 0 15px 0;
+	-webkit-border-radius: 5px;
 }
 table.adminform.nospace { margin-bottom: 0; }
 table.adminform tr.row0 { background-color: #f9f9f9; }
