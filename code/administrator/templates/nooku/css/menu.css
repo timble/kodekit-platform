@@ -6,57 +6,86 @@
 #menu       { position:relative; z-index: 100;}
 #menu li    { float:left;  position:relative; list-style: none; display: inline;}
 #menu li a  { display:block; white-space: nowrap;  }
-#menu li li { /*width: 100%;*/ clear: both;  /*FF 1.0.7 needs this */  }
+#menu li li { clear: both; }
 #menu li ul { visibility: hidden; position:absolute; }
 
 #menu li li ul {  top: 0; left: 0; }
 
-#menu li.hover ul               {  visibility: visible; }
-#menu li.hover ul li ul 		  {  visibility: hidden;  }
-#menu li.hover li.hover ul      {  visibility: visible;  left: 100%; }
+#menu li.hover ul				{ visibility: visible; }
+#menu li.hover ul li ul			{ visibility: hidden;  }
+#menu li.hover li.hover ul		{ visibility: visible;  left: 100%; }
 
 /* ---- Menu layout -------------------------- */
 
 #menu li {
-	border-right: 1px solid #C8C8C8;
+	
 }
 #menu li li { border: 0;}
 
-#menu ul    { border: 0.1em solid #ccc; background: #f6f6f6 url(../images/bg-menu.gif) repeat-y left;}
-#menu ul li.node { background: transparent url(../images/j_arrow.png) no-repeat right 50%; }
-#menu ul li.separator { background: #DDE1E6 url(../images/bg-menu.gif);  height: 1px;  }
+#menu ul    { 
+	-webkit-box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
+	-moz-box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
+	box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+	background-color: #FFF;
+	padding: 4px 0;
+}
+#menu ul li.node { background: transparent url(../images/j_arrow.png) no-repeat 95% 50%; }
+#menu ul li.separator { background: #DDE1E6; height: 1px; margin: 4px 0; }
 
 #menu a, #menu div {
 	padding: 0.60em 1em 0.45em;
-	margin: 0 1px 0 1px;
-	color: #333333;
+	color: #222;
 	line-height: 1.6em; vertical-align: middle;
-	font-size: 11px; font-weight: bold; text-decoration: none;
+	font-size: 12px; font-weight: bold; text-decoration: none;
 	cursor: default;
-	background-repeat: no-repeat; background-position: left 50%;
-	
+	background-repeat: no-repeat;
+	background-image: none !important; /*background-position: 3px 50%;*/
+	border-right: 1px solid #C8C8C8;
 }
 
-#menu li.disabled a { color: gray; }
+#menu li.disabled a { color: #DDD; }
 
 #menu ul a {
-	font-size: 11px;
-	font-weight: normal;
-	padding-left: 25px;
-	padding-right: 20px;
-	line-height: 1.2em;
+	padding-left: 15px;
+	padding-right: 30px;
+	line-height: 1em;
+	cursor: pointer;
 }
 
 /* 1 level - hover */
-#menu li.hover a {  background-color: #E7EDDF; border-left: 1px solid #6D9D2E;  border-right:1px solid #6D9D2E; margin: 0; }
+#menu li.hover { 
+	background-color: #1C44F3;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
+#menu li.hover a { color: #FFF; margin: 0; }
 /* 2 level - normal */
-#menu li.hover li a { background-color: transparent; border: 0 none;   margin: 2px;  }
+#menu li.hover ul { border-top: 1px solid #505050; }
+#menu li.hover ul li { border-top: 1px solid #FFF; }
+#menu li.hover li a { color: #333; background-color: transparent; border: 0 none; padding-top: 0.75em; padding-bottom: 0.75em; }
 /* 2 level - hover */
-#menu li.hover li.hover a { background-color: #E7EDDF; border: 1px solid #6D9D2E;  margin: 1px;   }
+#menu li.hover li.hover { 
+	background-color: #1C44F3;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f6ef6), to(#1C44F3));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3);
+	border-top: 1px solid #3a5df5; }
+#menu li.hover li.hover ul { 
+	border-top: 0 none !important;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	border-radius: 5px; }
+#menu li.hover li.hover a { color: #FFF; }
 /* 3 level - normal */
-#menu li.hover li.hover li a { background-color: transparent; border: 0 none;   margin: 2px;  }
+#menu li.hover li.hover ul { }
+#menu li.hover li.hover li a { color: #333; background-color: transparent; border: 0 none; }
 /* 3 level - hover */
-#menu li.hover li.hover li a:hover { background-color: #E7EDDF; border: 1px solid #6D9D2E;  margin: 1px;  }
+#menu li.hover li.hover li.hover { 
+	background-color: #1C44F3;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f6ef6), to(#1C44F3));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
+#menu li.hover li.hover li.hover a { color: #FFF; }
 
 /* submenu styling */
 #submenu {
@@ -82,7 +111,6 @@
 	background: #FFF;
 	border: 1px solid #DDD;
 	border-bottom: 1px solid #ccc;
-	
 	-webkit-border-radius: 10px 10px 0 0;
 	-moz-border-radius: 10px 10px 0 0;
 	border-radius: 10px 10px 0 0;
