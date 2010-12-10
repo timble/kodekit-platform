@@ -25,18 +25,19 @@ jimport( 'joomla.plugin.plugin');
 class plgSystemSef extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Method to trigger events
+	 * 
+	 * Only trigger the event if SEF is enabled
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param	object		$subject The object to observe
-	  * @param 	array  		$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @access public
+	 * @param array Arguments
+	 * @return mixed Routine return value
 	 */
-	function plgSystemSef(&$subject, $config)  {
-		parent::__construct($subject, $config);
+	function update(&$args)
+	{
+		if(JFactory::getApplication()->getCfg('sef')) {
+			parent::update($args);
+		}
 	}
 
 	/**
@@ -44,7 +45,7 @@ class plgSystemSef extends JPlugin
      */
 	function onAfterRender()
 	{
-		$app =& JFactory::getApplication();
+		
 
 		//Replace src links
       	$base   = JURI::base(true).'/';
