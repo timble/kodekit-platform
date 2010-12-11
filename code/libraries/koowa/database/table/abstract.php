@@ -156,8 +156,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             'database'        	=> KFactory::get('lib.koowa.database'),
             'row'   		  	=> null,
     		'rowset'   	 	  	=> null,
-            'name'   	      	=> empty($package) ? $name : $package.'_'.$name,
-    		'base'     	      	=> empty($package) ? $name : $package.'_'.$name,
+    		'name'     	      	=> empty($package) ? $name : $package.'_'.$name,
     		'column_map'	  	=> null,
     		'filters'         	=> array(),
     		'behaviors'		  	=> array(),
@@ -165,7 +164,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     		'command_chain'  	=> new KCommandChain(),
     		'dispatch_events'   => false,
     		'enable_callbacks' 	=> false,
-		));
+		))->append(
+			array('base' 		=> $config->name)
+		);
 		
 		 parent::_initialize($config);
     }
