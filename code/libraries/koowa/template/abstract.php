@@ -218,7 +218,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$contents = file_get_contents($template);
 		
 		// load the contents
-		$this->loadString($contents, $data, $path);
+		$this->loadString($contents, $data, $template);
 		
 		return $this;
 	}
