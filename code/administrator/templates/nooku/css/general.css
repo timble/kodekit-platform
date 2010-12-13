@@ -65,9 +65,10 @@ textarea:focus { background-color: #ffd }
 #footer .copyright { margin: 10px; text-align: center; }
 
 #header-box  { 
-	background: #C8C8C8;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C8C8C8), to(#A8A8A8));
-	border-bottom: 1px solid #505050;
+	background-color: #000033;
+	-webkit-box-shadow: hsla(0, 0%,70%, 0.8) 0px 5px 5px;
+	-moz-box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
+	box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
 }
 
 #content-box {
@@ -97,16 +98,8 @@ div#element-box div#section-box {
 
 /* -- status layout */
 #module-status      { float: right; }
-#module-status span { display: block; float: left; line-height: 16px; padding: 4px 10px 0 22px; margin-bottom: 5px; }
-
-#module-status { background: url(../images/mini_icon.png) 3px 5px no-repeat; }
-.legacy-mode{ color: #c00;}
-#module-status .preview 			  { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; }
-#module-status .unread-messages,
-#module-status .no-unread-messages { background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat; }
-#module-status .unread-messages a  { font-weight: bold; }
-#module-status .loggedin-users     { background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat; }
-#module-status .logout             { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
+#module-status span { display: block; float: left; color: #FFF; line-height: 16px; padding: 0 22px 0 0; margin: 5px 0 5px 22px; border-right: 1px solid #FFF; }
+#module-status a 	{ color: #FFF; }
 
 /* -- various styles -- */
 span.note {

@@ -36,8 +36,8 @@
 #menu ul li.separator { background: #DDE1E6; height: 1px; margin: 4px 0; }
 
 #menu a, #menu div {
-	padding: 0.60em 1em 0.45em;
-	color: #222;
+	padding: 0.60em 1.5em 0.45em;
+	color: #FFF;
 	line-height: 1.6em; vertical-align: middle;
 	font-size: 12px; font-weight: bold; text-decoration: none;
 	cursor: default;
@@ -62,7 +62,7 @@
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
 #menu li.hover a { color: #FFF; margin: 0; }
 /* 2 level - normal */
-#menu li.hover ul { border-top: 1px solid #505050; }
+#menu li.hover ul {  }
 #menu li.hover ul li { border-top: 1px solid #FFF; }
 #menu li.hover li a { color: #333; background-color: transparent; border: 0 none; padding-top: 0.75em; padding-bottom: 0.75em; }
 /* 2 level - hover */
