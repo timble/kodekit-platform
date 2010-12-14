@@ -318,7 +318,7 @@ class KFactory
 		$context->config = $config;
 		
 		$result = self::$_chain->run($identifier, $context);
-		
+	
 		//If we get a string returned we assume it's a classname
 		if(is_string($result)) 
 		{
@@ -327,7 +327,7 @@ class KFactory
 			
 			//Set the filepath
   			$identifier->filepath = KLoader::path($identifier);
-  		
+  			
   			//If the object is indentifiable push the identifier in through the constructor
 			if(array_key_exists('KObjectIdentifiable', class_implements($identifier->classname))) {
 				$config->identifier = $identifier;
@@ -336,7 +336,8 @@ class KFactory
 			// If the class has an instantiate method call it
 			if(is_callable(array($identifier->classname, 'instantiate'), false)) {
 				$result = call_user_func(array($identifier->classname, 'instantiate'), $config);
-			} else {
+			} 
+			else {
 				$result = new $identifier->classname($config);
 			}
 		}

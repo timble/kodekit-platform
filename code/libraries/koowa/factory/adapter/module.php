@@ -74,6 +74,8 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 						$classname = 'K'.ucfirst($classtype).ucfirst($identifier->name);
 					} elseif(class_exists('K'.ucfirst($classtype).'Default')) {
 						$classname = 'K'.ucfirst($classtype).'Default';
+					} else {
+						$classname = false;
 					}
 				}
 			}
