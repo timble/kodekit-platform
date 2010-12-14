@@ -73,14 +73,15 @@ textarea:focus { background-color: #ffd }
 
 #content-box {
 	padding: 10px 0 0 0;
-	border-bottom: 1px solid #CDCDCD;
+	
 }
 
 #toolbar-box 			{ 
 	padding: 6px 0;
 	background: #f7f7f7;
-	border-top: 1px solid #CDCDCD;
-	border-bottom: 1px solid #CDCDCD;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#FFF));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	border-top: 1px solid #CDCDCD;	
 }
 
 div#element-box {
@@ -159,28 +160,74 @@ div.configuration {
 
 div.toolbar { float: right; text-align: right; padding: 0; }
 
-table.toolbar    			 { border-collapse: collapse; padding: 0; margin: 0;	 }
-table.toolbar td 			 { padding: 1px 1px 1px 4px; text-align: center; color: #666; height: 48px; }
-table.toolbar td.spacer  { width: 10px; }
-table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
+table.toolbar    			 { border-collapse: collapse; padding: 0; margin: 0 10px 0 0; }
 
-table.toolbar span { float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
-
-table.toolbar a {
-   display: block; float: left;
-	white-space: nowrap;
-	border: 1px solid #fbfbfb;
-	padding: 1px 5px;
-	cursor: pointer;
+table.toolbar td {
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
-table.toolbar a:hover {
-	border-left: 1px solid #eee;
-	border-top: 1px solid #eee;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+table.toolbar td a			 { 
+	text-align: center; color: #666; min-width: 75px;
+	display: block; float: left;
+	white-space: nowrap;
+	padding: 5px 4px;
+	margin-right: 1px;
+	cursor: pointer;
+	color: #666;
+	font-weight: bold;
+	font-size: 1em;
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+ }
+table.toolbar td:first-child a { 
+	-webkit-border-top-left-radius: 3px; 	-moz-border-radius-topleft: 3px;
+	-webkit-border-bottom-left-radius: 3px; -moz-border-radius-bottomleft: 3px;
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	border-left: 1px solid #d7dade;
+}
+table.toolbar td:last-child a { 
+	-webkit-border-top-right-radius: 3px; 		-moz-border-radius-topright: 3px;
+	-webkit-border-bottom-right-radius: 3px; 	-moz-border-radius-bottomright: 3px;
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	border-right: 1px solid #d7dade;
+}
+
+
+table.toolbar td.spacer  {  }
+table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
+
+table.toolbar span { 
+	display: block;
+	float: none; 
+	width: 24px; height: 24px;
+	margin: 0 auto;
+	background-size: 24px;
+}
+table.toolbar a:hover span { background-position: 0 0; }
+
+table.toolbar a:hover,
+table.toolbar td:first-child a:hover,
+table.toolbar td:last-child a:hover {
+	border-color: #999;
+	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
 	text-decoration: none;
-	color: #0B55C4;
+	color: #333;
+}
+
+table.toolbar a:active,
+table.toolbar td:first-child a:active,
+table.toolbar td:last-child a:active {
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
 }
 
 /** for massmail component **/
