@@ -1,0 +1,65 @@
+/*----------------------------------------------------------------------------
+++ Webkit Browser Styling
+++ CSS Tweaks for all Webkit based browsers (Safari & Chrome)
+----------------------------------------------------------------------------*/
+#navigation-wrap{background:#eee;background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));}
+#navigation{background:#eee;background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));}
+#main-wrap{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.02,rgb(240,240,237)),color-stop(0.11,rgb(255,255,255)));}
+
+#navigation .menu li:hover,
+#navigation .menu li.sfHover,
+#navigation .menu a:focus,
+#navigation .menu a:hover,
+#navigation .menu a:active{background:#ddd;background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));}
+
+#navigation .menu .top-level.active,
+button,
+#navigation .search-btn,
+#main .readon a,
+#editor-xtd-buttons a,
+#editor .blank a,
+#witblits .button{-webkit-border-radius:15px 15px 15px 15px;-webkit-box-shadow:0 1px 0 0 #fff inset;background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));cursor:pointer;}
+#navigation .search-btn:hover,
+#main .readon a:hover,
+#editor .blank a:hover,
+#editor-xtd-buttons a:hover,
+button:hover,
+#witblits .button:hover{background:-webkit-gradient(linear,left top,left bottom,from(#fff),to(#ccc));}
+button:focus,
+#navigation .search-btn:focus,
+#editor .blank a:focus,
+#editor-xtd-buttons a:focus,
+#witblits .button:focus{background:-webkit-gradient(linear,left top,left bottom,from(#ddd),to(#fff));}
+
+#tiptip_content{text-shadow: 0 0 2px #000;border: 1px solid rgba(255,255,255,0.25);background-color:rgb(25,25,25);background-color: rgba(25,25,25,0.92);background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#000));border-radius:3px;-webkit-border-radius:3px;box-shadow:0 0 3px #555;-webkit-box-shadow: 0 0 3px #555;}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ #tiptip_content { padding: 4px 8px 5px 8px; background-color: rgba(45,45,45,0.88); }
+ #tiptip_holder.tip_bottom #tiptip_arrow_inner { border-bottom-color: rgba(45,45,45,0.88) }
+ #tiptip_holder.tip_top #tiptip_arrow_inner { border-top-color: rgba(20,20,20,0.92) }
+}
+
+form#login input.button{-webkit-border-radius:50px;text-shadow:0 1px 0 #fff;}
+#sidebar .mod h3{background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));text-shadow:1px 1px #eee;}
+
+#witblits button,
+#content .search-btn{background:-webkit-gradient(linear,left top,left bottom,from(#eee),to(#ccc));}
+#witblits button:hover,
+#content .search-btn:hover{background:-webkit-gradient(linear,left top,left bottom,from(#ddd),to(#ccc));}
+#witblits button:focus,
+#content .search-btn:focus{background:-webkit-gradient(linear,left top,left bottom,from(#ddd),to(#fff));}
+
+.icons .icon a{opacity:0.5;}
+.icons .icon a:hover{opacity:1;}
+
+#navigation.standard{background:#eee;background:-webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));}
+#navigation.standard a:hover { background: #ddd;background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));}
+
+#tiptip_holder.tip_top #tiptip_arrow {border-top-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_bottom #tiptip_arrow { border-bottom-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_right #tiptip_arrow { border-right-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_left #tiptip_arrow { border-left-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_top #tiptip_arrow_inner { border-top-color: rgb(25,25,25); border-top-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_bottom #tiptip_arrow_inner { border-bottom-color: rgb(25,25,25); border-bottom-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_right #tiptip_arrow_inner { border-right-color: rgb(25,25,25); border-right-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_left #tiptip_arrow_inner { border-left-color: rgb(25,25,25); border-left-color: rgba(25,25,25,0.92); }
+

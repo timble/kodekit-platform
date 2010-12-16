@@ -1,0 +1,40 @@
+/*-----------------------------------------------------------------------------
+++ Frontend Editor Styling
+++ This is the styling for the frontend editor.
+-----------------------------------------------------------------------------*/
+#main.editmode #content { width: 100%; left:0; }
+#sidebar { display: none; }
+#editor-top { margin-bottom: 1em; }
+#editor-top label { font-size: 1.3em; }
+#edit-content .editor-title{border:1px solid;border-color: #ccc #ddd #ddd #ccc;height:20px; padding: 5px 5px 5px 8px; width: 79%;}
+#edit-content .editor-title:focus{border-color: #999 #ccc #ccc #999;}
+#edit-content fieldset { background:#eee; margin-bottom: 1em; padding: 1em; }
+#edit-content h2 { font-size:1.5em;padding:.5em .6em;margin:0 0 1px 0;background:#ddd; padding: .5em .6em; margin: 0 0 1px 0; }
+#edit-content #publishing ul { margin: 0; padding: 0; }
+#edit-content img.calendar { border: 0; position: relative; top: 3px; left: 5px; }
+#edit-content select,
+#edit-content input,
+#edit-content textarea { margin: 0; padding: 0; }
+#edit-content input { padding: 2px; }
+#edit-content textarea { padding: 5px; }
+#edit-content #publishing li { position: relative; margin: 0; padding: 5px 0 5px 150px; list-style: none; }
+#edit-content #publishing li.last { border-bottom: 0 }
+#edit-content #publishing .label { position: absolute; top: 8px; left: 0; }
+#editor-xtd-buttons{overflow:hidden;background:#ddd;border:1px solid #ccc;border-top:0;}
+#edit-content .button2-left{margin:0 5px 0 0;}
+#edit-content .button2-left a{text-decoration:none;margin:0;padding:0 10px;}
+#edit-content .button2-left a:hover{}
+#edit-content input.focus,
+#edit-content textarea.focus{border-color:#85AF41;}
+#editor-top button.button { padding: 5px 20px; margin:0 10px 0 5px; height:auto;position:relative;bottom:-1px; }
+#edit-content button.save{margin-left:10px;}
+#edit-content #access { width: 15em; overflow: hidden; }
+#edit-content #access option { background: none; }
+#edit-content #ordering option { font-size: .9em; }
+#edit-content #created_by_alias { width: 17em; }
+#edit-content #meta textarea { width: 99%; margin-bottom: .5em; }
+#edit-content #meta #metadesc { margin-bottom: 1em; }
+#edit-content #editor textarea#text { width: 99%!important; }
+#editor{position:relative;}
+#editor .blank{position:absolute;bottom:0;right:2em;}
+#editor .button2-left .blank a{font-size:.9em;padding:7px 10px;height:auto;line-height:1;}

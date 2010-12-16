@@ -1,0 +1,50 @@
+/*----------------------------------------------------------------------------
+++ Menu Styling
+++ These styles are for the primary drop down navigation.
+----------------------------------------------------------------------------*/
+/* Skip To Menu
+******************************************************/
+#skipto{position:absolute;top:0;left:0;z-index:999;width:100%;padding:.5em 0 .8em;background:transparent;font-weight:bold;text-align:center;opacity:0;}
+#skipto.hidden{visibility:hidden;}
+#skipto ul{background:none;margin:0 auto;text-align:center;visibility:hidden;width:430px;}
+#skipto:hover ul{visibility:visible;}
+#skipto li{display:inline;padding-right:1em;}
+#skipto a:link, #skipto a:visited{color: #191919;}
+#skipto:hover,
+#skipto:focus,
+#skipto:active{background:#000;}
+
+/* Top Menu (Standard)
+******************************************************/
+#navigation.standard { background: #eee;border: 1px solid #ddd; }
+#navigation.standard ul { border-right: 1px solid #fff; float: left; margin: 0; }
+#navigation.standard li { margin:0;padding:0;border-right: 1px solid #ddd; border-left: 1px solid #fff; }
+#navigation.standard .separator,
+#navigation.standard a { display: block; float: left; text-decoration: none; color: #777; font-size: 1.1em; padding: .5em 1em; }
+#navigation.standard li.active a,
+#navigation.standard a:hover{background:#ddd;}
+#navigation.standard a:focus{background:#fff }
+
+/* Sidebar Menu
+******************************************************/
+#sidebar .mod._menu .modinner{padding:0;}
+#sidebar .menu,
+#sidebar .menu li{list-style:none;margin:0;}
+#sidebar .menu li{ border-bottom:1px solid #ccc;}
+#sidebar .menu li.last-child{border-bottom:0;}
+#sidebar .menu .separator,
+#sidebar .menu a{padding:.5em .5em;display:block;background:#fff;}
+#sidebar .menu .separator:hover,
+#sidebar .menu a:hover{background:#eee;}
+#sidebar .menu li.active a{background:#ddd;}
+#sidebar .menu ul{border-top:1px solid #ccc;}
+#sidebar .menu ul .separator,
+#sidebar .menu ul li a{padding-left:1em;}
+#sidebar .menu li.active ul .separator,
+#sidebar .menu li.active ul a {background:#F5F4F4;}
+
+/* Footer Menu
+******************************************************/
+#footer .footer-links ul,
+#footer .footer-links li { margin: 0; padding: 0; list-style: none; }
+#footer .footer-links li { display: inline; padding-right: 1em; }

@@ -1,0 +1,94 @@
+/*----------------------------------------------------------------------------
+++ Template CSS
+++ All the templates layout specific css
+----------------------------------------------------------------------------*/
+/* Body Styling
+******************************************************/
+/*#witblits{padding:0 1em 1em 1em;margin:1em auto;}*/
+#main{background:#fff;}
+
+/* Template Sprite
+******************************************************/
+#navigation .search-input,
+.icons .icon a,
+#witblits p.modified,
+.breadcrumbs a,
+#footer .back-to-top a{background-image:url(../images/template-sprite.png);background-repeat:no-repeat;}
+
+/* Branding
+******************************************************/
+#branding{padding:1em 0;position:relative;}
+#branding h1,
+#branding .logo-image{clear:both;display:block;}
+#branding h1{float:left;}
+#branding h1 a{color:#555;font-size:1.5em;line-height:1;text-decoration:none;}
+#branding h1 a:hover{}
+#branding .logo-image{float:left;}
+#branding .tagline-right{font:normal 2em/1.7em Arial;color:#ccc;float:right;}
+#branding .tagline-btm{position:absolute;left:6.9em;bottom:2em;font:normal .8em Arial;color:#999;text-transform:uppercase;}
+
+/* Header Block
+******************************************************/
+#header-wrap{background:#000;}
+#header-wrap #header{overflow:hidden;border:0;}
+#header{background:#000 url(../images/headers/witblits.jpg) no-repeat bottom right;border:1px solid #ccc;border-top:0;}
+#header .mod{padding:.7em 0 0 1.7em;}
+#header .features h3{color:#fff;margin:0;}
+#header p{color:#eee;margin:0;font-size:1.2em;}
+#header ul{margin-top:.5em;color:#ccc;}
+#header .mod{background:rgba(0, 0, 0, 0.7);border:1px solid #000;height:189px;padding:0.7em 0 0 1.7em;width:400px;}
+#header .modinner{padding:0;}
+
+/* Block Wraps
+******************************************************/
+#branding-wrap{background:#eee;}
+#navigation-wrap{background:#eee;}
+#navigation-wrap #navigation{border:0;}
+#navigation-wrap #navigation ul{}
+#topshelf-wrap,
+#topshelf-wrap #topshelf{background:#eee;margin-top:0;border:0;}
+#topshelf-wrap{}
+#path-wrap{background:#F5F2F2;}
+#path-wrap #breadcrumbs{border:0;}
+#main-wrap{background:#fff;}
+#bottomshelf-wrap,
+#bottomshelf-wrap #bottomshelf{background:#fff;}
+#bottomshelf-wrap #bottomshelf{margin:0 auto;border:0;}
+#footer-wrap{background:#fff;}
+#footer-wrap #footer{margin:0 auto;padding:1em 0;}
+
+/* Top Shelf
+******************************************************/
+
+
+/* Main Block
+******************************************************/
+#main{}
+#community-wrap{width:960px;}
+.com_community #content .inner{padding:1em 0;}
+.sidebar-left #content .inner{padding:1em .5em 1.3em 0;}
+.sidebar-right #content .inner{padding:1em 0 1.3em .5em;}
+.sidebar-left #sidebar .inner{padding:1.3em 0 0 .5em;}
+.sidebar-right #sidebar .inner{padding:1.3em .5em 0 0;}
+#main.container_24.sidebar-left #sidebar .inner{padding:1.3em 0 0 0.8em;}
+#main.container_24.sidebar-left #content .inner{padding:1em .8em 1.3em .5em;}
+#main.container_24.sidebar-right #sidebar .inner{padding:1.3em .8em 0 0;}
+#main.container_24.sidebar-right #content .inner{padding:1em .5em 1.3em .8em;}
+
+/* Main Block
+******************************************************/
+#header,
+#navigation,
+#topshelf,
+#main,
+#bottomshelf,
+#breadcrumbs{border:1px solid #ccc;border-top:0;}
+/* Footer
+******************************************************/
+#footer{margin:1em auto;color:#999;}
+#footer a{color:#666;text-decoration:none;}
+#footer a:hover{color:#555;text-decoration:underline;}
+#footer .back-to-top,
+#footer .credits{text-align:right;}
+#footer .back-to-top a{background-position:100% -495px;padding-right:17px;}
+#footer .divider{border-bottom:1px solid #eee;padding-bottom:.3em;margin-bottom:.2em;}

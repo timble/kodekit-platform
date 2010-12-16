@@ -1,0 +1,30 @@
+/*----------------------------------------------------------------------------
+++ Browser Resets
+++ Resets the default browser styling
+----------------------------------------------------------------------------*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+/* Clear Fix
+******************************************************/
+.clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
+
+/* Generic Reset
+******************************************************/
+.reset{margin:0;padding:0;}
+
+/* List Reset
+******************************************************/
+.list-reset,
+.list-reset li{list-style:none;margin:0;padding:0;}
+
+/* Floated List
+******************************************************/
+.float-list li,
+.float-list li a{display:block;float:left;}
+
+/* Strip Defaults
+******************************************************/
+#witblits .nomargin{margin:0;}
+#witblits .nopadding{padding:0;}
+#witblits .nobackground{background:none;}
+#witblits .norborder{border:0;}

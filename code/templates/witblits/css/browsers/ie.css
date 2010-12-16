@@ -1,0 +1,62 @@
+/*----------------------------------------------------------------------------
+++ Internet Explorer Browser Styling
+++ CSS Tweaks for all versions of Internet Explorer
+----------------------------------------------------------------------------*/
+* html .clearfix,
+*:first-child+html .clearfix,
+* html .clearfix,*:first-child+html .clearfix{zoom:1}
+
+#navigation-wrap{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#ccc');}
+#navigation{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#ccc');}
+#main-wrap{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#fff');}
+
+#navigation .menu .top-level.active,
+#navigation .menu li:hover,
+#navigation .menu li.sfHover,
+#navigation .menu a:focus,
+#navigation .menu a:hover,
+#navigation .menu a:active{background:#ddd;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff',endColorstr='#eee');}
+
+button,
+#navigation .search-btn,
+#main .readon a,
+#editor-xtd-buttons a,
+#editor .blank a,
+#witblits .button{border-radius:15px 15px 15px 15px;box-shadow:0 1px 0 0 #fff inset;background:#ddd;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#ccc');cursor:pointer;}
+#navigation .search-btn:hover,
+#main .readon a:hover,
+#editor .blank a:hover,
+#editor-xtd-buttons a:hover,
+button:hover,
+#witblits .button:hover{background:#ccc;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff',endColorstr='#ccc');}
+button:focus,
+#navigation .search-btn:focus,
+#editor .blank a:focus,
+#editor-xtd-buttons a:focus,
+#witblits .button:focus{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ddd',endColorstr='#fff');}
+
+#tiptip_content{text-shadow: 0 0 2px #000;border:1px solid rgba(255,255,255,0.25);background-color:rgb(25,25,25);background-color: rgba(25,25,25,0.92);border-radius:3px;box-shadow:0 0 3px #555;}
+form#login input.button{border-radius:50px;text-shadow:0 1px 0 #fff;}
+#sidebar .mod h3{filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#ccc');text-shadow:1px 1px #eee;}
+
+#witblits button,
+#content .search-btn{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee',endColorstr='#ccc');}
+#witblits button:hover,
+#content .search-btn:hover{background:#ddd;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ddd',endColorstr='#ccc');}
+#witblits button:focus,
+#content .search-btn:focus{background:#ccc;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff',endColorstr='#ddd');}
+
+.icons .icon a{opacity:0.5;}
+.icons .icon a:hover{opacity:1;}
+
+#navigation.standard{background:#eee;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#ccc');}
+#navigation.standard a:hover { background: #ddd; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#eee');}
+
+#tiptip_holder.tip_top #tiptip_arrow {border-top-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_bottom #tiptip_arrow { border-bottom-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_right #tiptip_arrow { border-right-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_left #tiptip_arrow { border-left-color: rgba(255,255,255,0.35); }
+#tiptip_holder.tip_top #tiptip_arrow_inner { border-top-color: rgb(25,25,25); border-top-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_bottom #tiptip_arrow_inner { border-bottom-color: rgb(25,25,25); border-bottom-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_right #tiptip_arrow_inner { border-right-color: rgb(25,25,25); border-right-color: rgba(25,25,25,0.92); }
+#tiptip_holder.tip_left #tiptip_arrow_inner { border-left-color: rgb(25,25,25); border-left-color: rgba(25,25,25,0.92); }
