@@ -28,10 +28,12 @@ JTable::addIncludePath(JPATH_COMPONENT.DS.DS.'tables');
 JHTML::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'helper' );
 
 JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
-JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
 JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
 JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
 JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage', true);
+if(JFactory::getUser()->authorize('com_trash', 'manage')) {
+	JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
+}
 
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 JArrayHelper::toInteger($cid, array(0));
