@@ -39,9 +39,6 @@ class MenusViewList extends JView
 
 		JToolBarHelper::title( JText::_( 'MENU ITEM MANAGER' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 
-		$bar =& JToolBar::getInstance('toolbar');
-		$bar->appendButton( 'Link', 'menus', 'Menus', "index.php?option=com_menus" );
-
 		JToolBarHelper::makeDefault( 'setdefault' );
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

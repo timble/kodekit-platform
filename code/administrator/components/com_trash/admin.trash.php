@@ -34,6 +34,12 @@ if($task == 'viewContent')
 	JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
 }
 
+if($task == 'viewMenu')
+{
+	JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
+	JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu', true);
+}
+
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
 
