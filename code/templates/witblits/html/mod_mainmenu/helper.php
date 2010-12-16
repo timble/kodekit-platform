@@ -131,47 +131,25 @@ class modNewMainMenuHelper
 
 	function render(&$params, $callback)
 	{
-		switch ( $params->get( 'menu_style', 'list' ) )
+		// Include the new menu class
+		$xml = modNewMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
+		if ($xml) 
 		{
-			case 'list_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).'/legacy.php');
-				mosShowHFMenu($params, 1);
-				break;
-
-			case 'horiz_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).'/legacy.php');
-				mosShowHFMenu($params, 0);
-				break;
-
-			case 'vert_indent' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).'/legacy.php');
-				mosShowVIMenu($params);
-				break;
-
-			default :
-				// Include the new menu class
-				$xml = modNewMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				if ($xml) {
-					$class = $params->get('class_sfx');
+			$class = $params->get('class_sfx');
 					
-					// add icon class if menu images are enabled
-					if ($params->get('menu_images') && $params->get('menu_images') != -1) {
-						$class .= ' icon';
-					}
+			// add icon class if menu images are enabled
+			if ($params->get('menu_images') && $params->get('menu_images') != -1) {
+				$class .= ' icon';
+			}
 					
-					$xml->addAttribute('class', 'menu'. ' ' .$class);
-					if ($tagId = $params->get('tag_id')) {
-						$xml->addAttribute('id', $tagId);
-					}
+			$xml->addAttribute('class', 'menu'. ' ' .$class);
+			if ($tagId = $params->get('tag_id')) {
+				$xml->addAttribute('id', $tagId);
+			}
 
-					$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
-					$result = str_replace(array('<ul/>', '<ul />'), '', $result);
-					echo $result;
-				}
-				break;
+			$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+			$result = str_replace(array('<ul/>', '<ul />'), '', $result);
+			echo $result;
 		}
 	}
 }
