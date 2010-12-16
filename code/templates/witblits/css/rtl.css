@@ -32,9 +32,6 @@ body{direction:rtl;}
 #bd #simple-contact dd.contact-fax{background-position:100% -90px}
 #bd #simple-contact dd.contact-mobile{background-position:100% -154px}
 #bd #simple-contact dd.contact-photo img{border:1px solid #ddd;background:#fff;padding:1px;}
-form.polls div{overflow:hidden;}
-#bd form.polls ul{margin-right:0;}
-form.polls .button{float:right;margin:0 0 0 .5em;}
 body #top-link{left:5px;text-align:left;}
 #breadcrumbs,
 #bd .pathway.breadcrumbs li,

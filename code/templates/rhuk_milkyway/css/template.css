@@ -724,11 +724,6 @@ div.message {
 .pagination span { padding: 2px; }
 .pagination a    { padding: 2px; }
 
-/* Polls */
-.pollstableborder td {
-	text-align: left;
-}
-
 /* WebLinks */
 span.description {
 	display:block;

@@ -172,7 +172,6 @@ INSERT INTO `#__menu_types` VALUES
 -- Dumping data for table `#__modules`
 --
 INSERT INTO `#__modules` VALUES
-(16, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, 'id=14\ncache=1', 0, 0, ''),
 (17, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 1, 0, ''),
 (18, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, 'greeting=1\nname=0', 1, 0, ''),
 (19, 'Latest News', '', 4, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_latestnews', 0, 0, 1, 'cache=1', 1, 0, ''),
@@ -253,47 +252,6 @@ INSERT INTO `#__newsfeeds` VALUES
 (6, 12, 'Planet MySQL', 'planet-mysql', 'http://www.planetmysql.org/rss20.xml', NULL, 1, 5, 3600, 62, '2008-09-14 00:25:51', 2, 0),
 (6, 13, 'Linux Foundation Announcements', 'linux-foundation-announcements', 'http://www.linuxfoundation.org/press/rss20.xml', NULL, 1, 5, 3600, 62, '2008-09-14 00:26:11', 3, 0),
 (6, 14, 'Mootools Blog', 'mootools-blog', 'http://feeds.feedburner.com/mootools-blog', NULL, 1, 5, 3600, 62, '2008-09-14 00:26:51', 4, 0);
---
--- Dumping data for table `#__polls`
---
-
-INSERT INTO `#__polls` VALUES
-(14, 'Joomla! is used for?', 'joomla-is-used-for', 11, 0, '0000-00-00 00:00:00', 1, 0, 86400);
-
---
--- Dumping data for table `#__poll_data`
---
-
-INSERT INTO `#__poll_data` VALUES
-(1, 14, 'Community Sites', 2),
-(2, 14, 'Public Brand Sites', 3),
-(3, 14, 'eCommerce', 1),
-(4, 14, 'Blogs', 0),
-(5, 14, 'Intranets', 0),
-(6, 14, 'Photo and Media Sites', 2),
-(7, 14, 'All of the Above!', 3),
-(8, 14, '', 0),
-(9, 14, '', 0),
-(10, 14, '', 0),
-(11, 14, '', 0),
-(12, 14, '', 0);
-
---
--- Dumping data for table `#__poll_date`
---
-
-INSERT INTO `#__poll_date` VALUES
-(1, '2006-10-09 13:01:58', 1, 14),
-(2, '2006-10-10 15:19:43', 7, 14),
-(3, '2006-10-11 11:08:16', 7, 14),
-(4, '2006-10-11 15:02:26', 2, 14),
-(5, '2006-10-11 15:43:03', 7, 14),
-(6, '2006-10-11 15:43:38', 7, 14),
-(7, '2006-10-12 00:51:13', 2, 14),
-(8, '2007-05-10 19:12:29', 3, 14),
-(9, '2007-05-14 14:18:00', 6, 14),
-(10, '2007-06-10 15:20:29', 6, 14),
-(11, '2007-07-03 12:37:53', 2, 14);
 
 --
 -- Dumping data for table `#__sections`

@@ -159,10 +159,6 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'administrator' );
 		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'manager' );
 
-		$this->addACL( 'com_poll', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_poll', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_poll', 'manage', 'users', 'manager' );
-
 		$this->addACL( 'com_templates', 'manage', 'users', 'super administrator' );
 		//$this->addACL( 'com_templates', 'manage', 'user', 'administrator' )
 

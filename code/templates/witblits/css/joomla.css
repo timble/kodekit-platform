@@ -168,25 +168,6 @@ td.sectiontableentry2 input{margin-top:4px;}
 .ct-count{width:5%;text-align:center;}
 #ct-count{border-right:1px solid #ccc;}
 
-/* polls component
-******************************************************/
-.poll{width:100%;margin:0;padding:0;}
-.poll,#bd .poll tr,#bd .poll td{border:0;}
-.pollstableborder{margin:0.5em 0 1em;width:100%;}
-.pollstableborder td{padding:0.1em 0.2em;}
-.pollstableborder td input{margin-top:4px;}
-.polls_color_1{background-color:#8D1B1B;border:2px solid #B22222;}
-.polls_color_2{background-color:#6740E1;border:2px solid #4169E1;}
-.polls_color_3{background-color:#8D8D8D;border:2px solid #D2D2D2;}
-.polls_color_4{background-color:#CC8500;border:2px solid #FFA500;}
-.polls_color_5{background-color:#5B781E;border:2px solid #6B8E23;}
-.pollstableborder tbody td{margin:0;padding:0;}
-.polls_color_1,.polls_color_2,.polls_color_3,.polls_color_4,.polls_color_5{padding:5px;margin:2px;}
-.polls h4,.polls h4{margin:0 0 5px 0;}
-.pollstableborder td{font:normal 0.9em/1.4em Arial;}
-form.polls ul li{padding:3px 5px;}
-form.polls li.sectiontableentry1{background:#eee;}
-
 /* login module input width
 ******************************************************/
 .sidebar #username, 
