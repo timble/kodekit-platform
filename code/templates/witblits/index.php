@@ -32,7 +32,7 @@ require_once('templates/'.$this->template.'/lib/functions.php');
 	
 	<?php if($this->countModules('toolbar')) : ?>
 		<?php if($wb_blockwraps == 1) : ?><div id="toolbar-wrap"><?php endif; ?>
-			<div id="toolbar" class="container_<?php echo $grid_columns; ?> clearfix">
+			<div id="toolbar" class="container_<?php echo $wb_grid_columns; ?> clearfix">
 				<jdoc:include type="modules" name="toolbar" style="basic" />	
 			</div>
 		<?php if($wb_blockwraps == 1) : ?></div><?php endif; ?>
