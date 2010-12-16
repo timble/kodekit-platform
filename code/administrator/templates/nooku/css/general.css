@@ -66,14 +66,18 @@ textarea:focus { background-color: #ffd }
 
 #header-box  { 
 	background-color: #000033;
-	-webkit-box-shadow: hsla(0, 0%,70%, 0.8) 0px 5px 5px;
-	-moz-box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
-	box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000055), to(#000033));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	
 }
 
 #content-box {
-	padding: 10px 0 0 0;
-	
+	padding: 0px 0 0 0;
+}
+
+#content-box #submenu-box {
+	padding-top: 15px;
+	border-top: 1px solid #BBB;
 }
 
 #toolbar-box 			{ 
@@ -81,7 +85,7 @@ textarea:focus { background-color: #ffd }
 	background: #f7f7f7;
 	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#FFF));
 	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
-	border-top: 1px solid #CDCDCD;	
+	border-top: 1px solid #BBB;	
 }
 
 div#element-box {
