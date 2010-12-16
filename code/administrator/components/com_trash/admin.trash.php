@@ -25,6 +25,15 @@ if (!$user->authorize( 'com_trash', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
+if($task == 'viewContent')
+{
+	JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
+	JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent', true);
+	JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
+	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
+	JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
+}
+
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
 

@@ -23,6 +23,12 @@ require_once (JApplicationHelper::getPath('admin_html'));
 // Set the helper directory
 JHTML::addIncludePath( JPATH_COMPONENT.DS.'helper' );
 
+JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content', true);
+JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
+JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
+JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
+JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
+
 $controller = new ContentController();
 $task = JRequest::getCmd('task');
 switch (strtolower($task))

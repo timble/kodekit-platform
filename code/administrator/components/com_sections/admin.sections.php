@@ -17,6 +17,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
+JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
+JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
+JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content', true);
+JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
+JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
+
 // get parameters from the URL or submitted form
 $scope 		= JRequest::getCmd( 'scope' );
 $cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
