@@ -12,7 +12,6 @@ $show_author 			= $this->params->get('show_author') && ($this->article->author !
 $show_create_date		= $this->params->get('show_create_date');
 $show_icons				= $this->params->get('show_icons');
 $show_print				= $this->params->get('show_print_icon');
-$show_pdf				= $this->params->get('show_pdf_icon');
 $show_email				= $this->params->get('show_email_icon');
 $show_section			= $this->params->get('show_section') && $this->article->sectionid;
 $link_section			= $this->params->get('link_section');
@@ -29,7 +28,7 @@ $link_category			= $this->params->get('link_category');
     <h1 class="article-title"><?php echo $this->escape($this->article->title); ?><?php if ($can_edit) : ?> <?php echo articleIcons::edit($this->article, $this->params, $this->access); ?><?php endif; ?></h1>
     <?php endif; ?>
     
-    <?php if($show_author || $show_create_date || $show_section || $show_category || $show_pdf || $show_print || $show_email) : ?>
+    <?php if($show_author || $show_create_date || $show_section || $show_category || $show_print || $show_email) : ?>
     
     <p class="article-info<?php if ($show_icons) echo ' icons' ?>">
         <?php if ($show_author) : ?><?php echo JText::_('By '); ?>
@@ -49,9 +48,6 @@ $link_category			= $this->params->get('link_category');
         			<span class="article-category"><?php echo $this->escape($this->article->category); ?></span>
         		<?php if ($link_category) echo '</a>'; ?>
         	<?php endif; ?>.
-        <?php endif; ?>
-        <?php if ($show_pdf) : ?>
-        <span class="icon pdf"><?php echo articleIcons::pdf($this->article, $this->params, $this->access); ?></span>
         <?php endif; ?>
         <?php if ($show_print) : ?>
         <span class="icon print"><?php echo articleIcons::print_popup($this->article, $this->params, $this->access); ?></span>

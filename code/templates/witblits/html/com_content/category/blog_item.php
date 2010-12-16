@@ -21,7 +21,7 @@ $canEdit = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 </h2>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_author') || $this->params->get('show_create_date') || $this->params->get('show_section') || $this->params->get('show_category') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
+<?php if ($this->params->get('show_author') || $this->params->get('show_create_date') || $this->params->get('show_section') || $this->params->get('show_category') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <p class="article-info<?php if ($this->params->get('show_icons')) echo ' icons' ?>">
     <?php if (($this->item->params->get('show_author')) && ($this->item->author != "")) : ?><?php echo JText::_('By '); ?>
     	<strong><?php JText::printf($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author); ?></strong>
@@ -42,9 +42,6 @@ $canEdit = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
     			<span class="article-category"><?php echo $this->item->category; ?></span>
     		<?php if ($this->item->params->get('link_category')) echo '</a>'; ?>
     	<?php endif; ?>.
-    <?php endif; ?>
-    <?php if ($this->params->get('show_pdf_icon')) : ?>
-    <span class="icon pdf"><?php echo articleIcons::pdf($this->item, $this->params, $this->access); ?></span>
     <?php endif; ?>
     <?php if ($this->params->get('show_print_icon')) : ?>
     <span class="icon print"><?php echo articleIcons::print_popup($this->item, $this->params, $this->access); ?></span>
