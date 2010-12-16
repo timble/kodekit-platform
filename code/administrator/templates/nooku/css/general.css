@@ -67,7 +67,7 @@ textarea:focus { background-color: #ffd }
 #header-box  { 
 	background-color: #000033;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000055), to(#000033));
-	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	background-image: -moz-linear-gradient(0% 0% 270deg,#000055, #000033);
 	
 }
 
