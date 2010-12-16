@@ -55,29 +55,7 @@ switch ($task)
 	case 'apply' :
 		TemplatesController::saveTemplate();
 		break;
-
-	case 'edit_source' :
-		TemplatesController::editTemplateSource();
-		break;
-
-	case 'save_source'  :
-	case 'apply_source' :
-		TemplatesController::saveTemplateSource();
-		break;
-
-	case 'choose_css' :
-		TemplatesController::chooseTemplateCSS();
-		break;
-
-	case 'edit_css' :
-		TemplatesController::editTemplateCSS();
-		break;
-
-	case 'save_css'  :
-	case 'apply_css' :
-		TemplatesController::saveTemplateCSS();
-		break;
-
+		
 	case 'publish' :
 	case 'default' :
 		TemplatesController::publishTemplate();
