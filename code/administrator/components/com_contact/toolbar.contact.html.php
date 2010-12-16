@@ -49,7 +49,6 @@ class TOOLBAR_contact
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_contact', '500');
 	}

@@ -34,7 +34,6 @@ class MenusViewMenus extends JView
 		JToolBarHelper::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
 		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
-		JToolBarHelper::editListX('editMenu');
 		JToolBarHelper::addNewX('addMenu');
 		JToolBarHelper::help( 'screen.menumanager' );
 

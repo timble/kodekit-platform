@@ -6,7 +6,6 @@
 	JToolBarHelper::title( JText::_( 'User Manager' ), 'user.png' );
 	JToolBarHelper::custom( 'logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
 	JToolBarHelper::deleteList();
-	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
 ?>
 

@@ -28,7 +28,6 @@ class BannersViewBanner
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_banners', '200');
 	}

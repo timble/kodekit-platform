@@ -58,7 +58,6 @@ class TOOLBAR_sections {
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 	}
 }

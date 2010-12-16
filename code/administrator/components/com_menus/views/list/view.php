@@ -48,7 +48,6 @@ class MenusViewList extends JView
 		JToolBarHelper::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
 		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::trash();
-		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX('newItem');
 
 		$document = & JFactory::getDocument();

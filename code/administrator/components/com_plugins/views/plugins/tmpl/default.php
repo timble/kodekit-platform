@@ -6,7 +6,6 @@
 	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
-	JToolBarHelper::editListX();
 	$ordering = ($this->lists['order'] == 'p.folder' || $this->lists['order'] == 'p.ordering');
 	$rows =& $this->items;
 

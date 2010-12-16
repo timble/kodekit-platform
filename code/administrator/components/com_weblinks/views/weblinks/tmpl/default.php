@@ -8,7 +8,6 @@
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
 	JToolBarHelper::deleteList();
-	JToolBarHelper::editListX();
 	JToolBarHelper::addNewX();
 	JToolBarHelper::preferences('com_weblinks', '380');
 	$ordering = ($this->lists['order'] == 'a.ordering');

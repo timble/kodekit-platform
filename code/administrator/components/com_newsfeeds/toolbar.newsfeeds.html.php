@@ -27,7 +27,6 @@ class TOOLBAR_newsfeeds
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences( 'com_newsfeeds','400');
 	}

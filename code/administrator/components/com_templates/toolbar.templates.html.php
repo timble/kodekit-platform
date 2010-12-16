@@ -30,7 +30,6 @@ class TOOLBAR_templates
 		} else {
 			JToolBarHelper::makeDefault();
 		}
-		JToolBarHelper::editListX( 'edit', 'Edit' );
 		//JToolBarHelper::addNew();
 	}
  	function _VIEW(&$client){
