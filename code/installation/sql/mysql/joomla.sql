@@ -265,24 +265,6 @@ CREATE TABLE `#__content_rating` (
 
 # --------------------------------------------------------
 
-# Table structure for table `#__core_log_items`
-
-CREATE TABLE `#__core_log_items` (
-  `time_stamp` date NOT NULL default '0000-00-00',
-  `item_table` varchar(50) NOT NULL default '',
-  `item_id` int(11) unsigned NOT NULL default '0',
-  `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-# Table structure for table `#__core_log_searches`
-
-CREATE TABLE `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL default '',
-  `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
 #
 # Table structure for table `#__groups`
 #

@@ -77,41 +77,6 @@ class SearchHelper
 		return $restriction;
 	}
 
-	function logSearch( $search_term )
-	{
-		global $mainframe;
-
-		$db =& JFactory::getDBO();
-
-		$params = &JComponentHelper::getParams( 'com_search' );
-		$enable_log_searches = $params->get('enabled');
-
-		$search_term = $db->getEscaped( trim( $search_term) );
-
-		if ( @$enable_log_searches )
-		{
-			$db =& JFactory::getDBO();
-			$query = 'SELECT hits'
-			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
-			;
-			$db->setQuery( $query );
-			$hits = intval( $db->loadResult() );
-			if ( $hits ) {
-				$query = 'UPDATE #__core_log_searches'
-				. ' SET hits = ( hits + 1 )'
-				. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
-				;
-				$db->setQuery( $query );
-				$db->query();
-			} else {
-				$query = 'INSERT INTO #__core_log_searches VALUES ( "'.$search_term.'", 1 )';
-				$db->setQuery( $query );
-				$db->query();
-			}
-		}
-	}
-
 	/**
 	 * Prepares results from search for display
 	 *
