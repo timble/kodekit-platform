@@ -109,8 +109,8 @@
 	color: #0B55C4;
 	display: block;
 	background: #FFF;
-	border: 1px solid #CCC;
-	border-bottom: 1px solid #BBB;
+	border: 1px solid #E9E9E9;
+	border-bottom: 1px solid #E1E1E1;
 	-webkit-border-radius: 10px 10px 0 0;
 	-moz-border-radius: 10px 10px 0 0;
 	border-radius: 10px 10px 0 0;
@@ -124,10 +124,13 @@
 #submenu span.nolink.active {
 	color: #000;
 	text-decoration: underline;
-	background: #f6f6f6;
-	border: 1px solid #BBB;
-	border-bottom: 1px solid #F6F6F6;
+	background: #F7F7F7;
+	border: 1px solid #E1E1E1;
+	border-bottom: 1px solid #F7F7F7;
 	-webkit-border-radius: 10px 10px 0 0;
 	-moz-border-radius: 10px 10px 0 0;
 	border-radius: 10px 10px 0 0;
+	-webkit-box-shadow: hsla(0, 0%,95%, 0.8) 0px -2px 2px;
+	-moz-box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
+	box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
 }
