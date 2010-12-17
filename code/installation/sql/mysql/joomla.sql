@@ -252,20 +252,6 @@ CREATE TABLE `#__content_frontpage` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content_rating`
-#
-
-CREATE TABLE `#__content_rating` (
-  `content_id` int(11) NOT NULL default '0',
-  `rating_sum` int(11) unsigned NOT NULL default '0',
-  `rating_count` int(11) unsigned NOT NULL default '0',
-  `lastip` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`content_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__groups`
 #
 
@@ -320,7 +306,6 @@ INSERT INTO `#__plugins` VALUES (9, 'Search - Sections', 'sections', 'search', 0
 INSERT INTO `#__plugins` VALUES (10, 'Search - Newsfeeds', 'newsfeeds', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
 INSERT INTO `#__plugins` VALUES (11, 'Search - Weblinks','weblinks','search',0,2,1,1,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
 INSERT INTO `#__plugins` VALUES (12, 'Content - Pagebreak','pagebreak','content',0,10000,1,1,0,0,'0000-00-00 00:00:00','enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n\n');
-INSERT INTO `#__plugins` VALUES (13, 'Content - Rating','vote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (14, 'Content - Email Cloaking', 'emailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'mode=1\n\n');
 INSERT INTO `#__plugins` VALUES (15, 'Content - Code Hightlighter (GeSHi)', 'geshi', 'content', 0, 5, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (16, 'Content - Load Module', 'loadmodule', 'content', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'enabled=1\nstyle=0\n\n');

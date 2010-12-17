@@ -118,9 +118,6 @@ class ContentModelFrontpage extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-		// Voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery($params);
-
 		// Get the WHERE and ORDER BY clauses for the query
 		$where	= $this->_buildContentWhere();
 		$orderby 			= $this->_buildContentOrderBy();
@@ -131,14 +128,12 @@ class ContentModelFrontpage extends JModel
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
 			' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
 			' u.name AS author, u.usertype, g.name AS groups, u.email as author_email, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
-			$voting['select'] .
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			' LEFT JOIN #__groups AS g ON a.access = g.id'.
-			$voting['join'].
 			$where
 			.$orderby
 			;

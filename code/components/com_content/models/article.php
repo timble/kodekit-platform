@@ -447,60 +447,6 @@ class ContentModelArticle extends JModel
 	}
 
 	/**
-	 * Method to store a user rating for a content article
-	 *
-	 * @access	public
-	 * @param	int	$rating	Article rating [ 1 - 5 ]
-	 * @return	boolean True on success
-	 * @since	1.5
-	 */
-	function storeVote($rate)
-	{
-		if ( $rate >= 1 && $rate <= 5)
-		{
-			$userIP =  $_SERVER['REMOTE_ADDR'];
-
-			$query = 'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = '.(int) $this->_id;
-			$this->_db->setQuery($query);
-			$rating = $this->_db->loadObject();
-
-			if (!$rating)
-			{
-				// There are no ratings yet, so lets insert our rating
-				$query = 'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( '.(int) $this->_id.', '.$this->_db->Quote($userIP).', '.(int) $rate.', 1 )';
-				$this->_db->setQuery($query);
-				if (!$this->_db->query()) {
-					JError::raiseError( 500, $this->_db->stderr());
-				}
-			}
-			else
-			{
-				if ($userIP != ($rating->lastip))
-				{
-					// We weren't the last voter so lets add our vote to the ratings totals for the article
-					$query = 'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$this->_db->Quote($userIP) .
-							' WHERE content_id = '.(int) $this->_id;
-					$this->_db->setQuery($query);
-					if (!$this->_db->query()) {
-						JError::raiseError( 500, $this->_db->stderr());
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating:' .$rate, "JModelArticle::storeVote($rate)");
-		return false;
-	}
-
-	/**
 	 * Method to load content article data
 	 *
 	 * @access	private
@@ -522,9 +468,6 @@ class ContentModelArticle extends JModel
 			// Get the page/component configuration
 			$params = &$mainframe->getParams();
 
-			// If voting is turned on, get voting data as well for the article
-			$voting	= ContentHelperQuery::buildVotingQuery($params);
-
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
 
@@ -537,7 +480,6 @@ class ContentModelArticle extends JModel
 					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
 					' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 					' LEFT JOIN #__groups AS g ON a.access = g.id'.
-					$voting['join'].
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
@@ -548,12 +490,6 @@ class ContentModelArticle extends JModel
 
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
-			}
-
-			// These attributes need to be defined in order for the voting plugin to work
-			if ( count($voting) && ! isset($this->_article->rating_count) ) {
-				$this->_article->rating_count	= 0;
-				$this->_article->rating			= 0;
 			}
 
 			return true;

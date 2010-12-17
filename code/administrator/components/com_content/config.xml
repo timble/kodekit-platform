@@ -56,11 +56,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_vote" type="radio" default="0" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
 			<option value="0">Hide</option>

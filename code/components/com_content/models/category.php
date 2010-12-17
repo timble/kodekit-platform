@@ -351,9 +351,6 @@ class ContentModelCategory extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery($params);
-
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
@@ -367,7 +364,6 @@ class ContentModelCategory extends JModel
 			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			' LEFT JOIN #__groups AS g ON a.access = g.id'.
-			$voting['join'].
 			$where.
 			$orderby;
 

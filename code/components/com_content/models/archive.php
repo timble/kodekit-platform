@@ -105,9 +105,6 @@ class ContentModelArchive extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery($params);
-
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
@@ -122,7 +119,6 @@ class ContentModelArchive extends JModel
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			' LEFT JOIN #__groups AS g ON a.access = g.id'.
-			$voting['join'].
 			$where.
 			$orderby;
 

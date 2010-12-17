@@ -261,34 +261,6 @@ class ContentController extends JController
 	}
 
 	/**
-	* Rates an article
-	*
-	* @access	public
-	* @since	1.5
-	*/
-	function vote()
-	{
-		$url	= JRequest::getVar('url', '', 'default', 'string');
-		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
-		$id		= JRequest::getVar('cid', 0, '', 'int');
-
-		// Get/Create the model
-		$model = & $this->getModel('Article' );
-
-		$model->setId($id);
-		
-		if(!JURI::isInternal($url)) {
-			$url = JRoute::_('index.php?option=com_content&view=article&id='.$id);
-		}
-
-		if ($model->storeVote($rating)) {
-			$this->setRedirect($url, JText::_('Thanks for rating!'));
-		} else {
-			$this->setRedirect($url, JText::_('You already rated this article today!'));
-		}
-	}
-
-	/**
 	 * Searches for an item by a key parameter
 	 *
 	 * @access	public
