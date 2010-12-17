@@ -1,19 +1,124 @@
 <?php
 /**
- * @version		$Id: CREDITS.php 18151 2010-07-15 09:33:47Z dextercowley $
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @version		$Id: harbour.php 207 2010-11-14 07:08:42Z christianhent $
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
+
+-------------------- Nooku Server Contributors ---------------------
+
+Johan Janssens <johan@nooku.org>
+Tom Janssens   <tom@nooku.org>
+
+Nooku Server includes or is derivative of works distributed under the licenses listed below.
+The full text for most of the licenses listed below can be found in the LICENSES.php file.
+The original copyright notices have been preserved within the respective files and or
+packages. Please refer to the specific files and/or packages for more detailed information
+about the authors, copyright notices, and licenses.
+---------------------------------------------------------------------------------------------
+
+Domit
+-----
+Author:		John Heinstein
+Copyright:	Copyright (C) 2004 John Heinstein. All rights reserved
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
+
+Feedcreator
+-----------
+Author:		Kai Blankenhorn
+Copyright:	Copyright (C) Kai Blankenhorn
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
+
+Geshi
+-----
+Author:		Nigel McNie
+Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
+License:	GNU General Public License (GPL) 2 or later
+
+js-squeezebox, js-swiff, js-fancyupload
+---------------------------------------
+Author:		Harald Kirschner
+Copyright:	Copyright (C) Harald Kirschner
+License:	MIT-style license
+
+Mootools
+--------
+Author:		Valerio Proietti
+Copyright:	Copyright (C) 2007 Valerio Proietti
+License:	MIT license
+
+PHP OpenID
+----------
+Author:		Janrain, Inc.
+Copyright:	Copyright (C) 2005 - 2008 Janrain, Inc.
+License:	Apache License 2.0
+
+patError
+------
+Author:		gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
+Copyright:	Copyright (C) gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
+License:	GNU Lesser General Public License (LGPL)
+
+patTemplate
+-----------
+Author:		Stephan Schmidt
+Copyright:	Copyright (C) Stephan Schmidt
+License:	GNU Lesser General Public License (LGPL)
+
+PHPGACL
+-------
+Author:		Mike Benoit
+Copyright:	Copyright (C) 2002, 2003 Mike Benoit
+License:	GNU Lesser General Public License (LGPL) 2.1 or later
+
+PHPInputfilter
+--------------
+Author:		Daniel Morris
+Copyright:	Copyright (C) Daniel Morris
+License:	GNU General Public License (GPL)
+
+PHPMailer
+--------
+Author:		Andy Prevost, Brent R. Matzelle
+Copyright:	Copyright (C) 2001 - 2003 Brent R. Matzelle
+			Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.
+License:	GNU Lesser General Public License (LGPL) 2.1
+
+phpUTF8
+-------
+Author:		Harry Fuecks
+Copyright:	Copyright (C) Harry Fuecks
+License:	GNU Lesser General Public License (LGPL) 2.1
+
+SimplePie
+---------
+Author:		Ryan Parman and Geoffrey Sneddon
+Copyright:	Copyright (C) 2004-2007, Ryan Parman and Geoffrey Sneddon
+License:	BSD License
+
+TinyMCE
+-------
+Author:		Moxiecode Systems
+Copyright:	Copyright (C) 2005-2009, Moxiecode Systems AB, All rights reserved.
+License:	GNU Lesser General Public License (LGPL) 2.1
+
+VCard
+-----
+Author:		Kai Blankenhorn
+Copyright:	Copyright (C) Kai Blankenhorn
+License:	GNU General Public License (GPL) 2 or later
+
+Print & Email Front End Icons
+-----------------------------
+Copyright:	Copyright (C) 2005 Plone Foundation
+License:	GNU Lesser General Public License (LGPL)
 
 -------------------- Joomla! 1.5 Credits ---------------------
 
@@ -67,12 +172,10 @@ Andy Wallace
 Translation contributors:
 -------------------------
 Albanian (sp-AL) - Blendi Kraja
-Arabic Unitag (ar-AA) - Arabic Unitag Translation Team - Mahmood Alhaj Kassem
-Azeri (az-AZ) - Azeri Translation Team - Mahmud and Yusif
+Arabic Algeria (ar-DZ) - Saber Bousba
 Basque (eu-ES) - Basque Translation Team (Basque Language School of Santurtzi) - Abel Camacho, Pedro Lonbide
 Belarusian (be-BY) - Dennis Hermacki
 Bengali (bn-BD) – Kamal Sikder
-Bosnian (bs-BA) - Bosnian Translation Team - Admir Agic
 Bulgarian (bg-BG) - Bulgarian Translation Team - Bultrans
 Catalan (ca-ES) - Catalan Translation Team - Damià Verger
 Chinese Simplified (zh-CN) - Johnathan Cheung
@@ -80,9 +183,8 @@ Chinese Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
 Croatian (hr-HR) - Croatian Translation Team - Klaudia B.
 Czech (cs-CZ) - Czech Translation Team - Svatopluk Vit
 Danish (da-DK) - Danish Translation Team - Ronny Buelund, Mikael Winther, Ole Bang Ottosen
-Dari (Afghanistan) (fa-AF) - Dari (Afghanistan) Translation Team - Daud Nigaresh
 Dutch (nl-NL) - Dutch Translation Team - Vancanneyt Sander, Marijke Stuivenberg
-English (en-US) -  US English Translation Team - Jennifer Marriott
+English (en-US) - Joomla! Project - Jennifer Marriot
 Esperanto (eo-XX) - Esperanto Translation Team - Cindy McKee, Fabien Tschudy
 Estonian (et-EE) - Estonian Translation Team - Rivo Zängov
 Finnish (fi-FI) - Finnish Translation Team - Markku Suominen
@@ -91,20 +193,17 @@ German (de-DE)/(de-CH)/(de-AT) - J!German - Jan Erik Zassenhaus, Karin Nikolaj, 
 Greek (el-GR) - Greek Joomla Community - Aris Ntatsis
 Gujarati (gu-IN) - Gujarati Translation Team
 Hebrew (he-IL) - Joomla!Hebrew - Mati (MtK) Kochen
-Hindi (India) (hi-IN) - Hindi (India) Translation Team - Sanjeev Naroliya, Ronak Bhagdev, Aminuddin Sheikh
+Hindi-Devanagari (hi-IN) - IndicJoomla! Team - Vishal Pahuja
 Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete - Jozsef Tamas Herczeg, Annamaria Ban
 Icelandic (is-IS) - Joomlis! Icelandic Joomla Community [joomlis.net] - Magnús Guðlaugsson
-Indonesian (id-ID) - Indonesian (Bahasa Indonesia) Translation Community - Andy Sikumbang
 Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
-Japanese (ja-JP) - Japanese Translation Team - Noriaki Koide, Hiroko Hirano
-Khmer (Cambodia) (km-KH) - Khmer (Cambodia) Translation Team - Heng Sovann
+Japanese (ja-JP) - Japanese Translation Team - Noriaki Koide
 Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Latvian (lv-LV) - Joomla Latvian Team - Edgars Piruška, Iveta Rītiņa-Namiķe, Ingars Stepkāns
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
 Mongolian (mn-MN) - Mongolian Translation Team, Altansukh T.
 Montenegrin (sr-ME) - Montenegrin Translation Team (joomlamontenegro.com) - Miljan Vujosevic, Dragan Djordjevic
 Norwegian bokmål (nb-NO) - Joomla! i Norge - Jens-Christian Skibakk, Rune Rasmussen
-Pashto (Afghanistan) (ps-AF) - Pashto (Afghanistan) Translation Team - Daud Nigaresh
 Persian/Farsi (fa-IR) - Joomfa Team(Joomla Farsi) - M.Alavi nik, Hamid abolhasani,Amin bagheri,Sayyed Saeed farzad,Sayyed ahmad sayyedi,Vahid Hosein Khani,Omid pileh var
 Polish - Poland (pl-PL) - Polskie Centrum Joomla! - Michał Sobkowiak, Stefan Wajda
 Portuguese Brazilian (pt-BR) - Joomla! Brasil - Fabricio Elias Costa (FaBMak)
@@ -112,19 +211,15 @@ Portuguese (pt-PT) - Joomla! Portugal - Paulo Izidoro
 Romanian (ro-RO) - Romanian Joomla! Community - Cosmin Lebu
 Russian (ru-RU) - Russian Translation Team - Serge Litvinov
 Serbian (sr-RS) - Joomla! Serbia team - Marko Milenovic
-Serbian (sr-YU) - Joomla! Serbia team - Svetlana Zec, Marko Milenovic
 Sindhi (sd-PK) - Raheel H. Kaghzi, Shafiq-ur-rehman Khatri
 Sinhala (si-LK) - Rashan Anushka
 Slovak (sk-SK) - Slovak Translation Team - Karol Cejka, Viliam Kmec, Alexander Horvath, Marek Sabo
-Slovenian (sl-SI) - Slovenian Translation Team - Borut Planinc
 Spanish (es-ES) - Joomla!'s Spanish Community Translation Team - Javier Galasse
 Swedish (sv-SE) - Swedish Translation Team (SvenskJoomla!) - Sune Hultman, Christer Gerhardsson
-Syriac (sy-IQ) - East Syriac Translation (Syriac Joomla) - Pauls Dinka
-Tagalog (Philippines) (tl-PH) - Tagalog (Philippines) Translation Community - Aristedes Royo
+Syriac (sy-IQ) - Pauls! Dinka
 Tamil (ta-LK) - Sri Lanka -UoM, LK, sarves
-Tamil (ta-IN) - Ilagnayeru 'MIG' Manickam, Elango Samy Manim
 Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang , Supachai Teasakul, Pisan Chueachatchai
-Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü
+Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü, Uğur Uygur
 Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov
 Urdu Pakistan (ur-PK) - Basim
 Vietnamese (vi-VN) - Việt Nam Translation Team - Viet Hoang Vu
@@ -190,6 +285,11 @@ Author:		Nigel McNie
 Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
 License:	GNU General Public License (GPL) 2 or later
 
+Joomla
+-----
+Copyright:	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+License:	GNU General Public License (GPL)
+
 js-calendar
 -----------
 Author:		Mihai Bazon
@@ -238,12 +338,6 @@ Author:		Valerio Proietti
 Copyright:	Copyright (C) 2007 Valerio Proietti
 License:	MIT license
 
-PHP OpenID
-----------
-Author:		Janrain, Inc.
-Copyright:	Copyright (C) 2005 - 2008 Janrain, Inc.
-License:	Apache License 2.0
-
 patError
 ------
 Author:		gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
@@ -259,8 +353,8 @@ License:	GNU Lesser General Public License (LGPL)
 Pear
 ----
 Author:		Sterling Hughes, Stig Bakken, Tomas V.V.Cox, Greg Beaver
-Copyright:	Copyright (C) 1997-2009 The PHP Group
-License:	BSD License
+Copyright:	Copyright (C) 1997-2006 The PHP Group
+License:	PHP License 3.0
 
 PHPGACL
 -------
@@ -276,9 +370,8 @@ License:	GNU General Public License (GPL)
 
 PHPMailer
 --------
-Author:		Andy Prevost, Brent R. Matzelle
+Author:		Brent R. Matzelle
 Copyright:	Copyright (C) 2001 - 2003 Brent R. Matzelle
-		Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.
 License:	GNU Lesser General Public License (LGPL) 2.1
 
 phpUTF8
@@ -308,7 +401,7 @@ License:	GNU Lesser General Public License (LGPL) 2.1
 TinyMCE
 -------
 Author:		Moxiecode Systems
-Copyright:	Copyright (C) 2005-2009, Moxiecode Systems AB, All rights reserved.
+Copyright:	Copyright (C) 2005-2006, Moxiecode Systems AB, All rights reserved.
 License:	GNU Lesser General Public License (LGPL) 2.1
 
 VCard
@@ -393,6 +486,11 @@ Domit
 Author:		John Heinstein
 Copyright:	Copyright (C) 2004 John Heinstein. All rights reserved
 License:	GNU Lesser General Public License (LGPL)
+
+ezpdf
+-----
+Author:		Wayne Munro, R&OS Ltd.
+License:	Public Domain
 
 Feedcreator
 -----------
