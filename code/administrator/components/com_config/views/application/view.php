@@ -128,7 +128,7 @@ class ConfigApplicationView
 	{
 		global $mainframe;
 
-		$tip = '<img src="'.JURI::root().'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
+		$tip = '<img src="'.JURI::root().'media/system/images/warning.png" border="0"  alt="" />';
 
 		return $tip;
 	}

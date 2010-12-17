@@ -150,21 +150,29 @@ class JAdminCSSMenu extends JTree
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
 		 */
-		if (!isset($classes[$identifier])) {
-			if (substr($identifier, 0, 6) == 'class:') {
+		if (!isset($classes[$identifier])) 
+		{
+			if (substr($identifier, 0, 6) == 'class:') 
+			{
 				// We were passed a class name
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "icon-16-$class";
-			} else {
+			} 
+			else 
+			{
 				// We were passed an image path... is it a themeoffice one?
-				if (substr($identifier, 0, 15) == 'js/ThemeOffice/') {
+				if (substr($identifier, 0, 15) == 'js/ThemeOffice/') 
+				{
 					// Strip the filename without extension and use that for the classname
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 					$classes[$identifier] = "icon-16-$class";
-				} else {
+				} 
+				else 
+				{
 					if ($identifier == null) {
 						return null;
 					}
+					
 					// Build the CSS class for the icon
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 					$class = preg_replace( '#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);

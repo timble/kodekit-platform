@@ -247,7 +247,7 @@ class JHTML
 		$title		= addslashes(htmlspecialchars($title, ENT_QUOTES, 'UTF-8'));
 
 		if ( !$text ) {
-			$image 	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;
+			$image 	= JURI::root(true).'/media/sysytem/images/tooltip.png';
 			$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 		} else {
 			$text 	= JText::_( $text, true );
