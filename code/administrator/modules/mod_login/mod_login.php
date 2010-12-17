@@ -42,13 +42,13 @@ endif; ?>
 	<p id="form-login-username">
 		<label for="modlgn_username">
 			<?php echo JText::_('Username'); ?><br />
-			<input name="username" id="modlgn_username" type="text" class="inputbox" size="20" />
+			<input name="username" id="modlgn_username" type="text" class="inputbox" size="20" placeholder="<?php echo JText::_('Username'); ?>" />
 		</label>
 	</p>
 
 	<p id="form-login-password">
 		<label for="modlgn_passwd"><?php echo JText::_('Password'); ?></label><br />
-		<input name="passwd" id="modlgn_passwd" type="password" class="inputbox" size="15" />
+		<input name="passwd" id="modlgn_passwd" type="password" class="inputbox" size="15" placeholder="<?php echo JText::_('Password'); ?>" />
 	</p>
 	<?php
 	if($error = JError::getError(true)) {
