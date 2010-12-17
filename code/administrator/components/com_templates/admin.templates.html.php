@@ -197,6 +197,9 @@ class TemplatesView
 					</td>
 				</tr>
 				<?php
+				$k = 1 - $k;
+				?>
+				<?php
 
 		}
 ?>
