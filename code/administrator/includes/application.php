@@ -121,7 +121,7 @@ class JAdministrator extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
+					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
 
 				JHTML::_('behavior.mootools');
