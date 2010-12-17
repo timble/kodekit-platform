@@ -5,59 +5,42 @@
 /* -- Specific styles ----------------------------- */
 
 form  			{ margin: 0px; padding: 0px; }
-form .inputbox  { width: 120px; margin-left: 10px; }
-form br 	    { display: none; }
-.login          { margin: 0 auto; width: 500px; margin-bottom: 100px; }
-
-h1 {
-  margin: 15px 0;
+form .inputbox  { 
+	width: 235px !important;
+	font-size: 20px;
+	padding: 5px;
+	border: 1px solid #D7DADE;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
+
+.login { margin: 0 auto; width: 300px; margin-bottom: 100px; }
+
+h1 { margin: 15px 0; }
 
 p {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 10px;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 10px;
 }
 
-#lock  {
-	background: url(../images/j_login_lock.jpg) 50% 0 no-repeat;
-	width: 150px;
-	height: 137px;
+#content-box { padding: 30px 0; }
+#section-box {
+	-webkit-box-shadow: #AAA 0px 3px 15px;
+	border: 1px solid #D7DADE;
+	border-bottom-left-radius: 10px 10px;
+	border-bottom-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
+	border-top-right-radius: 10px 10px;
+	padding: 25px !important;
 }
-
-#content-box {
-  padding: 30px 0;
-}
-
-#section-box  { float: right; width: 320px; margin-left: 10px;}
-
-.button { text-align: right; }
-
-.login-form    { text-align: left; width: 60%; }
-.login-form h1 { display: none; }
-.login-form p  { padding: 0 1em 0 1em; }
-
-.login-text { text-align: left; width: 40%; float: left; }
 
 #form-login label {
-	display: block;
-	float: left;
+	font-size: 13px;
 	width: 120px;
-	text-align: right;
+	text-align: left;
 	padding: 4px;
 	color: #666;
 	font-weight: bold;
-}
-
-#form-login .button_holder {
-	float: left;
-	padding-left: 180px;
-}
-
-#form-login div.button1{
- 	float: left;
-}
-
-#form-login div.button1 div.next {
-	float: left;
 }

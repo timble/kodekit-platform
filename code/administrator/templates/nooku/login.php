@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 
-<?php  if($this->direction == 'rtl') : ?>
+<?php  if($this->direction == 'rtl') : ?>è
 	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -34,18 +34,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <body onload="javascript:setFocus()">
 	<div id="container">
 		<div id="border-top">
-			<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
+			<a href="<?php echo JURI::root(); ?>">
+				<?php echo JText::_('Return to') ?>
+				<?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Website'); ?>
+			</a>
 		</div>
 		<div id="content-box">
 			<div id="element-box" class="login">
 				<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
-				<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
-				<p>
-					<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
-				</p>
-				<div id="lock"></div>
+				
 				<div class="clr"></div>
 			</div>
 			<div class="clr"></div>

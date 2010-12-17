@@ -37,13 +37,17 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		JHTML::_('script', 'openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
+	<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
+	
 	<p id="form-login-username">
-		<label for="modlgn_username"><?php echo JText::_('Username'); ?></label>
-		<input name="username" id="modlgn_username" type="text" class="inputbox" size="15" />
+		<label for="modlgn_username">
+			<?php echo JText::_('Username'); ?><br />
+			<input name="username" id="modlgn_username" type="text" class="inputbox" size="20" />
+		</label>
 	</p>
 
 	<p id="form-login-password">
-		<label for="modlgn_passwd"><?php echo JText::_('Password'); ?></label>
+		<label for="modlgn_passwd"><?php echo JText::_('Password'); ?></label><br />
 		<input name="passwd" id="modlgn_passwd" type="password" class="inputbox" size="15" />
 	</p>
 	<?php
@@ -53,10 +57,6 @@ endif; ?>
 		echo '<p>';
 	}
 	?>
-	<p id="form-login-lang" style="clear: both;">
-		<label for="lang"><?php echo JText::_('Language'); ?></label>
-		<?php echo $langs; ?>
-	</p>
 	<div class="button_holder">
 	<div class="button1">
 		<div class="next">
