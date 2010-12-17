@@ -32,20 +32,6 @@ class BannersViewClients
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php" method="post" name="adminForm">
-
-			<table>
-			<tr>
-				<td align="left" width="100%">
-					<?php echo JText::_( 'Filter' ); ?>:
-					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-				</td>
-				<td nowrap="nowrap">
-				</td>
-			</tr>
-			</table>
-
 			<table class="adminlist">
 			<thead>
 			<tr>
@@ -53,7 +39,7 @@ class BannersViewClients
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					
 				</th>
 				<th nowrap="nowrap" class="title">
 					<?php echo JHTML::_('grid.sort',   'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -67,6 +53,21 @@ class BannersViewClients
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort',   'ID', 'a.cid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td align="center">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</td>
+				<td>
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 			</thead>
 			<tfoot>
@@ -91,7 +92,7 @@ class BannersViewClients
 					<td align="center">
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
-					<td>
+					<td align="center">
 						<?php echo $checked; ?>
 					</td>
 					<td>

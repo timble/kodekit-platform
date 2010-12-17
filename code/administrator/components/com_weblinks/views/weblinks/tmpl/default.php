@@ -13,22 +13,6 @@
 	$ordering = ($this->lists['order'] == 'a.ordering');
 ?>
 <form action="index.php" method="post" name="adminForm">
-<table>
-<tr>
-	<td align="left" width="100%">
-		<?php echo JText::_( 'Filter' ); ?>:
-		<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-		<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-		<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-	</td>
-	<td nowrap="nowrap">
-		<?php
-			echo $this->lists['catid'];
-			echo $this->lists['state'];
-		?>
-	</td>
-</tr>
-</table>
 <div id="editcell">
 	<table class="adminlist">
 	<thead>
@@ -37,7 +21,7 @@
 				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
+				
 			</th>
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
@@ -58,6 +42,27 @@
 			<th width="1%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td align="center">
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
+			</td>
+			<td>
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			</td>
+			<td align="center">
+				<?php echo $this->lists['state']; ?>
+			</td>
+			<td></td>
+			<td>
+				<?php echo $this->lists['catid']; ?>
+			</td>
+			<td></td>
+			<td></td>
 		</tr>
 	</thead>
 	<tfoot>
@@ -85,7 +90,7 @@
 			<td>
 				<?php echo $this->pagination->getRowOffset( $i ); ?>
 			</td>
-			<td>
+			<td align="center">
 				<?php echo $checked; ?>
 			</td>
 			<td>

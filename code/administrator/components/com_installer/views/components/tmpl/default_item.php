@@ -2,8 +2,10 @@
 defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 <tr class="<?php echo "row".$this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td><?php echo $this->pagination->getRowOffset( $this->item->index ); ?></td>
-	<td>
+	<td align="center">
 		<input type="radio" id="cb<?php echo $this->item->index;?>" name="eid" value="<?php echo $this->item->id; ?>" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
+	</td>
+	<td>
 		<span class="bold"><?php echo $this->item->name; ?></span>
 	</td>
 	<td align="center">

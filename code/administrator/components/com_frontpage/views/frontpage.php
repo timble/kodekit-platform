@@ -45,18 +45,13 @@ class FrontpageView
 			<table>
 				<tr>
 					<td width="100%" class="filter">
-						<?php echo JText::_( 'Filter' ); ?>:
-						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-						<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_sectionid').value='-1'; this.form.getElementById('catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+						
 					</td>
 					<td nowrap="nowrap">
-						<?php
-						echo $lists['sectionid'];
-						echo $lists['catid'];
-						echo $lists['authorid'];
-						echo $lists['state'];
-						?>
+						
+						
+						
+						
 					</td>
 				</tr>
 			</table>
@@ -68,7 +63,7 @@ class FrontpageView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th width="20">
-						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+						
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -85,9 +80,6 @@ class FrontpageView
 					<th width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="2%" class="title" align="center" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 					<th width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'Section', 'sect_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
@@ -97,6 +89,37 @@ class FrontpageView
 					<th width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+					<th width="2%" class="title" align="center" nowrap="nowrap">
+						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</td>
+					<td>
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+						<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_sectionid').value='-1'; this.form.getElementById('catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+					</td>
+					<td align="center">
+						<?php echo $lists['state']; ?>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>
+						<?php echo $lists['sectionid']; ?>
+					</td>
+					<td>
+						<?php echo $lists['catid']; ?>
+					</td>
+					<td>
+						<?php echo $lists['authorid']; ?>
+					</td>
+					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -186,7 +209,7 @@ class FrontpageView
 					<td>
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
-					<td>
+					<td align="center">
 						<?php echo $checked; ?>
 					</td>
 					<td>
@@ -222,9 +245,6 @@ class FrontpageView
 					<td align="center">
 						<?php echo $access;?>
 					</td>
-					<td align="center">
-						<?php echo $row->id;?>
-					</td>
 					<td>
 						<?php if ($row->sectionid) : ?>
 						<span class="editlinktip hasTip" title="<?php echo $title_sec; ?>::<?php echo $row->sect_name; ?>">
@@ -241,6 +261,9 @@ class FrontpageView
 					</td>
 					<td>
 						<?php echo $author; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->id;?>
 					</td>
 				</tr>
 				<?php

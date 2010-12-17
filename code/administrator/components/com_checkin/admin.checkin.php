@@ -25,20 +25,22 @@ $db			=& JFactory::getDBO();
 $nullDate	= $db->getNullDate();
 ?>
 <div id="tablecell">
-	<table class="adminform">
-	<tr>
-		<th class="title">
-			<?php echo JText::_( 'Database Table' ); ?>
-		</th>
-		<th class="title">
-			<?php echo JText::_( 'Num of Items' ); ?>
-		</th>
-		<th class="title">
-			<?php echo JText::_( 'Checked-In' ); ?>
-		</th>
-		<th class="title">
-		</th>
-	</tr>
+	<table class="adminlist">
+	<thead>
+		<tr>
+			<th class="title">
+				<?php echo JText::_( 'Database Table' ); ?>
+			</th>
+			<th class="title">
+				<?php echo JText::_( 'Num of Items' ); ?>
+			</th>
+			<th class="title">
+				<?php echo JText::_( 'Checked-In' ); ?>
+			</th>
+			<th class="title">
+			</th>
+		</tr>
+	</thead>
 	<?php
 	$tables = $db->getTableList();
 	$k = 0;
@@ -96,12 +98,14 @@ $nullDate	= $db->getNullDate();
 		}
 	}
 	?>
-	<tr>
-		<td colspan="4">
-			<strong>
-			<?php echo JText::_( 'Checked out items have now been all checked in' ); ?>
-			</strong>
-		</td>
-	</tr>
+	<tfoot>
+		<tr>
+			<td colspan="4">
+				<strong>
+				<?php echo JText::_( 'Checked out items have now been all checked in' ); ?>
+				</strong>
+			</td>
+		</tr>
+	</tfoot>
 	</table>
 </div>

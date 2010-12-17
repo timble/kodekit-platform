@@ -38,23 +38,6 @@ class sections_html
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
-
-		<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
-
 		<table class="adminlist">
 		<thead>
 			<tr>
@@ -62,7 +45,7 @@ class sections_html
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th width="10">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+					
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort',   'Title', 's.title', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -90,6 +73,27 @@ class sections_html
 					<?php echo JHTML::_('grid.sort',   'ID', 's.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
+			<tr>
+				<td></td>
+				<td align="center">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+				</td>
+				<td>
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				</td>
+				<td align="center">
+					<?php echo $lists['state']; ?>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
 		</thead>
 		<tfoot>
 			<tr>
@@ -114,7 +118,7 @@ class sections_html
 				<td align="center">
 					<?php echo $page->getRowOffset( $i ); ?>
 				</td>
-				<td>
+				<td align="center">
 					<?php echo $checked; ?>
 				</td>
 				<td>

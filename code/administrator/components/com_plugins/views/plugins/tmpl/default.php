@@ -12,23 +12,6 @@
 ?>
 
 <form action="index.php" method="post" name="adminForm">
-<table>
-	<tr>
-		<td align="left" width="100%">
-			<?php echo JText::_( 'Filter' ); ?>:
-			<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-		</td>
-		<td nowrap="nowrap">
-			<?php
-			echo $this->lists['type'];
-			echo $this->lists['state'];
-			?>
-		</td>
-	</tr>
-</table>
-
 <table class="adminlist">
 <thead>
 	<tr>
@@ -36,7 +19,7 @@
 			<?php echo JText::_( 'Num' ); ?>
 		</th>
 		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+			
 		</th>
 		<th class="title">
 			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -60,6 +43,28 @@
 		<th nowrap="nowrap"  width="1%" class="title">
 			<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td align="center">
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+		</td>
+		<td>
+			<?php echo JText::_( 'Filter' ); ?>:
+			<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+		</td>
+		<td align="center">
+			<?php echo $this->lists['state']; ?>
+		</td>
+		<td></td>
+		<td></td>
+		<td>
+			<?php echo $this->lists['type']; ?>
+		</td>
+		<td></td>
+		<td></td>
 	</tr>
 </thead>
 <tfoot>
@@ -86,7 +91,7 @@
 		<td align="right">
 			<?php echo $this->pagination->getRowOffset( $i ); ?>
 		</td>
-		<td>
+		<td align="center">
 			<?php echo $checked; ?>
 		</td>
 		<td>

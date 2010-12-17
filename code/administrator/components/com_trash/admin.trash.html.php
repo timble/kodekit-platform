@@ -31,19 +31,6 @@ class HTML_trash
 		?>
 		<form action="index.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
 
-		<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-			</td>
-		</tr>
-		</table>
-
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
 			<thead>
@@ -52,13 +39,10 @@ class HTML_trash
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th width="20">
-						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
+						
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="70">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -66,6 +50,24 @@ class HTML_trash
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+					<th width="70">
+						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
+					</td>
+					<td>
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -92,14 +94,14 @@ class HTML_trash
 						<td nowrap="nowrap">
 							<?php echo $row->title; ?>
 						</td>
-						<td align="center">
-							<?php echo $row->id; ?>
-						</td>
 						<td>
 							<?php echo $row->sectname; ?>
 						</td>
 						<td>
 							<?php echo $row->catname; ?>
+						</td>
+						<td align="center">
+							<?php echo $row->id; ?>
 						</td>
 					</tr>
 				<?php
@@ -155,19 +157,6 @@ class HTML_trash
 		</script>
 		<form action="index.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
 
-		<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-			</td>
-		</tr>
-		</table>
-
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
 			<thead>
@@ -176,13 +165,10 @@ class HTML_trash
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th width="20">
-						<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
+						
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Name', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="70">
-						<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Menu', 'm.menutype', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -190,6 +176,24 @@ class HTML_trash
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+					<th width="70">
+						<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">
+						<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
+					</td>
+					<td align="left" width="100%">
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -216,14 +220,14 @@ class HTML_trash
 					<td nowrap="nowrap">
 						<?php echo $row->name; ?>
 					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
-					</td>
 					<td>
 						<?php echo $row->menutype; ?>
 					</td>
 					<td>
 						<?php echo $row->type; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

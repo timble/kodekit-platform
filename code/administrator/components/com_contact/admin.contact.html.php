@@ -31,24 +31,6 @@ class HTML_contact
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_contact" method="post" name="adminForm">
-
-		<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				echo $lists['catid'];
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
-
 			<table class="adminlist">
 			<thead>
 				<tr>
@@ -56,7 +38,7 @@ class HTML_contact
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th width="10" class="title">
-						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+						
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Name', 'cd.name', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -80,6 +62,28 @@ class HTML_contact
 					<th width="1%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+					</td>
+					<td>
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+					</td>
+					<td align="center">
+						<?php echo $lists['state']; ?>
+					</td>
+					<td></td>
+					<td></td>
+					<td>
+						<?php echo $lists['catid']; ?>
+					</td>
+					<td></td>
+					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -108,7 +112,7 @@ class HTML_contact
 					<td>
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
-					<td>
+					<td align="center">
 						<?php echo $checked; ?>
 					</td>
 					<td>

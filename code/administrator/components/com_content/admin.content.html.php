@@ -45,26 +45,6 @@ class ContentView
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
-
-			<table>
-				<tr>
-					<td width="100%">
-						<?php echo JText::_( 'Filter' ); ?>:
-						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_( 'Filter by title or enter article ID' );?>"/>
-						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-						<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-					</td>
-					<td nowrap="nowrap">
-						<?php
-						echo $lists['sectionid'];
-						echo $lists['catid'];
-						echo $lists['authorid'];
-						echo $lists['state'];
-						?>
-					</td>
-				</tr>
-			</table>
-
 			<table class="adminlist" cellspacing="1">
 			<thead>
 				<tr>
@@ -72,7 +52,7 @@ class ContentView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th width="5">
-						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+						
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -108,6 +88,36 @@ class ContentView
 					<th width="1%" class="title">
 						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="center">
+						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					</td>
+					<td>
+						<?php echo JText::_( 'Filter' ); ?>:
+						<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_( 'Filter by title or enter article ID' );?>"/>
+						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+					</td>
+					<td align="center">
+						<?php echo $lists['state']; ?>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>
+						<?php echo $lists['sectionid']; ?>
+					</td>
+					<td>
+						<?php echo $lists['catid']; ?>
+					</td>
+					<td>
+						<?php echo $lists['authorid']; ?>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -292,27 +302,6 @@ class ContentView
 		}
 		</script>
 		<form action="index.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
-
-		<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php
-				if ( $all ) {
-					echo $lists['sectionid'];
-				}
-				echo $lists['catid'];
-				echo $lists['authorid'];
-				?>
-			</td>
-		</tr>
-		</table>
-
 		<div id="tablecell">
 			<table class="adminlist">
 			<thead>
@@ -321,7 +310,7 @@ class ContentView
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+					
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -341,6 +330,32 @@ class ContentView
 				<th align="center" width="10">
 					<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td align="center">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</td>
+				<td>
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				</td>
+				<td></td>
+				<td>
+					<?php
+					if ( $all ) {
+						echo $lists['sectionid'];
+					} ?>
+				</td>
+				<td>
+					<?php echo $lists['catid']; ?>
+				</td>
+				<td>
+					<?php echo $lists['authorid']; ?>
+				</td>
+				<td></td>
 			</tr>
 			</thead>
 			<tfoot>
@@ -379,7 +394,7 @@ class ContentView
 					<td>
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
-					<td width="20">
+					<td width="20" align="center">
 						<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
 					</td>
 					<td>

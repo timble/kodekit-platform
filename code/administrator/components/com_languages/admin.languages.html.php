@@ -69,8 +69,8 @@ class HTML_languages {
 				<th width="20">
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
-				<th width="30">
-					&nbsp;
+				<th width="20">
+					
 				</th>
 				<th width="25%" class="title">
 					<?php echo JText::_( 'Language' ); ?>
@@ -109,7 +109,7 @@ class HTML_languages {
 					<td width="20">
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
-					<td width="20">
+					<td width="20" align="center">
 						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td width="25%">

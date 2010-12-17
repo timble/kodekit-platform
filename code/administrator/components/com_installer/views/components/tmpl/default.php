@@ -14,6 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 		<thead>
 			<tr>
 				<th class="title" width="10px"><?php echo JText::_( 'Num' ); ?></th>
+				<th class="title" width="20px"></th>
 				<th class="title" nowrap="nowrap"><?php echo JText::_( 'Currently Installed' ); ?></th>
 				<th class="title" width="5%" align="center"><?php echo JText::_( 'Enabled' ); ?></th>
 				<th class="title" width="10%" align="center"><?php echo JText::_( 'Version' ); ?></th>
@@ -24,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 		</thead>
 		<tfoot>
 			<tr>
-			<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
 			</tr>
 		</tfoot>
 		<tbody>

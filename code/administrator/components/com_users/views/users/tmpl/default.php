@@ -10,21 +10,6 @@
 ?>
 
 <form action="index.php?option=com_users" method="post" name="adminForm">
-	<table>
-		<tr>
-			<td width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_type').value='0';this.form.getElementById('filter_logged').value='0';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-				<?php echo $this->lists['type'];?>
-				<?php echo $this->lists['logged'];?>
-			</td>
-		</tr>
-	</table>
-
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>
@@ -32,7 +17,7 @@
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th width="3%" class="title">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
+					
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort',   'Name', 'a.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -58,6 +43,29 @@
 				<th width="1%" class="title" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td align="center">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
+				</td>
+				<td width="100%">
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+					<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_type').value='0';this.form.getElementById('filter_logged').value='0';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				</td>
+				<td></td>
+				<td align="center">
+					<?php echo $this->lists['logged'];?>
+				</td>
+				<td></td>
+				<td>
+					<?php echo $this->lists['type'];?>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</thead>
 		<tfoot>
@@ -89,7 +97,7 @@
 				<td>
 					<?php echo $i+1+$this->pagination->limitstart;?>
 				</td>
-				<td>
+				<td align="center">
 					<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
 				</td>
 				<td>

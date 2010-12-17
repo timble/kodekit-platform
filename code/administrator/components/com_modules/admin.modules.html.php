@@ -35,26 +35,6 @@ class HTML_modules
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_modules" method="post" name="adminForm">
-
-			<table>
-			<tr>
-				<td align="left" width="100%">
-					<?php echo JText::_( 'Filter' ); ?>:
-					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-				</td>
-				<td nowrap="nowrap">
-					<?php
-					echo $lists['assigned'];
-					echo $lists['position'];
-					echo $lists['type'];
-					echo $lists['state'];
-					?>
-				</td>
-			</tr>
-			</table>
-
 			<table class="adminlist" cellspacing="1">
 			<thead>
 			<tr>
@@ -62,7 +42,7 @@ class HTML_modules
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+					
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'Module Name', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -98,6 +78,38 @@ class HTML_modules
 					<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
+			<tr>
+				<td></td>
+				<td align="center">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+				</td>
+				<td>
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				</td>
+				<td align="center">
+					<?php echo $lists['state']; ?>
+				</td>
+				<td></td>
+				<td></td>
+				<?php
+				if ( $client->id == 0 ) {
+					?>
+					<td></td>
+					<?php
+				}
+				?>
+				<td align="center">
+					<?php echo $lists['position']; ?>
+				</td>
+				<td></td>
+				<td>
+					<?php echo $lists['type']; ?>
+				</td>
+				<td></td>
+			</tr>
 			</thead>
 			<tfoot>
 			<tr>
@@ -122,7 +134,7 @@ class HTML_modules
 					<td align="right">
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
-					<td width="20">
+					<td width="20" align="center">
 						<?php echo $checked; ?>
 					</td>
 					<td>
