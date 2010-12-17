@@ -123,36 +123,11 @@ require_once('templates/'.$this->template.'/lib/functions.php');
 		<div id="main" class="container_<?php echo $wb_grid_columns . ' sidebar-' . $wb_sidebar_position; ?>  clearfix<?php echo $wb_article_form; ?>">
 			<div id="content" class="<?php if(!$this->countModules('left')) : echo 'grid_' . $wb_grid_columns;	else : echo 'grid_' . $wb_content_columns;	endif; if($wb_sidebar_position == 'left' && $this->countModules('left')) : echo ' push_' . $wb_sidebar_columns; endif; if($wb_equalize == 1) echo ' equalize' ?>">
 				<div class="inner">
-				
 					<?php if ($this->getBuffer('message')) : ?>
 					<div class="error"><jdoc:include type="message" /></div>
 					<?php endif; ?>
 					
-					<?php if($this->countModules('inset1')) : ?>
-					<div id="inset1" class="inset clearfix">
-						<jdoc:include type="modules" name="inset1" style="basic" />
-					</div>
-					<?php endif; ?>
-					
-					<?php if($this->countModules('inset2')) : ?>
-					<div id="inset2" class="inset clearfix">
-						<jdoc:include type="modules" name="inset2" style="grid" />
-					</div>
-					<?php endif; ?>
-					
 					<jdoc:include type="component" />
-					
-					<?php if($this->countModules('inset3')) : ?>
-					<div id="inset3" class="inset clearfix">
-						<jdoc:include type="modules" name="inset3" style="grid" />
-					</div>
-					<?php endif; ?>
-					
-					<?php if($this->countModules('inset4')) : ?>
-					<div id="inset4" class="inset clearfix">
-						<jdoc:include type="modules" name="inset4" style="basic" />
-					</div>
-					<?php endif; ?>
 				</div>
 			</div>
 			<?php if($this->countModules('left')) : ?>
