@@ -49,6 +49,15 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 * @var	boolean
 	 */
 	protected $_updatable;
+	
+	/**
+	 * Set to true if slugs should be unique, if false and the slug column has
+	 * a unique index set this will result in an error being throw that needs
+	 * to be recovered.
+	 *
+	 * @var	boolean
+	 */
+	protected $_unique;
 
 	/**
 	 * Constructor.
@@ -79,6 +88,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     		'separator' => '-',
     		'updatable' => true,
     		'length' 	=> null,
+    		'unique'	=> null
 	  	));
 
     	parent::_initialize($config);
@@ -96,7 +106,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	public function getMixableMethods(KObject $mixer = null)
 	{
 		$methods = array();
-
+		
 		if(isset($mixer->slug)) {
 			$methods = parent::getMixableMethods($mixer);
 		}
@@ -166,7 +176,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _createSlug(KCommandContext $context)
 	{
-		$row = $context->data;
+		$row   = $context->data;
 		
 		//Create the slug filter
 		$filter = $this->_createFilter($context);
@@ -179,12 +189,57 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 			}
 
 			$row->slug = implode($this->_separator, $slugs);
+			
+			//Canonicalize the slug
+			$this->_canonicalizeSlug($context);
 		}
 		else
 		{
-			if(in_array('slug', $context->data->getModified())) {
+			if(in_array('slug', $context->data->getModified())) 
+			{
 				$row->slug = $filter->sanitize($row->slug);
+				
+				//Canonicalize the slug
+				$this->_canonicalizeSlug($context);
 			}
+		}
+	}
+	
+	/**
+	 * Make sure the slug is unique
+	 * 
+	 * This function checks if the slug already exists and if so appends
+	 * a number to the slug to make it unique. The slug will get the form
+	 * of slug-x.
+	 *
+	 * @return void
+	 */
+	protected function _canonicalizeSlug(KCommandContext $context)
+	{
+		$table = $context->caller;
+		$row   = $context->data;
+		
+		//If unique is not set, use the column metadata
+		if(is_null($this->_unique)) { 
+			$this->_unique = $table->getColumn('slug', true)->unique;
+		}
+	
+		//If the slug needs to be unique and it already exist make it unqiue
+		if($this->_unique && $table->count(array('slug' => $row->slug))) 
+		{	
+			$db    = $table->getDatabase();
+			$query = $db->getQuery()
+						->select('slug')
+						->where('slug', 'LIKE', $row->slug.'-%');			
+			
+			$slugs = $table->select($query, KDatabase::FETCH_FIELD_LIST);
+			
+			$i = 1;
+			while(in_array($row->slug.'-'.$i, $slugs)) {
+				$i++;
+			}
+			
+			$row->slug = $row->slug.'-'.$i;
 		}
 	}
 }
