@@ -128,11 +128,13 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 		$query['limit']  = $page->limit;
 		$query['offset'] = $page->offset;
+		
+		$url->setQuery($query);
 
 		$class = $page->current ? 'class="active"' : '';
 
 		if($page->active && !$page->current) {
-			$html = '<a href="'.JRoute::_((string) $url->setQuery($query)).'" '.$class.'>'.JText::_($title).'</a>';
+			$html = '<a href="'.JRoute::_('index.php?'.$url->getQuery()).'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
 		}
