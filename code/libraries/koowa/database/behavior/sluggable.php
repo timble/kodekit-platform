@@ -78,7 +78,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 			'columns'   => array('title'),
     		'separator' => '-',
     		'updatable' => true,
-    		'length' 	=> null
+    		'length' 	=> null,
 	  	));
 
     	parent::_initialize($config);
@@ -116,19 +116,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 */
  	protected function _afterTableInsert(KCommandContext $context)
 	{
-		$row = $context->data;
-		
-		//Create the slug filter
-		$filter = $this->_createFilter($context);
-
-		$slugs = array();
-		foreach($this->_columns as $column) {
-			$slugs[] = $filter->sanitize($row->$column);
-		}
-
-		$row->slug = implode($this->_separator, $slugs);
-		
-		$row->save();
+		$this->_createSlug($context);
+		$context->data->save();
 	}
 
 	/**
@@ -144,33 +133,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		if($this->_updatable)
-		{
-			$row = $context->data;
-
-			if(empty($row->slug))
-			{
-				//Create the slug filter
-				$filter = $this->_createFilter($context);
-
-				$slugs = array();
-				foreach($this->_columns as $column) {
-					$slugs[] = $filter->sanitize($row->$column);
-				}
-
-				$row->slug = implode($this->_separator, $slugs);
-			}
-			else
-			{
-				if(in_array('slug', $context->data->getModified()))
-				{
-					//Create the slug filter
-					$filter = $this->_createFilter($context);
-
-					//Create the filter
-					$row->slug = $filter->sanitize($row->slug);
-				}
-			}
+		if($this->_updatable) {
+			$this->_createSlug($context);
 		}
 	}
 
@@ -193,5 +157,34 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 		//Create the filter
 		$filter = KFactory::tmp('lib.koowa.filter.slug', $config);
 		return $filter;
+	}
+	
+	/**
+	 * Create the slug
+	 *
+	 * @return void
+	 */
+	protected function _createSlug(KCommandContext $context)
+	{
+		$row = $context->data;
+		
+		//Create the slug filter
+		$filter = $this->_createFilter($context);
+		
+		if(empty($row->slug))
+		{
+			$slugs = array();
+			foreach($this->_columns as $column) {
+				$slugs[] = $filter->sanitize($row->$column);
+			}
+
+			$row->slug = implode($this->_separator, $slugs);
+		}
+		else
+		{
+			if(in_array('slug', $context->data->getModified())) {
+				$row->slug = $filter->sanitize($row->slug);
+			}
+		}
 	}
 }
