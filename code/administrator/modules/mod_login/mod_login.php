@@ -37,8 +37,6 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		JHTML::_('script', 'openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
-	<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
-	
 	<p id="form-login-username">
 		<label for="modlgn_username">
 			<?php echo JText::_('Username'); ?><br />
