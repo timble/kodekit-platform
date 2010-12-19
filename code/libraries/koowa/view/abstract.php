@@ -193,7 +193,9 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			$vars  = array();
 			parse_str($route, $vars);
 			
-			$result = (string) $url->setQuery(array_merge($url->getQuery(true), $vars));;
+			$url->setQuery(array_merge($url->getQuery(true), $vars));
+			
+			$result = 'index.php?'.$url->getQuery();
 		}
 		else 
 		{
