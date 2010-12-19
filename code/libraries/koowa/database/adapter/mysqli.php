@@ -394,6 +394,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	protected function _fetchObjectList($result, $key='')
 	{
+		$array = array();
 		while ($row = $result->fetch_object( )) 
 		{
 			if ($key) {
