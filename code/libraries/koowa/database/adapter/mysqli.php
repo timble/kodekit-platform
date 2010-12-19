@@ -302,24 +302,17 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	/**
 	 * Fetch an array of single field results
 	 * 
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
 	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
 	 * @param 	string 			The column name of the index to use
-	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
+	 * @return 	array 			A sequential array of returned rows.
 	 */
-	protected function _fetchFieldList($result, $key = '')
+	protected function _fetchFieldList($result)
 	{
 		$array = array();
 		
-		while ($row = $result->fetch_row( )) 
-		{
-			if ($key) {
-				$array[$row[$key]] = $row[0];
-			} else {
-				$array[] = $row[0];
-			}
+		while ($row = $result->fetch_row( )) {
+			$array[] = $row[0];
 		}
 		
 		$result->free();
@@ -405,7 +398,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		}
 		
 		$result->free();
-			
+		
 		return $array;
 	}
 	

@@ -624,15 +624,12 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
 	/**
 	 * Fetch an array of single field results
-	 * 
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
 	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
 	 * @param 	string 			The column name of the index to use
-	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
+	 * @return 	array 			A sequential array of returned rows.
 	 */
-	abstract protected function _fetchFieldList($result, $key = '');
+	abstract protected function _fetchFieldList($result);
 
 	/**
      * Fetch the first row of a result set as an associative array
