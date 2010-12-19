@@ -20,7 +20,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 {
  	/**
 	 * The column name from where to generate the slug, or a set of column
-	 * names to concatenate for generating the slug.
+	 * names to concatenate for generating the slug. Default is 'title'.
 	 *
 	 * @var	array
 	 */
@@ -28,7 +28,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 
 	/**
 	 * Separator character / string to use for replacing non alphabetic
-	 * characters in generated slug
+	 * characters in generated slug. Default is '-'.
 	 *
 	 * @var	string
 	 */
@@ -36,7 +36,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 
 	/**
 	 * Maximum length the generated slug can have. If this is null the length of
-	 * the slug column will be used.
+	 * the slug column will be used. Default is NULL.
 	 *
 	 * @var	integer
 	 */
@@ -44,16 +44,16 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 
 	/**
 	 * Set to true if slugs should be re-generated when updating an existing
-	 * row.
+	 * row. Default is true.
 	 *
 	 * @var	boolean
 	 */
 	protected $_updatable;
 	
 	/**
-	 * Set to true if slugs should be unique, if false and the slug column has
+	 * Set to true if slugs should be unique. If false and the slug column has
 	 * a unique index set this will result in an error being throw that needs
-	 * to be recovered.
+	 * to be recovered. Default is NULL.
 	 *
 	 * @var	boolean
 	 */
