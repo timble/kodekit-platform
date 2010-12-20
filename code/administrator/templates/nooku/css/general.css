@@ -163,7 +163,7 @@ div.configuration {
 
 div.toolbar { float: right; text-align: right; padding: 0; }
 
-table.toolbar    			 { border-collapse: collapse; padding: 0; margin: 0 9px 0 0; }
+table.toolbar { border-collapse: collapse; padding: 0; margin: 0 9px 0 0; }
 
 table.toolbar td {
 	margin: 0 !important;
@@ -210,6 +210,8 @@ table.toolbar span {
 	float: none; 
 	width: 24px; height: 24px;
 	margin: 0 auto;
+	-webkit-background-size: 24px;
+	-moz-background-size: 24px;
 	background-size: 24px;
 }
 table.toolbar a:hover span { background-position: 0 0; }
@@ -387,6 +389,8 @@ table.adminform {
 	width: 100%;
 	margin: 8px 0 15px 0;
 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 table.adminform.nospace { margin-bottom: 0; }
 table.adminform tr.row0 { background-color: #f9f9f9; }
@@ -421,9 +425,9 @@ table.adminlist {
 	background-color: #E1E1E1;
 	color: #666;
 	border: 1px solid #E1E1E1;
-	border-radius: 5px;
 	-webkit-radius: 5px;
 	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 table.adminlist td,
@@ -445,11 +449,12 @@ table.adminlist thead th,
 table.adminlist tfoot tr,
 table.adminlist tfoot tr td {
 	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
-	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
 }
 
 table.adminlist thead td {
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#F9F9F9));
+	background: #F7F7F7 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#F9F9F9));
+	background: #F7F7F7 -moz-linear-gradient(0% 0% 270deg,#F2F2F2, #F9F9F9);
 	border-bottom: 1px solid #F2F2F2;
 }
 

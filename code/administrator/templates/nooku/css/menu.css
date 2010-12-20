@@ -131,6 +131,6 @@
 	-moz-border-radius: 10px 10px 0 0;
 	border-radius: 10px 10px 0 0;
 	-webkit-box-shadow: hsla(0, 0%,95%, 0.8) 0px -2px 2px;
-	-moz-box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
-	box-shadow: hsla(0, 0%, 70%, 0.8) 0px 5px 5px;
+	-moz-box-shadow: hsla(0, 0%, 95%, 0.8) 0px -2px 2px;
+	box-shadow: hsla(0, 0%, 95%, 0.8) 0px -2px 2px;
 }
