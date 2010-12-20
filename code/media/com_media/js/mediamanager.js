@@ -31,7 +31,7 @@ var MediaManager = {
         this.frameurl   = this.frame.location.href;
         //this.frameurl   = window.frames['folderframe'].location.href;
          
-        this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme:  '/media/com_media/images/mootree.gif', onClick:
+        this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme:  '../media/com_media/images/mootree.gif', onClick:
                 function(node){
                     target = $chk(node.data.target) ? node.data.target : '_self';
                     window.frames[target].location.href = node.data.url;
