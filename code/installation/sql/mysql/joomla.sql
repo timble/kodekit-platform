@@ -556,8 +556,8 @@ CREATE TABLE `#__templates_menu` (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # Dumping data for table `#__templates_menu`
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
+INSERT INTO `#__templates_menu` VALUES ('witblits', '0', '0');
+INSERT INTO `#__templates_menu` VALUES ('nooku', '0', '1');
 
 # --------------------------------------------------------
 

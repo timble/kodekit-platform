@@ -235,7 +235,7 @@ class JAdministrator extends JApplication
 			$template = JFilterInput::clean($template, 'cmd');
 
 			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-				$template = 'khepri';
+				$template = 'nooku';
 			}
 		}
 

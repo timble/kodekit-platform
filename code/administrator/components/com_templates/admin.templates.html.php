@@ -133,7 +133,7 @@ class TemplatesView
 
 				if ($row->published == 1) {
 ?>
-							<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Published' ); ?>" />
+							<img src="templates/nooku/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Published' ); ?>" />
 								<?php
 
 				} else {
@@ -153,7 +153,7 @@ class TemplatesView
 
 				if ($row->published == 1) {
 ?>
-								<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+								<img src="templates/nooku/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 								<?php
 
 				} else {

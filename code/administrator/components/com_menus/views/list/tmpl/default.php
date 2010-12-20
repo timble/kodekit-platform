@@ -88,7 +88,7 @@
 			</td>
 			<td align="center">
 				<?php if ( $row->home == 1 ) : ?>
-				<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+				<img src="templates/nooku/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 				<?php else : ?>
 				&nbsp;
 				<?php endif; ?>
