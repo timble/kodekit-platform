@@ -5,10 +5,10 @@
 <?php
 	// Set toolbar items for the page
 	JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
+	JToolBarHelper::addNewX();
+	JToolBarHelper::deleteList();
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
-	JToolBarHelper::deleteList();
-	JToolBarHelper::addNewX();
 	JToolBarHelper::preferences('com_weblinks', '380');
 	$ordering = ($this->lists['order'] == 'a.ordering');
 ?>

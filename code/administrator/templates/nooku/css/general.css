@@ -75,9 +75,19 @@ textarea:focus { background-color: #ffd }
 	padding: 0;
 }
 
-#content-box #submenu-box {
+#content-box #tabs-box {
 	padding-top: 15px;
 	border-top: 1px solid #E1E1E1;
+	width: 100%;
+}
+
+#content-box #tabs-box #title {
+	float: right;
+	margin-right: 25px;
+}
+
+#content-box #submenu-box {
+	float: left;
 }
 
 #toolbar-box 			{ 
@@ -145,9 +155,12 @@ span.note {
 /** toolbar **/
 
 div.header {
-	font-size: 22px; font-weight: bold; color: #0B55C4; line-height: 48px;
-	padding-left: 55px;
+	font-size: 16px; font-weight: bold; color: #0B55C4;
+	padding-left: 34px;
 	background-repeat: no-repeat;
+	-webkit-background-size: 22px;
+	-moz-background-size: 22px;
+	background-size: 22px;
 	margin-left: 10px;
 }
 
@@ -161,9 +174,9 @@ div.configuration {
 	background-repeat: no-repeat;
 }
 
-div.toolbar { float: right; text-align: right; padding: 0; }
+div.toolbar { float: left; text-align: right; padding: 0; }
 
-table.toolbar { border-collapse: collapse; padding: 0; margin: 0 9px 0 0; }
+table.toolbar { border-collapse: collapse; padding: 0; margin: 0 9px; }
 
 table.toolbar td {
 	margin: 0 !important;
@@ -171,10 +184,10 @@ table.toolbar td {
 }
 
 table.toolbar td a			 { 
-	text-align: center; color: #666; min-width: 75px;
+	text-align: left; color: #666; min-width: 75px; line-height: 18px;
 	display: block; float: left;
 	white-space: nowrap;
-	padding: 5px 4px;
+	padding: 5px 6px 5px 4px;
 	margin-right: 1px;
 	cursor: pointer;
 	color: #666;
@@ -209,12 +222,13 @@ table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 
 table.toolbar span { 
 	display: block;
-	float: none; 
-	width: 24px; height: 24px;
+	float: left; 
+	width: 18px; height: 18px;
 	margin: 0 auto;
-	-webkit-background-size: 24px;
-	-moz-background-size: 24px;
-	background-size: 24px;
+	-webkit-background-size: 18px;
+	-moz-background-size: 18px;
+	background-size: 18px;
+	margin-right: 4px;
 }
 table.toolbar a:hover span { background-position: 0 0; }
 

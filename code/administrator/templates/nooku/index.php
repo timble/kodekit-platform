@@ -42,11 +42,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	</div>
 	<div id="content-box">
 		<?php if (!JRequest::getInt('hidemainmenu')): ?>
-		<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
+		<div id="tabs-box">
+			<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
+			<div id="title"><jdoc:include type="modules" name="title" /></div>
+			<div class="clr"></div>
+		</div>
 		<?php endif; ?>
 		<div id="toolbar-box">
 			<jdoc:include type="modules" name="toolbar" />
-			<jdoc:include type="modules" name="title" />
 			<div class="clr"></div>
 		</div>
 		<div class="clr"></div>
