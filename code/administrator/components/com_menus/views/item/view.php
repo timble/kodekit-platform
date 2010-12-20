@@ -144,9 +144,9 @@ class MenusViewItem extends JView
 		$document	= & JFactory::getDocument();
 
 		if($lang->isRTL()){
-			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
+			$document->addStyleSheet(JURI::root(true).'/media/com_menus/css/type_rtl.css');
 		} else {
-			$document->addStyleSheet('components/com_menus/assets/type.css');
+			$document->addStyleSheet(JURI::root(true).'/media/com_menus/css/type.css');
 		}
 		JHTML::_('behavior.tooltip');
 
