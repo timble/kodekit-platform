@@ -66,9 +66,8 @@ textarea:focus { background-color: #ffd }
 
 #header-box  { 
 	background-color: #000033;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000055), to(#000033));
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#000));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#000055, #000033);
-	
 }
 
 #content-box {
@@ -76,8 +75,10 @@ textarea:focus { background-color: #ffd }
 }
 
 #content-box #tabs-box {
-	padding-top: 15px;
-	border-top: 1px solid #E1E1E1;
+	padding-top: 5px;
+	border-top: 1px solid #bbb;
+	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#6497EF), to(#427FE2));
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
 	width: 100%;
 }
 
@@ -86,7 +87,7 @@ textarea:focus { background-color: #ffd }
 	margin-right: 25px;
 }
 
-#content-box #submenu-box {
+#content-box #tabs-box #submenu-box {
 	float: left;
 }
 
@@ -94,7 +95,7 @@ textarea:focus { background-color: #ffd }
 	padding: 10px 0;
 	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#FFF));
 	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
-	border-top: 1px solid #E1E1E1;	
+		
 }
 
 div#element-box {
@@ -155,12 +156,9 @@ span.note {
 /** toolbar **/
 
 div.header {
-	font-size: 16px; font-weight: bold; color: #0B55C4;
+	font-size: 14px; font-weight: bold; color: #FFF;
 	padding-left: 34px;
-	background-repeat: no-repeat;
-	-webkit-background-size: 22px;
-	-moz-background-size: 22px;
-	background-size: 22px;
+	background-image: none;
 	margin-left: 10px;
 }
 
@@ -227,7 +225,7 @@ table.toolbar span {
 	margin: 0 auto;
 	-webkit-background-size: 18px;
 	-moz-background-size: 18px;
-	background-size: 18px;
+	background-size: 18px; background-position: 0 18px;
 	margin-right: 4px;
 }
 table.toolbar a:hover span { background-position: 0 0; }
