@@ -545,18 +545,6 @@ CREATE TABLE `#__session` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__stats_agents`
-#
-
-CREATE TABLE `#__stats_agents` (
-  `agent` varchar(255) NOT NULL default '',
-  `type` tinyint(1) unsigned NOT NULL default '0',
-  `hits` int(11) unsigned NOT NULL default '1'
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__templates_menu`
 #
 
