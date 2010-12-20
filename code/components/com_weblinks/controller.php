@@ -39,13 +39,6 @@ class WeblinksController extends JController
 			JRequest::setVar('view', 'categories' );
 		}
 
-		//update the hit count for the weblink
-		if(JRequest::getCmd('view') == 'weblink')
-		{
-			$model =& $this->getModel('weblink');
-			$model->hit();
-		}
-		
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
 		$view = JRequest::getVar('view');

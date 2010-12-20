@@ -33,9 +33,6 @@ $rows = $db->loadObjectList();
 	<td class="title">
 		<strong><?php echo JText::_( 'Created' ); ?></strong>
 	</td>
-	<td class="title">
-		<strong><?php echo JText::_( 'Hits' ); ?></strong>
-	</td>
 </tr>
 <?php
 foreach ($rows as $row)
@@ -49,9 +46,6 @@ foreach ($rows as $row)
 		</td>
 		<td>
 			<?php echo JHTML::_('date', $row->created, '%Y-%m-%d %H:%M:%S'); ?>
-		</td>
-		<td>
-			<?php echo $row->hits;?>
 		</td>
 	</tr>
 	<?php

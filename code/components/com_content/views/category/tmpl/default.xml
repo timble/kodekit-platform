@@ -41,7 +41,6 @@
 			<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
 				<option value="title">Title</option>
 				<option value="author">Author</option>
-				<option value="hits">Hits</option>
 			</param>
 		</params>
 		<advanced>
@@ -53,8 +52,6 @@
 				<option value="ralpha">Title Reverse-Alphabetical</option>
 				<option value="author">Author Alphabetical</option>
 				<option value="rauthor">Author Reverse-Alphabetical</option>
-				<option value="hits">Most Hits</option>
-				<option value="rhits">Least Hits</option>
 				<option value="order">Ordering</option>
 			</param>
 

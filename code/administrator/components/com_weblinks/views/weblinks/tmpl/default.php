@@ -36,9 +36,6 @@
 			<th width="15%"  class="title">
 				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
-			<th width="5%">
-				<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-			</th>
 			<th width="1%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
@@ -61,7 +58,6 @@
 			<td>
 				<?php echo $this->lists['catid']; ?>
 			</td>
-			<td></td>
 			<td></td>
 		</tr>
 	</thead>
@@ -119,9 +115,6 @@
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Category' );?>::<?php echo $this->escape($row->category); ?>">
 				<a href="<?php echo $row->cat_link; ?>" >
 				<?php echo $this->escape($row->category); ?></a></span>
-			</td>
-			<td align="center">
-				<?php echo $row->hits; ?>
 			</td>
 			<td align="center">
 				<?php echo $row->id; ?>

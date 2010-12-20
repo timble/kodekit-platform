@@ -7,10 +7,6 @@
 		</param>
 		<param name="comp_description" type="textarea" default="" label="Weblinks Intro" rows="3" cols="50" description="WEBLINKS_INTRO_DESC" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_link_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="show_link_description" type="radio" default="1" label="Link Descriptions" description="PARAMSHOWHIDELINKS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>

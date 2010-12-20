@@ -52,7 +52,6 @@ switch (strtolower($task))
 
 	case 'go2menu' :
 	case 'go2menuitem' :
-	case 'resethits' :
 	case 'menulink' :
 	case 'apply' :
 	case 'save' :

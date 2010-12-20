@@ -646,10 +646,6 @@ class ContentController extends JController
 				ContentHelper::menuLink($redirect, $row->id);
 				break;
 
-			case 'resethits' :
-				ContentHelper::resetHits($redirect, $row->id);
-				break;
-
 			case 'apply' :
 				$msg = JText::sprintf('SUCCESSFULLY SAVED CHANGES TO ARTICLE', $row->title);
 				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&cid[]='.$row->id, $msg);

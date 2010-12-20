@@ -646,33 +646,6 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Description
-	 *
-	 * @access public
-	 * @param $oid
-	 * @param $log
-	 */
-	function hit( $oid=null, $log=false )
-	{
-		if (!in_array( 'hits', array_keys($this->getProperties()) )) {
-			return;
-		}
-
-		$k = $this->_tbl_key;
-
-		if ($oid !== null) {
-			$this->$k = intval( $oid );
-		}
-
-		$query = 'UPDATE '. $this->_tbl
-		. ' SET hits = ( hits + 1 )'
-		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
-		$this->_db->query();
-		$this->hits++;
-	}
-
-	/**
 	 * Check if an item is checked out
 	 *
 	 * This function can be used as a static function too, when you do so you need to also provide the

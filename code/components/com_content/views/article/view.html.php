@@ -59,12 +59,6 @@ class ContentViewArticle extends ContentView
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		if (!$params->get('intro_only') && ($this->getLayout() == 'default') && ($limitstart == 0))
-		{
-			$model =& $this->getModel();
-			$model->hit();
-		}
-
 		// Create a user access object for the current user
 		$access = new stdClass();
 		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');

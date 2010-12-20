@@ -166,26 +166,6 @@ class ContentModelArticle extends JModel
 	}
 
 	/**
-	 * Method to increment the hit counter for the article
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function hit()
-	{
-		global $mainframe;
-
-		if ($this->_id)
-		{
-			$article = & JTable::getInstance('content');
-			$article->hit($this->_id);
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Tests if article is checked out
 	 *
 	 * @access	public

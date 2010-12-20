@@ -58,12 +58,6 @@ document.adminForm.submit( task );
 			<?php echo JHTML::_('grid.sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
-
-		<?php if ($this->params->get('show_hits')) : ?>
-		<th class="sectiontableheader" id="ct-hits">
-			<?php echo JHTML::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
-		</th>
-		<?php endif; ?>
 	</tr>
 	</thead>
 	<?php endif; ?>
@@ -99,13 +93,6 @@ document.adminForm.submit( task );
 			<?php echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 		</td>
 		<?php endif; ?>
-
-		<?php if ($this->params->get('show_hits')) : ?>
-		<td headers="ct-hits" class="ct-hits">
-			<?php echo $item->hits ? $item->hits : '-'; ?>
-		</td>
-		<?php endif; ?>
-
 	</tr>
 	<?php endforeach; ?>
 	</tbody>

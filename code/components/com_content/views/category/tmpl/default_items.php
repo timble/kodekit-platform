@@ -57,11 +57,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo JHTML::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_hits')) : ?>
-	<td align="center" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" width="5%" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-	</td>
-	<?php endif; ?>
 </tr>
 <?php endif; ?>
 <?php foreach ($this->items as $item) : ?>
@@ -99,11 +94,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if ($this->params->get('show_author')) : ?>
 	<td >
 		<?php echo $this->escape($item->created_by_alias) ? $this->escape($item->created_by_alias) : $this->escape($item->author); ?>
-	</td>
-	<?php endif; ?>
-	<?php if ($this->params->get('show_hits')) : ?>
-	<td align="center">
-		<?php echo $this->escape($item->hits) ? $this->escape($item->hits) : '-'; ?>
 	</td>
 	<?php endif; ?>
 </tr>

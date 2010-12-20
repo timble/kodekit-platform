@@ -27,12 +27,6 @@
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>">
 		<?php echo JHTML::_('grid.sort',  'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
-	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
-
-	<td width="30" height="20" class="sectiontableheader<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>" style="text-align:center;" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-	</td>
-	<?php endif; ?>
 </tr>
 <?php endif; ?>
 <?php foreach ($this->items as $item) : ?>
@@ -49,11 +43,6 @@
 		<br /><span class="description"><?php echo nl2br($this->escape($item->description)); ?></span>
 		<?php endif; ?>
 	</td>
-	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
-	<td align="center">
-		<?php echo $item->hits; ?>
-	</td>
-	<?php endif; ?>
 </tr>
 <?php endforeach; ?>
 <tr>

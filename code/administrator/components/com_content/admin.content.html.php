@@ -82,9 +82,6 @@ class ContentView
 					<th align="center" width="10">
 						<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th align="center" width="10">
-						<?php echo JHTML::_('grid.sort',   'Hits', 'c.hits', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 					<th width="1%" class="title">
 						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
@@ -115,7 +112,6 @@ class ContentView
 					<td>
 						<?php echo $lists['authorid']; ?>
 					</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -252,9 +248,6 @@ class ContentView
 					</td>
 					<td nowrap="nowrap">
 						<?php echo JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') ); ?>
-					</td>
-					<td nowrap="nowrap" align="center">
-						<?php echo $row->hits ?>
 					</td>
 					<td>
 						<?php echo $row->id; ?>
@@ -856,13 +849,6 @@ class ContentView
 		$create_date 	= null;
 		$nullDate 		= $db->getNullDate();
 
-		// used to hide "Reset Hits" when hits = 0
-		if ( !$row->hits ) {
-			$visibility = 'style="display: none; visibility: hidden;"';
-		} else {
-			$visibility = '';
-		}
-
 		?>
 		<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
 		<?php
@@ -885,17 +871,6 @@ class ContentView
 			</td>
 			<td>
 				<?php echo $row->state > 0 ? JText::_( 'Published' ) : ($row->state < 0 ? JText::_( 'Archived' ) : JText::_( 'Draft Unpublished' ) );?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'Hits' ); ?></strong>
-			</td>
-			<td>
-				<?php echo $row->hits;?>
-				<span <?php echo $visibility; ?>>
-					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset' ); ?>" onclick="submitbutton('resethits');" />
-				</span>
 			</td>
 		</tr>
 		<tr>

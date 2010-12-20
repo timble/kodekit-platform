@@ -129,30 +129,6 @@ class ContentHelper
 		return $text;
 	}
 
-
-
-	/**
-	* Function to reset Hit count of an article
-	*
-	*/
-	function resetHits($redirect, $id)
-	{
-		global $mainframe;
-
-		// Initialize variables
-		$db	= & JFactory::getDBO();
-
-		// Instantiate and load an article table
-		$row = & JTable::getInstance('content');
-		$row->Load($id);
-		$row->hits = 0;
-		$row->store();
-		$row->checkin();
-
-		$msg = JText::_('Successfully Reset Hit count');
-		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&id='.$id, $msg);
-	}
-
 	function filterCategory($query, $active = NULL)
 	{
 		// Initialize variables
