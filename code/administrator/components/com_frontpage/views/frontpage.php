@@ -42,20 +42,6 @@ class FrontpageView
 		?>
 		<form action="index.php?option=com_frontpage" method="post" name="adminForm">
 
-			<table>
-				<tr>
-					<td width="100%" class="filter">
-						
-					</td>
-					<td nowrap="nowrap">
-						
-						
-						
-						
-					</td>
-				</tr>
-			</table>
-
 			<table class="adminlist">
 			<thead>
 				<tr>
