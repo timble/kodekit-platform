@@ -46,8 +46,8 @@ class MediaViewMedia extends JView
 		$document->setBuffer($listStyle, 'modules', 'submenu');
 
 		JHTML::_('behavior.mootools');
-		$document->addScript('components/com_media/assets/mediamanager.js');
-		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
+		$document->addScript(JURI::root(true).'/media/com_media/js/mediamanager.js');
+		$document->addStyleSheet(JURI::root(true).'/media/com_media/css/mediamanager.css');
 
 		JHTML::_('behavior.modal');
 		$document->addScriptDeclaration("

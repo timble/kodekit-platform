@@ -63,7 +63,7 @@
 }
 
 .upload-queue li {
-	background: url(upload.png) no-repeat 0 5px;
+	background: url(../images/upload.png) no-repeat 0 5px;
 	padding: 5px 0 5px 22px;
 }
 
@@ -99,7 +99,7 @@
 .upload-queue .input-delete {
 	width: 16px;
 	height: 16px;
-	background: url(delete.png) no-repeat 0 0;
+	background: url(../images/delete.png) no-repeat 0 0;
 	text-decoration: none;
 	border: none;
 	float: right;

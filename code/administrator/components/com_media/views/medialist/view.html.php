@@ -39,7 +39,7 @@ class MediaViewMediaList extends JView
 		JHTML::_('behavior.mootools');
 
 		$document = &JFactory::getDocument();
-		$document->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
+		$document->addStyleSheet(JURI::root(true).'/media/com_media/css/medialist-'.$style.'.css');
 
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
