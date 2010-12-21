@@ -24,11 +24,15 @@ class BannersViewBanner
 	function setBannersToolbar()
 	{
 		JToolBarHelper::title( JText::_( 'Banner Manager' ), 'generic.png' );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::spacer();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-		JToolBarHelper::deleteList();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
 		JToolBarHelper::preferences('com_banners', '200');
 	}
 

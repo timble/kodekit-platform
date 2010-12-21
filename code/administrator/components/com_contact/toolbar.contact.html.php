@@ -46,10 +46,13 @@ class TOOLBAR_contact
 	function _DEFAULT() {
 
 		JToolBarHelper::title( JText::_( 'Contact Manager' ), 'generic.png' );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
 		JToolBarHelper::preferences('com_contact', '500');
 	}
 }

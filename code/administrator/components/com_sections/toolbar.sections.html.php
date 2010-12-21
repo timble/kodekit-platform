@@ -54,10 +54,13 @@ class TOOLBAR_sections {
 	*/
 	function _DEFAULT(){
 		JToolBarHelper::title( JText::_( 'Section Manager' ), 'sections.png' );
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JToolBarHelper::deleteList();
 		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
+		JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::spacer();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();		
 	}
 }

@@ -6,9 +6,12 @@
 	// Set toolbar items for the page
 	JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
 	JToolBarHelper::addNewX();
+	JToolBarHelper::spacer();
 	JToolBarHelper::deleteList();
+	JToolBarHelper::spacer();
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
+	JToolBarHelper::spacer();
 	JToolBarHelper::preferences('com_weblinks', '380');
 	$ordering = ($this->lists['order'] == 'a.ordering');
 ?>

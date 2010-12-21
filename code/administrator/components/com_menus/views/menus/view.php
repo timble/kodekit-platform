@@ -32,9 +32,11 @@ class MenusViewMenus extends JView
 
 		// Set toolbar items for the page
 		JToolBarHelper::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
-		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JToolBarHelper::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
 		JToolBarHelper::addNewX('addMenu');
+		JToolBarHelper::spacer();
+		JToolBarHelper::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
+		JToolBarHelper::spacer();
+		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::help( 'screen.menumanager' );
 
 		$document = & JFactory::getDocument();

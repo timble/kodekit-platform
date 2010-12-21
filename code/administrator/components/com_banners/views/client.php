@@ -21,8 +21,9 @@ class BannersViewClients
 	function setClientsToolbar()
 	{
 		JToolBarHelper::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
-		JToolBarHelper::deleteList( '', 'remove' );
 		JToolBarHelper::addNewX( 'add' );
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList( '', 'remove' );
 	}
 
 	function clients( &$rows, &$pageNav, &$lists )

@@ -110,10 +110,12 @@ function viewFrontPage( $option )
 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 	JToolBarHelper::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
-	JToolBarHelper::archiveList();
+	JToolBarHelper::custom('remove','delete.png','delete_f2.png','Remove', true);
+	JToolBarHelper::spacer();
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
-	JToolBarHelper::custom('remove','delete.png','delete_f2.png','Remove', true);
+	JToolBarHelper::spacer();
+	JToolBarHelper::archiveList();
 
 	$where = array(
 		"c.state >= 0"

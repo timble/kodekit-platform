@@ -39,13 +39,17 @@ class MenusViewList extends JView
 
 		JToolBarHelper::title( JText::_( 'MENU ITEM MANAGER' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 
-		JToolBarHelper::makeDefault( 'setdefault' );
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+		JToolBarHelper::addNewX('newItem');
+		JToolBarHelper::spacer();
+		JToolBarHelper::trash();
+		JToolBarHelper::spacer();
 		JToolBarHelper::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
 		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JToolBarHelper::trash();
-		JToolBarHelper::addNewX('newItem');
+		JToolBarHelper::spacer();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::spacer();
+		JToolBarHelper::makeDefault( 'setdefault' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('View Menu Items'));

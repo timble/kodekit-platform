@@ -55,10 +55,13 @@ class TOOLBAR_modules {
 	function _DEFAULT($client)
 	{
 		JToolBarHelper::title( JText::_( 'Module Manager' ), 'module.png' );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
+		JToolBarHelper::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::spacer();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JToolBarHelper::deleteList();
-		JToolBarHelper::addNewX();
 	}
 }

@@ -26,7 +26,6 @@ class TOOLBAR_content
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
-		JToolBarHelper::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component', true );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ( $edit ) {
@@ -35,6 +34,8 @@ class TOOLBAR_content
 		} else {
 			JToolBarHelper::cancel();
 		}
+		JToolBarHelper::spacer();
+		JToolBarHelper::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component', true );
 	}
 /*
 	function _ARCHIVE()
@@ -63,18 +64,23 @@ class TOOLBAR_content
 		global $filter_state;
 
 		JToolBarHelper::title( JText::_( 'Article Manager' ), 'article.png' );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::trash();
+		JToolBarHelper::spacer();
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
+		JToolBarHelper::spacer();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::spacer();
 		if ($filter_state == 'A' || $filter_state == NULL) {
 			JToolBarHelper::unarchiveList();
 		}
 		if ($filter_state != 'A') {
 			JToolBarHelper::archiveList();
 		}
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
-		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-		JToolBarHelper::trash();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
 		JToolBarHelper::preferences('com_content', '550');
 	}
 }

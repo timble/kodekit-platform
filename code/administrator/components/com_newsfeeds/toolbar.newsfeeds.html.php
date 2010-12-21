@@ -24,10 +24,13 @@ class TOOLBAR_newsfeeds
 	function _DEFAULT()
 	{
 		JToolBarHelper::title(  JText::_( 'Newsfeed Manager' ) );
+		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::spacer();
 		JToolBarHelper::preferences( 'com_newsfeeds','400');
 	}
 
