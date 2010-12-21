@@ -126,35 +126,6 @@ class JModuleHelper
 		$scope = $mainframe->scope; //record the scope
 		$mainframe->scope = $module->module;  //set scope to component name
 
-		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy'))
-		{
-			// Include legacy globals
-			global $my, $database, $acl, $mosConfig_absolute_path;
-
-			// Get the task variable for local scope
-			$task = JRequest::getString('task');
-
-			// For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v) {
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-			$contentConfig = &JComponentHelper::getParams( 'com_content' );
-			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
-			{
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
-			{
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-		}
-
 		// Get module parameters
 		$params = new JParameter( $module->params );
 

@@ -32,7 +32,6 @@ class JConfig {
 	var $sitename = 'Joomla!';			// Name of Joomla site
 	var $editor = 'tinymce';
 	var $list_limit = '20';
-	var $legacy = '0';
 
 	/**
 	* -------------------------------------------------------------------------
