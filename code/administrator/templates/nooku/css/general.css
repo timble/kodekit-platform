@@ -488,7 +488,8 @@ table.adminlist thead td {
 	border-bottom: 1px solid #F2F2F2;
 }
 
-table.adminlist thead a:hover { text-decoration: none; }
+table.adminlist thead a 		{ color: #666; }
+table.adminlist thead a:hover 	{ text-decoration: none; }
 
 table.adminlist thead th img { vertical-align: middle; }
 
