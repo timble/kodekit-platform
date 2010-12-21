@@ -44,7 +44,7 @@ class modArchiveHelper
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");
 
-			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
+			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}
