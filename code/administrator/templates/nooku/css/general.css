@@ -92,14 +92,30 @@ textarea:focus { background-color: #ffd }
 }
 
 #toolbar-box 			{ 
-	padding: 10px 0;
-	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#FFF));
-	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
-		
+	margin: 10px 10px 0 10px;
+	padding: 8px;
+	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#f1f1f1));
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+	border-top: 1px solid #E1E1E1;
+	border-right: 1px solid #E1E1E1;
+	border-left: 1px solid #E1E1E1;
 }
 
 div#element-box {
   padding: 0px 10px;
+}
+
+div#element-box.default form[name="adminForm"] {
+	background: #F2F2F2;
+	border: 1px solid #E1E1E1;
+}
+
+div#element-box.form form[name="adminForm"] {
+	border: 1px solid #E1E1E1;
+	padding: 0 10px;
 }
 
 div#element-box div#section-box {
@@ -174,7 +190,7 @@ div.configuration {
 
 div.toolbar { float: left; text-align: right; padding: 0; }
 
-table.toolbar { border-collapse: collapse; padding: 0; margin: 0 9px; }
+table.toolbar { border-collapse: collapse; padding: 0; margin: 0; }
 
 table.toolbar td {
 	margin: 0 !important;
@@ -185,8 +201,8 @@ table.toolbar td a			 {
 	text-align: left; color: #666; min-width: 75px; line-height: 18px;
 	display: block; float: left;
 	white-space: nowrap;
-	padding: 5px 6px 5px 4px;
-	margin-right: 1px;
+	padding: 4px 6px 4px 4px;
+	margin-right: 8px;
 	cursor: pointer;
 	color: #666;
 	font-weight: bold;
@@ -196,7 +212,11 @@ table.toolbar td a			 {
 	background-color: #FFF;
 	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
 	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	-webkit-border-radius: 3px;
+	border: 1px solid #d7dade;
  }
+ 
+/*
 table.toolbar td:first-child a { 
 	-webkit-border-radius: 3px 0 0 3px;
 	-moz-border-radius: 3px 0 0 3px; 
@@ -213,7 +233,7 @@ table.toolbar td:last-child a {
 	border-bottom: 1px solid #d7dade;
 	border-right: 1px solid #d7dade;
 }
-
+*/
 
 table.toolbar td.spacer  {  }
 table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
@@ -221,11 +241,11 @@ table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 table.toolbar span { 
 	display: block;
 	float: left; 
-	width: 18px; height: 18px;
+	width: 16px; height: 16px;
 	margin: 0 auto;
-	-webkit-background-size: 18px;
-	-moz-background-size: 18px;
-	background-size: 18px; background-position: 0 18px;
+	-webkit-background-size: 16px;
+	-moz-background-size: 16px;
+	background-size: 16px; background-position: 0 16px;
 	margin-right: 4px;
 }
 table.toolbar a:hover span { background-position: 0 0; }
@@ -438,10 +458,6 @@ table.adminlist {
 	border-spacing: 0px;
 	background-color: #E1E1E1;
 	color: #666;
-	border: 1px solid #E1E1E1;
-	-webkit-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
 }
 
 table.adminlist td,

@@ -55,7 +55,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div class="clr"></div>
 		
 		<jdoc:include type="message" />
-		<div id="element-box">
+		<div id="element-box" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
 			<jdoc:include type="component" />
 			<div class="clr"></div>
    		</div>
