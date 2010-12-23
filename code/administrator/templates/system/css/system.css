@@ -9,11 +9,25 @@ input.system-openid, input.com-system-openid {
 }
 
 body {color: #000}
+
+#message-box {
+	margin: 0 auto; width: 300px;
+	text-align: center;
+}
+
 /* System Messages */
 #system-message    { margin-bottom: 10px; padding: 0;}
 #system-message dt { font-weight: bold; }
 #system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
-#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; 
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
+	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
+	border: 1px solid #AAA;
+}
 
 /* System Standard Messages */
 #system-message dt.message { display: none; }
@@ -21,8 +35,8 @@ body {color: #000}
 
 /* System Error Messages */
 #system-message dt.error { display: none; }
-#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; }
 
 /* System Notice Messages */
 #system-message dt.notice { display: none; }
-#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; }
