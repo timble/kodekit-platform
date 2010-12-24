@@ -412,8 +412,8 @@ class plgEditorTinymce extends JPlugin
 			case 'simple': /* Simple mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root(true).
+							"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
 					$load .= "\t<script type=\"text/javascript\">
 					tinyMCE_GZ.init({
 					themes : \"$theme[$mode]\",
@@ -422,8 +422,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				} else {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+							JURI::root(true).
+							"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 				}
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -455,8 +455,8 @@ class plgEditorTinymce extends JPlugin
 			case 'advanced': /* Advanced mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root(true).
+							"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
 					$load .= "\t<script type=\"text/javascript\">
 						tinyMCE_GZ.init({
 						themes : \"$theme[$mode]\",
@@ -465,8 +465,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				} else {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+							JURI::root(true).
+							"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 				}
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -506,8 +506,8 @@ class plgEditorTinymce extends JPlugin
 			case 'extended': /* Extended mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root(true).
+							"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
 				  	$load .= "\t<script type=\"text/javascript\">
 				tinyMCE_GZ.init({
 					themes : \"$theme[$mode]\",
@@ -517,8 +517,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 		  } else {
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().
-						"plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+						JURI::root(true).
+						"/media/plg_tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		  }
 		  $return = $load .
 				"\t<script type=\"text/javascript\">
@@ -546,7 +546,7 @@ class plgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					document_base_url : \"". JURI::root() ."\",
 					//Templates
-					template_external_list_url :  \"". JURI::root() ."plugins/editors/tinymce/templates/template_list.js\",
+					template_external_list_url :  \"". JURI::root(true) ."/media/plg_tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
