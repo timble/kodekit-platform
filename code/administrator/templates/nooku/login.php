@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 
-<?php  if($this->direction == 'rtl') : ?>è
+<?php  if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -36,7 +36,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div id="border-top">
 			<a href="<?php echo JURI::root(); ?>">
 				<?php echo JText::_('Return to') ?>
-				<?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Website'); ?>
+				<?php echo $mainframe->getCfg( 'sitename' ); ?>
 			</a>
 		</div>
 		<div id="content-box">
