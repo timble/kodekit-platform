@@ -9,7 +9,7 @@
 	<copyright></copyright>
 	<license>GNU/GPL</license>
 	<version>1.0</version>
-	<description>Administration template for Joomla! 1.5</description>
+	<description>Administration template for Nooku Server</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>css/template.css</filename>
@@ -26,9 +26,5 @@
 		<position>debug</position>
 	</positions>
 	<params>
-		<param name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 	</params>
 </install>
