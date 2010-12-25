@@ -386,7 +386,7 @@ class categories_html
 						if (document.forms.adminForm.image.options.value!=''){
 							jsimg='../<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
 						} else {
-							jsimg='../images/M_images/blank.png';
+							jsimg='images/blank.png';
 						}
 						document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview', true ); ?>" />');
 						</script>

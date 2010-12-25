@@ -157,12 +157,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHTML::_('image.site', 'con_address.png', 	'/images/M_images/', $contact->params->get('icon_address'), 	'/images/M_images/', JText::_('Address').": ");
-				$image2 = JHTML::_('image.site', 'emailButton.png', 	'/images/M_images/', $contact->params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ");
-				$image3 = JHTML::_('image.site', 'con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ");
-				$image4 = JHTML::_('image.site', 'con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ");
-				$image5 = JHTML::_('image.site', 'con_info.png', 		'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
-				$image6 = JHTML::_('image.site', 'con_mobile.png', 		'/images/M_images/', $contact->params->get('icon_mobile'), 	'/images/M_images/', JText::_('Mobile').": ");
+				$image1 = JHTML::_('image.site', 'con_address.png', 	'/media/system/images/', $contact->params->get('icon_address'), 	'/media/system/images/', JText::_('Address').": ");
+				$image2 = JHTML::_('image.site', 'emailButton.png', 	'/media/system/images/', $contact->params->get('icon_email'), 		'/media/system/images/', JText::_('Email').": ");
+				$image3 = JHTML::_('image.site', 'con_tel.png', 		'/media/system/images/', $contact->params->get('icon_telephone'), 	'/media/system/images/', JText::_('Telephone').": ");
+				$image4 = JHTML::_('image.site', 'con_fax.png', 		'/media/system/images/', $contact->params->get('icon_fax'), 		'/media/system/images/', JText::_('Fax').": ");
+				$image5 = JHTML::_('image.site', 'con_info.png', 		'/media/system/images/', $contact->params->get('icon_misc'), 		'/media/system/images/', JText::_('Information').": ");
+				$image6 = JHTML::_('image.site', 'con_mobile.png', 		'/media/system/images/', $contact->params->get('icon_mobile'), 		'/media/system/images/', JText::_('Mobile').": ");
 
 				$contact->params->set('marker_address', 	$image1);
 				$contact->params->set('marker_email', 		$image2);

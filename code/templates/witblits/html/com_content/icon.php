@@ -10,7 +10,7 @@ class articleIcons
 		$ret = $uri->toString();	
 		$url = 'index.php?task=new&ret='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
 		if ($params->get('show_icons')) {
-			$text = JHTML::_('image.site', 'new.png', '/images/M_images/', NULL, NULL, JText::_('New') );
+			$text = JHTML::_('image.site', 'new.png', '/media/system/images/', NULL, NULL, JText::_('New') );
 		} else {
 			$text = JText::_('New').'&nbsp;';
 		}
@@ -52,7 +52,7 @@ class articleIcons
 		}
 		$url = 'index.php?view=article&id='.$article->slug.'&task=edit&ret='.base64_encode($ret);
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text = JHTML::_('image.site', $icon, '/images/M_images/', NULL, NULL, JText::_('Edit'));
+		$text = JHTML::_('image.site', $icon, '/media/system/images/', NULL, NULL, JText::_('Edit'));
 		if ($article->state == 0) {
 			$overlib = JText::_('Unpublished');
 		} else {

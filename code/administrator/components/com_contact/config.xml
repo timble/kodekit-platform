@@ -6,12 +6,12 @@
 			<option value="1">Text</option>
 			<option value="2">None</option>
 		</param>
-		<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
-		<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
-		<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
-		<param name="icon_mobile" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Mobile Icon" description="Icon for the Mobile info" />
-		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
-		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
+		<param name="icon_address" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+		<param name="icon_email" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+		<param name="icon_telephone" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+		<param name="icon_mobile" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Mobile Icon" description="Icon for the Mobile info" />
+		<param name="icon_fax" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+		<param name="icon_misc" type="imagelist" directory="/media/system/images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
 
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_headings" type="radio" default="1" label="Show Table Headings" description="Show/Hide the Table Headings">

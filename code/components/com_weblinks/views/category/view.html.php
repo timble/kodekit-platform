@@ -106,7 +106,7 @@ class WeblinksViewCategory extends JView
 
 		// icon in table display
 		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHTML::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+			$image = JHTML::_('image.site',  $params->get('link_icons', 'weblink.png'), '/media/system/images/', $params->get( 'weblink_icons' ), '/media/system/images/', 'Link' );
 		}
 
 		$k = 0;

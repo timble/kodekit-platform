@@ -39,7 +39,7 @@ class JHTMLImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
+	function site( $file, $folder='/media/system/images/', $altFile=NULL, $altFolder='/media/system/images/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
 		global $mainframe;

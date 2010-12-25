@@ -7,11 +7,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 		    $output = '<input name="searchword" id="mod_search_searchword" maxlength="'.$maxlength.'" alt="'.$button_text.'" class="search-input" type="text" size="'.$width.'" value="'.$text.'"  onblur="if(this.value==\'\') this.value=\''.$text.'\';" onfocus="if(this.value==\''.$text.'\') this.value=\'\';" />';
 
 			if ($button) :
-			    if ($imagebutton) :
-			        $button = '<input type="image" value="'.$button_text.'" class="search-btn" src="'.$img.'" onclick="this.form.searchword.focus();"/>';
-			    else :
-			        $button = '<input type="submit" value="'.$button_text.'" class="search-btn" onclick="this.form.searchword.focus();"/>';
-			    endif;
+			  	$button = '<input type="submit" value="'.$button_text.'" class="search-btn" onclick="this.form.searchword.focus();"/>';
 			endif;
 
 			switch ($button_pos) :
