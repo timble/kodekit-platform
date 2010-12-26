@@ -82,7 +82,7 @@ $nullDate	= $db->getNullDate();
 					echo "<tr class=\"row$k\">";
 					echo "\n	<td width=\"350\">". JText::_( 'Checking table' ) ." - ". $tn ."</td>";
 					echo "\n	<td width=\"150\">". JText::_( 'Checked-In' ) ." <b>". $num ."</b> ". JText::_( 'items' ) ."</td>";
-					echo "\n	<td width=\"100\" align=\"center\"><img src=\"images/tick.png\" border=\"0\" alt=\"". JText::_( 'tick' ) ."\" /></td>";
+					echo "\n	<td width=\"100\" align=\"center\"><img src=\"".JURI::root(true)."/media/system/images/tick.png\" border=\"0\" alt=\"". JText::_( 'tick' ) ."\" /></td>";
 					echo "\n	<td>&nbsp;</td>";
 					echo "\n</tr>";
 				} else {

@@ -39,7 +39,7 @@ class JHTMLGrid
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
+			$html .= JHTML::_('image.site',  $images[$index], JURI::root(true).'/media/system/images/');
 		}
 		$html .= '</a>';
 		return $html;
@@ -121,7 +121,7 @@ class JHTMLGrid
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
+		<img src="'.JURI::root(true).'/media/system/images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
 		;
 
 		return $href;
@@ -166,7 +166,7 @@ class JHTMLGrid
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
-		$checked = $hover .'<img src="images/checked_out.png"/></span>';
+		$checked = $hover .'<img src="'.JURI::root(true).'/media/system/images/checked_out.png"/></span>';
 
 		return $checked;
 	}

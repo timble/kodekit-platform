@@ -169,7 +169,7 @@ class TemplatesView
 
 				if ($row->assigned == 1) {
 ?>
-								<img src="images/tick.png" alt="<?php echo JText::_( 'Assigned' ); ?>" />
+								<img src="<?php JURI::root(true) ?>/media/system/images/tick.png" alt="<?php echo JText::_( 'Assigned' ); ?>" />
 								<?php
 
 				} else {

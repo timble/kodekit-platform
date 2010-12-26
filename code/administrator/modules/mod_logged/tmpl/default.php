@@ -60,7 +60,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				</td>
 				<td>
 				<?php if ($auth && $user->get('gid') > 24 && $row->userid != $user->get('id')) : ?>
-					<input type="image" src="images/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
+					<input type="image" src="<?php echo JURI::root(true) ?>/media/system/images/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
 				<?php endif; ?>
 				</td>
 			</tr>

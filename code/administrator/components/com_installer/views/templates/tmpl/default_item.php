@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 	</td>
 	<td align="center">
 		<span class="editlinktip hasTip" title="<?php echo (@$this->item->legacy ? JText::_( 'Not Compatible Extension') : JText::_('Compatible Extension'));?>">
-			<img src="images/<?php echo (@$this->item->legacy ? 'publish_x.png' : 'tick.png');?>"/>
+			<img src="<?php echo JURI::root(true) ?>/media/system/images/<?php echo (@$this->item->legacy ? 'publish_x.png' : 'tick.png');?>"/>
 		</span>
 	</td>
 </tr>
