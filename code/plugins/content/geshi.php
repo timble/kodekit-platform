@@ -51,14 +51,13 @@ function plgContentGeshi_replacer( &$matches )
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 
 	jimport('geshi.geshi');
-	jimport('domit.xml_saxy_shared');
-
-	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
+	jimport('joomla.utilities.utility');
+	
+	$args = JUtility::parseAttributes($matches[1]);
 	$text = $matches[2];
 
 	$lang	= JArrayHelper::getValue( $args, 'lang', 'php' );
 	$lines	= JArrayHelper::getValue( $args, 'lines', 'false' );
-
 
 	$html_entities_match = array( "|\<br \/\>|", "#<#", "#>#", "|&#39;|", '#&quot;#', '#&nbsp;#' );
 	$html_entities_replace = array( "\n", '&lt;', '&gt;', "'", '"', ' ' );

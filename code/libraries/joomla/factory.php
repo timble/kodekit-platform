@@ -303,15 +303,14 @@ class JFactory
 	 * Get an XML document
 	 *
 	 * @access public
-	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
+	 * @param string The type of xml parser needed 'RSS' or 'Simple'
 	 * @param array:
-	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
 	 */
 
-	 function &getXMLParser( $type = 'DOM', $options = array())
+	 function &getXMLParser( $type = 'Simple', $options = array())
 	 {
 		$doc = null;
 
@@ -347,20 +346,14 @@ class JFactory
 				$doc = new JSimpleXML();
 			}	break;
 
-			case 'dom'  :
-			default :
+			case 'dom':
 			{
-				if (!isset($options['lite']) || $options['lite'])
-				{
-					jimport('domit.xml_domit_lite_include');
-					$doc = new DOMIT_Lite_Document();
-				}
-				else
-				{
-					jimport('domit.xml_domit_include');
-					$doc = new DOMIT_Document();
-				}
-			}
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('DOMIT library has been removed'));
+				$doc = null;
+			}	break;
+			
+			default :
+				$doc = null;
 		}
 
 		return $doc;

@@ -183,39 +183,40 @@ class JInstallerHelper
 
 		if (count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
-
-				if (!$xmlDoc->loadXML($file, false, true))
+				$xml = & JFactory::getXMLParser('Simple');
+				if (!$xml->loadFile($file))
 				{
-					// Free up memory from DOMIT parser
-					unset ($xmlDoc);
+					// Free up xml parser memory
+					unset ($xml);
 					continue;
 				}
-				$root = & $xmlDoc->documentElement;
-				if (!is_object($root) || ($root->getTagName() != "install" && $root->getTagName() != 'mosinstall'))
+				
+				$root =& $xml->document;
+				if ($root->name() != 'install') 
 				{
-					unset($xmlDoc);
+					unset($xml);
 					continue;
 				}
 
-				$type = $root->getAttribute('type');
-				// Free up memory from DOMIT parser
-				unset ($xmlDoc);
+				$type = $root->attributes('type');
+				
+				// Free up xml parser memory
+				unset ($xml);
 				return $type;
 			}
 
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
-			// Free up memory from DOMIT parser
-			unset ($xmlDoc);
+			
+			// Free up xml parser memory
+			unset ($xml);
 			return false;
-		} else
+		} 
+		else 
 		{
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDXMLSETUPFILE'));
-			return false;
+			return false;	
 		}
 	}
 
