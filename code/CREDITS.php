@@ -24,12 +24,6 @@ packages. Please refer to the specific files and/or packages for more detailed i
 about the authors, copyright notices, and licenses.
 ---------------------------------------------------------------------------------------------
 
-Domit
------
-Author:		John Heinstein
-Copyright:	Copyright (C) 2004 John Heinstein. All rights reserved
-License:	GNU Lesser General Public License (LGPL) 2.1 or later
-
 Feedcreator
 -----------
 Author:		Kai Blankenhorn
