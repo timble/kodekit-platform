@@ -206,10 +206,7 @@ class sections_html
 		} else {
 			$name = JText::_( 'New Section' );
 		}
-		if ($row->image == '') {
-			$row->image = 'blank.png';
-		}
-
+		
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -296,12 +293,13 @@ class sections_html
 					</td>
 					<td rowspan="4" width="50%">
 						<?php
-							$path = JURI::root() . 'images/';
-							if ($row->image != 'blank.png') {
-								$path.= 'stories/';
+							if ($row->image != '') {
+								$path .= JURI::root(true) . '/images/stories/'.$row->image;
+							} else {
+								$path = JURI::root(true) . '/media/system/images/blank.png';
 							}
 						?>
-						<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
+						<img src="<?php echo $path;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
 					</td>
 				</tr>
 				<tr>

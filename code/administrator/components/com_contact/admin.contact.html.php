@@ -173,10 +173,6 @@ class HTML_contact
 
 		JRequest::setVar( 'hidemainmenu', 1 );
 
-		if ($row->image == '') {
-			$row->image = 'blank.png';
-		}
-
 		JHTML::_('behavior.tooltip');
 		jimport('joomla.html.pane');
         // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
@@ -438,9 +434,9 @@ class HTML_contact
 					<td colspan="2">
 						<script language="javascript" type="text/javascript">
 						if (document.forms.adminForm.image.options.value!=''){
-							jsimg='../<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
+							jsimg='<?php echo JURI::root(true) ?>/<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
 						} else {
-							jsimg='images/blank.png';
+							jsimg='<?php echo JURI::root(true) ?>/media/system/images/blank.png';
 						}
 						document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
 						</script>

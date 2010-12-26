@@ -231,9 +231,9 @@ class BannersViewBanner
 		<!--
 		function changeDisplayImage() {
 			if (document.adminForm.imageurl.value !='') {
-				document.adminForm.imagelib.src='../images/banners/' + document.adminForm.imageurl.value;
+				document.adminForm.imagelib.src='<?php echo JURI::root(true) ?>/images/banners/' + document.adminForm.imageurl.value;
 			} else {
-				document.adminForm.imagelib.src='images/blank.png';
+				document.adminForm.imagelib.src='<?php echo JURI::root(true) ?>/media/system/images/blank.png';
 			}
 		}
 		function submitbutton(pressbutton) {
@@ -438,16 +438,16 @@ class BannersViewBanner
 							if (preg_match("#swf$#i", $row->imageurl)) {
 								?>
 								<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" border="0" width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>">
-									<param name="movie" value="../images/banners/<?php echo $row->imageurl; ?>"><embed src="../images/banners/<?php echo $row->imageurl; ?>" loop="false" pluginspage="http://www.macromedia.com/go/get/flashplayer" type="application/x-shockwave-flash"  width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>"></embed>
+									<param name="movie" value="<?php echo JURI::root(true) ?>/images/banners/<?php echo $row->imageurl; ?>"><embed src="<?php echo JURI::root(true) ?>/images/banners/<?php echo $row->imageurl; ?>" loop="false" pluginspage="http://www.macromedia.com/go/get/flashplayer" type="application/x-shockwave-flash"  width="<?php echo $lists['width'];?>" height="<?php echo $lists['height'];?>"></embed>
 								</object>
 								<?php
 							} elseif (preg_match("#gif|jpg|png#i", $row->imageurl)) {
 								?>
-								<img src="../images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
+								<img src="<?php echo JURI::root(true) ?>/images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
 								<?php
 							} else {
 								?>
-								<img src="images/blank.png" name="imagelib" />
+								<img src="<?php echo JURI::root(true) ?>media/system/images/blank.png" name="imagelib" />
 								<?php
 							}
 							?>

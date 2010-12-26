@@ -247,10 +247,6 @@ class categories_html
 
 		$editor =& JFactory::getEditor();
 
-		if ($row->image == '') {
-			$row->image = 'blank.png';
-		}
-
 		if ( $redirect == 'content' ) {
 			$component = 'Content';
 		} else {
@@ -383,10 +379,9 @@ class categories_html
 						<td>&nbsp;</td>
 						<td>
 						<script language="javascript" type="text/javascript">
+						jsimg='<?php echo JURI::root(true) ?>/media/system/images/blank.png';
 						if (document.forms.adminForm.image.options.value!=''){
-							jsimg='../<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
-						} else {
-							jsimg='images/blank.png';
+							jsimg='<?php echo JURI::root(true) ?>/<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
 						}
 						document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview', true ); ?>" />');
 						</script>
