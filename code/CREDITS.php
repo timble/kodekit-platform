@@ -72,12 +72,6 @@ Author:		Mike Benoit
 Copyright:	Copyright (C) 2002, 2003 Mike Benoit
 License:	GNU Lesser General Public License (LGPL) 2.1 or later
 
-PHPInputfilter
---------------
-Author:		Daniel Morris
-Copyright:	Copyright (C) Daniel Morris
-License:	GNU General Public License (GPL)
-
 PHPMailer
 --------
 Author:		Andy Prevost, Brent R. Matzelle
