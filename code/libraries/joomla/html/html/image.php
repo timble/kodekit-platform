@@ -82,7 +82,7 @@ class JHTMLImage
 		}
 
 		// Prepend the base path
-		$src = JURI::base(true).'/'.$src;
+		$src = JURI::root(true).'/'.$src;
 
 		// outputs actual html <img> tag
 		if ($asTag) {
