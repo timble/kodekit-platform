@@ -256,26 +256,6 @@ class JTableUser extends JTable
 		$this->_db->setQuery( $query );
 
 		if ($this->_db->query()) {
-			// cleanup related data
-
-			// private messaging
-			$query = 'DELETE FROM #__messages_cfg'
-			. ' WHERE user_id = '. (int) $this->$k
-			;
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError( $this->_db->getErrorMsg() );
-				return false;
-			}
-			$query = 'DELETE FROM #__messages'
-			. ' WHERE user_id_to = '. (int) $this->$k
-			;
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError( $this->_db->getErrorMsg() );
-				return false;
-			}
-
 			return true;
 		} else {
 			$this->setError( $this->_db->getErrorMsg() );

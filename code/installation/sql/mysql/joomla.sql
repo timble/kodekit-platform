@@ -395,18 +395,6 @@ CREATE TABLE `#__messages` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__messages_cfg`
-#
-
-CREATE TABLE `#__messages_cfg` (
-  `user_id` int(10) unsigned NOT NULL default '0',
-  `cfg_name` varchar(100) NOT NULL default '',
-  `cfg_value` varchar(255) NOT NULL default '',
-  UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__modules`
 #
 
