@@ -851,20 +851,6 @@ class ContentView
 
 		?>
 		<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
-		<?php
-		if ( $row->id ) {
-		?>
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'Article ID' ); ?>:</strong>
-			</td>
-			<td>
-				<?php echo $row->id; ?>
-			</td>
-		</tr>
-		<?php
-		}
-		?>
 		<tr>
 			<td>
 				<strong><?php echo JText::_( 'State' ); ?></strong>

@@ -61,11 +61,6 @@ class JHTMLContent
 			<?php echo JText::_( 'Archived' ); ?>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="10" align="center">
-			<?php echo JText::_( 'Click on icon to toggle state.' ); ?>
-			</td>
-		</tr>
 		</table>
 		<?php
 	}
