@@ -65,16 +65,19 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 		$relation = KFactory::tmp('admin::com.terms.database.row.relation');
 		$relation->terms_term_id = $this->id;
 
-		if($relation->count() == 1) {
+		if($relation->count() <= 1) {
 			parent::delete();
 		}
 
 		//Delete the relation
-		$relation = KFactory::tmp('admin::com.terms.database.row.relation', array('new' => false));
-		$relation->terms_term_id = $this->id;
-   		$relation->row		   = $this->row;
-		$relation->table		 = $this->table;
-		$relation->delete();
+		if($this->row && $this->table)
+ 		{
+			$relation = KFactory::tmp('admin::com.terms.database.row.relation', array('new' => false));
+			$relation->terms_term_id = $this->id;
+	   		$relation->row		   = $this->row;
+			$relation->table		 = $this->table;
+			$relation->delete();
+ 		}
 
 		return true;
 	}
