@@ -79,16 +79,7 @@ class  plgSystemDebug extends JPlugin
 
 		if ($this->params->get('queries', 1))
 		{
-			jimport('geshi.geshi');
-
-			$geshi = new GeSHi( '', 'sql' );
-			$geshi->set_header_type(GESHI_HEADER_DIV);
-			//$geshi->enable_line_numbers( GESHI_FANCY_LINE_NONE );
-
-			$newlineKeywords = '/<span style="color: #993333; font-weight: bold;">'
-				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)'
-				.'<\\/span>/i'
-			;
+			$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\b#i';
 
 			$db	=& JFactory::getDBO();
 
@@ -97,10 +88,8 @@ class  plgSystemDebug extends JPlugin
 			if ($log = $db->getLog())
 			{
 				echo '<ol>';
-				foreach ($log as $k=>$sql)
+				foreach ($log as $k => $text)
 				{
-					$geshi->set_source($sql);
-					$text = $geshi->parse_code();
 					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 					echo '<li>'.$text.'</li>';
 				}
@@ -112,10 +101,8 @@ class  plgSystemDebug extends JPlugin
 				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';
 				echo '<ol>';
 
-					foreach ($database->getLog() as $k=>$sql)
+					foreach ($database->getLog() as $k => $text)
 					{
-						$geshi->set_source($sql);
-						$text = $geshi->parse_code();
 						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 						echo '<li>'.$text.'</li>';
 					}
