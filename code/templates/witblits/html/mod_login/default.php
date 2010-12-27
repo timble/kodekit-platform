@@ -18,9 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php JHTML::_('script', 'openid'); ?>
-<?php endif; ?>
 <form action="index.php" method="post" name="form-login" id="login-mod">
 	<?php echo $params->get('pretext'); ?>
 	<ul class="login-form list-reset">

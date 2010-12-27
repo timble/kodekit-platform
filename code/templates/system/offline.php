@@ -31,9 +31,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<p>
 		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
-	<?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php JHTML::_('script', 'openid.js'); ?>
-<?php endif; ?>
 	<form action="index.php" method="post" name="login" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">

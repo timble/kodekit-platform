@@ -25,17 +25,6 @@ $languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) ) );
 $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
-<?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
-		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
-		$langScript = 	'var JLanguage = {};'.
-						' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-						' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
-						' var modlogin = 1;';
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration( $langScript );
-		JHTML::_('script', 'openid.js');
-endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">
 		<label for="modlgn_username">
