@@ -25,6 +25,8 @@ $languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) ) );
 $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
+<h1><?php echo JText::_('Administration Login') ?></h1>
+
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">
 		<label for="modlgn_username">

@@ -33,18 +33,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </head>
 <body onload="javascript:setFocus()">
 	<div id="container">
-		<div id="border-top">
-			<a href="<?php echo JURI::root(); ?>">
-				<?php echo JText::_('Return to') ?>
-				<?php echo $mainframe->getCfg( 'sitename' ); ?>
-			</a>
-		</div>
 		<div id="content-box">
 			<div id="element-box" class="login">
-				<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
+				
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
-				
+				<a class="return" href="<?php echo JURI::root(); ?>">
+					<?php echo JText::_('Return to') ?>
+					<?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Website'); ?>
+				</a>
 				<div class="clr"></div>
 			</div>
 			<div class="clr"></div>
