@@ -97,9 +97,6 @@ class JSite extends JApplication
 		{
 			case 'html':
 			{
-				//set metadata
-				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-
 				if ( $user->get('id') ) {
 					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
@@ -230,13 +227,18 @@ class JSite extends JApplication
 	{
 		static $params = array();
 		$hash = '__default';
-		if(!empty($option)) $hash = $option;
+		
+		if(!empty($option)) {
+			$hash = $option;
+		}
+		
 		if (!isset($params[$hash]))
 		{
 			// Get component parameters
 			if (!$option) {
 				$option = JRequest::getCmd('option');
 			}
+			
 			$params[$hash] =& JComponentHelper::getParams($option);
 
 			// Get menu parameters
@@ -244,8 +246,7 @@ class JSite extends JApplication
 			$menu	= $menus->getActive();
 
 			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));
-			$description = $this->getCfg('MetaDesc');
-
+			
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
@@ -255,7 +256,7 @@ class JSite extends JApplication
 			}
 
 			$params[$hash]->def( 'page_title'      , $title );
-			$params[$hash]->def( 'page_description', $description );
+			$params[$hash]->def( 'page_description', '' );
 		}
 
 		return $params[$hash];

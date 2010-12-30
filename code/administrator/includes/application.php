@@ -118,8 +118,6 @@ class JAdministrator extends JApplication
 		{
 			case 'html' :
 			{
-				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-
 				if ( $user->get('id') ) {
 					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
@@ -131,8 +129,7 @@ class JAdministrator extends JApplication
 		}
 
 		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
-
+		
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
 	}

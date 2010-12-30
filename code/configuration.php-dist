@@ -87,8 +87,6 @@ class JConfig {
 	var $debug_lang = '0';
 
 	/* Meta Settings */
-	var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-	var $MetaKeys = 'joomla, Joomla';
 	var $MetaTitle = '1';
 	var $MetaAuthor = '1';
 

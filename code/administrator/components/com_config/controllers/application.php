@@ -365,12 +365,6 @@ class ConfigControllerApplication extends ConfigController
 		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post', 'string' ), ENT_COMPAT, 'UTF-8' );
 		$config->setValue('config.sitename', $sitename);
 
-		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post', 'string' ),  ENT_COMPAT, 'UTF-8' );
-		$config->setValue('config.MetaDesc', $MetaDesc);
-
-		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post', 'string' ),  ENT_COMPAT, 'UTF-8' );
-		$config->setValue('config.MetaKeys', $MetaKeys);
-
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
 		$offline_message	= JRequest::getVar( 'offline_message', '', 'post', 'string' );
