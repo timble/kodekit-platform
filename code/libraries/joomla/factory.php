@@ -298,6 +298,46 @@ class JFactory
 
 		return $copy;
 	}
+	
+	/**
+	 * Get an parsed XML Feed Source
+	 *
+	 * @access public
+	 * @param string 	Url for feed source
+	 * @param int   	Time to cache feed
+	 *
+	 * @return mixed SimplePie parsed object on success, false on failure
+	 * @since: Nooku Server 0.7
+	 */
+	function getFeedParser($url, $cache_time = null)
+	{
+		jimport ('simplepie.simplepie');
+					
+		$simplepie = new SimplePie();
+		$simplepie->set_feed_url($url);
+					
+		$cache_path = JFactory::getConfig()->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
+		if(is_writable($cache_path) && JFactory::getConfig()->getValue('config.caching')) 
+		{
+			if(is_null($cache_time)) {
+				$cache_time = JFactory::getConfig()->getValue('config.caching') * 60;
+			} 
+						
+			$simplepie->set_cache_duration(cache_time);
+			$simplepie->set_cache_location($cache_path);
+		}
+		else $simplepie->enable_cache(false);
+					
+		$simplepie->force_feed(true);
+		$simplepie->handle_content_type();
+					
+		if ($simplepie->init()) {
+			return $simplepie;
+		} 
+		
+		JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
+		return false;
+	}
 
 	/**
 	 * Get an XML document
@@ -309,7 +349,6 @@ class JFactory
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
 	 */
-
 	 function &getXMLParser( $type = 'Simple', $options = array())
 	 {
 		$doc = null;
@@ -321,22 +360,10 @@ class JFactory
 			{
 				if (!is_null( $options['rssUrl'] ))
 				{
-					jimport ('simplepie.simplepie');
-					if(!is_writable(JPATH_BASE.DS.'cache')) {
-						$options['cache_time'] = 0;
-					}
-					$simplepie = new SimplePie(
-						$options['rssUrl'],
-						JPATH_BASE.DS.'cache',
-						isset( $options['cache_time'] ) ? $options['cache_time'] : 0
-					);
-					$simplepie->force_feed(true);
-					$simplepie->handle_content_type();
-					if ($simplepie->init()) {
-						$doc = $simplepie;
-					} else {
-						JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
-					}
+					$url  = $options['rssUrl'];
+					$time = isset($options['cache_time']) ? $options['cache_time'] : null;
+					
+					$doc = self::getFeedParser($options['rssUrl'], $time);
 				}
 			}	break;
 
@@ -633,7 +660,7 @@ class JFactory
 
 		// patTemplate
 		if ($conf->getValue('config.caching')) {
-			 $tmpl->enableTemplateCache( 'File', JPATH_BASE.DS.'cache'.DS);
+			 $tmpl->enableTemplateCache( 'File', JFactory::getConfig()->getValue('config.cache_path', JPATH_ROOT.DS.'cache').DS);
 		}
 
 		$tmpl->setNamespace( 'jtmpl' );
