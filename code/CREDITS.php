@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: harbour.php 207 2010-11-14 07:08:42Z christianhent $
+ * @version		$Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
