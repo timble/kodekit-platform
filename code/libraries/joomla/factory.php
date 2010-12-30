@@ -323,7 +323,7 @@ class JFactory
 				$cache_time = JFactory::getConfig()->getValue('config.caching') * 60;
 			} 
 						
-			$simplepie->set_cache_duration(cache_time);
+			$simplepie->set_cache_duration($cache_time);
 			$simplepie->set_cache_location($cache_path);
 		}
 		else $simplepie->enable_cache(false);
