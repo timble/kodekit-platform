@@ -623,9 +623,10 @@ class plgEditorTinymce extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor  = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable\">$content</textarea>\n" .
-			$this->_displayButtons($name, $buttons) .
-			$this->_toogleButton($name);
+		$editor  = $this->_displayButtons($name, $buttons);
+		$editor .= $this->_toogleButton($name);
+		$editor .= "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable\">$content</textarea>\n";
+			
 
 		return $editor;
 	}
@@ -687,6 +688,7 @@ class plgEditorTinymce extends JPlugin
 			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			 */
 			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			$return .= "\n<div class=\"left\">".JText::_('Upload/Insert:')."</div>";
 			foreach ($results as $button)
 			{
 				/*
@@ -709,8 +711,9 @@ class plgEditorTinymce extends JPlugin
 	function _toogleButton($name)
 	{
 		$return  = '';
-		$return .= "\n<div style=\"margin-top:-5px\">\n";
-		$return .= "<div class=\"button2-left\"><div class=\"blank\"><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceToggleEditor', false, '$name');return false;\" title=\"".JText::_('Toggle editor')."\">".JText::_('Toggle editor')."</a></div></div>";
+		$return .= "\n<div>\n";
+		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceAddControl', true, '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
+		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceRemoveControl', true, '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
 		$return .= "</div>\n";
 		return $return;
 	}
