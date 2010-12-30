@@ -36,23 +36,20 @@ $config =& JFactory::getConfig();
 
 			// List all admin languages
 			$admin_langs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'language');
-			foreach ($admin_langs as $alang)
-			{
+			foreach ($admin_langs as $alang) {
 				writableCell( 'administrator/language/'.$alang );
 			}
 
 			writableCell( 'administrator/modules' );
 			writableCell( 'administrator/templates' );
 			writableCell( 'components' );
-			writableCell( 'images' );
-			writableCell( 'images/banners' );
 			writableCell( $cparams->get('image_path'));
+			writableCell( $cparams->get('image_path').'/banners' );
 			writableCell( 'language' );
 
 			// List all site languages
 			$site_langs	= JFolder::folders(JPATH_SITE.DS.'language');
-			foreach ($site_langs as $slang)
-			{
+			foreach ($site_langs as $slang) {
 				writableCell( 'language/'.$slang );
 			}
 

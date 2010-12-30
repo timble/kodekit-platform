@@ -249,27 +249,18 @@ class ConfigControllerApplication extends ConfigController
 
 		$mediapost['params'] = JRequest::getVar('mediaparams', array(), 'post', 'array');
 		$mediapost['option'] = 'com_media';
-		//Sanitize $file_path and $image_path
-		$file_path = $mediapost['params']['file_path'];
-		$image_path = $mediapost['params']['image_path'];
-		if(strpos($file_path, '/') === 0 || strpos($file_path, '\\') === 0) {
+		//Sanitize $file_path
+		$file_path = $mediapost['params']['image_path'];
+		if(strpos($file_path, '/') === 0 || strpos($image_path, '\\') === 0) {
 			//Leading slash.  Kill it and default to /media
-			$file_path = 'images';
-		}
-		if(strpos($image_path, '/') === 0 || strpos($image_path, '\\') === 0) {
-			//Leading slash.  Kill it and default to /media
-			$image_path = 'images/stories';
-		}
-		if(strpos($file_path, '..') !== false) {
-			//downward directories.  Kill it and default to images/
-			$file_path = 'images';
+			$image_path = 'images';
 		}
 		if(strpos($image_path, '..') !== false) {
-			//downward directories  Kill it and default to images/stories
-			$image_path = 'images/stories';
+			//downward directories.  Kill it and default to images/
+			$image_path = 'images';
 		}
-		$mediapost['params']['file_path'] = $file_path;
 		$mediapost['params']['image_path'] = $image_path;
+		$mediapost['params']['file_path'] = $file_path;
 
 		$table->loadByOption( 'com_media' );
 		$table->bind( $mediapost );
