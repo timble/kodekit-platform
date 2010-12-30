@@ -24,18 +24,6 @@ packages. Please refer to the specific files and/or packages for more detailed i
 about the authors, copyright notices, and licenses.
 ---------------------------------------------------------------------------------------------
 
-Feedcreator
------------
-Author:		Kai Blankenhorn
-Copyright:	Copyright (C) Kai Blankenhorn
-License:	GNU Lesser General Public License (LGPL) 2.1 or later
-
-Geshi
------
-Author:		Nigel McNie
-Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
-License:	GNU General Public License (GPL) 2 or later
-
 js-squeezebox, js-swiff, js-fancyupload
 ---------------------------------------
 Author:		Harald Kirschner
@@ -96,12 +84,6 @@ TinyMCE
 Author:		Moxiecode Systems
 Copyright:	Copyright (C) 2005-2009, Moxiecode Systems AB, All rights reserved.
 License:	GNU Lesser General Public License (LGPL) 2.1
-
-VCard
------
-Author:		Kai Blankenhorn
-Copyright:	Copyright (C) Kai Blankenhorn
-License:	GNU General Public License (GPL) 2 or later
 
 Print & Email Front End Icons
 -----------------------------
