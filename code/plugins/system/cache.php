@@ -46,7 +46,7 @@ class  plgSystemCache extends JPlugin
 		//Set the language in the class
 		$config =& JFactory::getConfig();
 		$options = array(
-			'cachebase' 	=> JPATH_BASE.DS.'cache',
+			'cachebase' 	=> JPATH_CACHE,
 			'defaultgroup' 	=> 'page',
 			'lifetime' 		=> $this->params->get('cachetime', 15) * 60,
 			'browsercache'	=> $this->params->get('browsercache', false),

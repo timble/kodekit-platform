@@ -27,4 +27,3 @@ define( 'JPATH_LIBRARIES',		JPATH_ROOT.DS.'libraries' );
 define( 'JPATH_PLUGINS',		JPATH_ROOT.DS.'plugins'   );
 define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );
 define( 'JPATH_THEMES',			JPATH_BASE );
-define( 'JPATH_CACHE',			JPATH_ROOT.DS.'cache' );

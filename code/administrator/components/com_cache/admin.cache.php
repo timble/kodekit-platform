@@ -71,6 +71,7 @@ class CacheController
 		global $mainframe, $option;
 		$submenu = JRequest::getVar('client', '0', '', 'int');
 		$client	 =& JApplicationHelper::getClientInfo($submenu);
+		
 		if ($submenu == 1) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
@@ -82,7 +83,7 @@ class CacheController
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0 );
 
-		$cmData = new CacheData($client->path.DS.'cache');
+		$cmData = new CacheData(JPATH_CACHE);
 
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $cmData->getGroupCount(), $limitstart, $limit );
@@ -97,14 +98,16 @@ class CacheController
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		$cmData = new CacheData($client->path.DS.'cache');
+		$cmData = new CacheData(JPATH_CACHE);
 		$cmData->cleanCacheList( $cid );
 	}
+	
 	function showPurgeCache()
 	{	
 		// Check for request forgeries
 		CacheView::showPurgeExecute();
 	}
+	
 	function purgeCache()
 	{	
 		// Check for request forgeries

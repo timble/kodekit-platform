@@ -63,8 +63,8 @@ $config =& JFactory::getConfig();
 			writableCell( 'plugins/system' );
 			writableCell( 'plugins/user' );
 			writableCell( 'templates' );
-			writableCell( JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
-			writableCell( JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+			writableCell( JPATH_CACHE, 0, '<strong>'. JText::_( 'Cache Directory' ) .
+							' ($cache_path)</strong> ');
 			writableCell( $config->getValue('config.log_path', JPATH_ROOT.DS.'log'),0, '<strong>'. JText::_( 'Log Directory' ) .
 							' ($log_path)</strong> ');
 			writableCell( $config->getValue('config.tmp_path', JPATH_ROOT.DS.'tmp'),0, '<strong>'. JText::_( 'Temp Directory' ) .

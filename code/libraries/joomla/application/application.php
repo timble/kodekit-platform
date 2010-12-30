@@ -93,6 +93,9 @@ class JApplication extends JObject
 
 		//create the configuration object
 		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		
+		//set defines
+		define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
 		//create the session if a session name is passed
 		if($config['session'] !== false) {
@@ -376,10 +379,10 @@ class JApplication extends JObject
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	function getCfg( $varname )
+	function getCfg( $varname, $default = null )
 	{
 		$config =& JFactory::getConfig();
-		return $config->getValue('config.' . $varname);
+		return $config->getValue('config.' . $varname, $default);
 	}
 
 	/**

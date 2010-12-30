@@ -203,8 +203,8 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	function test()
 	{
-		$config	=& JFactory::getConfig();
-		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
+		$config	= JFactory::getConfig();
+		$root	= JFactory::getConfig()->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
 		return is_writable($root);
 	}
 

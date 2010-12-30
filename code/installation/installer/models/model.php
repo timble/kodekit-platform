@@ -550,7 +550,6 @@ class JInstallationModel extends JModel
 			'administrator/language',
 			'administrator/modules',
 			'administrator/templates',
-			'cache',
 			'components',
 			'images',
 			'images/banners',
