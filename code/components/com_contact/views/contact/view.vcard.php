@@ -39,7 +39,6 @@ class ContactViewContact extends JView
 
 		// Push a model into the view
 		$model		= &$this->getModel();
-		$modelCat	= &$this->getModel( 'Category' );
 
 		// Selected Request vars
 		// ID may come from the contact switcher
@@ -88,7 +87,7 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
-
+		
 		$pparams->merge($contact->params);
 
 		// Show the Vcard if contact parameter indicates (prevents direct access)
@@ -130,7 +129,7 @@ class ContactViewContact extends JView
 			$middlename = trim($middlename);
 			
 			$filename = str_replace(' ', '_', $contact->name);
-
+			
 			// Create a new vcard object and populate the fields
 			$document
 				->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE')
@@ -141,7 +140,7 @@ class ContactViewContact extends JView
 				->setNote($contact->misc)
 				->setURL( JURI::base(), 'WORK')
 				->setTitle($contact->con_position)
-				->setFilename($filename);				
+				->setFilename($filename);
 		} 
 		else 
 		{

@@ -67,7 +67,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 <tr>
 	<td colspan="2">
 	<?php echo JText::_( 'Download information as a' );?>
-		<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;view=contact&contact_id=<?php echo $this->contact->id; ?>&amp;format=vcard">
+		<a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&contact_id='.$this->contact->id.'&amp;format=vcard') ?>">
 			<?php echo JText::_( 'VCard' );?></a>
 	</td>
 </tr>
