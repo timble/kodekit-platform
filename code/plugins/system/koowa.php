@@ -1,22 +1,23 @@
 <?php
 /**
- * @version     $Id: koowa.php 2677 2010-10-23 01:22:25Z johanjanssens $
- * @category	Koowa
- * @package     Koowa_Plugins
+ * @version     $Id: koowa.php 2775 2011-01-01 17:02:39Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Plugins
  * @subpackage  System
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
- * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
- * @link        http://www.koowa.org
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Koowa System plugin
- *
- * @author		Mathias Verraes <mathias@koowa.org>
- * @category	Koowa
- * @package		Koowa
+.*
+ * @author		Johan Janssens <johan@nooku.org>
+ * @category	Nooku
+ * @package     Nooku_Plugings
+ * @subpackage  System
  */
 class plgSystemKoowa extends JPlugin
 {
@@ -27,6 +28,20 @@ class plgSystemKoowa extends JPlugin
 		{
     		JError::raiseWarning(0, JText::_("Koowa plugin requires MySQLi Database Driver. Please change your database configuration settings to 'mysqli'"));
     		return;
+		}
+		
+		// Check for suhosin
+		if(in_array('suhosin', get_loaded_extensions()))
+		{
+			//Attempt setting the whitelist value
+			@ini_set('suhosin.executor.include.whitelist', 'tmpl://, file://');
+
+			//Checking if the whitelist is ok
+			if(!@ini_get('suhosin.executor.include.whitelist') || strpos(@ini_get('suhosin.executor.include.whitelist'), 'tmpl://') === false)
+			{
+				JError::raiseWarning(0, sprintf(JText::_('Your server got Suhosin loaded. Please follow <a href="%s" target="_blank">this</a> tutorial.'), 'https://nooku.assembla.com/wiki/show/nooku-framework/Known_Issues'));
+				return;
+			}
 		}
 		
 		//Set constants
