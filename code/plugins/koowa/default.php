@@ -1,12 +1,13 @@
 <?php
 /**
-* @version		$Id: default.php 2470 2010-08-20 22:16:48Z johanjanssens $
-* @category		Koowa
-* @package      Koowa_Plugins
-* @copyright    Copyright (C) 2007 - 2010 Johan Janssens and Mathias Verraes. All rights reserved.
-* @license      GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-* @link         http://www.koowa.org
-*/
+ * @version     $Id: default.php 2763 2010-12-18 15:20:06Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Plugins
+ * @subpackage  Koowa
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
 /**
  * Default Koowa plugin
@@ -44,7 +45,7 @@
 }
  * </code>
  *
- * @author		Johan Janssens <johan@koowa.org>
+ * @author		Johan Janssens <johan@nooku.org>
  * @category   	Koowa
  * @package     Koowa_Plugins
  * @subpackage  Koowa
