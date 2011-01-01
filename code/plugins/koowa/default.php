@@ -45,7 +45,7 @@
 }
  * </code>
  *
- * @author		Johan Janssens <johan@koowa.org>
+ * @author		Johan Janssens <johan@nooku.org>
  * @category   	Koowa
  * @package     Koowa_Plugins
  * @subpackage  Koowa
