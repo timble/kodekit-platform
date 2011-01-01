@@ -61,7 +61,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 		
 		// Insert the data, if exists
 		if(!empty($config->data)) {
-			$this->_addRows($config->data->toArray(), $config->new);	
+			$this->addRows($config->data->toArray(), $config->new);	
 		}
     }
 
