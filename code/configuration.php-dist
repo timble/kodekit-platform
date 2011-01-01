@@ -39,7 +39,7 @@ class JConfig {
 	* -------------------------------------------------------------------------
 	*/
 	/* Database Settings */
-	var $dbtype = 'mysql';					// Normally mysql
+	var $dbtype = 'mysqli';					// Normally mysqli
 	var $host = 'localhost';				// This is normally set to localhost
 	var $user = '';							// MySQL username
 	var $password = '';						// MySQL password

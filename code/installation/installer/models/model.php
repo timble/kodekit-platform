@@ -113,7 +113,7 @@ class JInstallationModel extends JModel
 		}
 
 		$lists	= array ();
-		$files	= array ('mysql', 'mysqli',);
+		$files	= array ('mysqli',);
 		$db		= JInstallationHelper::detectDB();
 		foreach ($files as $file)
 		{
@@ -285,7 +285,7 @@ class JInstallationModel extends JModel
 		$errors 	= null;
 		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
 		$DBcreated	= JArrayHelper::getValue($vars, 'DBcreated', '0');
-		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
+		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysqli');
 		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');

@@ -325,7 +325,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['ftp_root']	= JRequest::getVar('ftp_root', '', 'post', 'string');
 
 		// DATABASE SETTINGS
-		$config_array['dbtype']		= JRequest::getVar('dbtype', 'mysql', 'post', 'word');
+		$config_array['dbtype']		= JRequest::getVar('dbtype', 'mysqli', 'post', 'word');
 		$config_array['host']		= JRequest::getVar('host', 'localhost', 'post', 'string');
 		$config_array['user']		= JRequest::getVar('user', '', 'post', 'string');
 		$config_array['db']		= JRequest::getVar('db', '', 'post', 'string');

@@ -35,7 +35,7 @@ class JInstallationHelper
 				return $db;
 			}
 		}
-		return 'mysql';
+		return 'mysqli';
 	}
 
 	/**
@@ -264,7 +264,7 @@ class JInstallationHelper
 	 */
 	function createAdminUser(& $vars)
 	{
-		$DBtype		= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
+		$DBtype		= JArrayHelper::getValue($vars, 'DBtype', 'mysqli');
 		$DBhostname	= JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName	= JArrayHelper::getValue($vars, 'DBuserName', '');
 		$DBpassword	= JArrayHelper::getValue($vars, 'DBpassword', '');

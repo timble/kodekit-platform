@@ -1,7 +1,7 @@
 <?php
 class JFrameworkConfig
 {
-	var $dbtype 	= 'mysql';
+	var $dbtype 	= 'mysqli';
 	var $host 		= 'localhost';
 	var $user 		= '';
 	var $password 	= '';
