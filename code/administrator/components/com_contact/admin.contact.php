@@ -135,6 +135,10 @@ function showContacts( $option )
 	if (!in_array($filter_order, array('cd.name', 'cd.published', 'cd.ordering', 'cd.access', 'category', 'user', 'cd.id'))) {
 		$filter_order = 'cd.ordering';
 	}
+	
+	if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+		$filter_order_Dir = '';
+	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 	if ($filter_order == 'cd.ordering'){

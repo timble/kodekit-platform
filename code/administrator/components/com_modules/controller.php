@@ -104,6 +104,10 @@ class ModulesController extends JController
 		if (!in_array($filter_order, array('m.title', 'm.published', 'm.ordering', 'groupname', 'm.position', 'pages', 'm.module', 'm.id'))) {
 			$filter_order = 'm.position';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC', ''))) {
+			$filter_order_Dir = '';
+		}
 
 		$where 		= ' WHERE ' . implode( ' AND ', $where );
 		$join 		= ' ' . implode( ' ', $joins );

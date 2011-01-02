@@ -48,6 +48,10 @@ class WeblinksViewWeblinks extends JView
 		if (!in_array($filter_order, array('a.title', 'a.published', 'a.ordering', 'category', 'a.hits', 'a.id'))) {
 			$filter_order = 'a.ordering';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = '';
+		}
 
 		// Get data from the model
 		$items		= & $this->get( 'Data');

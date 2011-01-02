@@ -49,6 +49,10 @@ class ContactViewCategory extends JView
 		if (!in_array($filter_order, array('cd.ordering', 'cd.name', 'cd.con_position'))) {
 			$filter_order = 'cd.ordering';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = '';
+		}
 
 		// query options
 		$options['aid'] 		= $user->get('aid', 0);

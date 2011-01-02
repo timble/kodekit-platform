@@ -80,6 +80,10 @@ class MenusModelList extends JModel
 		if (!in_array($filter_order, array('m.name', 'm.published', 'm.ordering', 'groupname', 'm.type', 'm.id'))) {
 			$filter_order = 'm.ordering';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC', ''))) {
+			$filter_order_Dir = 'ASC';
+		}
 
 		// just in case filter_order get's messed up
 		if ($filter_order) {

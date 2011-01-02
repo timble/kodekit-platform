@@ -330,6 +330,13 @@ class ContentModelCategory extends JModel
 
 			$query = $this->_buildQuery();
 			$Arows = $this->_getList($query, $limitstart, $limit);
+			
+			// Check for db errors
+			if ($this->_db->getErrorNum())
+			{
+				JError::raiseError(500, $this->_db->stderror());
+				return false;
+			}
 
 			// special handling required as Uncategorized content does not have a section / category id linkage
 			$i = $limitstart;
@@ -378,16 +385,26 @@ class ContentModelCategory extends JModel
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
 		$filter_order  = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
-		$orderby = ' ORDER BY ';
+		
+		if (!in_array($filter_order, array('a.title', 'author', 'a.hits', 'a.created', 'a.publish_up', 'a.publish_down', 'a.modified'))) {
+			$filter_order = '';
+		}
+
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = 'ASC';
+		}
+		
 		if ($filter_order && $filter_order_Dir)
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
-
+		
+		$orderby = ' ORDER BY ';
 		if ($filter_order == 'author')
 		{
 			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
 		}
+		
 		switch ($state)
 		{
 			case -1:

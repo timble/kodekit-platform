@@ -148,6 +148,10 @@ function showCategories( $section, $option )
 	if (intval($section) <= 0 && $section != 'com_content' && $filter_order == 'section_name') {
 		$filter_order = 'c.ordering';
 	}
+	
+	if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+		$filter_order_Dir = '';
+	}
 
 	$order 			= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', c.ordering';
 	if (intval( $section ) > 0) {

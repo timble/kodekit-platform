@@ -134,6 +134,15 @@ class ContentModelArchive extends JModel
 		if ($filter_order && $filter_order_Dir) {
 			$orderby .= $filter_order.' '.$filter_order_Dir.', ';
 		}
+		
+		if (!in_array($filter_order, array('a.id', 'a.title', 'a.alias', 'a.title_alias', 'a.introtext', 'a.sectionid', 'a.state', 'a.catid',
+			'a.created', 'a.created_by', 'a.created_by_alias', 'a.modified', 'a.modified_by', 'a.hits', 'a.ordering', 'cc.title', 's.title'))) {
+			$filter_order = '';
+		}
+
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = '';
+		}
 
 		// Get the page/component configuration
 		$params = $this->getState('parameters.menu');

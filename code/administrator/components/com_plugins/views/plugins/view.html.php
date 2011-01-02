@@ -78,6 +78,10 @@ class PluginsViewPlugins extends JView
 		if (!in_array($filter_order, array('p.name', 'p.published', 'p.ordering', 'groupname', 'p.folder', 'p.element', 'p.id'))) {
 			$filter_order = 'p.folder';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = '';
+		}
 
 		if ($filter_order == 'p.ordering') {
 			$orderby = ' ORDER BY p.folder, p.ordering '. $filter_order_Dir;

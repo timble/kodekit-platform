@@ -63,6 +63,10 @@ class BannerControllerClient extends JController
 		if (!in_array($filter_order, array('a.name', 'a.contact', 'bid', 'a.cid'))) {
 			$filter_order = 'a.name';
 		}
+		
+		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
+			$filter_order_Dir = '';
+		}
 
 		$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', a.cid';
 

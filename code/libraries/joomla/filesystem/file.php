@@ -35,8 +35,14 @@ class JFile
 	 * @since 1.5
 	 */
 	function getExt($file) {
-		$dot = strrpos($file, '.') + 1;
-		return substr($file, $dot);
+		$chunks = explode('.', $file);
+		$chunksCount = count($chunks) - 1;
+
+		if($chunksCount > 0) {
+			return $chunks[$chunksCount];
+		}
+		
+		return false;
 	}
 
 	/**
