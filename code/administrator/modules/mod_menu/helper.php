@@ -246,18 +246,19 @@ class modMenuHelper
 		$menu = new JAdminCSSMenu();
 
 		// Site SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Site'), null, 'disabled'));
+		$menu->addChild(new JMenuNode(JText::_('Dashboard'), null, 'disabled'));
 
 		// Menus SubMenu
 		$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
 
 		// Content SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
+		$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
 
 		// Components SubMenu
-		if ($installComponents) {
-			$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
-		}
+		$menu->addChild(new JMenuNode(JText::_('Media'), null, 'disabled'));
+		
+		// Content SubMenu
+		$menu->addChild(new JMenuNode(JText::_('Users'), null, 'disabled'));
 
 		// Extensions SubMenu
 		if ($installModules) {
@@ -269,10 +270,6 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
 		}
 
-		// Help SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Help'),  null, 'disabled'));
-
 		$menu->renderMenu('menu', 'disabled');
 	}
 }
-?>
