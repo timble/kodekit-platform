@@ -29,17 +29,6 @@ $output = array();
 // Print the preview button
 $output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
-// Get the number of logged in users
-$query = 'SELECT COUNT( session_id )'
-. ' FROM #__session'
-. ' WHERE guest <> 1'
-;
-$db->setQuery($query);
-$online_num = intval( $db->loadResult() );
-
-//Print the logged in users message
-$output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
-
 if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 // Print the logout message
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
