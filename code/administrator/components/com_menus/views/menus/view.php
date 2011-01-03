@@ -39,6 +39,7 @@ class MenusViewMenus extends JView
 		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::help( 'screen.menumanager' );
 		
+		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view');
 		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus', true);
 		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
 			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');

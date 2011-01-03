@@ -38,6 +38,7 @@ if($task == 'viewContent')
 
 if($task == 'viewMenu')
 {
+	JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view');
 	JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
 	if(JFactory::getUser()->authorize('com_trash', 'manage')) {
 		JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu', true);

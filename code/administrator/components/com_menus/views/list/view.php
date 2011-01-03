@@ -51,6 +51,7 @@ class MenusViewList extends JView
 		JToolBarHelper::spacer();
 		JToolBarHelper::makeDefault( 'setdefault' );
 		
+		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view', true);
 		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
 		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
 			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');
