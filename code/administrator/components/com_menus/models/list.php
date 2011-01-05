@@ -59,7 +59,6 @@ class MenusModelList extends JModel
 		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state',		'filter_state',		'',				'word' );
 		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',							'limit',			$mainframe->getCfg( 'list_limit' ),	'int' );
 		$limitstart			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart',		'limitstart',		0,				'int' );
-		$levellimit			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit',		'levellimit',		10,				'int' );
 		$search				= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search',			'search',			'',				'string' );
 		if (strpos($search, '"') !== false) {
 			$search = str_replace(array('=', '<'), '', $search);
@@ -128,7 +127,7 @@ class MenusModelList extends JModel
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children );
 		// eventually only pick out the searched items.
 		if ($search) {
 			$list1 = array();

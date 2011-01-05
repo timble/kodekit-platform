@@ -169,7 +169,6 @@ class MenusViewList extends JView
 		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order",		'filter_order',		'm.ordering',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC',			'word' );
 		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state",		'filter_state',		'',				'word' );
-		$levellimit			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit",		'levellimit',		10,				'int' );
 		$search				= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search",			'search',			'',				'string' );
 		if (strpos($search, '"') !== false) {
 			$search = str_replace(array('=', '<'), '', $search);
@@ -184,9 +183,6 @@ class MenusViewList extends JView
 		if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC', ''))) {
 			$filter_order_Dir = 'ASC';
 		}
-
-		// level limit filter
-		$lists['levellist'] = JHTML::_('select.integerlist',    1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );
