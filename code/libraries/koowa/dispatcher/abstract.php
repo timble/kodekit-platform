@@ -223,7 +223,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * 						default to the component name if no controller info can
 	 * 						be found.
 	 *
-	 * @return	KDispatcherAbstract
+	 * @return	mixed
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{        	
@@ -256,7 +256,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * Either do a redirect or a execute a browse or read action in the controller
 	 * depending on the request method and type
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function _actionForward(KCommandContext $context)
 	{
@@ -273,6 +273,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			$view = KRequest::get('get.view', 'cmd');
 			$context->result = KFactory::get($this->getController())->execute(KInflector::isPlural($view) ? 'browse' : 'read');
+			return $context->result;
 		}
 	}
 
@@ -282,7 +283,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * This function divert the standard behavior and will push specific controller data
 	 * into the document
 	 *
-	 * @return	KDispatcherDefault
+	 * @return	mixed
 	 */
 	protected function _actionRender(KCommandContext $context)
 	{
