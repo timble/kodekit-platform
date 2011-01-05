@@ -117,7 +117,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 			$context->data   = $data;
 			$context->result = false;
 		} 
-		else $context = clone $data;
+		else $context = $data;
 		
 		//Set the action
 		$context->action = $action;
