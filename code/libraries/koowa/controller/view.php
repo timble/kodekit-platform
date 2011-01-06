@@ -282,6 +282,7 @@ abstract class KControllerView extends KControllerBread
 
 		} else $row = $this->execute('add', $context);
 		
+		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
 	}
@@ -308,8 +309,10 @@ abstract class KControllerView extends KControllerBread
 			}
 		}
 		else $row = $this->execute('add', $context);
-
-		$this->_redirect = 'view='.$this->_identifier->name.'&id='.$row->id;
+		
+		//Create the redirect
+		$this->_redirect = KRequest::url();
+		
 		return $row;
 	}
 
@@ -328,6 +331,7 @@ abstract class KControllerView extends KControllerBread
 			$row->unlock();
 		}
 
+		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
 		return $row;
 	}
