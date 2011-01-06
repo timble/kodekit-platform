@@ -259,7 +259,6 @@ class ContentView
 			?>
 			</tbody>
 			</table>
-			<?php JHTML::_('content.legend'); ?>
 
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
