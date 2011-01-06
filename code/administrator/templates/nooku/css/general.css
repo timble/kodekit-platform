@@ -198,10 +198,10 @@ table.toolbar td {
 }
 
 table.toolbar td a			 { 
-	text-align: left; color: #666; min-width: 75px; line-height: 18px;
+	text-align: left; color: #666;  line-height: 18px;
 	display: block; float: left;
 	white-space: nowrap;
-	padding: 4px 6px 4px 4px;
+	padding: 2px 15px;
 	margin-right: 1px;
 	cursor: pointer;
 	color: #666;
@@ -235,16 +235,8 @@ table.toolbar td.spacer  {  }
 table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 
 table.toolbar span { 
-	display: block;
-	float: left; 
-	width: 16px; height: 16px;
-	margin: 0 auto;
-	-webkit-background-size: 16px;
-	-moz-background-size: 16px;
-	background-size: 16px; background-position: 0 16px;
-	margin-right: 4px;
+	display: none;
 }
-table.toolbar a:hover span { background-position: 0 0; }
 
 table.toolbar a:hover,
 table.toolbar td:first-child a:hover,
