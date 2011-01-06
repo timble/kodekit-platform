@@ -65,9 +65,13 @@ class MenusViewList extends JView
 		$pagination	= &$this->get('Pagination');
 		$lists		= &$this->_getViewLists();
 		$user		= &JFactory::getUser();
+		
+		require_once( JPATH_COMPONENT.DS.'helpers'.DS.'helper.php' );
+		$menus 	= MenusHelper::getMenuTypelist();
 
 		// Ensure ampersands and double quotes are encoded in item titles
-		foreach ($items as $i => $item) {
+		foreach ($items as $i => $item) 
+		{
 			$treename = $item->treename;
 			$treename = JFilterOutput::ampReplace($treename);
 			$treename = str_replace('"', '&quot;', $treename);
@@ -86,6 +90,7 @@ class MenusViewList extends JView
 		$this->assignRef('menutype', $menutype);
 		$this->assignRef('ordering', $ordering);
 		$this->assignRef('limitstart', $limitstart);
+		$this->assignRef('menus'     , $menus);
 
 		parent::display($tpl);
 	}

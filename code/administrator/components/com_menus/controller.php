@@ -496,9 +496,12 @@ class MenusController extends JController
 	*/
 	function view()
 	{
-		$model	=& $this->getModel( 'List' );
+		$list     =& $this->getModel( 'List' );
+		$menutype =& $this->getModel( 'Menutype' );
+		
 		$view =& $this->getView( 'List' );
-		$view->setModel( $model, true );
+		$view->setModel( $list, true );
+		$view->setModel( $menutype);
 		$view->display();
 	}
 
@@ -509,7 +512,6 @@ class MenusController extends JController
 	 */
 	function viewMenus()
 	{
-
 		$view =& $this->getView( 'Menus');
 		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );

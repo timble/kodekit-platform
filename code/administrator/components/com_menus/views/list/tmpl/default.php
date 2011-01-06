@@ -1,5 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
+<div>
+<?php echo $this->loadTemplate('menus'); ?>
+</div>
+
 <form action="index.php?option=com_menus&amp;menutype=<?php echo htmlspecialchars($this->menutype); ?>" method="post" name="adminForm">
 <table class="adminlist">
 	<thead>
