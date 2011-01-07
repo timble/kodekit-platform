@@ -63,31 +63,9 @@ class modMenuHelper
 		/*
 		 * Menus SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Menus')), true);
 		if ($manageMenuMan) {
-			$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
-			$menu->addSeparator();
+			$menu->addChild(new JMenuNode(JText::_('Menus'), 'index.php?option=com_menus&task=view', 'class:menu'));
 		}
-		
-		/*
-		 * SPLIT HR
-		 */
-		if (count($menuTypes)) 
-		{
-			foreach ($menuTypes as $menuType) 
-			{
-				$menu->addChild(
-					new JMenuNode(
-						$menuType->title . ($menuType->home ? ' *' : ''), 
-						'index.php?option=com_menus&task=view&menutype='
-						. $menuType->menutype,
-						'class:menu'
-					)
-				);
-			}
-		}
-
-		$menu->getParent();
 
 		/*
 		 * Components SubMenu
