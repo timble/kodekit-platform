@@ -37,7 +37,7 @@ class MenusViewList extends JView
 		 */
 		$menutype 	= $mainframe->getUserStateFromRequest('com_menus.menutype', 'menutype', 'mainmenu', 'menutype');
 
-		JToolBarHelper::title( JText::_( 'MENU ITEM MANAGER' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JToolBarHelper::title( JText::_( 'MENU ITEM MANAGER' ), 'menu.png' );
 
 		JToolBarHelper::addNewX('newItem');
 		JToolBarHelper::spacer();
