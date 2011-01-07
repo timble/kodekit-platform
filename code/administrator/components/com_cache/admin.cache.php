@@ -40,9 +40,6 @@ switch ( JRequest::getVar( 'task' ) )
 		CacheController::deleteCache($cid);
 		CacheController::showCache();
 		break;
-	case 'purgeadmin':
-		CacheController::showPurgeCache();
-		break;
 	case 'purge':
 		CacheController::purgeCache();
 		break;
@@ -101,19 +98,17 @@ class CacheController
 		$cmData = new CacheData(JPATH_CACHE);
 		$cmData->cleanCacheList( $cid );
 	}
-	
-	function showPurgeCache()
-	{	
-		// Check for request forgeries
-		CacheView::showPurgeExecute();
-	}
-	
+
 	function purgeCache()
 	{	
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 		$cache =& JFactory::getCache('');
 		$cache->gc();
+		
+		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
+		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
+		
 		CacheView::purgeSuccess();
 	}
 }

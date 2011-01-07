@@ -24,15 +24,11 @@ class TOOLBAR_cache
 	/**
 	* Draws the menu for a New category
 	*/
-	function _DEFAULT() {
-
+	function _DEFAULT() 
+	{
 		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'checkin.png' );
 		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
-	}
-
-	function _PURGEADMIN() {
-
-		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'checkin.png' );
+		JToolBarHelper::spacer();
 		JToolBarHelper::custom( 'purge', 'delete.png', 'delete_f2.png', 'Purge expired', false );
 	}
 }
