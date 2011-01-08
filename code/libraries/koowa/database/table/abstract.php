@@ -471,9 +471,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     }
     
 	/**
-	 * Get the identifier for a row with the same name
+	 * Get an instance of a row object for this table
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KDatabaseRowInterface
 	 */
 	public function getRow()
 	{
@@ -496,9 +496,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	}
 	
 	/**
-	 * Get the identifier for the rowset with the same name
+	 * Get an instance of a rowset object for this table
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KDatabaseRowInterface
 	 */
 	public function getRowset()
 	{
