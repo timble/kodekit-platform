@@ -23,7 +23,7 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 	 * Find any <script src="" /> or <script></script> elements and render them
 	 *
 	 * @param string Block of text to parse
-	 * @return KTemplateFilterStyle
+	 * @return KTemplateFilterLink
 	 */
 	public function write(&$text)
 	{
