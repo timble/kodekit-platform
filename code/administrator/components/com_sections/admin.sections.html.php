@@ -69,9 +69,6 @@ class sections_html
 				<th width="5%" nowrap="nowrap">
 					<?php echo JText::_( 'Num Trash' ); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 's.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -87,7 +84,6 @@ class sections_html
 				<td align="center">
 					<?php echo $lists['state']; ?>
 				</td>
-				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -154,9 +150,6 @@ class sections_html
 				</td>
 				<td align="center">
 					<?php echo $row->trash; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
 				</td>
 				<?php
 				$k = 1 - $k;

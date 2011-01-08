@@ -61,9 +61,6 @@ class HTML_newsfeeds
 					<th width="5%">
 						<?php echo JHTML::_('grid.sort',   'Cache time', 'a.cache_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -83,7 +80,6 @@ class HTML_newsfeeds
 					<td>
 						<?php echo $lists['catid']; ?>
 					</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -146,9 +142,6 @@ class HTML_newsfeeds
 					</td>
 					<td align="center">
 						<?php echo $row->cache_time;?>
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

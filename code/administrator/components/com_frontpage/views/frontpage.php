@@ -75,9 +75,6 @@ class FrontpageView
 					<th width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="2%" class="title" align="center" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -105,7 +102,6 @@ class FrontpageView
 					<td>
 						<?php echo $lists['authorid']; ?>
 					</td>
-					<td></td>
 				</tr>
 			</thead>
 			<tfoot>
@@ -247,9 +243,6 @@ class FrontpageView
 					</td>
 					<td>
 						<?php echo $author; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->id;?>
 					</td>
 				</tr>
 				<?php

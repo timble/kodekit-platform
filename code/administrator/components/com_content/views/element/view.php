@@ -84,9 +84,6 @@ class ContentViewElement extends JView
 					<th width="7%">
 						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="2%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 					<th class="title" width="15%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
@@ -128,11 +125,8 @@ class ContentViewElement extends JView
 						<?php echo $row->groupname;?>
 					</td>
 					<td>
-						<?php echo $row->id; ?>
+						<?php echo $row->section_name; ?>
 					</td>
-						<td>
-							<?php echo $row->section_name; ?>
-						</td>
 					<td>
 						<?php echo $row->cctitle; ?>
 					</td>

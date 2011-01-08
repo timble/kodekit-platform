@@ -33,9 +33,6 @@
 			<th width="20%" class="title">
 				<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Itemid', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			</th>
 		</tr>
 		<tr>
 			<td></td>
@@ -52,7 +49,6 @@
 			<td>
 				<?php echo $this->lists['state'];	?>
 			</td>
-			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -112,9 +108,6 @@
 			</td>
 			<td>
 				<span class="editlinktip" style="text-transform:capitalize"><?php echo ($row->type == 'component') ? $row->view : $row->type; ?></span>
-			</td>
-			<td align="center">
-				<?php echo $row->id; ?>
 			</td>
 		</tr>
 		<?php

@@ -55,9 +55,6 @@
 			<th width="15%">
 				<?php echo JText::_( 'NUM Modules' ); ?>
 			</th>
-			<th width="3%">
-				<?php echo JText::_( 'ID' ); ?>
-			</th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -108,11 +105,6 @@
 			<td align="center">
 				<?php
 				echo $menu->modules;
-				?>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->id;
 				?>
 			</td>
 		</tr>

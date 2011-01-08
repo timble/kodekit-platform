@@ -50,9 +50,6 @@ class HTML_trash
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="70">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -65,7 +62,6 @@ class HTML_trash
 						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 						<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 					</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -99,9 +95,6 @@ class HTML_trash
 						</td>
 						<td>
 							<?php echo $row->catname; ?>
-						</td>
-						<td align="center">
-							<?php echo $row->id; ?>
 						</td>
 					</tr>
 				<?php
@@ -176,9 +169,6 @@ class HTML_trash
 					<th class="title" width="25%">
 						<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="70">
-						<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -191,7 +181,6 @@ class HTML_trash
 						<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 						<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 					</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -225,9 +214,6 @@ class HTML_trash
 					</td>
 					<td>
 						<?php echo $row->type; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

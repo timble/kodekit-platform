@@ -82,9 +82,6 @@ class ContentView
 					<th align="center" width="10">
 						<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="1%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -112,7 +109,6 @@ class ContentView
 					<td>
 						<?php echo $lists['authorid']; ?>
 					</td>
-					<td></td>
 					<td></td>
 				</tr>
 			</thead>
@@ -248,9 +244,6 @@ class ContentView
 					</td>
 					<td nowrap="nowrap">
 						<?php echo JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') ); ?>
-					</td>
-					<td>
-						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

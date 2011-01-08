@@ -42,9 +42,6 @@
 				<th width="10%" class="title">
 					<?php echo JHTML::_('grid.sort',   'Last Visit', 'a.lastvisitDate', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				</th>
-				<th width="1%" class="title" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-				</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -65,7 +62,6 @@
 				<td>
 					<?php echo $this->lists['type'];?>
 				</td>
-				<td></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -125,9 +121,6 @@
 				</td>
 				<td nowrap="nowrap">
 					<?php echo $lvisit; ?>
-				</td>
-				<td>
-					<?php echo $row->id; ?>
 				</td>
 			</tr>
 			<?php

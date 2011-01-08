@@ -40,9 +40,6 @@
 		<th nowrap="nowrap"  width="10%" class="title">
 			<?php echo JHTML::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th nowrap="nowrap"  width="1%" class="title">
-			<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
 	</tr>
 	<tr>
 		<td></td>
@@ -63,7 +60,6 @@
 		<td>
 			<?php echo $this->lists['type']; ?>
 		</td>
-		<td></td>
 		<td></td>
 	</tr>
 </thead>
@@ -122,9 +118,6 @@
 		</td>
 		<td nowrap="nowrap">
 			<?php echo $row->element;?>
-		</td>
-		<td align="center">
-			<?php echo $row->id;?>
 		</td>
 	</tr>
 	<?php

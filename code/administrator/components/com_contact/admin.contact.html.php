@@ -59,9 +59,6 @@ class HTML_contact
 					<th class="title" nowrap="nowrap" width="10%">
 						<?php echo JHTML::_('grid.sort',   'Linked to User', 'user', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -82,7 +79,6 @@ class HTML_contact
 					<td>
 						<?php echo $lists['catid']; ?>
 					</td>
-					<td></td>
 					<td></td>
 				</tr>
 			</thead>
@@ -147,9 +143,6 @@ class HTML_contact
 					<td>
 						<a href="<?php echo $row->user_link; ?>" title="<?php echo JText::_( 'Edit User' ); ?>">
 							<?php echo $row->user; ?></a>
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

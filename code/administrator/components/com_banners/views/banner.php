@@ -81,9 +81,6 @@ class BannersViewBanner
 					<th width="5%" nowrap="nowrap">
 						<?php echo JText::_( 'Tags' ); ?>
 					</th>
-					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'b.bid', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 				</tr>
 				<tr>
 					<td></td>
@@ -103,7 +100,6 @@ class BannersViewBanner
 					<td align="center">
 						<?php echo $lists['state']; ?>
 					</td>
-					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -188,9 +184,6 @@ class BannersViewBanner
 					</td>
 					<td>
 						<?php echo $row->tags; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

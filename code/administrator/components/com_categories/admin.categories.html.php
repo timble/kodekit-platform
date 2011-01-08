@@ -81,9 +81,6 @@ class categories_html
 					<?php
 				}
 				?>
-				<th width="1%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -118,7 +115,6 @@ class categories_html
 					<?php
 				}
 				?>
-				<td></td>
 			</tr>
 		</thead>
 		<tfoot>
@@ -200,9 +196,6 @@ class categories_html
 				}
 				$k = 1 - $k;
 				?>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
 			</tr>
 			<?php
 		}

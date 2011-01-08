@@ -51,9 +51,6 @@ class BannersViewClients
 				<th align="center" nowrap="nowrap" width="5%">
 					<?php echo JHTML::_('grid.sort',   'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 'a.cid', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -66,7 +63,6 @@ class BannersViewClients
 					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 				</td>
-				<td></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -115,9 +111,6 @@ class BannersViewClients
 					</td>
 					<td align="center">
 						<?php echo $row->nbanners;?>
-					</td>
-					<td align="center">
-						<?php echo $row->cid; ?>
 					</td>
 				</tr>
 				<?php
