@@ -525,11 +525,6 @@ class ContentView
 				echo $pane->startPanel( $title, "detail-page" );
 				echo $form->render('details');
 
-				$title = JText::_( 'Parameters - Advanced' );
-				echo $pane->endPanel();
-				echo $pane->startPanel( $title, "params-page" );
-				echo $form->render('params', 'advanced');
-
 				$title = JText::_( 'Metadata Information' );
 				echo $pane->endPanel();
 				echo $pane->startPanel( $title, "metadata-page" );
