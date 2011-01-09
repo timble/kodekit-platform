@@ -520,7 +520,7 @@ class ContentView
 			<?php
 				ContentView::_displayArticleStats($row, $lists);
 
-				$title = JText::_( 'Parameters - Article' );
+				$title = JText::_( 'Parameters' );
 				echo $pane->startPane("content-pane");
 				echo $pane->startPanel( $title, "detail-page" );
 				echo $form->render('details');
