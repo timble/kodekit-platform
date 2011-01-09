@@ -71,7 +71,6 @@ class plgEditorTinymce extends JPlugin
 			default:
 				$skin = "skin : \"default\",";
 		}
-		$compressed			= $this->params->def('compressed', 0);
 		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
 		$cleanup_save		= $this->params->def('cleanup_save', 2);
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');
@@ -408,23 +407,13 @@ class plgEditorTinymce extends JPlugin
 		$plugins = implode(',', $plugins);
 		$elements = implode(',', $elements);
 
-		switch($mode) {
+		switch($mode) 
+		{
 			case 'simple': /* Simple mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root(true).
-							"/media/plg_tinymce/tiny_mce_gzip.js\"></script>\n";
-					$load .= "\t<script type=\"text/javascript\">
-					tinyMCE_GZ.init({
-					themes : \"$theme[$mode]\",
-					languages : \"". $langPrefix . "\"
-				});
-				</script>";
-				} else {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root(true).
-							"/media/plg_tinymce/tiny_mce.js\"></script>\n";
-				}
+				$load = "\t<script type=\"text/javascript\" src=\"".
+						JURI::root(true).
+						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
+				
 				$return = $load .
 				"\t<script type=\"text/javascript\">
 				tinyMCE.init({
@@ -453,21 +442,9 @@ class plgEditorTinymce extends JPlugin
 				break;
 
 			case 'advanced': /* Advanced mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root(true).
-							"/media/plg_tinymce/tiny_mce_gzip.js\"></script>\n";
-					$load .= "\t<script type=\"text/javascript\">
-						tinyMCE_GZ.init({
-						themes : \"$theme[$mode]\",
-						languages : \"". $langPrefix . "\"
-					});
-				</script>";
-				} else {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root(true).
-							"/media/plg_tinymce/tiny_mce.js\"></script>\n";
-				}
+				$load = "\t<script type=\"text/javascript\" src=\"".
+						JURI::root(true).
+						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
 				$return = $load .
 				"\t<script type=\"text/javascript\">
 				tinyMCE.init({
@@ -504,71 +481,58 @@ class plgEditorTinymce extends JPlugin
 				break;
 
 			case 'extended': /* Extended mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root(true).
-							"/media/plg_tinymce/tiny_mce_gzip.js\"></script>\n";
-				  	$load .= "\t<script type=\"text/javascript\">
-				tinyMCE_GZ.init({
-					themes : \"$theme[$mode]\",
-					plugins : \"$plugins\",
-					languages : \"". $langPrefix . "\"
-				});
-				</script>";
-		  } else {
 				$load = "\t<script type=\"text/javascript\" src=\"".
 						JURI::root(true).
 						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
-		  }
-		  $return = $load .
-				"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					$dialog_type
-					directionality: \"$text_direction\",
-					editor_selector : \"mce_editable\",
-					language : \"". $langPrefix . "\",
-					mode : \"specific_textareas\",
-					plugins : \"$plugins\",
-					$skin
-					theme : \"$theme[$mode]\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					cleanup : $cleanup,
-					cleanup_on_startup : $cleanup_startup,
-					entity_encoding : \"$entity_encoding\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					invalid_elements : \"$invalid_elements\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
-					// Layout
-					$content_css
-					// Advanced theme
-					theme_advanced_toolbar_location : \"$toolbar\",
-					theme_advanced_toolbar_align : \"$toolbar_align\",
-					theme_advanced_source_editor_height : \"$html_height\",
-					theme_advanced_source_editor_width : \"$html_width\",
-					$element_path,
-					theme_advanced_buttons1_add_before : \"$buttons1_add_before\",
-					theme_advanced_buttons2_add_before : \"$buttons2_add_before\",
-					theme_advanced_buttons3_add_before : \"$buttons3_add_before\",
-					theme_advanced_buttons1_add : \"$buttons1_add\",
-					theme_advanced_buttons2_add : \"$buttons2_add\",
-					theme_advanced_buttons3_add : \"$buttons3_add\",
-					theme_advanced_buttons4 : \"$buttons4\",
-					plugin_insertdate_dateFormat : \"$format_date\",
-					plugin_insertdate_timeFormat : \"$format_time\",
-					fullscreen_settings : {
-						theme_advanced_path_location : \"top\"
-					}
-				});
-				</script>";
-		  break;
-		}
+		 		 $return = $load .
+					"\t<script type=\"text/javascript\">
+					tinyMCE.init({
+						// General
+						$dialog_type
+						directionality: \"$text_direction\",
+						editor_selector : \"mce_editable\",
+						language : \"". $langPrefix . "\",
+						mode : \"specific_textareas\",
+						plugins : \"$plugins\",
+						$skin
+						theme : \"$theme[$mode]\",
+						// Cleanup/Output
+						inline_styles : true,
+						gecko_spellcheck : true,
+						cleanup : $cleanup,
+						cleanup_on_startup : $cleanup_startup,
+						entity_encoding : \"$entity_encoding\",
+						extended_valid_elements : \"$elements\",
+						$forcenewline
+						invalid_elements : \"$invalid_elements\",
+						// URL
+						relative_urls : $relative_urls,
+						remove_script_host : false,
+						document_base_url : \"". JURI::root() ."\",
+						// Layout
+						$content_css
+						// Advanced theme
+						theme_advanced_toolbar_location : \"$toolbar\",
+						theme_advanced_toolbar_align : \"$toolbar_align\",
+						theme_advanced_source_editor_height : \"$html_height\",
+						theme_advanced_source_editor_width : \"$html_width\",
+						$element_path,
+						theme_advanced_buttons1_add_before : \"$buttons1_add_before\",
+						theme_advanced_buttons2_add_before : \"$buttons2_add_before\",
+						theme_advanced_buttons3_add_before : \"$buttons3_add_before\",
+						theme_advanced_buttons1_add : \"$buttons1_add\",
+						theme_advanced_buttons2_add : \"$buttons2_add\",
+						theme_advanced_buttons3_add : \"$buttons3_add\",
+						theme_advanced_buttons4 : \"$buttons4\",
+						plugin_insertdate_dateFormat : \"$format_date\",
+						plugin_insertdate_timeFormat : \"$format_time\",
+						fullscreen_settings : {
+							theme_advanced_path_location : \"top\"
+						}
+					});
+					</script>";
+		  		break;
+			}
 
 		return $return;
 	}

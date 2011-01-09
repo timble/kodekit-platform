@@ -28,10 +28,6 @@
 			<option value="2">Office2007 Silver</option>
 			<option value="3">Office2007 Black</option>
 		</param>
-		<param name="compressed" type="radio" default="0" label="Compressed Version" description="PARAMCOMPRESSEDVERSION">
-			<option value="0">Off</option>
-			<option value="1">On</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cleanup_startup" type="radio" default="0" label="Code Cleanup on startup" description="Cleans code on editor load">
 			<option value="0">Off</option>
