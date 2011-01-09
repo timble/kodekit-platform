@@ -525,7 +525,7 @@ class ContentView
 				echo $pane->startPanel( $title, "detail-page" );
 				echo $form->render('details');
 
-				$title = JText::_( 'Metadata Information' );
+				$title = JText::_( 'Metadata' );
 				echo $pane->endPanel();
 				echo $pane->startPanel( $title, "metadata-page" );
 				echo $form->render('meta', 'metadata');
