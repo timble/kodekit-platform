@@ -35,7 +35,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<div id="container">
 		<div id="content-box">
 			<div id="element-box" class="login">
-				
+				<img src="templates/<?php echo $this->template ?>/images/nooku-server_logo.png" alt="Nooku Server logo">
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 				<a class="return" href="<?php echo JURI::root(); ?>">

@@ -40,7 +40,9 @@ p {
 	margin-bottom: 10px;
 }
 
-#content-box { padding-top: 100px; }
+img { margin-bottom: 25px; }
+
+#content-box { padding-top: 50px; }
 #section-box {
 	-webkit-box-shadow: #AAA 0px 3px 15px;
 	-moz-box-shadow: #AAA 0px 3px 15px;
