@@ -25,7 +25,7 @@ var SqueezeBox = {
 		adopt: null,
 		closeWithOverlay: true,
 		zIndex: 65555,
-		overlayOpacity: 0.7,
+		overlayOpacity: 0.3,
 		classWindow: '',
 		classOverlay: '',
 		disableFx: false,
@@ -36,9 +36,9 @@ var SqueezeBox = {
 		onMove: Class.empty,
 		onShow: Class.empty,
 		onHide: Class.empty,
-		fxOverlayDuration: 250,
+		fxOverlayDuration: 50,
 		fxResizeDuration: 750,
-		fxContentDuration: 250,
+		fxContentDuration: 50,
 		ajaxOptions: {}
 	},
 

@@ -1,78 +1,72 @@
-.body-overlayed embed, .body-overlayed object, .body-overlayed select
-{
-	visibility:				hidden;
+.body-overlayed embed, .body-overlayed object, .body-overlayed select {
+	visibility: hidden;
 }
 
-#sbox-window embed, #sbox-window object, #sbox-window select
-{
-	visibility:				visible;
+#sbox-window embed, #sbox-window object, #sbox-window select {
+	visibility:	visible;
 }
 
-#sbox-overlay
-{
-	position:				absolute;
-	background-color:		#000;
+#sbox-overlay {
+	position: absolute;
+	background-color: #000;
 }
 
-#sbox-window
-{
-	position:				absolute;
-	background-color:		#000;
-	text-align:				left;
-	overflow:				visible;
-	padding:				10px;
-	-moz-border-radius:		3px;
+#sbox-window {
+	position: absolute;
+	background-color: #fff;
+	text-align: left;
+	overflow: visible;
+	border: 1px solid #000;
+	padding: 10px;
+	-webkit-box-shadow: #333 0px 5px 15px;
+	-moz-box-shadow: #333 0px 5px 15px;
+	box-shadow: #333 0px 5px 15px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 }
 
-* html #sbox-window
-{
+* html #sbox-window {
 	top: 50% !important;
 	left: 50% !important;
 }
 
-#sbox-btn-close
-{
-	position:				absolute;
-	width:					30px;
-	height:					30px;
-	right:					-15px;
-	top:					-15px;
-	background:				url(../images/closebox.png) no-repeat top left;
-	border:					none;
+#sbox-btn-close {
+	position: absolute;
+	width: 30px;
+	height:	30px;
+	right: -15px;
+	top: -15px;
+	background: url(../images/closebox.png) no-repeat top left;
+	border: none;
 }
 
-.sbox-loading #sbox-content
-{
+.sbox-loading #sbox-content {
 	background-image:		url(../images/spinner.gif);
 	background-repeat:		no-repeat;
 	background-position:	center;
 }
 
-#sbox-content
-{
-	clear:					both;
-	overflow:				auto;
-	background-color:		#fff;
-	height:					100%;
-	width:					100%;
+#sbox-content {
+	clear: both;
+	overflow: auto;
+	background-color: #fff;
+	height: 100%;
+	width: 100%;
 }
 
-.sbox-content-image#sbox-content
-{
-	overflow:				visible;
+.sbox-content-image#sbox-content {
+	overflow: visible;
 }
 
-#sbox-image
-{
-	display:				block;
+#sbox-image {
+	display: block;
 }
 
-.sbox-content-image img
-{
-	display:				block;
+.sbox-content-image img {
+	display: block;
 }
 
-.sbox-content-iframe#sbox-content
-{
-	overflow:				visible;
+.sbox-content-iframe#sbox-content {
+	overflow: visible;
 }
