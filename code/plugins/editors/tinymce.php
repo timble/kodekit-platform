@@ -52,54 +52,43 @@ class plgEditorTinymce extends JPlugin
 	{
 		$mainframe =&JFactory::getApplication();
 		$language =& JFactory::getLanguage();
+		
 		JPlugin::loadLanguage('plg_editors_tinymce', JPATH_ADMINISTRATOR);
-		$mode = $this->params->get('mode','advanced');
+		
+		$mode  = $this->params->get('mode','advanced');
 		$theme = array('simple' => 'simple','advanced' => 'advanced','extended' => 'advanced');
-		$skin = $this->params->get( 'skin', '0' );
-		switch ($skin)
-		{
-			case '3':
-				$skin = "skin : \"o2k7\", skin_variant : \"black\",";
-				break;
-			case '2':
-				$skin = "skin : \"o2k7\", skin_variant : \"silver\",";
-				break;
-			case '1':
-				$skin = "skin : \"o2k7\",";
-				break;
-			case '0':
-			default:
-				$skin = "skin : \"default\",";
-		}
-		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
-		$cleanup_save		= $this->params->def('cleanup_save', 2);
+	
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');
 
-		if ($cleanup_startup) {
+		if ($this->params->def('cleanup_startup', 0)) {
 			$cleanup_startup = 'true';
 		} else {
 			$cleanup_startup = 'false';
 		}
-		switch ($cleanup_save) {
+		
+		switch ($this->params->def('cleanup_save', 2)) 
+		{
 			case '0': /* Never clean up on save */
 				$cleanup = 'false';
 				break;
+				
 			case '1': /* Clean up front end edits only */
 				if ($mainframe->isadmin())
 					$cleanup = 'false';
 				else
 					$cleanup = 'true';
 				break;
+				
 			default:  /* Always clean up on save */
 				$cleanup = 'true';
 				break;
 		}
 
-		$langMode	= $this->params->def('lang_mode', 0);
 		$langPrefix	= $this->params->def('lang_code', 'en');
-		if ($langMode) {
+		if ($this->params->def('lang_mode', 0)) {
 			$langPrefix = substr($language->getTag(), 0, strpos( $language->getTag(), '-' ));
 		}
+		
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
 		} else {
@@ -124,18 +113,23 @@ class plgEditorTinymce extends JPlugin
 		$content_css = '';
 
 		$templates_path = JPATH_SITE.DS.'templates';
+		
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
 		{
 			// If URL, just pass it to $content_css
-			if (strpos( $content_css_custom, 'http' ) !==false) {
+			if (strpos( $content_css_custom, 'http' ) !==false) 
+			{
 				$content_css = 'content_css : "'. $content_css_custom .'",';
-			// If it is not a URL, assume it is a file name in the current template folder
-			} else {
+				// If it is not a URL, assume it is a file name in the current template folder
+			} 
+			else 
+			{
 				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) {
+				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) 
+				{
 					$msg = sprintf (JText::_('CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
@@ -144,11 +138,12 @@ class plgEditorTinymce extends JPlugin
 		else
 		{
 			// process when use_content_css is Yes and no custom file given
-			if($use_content_css) {
-
+			if($use_content_css) 
+			{
 				// first check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.'editor.css')) {
+				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.'editor.css')) 
+				{
 					$template = 'system';
 
 					// if no editor.css file in system folder, show alert
@@ -158,258 +153,194 @@ class plgEditorTinymce extends JPlugin
 					} else {
 						$content_css = 'content_css : "' . JURI::root() .'templates/system/css/editor.css",';
 					}
-				} else {
-					$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
-				}
+				} 
+				else $content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
 			}
 		}
 
-		$relative_urls		= $this->params->def('relative_urls', '1');
-		if ( $relative_urls ) { // relative
+		if ( $this->params->def('relative_urls', '1') ) { // relative
 			$relative_urls = "true";
 		} else { // absolute
 			$relative_urls = "false";
 		}
 
-		$newlines = $this->params->def('newlines', 0);
-		if ($newlines) { // br
+		if ( $this->params->def('newlines', 0)) { // br
 			$forcenewline = "force_br_newlines : true, force_p_newlines : false, forced_root_block : '',";
 		} else { // p
 			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
+		
 		$invalid_elements	= $this->params->def('invalid_elements', 'script,applet,iframe');
 		$extended_elements	= $this->params->def('extended_elements', '');
 
 		// theme_advanced_* settings
-		$toolbar = $this->params->def('toolbar', 'top');
+		$toolbar 		= $this->params->def('toolbar'		, 'top');
 		$toolbar_align	= $this->params->def('toolbar_align', 'left');
-		$html_height = $this->params->def('html_height', '550');
-		$html_width = $this->params->def('html_width', '750');
-		$element_path = '';
+		$html_height 	= $this->params->def('html_height'	, '550');
+		$html_width 	= $this->params->def('html_width'	, '750');
+		$element_path 	= '';
+		
 		if ($this->params->get('element_path', 1)) {
 			$element_path = 'theme_advanced_statusbar_location : "bottom", theme_advanced_path : true';
 		} else {
 			$element_path = 'theme_advanced_statusbar_location : "none", theme_advanced_path : false';
 		}
 
-		$buttons1_add_before = $buttons1_add = array();
-		$buttons2_add_before = $buttons2_add = array();
-		$buttons3_add_before = $buttons3_add = array();
-		$buttons4 = array();
-		$plugins 	= array();
-		if($extended_elements != "") $elements = explode(',', $extended_elements);
-
-		//Initial values for buttons
-		array_push($buttons4,'cut','copy','paste');
-		//array_push($buttons4,'|');
+		$plugins = array();
+		if($extended_elements != "") {
+			$elements = explode(',', $extended_elements);
+		}
 
 		// Plugins
 
-		// fonts
-		$fonts =  $this->params->def( 'fonts', 1 );
-		if ($fonts) {
-			$buttons1_add[]	= 'fontselect,fontsizeselect';
-		}
-
 		// paste
-		$paste =  $this->params->def('paste', 1);
-		if ($paste) {
+		if ($this->params->def('paste', 1)) {
 			$plugins[]	= 'paste';
-			$buttons4[]	= 'pastetext';
-			$buttons4[]	= 'pasteword';
-			$buttons4[]	= 'selectall,|';
 		}
-
-		// search & replace
-		$searchreplace		=  $this->params->def('searchreplace', 1);
-		if ($searchreplace) {
-			$plugins[]	= 'searchreplace';
-			$buttons2_add_before[]	= 'search,replace,|';
-		}
-
-		// insert date and/or time plugin
-		$insertdate			= $this->params->def('insertdate', 1);
-		$format_date		= $this->params->def('format_date', '%Y-%m-%d');
-		$inserttime			= $this->params->def('inserttime', 1);
-		$format_time		= $this->params->def('format_time', '%H:%M:%S');
-		if ($insertdate or $inserttime) {
-			$plugins[]	= 'insertdatetime';
-			if ($insertdate) {
-				$buttons2_add[]	= 'insertdate';
-			}
-			if ($inserttime) {
-				$buttons2_add[]	= 'inserttime';
-			}
-		}
-
-		// colors
-		$colors =  $this->params->def('colors', 1);
-		if ($colors) {
-			$buttons2_add[]	= 'forecolor,backcolor';
-		}
-
-		// table
-		$table = $this->params->def('table', 1);
-		if ($table) {
-			$plugins[]	= 'table';
-			$buttons3_add_before[]	= 'tablecontrols';
-		}
-
-		// emotions
-		$smilies = $this->params->def('smilies', 1);
-		if ($smilies) {
-			$plugins[]	= 'emotions';
-			$buttons3_add[]	= 'emotions';
-		}
-
+	
 		//media plugin
-		$media = $this->params->def('media', 1);
-		if ($media) {
+		if ($this->params->def('media', 1)) {
 			$plugins[] = 'media';
-			$buttons3_add[] = 'media';
 		}
-
+		
 		// horizontal line
-		$hr = $this->params->def('hr', 1);
-		if ($hr) {
+		if ($this->params->def('hr', 1)) {
 			$plugins[]	= 'advhr';
 			$elements[] = 'hr[id|title|alt|class|width|size|noshade|style]';
-			$buttons3_add[]	= 'advhr';
 		} else {
 			$elements[] = 'hr[id|class|title|alt]';
 		}
-
-		// rtl/ltr buttons
-		$directionality	= $this->params->def('directionality', 1);
-		if ($directionality) {
-			$plugins[] = 'directionality';
-			$buttons3_add[] = 'ltr,rtl';
-		}
-
+		
 		// fullscreen
-		$fullscreen	= $this->params->def('fullscreen', 1);
-		if ($fullscreen) {
+		if ($this->params->def('fullscreen', 1)) {
 			$plugins[]	= 'fullscreen';
-			$buttons2_add[]	= 'fullscreen';
 		}
-
-		// layer
-		$layer = $this->params->def('layer', 1);
-		if ($layer) {
-			$plugins[]	= 'layer';
-			$buttons4[]	= 'insertlayer';
-			$buttons4[]	= 'moveforward';
-			$buttons4[]	= 'movebackward';
-			$buttons4[]	= 'absolute';
+		
+		// preview
+		if ($this->params->def('preview', 1)) {
+			$plugins[]	= 'preview';
+		}
+		
+		// spellchecker
+		if ($this->params->def('spellchecker', 1)) {
+			$plugins[]	= 'spellchecker';
+			$spellchecker_languages = '+English=en,Dutch=nl'; 
 		}
 
 		// style
-		$style = $this->params->def('style', 1);
-		if ($style) {
+		if ($this->params->def('style', 1)) {
 			$plugins[]	= 'style';
-			$buttons4[]	= 'styleprops';
 		}
-
-		// XHTMLxtras
-		$xhtmlxtras	= $this->params->def('xhtmlxtras', 1);
-		if ($xhtmlxtras) {
-			$plugins[]	= 'xhtmlxtras';
-			$buttons4[]	= 'cite,abbr,acronym,ins,del,attribs';
-		}
-
-		// visualchars
-		$visualchars = $this->params->def('visualchars', 1);
-		if ($visualchars) {
-			$plugins[]	= 'visualchars';
-			$buttons4[]	= 'visualchars';
-		}
-
-		// non-breaking
-		$nonbreaking = $this->params->def('nonbreaking', 1);
-		if ($nonbreaking) {
-			$plugins[]	= 'nonbreaking';
-			$buttons4[]	= 'nonbreaking';
-		}
-
-		// blockquote
-		$blockquote	= $this->params->def( 'blockquote', 1 );
-		if ( $blockquote ) {
-			$plugins[] = 'blockquote';
-			$buttons4[] = 'blockquote';
-		}
-
-		// template
-		$template = $this->params->def('template', 1);
-		if ($template) {
-			$plugins[]	= 'template';
-			$buttons4[]	= 'template';
-		}
-
+		
 		// advimage
-		$advimage = $this->params->def('advimage', 1);
-		if ($advimage) {
+		if ($this->params->def('advimage', 1)) {
 			$plugins[]	= 'advimage';
 			$elements[]	= 'img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
 		}
 
 		// advlink
-		$advlink 	= $this->params->def('advlink', 1);
-		if ($advlink) {
+		if ($this->params->def('advlink', 1)) {
 			$plugins[]	= 'advlink';
 			$elements[]	= 'a[id|class|name|href|target|title|onclick|rel|style]';
 		}
 
 		// autosave
-		$autosave = $this->params->def('autosave', 1);
-		if ($autosave) {
+		if ($this->params->def('autosave', 1)) {
 			$plugins[]	= 'autosave';
 		}
 
 		// context menu
-		$contextmenu = $this->params->def('contextmenu', 1);
-		if ($contextmenu) {
+		if ( $this->params->def('contextmenu', 1)) {
 			$plugins[]	= 'contextmenu';
 		}
 
 		// inline popups
-		$inlinepopups			= $this->params->def('inlinepopups', 1);
-		if ($inlinepopups) {
+		if ($this->params->def('inlinepopups', 1)) {
 			$plugins[]	= 'inlinepopups';
 			$dialog_type = "dialog_type : \"modal\",";
 		} else {
 			$dialog_type = "";
 		}
 
-		// Safari compatibility
-		$safari	= $this->params->def('safari', 0);
-		if ($safari) {
-			$plugins[]	= 'safari';
+		$buttons3 = array();
+
+		// insert date and/or time plugin
+		$insertdate			= $this->params->def('insertdate', 0);
+		$format_date		= $this->params->def('format_date', '%Y-%m-%d');
+		$inserttime			= $this->params->def('inserttime', 0);
+		$format_time		= $this->params->def('format_time', '%H:%M:%S');
+		
+		if ($insertdate or $inserttime) 
+		{
+			$plugins[]	= 'insertdatetime';
+			if ($insertdate) {
+				$buttons3[]	= 'insertdate';
+			}
+			if ($inserttime) {
+				$buttons3[]	= 'inserttime';
+			}
+			
+			$buttons3[] = '|';
+		}
+		
+		// search & replace
+		if ($this->params->def('searchreplace', 1)) {
+			$plugins[]	= 'searchreplace';
+			$buttons3[]	= 'search,replace';
+		}
+		
+		// table
+		if ($this->params->def('table', 0)) {
+			$plugins[]	= 'table';
+			$buttons3[]	= 'table, tablecontrols, |';
+		}
+		
+		// rtl/ltr buttons
+		if ( $this->params->def('directionality', 0)) {
+			$plugins[] = 'directionality';
+			$buttons3[] = 'directionality';
 		}
 
-		$custom_plugin = $this->params->def('custom_plugin', '');
-		if ($custom_plugin != "") {
-			$plugins[] = $custom_plugin;
+		// colors
+		if ($this->params->def('colors', 0)) {
+			$buttons3[] = 'forecolor,backcolor,|';
 		}
 
-		$custom_button = $this->params->def('custom_button', '');
-		if ($custom_button != "") {
-			$buttons4[] = $custom_button;
+		// XHTMLxtra
+		if ($this->params->def('xhtmlxtras', 0)) {
+			$plugins[]	= 'xhtmlxtras';
+			$buttons3[]	= 'xhtmlxtras';
+		}
+
+		// visualchars
+		if ($this->params->def('visualchars', 0)) {
+			$plugins[]	= 'visualchars';
+			$buttons3[]	= 'visualchars';
+		}
+
+		// non-breaking
+		if ($this->params->def('nonbreaking', 0)) {
+			$plugins[]	= 'nonbreaking';
+			$buttons3[]	= 'nonbreaking';
+		}
+
+		// template
+		if ($this->params->def('template', 0)) {
+			$plugins[]	= 'template';
+			$buttons3[]	= 'template';
 		}
 
 		// Prepare config variables
-		$buttons1_add_before = implode(',', $buttons1_add_before);
-		$buttons2_add_before = implode(',', $buttons2_add_before);
-		$buttons3_add_before = implode(',', $buttons3_add_before);
-		$buttons1_add = implode(',', $buttons1_add);
-		$buttons2_add = implode(',', $buttons2_add);
-		$buttons3_add = implode(',', $buttons3_add);
-		$buttons4 = implode(',', $buttons4);
 		$plugins = implode(',', $plugins);
 		$elements = implode(',', $elements);
+		
+		//Prepare the 3th row of buttons based on the settings
+		$buttons3 = implode(',', $buttons3);
 
 		switch($mode) 
 		{
-			case 'simple': /* Simple mode*/
+			case 'simple':
+				
 				$load = "\t<script type=\"text/javascript\" src=\"".
 						JURI::root(true).
 						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
@@ -422,7 +353,6 @@ class plgEditorTinymce extends JPlugin
 					editor_selector : \"mce_editable\",
 					language : \"". $langPrefix . "\",
 					mode : \"specific_textareas\",
-					$skin
 					theme : \"$theme[$mode]\",
 					// Cleanup/Output
 					inline_styles : true,
@@ -441,7 +371,7 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				break;
 
-			case 'advanced': /* Advanced mode*/
+			case 'advanced': 
 				$load = "\t<script type=\"text/javascript\" src=\"".
 						JURI::root(true).
 						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
@@ -449,15 +379,17 @@ class plgEditorTinymce extends JPlugin
 				"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
+					$dialog_type
 					directionality: \"$text_direction\",
 					editor_selector : \"mce_editable\",
 					language : \"". $langPrefix . "\",
 					mode : \"specific_textareas\",
-					$skin
+					plugins : \"$plugins\",
 					theme : \"$theme[$mode]\",
 					// Cleanup/Output
 					inline_styles : true,
 					gecko_spellcheck : true,
+					spellchecker_languages : \"$spellchecker_languages\",
 					cleanup : $cleanup,
 					cleanup_on_startup : $cleanup_startup,
 					entity_encoding : \"$entity_encoding\",
@@ -471,67 +403,22 @@ class plgEditorTinymce extends JPlugin
 					// Layout
 					$content_css
 					// Advanced theme
+					theme_advanced_buttons1 : \"bold,italic,underline,strikethrough,|,blockquote,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,|, bullist,numlist, outdent, indent\",
+        			theme_advanced_buttons2 : \"link, unlink, |, image, ,media,charmap,|,anchor,hr,|,pastetext, pasteword, removeformat,cleanup, |, undo, redo,|, spellchecker, |, preview, fullscreen\",
+        			theme_advanced_buttons3: \"$buttons3\",
 					theme_advanced_toolbar_location : \"$toolbar\",
 					theme_advanced_toolbar_align : \"$toolbar_align\",
 					theme_advanced_source_editor_height : \"$html_height\",
 					theme_advanced_source_editor_width : \"$html_width\",
-					$element_path
+					$element_path,
+					plugin_insertdate_dateFormat : \"$format_date\",
+					plugin_insertdate_timeFormat : \"$format_time\",
+					fullscreen_settings : {
+						theme_advanced_path_location : \"top\"
+					}
 				});
 				</script>";
 				break;
-
-			case 'extended': /* Extended mode*/
-				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root(true).
-						"/media/plg_tinymce/tiny_mce.js\"></script>\n";
-		 		 $return = $load .
-					"\t<script type=\"text/javascript\">
-					tinyMCE.init({
-						// General
-						$dialog_type
-						directionality: \"$text_direction\",
-						editor_selector : \"mce_editable\",
-						language : \"". $langPrefix . "\",
-						mode : \"specific_textareas\",
-						plugins : \"$plugins\",
-						$skin
-						theme : \"$theme[$mode]\",
-						// Cleanup/Output
-						inline_styles : true,
-						gecko_spellcheck : true,
-						cleanup : $cleanup,
-						cleanup_on_startup : $cleanup_startup,
-						entity_encoding : \"$entity_encoding\",
-						extended_valid_elements : \"$elements\",
-						$forcenewline
-						invalid_elements : \"$invalid_elements\",
-						// URL
-						relative_urls : $relative_urls,
-						remove_script_host : false,
-						document_base_url : \"". JURI::root() ."\",
-						// Layout
-						$content_css
-						// Advanced theme
-						theme_advanced_toolbar_location : \"$toolbar\",
-						theme_advanced_toolbar_align : \"$toolbar_align\",
-						theme_advanced_source_editor_height : \"$html_height\",
-						theme_advanced_source_editor_width : \"$html_width\",
-						$element_path,
-						theme_advanced_buttons1_add_before : \"$buttons1_add_before\",
-						theme_advanced_buttons2_add_before : \"$buttons2_add_before\",
-						theme_advanced_buttons3_add_before : \"$buttons3_add_before\",
-						theme_advanced_buttons1_add : \"$buttons1_add\",
-						theme_advanced_buttons2_add : \"$buttons2_add\",
-						theme_advanced_buttons3_add : \"$buttons3_add\",
-						theme_advanced_buttons4 : \"$buttons4\",
-						plugin_insertdate_dateFormat : \"$format_date\",
-						plugin_insertdate_timeFormat : \"$format_time\",
-						fullscreen_settings : {
-							theme_advanced_path_location : \"top\"
-						}
-					});
-					</script>";
-		  		break;
 			}
 
 		return $return;

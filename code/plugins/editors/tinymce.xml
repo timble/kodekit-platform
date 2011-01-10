@@ -20,13 +20,6 @@
 		<param name="mode" type="list" default="advanced" label="Functionality" description="Select functionality">
 			<option value="simple">Simple</option>
 			<option value="advanced">Advanced</option>
-			<option value="extended">Extended</option>
-		</param>
-		<param name="skin" type="list" default="0" label="Skin" description="Select skin">
-			<option value="0">Default</option>
-			<option value="1">Office2007 Blue</option>
-			<option value="2">Office2007 Silver</option>
-			<option value="3">Office2007 Black</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cleanup_startup" type="radio" default="0" label="Code Cleanup on startup" description="Cleans code on editor load">
@@ -87,38 +80,12 @@
 			<option value="0">Off</option>
 			<option value="1">On</option>
 		</param>
-		<param name="@spacer" type="spacer" default="Params Extended Mode" label="" description="" />
-		<param name="fonts" type="radio" default="1" label="Fonts" description="PARAMFONTS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
+		<param name="@spacer" type="spacer" default="Params Advanced Mode" label="" description="" />
 		<param name="paste" type="radio" default="1" label="Paste" description="PARAMPASTE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="searchreplace" type="radio" default="1" label="Search-Replace" description="PARAMSEARCHREPLACE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in Advanced mode"/>
-		<param name="inserttime" type="radio" default="1" label="Insert Time" description="PARAMINSERTTIME">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in Advanced mode"/>
-		<param name="colors" type="radio" default="1" label="Colors" description="PARAMCOLORS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
+		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -130,39 +97,49 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="directionality" type="radio" default="1" label="Directionality" description="PARAMDIRECTIONALITY">
+		<param name="searchreplace" type="radio" default="0" label="Search-Replace" description="PARAMSEARCHREPLACE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
+		<param name="insertdate" type="radio" default="0" label="Insert Date" description="PARAMINSERTDATE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
+		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in Advanced mode"/>
+		<param name="inserttime" type="radio" default="0" label="Insert Time" description="PARAMINSERTTIME">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="layer" type="radio" default="1" label="Layer" description="PARAMLAYER">
+		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in Advanced mode"/>
+		<param name="colors" type="radio" default="0" label="Colors" description="PARAMCOLORS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="xhtmlxtras" type="radio" default="1" label="XHTMLxtras" description="PARAMXHTMLXTRAS">
+		<param name="table" type="radio" default="0" label="Table" description="PARAMTABLE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="visualchars" type="radio" default="1" label="Visualchars" description="Possibility to see invisible characters">
+		<param name="directionality" type="radio" default="0" label="Directionality" description="PARAMDIRECTIONALITY">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="nonbreaking" type="radio" default="1" label="Nonbreaking" description="Insert nonbreaking space entities">
+		<param name="style" type="radio" default="0" label="Style" description="PARAMSTYLE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="blockquote" type="radio" default="1" label="Blockquote" description="PARAMBLOCKQUOTE">
-		<option value="0">Hide</option>
-		<option value="1">Show</option>
+		<param name="xhtmlxtras" type="radio" default="0" label="XHTMLxtras" description="PARAMXHTMLXTRAS">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
 		</param>
-		<param name="template" type="radio" default="1" label="Template" description="PARAMTEMPLATE">
+		<param name="visualchars" type="radio" default="0" label="Visualchars" description="Possibility to see invisible characters">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="nonbreaking" type="radio" default="0" label="Nonbreaking" description="Insert nonbreaking space entities">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="template" type="radio" default="0" label="Template" description="PARAMTEMPLATE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -187,12 +164,5 @@
 			<option value="0">Off</option>
 			<option value="1">On</option>
 		</param>
-		<param name="safari" type="radio" default="0" label="Safari compatibility" description="Turn on/off Safari compatibility plugin">
-			<option value="0">Off</option>
-			<option value="1">On</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="custom_plugin" type="text" default="" label="Custom plugin" description="Add custom plugin(s)"/>
-		<param name="custom_button" type="text" default="" label="Custom button" description="Add custom button(s)"/>
 	</params>
 </install>
