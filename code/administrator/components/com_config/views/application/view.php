@@ -62,7 +62,6 @@ class ConfigApplicationView
 					<tr>
 						<td width="65%">
 							<?php require_once($tmplpath.DS.'config_site.php'); ?>
-							<?php require_once($tmplpath.DS.'config_metadata.php'); ?>
 						</td>
 						<td width="35%">
 							<?php require_once($tmplpath.DS.'config_seo.php'); ?>

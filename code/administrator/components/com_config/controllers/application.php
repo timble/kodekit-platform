@@ -183,10 +183,6 @@ class ConfigControllerApplication extends ConfigController
 		$lists['memcache_persist'] = JHTML::_('select.booleanlist', 'memcache_settings[persistent]', 'class="inputbox"', @$row->memcache_settings['persistent']);
 		$lists['memcache_compress'] = JHTML::_('select.booleanlist', 'memcache_settings[compression]', 'class="inputbox"', @$row->memcache_settings['compression']);
 
-		// META SETTINGS
-		$lists['MetaAuthor'] 	= JHTML::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
-		$lists['MetaTitle'] 	= JHTML::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $row->MetaTitle);
-
 		// SEO SETTINGS
 		$lists['sef'] 		= JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $row->sef);
 		$lists['sef_rewrite'] 	= JHTML::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
@@ -343,10 +339,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['smtpuser']	= JRequest::getVar('smtpuser', '', 'post', 'string');
 		$config_array['smtppass']	= JRequest::getVar('smtppass', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$config_array['smtphost']	= JRequest::getVar('smtphost', '', 'post', 'string');
-
-		// META SETTINGS
-		$config_array['MetaAuthor']	= JRequest::getVar('MetaAuthor', 1, 'post', 'int');
-		$config_array['MetaTitle']	= JRequest::getVar('MetaTitle', 1, 'post', 'int');
 
 		// SESSION SETTINGS
 		$config_array['lifetime']			= JRequest::getVar('lifetime', 0, 'post', 'int');

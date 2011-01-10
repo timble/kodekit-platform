@@ -121,11 +121,8 @@ class ContentViewArticle extends ContentView
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$mainframe->addMetaTag('title', $article->title);
-		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$mainframe->addMetaTag('author', $article->author);
+		if ($article->author) {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
