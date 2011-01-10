@@ -18,8 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Joomla! system checks
  */
 
-@set_magic_quotes_runtime( 0 );
-@ini_set('zend.ze1_compatibility_mode', '0');
+ini_set('magic_quotes_runtime', 0);
 
 /*
  * Installation check, and check on removal of the install directory.
@@ -79,4 +78,3 @@ jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
-?>
