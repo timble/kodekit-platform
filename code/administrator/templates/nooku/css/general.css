@@ -83,11 +83,6 @@ textarea:focus { background-color: #ffd }
 	width: 100%;
 }
 
-#content-box #tabs-box #title {
-	float: right;
-	margin-right: 25px;
-}
-
 #content-box #tabs-box #submenu-box {
 	float: left;
 }
@@ -96,6 +91,11 @@ textarea:focus { background-color: #ffd }
 	padding: 8px;
 	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#f1f1f1));
 	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
+}
+
+#toolbar-box #title {
+	float: right;
+	margin-right: 25px;
 }
 
 div#element-box.default form[name="adminForm"] {
@@ -162,7 +162,7 @@ span.note {
 /** toolbar **/
 
 div.header {
-	font-size: 14px; font-weight: bold; color: #FFF;
+	font-size: 14px; font-weight: bold; color: #444;
 	padding-left: 34px;
 	background-image: none;
 	margin-left: 10px;
