@@ -226,7 +226,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
 		{
 			$identifier = KFactory::identify($table);
 	
-			if($identifier->path[0] != 'table') {
+			if($identifier->path[0] != 'database' && $identifier->path[1] != 'table') {
 				throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
 			}
 
