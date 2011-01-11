@@ -20,8 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 error_reporting( E_ALL );
-@set_magic_quotes_runtime( 0 );
-@ini_set('zend.ze1_compatibility_mode', '0');
+ini_set('magic_quotes_runtime', 0);
 
 /*
  *
