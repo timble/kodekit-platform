@@ -43,7 +43,7 @@
 	cursor: default;
 	background-repeat: no-repeat;
 	background-image: none !important; /*background-position: 3px 50%;*/
-	border-right: 1px solid #BBB;
+	border-right: 1px solid #555;
 }
 
 #menu li.disabled a { color: #DDD; }
