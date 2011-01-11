@@ -436,8 +436,8 @@ table.adminlist {
 	color: #666;
 }
 
-table.adminlist td,
-table.adminlist th { padding: 4px; }
+table.adminlist th { padding: 3px 4px; }
+table.adminlist td { padding: 4px 4px; }
 
 table.adminlist thead th {
 	text-align: center;
