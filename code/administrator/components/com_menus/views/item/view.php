@@ -43,9 +43,9 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title(  JText::_( 'New' ).' '.JText::_( 'Menu Item' ), 'menu.png' );
 		} else {
-			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title( JText::_( 'Edit' ).' '.JText::_( 'Menu Item' ), 'menu.png' );
 		}
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
@@ -132,7 +132,7 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title(  JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title(  JText::_( 'New' ).' '.JText::_( 'Menu Item' ), 'menu.png' );
 		} else {
 			JToolBarHelper::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
 		}

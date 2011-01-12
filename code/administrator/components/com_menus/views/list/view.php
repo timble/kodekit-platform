@@ -104,7 +104,7 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Copy' ) .' ]</small></small>' );
+		JToolBarHelper::title( JText::_( 'Copy' ).' '.JText::_( 'Menu Items' ) );
 		JToolBarHelper::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JToolBarHelper::cancel('cancelItem');
 
@@ -139,7 +139,7 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Move' ) .' ]</small></small>' );
+		JToolBarHelper::title( JText::_( 'Move' ) .' '.JText::_( 'Menu Items' ));
 		JToolBarHelper::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
 		JToolBarHelper::cancel('cancelItem');
 

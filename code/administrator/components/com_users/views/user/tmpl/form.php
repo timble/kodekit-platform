@@ -7,7 +7,7 @@
 	$edit		= JRequest::getVar('edit',true);
 	$text = intval($edit) ? JText::_( 'Edit' ) : JText::_( 'New' );
 
-	JToolBarHelper::title( JText::_( 'User' ) . ': <small><small>[ '. $text .' ]</small></small>' , 'user.png' );
+	JToolBarHelper::title( $text.' '.JText::_( 'User' ) , 'user.png' );
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
 	if ( $edit ) {

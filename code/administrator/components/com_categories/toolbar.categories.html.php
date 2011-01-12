@@ -28,7 +28,7 @@ class TOOLBAR_categories {
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( $edit.' '.JText::_( 'Category' ), 'categories.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ($edit) {
@@ -45,7 +45,7 @@ class TOOLBAR_categories {
 	*/
 	function _MOVE() {
 
-		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. JText::_( 'Move' ).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( JText::_( 'Move' ).' '.JText::_( 'Category' ), 'categories.png' );
 		JToolBarHelper::save( 'movesave' );
 		JToolBarHelper::cancel();
 	}
@@ -55,7 +55,7 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
-		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. JText::_( 'Copy' ).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( JText::_( 'Copy' ).' '.JText::_( 'Category' ), 'categories.png' );
 
 		JToolBarHelper::save( 'copysave' );
 		JToolBarHelper::cancel();
@@ -68,7 +68,7 @@ class TOOLBAR_categories {
 	{
 		$section = JRequest::getCmd( 'section' );
 
-		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( JText::_(JString::substr($section, 4)).' '.JText::_( 'Category Manager' ), 'categories.png' );
 		JToolBarHelper::addNewX();
 		JToolBarHelper::spacer();
 		JToolBarHelper::deleteList();

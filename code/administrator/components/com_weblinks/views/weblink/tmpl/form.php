@@ -6,7 +6,7 @@
 	// Set toolbar items for the page
 	$edit		= JRequest::getVar('edit',true);
 	$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
-	JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
+	JToolBarHelper::title(  $text.' '.JText::_( 'Weblink' ));
 	JToolBarHelper::save();
 	if (!$edit)  {
 		JToolBarHelper::cancel();

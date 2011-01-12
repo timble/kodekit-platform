@@ -135,7 +135,7 @@ class BannersViewClients
 	{
 		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JToolBarHelper::title( $task == 'add' ? JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>' : JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'generic.png' );
+		JToolBarHelper::title( $task == 'add' ? JText::_( 'New' ).' '.JText::_( 'Banner Client' ) : JText::_( 'Edit' ).' '.JText::_( 'Banner Client' ), 'generic.png' );
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply('apply');
 		JToolBarHelper::cancel( 'cancel' );

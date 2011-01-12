@@ -22,7 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _NEW($client)
 	{
-		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'module.png' );
+		JToolBarHelper::title( JText::_( 'New' ).' '.JText::_( 'Module' ), 'module.png' );
 		JToolBarHelper::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
 		JToolBarHelper::cancel();
 	}
@@ -36,7 +36,7 @@ class TOOLBAR_modules {
 		$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 
-		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'module.png' );
+		JToolBarHelper::title( JText::_( 'Edit' ).' '.JText::_( 'Module' ), 'module.png' );
 
 		if($moduleType == 'custom') {
 			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id);

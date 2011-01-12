@@ -41,7 +41,7 @@ class TOOLBAR_newsfeeds
 
 		$text 	= ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
+		JToolBarHelper::title(  $text.' '.JText::_( 'Newsfeed' ) );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ($edit) {

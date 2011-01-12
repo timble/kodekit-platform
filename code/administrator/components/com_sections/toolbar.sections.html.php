@@ -29,7 +29,7 @@ class TOOLBAR_sections {
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
+		JToolBarHelper::title( $edit.' '.JText::_( 'Section' ), 'sections.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ( $edit ) {
@@ -44,7 +44,7 @@ class TOOLBAR_sections {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
-		JToolBarHelper::title( JText::_( 'Section' ) .': <small><small>[ '. JText::_( 'Copy' ).' ]</small></small>', 'section.png' );
+		JToolBarHelper::title( $edit.' '.JText::_( 'Section' ), 'section.png' );
 		//JToolBarHelper::title( JText::_( 'Copy Section' ), 'sections.png' );
 		JToolBarHelper::save( 'copysave' );
 		JToolBarHelper::cancel();

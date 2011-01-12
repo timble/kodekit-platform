@@ -39,7 +39,7 @@ class TOOLBAR_templates
 	}
 
 	function _EDIT(&$client){
-		JToolBarHelper::title( JText::_( 'Template' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'thememanager' );
+		JToolBarHelper::title( JText::_( 'Edit' ).' '.JText::_( 'Template' ), 'thememanager' );
 		JToolBarHelper::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply();
