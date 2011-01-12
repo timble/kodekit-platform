@@ -65,10 +65,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="PARAMEMAIL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="feed_summary" type="radio" default="0" label="For each feed item show" description="TIPSHOWFEEDITEM">
 			<option value="0">Intro Text</option>

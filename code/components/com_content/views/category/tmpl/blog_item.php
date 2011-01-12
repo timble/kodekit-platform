@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon') || $canEdit) : ?>
+<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_print_icon') || $canEdit) : ?>
 <table class="contentpaneopen<?php echo $this->escape($this->item->params->get( 'pageclass_sfx' )); ?>">
 <tr>
 	<?php if ($this->item->params->get('show_title')) : ?>
@@ -25,15 +25,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php endif; ?>
 
-	<?php if ($this->item->params->get('show_email_icon')) : ?>
+	<?php if ($canEdit) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 	</td>
-	<?php endif; ?>
-	   <?php if ($canEdit) : ?>
-	   <td align="right" width="100%" class="buttonheading">
-	   <?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
-	   </td>
    <?php endif; ?>
 </tr>
 </table>

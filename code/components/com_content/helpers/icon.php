@@ -42,28 +42,6 @@ class JHTMLIcon
 		return JHTML::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	function email($article, $params, $access, $attribs = array())
-	{
-		$uri	=& JURI::getInstance();
-		$base	= $uri->toString( array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_( ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid) , false );
-		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( $link );
-
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
-
-		if ($params->get('show_icons')) 	{
-			$text = JHTML::_('image.site', 'emailButton.png', '/media/system/images/', NULL, NULL, JText::_('Email'));
-		} else {
-			$text = '&nbsp;'.JText::_('Email');
-		}
-
-		$attribs['title']	= JText::_( 'Email' );
-		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
-
-		$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
-		return $output;
-	}
-
 	function edit($article, $params, $access, $attribs = array())
 	{
 		$user =& JFactory::getUser();
