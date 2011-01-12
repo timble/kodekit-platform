@@ -100,24 +100,17 @@ abstract class KControllerView extends KControllerBread
 	 * @return void
 	 */
 	public function saveReferrer(KCommandContext $context)
-	{
-		$request  = KRequest::url();
-
-		//Only save the referrer if we are in a item view
-		if(array_key_exists('view', $request->query) && KInflector::isSingular($request->query['view']))
+	{								
+		if($referrer = KRequest::referrer())
 		{
-			$referrer = KRequest::referrer();
-
-			//Prevent referrer getting lost at a subsequent read action
-			foreach(array('option', 'view') as $var)
-			{
-				if(isset($referrer->query[$var]) && isset($request->query[$var]))
-				{
-					if($referrer->query[$var] != $request->query[$var]) {
-						 KRequest::set('session.com.dispatcher.referrer', (string) $referrer);
-						 break;
-					}
-				}
+			$request  = KRequest::url();
+			
+			$request->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
+			$referrer->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
+		
+			//Compare request url and referrer
+			if($request != $referrer) {
+				KRequest::set('session.com.controller.referrer', (string) $referrer);
 			}
 		}
 	}
@@ -132,8 +125,8 @@ abstract class KControllerView extends KControllerBread
 	{
 		$view = $this->getView();
 		
-		if($view instanceof KViewTemplate) {
-			$view->setLayout(isset($this->_request->layout) ? $this->_request->layout : 'default');
+		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+			$view->setLayout($this->_request->layout);
 		}
 		
 		$context->result = $view->display();
@@ -283,7 +276,7 @@ abstract class KControllerView extends KControllerBread
 		} else $row = $this->execute('add', $context);
 		
 		//Create the redirect
-		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
+		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
 		return $row;
 	}
 
@@ -332,7 +325,7 @@ abstract class KControllerView extends KControllerBread
 		}
 
 		//Create the redirect
-		$this->_redirect = KRequest::get('session.com.dispatcher.referrer', 'url');
+		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
 		return $row;
 	}
 	
