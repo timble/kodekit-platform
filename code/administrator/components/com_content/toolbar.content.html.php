@@ -25,7 +25,7 @@ class TOOLBAR_content
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
+		JToolBarHelper::title( $text.' '.JText::_( 'Article' ), 'addedit.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ( $edit ) {
