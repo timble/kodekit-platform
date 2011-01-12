@@ -139,18 +139,13 @@ class ComDefaultControllerDefault extends KControllerView
 	 */
 	protected function _actionRead(KCommandContext $context)
 	{
-		//Force the default layout to form for read actions
-		if(!isset($this->_request->layout)) {
-			$this->_request->layout = 'form';
-		}
-
 		//Perform the read action
 		$row = parent::_actionRead($context);
-
+		
 		//Add the notice if the row is locked
 		if(isset($row))
 		{
-			if($this->_request->layout == 'form' && $row->isLockable() && $row->locked()) {
+			if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
 				KFactory::get('lib.koowa.application')->enqueueMessage($row->lockMessage(), 'notice');
 			}
 		}
