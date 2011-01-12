@@ -71,6 +71,7 @@ class ComDefaultViewHtml extends KViewDefault
     {
     	$config->append(array(
             'views' 			=>  array(),
+    		'layout_default'	=> KInflector::isSingular($this->getName()) ? 'form' : 'default'
         ));
         
         parent::_initialize($config);
