@@ -218,7 +218,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			if(!isset($parts['view']))
 			{
 				$result[] = 'view='.$this->getName();
-				if(!isset($parts['layout']) && $this->_layout != 'default') {
+				if(!isset($parts['layout']) && $this->_layout != $this->_layout_default) {
 					$result[] = 'layout='.$this->_layout;
 				}
 			}

@@ -25,7 +25,14 @@ abstract class KViewTemplate extends KViewAbstract
 	 *
 	 * @var		string
 	 */
-	protected $_layout = 'default';
+	protected $_layout;
+	
+	/**
+	 * Default Layout name
+	 *
+	 * @var		string
+	 */
+	protected $_layout_default;
 
 	/**
 	 * Template identifier (APP::com.COMPONENT.template.NAME)
@@ -81,6 +88,9 @@ abstract class KViewTemplate extends KViewAbstract
 		// set the auto assign state
 		$this->_auto_assign = $config->auto_assign;
 		
+		// set the default layout for the view
+		$this->_layout_default = $config->layout_default;
+		
 		 // user-defined escaping callback
         $this->setEscape($config->escape);
         
@@ -132,13 +142,15 @@ abstract class KViewTemplate extends KViewAbstract
     {
     	$config->append(array(
             'escape'           => 'htmlspecialchars',
-            'layout'           => 'default',
+    		'layout_default'   => 'default',
     		'template'		   => null,
 			'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link'),
             'template_path'    => null,
 			'auto_assign'	   => true,
     		'base_url'         => KRequest::base(),
         	'media_url'		   => KRequest::root().'/media',
+        ))->append(array(
+        	'layout' 			=> $config->layout_default
         ));
         
         parent::_initialize($config);
@@ -268,7 +280,7 @@ abstract class KViewTemplate extends KViewAbstract
 	* @param	string 	The template name.
 	* @return 	KViewAbstract
 	*/
-	public function setLayout($layout)
+	public function setLayout($layout, $default = false)
 	{
 		$this->_layout = $layout;
 		return $this;
