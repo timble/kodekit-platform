@@ -97,7 +97,7 @@
 #submenu li {
 	float: left;
 	padding: 0;
-	margin: 0 5px;
+	margin: 0 2px;
 }
 
 #submenu li a,
@@ -119,7 +119,7 @@
 
 #submenu a.active,
 #submenu span.nolink.active {
-	color: #333;
+	color: #444;
 	background: #f9f9f9;
 	-webkit-border-radius: 5px 5px 0 0;
 	-moz-border-radius: 5px 5px 0 0;
