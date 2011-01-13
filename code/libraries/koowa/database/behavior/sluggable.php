@@ -9,7 +9,7 @@
  */
 
 /**
- * Database Creatable Behavior
+ * Database Sluggable Behavior
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
