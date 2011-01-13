@@ -501,12 +501,52 @@ table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 * html .container {display:inline-block;}
 
 /** table solution for global config **/
-table.noshow   		 { width: 100%; border-collapse: collapse; padding: 0; margin: 0; }
-table.noshow tr 		 { vertical-align: top; }
-table.noshow td 		 { }
-table.noshow fieldset { margin: 15px 7px 7px 7px; }
+table.noshow			{ width: 100%; border-collapse: collapse; padding: 0; margin: 0; }
+table.noshow tr 		{ vertical-align: top; }
+table.noshow td 		{ }
+table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 
-#editor-xtd-buttons { padding: 5px; }
+#editor-xtd-buttons { 
+	float: left;
+	border: 1px solid #BBB;
+	background-color: #F0F0EE;
+	padding: 2px 0 2px 8px;
+	margin-bottom: 2px;
+}
+
+#editor-xtd-buttons .left { float: left; font-weight: bold; line-height: 18px; }
+
+#editor-xtd-buttons div.button2-left,
+#editor-xtd-buttons div.button2-left div { background-image: none; }
+
+#editor-xtd-buttons div.button2-left a { 
+	height: auto;
+	line-height: normal;
+	padding: 2px 8px;
+	margin: 0 2px;
+	border: 1px solid #F0F0EE;
+	color: #000;
+}
+
+#editor-xtd-buttons div.button2-left a:hover { 
+	border: 1px solid #190D70;
+	background-color: #B2B9D3;
+}
+
+#editor-toggle-buttons { float: right; }
+
+#editor-toggle-buttons div {
+	float: right;
+	border-top: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	background: #F0F0EE;
+	padding: 7px 10px;
+	margin-left: 4px;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
 
 /* -- buttons -> STILL NEED CLEANUP*/
 

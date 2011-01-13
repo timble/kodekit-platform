@@ -560,7 +560,7 @@ class plgEditorTinymce extends JPlugin
 	function _toogleButton($name)
 	{
 		$return  = '';
-		$return .= "\n<div>\n";
+		$return .= "\n<div id=\"editor-toggle-buttons\">\n";
 		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceAddControl', true, '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
 		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceRemoveControl', true, '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
 		$return .= "</div>\n";
