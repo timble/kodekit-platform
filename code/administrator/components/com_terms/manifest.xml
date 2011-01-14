@@ -25,7 +25,7 @@
             <folder>controllers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
-            <folder>rows</folder>
+            <folder>databases</folder>
 			<folder>views</folder>
 		</files>
 	</administration>
