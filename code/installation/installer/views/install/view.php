@@ -60,8 +60,9 @@ class JInstallationView extends JView
 		$lists	=& $model->getData('lists');
 
 		$this->assign('languages', $lists['langs']);
-		$this->assign('page', 'language');
+
 		$this->assign('steps', $steps);
+		$this->assign('page', 'language');
 		$this->display();
 		
 		/*$tmpl	=& $this->getTemplate( 'language.html' );
@@ -336,11 +337,24 @@ class JInstallationView extends JView
 	function preInstall()
 	{
 		$steps	=& $this->getSteps();
+		$steps['preinstall'] = 'on';
+		
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 
 		$version	= new JVersion();
-		$tmpl		=& $this->getTemplate( 'preinstall.html' );
+
+		$this->assign('version', $version->getLongVersion());
+		$this->assign('php_options', $lists['phpOptions']);
+		$this->assign('php_settings', $lists['phpSettings']);
+
+		$this->assign('page', 'preinstall');
+		$this->assign('steps', $steps);
+		$this->display();
+		
+		
+		
+		/*$tmpl		=& $this->getTemplate( 'preinstall.html' );
 
 		$steps['preinstall'] = 'on';
 
@@ -350,7 +364,7 @@ class JInstallationView extends JView
 		$tmpl->addRows( 'php-options', 	$lists['phpOptions'] );
 		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
 
-		return $this->display();
+		return $this->display();*/
 	}
 
 	/**
