@@ -202,15 +202,11 @@ class JInstallationView extends JView
 	function ftpConfig()
 	{
 		$steps	=& $this->getSteps();
-		$model	=& $this->getModel();
-
-		$tmpl =& $this->getTemplate( 'ftpconfig.html' );
-
 		$steps['ftpconfig'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'ftpconfig');
+		$this->display();
 	}
 
 	/**
