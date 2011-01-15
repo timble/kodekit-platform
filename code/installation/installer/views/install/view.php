@@ -24,6 +24,8 @@ jimport('joomla.application.component.view');
 
 class JInstallationView extends JView
 {
+	var $_name = 'install';
+	
 	/**
 	 * The installation steps
 	 *
@@ -52,18 +54,24 @@ class JInstallationView extends JView
 	function chooseLanguage()
 	{
 		$steps	=& $this->getSteps();
+		$steps['lang'] = 'on';
 
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 
-		$tmpl	=& $this->getTemplate( 'language.html' );
+		$this->assign('languages', $lists['langs']);
+		$this->assign('page', 'language');
+		$this->assign('steps', $steps);
+		$this->display();
+		
+		/*$tmpl	=& $this->getTemplate( 'language.html' );
 
 		$steps['lang'] = 'on';
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addRows( 'lang-options', $lists['langs'] );
 
-		return $this->display();
+		return $this->display();*/
 	}
 
 	/**
@@ -119,20 +127,19 @@ class JInstallationView extends JView
 	 * @access	public
 	 * @since	1.5
 	 */
-	function display()
+	function display($tpl = null)
 	{
 		$model	=& $this->getModel();
-		$tmpl	=& $this->getTemplate();
 		$lang	=& JFactory::getLanguage();
 		$vars	=& $model->getVars();
 
-		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
-		$tmpl->addVar( 'body', 'lang', $lang->getTag() );
-		$tmpl->addVars( 'body', $vars, 'var_' );
-
-		echo $tmpl->fetch( 'page' );
-
-		return true;
+		$this->assign('direction', $lang->isRTL() ? 'rtl' : 'ltr');
+		$this->assign('lang', $lang->getTag());
+		$this->assign($vars);
+		
+		$this->setLayout('page');
+		
+		parent::display($tpl);
 	}
 
 	/**
