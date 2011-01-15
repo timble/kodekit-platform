@@ -278,14 +278,11 @@ class JInstallationView extends JView
 	function license()
 	{
 		$steps	=& $this->getSteps();
-		$model	=& $this->getModel();
-		$tmpl	=& $this->getTemplate( 'license.html' );
-
 		$steps['license'] = 'on';
-
-		$tmpl->addVars( 'stepbar', 	$steps, 'step_' );
-
-		return $this->display();
+				
+		$this->assign('steps', $steps);
+		$this->assign('page', 'license');
+		$this->display();
 	}
 
 	/**
