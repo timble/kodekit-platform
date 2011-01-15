@@ -100,16 +100,16 @@ class JInstallationView extends JView
 	function dbConfig()
 	{
 		$steps	=& $this->getSteps();
+		$steps['dbconfig'] = 'on';
+		
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
-		$tmpl	=& $this->getTemplate( 'dbconfig.html' );
-
-		$steps['dbconfig'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		$tmpl->addRows( 'dbtype-options', $lists['dbTypes'] );
-
-		return $this->display();
+		
+		$this->assign('dbtype_options', $lists['dbTypes']);
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'dbconfig');
+		$this->display();
 	}
 
 	/**
