@@ -175,21 +175,21 @@ class JInstallationView extends JView
 	function finish()
 	{
 		$steps	=& $this->getSteps();
+		$steps['finish'] = 'on';
+		
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
-		$tmpl	=& $this->getTemplate( 'finish.html' );
-
 		$buffer	= $model->getData('buffer');
-
-		$steps['finish'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-
+		
+		$this->assign($vars);
+		
 		if ($buffer) {
-			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );
+			$this->assign('buffer', $buffer);
 		}
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'finish');
+		$this->display();
 	}
 
 	/**
