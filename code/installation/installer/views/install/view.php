@@ -340,13 +340,8 @@ class JInstallationView extends JView
 	 */
 	function removedir()
 	{
-		$model	=& $this->getModel();
-
-		$this->_createTemplate('', 'removedir.html');
-		$tmpl = $this->_template;
-
-		#$tmpl	=& $this->getTemplate( 'removedir.html' );
-		return $this->display();
+		$this->assign('page', 'removedir');
+		$this->display();
 	}
 
 
