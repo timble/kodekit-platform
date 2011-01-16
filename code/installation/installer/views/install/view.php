@@ -146,23 +146,22 @@ class JInstallationView extends JView
 		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
-		$tmpl	=& $this->getTemplate( 'error.html' );
-
+		
 		$msg	= $model->getError();
 		$back	= $model->getData('back');
 		$xmsg	= $model->getData('errors');
-
-		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
-		$tmpl->addVar( 'messages', 'message', 	$msg );
-
+		
+		$this->assign('message', $msg);
+		$this->assign('back', $back);
+		$this->assign($vars);
+		
 		if ($xmsg) {
-			$tmpl->addVar( 'xmessages', 'xmessage', $xmsg );
+			$this->assign('xmessage', $xmsg);
 		}
-
-		$tmpl->addVar( 'buttons', 'back', $back );
-		$tmpl->addVars( 'body', $vars, 'var_' );
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'error');
+		$this->display();
 	}
 
 	/**
