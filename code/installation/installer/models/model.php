@@ -770,23 +770,71 @@ class JInstallationModel extends JModel
 		/**
 		 * Write the configuration file
 		 */
-		jimport('joomla.template.template');
-
-		$tmpl = new JTemplate();
-		$tmpl->applyInputFilter('ShortModifiers');
-
-		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
-
-		$tmpl->readTemplatesFromFile('configuration.html');
-		$tmpl->addVars('configuration', $vars, 'var_');
-
-		if (empty($vars['ftpSavePass'])) {
-			$tmpl->addVar('configuration', 'var_ftpuser', '');
-			$tmpl->addVar('configuration', 'var_ftppassword', '');
-		}
-
-		$buffer = $tmpl->getParsedTemplate('configuration');
+		$configuration[] = '<?php';
+		$configuration[] = 'class JConfig';
+		$configuration[] = '{';
+		$configuration[] = "\t".'/* Site Settings */';
+		$configuration[] = "\t".'var $offline = \'0\';';
+		$configuration[] = "\t".'var $offline_message = \''.$vars['offline'].'\';';
+		$configuration[] = "\t".'var $sitename = \''.$vars['siteName'].'\';';
+		$configuration[] = "\t".'var $editor = \'tinymce\';';
+		$configuration[] = "\t".'var $list_limit = \'20\';';
+		$configuration[] = "\t".'/* Debug Settings */';
+		$configuration[] = "\t".'var $debug = \'0\';';
+		$configuration[] = "\t".'var $debug_lang = \'0\';';
+		$configuration[] = "\t".'/* Database Settings */';
+		$configuration[] = "\t".'var $dbtype = \''.$vars['DBtype'].'\';';
+		$configuration[] = "\t".'var $host = \''.$vars['DBhostname'].'\';';
+		$configuration[] = "\t".'var $user = \''.$vars['DBuserName'].'\';';
+		$configuration[] = "\t".'var $password = \''.$vars['DBpassword'].'\';';
+		$configuration[] = "\t".'var $db = \''.$vars['DBname'].'\';';
+		$configuration[] = "\t".'var $dbprefix = \''.$vars['DBPrefix'].'\';';
+		$configuration[] = "\t".'/* Server Settings */';
+		$configuration[] = "\t".'var $live_site = \'\';';
+		$configuration[] = "\t".'var $secret = \''.$vars['secret'].'\';';
+		$configuration[] = "\t".'var $gzip = \'0\';';
+		$configuration[] = "\t".'var $error_reporting = \'-1\';';
+		$configuration[] = "\t".'var $ftp_host = \''.$vars['ftpHost'].'\';';
+		$configuration[] = "\t".'var $ftp_port = \''.$vars['ftpRoot'].'\';';
+		$configuration[] = "\t".'var $ftp_user = \''.$vars['ftpUser'].'\';';
+		$configuration[] = "\t".'var $ftp_pass = \''.$vars['ftpPassword'].'\';';
+		$configuration[] = "\t".'var $ftp_root = \''.$vars['ftpRoot'].'\';';
+		$configuration[] = "\t".'var $ftp_enable = \''.$vars['ftpEnable'].'\';';
+		$configuration[] = "\t".'var $force_ssl = \'0\';';
+		$configuration[] = "\t".'/* Locale Settings */';
+		$configuration[] = "\t".'var $offset = \'0\';';
+		$configuration[] = "\t".'var $offset_user = \'0\';';
+		$configuration[] = "\t".'/* Mail Settings */';
+		$configuration[] = "\t".'var $mailer = \'mail\';';
+		$configuration[] = "\t".'var $mailfrom = \''.$vars['adminEmail'].'\';';
+		$configuration[] = "\t".'var $fromname = \''.$vars['siteName'].'\';';
+		$configuration[] = "\t".'var $sendmail = \'/usr/sbin/sendmail\';';
+		$configuration[] = "\t".'var $smtpauth = \'0\';';
+		$configuration[] = "\t".'var $smtpsecure = \'none\';';
+		$configuration[] = "\t".'var $smtpport = \'25\';';
+		$configuration[] = "\t".'var $smtpuser = \'\';';
+		$configuration[] = "\t".'var $smtppass = \'\';';
+		$configuration[] = "\t".'var $smtphost = \'localhost\';';
+		$configuration[] = "\t".'/* Cache Settings */';
+		$configuration[] = "\t".'var $caching = \'0\';';
+		$configuration[] = "\t".'var $cachetime = \'15\';';
+		$configuration[] = "\t".'var $cache_handler = \'file\';';
+		$configuration[] = "\t".'/* SEO Settings */';
+		$configuration[] = "\t".'var $sef           = \'1\';';
+		$configuration[] = "\t".'var $sef_rewrite   = \'0\';';
+		$configuration[] = "\t".'var $sef_suffix    = \'1\';';
+		$configuration[] = "\t".'/* Feed Settings */';
+		$configuration[] = "\t".'var $feed_limit   = \'10\';';
+		$configuration[] = "\t".'var $feed_email   = \'author\';';
+		$configuration[] = "\t".'var $log_path = \''.$vars['log_path'].'\';';
+		$configuration[] = "\t".'var $tmp_path = \''.$vars['tmp_path'].'\';';
+		$configuration[] = "\t".'/* Session Setting */';
+		$configuration[] = "\t".'var $lifetime = \'15\';';
+		$configuration[] = "\t".'var $session_handler = \'database\';';
+		$configuration[] = '}';		 
+		
+		$buffer = implode(PHP_EOL, $configuration);
+		
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
 
 		if (file_exists($path)) {
@@ -976,3 +1024,4 @@ class JInstallationModel extends JModel
 		return $migResult;
 	}
 }
+	

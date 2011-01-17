@@ -24,6 +24,8 @@ jimport('joomla.application.component.view');
 
 class JInstallationView extends JView
 {
+	var $_name = 'install';
+	
 	/**
 	 * The installation steps
 	 *
@@ -52,18 +54,16 @@ class JInstallationView extends JView
 	function chooseLanguage()
 	{
 		$steps	=& $this->getSteps();
+		$steps['lang'] = 'on';
 
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 
-		$tmpl	=& $this->getTemplate( 'language.html' );
+		$this->assign('languages', $lists['langs']);
 
-		$steps['lang'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		$tmpl->addRows( 'lang-options', $lists['langs'] );
-
-		return $this->display();
+		$this->assign('steps', $steps);
+		$this->assign('page', 'language');
+		$this->display();
 	}
 
 	/**
@@ -100,16 +100,16 @@ class JInstallationView extends JView
 	function dbConfig()
 	{
 		$steps	=& $this->getSteps();
+		$steps['dbconfig'] = 'on';
+		
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
-		$tmpl	=& $this->getTemplate( 'dbconfig.html' );
-
-		$steps['dbconfig'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		$tmpl->addRows( 'dbtype-options', $lists['dbTypes'] );
-
-		return $this->display();
+		
+		$this->assign('dbtype_options', $lists['dbTypes']);
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'dbconfig');
+		$this->display();
 	}
 
 	/**
@@ -119,20 +119,19 @@ class JInstallationView extends JView
 	 * @access	public
 	 * @since	1.5
 	 */
-	function display()
+	function display($tpl = null)
 	{
 		$model	=& $this->getModel();
-		$tmpl	=& $this->getTemplate();
 		$lang	=& JFactory::getLanguage();
 		$vars	=& $model->getVars();
 
-		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
-		$tmpl->addVar( 'body', 'lang', $lang->getTag() );
-		$tmpl->addVars( 'body', $vars, 'var_' );
-
-		echo $tmpl->fetch( 'page' );
-
-		return true;
+		$this->assign('direction', $lang->isRTL() ? 'rtl' : 'ltr');
+		$this->assign('lang', $lang->getTag());
+		$this->assign($vars);
+		
+		$this->setLayout('page');
+		
+		parent::display($tpl);
 	}
 
 	/**
@@ -147,23 +146,22 @@ class JInstallationView extends JView
 		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
-		$tmpl	=& $this->getTemplate( 'error.html' );
-
+		
 		$msg	= $model->getError();
 		$back	= $model->getData('back');
 		$xmsg	= $model->getData('errors');
-
-		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
-		$tmpl->addVar( 'messages', 'message', 	$msg );
-
+		
+		$this->assign('message', $msg);
+		$this->assign('back', $back);
+		$this->assign($vars);
+		
 		if ($xmsg) {
-			$tmpl->addVar( 'xmessages', 'xmessage', $xmsg );
+			$this->assign('xmessage', $xmsg);
 		}
-
-		$tmpl->addVar( 'buttons', 'back', $back );
-		$tmpl->addVars( 'body', $vars, 'var_' );
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'error');
+		$this->display();
 	}
 
 	/**
@@ -176,21 +174,21 @@ class JInstallationView extends JView
 	function finish()
 	{
 		$steps	=& $this->getSteps();
+		$steps['finish'] = 'on';
+		
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
-		$tmpl	=& $this->getTemplate( 'finish.html' );
-
 		$buffer	= $model->getData('buffer');
-
-		$steps['finish'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-
+		
+		$this->assign($vars);
+		
 		if ($buffer) {
-			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );
+			$this->assign('buffer', $buffer);
 		}
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'finish');
+		$this->display();
 	}
 
 	/**
@@ -203,15 +201,11 @@ class JInstallationView extends JView
 	function ftpConfig()
 	{
 		$steps	=& $this->getSteps();
-		$model	=& $this->getModel();
-
-		$tmpl =& $this->getTemplate( 'ftpconfig.html' );
-
 		$steps['ftpconfig'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-
-		return $this->display();
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'ftpconfig');
+		$this->display();
 	}
 
 	/**
@@ -279,14 +273,11 @@ class JInstallationView extends JView
 	function license()
 	{
 		$steps	=& $this->getSteps();
-		$model	=& $this->getModel();
-		$tmpl	=& $this->getTemplate( 'license.html' );
-
 		$steps['license'] = 'on';
-
-		$tmpl->addVars( 'stepbar', 	$steps, 'step_' );
-
-		return $this->display();
+				
+		$this->assign('steps', $steps);
+		$this->assign('page', 'license');
+		$this->display();
 	}
 
 	/**
@@ -299,24 +290,18 @@ class JInstallationView extends JView
 	function mainConfig()
 	{
 		$steps	=& $this->getSteps();
-		$model	=& $this->getModel();
-		$tmpl	=& $this->getTemplate( 'mainconfig.html' );
-
 		$steps['mainconfig'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-
-		$tmpl->addVar( 'buttons', 'previous', 'ftpconfig');
-		//		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
-
-		/*
-		 * prepare migration encoding selection
-		 */
-		$encodings = array( 'iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','cp874','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258','utf-8','big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16' );
-		$tmpl->addVar( 'encoding_options', 'value', $encodings );
+		
+		$encodings = array('iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','cp874','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258','utf-8','big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16');
+		
 		$max_upload_size = min(JInstallationHelper::let_to_num(ini_get('post_max_size')), JInstallationHelper::let_to_num(ini_get('upload_max_filesize')));
-		$tmpl->addVar( 'uploadsize', 'maxupload', JText::sprintf('UPLOADFILESIZE',(number_format($max_upload_size/(1024*1024), 2))."MB."));
-		return $this->display();
+		
+		$this->assign('encoding_options', $encodings);
+		$this->assign('maxupload', JText::sprintf('UPLOADFILESIZE',(number_format($max_upload_size/(1024*1024), 2))."MB."));
+		
+		$this->assign('steps', $steps);
+		$this->assign('page', 'mainconfig');
+		$this->display();
 	}
 
 	/**
@@ -329,21 +314,20 @@ class JInstallationView extends JView
 	function preInstall()
 	{
 		$steps	=& $this->getSteps();
+		$steps['preinstall'] = 'on';
+		
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 
 		$version	= new JVersion();
-		$tmpl		=& $this->getTemplate( 'preinstall.html' );
 
-		$steps['preinstall'] = 'on';
+		$this->assign('version', $version->getLongVersion());
+		$this->assign('php_options', $lists['phpOptions']);
+		$this->assign('php_settings', $lists['phpSettings']);
 
-		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
-		$tmpl->addVar( 'body', 		'version', 	$version->getLongVersion() );
-
-		$tmpl->addRows( 'php-options', 	$lists['phpOptions'] );
-		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
-
-		return $this->display();
+		$this->assign('page', 'preinstall');
+		$this->assign('steps', $steps);
+		$this->display();
 	}
 
 	/**
@@ -355,13 +339,8 @@ class JInstallationView extends JView
 	 */
 	function removedir()
 	{
-		$model	=& $this->getModel();
-
-		$this->_createTemplate('', 'removedir.html');
-		$tmpl = $this->_template;
-
-		#$tmpl	=& $this->getTemplate( 'removedir.html' );
-		return $this->display();
+		$this->assign('page', 'removedir');
+		$this->display();
 	}
 
 

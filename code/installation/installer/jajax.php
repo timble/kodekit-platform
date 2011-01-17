@@ -53,7 +53,6 @@ $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 JError::setErrorHandling(E_ERROR, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_NOTICE, 'callback', array('JAJAXHandler','handleError'));
-require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'compat.php');
 
 /**
  * AJAX Task handler class
