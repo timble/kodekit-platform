@@ -31,7 +31,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 </head>
 <body id="minwidth-body">
-	<?php if (!JRequest::getInt('hidemainmenu')): ?>
 	<div id="header-box">
 		<div id="module-status">
 			<jdoc:include type="modules" name="status"  />
@@ -41,15 +40,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		</div>
 		<div class="clr"></div>
 	</div>
-	<?php endif; ?>
 	<div id="content-box">
-		<?php if (!JRequest::getInt('hidemainmenu')): ?>
 		<div id="tabs-box">
 			<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
 			
 			<div class="clr"></div>
 		</div>
-		<?php endif; ?>
 		<div id="message-box">
 			<jdoc:include type="message" />
 		</div>
