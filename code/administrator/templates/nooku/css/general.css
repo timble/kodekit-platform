@@ -705,6 +705,8 @@ a img.calendar {
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
+
+/* com_menus */
 .menus ul {
 	margin: 15px 0 0 15px;
 	padding: 0;
@@ -725,4 +727,26 @@ a img.calendar {
 	-moz-border-radius: 4px 0 0 4px;
 	-webkit-border-radius: 4px 0 0 4px;
 	border-radius: 4px 0 0 4px;
+}
+
+/* com_content */
+.com_content label[for="title"] input {
+	float: left;
+	width: 90%;
+	margin: 8px 0 4px 0;
+	padding: 4px 4px;
+	font-size: 170%;
+}
+
+.com_content label[for="alias"] {
+	float: left;
+	width: 90%;
+	margin: 0 0 16px 0;
+	padding: 2px;
+}
+
+.com_content label[for="alias"] input {
+	width: 40%;
+	margin: 0;
+	padding: 2px;
 }
