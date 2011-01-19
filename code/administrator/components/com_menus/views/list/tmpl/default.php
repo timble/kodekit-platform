@@ -1,9 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<div>
+
+<div class="col width-15 menus">
 <?php echo $this->loadTemplate('menus'); ?>
 </div>
 
+<div class="col width-85">
 <form action="index.php?option=com_menus&amp;menutype=<?php echo htmlspecialchars($this->menutype); ?>" method="post" name="adminForm">
 <table class="adminlist">
 	<thead>
@@ -126,3 +128,4 @@
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
+</div>
