@@ -329,7 +329,7 @@ class KHttpUri extends KObject
 			}
 			
 			if($this->format = pathinfo($this->path, PATHINFO_EXTENSION)) {
-				str_replace('.'.$this->format, '', $this->path);
+				$this->path = str_replace('.'.$this->format, '', $this->path);
 			}
 		}
 		
