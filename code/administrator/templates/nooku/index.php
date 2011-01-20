@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php endif; ?>
 
 </head>
-<body id="minwidth-body">
+<body id="minwidth-body <?php echo JRequest::getVar('option', 'cmd'); ?>" >
 	<div id="header-box">
 		<div id="module-status">
 			<jdoc:include type="modules" name="status"  />
