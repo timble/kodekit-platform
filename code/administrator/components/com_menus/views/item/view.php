@@ -56,6 +56,12 @@ class MenusViewItem extends JView
 			JToolBarHelper::cancel('cancelItem');
 		}
 		
+		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view', true);
+		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
+		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
+			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');
+		}
+		
 		// Load component language files
 		$component		= &$this->get('Component');
 		$lang->load($component->option, JPATH_ADMINISTRATOR);

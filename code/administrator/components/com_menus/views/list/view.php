@@ -107,6 +107,12 @@ class MenusViewList extends JView
 		JToolBarHelper::title( JText::_( 'Copy' ).' '.JText::_( 'Menu Items' ) );
 		JToolBarHelper::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JToolBarHelper::cancel('cancelItem');
+		
+		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view', true);
+		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
+		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
+			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');
+		}
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Copy Menu Items'));
@@ -142,6 +148,12 @@ class MenusViewList extends JView
 		JToolBarHelper::title( JText::_( 'Move' ) .' '.JText::_( 'Menu Items' ));
 		JToolBarHelper::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
 		JToolBarHelper::cancel('cancelItem');
+		
+		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view', true);
+		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
+		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
+			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');
+		}
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Move Menu Items'));
