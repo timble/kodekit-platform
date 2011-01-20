@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php endif; ?>
 
 </head>
-<body id="<?php echo JRequest::getVar('option', 'cmd'); ?>" class="contentpane">
+<body class="<?php echo JRequest::getVar('option', 'cmd'); ?>" class="contentpane">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>

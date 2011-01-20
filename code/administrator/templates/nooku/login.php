@@ -31,7 +31,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	}
 </script>
 </head>
-<body id="<?php echo JRequest::getVar('option', 'cmd'); ?>" onload="javascript:setFocus()">
+<body class="<?php echo JRequest::getVar('option', 'cmd'); ?>" onload="javascript:setFocus()">
 	<div id="container">
 		<div id="content-box">
 			<div id="element-box" class="login">
