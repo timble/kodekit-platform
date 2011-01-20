@@ -371,7 +371,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function insert($table, array $data)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablPrefix().$table;
+		$context->table 	= $this->getTablePrefix().$table;
 		$context->data 		= $data;
 		$context->operation	= KDatabase::OPERATION_INSERT;
 
@@ -419,7 +419,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function update($table, array $data, $where = null)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablPrefix().$table;
+		$context->table 	= $this->getTablePrefix().$table;
 		$context->data  	= $data;
 		$context->where   	= $where;
 		$context->operation	= KDatabase::OPERATION_UPDATE;
@@ -461,7 +461,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function delete($table, $where)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablPrefix().$table;
+		$context->table 	= $this->getTablePrefix().$table;
 		$context->data  	= null;
 		$context->where   	= $where;
 		$context->operation	= KDatabase::OPERATION_DELETE;
