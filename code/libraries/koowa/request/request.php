@@ -300,7 +300,7 @@ class KRequest
 		if (!isset(self::$_accept) && isset($_SERVER['HTTP_ACCEPT'])) 
 		{             
 			$accept = KRequest::get('server.HTTP_ACCEPT', 'string');
-			self::$_accept['format'] = self::_parseAccept($accept, array('*/*' => 1.0));
+			self::$_accept['format'] = self::_parseAccept($accept);
 			            	
 			if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) 
 			{	
@@ -527,8 +527,8 @@ class KRequest
 	{
 		$token = null;
 		
-		if(isset($_SERVER['HTTP_X_TOKEN'])) {
-			$token = KFactory::tmp('lib.koowa.filter.md5')->sanitize($_SERVER['HTTP_X_TOKEN']);
+		if(self::has('server.HTTP_X_TOKEN')) {
+			$token = self::get('server.HTTP_X_TOKEN', 'md5');
 		}
 		
 		if(self::has('request._token')) {
@@ -536,6 +536,40 @@ class KRequest
 		}
 		
 		return $token;
+	}
+	
+	/**
+	 * Return the request format
+	 * 
+	 * This function tries to find the format by inspecting the accept header, 
+	 * only if one accept type is specified the format will be parsed from it, 
+	 * otherwise the path extension or the 'format' request variable is used.
+	 *
+	 * @return  string	The request format or NULL if no format could be found
+	 */
+	public static function format()
+	{
+		$format = null;
+		
+		if(count(self::accept('format')) == 1) 
+		{
+			$mime   = explode('/', key(self::accept('format')));
+			$format = $mime[1];
+			
+			if($pos = strpos($format, '+')) {
+				$format = substr($format, 0, $pos);
+			}
+		}
+		
+		if(!empty(self::url()->format) && self::url()->format != 'php') {
+			$format = self::url()->format;
+		}
+		
+		if(self::has('request.format')) {
+			$format = self::get('request.format', 'word');
+		}
+		
+		return $format;
 	}
 
 	/**
