@@ -524,10 +524,7 @@ class ContentView
 				</table>
 			</td>
 			<td valign="top" width="320" style="padding: 7px 0 0 5px">
-			<?php
-				ContentView::_displayArticleStats($row, $lists);
-			?>
-			
+	
 			<table class="paramlist adminform admintable">
 			<tr>
 				<td class="paramlist_key">
@@ -816,63 +813,6 @@ class ContentView
 		</table>
 		</form>
 		<button onclick="insertPagebreak();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
-		<?php
-	}
-
-	function _displayArticleStats(&$row, &$lists )
-	{
-		$db =& JFactory::getDBO();
-
-		$create_date 	= null;
-		$nullDate 		= $db->getNullDate();
-
-		?>
-		<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'State' ); ?></strong>
-			</td>
-			<td>
-				<?php echo $row->state > 0 ? JText::_( 'Published' ) : ($row->state < 0 ? JText::_( 'Archived' ) : JText::_( 'Draft Unpublished' ) );?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'Revised' ); ?></strong>
-			</td>
-			<td>
-				<?php echo $row->version;?> <?php echo JText::_( 'times' ); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'Created' ); ?></strong>
-			</td>
-			<td>
-				<?php
-				if ( $row->created == $nullDate ) {
-					echo JText::_( 'New document' );
-				} else {
-					echo JHTML::_('date',  $row->created,  JText::_('DATE_FORMAT_LC2') );
-				}
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<strong><?php echo JText::_( 'Modified' ); ?></strong>
-			</td>
-			<td>
-				<?php
-					if ( $row->modified == $nullDate ) {
-						echo JText::_( 'Not modified' );
-					} else {
-						echo JHTML::_('date',  $row->modified, JText::_('DATE_FORMAT_LC2'));
-					}
-				?>
-			</td>
-		</tr>
-		</table>
 		<?php
 	}
 }
