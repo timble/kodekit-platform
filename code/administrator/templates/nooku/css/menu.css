@@ -17,9 +17,6 @@
 
 /* ---- Menu layout -------------------------- */
 
-#menu li {
-	
-}
 #menu li li { border: 0;}
 
 #menu ul    { 
@@ -40,7 +37,7 @@
 	color: #FFF;
 	line-height: 1.6em; vertical-align: middle;
 	font-size: 12px; font-weight: bold; text-decoration: none;
-	cursor: default;
+	cursor: pointer;
 	background-repeat: no-repeat;
 	background-image: none !important; /*background-position: 3px 50%;*/
 	border-right: 1px solid #555;
@@ -52,7 +49,6 @@
 	padding-left: 15px;
 	padding-right: 30px;
 	line-height: 1em;
-	cursor: pointer;
 }
 
 /* 1 level - hover */
@@ -71,6 +67,7 @@
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f6ef6), to(#1C44F3));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3);
 	border-top: 1px solid #3a5df5; }
+#menu li.hover li.separator.hover { background: #DDE1E6; border-top-color: #FFF; }
 #menu li.hover li.hover ul { 
 	border-top: 0 none !important;
 	-webkit-border-top-right-radius: 5px;
@@ -86,6 +83,30 @@
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f6ef6), to(#1C44F3));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
 #menu li.hover li.hover li.hover a { color: #FFF; }
+
+/* statusmenu */
+#statusmenu, #statusmenu li { margin: 0; padding: 0; border: 0 none; }
+
+#statusmenu       { position:relative; z-index: 100;}
+#statusmenu li    { float:left;  position:relative; list-style: none; display: inline;}
+#statusmenu li a  { display:block; white-space: nowrap; }
+
+#statusmenu a {
+	padding: 0.60em 1.5em 0.45em;
+	color: #FFF;
+	line-height: 1.6em; vertical-align: middle;
+	font-size: 12px; font-weight: bold; text-decoration: none;	
+	background-repeat: no-repeat;
+	background-image: none !important; /*background-position: 3px 50%;*/
+	border-right: 1px solid #555;
+}
+
+#statusmenu li.disabled a { color: #DDD; }
+
+#statusmenu li:hover { 
+	background-color: #1C44F3;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
 
 /* submenu styling */
 #submenu {

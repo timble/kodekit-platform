@@ -24,29 +24,33 @@ $output = array();
 
 if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 // Print the logout message
-	 $output[] = '<span>'.JText::_('Welcome').', '.$user->get('name').'</span>';
+	 $class = "class='disabled'";
 } else {
-	// Print the logout message
-	$output[] = '<span>'.JText::_('Welcome').', <a href="index.php?option=com_users&view=user&task=edit&cid[0]='.$user->id.'">'.$user->get('name').'</a></span>';
+	$class = "";
 }
 
 // Print the preview button
-$output[] = '<span class="preview"><a href="'.JURI::root().'" target="_blank">'.JText::_('Preview').'</a></span>';
+$output[] = '<li class="preview"><a href="'.JURI::root().'" target="_blank">'.JText::_('Preview').'</a></li>';
 
-if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
-	 // Print the logout message
-	 $output[] = '<span>'.JText::_('Logout').'</span>';
-} else {
-	// Print the logout message
-	$output[] = '<span><a href="index.php?option=com_login&amp;task=logout">'.JText::_('Logout').'</a></span>';
-}
+// Print the logout message
+$output[] = '<li '.$class.'><a href="index.php?option=com_users&view=user&task=edit&cid[0]='.$user->id.'">'.JText::_('My Profile').'</a></li>';
+
+// Print the logout message
+$output[] = '<li '.$class.'><a href="index.php?option=com_login&amp;task=logout">'.JText::_('Logout').'</a></li>';
 
 // reverse rendering order for rtl display
 if ( $lang->isRTL() ) {
 	$output = array_reverse( $output );
 }
 
+?>
+
+<ul id="statusmenu">
+
+<?php
 // output the module
 foreach ($output as $item){
 	echo $item;
-}
+} ?>
+
+</ul>
