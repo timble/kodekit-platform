@@ -152,8 +152,8 @@ abstract class KControllerView extends KControllerBread
 
 			$identifier			= clone $this->_identifier;
 			$identifier->path	= array('view', $this->_request->view);
-			$identifier->name	= isset($this->_request->format) ? $this->_request->format : 'html';
-
+			$identifier->name	= KRequest::format() ? KRequest::format() : 'html';
+			
 			$this->_view = KFactory::get($identifier);
 		}
 		
