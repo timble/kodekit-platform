@@ -255,9 +255,6 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		// Excute the insert operation
 		if($this->getCommandChain()->run('before.select', $context) !== false) 
 		{
-			//Replace the database table prefix
-			$context->query = $this->replaceTablePrefix( $context->query );
-			
 			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
 			{
 				switch($context->mode)
@@ -315,9 +312,6 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		// Excute the insert operation
 		if($this->getCommandChain()->run('before.show', $context) !== false) 
 		{
-			//Replace the database table prefix
-			$context->query = $this->replaceTablePrefix( $context->query );
-			
 			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
 			{
 				switch($context->mode)
@@ -371,7 +365,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function insert($table, array $data)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablePrefix().$table;
+		$context->table 	= $table;
 		$context->data 		= $data;
 		$context->operation	= KDatabase::OPERATION_INSERT;
 
@@ -387,7 +381,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 					$keys[] = '`'.$key.'`';
 				}
 
-				$context->query = 'INSERT INTO '.$this->quoteName($context->table )
+				$context->query = 'INSERT INTO '.$this->quoteName('#__'.$context->table )
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
 				//Execute the query
@@ -419,7 +413,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function update($table, array $data, $where = null)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablePrefix().$table;
+		$context->table 	= $table;
 		$context->data  	= $data;
 		$context->where   	= $where;
 		$context->operation	= KDatabase::OPERATION_UPDATE;
@@ -434,7 +428,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 				}
 				
 				//Create query statement
-				$context->query = 'UPDATE '.$this->quoteName($context->table)
+				$context->query = 'UPDATE '.$this->quoteName('#__'.$context->table)
 			  		.' SET '.implode(', ', $vals)
 			  		.' '.$context->where
 				;
@@ -461,7 +455,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function delete($table, $where)
 	{
 		$context = $this->getCommandContext();
-		$context->table 	= $this->getTablePrefix().$table;
+		$context->table 	= $table;
 		$context->data  	= null;
 		$context->where   	= $where;
 		$context->operation	= KDatabase::OPERATION_DELETE;
@@ -470,7 +464,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		if($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
 			//Create query statement
-			$context->query = 'DELETE FROM '.$this->quoteName($context->table)
+			$context->query = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
 				  .' '.$context->where
 			;
 
@@ -498,6 +492,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 */
 	public function execute($sql, $mode = KDatabase::RESULT_STORE )
 	{	
+		//Replace the database table prefix
+		$sql = $this->replaceTablePrefix( $sql );
+		
 		$result = $this->_connection->query($sql, $mode);
 		
 		if($result === false) {
