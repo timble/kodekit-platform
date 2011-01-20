@@ -323,9 +323,13 @@ class KHttpUri extends KObject
 		if(!empty($uri)) 
 		{
 			$segments = parse_url(urldecode($uri));
-		
+			
 			foreach ($segments as $key => $value) {
 				$this->$key = $value;
+			}
+			
+			if($this->format = pathinfo($this->path, PATHINFO_EXTENSION)) {
+				str_replace('.'.$this->format, '', $this->path);
 			}
 		}
 		
