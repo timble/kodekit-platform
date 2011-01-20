@@ -707,6 +707,10 @@ a img.calendar {
 
 
 /* com_menus */
+body.com_menus #toolbar-box {
+	padding-left: 15%;
+}
+
 .menus ul {
 	margin: 15px 0 0 15px;
 	padding: 0;
