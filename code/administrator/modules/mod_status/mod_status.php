@@ -27,7 +27,7 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 $output[] = '<span>'.JText::_('Welcome').', '.$user->get('name').'</span>';
 } else {
 	// Print the logout message
-	$output[] = '<span>'.JText::_('Welcome').', <a href="index.php?option=com_users&view=user&task=edit&cid[0]="'.$user->get('id').'>'.$user->get('name').'</a></span>';
+	$output[] = '<span>'.JText::_('Welcome').', <a href="index.php?option=com_users&view=user&task=edit&cid[0]='.$user->id.'">'.$user->get('name').'</a></span>';
 }
 
 // Print the preview button
