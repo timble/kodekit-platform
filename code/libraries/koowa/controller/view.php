@@ -214,15 +214,8 @@ abstract class KControllerView extends KControllerBread
 
 		if(!empty($this->_redirect))
 		{
-			$url = $this->_redirect;
-
-			//Create the url if no full URL was passed
-			if(strrpos($url, '?') === false) {
-				$url = 'index.php?option=com_'.$this->_identifier->package.'&'.$url;
-			}
-
 			$result = array(
-				'url' 		=> JRoute::_($url, false),
+				'url' 		=> JRoute::_($this->_redirect, false),
 				'message' 	=> $this->_redirect_message,
 				'type' 		=> $this->_redirect_type,
 			);
