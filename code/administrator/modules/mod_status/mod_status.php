@@ -17,24 +17,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $task;
 
 // Initialize some variables
-$config		=& JFactory::getConfig();
-$user		=& JFactory::getUser();
-$db			=& JFactory::getDBO();
-$lang		=& JFactory::getLanguage();
-$session	=& JFactory::getSession();
+$user	= JFactory::getUser();
+$lang	= JFactory::getLanguage();
 
-$sid	= $session->getId();
 $output = array();
-
-// Print the preview button
-$output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
 if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 // Print the logout message
-	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
+	 $output[] = '<span>'.JText::_('Welcome').', '.$user->get('name').'</span>';
 } else {
 	// Print the logout message
-	$output[] = "<span class=\"logout\"><a href=\"index.php?option=com_login&amp;task=logout\">".JText::_('Logout')."</a></span>";
+	$output[] = '<span>'.JText::_('Welcome').', <a href="index.php?option=com_users&view=user&task=edit&cid[0]="'.$user->get('id').'>'.$user->get('name').'</a></span>';
+}
+
+// Print the preview button
+$output[] = '<span class="preview"><a href="'.JURI::root().'" target="_blank">'.JText::_('Preview').'</a></span>';
+
+if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
+	 // Print the logout message
+	 $output[] = '<span>'.JText::_('Logout').'</span>';
+} else {
+	// Print the logout message
+	$output[] = '<span><a href="index.php?option=com_login&amp;task=logout">'.JText::_('Logout').'</a></span>';
 }
 
 // reverse rendering order for rtl display
