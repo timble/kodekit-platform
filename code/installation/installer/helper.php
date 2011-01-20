@@ -1154,18 +1154,6 @@ class JInstallationHelper
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-		// get com_wrapper id
-		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_wrapper" AND `parent` = 0';
-		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
-		$compId = $db->loadResult();
-
-		// wrapper
-		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=wrapper"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "wrapper"';
-		$db->setQuery( $query );
-		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );
-
 		// set default to lowest ordering published on mainmenu
 		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';
 		$db->setQuery( $query );
