@@ -108,6 +108,10 @@
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
 
+/* statusmenu */
+#module-status li:first-of-type a { border-left: 1px solid #555; }
+#module-status li:last-of-type a { border-right: 0 none !important; }
+
 /* submenu styling */
 #submenu {
 	list-style: none;
