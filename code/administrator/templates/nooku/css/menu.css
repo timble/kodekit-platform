@@ -75,7 +75,7 @@
 	border-radius: 5px; }
 #menu li.hover li.hover a { color: #FFF; }
 /* 3 level - normal */
-#menu li.hover li.hover ul { }
+#menu li.hover li.hover ul { -webkit-border-top-left-radius: 0; -moz-border-radius-topleft: 0; border-top-left-radius: 0; }
 #menu li.hover li.hover li a { color: #333; background-color: transparent; border: 0 none; }
 /* 3 level - hover */
 #menu li.hover li.hover li.hover { 
