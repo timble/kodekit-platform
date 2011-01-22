@@ -62,13 +62,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		</div>
 	</div>
 	<div id="content-box">
-		<div id="element-box" class="container_16 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
-			<div class="grid_16">
-			<div id="message-box">
-				<jdoc:include type="message" />
-			</div>
-			<jdoc:include type="component" />
-			<div class="clr"></div>
+		<div id="element-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+			<div class="grid_12">
+				<div id="message-box">
+					<jdoc:include type="message" />
+				</div>
+				<jdoc:include type="component" />
+				<div class="clr"></div>
 			</div>
    		</div>
 		<div class="clr"></div>

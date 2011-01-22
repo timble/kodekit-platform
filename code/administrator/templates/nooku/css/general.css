@@ -97,7 +97,7 @@ input.button  { cursor: pointer;   }
 	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
 }
 
-#element-box .grid_16 {
+#element-box .grid_12 {
 	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
 	border-left: 1px solid #E1E1E1;
@@ -109,7 +109,7 @@ div#element-box.default form[name="adminForm"] {
 }
 
 div#element-box.form form[name="adminForm"] {
-	padding: 0 10px;
+	padding: 14px 0;
 }
 
 div#element-box div#section-box {
@@ -258,6 +258,30 @@ table.toolbar td:last-child a:active {
 td#mm_pane			{ width: 90%; }
 input#mm_subject    { width: 200px; }
 textarea#mm_message { width: 100%; }
+
+/* panels  */
+.panel   { 
+	border: 1px solid #DDD;
+	margin-bottom: 8px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px; }
+
+.panel h3 { 
+	padding: 5px 10px;
+	margin: 0;
+	color: #666;
+	background-color: #f6f6f6;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6f6f6), to(#e6e6e6));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#f6f6f6, #e6e6e6);
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.panel .adminlist     { border: 0 none; background-color: #f6f6f6; }
+.panel .adminlist td  { border: 0 none; }
 
 /* pane-sliders  */
 .pane-sliders .title {
@@ -439,8 +463,13 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
-
-fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
+fieldset.adminform { 
+	border: 1px solid #ccc;
+	margin: 0 10px 10px 10px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+ }
 
 /** Table styles **/
 
@@ -711,10 +740,6 @@ a img.calendar {
 
 
 /* com_menus */
-body.com_menus #toolbar-box {
-	padding-left: 15%;
-}
-
 .menus ul {
 	margin: 15px 0 0 15px;
 	padding: 0;
@@ -741,7 +766,7 @@ body.com_menus #toolbar-box {
 .com_content label[for="title"] input {
 	float: left;
 	width: 90%;
-	margin: 8px 0 4px 0;
+	margin: 0 0 4px 0;
 	padding: 4px 4px;
 	font-size: 170%;
 }
@@ -757,4 +782,17 @@ body.com_menus #toolbar-box {
 	width: 40%;
 	margin: 0;
 	padding: 2px;
+}
+
+/* CSS3 */
+.border-radius-4 {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.border-radius-8 {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }

@@ -501,90 +501,77 @@ class ContentView
 
 		<form action="index.php" method="post" name="adminForm" class="com_content">
 
-		<table cellspacing="0" cellpadding="0" border="0" width="100%">
-		<tr>
-			<td valign="top">
+		<div class="grid_8">
 				<label for="title">
-					<input class="inputbox" type="text" name="title" id="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" placeholder="<?php echo JText::_( 'Title' ); ?>" />
+					<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" placeholder="<?php echo JText::_( 'Title' ); ?>" />
 				</label>
 
 				<label for="alias">
 					<?php echo JText::_( 'Alias' ); ?>
-					<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?php echo $row->alias; ?>" title="<?php echo JText::_( 'ALIASTIP' ); ?>" placeholder="<?php echo JText::_( 'Alias' ); ?>" />
+					<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?php echo $row->alias; ?>" title="<?php echo JText::_( 'ALIASTIP' ); ?>" placeholder="<?php echo JText::_( 'Alias' ); ?>" />
 				</label>
-				<table class="adminform">
+				
+				<?php
+				// parameters : areaname, content, width, height, cols, rows
+				echo $editor->display( 'text',  $row->text , '100%', '550', '75', '20' ) ;
+				?>	
+			</div>
+			<div class="grid_4">
+	
+			<div class="panel">
+				<h3><?php echo JText::_( 'Publish' ); ?></h3>
+				<table class="paramlist admintable">
 				<tr>
+					<td class="paramlist_key">
+						<label>
+							<?php echo JText::_( 'Published' ); ?>
+						</label>
+					</td>
 					<td>
-						<?php
-						// parameters : areaname, content, width, height, cols, rows
-						echo $editor->display( 'text',  $row->text , '100%', '550', '75', '20' ) ;
-						?>
+						<?php echo $lists['state']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="paramlist_key">
+						<label>
+						<?php echo JText::_( 'Frontpage' ); ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['frontpage']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="paramlist_key">
+						<label for="sectionid">
+							<?php echo JText::_( 'Section' ); ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['sectionid']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="paramlist_key">
+						<label for="catid">
+							<?php echo JText::_( 'Category' ); ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lists['catid']; ?>
 					</td>
 				</tr>
 				</table>
-			</td>
-			<td valign="top" width="320" style="padding: 7px 0 0 5px">
-	
-			<table class="paramlist adminform admintable">
-			<tr>
-				<td class="paramlist_key">
-					<label>
-						<?php echo JText::_( 'Published' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['state']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="paramlist_key">
-					<label>
-					<?php echo JText::_( 'Frontpage' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['frontpage']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="paramlist_key">
-					<label for="sectionid">
-						<?php echo JText::_( 'Section' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['sectionid']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="paramlist_key">
-					<label for="catid">
-						<?php echo JText::_( 'Category' ); ?>
-					</label>
-				</td>
-				<td>
-					<?php echo $lists['catid']; ?>
-				</td>
-			</tr>
-			</table>
-			
-			<?php
-				$title = JText::_( 'Parameters' );
-				echo $pane->startPane("content-pane");
-				echo $pane->startPanel( $title, "detail-page" );
-				echo $form->render('details');
-
-				$title = JText::_( 'Metadata' );
-				echo $pane->endPanel();
-				echo $pane->startPanel( $title, "metadata-page" );
-				echo $form->render('meta', 'metadata');
-
-				echo $pane->endPanel();
-				echo $pane->endPane();
-			?>
-			</td>
-		</tr>
-		</table>
+			</div>
+				<div class="panel">
+					<h3><?php echo JText::_( 'Parameters' ); ?></h3>
+					<?php echo $form->render('details'); ?>
+				</div>
+				<div class="panel">
+					<h3><?php echo JText::_( 'Metadata' ); ?></h3>
+					<?php echo $form->render('meta', 'metadata'); ?>
+				</div>
+			</div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
