@@ -127,13 +127,14 @@ class KModelState extends KModelAbstract
 	/**
      * Reset all state data and revert to the default state
      *
+     * @param   boolean	If TRUE use defaults when resetting. Default is TRUE
      * @return KModelState
      */
-    public function reset()
+    public function reset($default = true)
     {
     	foreach($this->_state as $state) {
-    		$state->value = $state->default;
-    	} 
+    		$state->value = $default ? $state->default : null;
+    	}
     	
     	return $this;
     }
@@ -224,5 +225,15 @@ class KModelState extends KModelAbstract
     public function isUnique()
     {
     	return (bool) count($this->getData(true));
+    }
+    
+	/**
+     * Check if the state information is empty
+     * 
+     * @return  boolean TRUE if the state is empty, otherwise FALSE.
+     */
+    public function isEmpty()
+    {
+    	return (bool) (count($this->getData()) == 0);
     }
 }
