@@ -45,18 +45,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	</div>
 	<div id="content-box">
 		<div id="element-box" class="container_16 clearfix">
-			<div class="grid_16">
-				<jdoc:include type="message" />
-				<table class="adminform">
-				<tr>
-					<td width="55%" valign="top">
-						<jdoc:include type="modules" name="icon" />
-					</td>
-					<td width="45%" valign="top">
-						<jdoc:include type="component" />
-					</td>
-				</tr>
-				</table>
+			<div class="grid_16 frame cpanel clearfix">
+				<div class="grid_8">
+					<jdoc:include type="modules" name="icon" />
+				</div>
+				<div class="grid_8">
+					<jdoc:include type="message" />
+					<jdoc:include type="component" />
+				</div>
 			</div>
 		</div>
 	</div>

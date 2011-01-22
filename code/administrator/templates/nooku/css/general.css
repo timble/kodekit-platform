@@ -97,7 +97,7 @@ input.button  { cursor: pointer;   }
 	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
 }
 
-#element-box .grid_12 {
+#element-box .frame {
 	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
 	border-left: 1px solid #E1E1E1;
@@ -110,15 +110,6 @@ div#element-box.default form[name="adminForm"] {
 
 div#element-box.form form[name="adminForm"] {
 	padding: 14px 0;
-}
-
-div#element-box div#section-box {
-  background: #fbfbfb;
-  padding: 10px 0;
-  border: 1px solid #CDCDCD;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
 }
 
 /* -- status layout */
@@ -361,6 +352,10 @@ div.current dd {
 	margin: 0;
 }
 /** cpanel settings **/
+
+.frame.cpanel {
+	padding: 15px 0;
+}
 
 #cpanel div.icon {
 	text-align: center;

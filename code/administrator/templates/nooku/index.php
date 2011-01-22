@@ -54,7 +54,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<div id="toolbar-box">
 		<div class="container_16 clearfix">
 			<div class="grid_16">
-				<div class="inner clearfix">
+				<div class="frame clearfix">
 					<jdoc:include type="modules" name="toolbar" />
 					<jdoc:include type="modules" name="title" />
 				</div>
@@ -63,7 +63,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	</div>
 	<div id="content-box">
 		<div id="element-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
-			<div class="grid_12">
+			<div class="grid_12 frame">
 				<div id="message-box">
 					<jdoc:include type="message" />
 				</div>
