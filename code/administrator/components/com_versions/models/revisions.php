@@ -18,7 +18,7 @@
  * @package    	Nooku_Components
  * @subpackage 	Versions
  */
-class ComVersionsModelRevisions extends KModelTable
+class ComVersionsModelRevisions extends ComModelDefaultModel
 {
 	public function __construct(KConfig $config)
 	{
