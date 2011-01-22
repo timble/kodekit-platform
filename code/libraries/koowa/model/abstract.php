@@ -155,16 +155,17 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 
     /**
      * Reset all cached data and reset the model state to it's default
-     *
+     * 
+     * @param   boolean	If TRUE use defaults when resetting. Default is TRUE
      * @return KModelAbstract
      */
-    public function reset()
+    public function reset($default = true)
     {
     	unset($this->_list);
     	unset($this->_item);
     	unset($this->_total);
     	
-    	$this->_state->reset();
+    	$this->_state->reset($default);
 
     	return $this;
     }
