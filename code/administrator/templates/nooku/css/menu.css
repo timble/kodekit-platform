@@ -43,7 +43,7 @@
 	border-right: 1px solid #555;
 }
 
-#menu li.disabled a { color: #DDD; }
+#menu li.disabled a { color: #666; cursor: default; }
 
 #menu ul a {
 	padding-left: 15px;
@@ -101,7 +101,7 @@
 	border-right: 1px solid #555;
 }
 
-#statusmenu li.disabled a { color: #DDD; }
+#statusmenu li.disabled a { color: #DDD; cursor: default; }
 
 #statusmenu li:hover { 
 	background-color: #1C44F3;
@@ -139,7 +139,8 @@
 }
 
 #submenu span.nolink {
-	color: #999;
+	color: #284388;
+	cursor: default;
 }
 
 #submenu a.active,
