@@ -202,16 +202,21 @@ class KModelTable extends KModelAbstract
         {
         	if($table = $this->getTable())
         	{
-        		$query = $table->getDatabase()->getQuery();
-
-       	 		$this->_buildQueryColumns($query);
-        		$this->_buildQueryFrom($query);
-        		$this->_buildQueryJoins($query);
-        		$this->_buildQueryWhere($query);
-        		$this->_buildQueryGroup($query);
-        		$this->_buildQueryHaving($query);
-        		$this->_buildQueryOrder($query);
-        		$this->_buildQueryLimit($query);
+        		$query  = null;
+        		
+        		if(!$this->_state->isEmpty())
+        		{
+        			$query = $table->getDatabase()->getQuery();
+        		
+       	 			$this->_buildQueryColumns($query);
+        			$this->_buildQueryFrom($query);
+        			$this->_buildQueryJoins($query);
+        			$this->_buildQueryWhere($query);
+        			$this->_buildQueryGroup($query);
+        			$this->_buildQueryHaving($query);
+        			$this->_buildQueryOrder($query);
+        			$this->_buildQueryLimit($query);
+        		}
         
         		$this->_list = $table->select($query, KDatabase::FETCH_ROWSET);
         	}
