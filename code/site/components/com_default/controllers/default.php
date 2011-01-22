@@ -52,18 +52,4 @@ class ComDefaultControllerDefault extends KControllerView
 		
 		parent::displayView($context);
 	}
-	
-	/**
-	 * Browse a list of items
-	 *
-	 * @return void
-	 */
-	protected function _actionBrowse(KCommandContext $context)
-	{
-		if($this->getModel()->getState()->limit == null) {
-			$this->getModel()->limit(KFactory::get('lib.joomla.application')->getCfg('list_limit'));
-		}
-			
-		return parent::_actionBrowse($context);
-	}
 }
