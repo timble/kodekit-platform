@@ -43,7 +43,7 @@ class  plgSystemDebug extends JPlugin
 		//load the translation
 		$this->loadLanguage( );
 	}
-
+	
 	/**
 	* Converting the site URL to fit to the HTTP request
 	*
@@ -91,7 +91,7 @@ class  plgSystemDebug extends JPlugin
 				foreach ($log as $k => $text)
 				{
 					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-					echo '<li>'.$text.'</li>';
+					echo '<li><pre>'.$text.'</pre></li>';
 				}
 				echo '</ol>';
 			}
@@ -104,7 +104,7 @@ class  plgSystemDebug extends JPlugin
 					foreach ($database->getLog() as $k => $text)
 					{
 						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-						echo '<li>'.$text.'</li>';
+						echo '<li><pre>'.$text.'</pre></li>';
 					}
 
 				echo '</ol>';
