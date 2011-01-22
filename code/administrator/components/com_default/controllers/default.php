@@ -114,22 +114,6 @@ class ComDefaultControllerDefault extends KControllerView
 	}
 
 	/**
-	 * Browse a list of items
-	 *
-	 * This function set the default list limit if the limit state is 0
-	 *
-	 * @return KDatabaseRowset	A rowset object containing the selected rows
-	 */
-	protected function _actionBrowse(KCommandContext $context)
-	{
-		if($this->getModel()->getState()->limit ===  null) {
-			$this->getModel()->limit(KFactory::get('lib.joomla.application')->getCfg('list_limit'));
-		}
-
-		return parent::_actionBrowse($context);
-	}
-
-	/**
 	 * Display a single item
 	 *
 	 * This functions implements an extra check to hide the main menu is the view name
