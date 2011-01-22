@@ -34,9 +34,6 @@ class HTML_contact
 			<table class="adminlist">
 			<thead>
 				<tr>
-					<th width="10">
-						<?php echo JText::_( 'Num' ); ?>
-					</th>
 					<th width="10" class="title">
 						
 					</th>
@@ -61,7 +58,6 @@ class HTML_contact
 					</th>
 				</tr>
 				<tr>
-					<td></td>
 					<td align="center">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</td>
@@ -91,7 +87,6 @@ class HTML_contact
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
 				$row = $rows[$i];
 
@@ -104,10 +99,7 @@ class HTML_contact
 				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact_details&task=edit&type=other&cid[]='. $row->catid );
 				$row->user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
 				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td>
-						<?php echo $pageNav->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
@@ -146,7 +138,6 @@ class HTML_contact
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

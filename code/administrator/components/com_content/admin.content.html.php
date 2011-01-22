@@ -49,9 +49,6 @@ class ContentView
 			<thead>
 				<tr>
 					<th width="5">
-						<?php echo JText::_( 'Num' ); ?>
-					</th>
-					<th width="5">
 						
 					</th>
 					<th class="title">
@@ -84,7 +81,6 @@ class ContentView
 					</th>
 				</tr>
 				<tr>
-					<td></td>
 					<td align="center">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</td>
@@ -121,7 +117,6 @@ class ContentView
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			$nullDate = $db->getNullDate();
 			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
@@ -186,10 +181,7 @@ class ContentView
 				$access 	= JHTML::_('grid.access',   $row, $i, $row->state );
 				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td>
-						<?php echo $page->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
@@ -247,7 +239,6 @@ class ContentView
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>
@@ -352,7 +343,6 @@ class ContentView
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
@@ -375,7 +365,7 @@ class ContentView
 				}
 
 				?>
-				<tr class="<?php echo "row$k"; ?>">
+				<tr>
 					<td>
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
@@ -404,7 +394,6 @@ class ContentView
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

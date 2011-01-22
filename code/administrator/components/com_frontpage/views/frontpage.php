@@ -45,9 +45,6 @@ class FrontpageView
 			<table class="adminlist">
 			<thead>
 				<tr>
-					<th width="5">
-						<?php echo JText::_( 'Num' ); ?>
-					</th>
 					<th width="20">
 						
 					</th>
@@ -77,7 +74,6 @@ class FrontpageView
 					</th>
 				</tr>
 				<tr>
-					<td></td>
 					<td align="center">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</td>
@@ -113,7 +109,6 @@ class FrontpageView
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
 				$row = &$rows[$i];
@@ -187,10 +182,7 @@ class FrontpageView
 					$title_cat		= JText::_( 'Edit Category' );
 				}
 				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td>
-						<?php echo $page->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
@@ -246,7 +238,6 @@ class FrontpageView
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

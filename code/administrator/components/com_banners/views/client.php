@@ -37,9 +37,6 @@ class BannersViewClients
 			<thead>
 			<tr>
 				<th width="20">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
-				<th width="20">
 					
 				</th>
 				<th nowrap="nowrap" class="title">
@@ -53,7 +50,6 @@ class BannersViewClients
 				</th>
 			</tr>
 			<tr>
-				<td></td>
 				<td align="center">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</td>
@@ -76,7 +72,6 @@ class BannersViewClients
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
@@ -86,9 +81,6 @@ class BannersViewClients
 				$checked		= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center">
-						<?php echo $pageNav->getRowOffset( $i ); ?>
-					</td>
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
@@ -114,7 +106,6 @@ class BannersViewClients
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

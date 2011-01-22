@@ -41,9 +41,6 @@ class categories_html
 		<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="10" align="left">
-					<?php echo JText::_( 'Num' ); ?>
-				</th>
 				<th width="20">
 					
 				</th>
@@ -83,7 +80,6 @@ class categories_html
 				?>
 			</tr>
 			<tr>
-				<td></td>
 				<td align="center">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</td>
@@ -126,7 +122,6 @@ class categories_html
 		</tfoot>
 		<tbody>
 		<?php
-		$k = 0;
 		if( count( $rows ) ) {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
@@ -141,10 +136,7 @@ class categories_html
 			$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 			$published 	= JHTML::_('grid.published', $row, $i );
 			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $page->getRowOffset( $i ); ?>
-				</td>
+			<tr>
 				<td align="center">
 					<?php echo $checked; ?>
 				</td>
@@ -194,7 +186,6 @@ class categories_html
 					</td>
 					<?php
 				}
-				$k = 1 - $k;
 				?>
 			</tr>
 			<?php

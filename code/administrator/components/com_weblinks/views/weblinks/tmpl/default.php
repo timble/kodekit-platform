@@ -20,9 +20,6 @@
 	<table class="adminlist">
 	<thead>
 		<tr>
-			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
 			<th width="20">
 				
 			</th>
@@ -41,7 +38,6 @@
 			</th>
 		</tr>
 		<tr>
-			<td></td>
 			<td align="center">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</td>
@@ -81,10 +77,7 @@
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
 		?>
-		<tr class="<?php echo "row$k"; ?>">
-			<td>
-				<?php echo $this->pagination->getRowOffset( $i ); ?>
-			</td>
+		<tr>
 			<td align="center">
 				<?php echo $checked; ?>
 			</td>
@@ -117,7 +110,6 @@
 			</td>
 		</tr>
 		<?php
-		$k = 1 - $k;
 	}
 	?>
 	</tbody>

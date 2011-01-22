@@ -37,9 +37,6 @@ class HTML_newsfeeds
 			<thead>
 				<tr>
 					<th width="10">
-						<?php echo JText::_( 'NUM' ); ?>
-					</th>
-					<th width="10">
 						
 					</th>
 					<th class="title">
@@ -63,7 +60,6 @@ class HTML_newsfeeds
 					</th>
 				</tr>
 				<tr>
-					<td></td>
 					<td align="center">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</td>
@@ -93,7 +89,6 @@ class HTML_newsfeeds
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
@@ -104,10 +99,7 @@ class HTML_newsfeeds
 
 				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
 				?>
-				<tr class="<?php echo 'row'. $k; ?>">
-					<td align="center">
-						<?php echo $pageNav->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td>
 						<?php echo $checked; ?>
 					</td>
@@ -145,7 +137,6 @@ class HTML_newsfeeds
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

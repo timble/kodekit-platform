@@ -39,9 +39,6 @@ class HTML_modules
 			<thead>
 			<tr>
 				<th width="20">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">
 					
 				</th>
 				<th class="title">
@@ -76,7 +73,6 @@ class HTML_modules
 				</th>
 			</tr>
 			<tr>
-				<td></td>
 				<td align="center">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</td>
@@ -116,7 +112,6 @@ class HTML_modules
 			</tfoot>
 			<tbody>
 			<?php
-			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
@@ -126,10 +121,7 @@ class HTML_modules
 				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 				$published 	= JHTML::_('grid.published', $row, $i );
 				?>
-				<tr class="<?php echo "row$k"; ?>">
-					<td align="right">
-						<?php echo $page->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td width="20" align="center">
 						<?php echo $checked; ?>
 					</td>
@@ -184,7 +176,6 @@ class HTML_modules
 					</td>
 				</tr>
 				<?php
-				$k = 1 - $k;
 			}
 			?>
 			</tbody>

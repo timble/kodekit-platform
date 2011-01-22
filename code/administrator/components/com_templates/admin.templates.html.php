@@ -45,9 +45,6 @@ class TemplatesView
 			<table class="adminlist">
 			<thead>
 				<tr>
-					<th width="5" class="title">
-						<?php echo JText::_( 'Num' ); ?>
-					</th>
 					<th class="title" colspan="2">
 						<?php echo JText::_( 'Template Name' ); ?>
 					</th>
@@ -92,17 +89,12 @@ class TemplatesView
 			</tfoot>
 			<tbody>
 			<?php
-
-		$k = 0;
 		for ($i = 0, $n = count($rows); $i < $n; $i++) {
 			$row = & $rows[$i];
 
 			$author_info = @ $row->authorEmail . '<br />' . @ $row->authorUrl;
 ?>
-				<tr class="<?php echo 'row'. $k; ?>">
-					<td>
-						<?php echo $page->getRowOffset( $i ); ?>
-					</td>
+				<tr>
 					<td width="5">
 					<?php
 
@@ -196,9 +188,6 @@ class TemplatesView
 						</span>
 					</td>
 				</tr>
-				<?php
-				$k = 1 - $k;
-				?>
 				<?php
 
 		}

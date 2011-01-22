@@ -13,9 +13,6 @@
 			<th width="20">
 				
 			</th>
-			<th width="20">
-				
-			</th>
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',   'Menu Item', 'm.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
@@ -37,7 +34,6 @@
 			</th>
 		</tr>
 		<tr>
-			<td></td>
 			<td align="center">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</td>
@@ -65,7 +61,6 @@
 	</tfoot>
 	<tbody>
 	<?php
-	$k = 0;
 	$i = 0;
 	$n = count( $this->items );
 	$rows = &$this->items;
@@ -74,10 +69,7 @@
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
 		?>
-		<tr class="<?php echo "row$k"; ?>">
-			<td>
-				<?php echo $i + 1 + $this->pagination->limitstart;?>
-			</td>
+		<tr>
 			<td align="center">
 				<?php echo $checked; ?>
 			</td>
@@ -113,7 +105,6 @@
 			</td>
 		</tr>
 		<?php
-		$k = 1 - $k;
 		$i++;
 		?>
 	<?php endforeach; ?>

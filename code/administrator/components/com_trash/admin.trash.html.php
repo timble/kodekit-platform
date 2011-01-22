@@ -36,9 +36,6 @@ class HTML_trash
 			<thead>
 				<tr>
 					<th width="20">
-						<?php echo JText::_( 'NUM' ); ?>
-					</th>
-					<th width="20">
 						
 					</th>
 					<th class="title">
@@ -52,7 +49,6 @@ class HTML_trash
 					</th>
 				</tr>
 				<tr>
-					<td></td>
 					<td align="center">
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
 					</td>
@@ -80,10 +76,7 @@ class HTML_trash
 			$n = count( $contents );
 			foreach ( $contents as $row ) {
 				?>
-					<tr class="<?php echo "row". $k; ?>">
-						<td align="center">
-							<?php echo $i + 1 + $pageNav->limitstart;?>
-						</td>
+					<tr>
 						<td align="center">
 							<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
 						</td>
@@ -98,7 +91,6 @@ class HTML_trash
 						</td>
 					</tr>
 				<?php
-				$k = 1 - $k;
 				$i++;
 			}
 			?>

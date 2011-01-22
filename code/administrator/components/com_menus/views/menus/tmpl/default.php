@@ -32,9 +32,6 @@
 	<thead>
 		<tr>
 			<th width="20">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
 				&nbsp;
 			</th>
 			<th class="title" nowrap="nowrap">
@@ -72,10 +69,7 @@
 			$link 	= 'index.php?option=com_menus&amp;task=editMenu&amp;id='. $menu->id;
 			$linkA 	= 'index.php?option=com_menus&amp;task=view&amp;menutype='. htmlspecialchars($menu->menutype);
 		?>
-		<tr class="<?php echo "row". $k; ?>">
-			<td align="center" width="30">
-				<?php echo $this->pagination->limitstart + 1 + $i; ?>
-			</td>
+		<tr>
 			<td width="30" align="center">
 				<input type="radio" id="cb<?php echo $i;?>" name="id" value="<?php echo $menu->id; ?>" onclick="isChecked(this.checked);" />
 			</td>
@@ -108,7 +102,7 @@
 				?>
 			</td>
 		</tr>
-		<?php $i++; $k = 1 - $k; ?>
+		<?php $i++; ?>
 	<?php endforeach; ?>
 	</tbody>
 	</table>
