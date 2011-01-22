@@ -12,6 +12,7 @@
 		<param name="created" type="calendar" default="" label="Created Date" description="DETAILCREATED" />
 		<param name="publish_up" type="calendar" default="" label="Start Publishing" description="DETAILSTART" />
 		<param name="publish_down" type="calendar" default="" label="Finish Publishing" description="DETAILFINISH" />
+		<param name="readmore" type="text" size="25" default="" label="Alternative Read more text" description="PARAMALTREADMORE" />
 	</params>
 	<params group="advanced">
 		<param name="show_title" type="list" default="" label="Show Title" description="Show/Hide the items title">
@@ -69,7 +70,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="readmore" type="text" size="25" default="" label="Alternative Read more text" description="PARAMALTREADMORE" />
 	</params>
 	<params group="metadata">
 		<param name="description" type="textarea" rows="5" cols="30" default="" label="Description" description="METADESC" />
