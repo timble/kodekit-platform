@@ -28,7 +28,7 @@ class TOOLBAR_categories {
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( $edit.' '.JText::_( 'Category' ), 'categories.png' );
+		JToolBarHelper::title( $text.' '.JText::_( 'Category' ), 'categories.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ($edit) {

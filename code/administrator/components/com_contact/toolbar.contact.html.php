@@ -29,7 +29,7 @@ class TOOLBAR_contact
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( $edit.' '.JText::_( 'Contact' ), 'generic.png' );
+		JToolBarHelper::title( $text.' '.JText::_( 'Contact' ), 'generic.png' );
 
 		//JToolBarHelper::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
 		//JToolBarHelper::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );

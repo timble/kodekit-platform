@@ -29,7 +29,7 @@ class TOOLBAR_sections {
 
 		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JToolBarHelper::title( $edit.' '.JText::_( 'Section' ), 'sections.png' );
+		JToolBarHelper::title( $text.' '.JText::_( 'Section' ), 'sections.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ( $edit ) {
