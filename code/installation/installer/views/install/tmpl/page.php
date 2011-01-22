@@ -8,43 +8,6 @@
  */
 ?>
 
-<div id="stepbar">
-	<div class="t">
-		<div class="t">
-			<div class="t"></div>
-		</div>
-	</div>
-	<div class="m">
-		<h1><?php echo JText::_('Steps') ?></h1>
-		<div class="step-<?php echo $this->steps['lang'] ?>">
-			1 : <?php echo JText::_('Language') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['preinstall'] ?>">
-			2 : <?php echo JText::_('Pre-Installation check') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['license'] ?>">
-			3 : <?php echo JText::_('License') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['dbconfig'] ?>">
-			4 : <?php echo JText::_('Database') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['ftpconfig'] ?>">
-			5 : <?php echo JText::_('FTP Configuration') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['mainconfig'] ?>">
-			6 : <?php echo JText::_('Configuration') ?>
-		</div>
-		<div class="step-<?php echo $this->steps['finish'] ?>">
-			7 : <?php echo JText::_('Finish') ?>
-		</div>
-		<div class="box"></div>
-  	</div>
-	<div class="b">
-		<div class="b">
-			<div class="b"></div>
-		</div>
-	</div>
-</div>
 <div id="warning">
 	<noscript>
 		<div id="javascript-warning">
@@ -52,4 +15,29 @@
 		</div>
 	</noscript>
 </div>
+
 <?php echo $this->loadTemplate($this->page) ?>
+
+<ul id="stepbar" class="group">
+	<li class="step-<?php echo $this->steps['lang'] ?>">
+		1 : <?php echo JText::_('Language') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['preinstall'] ?>">
+		2 : <?php echo JText::_('Pre-Installation check') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['license'] ?>">
+		3 : <?php echo JText::_('License') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['dbconfig'] ?>">
+		4 : <?php echo JText::_('Database') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['ftpconfig'] ?>">
+		5 : <?php echo JText::_('FTP Configuration') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['mainconfig'] ?>">
+		6 : <?php echo JText::_('Configuration') ?>
+	</li>
+	<li class="step-<?php echo $this->steps['finish'] ?>">
+		7 : <?php echo JText::_('Finish') ?>
+	</li>
+</ul>

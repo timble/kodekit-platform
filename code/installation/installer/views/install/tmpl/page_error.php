@@ -9,77 +9,28 @@
 ?>
 
 <form action="index.php" method="post" name="adminForm">
-	<div id="right">
-		<div id="rightpad">
-			<div id="step">
-				<div class="t">
-					<div class="t">
-						<div class="t">
-						</div>
-					</div>
-				</div>
-				<div class="m">
-					<div class="far-right">
-						<?php if($this->direction == 'ltr') : ?>
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, '{BACK}' );" alt="<?php echo JText::_('Previous') ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<?php else : ?>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, '{BACK}' );" alt="<?php echo JText::_('Previous') ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<?php endif ?>
-					</div>
-					<span class="step"><?php echo JText::_('Error') ?></span>
-				</div>
-				<div class="b">
-					<div class="b">
-						<div class="b">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div id="installer">
-				<div class="t">
-					<div class="t">
-						<div class="t">
-						</div>
-					</div>
-				</div>
-				<div class="m">
-					<h2><?php echo JText::_('An error has occurred') ?>:</h2>
-					<div class="install-text">
-						<p>
-							<?php echo $this->message ?>
-						</p>
-					</div>
-					<?php if(isset($this->xmessage)) : ?>
-						<div class="install-form">
-							<fieldset class="form-block">
-								<textarea rows="10" cols="50"><?php echo $this->xmessage ?></textarea>
-							</fieldset>
-						</div>
-					<?php endif ?>
-					<div class="clr">
-					</div>
-				</div>
-				<div class="b">
-					<div class="b">
-						<div class="b">
-						</div>
-					</div>
-				</div>
-				<div class="clr">
-				</div>
-			</div>
-			<div class="clr">
-			</div>
+	<div id="toolbar" class="group">
+		<h1><?php echo JText::_('Error') ?></h1>
+		<div class="buttons">
+			<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, '{BACK}' );" alt="<?php echo JText::_('Previous') ?>"><?php echo JText::_('Previous') ?></a></div></div>
 		</div>
-		<div class="b">
-			<div class="b">
-				<div class="b">
-				</div>
+	</div>
+	
+	<div id="installer" class="group">
+		<h2><?php echo JText::_('An error has occurred') ?>:</h2>
+		<div class="install-text">
+			<p>
+				<?php echo $this->message ?>
+			</p>
+		</div>
+		<?php if(isset($this->xmessage)) : ?>
+			<div class="install-form">
+				<fieldset class="form-block">
+					<textarea rows="10" cols="50"><?php echo $this->xmessage ?></textarea>
+				</fieldset>
 			</div>
-  		</div>
+		<?php endif ?>
 	</div>
-	<div class="clr">
-	</div>
+
 	<input type="hidden" name="task" value="" />
 </form>

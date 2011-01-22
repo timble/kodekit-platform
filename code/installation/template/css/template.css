@@ -34,13 +34,14 @@ h1, h2, h3, h4, h5,
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.clr {
-	clear: both;
-}
-
-.newsection {
-  height: 20px;
-  clear:both;
+h1 {
+	font-size: 20px;
+	line-height: 30px;
+	color: #0B55C4;
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+	float: left;
 }
 
 form {
@@ -48,23 +49,25 @@ form {
 	padding: 0;
 }
 
+/* new group */
+.group:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* IE6 */
+* html .group { height: 1%; }
+
+/*IE7 */
+.group { min-height: 1px; }
+
 /* installer */
-#header1 {
-	background: url(../images/j_header_middle.png) repeat-x;
-}
-
-#header2 {
-	background: url(../images/j_header_right.png) 100% 0 no-repeat;
-}
-
-#header3 {
-	background: url(../images/j_header_left.png) no-repeat;
-	height: 54px;
-}
-
-#header3 span {
+#header span {
 	font-size: 22px;
-	color: #fff;
+	color: #444;
 	font-weight: bold;
 	padding-left: 180px;
 	line-height: 44px;
@@ -72,96 +75,52 @@ form {
 
 #version {
 	float: right;
-	color: #fff;
+	color: #444;
 	padding-top: 25px;
 	padding-right: 5px;
 }
 
-#footer1 {
-	background: url(../images/j_bottom.png) repeat-x;
-}
-
-#footer2 {
-	background: url(../images/j_corner_br.png) 100% 0 no-repeat;
-}
-
-#footer3 {
-	background: url(../images/j_corner_bl.png) no-repeat;
-	height: 11px;
-}
-
-#content-box {
-  float: none !important;
-  float: left;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-}
-
-#content-pad {
-	padding: 10px 10px 0 10px;
-}
-
 #stepbar {
-	float: left;
-	width: 170px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-#stepbar div.box {
-	background:  url(../images/j_joomla_box.jpg) 50% 20px no-repeat;
-	height: 140px;
+#stepbar li { 
+	float: left;
+	color: #333;
 }
 
 #stepbar h1 {
 	margin: 0;
-	padding-bottom: 8px;
+	padding: 8px 0;
+	text-align: center;
 	font-size: 20px;
 	color: #0B55C4;
 	font-weight: bold;
-	background: url(../images/j_divider.png) 0 100% repeat-x;
+	border-bottom: 1px solid #CCC;
 }
 
 .step-on, .step-off, .step-grey {
-	padding-top: 10px;
-	padding-bottom: 12px;
-	font-size: 12px;
+	padding: 10px 10px;
+
 	font-weight: bold;
-	background: url(../images/j_divider.png) 0 100% repeat-x;
+}
+.step-on 	{ color: #0B55C4 !important; }
+.step-grey 	{ color: #a7a7a7 !important; }
+
+#toolbar {
+	padding: 4px 0 4px 10px;
+	background: #f7f7f7;
+	border-top: 1px solid #DDD;
+	border-right: 1px solid #DDD;
+	border-left: 1px solid #DDD;
+	-moz-border-radius: 4px 4px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
 }
 
-.step-off {
-	color: #333;
-}
-
-.step-on {
-	color: #0B55C4;
-}
-
-.step-grey {
-  color: #a7a7a7
-}
-
-#right, #warning {
-	margin-left: 180px;
-}
-
-#rightpad {
-	width: 100%;
-	float: left;
-}
-
-#step {
-	margin-bottom: 10px;
-}
-
-span.step {
-	font-size: 20px;
-	line-height: 30px;
-	color: #0B55C4;
-	font-weight: bold;
-	padding-left: 6px;
-}
-
-.far-right {
+.buttons {
 	padding-right: 6px;
 	margin-top: 2px;
 	float: right;
@@ -233,7 +192,12 @@ span.step {
 }
 
 #installer {
+	padding: 10px;
 	background: #fff;
+	border: 1px solid #DDD;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
 }
 
 #installer h2 {
@@ -255,7 +219,12 @@ span.step {
 
 .install-body {
 	float: right;
-	width: 58%;
+	width: 56%;
+	border: 1px solid #DDD;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 10px;
 }
 
 .extra-padding {
@@ -299,7 +268,7 @@ span.step {
 	color: #c00;
 }
 
-h3.title-smenu, h3.moofx-toggler {
+h3.title-smenu {
 	margin: 0;
 	border: 1px solid #ccc;
 	padding: 4px;
@@ -307,11 +276,7 @@ h3.title-smenu, h3.moofx-toggler {
 	margin-bottom: 1px;
 	font-size: 12px;
 	color: #666;
-	cursor: pointer;
 }
-
-h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
-h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
 /* hack to stop ugly aliasing in IE */
 div.moofx-slider {
@@ -348,26 +313,8 @@ div#installer {
   background: #fff;
 }
 
-div#installer div.install-body div.m {
+div#installer div.install-body {
 	background: #fbfbfb;
-
-}
-
-div.t, div.b {
-  height: 6px;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-
-div.m {
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  padding: 0 8px;
-}
-
-div#step div.m {
-  padding: 0;
 }
 
 div#installer div.m {
@@ -375,86 +322,8 @@ div#installer div.m {
   padding-bottom: 0px;
 }
 
-div#stepbar div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#stepbar div.t div.t {
-   background: url(../images/j_crn_tr_dark.png) 100% 0 no-repeat;
-}
-
-div#stepbar div.t div.t div.t {
-   background: url(../images/j_crn_tl_dark.png) 0 0 no-repeat;
-}
-
-div#stepbar div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#stepbar div.b div.b {
-   background: url(../images/j_crn_br_dark.png) 100% 0 no-repeat;
-}
-
-div#stepbar div.b div.b div.b {
-   background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
-}
-
 div#step,
 div#installer div.install-body {
   background: #fbfbfb;
-}
-
-div#step div.t,
-div#installer div.install-body div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#step div.t div.t,
-div#installer div.install-body div.t div.t {
-   background: url(../images/j_crn_tr_med.png) 100% 0 no-repeat;
-}
-
-div#step div.t div.t div.t,
-div#installer div.install-body div.t div.t div.t {
-   background: url(../images/j_crn_tl_med.png) 0 0 no-repeat;
-}
-
-div#step div.b,
-div#installer div.install-body div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#step div.b div.b,
-div#installer div.install-body div.b div.b {
-   background: url(../images/j_crn_br_med.png) 100% 0 no-repeat;
-}
-
-div#step div.b div.b div.b,
-div#installer div.install-body div.b div.b div.b {
-   background: url(../images/j_crn_bl_med.png) 0 0 no-repeat;
-}
-
-div#installer div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#installer div.t div.t {
-   background: url(../images/j_crn_tr_light.png) 100% 0 no-repeat;
-}
-
-div#installer div.t div.t div.t {
-   background: url(../images/j_crn_tl_light.png) 0 0 no-repeat;
-}
-
-div#installer div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#installer div.b div.b {
-   background: url(../images/j_crn_br_light.png) 100% 0 no-repeat;
-}
-
-div#installer div.b div.b div.b {
-   background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
 }
 

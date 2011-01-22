@@ -20,24 +20,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			Window.onDomReady(function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
   		</script>
 	</head>
-	<body>
-		<div id="header1">
-			<div id="header2">
-				<div id="header3">
-					<div id="version"><?php echo JVERSION ?></div>
-					<span><?php echo JText::_('Installation') ?></span>
-				</div>
-			</div>
+	<body onload="resizeFrame()">
+		<div id="header">
+			<div id="version"><?php echo JVERSION ?></div>
+			<span><?php echo JText::_('Installation') ?></span>
 		</div>
 		<div id="content-box">
-			<div id="content-pad">
-				<jdoc:include type="installation" />
-			</div>
-		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
+			<jdoc:include type="installation" />
 		</div>
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<?php echo JText::_('ISFREESOFTWARE') ?>
