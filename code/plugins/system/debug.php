@@ -64,7 +64,7 @@ class  plgSystemDebug extends JPlugin
 		$profiler	=& $_PROFILER;
 
 		ob_start();
-		echo '<div id="system-debug" class="profiler">';
+		echo '<div id="system-debug" class="profiler container_12 form">';
 		if ($this->params->get('profile', 1)) {
 			echo '<h4>'.JText::_( 'Profile Information' ).'</h4>';
 			foreach ( $profiler->getBuffer() as $mark ) {
