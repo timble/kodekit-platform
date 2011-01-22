@@ -9,6 +9,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" />
 <?php if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
@@ -30,18 +31,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
-	<div id="container">
-		<div id="header-box">
-			<div id="module-status">
-				<jdoc:include type="modules" name="status"  />
+	<div id="header-box">
+		<div class="container_16 clearfix">
+			<div class="grid_16">
+				<div id="module-status">
+					<jdoc:include type="modules" name="status"  />
+				</div>
+				<div id="module-menu">
+					<jdoc:include type="modules" name="menu" />
+				</div>
 			</div>
-			<div id="module-menu">
-				<jdoc:include type="modules" name="menu" />
-			</div>
-			<div class="clr"></div>
 		</div>
-		<div id="content-box">
-			<div id="element-box">
+	</div>
+	<div id="content-box">
+		<div id="element-box" class="container_16 clearfix">
+			<div class="grid_16">
 				<jdoc:include type="message" />
 				<table class="adminform">
 				<tr>
@@ -53,9 +57,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 					</td>
 				</tr>
 				</table>
-				<div class="clr"></div>
 			</div>
-			<div class="clr"></div>
 		</div>
 	</div>
 </body>

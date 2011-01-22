@@ -2,7 +2,7 @@
 
 body {
 	margin: 0; padding: 0;
-	background: #fff;
+	background-color: #F1F1F1;
 	font-size: 11px;
 }
 
@@ -68,9 +68,10 @@ input.button  { cursor: pointer;   }
 
 #content-box {
 	padding: 0;
+	
 }
 
-#content-box #tabs-box {
+#tabs-box {
 	min-height: 28px;
 	padding-top: 5px;
 	border-top: 1px solid #bbb;
@@ -79,33 +80,35 @@ input.button  { cursor: pointer;   }
 	width: 100%;
 }
 
-#content-box #tabs-box #submenu-box {
+#tabs-box #submenu-box {
 	float: left;
 }
 
 #toolbar-box 			{ 
-	padding: 8px;
+	background-color: #F1F1F1;
+}
+
+#toolbar-box .grid_16 {
+	padding: 8px 0;
+	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
+	border-left: 1px solid #E1E1E1;
 	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#f1f1f1));
 	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
 }
 
-#toolbar-box #title {
-	float: right;
-	margin-right: 25px;
+#element-box .grid_16 {
+	border-right: 1px solid #E1E1E1;
+	border-bottom: 1px solid #E1E1E1;
+	border-left: 1px solid #E1E1E1;
+	background: #FFF;
 }
 
 div#element-box.default form[name="adminForm"] {
 	background: #F2F2F2;
-	border-right: 1px solid #E1E1E1;
-	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
 }
 
 div#element-box.form form[name="adminForm"] {
-	border-right: 1px solid #E1E1E1;
-	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
 	padding: 0 10px;
 }
 
@@ -163,10 +166,11 @@ span.note {
 /** toolbar **/
 
 div.header {
+	float: right;
+	padding-top: 5px;
+	margin-right: 25px;
 	font-size: 14px; font-weight: bold; color: #444;
-	padding-left: 34px;
 	background-image: none;
-	margin-left: 10px;
 }
 
 div.header span { color: #666; }

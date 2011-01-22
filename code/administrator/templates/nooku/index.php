@@ -9,6 +9,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" />
 
 <?php if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -32,33 +33,43 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>" >
 	<div id="header-box">
-		<div id="module-status">
-			<jdoc:include type="modules" name="status"  />
+		<div class="container_16 clearfix">
+			<div class="grid_16">
+				<div id="module-status">
+					<jdoc:include type="modules" name="status"  />
+				</div>
+				<div id="module-menu">
+					<jdoc:include type="modules" name="menu" />
+				</div>
+			</div>
 		</div>
-		<div id="module-menu">
-			<jdoc:include type="modules" name="menu" />
+	</div>
+	<div id="tabs-box">
+		<div class="container_16 clearfix">
+			<div class="grid_16">
+				<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
+			</div>
 		</div>
-		<div class="clr"></div>
+	</div>
+	<div id="toolbar-box">
+		<div class="container_16 clearfix">
+			<div class="grid_16">
+				<div class="inner clearfix">
+					<jdoc:include type="modules" name="toolbar" />
+					<jdoc:include type="modules" name="title" />
+				</div>
+			</div>
+		</div>
 	</div>
 	<div id="content-box">
-		<div id="tabs-box">
-			<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
-			
-			<div class="clr"></div>
-		</div>
-		<div id="message-box">
-			<jdoc:include type="message" />
-		</div>
-		<div id="toolbar-box">
-			<jdoc:include type="modules" name="toolbar" />
-			<div id="title"><jdoc:include type="modules" name="title" /></div>
-			<div class="clr"></div>
-		</div>
-		<div class="clr"></div>
-		
-		<div id="element-box" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+		<div id="element-box" class="container_16 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+			<div class="grid_16">
+			<div id="message-box">
+				<jdoc:include type="message" />
+			</div>
 			<jdoc:include type="component" />
 			<div class="clr"></div>
+			</div>
    		</div>
 		<div class="clr"></div>
 	</div>
