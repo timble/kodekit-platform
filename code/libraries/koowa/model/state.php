@@ -241,6 +241,6 @@ class KModelState extends KModelAbstract
     		unset($states[$state]);	
     	}
     	
-    	return (bool) (count($states)) == 0);
+    	return (bool) (count($states) == 0);
     }
 }
