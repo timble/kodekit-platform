@@ -101,13 +101,15 @@ abstract class KControllerView extends KControllerBread
 	 */
 	public function saveReferrer(KCommandContext $context)
 	{								
-		if($referrer = KRequest::referrer())
+		$referrer = KRequest::referrer();
+		
+		if(isset($referrer) && KRequest::type() == 'HTTP')
 		{
 			$request  = KRequest::url();
 			
 			$request->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
 			$referrer->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
-		
+			
 			//Compare request url and referrer
 			if($request != $referrer) {
 				KRequest::set('session.com.controller.referrer', (string) $referrer);
@@ -316,7 +318,7 @@ abstract class KControllerView extends KControllerBread
 		if($row->isLockable()) {
 			$row->unlock();
 		}
-
+		
 		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
 		return $row;
