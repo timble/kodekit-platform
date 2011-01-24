@@ -17,7 +17,7 @@
  * @package    	Nooku_Components
  * @subpackage 	Terms
  */
-class ComTermsModelTerms extends ComModelDefaultModel
+class ComTermsModelTerms extends ComDefaultModelDefault
 {
 	public function __construct(KConfig $config)
 	{
