@@ -230,10 +230,17 @@ class KModelState extends KModelAbstract
 	/**
      * Check if the state information is empty
      * 
+     * @param   array	An array of states names to exclude. 
      * @return  boolean TRUE if the state is empty, otherwise FALSE.
      */
-    public function isEmpty()
+    public function isEmpty(array $exclude = array())
     {
-    	return (bool) (count($this->getData()) == 0);
+    	$state = $this->getData();
+    	 
+    	foreach($exclude as $state) {
+    		unset($state[$state]);	
+    	}
+    	
+    	return (bool) (count($state)) == 0);
     }
 }
