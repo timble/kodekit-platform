@@ -235,12 +235,12 @@ class KModelState extends KModelAbstract
      */
     public function isEmpty(array $exclude = array())
     {
-    	$state = $this->getData();
+    	$states = $this->getData();
     	 
     	foreach($exclude as $state) {
-    		unset($state[$state]);	
+    		unset($states[$state]);	
     	}
     	
-    	return (bool) (count($state)) == 0);
+    	return (bool) (count($states)) == 0);
     }
 }
