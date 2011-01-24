@@ -329,16 +329,18 @@ class KRequest
 	 */
 	public static function referrer($isInternal = true)
 	{
-		if(empty(self::$_referrer))
+		if(!isset(self::$_referrer))
 		{
-			$referrer = KRequest::get('server.HTTP_REFERER', 'url');
-			self::$_referrer = KFactory::get('lib.koowa.http.uri', array('uri' => $referrer));
-		}
-
-		if($isInternal)
-		{
-			if(!KFactory::get('lib.koowa.filter.internalurl')->validate((string)self::$_referrer)) {
-				return null;
+			if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) 
+			{
+				self::$_referrer = KFactory::get('lib.koowa.http.uri', array('uri' => $referrer));
+				
+				if($isInternal)
+				{
+					if(!KFactory::get('lib.koowa.filter.internalurl')->validate((string)self::$_referrer)) {
+						return null;
+					}
+				}
 			}
 		}
 
@@ -352,7 +354,7 @@ class KRequest
 	 */
 	public static function url()
 	{
-		if(empty(self::$_uri))
+		if(!isset(self::$_uri))
 		{
 			/*
 	     	 * Since we are assigning the URI from the server variables, we first need
@@ -402,7 +404,7 @@ class KRequest
 	 */
 	public static function base()
 	{
-		if(empty(self::$_base))
+		if(!isset(self::$_base))
 		{
 			// Get the base request path
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
