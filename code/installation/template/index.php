@@ -28,8 +28,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div id="content-box">
 			<jdoc:include type="installation" />
 		</div>
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?php echo JText::_('ISFREESOFTWARE') ?>
-		</div>
 	</body>
 </html>
