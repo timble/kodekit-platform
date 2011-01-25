@@ -186,29 +186,6 @@ class JInstallationController extends JController
 	}
 
 	/**
-	 * Present license information
-	 *
-	 * @return	Boolean True if successful
-	 * @access	public
-	 * @since	1.5
-	 */
-	function license()
-	{
-		$model	=& $this->getModel();
-		$view	=& $this->getView();
-
-		if ( ! $model->license() )
-		{
-			$view->error();
-			return false;
-		}
-
-		$view->license();
-
-		return true;
-	}
-
-	/**
 	 * Present a choice of languages
 	 *
 	 * Step One!

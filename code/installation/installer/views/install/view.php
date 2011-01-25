@@ -222,7 +222,6 @@ class JInstallationView extends JView
 			$this->_steps = array(
 				'lang' => 'off',
 				'preinstall' => 'off',
-				'license' => 'off',
 				'dbconfig' => 'off',
 				'ftpconfig' => 'off',
 				'mainconfig' => 'off',
@@ -262,24 +261,7 @@ class JInstallationView extends JView
 
 		return $this->_template;
 	}
-
-	/**
-	 * The license page
-	 *
-	 * @return	boolean True if successful
-	 * @access	public
-	 * @since	1.5
-	 */
-	function license()
-	{
-		$steps	=& $this->getSteps();
-		$steps['license'] = 'on';
-				
-		$this->assign('steps', $steps);
-		$this->assign('page', 'license');
-		$this->display();
-	}
-
+	
 	/**
 	 * The main configuration page
 	 *
@@ -344,7 +326,8 @@ class JInstallationView extends JView
 	}
 
 
-	function migrateScreen() {
+	function migrateScreen() 
+	{
 		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 
@@ -356,5 +339,3 @@ class JInstallationView extends JView
 		return $this->display();
 	}
 }
-
-?>

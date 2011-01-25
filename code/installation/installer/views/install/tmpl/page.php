@@ -25,19 +25,16 @@
 	<li class="step-<?php echo $this->steps['preinstall'] ?>">
 		2 : <?php echo JText::_('Pre-Installation check') ?>
 	</li>
-	<li class="step-<?php echo $this->steps['license'] ?>">
-		3 : <?php echo JText::_('License') ?>
-	</li>
 	<li class="step-<?php echo $this->steps['dbconfig'] ?>">
-		4 : <?php echo JText::_('Database') ?>
+		3 : <?php echo JText::_('Database') ?>
 	</li>
 	<li class="step-<?php echo $this->steps['ftpconfig'] ?>">
-		5 : <?php echo JText::_('FTP Configuration') ?>
+		4 : <?php echo JText::_('FTP Configuration') ?>
 	</li>
 	<li class="step-<?php echo $this->steps['mainconfig'] ?>">
-		6 : <?php echo JText::_('Configuration') ?>
+		5 : <?php echo JText::_('Configuration') ?>
 	</li>
 	<li class="step-<?php echo $this->steps['finish'] ?>">
-		7 : <?php echo JText::_('Finish') ?>
+		6 : <?php echo JText::_('Finish') ?>
 	</li>
 </ul>

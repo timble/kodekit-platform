@@ -256,19 +256,6 @@ class JInstallationModel extends JModel
 	/**
 	 * Gets the parameters for database creation
 	 *
-	 *
-	 * @return	boolean True if successful
-	 * @access	public
-	 * @since	1.5
-	 */
-	function license()
-	{
-		return true;
-	}
-
-	/**
-	 * Gets the parameters for database creation
-	 *
 	 * @return	boolean True if successful
 	 * @access	public
 	 * @since	1.5
