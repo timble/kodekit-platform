@@ -43,6 +43,8 @@
 	border-right: 1px solid #555;
 }
 
+#menu li:first-of-type a { border-left: 1px solid #555; }
+
 #menu li.disabled a { color: #666; cursor: default; }
 
 #menu ul a {
@@ -110,7 +112,6 @@
 
 /* statusmenu */
 #module-status li:first-of-type a { border-left: 1px solid #555; }
-#module-status li:last-of-type a { border-right: 0 none !important; }
 
 /* submenu styling */
 #submenu {
@@ -147,9 +148,6 @@
 #submenu span.nolink.active {
 	color: #444;
 	background: #f9f9f9;
-	-webkit-border-radius: 5px 5px 0 0;
-	-moz-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
 }
 
 #submenu a.active:hover,
