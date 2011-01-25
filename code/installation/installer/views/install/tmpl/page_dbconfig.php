@@ -68,7 +68,7 @@
 	<div id="toolbar" class="group">
 		<h1><?php echo JText::_('Database Configuration') ?></h1>
 		<div class="buttons">
-			<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'license' );" alt="<?php echo JText::_('Previous') ?>"><?php echo JText::_('Previous') ?></a></div></div>
+			<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'preinstall' );" alt="<?php echo JText::_('Previous') ?>"><?php echo JText::_('Previous') ?></a></div></div>
 			<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'makedb' );" alt="<?php echo JText::_('Next') ?>"><?php echo JText::_('Next') ?></a></div></div>
 		</div>
 		<div class="clr"></div>
