@@ -48,7 +48,11 @@ img { margin-bottom: 25px; }
 	-moz-box-shadow: #AAA 0px 3px 15px;
 	box-shadow: #AAA 0px 3px 15px;
 	border: 1px solid #D7DADE;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 	padding: 0 !important;
+	background: #FFF;
 }
 
 form {
