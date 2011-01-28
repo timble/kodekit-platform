@@ -2,7 +2,6 @@
 
 body {
 	margin: 0; padding: 0;
-	background-color: #F1F1F1;
 	font-size: 11px;
 }
 
@@ -10,7 +9,7 @@ body, td, th { font-family: Arial, Helvetica, sans-serif; }
 
 html, body { height: 95%; }
 
-#minwidth { min-width: 960px; }
+#minwidth { min-width: 960px; background-color: #F1F1F1; }
 
 .clr { clear: both; overflow:hidden; height: 0; }
 
@@ -105,7 +104,7 @@ input.button  { cursor: pointer;   }
 }
 
 div#element-box.default form[name="adminForm"] {
-	background: #F2F2F2;
+	
 }
 
 div#element-box.form form[name="adminForm"] {
@@ -428,13 +427,8 @@ table.paramlist td.paramlist_description {
 table.admintable td.key.vtop { vertical-align: top; }
 
 table.adminform {
-	background-color: #f9f9f9;
-	border: solid 1px #DDD;
 	width: 100%;
 	margin: 8px 0 15px 0;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
 }
 table.adminform.nospace { margin-bottom: 0; }
 
