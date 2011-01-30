@@ -546,7 +546,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      	
 		if(is_array($query) && !is_numeric(key($query)))
        	{
-			$columns = $this->mapColumns($query, true);
+			$columns = $this->mapColumns($query);
        		$query   = $this->_database->getQuery();	
         	
        		foreach($columns as $column => $value) {
