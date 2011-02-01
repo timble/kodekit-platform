@@ -201,6 +201,9 @@ class JResponse
 			JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false );
 			JResponse::setHeader( 'Pragma', 'no-cache' ); 											// HTTP 1.0
 		}
+		
+		//Send a identification header
+        JResponse::setHeader('X-Nooku-Server', 'version=0.7;');
 
 		JResponse::sendHeaders();
 		return $data;
