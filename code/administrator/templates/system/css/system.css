@@ -1,23 +1,15 @@
 body {color: #000}
 
 #message-box {
-	margin: 0 auto; width: 300px;
-	text-align: center;
+	margin: 0 auto; width: 100%;
+	text-align: left;
 }
 
 /* System Messages */
-#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message    { margin: 0; padding: 0; border-bottom: 1px solid #E1E1E1;}
 #system-message dt { font-weight: bold; }
 #system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
-#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; 
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
-	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
-	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 5px;
-	border: 1px solid #AAA;
-}
+#system-message dd ul { color: #0055BB;  list-style: none; padding: 10px; margin: 0; }
 
 /* System Standard Messages */
 #system-message dt.message { display: none; }
