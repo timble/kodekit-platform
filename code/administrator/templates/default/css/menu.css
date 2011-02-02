@@ -20,9 +20,9 @@
 #menu li li { border: 0;}
 
 #menu ul    { 
-	-webkit-box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
-	-moz-box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
-	box-shadow: hsla(0, 0%, 60%, 0.8) 0px 5px 10px;
+	-webkit-box-shadow: rgba(0, 0, 0, .4) 0px 5px 10px, black 0 0 1px;
+	-moz-box-shadow: rgba(0, 0, 0, .4) 0px 5px 10px, black 0 0 1px;
+	box-shadow: rgba(0, 0, 0, .4) 0px 5px 10px, black 0 0 1px;
 	-webkit-border-radius: 0 0 5px 5px;
 	-moz-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
