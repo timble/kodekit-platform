@@ -485,6 +485,36 @@ class plgEditorTinymce extends JPlugin
 		$doc =& JFactory::getDocument();
 
 		$js= "
+			(function(){
+				var initInvisible = Cookie.read('editor_$name') == 'html';
+				if(initInvisible) {
+					window.addEvent('domready', function(){
+						$('$name').removeClass('mce_editable');
+					});
+				}
+				window.addEvents({
+					'editor.show': function(editor){
+						if(initInvisible) {
+							tinyMCE.execCommand('mceAddControl', false, editor);
+							initInvisible = false;
+						} else {
+							tinyMCE.get(editor).show();
+						}
+						$$('#$name', '#".$name."_parent', '#editor-toggle-buttons')
+																				.addClass('editor-visual')
+																				.removeClass('editor-html');
+						Cookie.write('editor_$name', 'visual');
+					},
+					'editor.hide': function(editor){
+						tinyMCE.get(editor).hide();
+						$$('#$name', '#".$name."_parent', '#editor-toggle-buttons')
+																				.removeClass('editor-visual')
+																				.addClass('editor-html');
+						Cookie.write('editor_$name', 'html');
+					}
+				});
+			})();
+
 			function insertAtCursor(myField, myValue) {
 				if (document.selection) {
 					// IE support
@@ -580,8 +610,8 @@ class plgEditorTinymce extends JPlugin
 	{
 		$return  = '';
 		$return .= "\n<div id=\"editor-toggle-buttons\">\n";
-		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceAddControl', true, '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
-		$return .= "<div><a href=\"#\" onclick=\"javascript:tinyMCE.execCommand('mceRemoveControl', true, '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
+		$return .= "<div><a href=\"#\" onclick=\"window.fireEvent('editor.show', '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
+		$return .= "<div><a href=\"#\" onclick=\"window.fireEvent('editor.hide', '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
 		$return .= "</div>\n";
 		return $return;
 	}
