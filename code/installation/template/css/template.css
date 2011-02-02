@@ -4,11 +4,10 @@ html {
 }
 
 body {
-	margin: 10px;
+	margin: 0px;
 	padding: 0;
-	background: #fff;
+	background-color: #FFF;
 	height: 100%;
-	padding-bottom: 1px;
 }
 
 body, div, p, td, span {
@@ -65,19 +64,54 @@ form {
 .group { min-height: 1px; }
 
 /* installer */
-#header span {
+#header-box  { 
+	color: #fff;
+	background-color: #333;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#333));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#555, #333);
+}
+
+#header-box span {
 	font-size: 22px;
-	color: #444;
 	font-weight: bold;
-	padding-left: 180px;
 	line-height: 44px;
 }
 
-#version {
+#header-box #version {
 	float: right;
-	color: #444;
 	padding-top: 25px;
-	padding-right: 5px;
+}
+
+#step-box {
+	padding-top: 5px;
+	border-top: 1px solid #bbb;
+	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#6497EF), to(#427FE2));
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
+}
+
+#toolbar-box {
+	padding: 6px 0;
+	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#f1f1f1));
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
+	border-bottom: 1px solid #DDD;
+}
+
+#content-box {
+	padding: 10px 0;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+}
+
+#content-box h2 {
+	font-size: 14px;
+	line-height: 20px;
+	height: 20px;
+	color: #333;
+	font-weight: bold;
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
 }
 
 #stepbar {
@@ -88,40 +122,42 @@ form {
 
 #stepbar li { 
 	float: left;
-	color: #333;
-}
-
-#stepbar h1 {
-	margin: 0;
-	padding: 8px 0;
-	text-align: center;
-	font-size: 20px;
-	color: #0B55C4;
-	font-weight: bold;
-	border-bottom: 1px solid #CCC;
+	color: #FFF;
 }
 
 .step-on, .step-off, .step-grey {
 	padding: 10px 10px;
-
-	font-weight: bold;
 }
 .step-on 	{ color: #0B55C4 !important; }
 .step-grey 	{ color: #a7a7a7 !important; }
 
-#toolbar {
-	padding: 4px 0 4px 10px;
-	background: #f7f7f7;
-	border-top: 1px solid #DDD;
-	border-right: 1px solid #DDD;
-	border-left: 1px solid #DDD;
-	-moz-border-radius: 4px 4px 0 0;
-	-webkit-border-radius: 4px 4px 0 0;
-	border-radius: 4px 4px 0 0;
+#stepbar {
+	list-style: none;
+}
+
+#stepbar li {
+	float: left;
+	padding: 0;
+	margin: 0 2px;
+}
+
+#stepbar li {
+	padding: 8px 15px;
+	font-weight: bold;
+	color: #FFF;
+	display: block;
+	background: #385DBC;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+
+#stepbar li.step-on {
+	color: #444;
+	background: #f9f9f9;
 }
 
 .buttons {
-	padding-right: 6px;
 	margin-top: 2px;
 	float: right;
 	text-align: right;
@@ -191,40 +227,15 @@ form {
 	padding: 0 6px 0 30px;
 }
 
-#installer {
-	padding: 10px;
-	background: #fff;
-	border: 1px solid #DDD;
-	-moz-border-radius: 0 0 4px 4px;
-	-webkit-border-radius: 0 0 4px 4px;
-	border-radius: 0 0 4px 4px;
-}
-
-#installer h2 {
-	font-size: 14px;
-	line-height: 20px;
-	height: 20px;
-	color: #333;
-	font-weight: bold;
-	margin: 0;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 10px;
-}
-
 .install-text {
-	float: left;
-	width: 40%;
 	color: #444;
 }
 
 .install-body {
-	float: right;
-	width: 56%;
 	border: 1px solid #DDD;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	padding: 10px;
 }
 
 .extra-padding {
@@ -232,7 +243,7 @@ form {
 }
 
 .install-body fieldset {
-  padding: 5px;
+	padding: 10px;
 	margin: 0;
 	border: 0;
 }
@@ -271,6 +282,7 @@ form {
 h3.title-smenu {
 	margin: 0;
 	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
 	padding: 4px;
 	background-color: #EBEBEB;
 	margin-bottom: 1px;
@@ -297,33 +309,3 @@ div#javascript-warning {
 	font-size: 18px;
 	color: white;
 }
-/* form limiting stuff */
-
-#theDefault input {
-
-}
-
-/* corners */
-
-div#stepbar {
-  background: #f7f7f7;
-}
-
-div#installer {
-  background: #fff;
-}
-
-div#installer div.install-body {
-	background: #fbfbfb;
-}
-
-div#installer div.m {
-  padding-bottom: 1px !important;
-  padding-bottom: 0px;
-}
-
-div#step,
-div#installer div.install-body {
-  background: #fbfbfb;
-}
-

@@ -6,7 +6,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
 		<jdoc:include type="head" />
-
+		<link href="template/css/960_fluid.css" rel="stylesheet" type="text/css" />
 		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php if($this->direction == 'rtl') : ?>
 		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -21,12 +21,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   		</script>
 	</head>
 	<body onload="resizeFrame()">
-		<div id="header">
-			<div id="version"><?php echo JVERSION ?></div>
-			<span><?php echo JText::_('Installation') ?></span>
+		<div id="header-box">
+			<div class="container_16 clearfix">
+				<div class="grid_16">
+					<div id="version">v<?php echo JVERSION ?></div>
+					<span><?php echo JText::_('Installation') ?> <?php echo JText::_('of') ?> Nooku Server</span>
+				</div>
+			</div>
 		</div>
-		<div id="content-box">
-			<jdoc:include type="installation" />
-		</div>
+		
+		<jdoc:include type="installation" />
+				
 	</body>
 </html>
