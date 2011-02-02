@@ -490,6 +490,7 @@ class plgEditorTinymce extends JPlugin
 				if(initInvisible) {
 					window.addEvent('domready', function(){
 						$('$name').removeClass('mce_editable');
+						window.fireEvent('editor.hide', '$name');
 					});
 				}
 				window.addEvents({
@@ -500,16 +501,28 @@ class plgEditorTinymce extends JPlugin
 						} else {
 							tinyMCE.get(editor).show();
 						}
-						$$('#$name', '#".$name."_parent', '#editor-toggle-buttons')
-																				.addClass('editor-visual')
-																				.removeClass('editor-html');
+						$$('#$name', '#".$name."_parent')
+														.addClass('editor-visual')
+														.removeClass('editor-html');
+
+						document.getElement('#editor-toggle-buttons .visual')
+																		.addClass('selected');
+						document.getElement('#editor-toggle-buttons .html')
+																		.removeClass('selected');
+						
 						Cookie.write('editor_$name', 'visual');
 					},
 					'editor.hide': function(editor){
-						tinyMCE.get(editor).hide();
-						$$('#$name', '#".$name."_parent', '#editor-toggle-buttons')
-																				.removeClass('editor-visual')
-																				.addClass('editor-html');
+						if(tinyMCE.get(editor)) tinyMCE.get(editor).hide();
+						$$('#$name', '#".$name."_parent')
+														.removeClass('editor-visual')
+														.addClass('editor-html');
+
+						document.getElement('#editor-toggle-buttons .visual')
+																		.removeClass('selected');
+						document.getElement('#editor-toggle-buttons .html')
+																		.addClass('selected');
+
 						Cookie.write('editor_$name', 'html');
 					}
 				});
@@ -610,8 +623,8 @@ class plgEditorTinymce extends JPlugin
 	{
 		$return  = '';
 		$return .= "\n<div id=\"editor-toggle-buttons\">\n";
-		$return .= "<div><a href=\"#\" onclick=\"window.fireEvent('editor.show', '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
-		$return .= "<div><a href=\"#\" onclick=\"window.fireEvent('editor.hide', '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
+		$return .= "<div class=\"visual\"><a href=\"#\" onclick=\"window.fireEvent('editor.show', '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
+		$return .= "<div class=\"html\"><a href=\"#\" onclick=\"window.fireEvent('editor.hide', '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
 		$return .= "</div>\n";
 		return $return;
 	}
