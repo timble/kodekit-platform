@@ -574,12 +574,21 @@ table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 	border-top: 1px solid #CCC;
 	border-right: 1px solid #CCC;
 	border-left: 1px solid #CCC;
-	background: #F0F0EE;
+	border-bottom: 1px solid #CCC;
+	background: #FAFAFA;
 	padding: 7px 10px;
 	margin-left: 4px;
+	margin-bottom: -1px;
 	-webkit-border-radius: 5px 5px 0 0;
 	-moz-border-radius: 5px 5px 0 0;
 	border-radius: 5px 5px 0 0;
+}
+
+#editor-toggle-buttons div.selected {
+	background: #F7F7F7;
+	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#F0F0EE));
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #F0F0EE);
+	border-bottom: 1px solid #F0F0EE;
 }
 
 /* -- buttons -> STILL NEED CLEANUP*/
