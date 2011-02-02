@@ -623,7 +623,7 @@ class plgEditorTinymce extends JPlugin
 	{
 		$return  = '';
 		$return .= "\n<div id=\"editor-toggle-buttons\">\n";
-		$return .= "<div class=\"visual\"><a href=\"#\" onclick=\"window.fireEvent('editor.show', '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
+		$return .= "<div class=\"visual selected\"><a href=\"#\" onclick=\"window.fireEvent('editor.show', '$name');return false;\" title=\"".JText::_('Visual')."\">".JText::_('Visual')."</a></div>";
 		$return .= "<div class=\"html\"><a href=\"#\" onclick=\"window.fireEvent('editor.hide', '$name');return false;\" title=\"".JText::_('HTML')."\">".JText::_('HTML')."</a></div>";
 		$return .= "</div>\n";
 		return $return;
