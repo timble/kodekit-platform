@@ -41,6 +41,6 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
  			$config->date =  strtotime($config->date);
  		}
  		
-		return strftime($config->format, $config->date + 3600 * $config->offset);
+ 		return strftime($config->format, $config->date + 3600 * $config->gmt_offset); 
 	}
 }
