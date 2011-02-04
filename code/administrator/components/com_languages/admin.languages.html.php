@@ -111,7 +111,7 @@ class HTML_languages {
 					<td width="5%" align="center">
 						<?php
 						if ($row->published == 1) {	 ?>
-							<img src="templates/nooku/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
+							<img src="templates/default/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 							<?php
 						} else {
 							?>
