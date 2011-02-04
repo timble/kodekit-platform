@@ -763,22 +763,30 @@ a img.calendar {
 }
 
 /* com_content */
-.com_content label[for="title"] input {
-	float: left;
-	width: 90%;
-	margin: 0 0 4px 0;
-	padding: 4px 4px;
-	font-size: 170%;
+.com_content div.title {
+	padding: 12px 16px 12px 12px;
+	margin-bottom: 12px;
+	background-color: #F0F0F0;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F0F0F0), to(#EAEAEA));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#F0F0F0, #EAEAEA);
+	border: 1px solid #DDD;
+}
+
+.com_content #title {
+	margin: 0 4px 0 0;
+	display: block;
+	font-size: 200%;
+	width: 99%;
+	padding: 4px;
 }
 
 .com_content label[for="alias"] {
 	float: left;
 	width: 90%;
-	margin: 0 0 16px 0;
 	padding: 2px;
 }
 
-.com_content label[for="alias"] input {
+.com_content label[for="alias"] input#alias {
 	width: 40%;
 	margin: 0;
 	padding: 2px;

@@ -491,14 +491,14 @@ class ContentView
 		<form action="index.php" method="post" name="adminForm" class="com_content">
 
 		<div class="grid_8">
-				<label for="title">
+				<div class="border-radius-4 title clearfix">
 					<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" placeholder="<?php echo JText::_( 'Title' ); ?>" />
-				</label>
-
-				<label for="alias">
-					<?php echo JText::_( 'Alias' ); ?>
-					<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?php echo $row->alias; ?>" title="<?php echo JText::_( 'ALIASTIP' ); ?>" placeholder="<?php echo JText::_( 'Alias' ); ?>" />
-				</label>
+				
+					<label for="alias">
+						<?php echo JText::_( 'Alias' ); ?>
+						<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?php echo $row->alias; ?>" title="<?php echo JText::_( 'ALIASTIP' ); ?>" placeholder="<?php echo JText::_( 'Alias' ); ?>" />
+					</label>
+				</div>
 				
 				<?php
 				// parameters : areaname, content, width, height, cols, rows
