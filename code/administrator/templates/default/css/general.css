@@ -466,6 +466,7 @@ fieldset.adminform {
 table.adminlist {
 	width: 100%;
 	border-spacing: 0px;
+	border-collapse: collapse;
 	background-color: #E1E1E1;
 	color: #666;
 }
