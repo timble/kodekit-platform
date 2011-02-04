@@ -32,8 +32,6 @@ class ContentViewSection extends JView
 		global $mainframe;
 		$doc =& JFactory::getDocument();
 		$params =& $mainframe->getParams();
-		$feedEmail = (@$mainframe->getCfg('feed_email')) ? $mainframe->getCfg('feed_email') : 'author';
-		$siteEmail = $mainframe->getCfg('mailfrom');
 		
 		// Get some data from the model
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
@@ -66,13 +64,7 @@ class ContentViewSection extends JView
 			$item->date			= $row->created;
 			$item->category   	= $row->category;
 			$item->author		= $author;
-			if ($feedEmail == 'site') {
-				$item->authorEmail = $siteEmail;
-			}
-			else {
-				$item->authorEmail = $row->author_email;
-			}
-
+			
 			// loads item info into rss array
 			$doc->addItem( $item );
 		}

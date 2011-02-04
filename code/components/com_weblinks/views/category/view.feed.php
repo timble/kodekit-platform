@@ -36,10 +36,8 @@ class WeblinksViewCategory extends JView
 		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
-		$siteEmail = $mainframe->getCfg('mailfrom');
 		$fromName = $mainframe->getCfg('fromname');
 		$document->editor = $fromName;
-		$document->editorEmail = $siteEmail;
 
 		// Get some data from the model
 		$items		=& $this->get( 'data' );

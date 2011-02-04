@@ -812,7 +812,6 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'var $sef_suffix    = \'1\';';
 		$configuration[] = "\t".'/* Feed Settings */';
 		$configuration[] = "\t".'var $feed_limit   = \'10\';';
-		$configuration[] = "\t".'var $feed_email   = \'author\';';
 		$configuration[] = "\t".'var $log_path = \''.$vars['log_path'].'\';';
 		$configuration[] = "\t".'var $tmp_path = \''.$vars['tmp_path'].'\';';
 		$configuration[] = "\t".'/* Session Setting */';

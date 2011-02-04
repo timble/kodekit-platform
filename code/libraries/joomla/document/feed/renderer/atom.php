@@ -68,9 +68,6 @@ defined('JPATH_BASE') or die();
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
 			$feed.= "		<name>".$data->editor."</name>\n";
-			if ($data->editorEmail!="") {
-				$feed.= "		<email>".htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8')."</email>\n";
-			}
 			$feed.= "	</author>\n";
 		}
 		$feed.= "	<generator uri=\"http://joomla.org\" version=\"1.5\">".$data->getGenerator()."</generator>\n";
@@ -94,9 +91,6 @@ defined('JPATH_BASE') or die();
 			{
 				$feed.= "		<author>\n";
 				$feed.= "			<name>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</name>\n";
-				if ($data->items[$i]->authorEmail!="") {
-					$feed.= "		<email>".htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8')."</email>\n";
-				}
 				$feed.= "		</author>\n";
 			}
 			if ($data->items[$i]->description!="") {

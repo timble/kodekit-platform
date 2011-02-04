@@ -93,16 +93,6 @@ class JDocumentFeed extends JDocument
 	 */
 	 var $docs = "";
 
-	 /**
-	 * Editor email feed element
-	 *
-	 * optional
-	 *
-	 * @var		string
-	 * @access	public
-	 */
-	 var $editorEmail = "";
-
 	/**
 	 * Webmaster email feed element
 	 *
@@ -199,10 +189,10 @@ class JDocumentFeed extends JDocument
 
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
-
+		
 		// set filename for rss feeds
 		$file = strtolower( str_replace( '.', '', $type ) );
-		$file = $cache_path.DS.$file.'_'.$option.'.xml';
+		$file = JPATH_CACHE.DS.$file.'_'.$option.'.xml';
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer =& $this->loadRenderer(($type) ? $type : 'rss');
@@ -289,17 +279,6 @@ class JFeedItem extends JObject
 	 * @access	public
 	 */
 	 var $author;
-
-	 /**
-	 * Author email element
-	 *
-	 * optional
-	 *
-	 * @var		string
-	 * @access	public
-	 */
-	 var $authorEmail;
-
 
 	/**
 	 * Category element

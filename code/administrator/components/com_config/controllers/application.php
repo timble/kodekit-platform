@@ -194,7 +194,6 @@ class ConfigControllerApplication extends ConfigController
 		$lists['feed_limit']	= JHTML::_('select.genericlist',  $listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
 		$emailOptions = array (	JHTML::_('select.option', 'author', JText::_('Author Email')),
 								JHTML::_('select.option', 'site', JText::_('Site Email')));
-		$lists['feed_email'] = JHTML::_('select.genericlist', $emailOptions, 'feed_email', 'class="inputbox" size="1"', 'value', 'text', (@$row->feed_email) ? $row->feed_email : 'author');
 
 		// SESSION SETTINGS
 		$stores = JSession::getStores();
@@ -292,7 +291,6 @@ class ConfigControllerApplication extends ConfigController
 
 		// FEED SETTINGS
 		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post', 'int');
-		$config_array['feed_email']		= JRequest::getVar('feed_email', 'author', 'post', 'word');
 
 		// SERVER SETTINGS
 		$config_array['secret']				= JRequest::getVar('secret', 0, 'post', 'string');

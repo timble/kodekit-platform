@@ -52,7 +52,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL =& JRoute::_('&format=feed&type=rss');
 		
-		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
+		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n";
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".htmlspecialchars($data->description)."</description>\n";
@@ -82,10 +82,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		if ($data->copyright!="") {
 			$feed.= "		<copyright>".htmlspecialchars($data->copyright,ENT_COMPAT, 'UTF-8')."</copyright>\n";
-		}
-		if ($data->editorEmail!="") {
-			$feed.= "		<managingEditor>".htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8').' ('.
-				htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8').")</managingEditor>\n";
 		}
 		if ($data->webmaster!="") {
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
@@ -124,9 +120,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "			<guid>".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
-			if ($data->items[$i]->authorEmail!="") {
-				$feed.= "			<author>".htmlspecialchars($data->items[$i]->authorEmail . ' (' . 
-										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</author>\n";
+			if ($data->items[$i]->author!="") {
+				$feed.= "			<dc:creator>".htmlspecialchars($data->items[$i]->author . ' (' . 
+										$data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8')."</dc:creator>\n";
 			}
 			/*
 			// on hold
