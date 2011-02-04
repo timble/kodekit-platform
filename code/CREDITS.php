@@ -14,8 +14,10 @@ defined('_JEXEC') or die('Restricted access');
 
 -------------------- Nooku Server Contributors ---------------------
 
-Johan Janssens <johan@nooku.org>
-Tom Janssens   <tom@nooku.org>
+Johan Janssens  <johan@timble.net>
+Tom Janssens    <tom@timble.net>
+Stian Didriksen <tom@timble.net>
+Gergo Erdosi    <gergo@timble.net>
 
 Nooku Server includes or is derivative of works distributed under the licenses listed below.
 The full text for most of the licenses listed below can be found in the LICENSES.php file.
@@ -35,24 +37,6 @@ Mootools
 Author:		Valerio Proietti
 Copyright:	Copyright (C) 2007 Valerio Proietti
 License:	MIT license
-
-PHP OpenID
-----------
-Author:		Janrain, Inc.
-Copyright:	Copyright (C) 2005 - 2008 Janrain, Inc.
-License:	Apache License 2.0
-
-patError
-------
-Author:		gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
-Copyright:	Copyright (C) gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
-License:	GNU Lesser General Public License (LGPL)
-
-patTemplate
------------
-Author:		Stephan Schmidt
-Copyright:	Copyright (C) Stephan Schmidt
-License:	GNU Lesser General Public License (LGPL)
 
 PHPGACL
 -------
@@ -84,6 +68,17 @@ TinyMCE
 Author:		Moxiecode Systems
 Copyright:	Copyright (C) 2005-2009, Moxiecode Systems AB, All rights reserved.
 License:	GNU Lesser General Public License (LGPL) 2.1
+
+Joomla
+-----
+Copyright:	Copyright (C) 2005 - 2010 Open Source Matters, Inc All rights reserved.
+License:	GNU General Public License (GPL)
+
+Mambo
+-----
+Copyright:	Copyright (C) 2000 - 2004 Mambo Foundation, Inc.
+Copyright:	Copyright (C) 2000 - 2004 Miro International Pty Ltd.
+License:	GNU General Public License (GPL)
 
 Print & Email Front End Icons
 -----------------------------
