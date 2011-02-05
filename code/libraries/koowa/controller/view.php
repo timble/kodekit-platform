@@ -60,14 +60,6 @@ abstract class KControllerView extends KControllerBread
 			$this->setView($config->view);
 		}
 
-		//Register the displayView function in case we want to push the result of the
-		//browse and read actions to the output stream
-		if($config->auto_display)
-		{
-			$this->registerCallback('after.browse'  , array($this, 'displayView'))
-				 ->registerCallback('after.read'    , array($this, 'displayView'));
-		}
-
 		$this->registerCallback('before.read', array($this, 'saveReferrer'));
 		$this->registerCallback('before.browse', array($this, 'saveReferrer'));
 
@@ -86,8 +78,7 @@ abstract class KControllerView extends KControllerBread
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'view'			=> null,
-    		'auto_display'	=> true,
+        	'view'	=> null,
         ));
 
         parent::_initialize($config);
@@ -116,24 +107,7 @@ abstract class KControllerView extends KControllerBread
 			}
 		}
 	}
-
-	/**
-	 * Display the view
-	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return void
-	 */
-	public function displayView(KCommandContext $context)
-	{
-		$view = $this->getView();
-		
-		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-			$view->setLayout($this->_request->layout);
-		}
-		
-		$context->result = $view->display();
-	}
-
+	
 	/**
 	 * Get the identifier for the view with the same name
 	 *
@@ -336,7 +310,14 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionDisplay(KCommandContext $context)
 	{
-		$action = $this->getModel()->getState()->isUnique() ? 'read' : 'browse';
-		return $this->execute($action, $context);
+		$data = parent::_actionDisplay($context);
+		
+		$view = $this->getView();
+		
+		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+			$view->setLayout($this->_request->layout);
+		}
+		
+		return $view->display();
 	}
 }
