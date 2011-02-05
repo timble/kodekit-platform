@@ -38,18 +38,22 @@ class ComDefaultControllerDefault extends KControllerView
 	}
 	
 	/**
-	 * Display the view
+	 * Generic display function
+	 * 
+	 * This function wraps around the read or browse action. If the model state is
+	 * unique a read action will be executed, if not unique a browse action will be 
+	 * executed.
 	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return void
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow(set) 	A row(set) object containing the data to display
 	 */
-	public function displayView(KCommandContext $context)
+	protected function _actionDisplay(KCommandContext $context)
 	{
 		//Load the language file for HMVC requests who are not routed through the dispatcher
 		if($this->_request->option != $this->getIdentifier()->package) {
 			KFactory::get('lib.joomla.language')->load($this->_request->option); 
 		}
 		
-		parent::displayView($context);
+		return parent::_actionDisplay($context);
 	}
 }
