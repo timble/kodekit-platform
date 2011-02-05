@@ -175,14 +175,15 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
     	return count($this->_data);
     }
     
- /**
+ 	/**
      * Rewind the Iterator to the first element
      *
-     * @return	void
+     * @return	object KObjectArray
      */
 	public function rewind() 
 	{
-		reset($this->_data); 
+		reset($this->_data);
+		return $this; 
 	} 
 	
 	/**
@@ -222,7 +223,7 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
      */
 	public function next() 
 	{
-		next($this->_data); 
+		return next($this->_data); 
 	}
 
 	/**
