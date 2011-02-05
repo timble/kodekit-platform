@@ -171,7 +171,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * If the action cannot be found in the POST request it will determined based on the request 
 	 * method and mapped to one of the 5 BREAD actions.
 	 *
-	 * - GET    : either 'browse' (for list views) or 'read' (for item views).
+	 * - GET    : display (either 'browse' (for list views) or 'read' (for item views)).
 	 * - POST   : add
 	 * - PUT    : edit
 	 * - DELETE : delete
@@ -186,16 +186,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			switch(KRequest::method())
 			{
-				case 'GET'    :
-				{
-					//Determine if the action is browse or read based on the view information
-					$view   = KRequest::get('get.view', 'cmd');
-					$action = KInflector::isPlural($view) ? 'browse' : 'read';
-				} break;
-
-				case 'POST'   : $action = 'add';    break;
-				case 'PUT'    : $action = 'edit'  ; break;
-				case 'DELETE' : $action = 'delete';	break;
+				case 'GET'    : $action = 'display'; break;
+				case 'POST'   : $action = 'add'    ; break;
+				case 'PUT'    : $action = 'edit'   ; break;
+				case 'DELETE' : $action = 'delete' ; break;
 			}
 		}
 
@@ -272,7 +266,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if(KRequest::type() == 'AJAX')
 		{
 			$view = KRequest::get('get.view', 'cmd');
-			$context->result = KFactory::get($this->getController())->execute(KInflector::isPlural($view) ? 'browse' : 'read');
+			$context->result = KFactory::get($this->getController())->execute('display');
 			return $context->result;
 		}
 	}
