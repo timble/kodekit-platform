@@ -3,7 +3,7 @@
 
 /* Containers */
 .defaultSimpleSkin {position:relative}
-.defaultSimpleSkin table.mceLayout {background:#F0F0EE; border:1px solid #CCC;}
+.defaultSimpleSkin table.mceLayout {background:#F0F0EE; border:1px solid #CCC;clear:left;}
 .defaultSimpleSkin iframe {display:block; background:#FFF; border-bottom:1px solid #CCC;}
 .defaultSimpleSkin .mceToolbar {height:24px;}
 

@@ -75,7 +75,7 @@ input.button  { cursor: pointer;   }
 	padding-top: 5px;
 	border-top: 1px solid #bbb;
 	background: #F7F7F7 -webkit-gradient(linear, 0% 35%, 0% 100%, from(#6497EF), to(#427FE2));
-	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #FFF);
+	background: #F7F7F7 -moz-linear-gradient(0% 35% 270deg,#6497EF, #427FE2);
 	width: 100%;
 }
 
