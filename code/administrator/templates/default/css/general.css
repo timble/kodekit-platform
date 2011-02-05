@@ -88,6 +88,9 @@ input.button  { cursor: pointer;   }
 }
 
 #toolbar-box .grid_16 {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 8px 0;
 	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
@@ -97,6 +100,9 @@ input.button  { cursor: pointer;   }
 }
 
 #element-box .frame {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
 	border-left: 1px solid #E1E1E1;
