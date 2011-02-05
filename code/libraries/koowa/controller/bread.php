@@ -307,6 +307,22 @@ abstract class KControllerBread extends KControllerAbstract
 	}
 	
 	/**
+	 * Generic display function
+	 * 
+	 * This function wraps around the read or browse action. If the model state is
+	 * unique a read action will be executed, if not unique a browse action will be 
+	 * executed.
+	 *
+	 * @param	KCommandContext	A command context object
+	 * @return 	KDatabaseRow(set) 	A row(set) object containing the data to display
+	 */
+	protected function _actionDisplay(KCommandContext $context)
+	{
+		$action = $this->getModel()->getState()->isUnique() ? 'read' : 'browse';
+		return $this->execute($action, $context);
+	}
+	
+	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
 	 * properties by using the request property name as the method name.
 	 *
