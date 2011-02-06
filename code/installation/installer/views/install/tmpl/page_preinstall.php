@@ -42,7 +42,7 @@
 										<?php echo JText::_($option['state']) ?>
 									</span>
 									<span class="small">
-										<?php echo $option['notice'] ?>&nbsp;
+										<?php echo isset($option['notice']) ? $option['notice'] : '' ?>&nbsp;
 									</span>
 								</td>
 							</tr>
