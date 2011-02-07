@@ -85,6 +85,75 @@ Print & Email Front End Icons
 Copyright:	Copyright (C) 2005 Plone Foundation
 License:	GNU Lesser General Public License (LGPL)
 
+Sample Data Images
+------------------
+
+Image name article.jpg
+Original image http://www.sxc.hu/photo/150252
+Photographer Peter Kortleve
+Location Deventer, Overijssel, Netherlands
+Website www.hartenvanhelden.nl
+
+Image name clock.jpg
+Original image http://www.sxc.hu/photo/139134
+Photographer Matthew Bowden
+Location Gillingham, Kent, United Kingdom
+Website www.digitallyrefreshing.com
+
+Image name key.jpg
+Original image http://www.sxc.hu/photo/136607
+Photographer Gail Rau
+Location Johannesburg, Gauteng, South Africa
+Website www.starsignsystems.co.za
+
+Image name web_links.jpg
+Original image http://www.sxc.hu/photo/101035
+Photographer Matthew Bowden
+Location Gillingham, Kent, United Kingdom
+Website www.digitallyrefreshing.com
+
+Image name bread.jpg
+Original image http://www.sxc.hu/photo/158765
+Photographer Dyana By
+Location pn, pn, Italy
+Website www.stampabiancoenero.it
+
+Image name bun.jpg
+Original image http://www.sxc.hu/photo/148751
+Photographer Matthew Bowden
+Location Gillingham, Kent, United Kingdom
+Website www.digitallyrefreshing.com
+
+Image name coffee.jpg
+Original image http://www.sxc.hu/photo/115138
+Photographer Matthew Bowden
+Location Gillingham, Kent, United Kingdom
+Website www.digitallyrefreshing.com
+
+Image name milk.jpg
+Original image http://www.sxc.hu/photo/162730
+Photographer Iliana
+Location agordo, bl, Italy
+Website www.100magenta.com
+
+Image name cherry.jpg
+Original image http://www.sxc.hu/photo/159684
+Photographer Matthias Lutsch
+Location Hassfurt, Frankenland, Germany
+Website
+
+Image name peas.jpg
+Original image http://www.sxc.hu/photo/157477
+Photographer Matthias Lutsch
+Location Hassfurt, Frankenland, Germany
+Website
+
+Image name strawberry.jpg
+Original image http://www.sxc.hu/photo/160407
+Photographer Andrew Hiller
+Location Pozna–, WLKP, Poland 
+Website http://expressive-one.com
+
 -------------------- Joomla! 1.5 Credits ---------------------
 
 Code contributers:
