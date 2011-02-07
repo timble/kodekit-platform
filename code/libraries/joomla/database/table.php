@@ -644,6 +644,20 @@ class JTable extends JObject
 
 		return $this->_db->query();
 	}
+	
+	/**
+	 * This functions has been deprecated to solve performance issues with
+	 * MySQL cache enabled. It will not process hit counts. 
+	 *
+	 * @access public
+	 * @param $oid
+	 * @param $log
+	 * @deprecated
+	 */
+	function hit( $oid=null, $log=false )
+	{
+		
+	}
 
 	/**
 	 * Check if an item is checked out
