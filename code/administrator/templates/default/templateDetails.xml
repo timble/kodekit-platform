@@ -26,5 +26,9 @@
 		<position>debug</position>
 	</positions>
 	<params>
+		<param name="gridType" type="list" default="fluid" label="Grid Type" description="Grid type to use">
+			<option value="fluid">Fluid</option>
+			<option value="fixed">Fixed</option>
+		</param>
 	</params>
 </install>
