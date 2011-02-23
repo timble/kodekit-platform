@@ -117,13 +117,11 @@ abstract class KControllerView extends KControllerBread
 	{
 		if(!$this->_view)
 		{
-			if(!isset($this->_request->view))
-			{
-				$name = $this->_identifier->name;
-				if($this->_action == 'browse') {
-					$this->_request->view = KInflector::pluralize($name);
-				}
-				else $this->_request->view = $name;
+			$name = $this->_identifier->name;
+			if($this->getModel()->getState()->isUnique()) {
+				$this->_request->view = $name;
+			} else {
+				$this->_request->view = KInflector::pluralize($name);
 			}
 
 			$identifier			= clone $this->_identifier;
