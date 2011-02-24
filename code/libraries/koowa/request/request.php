@@ -561,6 +561,11 @@ class KRequest
 			if($pos = strpos($format, '+')) {
 				$format = substr($format, 0, $pos);
 			}
+			
+			//Format cannot be *
+			if($format == '*') { 
+             	$format = null; 
+          	} 
 		}
 		
 		if(!empty(self::url()->format) && self::url()->format != 'php') {
