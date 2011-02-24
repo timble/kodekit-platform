@@ -39,8 +39,10 @@ class ComDefaultDispatcher extends KDispatcherDefault
 		{
 			$view = $context->data ? $context->data : $this->_controller_default;
 			
-			KFactory::get('lib.koowa.application')
-				->redirect('index.php?option=com_'.$this->_identifier->package.'&view='.$view);
+			$url = clone(KRequest::url());
+			$url->query['view'] = $view;
+			
+			KFactory::get('lib.koowa.application')->redirect($url);
 		}
 		
 		return parent::_actionDispatch($context);
