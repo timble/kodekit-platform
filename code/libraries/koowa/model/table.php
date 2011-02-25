@@ -237,8 +237,11 @@ class KModelTable extends KModelAbstract
         {
             if($table = $this->getTable())
             {
-            	$query = $table->getDatabase()->getQuery();
-
+   				//Excplicitly get a count query, build functions can then test if the
+   				//query is a count query or not and based on that decided how to build
+   				//the query.
+            	$query = $table->getDatabase()->getQuery()->count(); 
+            	
         		$this->_buildQueryFrom($query);
         		$this->_buildQueryJoins($query);
         		$this->_buildQueryWhere($query);
