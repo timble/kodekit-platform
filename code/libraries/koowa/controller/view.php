@@ -311,9 +311,10 @@ abstract class KControllerView extends KControllerBread
 	 */
 	protected function _actionDisplay(KCommandContext $context)
 	{
-		$data = parent::_actionDisplay($context);
-		
 		$view = $this->getView();
+		
+		$action = KInflector::isSingular($view->getName()) ? 'read' : 'browse';
+		$this->execute($action, $context);
 		
 		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
 			$view->setLayout($this->_request->layout);
