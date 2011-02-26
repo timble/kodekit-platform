@@ -9,8 +9,6 @@
  * @link        http://www.nooku.org
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 /**
  * Koowa System plugin
 .*
@@ -19,6 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package     Nooku_Plugings
  * @subpackage  System
  */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
@@ -91,11 +91,7 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
         KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
 	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
-	   
-	    //Set the format based on the information from KRequest to allow for proper content-negotiation using
-	    //the accept header
-	    JRequest::setVar('format', KRequest::format());
-	    
+        
 	  	//If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
         //if the format is 'html' or if the tmpl is empty.
         if(KRequest::type() == 'AJAX') 
