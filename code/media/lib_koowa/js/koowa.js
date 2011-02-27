@@ -193,19 +193,30 @@ var KOverlay = Ajax.extend ({
 	{
 		method      : 'get',
 		evalScripts : true,
-		evalStyles  : true
+		evalStyles  : true,
+		
+		//This event handler does not fire on MooTools 1.1.x
+		onComplete: function() {
+			var element = new Element('div', {html: this.response.text});
+			this.element.replaceWith(element.getElement('[id='+this.element.id+']'));
+		}
 	},
 	
 	initialize: function(element, options)
     {
+		if(typeof options == 'string') {
+			var options = Json.evaluate(options);
+		}
+		
 		this.element = $(element); 
-        this.parent(element.getAttribute('href'), Json.evaluate(options));
+		this.parent(element.getAttribute('href'), options);
         
         this.request();
 
         if (this.options.initialize) this.options.initialize.call(this);
     },
     
+    //This event handler only fire on MooTools 1.1.x
     onComplete: function()
     {
     	var element = new Element('div').setHTML(this.response.text);
