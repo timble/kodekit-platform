@@ -169,7 +169,7 @@ class KDatabaseQuery extends KObject
 	public function count()
 	{
 		$this->count   = true;
-		$this->columns = null;
+		$this->columns = array();
 		return $this;
 	}
 
