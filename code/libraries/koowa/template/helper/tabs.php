@@ -79,13 +79,18 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'title'   => '',
-			'attribs' => array(),
-			'options' => array()
+			'title'   	=> '',
+			'attribs'	=> array(),
+			'options' 	=> array(),
+			'translate'	=> true
 		));
 		
 		$attribs = KHelperArray::toString($config->attribs);
-		return '<dt '.$attribs.'><span>'.$config->title.'</span></dt><dd>';
+		if($config->translate) {
+			$title = JText::_($config->title);
+		}
+		
+		return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
 	}
 
 	/**
