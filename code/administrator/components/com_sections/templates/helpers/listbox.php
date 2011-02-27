@@ -70,18 +70,32 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 	{
   		$config = new KConfig($config);
   		$config->append(array(
-   			'name'  => 'image_name',
-   			'directory' => 'images/stories',
+   			'name'		=> 'image_name',
+   			'directory'	=> 'images/stories',
   			'filetypes'	=> array('swf', 'gif', 'jpg', 'png'),
-   			'deselect' => true
+   			'deselect'	=> true,
+   			'width'		=> 80,
+   			'height'	=> 80,
+   			'border'	=> 2,
+   			'style'		=> 'margin: 10px 0;'
   		))->append(array(
                         'selected'  => $config->{$config->name}
 		))->append(array(
 			'attribs' => array(
 			'id' => $config->name,
-			'class' => 'inputbox',
-			'onchange' => "javascript:if (document.forms.adminForm.$config->name.options[selectedIndex].value!='') {document.imagelib.src='../$config->directory/' + document.forms.adminForm.$config->name.options[selectedIndex].value} else {document.imagelib.src='../media/system/images/blank.png'}"
+			'class' => 'inputbox'
 			)));  
+
+		$root = KRequest::root().'/'.$config->directory;
+
+		KFactory::get('lib.joomla.document')->addScriptDeclaration("
+		window.addEvent('domready', function(){
+			$('".$config->name."').addEvent('change', function(){
+				var value = this.value ? ('".$root."/' + this.value) : '".KRequest::root()."/media/system/images/blank.png';
+				$('".$config->name."-preview').src = value;
+			});
+		});
+		");
 
 		if($config->deselect) {
 			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
@@ -105,7 +119,19 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
    			'attribs' => $config->attribs,
    			'selected' => $config->selected
   		));
+  		
+  		$path    = $config->selected ? $root.'/'.$config->selected : KRequest::root().'/media/system/images/blank.png';
+  		$preview = '<img '.KHelperArray::toString(array(
+  			'src'		=> $path,
+  			'id'		=> $config->name.'-preview',
+  			'class'		=> 'preview',
+  			'width'		=> $config->width,
+  			'height'	=> $config->width,
+  			'border'	=> $config->border,
+  			'alt'		=> JText::_('Preview'),
+  			'style'		=> $config->style
+  		)).' />';
 
-  		return $list;
+  		return $list.'<br />'.$preview;
  	}		
 }

@@ -102,15 +102,6 @@ function submitbutton(pressbutton) {
 					</td>
 					<td>
 						<?= @helper('admin::com.sections.template.helper.listbox.image_names', array('name' => 'image')); ?>
-						<br />
-						<? 
-							if ($section->image != '') : 
-								$path = JURI::root(true) . '/images/stories/'.$section->image;
-							else : 
-								$path = JURI::root(true) . '/media/system/images/blank.png';
-							endif; 
-						?>
-						<img src="<?= $path;?>" name="imagelib" width="80" height="80" border="2" alt="<?= @text( 'Preview' ); ?>" style="margin: 10px 0;" />
 					</td>
 				</tr>
 				<tr>
