@@ -85,11 +85,9 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
 			'translate'	=> true
 		));
 		
+		$title   = $config->translate ? JText::_($config->title) : $config->title;
 		$attribs = KHelperArray::toString($config->attribs);
-		if($config->translate) {
-			$title = JText::_($config->title);
-		}
-		
+	
 		return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
 	}
 

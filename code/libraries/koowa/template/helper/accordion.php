@@ -109,11 +109,9 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 			'translate'	=> true
 		));
 		
+		$title   = $config->translate ? JText::_($config->title) : $config->title;
 		$attribs = KHelperArray::toString($config->attribs);
-		if($config->translate) {
-			$title = JText::_($config->title);
-		}
-		
+	
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';
 		return $html;
 	}
