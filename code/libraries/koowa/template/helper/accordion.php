@@ -18,7 +18,7 @@
  * @subpackage	Helper
  * @uses		KArrayHelper
  */
-class KTemplateHelperAccordion extends KTemplateHelperBehavior
+class KTemplateHelperAccordion extends KTemplateHelperBehavior 
 {
 	/**
 	 * Creates a pane and creates the javascript object for it
