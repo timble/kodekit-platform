@@ -26,121 +26,104 @@ function submitbutton(pressbutton) {
 </script>
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" name="adminForm">
-<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
-<input type="hidden" name="id" value="<?= $section->id; ?>" />
-<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
-<div class="col width-60">
-	<fieldset class="adminform">
-		<legend><?= @text( 'Details' ); ?></legend>
-		<table class="admintable">
-			<tr>
-				<td width="100" class="key">
-					<?= @text( 'Scope' ); ?>:
-				</td>
-				<td colspan="2">
-					<strong>
-					<?= $section->id? $section->scope : $state->scope; ?>
-					</strong>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="title">
-						<?= @text( 'Title' ); ?>:
-					</label>
-				</td>
-				<td colspan="2">
-					<input class="text_area" type="text" name="title" id="title" value="<?= htmlspecialchars($section->title); ?>" size="50" maxlength="50" title="<?= @text( 'TIPTITLEFIELD' ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td nowrap="nowrap" class="key">
-					<label for="alias">
-						<?= @text( 'Alias' ); ?>:
-					</label>
-				</td>
-				<td colspan="2">
-					<input class="text_area" type="text" name="slug" id="slug" value="<?= $section->slug; ?>" size="50" maxlength="255" title="<?= @text( 'ALIASTIP' ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<?= @text( 'Published' ); ?>:
-				</td>
-				<td colspan="2">
-					<?= @helper('admin::com.sections.template.helper.listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="ordering">
-						<?= @text( 'Ordering' ); ?>:
-					</label>
-				</td>
-				<td colspan="2">
-					<?= @helper('admin::com.sections.template.helper.listbox.ordering'); ?>
-				</td>
-			</tr>
-			<tr>
-				<td nowrap="nowrap" valign="top" class="key">
-					<label for="access">
-						<?= @text( 'Access Level' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?= @helper('admin::com.sections.template.helper.listbox.access', array('name' => 'access', 'state' => $section, 'deselect' => false)); ?>
-				</td>
-				<td rowspan="4" width="50%">
-					<? 
-						if ($section->image != '') : 
-							$path = JURI::root(true) . '/images/stories/'.$section->image;
-						else : 
-							$path = JURI::root(true) . '/media/system/images/blank.png';
-						endif; 
-					?>
-					<img src="<?= $path;?>" name="imagelib" width="80" height="80" border="2" alt="<?= @text( 'Preview' ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="image">
-						<?= @text( 'Image' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?= @helper('admin::com.sections.template.helper.listbox.image_names', array('name' => 'image')); ?>
-				</td>
-			</tr>
-			<tr>
-				<td nowrap="nowrap" class="key">
-					<label for="image_position">
-					<?= @text( 'Image Position' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?=  @helper('admin::com.sections.template.helper.listbox.image_position'); ?>
-				</td>
-			</tr>
+	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
+	<input type="hidden" name="id" value="<?= $section->id; ?>" />
+	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
+	
+	<div class="grid_8">
+		<div class="border-radius-4 title clearfix">
+			<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+		
+			<label for="alias">
+				<?= @text( 'Alias' ); ?>
+				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
+			</label>
+		</div>
+		<?= @editor( array('name' => 'description',
+				'editor' => 'tinymce', 	
+				'width' => '100%', 
+				'height' => '300', 
+				'cols' => '60', 
+				'rows' => '20', 
+				'buttons' => null, 
+				'options' => array('theme' => 'simple', 'pagebreak', 'readmore'))); 
+		?>
+	</div>
+	<div class="grid_4">
+		<div class="panel">
+			<h3><?= @text( 'Publish' ); ?></h3>
+			<table class="paramlist admintable">
+				<tr>
+					<td width="100" class="key">
+						<?= @text( 'Scope' ); ?>:
+					</td>
+					<td>
+						<strong><?= $section->id ? $section->scope : $state->scope; ?></strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<?= @text( 'Published' ); ?>:
+					</td>
+					<td>
+						<?= @helper('admin::com.sections.template.helper.listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="ordering">
+							<?= @text( 'Ordering' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?= @helper('admin::com.sections.template.helper.listbox.ordering'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" class="key">
+						<label for="access">
+							<?= @text( 'Access Level' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?= @helper('admin::com.sections.template.helper.listbox.access', array('name' => 'access', 'state' => $section, 'deselect' => false)); ?>
+					</td>
+				</tr>
 			</table>
-		</fieldset>
-
-		<fieldset class="adminform">
-			<legend><?= @text( 'Description' ); ?></legend>
-			<table class="admintable">
-			<tr>
-				<td valign="top" colspan="3">
-					<?= @editor( array('name' => 'description',
-							'editor' => 'tinymce', 	
-							'width' => '550', 
-							'height' => '300', 
-							'cols' => '60', 
-							'rows' => '20', 
-							'buttons' => null, 
-							'options' => array('theme' => 'simple', 'pagebreak', 'readmore'))); 
-					?>			
-				</td>
-			</tr>
+		</div>
+		<div class="panel">
+			<h3><?= @text( 'Image' ); ?></h3>
+			<table class="paramlist admintable">
+				<tr>
+					<td class="key">
+						<label for="image">
+							<?= @text( 'Image' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?= @helper('admin::com.sections.template.helper.listbox.image_names', array('name' => 'image')); ?>
+						<br />
+						<? 
+							if ($section->image != '') : 
+								$path = JURI::root(true) . '/images/stories/'.$section->image;
+							else : 
+								$path = JURI::root(true) . '/media/system/images/blank.png';
+							endif; 
+						?>
+						<img src="<?= $path;?>" name="imagelib" width="80" height="80" border="2" alt="<?= @text( 'Preview' ); ?>" style="margin: 10px 0;" />
+					</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" class="key">
+						<label for="image_position">
+							<?= @text( 'Image Position' ); ?>:
+						</label>
+					</td>
+					<td>
+						<?=  @helper('admin::com.sections.template.helper.listbox.image_position'); ?>
+					</td>
+				</tr>
 			</table>
-		</fieldset>
+		</div>
 	</div>
 </form>

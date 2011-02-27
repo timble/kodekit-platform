@@ -46,5 +46,59 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
+/* com_menus */
+.menus ul {
+	margin: 15px 0 0 15px;
+	padding: 0;
+}
 
+.menus ul li {
+	list-style: none;
+	margin: 4px 0;
+	padding: 5px 11px;
+}
 
+.menus ul li.active {
+	padding: 4px 10px;
+	background-color: #F1F1F1;
+	border-top: 1px solid #E1E1E1;
+	border-bottom: 1px solid #E1E1E1;
+	border-left: 1px solid #E1E1E1;
+	-moz-border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+/* com_content, com_sections */
+.com_sections div.title,
+.com_content div.title {
+	padding: 12px 16px 12px 12px;
+	margin-bottom: 12px;
+	background-color: #F0F0F0;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F0F0F0), to(#EAEAEA));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#F0F0F0, #EAEAEA);
+	border: 1px solid #DDD;
+}
+
+.com_sections #title,
+.com_content #title {
+	margin: 0 4px 0 0;
+	display: block;
+	font-size: 200%;
+	width: 99%;
+	padding: 4px;
+}
+
+.com_sections label[for="alias"],
+.com_content label[for="alias"] {
+	float: left;
+	width: 90%;
+	padding: 2px;
+}
+
+.com_sections label[for="alias"] input#alias,
+.com_content label[for="alias"] input#alias {
+	width: 40%;
+	margin: 0;
+	padding: 2px;
+}
