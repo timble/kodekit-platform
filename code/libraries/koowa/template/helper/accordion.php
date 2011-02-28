@@ -12,7 +12,7 @@
 /**
  * Template Accordion Behavior Helper
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author		Stian Didriksen <stian@timble.net>
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
