@@ -269,7 +269,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 			$this->getInfo()->behaviors[$identifier] = $behavior;
 						
 			//Enqueue the behavior in the command chain
-			$this->getCommandChain()->enqueue($behavior, $behavior->getPriority());
+			$this->getCommandChain()->enqueue($behavior);
 		}
 		
 		return $this;

@@ -310,7 +310,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 			else $identifier = (string) $filter->getIdentifier();
 				
 			//Enqueue the filter in the command chain
-			$this->getCommandChain()->enqueue($filter, $filter->getPriority());
+			$this->getCommandChain()->enqueue($filter);
 			
 			//Store the filter
 			$this->_filters[$identifier] = $filter;

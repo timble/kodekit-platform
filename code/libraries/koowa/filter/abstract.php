@@ -150,7 +150,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 */
 	public function addFilter(KFilterInterface $filter)
 	{	
-		$this->_chain->enqueue($filter, $filter->getPriority());
+		$this->_chain->enqueue($filter);
 		return $this;
 	}
 	

@@ -280,7 +280,7 @@ class KFactory
 	 */
 	public static function addAdapter(KFactoryAdapterInterface $adapter)
 	{
-		self::$_chain->enqueue($adapter, $adapter->getPriority());
+		self::$_chain->enqueue($adapter);
 	}
 	
 	/**

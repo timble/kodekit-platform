@@ -100,17 +100,22 @@ class KCommandChain extends KObject
   	/**
 	 * Attach a command to the chain
 	 * 
+	 * The priority parameter can be used to override the command priority with 
+	 * enqueing the command.
+	 * 
 	 * @param 	object 		A KCommand object
-	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (lowest), default is 3
+	 * @param 	integer		The command priority, usually between 1 (high priority) and 5 (lowest), 
+	 * 						default is 3. If no priority is set, the command priority will be used 
+	 * 						instead.
 	 * @return	 KCommandChain
 	 */
-	public function enqueue( KCommandInterface $cmd, $priority = KCommand::PRIORITY_NORMAL)
+	public function enqueue( KCommandInterface $cmd, $priority = null)
 	{
 		if($handle = $cmd->getHandle()) 
 		{
 			$this->_command->offsetSet($handle, $cmd);
 		
-			$this->_priority->offsetSet($handle, $priority);
+			$this->_priority->offsetSet($handle, is_int($priority) ? $priority : $cmd->getPriority());
 			$this->_priority->asort(); //sort the entries by priority
 		}
 		
