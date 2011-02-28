@@ -8,15 +8,17 @@
  * @link        http://www.nooku.org
  */
 
+if(!Koowa) var Koowa = {};
+
 /**
  * Koowa global namespace
-.*
+ *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Nooku
  * @package     Nooku_Media
  * @subpackage  Javascript
  */
-var KTabs = new Class({
+Koowa.Tabs = new Class({
 
     getOptions: function()
     {
@@ -85,4 +87,4 @@ var KTabs = new Class({
     }
 });
 
-KTabs.implement(new Events, new Options);
+Koowa.Tabs.implement(new Events, new Options);

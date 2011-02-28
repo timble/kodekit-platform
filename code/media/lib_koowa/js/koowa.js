@@ -16,12 +16,11 @@
  * @package     Nooku_Media
  * @subpackage  Javascript
  */
-var Koowa = {
-	version: '0.7'
-};
+if(!Koowa) var Koowa = {};
+Koowa.version = 0.7;
 
 /* Section: Functions */
-function $get(key, defaultValue) {
+var $get = function(key, defaultValue) {
 	return location.search.get(key, defaultValue);
 }	
 
@@ -29,7 +28,7 @@ function $get(key, defaultValue) {
 window.addEvent('domready', function() {
 	$$('.submitable').addEvent('click', function(e){
 		e = new Event(e);
-		new KForm(Json.evaluate(e.target.getProperty('rel'))).submit();
+		new Koowa.Form(Json.evaluate(e.target.getProperty('rel'))).submit();
 	});
 });
 
@@ -41,27 +40,24 @@ window.addEvent('domready', function() {
  * @param	json	Configuration:  method, url, params, formelem
  * @example new KForm({method:'post', url:'foo=bar&id=1', params:{field1:'val1', field2...}}).submit();
  */
-KForm = new Class({
+Koowa.Form = new Class({
 	
-	initialize: function(config)
-	{
+	initialize: function(config) {
 		this.config = config;
-		if(this.config.formelem) {
-			this.form = $(eval('document.'+this.config.formelem));
+		if(this.config.element) {
+			this.form = $(document[this.config.element]);
 		} 
-		else 
-		{
+		else {
 			this.form = new Element('form', {
 				name: 'dynamicform',
 				method: this.config.method,
 				action: this.config.url
 			});
-			this.form.injectInside($E('body'));
+			this.form.injectInside($(document.body));
 		}
 	},
 	
-	addField: function(name, value)
-	{
+	addField: function(name, value) {
 		var elem = new Element('input', {
 			name: name,
 			value: value,
@@ -71,8 +67,7 @@ KForm = new Class({
 		return this;
 	},
 	
-	submit: function()
-	{
+	submit: function() {
 		$each(this.config.params, function(value, name){
 			this.addField(name, value);
 		}.bind(this));
@@ -87,20 +82,18 @@ KForm = new Class({
  * @package     Koowa_Media
  * @subpackage	Javascript
  */
-KGrid = 
-{
-	action: function(action, id)
-	{
+Koowa.Grid = {
+	action: function(action, id) {
 		var form = document.adminForm;
-   	 	cb = eval( 'form.' + id );
-    	if (cb) 
-    	{    		
-    		for (i = 0; true; i++) {
-            	cbx = eval('form.cb'+i);
-            	if (!cbx) break;
+		var cb = form[id]
+    	if (cb) {
+    		for (var i = 0; true; i++) {
+				var cbx = f['cb'+i];
+				if (!cbx) {
+					break;
+				}
             	cbx.checked = false;
         	} 
-        	
         	cb.checked = true;
         	form.action.value = action;
 			form.submit();
@@ -112,8 +105,7 @@ KGrid =
 	 *
 	 * @return 	array	The items' ids
 	 */
-	getAllSelected: function()
-	{
+	getAllSelected: function() {
 		var result = new Array;
 		var inputs = $$('input[name^=id]');
 		for (var i=0; i < inputs.length; i++) {
@@ -124,8 +116,7 @@ KGrid =
 		return result;
 	},
 	
-	getIdQuery: function()
-	{
+	getIdQuery: function() {
 		var result = new Array();
 		$each(this.getAllSelected(), function(value){
 			result.include('id[]='+value);
@@ -138,8 +129,7 @@ KGrid =
 	 *
 	 * @return 	integer	The item's id or false if no item is selected
 	 */
-	getFirstSelected: function()
-	{
+	getFirstSelected: function() {
 		var all = this.getAllSelected();
 		if(all.length) return all[0];
 	}
@@ -151,20 +141,16 @@ KGrid =
  * @package     Koowa_Media
  * @subpackage	Javascript
  */
-KQuery = new Class({
+Koowa.Query = new Class({
 	
-	toString: function() 
-	{
+	toString: function() {
 		var result = [];
 		
-		for (var key in this) 
-		{
+		for (var key in this) {
 			// make sure it's not a function
-			if (!(this[key] instanceof Function)) 
-			{
+			if (!(this[key] instanceof Function)) {
 				// we only go one level deep for now
-				if(this[key] instanceof Object) 
-				{
+				if(this[key] instanceof Object) {
 					for (var subkey in this[key]) {
 						result.push(key + '[' + subkey + ']' + '=' + this[key][subkey]);
 					}
@@ -185,12 +171,11 @@ KQuery = new Class({
  * @package     Koowa_Media
  * @subpackage	Javascript
  */
-var KOverlay = Ajax.extend ({
+Koowa.Overlay = Ajax.extend({
 
 	element : null,
 	
-	options: 
-	{
+	options: {
 		method      : 'get',
 		evalScripts : true,
 		evalStyles  : true,
@@ -202,8 +187,7 @@ var KOverlay = Ajax.extend ({
 		}
 	},
 	
-	initialize: function(element, options)
-    {
+	initialize: function(element, options) {
 		if(typeof options == 'string') {
 			var options = Json.evaluate(options);
 		}
@@ -217,8 +201,7 @@ var KOverlay = Ajax.extend ({
     },
     
     //This event handler only fire on MooTools 1.1.x
-    onComplete: function()
-    {
+    onComplete: function() {
     	var element = new Element('div').setHTML(this.response.text);
     		
     	if (this.options.evalScripts) 
@@ -250,15 +233,12 @@ var KOverlay = Ajax.extend ({
  * @package     Koowa_Media
  * @subpackage	Javascript
  */
-String.extend(
-{
-	get : function(key, defaultValue)
-	{
+String.extend({
+	get : function(key, defaultValue) {
 		if(key == "") return;
 	
 		var uri   = this.parseUri();
-		if($defined(uri['query'])) 
-		{
+		if($defined(uri['query'])) {
 			var query = uri['query'].parseQueryString();
 			if($defined(query[key])) {
 				return query[key];
@@ -268,8 +248,7 @@ String.extend(
 		return defaultValue;
 	},
 
-	parseUri: function()
-	{
+	parseUri: function() {
 		var bits = this.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
 		return (bits)
 			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
@@ -277,8 +256,7 @@ String.extend(
 	},
 	
 	// backported from Mootools 1.2.3
-	parseQueryString: function()
-	{
+	parseQueryString: function() {
 		//var vars = this.split(/[&;]/), res = {};
 		var vars = this.split(/[&;]/), res = new KQuery;
 		if (vars.length) vars.each(function(val){
@@ -300,8 +278,7 @@ String.extend(
 	},
 
 	// backported from Mootools 1.2.3
-	cleanQueryString: function(method)
-	{
+	cleanQueryString: function(method) {
 		return this.split('&').filter(function(val){
 			var index = val.indexOf('='),
 			key = index < 0 ? '' : val.substr(0, index),
