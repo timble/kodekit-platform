@@ -21,17 +21,10 @@ class ComSectionsViewSectionHtml extends ComSectionsViewHtml
 {
    	public function display()
    	{
-		$layout = $this->getLayout();
 		$id = $this->getModel()->getState()->id;
 		
-		if( $layout == 'form' ){
-			$toolbarTitle = $id ? 'edit' : 'new';
-		} else {
-			$toolbarTitle = $layout;
-		}
-		
 		KFactory::get('admin::com.sections.toolbar.section', array(
-			'title' => "Section:[$toolbarTitle]",
+			'title' => $id ? 'Edit Section' : 'New Section',
 			'icon'  => 'sections.png' )); 
        
 		return parent::display();
