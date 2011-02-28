@@ -357,9 +357,9 @@ class KDatabaseQuery extends KObject
 			}
 		}
 
-		if (!empty($this->columns)) 
+		if (!empty($this->columns) && ! $this->count) 
 		{
-			$columns = array();
+		    $columns = array();
 			foreach($this->columns as $column) {
 				$columns[] = $this->_adapter->quoteName($column);
 			} 
