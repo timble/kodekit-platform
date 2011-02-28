@@ -51,7 +51,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
 	
 		$html .= "
 			<script>
-				window.addEvent('domready', function(){ new KTabs('tabs-".$id."', '".json_encode($config->options)."'); });
+				window.addEvent('domready', function(){ new Koowa.Tabs('tabs-".$id."', '".json_encode($config->options)."'); });
 			</script>";
 	
 		$html .= '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';

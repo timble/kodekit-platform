@@ -37,8 +37,8 @@ class KToolbarButtonEnable extends KToolbarButtonPost
 		$json 	= "{method:'post', url:'index.php?option=$option&view=$view&'+id, params:{action:'edit', enabled:1, _token:'$token'}}";
 
 		$msg 	= JText::_('Please select an item from the list');
-		return 'var id = KGrid.getIdQuery();'
-			.'if(id){new KForm('.$json.').submit();} '
+		return 'var id = Koowa.Grid.getIdQuery();'
+			.'if(id){new Koowa.Form('.$json.').submit();} '
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}
 }

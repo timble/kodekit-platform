@@ -25,8 +25,8 @@ class KToolbarButtonEdit extends KToolbarButtonAbstract
 		$json 	= "{method:'get', url:'index.php', params:{option:'$option',view:'$view',id:id}}";
 
 		$msg 	= JText::_('Please select an item from the list');
-		return 'var id = KGrid.getFirstSelected();'
-			.'if(id){new KForm('.$json.').submit();} '
+		return 'var id = Koowa.Grid.getFirstSelected();'
+			.'if(id){new Koowa.Form('.$json.').submit();} '
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}
 

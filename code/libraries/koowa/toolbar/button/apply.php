@@ -26,7 +26,7 @@ class KToolbarButtonApply extends KToolbarButtonPost
 		$token 	= JUtility::getToken();
 		$json 	= "{method:'post', url:'index.php?option=$option&view=$view&id=$id', formelem:'adminForm', params:{action:'apply', _token:'$token'}}";
 
-		return 'new KForm('.$json.').submit();';
+		return 'new Koowa.Form('.$json.').submit();';
 	}
 
 }

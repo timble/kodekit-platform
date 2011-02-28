@@ -161,7 +161,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$options = !empty($config->options) ? $config->options->toArray() : array();
 			$html .= "
 			<script>
-				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new KOverlay(overlay, '".json_encode($options)."'); }); });
+				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay, '".json_encode($options)."'); }); });
 			</script>";
 			
 			$this->_loaded['overlay'] = true;
