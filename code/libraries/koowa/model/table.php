@@ -91,12 +91,12 @@ class KModelTable extends KModelAbstract
      */
     public function set( $property, $value = null )
     {
-    	// If limit has been changed, adjust offset accordingly
-    	if($property == 'limit') {
-    		$this->_state->offset = $value != 0 ? (floor($this->_state->offset / $value) * $value) : 0;
-    	}
-
     	parent::set($property, $value);
+    	
+        // If limit has been changed, adjust offset accordingly
+    	if($limit = $this->_state->limit) {
+    	     $this->_state->offset = $limit != 0 ? (floor($this->_state->offset / $limit) * $limit) : 0;
+    	}
 
     	return $this;
     }
