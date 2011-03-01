@@ -27,7 +27,7 @@ class ComVersionsToolbarButtonRestore extends KToolbarButtonPost
 		$json 	= "{method:'post', url:'index.php?option=$option&view=$view&trashed=1&'+id, params:{action:'restore', _token:'$token'}}";
 
 		$msg 	= JText::_('Please select an item from the list');
-		return 'var id = KGrid.getIdQuery();'
+		return 'var id = Koowa.Grid.getIdQuery();'
 			.'if(id){new KForm('.$json.').submit();} '
 			.'else { alert(\''.$msg.'\'); return false; }';
 	}
