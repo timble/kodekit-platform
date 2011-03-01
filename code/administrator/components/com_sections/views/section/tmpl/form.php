@@ -19,7 +19,6 @@ function submitbutton(pressbutton) {
 	if ( form.title.value == '' ){
 		alert("<?=  @text('Section must have a title') ?>");
 	} else {
-		<? /*TODO what does this do? $editor->save( 'description' ) ;*/ ?>
 		submitform(pressbutton);
 	}
 }

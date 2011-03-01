@@ -66,6 +66,22 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
       	return $this->optionlist($config);
 	}
 
+	/**
+	 * Image names helper
+	 * .
+	 * @param array() | KConfig $config
+	 * 
+	 * $config options
+	 * name			string		column name of helper
+	 * directory	string		image directory (relative to docroot)
+	 * filetypes	array 		allowd file type extensions
+	 * deselect		boolean		show -select- option with 0 value
+	 * preview		boolean		show preview directly below listbox
+	 * selected		string		currently selected value
+	 * attribs		array		associative array of listbox attributes
+	 * 
+	 * see image_preview for image_preview options 
+	 */
 	public function image_names($config = array())
 	{
   		$config = new KConfig($config);
@@ -74,10 +90,7 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
    			'directory'	=> 'images/stories',
   			'filetypes'	=> array('swf', 'gif', 'jpg', 'png'),
    			'deselect'	=> true,
-   			'width'		=> 80,
-   			'height'	=> 80,
-   			'border'	=> 2,
-   			'style'		=> 'margin: 10px 0;'
+  		    'preview'   => true
   		))->append(array(
                         'selected'  => $config->{$config->name}
 		))->append(array(
@@ -120,7 +133,40 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
    			'selected' => $config->selected
   		));
   		
-  		$path    = $config->selected ? $root.'/'.$config->selected : KRequest::root().'/media/system/images/blank.png';
+  		return $config->preview ? $list.'<br />'.$this->image_preview($config) : $list;
+ 	}
+
+ 	/**
+ 	 * 
+ 	 * Show image preview img tag
+ 	 * @param mixed $config
+ 	 * 
+ 	 * $config options:
+	 * name			string		column name of helper
+	 * directory	string		image directory (relative to docroot)
+ 	 * width		int			image width
+ 	 * height		int			image height
+ 	 * border		int			border width
+ 	 * style		string		style string
+ 	 * selected		string		currently selected vallue
+ 	 */
+ 	public function image_preview($config = array())
+ 	{
+ 	    if(!$config instanceof KConfig){
+ 	        $config = new KConfig($config);
+ 	    }
+ 	    $config->append(array(
+   			'name'		=> 'image_name',
+   			'directory'	=> 'images/stories',
+ 	    	'width'		=> 80,
+   			'height'	=> 80,
+   			'border'	=> 2,
+   			'style'		=> 'margin: 10px 0;'
+  		))->append(array(
+            'selected'  => $config->{$config->name}
+ 	    ));
+
+ 	    $path    = $config->selected ? KRequest::root().'/'.$config->directory.'/'.$config->selected : KRequest::root().'/media/system/images/blank.png';
   		$preview = '<img '.KHelperArray::toString(array(
   			'src'		=> $path,
   			'id'		=> $config->name.'-preview',
@@ -131,7 +177,7 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
   			'alt'		=> JText::_('Preview'),
   			'style'		=> $config->style
   		)).' />';
-
-  		return $list.'<br />'.$preview;
- 	}		
+ 	    
+ 	    return $preview;
+ 	}
 }
