@@ -461,7 +461,7 @@ class JURI extends JObject
 			return false;
 		}
 		
-		return urldecode(http_build_query($params));
+		return urldecode(http_build_query($params, '', '&'));
 	}
 
 	/**
