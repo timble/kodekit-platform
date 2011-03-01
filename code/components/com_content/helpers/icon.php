@@ -41,6 +41,16 @@ class JHTMLIcon
 		$attribs	= array( 'title' => JText::_( 'New' ));
 		return JHTML::_('link', JRoute::_($url), $text, $attribs);
 	}
+	
+    function pdf($article, $params, $access, $attribs = array())
+	{
+		return '';
+	}
+
+	function email($article, $params, $access, $attribs = array())
+	{
+		return '';
+	}
 
 	function edit($article, $params, $access, $attribs = array())
 	{
