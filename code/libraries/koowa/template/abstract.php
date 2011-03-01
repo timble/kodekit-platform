@@ -489,6 +489,12 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function __toString()
 	{
-		return $this->render();
+		try {
+			$result = $this->render();
+		} catch (Exception $e) {
+			$result = $e->getMessage();
+		} 
+			
+		return $result;
 	}
 }
