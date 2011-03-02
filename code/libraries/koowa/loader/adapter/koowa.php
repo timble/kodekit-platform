@@ -88,7 +88,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 				$path .= implode('/',$identifier->path);
 			}
 
-			if(!empty($this->name)) {
+			if(!empty($identifier->name)) {
 				$path .= '/'.$identifier->name;
 			}
 				
