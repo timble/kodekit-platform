@@ -84,7 +84,7 @@ abstract class KPatternObservable extends KObject
 		$handle = $observer->getHandle(); //get the object handle
 
 		$result = false;
-  		if($this->_observers->offsetExist($handle)) {
+  		if($this->_observers->offsetExists($handle)) {
 			$this->_observers->offsetUnset($handle);	
   			$result = true;
 		}
