@@ -36,7 +36,7 @@ class ComSectionsTemplateHelperGrid extends KTemplateHelperGrid
       	$html = '';
        	$html .= '<script src="media://lib_koowa/js/koowa.js" />';
                 
-      	$img    = $config->row->enabled ? 'tick.png' : 'publish_x.png';
+      	$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png';
        	$alt    = $config->row->enabled ? JText::_( 'Published' ) : JText::_( 'Draft' );
        	$text   = $config->row->enabled ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish Item' );
        	$value  = $config->row->enabled ? 0 : 1;
@@ -45,7 +45,7 @@ class ComSectionsTemplateHelperGrid extends KTemplateHelperGrid
       	$token = JUtility::getToken();
 
      	$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
-      	$html .= '<img src="images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
+      	$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
 
        	return $html;
  	}
