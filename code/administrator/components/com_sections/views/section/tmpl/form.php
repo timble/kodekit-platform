@@ -1,4 +1,4 @@
-<? /** $Id:  $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <?	if ( $section->name != '' ) : 
