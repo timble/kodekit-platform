@@ -35,8 +35,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		if($config->row->isLockable() && $config->row->locked())
 		{
-			$html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
-						<img src="images/checked_out.png"/>
+		    $html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
+						<img src="media://lib_koowa/images/locked.png"/>
 					</span>';
 		}
 		else  $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="id[]" value="'.$config->row->id.'" />';
@@ -108,7 +108,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 		
-		$img 	= $config->row->enabled ? 'tick.png' : 'publish_x.png';
+		$img 	= $config->row->enabled ? 'disabled.png' : 'enabled.png';
 		$alt 	= $config->row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		$value 	= $config->row->enabled ? 0 : 1;
@@ -117,7 +117,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$token = JUtility::getToken();
 
 		$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
-		$html .= '<img src="images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
+		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
 
 		return $html;
 	}
