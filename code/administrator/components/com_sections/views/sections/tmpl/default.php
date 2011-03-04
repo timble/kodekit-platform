@@ -7,14 +7,12 @@ echo @helper('behavior.tooltip');
 <script src="media://system/js/mootools.js" />  
 <script src="media://lib_koowa/js/koowa.js" />
 
-<form action="<?= @route() ?>" method="get" name="adminForm">
-        <input type="hidden" name="scope" value="<?= $state->scope;?>" />
-
+<form action="<?= @route() ?>" method="get" name="adminForm">	
+	<input type="hidden" name="scope" value="<?= $state->scope;?>" />
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="10">
-					
+				<th width="10">	
 				</th>
 				<th class="title">
 					<?= @helper('grid.sort',  array('column' => 'title')   ); ?>
@@ -40,7 +38,7 @@ echo @helper('behavior.tooltip');
 			</tr>
 			<tr>
 				<td align="center">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $rows );?>);" />
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $sections );?>);" />
 				</td>
 				<td>
 					<?= @template('admin::com.default.view.list.search_form') ?>
@@ -63,17 +61,16 @@ echo @helper('behavior.tooltip');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?
-		$i = 0;
-		foreach ( $sections as $section ) {  ?>
+		<? foreach ( $sections as $section ) :  ?>
 			<tr>
 				<td align="center">
 					<?= @helper( 'grid.checkbox' , array('row' => $section)); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?= @text( 'Description' ).'::'. htmlspecialchars($section->description); ?>">
-					<a href="<?= @route( 'index.php?&option=com_sections&view=section&id='.$section->id ); ?>">
-<?= htmlspecialchars($section->title); ?></a>
+					<span class="editlinktip hasTip" title="<?= @text( 'Description' ).'::'. @escape($section->description); ?>">
+					<a href="<?= @route( 'view=section&id='.$section->id ); ?>">
+                        <?= @escape($section->title); ?>
+                    </a>
 					</span>
 				</td>
 				<td align="center">
@@ -95,10 +92,7 @@ echo @helper('behavior.tooltip');
 					<?= $section->trashcount; ?>
 				</td>
 			</tr>
-			<?
-			$i++;
-		}
-		?>
+			<?php endforeach; ?>
 		</tbody>		
 		</table>
 		</form>		
