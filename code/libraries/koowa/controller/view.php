@@ -202,27 +202,6 @@ abstract class KControllerView extends KControllerBread
 	}
 
 	/**
-	 * Display a single item
-	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRow	A row object containing the selected row
-	 */
-	protected function _actionRead(KCommandContext $context)
-	{
-		$row = parent::_actionRead($context);
-		
-		if(isset($row))
-		{
-			//Lock the row
-			if($this->_request->layout == 'form' && $row->isLockable()) {
-				$row->lock();
-			}
-		}
-
-		return $row;
-	}
-
-	/**
 	 * Generic save action
 	 *
 	 * @param   KCommandContext	A command context object
@@ -314,10 +293,20 @@ abstract class KControllerView extends KControllerBread
 		$view = $this->getView();
 		
 		$action = KInflector::isSingular($view->getName()) ? 'read' : 'browse';
-		$this->execute($action, $context);
+		$row = $this->execute($action, $context);
 		
+		//Set the layout in the view
 		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
 			$view->setLayout($this->_request->layout);
+		}
+		
+		//Lock the row if the layout is 'form'
+	    if(isset($row))
+		{
+			//Lock the row
+			if($view->getLayout() == 'form' && $row->isLockable()) {
+				$row->lock();
+			}
 		}
 		
 		return $view->display();
