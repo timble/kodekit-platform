@@ -37,6 +37,6 @@ class KFilterIP extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
-		return filter_var($value, FILTER_SANITIZE_IP);
+		return preg_replace('#[^a-f0-9:\.]#i', '', $value);
 	}
 }
