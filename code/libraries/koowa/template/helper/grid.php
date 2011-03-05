@@ -108,7 +108,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 		
-		$img 	= $config->row->enabled ? 'disabled.png' : 'enabled.png';
+		$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png'; 
 		$alt 	= $config->row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		$value 	= $config->row->enabled ? 0 : 1;
