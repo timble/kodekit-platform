@@ -102,7 +102,12 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 		$parts  = explode('.', $name);
 		$method = '_'.$parts[0].ucfirst($type).ucfirst($parts[1]);
 	
-		if(method_exists($this, $method)) {
+		if(method_exists($this, $method)) 
+		{
+			if($context->data instanceof KDatabaseRowInterface) {
+			     $this->mixer = $context->data;
+			}
+		    
 			return $this->$method($context);
 		}
 		
