@@ -65,19 +65,17 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		$row = $context->data; //get the row data being inserted
-		
 		//Get the modified columns
-		$modified = $context->caller->filter(array_flip($row->getModified()));
+		$modified = $this->getTable()->filter(array_flip($this->getModified()));
 		
 		if(!empty($modified))
 		{
-			if(isset($row->modified_by)) {
-				$row->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
+			if(isset($this->modified_by)) {
+				$this->modified_by = (int) KFactory::get('lib.koowa.user')->get('id');
 			}
 		
-			if(isset($row->modified_on)) {
-				$row->modified_on = gmdate('Y-m-d H:i:s');
+			if(isset($this->modified_on)) {
+				$this->modified_on = gmdate('Y-m-d H:i:s');
 			}
 		}
 	}

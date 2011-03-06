@@ -136,21 +136,19 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-    	$row = $context->data; //get the row data being inserted
-
-    	if(isset($row->ordering) && $row->ordering <= 0)
+    	if(isset($this->ordering) && $this->ordering <= 0)
     	{
-        	$table	= $context->caller;
+        	$table	= $this->getTable();
 			$db 	= $table->getDatabase();
 			$query 	= $db->getQuery();
     		
 			//Build the where query
 			$this->_buildQueryWhere($query);;
 			
-    		$select = 'SELECT MAX(ordering) FROM `#__'.$context->table.'`';
+    		$select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
 			$select .= (string) $query;
     		
-			$row->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
+			$this->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
         }
     }
 
@@ -162,10 +160,8 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-    	$row = $context->data;
-
-    	if(isset($row->order) && isset($row->ordering)) {
-        	$row->order($row->order);
+    	if(isset($this->order) && isset($this->ordering)) {
+        	$this->order($this->order);
         }
     }
 
@@ -176,6 +172,6 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableDelete(KCommandContext $context)
     {
-    	$context->data->reorder();
+    	$this->reorder();
     }
 }

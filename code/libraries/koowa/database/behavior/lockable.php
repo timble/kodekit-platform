@@ -150,12 +150,11 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
-		$row    = $context->data;
 		$userid = KFactory::get('lib.koowa.user')->get('id');
 
-		if(isset($row->locked_by) && $row->locked_by != 0)
+		if(isset($this->locked_by) && $this->locked_by != 0)
 		{
-			if($row->locked_by != $userid) {
+			if($this->locked_by != $userid) {
 				return false;
 			}
 		}

@@ -126,8 +126,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 */
  	protected function _afterTableInsert(KCommandContext $context)
 	{
-		$this->_createSlug($context);
-		$context->data->save();
+		$this->_createSlug();
+		$this->save();
 	}
 
 	/**
@@ -144,7 +144,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	protected function _beforeTableUpdate(KCommandContext $context)
 	{
 		if($this->_updatable) {
-			$this->_createSlug($context);
+			$this->_createSlug();
 		}
 	}
 
@@ -153,13 +153,13 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
-	protected function _createFilter(KCommandContext $context)
+	protected function _createFilter()
 	{
 		$config = array();
 		$config['separator'] = $this->_separator;
 
 		if(!isset($this->_length)) {
-			$config['length'] = $context->caller->getColumn('slug')->length;
+			$config['length'] = $this->getTable()->getColumn('slug')->length;
 		} else {
 			$config['length'] = $this->_length;
 		}
@@ -174,33 +174,31 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
-	protected function _createSlug(KCommandContext $context)
+	protected function _createSlug()
 	{
-		$row   = $context->data;
-		
 		//Create the slug filter
-		$filter = $this->_createFilter($context);
+		$filter = $this->_createFilter();
 		
-		if(empty($row->slug))
+		if(empty($this->slug))
 		{
 			$slugs = array();
 			foreach($this->_columns as $column) {
-				$slugs[] = $filter->sanitize($row->$column);
+				$slugs[] = $filter->sanitize($this->$column);
 			}
 
-			$row->slug = implode($this->_separator, $slugs);
+			$this->slug = implode($this->_separator, $slugs);
 			
 			//Canonicalize the slug
-			$this->_canonicalizeSlug($context);
+			$this->_canonicalizeSlug();
 		}
 		else
 		{
-			if(in_array('slug', $context->data->getModified())) 
+			if(in_array('slug', $this->getModified())) 
 			{
-				$row->slug = $filter->sanitize($row->slug);
+				$this->slug = $filter->sanitize($this->slug);
 				
 				//Canonicalize the slug
-				$this->_canonicalizeSlug($context);
+				$this->_canonicalizeSlug();
 			}
 		}
 	}
@@ -214,10 +212,9 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
-	protected function _canonicalizeSlug(KCommandContext $context)
+	protected function _canonicalizeSlug()
 	{
-		$table = $context->caller;
-		$row   = $context->data;
+		$table = $this->getTable();
 		
 		//If unique is not set, use the column metadata
 		if(is_null($this->_unique)) { 
@@ -225,21 +222,21 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 		}
 	
 		//If the slug needs to be unique and it already exist make it unqiue
-		if($this->_unique && $table->count(array('slug' => $row->slug))) 
+		if($this->_unique && $table->count(array('slug' => $this->slug))) 
 		{	
 			$db    = $table->getDatabase();
 			$query = $db->getQuery()
 						->select('slug')
-						->where('slug', 'LIKE', $row->slug.'-%');			
+						->where('slug', 'LIKE', $this->slug.'-%');			
 			
 			$slugs = $table->select($query, KDatabase::FETCH_FIELD_LIST);
 			
 			$i = 1;
-			while(in_array($row->slug.'-'.$i, $slugs)) {
+			while(in_array($this->slug.'-'.$i, $slugs)) {
 				$i++;
 			}
 			
-			$row->slug = $row->slug.'-'.$i;
+			$this->slug = $this->slug.'-'.$i;
 		}
 	}
 }

@@ -58,12 +58,10 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableInsert(KCommandContext $context)
 	{
-		$row = $context->data; //get the row data being inserted
-		
-		if(isset($row->uuid)) 
+		if(isset($this->uuid)) 
 		{
-			$hex = $context->caller->getColumn('uuid')->type == 'char' ? false : true;
-			$row->uuid  = $this->_uuid($hex);
+			$hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
+			$this->uuid  = $this->_uuid($hex);
 		}
 	}
 	

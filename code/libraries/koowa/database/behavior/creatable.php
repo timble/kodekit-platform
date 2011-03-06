@@ -48,14 +48,12 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableInsert(KCommandContext $context)
 	{
-		$row = $context->data; //get the row data being inserted
-		
-		if(isset($row->created_by) && empty($row->created_by)) {
+		if(isset($this->created_by) && empty($this->created_by)) {
 			$row->created_by  = (int) KFactory::get('lib.koowa.user')->get('id');
 		}
 		
-		if(isset($row->created_on) && (empty($row->created_on) || $row->created_on == $context->caller->getDefault('created_on'))) { 
-			$row->created_on  = gmdate('Y-m-d H:i:s');
+		if(isset($this->created_on) && (empty($this->created_on) || $this->created_on == $context->caller->getDefault('created_on'))) { 
+			$this->created_on  = gmdate('Y-m-d H:i:s');
 		}
 	}
 }
