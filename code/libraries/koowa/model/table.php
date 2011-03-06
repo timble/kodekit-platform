@@ -100,7 +100,7 @@ class KModelTable extends KModelAbstract
 
     	return $this;
     }
-
+    
 	/**
 	 * Get the identifier for the table with the same name
 	 * 
@@ -238,8 +238,7 @@ class KModelTable extends KModelAbstract
             if($table = $this->getTable())
             {
    				//Excplicitly get a count query, build functions can then test if the
-   				//query is a count query or not and based on that decided how to build
-   				//the query.
+   				//query is a count query and decided how to build the query.
             	$query = $table->getDatabase()->getQuery()->count(); 
             	
         		$this->_buildQueryFrom($query);
@@ -247,17 +246,6 @@ class KModelTable extends KModelAbstract
         		$this->_buildQueryWhere($query);
 
         		$total = $table->count($query);
-        		$limit  = $this->_state->limit;
-    			$offset = $this->_state->offset;
-
-    			//If the offset is higher than the total recalculate the offset
-    			if($limit !== 0 && $offset !== 0)
-    			{
-    				if($total !== 0 && $offset >= $total) {
-    					$this->_state->offset = floor(($total-1) / $limit) * $limit;
-    				}
-    			}
-
         		$this->_total = $total;
             }
         }
@@ -375,8 +363,22 @@ class KModelTable extends KModelAbstract
     {
 		$limit = $this->_state->limit;
 		
-		if($limit) {
-    		$query->limit($this->_state->limit, $this->_state->offset);
+		if($limit) 
+		{
+    	    $offset = $this->_state->offset;
+    	    $total  = $this->getTotal();
+
+            //If the offset is higher than the total recalculate the offset
+            if($offset !== 0 && $total !== 0)        
+            {
+                if($offset >= $total) 
+                {
+                    $offset = floor(($total-1) / $limit) * $limit;    
+                    $this->_state->offset = $offset;
+                }
+             }
+		    
+             $query->limit($limit, $offset);
 		}
     }
 }
