@@ -38,4 +38,20 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
  		
 		return parent::format($config);
 	}
+	
+	/**
+	 * Returns human readable date.
+	 *
+	 * @param  array   An optional array with configuration options.
+	 * @return string  Formatted date.
+	 */
+    public function humanize($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+			'gmt_offset' => KFactory::get('lib.joomla.config')->getValue('config.offset')
+ 		));
+ 		
+       return parent::humanize($config);
+    }
 }
