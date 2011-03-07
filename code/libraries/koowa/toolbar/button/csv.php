@@ -11,37 +11,37 @@
 /**
  * Export to CSV button for a toolbar
  * 
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Toolbar
- * @subpackage	Button
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Toolbar
+ * @subpackage  Button
  */
 class KToolbarButtonCsv extends KToolbarButtonAbstract
 {
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
-	{
-		if(!isset($config->icon)) {
-			$config->icon = 'icon-32-export';
-		}
-		
-		parent::__construct($config);
-	}
-	
-	public function getLink()
-	{
-		// Unset limit and offset
-		$url = clone KRequest::url();
-		$query = parse_str($url->getQuery(), $vars);
-		unset($vars['limit']);
-		unset($vars['offset']);
-		$vars['format'] = 'csv';
-		$url->setQuery(http_build_query($vars));
-		
-		return (string) $url;
-	}
+    /**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        if(!isset($config->icon)) {
+            $config->icon = 'icon-32-export';
+        }
+        
+        parent::__construct($config);
+    }
+    
+    public function getLink()
+    {
+        // Unset limit and offset
+        $url = clone KRequest::url();
+        $query = parse_str($url->getQuery(), $vars);
+        unset($vars['limit']);
+        unset($vars['offset']);
+        $vars['format'] = 'csv';
+        $url->setQuery(http_build_query($vars));
+        
+        return (string) $url;
+    }
 }

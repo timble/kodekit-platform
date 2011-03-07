@@ -1,6 +1,6 @@
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category	Nooku
+ * @category    Nooku
  * @package     Nooku_Media
  * @subpackage  Javascript
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -13,8 +13,8 @@ if(!Koowa) var Koowa = {};
 /**
  * Koowa global namespace
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Media
  * @subpackage  Javascript
  */
@@ -40,14 +40,14 @@ Koowa.Tabs = new Class({
 
     initialize: function(dlist, options)
     {
-    	this.dlist = $(dlist);
+        this.dlist = $(dlist);
         this.setOptions(this.getOptions(), options);
         this.titles = this.dlist.getElements('dt');
         this.descriptions = this.dlist.getElements('dd');
         this.content = new Element('div').injectAfter(this.dlist).addClass('current');
           
         if(this.options.height) {
-        	this.content.setStyle('height', this.options.height);
+            this.content.setStyle('height', this.options.height);
         }
 
         for (var i = 0, l = this.titles.length; i < l; i++)
@@ -60,15 +60,15 @@ Koowa.Tabs = new Class({
         }
         
         if(Cookie.get('ktabs.' + dlist)) {
-        	this.options.display = Cookie.get('ktabs.' + dlist);
+            this.options.display = Cookie.get('ktabs.' + dlist);
         }
     
         if ($chk(this.options.display)) {
-        	this.display(this.options.display);
+            this.display(this.options.display);
         }
 
         if (this.options.initialize) {
-        	this.options.initialize.call(this);
+            this.options.initialize.call(this);
         }
     },
 
@@ -81,8 +81,8 @@ Koowa.Tabs = new Class({
 
     display: function(i)
     {
-    	Cookie.set('ktabs.' + this.dlist.getProperty('id'), i);
-    	this.hideAllBut(i);
+        Cookie.set('ktabs.' + this.dlist.getProperty('id'), i);
+        this.hideAllBut(i);
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]])
     }
 });

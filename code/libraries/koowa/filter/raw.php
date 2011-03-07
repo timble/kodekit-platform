@@ -13,31 +13,31 @@
  *
  * Always validates and returns the raw variable
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterRaw extends KFilterAbstract
 {
-	/**
-	 * Validate a value
-	 *
-	 * @param	scalar	Variable to be validated
-	 * @return	bool	True when the variable is valid
-	 */
-	protected function _validate($value)
-	{
-		return true;
-	}
-	
-	/**
-	 * Sanitize a value
-	 *
-	 * @param	scalar	Variable to be sanitized
-	 * @return	mixed
-	 */
-	protected function _sanitize($value)
-	{
-		return $value;
-	}
+    /**
+     * Validate a value
+     *
+     * @param   scalar  Variable to be validated
+     * @return  bool    True when the variable is valid
+     */
+    protected function _validate($value)
+    {
+        return true;
+    }
+    
+    /**
+     * Sanitize a value
+     *
+     * @param   scalar  Variable to be sanitized
+     * @return  mixed
+     */
+    protected function _sanitize($value)
+    {
+        return $value;
+    }
 }

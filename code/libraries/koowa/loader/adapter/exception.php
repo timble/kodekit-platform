@@ -13,8 +13,8 @@
  * Koowa Factory Adapter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Loader
- * @subpackage 	Adapter
+ * @subpackage  Adapter
  */
 class KLoaderAdapterException extends KException {}

@@ -13,9 +13,9 @@
  * Array helper
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Helper
- * @subpackage	Array
+ * @subpackage  Array
  * @static
  */
 class KHelperArray
@@ -23,10 +23,10 @@ class KHelperArray
     /**
      * Typecast each element of the array. Recursive (optional)
      *
-     * @param	array	Array to typecast
-     * @param	string	Type (boolean|int|float|string|array|object|null)
-     * @param	boolean	Recursive
-     * @return	array
+     * @param   array   Array to typecast
+     * @param   string  Type (boolean|int|float|string|array|object|null)
+     * @param   boolean Recursive
+     * @return  array
      */
     public static function settype(array $array, $type, $recursive = true)
     {
@@ -35,17 +35,17 @@ class KHelperArray
             if($recursive && is_array($v)) {
                 $array[$k] = self::settype($v, $type, $recursive);
             } else {
-            	settype($array[$k], $type);
+                settype($array[$k], $type);
             }
         }
         return $array;
     }
 
- 	/**
+    /**
      * Count array items recursively
      *
-     * @param	array
-     * @return	int
+     * @param   array
+     * @return  int
      */
     public static function count(array $array)
     {
@@ -62,45 +62,45 @@ class KHelperArray
     }
 
     /**
- 	 * Merge two arrays recursively
- 	 * 
- 	 * Matching keys' values in the second array overwrite those in the first array, as is the
- 	 * case with array_merge, i.e.:
- 	 * 
- 	 * KHelperArray::merge(array('key' => 'org value'), array('key' => 'new value'));
- 	 *     => array('key' => array('new value'));
- 	 * 
- 	 * Parameters are passed by reference, though only for performance reasons. They're not
- 	 * altered by this function and the datatypes of the values in the arrays are unchanged.
- 	 *
- 	 * @param array 
- 	 * @param array 
- 	 * @return array	An array of values resulted from merging the arguments together. 
- 	 */
-	public static function merge( array &$array1, array &$array2 )
-	{
-  		$args   = func_get_args();
-		$merged = array_shift($args);
-		
-		foreach($args as $array)
-		{
-			foreach ( $array as $key => &$value )
-  			{
-    			if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ){
-      				$merged [$key] = self::merge ( $merged [$key], $value );
-    			} else {
-      				$merged [$key] = $value;
-    			}
-  			}
-		}
+     * Merge two arrays recursively
+     * 
+     * Matching keys' values in the second array overwrite those in the first array, as is the
+     * case with array_merge, i.e.:
+     * 
+     * KHelperArray::merge(array('key' => 'org value'), array('key' => 'new value'));
+     *     => array('key' => array('new value'));
+     * 
+     * Parameters are passed by reference, though only for performance reasons. They're not
+     * altered by this function and the datatypes of the values in the arrays are unchanged.
+     *
+     * @param array 
+     * @param array 
+     * @return array    An array of values resulted from merging the arguments together. 
+     */
+    public static function merge( array &$array1, array &$array2 )
+    {
+        $args   = func_get_args();
+        $merged = array_shift($args);
+        
+        foreach($args as $array)
+        {
+            foreach ( $array as $key => &$value )
+            {
+                if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ){
+                    $merged [$key] = self::merge ( $merged [$key], $value );
+                } else {
+                    $merged [$key] = $value;
+                }
+            }
+        }
 
-  		return $merged;
-	}
+        return $merged;
+    }
 
     /**
      * Extracts a column from an array of arrays or objects
      *
-     * @param 	array	List of arrays or objects
+     * @param   array   List of arrays or objects
      * @param   string  The index of the column or name of object property
      * @return  array   Column of values from the source array
      */
@@ -120,41 +120,41 @@ class KHelperArray
         return $result;
     }
 
-	/**
-	 * Utility function to map an array to a string
-	 *
-	 * @static
-	 * @param	array|object	The array or object to transform into a string
-	 * @param	string			The inner glue to use, default '='
-	 * @param	string			The outer glue to use, default ' '
-	 * @param	boolean	
-	 * @return	string	The string mapped from the given array
-	 */
-	public static function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
-	{
-		$output = array();
-		
-		if(is_object($array)) {
-			$array = (array) KConfig::toData($array);
-		}
+    /**
+     * Utility function to map an array to a string
+     *
+     * @static
+     * @param   array|object    The array or object to transform into a string
+     * @param   string          The inner glue to use, default '='
+     * @param   string          The outer glue to use, default ' '
+     * @param   boolean 
+     * @return  string  The string mapped from the given array
+     */
+    public static function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
+    {
+        $output = array();
+        
+        if(is_object($array)) {
+            $array = (array) KConfig::toData($array);
+        }
 
-		if (is_array($array))
-		{
-			foreach ($array as $key => $item)
-			{
-				if (is_array ($item))
-				{
-					if ($keepOuterKey) {
-						$output[] = $key;
-					}
+        if (is_array($array))
+        {
+            foreach ($array as $key => $item)
+            {
+                if (is_array ($item))
+                {
+                    if ($keepOuterKey) {
+                        $output[] = $key;
+                    }
 
-					// This is value is an array, go and do it again!
-					$output[] = KHelperArray::toString( $item, $inner_glue, $outer_glue, $keepOuterKey);
-				}
-				else $output[] = $key.$inner_glue.'"'.$item.'"';
-			}
-		}
+                    // This is value is an array, go and do it again!
+                    $output[] = KHelperArray::toString( $item, $inner_glue, $outer_glue, $keepOuterKey);
+                }
+                else $output[] = $key.$inner_glue.'"'.$item.'"';
+            }
+        }
 
-		return implode( $outer_glue, $output);
-	}
+        return implode( $outer_glue, $output);
+    }
 }

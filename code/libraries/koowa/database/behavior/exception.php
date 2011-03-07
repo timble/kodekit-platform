@@ -13,8 +13,8 @@
  * Koowa Database Schema Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Database
- * @subpackage	Behavior
+ * @subpackage  Behavior
  */
 class KDatabaseBehaviorException extends KDatabaseException {}

@@ -199,13 +199,13 @@ interface KDatabaseAdapterInterface
      * and then returned as a comma-separated string; this is useful
      * for generating IN() lists.
      *
-     * @param 	mixed The value to quote.
+     * @param   mixed The value to quote.
      * @return string An SQL-safe quoted value (or a string of separated-
-     * 				  and-quoted values).
+     *                and-quoted values).
      */
     public function quoteValue($value);
     
-   	/**
+    /**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
      * 

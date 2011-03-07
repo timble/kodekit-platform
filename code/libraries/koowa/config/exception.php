@@ -12,7 +12,7 @@
  * Koowa Config Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Config
  */
 class KConfigException extends KException {}

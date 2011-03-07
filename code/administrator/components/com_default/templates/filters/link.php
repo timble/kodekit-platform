@@ -12,31 +12,31 @@
 /**
  * Script Filter
 .*
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultTemplateFilterLink extends KTemplateFilterLink
-{	
-   	/**
-	 * Render script information
-	 * 
-	 * @param string	The script information
-	 * @param array		Associative array of attributes
-	 * @return string 	
-	 */
-	protected function _renderScript($link, $attribs = array())
-	{	
-		if(KRequest::type() == 'AJAX') {
-			return parent::_renderLink($script, $attribs);
-		}
-		
-		$relType  = 'rel';
-		$relValue = $attribs['rel'];
-		unset($attribs['rel']);
-			
-		KFactory::get('lib.joomla.document')
-			->addHeadLink($link, $relValue, $relType, $attribs);
-	}
+{   
+    /**
+     * Render script information
+     * 
+     * @param string    The script information
+     * @param array     Associative array of attributes
+     * @return string   
+     */
+    protected function _renderScript($link, $attribs = array())
+    {   
+        if(KRequest::type() == 'AJAX') {
+            return parent::_renderLink($script, $attribs);
+        }
+        
+        $relType  = 'rel';
+        $relValue = $attribs['rel'];
+        unset($attribs['rel']);
+            
+        KFactory::get('lib.joomla.document')
+            ->addHeadLink($link, $relValue, $relType, $attribs);
+    }
 }

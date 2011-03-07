@@ -27,20 +27,20 @@ class KFilterTrim extends KFilterAbstract
      */
     protected $_charList = null;
 
-	/**
-	 * Constructor
-	 *
-	 * @param	object	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-		
-		// List of user-defined tags
-		if(isset($config->char_list)) {
-			$this->_charList = $config->char_list;
-		}
-	}
+    /**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        // List of user-defined tags
+        if(isset($config->char_list)) {
+            $this->_charList = $config->char_list;
+        }
+    }
     
     /**
      * Returns the charList option
@@ -64,31 +64,31 @@ class KFilterTrim extends KFilterAbstract
         return $this;
     }
 
-	/**
-	 * Validate a value
-	 *
-	 * @param	scalar	Value to be validated
-	 * @return	bool	True when the variable is valid
-	 */
-	protected function _validate($value)
-	{
-		return (is_string($value));
-	}
-	
-	/**
-	 * Sanitize a value
-	 * 
-	 * Returns the variable with characters stripped from the beginning and end
-	 *
-	 * @param	mixed	Value to be sanitized
-	 * @return	string
-	 */
-	protected function _sanitize($value)
-	{
-	 	if (null === $this->_charList) {
+    /**
+     * Validate a value
+     *
+     * @param   scalar  Value to be validated
+     * @return  bool    True when the variable is valid
+     */
+    protected function _validate($value)
+    {
+        return (is_string($value));
+    }
+    
+    /**
+     * Sanitize a value
+     * 
+     * Returns the variable with characters stripped from the beginning and end
+     *
+     * @param   mixed   Value to be sanitized
+     * @return  string
+     */
+    protected function _sanitize($value)
+    {
+        if (null === $this->_charList) {
             return trim((string) $value);
         } else {
             return trim((string) $value, $this->_charList);
         }
-	}
+    }
 }

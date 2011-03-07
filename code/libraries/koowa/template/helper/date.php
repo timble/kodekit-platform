@@ -1,54 +1,54 @@
 <?php
 /**
- * @version		$Id: default.php 2057 2010-05-15 20:48:00Z johanjanssens $
- * @category	Koowa
- * @package		Koowa_Template
- * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version     $Id: default.php 2057 2010-05-15 20:48:00Z johanjanssens $
+ * @category    Koowa
+ * @package     Koowa_Template
+ * @subpackage  Helper
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
  * Template Helper Class
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Template
- * @subpackage	Helper
- * @uses   		KFactory
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Template
+ * @subpackage  Helper
+ * @uses        KFactory
  */
 class KTemplateHelperDate extends KTemplateHelperAbstract
 {
-	/**
-	 * Returns formatted date according to current local and adds time offset.
-	 *
-	 * @param  array   An optional array with configuration options.
-	 * @return string  Formatted date.
-	 * @see    strftime
-	 */
-	public function format($config = array())
-	{
-		$config = new KConfig($config);
-		$config->append(array(
-			'date'   	 => '',
-			'format'	 => '%A, %d %B %Y',
-			'gmt_offset' => 0,
- 		));
+    /**
+     * Returns formatted date according to current local and adds time offset.
+     *
+     * @param  array   An optional array with configuration options.
+     * @return string  Formatted date.
+     * @see    strftime
+     */
+    public function format($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'date'       => '',
+            'format'     => '%A, %d %B %Y',
+            'gmt_offset' => 0,
+        ));
 
- 		if(!is_numeric($config->date)) {
- 			$config->date =  strtotime($config->date);
- 		}
+        if(!is_numeric($config->date)) {
+            $config->date =  strtotime($config->date);
+        }
 
- 		return strftime($config->format, $config->date + 3600 * $config->gmt_offset);
-	}
+        return strftime($config->format, $config->date + 3600 * $config->gmt_offset);
+    }
 
-	/**
-	 * Returns human readable date.
-	 *
-	 * @param  array   An optional array with configuration options.
-	 * @return string  Formatted date.
-	 */
+    /**
+     * Returns human readable date.
+     *
+     * @param  array   An optional array with configuration options.
+     * @return string  Formatted date.
+     */
     public function humanize($config = array())
     {
         $config = new KConfig($config);

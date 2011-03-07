@@ -11,10 +11,10 @@
 /**
  * Default button class for a toolbar
  * 
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Toolbar
- * @subpackage	Button
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Toolbar
+ * @subpackage  Button
  */
 class KToolbarButtonDefault extends KToolbarButtonAbstract
 {

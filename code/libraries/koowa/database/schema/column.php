@@ -118,22 +118,22 @@ class KDatabaseSchemaColumn extends KObject
      * Implements access to $_filter by reference so that it appears to be 
      * a public $filter property.
      * 
-     * @param 	string	The virtual property to return, only accepts 'filter'
-     * @return 	mixed 	The value of the virtual property.
+     * @param   string  The virtual property to return, only accepts 'filter'
+     * @return  mixed   The value of the virtual property.
      */
     public function __get($key)
     {
         if ($key == 'filter') 
         {
            if(!isset($this->_filter)) {
-				$this->_filter = $this->type;
-			}
-			
-			if(!($this->_filter instanceof KFilterInterface)) {
-				$this->_filter = KFilter::factory($this->_filter);
-			}
-		
-			return $this->_filter;
+                $this->_filter = $this->type;
+            }
+            
+            if(!($this->_filter instanceof KFilterInterface)) {
+                $this->_filter = KFilter::factory($this->_filter);
+            }
+        
+            return $this->_filter;
         }
     }
 }

@@ -12,8 +12,8 @@
 /**
  * Koowa System plugin
 .*
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Plugings
  * @subpackage  System
  */

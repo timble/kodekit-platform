@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category	Nooku
+ * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -12,33 +12,33 @@
 /**
  * Script Filter
 .*
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultTemplateFilterScript extends KTemplateFilterScript
-{	
-   	/**
-	 * Render script information
-	 * 
-	 * @param string	The script information
-	 * @param boolean	True, if the script information is a URL.
-	 * @param array		Associative array of attributes
-	 * @return string 	
-	 */
-	protected function _renderScript($script, $link, $attribs = array())
-	{	
-		if(KRequest::type() == 'AJAX') {
-			return parent::_renderScript($script, $link, $attribs);
-		}
-		
-		$document = KFactory::get('lib.joomla.document');
-		
-		if($link) {
-			$document->addScript($script, 'text/javascript');
-		} else {
-			$document->addScriptDeclaration($script);
-		}
-	}
+{   
+    /**
+     * Render script information
+     * 
+     * @param string    The script information
+     * @param boolean   True, if the script information is a URL.
+     * @param array     Associative array of attributes
+     * @return string   
+     */
+    protected function _renderScript($script, $link, $attribs = array())
+    {   
+        if(KRequest::type() == 'AJAX') {
+            return parent::_renderScript($script, $link, $attribs);
+        }
+        
+        $document = KFactory::get('lib.joomla.document');
+        
+        if($link) {
+            $document->addScript($script, 'text/javascript');
+        } else {
+            $document->addScriptDeclaration($script);
+        }
+    }
 }

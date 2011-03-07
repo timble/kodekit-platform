@@ -12,7 +12,7 @@
  * Filter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterException extends KException {}

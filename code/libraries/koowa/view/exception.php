@@ -12,7 +12,7 @@
  * Koowa View Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_View
  */
 class KViewException extends KException {}

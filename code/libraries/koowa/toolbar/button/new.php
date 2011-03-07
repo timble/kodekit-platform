@@ -11,17 +11,17 @@
 /**
  * New button class for a toolbar
  * 
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Toolbar
- * @subpackage	Button
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Toolbar
+ * @subpackage  Button
  */
 class KToolbarButtonNew extends KToolbarButtonAbstract
 {
-	public function getLink()
-	{
-		$option = KRequest::get('get.option', 'cmd');
-		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		return 'index.php?option='.$option.'&view='.$view;
-	}
+    public function getLink()
+    {
+        $option = KRequest::get('get.option', 'cmd');
+        $view   = KInflector::singularize(KRequest::get('get.view', 'cmd'));
+        return 'index.php?option='.$option.'&view='.$view;
+    }
 }

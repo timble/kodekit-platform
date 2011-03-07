@@ -13,8 +13,8 @@
  * Koowa Database Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Database
- * @subpackage	Table
+ * @subpackage  Table
  */
 class KDatabaseTableException extends KDatabaseException {}

@@ -12,58 +12,58 @@
 /**
  * Default Dispatcher
 .*
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultDispatcher extends KDispatcherDefault
 { 
-	/**
-	 * Dispatch the controller and redirect
-	 * 
-	 * This function divert the standard behavior and will redirect if no view
-	 * information can be found in the request.
-	 * 
-	 * @param	string		The view to dispatch. If null, it will default to
-	 * 						retrieve the controller information from the request or
-	 * 						default to the component name if no controller info can
-	 * 						be found.
-	 *
-	 * @return	KDispatcherDefault
-	 */
-	protected function _actionDispatch(KCommandContext $context)
-	{
-		//Redirect if no view information can be found in the request
-		if(!KRequest::has('get.view')) 
-		{
-			$view = $context->data ? $context->data : $this->_controller_default;
-			
-			$url = clone(KRequest::url());
-			$url->query['view'] = $view;
-			
-			KFactory::get('lib.koowa.application')->redirect($url);
-		}
-		
-		return parent::_actionDispatch($context);
-	}
-	
-	/**
-	 * Push the controller data into the document
-	 * 
-	 * This function divert the standard behavior and will push specific controller data
-	 * into the document
-	 *
-	 * @return	KDispatcherDefault
-	 */
-	protected function _actionRender(KCommandContext $context)
-	{
-		$controller = KFactory::get($this->getController());
-		$view       = KFactory::get($controller->getView());
-	
-		$document = KFactory::get('lib.joomla.document');
-		$document->setMimeEncoding($view->mimetype);
-		
-		return parent::_actionRender($context);
-	}
+    /**
+     * Dispatch the controller and redirect
+     * 
+     * This function divert the standard behavior and will redirect if no view
+     * information can be found in the request.
+     * 
+     * @param   string      The view to dispatch. If null, it will default to
+     *                      retrieve the controller information from the request or
+     *                      default to the component name if no controller info can
+     *                      be found.
+     *
+     * @return  KDispatcherDefault
+     */
+    protected function _actionDispatch(KCommandContext $context)
+    {
+        //Redirect if no view information can be found in the request
+        if(!KRequest::has('get.view')) 
+        {
+            $view = $context->data ? $context->data : $this->_controller_default;
+            
+            $url = clone(KRequest::url());
+            $url->query['view'] = $view;
+            
+            KFactory::get('lib.koowa.application')->redirect($url);
+        }
+        
+        return parent::_actionDispatch($context);
+    }
+    
+    /**
+     * Push the controller data into the document
+     * 
+     * This function divert the standard behavior and will push specific controller data
+     * into the document
+     *
+     * @return  KDispatcherDefault
+     */
+    protected function _actionRender(KCommandContext $context)
+    {
+        $controller = KFactory::get($this->getController());
+        $view       = KFactory::get($controller->getView());
+    
+        $document = KFactory::get('lib.joomla.document');
+        $document->setMimeEncoding($view->mimetype);
+        
+        return parent::_actionRender($context);
+    }
 }

@@ -12,12 +12,12 @@
 /**
  * Default Module Model
 .*
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Nooku
  * @package     Nooku_Modules
  * @subpackage  Default
  */
 class ModDefaultModel extends KModelAbstract
 {
-	
+    
 }

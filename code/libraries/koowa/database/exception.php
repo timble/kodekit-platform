@@ -12,7 +12,7 @@
  * Koowa Database Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Database
  */
 class KDatabaseException extends KException {}

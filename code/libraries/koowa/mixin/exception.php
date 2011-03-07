@@ -12,7 +12,7 @@
  * Koowa Mixin Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Mixin
  */
 class KMixinException extends KException {}

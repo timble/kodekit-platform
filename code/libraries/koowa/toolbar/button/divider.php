@@ -11,16 +11,16 @@
 /**
  * Divider
  * 
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Toolbar
- * @subpackage	Button
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Toolbar
+ * @subpackage  Button
  */
 class KToolbarButtonDivider extends KToolbarButtonAbstract
 {
-	public function render()
-	{
-		return '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
-	}
+    public function render()
+    {
+        return '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
+    }
 
 }

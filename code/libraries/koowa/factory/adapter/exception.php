@@ -13,8 +13,8 @@
  * Factory Adapter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Factory
- * @subpackage 	Adapter
+ * @subpackage  Adapter
  */
 class KFactoryAdapterException extends KFactoryException {}

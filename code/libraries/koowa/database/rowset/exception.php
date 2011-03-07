@@ -12,9 +12,9 @@
 /**
  * Koowa Database Exception class
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Database
- * @subpackage	Rowset
+ * @subpackage  Rowset
  */
 class KDatabaseRowsetException extends KDatabaseException {}

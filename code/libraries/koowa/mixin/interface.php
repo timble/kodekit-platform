@@ -12,22 +12,22 @@
  * Mixes a chain of command behaviour into a class
  *  
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Mixin
  */
 interface KMixinInterface
 {   
-	/**
-	 * Get the methods that are available for mixin. 
-	 * 
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods();
-	
-	/**
-	 * Notification function called when the mixin is being mixed
-	 * 
-	 * @return void
-	 */
-	public function onMixin();
+    /**
+     * Get the methods that are available for mixin. 
+     * 
+     * @return array An array of methods
+     */
+    public function getMixableMethods();
+    
+    /**
+     * Notification function called when the mixin is being mixed
+     * 
+     * @return void
+     */
+    public function onMixin();
 }

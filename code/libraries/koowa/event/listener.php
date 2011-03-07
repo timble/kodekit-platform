@@ -11,35 +11,35 @@
 /**
  * Class to handle events.
  *
- * @author 		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package 	Koowa_Event
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Event
  */
 class KEventListener extends KObject implements KPatternObserver, KObjectIdentifiable
 {
-	/**
-	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-	
-	/**
-	 * Method to trigger events
-	 *
-	 * @param  object	The event arguments
-	 * @return mixed Routine return value
-	 */
-	public function update(KConfig $args)
-	{		
-		if (in_array($args->event, $this->getMethods())) {
-			return $this->{$args->event}($args);
-		} 
-		
-		return null;
-	}
+    /**
+     * Get the object identifier
+     * 
+     * @return  KIdentifier 
+     * @see     KObjectIdentifiable
+     */
+    public function getIdentifier()
+    {
+        return $this->_identifier;
+    }
+    
+    /**
+     * Method to trigger events
+     *
+     * @param  object   The event arguments
+     * @return mixed Routine return value
+     */
+    public function update(KConfig $args)
+    {       
+        if (in_array($args->event, $this->getMethods())) {
+            return $this->{$args->event}($args);
+        } 
+        
+        return null;
+    }
 }

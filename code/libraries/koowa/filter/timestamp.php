@@ -13,14 +13,14 @@
  * 
  * Validates or sanitizes a value is an ISO 8601 timestamp string.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterTimestamp extends KFilterAbstract
 {
-	/**
-	 * Validates that the value is an ISO 8601 timestamp string.
+    /**
+     * Validates that the value is an ISO 8601 timestamp string.
      * 
      * The format is "yyyy-mm-ddThh:ii:ss" (note the literal "T" in the middle, which acts as a 
      * separator -- may also be a space). As an alternative, the value may be an array with all 
@@ -28,13 +28,13 @@ class KFilterTimestamp extends KFilterAbstract
      * to an ISO 8601 string before validating it.
      * 
      * Also checks that the date itself is valid (for example, no Feb 30).
-	 * 
-	 * @param mixed The value to validate.
-	 * @return	bool	True when the variable is valid
-	 */
-	protected function _validate($value)
-	{
-		 // look for YmdHis keys?
+     * 
+     * @param mixed The value to validate.
+     * @return  bool    True when the variable is valid
+     */
+    protected function _validate($value)
+    {
+         // look for YmdHis keys?
         if (is_array($value)) {
             $value = $this->_arrayToTimestamp($value);
         }
@@ -63,40 +63,40 @@ class KFilterTimestamp extends KFilterAbstract
         }
         
         return true;
-	}
-	
-	/**
-	 * Forces the value to an ISO-8601 formatted timestamp using a space separator 
-	 * ("yyyy-mm-dd hh:ii:ss") instead of a "T" separator.
+    }
+    
+    /**
+     * Forces the value to an ISO-8601 formatted timestamp using a space separator 
+     * ("yyyy-mm-dd hh:ii:ss") instead of a "T" separator.
      * 
      * @param mixed The value to be sanitized.  If an integer, it is used as a Unix timestamp; 
-     * 				otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].  
-     * 				If an array, and it has *all* the keys for `Y, m, d, h, i, s`, then the 
-     * 				array is converted into an ISO 8601 string before sanitizing.
-	 * @return	string The sanitized value.
-	 */
-	protected function _sanitize($value)
-	{
-		// look for YmdHis keys?
+     *              otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].  
+     *              If an array, and it has *all* the keys for `Y, m, d, h, i, s`, then the 
+     *              array is converted into an ISO 8601 string before sanitizing.
+     * @return  string The sanitized value.
+     */
+    protected function _sanitize($value)
+    {
+        // look for YmdHis keys?
         if (is_array($value)) {
             $value = $this->_arrayToTimestamp($value);
         }
-		
-		$result = '0000-00-00 00:00:00';
+        
+        $result = '0000-00-00 00:00:00';
         if (!(empty($value) || $value == $result))
         {
              $format = 'Y-m-d H:i:s';
-        	if (is_int($value)) {
-            	$result = date($format, $value);
-        	} else {
-        		$result = date($format, strtotime($value));
-        	}	 
+            if (is_int($value)) {
+                $result = date($format, $value);
+            } else {
+                $result = date($format, strtotime($value));
+            }    
         } 
-		
+        
         return $result;
-	}
-	
-	/**
+    }
+    
+    /**
      * Converts an array of timestamp parts to a string timestamp.
      * 
      * @param array The array of timestamp parts.

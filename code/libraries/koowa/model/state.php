@@ -69,98 +69,98 @@ class KModelState extends KModelAbstract
      */
     public function __isset($name)
     {
-    	return isset($this->_state[$name]);
+        return isset($this->_state[$name]);
     }
 
     /**
      * Unset a state value
      *
-     * @param	string  The column key.
-     * @return	void
+     * @param   string  The column key.
+     * @return  void
      */
     public function __unset($name)
     {
-    	if(isset($this->_state[$name])) {
-    		$this->_state[$name]->value = $this->_state[$name]->default;
-    	}
+        if(isset($this->_state[$name])) {
+            $this->_state[$name]->value = $this->_state[$name]->default;
+        }
     }
 
-	/**
+    /**
      * Insert a new state
      *
-     * @param   string		The name of the state
-     * @param   mixed		Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
-     * @param   mixed  		The default value of the state
-     * @param   boolean 	TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
-     * @param   array 		Array of required states to determine if the state is unique. Only applicable if the state is unqiue. 
+     * @param   string      The name of the state
+     * @param   mixed       Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
+     * @param   mixed       The default value of the state
+     * @param   boolean     TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
+     * @param   array       Array of required states to determine if the state is unique. Only applicable if the state is unqiue. 
      * @return  KModelState
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
-    	if(!isset($this->_state[$name]))
-    	{
-    		$state = new stdClass();
-    		$state->name     = $name;
-    		$state->filter   = $filter;
-    		$state->value    = $default;
-    		$state->unique   = $unique;
-    		$state->required = $required;
-    		$state->default  = $default;
-    		$this->_state[$name] = $state;
-    	}
+        if(!isset($this->_state[$name]))
+        {
+            $state = new stdClass();
+            $state->name     = $name;
+            $state->filter   = $filter;
+            $state->value    = $default;
+            $state->unique   = $unique;
+            $state->required = $required;
+            $state->default  = $default;
+            $this->_state[$name] = $state;
+        }
 
         return $this;
     }
 
-	/**
+    /**
      * Remove an existing state
      *
-     * @param   string		The name of the state
+     * @param   string      The name of the state
      * @return  KModelState
      */
     public function remove( $name )
     {
-    	unset($this->_state[$name]);
+        unset($this->_state[$name]);
         return $this;
     }
 
-	/**
+    /**
      * Reset all state data and revert to the default state
      *
-     * @param   boolean	If TRUE use defaults when resetting. Default is TRUE
+     * @param   boolean If TRUE use defaults when resetting. Default is TRUE
      * @return KModelState
      */
     public function reset($default = true)
     {
-    	foreach($this->_state as $state) {
-    		$state->value = $default ? $state->default : null;
-    	}
-    	
-    	return $this;
+        foreach($this->_state as $state) {
+            $state->value = $default ? $state->default : null;
+        }
+        
+        return $this;
     }
     
-	/**
+    /**
      * Set the state data
      *
-     * @param   array|object	An associative array of state values by name
+     * @param   array|object    An associative array of state values by name
      * @return  KModelState
      */
     public function setData(array $data)
     {
-		// Filter data
-		foreach($data as $key => $value)
-		{
-			if(isset($this->_state[$key]))
-    		{
-    			$filter = $this->_state[$key]->filter;
+        // Filter data
+        foreach($data as $key => $value)
+        {
+            if(isset($this->_state[$key]))
+            {
+                $filter = $this->_state[$key]->filter;
 
-    			if(!($filter instanceof KFilterInterface)) {
-					$filter = KFilter::factory($filter);
-				}
+                if(!($filter instanceof KFilterInterface)) {
+                    $filter = KFilter::factory($filter);
+                }
 
-    			$this->_state[$key]->value = $filter->sanitize($value);
-    		}
-		}
+                $this->_state[$key]->value = $filter->sanitize($value);
+            }
+        }
 
         return $this;
     }
@@ -170,47 +170,47 @@ class KModelState extends KModelAbstract
      * 
      * This function only returns states that have been been set.
      *
-     * @param   boolean	If TRUE only retrieve unique state values, default FALSE
-     * @return  array 	An associative array of state values by name
+     * @param   boolean If TRUE only retrieve unique state values, default FALSE
+     * @return  array   An associative array of state values by name
      */
     public function getData($unique = false)
     {
         $data = array();
 
-   		foreach ($this->_state as $name => $state) 
-   		{
+        foreach ($this->_state as $name => $state) 
+        {
             if(isset($state->value))
             {
-           		//Only return unique data 
-            	if($unique) 
-           		 {
-   					//Unique values cannot be null or an empty string
-           		 	if($state->unique && !empty($state->value)) 
-           		 	{
-           		 		$result = true;
-           		 		
-           		 		//Check related states to see if they are set
-           		 		foreach($state->required as $required)
-           		 		{
-           		 			if(empty($this->_state[$required]->value)) 
-           		 			{
-           		 				$result = false;
-           		 				break;
-           		 			}
-           		 		}
-           		 		
-           		 		//Prepare the data to be returned. Include states
-           		 		if($result) 
-           		 		{
-           		 			$data[$name] = $state->value;
-           		 			
-           		 			foreach($state->required as $required) {
-           		 				$data[$required] = $this->_state[$required]->value;
-           		 			}
-           		 		}
-   					}
-   					
-            	} else $data[$name] = $state->value;	
+                //Only return unique data 
+                if($unique) 
+                 {
+                    //Unique values cannot be null or an empty string
+                    if($state->unique && !empty($state->value)) 
+                    {
+                        $result = true;
+                        
+                        //Check related states to see if they are set
+                        foreach($state->required as $required)
+                        {
+                            if(empty($this->_state[$required]->value)) 
+                            {
+                                $result = false;
+                                break;
+                            }
+                        }
+                        
+                        //Prepare the data to be returned. Include states
+                        if($result) 
+                        {
+                            $data[$name] = $state->value;
+                            
+                            foreach($state->required as $required) {
+                                $data[$required] = $this->_state[$required]->value;
+                            }
+                        }
+                    }
+                    
+                } else $data[$name] = $state->value;    
             }
         }
             
@@ -224,23 +224,23 @@ class KModelState extends KModelAbstract
      */
     public function isUnique()
     {
-    	return (bool) count($this->getData(true));
+        return (bool) count($this->getData(true));
     }
     
-	/**
+    /**
      * Check if the state information is empty
      * 
-     * @param   array	An array of states names to exclude. 
+     * @param   array   An array of states names to exclude. 
      * @return  boolean TRUE if the state is empty, otherwise FALSE.
      */
     public function isEmpty(array $exclude = array())
     {
-    	$states = $this->getData();
-    	 
-    	foreach($exclude as $state) {
-    		unset($states[$state]);	
-    	}
-    	
-    	return (bool) (count($states) == 0);
+        $states = $this->getData();
+         
+        foreach($exclude as $state) {
+            unset($states[$state]); 
+        }
+        
+        return (bool) (count($states) == 0);
     }
 }

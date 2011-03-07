@@ -17,7 +17,7 @@ define('KOOWA', 1);
  *
  * Loads classes and files, and provides metadata for Koowa such as version info
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa
  */
 class Koowa
@@ -39,7 +39,7 @@ class Koowa
      */
     public static function getVersion()
     {
-   	    return self::VERSION;
+        return self::VERSION;
     }
 
     /**
@@ -47,8 +47,8 @@ class Koowa
      */
     public static function getPath()
     {
-    	if(!isset(self::$_path)) {
-        	self::$_path = dirname(__FILE__);
+        if(!isset(self::$_path)) {
+            self::$_path = dirname(__FILE__);
         }
 
         return self::$_path;

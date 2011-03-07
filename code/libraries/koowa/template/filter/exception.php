@@ -13,8 +13,8 @@
  * Koowa Template Filter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Template
- * @subpackage 	Filter
+ * @subpackage  Filter
  */
 class KTemplateFilterException extends KTemplateException {}

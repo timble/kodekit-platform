@@ -16,37 +16,37 @@
  * when a command return a value. If the command returns false the chain
  * will keep running.
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Factory
  */
 class KFactoryChain extends KCommandChain
 {
-  	/**
-	 * Run the commands in the chain
-	 *
-	 * If a command returns not false the exection is halted
-	 *
-	 * @param string  The command name
-	 * @param object  The command context
-	 * @return object|false  Return object on success, returns FALSE on failure
-	 */
-  	final public function run( $identifier, KCommandContext $context )
-  	{	
-  		$iterator = $this->_priority->getIterator();
+    /**
+     * Run the commands in the chain
+     *
+     * If a command returns not false the exection is halted
+     *
+     * @param string  The command name
+     * @param object  The command context
+     * @return object|false  Return object on success, returns FALSE on failure
+     */
+    final public function run( $identifier, KCommandContext $context )
+    {   
+        $iterator = $this->_priority->getIterator();
 
-		while($iterator->valid())
-		{
-    		$cmd = $this->_command[ $iterator->key()];
+        while($iterator->valid())
+        {
+            $cmd = $this->_command[ $iterator->key()];
 
-			$result = $cmd->execute( $identifier, $context );
-    		if ($result !== false) {
-      			return $result;
-    		}
+            $result = $cmd->execute( $identifier, $context );
+            if ($result !== false) {
+                return $result;
+            }
 
-    		$iterator->next();
-		}
+            $iterator->next();
+        }
 
-		return false;
-  	}
+        return false;
+    }
 }

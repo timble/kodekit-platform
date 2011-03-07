@@ -136,19 +136,19 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-    	if(isset($this->ordering) && $this->ordering <= 0)
-    	{
-        	$table	= $this->getTable();
-			$db 	= $table->getDatabase();
-			$query 	= $db->getQuery();
-    		
-			//Build the where query
-			$this->_buildQueryWhere($query);;
-			
-    		$select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
-			$select .= (string) $query;
-    		
-			$this->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
+        if(isset($this->ordering) && $this->ordering <= 0)
+        {
+            $table  = $this->getTable();
+            $db     = $table->getDatabase();
+            $query  = $db->getQuery();
+            
+            //Build the where query
+            $this->_buildQueryWhere($query);;
+            
+            $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
+            $select .= (string) $query;
+            
+            $this->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
         }
     }
 
@@ -156,22 +156,22 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param	KCommandContext Context
+     * @param   KCommandContext Context
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-    	if(isset($this->order) && isset($this->ordering)) {
-        	$this->order($this->order);
+        if(isset($this->order) && isset($this->ordering)) {
+            $this->order($this->order);
         }
     }
 
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param	KCommandContext Context
+     * @param   KCommandContext Context
      */
     protected function _afterTableDelete(KCommandContext $context)
     {
-    	$this->reorder();
+        $this->reorder();
     }
 }

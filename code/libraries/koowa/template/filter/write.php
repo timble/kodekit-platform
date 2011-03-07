@@ -14,18 +14,18 @@
  *
  * Process the template on output
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Template
- * @subpackage	Filter 
+ * @subpackage  Filter 
  */
 interface KTemplateFilterWrite
 {
-	/**
-	 * Parse the text and filter it
-	 *
-	 * @param string Block of text to parse
-	 * @return KTemplateFilterWrite
-	 */
-	public function write(&$text);
+    /**
+     * Parse the text and filter it
+     *
+     * @param string Block of text to parse
+     * @return KTemplateFilterWrite
+     */
+    public function write(&$text);
 }

@@ -13,8 +13,8 @@
  * Koowa Template Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Template
- * @subpackage	Helper
+ * @subpackage  Helper
  */
 class KTemplateHelperException extends KTemplateException {}

@@ -78,9 +78,9 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
     protected function _uuid($hex = false) 
     {
         $pr_bits = false;
-     	if (is_resource ( $this->_urand )) {
-         	$pr_bits .= @fread ( $this->_urand, 16 );
-       	}
+        if (is_resource ( $this->_urand )) {
+            $pr_bits .= @fread ( $this->_urand, 16 );
+        }
         
         if (! $pr_bits) 
         {
@@ -129,5 +129,5 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
         
         return sprintf ( $format, $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node );
     }
-	
+    
 }

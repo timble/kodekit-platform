@@ -1,6 +1,6 @@
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category	Nooku
+ * @category    Nooku
  * @package     Nooku_Media
  * @subpackage  Stylesheet
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
@@ -9,32 +9,32 @@
  */
  
 .-koowa-overlay-status {
-	float: right;
-	background-color:#FFFFDD;
-	padding: 5px;
+    float: right;
+    background-color:#FFFFDD;
+    padding: 5px;
 }
 
 .-koowa-pagination .limit {
-	float: left;
+    float: left;
 }
 
 .-koowa-pagination .count {
-	padding:3px 0 0 10px;
-	float: left;
+    padding:3px 0 0 10px;
+    float: left;
 }
 
 .-koowa-pagination .pages {
-	margin:0px;
-	padding:3px 0 0 0;
-	float: left;
+    margin:0px;
+    padding:3px 0 0 0;
+    float: left;
 }
 
 .-koowa-pagination .active {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .-koowa-pagination li {
-	display:inline;
-	margin:0;
-	padding:4px;
+    display:inline;
+    margin:0;
+    padding:4px;
 }

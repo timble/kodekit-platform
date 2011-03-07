@@ -29,94 +29,94 @@
  * <?php
  *  class plgKoowaFoo extends plgKoowaDefault
  * {
- * 		public function onControllerBeforeBrowse(KCommandcontext $context)
- * 		{
- * 			//The caller is a reference to the object that is triggering this event
- * 			$caller = $context->caller;
+ *      public function onControllerBeforeBrowse(KCommandcontext $context)
+ *      {
+ *          //The caller is a reference to the object that is triggering this event
+ *          $caller = $context->caller;
  * 
- * 			//The result is the actual result of the event, if this is an after event 
- * 			//the result will contain the result of the action.
- * 			$result = $context->result;
+ *          //The result is the actual result of the event, if this is an after event 
+ *          //the result will contain the result of the action.
+ *          $result = $context->result;
  * 
- * 			//The context object can also contain a number of custom properties
+ *          //The context object can also contain a number of custom properties
  *          print_r($context);
- * 		}	
- * }	
+ *      }   
+ * }    
 }
  * </code>
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category   	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */
 abstract class PlgKoowaDefault extends KEventListener
-{	
-	/**
-	 * A JParameter object holding the parameters for the plugin
-	 *
-	 * @var	A JParameter object
-	 */
-	public $params	= null;
+{   
+    /**
+     * A JParameter object holding the parameters for the plugin
+     *
+     * @var A JParameter object
+     */
+    public $params  = null;
 
-	/**
-	 * The name of the plugin
-	 *
-	 * @var		string
-	 */
-	protected $_name = null;
+    /**
+     * The name of the plugin
+     *
+     * @var     string
+     */
+    protected $_name = null;
 
-	/**
-	 * The plugin type
-	 *
-	 * @var		string
-	 */
-	protected $_type = null;
-	
-	/**
-	 * Constructor
-	 */
-	function __construct($dispatcher, $config = array())
-	{
-		if ( isset( $config['params'] ) ) 
-		{
-			if(is_a($config['params'], 'JParameter')) {
-				$this->params = $config['params'];
-			} else {
-				$this->params = new JParameter($config['params']);
-			}
-		}
+    /**
+     * The plugin type
+     *
+     * @var     string
+     */
+    protected $_type = null;
+    
+    /**
+     * Constructor
+     */
+    function __construct($dispatcher, $config = array())
+    {
+        if ( isset( $config['params'] ) ) 
+        {
+            if(is_a($config['params'], 'JParameter')) {
+                $this->params = $config['params'];
+            } else {
+                $this->params = new JParameter($config['params']);
+            }
+        }
 
-		if ( isset( $config['name'] ) ) {
-			$this->_name = $config['name'];
-		}
+        if ( isset( $config['name'] ) ) {
+            $this->_name = $config['name'];
+        }
 
-		if ( isset( $config['type'] ) ) {
-			$this->_type = $config['type'];
-		}
-		
-		//Register the plugin with the dispatcher
-		$dispatcher->addListener($this);
-		
-		//Force the identifier to NULL for now
-		$config['identifier'] = null;
+        if ( isset( $config['type'] ) ) {
+            $this->_type = $config['type'];
+        }
+        
+        //Register the plugin with the dispatcher
+        $dispatcher->addListener($this);
+        
+        //Force the identifier to NULL for now
+        $config['identifier'] = null;
 
-		parent::__construct(new KConfig($config));
-	}
-	
-	/**
-	 * Loads the plugin language file
-	 *
-	 * @param	string 	$extension 	The extension for which a language file should be loaded
-	 * @param	string 	$basePath  	The basepath to use
-	 * @return	boolean	True, if the file has successfully loaded.
-	 */
-	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
-	{
-		if(empty($extension)) {
-			$extension = 'plg_'.$this->_type.'_'.$this->_name;
-		}
+        parent::__construct(new KConfig($config));
+    }
+    
+    /**
+     * Loads the plugin language file
+     *
+     * @param   string  $extension  The extension for which a language file should be loaded
+     * @param   string  $basePath   The basepath to use
+     * @return  boolean True, if the file has successfully loaded.
+     */
+    public function loadLanguage($extension = '', $basePath = JPATH_BASE)
+    {
+        if(empty($extension)) {
+            $extension = 'plg_'.$this->_type.'_'.$this->_name;
+        }
 
-		return KFactory::get('lib.joomla.language')->load( strtolower($extension), $basePath);
-	}
+        return KFactory::get('lib.joomla.language')->load( strtolower($extension), $basePath);
+    }
 }

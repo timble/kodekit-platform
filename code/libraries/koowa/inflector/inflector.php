@@ -359,13 +359,13 @@ class KInflector
      * Use a negative index to start at the last part of the word (-1 is the
      * last part)
      *
-     * @param	string	Word
-     * @param	integer	Index of the part
-     * @param	string	Default value
+     * @param   string  Word
+     * @param   integer Index of the part
+     * @param   string  Default value
      */
     public static function getPart($string, $index, $default = null)
     {
-    	$parts = self::explode($string);
+        $parts = self::explode($string);
 
         if($index < 0) {
             $index = count($parts) + $index;

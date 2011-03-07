@@ -556,9 +556,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * and then returned as a comma-separated string; this is useful
      * for generating IN() lists.
      *
-     * @param 	mixed The value to quote.
+     * @param   mixed The value to quote.
      * @return string An SQL-safe quoted value (or a string of separated-
-     * 				  and-quoted values).
+     *                and-quoted values).
      */
     public function quoteValue($value)
     {
@@ -573,15 +573,15 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         }
         else
         {
-        	if(is_string($value) && !is_null($value)) {
-        		$value = $this->_quoteValue($value);
-        	}
+            if(is_string($value) && !is_null($value)) {
+                $value = $this->_quoteValue($value);
+            }
         }
 
         return $value;
     }
     
-	/**
+    /**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
      * 
@@ -596,7 +596,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      */
     public function quoteName($spec)
     {
-    	if (is_array($spec))
+        if (is_array($spec))
         {
             foreach ($spec as $key => $val) {
                 $spec[$key] = $this->quoteName($val);
@@ -607,100 +607,100 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
          
         // String spaces around the identifier
         $spec = trim($spec);
-    	
+        
         // Quote all the lower case parts
-    	$spec = preg_replace_callback('#(?:\b|\#)+(?<!`)([a-z0-9\.\#\-_]+)(?!`)\b#', array($this, '_quoteName') , $spec);
-    	
+        $spec = preg_replace_callback('#(?:\b|\#)+(?<!`)([a-z0-9\.\#\-_]+)(?!`)\b#', array($this, '_quoteName') , $spec);
+        
         return $spec;
     }
     
    /**
-	 * Fetch the first field of the first row
-	 *
-	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
-	 * @return The value returned in the query or null if the query failed.
-	 */
-	abstract protected function _fetchField($result);
+     * Fetch the first field of the first row
+     *
+     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
+     * @return The value returned in the query or null if the query failed.
+     */
+    abstract protected function _fetchField($result);
 
-	/**
-	 * Fetch an array of single field results
-	 *
-	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
-	 * @param 	string 			The column name of the index to use
-	 * @return 	array 			A sequential array of returned rows.
-	 */
-	abstract protected function _fetchFieldList($result);
+    /**
+     * Fetch an array of single field results
+     *
+     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
+     * @param   string          The column name of the index to use
+     * @return  array           A sequential array of returned rows.
+     */
+    abstract protected function _fetchFieldList($result);
 
-	/**
+    /**
      * Fetch the first row of a result set as an associative array
      * 
-     * @param 	mysqli_result 	The result object. A result set identifier returned by the select() function
+     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
      * @return array
      */
-	abstract protected function _fetchArray($sql);
+    abstract protected function _fetchArray($sql);
 
-	/**
-	 * Fetch all result rows of a result set as an array of associative arrays
-	 * 
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param 	mysqli_result  	The result object. A result set identifier returned by the select() function
-	 * @param 	string 			The column name of the index to use
-	 * @return 	array 	If key is empty as sequential list of returned records.
-	 */
-	abstract protected function _fetchArrayList($result, $key = '');
+    /**
+     * Fetch all result rows of a result set as an array of associative arrays
+     * 
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+     * of the database key.  Returns <var>null</var> if the query fails.
+     *
+     * @param   mysqli_result   The result object. A result set identifier returned by the select() function
+     * @param   string          The column name of the index to use
+     * @return  array   If key is empty as sequential list of returned records.
+     */
+    abstract protected function _fetchArrayList($result, $key = '');
 
-	/**
-	 * Fetch the first row of a result set as an object
-	 *
-	 * @param	mysqli_result  The result object. A result set identifier returned by the select() function
-	 * @param object
-	 */
-	abstract protected function _fetchObject($result);
+    /**
+     * Fetch the first row of a result set as an object
+     *
+     * @param   mysqli_result  The result object. A result set identifier returned by the select() function
+     * @param object
+     */
+    abstract protected function _fetchObject($result);
 
-	/**
-	 * Fetch all rows of a result set as an array of objects
-	 * 
-	 * If <var>key</var> is not empty then the returned array is indexed by the value
-	 * of the database key.  Returns <var>null</var> if the query fails.
-	 *
-	 * @param	mysqli_result  The result object. A result set identifier returned by the select() function
-	 * @param 	string 		   The column name of the index to use
-	 * @return 	array 	If <var>key</var> is empty as sequential array of returned rows.
-	 */
-	abstract protected function _fetchObjectList($result, $key='' );
+    /**
+     * Fetch all rows of a result set as an array of objects
+     * 
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+     * of the database key.  Returns <var>null</var> if the query fails.
+     *
+     * @param   mysqli_result  The result object. A result set identifier returned by the select() function
+     * @param   string         The column name of the index to use
+     * @return  array   If <var>key</var> is empty as sequential array of returned rows.
+     */
+    abstract protected function _fetchObjectList($result, $key='' );
     
     /**
-	 * Parse the raw table schema information
-	 *
-	 * @param  	object 	The raw table schema information
-	 * @return KDatabaseSchemaTable
-	 */
-	abstract protected function _parseTableInfo($info);
+     * Parse the raw table schema information
+     *
+     * @param   object  The raw table schema information
+     * @return KDatabaseSchemaTable
+     */
+    abstract protected function _parseTableInfo($info);
 
-	/**
-	 * Parse the raw column schema information
-	 *
-	 * @param  	object 	The raw column schema information
-	 * @return KDatabaseSchemaColumn
-	 */
-	abstract protected function _parseColumnInfo($info);
+    /**
+     * Parse the raw column schema information
+     *
+     * @param   object  The raw column schema information
+     * @return KDatabaseSchemaColumn
+     */
+    abstract protected function _parseColumnInfo($info);
 
-	/**
-	 * Given a raw column specification, parse into datatype, size, and decimal scope.
-	 *
-	 * @param string The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)".
- 	 *
- 	 * @return array A sequential array of the column type, size, and scope.
- 	 */
-	abstract protected function _parseColumnType($spec);
+    /**
+     * Given a raw column specification, parse into datatype, size, and decimal scope.
+     *
+     * @param string The column specification; for example,
+     * "VARCHAR(255)" or "NUMERIC(10,2)".
+     *
+     * @return array A sequential array of the column type, size, and scope.
+     */
+    abstract protected function _parseColumnType($spec);
 
-	/**
+    /**
      * Safely quotes a value for an SQL statement.
      *
-     * @param 	mixed 	The value to quote
+     * @param   mixed   The value to quote
      * @return string An SQL-safe quoted value
      */
     abstract protected function _quoteValue($value);
@@ -711,20 +711,20 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * If the name contains a dot, this method will separately quote the
      * parts before and after the dot.
      *
-     * @param string 	The identifier name to quote.
-     * @return string 	The quoted identifier name.
+     * @param string    The identifier name to quote.
+     * @return string   The quoted identifier name.
      * @see quoteName()
      */
     protected function _quoteName($name)
     {
-    	$result =  '';
-    	
-    	if(is_array($name)) {
-    		$name = $name[0];
-    	}
-    	
-    	$name   = trim($name);
-    	
+        $result =  '';
+        
+        if(is_array($name)) {
+            $name = $name[0];
+        }
+        
+        $name   = trim($name);
+        
         //Special cases
         if ($name == '*' || is_numeric($name)) {
             return $name;
@@ -734,7 +734,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         {
             $table  = $this->_quoteName(substr($name, 0, $pos));
             $column = $this->_quoteName(substr($name, $pos + 1));
-            		
+                    
             $result =  "$table.$column";
         }
         else $result = $this->_name_quote. $name.$this->_name_quote;

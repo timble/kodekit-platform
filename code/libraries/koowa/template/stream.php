@@ -14,9 +14,9 @@
   * Based in large part on the example at
   * http://www.php.net/manual/en/function.stream-wrapper-register.php
   * 
-  * @author		Johan Janssens <johan@nooku.org>
-  * @category	Koowa
-  * @package	Koowa_Template
+  * @author     Johan Janssens <johan@nooku.org>
+  * @category   Koowa
+  * @package    Koowa_Template
   */
 class KTemplateStream
 {
@@ -41,42 +41,42 @@ class KTemplateStream
      */
     private $_stat;
     
- 	/**
+    /**
      * Register the stream wrapper 
      * 
      * Function prevents from registering the wrapper twice
      */
-   	public static function register()
- 	{       
-     	if (!in_array('tmpl', stream_get_wrappers())) {
-         	stream_wrapper_register('tmpl', __CLASS__);
-       	}
-       	
-       	//Set shutdown function to handle stream errors
-		register_shutdown_function(array(__CLASS__, 'stream_error')); 
+    public static function register()
+    {       
+        if (!in_array('tmpl', stream_get_wrappers())) {
+            stream_wrapper_register('tmpl', __CLASS__);
+        }
+        
+        //Set shutdown function to handle stream errors
+        register_shutdown_function(array(__CLASS__, 'stream_error')); 
     } 
 
- 	/**
+    /**
      * Opens the template file and converts markup.
      * 
      * This function filters the data from the stream by pushing it through the template's 
      * read filter chain. The template object to use for filtering is looked up based on the 
      * stream's path. 
      * 
-     * @param string 	The stream path
+     * @param string    The stream path
      * @return boolean
      */
     public function stream_open($path) 
-	{   	
-		//Get the view script source
+    {       
+        //Get the view script source
         $path = str_replace('tmpl://', '', $path);
             
-  		//Get the template object from the template repository and filter 
-  		//the data before reading					
-    	$this->_data = KFactory::get('lib.koowa.template.registry')
-    						->get($path)
-     						->filter(KTemplateFilter::MODE_READ);
-     	
+        //Get the template object from the template repository and filter 
+        //the data before reading                   
+        $this->_data = KFactory::get('lib.koowa.template.registry')
+                            ->get($path)
+                            ->filter(KTemplateFilter::MODE_READ);
+        
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file
        // has been successfully read, avoid this and just fake the stat
@@ -92,7 +92,7 @@ class KTemplateStream
      * @return string
      */
     public function stream_read($count) 
-	{
+    {
         $ret = substr($this->_data, $this->_pos, $count);
         $this->_pos += strlen($ret);
         return $ret;
@@ -135,7 +135,7 @@ class KTemplateStream
      */
     public function stream_flush()
     {
-    	return false;
+        return false;
     }
     
     
@@ -144,9 +144,9 @@ class KTemplateStream
      * 
      * @return void
      */
-	public function stream_close()
+    public function stream_close()
     {
-    	
+        
     }
 
     /**
@@ -155,11 +155,11 @@ class KTemplateStream
      * @return bool
      */
     public function stream_seek($offset, $whence) 
-	{
+    {
         switch ($whence) 
-		{
+        {
             case SEEK_SET:
-            	
+                
                 if ($offset < strlen($this->_data) && $offset >= 0) {
                 $this->_pos = $offset;
                     return true;
@@ -169,7 +169,7 @@ class KTemplateStream
 
             case SEEK_CUR:
                 
-            	if ($offset >= 0) 
+                if ($offset >= 0) 
                 {
                     $this->_pos += $offset;
                     return true;
@@ -178,7 +178,7 @@ class KTemplateStream
                 break;
 
             case SEEK_END:
-            	
+                
                 if (strlen($this->_data) + $offset >= 0) 
                 {
                     $this->_pos = strlen($this->_data) + $offset;
@@ -199,30 +199,30 @@ class KTemplateStream
      * 
      * @return bool
      */
-	public static function stream_error() 
-	{ 
-		if($error = error_get_last()) 
-		{
-			if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
-			{
-				while(@ob_get_clean());
-				echo '<strong>Fatal Error</strong>: '.$error['message'].' in <strong>'.$error['file'].'</strong> on line <strong>'.$error['line'].'</strong>';
-			}
-		}
-	}
-	
-	/**
+    public static function stream_error() 
+    { 
+        if($error = error_get_last()) 
+        {
+            if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
+            {
+                while(@ob_get_clean());
+                echo '<strong>Fatal Error</strong>: '.$error['message'].' in <strong>'.$error['file'].'</strong> on line <strong>'.$error['line'].'</strong>';
+            }
+        }
+    }
+    
+    /**
      * Url statistics.
      *
      * This method is called in response to all stat() related functions on the stream
      * 
-     * @param 	string	The file path or URL to stat
-     * @param 	int		Holds additional flags set by the streams API
+     * @param   string  The file path or URL to stat
+     * @param   int     Holds additional flags set by the streams API
      * 
      * @return array
      */
     public function url_stat($path, $flags) 
     {
-    	return $this->_stat;
+        return $this->_stat;
     }
 }

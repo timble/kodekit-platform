@@ -13,23 +13,23 @@
  * Wraps identifiers of the form [application::]type.component.[.path].name
  * in an object, providing public accessors and methods for derived formats
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Identifier
  */
 interface KIdentifierInterface
 {
-	/**
-	 * Constructor
-	 *
-	 * @param	string|object	Identifier string or object in [application::]type.component.[.path].name format
-	 */
-	public function __construct($identifier);
+    /**
+     * Constructor
+     *
+     * @param   string|object   Identifier string or object in [application::]type.component.[.path].name format
+     */
+    public function __construct($identifier);
 
-	/**
-	 * Formats the indentifier as a [application::]type.component.[.path].name string
-	 *
-	 * @return string
-	 */
-	public function __toString();
+    /**
+     * Formats the indentifier as a [application::]type.component.[.path].name string
+     *
+     * @return string
+     */
+    public function __toString();
 }

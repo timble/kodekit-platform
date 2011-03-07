@@ -43,21 +43,21 @@ interface KDatabaseRowInterface extends KObjectIdentifiable
      */
     public function save();
 
-	/**
+    /**
      * Deletes the row form the database.
      *
      * @return KDatabaseRowInterface
      */
     public function delete();
     
-	/**
+    /**
      * Count the rows in the database based on the data in the row
      *
      * @return KDatabaseRowAbstract
      */
-	public function count();
+    public function count();
 
-	/**
+    /**
      * Resets to the default properties
      *
      * @return KDatabaseRowInterface
@@ -65,31 +65,31 @@ interface KDatabaseRowInterface extends KObjectIdentifiable
     public function reset();
 
    /**
- 	* Returns an associative array of the raw data
-  	*
-  	* @param   boolean 	If TRUE, only return the modified data. Default FALSE
-  	* @return  array
-  	*/
- 	public function getData($modified = false);
+    * Returns an associative array of the raw data
+    *
+    * @param   boolean  If TRUE, only return the modified data. Default FALSE
+    * @return  array
+    */
+    public function getData($modified = false);
 
-  	/**
-  	 * Set the row data
-  	 *
-  	 * @param   mixed 	Either and associative array, an object or a KDatabaseRow
-  	 * @param   boolean If TRUE, update the modified information for each column being set.
-  	 * 					Default TRUE
- 	 * @return 	KDatabaseRowInterface
-  	 */
-  	 public function setData( $data, $modified = true );
+    /**
+     * Set the row data
+     *
+     * @param   mixed   Either and associative array, an object or a KDatabaseRow
+     * @param   boolean If TRUE, update the modified information for each column being set.
+     *                  Default TRUE
+     * @return  KDatabaseRowInterface
+     */
+     public function setData( $data, $modified = true );
 
-	/**
-	 * Get a list of columns that have been modified
-	 *
-	 * @return array	An array of column names that have been modified
-	 */
-	public function getModified();
+    /**
+     * Get a list of columns that have been modified
+     *
+     * @return array    An array of column names that have been modified
+     */
+    public function getModified();
 
-	/**
+    /**
      * Checks if the row is new or not
      *
      * @return bool

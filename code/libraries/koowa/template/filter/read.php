@@ -14,18 +14,18 @@
  *
  * Processes the template on input
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
  * @package     Koowa_Template
- * @subpackage	Filter 
+ * @subpackage  Filter 
  */
 interface KTemplateFilterRead
 {
-	/**
-	 * Parse the text and filter it
-	 *
-	 * @param string Block of text to parse
-	 * @return KTemplateFilterRead
-	 */
-	public function read(&$text);
+    /**
+     * Parse the text and filter it
+     *
+     * @param string Block of text to parse
+     * @return KTemplateFilterRead
+     */
+    public function read(&$text);
 }

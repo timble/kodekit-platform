@@ -126,14 +126,14 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
      */
     public function save()
     {
-   		$this->getTable()->getCommandChain()->disable();
-    	$this->_mixer->save();    
-    	$this->getTable()->getCommandChain()->enable();
+        $this->getTable()->getCommandChain()->disable();
+        $this->_mixer->save();    
+        $this->getTable()->getCommandChain()->enable();
         
-   		return $this->_mixer;
+        return $this->_mixer;
     }
     
-	/**
+    /**
      * Deletes the row form the database.
      * 
      * This function specialises the KDatabaseRow or KDatabaseRowset delete
@@ -144,52 +144,52 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
      */
     public function delete()
     {
-    	$this->getTable()->getCommandChain()->disable();
-    	$this->_mixer->delete();    
-    	$this->getTable()->getCommandChain()->enable();
+        $this->getTable()->getCommandChain()->disable();
+        $this->_mixer->delete();    
+        $this->getTable()->getCommandChain()->enable();
         
-   		return $this->_mixer;
+        return $this->_mixer;
     }
-	
-	/**
-	 * Get an object handle
-	 * 
-	 * This function only returns a valid handle if one or more command handler 
-	 * functions are defined. A commend handler function needs to follow the 
+    
+    /**
+     * Get an object handle
+     * 
+     * This function only returns a valid handle if one or more command handler 
+     * functions are defined. A commend handler function needs to follow the 
      * following format : '_afterX[Event]' or '_beforeX[Event]' to be 
      * recognised.
-	 * 
-	 * @return string A string that is unique, or NULL
-	 * @see execute()
-	 */
-	public function getHandle()
-	{
-		$methods = $this->getMethods();
-		
-		foreach($methods as $method) 
-		{
-			if(substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
-				return parent::getHandle();	
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Get the methods that are available for mixin based 
-	 * 
-	 * This function also dynamically adds a function of format is[Behavior] 
-	 * to allow client code to check if the behavior is callable. 
-	 * 
-	 * @param object The mixer requesting the mixable methods. 
-	 * @return array An array of methods
-	 */
-	public function getMixableMethods(KObject $mixer = null)
-	{
-		$methods   = parent::getMixableMethods($mixer);
-		$methods[] = 'is'.ucfirst($this->_identifier->name);
-			
-		return array_diff($methods, array('execute', 'save', 'delete'));
-	}
+     * 
+     * @return string A string that is unique, or NULL
+     * @see execute()
+     */
+    public function getHandle()
+    {
+        $methods = $this->getMethods();
+        
+        foreach($methods as $method) 
+        {
+            if(substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
+                return parent::getHandle(); 
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Get the methods that are available for mixin based 
+     * 
+     * This function also dynamically adds a function of format is[Behavior] 
+     * to allow client code to check if the behavior is callable. 
+     * 
+     * @param object The mixer requesting the mixable methods. 
+     * @return array An array of methods
+     */
+    public function getMixableMethods(KObject $mixer = null)
+    {
+        $methods   = parent::getMixableMethods($mixer);
+        $methods[] = 'is'.ucfirst($this->_identifier->name);
+            
+        return array_diff($methods, array('execute', 'save', 'delete'));
+    }
 }

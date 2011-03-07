@@ -83,21 +83,21 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
      * This can be used to auto-magically create select filters based on the 
      * function name.
      *
-   	 * @param  string 	The function name
-	 * @param  array  	The function arguments
-	 * @throws BadMethodCallException 	If method could not be found
-	 * @return mixed The result of the function
+     * @param  string   The function name
+     * @param  array    The function arguments
+     * @throws BadMethodCallException   If method could not be found
+     * @return mixed The result of the function
      */
- 	public function __call($method, array $arguments)
-    {	
-    	if(!in_array($method, $this->getMethods())) 
-    	{
-    		$config = $arguments[0];
-    		$config['name']  = KInflector::singularize(strtolower($method));
-    		
-    		return $this->_listbox($config);
-    	}
-    	
-		return parent::__call($method, $arguments);
+    public function __call($method, array $arguments)
+    {   
+        if(!in_array($method, $this->getMethods())) 
+        {
+            $config = $arguments[0];
+            $config['name']  = KInflector::singularize(strtolower($method));
+            
+            return $this->_listbox($config);
+        }
+        
+        return parent::__call($method, $arguments);
     }
 }

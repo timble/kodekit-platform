@@ -12,7 +12,7 @@
  * Koowa View Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Dispatcher
  */
 class KDispatcherException extends KException {}

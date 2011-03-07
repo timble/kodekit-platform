@@ -12,7 +12,7 @@
  * Koowa Helper Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category	Koowa
+ * @category    Koowa
  * @package     Koowa_Helper
  */
 class KHelperException extends KException {}

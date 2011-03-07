@@ -11,39 +11,39 @@
 /**
  * Toolbar interface
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package		Koowa_Toolbar
+ * @author      Johan Janssens <johan@nooku.org>
+ * @category    Koowa
+ * @package     Koowa_Toolbar
  */
 interface KToolbarInterface
-{	
-	/**
-	 * Render the toolbar
-	 *
-	 * @return	string	Html
-	 */
-	public function render();
-	
-	/**
-	 * Get the toolbar's name
-	 *
-	 * @return string
-	 */
-	public function getName();
-	
-	/**
-	 * Append a button
-	 *
-	 * @param	KToolbarButtonInterface|string	Button or identifier
-	 * @return	this
-	 */
-	public function append($button);
-	
-	/**
-	 * Prepend a button
-	 *
-	 * @param	KToolbarButtonInterface|string	Button or identifier
-	 * @return	this
-	 */
-	public function prepend($button);
+{   
+    /**
+     * Render the toolbar
+     *
+     * @return  string  Html
+     */
+    public function render();
+    
+    /**
+     * Get the toolbar's name
+     *
+     * @return string
+     */
+    public function getName();
+    
+    /**
+     * Append a button
+     *
+     * @param   KToolbarButtonInterface|string  Button or identifier
+     * @return  this
+     */
+    public function append($button);
+    
+    /**
+     * Prepend a button
+     *
+     * @param   KToolbarButtonInterface|string  Button or identifier
+     * @return  this
+     */
+    public function prepend($button);
 }
