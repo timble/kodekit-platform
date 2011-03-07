@@ -301,7 +301,7 @@ abstract class KControllerView extends KControllerBread
 		}
 		
 		//Lock the row if the layout is 'form'
-	    if(isset($row))
+	    if(isset($row) && $view instanceof KViewHtml)
 		{
 			//Lock the row
 			if($view->getLayout() == 'form' && $row->isLockable()) {
