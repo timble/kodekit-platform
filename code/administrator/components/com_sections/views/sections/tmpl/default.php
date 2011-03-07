@@ -1,8 +1,7 @@
-<?php
-defined('KOOWA') or die( 'Restricted access' );
+<? /** $Id$ */ ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 
-echo @helper('behavior.tooltip');
-?>
+<?= @helper('behavior.tooltip'); ?>
 
 <script src="media://system/js/mootools.js" />  
 <script src="media://lib_koowa/js/koowa.js" />
