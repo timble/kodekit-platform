@@ -19,6 +19,13 @@
 class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 {
 	/**
+	 * The lock lifetime
+	 *
+	 * @var integer
+	 */
+	protected $_lifetime;
+	
+	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -30,8 +37,11 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => KCommand::PRIORITY_HIGH,
+    	    'lifetime'	 => '900' //in seconds
 	  	));
-
+	  	
+	  	$this->_lifetime = $config->lifetime;
+	  		
     	parent::_initialize($config);
    	}
 	
@@ -48,7 +58,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 
-		if(isset($mixer->locked_by)) {
+		if(isset($mixer->locked_by) && isset($mixer->locked_on)) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -108,10 +118,19 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 		$result = false;
 		if(!$this->isNew())
 		{
-			$userid = KFactory::get('lib.koowa.user')->get('id');
-
-			if(isset($this->locked_by) && $this->locked_by != 0 && $this->locked_by != $userid) {
-				$result = true;
+		    if(isset($this->locked_on) && isset($this->locked_by)) 
+			{    
+			    $locked  = strtotime($this->locked_on);
+                $current = strtotime(gmdate('Y-m-d H:i:s'));
+                                    
+                //Check if the lock has gone stale
+                if($current - $locked < $this->_lifetime) 
+			    {
+                    $userid = KFactory::get('lib.koowa.user')->get('id');
+			        if($this->locked_by != 0 && $this->locked_by != $userid) {
+			            $result= true;
+                    }
+			    }
 			}
 		}
 		
@@ -129,11 +148,10 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 
 		if($this->locked())
 		{
-			$user = KFactory::tmp('lib.koowa.user', array($this->locked_by));
-			$date = KTemplateHelper::factory('date')->format(array('date' => $this->locked_on, 'format' => '%A, %d %B %Y'));
-			$time = KTemplateHelper::factory('date')->format(array('data' => $this->locked_on, 'format' => '%H:%M'));
+	        $user = KFactory::tmp('lib.koowa.user', array($this->locked_by));	    
+			$date = KTemplateHelper::factory('date')->humanize(array('date' => $this->locked_on));
 
-			$message = JText::sprintf('Locked by %s on %s at %s', $user->get('name'), $date, $time);
+			$message = JText::sprintf('Locked by %s %s', $user->get('name'), $date);
 		}
 
 		return $message;
