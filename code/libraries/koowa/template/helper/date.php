@@ -55,7 +55,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         $config->append(array(
             'date'              => null,
             'gmt_offset'        => 0,
-            'smallest_period'   => 'day'
+            'smallest_period'   => 'second'
         ));
 
         $periods    = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
