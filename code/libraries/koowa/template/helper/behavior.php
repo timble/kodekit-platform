@@ -72,6 +72,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		return $html;
 	}
 	
+	/**
+	 * Render a modal box
+	 *
+	 * @return string	The html output
+	 */
 	public function modal($config = array())
 	{
 		$config = new KConfig($config);
@@ -116,6 +121,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		return $html;
 	}
 
+	/**
+	 * Render a tooltip
+	 * 
+	 * @return string	The html output
+	 */
 	public function tooltip($config = array())
 	{
 		$config = new KConfig($config);
@@ -141,6 +151,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		return $html;
 	}
 
+	/**
+	 * Render an overlay
+	 *
+	 * @return string	The html output
+	 */
 	public function overlay($config = array())
 	{
 		$config = new KConfig($config);
@@ -173,6 +188,41 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$attribs = KHelperArray::toString($config->attribs);
 
 		$html .= '<div href="'.$uri.'" class="-koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
+		return $html;
+	}
+	
+	/**
+	 * Keep session alive 
+	 * 
+	 * This will send an ascynchronous request to the server via AJAX on an interval
+	 *
+	 * @return string	The html output
+	 */
+	public function keepalive($config = array())
+	{
+	    $config = new KConfig($config);
+		$config->append(array(
+			'refresh'  => 15 * 60000, //15min
+		    'url'	   => KRequest::url()
+		));
+		
+		$refresh = (int) $config->refresh;
+	
+	    // Longest refresh period is one hour to prevent integer overflow.
+		if ($refresh > 3600000 || $refresh <= 0) {
+			$refresh = 3600000;
+		}
+
+		// Build the keepalive script.
+		$html = 
+		"<script>
+			Koowa.keepalive =  function() { 
+				var request = new Request({method: 'get', url: '".$config->url."'}).send();
+			}
+			
+			window.addEvent('domready', function() { Koowa.keepalive.periodical('".$refresh."'); });
+		</script>";
+
 		return $html;
 	}
 }
