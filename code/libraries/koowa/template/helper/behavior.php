@@ -195,6 +195,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	 * Keep session alive 
 	 * 
 	 * This will send an ascynchronous request to the server via AJAX on an interval
+	 * in miliseconds
 	 *
 	 * @return string	The html output
 	 */
