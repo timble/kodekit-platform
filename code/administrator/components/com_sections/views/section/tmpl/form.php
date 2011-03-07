@@ -1,6 +1,8 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
+<?= @helper('behavior.keepalive'); ?>
+
 <?	if ( $section->name != '' ) : 
 	$name = $section->name;
 else :
