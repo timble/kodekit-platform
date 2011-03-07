@@ -31,7 +31,7 @@ class KDatabaseBehavior
 		try 
 		{
 			if(is_string($identifier) && strpos($identifier, '.') === false ) {
-				$identifier = 'lib.koowa.database.behavior.'.trim($identifier);
+				$identifier = 'com.default.database.behavior.'.trim($identifier);
 			} 
 			
 			$behavior = KFactory::tmp($identifier, $config);
