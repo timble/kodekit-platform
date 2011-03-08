@@ -133,8 +133,9 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		$config->append(array(
 			'row'  		=> null,
+		    'total'		=> null
 		));
-
+		
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 	
@@ -147,10 +148,16 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$uprel = "{method:'post', url:'$url', params:{order:-1, action:'edit', _token:'$token'}}";
 		$downrel = "{method:'post', url:'$url', params:{order:1, action:'edit', _token:'$token'}}";
 
-		$html = '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" class="submitable" rel="'.$uprel.'" />'
-				 .$config->row->ordering
-			     .'<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" class="submitable" rel="'.$downrel.'"/>';
-
+		if ($config->row->ordering > 1) { 
+            $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" class="submitable" rel="'.$uprel.'" />';
+        }
+         
+        $html .= $config->row->ordering;
+        
+        if($config->row->ordering != $config->total) {
+            $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" class="submitable" rel="'.$downrel.'"/>';
+	    }
+        
 		return $html;
 	}
 
