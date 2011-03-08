@@ -110,8 +110,11 @@ class plgSystemKoowa extends JPlugin
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('lib.koowa.user')->guest) {
-		   KFactory::get('lib.joomla.config')->setValue('config.offset', KFactory::get('lib.koowa.user')->getParam('timezone'));
+		if(!KFactory::get('lib.koowa.user')->guest) 
+		{
+		   if($offset = KFactory::get('lib.koowa.user')->getParam('timezone')) {
+		        KFactory::get('lib.joomla.config')->setValue('config.offset', $offset);
+		   }
 		}
 
 		parent::__construct($subject, $config = array());
