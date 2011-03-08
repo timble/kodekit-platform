@@ -76,10 +76,10 @@
 					<?= @helper( 'admin::com.sections.template.helper.grid.publish' , array('row' => $section)); ?>
 				</td>
 				<td class="order">
-					<?= @helper( 'grid.order' , array('row' => $section)); ?>
+					<?= @helper( 'grid.order' , array('row' => $section, 'total' => $total)); ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.access', array( 'row' => $section )) ;?>
+					<?= @helper('grid.access', array( 'row' => $section)) ;?>
 				</td>
 				<td align="center">
 					<?= $section->categorycount; ?>
