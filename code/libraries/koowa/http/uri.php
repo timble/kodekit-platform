@@ -370,8 +370,8 @@ class KHttpUri extends KObject
      */
     public function getQuery($toArray = false)
     {
-        $result = $toArray ? $this->_query : http_build_query($this->_query);
-        return $result;
+		$result = $toArray ? $this->_query : http_build_query($this->_query, '', '&');
+		return $result;
     }
     
     /**
