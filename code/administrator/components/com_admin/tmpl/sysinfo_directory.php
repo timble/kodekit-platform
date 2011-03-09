@@ -43,8 +43,8 @@ $config =& JFactory::getConfig();
 			writableCell( 'administrator/modules' );
 			writableCell( 'administrator/templates' );
 			writableCell( 'components' );
-			writableCell( $cparams->get('file_path'));
-			writableCell( $cparams->get('file_path').'/banners' );
+			writableCell( $cparams->get('image_path'));
+			writableCell( $cparams->get('image_path').'/banners' );
 			writableCell( 'language' );
 
 			// List all site languages
