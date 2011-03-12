@@ -66,11 +66,25 @@
 				<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 					<fieldset>
 						<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>M ]</legend>
-						<fieldset class="actions">
+						<fieldset id="upload-noflash" class="actions">
 							<input type="file" id="file-upload" name="Filedata" />
 							<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 							<span id="upload-clear"></span>
 						</fieldset>
+						<div id="upload-flash" class="hide">
+						<ul>
+							<li><a href="#" id="upload-browse"><?php echo JText::_('Browse Files'); ?></a></li>
+							<li><a href="#" id="upload-clear"><?php echo JText::_('Clear List'); ?></a></li>
+							<li><a href="#" id="upload-start"><?php echo JText::_('Start Upload'); ?></a></li>
+						</ul>
+						<div class="clr"> </div>
+						<p class="overall-title"></p>
+						<?php echo JHTML::_('image','media/com_media/images/bar.gif', JText::_('Overall Progress'), array('class' => 'progress overall-progress'), true); ?>
+						<div class="clr"> </div>
+						<p class="current-title"></p>
+						<?php echo JHTML::_('image','media/com_media/images//bar.gif', JText::_('Upload Files'), array('class' => 'progress current-progress'), true); ?>
+						<p class="current-text"></p>
+					</div>
 						<ul class="upload-queue" id="upload-queue">
 							<li style="display: none" />
 						</ul>

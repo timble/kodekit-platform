@@ -58,9 +58,35 @@ class MediaViewMedia extends JView
 		JHTML::script('mootree.js');
 		JHTML::stylesheet('mootree.css');
 
-		if ($config->get('enable_flash', 0)) {
-			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
-		}
+        $fileTypes     = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
+        $types         = explode(',', $fileTypes);
+        $displayTypes  = '';		// this is what the user sees
+        $filterTypes   = '';		// this is what controls the logic
+        $firstType     = true;
+        
+        foreach($types AS $type) 
+        {
+            if(!$firstType) {
+		        $displayTypes .= ', ';
+		        $filterTypes .= '; ';
+            } else {
+                $firstType = false;
+            }
+            $displayTypes .= '*.'.$type;
+            $filterTypes .= '*.'.$type;
+        }
+        
+        $typeString = '{ \''.JText::_('Files','true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+
+        JHtml::_('behavior.uploader', 'upload-flash',
+            array(
+            	'onBeforeStart' => 'function(){ Uploader.setOptions({url: $(\'uploadForm\').action + \'&folder=\' + $(\'mediamanager-form\').folder.value}); }',
+            	'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
+            	'targetURL' 	=> '\\$(\'uploadForm\').action',
+            	'typeFilter' 	=> $typeString,
+            	'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
+            )
+          );
 
 		if(DS == '\\')
 		{
