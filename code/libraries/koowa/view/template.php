@@ -337,7 +337,8 @@ abstract class KViewTemplate extends KViewAbstract
             }
         
             $this->_template = KFactory::get($identifier);
-        }
+        } 
+        else $this->_template = $template;
             
         return $this;
     }
