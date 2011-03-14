@@ -26,7 +26,7 @@ class ComSectionsControllerSection extends ComDefaultControllerDefault
      */
     protected function _actionDelete(KCommandContext $context)
     {
-		$id = $context->caller->getModel()->getState()->id;
+        $id = $this->getModel()->getState()->id;
 
 		if(!$this->_deleteDependents('categories','categories',array('section' => $id))) {
             return false;
