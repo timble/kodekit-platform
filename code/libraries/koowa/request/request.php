@@ -90,6 +90,21 @@ class KRequest
     {
         $content = self::content();
         
+        if(self::type() == 'HTTP')
+        {
+            $authorization = KRequest::get('server.HTTP_AUTHORIZATION', 'url');
+	        if (strstr($authorization,"Basic")) 
+	        {
+	            $parts = explode(':',base64_decode(substr($authorization, 6)));
+			
+	            if (count($parts) == 2) 
+			    {
+				    KRequest::set('server.PHP_AUTH_USER', $parts[0]); 
+				    KRequest::set('server.PHP_AUTH_PW'  , $parts[1]); 
+			    }
+		    }
+        }
+        
         if(!empty($content['data']))
         {
             if($content['type'] == 'application/x-www-form-urlencoded') 
@@ -154,16 +169,21 @@ class KRequest
     {
         list($hash, $keys) = self::_parseIdentifier($identifier);
         
-        $result = $GLOBALS['_'.$hash];
-        foreach($keys as $key)
+        $result = null;
+        if(isset($GLOBALS['_'.$hash]))
         {
-            if(array_key_exists($key, $result)) {
-                $result = $result[$key];
-            } else {
-                $result = null;
-                break;
+            $result = $GLOBALS['_'.$hash];
+            foreach($keys as $key)
+            {
+                if(array_key_exists($key, $result)) {
+                    $result = $result[$key];
+                } else {
+                    $result = null;
+                    break;
+                }
             }
         }
+       
         
         // If the value is null return the default
         if(is_null($result)) {
@@ -367,7 +387,7 @@ class KRequest
                  * To build the entire URI we need to prepend the protocol, and the http host
                  * to the URI string.
                  */
-                $url = self::protocol().'://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                $url = self::protocol().'://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
                 /*
                  * Since we do not have REQUEST_URI to work with, we will assume we are
@@ -378,14 +398,14 @@ class KRequest
             else
             {
                 // IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable
-                $url = self::protocol().'://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+                $url = self::protocol().'://'. $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
                 // If the query string exists append it to the URI string
                 if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
                     $url .= '?' . $_SERVER['QUERY_STRING'];
                 }
             }
-
+            
             // Sanitize the url since we can't trust the server var
             $url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
 
