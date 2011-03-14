@@ -202,9 +202,6 @@ class JResponse
 			JResponse::setHeader( 'Pragma', 'no-cache' ); 											// HTTP 1.0
 		}
 		
-		//Send a identification header
-        JResponse::setHeader('X-Nooku-Server', 'version=0.7;');
-
 		JResponse::sendHeaders();
 		return $data;
 	}
