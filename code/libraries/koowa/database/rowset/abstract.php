@@ -253,14 +253,20 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function save()
     {
-        $result = true;
-        foreach ($this as $i => $row) 
+        $result = false;
+        
+        if(count($this))
         {
-            if(!$row->save()) {
-                $result = false;
+            $result = true;
+           
+            foreach ($this as $i => $row) 
+            {
+                if(!$row->save()) {
+                    $result = false;
+                }
             }
-        }
-
+        } 
+        
         return $result;
     }
 
@@ -271,15 +277,21 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function delete()
     {
-        $result = true;
-        foreach ($this as $i => $row) 
+        $result = false;
+        
+        if(count($this))
         {
-             if(!$row->delete()) {
-                $result = false;
+            $result = true;
+           
+            foreach ($this as $i => $row) 
+            {
+                if(!$row->delete()) {
+                    $result = false;
+                }
             }
-        }
-
-        return true;
+        } 
+       
+        return $result;
     }
 
     /**
