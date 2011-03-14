@@ -24,6 +24,51 @@
  */
 class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
+ 	/**
+     * The form token value
+     *
+     * @var string
+     */
+    protected $_token_value;
+    
+    /**
+     * The form token name
+     *
+     * @var string
+     */
+    protected $_token_name;
+ 	
+ 	/**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct( KConfig $config = null) 
+    { 
+        parent::__construct($config);
+        
+        $this->_token_value = $config->token;
+        $this->_token_name  = $config->name;
+    }
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'token_value'   => '',
+        	'token_name'    => '_token',
+        ));
+
+        parent::_initialize($config);
+    }
+    
     /**
      * Add unique token field
      *
@@ -33,10 +78,13 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     public function write(&$text)
     {   
         // POST : Add token 
-        $text    = preg_replace('/(<form.*method="post".*>)/i', 
-            '\1'.PHP_EOL.'<input type="hidden" name="_token" value="'.JUtility::getToken().'" />', 
-            $text
-        );
+        if(!empty($this->_token_value)) 
+        {
+            $text    = preg_replace('/(<form.*method="post".*>)/i', 
+            	'\1'.PHP_EOL.'<input type="hidden" name="'.$this->_token_name.'" value="'.$this->_token_value.'" />', 
+                $text
+            );
+        }
         
         // GET : Add query params
         $matches = array();
