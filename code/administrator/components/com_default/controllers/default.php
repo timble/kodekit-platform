@@ -31,6 +31,9 @@ class ComDefaultControllerDefault extends KControllerView
 
         //Register command callbacks
         $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
+        
+        //Enqueue the authorization command
+        $this->getCommandChain()->enqueue( KFactory::get('admin::com.default.command.authorize'));
     }
     
     /**
