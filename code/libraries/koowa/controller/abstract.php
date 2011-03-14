@@ -99,28 +99,20 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string      The action to execute
-     * @param   array       The data to pass to the action method
+     * @param   object		A command context object
      * @return  mixed|false The value returned by the called method, false in error case.
      * @throws  KControllerException
      */
-    public function execute($action, $data = null)
+    public function execute($action, KCommandContext $context)
     {
         $action = strtolower($action);
         
         //Set the original action in the controller to allow it to be retrieved
         $this->setAction($action);
 
-        //Create the command context object
-        if(!($data instanceof KCommandContext))
-        {
-            $context = $this->getCommandContext();
-            $context->data   = $data;
-            $context->result = false;
-        } 
-        else $context = $data;
-        
-        //Set the action
+        //Update the context
         $context->action = $action;
+        $context->caller = $this;
         
         //Find the mapped action if one exists
         if (isset( $this->_action_map[$action] )) {
@@ -238,8 +230,22 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      */
     public function __call($method, $args)
     {
-        if(in_array($method, $this->getActions())) {
-            return $this->execute($method, !empty($args) ? $args[0] : null);
+        if(in_array($method, $this->getActions())) 
+        {
+            //Get the data
+            $data = !empty($args) ? $args[0] : array();
+            
+            //Create a context object
+            if(!($data instanceof KCommandContext))
+            {
+                $context = $this->getCommandContext();
+                $context->data   = $data;
+                $context->result = false;
+            } 
+            else $context = $data;
+            
+            //Execute the action
+            return $this->execute($method, $context);
         }
         
         return parent::__call($method, $args);
