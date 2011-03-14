@@ -76,7 +76,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
 
-	  	$this->registerCallback('after.dispatch', array($this, 'render'));
+	    $this->registerCallback('after.dispatch', array($this, 'render'));
 	}
 
     /**
@@ -187,8 +187,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			switch(KRequest::method())
 			{
 				case 'GET'    : $action = 'display'; break;
-				case 'POST'   : $action = 'add'    ; break;
-				case 'PUT'    : $action = 'edit'   ; break;
+				case 'POST'   : $action = 'edit'   ; break;
+				case 'PUT'    : $action = 'add'    ; break;
 				case 'DELETE' : $action = 'delete' ; break;
 			}
 		}
@@ -221,11 +221,22 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{        	
-		if($context->data) {
+		//Set the default controller
+	    if($context->data) {
         	$this->_controller_default = KConfig::toData($context->data);
         }
-        	
-        $result = $this->getController()->execute($this->getAction(), $this->getData());
+ 
+        //Set the data from the data in the request
+        $context->data = $this->getData();
+        
+        //Execute the controller
+        $result = $this->getController()->execute($this->getAction(), $context);
+        
+        //Set the response header
+	    if($context->status) {
+		    header(KHttp::getHeader($context->status));
+		}
+		
         return $result;
 	}
 	
@@ -237,11 +248,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function _actionAuthorize(KCommandContext $context)
 	{
-        if( KRequest::token() !== JUtility::getToken())
-        {
-        	throw new KDispatcherException('Invalid token or session time-out.', KHttp::UNAUTHORIZED);
-        	return false;
-        }
+       
 	}
 
 	/**
@@ -281,7 +288,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionRender(KCommandContext $context)
 	{
-		if(is_string($context->result)) {
+	    if(is_string($context->result) && $context->status != KHttp::NOT_FOUND) {
 			return $context->result;
 		}
 	}
