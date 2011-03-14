@@ -249,9 +249,13 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionRead(KCommandContext $context)
 	{
-		$row = $this->getModel()
+	    $row = $this->getModel()
 				->getItem();
-			
+				
+		if($this->getModel()->getState()->isUnique() && $row->isNew()) {
+		      $context->status = KHttp::NOT_FOUND;
+		} 
+		
 		return $row;
 	}
 
@@ -262,13 +266,15 @@ abstract class KControllerBread extends KControllerAbstract
 	 * @return 	KDatabaseRowset A rowset object containing the updated rows
 	 */
 	protected function _actionEdit(KCommandContext $context)
-	{
-		$rowset = $this->getModel()
+	{ 
+	    $rowset = $this->getModel()
 					->getList()
 					->setData(KConfig::toData($context->data));
-
-		$rowset->save();
-
+					
+		if($rowset->save()) {
+		     $context->status = KHttp::RESET_CONTENT;
+		}
+		
 		return $rowset;
 	}
 
@@ -284,7 +290,9 @@ abstract class KControllerBread extends KControllerAbstract
 				->getItem()
 				->setData(KConfig::toData($context->data));
 		
-		$row->save();
+		if($row->save()) {
+		    $context->status = KHttp::CREATED;
+		} 
 
 		return $row;
 	}
@@ -297,11 +305,13 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionDelete(KCommandContext $context)
 	{
-		$rowset = $this->getModel()	
+	    $rowset = $this->getModel()	
 					->getList()
 					->setData(KConfig::toData($context->data));
 							
-		$rowset->delete();
+		if($rowset->delete()) {
+            $context->status = KHttp::NO_CONTENT;
+		}
 		
 		return $rowset;
 	}
