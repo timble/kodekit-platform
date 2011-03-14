@@ -234,7 +234,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         
         //Set the response header
 	    if($context->status) {
-		    header(KHttp::getHeader($context->status));
+		    header(KHttpResponse::getHeader($context->status));
 		}
 		
         return $result;
@@ -288,7 +288,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionRender(KCommandContext $context)
 	{
-	    if(is_string($context->result) && $context->status != KHttp::NOT_FOUND) {
+	    if(is_string($context->result) && $context->status != KHttpResponse::NOT_FOUND) {
 			return $context->result;
 		}
 	}

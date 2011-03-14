@@ -30,7 +30,7 @@ class ComDefaultCommandAuthorize extends KCommand
     {
         $result = parent::execute($name, $context);
         if($result == false) {
-            $context->status = KHttp::FORBIDDEN;
+            $context->status = KHttpResponse::FORBIDDEN;
         }
         
         return $result; 

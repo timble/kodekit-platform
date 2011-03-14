@@ -253,7 +253,7 @@ abstract class KControllerBread extends KControllerAbstract
 				->getItem();
 				
 		if($this->getModel()->getState()->isUnique() && $row->isNew()) {
-		      $context->status = KHttp::NOT_FOUND;
+		      $context->status = KHttpResponse::NOT_FOUND;
 		} 
 		
 		return $row;
@@ -272,7 +272,7 @@ abstract class KControllerBread extends KControllerAbstract
 					->setData(KConfig::toData($context->data));
 					
 		if($rowset->save()) {
-		     $context->status = KHttp::RESET_CONTENT;
+		     $context->status = KHttpResponse::RESET_CONTENT;
 		}
 		
 		return $rowset;
@@ -291,7 +291,7 @@ abstract class KControllerBread extends KControllerAbstract
 				->setData(KConfig::toData($context->data));
 		
 		if($row->save()) {
-		    $context->status = KHttp::CREATED;
+		    $context->status = KHttpResponse::CREATED;
 		} 
 
 		return $row;
@@ -310,7 +310,7 @@ abstract class KControllerBread extends KControllerAbstract
 					->setData(KConfig::toData($context->data));
 							
 		if($rowset->delete()) {
-            $context->status = KHttp::NO_CONTENT;
+            $context->status = KHttpResponse::NO_CONTENT;
 		}
 		
 		return $rowset;

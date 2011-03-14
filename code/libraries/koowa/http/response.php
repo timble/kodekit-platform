@@ -9,7 +9,7 @@
  */
 
 /**
- * Static HTTP class
+ * HTTP Response class
  *
  * @todo Add other statuses
  * @see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -18,7 +18,7 @@
  * @category    Koowa
  * @package     Koowa_Http
  */
-class KHttp
+class KHttpResponse
 {
     // [Successful 2xx]  
     const OK                        = 200;  
