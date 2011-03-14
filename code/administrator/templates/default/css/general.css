@@ -483,7 +483,7 @@ table.adminlist {
 	color: #666;
 }
 
-table.adminlist th { padding: 3px 4px; }
+table.adminlist th { padding: 0px 4px; height: 22px; }
 table.adminlist td { padding: 4px 4px; }
 
 table.adminlist thead th {
@@ -524,7 +524,7 @@ table.adminlist tbody tr:nth-child(even) 	{ background: #f9f9f9; border-top: 1px
 table.adminlist tbody tr:nth-child(even):hover td,
 table.adminlist tbody tr:nth-child(odd):hover td  { background-color: #EAF3FA; }
 
-table.adminlist tbody tr td 	   { height: 25px; background: #fff; border: 1px solid #fff; }
+table.adminlist tbody tr td 	   { height: 25px;}
 table.adminlist tbody tr:nth-child(even) td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
