@@ -248,7 +248,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function _actionAuthorize(KCommandContext $context)
 	{
-       
+       return true;
 	}
 
 	/**
