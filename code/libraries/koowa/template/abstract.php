@@ -392,7 +392,9 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function addPath($paths, $append = false)
 	{
 		// just force to array
-		settype($paths, 'array');
+		if(is_string) {
+		    settype($paths, 'array');
+		}
 
 		// loop through the paths
 		foreach ($paths as $path)
