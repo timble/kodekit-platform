@@ -19,6 +19,25 @@
  */
 class ComDefaultDispatcher extends KDispatcherDefault
 { 
+	/**
+	 * Check the token to prevent CSRF exploits
+	 *
+	 * @return  void|false Returns false if the authorization failed
+	 * @throws 	KDispatcherException
+	 */
+	public function _actionAuthorize(KCommandContext $context)
+	{
+        $result = parent::_actionAuthorize($context);
+        
+	    if( KRequest::token() !== JUtility::getToken())
+        {
+        	throw new KDispatcherException('Invalid token or session time-out.', KHttp::FORBIDDEN);
+        	$result = false;
+        }
+        
+        return $result;
+	}
+    
     /**
      * Dispatch the controller and redirect
      * 
