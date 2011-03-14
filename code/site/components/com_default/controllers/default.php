@@ -19,6 +19,19 @@
  */
 class ComDefaultControllerDefault extends KControllerView
 {
+ 	/**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+ 
+        //Enqueue the authorization command
+        $this->getCommandChain()->enqueue( KFactory::get('site::com.default.command.authorize'));
+    }
+    
     /**
      * Set the request information
      * 
