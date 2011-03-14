@@ -120,6 +120,33 @@ class plgSystemKoowa extends JPlugin
 		parent::__construct($subject, $config = array());
 	}
 	
+	/**
+	 * On after intitialse event handler
+	 * 
+	 * This functions implements HTTP Basic authentication support
+	 * 
+	 * @return void
+	 */
+	public function onAfterInitialise()
+	{  
+	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
+	    {
+	        $credentials = array(
+	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
+	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
+	        );
+	        
+	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
+	        {  
+	            throw new KException('Login failed', KHttp::UNAUTHORIZED);
+        	    return false;      
+	        }
+	        
+	        //Force the token
+	        KRequest::set('request._token', JUtility::getToken());
+	    }
+	}
+	
  	/**
 	 * Catch all exception handler
 	 *
@@ -160,9 +187,12 @@ class plgSystemKoowa extends JPlugin
 			$error->set('message', $this->_exception->getMessage());
 		}
 		
+		if($this->_exception->getCode() == KHttp::UNAUTHORIZED) {
+		   header('WWW-Authenticate: Basic Realm="'.KRequest::base().'"');
+		}
+		
 		//Make sure the buffers are cleared
 		while(@ob_get_clean());
-		
 		JError::customErrorPage($error);
 	}
 }
