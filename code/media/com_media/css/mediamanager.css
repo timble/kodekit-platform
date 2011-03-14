@@ -15,9 +15,17 @@
  * @since		1.5
  * @version    1.0
  */
+#left {
+	width: 15% !important;
+	float: left;
+}
+#right { 
+	width: 85% !important;
+	border-left: 1px solid #E1E1E1;
+	float: left;
+}
+ 
 #treeview {
-	padding: 10px;
-	width: 190px;
 	overflow: auto;
 	/*height: 390px;*/
 	border: 0;
@@ -28,7 +36,9 @@
 }
 
 #folderview .path {
-	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #F7F7F7;
+	border-top: 1px solid #E1E1E1;
 }
 
 #folderview .view {
@@ -58,13 +68,44 @@
 /**
  * Upload Widget CSS
  */
+#upload  { padding: 1px; background-color: #EDEDED; border-bottom: 1px solid #E1E1E1; }
 
 #upload-flash {
-	font-size: 12px;
-	margin-left: 5px;
+	
 }
 #upload-flash ul {
-	margin-left: -15px;
+	padding: 0;
+	list-style: none;
+	float: left;
+}
+#upload-flash ul li a {
+	min-width: 50px;
+	line-height: 18px;
+	display: block;
+	text-align: center;
+	padding: 2px 12px;
+	color: #333;
+	font-weight: bold;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #BBB;
+}
+#upload-flash ul li a:hover {
+	border-color: #999;
+	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
+	text-decoration: none;
+}
+
+#upload-flash ul li a:active {
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
 }
 
 #upload-flash .progress {
@@ -74,11 +115,16 @@
 	vertical-align: middle;
 }
 
+#upload-progress {
+	float: right;
+	margin-right: 20px;
+}
+
 #upload-queue {
 	list-style: none;
 	clear:both;
 	margin-left:25px;
-	padding:10px;
+	padding:0px;
 }
 
 #upload-queue li.file {
@@ -102,7 +148,6 @@
 }
 
 #upload-queue li.file .file-name {
-	font-size: 1.2em;
 	margin-left: 25px;
 	display: block;
 	clear: left;
@@ -112,7 +157,6 @@
 }
 
 #upload-queue li.file .file-remove {
-	font-size: 0.9em;
 	float: right;
 	line-height: 18px;
 	margin-right: 6px;
@@ -120,7 +164,6 @@
 
 
 #upload-queue li.file .file-size {
-	font-size: 0.9em;
 	line-height: 18px;
 	float: right;
 	margin-right: 6px;
@@ -129,7 +172,6 @@
 #upload-queue li.file .file-info {
 	display: block;
 	margin-left: 44px;
-	font-size: 0.9em;
 	line-height: 18px;
 }
 
@@ -160,11 +202,11 @@ li a#upload-start {
 div#media-noimages {
 	width: 100%;
 	text-align:center;
-	font-size:14px;
+	
 	font-weight:bold;
 	color:#CCCCCC;
 }
 
 .overall-title, .current-title {
-	font-size:12px;
+	
 }

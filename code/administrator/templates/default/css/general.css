@@ -55,6 +55,12 @@ input.disabled { background-color: #F0F0F0; }
 
 input.button  { cursor: pointer;   }
 
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 /* -- overall styles ------------------------------ */
 
 #footer .copyright { margin: 10px; text-align: center; }

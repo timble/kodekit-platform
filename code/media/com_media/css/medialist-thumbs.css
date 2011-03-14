@@ -68,11 +68,12 @@ div.imginfoBorder {
 	background: #f9f9f9;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	width: 88px;
+	display: block;
 	height: 15px;
 	vertical-align: middle;
 	text-align: center;
 	overflow: hidden;
+	padding: 0 8px;
 }
 
 div.imgBorder a {
