@@ -142,6 +142,9 @@ class plgSystemKoowa extends JPlugin
         	    return false;      
 	        }
 	        
+	        //Reset the user object in the factory
+	        KFactory::set('lib.koowa.user', JFactory::getUser());
+	         
 	        //Force the token
 	        KRequest::set('request._token', JUtility::getToken());
 	    }
