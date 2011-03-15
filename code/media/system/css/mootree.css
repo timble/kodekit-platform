@@ -4,6 +4,15 @@
 	white-space: nowrap;
 	padding: 5px 15px 4px 0px;
 	overflow: hidden; text-overflow: ellipsis;
+	border-top: 1px solid #FFF;
+}
+
+.mooTree_node:hover	{ 
+	border-top-color: #c5dbf0;
+	background-color: #cee1f4;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
 }
 
 .mooTree_text {
@@ -24,18 +33,12 @@
 	font-weight: bold;
 }
 
-aside#sidebar ul.list li a 			{ padding: 5px 15px 4px 23px; display: block; color: #191919; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-aside#sidebar ul.list li a:hover 	{ text-decoration: none; }
-
-aside#sidebar ul.list li a:hover,
-aside#sidebar ul.list li a.active	{ padding-top: 4px; border-top-width: 1px; border-top-style: solid; }
-
-.mooTree_node:hover	{ border-top-color: #c5dbf0; background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8)); position: relative; }
-
-
 .mooTree_selected,
 .mooTree_selected:hover {  
 	color: #FFF;
 	border-top-color: #5494D2;
+	background-color: #6EA6DE;
 	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
 }
