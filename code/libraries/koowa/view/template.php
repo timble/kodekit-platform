@@ -255,10 +255,13 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function display()
     {
-        //Load the template object
-        $this->output = $this->getTemplate()
-                ->loadIdentifier($this->_layout, $this->_data)
-                ->render(true);
+        if(empty($this->output))
+		{
+            //Load the template object
+            $this->output = $this->getTemplate()
+                 ->loadIdentifier($this->_layout, $this->_data)
+                 ->render(true);
+		}
                         
         return parent::display();
     }

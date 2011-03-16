@@ -36,25 +36,27 @@ class KViewJson extends KViewAbstract
 
 	/**
 	 * Return the views output
+	 * 
+	 * If the view 'output' variable is empty the output will be generated based on
+	 * the model data, if it set it will be returned instead.
  	 *
 	 *  @return string 	The output of the view
 	 */
     public function display()
-    {	
-		$model = $this->getModel();
-    	
-    	//Get the view name
-		$name = $this->getName();
-			
-		//Assign the data of the model to the view
-		if(KInflector::isPlural($name)) {
-			$data = $model->getList();
-		} else {
-			$data = $model->getItem();
-		}
-		
-    	$this->output = json_encode($data->getData());
-    	
-    	return parent::display();
+    {
+        if(empty($this->output)) 
+        {
+            $model = $this->getModel();
+
+            if(KInflector::isPlural($this->getName())) {
+                $data = $model->getList();
+            } else {
+                $data = $model->getItem();
+            }
+
+            $this->output = json_encode($data->getData());
+        }
+
+        return parent::display();
     }
 }
