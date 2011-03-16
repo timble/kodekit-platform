@@ -56,7 +56,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
         //Redirect if no view information can be found in the request
         if(!KRequest::has('get.view')) 
         {
-            $view = $context->data ? $context->data : $this->_controller_default;
+            $view = count($context->data) ? $context->data : $this->_controller_default;
             
             $url = clone(KRequest::url());
             $url->query['view'] = $view;
