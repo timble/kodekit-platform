@@ -138,7 +138,7 @@ class plgSystemKoowa extends JPlugin
 	        
 	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
 	        {  
-	            throw new KException('Login failed', KHttp::UNAUTHORIZED);
+	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
 	        }
 	        
@@ -190,7 +190,7 @@ class plgSystemKoowa extends JPlugin
 			$error->set('message', $this->_exception->getMessage());
 		}
 		
-		if($this->_exception->getCode() == KHttp::UNAUTHORIZED) {
+		if($this->_exception->getCode() == KHttpResponse::UNAUTHORIZED) {
 		   header('WWW-Authenticate: Basic Realm="'.KRequest::base().'"');
 		}
 		
