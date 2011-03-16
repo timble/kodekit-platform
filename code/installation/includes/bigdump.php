@@ -263,7 +263,6 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && pre
 				break;
 			}
 			$vars = $this->getVars();
-		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysqli');
 		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
@@ -273,7 +272,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && pre
 		//$migration 		= JArrayHelper::getValue($vars, 'migration', '0');
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
 
-			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JInstallationHelper::getDBO('mysqli', $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 			if(JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
 
 //			echo 'Done.<br />';
@@ -398,7 +397,6 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && pre
 	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
   	<input type="hidden" name="loadchecked" value="1" />
   	<input type="hidden" name="dataLoaded" value="1" />
-  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
   	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
   	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
   	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
@@ -422,7 +420,6 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && pre
 	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
   	<input type="hidden" name="loadchecked" value="1" />
   	<input type="hidden" name="dataLoaded" value="1" />
-  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
   	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
   	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
   	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />

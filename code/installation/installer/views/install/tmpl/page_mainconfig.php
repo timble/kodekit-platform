@@ -172,7 +172,6 @@
 				<input type="hidden" name="migrationupload" value="0" />
 				<input type="hidden" name="loadchecked" value="<?php echo isset($this->loadchecked) ? $this->loadchecked : '' ?>" />
 				<input type="hidden" name="dataLoaded" value="<?php echo isset($this->dataLoaded) ? $this->dataLoaded : '' ?>" />
-				<input type="hidden" name="DBtype" value="<?php echo isset($this->DBtype) ? $this->DBtype : '' ?>" />
 				<input type="hidden" name="DBhostname" value="<?php echo isset($this->DBhostname) ? $this->DBhostname : '' ?>" />
 				<input type="hidden" name="DBuserName" value="<?php echo isset($this->DBuserName) ? $this->DBuserName : '' ?>" />
 				<input type="hidden" name="DBpassword" value="<?php echo isset($this->DBpassword) ? $this->DBpassword : '' ?>" />

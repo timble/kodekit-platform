@@ -272,7 +272,6 @@ class JInstallationModel extends JModel
 		$errors 	= null;
 		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
 		$DBcreated	= JArrayHelper::getValue($vars, 'DBcreated', '0');
-		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysqli');
 		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
 		$DBpassword = JArrayHelper::getValue($vars, 'DBpassword', '');
@@ -281,15 +280,6 @@ class JInstallationModel extends JModel
 		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
-		// these 3 errors should be caught by the javascript in dbConfig
-		if ($DBtype == '')
-		{
-			$this->setError(JText::_('validType'));
-			$this->setData('back', 'dbconfig');
-			$this->setData('errors', $errors);
-			return false;
-			//return JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
-		}
 		if (!$DBhostname || !$DBuserName || !$DBname)
 		{
 			$this->setError(JText::_('validDBDetails'));
@@ -328,7 +318,7 @@ class JInstallationModel extends JModel
 		if (!$DBcreated)
 		{
 			$DBselect	= false;
-			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, null, $DBPrefix, $DBselect);
+			$db = & JInstallationHelper::getDBO('mysqli', $DBhostname, $DBuserName, $DBpassword, null, $DBPrefix, $DBselect);
 
 			if ( JError::isError($db) ) {
 				// connection failed
@@ -358,7 +348,7 @@ class JInstallationModel extends JModel
 					/*
 					// make the new connection to the new database
 					$db = NULL;
-					$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+					$db = & JInstallationHelper::getDBO('mysqli', $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					*/
 				} else {
 					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
@@ -374,7 +364,7 @@ class JInstallationModel extends JModel
 				JInstallationHelper::setDBCharset($db, $DBname);
 			}
 
-			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JInstallationHelper::getDBO('mysqli', $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBOld == 'rm') {
 				if (JInstallationHelper::deleteDatabase($db, $DBname, $DBPrefix, $errors)) {
@@ -400,16 +390,11 @@ class JInstallationModel extends JModel
 				}
 			}
 
-			$type = $DBtype;
-			if ($type == 'mysqli') {
-				$type = 'mysql';
-			}
-
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
-				$dbscheme = 'sql'.DS.$type.DS.'joomla.sql';
+				$dbscheme = 'sql'.DS.'mysql'.DS.'joomla.sql';
 			} else {
-				$dbscheme = 'sql'.DS.$type.DS.'joomla_backward.sql';
+				$dbscheme = 'sql'.DS.'mysql'.DS.'joomla_backward.sql';
 			}
 
 			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors) > 0)
@@ -741,17 +726,6 @@ class JInstallationModel extends JModel
 			$vars['ftpRoot'] = rtrim($vars['ftpRoot'], '/');
 		}
 
-		switch ($vars['DBtype']) {
-
-			case 'mssql' :
-				$vars['ZERO_DATE'] = '1/01/1990';
-				break;
-
-			default :
-				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
-				break;
-		}
-
 		JInstallationHelper::createAdminUser($vars);
 
 		/**
@@ -770,7 +744,7 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'var $debug = \'0\';';
 		$configuration[] = "\t".'var $debug_lang = \'0\';';
 		$configuration[] = "\t".'/* Database Settings */';
-		$configuration[] = "\t".'var $dbtype = \''.$vars['DBtype'].'\';';
+		$configuration[] = "\t".'var $dbtype = \'mysqli\';';
 		$configuration[] = "\t".'var $host = \''.$vars['DBhostname'].'\';';
 		$configuration[] = "\t".'var $user = \''.$vars['DBuserName'].'\';';
 		$configuration[] = "\t".'var $password = \''.$vars['DBpassword'].'\';';
@@ -955,7 +929,7 @@ class JInstallationModel extends JModel
 		 */
 		if ($migration) {
 			$db = &JInstallationHelper::getDBO(
-				$vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'],
+				'mysqli', $vars['DBhostname'], $vars['DBuserName'],
 				$vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']
 			);
 			$migrated = JInstallationHelper::preMigrate($script, $vars, $db);
@@ -991,7 +965,7 @@ class JInstallationModel extends JModel
 	function postMigrate() {
 		$migErrors = null;
 		$args =& $this->getVars();
-		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDBO('mysqli', $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
 		// Clean up the migration SQL file
 		$migratePath = JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql';

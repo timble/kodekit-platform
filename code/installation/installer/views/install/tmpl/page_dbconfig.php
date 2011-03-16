@@ -15,17 +15,14 @@
 		if (valid == false) {
 			return false;
 		}
-		var DBtype = getElementByName( frm, 'vars[DBtype]' );
+		
 		var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
 		var DBname = getElementByName( frm, 'vars[DBname]' );
 		var DBPrefix = getElementByName( frm, 'vars[DBPrefix]' );
 
 		var regex=/^[a-zA-Z]+[a-zA-Z0-9_]*$/;
 
-		if ( DBtype.selectedIndex == 0 ) {
-			alert( '<?php echo JText::_('validType') ?>' );
-			return;
-		} else if (DBhostname.value == '') {
+		if (DBhostname.value == '') {
 			alert( '<?php echo JText::_('validHost') ?>' );
 			return;
 		} else if (DBname.value == '') {
@@ -50,10 +47,7 @@
 
 	function JProcess( action ) {
 
-		if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
-			alert( '<?php echo JText::_('validType') ?>' );
-			return;
-		} else if (document.getElementById("vars_dbhostname").value == '') {
+		if (document.getElementById("vars_dbhostname").value == '') {
 			alert( '<?php echo JText::_('validHost') ?>' );
 			return;
 		} else if (document.getElementById("vars_dbusername").value == '') {
@@ -93,25 +87,6 @@
 								<td></td>
 								<td></td>
 								<td></td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<label for="vars_dbtype">
-										<?php echo JText::_('Database Type') ?>
-									</label>
-									<br />
-									<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
-									<option value=""><?php echo JText::_('Select Type') ?></option>
-									<?php foreach($this->dbtype_options as $option) : ?>
-										<option value="<?php echo $option['text'] ?>" <?php echo isset($option['selected']) ? $option['selected'] : '' ?>><?php echo $option['text'] ?></option>
-									<?php endforeach ?>
-									</select>
-								</td>
-								<td>
-									<em>
-									<?php echo JText::_('tipType') ?>
-									</em>
-								</td>
 							</tr>
 							<tr>
 								<td colspan="2">

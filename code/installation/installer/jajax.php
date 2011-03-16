@@ -141,13 +141,9 @@ class JAJAXHandler
 		/*
 		 * execute the default sample data file
 		 */
-		$type = $args['DBtype'];
-		if ($type == 'mysqli') {
-			$type = 'mysql';
-		}
-		$dbsample = '../sql'.DS.$type.DS.'sample_data.sql';
+		$dbsample = '../sql'.DS.'mysql'.DS.'sample_data.sql';
 
-		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDBO('mysqli', $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($db, $dbsample, $errors);
 
 		/*

@@ -264,7 +264,6 @@ class JInstallationHelper
 	 */
 	function createAdminUser(& $vars)
 	{
-		$DBtype		= JArrayHelper::getValue($vars, 'DBtype', 'mysqli');
 		$DBhostname	= JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName	= JArrayHelper::getValue($vars, 'DBuserName', '');
 		$DBpassword	= JArrayHelper::getValue($vars, 'DBpassword', '');
@@ -283,7 +282,7 @@ class JInstallationHelper
 
 		$vars['adminLogin'] = 'admin';
 
-		$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+		$db = & JInstallationHelper::getDBO('mysqli', $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
@@ -709,7 +708,7 @@ class JInstallationHelper
 			$script = $package['folder'].DS.$package['script'];
 		}
 
-		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDBO('mysqli', $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 
 		/*
 		 * If migration perform manipulations on script file before population
