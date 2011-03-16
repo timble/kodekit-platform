@@ -285,30 +285,40 @@ abstract class KControllerView extends KControllerBread
 	 * unique a read action will be executed, if not unique a browse action will be 
 	 * executed.
 	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRow(set) 	A row(set) object containing the data to display
+	 * @param	KCommandContext			A command context object
+	 * @return 	KDatabaseRow(set)|false A row(set) object containing the data to display or false if something went wrong
 	 */
 	protected function _actionDisplay(KCommandContext $context)
 	{
-		$view = $this->getView();
+		//Check if we are reading or browsing
+	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 		
-		$action = KInflector::isSingular($view->getName()) ? 'read' : 'browse';
-		$row = $this->execute($action, $context);
+	    //Execute the action
+		$result = $this->execute($action, $context);
 		
-		//Set the layout in the view
-		if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-			$view->setLayout($this->_request->layout);
-		}
-		
-		//Lock the row if the layout is 'form'
-	    if(isset($row) && $view instanceof KViewTemplate)
+		//Only process the result if a valid row or rowset object has been returned
+		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface))
 		{
-			//Lock the row
-			if($view->getLayout() == 'form' && $row->isLockable()) {
-				$row->lock();
-			}
+            $view = $this->getView();
+		    
+		    //Set the layout in the view
+		    if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+			    $view->setLayout($this->_request->layout);
+		    }
+		
+		    //Lock the row if the layout is 'form'
+	        if($view instanceof KViewTemplate)
+		    {
+			    //Lock the row
+			    if($view->getLayout() == 'form' && $result->isLockable()) {
+				    $result->lock();
+			    }
+		    }
+		    
+		    //Render the view and return the output
+		    $result = $view->display();
 		}
 		
-		return $view->display();
+		return $result;
 	}
 }
