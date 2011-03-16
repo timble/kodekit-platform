@@ -19,4 +19,4 @@
  */
 
 // Dispatch the controller, setting the sections view if not specified
-echo KFactory::get('admin::com.sections.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'sections'));
+echo KFactory::get('admin::com.sections.dispatcher')->dispatch();
