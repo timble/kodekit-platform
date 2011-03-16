@@ -46,8 +46,6 @@ class KFilterJson extends KFilterAbstract
     
     /**
      * Sanitize a value
-     * 
-     * 
      *
      * @param   scalar  Value to be sanitized
      * @return  string
