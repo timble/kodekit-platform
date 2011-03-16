@@ -6,16 +6,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database type' ); ?>::<?php echo JText::_( 'TIPDTATABASETYPE' ); ?>">
-						<?php echo JText::_( 'Database type' ); ?>
-					</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="dbtype" size="30" value="<?php echo $row->dbtype; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td width="185" class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Hostname' ); ?>::<?php echo JText::_( 'TIPDATABASEHOSTNAME' ); ?>">
 						<?php echo JText::_( 'Hostname' ); ?>
 					</span>
