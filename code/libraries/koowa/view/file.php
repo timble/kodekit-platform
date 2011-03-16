@@ -110,19 +110,21 @@ class KViewFile extends KViewAbstract
         if($this->mimetype) {
             header('Content-type: '.$this->mimetype);
         }
-         
+
         header('Content-Transfer-Encoding: binary');
         header('Accept-Ranges: bytes');
 
         // Prevent caching
-        header("Pragma: public");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Expires: 0");
-        
+        header("Pragma: no-store,no-cache");
+        header("Cache-Control: no-cache, no-store, must-revalidate, max-age=-1");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Expires: Mon, 14 Jul 1789 12:30:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+
         // Clear buffer
         while (@ob_end_clean());
-    
-        $this->filename = basename($this->filename);        
+
+        $this->filename = basename($this->filename);
         if(!empty($this->output)) // File body is passed as string
         {
             if(empty($this->filename)) {
