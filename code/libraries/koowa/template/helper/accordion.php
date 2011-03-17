@@ -45,9 +45,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 		$html  = '';
 		
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($this->_loaded['accordion'])) 
-		{
-			$html .= $this->mootools();
+		if (!isset($this->_loaded['accordion'])) {
 			$this->_loaded['accordion'] = true;
 		}
 		

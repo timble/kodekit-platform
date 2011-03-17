@@ -40,9 +40,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
         // Load the necessary files if they haven't yet been loaded
         if (!isset($this->_loaded['tabs'])) 
         {
-            $html .= $this->mootools();
-            $html .= '<script src="media://lib_koowa/js/tabs.js" />'; 
-            
+            $html .= '<script src="media://lib_koowa/js/tabs.js" />';     
             $this->_loaded['tabs'] = true;
         }
         
