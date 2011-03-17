@@ -8,6 +8,9 @@
  * @link 		http://www.nooku.org
  */
 
+//Instantiate the request singleton
+KRequest::instantiate();
+
 /**
  * Request class
  *
