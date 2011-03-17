@@ -19,6 +19,43 @@
  */
 abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 {
+	/**
+	 * The basepath 
+	 * 
+	 * @var string
+	 */
+	protected $_basepath = '';
+	
+	/**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     */
+    public function __construct( $basepath )
+    {
+        $this->_basepath = $basepath; 
+    }
+    
+	/**
+	 * Get the base path
+	 *
+	 * @return string	Returns the base path
+	 */
+	public function getBasepath()
+	{
+		return $this->_basepath;
+	}
+	
+	/**
+	 * Get the class prefix
+	 *
+	 * @return string	Returns the class prefix
+	 */
+	public function getPrefix()
+	{
+		return $this->_prefix;
+	}
+    
     /**
      * Get the path based on a class name or an identifier
      *
