@@ -26,24 +26,6 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 	 */
 	protected $_prefix = 'Mod';
 	
-	
-	/**
-	 * Get the class prefix
-	 *
-	 * @return string	Returns the class prefix
-	 */
-	public function getPrefix()
-	{
-		return $this->_prefix;
-	}
-	
-	/**
-	 * The basepath 
-	 * 
-	 * @var string
-	 */
-	protected $_basepath = JPATH_BASE;
-	
 	/**
 	 * Get the path based on a class name
 	 *
@@ -98,8 +80,10 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 			$parts = $identifier->path;
 			$name  = $identifier->package;
 			
-			//Store the basepath for re-use
-			$this->_setBasePath($identifier);
+		    //Store the basepath for re-use
+		    if($identifier->basepath) {
+	            $this->_basepath = $identifier->basepath;
+		    }
 				
 			if(!empty($identifier->name))
 			{
@@ -116,29 +100,5 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 		}	
 		
 		return $path;
-	}
-
-	/**
-	 * Set the base path
-	 *
-	 * @param  object  	The class name or an identifier
-	 */
-	protected function _setBasePath($identifier)
-	{
-		if(!$app = $identifier->application) 
-		{
-			$app = KFactory::get('lib.koowa.application')->getName();
-			
-			//Add shortcuts
-			$app = ($app == 'administrator') ? 'admin' : $app;
-		}
-		
-		switch($app)
-		{
-			case 'admin' : $this->_basepath = JPATH_ADMINISTRATOR; break;
-			case 'site'  : $this->_basepath = JPATH_SITE;		   break;
- 		}
-		
-		return $this;
 	}
 }
