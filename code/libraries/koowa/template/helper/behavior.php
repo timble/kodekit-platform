@@ -53,7 +53,6 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'debug' => KDEBUG
 		));
 		
-		
 		$html ='';
 		
 		// Only load once
@@ -61,9 +60,9 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		{
 			// If no debugging value is set, use the configuration setting
 			if($config->debug) {
-				$html .= '<script src="media://system/js/mootools-uncompressed.js" />';
+				$html .= '<script src="media://lib_koowa/js/mootools-uncompressed.js" />';
 			} else {
-				$html .= '<script src="media://system/js/mootools.js" />';
+				$html .= '<script src="media://lib_koowa/js/mootools.js" />';
 			}
 		
 			$this->_loaded['mootools'] = true;
