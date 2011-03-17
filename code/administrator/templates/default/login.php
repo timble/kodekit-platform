@@ -31,6 +31,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	}
 </script>
 </head>
+
+<?php echo JHTML::_('behavior.keepalive'); ?>
+
 <body class="<?php echo JRequest::getVar('option', 'cmd'); ?>" onload="javascript:setFocus()">
 	<div id="container">
 		<div id="content-box">
