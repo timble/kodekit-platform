@@ -59,9 +59,15 @@ abstract class KControllerView extends KControllerBread
 		if(!empty($config->view)) {
 			$this->setView($config->view);
 		}
+		
+		$this->registerActionAlias('get', 'display');
 
-		$this->registerCallback('before.read', array($this, 'saveReferrer'));
+		$this->registerCallback('before.read'  , array($this, 'saveReferrer'));
 		$this->registerCallback('before.browse', array($this, 'saveReferrer'));
+		
+		$this->registerCallback('after.read'  , array($this, 'lockData'));
+		$this->registerCallback('after.edit'  , array($this, 'unlockData'));
+		$this->registerCallback('after.cancel', array($this, 'unlockData'));
 
 		//Set default redirect
 		$this->_redirect = KRequest::referrer();
@@ -83,7 +89,7 @@ abstract class KControllerView extends KControllerBread
 
         parent::_initialize($config);
     }
-
+   
 	/**
 	 * Store the referrer in the session
 	 *
@@ -105,6 +111,42 @@ abstract class KControllerView extends KControllerBread
 			if($request != $referrer) {
 				KRequest::set('session.com.controller.referrer', (string) $referrer);
 			}
+		}
+	}
+	
+	/**
+	 * Lock callback
+	 * 
+	 * Only lock if the context contains a row object and the view layout is 'form'. 
+	 *
+	 * @param 	KCommandContext		The active command context
+	 * @return void
+	 */
+	public function lockData(KCommandContext $context)
+	{								
+       if($context->result instanceof KDatabaseRowInterface) 
+       {
+	        $view = $this->getView();
+	    
+	        if($view instanceof KViewTemplate)
+	        {
+                if($view->getLayout() == 'form' && $context->result->isLockable()) {
+		            $context->result->lock();
+		        }
+            }
+	    }
+	}
+	
+	/**
+	 * Unlock callback
+	 *
+	 * @param 	KCommandContext		The active command context
+	 * @return void
+	 */
+	public function unlockData(KCommandContext $context)
+	{								  
+	    if($context->result->isLockable()) {
+			$context->result->unlock();
 		}
 	}
 	
@@ -200,66 +242,155 @@ abstract class KControllerView extends KControllerBread
 
 		return $result;
 	}
-
+	
 	/**
-	 * Generic save action
+	 * Post action
+	 * 
+	 * This function translated a POST request action into an edit or add action. If the model 
+	 * state is unique a edit action will be executed, if not unique an add action will 
+	 * be executed.
+	 *
+	 * @param	KCommandContext		A command context object
+	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 */
+	protected function _actionPost(KCommandContext $context)
+	{
+		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
+		return parent::execute($action, $context);
+	}
+	
+	/**
+	 * Put action
+	 * 
+	 * This function translates a PUT request into an edit or add action. Only if the model
+	 * state is unique and the item exists an edit action will be executed, if the resources
+	 * doesn't exist an add action will be executed.
+	 * 
+	 * If the resource already exists it will be completely replaced based on the data
+	 * available in the request.
+	 * 
+	 * If the model state is not unique the function will return false and set the
+	 * status code to 400 BAD REQUEST.
+	 *
+	 * @param	KCommandContext		A command context object
+	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 */
+	protected function _actionPut(KCommandContext $context)
+	{    
+	    $result = false;
+	    if($this->getModel()->getState()->isUnique()) 
+	    {  
+	        $row   = $this->getModel()->getItem();
+	        
+	        $action = 'add';
+	        if(!$row->isNew()) 
+	        {
+	            //Reset the row data
+	            $row->reset();
+	            $action = 'edit';
+	        }
+	            
+	        //Set the row data based on the unique state information
+	        $state = $this->getModel()->getState()->getData(true);
+	        $row->setData($state);
+	             
+	        $result  = parent::execute($action, $context); 
+        } 
+        else  $context->status = KHttpResponse::BAD_REQUEST;
+      
+        return $result;
+	}
+	
+	/**
+	 * Display action
+	 * 
+	 * This function translates a GET request into a read or browse action. If the view name is 
+	 * singular a read action will be executed, if plural a browse action will be executed.
+	 * 
+	 * This function will not render anything if the following conditions are met :
+	 * 
+	 * - The result of the read or browse action is not a row or rowset object
+	 * - The contex::status is 404 NOT FOUND and the view is not a HTML view
+	 *
+	 * @param	KCommandContext	A command context object
+	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
+	 */
+	protected function _actionDisplay(KCommandContext $context)
+	{
+		//Check if we are reading or browsing
+	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
+	    
+	    //Execute the action
+		$result = $this->execute($action, $context);
+		
+		//Only process the result if a valid row or rowset object has been returned
+		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface))
+		{
+            $view = $this->getView();
+		   
+            if(($context->status != KHttpResponse::NOT_FOUND) || $view instanceof KViewHtml)
+            {
+		        if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+			        $view->setLayout($this->_request->layout);
+		        }
+		    
+		        $result = $view->display();
+             }
+             else $result = false;
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Save action
+	 * 
+	 * This function wraps around the edit or add action. If the model state is
+	 * unique a edit action will be executed, if not unique an add action will be
+	 * executed.
+	 * 
+	 * This function also sets the redirect to the referrer.
 	 *
 	 * @param   KCommandContext	A command context object
 	 * @return 	KDatabaseRow 	A row object containing the saved data
 	 */
 	protected function _actionSave(KCommandContext $context)
 	{
-		if($this->getModel()->getState()->isUnique())
-		{
-			//Edit returns a rowset
-			$rowset = $this->execute('edit', $context);
-
-			// Get the row based on the identity key
-			$row = $rowset->find($this->getModel()->getState()->id);
-
-			//Unlock the row
-			if($row->isLockable()) {
-				$row->unlock();
-			}
-
-		} else $row = $this->execute('add', $context);
-		
+		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
+		$result = parent::execute($action, $context);
+	    
 		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
-		return $row;
+		return $result;
 	}
 
 	/**
-	 * Generic apply action
+	 * Apply action
+	 * 
+	 * This function wraps around the edit or add action. If the model state is
+	 * unique a edit action will be executed, if not unique an add action will be
+	 * executed.
+	 * 
+	 * This function also sets the redirect to the current url
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	KDatabaseRow 	A row object containing the saved data
 	 */
 	protected function _actionApply(KCommandContext $context)
 	{
-		if($this->getModel()->getState()->isUnique())
-		{
-			//Edit returns a rowset
-			$rowset = $this->execute('edit', $context);
-			
-			// Get the row based on the identity key
-			$row = $rowset->find($this->getModel()->getState()->id);
-
-			//Unlock the row
-			if($row->isLockable()) {
-				$row->unlock();
-			}
-		}
-		else $row = $this->execute('add', $context);
+		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
+		$result = parent::execute($action, $context);
 		
 		//Create the redirect
 		$this->_redirect = KRequest::url();
 		
-		return $row;
+		return $result;
 	}
-
+	
 	/**
-	 * Generic cancel action
+	 * Cancel action
+	 * 
+	 * This function will unlock the row(s) and set the redirect to the referrer
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	KDatabaseRow	A row object containing the data of the cancelled object
@@ -269,56 +400,8 @@ abstract class KControllerView extends KControllerBread
 		//Don't pass through the command chain
 		$row = parent::_actionRead($context);
 
-		if($row->isLockable()) {
-			$row->unlock();
-		}
-		
 		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
 		return $row;
-	}
-	
-	/**
-	 * Generic display function
-	 * 
-	 * This function wraps around the read or browse action. If the model state is
-	 * unique a read action will be executed, if not unique a browse action will be 
-	 * executed.
-	 *
-	 * @param	KCommandContext			A command context object
-	 * @return 	KDatabaseRow(set)|false A row(set) object containing the data to display or false if something went wrong
-	 */
-	protected function _actionDisplay(KCommandContext $context)
-	{
-		//Check if we are reading or browsing
-	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
-		
-	    //Execute the action
-		$result = $this->execute($action, $context);
-		
-		//Only process the result if a valid row or rowset object has been returned
-		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface))
-		{
-            $view = $this->getView();
-		    
-		    //Set the layout in the view
-		    if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-			    $view->setLayout($this->_request->layout);
-		    }
-		
-		    //Lock the row if the layout is 'form'
-	        if($view instanceof KViewTemplate)
-		    {
-			    //Lock the row
-			    if($view->getLayout() == 'form' && $result->isLockable()) {
-				    $result->lock();
-			    }
-		    }
-		    
-		    //Render the view and return the output
-		    $result = $view->display();
-		}
-		
-		return $result;
 	}
 }
