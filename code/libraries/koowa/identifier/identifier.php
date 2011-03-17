@@ -21,6 +21,20 @@
 class KIdentifier implements KIdentifierInterface
 {
     /**
+     * An associative array of application paths
+     * 
+     * @var array
+     */
+    protected static $_applications = array();
+    
+    /**
+     * The identifier
+     *
+     * @var string
+     */
+    protected $_identifier = '';
+    
+    /**
      * The application name
      *
      * @var string
@@ -60,21 +74,21 @@ class KIdentifier implements KIdentifierInterface
      *
      * @var string
      */
-    protected $_filepath = '';
+    public $filepath = '';
+    
+    /**
+     * The base path
+     *
+     * @var string
+     */
+    public $basepath = '';
     
     /**
      * The classname
      *
      * @var string
      */
-    protected $_classname = '';
-    
-    /**
-     * The identifier
-     *
-     * @var string
-     */
-    protected $_identifier = '';
+    public $classname = '';
     
     /**
      * Constructor
@@ -87,16 +101,14 @@ class KIdentifier implements KIdentifierInterface
         // We also accept objects to allow for auto-cloning
         $identifier = (string) $identifier;
         
+        //Check if the identifier is valid
         if(strpos($identifier, '.') === FALSE) {
             throw new KIdentifierException('Wrong identifier format : '.$identifier);
         }
-        
-        //Cache the identifier to increase performance
-        $this->_identifier = $identifier;
-        
-        //Set the application name (if present)
+         
+        //Set the application name
         if(strpos($identifier, '::')) { 
-            list($this->_application, $identifier) = explode('::', $identifier);
+            list($this->application, $identifier) = explode('::', $identifier);
         }
 
         //Explode the parts
@@ -117,8 +129,23 @@ class KIdentifier implements KIdentifierInterface
         if(count($parts)) {
             $this->_path = $parts;
         }
+        
+         //Cache the identifier to increase performance
+        $this->_identifier = $identifier;
     }
     
+    /**
+	 * Register an application path
+	 * 
+	 * @param string	The name of the application
+	 * @param string	The path of the application
+	 * return void
+     */
+    public static function registerApplication($application, $path)
+    {
+        self::$_applications[$application] = $path;
+    }
+        
     /** 
      * Implements the virtual class properties
      * 
@@ -133,9 +160,18 @@ class KIdentifier implements KIdentifierInterface
         {
             $this->{'_'.$property} = $value;
             
-            //Recreate the identifier
+            //Set the basepath
+            if($property == 'application')
+            { 
+               if(!isset(self::$_applications[$value])) {
+                    throw new KIdentifierException('Unknow application : '.$value);  
+               }
+               
+               $this->basepath = self::$_applications[$value];
+            }
+                
+            //Force recreation of the identifier string
             $this->_identifier = '';
-            $this->_identifier = (string) $this;
         }
     }
     
