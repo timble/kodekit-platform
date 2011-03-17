@@ -34,6 +34,10 @@ class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
                		'locked_by' => 'checked_out',
                 	'slug' 		=> 'alias'
 				),
+			'filters'		=> 
+		        array(
+				    'description' => array('html', 'tidy'),
+		        ),
 		));
      
       	parent::_initialize($config);
