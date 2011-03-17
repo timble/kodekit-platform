@@ -32,4 +32,11 @@ interface KLoaderAdapterInterface
 	 * @return string	Returns the class prefix
 	 */
 	public function getPrefix();
+	
+	/**
+	 * Get the base path
+	 *
+	 * @return string	Returns the base path
+	 */
+	public function getBasepath();
 }
