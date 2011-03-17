@@ -52,24 +52,23 @@ class KFilter
 	 */
 	protected static function _createFilter($filter, $config)
 	{
-		$filter = trim($filter);
-		
 		try 
 		{
-			if(is_string($filter) && strpos($filter, '.') === false ) 
-			{
-				$filter = 'KFilter'.ucfirst($filter);
-				
-				if(!$config instanceof KConfig) {
-					$config = new KConfig($config);
-				}
-				
-				$filter = new $filter($config);
-				
-			} else $filter = KFactory::tmp($filter, $config);
+			if(is_string($filter) && strpos($filter, '.') === false ) {
+				$filter = 'com.default.filter.'.trim($filter);
+			} 
+			
+			$filter = KFactory::tmp($filter, $config);
 			
 		} catch(KFactoryAdapterException $e) {
 			throw new KFilterException('Invalid filter: '.$filter);
+		}
+		
+	    //Check the filter interface
+		if(!($filter instanceof KFilterInterface)) 
+		{
+			$identifier = $filter->getIdentifier();
+			throw new KFilterException("Filter $identifier does not implement KFilterInterface");
 		}
 		
 		return $filter;
