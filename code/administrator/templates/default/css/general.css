@@ -68,6 +68,10 @@ input.button  { cursor: pointer;   }
 	display: none;
 }
 
+.submitable { 
+	cursor: pointer; 
+}
+
 /* -- overall styles ------------------------------ */
 
 #footer .copyright { margin: 10px; text-align: center; }
