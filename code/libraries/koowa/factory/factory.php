@@ -8,6 +8,9 @@
  * @link        http://www.nooku.org
  */
 
+//Instantiate the factory singleton
+KFactory::instantiate();
+
 /**
  * KFactory class
  *
@@ -57,8 +60,6 @@ class KFactory
 	{ 
 		self::$_registry = new ArrayObject();
         self::$_chain     = new KFactoryChain();
-        
-        self::addAdapter(new KFactoryAdapterKoowa());
 	}
 	
 	/**
