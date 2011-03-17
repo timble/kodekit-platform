@@ -102,7 +102,7 @@ abstract class KControllerBread extends KControllerAbstract
     	return $result;
     }
     
-	/**
+    /**
 	 * Push the request data into the model state
 	 *
 	 * @param	string		The action to execute
@@ -115,7 +115,7 @@ abstract class KControllerBread extends KControllerAbstract
 
 		return parent::execute($action, $data);
 	}
-
+    
 	/**
 	 * Get the request information
 	 *
@@ -238,6 +238,10 @@ abstract class KControllerBread extends KControllerAbstract
 	{
 		$rowset = $this->getModel()->getList();
 		
+		if(!count($rowset)) {
+		    $context->status = KHttpResponse::NOT_FOUND;
+		} 
+		
 		return $rowset;
 	}
 
@@ -249,11 +253,10 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionRead(KCommandContext $context)
 	{
-	    $row = $this->getModel()
-				->getItem();
-				
-		if($this->getModel()->getState()->isUnique() && $row->isNew()) {
-		      $context->status = KHttpResponse::NOT_FOUND;
+	    $row = $this->getModel()->getItem();
+	    		
+		if($row->isNew()) {
+		     $context->status = KHttpResponse::NOT_FOUND;
 		} 
 		
 		return $row;
@@ -267,14 +270,20 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionEdit(KCommandContext $context)
 	{ 
-	    $rowset = $this->getModel()
-					->getList()
-					->setData(KConfig::toData($context->data));
+	    $rowset = $this->getModel()->getList();
+								
+	    if(count($rowset)) 
+	    {
+	        $rowset->setData(KConfig::toData($context->data));
+	        
+	        if($rowset->save()) {
+		        $context->status = KHttpResponse::RESET_CONTENT;
+		    } else {
+		        $context->status = KHttpResponse::NO_CONTENT;
+		    }
+		} 
+		else $context->status = KHttpResponse::NOT_FOUND;
 					
-		if($rowset->save()) {
-		     $context->status = KHttpResponse::RESET_CONTENT;
-		}
-		
 		return $rowset;
 	}
 
@@ -286,14 +295,20 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionAdd(KCommandContext $context)
 	{
-		$row = $this->getModel()
-				->getItem()
-				->setData(KConfig::toData($context->data));
-		
-		if($row->save()) {
-		    $context->status = KHttpResponse::CREATED;
+		$row = $this->getModel()->getItem();
+				
+		if($row->isNew())	
+		{	
+		    $row->setData(KConfig::toData($context->data));
+		    
+		    if($row->save()) {
+		       $context->status = KHttpResponse::CREATED;
+		    } else {
+		        $context->status = KHttpResponse::INTERNAL_SERVER_ERROR;
+		    }
 		} 
-
+		else $context->status = KHttpResponse::BAD_REQUEST;
+				
 		return $row;
 	}
 
@@ -305,14 +320,20 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	protected function _actionDelete(KCommandContext $context)
 	{
-	    $rowset = $this->getModel()	
-					->getList()
-					->setData(KConfig::toData($context->data));
+	    $rowset = $this->getModel()->getList();
 							
-		if($rowset->delete()) {
-            $context->status = KHttpResponse::NO_CONTENT;
-		}
-		
+		if(count($rowset)) 
+	    {
+            $rowset->setData(KConfig::toData($context->data));
+	        
+	        if($rowset->delete()) {
+                $context->status = KHttpResponse::NO_CONTENT;
+		    } else {
+		        $context->status = KHttpResponse::INTERNAL_SERVER_ERROR;
+		    }
+		} 
+		else $context->status = KHttpResponse::NOT_FOUND;
+					
 		return $rowset;
 	}
 	
