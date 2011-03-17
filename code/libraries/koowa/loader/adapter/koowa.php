@@ -25,18 +25,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 	 * @var string
 	 */
 	protected $_prefix = 'K';
-	
-	
-	/**
-	 * Get the class prefix
-	 *
-	 * @return string	Returns the class prefix
-	 */
-	public function getPrefix()
-	{
-		return $this->_prefix;
-	}
-	
+
 	/**
 	 * Get the path based on a class name
 	 *
@@ -53,18 +42,17 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		// If class start with a 'K' it is a Koowa framework class and we handle it
 		if(array_shift($parts) == $this->_prefix)
 		{	
-			$basepath = Koowa::getPath();
-			$path     = strtolower(implode('/', $parts));
+			$path = strtolower(implode('/', $parts));
 				
 			if(count($parts) == 1) {
 				$path = $path.'/'.$path;
 			}
 			
-			if(!is_file($basepath.'/'.$path.'.php')) {
+			if(!is_file($this->_basepath.'/'.$path.'.php')) {
 				$path = $path.'/'.strtolower(array_pop($parts));
 			}
 
-			$path = $basepath.'/'.$path.'.php';
+			$path = $this->_basepath.'/'.$path.'.php';
 		}
 		
 		return $path;
@@ -82,8 +70,6 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		
 		if($identifier->type == 'lib' && $identifier->package == 'koowa')
 		{
-			$basepath = Koowa::getPath();
-			
 			if(count($identifier->path)) {
 				$path .= implode('/',$identifier->path);
 			}
@@ -92,7 +78,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 				$path .= '/'.$identifier->name;
 			}
 				
-			$path = $basepath.'/'.$path.'.php';
+			$path = $this->_basepath.'/'.$path.'.php';
 		}
 		
 		return $path;
