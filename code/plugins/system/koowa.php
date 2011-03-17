@@ -47,24 +47,25 @@ class plgSystemKoowa extends JPlugin
 		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
 		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
-		//Instantiate the singletons
-		KLoader::instantiate();
-		KFactory::instantiate();
-		KRequest::instantiate();
-	
-		//Add loader adapters
-		KLoader::addAdapter(new KLoaderAdapterJoomla());
-		KLoader::addAdapter(new KLoaderAdapterModule());
-		KLoader::addAdapter(new KLoaderAdapterPlugin());
-        KLoader::addAdapter(new KLoaderAdapterComponent());
-            
-		//Add factory adapters
+	    //Setup the loader
+		KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+		KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
+		KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
+		KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
+        KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+		
+        //Setup the factory
+		KFactory::addAdapter(new KFactoryAdapterKoowa());
 		KFactory::addAdapter(new KFactoryAdapterJoomla());
 		KFactory::addAdapter(new KFactoryAdapterModule());
 		KFactory::addAdapter(new KFactoryAdapterPlugin());
 		KFactory::addAdapter(new KFactoryAdapterComponent());
 		
-		//Set the root path for the request based on the application name
+		//Setup the identifier application paths
+		KIdentifier::registerApplication('site' , JPATH_SITE);
+		KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+		
+	    //Setup the request
         KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
 		
 		//Create the koowa database object
