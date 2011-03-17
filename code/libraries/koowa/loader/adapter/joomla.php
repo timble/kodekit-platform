@@ -25,17 +25,6 @@ class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 	 */
 	protected $_prefix = 'J';
 	
-	
-	/**
-	 * Get the class prefix
-	 *
-	 * @return string	Returns the class prefix
-	 */
-	public function getPrefix()
-	{
-		return $this->_prefix;
-	}
-	
 	/**
 	 * Get the path based on a class name
 	 *
@@ -87,7 +76,7 @@ class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 				$path .= '.'.$identifier->name;
 			}
 				
-			$path = JLoader::import('joomla.'.$path );
+			$path = JLoader::import('joomla.'.$path, $this->_basepath );
 		}
 
 		return $path;
