@@ -28,6 +28,9 @@ require_once Koowa::getPath().'/loader/adapter/exception.php';
 require_once Koowa::getPath().'/loader/adapter/abstract.php';
 require_once Koowa::getPath().'/loader/adapter/koowa.php';
 
+//Instantiate the loader singleton
+KLoader::instantiate();
+
 /**
  * KLoader class
  *
@@ -70,9 +73,6 @@ class KLoader
         if (function_exists('__autoload')) {
             spl_autoload_register('__autoload');
         }
-            
-        //Add the koowa adapter
-        self::addAdapter(new KLoaderAdapterKoowa());
     }
         
     /**
