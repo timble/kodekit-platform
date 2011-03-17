@@ -166,37 +166,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	}
 
 	/**
-	 * Get the action that is was/will be performed.
-	 *
-	 * If the action cannot be found in the POST request it will determined based on the request 
-	 * method and mapped to one of the 5 BREAD actions.
-	 *
-	 * - GET    : display (either 'browse' (for list views) or 'read' (for item views)).
-	 * - POST   : add
-	 * - PUT    : edit
-	 * - DELETE : delete
-	 *
-	 * @return	 string Action name
-	 */
-	public function getAction()
-	{
-		$action = KRequest::get('post.action', 'cmd');
-
-		if(empty($action))
-		{
-			switch(KRequest::method())
-			{
-				case 'GET'    : $action = 'display'; break;
-				case 'POST'   : $action = 'edit'   ; break;
-				case 'PUT'    : $action = 'add'    ; break;
-				case 'DELETE' : $action = 'delete' ; break;
-			}
-		}
-
-		return $action;
-	}
-	
-	/**
 	 * Get the data from the reques based the request method
 	 *
 	 * @return	array 	An array with the request data
@@ -229,8 +198,11 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         //Set the data from the data in the request
         $context->data = $this->getData();
         
+        //Get the action
+        $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
+        
         //Execute the controller
-        $result = $this->getController()->execute($this->getAction(), $context);
+        $result = $this->getController()->execute($action, $context);
         
         //Set the response header
 	    if($context->status) {
@@ -288,8 +260,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionRender(KCommandContext $context)
 	{
-	    if(is_string($context->result) && $context->status != KHttpResponse::NOT_FOUND) {
-			return $context->result;
+	    if(is_string($context->result)) {
+		     return $context->result;
 		}
 	}
 }
