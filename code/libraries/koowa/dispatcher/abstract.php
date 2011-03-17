@@ -245,7 +245,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if(KRequest::type() == 'AJAX')
 		{
 			$view = KRequest::get('get.view', 'cmd');
-			$context->result = KFactory::get($this->getController())->execute('display');
+			$context->result = KFactory::get($this->getController())->execute('display', $context);
 			return $context->result;
 		}
 	}
