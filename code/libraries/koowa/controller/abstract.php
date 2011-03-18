@@ -43,6 +43,13 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      * @var array
      */
     protected $_actions;
+    
+    /**
+     * Has the controller been dispatched
+     *
+     * @var boolean
+     */
+    protected $_dispatched;
 
     /**
      * Constructor.
@@ -59,10 +66,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         //Set the action
         $this->_action = $config->action;
         
+         //Set the dispatched state
+        $this->_dispatched = $config->dispatched;
+        
         // Mixin the command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
     }
-
 
     /**
      * Initializes the default configuration for the object
@@ -78,7 +87,8 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
             'command_chain'     =>  new KCommandChain(),
             'action'            => null,
             'dispatch_events'   => true,
-            'enable_callbacks'  => true
+            'enable_callbacks'  => true,
+            'dispatched'		=> false,
         ));
         
         parent::_initialize($config);
@@ -93,6 +103,17 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     public function getIdentifier()
     {
         return $this->_identifier;
+    }
+    
+	/**
+     * Has the controller been dispatched
+     * 
+     * @return  boolean	Returns true if the controller has been dispatched
+     * @see     KObjectIdentifiable
+     */
+    public function isDispatched()
+    {
+        return $this->_dispatched;
     }
 
     /**
