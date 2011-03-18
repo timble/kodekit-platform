@@ -56,6 +56,13 @@ abstract class KViewTemplate extends KViewAbstract
     protected $_auto_assign;
     
     /**
+     * Auto filter
+     *
+     * @var boolean
+     */
+    protected $_auto_filter;
+    
+    /**
      * The assigned data
      *
      * @var boolean
@@ -87,6 +94,9 @@ abstract class KViewTemplate extends KViewAbstract
         
         // set the auto assign state
         $this->_auto_assign = $config->auto_assign;
+        
+        // set the auto filter state
+        $this->_auto_filter = $config->auto_filter;
         
         // set the default layout for the view
         $this->_layout_default = $config->layout_default;
@@ -147,6 +157,7 @@ abstract class KViewTemplate extends KViewAbstract
             'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link'),
             'template_path'    => null,
             'auto_assign'      => true,
+            'auto_filter'	   => false,
             'base_url'         => KRequest::base(),
             'media_url'        => KRequest::root().'/media',
         ))->append(array(
@@ -251,6 +262,7 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Return the views output
      *
+     * @param  boolean 	If TRUE apply write filters. Default FALSE.
      * @return string   The output of the view
      */
     public function display()
@@ -260,7 +272,7 @@ abstract class KViewTemplate extends KViewAbstract
             //Load the template object
             $this->output = $this->getTemplate()
                  ->loadIdentifier($this->_layout, $this->_data)
-                 ->render(true);
+                 ->render($this->_auto_filter);
 		}
                         
         return parent::display();
