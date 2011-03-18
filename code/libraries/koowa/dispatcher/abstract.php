@@ -113,16 +113,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
 			//Get the controller name
 			$controller = KRequest::get('get.view', 'cmd', $this->_controller_default);
-			
-			//In case we are loading a subview, we use the first part of the name as controller name
-			if(strpos($controller, '.') !== false)
-			{
-				$result = explode('.', $controller);
-
-				//Set the controller based on the parent
-				$controller = $result[0];
-			}
-
+		
 			// Controller names are always singular
 			if(KInflector::isPlural($controller)) {
 				$controller = KInflector::singularize($controller);
