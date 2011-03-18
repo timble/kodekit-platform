@@ -130,8 +130,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			
 			$config = array(
         		'request' 	   => $this->_request,
-        		'persistent'   => $this->_request_persistent,
-        		'auto_display' => true
+        		'persistent'   => $this->_request_persistent
         	);
 
 			$this->_controller = KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $config);
