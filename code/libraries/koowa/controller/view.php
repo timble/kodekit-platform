@@ -173,7 +173,11 @@ abstract class KControllerView extends KControllerBread
 			$identifier->path	= array('view', $this->_request->view);
 			$identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			
-			$this->_view = KFactory::get($identifier);
+			$config = array(
+			    'auto_filter'  => $this->isDispatched()
+        	);
+			
+			$this->_view = KFactory::get($identifier, $config);
 		}
 		
 		return $this->_view;
