@@ -137,8 +137,8 @@ class ComDefaultControllerDefault extends KControllerView
     protected function _actionDisplay(KCommandContext $context)
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
-        if($this->_request->option != $this->getIdentifier()->package) {
-            KFactory::get('lib.joomla.language')->load($this->_request->option); 
+        if(!$this->isDispatched()) {
+            KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
         }
         
         return parent::_actionDisplay($context);
