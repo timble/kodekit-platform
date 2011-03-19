@@ -47,8 +47,8 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     { 
         parent::__construct($config);
         
-        $this->_token_value = $config->token;
-        $this->_token_name  = $config->name;
+        $this->_token_value = $config->token_value;
+        $this->_token_name  = $config->token_name;
     }
 	
 	/**
