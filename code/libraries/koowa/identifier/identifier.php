@@ -105,14 +105,15 @@ class KIdentifier implements KIdentifierInterface
         if(strpos($identifier, '.') === FALSE) {
             throw new KIdentifierException('Wrong identifier format : '.$identifier);
         }
-         
-        //Set the application name
+
+        //Set the application
         if(strpos($identifier, '::')) { 
-            list($this->application, $identifier) = explode('::', $identifier);
+            list($this->application, $parts) = explode('::', $identifier);
+        } else {
+            $parts = $identifier;
         }
 
-        //Explode the parts
-        $parts = explode('.', $identifier);
+        $parts = explode('.', $parts);
 
         // Set the extension
         $this->_type = array_shift($parts);
