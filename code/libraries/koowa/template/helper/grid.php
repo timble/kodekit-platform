@@ -39,7 +39,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 						<img src="media://lib_koowa/images/locked.png"/>
 					</span>';
 		}
-		else  $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="id[]" value="'.$config->row->id.'" />';
+		else
+		{  
+		    $column = $config->row->getIdentityColumn();
+		    $value  = $config->row->{$column};
+		    
+		    $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="'.$column.'[]" value="'.$value.'" />';
+		}
 
 		return $html;
 	}
