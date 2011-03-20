@@ -10,14 +10,14 @@
  */
 
 /**
- * Database Rowset Default
+ * Default Rowset Default
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-class KDatabaseRowsetDefault extends KDatabaseRowsetAbstract 
-{ 
+class KDatabaseRowsetDefault extends KDatabaseRowsetTable
+{
 
 }
