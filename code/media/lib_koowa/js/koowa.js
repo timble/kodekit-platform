@@ -107,10 +107,10 @@ Koowa.Grid = {
      */
     getAllSelected: function() {
         var result = new Array;
-        var inputs = $$('input[name^=id]');
+        var inputs = $$('input[class^=-koowa-grid-checkbox]');
         for (var i=0; i < inputs.length; i++) {
            if (inputs[i].checked) {
-              result.include(inputs[i].value);
+              result.include(inputs[i]);
            }
         }
         return result;
@@ -118,8 +118,8 @@ Koowa.Grid = {
     
     getIdQuery: function() {
         var result = new Array();
-        $each(this.getAllSelected(), function(value){
-            result.include('id[]='+value);
+        $each(this.getAllSelected(), function(selected){
+            result.include(selected.name+'='+selected.value);
         });
         return result.join('&');
     },
@@ -131,7 +131,7 @@ Koowa.Grid = {
      */
     getFirstSelected: function() {
         var all = this.getAllSelected();
-        if(all.length) return all[0];
+        if(all.length) return all[0].value;
     }
 };
 
