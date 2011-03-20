@@ -170,4 +170,18 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	{
 		return (bool) !$this->locked();
 	}
+	
+	/**
+	 * Checks if a row can be deleted
+	 *
+	 * This function determines if a row can be deleted based on it's locked_by information.
+	 * If a row is locked, and not by the logged in user, the function will return false,
+	 * otherwise it will return true
+	 * 	
+	 * @return boolean True if row can be deleted, false otherwise
+	 */
+	protected function _beforeTableDelete(KCommandContext $context)
+	{
+		return (bool) !$this->locked();
+	}
 }
