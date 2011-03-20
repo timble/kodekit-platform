@@ -10,14 +10,14 @@
  */
 
 /**
- * Database Row Default
+ * Default Row Default
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  */
-class KDatabaseRowDefault extends KDatabaseRowAbstract
+class KDatabaseRowDefault extends KDatabaseRowTable
 {
-	
+
 }
