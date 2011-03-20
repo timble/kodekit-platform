@@ -10,7 +10,7 @@
  */
 
 /**
- * Database Row Class
+ * Abstract Row Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -61,18 +61,18 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     protected $_status_message = '';
     
     /**
-     * Tracks if row data is new (i.e., not in the database yet).
+     * Tracks if row data is new
      * 
      * @var bool
      */
     protected $_new = true;
     
     /**
-     * Table object or identifier (APP::com.COMPONENT.table.NAME)
-     *
-     * @var string|object
-     */
-    protected $_table;
+	 * Name of the identity column in the rowset
+	 *
+	 * @var	string
+	 */
+	protected $_identity_column;
 
     /**
      * Constructor
@@ -85,12 +85,12 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
         if(!isset($config)) $config = new KConfig();
         
         parent::__construct($config);
-         
-        // Set the table indentifier
-        if(isset($config->table)) {
-            $this->setTable($config->table);
-        }
         
+        // Set the table indentifier
+    	if(isset($config->identity_column)) {
+			$this->_identity_column = $config->identity_column;
+		}
+           
         // Reset the row
         $this->reset();
         
@@ -124,11 +124,11 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table'             => null,
              'data'             => null,
              'new'              => true,
              'status'           => null,
              'status_message'   => '', 
+             'identity_column'  => null 
         ));
         
         parent::_initialize($config);
@@ -194,77 +194,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     }
     
     /**
-     * Get the identifier for the table with the same name
-     *
-     * @return  KIdentifierInterface
-     */
-    public function getTable()
-    {
-        if(!$this->_table)
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->name   = KInflector::tableize($identifier->name);
-            $identifier->path   = array('database', 'table');
-        
-            $this->_table = KFactory::get($identifier);
-        }
-        
-        return $this->_table;
-    }
-
-    /**
-     * Method to set a table object attached to the rowset
-     *
-     * @param   mixed   An object that implements KObjectIdentifiable, an object that 
-     *                  implements KIndentifierInterface or valid identifier string
-     * @throws  KDatabaseRowException   If the identifier is not a table identifier
-     * @return  KDatabaseRowsetAbstract
-     */
-    public function setTable($table)
-    {
-        if(!($table instanceof KDatabaseTableAbstract))
-        {
-            $identifier = KFactory::identify($table);
-    
-            if($identifier->path[0] != 'database' && $identifier->path[1] != 'table') {
-                throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
-            }
-
-            $table = KFactory::get($identifier);
-        }
-        
-        $this->_table = $table;
-        return $this;
-    }
-    
-    /**
      * Load the row from the database.
      *
      * @return boolean  If successfull return TRUE, otherwise FALSE
      */
     public function load()
-    {
-        $result = false;
-        
-        $table = $this->getTable();
-        
-        //Filter the data
-        $data  = $table->filter($this->getData(true), true);
-        
-        //Select the row
-        $row = $table->select($data, KDatabase::FETCH_ROW);
-        
-        //Set the data if the row was found
-        if(!$row->isNew()) 
-        {
-            $this->setData($row->getData(), false);
-            $this->_modified = array();
-            $this->_new      = false;
-            
-            $result = true;
-        }
-        
-        return $result;
+    {    
+        return false;
     }
     
     /**
@@ -276,16 +212,8 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      * @return boolean  If successfull return TRUE, otherwise FALSE
      */
     public function save()
-    {
-        $result = false;
-        
-        if($this->_new) {
-            $result = $this->getTable()->insert($this);
-        } else {
-            $result = $this->getTable()->update($this);
-        }
-            
-        return $result;
+    {    
+        return false;
     }
 
     /**
@@ -295,13 +223,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function delete()
     {
-        $result = false;
-        
-        if(!$this->_new) {
-            $result = $this->getTable()->delete($this);
-        }
-        
-        return $result;
+        return false;
     }
 
     /**
@@ -311,7 +233,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function reset()
     {
-        $this->_data = $this->getTable()->getDefaults();
+        $this->_data = array();
         $this->setStatus(NULL);
         
         return true;
@@ -323,11 +245,8 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      * @return integer
      */
     public function count()
-    {
-        $data  = $this->getTable()->filter($this->getData(true), true);
-        $count =  $this->getTable()->count($data);
-        
-        return $count;
+    { 
+        return 0;
     }
 
     /**
@@ -381,24 +300,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     /**
      * Unset a row field
      * 
-     * This function will reset required column to their default value, not required
-     * fields will be unset.
-     * 
      * @param   string  The column name.
      * @return  void
      */
     public function __unset($column)
     {
-        $field = $this->getTable()->getColumn($column);
-        
-        if(isset($field) && $field->required) {
-            $this->_data[$column] = $field->default;
-        } 
-        else 
-        {
-            unset($this->_data[$column]);
-            unset($this->_modified[$column]);
-        }
+         unset($this->_data[$column]);
+         unset($this->_modified[$column]);
     }
  
    /**
@@ -448,6 +356,16 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
         return $this;
     }
     
+ 	/**
+     * Gets the identitiy column of the rowset
+     *
+     * @return string
+     */
+    public function getIdentityColumn()
+    {
+        return $this->_identity_column;
+    }
+    
     /**
      * Get a list of columns that have been modified
      * 
@@ -467,45 +385,33 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
     {
         return (bool) $this->_new;
     }
+    
+	/**
+	 * Search the mixin method map and call the method or trigger an error
+	 *
+	 * Function is also capable of checking is a behavior has been mixed succesfully
+	 * using is[Behavior] function. If the behavior exists the function will return 
+	 * TRUE, otherwise FALSE.
+	 *
+	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
+	 * @return mixed The result of the function
+	 */
+	public function __call($method, array $arguments)
+	{
+		// If the method is of the form is[Bahavior] handle it.
+		$parts = KInflector::explode($method);
 
-    /**
-     * Search the mixin method map and call the method or trigger an error
-     * 
-     * This functions overloads KObject::__call and implements a just in time
-     *  mixin strategy. Available table behaviors are only mixed when needed.
-     *  
-     * It's also capable of checking is a behavior has been mixed succesfully
-     * using is[Behavior] function. If the behavior exists the function will
-     * return TRUE, otherwise FALSE.
-     *
-     * @param  string   The function name
-     * @param  array    The function arguments
-     * @throws BadMethodCallException   If method could not be found
-     * @return mixed The result of the function
-     */
-    public function __call($method, array $arguments)
-    {
-        //If the method hasn't been mixed yet, load all the behaviors
-        if(!isset($this->_mixed_methods[$method])) 
-        {
-            foreach($this->getTable()->getBehaviors() as $behavior) {
-                $this->mixin($behavior);
-            }
-        }
-        
-        //If the method is of the form is[Bahavior] handle it 
-        $parts = KInflector::explode($method);
-        
-        if($parts[0] == 'is' && isset($parts[1])) 
-        {
-            if(isset($this->_mixed_methods[$method])) {
-                return true;
-            }
-            
-            return false;
-        }
-        
-        
-       return parent::__call($method, $arguments);
-    }
+		if($parts[0] == 'is' && isset($parts[1]))
+		{
+			if(isset($this->_mixed_methods[$method])) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return parent::__call($method, $arguments);
+	}
 }
