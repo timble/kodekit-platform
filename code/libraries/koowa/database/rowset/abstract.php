@@ -10,7 +10,7 @@
  */
 
 /**
- * Database Rowset Class
+ * Abstract Rowset Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -20,19 +20,19 @@
  */
 abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabaseRowsetInterface
 {
-	/**
-	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
-	 *
-	 * @var	string|object
-	 */
-    protected $_table;
-    
     /**
 	 * Name of the identity column in the rowset
 	 *
 	 * @var	string
 	 */
 	protected $_identity_column;
+	
+	/**
+     * Row object or identifier (APP::com.COMPONENT.row.NAME)
+     *
+     * @var string|object
+     */
+    protected $_row;
 
 	 /**
      * Constructor
@@ -45,12 +45,9 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 		if(!isset($config)) $config = new KConfig();
     	
     	parent::__construct($config);
-  		
-		// Set the table indentifier
-    	if(isset($config->table)) {
-			$this->setTable($config->table);
-		}
-		
+    	
+    	 $this->_row = $config->row;
+  			
     	// Set the table indentifier
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
@@ -76,7 +73,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table'             => null,
+            'row'               => null,
             'data'              => null,
             'new'               => true,
             'identity_column'   => null 
@@ -95,51 +92,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
     {
         return $this->_identifier;
     }
-
-    /**
-     * Get the identifier for the table with the same name
-     *
-     * @return  KIdentifierInterface
-     */
-    public function getTable()
-    {
-        if(!$this->_table)
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->name   = KInflector::tableize($identifier->name);
-            $identifier->path   = array('database', 'table');
-
-            $this->_table = KFactory::get($identifier);
-        }
-
-        return $this->_table;
-    }
-
-    /**
-     * Method to set a table object attached to the rowset
-     *
-      * @param  mixed   An object that implements KObjectIdentifiable, an object that
-     *                  implements KIndentifierInterface or valid identifier string
-     * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
-     * @return  KDatabaseRowsetAbstract
-     */
-    public function setTable($table)
-    {
-        if(!($table instanceof KDatabaseTableAbstract))
-        {
-            $identifier = KFactory::identify($table);
-    
-            if($identifier->path[0] != 'database' && $identifier->path[1] != 'table') {
-                throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
-            }
-
-            $table = KFactory::get($identifier);
-        }
-        
-        $this->_table = $table;
-        return $this;
-    }
-    
+ 
     /**
      * Returns all data as an array.
      *
@@ -225,7 +178,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
         
         if(!is_null($value))
         {
-            $result = $this->getTable()->getRow();
+            $result = $this->getRow();
 
             foreach ($this as $i => $row) 
             {
@@ -301,13 +254,36 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function reset()
     {
-        $this->_columns  = array_keys($this->getTable()->getColumns());
-
-        $this->_data = array();
+        $this->_columns  = array();
+        $this->_data     = array();
 
         return true;
     }
-
+    
+	  /**
+     * Get an instance of a row object for this table
+     *
+     * @return  KDatabaseRowInterface
+     */
+    public function getRow()
+    {
+        if(!($this->_row instanceof KDatabaseRowInterface))
+        {
+            $identifier         = clone $this->_identifier;
+            $identifier->path   = array('database', 'row');
+            $identifier->name   = KInflector::singularize($this->_identifier->name);
+            
+            //The row default options
+            $options  = array(
+                'identity_column'   => $this->getIdentityColumn()
+            );
+            
+            $this->_row = KFactory::tmp($identifier, $options); 
+        }
+        
+        return clone $this->_row;
+    }
+    
     /**
      * Add a row in the rowset
      * 
@@ -356,9 +332,35 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
     
         return $this;
     }
+    
+ 	/**
+     * Add rows to the rowset
+     *
+     * @param  array    An associative array of row data to be inserted. 
+     * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @return void
+     * @see __construct
+     */
+    public function addRows(array $data, $new = true)
+    {   
+        //Set the data in the row object and insert the row
+        foreach($data as $k => $row)
+        {
+            $instance = $this->getRow()
+                            ->setData($row)
+                            ->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
+            
+            $this->addRow($instance);
+        }
+    }
 
     /**
-     * Forward the call to each row
+     * Search the mixin method map and call the method or forward the call to
+     * each row for processing.
+     * 
+     * Function is also capable of checking is a behavior has been mixed succesfully
+	 * using is[Behavior] function. If the behavior exists the function will return 
+	 * TRUE, otherwise FALSE.
      *
      * @param  string   The function name
      * @param  array    The function arguments
@@ -367,14 +369,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      */
     public function __call($method, array $arguments)
     {
-        //If the method hasn't been mixed yet, load all the behaviors
-        if(!isset($this->_mixed_methods[$method]))
-        {
-            foreach($this->getTable()->getBehaviors() as $behavior) {
-                $this->mixin($behavior);
-            }
-        }
-
         //If the method is of the formet is[Bahavior] handle it
         $parts = KInflector::explode($method);
 
@@ -401,26 +395,5 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
 
         //If the method cannot be found throw an exception
         throw new BadMethodCallException('Call to undefined method :'.$method);
-    }
-    
-    /**
-     * Add rows to the rowset
-     *
-     * @param  array    An associative array of row data to be inserted. 
-     * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return void
-     * @see __construct
-     */
-    public function addRows(array $data, $new = true)
-    {   
-        //Set the data in the row object and insert the row
-        foreach($data as $k => $row)
-        {
-            $instance = $this->getTable()->getRow()
-                            ->setData($row)
-                            ->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
-            
-            $this->addRow($instance);
-        }
     }
 }
