@@ -144,7 +144,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	public function __call($method, array $arguments)
 	{
-		// If the method hasn't been mixed yet, load all the behaviors.
+	    // If the method hasn't been mixed yet, load all the behaviors.
 		if(!isset($this->_mixed_methods[$method]))
 		{
 			foreach($this->getTable()->getBehaviors() as $behavior) {
@@ -152,6 +152,6 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 			}
 		}
 
-		parent::__call($method, $arguments);
+		return parent::__call($method, $arguments);
 	}
 }
