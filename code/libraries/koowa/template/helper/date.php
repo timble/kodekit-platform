@@ -31,7 +31,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'       => '',
+            'date'       => 'now',
             'format'     => '%A, %d %B %Y',
             'gmt_offset' => 0,
         ));
