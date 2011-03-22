@@ -31,16 +31,16 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'       => gmmktime(),
+            'date'       => gmdate("M d Y H:i:s"),
             'format'     => '%A, %d %B %Y',
-            'gmt_offset' => 0,
+            'gmt_offset' => date_offset_get(new DateTime),
         ));
 
         if(!is_numeric($config->date)) {
             $config->date =  strtotime($config->date);
         }
 
-        return strftime($config->format, $config->date + 3600 * $config->gmt_offset);
+        return strftime($config->format, $config->date + $config->gmt_offset);
     }
 
     /**
@@ -54,17 +54,17 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         $config = new KConfig($config);
         $config->append(array(
             'date'              => null,
-            'gmt_offset'        => 0,
+            'gmt_offset'        => date_offset_get(new DateTime),
             'smallest_period'   => 'second'
         ));
-
+        
         $periods    = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
         $lengths    = array(60, 60, 24, 7, 4.35, 12, 10);
-        $now        = gmmktime();
+        $now        = strtotime(gmdate("M d Y H:i:s"));
         $time       = is_numeric($config->date) ? $config->date : strtotime($config->date);
 
         if($config->gmt_offset != 0) {
-            $time =  $time + 3600 * $config->gmt_offset;
+            $now =  $now + $config->gmt_offset;
         }
 
         if($now > $time)
