@@ -204,7 +204,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	}
 	
 	/**
-	 * Check the token to prevent CSRF exploits
+	 * Authorize the controller dispatching 
 	 *
 	 * @return  void|false Returns false if the authorization failed
 	 * @throws 	KDispatcherException
