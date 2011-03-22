@@ -46,10 +46,13 @@ class ComDefaultDispatcher extends KDispatcherDefault
 	{
         $result = parent::_actionAuthorize($context);
         
-	    if( KRequest::token() !== JUtility::getToken())
+        if(KRequest::method() != KHttpRequest::GET) 
         {
-        	throw new KDispatcherException('Invalid token or session time-out.', KHttpResponse::FORBIDDEN);
-        	$result = false;
+            if( KRequest::token() !== JUtility::getToken())
+            {
+        	    throw new KDispatcherException('Invalid token or session time-out.', KHttpResponse::FORBIDDEN);
+        	    $result = false;
+            }
         }
         
         return $result;
