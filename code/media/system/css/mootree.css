@@ -2,7 +2,7 @@
 	font-family: Verdana, Arial, Helvetica;
 	font-size: 10px;
 	white-space: nowrap;
-	padding: 5px 15px 4px 0px;
+	padding: 2px 5px 2px 0px;
 	overflow: hidden; text-overflow: ellipsis;
 	border-top: 1px solid #FFF;
 }
