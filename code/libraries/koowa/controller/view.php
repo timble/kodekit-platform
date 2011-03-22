@@ -65,9 +65,9 @@ abstract class KControllerView extends KControllerBread
 		$this->registerCallback('before.read'  , array($this, 'saveReferrer'));
 		$this->registerCallback('before.browse', array($this, 'saveReferrer'));
 		
-		$this->registerCallback('after.read'  , array($this, 'lockData'));
-		$this->registerCallback('after.edit'  , array($this, 'unlockData'));
-		$this->registerCallback('after.cancel', array($this, 'unlockData'));
+		$this->registerCallback('after.read'  , array($this, 'lockView'));
+		$this->registerCallback('after.edit'  , array($this, 'unlockView'));
+		$this->registerCallback('after.cancel', array($this, 'unlockView'));
 
 		//Set default redirect
 		$this->_redirect = KRequest::referrer();
@@ -122,7 +122,7 @@ abstract class KControllerView extends KControllerBread
 	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
-	public function lockData(KCommandContext $context)
+	public function lockView(KCommandContext $context)
 	{								
        if($context->result instanceof KDatabaseRowInterface) 
        {
@@ -143,7 +143,7 @@ abstract class KControllerView extends KControllerBread
 	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
-	public function unlockData(KCommandContext $context)
+	public function unlockView(KCommandContext $context)
 	{								  
 	    if($context->result->isLockable()) {
 			$context->result->unlock();
