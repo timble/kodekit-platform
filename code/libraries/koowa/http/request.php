@@ -9,16 +9,13 @@
  */
 
 /**
- * HTTP Response class
- *
- * @todo Add other statuses
- * @see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+ * HTTP Request class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Http
  */
-class KHttpResponse
+class KHttpRequest
 {
     // Methods
     const GET     = 'GET';  
