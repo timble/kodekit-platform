@@ -70,9 +70,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			$this->setController($config->controller);
 		}
 
-		if(KRequest::method() != 'GET') 
-		{
-			$this->registerCallback('before.dispatch', array($this, 'authorize'));
+		$this->registerCallback('before.dispatch', array($this, 'authorize'));
+		
+		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
 
@@ -181,7 +181,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{        	
-		//Set the default controller
+	    //Set the default controller
 	    if($context->data) {
         	$this->_controller_default = KConfig::toData($context->data);
         }
@@ -211,7 +211,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function _actionAuthorize(KCommandContext $context)
 	{
-       return true;
+	    return true;
 	}
 
 	/**
