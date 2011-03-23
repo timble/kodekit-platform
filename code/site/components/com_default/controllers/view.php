@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerForm
+class ComDefaultControllerView extends KControllerView
 {
  	/**
      * Constructor
