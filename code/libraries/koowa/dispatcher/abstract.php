@@ -35,13 +35,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	protected $_controller_default;
 	
 	/**
-	 * The request data
-	 * 
-	 * @var KConfig
-	 */
-	protected $_request;
-	
-	/**
 	 * The request persistency
 	 * 
 	 * @var boolean
@@ -56,9 +49,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-		
-		//Set the request
-		$this->_request = $config->request;
 		
 		//Set the request persistency
 		$this->_request_persistent = $config->request_persistent;
@@ -157,7 +147,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	}
 
 	/**
-	 * Get the data from the reques based the request method
+	 * Get the data from the request based the request method
 	 *
 	 * @return	array 	An array with the request data
 	 */
@@ -168,15 +158,28 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         
         return $data;
 	}
+	
+	/**
+	 * Get the action 
+	 *
+	 * @return	string 	The action to dispatch
+	 */
+	public function getAction()
+	{
+        //For none GET requests get the action based on action variable or request method
+	    if(KRequest::method() != KHttpRequest::GET) {
+            $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
+        } else {
+           $action = $this->getController()->getAction();
+        }
+           
+        return $action;
+	}
 
 	/**
 	 * Dispatch the controller
 	 *
-	 * @param	string		The controller to dispatch. If null, it will default to
-	 * 						retrieve the controller information from the request or
-	 * 						default to the component name if no controller info can
-	 * 						be found.
-	 *
+	 * @param   object		A command context object
 	 * @return	mixed
 	 */
 	protected function _actionDispatch(KCommandContext $context)
@@ -186,14 +189,11 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         	$this->_controller_default = KConfig::toData($context->data);
         }
  
-        //Set the data from the data in the request
+        //Set the date in the context
         $context->data = $this->getData();
-        
-        //Get the action
-        $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
-        
+         
         //Execute the controller
-        $result = $this->getController()->execute($action, $context);
+        $result = $this->getController()->execute($this->getAction(), $context);
         
         //Set the response header
 	    if($context->status) {
