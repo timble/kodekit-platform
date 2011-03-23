@@ -18,7 +18,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerView
+class ComDefaultControllerDefault extends KControllerForm
 {
     /**
      * Constructor
@@ -101,7 +101,7 @@ class ComDefaultControllerDefault extends KControllerView
     }
 
     /**
-     * Display a single item
+     * Read action
      *
      * This functions implements an extra check to hide the main menu is the view name
      * is singular (item views)
@@ -125,11 +125,10 @@ class ComDefaultControllerDefault extends KControllerView
     }
     
     /**
-     * Generic display function
+     * Display action
      * 
-     * This function wraps around the read or browse action. If the model state is
-     * unique a read action will be executed, if not unique a browse action will be 
-     * executed.
+     * This function will load the language files of the component if the controller was
+     * not dispatched. 
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
