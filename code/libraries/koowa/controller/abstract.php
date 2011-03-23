@@ -50,6 +50,13 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      * @var boolean
      */
     protected $_dispatched;
+    
+    /**
+	 * The request information
+	 *
+	 * @vara array
+	 */
+	protected $_request = null;
 
     /**
      * Constructor.
@@ -71,6 +78,9 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
         // Mixin the command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
+        
+        //Set the request
+		$this->setRequest((array) KConfig::toData($config->request));
     }
 
     /**
@@ -89,6 +99,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
             'dispatch_events'   => true,
             'enable_callbacks'  => true,
             'dispatched'		=> false,
+            'request'		=> null,
         ));
         
         parent::_initialize($config);
@@ -210,6 +221,28 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         $this->_action = $action; 
         return $this; 
     } 
+    
+	/**
+	 * Get the request information
+	 *
+	 * @return KConfig	A KConfig object with request information
+	 */
+	public function getRequest()
+	{
+		return $this->_request;
+	}
+
+	/**
+	 * Set the request information
+	 *
+	 * @param array	An associative array of request information
+	 * @return KControllerBread
+	 */
+	public function setRequest(array $request)
+	{
+		$this->_request = new KConfig($request);
+		return $this;
+	}
 
     /**
      * Register (map) an action to a method in the class.
@@ -240,6 +273,33 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     {
         unset($this->_action_map[strtolower($action)]);
         return $this;
+    }
+    
+	/**
+     * Set a request properties
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {
+    	$this->_request->$property = $value;
+  	}
+  	
+  	/**
+     * Get a request property
+     *
+     * @param  	string 	The property name.
+     * @return 	string 	The property value.
+     */
+    public function __get($property)
+    {
+    	$result = null;
+    	if(isset($this->_request->$property)) {
+    		$result = $this->_request->$property;
+    	} 
+    	
+    	return $result;
     }
 
     /**

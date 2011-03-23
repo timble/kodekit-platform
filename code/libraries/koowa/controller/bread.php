@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package		Koowa_Controller
  */
-abstract class KControllerBread extends KControllerAbstract
+abstract class KControllerBread extends KControllerView
 {
 	/**
 	 * Model identifier (APP::com.COMPONENT.model.NAME)
@@ -23,14 +23,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 * @var	string|object
 	 */
 	protected $_model;
-
-	/**
-	 * The request information
-	 *
-	 * @vara array
-	 */
-	protected $_request = null;
-
+	
 	/**
 	 * Constructor
 	 *
@@ -45,14 +38,11 @@ abstract class KControllerBread extends KControllerAbstract
 			$this->setModel($config->model);
 		}
 		
-		//Set the request
-		$this->setRequest((array) KConfig::toData($config->request));
-		
 		//Register the load and save request function to make the request persistent
 		if($config->persistent)
 		{
-			$this->registerCallback('before.browse' , array($this, 'loadRequest'));
-			$this->registerCallback('after.browse'  , array($this, 'saveRequest'));
+			$this->registerCallback('before.browse' , array($this, 'loadState'));
+			$this->registerCallback('after.browse'  , array($this, 'saveState'));
 		}	
 	}
 
@@ -68,38 +58,10 @@ abstract class KControllerBread extends KControllerAbstract
     {
     	$config->append(array(
         	'model'			=> null,
-    		'request'		=> null,
     		'persistent'	=> false,
         ));
 
         parent::_initialize($config);
-    }
-    
- 	/**
-     * Set a request properties
-     *
-     * @param  	string 	The property name.
-     * @param 	mixed 	The property value.
-     */
- 	public function __set($property, $value)
-    {
-    	$this->_request->$property = $value;
-  	}
-  	
-  	/**
-     * Get a request property
-     *
-     * @param  	string 	The property name.
-     * @return 	string 	The property value.
-     */
-    public function __get($property)
-    {
-    	$result = null;
-    	if(isset($this->_request->$property)) {
-    		$result = $this->_request->$property;
-    	} 
-    	
-    	return $result;
     }
     
     /**
@@ -115,29 +77,7 @@ abstract class KControllerBread extends KControllerAbstract
 
 		return parent::execute($action, $data);
 	}
-    
-	/**
-	 * Get the request information
-	 *
-	 * @return KConfig	A KConfig object with request information
-	 */
-	public function getRequest()
-	{
-		return $this->_request;
-	}
-
-	/**
-	 * Set the request information
-	 *
-	 * @param array	An associative array of request information
-	 * @return KControllerBread
-	 */
-	public function setRequest(array $request)
-	{
-		$this->_request = new KConfig($request);
-		return $this;
-	}
-	
+   
 	/**
 	 * Load the model state from the request
 	 *
@@ -147,7 +87,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return array	An associative array of request information
 	 */
-	public function loadRequest(KCommandContext $context)
+	public function loadState(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
 		$identifier  = $this->getModel()->getIdentifier().'.'.$this->_action;
@@ -168,7 +108,7 @@ abstract class KControllerBread extends KControllerAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return KControllerBread
 	 */
-	public function saveRequest(KCommandContext $context)
+	public function saveState(KCommandContext $context)
 	{
 		$model  = $this->getModel();
 		$state  = $model->get();
@@ -338,6 +278,105 @@ abstract class KControllerBread extends KControllerAbstract
 	}
 	
 	/**
+	 * Post action
+	 * 
+	 * This function translated a POST request action into an edit or add action. If the model 
+	 * state is unique a edit action will be executed, if not unique an add action will 
+	 * be executed.
+	 *
+	 * @param	KCommandContext		A command context object
+	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 */
+	protected function _actionPost(KCommandContext $context)
+	{
+		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
+		return parent::execute($action, $context);
+	}
+	
+	/**
+	 * Put action
+	 * 
+	 * This function translates a PUT request into an edit or add action. Only if the model
+	 * state is unique and the item exists an edit action will be executed, if the resources
+	 * doesn't exist an add action will be executed.
+	 * 
+	 * If the resource already exists it will be completely replaced based on the data
+	 * available in the request.
+	 * 
+	 * If the model state is not unique the function will return false and set the
+	 * status code to 400 BAD REQUEST.
+	 *
+	 * @param	KCommandContext		A command context object
+	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 */
+	protected function _actionPut(KCommandContext $context)
+	{    
+	    $result = false;
+	    if($this->getModel()->getState()->isUnique()) 
+	    {  
+	        $row   = $this->getModel()->getItem();
+	        
+	        $action = 'add';
+	        if(!$row->isNew()) 
+	        {
+	            //Reset the row data
+	            $row->reset();
+	            $action = 'edit';
+	        }
+	            
+	        //Set the row data based on the unique state information
+	        $state = $this->getModel()->getState()->getData(true);
+	        $row->setData($state);
+	             
+	        $result  = parent::execute($action, $context); 
+        } 
+        else  $context->status = KHttpResponse::BAD_REQUEST;
+      
+        return $result;
+	}
+	
+	/**
+	 * Display action
+	 * 
+	 * This function translates a GET request into a read or browse action. If the view name is 
+	 * singular a read action will be executed, if plural a browse action will be executed.
+	 * 
+	 * This function will not render anything if the following conditions are met :
+	 * 
+	 * - The result of the read or browse action is not a row or rowset object
+	 * - The contex::status is 404 NOT FOUND and the view is not a HTML view
+	 *
+	 * @param	KCommandContext	A command context object
+	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
+	 */
+	protected function _actionDisplay(KCommandContext $context)
+	{
+		//Check if we are reading or browsing
+	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
+	    
+	    //Execute the action
+		$result = $this->execute($action, $context);
+		
+		//Only process the result if a valid row or rowset object has been returned
+		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface))
+		{
+            $view = $this->getView();
+		   
+            if(($context->status != KHttpResponse::NOT_FOUND) || $view instanceof KViewHtml)
+            {
+		        if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+			        $view->setLayout($this->_request->layout);
+		        }
+		    
+		        $result = $view->display();
+             }
+             else $result = false;
+		}
+		
+		return $result;
+	}
+	
+	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
 	 * properties by using the request property name as the method name.
 	 *
@@ -351,14 +390,14 @@ abstract class KControllerBread extends KControllerAbstract
 	 */
 	public function __call($method, $args)
 	{
-		//Check first if we are calling a mixed in method. This prevents the model being loaded durig 
-		//object instantiation. 
+		//Check first if we are calling a mixed in method. This prevents the model being 
+		//loaded durig object instantiation. 
 		if(!isset($this->_mixed_methods[$method])) 
         {
 			//Check if the method is a state property
 			$state = $this->getModel()->getState();
 		
-			if(isset($state->$method) || in_array($method, array('layout', 'view', 'format'))) 
+			if(isset($state->$method)) 
 			{
 				$this->$method = $args[0];
 				return $this;
