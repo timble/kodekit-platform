@@ -16,7 +16,7 @@
  * @package     Koowa_Controller
  * @uses        KInflector
  */
-abstract class KControllerForm extends KControllerBread
+abstract class KControllerForm extends KControllerModel
 {
 	/**
 	 * URL for redirection.
