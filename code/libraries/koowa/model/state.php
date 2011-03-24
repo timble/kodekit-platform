@@ -97,17 +97,14 @@ class KModelState extends KModelAbstract
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
-        if(!isset($this->_state[$name]))
-        {
-            $state = new stdClass();
-            $state->name     = $name;
-            $state->filter   = $filter;
-            $state->value    = $default;
-            $state->unique   = $unique;
-            $state->required = $required;
-            $state->default  = $default;
-            $this->_state[$name] = $state;
-        }
+        $state = new stdClass();
+        $state->name     = $name;
+        $state->filter   = $filter;
+        $state->value    = $default;
+        $state->unique   = $unique;
+        $state->required = $required;
+        $state->default  = $default;
+        $this->_state[$name] = $state;
 
         return $this;
     }
