@@ -75,7 +75,7 @@
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
 
-		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
+		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&view=category&id='. $row->catid );
 		?>
 		<tr>
 			<td align="center">

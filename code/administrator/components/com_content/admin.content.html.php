@@ -124,8 +124,8 @@ class ContentView
 
 				$link 	= 'index.php?option=com_content&sectionid='. $redirect .'&task=edit&cid[]='. $row->id;
 
-				$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
-				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
+				$row->sect_link = JRoute::_( 'index.php?option=com_sections&view=section&id='. $row->sectionid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&view=category&id='. $row->catid );
 
 				$publish_up =& JFactory::getDate($row->publish_up);
 				$publish_down =& JFactory::getDate($row->publish_down);
@@ -346,8 +346,8 @@ class ContentView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
-				$row->sec_link 	= JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&view=category&id='. $row->catid );
+				$row->sec_link 	= JRoute::_( 'index.php?option=com_sections&view=section&id='. $row->sectionid );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {

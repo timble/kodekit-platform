@@ -19,23 +19,25 @@
  */
 class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
 {	
-	public function  _initialize(KConfig $config) 
-  	{
-		$config->identity_column = 'id';
+    public function  _initialize(KConfig $config) 
+    {
+        $config->identity_column = 'id';
 		
-		$config->append(array(
-    		'name' 			=> 'categories',
-			'base' 			=> 'categories',
-			'behaviors'		=>  array('lockable', 'orderable', 'sluggable'),
-    		'column_map'	=>  
-				array(
-					'enabled' 	=> 'published',
-               		'locked_on' => 'checked_out_time',
-               		'locked_by' => 'checked_out',
-                	'slug' 		=> 'alias'
-				),
-		));
+        $config->append(array(
+            'name'       => 'categories',
+            'base'       => 'categories',
+            'behaviors'  => array('lockable', 
+                                   'com.categories.database.behavior.orderable', 
+                                   'sluggable',
+                                   'com.categories.database.behavior.cascadable'),
+            'column_map' => array(
+                'enabled'      => 'published',
+                'locked_on'    => 'checked_out_time',
+                'locked_by'    => 'checked_out',
+                'slug'         => 'alias'
+                ),
+            ));
      
-      	parent::_initialize($config);
-  	}
+        parent::_initialize($config);
+    }
 }

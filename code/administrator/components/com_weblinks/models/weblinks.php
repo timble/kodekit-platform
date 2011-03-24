@@ -1,5 +1,62 @@
 <?php
 /**
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
+ * @copyright	Copyright (C) 2009 - 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+/**
+ * Weblinks Model Class
+ *
+ * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
+ * @category 	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
+ */
+class ComWeblinksModelWeblinks extends ComDefaultModelDefault
+{
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+
+		$this->_state->insert('category', 'int');
+	}
+
+	protected function _buildQueryColumns(KDatabaseQuery $query)
+	{
+		parent::_buildQueryColumns($query);
+
+		$query->select('categories.title AS category')
+			  ->select('users.name AS editor');
+	}
+	
+	protected function _buildQueryJoins(KDatabaseQuery $query)
+	{
+		parent::_buildQueryJoins($query);
+
+		$query->join('LEFT', 'categories AS categories', 'categories.id = tbl.catid')
+			  ->join('LEFT', 'users AS users', 'users.id = tbl.checked_out');
+	}
+
+	protected function  _buildQueryWhere(KDatabaseQuery $query)
+	{
+		parent::_buildQueryWhere($query);
+
+		if ($this->_state->category) {
+		    $query->where('tbl.catid', '=', $this->_state->category);
+		}
+
+		if (!KFactory::get('lib.koowa.application')->isAdmin()) {
+		    $query->where('tbl.published', '=', '1');
+		}
+	}
+}
+
+/**
  * @version		$Id: weblinks.php 18162 2010-07-16 07:00:47Z ian $
  * @package		Joomla
  * @subpackage	Content

@@ -97,7 +97,7 @@ class HTML_newsfeeds
 				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 				$published 	= JHTML::_('grid.published', $row, $i );
 
-				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&view=category&id='. $row->catid );
 				?>
 				<tr>
 					<td>
