@@ -126,7 +126,7 @@ class MediaModelManager extends JModel
 				}
 			}
 		}
-		$tree['data'] = (object) array('name' => JText::_('Media'), 'relative' => '', 'absolute' => $base);
+		$tree['data'] = (object) array('name' => JText::_('images'), 'relative' => '', 'absolute' => $base);
 		return $tree;
 	}
 }
