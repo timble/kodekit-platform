@@ -36,7 +36,7 @@ var MediaManager = {
                     target = $chk(node.data.target) ? node.data.target : '_self';
                     window.frames[target].location.href = node.data.url;
                 }
-            },{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
+            },{ text: 'images', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
         this.tree.adopt('media-tree');
     },
 
