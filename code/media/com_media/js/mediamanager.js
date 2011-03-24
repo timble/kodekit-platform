@@ -59,12 +59,12 @@ var MediaManager = {
         var folder = this.getFolder();
         if (folder) {
             this.updatepaths.each(function(path){ path.value =folder; });
-            this.folderpath.value = basepath+'/'+folder;
+            this.folderpath.value = '/'+folder;
             node = this.tree.get('node_'+folder);
             node.toggle(false, true);
         } else {
             this.updatepaths.each(function(path){ path.value = ''; });
-            this.folderpath.value = basepath;
+            this.folderpath.value = '/';
             node = this.tree.root;
         }
 
