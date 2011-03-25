@@ -106,32 +106,35 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	}
 
 	/**
-	 * Load the row from the database.
+	 * Load the row from the database using the data in the row
 	 *
 	 * @return boolean	If successfull return TRUE, otherwise FALSE
 	 */
 	public function load()
 	{
 		$result = false;
-
-		$table = $this->getTable();
-
-		// Filter the data.
-		$data  = $table->filter($this->getData(true), true);
-
-		// Select the row.
-		$row = $table->select($data, KDatabase::FETCH_ROW);
-
-		// Set the data if the row was found.
-		if(!$row->isNew())
+		
+		if($this->_new)
 		{
-			$this->setData($row->getData(), false);
-			$this->_modified = array();
-			$this->_new      = false;
+            $table = $this->getTable();
 
-			$result = true;
+		    $data  = $table->filter($this->getData(true), true);
+		    $row   = $table->select($data, KDatabase::FETCH_ROW);
+
+		    // Set the data if the row was loaded succesfully.
+		    if(!$row->isNew())
+		    {
+			    $this->setData($row->toArray(), false);
+			    $this->_modified = array();
+			    $this->_new      = false;
+
+			    $this->setStatus(KDatabase::STATUS_LOADED);
+			    $result = true;
+		    }
+		    
+		    $this->setStatus(KDatabase::STATUS_FAILED);
 		}
-
+	
 		return $result;
 	}
 
@@ -145,12 +148,21 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 */
 	public function save()
 	{
-		$result = false;
-
-		if($this->_new) {
-			$result = $this->getTable()->insert($this);
-		} else {
-			$result = $this->getTable()->update($this);
+		if($this->_new) 
+		{
+			if($result = $this->getTable()->insert($this)) {
+			    $this->setStatus(KDatabase::STATUS_INSERTED);
+			} else {
+			    $this->setStatus(KDatabase::STATUS_FAILED);
+			}
+		} 
+		else 
+		{
+			if($result = $this->getTable()->update($this)) {
+			    $this->setStatus(KDatabase::STATUS_UPDATED);
+			} else {
+			    $this->setStatus(KDatabase::STATUS_FAILED);
+			}
 		}
 
 		return $result;
@@ -165,19 +177,31 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	{
 		$result = false;
 
-		if(!$this->_new) {
-			$result = $this->getTable()->delete($this);
+		if(!$this->_new) 
+		{
+			if($result = $this->getTable()->delete($this)) {
+			    $this->setStatus(KDatabase::STATUS_FAILED);
+			}
 		}
 
 		return $result;
 	}
 
+	/**
+	 * Reset the row data using the defaults
+	 *
+	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 */
 	public function reset()
 	{
-		$this->_data = $this->getTable()->getDefaults();
-		$this->setStatus(null);
-
-		return true;
+		$result = false;
+	    
+	    if($this->_data = $this->getTable()->getDefaults()) {
+		    $this->setStatus(null);
+		    $result = true;
+		}
+		
+		return $result;
 	}
 
 	/**
