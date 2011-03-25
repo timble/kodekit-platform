@@ -17,15 +17,8 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInterface
+abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRowInterface
 {
-	/** 
-     * The data for each column in the row (column_name => value).
-     *
-     * @var array
-     */
-    protected $_data = array();
-    
     /**
      * Tracks columns where data has been updated. Allows more specific 
      * save operations.
@@ -199,7 +192,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      * @return boolean  If successfull return TRUE, otherwise FALSE
      */
     public function load()
-    {    
+    {
         return false;
     }
     
@@ -212,7 +205,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      * @return boolean  If successfull return TRUE, otherwise FALSE
      */
     public function save()
-    {    
+    {
         return false;
     }
 
@@ -244,31 +237,17 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      *
      * @return integer
      */
-    public function count()
-    { 
-        return 0;
-    }
-
-    /**
-     * Retrieve row field value
-     *
-     * @param   string  The column name.
-     * @return  string  The corresponding column value.
-     */
-    public function __get($column)
+    function count()
     {
-        $result = null;
-        if(isset($this->_data[$column])) {
-            $result = $this->_data[$column];
-        } 
-        
-        return $result;
+        return false;
     }
 
     /**
      * Set row field value
      * 
-     * If the value is the same as the current value it will not be set
+     * If the value is the same as the current value and the row is loaded from the database
+     * the value will not be reset. If the row is new the value will be (re)set and marked
+     * as modified
      *
      * @param   string  The column name.
      * @param   mixed   The value for the property.
@@ -276,25 +255,13 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function __set($column, $value)
     {
-        //If data is unchanged return
-        if(isset($this->_data[$column]) && $this->_data[$column] == $value) {
-            return;
+        if(!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew()) 
+        {
+            parent::__set($column, $value);
+          
+            $this->_modified[$column] = true;
+            $this->_status            = null;
         } 
-        
-        $this->_data[$column]     = $value;
-        $this->_modified[$column] = true;
-        $this->_status            = null;
-   }
-
-    /**
-     * Test existence of row field
-     *
-     * @param  string  The column name.
-     * @return boolean
-     */
-    public function __isset($column)
-    {
-        return array_key_exists($column, $this->_data);
     }
 
     /**
@@ -305,10 +272,11 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      */
     public function __unset($column)
     {
-         unset($this->_data[$column]);
+         parent::__unset($column);
+         
          unset($this->_modified[$column]);
     }
- 
+    
    /**
     * Returns an associative array of the raw data
     *
@@ -337,7 +305,7 @@ abstract class KDatabaseRowAbstract extends KObject implements KDatabaseRowInter
      public function setData( $data, $modified = true )
      {
         if($data instanceof KDatabaseRowInterface) {
-            $data = $data->getData();
+            $data = $data->toArray();
         } else {
             $data = (array) $data;
         }
