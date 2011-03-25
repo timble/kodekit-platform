@@ -130,6 +130,9 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	/**
  	 * Registers a callback function
  	 * 
+ 	 * If the callback has already been registered. It will not be re-registered. 
+ 	 * If params are passed those will be merged with the existing paramaters.
+ 	 * 
  	 * @param  	string|array	The command name to register the callback for or an array of command names
  	 * @param 	callback		The callback function to register
  	 * @param   array|object    An associative array of config parameters or a KConfig object
@@ -138,6 +141,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	public function registerCallback($commands, $callback, $params = array())
 	{
 		$commands = (array) $commands;
+		$params  = (array) KConfig::toData($params); 
 		
 		foreach($commands as $command)
 		{
@@ -148,14 +152,24 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
        	 		$this->_callbacks[$command] = array();
        	 		$this->_params[$command]   = array(); 	
 			}
-		
-    		$this->_callbacks[$command][] = $callback;
-    		$this->_params[$command][]    = (array) KConfig::toData($params); 
+			
+			//Don't re-register commands.
+			$index = array_search($callback, $this->_callbacks[$command], true);
+
+			if ( $index === false ) 
+			{ 
+		        $this->_callbacks[$command][] = $callback;
+    		    $this->_params[$command][]    = $params; 
+			}
+			else  
+			{
+			   $this->_params[$command][$index] = array_merge($this->_params[$command][$index], $params); 
+			}
 		}
 		
 		return $this->_mixer;
 	}
-	
+
 	/**
  	 * Unregister a callback function
  	 * 
@@ -173,7 +187,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 			
 			if (isset($this->_callbacks[$command]) ) 
 			{
-				$key = array_search($callback, $this->_callbacks[$command]);
+				$key = array_search($callback, $this->_callbacks[$command], true);
        	 		unset($this->_callbacks[$command][$key]);
        	 		unset($this->_params[$command][$key]); 
 			}
