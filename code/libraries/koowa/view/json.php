@@ -54,7 +54,7 @@ class KViewJson extends KViewAbstract
                 $data = $model->getItem();
             }
 
-            $this->output = json_encode($data->getData());
+            $this->output = json_encode($data->toArray());
         }
 
         return parent::display();
