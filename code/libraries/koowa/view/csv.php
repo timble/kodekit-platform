@@ -74,7 +74,7 @@ class KViewCsv extends KViewFile
 		
 		// Data
 		foreach($rowset as $row) {
-			$this->output .= $this->_arrayToString($row->getData()).$this->eol;
+			$this->output .= $this->_arrayToString($row->toArray()).$this->eol;
 		}
 	 	
 		return parent::display();
