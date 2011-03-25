@@ -9,31 +9,25 @@
  */
 
 /**
- * ObjectArray class
- *
- * Allows objects to be handled as arrays, and at the same time implement the features of KObject
+ * An Object Array Class
+ * 
+ * The KObjectArray class provides provides the main functionalities of array and at 
+ * the same time implement the features of KObject
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, Serializable
+class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable
 {
-    /**
-     * The data container
+   /** 
+     * The data for each key in the array (key => value).
      *
      * @var array
      */
-    protected $_data;
+    protected $_data = array();
     
-    /**
-     * The column names
-     *
-     * @var array
-     */
-    protected $_columns = array();
-
-    /**
+ 	/**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
@@ -48,7 +42,7 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
         $this->_data = $config->data;
     }
     
-   /**
+ 	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -65,7 +59,7 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
         parent::_initialize($config);
     }
     
-    /**
+ 	/**
      * Check if the offset exists
      *
      * Required by interface ArrayAccess
@@ -98,7 +92,7 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
      *
      * @param   int     The offset of the item
      * @param   mixed   The item's value
-     * @return  object KObjectArray
+     * @return  object  KObjectSet
      */
     public function offsetSet($offset, $value)
     {
@@ -115,7 +109,7 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
      * Required by interface ArrayAccess
      *
      * @param   int     The offset of the item
-     * @return  object KObjectArray
+     * @return  object 	KObjectSet
      */
     public function offsetUnset($offset)
     {
@@ -133,18 +127,10 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
         return new ArrayIterator($this->_data);
     }
     
-    /**
-     * Get a list of the columns
-     * 
-     * @return  array
-     */
-    public function getColumns()
-    {
-        return $this->_columns;
-    }
-    
-    /**
+ 	/**
      * Serialize
+     * 
+     * Required by interface Serializable
      *
      * @return  string  A serialized object
      */
@@ -156,6 +142,8 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
     /**
      * Unserialize
      * 
+     * Required by interface Serializable
+     * 
      * @param   string  An serialized data
      */
     public function unserialize($data)
@@ -164,141 +152,62 @@ class KObjectArray extends KObject implements Iterator, ArrayAccess, Countable, 
     }
     
     /**
-     * Returns the number of elements in the collection.
+     * Get a value by key
      *
-     * Required by the Countable interface
-     *
-     * @return int
+     * @param   string  The key name.
+     * @return  string  The corresponding value.
      */
-    public function count()
+    public function __get($key)
     {
-        return count($this->_data);
-    }
-    
-    /**
-     * Rewind the Iterator to the first element
-     *
-     * @return  object KObjectArray
-     */
-    public function rewind() 
-    {
-        reset($this->_data);
-        return $this; 
-    } 
-    
-    /**
-     * Checks if current position is valid
-     *
-     * @return  boolean
-     */
-    public function valid() 
-    {
-        return !is_null(key($this->_data)); 
-    } 
-    
-    /**
-     * Return the key of the current element
-     *
-     * @return  scalar
-     */
-    public function key() 
-    {
-        return key($this->_data); 
-    } 
-    
-    /**
-     * Return the current element
-     *
-     * @return  mixed
-     */
-    public function current() 
-    {
-        return current($this->_data); 
-    } 
-    
-    /**
-     * Move forward to next element
-     *
-     * @return  void
-     */
-    public function next() 
-    {
-        return next($this->_data); 
-    }
-
-    /**
-     * Retrieve an array of column values
-     *
-     * @param   string  The column name.
-     * @return  array   An array of all the column values
-     */
-    public function __get($column)
-    {
-        $result = array();
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                $result[$key] = $item->$column;
-            } else {
-                $result[$key] = $item[$column];
-            }
-        }
-
+        $result = null;
+        if(isset($this->_data[$key])) {
+            $result = $this->_data[$key];
+        } 
+        
         return $result;
     }
 
     /**
-     * Set the value of all the columns
+     * Set a value by key
      *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
+     * @param   string  The key name.
+     * @param   mixed   The value for the key
      * @return  void
      */
-    public function __set($column, $value)
+    public function __set($key, $value)
     {
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                $item->$column = $value;
-            } else {
-                $item[$column] = $value;
-            }
-        }
-        
-        //Add the column
-        if(!in_array($column, $this->_columns)) {
-            $this->_columns[] = $column;
-        }
-   }
+       $this->_data[$key] = $value;
+     }
    
-    /**
-     * Test existence of a column
+	/**
+     * Test existence of a key
      *
-     * @param  string  The column name.
+     * @param  string  The key name.
      * @return boolean
      */
-    public function __isset($column)
+    public function __isset($key)
     {
-        return in_array($column, $this->_columns);
+        return array_key_exists($key, $this->_data);
     }
 
     /**
-     * Unset a column
-     *
-     * @param   string  The column key.
+     * Unset a key
+     * 
+     * @param   string  The key name.
      * @return  void
      */
-    public function __unset($column)
+    public function __unset($key)
     {
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                unset($item->$column);
-            } else {
-                unset($item[$column]);
-            }
-        }
-
-        unset($this->_columns[array_search($column, $this->_columns)]);
+         unset($this->_data[$column]);
+    }
+    
+ 	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->_data;
     }
 }
