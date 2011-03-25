@@ -278,7 +278,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
                 else $this->__set($key, $value);
             }
         }
-        else $this->_data = array_unique(array_merge($this->_data, $config), SORT_REGULAR);
+        else $this->_data = array_unique(array_merge($this->_data, $config));
          
         return $this;
     } 
