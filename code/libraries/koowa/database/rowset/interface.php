@@ -46,13 +46,16 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
 	public function getIdentityColumn();
 
 	/**
-     * Returns a KDatabaseRow from a known position or based on a key/value pair
+     * Returns a KDatabaseRow 
+     * 
+     * This functions accepts either a know position or associative 
+     * array of key/value pairs
      *
      * @param 	string 	The position or the key to search for
      * @param 	mixed  	The value to search for
      * @return KDatabaseRowAbstract
      */
-    public function find($key, $value = null);
+    public function find($needle);
 
 	/**
      * Saves all rows in the rowset to the database
