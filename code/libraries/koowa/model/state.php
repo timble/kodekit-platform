@@ -240,4 +240,14 @@ class KModelState extends KModelAbstract
         
         return (bool) (count($states) == 0);
     }
+    
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getData();
+    }
 }
