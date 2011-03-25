@@ -198,7 +198,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function __unset($key)
     {
-         unset($this->_data[$column]);
+         unset($this->_data[$key]);
     }
     
  	/**
