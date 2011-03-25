@@ -25,9 +25,7 @@ class ComCategoriesViewCategoriesHtml extends ComCategoriesViewHtml
 		    ->setTitle('Category Manager : ['.$this->getModel()->get('section').']')
 			->append('divider')     
 			->append(KFactory::tmp('admin::com.categories.toolbar.button.enable', array('text' => 'publish')))
-			->append(KFactory::tmp('admin::com.categories.toolbar.button.disable', array('text' => 'unpublish')))
-			->append('divider')
-			->append('edit');
+			->append(KFactory::tmp('admin::com.categories.toolbar.button.disable', array('text' => 'unpublish')));
                                         
 		return parent::display();
 	}
