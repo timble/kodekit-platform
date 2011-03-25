@@ -29,5 +29,4 @@ class ComSectionsViewSectionsHtml extends ComSectionsViewHtml
                                         
 		return parent::display();
 	}
-	
 }
