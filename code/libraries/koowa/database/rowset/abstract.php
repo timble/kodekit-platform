@@ -18,7 +18,7 @@
  * @subpackage  Rowset
  * @uses 		KMixinClass
  */
-abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabaseRowsetInterface
+abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRowsetInterface
 {
     /**
 	 * Name of the identity column in the rowset
@@ -107,7 +107,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
         }
         return $result;
     }
-
+    
     /**
      * Set the rowset data based on a named array/hash
      *
@@ -120,7 +120,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
      {
         //Get the data
         if($data instanceof KDatabaseRowInterface) {
-            $data = $data->getData();
+            $data = $data->toArray();
         } else {
             $data = (array) $data;
         }
@@ -155,6 +155,16 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
         return $this;
     }
     
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getData();
+    }
+    
     /**
      * Gets the identitiy column of the rowset
      *
@@ -166,33 +176,43 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
     }
 
     /**
-     * Returns a KDatabaseRow from a known position or based on a key/value pair
+     * Returns a KDatabaseRow 
+     * 
+     * This functions accepts either a know position or associative 
+     * array of key/value pairs
      *
-     * @param   string  The position or the key to search for
-     * @param   mixed   The value to search for
+     * @param   string|array  	The position or the key to search for
+     * @param   mixed   		The value to search for
      * @return KDatabaseRowAbstract
      */
-    public function find($key, $value = null)
+    public function find($needle)
     {
         $result = null;
         
-        if(!is_null($value))
+        if(!is_scalar($needle))
         {
             $result = $this->getRow();
 
             foreach ($this as $i => $row) 
             {
-                if($row->$key == $value) 
+                foreach($needle as $key => $value)
                 {
-                    $result = $row;
+                    if($row->{$key} != $value) 
+                    {
+                        $result = null;
+                        break;
+                    } 
+                }
+                
+                if(!is_null($result)) {
                     break;
-                }   
+                }
             }
         }
         else 
         {
-            if(isset($this->_data[$key])) {
-                $result = $this->_data[$key];
+            if(isset($this->_data[$needle])) {
+                $result = $this->_data[$needle];
             }
         }
 
@@ -302,7 +322,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectArray implements KDatabase
         }
     
         //Add the columns, only if they don't exist yet
-        $columns = array_keys($row->getData());
+        $columns = array_keys($row->toArray());
         foreach($columns as $column)
         {
             if(!in_array($column, $this->_columns)) {
