@@ -194,7 +194,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
      *
      * @param   int     The offset of the item
      * @param   mixed   The item's value
-     * @return  object KObjectArray
+     * @return  object  KConfig
      */
     public function offsetSet($offset, $value)
     {
@@ -211,7 +211,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
      * Required by interface ArrayAccess
      *
      * @param   int     The offset of the item
-     * @return  object KObjectArray
+     * @return  object  KConfig
      */
     public function offsetUnset($offset)
     {
@@ -220,7 +220,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
     }
 
     /**
-     * Return an associative array of the stored data.
+     * Return an associative array of the config data.
      *
      * @return array
      */
