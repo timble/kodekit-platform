@@ -19,17 +19,13 @@
  */
 class ComSectionsViewSectionsHtml extends ComSectionsViewHtml
 {
-	
 	public function display()
 	{
-		KFactory::get('admin::com.sections.toolbar.sections', array(
-			'title' => 'Section Manager',
-			'icon'  => 'sections.png' ))
+   	    $this->getToolbar()
+   	        ->setTitle('Section Manager')
 			->append('divider')     
 			->append(KFactory::tmp('admin::com.sections.toolbar.button.enable', array('text' => 'publish')))
-			->append(KFactory::tmp('admin::com.sections.toolbar.button.disable', array('text' => 'unpublish')))
-			->append('divider')
-			->append('edit');
+			->append(KFactory::tmp('admin::com.sections.toolbar.button.disable', array('text' => 'unpublish')));
                                         
 		return parent::display();
 	}

@@ -21,12 +21,9 @@ class ComSectionsViewSectionHtml extends ComSectionsViewHtml
 {
    	public function display()
    	{
-		$id = $this->getModel()->getState()->id;
-		
-		KFactory::get('admin::com.sections.toolbar.section', array(
-			'title' => $id ? 'Edit Section' : 'New Section',
-			'icon'  => 'sections.png' )); 
-       
+		$title = $this->getModel()->get('id') ?  'Edit Section' : 'New Section';
+   	    $this->getToolbar()->setTitle($title);
+   	      
 		return parent::display();
    	}
 }
