@@ -54,7 +54,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     /**
 	 * The request information
 	 *
-	 * @vara array
+	 * @var array
 	 */
 	protected $_request = null;
 
