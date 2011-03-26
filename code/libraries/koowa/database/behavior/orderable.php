@@ -40,9 +40,13 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 	/**
 	 * Override to add a custom WHERE clause
+	 * 
+	 * <code>	
+	 * 	   $query->where('category_id', '=', $this->id); 
+	 * </code>
 	 *
 	 * @param 	KDatabaseQuery $query
-	 * @example	$query->where('category_id', '=', $this->id);
+	 * @return  void
 	 */
 	public function _buildQueryWhere(KDatabaseQuery $query)
 	{
