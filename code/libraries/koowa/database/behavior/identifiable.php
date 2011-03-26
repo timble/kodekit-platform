@@ -70,7 +70,7 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      *
      * This function generates a truly random UUID.
      *
-     * @paream boolean	If TRUE return the uuid in hex format, otherwise as a string
+     * @param boolean	If TRUE return the uuid in hex format, otherwise as a string
      * @see http://tools.ietf.org/html/rfc4122#section-4.4
      * @see http://en.wikipedia.org/wiki/UUID
      * @return string A UUID, made up of 36 characters or 16 hex digits.
