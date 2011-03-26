@@ -85,21 +85,7 @@ class plgSystemKoowa extends JPlugin
         KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
         KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
 	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
-        
-	  	//If the format is AJAX we create a 'raw' document rendered and force it's type to the active format 
-        //if the format is 'html' or if the tmpl is empty.
-        if(KRequest::type() == 'AJAX') 
-        {
-        	if(KRequest::get('get.format', 'cmd', 'html') != 'html' || KRequest::get('get.tmpl', 'cmd') === '')
-        	{
-        		$format = JRequest::getWord('format', 'html');
-        	
-        		JRequest::setVar('format', 'raw');   //force format to raw
-        		JFactory::getDocument()->setType($format);
-        		JRequest::setVar('format', $format); //revert format to original
-        	}
-        }
-        
+       
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 		
@@ -123,6 +109,11 @@ class plgSystemKoowa extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{  
+	    /*
+	     * Try to log the user in
+	     * 
+	     * If the request contains authorization information we try to log the user in
+	     */
 	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
 	    {
 	        $credentials = array(
@@ -142,6 +133,28 @@ class plgSystemKoowa extends JPlugin
 	        //Force the token
 	        KRequest::set('request._token', JUtility::getToken());
 	    }
+	    
+	    /*
+	     * Special handling for AJAX requests
+	     * 
+	     * If the format is AJAX and the format is 'html' or the tmpl is empty we re-create 
+	     * a 'raw' document rendered and force it's type to the active format
+	     */
+        if(KRequest::type() == 'AJAX') 
+        {
+        	if(KRequest::get('get.format', 'cmd', 'html') != 'html' || KRequest::get('get.tmpl', 'cmd') === '')
+        	{
+        		$format = JRequest::getWord('format', 'html');
+        	
+        		JRequest::setVar('format', 'raw');   //force format to raw
+        		
+        		$document =& JFactory::getDocument();
+        		$document = null;
+        		$document = JFactory::getDocument()->setType($format);
+        		
+        		JRequest::setVar('format', $format); //revert format to original
+        	}
+        }
 	}
 	
  	/**
