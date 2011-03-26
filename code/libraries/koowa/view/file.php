@@ -11,7 +11,7 @@
 /**
  * Use to force browser to download a file from the file system
  *
- * @example
+ * <code>
  * // in child view class
  * public function display()
  * {
@@ -27,6 +27,7 @@
  *
  *      return parent::display();
  * }
+ * </code>
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
