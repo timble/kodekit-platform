@@ -11,30 +11,23 @@
 /**
  * An Object Set Class
  * 
- * The KObjectSet class provides a map from identifier to array or object. This dual purpose can be 
- * useful in many cases involving the need to uniquely identify objects or arrays as a set and at 
- * the same time implement the features of KObject
+ * KObjectSet implements an associative container that stores objects, and in which the object
+ * themselves are the keys. Objects are stored in the set in FIFO order.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Object
+ * @see			http://www.php.net/manual/en/class.splobjectstorage.php
  */
 class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Countable, Serializable
 {
-    /**
-     * The data container
+   /**
+     * Object set
      *
      * @var array
      */
-    protected $_data;
+    protected $_object_set = null;
     
-    /**
-     * The column names
-     *
-     * @var array
-     */
-    protected $_columns = array();
-
     /**
      * Constructor.
      *
@@ -46,97 +39,137 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
         if(!isset($config)) $config = new KConfig();
         
         parent::__construct($config);
-            
-        $this->_data = $config->data;
+        
+         $this->_object_set = new ArrayObject();
     }
     
-   /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return  void
+  	/**
+     * Inserts an object in the set
+     * 
+     * @param   object      The object to insert
+     * @return  KObjectSet
      */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'data'  => array(),
-        ));
-
-        parent::_initialize($config);
+    public function insert( KObjectHandlable $object)
+    { 
+        if($handle = $object->getHandle()) {
+            $this->_object_set->offsetSet($handle, $object);
+        }
+       
+       return $this;
     }
     
     /**
-     * Check if the offset exists
-     *
-     * Required by interface ArrayAccess
-     *
-     * @param   int     The offset
-     * @return  bool
-     */
-    public function offsetExists($offset)
-    {
-        return $this->__isset($offset);
-    }
-
-    /**
-     * Get an item from the array by offset
-     *
-     * Required by interface ArrayAccess
-     *
-     * @param   int     The offset
-     * @return  mixed   The item from the array
-     */
-    public function offsetGet($offset)
-    {   
-        return $this->__get($offset);
-    }
-
-    /**
-     * Set an item in the array
-     *
-     * Required by interface ArrayAccess
-     *
-     * @param   int     The offset of the item
-     * @param   mixed   The item's value
-     * @return  object  KObjectSet
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->__set($offset, $value);
-        return $this;
-    }
-
-    /**
-     * Unset an item in the array
-     *
+     * Removes an object from the set
+     * 
      * All numerical array keys will be modified to start counting from zero while
      * literal keys won't be touched.
-     *
-     * Required by interface ArrayAccess
-     *
-     * @param   int     The offset of the item
-     * @return  object 	KObjectSet
+     * 
+     * @param   object      The object to remove
+     * @return  KObjectQueue
      */
-    public function offsetUnset($offset)
+    public function extract( KObjectHandlable $object)
     {
-        $this->__unset($offset);
+        $handle = $object->getHandle();
+        
+        if($this->_object_set->offsetExists($handle)) {
+           $this->_object_set->offsetUnset($handle);
+        }
+        
+        return $this;
+    }
+    
+	/**
+     * Checks if the set contains a specific object
+     * 
+     * @param   object      The object to look for.
+     * @return  bool		Returns TRUE if the object is in the set, FALSE otherwise.
+     */
+    public function contains( KObjectHandlable $object)
+    {
+        return $this->_object_set->offsetExists($object->getHandle());
+    }
+    
+	/**
+     * Merge-in another set 
+     * 
+     * @param   object      The object set to merge 
+     * @return  KObjectQueue
+     */
+    public function merge( KObjectSet $set)
+    {
+        foreach($set as $object) {
+            $this->insert($object);
+        }
+        
         return $this;
     }
     
     /**
-     * Get a list of the columns
-     * 
-     * @return  array
+     * Check if the object exists in the queue
+     *
+     * Required by interface ArrayAccess
+     *
+     * @param   object 	The object to look for.
+     * @return  bool	Returns TRUE if the object exists in the storage, and FALSE otherwise
      */
-    public function getColumns()
+    public function offsetExists($object)
     {
-        return $this->_columns;
+        if($object instanceof KConfigHandlable) {
+            return $this->contains($object);
+        }
     }
-    
+
     /**
-     * Serialize
+     * Returns the object from the set
+     * 
+     * Required by interface ArrayAccess
+     *
+     * @param   object  The object to look for.
+     * @return  mixed   The object
+     */
+    public function offsetGet($object)
+    {       
+        if($object instanceof KConfigHandlable) {
+            return $this->_object_set->offsetGet($object->getHandle());
+        }
+    }
+
+    /**
+     * Store an object in the set
+     *
+     * Required by interface ArrayAccess
+     *
+     * @param   object  The object to store
+     * @param   mixed   The data to associate with the object. [UNUSED]
+     * @return  object  KObjectSet
+     */
+    public function offsetSet($object, $data)
+    {
+        if($object instanceof KConfigHandlable) {
+            $this->insert($object);
+        }
+        return $this;
+    }
+
+    /**
+     * Removes an object from the set
+     *
+     * Required by interface ArrayAccess
+     *
+     * @param   object  The object to remove.
+     * @return  object 	KObjectSet
+     */
+    public function offsetUnset($object)
+    {
+        if($object instanceof KConfigHandlable) {
+            $this->extract($object);
+        }
+        
+        return $this;
+    }
+     
+    /**
+     * Return a string representation of the set
      * 
      * Required by interface Serializable
      *
@@ -144,19 +177,19 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function serialize()
     {
-        return serialize($this->_data);
+        return serialize($this->_object_set);
     }
     
     /**
-     * Unserialize
+     * Unserializes a set from its string representation
      * 
      * Required by interface Serializable
      * 
      * @param   string  An serialized data
      */
-    public function unserialize($data)
+    public function unserialize($serialized)
     {
-        $this->data = unserialize($data);
+        $this->_object_set = unserialize($serialized);
     }
     
     /**
@@ -168,8 +201,25 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function count()
     {
-        return count($this->_data);
+        return $this->_object_set->count();
     }
+    
+	/**
+     * Return the first object in the set
+     *
+     * @return	KObject or NULL is queue is empty
+     */
+	public function top() 
+	{
+	    $objects = array_values($this->_object_set->getArrayCopy());
+	    
+	    $object = null;
+	    if(isset($objects[0])) {
+	        $object  = $objects[0];
+	    }
+	
+	    return $object;
+	}
     
     /**
      * Defined by IteratorAggregate
@@ -178,85 +228,9 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function getIterator()
     {
-        return new ArrayIterator((array) $this->_data);
+        return $this->_object_set->getIterator();
     }
-    
-    /**
-     * Retrieve an array of column values
-     *
-     * @param   string  The column name.
-     * @return  array   An array of all the column values
-     */
-    public function __get($column)
-    {
-        $result = array();
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                $result[$key] = $item->$column;
-            } else {
-                $result[$key] = $item[$column];
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Set the value of all the columns
-     *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
-     * @return  void
-     */
-    public function __set($column, $value)
-    {
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                $item->$column = $value;
-            } else {
-                $item[$column] = $value;
-            }
-        }
-        
-        //Add the column
-        if(!in_array($column, $this->_columns)) {
-            $this->_columns[] = $column;
-        }
-   }
-   
-    /**
-     * Test existence of a column
-     *
-     * @param  string  The column name.
-     * @return boolean
-     */
-    public function __isset($column)
-    {
-        return in_array($column, $this->_columns);
-    }
-
-    /**
-     * Unset a column
-     *
-     * @param   string  The column key.
-     * @return  void
-     */
-    public function __unset($column)
-    {
-        foreach($this->_data as $key => $item)
-        {
-            if(is_object($item)) {
-                unset($item->$column);
-            } else {
-                unset($item[$column]);
-            }
-        }
-
-        unset($this->_columns[array_search($column, $this->_columns)]);
-    }
-    
+     
 	/**
      * Return an associative array of the data.
      *
@@ -264,6 +238,6 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function toArray()
     {
-        return $this->_data;
+        return $this->_object_set->getArrayCopy();
     }
 }
