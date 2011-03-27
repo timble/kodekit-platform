@@ -217,14 +217,14 @@ class TemplatesController
 			$txt = $registry->toString();
 
 			// Try to make the params file writeable
-			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
+			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
 				JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template parameter file writable'));
 			}
 
 			$return = JFile::write($file, $txt);
 
 			// Try to make the params file unwriteable
-			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
+			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
 				JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template parameter file unwritable'));
 			}
 
