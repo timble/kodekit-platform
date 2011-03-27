@@ -8,7 +8,7 @@
  */
 
 /**
- * Identifiable interface
+ * Object Identifiable Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
