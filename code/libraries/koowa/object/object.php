@@ -17,7 +17,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObject
+class KObject implements KObjectHandlable
 {
     /**
      * Class methods
