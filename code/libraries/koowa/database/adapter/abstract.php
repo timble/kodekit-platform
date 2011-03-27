@@ -358,9 +358,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param string  	The table to insert data into.
      * @param array 	An associative array where the key is the colum name and
      * 					the value is the value to insert for that column.
-     * @return bool|integer  Returns the id on a table with a column having the AUTO_INCREMENT attribute. If the 
-     *                       table does not have a column with the AUTO_INCREMENT attribute, this function will 
-     *                       return zero or FALSE if the insert failed.
+     * @return bool|integer  If the insert query was executed returns the id on a table with a column having the 
+     * 						 AUTO_INCREMENT attribute. If the table does not have a column with the AUTO_INCREMENT 
+     * 						 attribute, this function will return zero. Otherwise FALSE.
      */
 	public function insert($table, array $data)
 	{
@@ -408,7 +408,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param array  	An associative array where the key is the column name and
      * 				 	the value is the value to use ofr that column.
      * @param mixed 	A sql string or KDatabaseQuery object to limit which rows are updated.
-     * @return integer  If successfull the Number of rows affected, otherwise false
+     * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
+     * 					no rows where updated, or -1 if an error occured. Otherwise FALSE. 
      */
 	public function update($table, array $data, $where = null)
 	{
@@ -448,9 +449,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	/**
      * Deletes rows from the table based on a WHERE clause.
      *
-     * @param string The table to update
-     * @param mixed  A query string or a KDatabaseQuery object to limit which rows are updated.
-     * @return integer Number of rows affected
+     * @param string 	The table to update
+     * @param mixed  	A query string or a KDatabaseQuery object to limit which rows are updated.
+     * @return integer 	Number of rows affected, or -1 if an error occured.
      */
 	public function delete($table, $where)
 	{
