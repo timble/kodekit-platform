@@ -15,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Mixin
  */
-interface KMixinInterface
+interface KMixinInterface extends KObjectHandlable
 {   
     /**
      * Get the methods that are available for mixin. 
