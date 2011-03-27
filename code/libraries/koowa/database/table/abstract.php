@@ -604,7 +604,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 {
                     $context->data = $this->getRowset();
                     if(isset($data) && !empty($data)) {
-                        $context->data->addRows($data, false); 
+                        $context->data->addData($data, false); 
                     }
                     break;
                 }
@@ -653,8 +653,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     /**
      * Table insert method
      *
-     * @param  object   A KDatabaseRow object
-     * @return boolean  TRUE if successfull, otherwise false
+     * @param  object   	A KDatabaseRow object
+     * @return bool|integer Returns the number of rows inserted, or FALSE if insert query was not executed.
      */
     public function insert( KDatabaseRowInterface $row )
     {
@@ -686,18 +686,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 //Set the row status
                 $context->data->setStatus(KDatabase::STATUS_INSERTED);
             }
+            else $context->data->setStatus(KDatabase::STATUS_FAILED); 
                 
             $this->getCommandChain()->run('after.insert', $context);
         }
 
-        return (bool) $context->insert_id;
+        return $context->insert_id;
     }
 
     /**
      * Table update method
      *
-     * @param  object   A KDatabaseRow object
-     * @return boolean  TRUE if successfull, otherwise false
+     * @param  object   		A KDatabaseRow object
+     * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
     public function update( KDatabaseRowInterface $row)
     {
@@ -707,7 +708,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->data      = $row;
         $context->table     = $this->getBase();
         $context->query     = null;
-            
+     
         if($this->getCommandChain()->run('before.update', $context) !== false) 
         {
             //Create where statement
@@ -727,13 +728,22 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             //Execute the update query
             $context->affected = $this->_database->update($context->table, $data, $query);
             
-            //Set the row status
-            if((bool) $context->affected) {
-                $context->data->setStatus(KDatabase::STATUS_UPDATED);
-            }
+            if($context->affected !== false)
+            {
+                //The update succeeded
+                if($context->affected > 0 ) 
+                {
+                    $context->data->setStatus(KDatabase::STATUS_UPDATED);
+                
+                    //Reverse apply the column mappings and set the data in the row
+                    $context->data->setData($this->mapColumns($data, true), false);
+                }
             
-            //Reverse apply the column mappings and set the data in the row
-            $context->data->setData($this->mapColumns($data, true), false);
+                //The update failed
+                if($context->affected <= 0) {
+                    $context->data->setStatus(KDatabase::STATUS_FAILED);
+                }
+            }
             
             //Set the query in the context
             $context->query = $query;
@@ -741,14 +751,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $this->getCommandChain()->run('after.update', $context);
         }
 
-        return (bool) $context->affected;
+        return $context->affected;
     }
 
     /**
      * Table delete method
      *
-     * @param  object   A KDatabaseRow object
-     * @return boolean  TRUE if successfull, otherwise FALSE
+     * @param  object   	A KDatabaseRow object
+     * @return bool|integer Returns the number of rows updated, or FALSE if insert query was not executed.
      */
     public function delete( KDatabaseRowInterface $row )
     {
@@ -771,18 +781,26 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             //Execute the delete query
             $context->affected = $this->_database->delete($context->table, $query);
             
-            //Set the row status
-            if((bool) $context->affected) {
-                $context->data->setStatus(KDatabase::STATUS_DELETED);
-            }
+            if($context->affected !== false)
+            {
+                //The delete succeeded
+                if($context->affected > 0) {
+                    $context->data->setStatus(KDatabase::STATUS_DELETED);
+                }
             
-            //Set the query in the context
-            $context->query = $query;
+                //The delete failed
+                if($context->affected <= 0) {
+                    $context->data->setStatus(KDatabase::STATUS_FAILDED);
+                }
+            
+                //Set the query in the context
+                $context->query = $query;
+            }
             
             $this->getCommandChain()->run('after.delete', $context);
         }
 
-        return (bool) $context->affected;
+        return $context->affected;
     }
 
     /**
