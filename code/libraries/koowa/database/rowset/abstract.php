@@ -62,7 +62,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 		
 		// Reset the rowset
 		$this->reset();
-		
+	
 		// Insert the data, if exists
 		if(!empty($config->data)) {
 			$this->addData($config->data->toArray(), $config->new);	
@@ -351,7 +351,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     public function reset()
     {
         $this->_columns    = array();
-        $this->_object_set = array();
+        $this->_object_set->exchangeArray(array());
 
         return true;
     }

@@ -34,11 +34,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	public function __construct(KConfig $config = null)
 	{
-		// If no config is passed create it.
-		if(!isset($config)) $config = new KConfig();
-
 		parent::__construct($config);
-
+		
 		// Set the table indentifier.
 		if(isset($config->table)) {
 			$this->setTable($config->table);
@@ -114,10 +111,11 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	public function reset()
 	{
-		$this->_columns	   = array_keys($this->getTable()->getColumns());
-		$this->_object_set = array();
-
-		return true;
+		$result = parent::reset();
+		
+	    $this->_columns	   = array_keys($this->getTable()->getColumns());
+	
+		return $result;
 	}
 
 	/**
