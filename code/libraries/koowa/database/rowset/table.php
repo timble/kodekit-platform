@@ -114,8 +114,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	public function reset()
 	{
-		$this->_columns	= array_keys($this->getTable()->getColumns());
-		$this->_data	= array();
+		$this->_columns	   = array_keys($this->getTable()->getColumns());
+		$this->_object_set = array();
 
 		return true;
 	}
