@@ -42,17 +42,11 @@ class KFilterChain extends KCommandChain
      */
     final protected function _validate( KCommandContext $context )
     {
-        $iterator = $this->_priority->getIterator();
-
-        while($iterator->valid()) 
+        foreach($this as $filter)
         {
-            $cmd = $this->_command[ $iterator->key()];
-   
-            if ( $cmd->execute( 'validate', $context ) === false) {
+            if ( $filter->execute( 'validate', $context ) === false) {
                 return false;
             }
-            
-            $iterator->next();
         }
         
         return true;
@@ -66,13 +60,8 @@ class KFilterChain extends KCommandChain
      */
     final protected function _sanitize( KCommandContext $context )
     {
-        $iterator = $this->_priority->getIterator();
-
-        while($iterator->valid()) 
-        {
-            $cmd = $this->_command[ $iterator->key()];
-            $context->data = $cmd->execute( 'sanitize', $context ); 
-            $iterator->next();
+        foreach($this as $filter) {
+            $context->data = $filter->execute( 'sanitize', $context ); 
         }
         
         return $context->data;
