@@ -37,6 +37,16 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
  	 * @return 	KDatabaseRowsetAbstract
   	 */
   	 public function setData( $data, $modified = true );
+  	 
+	/**
+     * Add rows to the rowset
+     *
+     * @param  array    An associative array of row data to be inserted. 
+     * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @return void
+     * @see __construct
+     */
+    public function addData(array $data, $new = true);
 	
 	/**
 	 * Gets the identitiy column of the rowset
@@ -79,7 +89,7 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
     public function reset();
 
 	/**
-     * Add a row in the rowset
+     * Insert a row in the rowset
      * 
      * The row will be stored by i'ts identity_column if set or otherwise by
      * it's object handle.
@@ -87,7 +97,7 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
      * @param  object 	A KDatabaseRow object to be inserted
      * @return KDatabaseRowsetAbstract
      */
-    public function addRow(KDatabaseRowInterface $row);
+    public function insert(KDatabaseRowInterface $row);
     
 	/**
      * Removes a row
@@ -98,5 +108,5 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
      * @param  object 	A KDatabaseRow object to be removed
      * @return KDatabaseRowsetAbstract
      */
-    public function removeRow(KDatabaseRowInterface $row);
+    public function extract(KDatabaseRowInterface $row);
 }
