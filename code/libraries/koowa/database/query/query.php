@@ -382,7 +382,7 @@ class KDatabaseQuery extends KObject
             $joins = array();
             foreach ($this->join as $join)
             {
-                $tmp = '';
+                $tmp = ' ';
     
                 if (! empty($join['type'])) {
                     $tmp .= $join['type'] . ' ';
