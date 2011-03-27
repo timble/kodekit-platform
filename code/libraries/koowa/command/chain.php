@@ -19,22 +19,8 @@
  * @category    Koowa
  * @package     Koowa_Command
  */
-class KCommandChain extends KObject
-{
-    /**
-     * Command list
-     *
-     * @var array
-     */
-    protected $_command = null;
-    
-    /**
-     * Priority list
-     *
-     * @var array
-     */
-    protected $_priority = null;
-    
+class KCommandChain extends KObjectQueue
+{ 
     /**
      * Enabled status of the chain
      * 
@@ -72,10 +58,6 @@ class KCommandChain extends KObject
         $this->_break_condition = (boolean) $config->break_condition;
         $this->_enabled         = (boolean) $config->enabled;
         $this->_context         = $config->context;
-        
-        $this->_command  = new ArrayObject();
-        $this->_priority = new ArrayObject();
-
     }
     
     /**
@@ -111,38 +93,10 @@ class KCommandChain extends KObject
      */
     public function enqueue( KCommandInterface $cmd, $priority = null)
     {
-        if($handle = $cmd->getHandle()) 
-        {
-            $this->_command->offsetSet($handle, $cmd);
-        
-            $this->_priority->offsetSet($handle, is_int($priority) ? $priority : $cmd->getPriority());
-            $this->_priority->asort(); //sort the entries by priority
-        }
-        
-        return $this;
+        $priority =  is_int($priority) ? $priority : $cmd->getPriority();
+        return parent::enqueue($cmd, $priority);
     }
-    
-    /**
-     * Remove a command from the chain
-     * 
-     * @param   object      A KCommand object
-     * @param   integer     The command priority
-     * @return  KCommandChain
-     */
-    public function dequeue( KCommandInterface $cmd)
-    {
-        if($handle = $cmd->getHandle())
-        {
-            if($this->_command->offsetExists($handle)) 
-            {
-                $this->_command->offsetUnset($handle);
-                $this->_priority->offsetUnSet($handle); 
-            }
-        }
-
-        return $this;
-    }
-    
+      
     /**
      * Run the commands in the chain
      * 
@@ -156,17 +110,11 @@ class KCommandChain extends KObject
     {
         if($this->_enabled)
         {
-            $iterator = $this->_priority->getIterator();
-            
-            while($iterator->valid()) 
+            foreach($this as $command) 
             {
-                $cmd = $this->_command[ $iterator->key()];
-            
-                if ( $cmd->execute( $name, $context ) === $this->_break_condition) {
+                if ( $command->execute( $name, $context ) === $this->_break_condition) {
                     return $this->_break_condition;
                 }
-
-                $iterator->next();
             }
         }
     }
@@ -204,14 +152,7 @@ class KCommandChain extends KObject
      */
     public function setPriority(KCommandInterface $cmd, $priority)
     {
-        if($handle = $cmd->getHandle())
-        {
-            if($this->_priority->offsetExists($handle)) {
-                $this->_priority->offsetSet($handle, $priority);
-            }
-        }
-        
-        return $this;
+       return parent::setPriority($cmd, $priority);
     }
     
     /**
@@ -223,15 +164,7 @@ class KCommandChain extends KObject
      */
     public function getPriority(KCommandInterface $cmd)
     {
-        if($handle = $cmd->getHandle())
-        {
-            $result = null;
-            if($this->_priority->offsetExist($handle)) {
-                $result = $this->_priority->offsetGet($handle);
-            }
-        }   
-        
-        return $result;
+        return parent::getPriority($cmd);
     }
     
     /**
