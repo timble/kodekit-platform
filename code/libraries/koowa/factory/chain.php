@@ -33,18 +33,12 @@ class KFactoryChain extends KCommandChain
      */
     final public function run( $identifier, KCommandContext $context )
     {   
-        $iterator = $this->_priority->getIterator();
-
-        while($iterator->valid())
+        foreach($this as $command)
         {
-            $cmd = $this->_command[ $iterator->key()];
-
-            $result = $cmd->execute( $identifier, $context );
+            $result = $command->execute( $identifier, $context );
             if ($result !== false) {
                 return $result;
             }
-
-            $iterator->next();
         }
 
         return false;
