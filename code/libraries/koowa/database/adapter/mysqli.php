@@ -473,21 +473,22 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   		
  	   		foreach($indexes[$info->Table] as $index)
 			{
-				if(count($index) > 1)
+				//We only deal with composite-unique indexes
+			    if(count($index) > 1 && !$index[1]->Non_unique)
 				{
-					//We only deal with unique indexes for now.
-					if(!$index[1]->Non_unique) 
+					$fields = array_values($index);
+				    
+				    if($fields[0]->Column_name == $column->name)
 					{
-						foreach($index as $key => $value) 
-						{
-							if ($index[$key]->Column_name != $column->name) {
-								$column->related[] = $index[$key]->Column_name;
-							}
-						}
-						
-						$column->unique = true;	
-						break; 
+					    unset($fields[0]);
+					    		    
+				        foreach($fields as $key => $value) {
+				            $column->related[] =  $value->Column_name;
+					    }
 					}
+					
+					$column->unique = true;	 
+					break;
 				}
 			}
 		}
