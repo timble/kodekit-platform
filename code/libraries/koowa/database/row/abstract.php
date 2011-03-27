@@ -137,6 +137,53 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     {
         return $this->_identifier;
     }
+    
+ /**
+    * Returns an associative array of the raw data
+    *
+    * @param   boolean  If TRUE, only return the modified data. Default FALSE
+    * @return  array
+    */
+    public function getData($modified = false)
+    {
+        if($modified) {
+            $result = array_intersect_key($this->_data, $this->_modified);  
+        } else {
+            $result = $this->_data;
+        }
+            
+        return $result;
+    }
+  
+    /**
+     * Set the row data
+     *
+     * @param   mixed   Either and associative array, an object or a KDatabaseRow
+     * @param   boolean If TRUE, update the modified information for each column being set. 
+     *                  Default TRUE
+     * @return  KDatabaseRowAbstract
+     */
+     public function setData( $data, $modified = true )
+     {
+        if($data instanceof KDatabaseRowInterface) {
+            $data = $data->toArray();
+        } else {
+            $data = (array) $data;
+        }
+        
+        if($modified) 
+        {
+            foreach($data as $column => $value) {
+                $this->$column = $value;
+            }
+        }
+        else
+        {
+            $this->_data = array_merge($this->_data, $data);
+        }
+        
+        return $this;
+    }
 
     /**
      * Returns the status
@@ -276,54 +323,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
          
          unset($this->_modified[$column]);
     }
-    
-   /**
-    * Returns an associative array of the raw data
-    *
-    * @param   boolean  If TRUE, only return the modified data. Default FALSE
-    * @return  array
-    */
-    public function getData($modified = false)
-    {
-        if($modified) {
-            $result = array_intersect_key($this->_data, $this->_modified);  
-        } else {
-            $result = $this->_data;
-        }
-            
-        return $result;
-    }
-  
-    /**
-     * Set the row data
-     *
-     * @param   mixed   Either and associative array, an object or a KDatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set. 
-     *                  Default TRUE
-     * @return  KDatabaseRowAbstract
-     */
-     public function setData( $data, $modified = true )
-     {
-        if($data instanceof KDatabaseRowInterface) {
-            $data = $data->toArray();
-        } else {
-            $data = (array) $data;
-        }
-        
-        if($modified) 
-        {
-            foreach($data as $column => $value) {
-                $this->$column = $value;
-            }
-        }
-        else
-        {
-            $this->_data = array_merge($this->_data, $data);
-        }
-        
-        return $this;
-    }
-    
+      
  	/**
      * Gets the identitiy column of the rowset
      *
