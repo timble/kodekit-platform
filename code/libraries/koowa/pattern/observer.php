@@ -17,7 +17,7 @@
  * @package     Koowa_Pattern
  * @subpackage  Observer
  */
-interface KPatternObserver
+interface KPatternObserver extends KObjectHandlable
 {
 	/**
 	 * Event received in case the observables states has changed
@@ -26,12 +26,4 @@ interface KPatternObserver
 	 * @return mixed
 	 */
 	public function update(KConfig $args);
-	
-	/**
-	 * This function returns an unique identifier for the object. This id can be used as 
-	 * a hash key for storing objects or for identifying an object
-	 * 
-	 * @return string A string that is unique
-	 */
-	public function getHandle();
 }
