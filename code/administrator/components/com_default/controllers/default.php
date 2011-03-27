@@ -65,38 +65,33 @@ class ComDefaultControllerDefault extends KControllerForm
      * @return void
      */
     public function setMessage(KCommandContext $context)
-    {
+    { 
+        if($context->result instanceof KDatabaseRowsetInterface) {
+            $row = $context->result->top();
+        } else {
+            $row = $context->result;
+        }
+        
         $action = KRequest::get('post.action', 'cmd');
         $name   = $this->_identifier->name;
-        $rowset = ($context->result instanceof KDatabaseRowAbstract) ? array($context->result) : $context->result;
-        $suffix = ($action == 'add' || $action == 'edit') ? 'ed' : 'd'; 
-        $failed = false;
+        $status = $row->getStatus();
 
-        foreach($rowset as $row)
+        if($status == KDatabase::STATUS_FAILED)
         {
-            if($row->getStatus() == KDatabase::STATUS_FAILED)
-            {
-                $this->_redirect        = KRequest::referrer();
-                $this->_redirect_type   = 'error';
-
-                if($row->getStatusMessage()) {
-                    $this->_redirect_message = $row->getStatusMessage();
-                } else {
-                    $this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.' failed');
-                }
-
-                $failed = true;
-                break;
+            $this->_redirect        = KRequest::referrer();
+            $this->_redirect_type   = 'error';
+            
+            if($row->getStatusMessage()) {
+                $this->_redirect_message = $row->getStatusMessage();
+            } else {
+                $this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.' failed');
             }
         }
-
-        if(!$failed)
+            
+        if(!is_null($status) && ($status != KDatabase::STATUS_LOADED))
         {
-            if(count($rowset) > 1) {
-                $this->_redirect_message = JText::sprintf('%s ' . strtolower(KInflector::pluralize($name)) . ' ' . $action.$suffix, $count);
-            } else {
-                $this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
-            }
+           $suffix = ($action == 'add' || $action == 'edit') ? 'ed' : 'd';
+           $this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
         }
     }
 
