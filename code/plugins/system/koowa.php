@@ -104,7 +104,7 @@ class plgSystemKoowa extends JPlugin
 		   }
 		}
 
-		parent::__construct($subject, $config = array());
+		parent::__construct($subject);
 	}
 	
 	/**
@@ -121,24 +121,8 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
-	    {
-	        $credentials = array(
-	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
-	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
-	        );
-	        
-	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
-	        {  
-	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
-        	    return false;      
-	        }
-	        
-	        //Reset the user object in the factory
-	        KFactory::set('lib.koowa.user', JFactory::getUser());
-	         
-	        //Force the token
-	        KRequest::set('request._token', JUtility::getToken());
+	    if($this->params->get('auth_basic', 0) && KFactory::get('lib.joomla.user')->get('guest')) {
+	        $this->_authenticateUser();
 	    }
 	    
 	    /*
@@ -212,6 +196,41 @@ class plgSystemKoowa extends JPlugin
 		while(@ob_get_clean());
 		
 		JError::customErrorPage($error);
+	}
+	
+	/**
+	 * Basic authentication support
+	 *
+	 * This functions tries to log the user in if authentication credentials are
+	 * present in the request.
+	 *
+	 * @return boolean	Returns TRUE is basic authentication was successful
+	 */
+	protected function _authenticateUser()
+	{
+	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
+	    {
+	        $credentials = array(
+	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
+	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
+	        );
+	        
+	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
+	        {  
+	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
+        	    return false;      
+	        }
+	        
+	        //Reset the user object in the factory
+	        KFactory::set('lib.koowa.user', JFactory::getUser());
+	         
+	        //Force the token
+	        KRequest::set('request._token', JUtility::getToken());
+	        
+	        return true;
+	    }
+	    
+	    return false;
 	}
 }
 
