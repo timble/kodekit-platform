@@ -33,7 +33,11 @@ class ComDefaultControllerDefault extends KControllerForm
         $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
         
         //Enqueue the authorization command
-        $this->getCommandChain()->enqueue( KFactory::get('admin::com.default.command.authorize'));
+        $command = clone $this->_identifier;
+	    $command->path = 'command';
+		$command->name = 'authorize';
+	    
+        $this->getCommandChain()->enqueue( KFactory::get($command));
     }
     
     /**
@@ -112,7 +116,7 @@ class ComDefaultControllerDefault extends KControllerForm
         if(isset($row))
         {
             if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
-                KFactory::get('lib.koowa.application')->enqueueMessage($row->lockMessage(), 'notice');
+                KFactory::get('lib.joomla.application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 
