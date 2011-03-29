@@ -51,7 +51,12 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 					$path = array_shift($parts);
 				}
 					
-				$path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';
+			    //Plugins can have their own folder
+		        if (is_file($this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php')) {
+				    $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php';
+			    } else {
+				    $path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';
+			    }
 			}
 		}
 		
@@ -87,7 +92,12 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 				else $path  = strtolower($identifier->name);	
 			}
 				
-			$path = $this->_basepath.'/plugins/'.$type.'/'.$name.'/'.$path.'.php';	
+			//Plugins can have their own folder
+		    if (is_file($this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php')) {
+				$path = $this->_basepath.'/plugins/'.$type.'/'.$path.'/'.$path.'.php';
+			} else {
+				$path = $this->_basepath.'/plugins/'.$type.'/'.$path.'.php';
+			}
 		}	
 		
 		return $path;
