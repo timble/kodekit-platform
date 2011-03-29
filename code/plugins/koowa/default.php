@@ -52,12 +52,12 @@
  */
 abstract class PlgKoowaDefault extends KEventListener
 {   
-    /**
-     * A JParameter object holding the parameters for the plugin
-     *
-     * @var A JParameter object
-     */
-    public $params  = null;
+   /**
+	 * A JRegistry object holding the parameters for the plugin
+	 *
+	 * @var	A JRegistry object
+	 */
+	protected $_params	= null;
 
     /**
      * The name of the plugin
@@ -78,15 +78,16 @@ abstract class PlgKoowaDefault extends KEventListener
      */
     function __construct($dispatcher, $config = array())
     {
-        if ( isset( $config['params'] ) ) 
-        {
-            if(is_a($config['params'], 'JParameter')) {
-                $this->params = $config['params'];
-            } else {
-                $this->params = new JParameter($config['params']);
-            }
-        }
-
+		if (isset($config['params']))
+		{
+			if ($config['params'] instanceof JRegistry) {
+				$this->params = $config['params'];
+			} else {
+				$this->params = new JRegistry;
+				$this->params->loadINI($config['params']);
+			}
+		}
+        
         if ( isset( $config['name'] ) ) {
             $this->_name = $config['name'];
         }
