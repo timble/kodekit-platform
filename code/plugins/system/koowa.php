@@ -104,7 +104,7 @@ class plgSystemKoowa extends JPlugin
 		   }
 		}
 
-		parent::__construct($subject);
+		parent::__construct($subject, $config);
 	}
 	
 	/**
