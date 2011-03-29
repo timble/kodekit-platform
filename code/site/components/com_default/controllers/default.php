@@ -27,9 +27,13 @@ class ComDefaultControllerDefault extends KControllerForm
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
- 
-        //Enqueue the authorization command
-        $this->getCommandChain()->enqueue( KFactory::get('site::com.default.command.authorize'));
+        
+         //Enqueue the authorization command
+        $command = clone $this->_identifier;
+	    $command->path = 'command';
+		$command->name = 'authorize';
+	    
+        $this->getCommandChain()->enqueue( KFactory::get($command));
     }
     
     /**
