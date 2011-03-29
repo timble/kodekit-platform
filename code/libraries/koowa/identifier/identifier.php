@@ -159,8 +159,14 @@ class KIdentifier implements KIdentifierInterface
     {
         if(isset($this->{'_'.$property})) 
         {
-            $this->{'_'.$property} = $value;
-            
+            //Force the path to an array
+            if($property == 'path')
+            {
+                if(is_scalar($value)) {
+                     $value = (array) $value;   
+                }
+            }
+              
             //Set the basepath
             if($property == 'application')
             { 
@@ -170,6 +176,9 @@ class KIdentifier implements KIdentifierInterface
                
                $this->basepath = self::$_applications[$value];
             }
+            
+            //Set the propertys
+            $this->{'_'.$property} = $value;
                 
             //Force recreation of the identifier string
             $this->_identifier = '';
