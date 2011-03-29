@@ -254,12 +254,11 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     /**
      * Returns a KDatabaseRow 
      * 
-     * This functions accepts either a know position or associative 
-     * array of key/value pairs
+     * This functions accepts either a know position or associative array of key/value pairs
      *
-     * @param   string|array  	The position or the key to search for
-     * @param   mixed   		The value to search for
-     * @return KDatabaseRowAbstract
+     * @param   string|array  	The position or the key or an associatie array of column data 
+     *                          to match
+     * @return KDatabaseRow(set)Abstract Returns a row or rowset if successfull. Otherwise NULL.
      */
     public function find($needle)
     {
@@ -267,21 +266,15 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         
         if(!is_scalar($needle))
         {
-            $result = $this->getRow();
-
-            foreach ($this as $i => $row) 
-            {
+            $result = clone $this;
+            
+            foreach ($result as $i => $row) 
+            { 
                 foreach($needle as $key => $value)
                 {
-                    if($row->{$key} != $value) 
-                    {
-                        $result = null;
-                        break;
+                    if($row->{$key} != $value) {
+                        $result->extract($row);
                     } 
-                }
-                
-                if(!is_null($result)) {
-                    break;
                 }
             }
         }
@@ -373,7 +366,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             $options  = array(
                 'identity_column' => $this->getIdentityColumn()
             );
-            
+               
             $this->_row = KFactory::tmp($identifier, $options); 
         }
         
