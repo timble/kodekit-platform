@@ -11,7 +11,7 @@
 
 
 /**
- * Date Helper
+ * Database Lockable Behavior
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
