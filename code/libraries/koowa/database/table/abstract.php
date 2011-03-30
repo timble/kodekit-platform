@@ -153,7 +153,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $name    = $this->_identifier->name;
         
         $config->append(array(
-            'database'          => KFactory::get('lib.koowa.database'),
+            'database'          => KFactory::get('lib.koowa.database.adapter.mysqli'),
             'row'               => null,
             'rowset'            => null,
             'name'              => empty($package) ? $name : $package.'_'.$name,
