@@ -173,6 +173,23 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	}
 	
 	/**
+	 * Set the connection
+	 *
+	 * @param 	resource 	The connection resource
+	 * @return  KDatabaseAdapterAbstract
+	 * @throws  KDatabaseAdapterException If the resource is not an MySQLi instance
+	 */
+	public function setConnection($resource)
+	{
+	    if(!($resource instanceof MySQLi)) {
+	        throw KDatabaseAdapterException('Not a MySQLi connection');
+	    }
+	    
+	    $this->_connection = $resource;
+		return $this;
+	}
+	
+	/**
 	 * Retrieves the column schema information about the given tables
 	 *
 	 * @param 	array|string 	A table name or a list of table names
