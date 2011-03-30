@@ -228,7 +228,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			if($redirect = KFactory::get($this->getController())->getRedirect())
 			{
-				KFactory::get('lib.koowa.application')
+				KFactory::get('lib.joomla.application')
 					->redirect($redirect['url'], $redirect['message'], $redirect['type']);
 			}
 		}
