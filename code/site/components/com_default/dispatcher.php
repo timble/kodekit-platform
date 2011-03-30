@@ -64,7 +64,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $url = clone(KRequest::url());
             $url->query['view'] = $view;
             
-            KFactory::get('lib.koowa.application')->redirect($url);
+            KFactory::get('lib.joomla.application')->redirect($url);
         }
         
         return parent::_actionDispatch($context);
