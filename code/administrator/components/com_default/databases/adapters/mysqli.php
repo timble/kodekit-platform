@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: lockable.php 2904 2011-03-16 19:28:22Z johanjanssens $
+ * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
