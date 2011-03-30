@@ -45,7 +45,7 @@ class ComDefaultViewHtml extends KViewDefault
         } 
         else $path  = strtolower($this->getName());
                
-        $template = KFactory::get('lib.koowa.application')->getTemplate();
+        $template = KFactory::get('lib.joomla.application')->getTemplate();
         $path     = JPATH_THEMES.'/'.$template.'/'.'html/com_'.$this->_identifier->package.DS.$path;
           
          KFactory::get($this->getTemplate())->addPath($path);
