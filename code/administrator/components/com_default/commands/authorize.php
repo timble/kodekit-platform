@@ -19,6 +19,23 @@
  */
 class ComDefaultCommandAuthorize extends KCommand
 {  
+    /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'priority'   => KCommand::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+	
 	/**
      * Command handler
      * 
@@ -45,9 +62,9 @@ class ComDefaultCommandAuthorize extends KCommand
     public function _controllerBeforeAdd(KCommandContext $context)
     {
         if(JVERSION::isCompatible('1.6')) {
-            $result = KFactory::get('lib.koowa.user')->authorise('core.create');
+            $result = KFactory::get('lib.joomla.user')->authorise('core.create');
         } else {
-            $result = KFactory::get('lib.koowa.user')->get('gid') > 22;
+            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
         }
         
         return $result;
@@ -62,9 +79,9 @@ class ComDefaultCommandAuthorize extends KCommand
     public function _controllerBeforeEdit(KCommandContext $context)
     {
         if(JVERSION::isCompatible('1.6')) {
-            $result = KFactory::get('lib.koowa.user')->authorise('core.edit');
+            $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
         } else {
-            $result = KFactory::get('lib.koowa.user')->get('gid') > 22;
+            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
         }
           
         return $result;
@@ -79,9 +96,9 @@ class ComDefaultCommandAuthorize extends KCommand
     public function _controllerBeforeDelete(KCommandContext $context)
     {
         if(JVERSION::isCompatible('1.6')) {
-            $result = KFactory::get('lib.koowa.user')->authorise('core.delete');
+            $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
         } else {
-            $result = KFactory::get('lib.koowa.user')->get('gid') > 22;
+            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
         }
           
         return $result;
