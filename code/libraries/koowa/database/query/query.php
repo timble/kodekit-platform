@@ -130,7 +130,7 @@ class KDatabaseQuery extends KObject
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'adapter' => KFactory::get('lib.koowa.database')
+            'adapter' => KFactory::get('lib.koowa.database.adapter.mysqli')
         ));
 
         parent::_initialize($config);
