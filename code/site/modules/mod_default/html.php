@@ -33,7 +33,7 @@ class ModDefaultHtml extends KViewHtml
         $this->module  = $config->module;
         $this->attribs = $config->attribs;
         
-        $template = KFactory::get('lib.koowa.application')->getTemplate();
+        $template = KFactory::get('lib.joomla.application')->getTemplate();
         $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'mod_'.$this->_identifier->package;
           
          $this->getTemplate()->addPath($path);
