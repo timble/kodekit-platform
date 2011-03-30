@@ -90,12 +90,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		
 		// Initialize the options
         parent::__construct($config);
-        
+         
         // Set the connection
-        if(is_resource($config->connection)) {
-        	$this->setConnection($config->connection);
-        }
-
+        $this->setConnection($config->connection);
+       
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($config->charset)) {
 			//$this->setCharset($config->charset);
@@ -140,7 +138,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     		'enable_callbacks' 	=> false,
     		'connection'		=> null,
         ));
-        
+         
         parent::_initialize($config);
     }
     
@@ -216,7 +214,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 */
 	public function setConnection($resource)
 	{
-		$this->_connection = $resource;
+	    $this->_connection = $resource;
 		return $this;
 	}
 
