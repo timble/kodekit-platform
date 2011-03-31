@@ -67,19 +67,9 @@ class plgSystemKoowa extends JPlugin
 		
 	    //Setup the request
         KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
-		
-		//Create the koowa database object
-		$dbo = JFactory::getDBO();
-		
-		$resource = method_exists($dbo, 'getConnection') ? $dbo->getConnection() : $dbo->_resource;
-		$prefix   = method_exists($dbo, 'getPrefix')     ? $dbo->getPrefix()     : $dbo->_table_prefix;
-		
-		$db	= KFactory::get('lib.koowa.database.adapter.mysqli')
-				->setConnection($resource)
-				->setTablePrefix($prefix);
-		
+			
         //Set factory identifier aliasses
-        KFactory::map('lib.koowa.database'   , $db);
+        KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
         KFactory::map('lib.koowa.application', 'lib.joomla.application');
         KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
         KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
