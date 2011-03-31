@@ -182,7 +182,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function setConnection($resource)
 	{
 	    if(!($resource instanceof MySQLi)) {
-	        throw KDatabaseAdapterException('Not a MySQLi connection');
+	        throw new KDatabaseAdapterException('Not a MySQLi connection');
 	    }
 	    
 	    $this->_connection = $resource;
