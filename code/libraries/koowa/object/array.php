@@ -96,8 +96,13 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function offsetSet($offset, $value)
     {
-        $this->__set($offset, $value);
-        return $this;
+        if (is_null($offset)) { 
+            $this->_data[] = $value; 
+        } else {                      
+            $this->__set($offset, $value); 
+        } 
+         
+        return $this; 
     }
 
     /**
