@@ -39,7 +39,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
         
         parent::__construct($config);
             
-        $this->_data = $config->data;
+        $this->_data = KConfig::toData($config->data);
     }
     
  	/**
