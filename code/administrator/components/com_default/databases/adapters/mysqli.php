@@ -22,9 +22,14 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
 { 
     protected function _initialize(KConfig $config)
     {
+        $db = KFactory::get('lib.joomla.database');
+        
+		$resource = method_exists($dbo, 'getConnection') ? $dbo->getConnection() : $dbo->_resource;
+		$prefix   = method_exists($dbo, 'getPrefix')     ? $dbo->getPrefix()     : $dbo->_table_prefix;
+        
         $config->append(array(
-    		'connection'   => KFactory::get('lib.joomla.database')->getConnection(),
-            'table_prefix' => KFactory::get('lib.joomla.database')->getPrefix(),
+    		'connection'   => $resource,
+            'table_prefix' => $prefix,
         ));
           
         parent::_initialize($config);
