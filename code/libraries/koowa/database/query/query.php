@@ -254,8 +254,9 @@ class KDatabaseQuery extends KObject
         $where['condition']  = count($this->where) ? $condition : '';
 
         //Make sure we don't store the same where clauses twice
-        $signature = md5($property.$where.$value);
+        $signature = md5($property.$constraint.$value);
         $this->where[$signature] = $where;
+        
         return $this;
     }
 
