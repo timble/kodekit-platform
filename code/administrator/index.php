@@ -23,7 +23,7 @@ require_once( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 require_once( JPATH_BASE .DS.'includes'.DS.'helper.php' );
 require_once( JPATH_BASE .DS.'includes'.DS.'toolbar.php' );
 
-//Nooku Desktop identification information
+//Nooku Server identification information
 header('X-Nooku-Server: version=0.7');
 
 JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
