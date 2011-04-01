@@ -21,6 +21,9 @@ define( 'DS', DIRECTORY_SEPARATOR );
 require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
 require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 
+//Nooku Server identification information
+header('X-Nooku-Server: version=0.7');
+
 JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
 
 /**
