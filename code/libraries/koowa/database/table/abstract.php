@@ -580,13 +580,16 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 $data = $this->_database->select($context->query, $context->mode, $this->getIdentityColumn());
                 
                 //Map the columns
-                if($context->mode % 2)
-                {
-                    foreach($data as $key => $value) {
-                        $data[$key] = $this->mapColumns($value, true);
+                if (($context->mode != KDatabase::FETCH_FIELD) || ($context->mode != KDatabase::FETCH_FIELD_LIST))
+                { 
+                    if($context->mode % 2)
+                    {
+                        foreach($data as $key => $value) {
+                            $data[$key] = $this->mapColumns($value, true);
+                        }
                     }
+                    else $data = $this->mapColumns(KConfig::toData($data), true);   
                 }
-                else $data = $this->mapColumns(KConfig::toData($data), true);   
             }
             
             switch($context->mode)
