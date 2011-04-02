@@ -124,12 +124,11 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 			    $this->setData($row->toArray(), false);
 			    $this->_modified = array();
 			    $this->_new      = false;
-
+			    
 			    $this->setStatus(KDatabase::STATUS_LOADED);
 			    $result = true;
 		    }
-		    
-		    $this->setStatus(KDatabase::STATUS_FAILED);
+		    else $this->setStatus(KDatabase::STATUS_FAILED);
 		}
 	
 		return $result;
@@ -145,7 +144,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 */
 	public function save()
 	{
-		if($this->_new) {
+	    if($this->_new) {
 		    $result = $this->getTable()->insert($this);;
 		} else {
 			$result = $this->getTable()->update($this);
