@@ -24,6 +24,6 @@ class ComTermsControllerTerm extends ComDefaultControllerDefault
 		parent::__construct($config);
 
 		//Prevent state from being saved
-		$this->unregisterCallback('after.browse'  , array($this, 'saveRequest'));
+		$this->unregisterCallback('after.browse'  , array($this, 'saveState'));
 	}
 }
