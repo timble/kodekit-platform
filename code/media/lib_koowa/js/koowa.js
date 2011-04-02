@@ -181,9 +181,28 @@ Koowa.Overlay = Ajax.extend({
         evalStyles  : true,
         
         //This event handler does not fire on MooTools 1.1.x
-        onComplete: function() {
+        onComplete: function() 
+        {
             var element = new Element('div', {html: this.response.text});
             this.element.replaceWith(element.getElement('[id='+this.element.id+']'));
+            
+            if (this.options.evalScripts) 
+            {
+                scripts = element.getElementsBySelector('script[type=text/javascript]');
+                scripts.each(function(script) {
+                    new Asset.javascript(script.src, {id: script.id });
+                    script.remove();
+                }.bind(this))
+            }
+            
+            if (this.options.evalStyles) 
+            {
+                styles  = element.getElementsBySelector('link[type=text/css]');
+                styles.each(function(style) {
+                    new Asset.css(style.href, {id: style.id });
+                    style.remove();
+                }.bind(this))
+            }
         }
     },
     
