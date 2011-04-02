@@ -140,7 +140,7 @@ class plgSystemKoowa extends JPlugin
         		
         		$document =& JFactory::getDocument();
         		$document = null;
-        		$document = JFactory::getDocument()->setType($format);
+        		JFactory::getDocument()->setType($format);
         		
         		JRequest::setVar('format', $format); //revert format to original
         	}
