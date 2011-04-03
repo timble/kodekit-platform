@@ -118,8 +118,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableInsert(KCommandContext $context)
     { 
-    	if($this->_countRevisions($this, KDatabase::STATUS_INSERTED) == 0) {
-    		$this->_insertRevision($this, KDatabase::STATUS_INSERTED);
+    	if($this->_countRevisions(KDatabase::STATUS_INSERTED) == 0) {
+    		$this->_insertRevision(KDatabase::STATUS_INSERTED);
     	}
     }
     
@@ -136,13 +136,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
     	if($this->getTable()->count($this->id)) 
     	{
-     		if ($this->_countRevisions($this) == 0) {
-            	$this->_insertRevision($this, KDatabase::STATUS_INSERTED);
+     		if ($this->_countRevisions() == 0) {
+            	$this->_insertRevision(KDatabase::STATUS_INSERTED);
         	}
     	}
     	else 
     	{
-    		if($this->_countRevisions($this, KDatabase::STATUS_DELETED) == 1) 
+    		if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
     		{
     			//Restore the row
     			$this->getTable()->getRow()->setData($this->getData())->save();
@@ -151,7 +151,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     			$this->setStatus(KDatabase::STATUS_UPDATED);
     			
     			//Delete the revision
-    			$this->_deleteRevisions($this, KDatabase::STATUS_DELETED);
+    			$this->_deleteRevisions(KDatabase::STATUS_DELETED);
     			
     			return false;
     		}
@@ -170,7 +170,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
     	// Only insert new revision if the database was updated
         if ((bool) $context->affected) {
-            $this->_insertRevision($this, KDatabase::STATUS_UPDATED);
+            $this->_insertRevision(KDatabase::STATUS_UPDATED);
         }
     }
     
@@ -187,15 +187,15 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
    		if ($this->getTable()->count($this->id)) 
    		{	
-   			if($this->_countRevisions($this) == 0) {
-           		 $this->_insertRevision($this, KDatabase::STATUS_INSERTED);
+   			if($this->_countRevisions() == 0) {
+           		 $this->_insertRevision(KDatabase::STATUS_INSERTED);
    			}
         } 
         else
         {
-    	 	if($this->_countRevisions($this, KDatabase::STATUS_DELETED) == 1) 
+    	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
     		{
-    			$this->_deleteRevisions($this);	
+    			$this->_deleteRevisions();	
     			return false;
     		}
         }
@@ -212,7 +212,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableDelete(KCommandContext $context)
     { 
-    	$this->_insertRevision($this, KDatabase::STATUS_DELETED);
+    	$this->_insertRevision(KDatabase::STATUS_DELETED);
     }
 
     /**
@@ -221,45 +221,45 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @param  array    $data   Revision data
      * @return void
      */
-    protected function _insertRevision(KDatabaseRowInterface $row, $status)
+    protected function _insertRevision($status)
     {
-    	$table = $row->getTable();
+    	$table = $this->getTable();
     	
     	// Get the row data
     	if ($status == KDatabase::STATUS_UPDATED) {
-            $data = $row->getData(true);
+            $data = $this->getData(true);
         } else {
-            $data = $row->getData();
+            $data = $this->getData();
         }
- 
+        
     	// Create the new revision
     	$revision = $this->_table->getRow();
     	$revision->table    = $table->getName();
-        $revision->row      = $row->id;
+        $revision->row      = $this->id;
         $revision->status   = $status;
         $revision->data     = (object) $table->filter($data);
          
     	// Set the created_on and created_by information based on the creatable
     	// or modifiable data in the row itself in cascading order
-        if ($row->isCreatable())
+        if($this->isCreatable())
     	{
-            if(isset($row->created_by) && !empty($row->created_by)) {
-                $revision->created_by  = $row->created_by;
+            if(isset($this->created_by) && !empty($this->created_by)) {
+                $revision->created_by  = $this->created_by;
             }
 
-            if(isset($row->created_on) && ($row->created_on != $table->getDefault('created_on'))) {
-                $revision->created_on = $row->created_on;
+            if(isset($this->created_on) && ($this->created_on != $table->getDefault('created_on'))) {
+                $revision->created_on = $this->created_on;
             }
     	}
           
-        if ($row->isModifiable())
+        if ($this->isModifiable())
     	{
-            if(isset($row->modified_by) && !empty($row->modified_by)) {
-                $revision->created_by  = $row->modified_by;
+            if(isset($this->modified_by) && !empty($this->modified_by)) {
+                $revision->created_by  = $this->modified_by;
             }
 
-            if(isset($row->modified_on) && ($row->modified_on != $table->getDefault('modified_on'))) {
-                $revision->created_on = $row->modified_on;
+            if(isset($this->modified_on) && ($this->modified_on != $table->getDefault('modified_on'))) {
+                $revision->created_on = $this->modified_on;
             }
     	}
     	
@@ -274,11 +274,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @param  string   The row status to look for
      * @return	boolean
      */
-    protected function _countRevisions(KDatabaseRowInterface $row, $status = null)
+    protected function _countRevisions($status = null)
     {
     	$query = array(
-           	'table'  => $row->getTable()->getName(),
-            'row'    => $row->id
+           	'table'  => $this->getTable()->getName(),
+            'row'    => $this->id
     	);
     	
     	if($status) {
@@ -295,11 +295,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @param  string   The row status to look for
      * @return	boolean
      */
-    protected function _deleteRevisions(KDatabaseRowInterface $row, $status = null)
+    protected function _deleteRevisions($status = null)
     {
     	$query = array(
-           	'table'  => $row->getTable()->getName(),
-            'row'    => $row->id
+           	'table'  => $this->getTable()->getName(),
+            'row'    => $this->id
     	);
     	
     	if($status) {
