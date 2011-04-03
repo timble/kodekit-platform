@@ -11,11 +11,11 @@
 		<? foreach (@$terms as $term) : ?>
 		<div class="term">
 			<span><?= $term->title; ?></span>
-			<a title="<?= @text('Delete this tag ?') ?>" class="button-delete"  onclick="Terms.execute('delete', <?= $term->id; ?>)" href="#"><span>[x]</span></a/>
+			<a title="<?= @text('Delete this tag ?') ?>"  onclick="Terms.execute('delete', <?= $term->id; ?>)" href="#"><span>[x]</span></a>
 		</div>
 		<? endforeach; ?>
 	</div>
-	<form action="<?= @route('row='.@$state->row.'&table='.$state->table); ?>" method="post">
+	<form action="<?= @route('row='.@$state->row.'&table='.$state->table.'&tmpl='); ?>" method="post">
 		<input type="hidden" name="row"     value="<?= $state->row?>" />
 		<input type="hidden" name="table" value="<?= $state->table?>" />
 		<input name="title" type="text" value="" placeholder="<?= @text('Add new tag') ?>" <?= $disabled ?> />
