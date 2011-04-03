@@ -17,7 +17,21 @@ var Terms = Ajax.extend({
 	{
 		method      : 'post',
 		action      : '',
-		evalScripts : false
+		evalScripts : false,
+		
+		 //This event handler does not fire on MooTools 1.1.x
+        onComplete: function() 
+        {
+        	if(typeof this.response !== 'undefined') {
+            	this.element.empty().setHTML(this.response.text);
+            }
+        	
+        	//this.form = this.element.getElement('form');
+            this.form.addEvent('submit', function(e) {
+       			new Event(e).stop();
+       			this.execute('add');
+      		}.bind(this));
+        }
 	},
 	
 	initialize: function(element, options)
@@ -46,7 +60,9 @@ var Terms = Ajax.extend({
     {
     	this.url = [this.url, 'id='+data].join('&');
     	this.setHeader('X-HTTP-Method-Override', 'delete');
-    	this.request();
+    	
+    	data = [data, this.form.toQueryString()].join('&');
+    	this.request(data);
     },
     
     _actionAdd: function(data)
@@ -66,6 +82,7 @@ var Terms = Ajax.extend({
     	this.parent(data);
     },
     
+  //This event handler only fire on MooTools 1.1.x
     onComplete: function()
     { 
     	if(typeof this.response !== 'undefined') {
