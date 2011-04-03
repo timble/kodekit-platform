@@ -483,32 +483,32 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	       	$column->length = null;
  	   	}
  	   		
- 	   	// Get the related fields if the column is primary key or part of a unqiue multi column index
- 	  	if(!empty($info->Key)) 
- 	   	{
- 	   		$indexes = $this->getTableIndexes($info->Table);
- 	   		
- 	   		foreach($indexes[$info->Table] as $index)
-			{
-				//We only deal with composite-unique indexes
-			    if(count($index) > 1 && !$index[1]->Non_unique)
-				{
-					$fields = array_values($index);
-				    
-				    if($fields[0]->Column_name == $column->name)
-					{
-					    unset($fields[0]);
-					    		    
-				        foreach($fields as $key => $value) {
-				            $column->related[] =  $value->Column_name;
-					    }
-					}
-					
-					$column->unique = true;	 
-					break;
-				}
-			}
-		}
+	    // Get the related fields if the column is primary key or part of a unqiue multi column index
+        $indexes = $this->getTableIndexes($info->Table);
+ 	    
+        if(isset($indexes[$info->Table])) 
+        {
+            foreach($indexes[$info->Table] as $index)
+            {
+                //We only deal with composite-unique indexes
+                if(count($index) > 1 && !$index[1]->Non_unique)
+                {
+                    $fields = array();
+	                foreach($index as $field) {
+	                    $fields[$field->Column_name] = $field->Column_name;
+	                }
+
+                    if(array_key_exists($column->name, $fields))
+                    {
+	                    unset($fields[$column->name]);
+                        $column->related = array_values($fields);  
+
+                        $column->unique = true;	 
+		                break;
+	                }
+                 }
+             }
+        }
 		
  	    return $column;
 	}
