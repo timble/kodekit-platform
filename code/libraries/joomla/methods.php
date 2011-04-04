@@ -51,41 +51,40 @@ class JRoute
  		}
 
 		// Build route
-		$uri = &$router->build($url);
+		$uri = &$router->build($url);		
 		$url = $uri->toString(array('path', 'query', 'fragment'));
-
+		
 		// Replace spaces
 		$url = preg_replace('/\s/u', '%20', $url);
 
 		/*
 		 * Get the secure/unsecure URLs.
-
+		 * 
 		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		$ssl	= (int) $ssl;
-		if ( $ssl )
+		$ssl = (int) $ssl;
+		if ($ssl)
 		{
-			$uri	         =& JURI::getInstance();
+			$uri =& JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
-			if ( ! $prefix ) {
+			if (!$prefix ) {
 				$prefix = $uri->toString( array('host', 'port'));
-				//$prefix .= JURI::base(true);
 			}
 
 			// Determine which scheme we want
 			$scheme	= ( $ssl === 1 ) ? 'https' : 'http';
 
 			// Make sure our url path begins with a slash
-			if ( ! preg_match('#^/#', $url) ) {
-				$url	= '/' . $url;
+			if (!preg_match('#^/#', $url) ) {
+				$url = '/'.$url;
 			}
 
 			// Build the URL
-			$url	= $scheme . '://' . $prefix . $url;
+			$url = $scheme.'://'.$prefix.$url;
 		}
 
 		if($xhtml) {

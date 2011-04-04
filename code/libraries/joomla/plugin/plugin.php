@@ -54,23 +54,6 @@ class JPlugin extends JEvent
 
 	/**
 	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param object $subject The object to observe
-	 * @param array  $config  An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'group', 'params'
-	 * (this list is not meant to be comprehensive).
-	 * @since 1.5
-	 */
-	function JPlugin(& $subject, $config = array())  {
-		parent::__construct($subject);
-	}
-
-	/**
-	 * Constructor
 	 */
 	function __construct(& $subject, $config = array())
 	{

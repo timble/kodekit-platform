@@ -23,37 +23,20 @@ $user			=& JFactory::getUser();
 $limit 		= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 $limitstart = $mainframe->getUserStateFromRequest('mod_logged.limitstart', 'limitstart', 0, 'int');
 
-// hides Administrator or Super Administrator from list depending on usertype
-$and = '';
-// administrator check
-if ( $user->get('gid') == 24 ) {
-	$and = ' AND gid != "25"';
-}
-// manager check
-if ( $user->get('gid') == 23 ) {
-	$and = ' AND gid != "25"';
-	$and .= ' AND gid != "24"';
-}
-
-// get the total number of records
-$query = 'SELECT COUNT(*)'
-	. ' FROM #__session'
-	. ' WHERE userid != 0'
-	. $and
-	. ' ORDER BY usertype, username'
-	;
+$query = 'SELECT COUNT(*) FROM #__users AS u'
+	    .' RIGHT JOIN #__session AS s ON s.userid = u.id'
+	    .' WHERE guest != 1 AND s.gid = u.gid AND s.username = u.username AND s.usertype = u.usertype'
+	    .' ORDER BY u.usertype, u.username'; 
 $db->setQuery( $query );
 $total = $db->loadResult();
 
 // page navigation
 $pageNav = new JPagination( $total, $limitstart, $limit );
 
-$query = 'SELECT username, time, userid, usertype, client_id'
-. ' FROM #__session'
-. ' WHERE userid != 0'
-. $and
-. ' ORDER BY usertype, username'
-;
+$query = 'SELECT * FROM #__users AS u'
+	    .' RIGHT JOIN #__session AS s ON s.userid = u.id'
+	    .' WHERE guest != 1 AND s.gid = u.gid AND s.username = u.username AND s.usertype = u.usertype'
+	    .' ORDER BY u.usertype, u.username';
 $db->setQuery( $query );
 $rows = $db->loadObjectList();
 

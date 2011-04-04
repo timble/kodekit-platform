@@ -27,21 +27,6 @@ jimport('joomla.plugin.plugin');
 class plgUserJoomla extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgUserJoomla(& $subject, $config) {
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
@@ -92,19 +77,19 @@ class plgUserJoomla extends JPlugin
 		$acl =& JFactory::getACL();
 
 		// Get the user group from the ACL
-		if ($instance->get('tmp_user') == 1) {
+		if ($instance->get('tmp_user') == 1) 
+		{
 			$grp = new JObject;
 			// This should be configurable at some point
 			$grp->set('name', 'Registered');
-		} else {
-			$grp = $acl->getAroGroup($instance->get('id'));
-		}
+		} 
+		else $grp = $acl->getAroGroup($instance->get('id'));
 
 		//Authorise the user based on the group information
 		if(!isset($options['group'])) {
 			$options['group'] = 'USERS';
 		}
-
+		
 		if(!$acl->is_group_child_of( $grp->name, $options['group'])) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
 		}
@@ -125,6 +110,7 @@ class plgUserJoomla extends JPlugin
 		// Register the needed session variables
 		$session =& JFactory::getSession();
 		$session->set('user', $instance);
+		$session->set('site', $options['site']);
 
 		// Get the session object
 		$table = & JTable::getInstance('session');
@@ -157,7 +143,9 @@ class plgUserJoomla extends JPlugin
 	{
 		$my =& JFactory::getUser();
 		//Make sure we're a valid user first
-		if($user['id'] == 0 && !$my->get('tmp_user')) return true;
+		if($user['id'] == 0 && !$my->get('tmp_user')) {
+		    return true;
+		}
 
 		//Check to see if we're deleting the current session
 		if($my->get('id') == $user['id'])
@@ -168,11 +156,14 @@ class plgUserJoomla extends JPlugin
 			// Destroy the php session for this user
 			$session =& JFactory::getSession();
 			$session->destroy();
-		} else {
+		} 
+		else 
+		{
 			// Force logout all users with that userid
 			$table = & JTable::getInstance('session');
 			$table->destroy($user['id'], $options['clientid']);
 		}
+		
 		return true;
 	}
 
@@ -218,7 +209,9 @@ class plgUserJoomla extends JPlugin
 			if(!$instance->save()) {
 				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
 			}
-		} else {
+		} 
+		else 
+		{
 			// No existing user and autoregister off, this is a temporary user.
 			$instance->set( 'tmp_user', true );
 		}

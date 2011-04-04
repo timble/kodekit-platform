@@ -27,15 +27,18 @@ jimport('joomla.application.component.helper');
 class JAdministrator extends JApplication
 {
 	/**
-	* Class constructor
-	*
-	* @access protected
-	* @param	array An optional associative array of configuration settings.
-	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
-	*/
+	 * Class constructor
+	 *
+	 * @access protected
+	 * @param	array An optional associative array of configuration settings.
+	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
+	 */
 	function __construct($config = array())
 	{
-		$config['clientId'] = 1;
+		$config['clientId']          = 1;
+		$config['multisite']         = true;
+		$config['session_autostart'] = true; //override the configruation settings
+		
 		parent::__construct($config);
 
 		//Set the root in the URI based on the application name
@@ -43,15 +46,15 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Initialise the application.
-	*
-	* @access public
-	* @param array An optional associative array of configuration settings.
-	*/
+	 * Initialise the application.
+	 *
+	 * @access public
+	 * @param array An optional associative array of configuration settings.
+	 */
 	function initialise($options = array())
 	{
-		// if a language was specified it has priority
-		// otherwise use user or default language settings
+		// If a language was specified it has priority otherwise use user or default 
+		// language settings
 		if (empty($options['language']))
 		{
 			$user = & JFactory::getUser();
@@ -60,7 +63,9 @@ class JAdministrator extends JApplication
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
-			} else {
+			} 
+			else 
+			{
 				$params = JComponentHelper::getParams('com_languages');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, 'en-GB');
@@ -76,21 +81,25 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Route the application
-	*
-	* @access public
-	*/
-	function route()
+	 * Route the application
+	 *
+	 * @param	object A JURI object.
+	 * @access public
+	 */
+	function route($uri = null)
 	{
-		$uri = JURI::getInstance();
+	    if(!isset($uri)) {
+		    $uri = clone(JURI::getInstance());
+		}
 
-		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
-			//forward to https
+		//Forward to https
+		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') 
+		{		
 			$uri->setScheme('https');
 			$this->redirect($uri->toString());
 		}
 	}
-
+	
 	/**
 	 * Return a reference to the JRouter object.
 	 *
@@ -105,10 +114,10 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Dispatch the application
-	*
-	* @access public
-	*/
+	 * Dispatch the application
+	 *
+	 * @access public
+	 */
 	function dispatch($component)
 	{
 		$document	=& JFactory::getDocument();
@@ -135,10 +144,10 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Display the application.
-	*
-	* @access public
-	*/
+	 * Display the application.
+	 *
+	 * @access public
+	 */
 	function render()
 	{
 		$component	= JRequest::getCmd('option');
@@ -155,19 +164,25 @@ class JAdministrator extends JApplication
 			'directory'	=> JPATH_THEMES
 		);
 
+		//Render the document
 		$document =& JFactory::getDocument();
 		$data = $document->render($this->getCfg('caching'), $params );
+		
+		//Make images paths absolute
+		$site = $this->getSite();
+		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES), $data);
+		
 		JResponse::setBody($data);
 	}
 
 	/**
-	* Login authentication function
-	*
-	* @param	array 	Array( 'username' => string, 'password' => string )
-	* @param	array 	Array( 'remember' => boolean )
-	* @access public
-	* @see JApplication::login
-	*/
+	 * Login authentication function
+	 *
+	 * @param	array 	Array( 'username' => string, 'password' => string )
+	 * @param	array 	Array( 'remember' => boolean )
+	 * @access public
+	 * @see JApplication::login
+	 */
 	function login($credentials, $options = array())
 	{
 		//The minimum group
@@ -235,5 +250,43 @@ class JAdministrator extends JApplication
 		}
 
 		return $template;
+	}
+	
+	/**
+	 * Load the user session or create a new one
+	 *
+	 * @param	string	The sessions name.
+	 * @return	object	JSession on success. May call exit() on database error.
+	 * @since	Nooku Server 0.7
+	 */
+    protected function _loadSession( $name, $ssl = false, $auto_start = true )
+	{
+		if($this->getCfg('force_ssl') >= 1) {
+			$ssl = true;
+		}
+		
+		return parent::_loadSession($name, $ssl, $auto_start);
+	}
+	
+	/**
+	 * Load the site
+	 * 
+	 * This function checks if the site exists in the request, or in the session. If not it
+	 * falls back on the default site.
+	 * 
+	 * @param	string	$site 	The name of the site to load
+	 * @return	void
+	 * @throws  KException 	If the site could not be found
+	 * @since	Nooku Server 0.7
+	 */
+	protected function _loadSite($default)
+	{    
+	    if(KRequest::has('request.site')) {
+		   $site = KRequest::get('request.site', 'cmd');
+		} else {
+		    $site = JFactory::getSession()->get('site', $default);
+		}
+	    
+	    parent::_loadSite($site);
 	}
 }

@@ -25,7 +25,6 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
 		
         $config->append(array(
             'name'       => 'categories',
-            'base'       => 'categories',
             'behaviors'  => array('lockable', 
                                    'com.categories.database.behavior.orderable', 
                                    'sluggable',

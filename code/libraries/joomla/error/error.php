@@ -476,8 +476,14 @@ class JError
 	function & handleMessage(& $error, $options)
 	{
 		global $mainframe;
-		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
-		$mainframe->enqueueMessage($error->get('message'), $type);
+		
+		//Make sure we have a valid application
+		if($mainframe instanceof JApplication) 
+		{
+		    $type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
+		    $mainframe->enqueueMessage($error->get('message'), $type);
+		}
+		
 		return $error;
 	}
 

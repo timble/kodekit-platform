@@ -185,7 +185,7 @@ class JFactory
 	 * @param string The storage method
 	 * @return object JCache
 	 */
-	function &getCache($group = '', $handler = 'callback', $storage = null)
+    function &getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
@@ -200,7 +200,8 @@ class JFactory
 			'cachebase' 	=> $conf->getValue('config.cache_path'),
 			'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
 			'language' 		=> $conf->getValue('config.language'),
-			'storage'		=> $storage
+			'storage'		=> $storage,
+			'site'			=> JFactory::getApplication()->getSite()
 		);
 
 		jimport('joomla.cache.cache');

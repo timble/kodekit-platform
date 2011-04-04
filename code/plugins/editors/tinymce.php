@@ -25,22 +25,6 @@ jimport( 'joomla.plugin.plugin' );
 class plgEditorTinymce extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgEditorTinymce(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Method to handle the onInit event.
 	 *  - Initializes the TinyMCE WYSIWYG Editor
 	 *
@@ -366,7 +350,7 @@ class plgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					// Layout
 					$content_css
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JURI::root().'/sites/'.JFactory::getApplication()->getSite()."\",
 				});
 				</script>";
 				break;
@@ -399,7 +383,7 @@ class plgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JURI::root().'/sites/'.JFactory::getApplication()->getSite()."\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -608,7 +592,7 @@ class plgEditorTinymce extends JPlugin
 				if ( $button->get('name') )
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
                     $onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
 					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$button->get('text')."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
 				}

@@ -25,7 +25,6 @@ class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
 		
 		$config->append(array(
     		'name' 			=> 'sections',
-			'base' 			=> 'sections',
 			'behaviors'		=>  array('lockable', 'orderable', 'sluggable'),
     		'column_map'	=>  
 				array(

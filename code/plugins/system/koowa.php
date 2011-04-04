@@ -43,51 +43,18 @@ class plgSystemKoowa extends JPlugin
 		//Set exception handler
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
-		// Require the library loader
-		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
-		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
-		
-	    //Setup the loader
-		KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-		KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
-		KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-		KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-        KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-		
-        //Setup the factory
-		KFactory::addAdapter(new KFactoryAdapterKoowa());
-		KFactory::addAdapter(new KFactoryAdapterJoomla());
-		KFactory::addAdapter(new KFactoryAdapterModule());
-		KFactory::addAdapter(new KFactoryAdapterPlugin());
-		KFactory::addAdapter(new KFactoryAdapterComponent());
-		
-		//Setup the identifier application paths
-		KIdentifier::registerApplication('site' , JPATH_SITE);
-		KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
-		
-	    //Setup the request
-        KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
-			
-        //Set factory identifier aliasses
-        KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
-        KFactory::map('lib.koowa.application', 'lib.joomla.application');
-        KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
-        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
-        KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
-	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
-       
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('lib.koowa.user')->guest) 
+		if(!KFactory::get('lib.joomla.user')->guest) 
 		{
-		   if($offset = KFactory::get('lib.koowa.user')->getParam('timezone')) {
+		   if($offset = KFactory::get('lib.joomla.user')->getParam('timezone')) {
 		        KFactory::get('lib.joomla.config')->setValue('config.offset', $offset);
 		   }
 		}
 		
-		parent::__construct($subject, $config = array());
+		parent::__construct($subject, $config);
 	}
 	
 	/**
@@ -99,29 +66,13 @@ class plgSystemKoowa extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{  
-	    /*
-	     * Try to log the user in
+	     /*
+	     * Try to log the user in 
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
-	    {
-	        $credentials = array(
-	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
-	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
-	        );
-	        
-	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
-	        {  
-	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
-        	    return false;      
-	        }
-	        
-	        //Reset the user object in the factory
-	        KFactory::set('lib.koowa.user', JFactory::getUser());
-	         
-	        //Force the token
-	        KRequest::set('request._token', JUtility::getToken());
+	    if($this->params->get('auth_basic', 1) && KFactory::get('lib.joomla.user')->get('guest')) {
+	        $this->_authenticateUser();
 	    }
 	    
 	    /*
@@ -194,6 +145,41 @@ class plgSystemKoowa extends JPlugin
 		//Make sure the buffers are cleared
 		while(@ob_get_clean());
 		JError::customErrorPage($error);
+	}
+	
+	/**
+	 * Basic authentication support
+	 *
+	 * This functions tries to log the user in if authentication credentials are
+	 * present in the request.
+	 *
+	 * @return boolean	Returns TRUE is basic authentication was successful
+	 */
+	protected function _authenticateUser()
+	{
+	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
+	    {
+	        $credentials = array(
+	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
+	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
+	        );
+	        
+	        if(KFactory::get('lib.joomla.application')->login($credentials) !== true) 
+	        {  
+	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
+        	    return false;      
+	        }
+	        
+	        //Reset the user object in the factory
+	        KFactory::set('lib.joomla.user', JFactory::getUser());
+	         
+	        //Force the token
+	        KRequest::set('request._token', JUtility::getToken());
+	        
+	        return true;
+	    }
+	    
+	    return false;
 	}
 }
 

@@ -39,13 +39,15 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		<label for="modlgn_passwd"><?php echo JText::_('Password'); ?></label><br />
 		<input name="passwd" id="modlgn_passwd" type="password" class="inputbox" size="15" placeholder="<?php echo JText::_('Password'); ?>" />
 	</p>
-	<?php
-	if($error = JError::getError(true)) {
-		echo '<p id="login-error-message">';
-		echo $error->get('message');
-		echo '<p>';
-	}
-	?>
+	<p id="form-login-site">
+		<label for="modlgn_site"><?php echo JText::_('Site'); ?></label><br />
+		<?php echo KTemplateHelper::factory('admin::com.sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
+	</p>
+	<?php if($error = JError::getError(true)) : ?>
+		<p id="login-error-message">
+		<?php echo $error->get('message'); ?>
+		<p>
+	<?php endif; ?>
 	<div class="button_holder">
 	<div class="button1">
 		<div class="next">

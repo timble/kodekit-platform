@@ -39,7 +39,7 @@ class JSession extends JObject
 	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
 	 * @see getState()
 	 */
-	var	$_state	=	'active';
+	var	$_state	=	'';
 
 	/**
 	 * Maximum age of unused session
@@ -91,7 +91,7 @@ class JSession extends JObject
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function((array(&$this, '__destruct')));
 		}
-
+		
 		//Need to destroy any existing sessions started with session.auto_start
 		if (session_id()) {
 			session_unset();
@@ -112,14 +112,9 @@ class JSession extends JObject
 
 		$this->_setCookieParams();
 
-		//load the session
-		$this->_start();
-
 		//initialise the session
 		$this->_setCounter();
 		$this->_setTimers();
-
-		$this->_state =	'active';
 
 		// perform security checks
 		$this->_validate();
@@ -412,8 +407,13 @@ class JSession extends JObject
 	* @access private
 	* @return boolean $result true on success
 	*/
-	function _start()
+	function start()
 	{
+		// session was already started
+		if( $this->_state == 'active' ) {
+			return true;
+		}
+		
 		//  start session if not startet
 		if( $this->_state == 'restart' ) {
 			session_id( $this->_createId() );
@@ -424,6 +424,9 @@ class JSession extends JObject
 
 		// Send modified header for IE 6.0 Security Policy
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+		
+		// Set the state to active
+		$this->_state =	'active';
 
 		return true;
 	}
@@ -455,7 +458,7 @@ class JSession extends JObject
 		if (isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-42000, '/');
 		}
-
+		
 		session_unset();
 		session_destroy();
 
@@ -481,13 +484,13 @@ class JSession extends JObject
 		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
 
-		$this->_state	=   'restart';
+		$this->_state = 'restart';
+		
 		//regenerate session id
 		$id	=	$this->_createId( strlen( $this->getId() ) );
 		session_id($id);
-		$this->_start();
-		$this->_state	=	'active';
-
+		$this->start();
+	
 		$this->_validate();
 		$this->_setCounter();
 
@@ -558,7 +561,8 @@ class JSession extends JObject
 	 * @access public
 	 * @see	session_write_close()
 	 */
-	function close() {
+	function close() 
+	{
 		session_write_close();
 	}
 
@@ -585,11 +589,13 @@ class JSession extends JObject
 	 *
 	 * @access private
 	 */
-	function _setCookieParams() {
+	function _setCookieParams() 
+	{
 		$cookie	=	session_get_cookie_params();
 		if($this->_force_ssl) {
 			$cookie['secure'] = true;
 		}
+		
 		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
 	}
 
@@ -662,7 +668,7 @@ class JSession extends JObject
 	{
 		// set name
 		if( isset( $options['name'] ) ) {
-			session_name( md5($options['name']) );
+			session_name( 'JSESSION_'.md5($options['name']) );
 		}
 
 		// set id

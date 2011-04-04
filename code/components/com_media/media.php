@@ -24,8 +24,8 @@ if (!$user->authorize( 'com_media', 'popup' )) {
 }
 
 // Set the path definitions
-define('COM_MEDIA_BASE',    JPath::clean(JPATH_ROOT.DS.$params->get('image_path', 'images')));
-define('COM_MEDIA_BASEURL', JURI::root(true).'/'.$params->get('image_path', 'images'));
+define('COM_MEDIA_BASE',    JPATH_IMAGES);
+define('COM_MEDIA_BASEURL', JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES));
 
 // Load the admin HTML view
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php' );

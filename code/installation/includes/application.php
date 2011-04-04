@@ -42,11 +42,13 @@ class JInstallation extends JApplication
 	*/
 	function __construct($config = array())
 	{
-		$config['clientId'] = 2;
+	    $config['multisite']  = false;
+		$config['clientId']   = 2;
+		
 		parent::__construct($config);
 
 		JError::setErrorHandling(E_ALL, 'Ignore');
-		$this->_createConfiguration();
+		$this->_loadConfiguration();
 
 		//Set the root in the URI based on the application name
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
@@ -164,7 +166,7 @@ class JInstallation extends JApplication
 	 *
 	 * @access private
 	 */
-	function _createConfiguration()
+	function _loadConfiguration()
 	{
 		jimport( 'joomla.registry.registry' );
 
@@ -183,18 +185,30 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * Create the user session
+	 * Load the user session or create a new one
 	 *
-	 * @access private
-	 * @param string		The sessions name
-	 * @return	object 		JSession
+	 * @param	string	The sessions name.
+	 * @return	object	JSession on success. May call exit() on database error.
+	 * @since	Nooku Server 0.7
 	 */
-	function &_createSession( $name )
+    protected function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
-		$options = array();
-		$options['name'] = $name;
+	    $options = array(
+			'name' 	 	 => $name,
+			'force_ssl'  => $ssl
+		);
 
-		$session = &JFactory::getSession($options);
+		//Create the session object
+		$session = JFactory::getSession($options);
+
+		//Auto-start the session if a cookie is found or if auto_start is true
+		if($session->getState() != 'active')
+		{
+			if ($auto_start || JRequest::getCmd($session->getName(), null, 'cookie')) {
+				$session->start();
+			}
+		}
+
 		if (!is_a($session->get('registry'), 'JRegistry')) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));

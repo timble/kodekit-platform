@@ -1,30 +1,30 @@
 <?php
 /**
-* @version		$Id: framework.php 18172 2010-07-17 19:46:57Z ian $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version     $Id: sections.php 592 2011-03-16 00:30:35Z johanjanssens $
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Framework loader
+ *
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @category    Nooku
+ * @package     Nooku_Server
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Joomla! system checks
- */
-
 ini_set('magic_quotes_runtime', 0);
 
-/*
- * Installation check, and check on removal of the install directory.
- */
-if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) /*|| file_exists( JPATH_INSTALLATION . DS . 'index.php' )*/) {
-	if( file_exists( JPATH_INSTALLATION . DS . 'index.php' ) ) {
+//Installation check, and check on removal of the install directory.
+if (!file_exists( JPATH_CONFIGURATION.'/configuration.php' ) || (filesize( JPATH_CONFIGURATION.'/configuration.php' ) < 10) /*|| file_exists( JPATH_INSTALLATION . DS . 'index.php' )*/) 
+{
+	if( file_exists( JPATH_INSTALLATION.'/index.php' ) ) {
 		header( 'Location: installation/index.php' );
 		exit();
 	} else {
@@ -33,48 +33,42 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 	}
 }
 
-
-/*
- * Joomla! system startup
- */
-
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once( JPATH_LIBRARIES.'/joomla/import.php');
 
-// Pre-Load configuration
-require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );
-
-// System configuration
-$CONFIG = new JConfig();
-
-if (@$CONFIG->error_reporting === 0) {
-	error_reporting( 0 );
-} else if (@$CONFIG->error_reporting > 0) {
-	error_reporting( $CONFIG->error_reporting );
-	ini_set( 'display_errors', 1 );
-}
-
-define( 'JDEBUG', $CONFIG->debug );
-
-unset( $CONFIG );
-
-/*
- * Joomla! framework loading
- */
-
-// System profiler
-if (JDEBUG) {
-	jimport( 'joomla.error.profiler' );
-	$_PROFILER =& JProfiler::getInstance( 'Application' );
-}
-
-// Joomla! library imports;
+// Joomla : import libraries
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.html.html' );
+jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
+jimport( 'joomla.plugin.helper' );
+
+// Koowa : setup loader
+JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
+JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
+		
+KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
+KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
+KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
+KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+		
+// Koowa : setup factory
+KFactory::addAdapter(new KFactoryAdapterKoowa());
+KFactory::addAdapter(new KFactoryAdapterJoomla());
+KFactory::addAdapter(new KFactoryAdapterModule());
+KFactory::addAdapter(new KFactoryAdapterPlugin());
+KFactory::addAdapter(new KFactoryAdapterComponent());
+		
+//Koowa : register identifier application paths
+KIdentifier::registerApplication('site' , JPATH_SITE);
+KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+
+//Koowa : setup factory mappings
+KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');

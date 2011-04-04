@@ -35,7 +35,9 @@ class JSite extends JApplication
 	*/
 	function __construct($config = array())
 	{
-		$config['clientId'] = 0;
+		$config['clientId']   = 0;
+	    $config['multisite']  = true;
+	    
 		parent::__construct($config);
 	}
 
@@ -56,7 +58,9 @@ class JSite extends JApplication
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
-			} else {
+			} 
+			else 
+			{
 				$params =  JComponentHelper::getParams('com_languages');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, 'en-GB');
@@ -73,19 +77,50 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Route the application
-	*
-	* @access public
-	*/
-	function route() {
-		parent::route();
+	 * Route the application
+	 * 
+	 * This function will perform a 301 redirect to the default menu item if the route is empty 
+	 * to avoid duplicate URL's
+	 *
+	 * @param	object A JURI object.
+	 * @access public
+	 */
+	function route($uri = null)
+	{
+	    if(!isset($uri)) {
+		    $uri = clone(JURI::getInstance());
+		}
+ 		
+ 		// get the route based on the path
+ 		$route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
+
+ 		//Redirect to the default menu item if the route is empty
+		if(empty($route) && $this->getRouter()->getMode() == JROUTER_MODE_SEF) 
+		{
+		   $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
+		   $this->redirect($route, '', '', true);
+		}
+		
+		parent::route($uri);
+	}
+	
+	/**
+	 * Redirect to another URL.
+	 *
+	 * We need to make sure that all the redirect URL's are routed.
+     *
+	 * @see	JApplication::redirect()
+	 */
+	function redirect( $url, $msg='', $msgType='message', $moved = false )
+	{
+		parent::redirect(JRoute::_($url, false), $msg, $msgType, $moved);
 	}
 
 	/**
-	* Dispatch the application
-	*
-	* @access public
-	*/
+	 * Dispatch the application
+	 *
+	 * @access public
+	 */
 	function dispatch($component)
 	{
 		$document	=& JFactory::getDocument();
@@ -123,10 +158,10 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Display the application.
-	*
-	* @access public
-	*/
+	 * Display the application.
+	 *
+	 * @access public
+	 */
 	function render()
 	{
 		$document =& JFactory::getDocument();
@@ -162,18 +197,26 @@ class JSite extends JApplication
 			} break;
  		}
 
+ 		//Render the document
 		$data = $document->render( $this->getCfg('caching'), $params);
+	
+		//Make images paths absolute
+		$path = JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES.'/');
+		
+		$data = str_replace(JURI::base().'images/', $path, $data);
+		$data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
+
 		JResponse::setBody($data);
 	}
 
-   /**
-	* Login authentication function
-	*
-	* @param	array 	Array( 'username' => string, 'password' => string )
-	* @param	array 	Array( 'remember' => boolean )
-	* @access public
-	* @see JApplication::login
-	*/
+    /**
+ 	 * Login authentication function
+	 *
+	 * @param	array 	Array( 'username' => string, 'password' => string )
+	 * @param	array 	Array( 'remember' => boolean )
+	 * @access public
+	 * @see JApplication::login
+	 */
 	function login($credentials, $options = array())
 	{
 		 //Set the application login entry point
@@ -185,10 +228,10 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Check if the user can access the application
-	*
-	* @access public
-	*/
+	 * Check if the user can access the application
+	 *
+	 * @access public
+	 */
 	function authorize($itemid)
 	{
 		$menus	=& JSite::getMenu();
@@ -197,7 +240,7 @@ class JSite extends JApplication
 
 		if(!$menus->authorize($itemid, $aid))
 		{
-			if ( ! $aid )
+			if (!$aid )
 			{
 				// Redirect to login
 				$uri		= JFactory::getURI();
@@ -207,12 +250,9 @@ class JSite extends JApplication
 				$url .= '&return='.base64_encode($return);;
 
 				//$url	= JRoute::_($url, false);
-				$this->redirect($url, JText::_('You must login first') );
+				$this->redirect(JRoute::_($url), JText::_('You must login first') );
 			}
-			else
-			{
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			}
+			else JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 		}
 	}
 
@@ -374,5 +414,59 @@ class JSite extends JApplication
 		$options['mode'] = $config->getValue('config.sef');
 		$router =& parent::getRouter('site', $options);
 		return $router;
+	}
+	
+	/**
+	 * Load the user session or create a new one
+	 *
+	 * @param	string	The sessions name.
+	 * @return	object	JSession on success. May call exit() on database error.
+	 * @since	Nooku Server 0.7
+	 */
+    protected function _loadSession( $name, $ssl = false, $auto_start = true )
+	{
+		if($this->getCfg('force_ssl') == 2) {
+			$ssl = true;
+		}
+
+		return parent::_loadSession($name, $ssl, $auto_start);
+	}
+	
+	/**
+	 * Load the site
+	 * 
+	 * This function checks if the site exists in the request, it not it tries
+	 * to get the site form the url falling back on the default is no site was
+	 * found
+	 * 
+	 * @param	string	$site 	The name of the site to load
+	 * @return	void
+	 * @throws  KException 	If the site could not be found
+	 * @since	Nooku Server 0.7
+	 */
+    protected function _loadSite($site)
+	{
+	    if(!KRequest::has('request.site')) 
+	    {
+		    $uri  =	clone(JURI::getInstance());
+	    	$path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
+	    	$path = trim(str_replace('index.php', '', $path), '/');
+	    	
+		    $segments = array();
+		    if(!empty($path)) {
+			    $segments = explode('/', $path);
+		    }
+
+		    if(!empty($segments))
+		    {
+		        // Check if the site exists
+	            if(KFactory::get('admin::com.sites.model.sites')->getList()->find($segments[0])) {
+                    $site = array_shift($segments);
+                }
+		    }
+	    } 
+	    else $site = KRequest::get('request.site', 'cmd');
+	    
+	    parent::_loadSite($site);
 	}
 }

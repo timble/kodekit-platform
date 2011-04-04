@@ -15,27 +15,17 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-/*
- * Joomla! system checks
- */
-
 error_reporting( E_ALL );
 ini_set('magic_quotes_runtime', 0);
 
-/*
- *
- */
-if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) > 10) && !file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
+//Installation check, and check on removal of the install directory.
+if (file_exists( JPATH_CONFIGURATION.'/configuration.php' ) && (filesize( JPATH_CONFIGURATION.'/configuration.php' ) > 10) && !file_exists( JPATH_INSTALLATION.'/index.php' )) {
 	header( 'Location: ../index.php' );
 	exit();
 }
 
-/*
- * Joomla! system startup
- */
-
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once( JPATH_LIBRARIES.'/joomla/import.php');
 
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
@@ -49,4 +39,20 @@ jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
-?>
+
+// Koowa : setup loader
+JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
+JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
+		
+KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
+KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+		
+// Koowa : setup factory
+KFactory::addAdapter(new KFactoryAdapterKoowa());
+KFactory::addAdapter(new KFactoryAdapterJoomla());
+KFactory::addAdapter(new KFactoryAdapterComponent());
+		
+//Koowa : register identifier application paths
+KIdentifier::registerApplication('site' , JPATH_SITE);
+KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);

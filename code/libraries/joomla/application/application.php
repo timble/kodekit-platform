@@ -62,13 +62,20 @@ class JApplication extends JObject
 	 * @access	public
 	 */
 	var $scope = null;
-
+	
+	/**
+	 * The site id we are using.
+	 *
+	 * @var string
+	 */
+	var $_site = '';
+	
 	/**
 	* Class constructor.
 	*
 	* @param	integer	A client identifier.
 	*/
-	function __construct($config = array())
+    function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
 
@@ -91,15 +98,34 @@ class JApplication extends JObject
 			$config['config_file'] = 'configuration.php';
 		}
 
+		//Setup the request
+        KRequest::root(str_replace('/'.$this->getName(), '', KRequest::base()));
+
 		//create the configuration object
-		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		$this->_loadConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
 		
 		//set defines
 		define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
+		//Set the session autostart
+		if(!isset($config['session_autostart'])) {
+			 $config['session_autostart'] = !is_null($this->getCfg('session_autostart')) ? $this->getCfg('session_autostart') :  true;
+		}
+
 		//create the session if a session name is passed
 		if($config['session'] !== false) {
-			$this->_createSession(JUtility::getHash($config['session_name']));
+			$this->_loadSession(JUtility::getHash($config['session_name']), false, $config['session_autostart']);
+		}
+		
+		//create the site
+		if(isset($config['multisite']) && $config['multisite'] == true)
+		{
+	        //Set the session default name
+		    if(!isset($config['site'])) {
+			    $config['site'] = 'default';
+		    }
+		
+		    $this->_loadSite($config['site']);
 		}
 
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
@@ -153,7 +179,7 @@ class JApplication extends JObject
 		return $instances[$client];
 	}
 
-	/**
+   /**
 	* Initialise the application.
 	*
 	* @param	array An optional associative array of configuration settings.
@@ -161,21 +187,13 @@ class JApplication extends JObject
 	*/
 	function initialise($options = array())
 	{
-		jimport('joomla.plugin.helper');
-
-		//Set the language in the class
-		$config =& JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank)
 		if(isset($options['language'])) {
-			$config->setValue('config.language', $options['language']);
+			JFactory::getConfig()->setValue('config.language', $options['language']);
 		}
 
 		// Set user specific editor
-		$user	 =& JFactory::getUser();
-		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
-		$editor = JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
-		$config->setValue('config.editor', $editor);
+		JFactory::getConfig()->setValue('config.editor', $this->getCfg('editor'));
 	}
 
 	/**
@@ -187,16 +205,16 @@ class JApplication extends JObject
 	* dispatched.
 	*
 	* @abstract
+	* @param	object A JURI object.
 	* @access	public
 	*/
-	function route()
+	function route($uri = null)
  	{
-		// get the full request URI
-		$uri = clone(JURI::getInstance());
+		if(!isset($uri)) {
+		    $uri = clone(JURI::getInstance());
+		}
 
-		$router =& $this->getRouter();
-		$result = $router->parse($uri);
-
+	    $result = $this->getRouter()->parse($uri);
 		JRequest::set($result, 'get', false );
  	}
 
@@ -416,14 +434,15 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @param	string	The path of the state.
+	 * @param	mixed	Optional default value
 	 * @return	mixed	The user state.
 	 */
-	function getUserState( $key )
+	function getUserState( $key, $default = null )
 	{
 		$session	=& JFactory::getSession();
 		$registry	=& $session->get('registry');
 		if(!is_null($registry)) {
-			return $registry->getValue($key);
+			return $registry->getValue($key, $default);
 		}
 		return null;
 	}
@@ -522,7 +541,10 @@ class JApplication extends JObject
 	 */
 	function login($credentials, $options = array())
 	{
-		// Get the global JAuthentication object
+		//Force the site
+		$options['site'] = $this->_site;
+	    
+	    // Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
 		$response	  = $authenticate->authenticate($credentials, $options);
@@ -533,7 +555,7 @@ class JApplication extends JObject
 
 			// we fork the session to prevent session fixation issues
 			$session->fork();
-			$this->_createSession($session->getId());
+			$this->_loadSession($session->getId());
 			
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
@@ -642,6 +664,16 @@ class JApplication extends JObject
 	{
 		return 'system';
 	}
+	
+	/**
+	 * Gets the name of site
+	 *
+	 * @return	string
+	 */
+	public function getSite()
+	{
+		return $this->_site;
+	}
 
 	/**
 	 * Return a reference to the application JRouter object.
@@ -711,15 +743,109 @@ class JApplication extends JObject
 		}
 		return $menu;
 	}
+	
+	/**
+	 * Load the site
+	 *
+	 * @param	string	$site 	The name of the site to load
+	 * @return	void
+	 * @throws  KException 	If the site could not be found
+	 * @since	Nooku Server 0.7
+	 */
+    protected function _loadSite($site)
+	{ 
+	    // Check if the site exists
+	    if(! KFactory::get('admin::com.sites.model.sites')->getList()->find($site)) 
+	    {
+            throw new KException('Site :'.$site.' not found', KHttpResponse::NOT_FOUND);
+            return false;  
+        }
+        
+		//Load the site configuration
+		require_once( JPATH_SITES.'/'.$site.'/settings.php');
+		JFactory::getConfig()->loadObject(new JSettings());
+		
+		//Set the site error reporting
+		$error_reporting = $this->getCfg('error_reporting');
+		if ($error_reporting >= 0) {
+			error_reporting( $error_reporting );
+		}
+		
+		//Set the site debug mode
+		define( 'JDEBUG', $this->getCfg('debug') );
+		
+		//Instanciate the site profiler
+		if ($this->getCfg('debug'))
+		{
+			jimport( 'joomla.error.profiler' );
+			$GLOBALS['_PROFILER'] =& JProfiler::getInstance( 'Application' );
+		}
+
+		//Force re-creation of the database connection
+		$db =& JFactory::getDBO();
+		$db = null;
+		
+	    //Set the paths
+		$params = JComponentHelper::getParams('com_media');
+		
+		define('JPATH_FILES'    , JPATH_SITES.'/'.$site);
+	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
+	    
+		//Force re-login of the user if the site changed
+		$user = KFactory::get('lib.joomla.user');
+				 
+		if(!$user->get('guest') && (JFactory::getSession()->get('site') != $site))
+		{
+		    $session = KFactory::get('lib.joomla.session');
+		    
+		    // Fork the session to prevent session fixation issues if it's active
+			$session->fork();
+			if($session->getState() != 'active') {
+				$session->start();
+			} else {
+				$session->fork();
+			}
+			
+			$this->_loadSession($session->getId());
+
+			JPluginHelper::importPlugin('user');
+			JPluginHelper::importPlugin('system');
+
+			$response = array(
+				'username' 		 => $user->get('username'),
+				'email'	   		 => $user->get('email'),
+				'fullname' 		 => $user->get('fullname'),
+				'password_clear' => ''
+			);
+
+			$options = array(
+				'group' 		=> $this->isAdmin() ? 'Public Backend' : 'USERS',
+				'autoregister' 	=> false,
+			    'site'			=> $site
+			);
+		
+			$results = $this->triggerEvent('onLoginUser', array($response, $options));
+			
+			if(JError::isError($results[0]))
+			{
+			    $this->triggerEvent('onLoginFailure', array((array)$response));
+					
+				//Log the user out
+				$this->logout();	
+			}
+		}
+		
+		//Set the site in the application
+		$this->_site = $site;
+	}
 
 	/**
-	 * Create the configuration registry
+	 * Load the application configuration
 	 *
-	 * @access	private
 	 * @param	string	$file 	The path to the configuration file
-	 * return	JConfig
+	 * @return	JConfig
 	 */
-	function &_createConfiguration($file)
+	protected function _loadConfiguration($file)
 	{
 		jimport( 'joomla.registry.registry' );
 
@@ -738,58 +864,65 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Create the user session.
+	 * Load the user session or create a new one
 	 *
 	 * Old sessions are flushed based on the configuration value for the cookie
 	 * lifetime. If an existing session, then the last access time is updated.
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @access	private
 	 * @param	string	The sessions name.
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
-	function &_createSession( $name )
+	protected function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
-		$options = array();
-		$options['name'] = $name;
-		switch($this->_clientId) {
-			case 0:
-				if($this->getCfg('force_ssl') == 2) {
-					$options['force_ssl'] = true;
-				}
-				break;
-			case 1:
-				if($this->getCfg('force_ssl') >= 1) {
-					$options['force_ssl'] = true;
-				}
-				break;
+		$options = array(
+			'name' 	 	 => $name,
+			'force_ssl'  => $ssl
+		);
+
+		//Create the session object
+		$session = JFactory::getSession($options);
+
+		//Auto-start the session if a cookie is found or if auto_start is true
+		if($session->getState() != 'active')
+		{
+			if ($auto_start || JRequest::getCmd($session->getName(), null, 'cookie')) {
+				$session->start();
+			}
 		}
 
-		$session =& JFactory::getSession($options);
+		//Only update the session table if the session is active
+		if($session->getState() == 'active')
+		{
+			jimport('joomla.database.table');
+			$storage = & JTable::getInstance('session');
+			$storage->purge($session->getExpire());
 
-		jimport('joomla.database.table');
-		$storage = & JTable::getInstance('session');
-		$storage->purge($session->getExpire());
+			// Session exists and is not expired, update time in session table
+			if ($storage->load($session->getId())) {
+				$storage->update();
+			}
+			else
+			{
+				//Session doesn't exist, initalise and store it in the session table
+				$session->set('registry',	new JRegistry('session'));
+				$session->set('user',		new JUser());
 
-		// Session exists and is not expired, update time in session table
-		if ($storage->load($session->getId())) {
-			$storage->update();
-			return $session;
+				if (!$storage->insert( $session->getId(), $this->getClientId())) {
+					jexit( $storage->getError());
+				}
+			}
 		}
-
-		//Session doesn't exist yet, initalise and store it in the session table
-		$session->set('registry',	new JRegistry('session'));
-		$session->set('user',		new JUser());
-
-		if (!$storage->insert( $session->getId(), $this->getClientId())) {
-			jexit( $storage->getError());
+		else
+		{
+			$session->set('registry',	new JRegistry('session'));
+			$session->set('user',		new JUser());
 		}
 
 		return $session;
 	}
-
 
 	/**
 	 * Gets the client id of the current running application.

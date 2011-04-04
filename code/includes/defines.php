@@ -20,15 +20,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 //Global definitions
 //Joomla framework path definitions
-$parts = explode( DS, JPATH_BASE );
+$parts = explode( '/', JPATH_BASE );
 
 //Defines
-define( 'JPATH_ROOT',			implode( DS, $parts ) );
+define( 'JPATH_ROOT',			implode( '/', $parts ) );
 
 define( 'JPATH_SITE',			JPATH_ROOT );
 define( 'JPATH_CONFIGURATION', 	JPATH_ROOT );
-define( 'JPATH_ADMINISTRATOR', 	JPATH_ROOT.DS.'administrator' );
-define( 'JPATH_LIBRARIES',	 	JPATH_ROOT.DS.'libraries' );
-define( 'JPATH_PLUGINS',		JPATH_ROOT.DS.'plugins'   );
-define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );
-define( 'JPATH_THEMES'	   ,	JPATH_BASE.DS.'templates' );
+define( 'JPATH_ADMINISTRATOR', 	JPATH_ROOT.'/administrator' );
+define( 'JPATH_LIBRARIES',	 	JPATH_ROOT.'/libraries' );
+define( 'JPATH_PLUGINS',		JPATH_ROOT.'/plugins'   );
+define( 'JPATH_INSTALLATION',	JPATH_ROOT.'/installation' );
+define( 'JPATH_THEMES'	   ,	JPATH_BASE.'/templates' );
+define( 'JPATH_SITES',			JPATH_ROOT.'/sites');

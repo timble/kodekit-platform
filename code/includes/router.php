@@ -39,8 +39,9 @@ class JRouterSite extends JRouter
 		// Get the application
 		$app =& JFactory::getApplication();
 
-		if($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
-			//forward to https
+		// Forward to https
+		if($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') 
+		{
 			$uri->setScheme('https');
 			$app->redirect($uri->toString());
 		}
@@ -104,7 +105,7 @@ class JRouterSite extends JRouter
 				$route = str_replace('index.php/', '', $route);
 			}
 		}
-
+		
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
 
@@ -162,42 +163,21 @@ class JRouterSite extends JRouter
 
 		$menu  =& JSite::getMenu(true);
 		$route = $uri->getPath();
-
+		
 		//Get the variables from the uri
 		$vars = $uri->getQuery(true);
-
-		//Handle an empty URL (special case)
-		if(empty($route))
-		{
-
-			//If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
-			if(isset($vars['option']) || isset($vars['Itemid'])) {
-				return $this->_parseRawRoute($uri);
-			}
-
-			$item = $menu->getDefault();
-
-			//Set the information in the request
-			$vars = $item->query;
-
-			//Get the itemid
-			$vars['Itemid'] = $item->id;
-
-			// Set the active menu item
-			$menu->setActive($vars['Itemid']);
-
-			return $vars;
-		}
-
-
+		
+		//Remove the site from the route
+		$site  = JFactory::getApplication()->getSite();
+		$route = ltrim(str_replace($site, '', $route), '/');
+		
 		/*
 		 * Parse the application route
-		 */
-
-		if(substr($route, 0, 9) == 'component')
+		 */ 
+		if(substr($route, 0, 2) == '!+')
 		{
 			$segments	= explode('/', $route);
-			$route      = str_replace('component/'.$segments[1], '', $route);
+			$route      = str_replace('!+/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
@@ -206,22 +186,23 @@ class JRouterSite extends JRouter
 		{
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
-
+			
 			foreach ($items as $item)
 			{
 				$lenght = strlen($item->route); //get the lenght of the route
-
+				
 				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
 				{
 					$route   = substr($route, $lenght);
 
 					$vars['Itemid'] = $item->id;
 					$vars['option'] = $item->component;
+					
 					break;
 				}
 			}
 		}
-
+		
 		// Set the active menu item
 		if ( isset($vars['Itemid']) ) {
 			$menu->setActive(  $vars['Itemid'] );
@@ -272,12 +253,16 @@ class JRouterSite extends JRouter
 				$vars = $item->query;
 			}
 		}
-
+	
 		return $vars;
 	}
 
 	function _buildRawRoute(&$uri)
 	{
+	    $site = JFactory::getApplication()->getSite();
+	    if($site != 'default') {
+	        $uri->setVar('site', $site);
+	    }
 	}
 
 	function _buildSefRoute(&$uri)
@@ -314,14 +299,17 @@ class JRouterSite extends JRouter
 			if ($component != "com_search") { // Cheep fix on searches
 				$parts = $this->_encodeSegments($parts);
 			}
-			else { // fix up search for URL
+			else 
+			{ 
+			    // fix up search for URL
 				$total = count($parts);
-				for($i=0; $i<$total; $i++) {
+				for($i=0; $i<$total; $i++) 
+				{
 					// urlencode twice because it is decoded once after redirect
 					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
 				}
 			}
-
+			
 			$result = implode('/', $parts);
 			$tmp	= ($result != "") ? '/'.$result : '';
 		}
@@ -341,9 +329,15 @@ class JRouterSite extends JRouter
 		}
 
 		if(!$built) {
-			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
+			$tmp = '!+/'.substr($query['option'], 4).'/'.$tmp;
 		}
-
+		
+		//Add the site
+	    $site = JFactory::getApplication()->getSite();
+	    if($site != 'default') {
+	        $tmp = $site.'/'.$tmp;
+	    }
+		
 		$route .= '/'.$tmp;
 
 		// Unset unneeded query information

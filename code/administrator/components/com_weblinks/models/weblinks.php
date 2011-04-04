@@ -50,7 +50,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		    $query->where('tbl.catid', '=', $this->_state->category);
 		}
 
-		if (!KFactory::get('lib.koowa.application')->isAdmin()) {
+		if (!KFactory::get('lib.joomla.application')->isAdmin()) {
 		    $query->where('tbl.published', '=', '1');
 		}
 	}

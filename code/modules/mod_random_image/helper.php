@@ -14,7 +14,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
 class modRandomImageHelper
 {
 	function getRandomImage(&$params, $images)
@@ -25,7 +24,7 @@ class modRandomImageHelper
 		$i 				= count($images);
 		$random 		= mt_rand(0, $i - 1);
 		$image 			= $images[$random];
-		$size 			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
+		$size 			= getimagesize (JPATH_IMAGES.DS.$image->folder .DS. $image->name);
 
 
 		if ($width == '') {
@@ -50,7 +49,7 @@ class modRandomImageHelper
 
 		$image->width 	= $width;
 		$image->height	= $height;
-		$image->folder	= str_replace( '\\', '/', $image->folder );
+		$image->folder	= 'images/'.str_replace( '\\', '/', $image->folder );
 
 		return $image;
 	}
@@ -62,8 +61,8 @@ class modRandomImageHelper
 		$files	= array();
 		$images	= array();
 
-		$dir = JPATH_BASE.DS.$folder;
-
+		$dir = JPATH_IMAGES.DS.$folder;
+		
 		// check if directory exists
 		if (is_dir($dir))
 		{
@@ -113,4 +112,3 @@ class modRandomImageHelper
 		return $folder;
 	}
 }
-

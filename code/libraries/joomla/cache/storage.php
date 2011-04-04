@@ -33,7 +33,8 @@ class JCacheStorage extends JObject
 	*/
 	function __construct( $options = array() )
 	{
-		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
+		$this->_site        = (isset($options['site'])) ? $options['site'] : 'default';
+	    $this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;

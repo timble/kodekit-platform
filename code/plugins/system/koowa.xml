@@ -28,4 +28,10 @@
 		<folder>css</folder>
 	</media>
 	
+	<params>
+		<param name="auth_basic" type="radio" default="1" label="Basic Authentication" description="If yes, basic authentication support will be enabled">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
 </install>

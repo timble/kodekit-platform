@@ -25,22 +25,6 @@ jimport( 'joomla.plugin.plugin' );
 class plgButtonImage extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgButtonImage(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Display the button
 	 *
 	 * @return array A two element array of ( imageName, textToInsert )
@@ -49,6 +33,7 @@ class plgButtonImage extends JPlugin
 	{
 		global $mainframe;
 		$params =& JComponentHelper::getParams('com_media');
+		
 		//Find out who has permission to upload and change the acl to let them.
 		$acl = & JFactory::getACL();
 		switch ($params->get('allowed_media_usergroup')) 
@@ -87,7 +72,7 @@ class plgButtonImage extends JPlugin
 
 		$button = new JObject();
 		$button->set('modal', true);
-		$button->set('link', $link);
+		$button->set('link', JRoute::_($link));
 		$button->set('text', JText::_('Image'));
 		$button->set('name', 'image');
 		$button->set('options', "{handler: 'iframe', size: {x: 570, y: 400}}");
