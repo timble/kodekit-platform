@@ -153,7 +153,7 @@ abstract class KControllerModel extends KControllerView
 	 */
 	public function setModel($model)
 	{
-		if(!($model instanceof $model))
+		if(!($model instanceof KModelAbstract))
 		{
 			$identifier = KFactory::identify($model);
 
