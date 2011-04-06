@@ -26,9 +26,9 @@ class ComDefaultToolbarDefault extends KToolbarDefault
 
 		// Start toolbar div
 		if (JVERSION::isCompatible('1.6')) {
-			$html[] = '<div class="toolbar" id="'.$id.'">';
+		    $html[] = '<div class="toolbar-list" id="'.$id.'">';
 		} else {
-			$html[] = '<div class="toolbar-list" id="'.$id.'">';
+			$html[] = '<div class="toolbar" id="'.$id.'">';
 		}
 
 		$html[] = '<table class="toolbar"><tr>';
@@ -62,9 +62,9 @@ class ComDefaultToolbarDefault extends KToolbarDefault
 
 		$html  = '<div class="header pagetitle icon-48-'.$icon.'">';
 		if (JVERSION::isCompatible('1.6')) {
-			$html .= $title;
-		} else {
 			$html .= '<h2>'.$title.'</h2>';
+		} else {
+		    $html .= $title;
 		}
 		
 		$html .= '</div>';
