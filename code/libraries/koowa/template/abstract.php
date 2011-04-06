@@ -462,6 +462,9 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	
 	/**
 	 * Load a template helper
+	 * 
+	 * This functions accepts a partial identifier, in the form of helper.function. If a partial
+	 * identifier is passed a full identifier will be created using the template identifier.
 	 *
 	 * @param	string	Name of the helper, dot separated including the helper function to call
 	 * @param	mixed	Parameters to be passed to the helper
@@ -473,8 +476,17 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$parts    = explode('.', $identifier);
 		$function = array_pop($parts);
 		
+		//Create the complete identifier if a partial identifier was passed
+		if(is_string($identifier) && strpos($identifier, 'com.') === false ) 
+		{
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('template','helper');
+            $identifier->name = $parts[0];
+		} 
+		else $identifier = implode('.', $parts);
+		
 		//Create the template helper
-		$helper = KTemplateHelper::factory(implode('.', $parts));
+		$helper = KTemplateHelper::factory($identifier);
 		
 		//Call the helper function
 		if (!is_callable( array( $helper, $function ) )) {
