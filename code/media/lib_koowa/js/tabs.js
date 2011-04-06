@@ -59,8 +59,8 @@ Koowa.Tabs = new Class({
             description.injectInside(this.content);
         }
         
-        if(Cookie.get('ktabs.' + dlist)) {
-            this.options.display = Cookie.get('ktabs.' + dlist);
+        if(Cookie.read('ktabs.' + dlist)) {
+        	this.options.display = Cookie.read('ktabs.' + dlist);
         }
     
         if ($chk(this.options.display)) {
@@ -81,7 +81,7 @@ Koowa.Tabs = new Class({
 
     display: function(i)
     {
-        Cookie.set('ktabs.' + this.dlist.getProperty('id'), i);
+    	Cookie.write('ktabs.' + this.dlist.getProperty('id'), i);
         this.hideAllBut(i);
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]])
     }
