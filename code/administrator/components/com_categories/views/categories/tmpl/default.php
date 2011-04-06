@@ -66,7 +66,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <td></td>
                 <? if ( $state->section == 'com_content') : ?>
                     <td>
-                        <?= @helper('admin::com.categories.template.helper.listbox.categories', 
+                        <?= @helper('listbox.categories', 
                         array('column'      => 'parent', 
                             'value'         => 'section',
                             'listbox_title' => 'Section',
@@ -101,7 +101,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <td>
                         <span class="editlinktip hasTip" title="<?= @text( 'Title' ).'::'.$category->title; ?>">
-                            <a href="<?= @route( 'index.php?&option=com_categories&view=category&id='.$category->id ); ?>"><?= @escape($category->title); ?></a>
+                            <a href="<?= @route( 'view=category&id='.$category->id ); ?>"><?= @escape($category->title); ?></a>
                         </span>
                     </td>
                     <td align="center">

@@ -44,7 +44,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             <?= @text( 'Published' ); ?>:
                     	</td>
                     	<td>
-                            <?= @helper('admin::com.sections.template.helper.listbox.published', array('name' => 'enabled', 'state' => $category, 'deselect' => false)); ?>
+                            <?= @helper('listbox.published', array('name' => 'enabled', 'state' => $category, 'deselect' => false)); ?>
                     	</td>
                 	</tr>
                 	<tr>
@@ -60,7 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
  	                        <?= @text($section) ; 
                             else : ?>
                                 <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
-                                <?= @helper('admin::com.categories.template.helper.listbox.section', array(
+                                <?= @helper('listbox.section', array(
                                     'identifier' => "admin::com.sections.model.sections",
                                     'attribs'    => array(
                                         'id'   => 'section',
@@ -82,7 +82,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     	<td>
                     	    <div id="orderable">
 								 <? if( $category->id ) : ?>
-                                    <?= @helper('admin::com.categories.template.helper.listbox.order',
+                                    <?= @helper('listbox.order',
                                     array( 'filter' => array(
                                         'section' => $category->section 
                                     ))); 
@@ -99,7 +99,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         </label>
                     </td>
                     <td>
-                        <?= @helper('admin::com.categories.template.helper.listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)); ?>
+                        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)); ?>
                     </td>
                 </tr>
             </table>

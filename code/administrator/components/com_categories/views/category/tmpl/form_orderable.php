@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die('Restricted access');
 
-echo @helper('admin::com.categories.template.helper.listbox.categories', array(
+echo @helper('listbox.categories', array(
                                     'filter' => array('section' => $state->section),
                                     'name' => 'ordering',
                                     'text' => 'ordering',

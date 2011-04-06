@@ -11,8 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip'); ?>
-
-<script src="media://system/js/mootools.js" />  
+ 
 <script src="media://lib_koowa/js/koowa.js" />
 
 <form action="<?= @route() ?>" method="get" name="adminForm">	
@@ -82,7 +81,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					</span>
 				</td>
 				<td align="center">
-					<?= @helper( 'admin::com.sections.template.helper.grid.publish' , array('row' => $section)); ?>
+					<?= @helper( 'grid.publish' , array('row' => $section)); ?>
 				</td>
 				<td class="order">
 					<?= @helper( 'grid.order' , array('row' => $section, 'total' => $total)); ?>

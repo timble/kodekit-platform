@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: cache.php 14401 2010-01-26 14:10:00Z louis $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
@@ -212,6 +212,24 @@ class JCache extends JObject
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
 		}
+		
+		return false;
+	}
+	
+	/**
+	 * Get a list of all cached data
+	 *
+	 * @return	mixed	Boolean false on failure or an object with a list of cache groups and data
+	 * @since	1.6
+	 */
+	public function keys()
+	{
+	    // Get the storage
+		$handler = $this->_getStorage();
+		if (!JError::isError($handler)) {
+			return $handler->keys();
+		}
+		
 		return false;
 	}
 
@@ -260,7 +278,27 @@ class JCache extends JObject
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Remove a cached data entry by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$key	The cache data id
+	 * @return	boolean	True on success, false otherwise
+	 * @since 	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+		// Get the storage handler
+		$handler =& $this->_getStorage();
+		if (!JError::isError($handler)) {
+			return $handler->delete($key);
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Clean cache for a group given a mode.
 	 *

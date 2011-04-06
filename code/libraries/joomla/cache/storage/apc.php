@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: apc.php 14401 2010-01-26 14:10:00Z louis $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
@@ -24,19 +24,6 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorageApc extends JCacheStorage
 {
-	/**
-	 * Constructor
-	 *
-	 * @access protected
-	 * @param array $options optional parameters
-	 */
-	function __construct( $options = array() )
-	{
-		parent::__construct($options);
-
-		$config			=& JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
-	}
 
 	/**
 	 * Get cached data from APC by id and group
@@ -53,6 +40,45 @@ class JCacheStorageApc extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 		$this->_setExpire($cache_id);
 		return apc_fetch($cache_id);
+	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * @return	array data
+	 * @since	Nooku Server 0.7
+	 */
+	public function keys()
+	{
+		$allinfo 	= apc_cache_info('user');
+		$keys 		= $allinfo['cache_list'];
+		$secret 	= $this->_hash;
+
+		$result = array();
+
+		foreach ($keys as $key) 
+		{
+			$name  = $key['info'];
+			$parts = explode('-', $name);
+
+			if ($parts !== false && $parts[0] == $secret &&  $parts[1] == 'cache') 
+			{
+				$data = array();
+				$data['name']  = $key['name'];
+				$data['hash']  = $parts[4];
+				$data['group'] = $parts[3];
+				$data['site']  = $parts[2];
+				$data['size'] = $key['mem_size'];
+				$data['hits'] = $key['num_hits'];
+			    $data['created_on']  = $key['creation_time'];
+			    $data['modified_on'] = $key['mtime'];
+			    $data['accessed_on'] = $key['access_time'];
+			    
+				$result[$data['hash']] = (object) $data;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -87,6 +113,20 @@ class JCacheStorageApc extends JCacheStorage
 		apc_delete($cache_id.'_expire');
 		return apc_delete($cache_id);
 	}
+	
+	/**
+	 * Delete a cached data entry by key
+	 *
+	 * @access	public
+	 * @param	string	$key
+	 * @return	boolean	True on success, false otherwise
+	 * @since	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+		apc_delete($key.'_expire');
+		return apc_delete($key);
+	}
 
 	/**
 	 * Clean cache for a group given a mode.
@@ -102,7 +142,39 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$allinfo 	= apc_cache_info('user');
+		$keys 		= $allinfo['cache_list'];
+		$secret 	= $this->_hash;
+
+		foreach ($keys as $key) 
+		{
+			if (strpos($key['info'], $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {
+				apc_delete($key['info']);
+			}
+		}
+		
 		return true;
+	}
+	
+	/**
+	 * Force garbage collect expired cache data as items are removed only on fetch!
+	 *
+	 * @return boolean  True on success, false otherwise.
+	 * @since	Nooku Server 0.7
+	 */
+	public function gc()
+	{
+		$lifetime 	= $this->_lifetime;
+		$allinfo 	= apc_cache_info('user');
+		$keys 		= $allinfo['cache_list'];
+		$secret 	= $this->_hash;
+
+		foreach ($keys as $key) 
+		{
+			if (strpos($key['info'], $secret.'-cache-')) {
+				apc_fetch($key['info']);
+			}
+		}
 	}
 
 	/**
@@ -137,20 +209,5 @@ class JCacheStorageApc extends JCacheStorage
 		} else {
 			apc_store($key.'_expire',  time());
 		}
-	}
-
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	string	The cache_id string
-	 * @since	1.5
-	 */
-	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_site.'-'.$this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
 	}
 }

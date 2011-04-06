@@ -26,11 +26,11 @@ defined('JPATH_BASE') or die();
 class JCacheStorage extends JObject
 {
 	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @access protected
+	 * @param array $options optional parameters
+	 */
 	function __construct( $options = array() )
 	{
 		$this->_site        = (isset($options['site'])) ? $options['site'] : 'default';
@@ -38,16 +38,13 @@ class JCacheStorage extends JObject
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
-		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
+		$this->_now		    = (isset($options['now'])) ? $options['now'] : time();
+		$this->_hash        = md5(JFactory::getConfig()->getValue('config.secret'));
 
-		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
-		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
+		// If the lifetime is not set, default to 60 (0 is BAD)
 		if (empty($this->_lifetime)) {
-			$this->_threshold = $this->_now - 60;
 			$this->_lifetime = 60;
-		} else {
-			$this->_threshold = $this->_now - $this->_lifetime;
-		}
+		} 	
 	}
 
 	/**
@@ -65,7 +62,9 @@ class JCacheStorage extends JObject
 		if(is_null($now)) {
 			$now = time();
 		}
+		
 		$options['now'] = $now;
+		
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 		$class   = 'JCacheStorage'.ucfirst($handler);
@@ -78,6 +77,7 @@ class JCacheStorage extends JObject
 				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}
 		}
+		
 		$return = new $class($options);
 		return $return;
 	}
@@ -97,6 +97,17 @@ class JCacheStorage extends JObject
 	{
 		return;
 	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * @return	mixed	Boolean false on failure or a cached data object
+	 * @since	Nooku Framework 0.7
+	 */
+	public function keys()
+	{
+		return;
+	}
 
 	/**
 	 * Store the data to cache by id and group
@@ -111,7 +122,7 @@ class JCacheStorage extends JObject
 	 */
 	function store($id, $group, $data)
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -126,7 +137,20 @@ class JCacheStorage extends JObject
 	 */
 	function remove($id, $group)
 	{
-		return true;
+		return false;
+	}
+	
+	/**
+	 * Delete a cached data entry by key
+	 *
+	 * @access	public
+	 * @param	string	$key
+	 * @return	boolean	True on success, false otherwise
+	 * @since	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+		return false;
 	}
 
 	/**
@@ -144,7 +168,7 @@ class JCacheStorage extends JObject
 	 */
 	function clean($group, $mode)
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -156,7 +180,7 @@ class JCacheStorage extends JObject
 	 */
 	function gc()
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -169,6 +193,21 @@ class JCacheStorage extends JObject
 	 */
 	function test()
 	{
-		return true;
+		return false;
+	}
+	
+	/**
+	 * Get a cache_id string from an id/group pair
+	 *
+	 * @access	protected
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @return	string	The cache_id string
+	 * @since	1.5
+	 */
+	function _getCacheId($id, $group)
+	{
+		$name = md5($this->_hash.$this->_site.$this->_application.$this->_language.$id);
+		return $this->_hash.'-cache-'.$this->_site.'-'.$group.'-'.$name;
 	}
 }

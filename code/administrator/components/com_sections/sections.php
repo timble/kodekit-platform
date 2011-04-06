@@ -18,5 +18,5 @@
  * @subpackage  Sections    
  */
 
-// Dispatch the controller, setting the sections view if not specified
+// Dispatch the controller
 echo KFactory::get('admin::com.sections.dispatcher')->dispatch();

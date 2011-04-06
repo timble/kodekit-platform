@@ -25,20 +25,6 @@ defined('JPATH_BASE') or die();
 class JCacheStorageXCache extends JCacheStorage
 {
 	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
-	function __construct( $options = array() )
-	{
-		parent::__construct($options);
-
-		$config			=& JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
-	}
-
-	/**
 	 * Get cached data by id and group
 	 *
 	 * @access	public
@@ -58,6 +44,48 @@ class JCacheStorageXCache extends JCacheStorage
 		}
 
 		return xcache_get($cache_id);
+	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * requires the php.ini setting xcache.admin.enable_auth = Off
+	 *
+	 * @return	array data
+	 * @since	Nooku Server 0.7
+	 */
+	public function keys()
+	{
+		$result = array();
+	    
+	    if(!ini_get('xcache.admin.enable_auth')) 
+		{ 
+		    $allinfo 	= xcache_list(XC_TYPE_VAR, 0);
+            $keys 		= $allinfo['cache_list'];
+            $secret 	= $this->_hash;
+                  
+            foreach ($keys as $key) 
+            {
+                $parts = explode('-',$key['name']);
+                
+			    if ($parts !== false && $parts[0] == $secret &&  $parts[1] == 'cache') 
+			    {  
+			        $data = array();
+                    $data['name']  = $key['name'];
+                    $data['hash']  = $parts[4];
+                    $data['group'] = $parts[3];
+                    $data['site']  = $parts[2];
+                    $data['size']  = $key['size'];
+                    $data['hits']  = $key['hits'];
+                    $data['created_on']  = $key['ctime'];
+                    $data['accessed_on'] = $key['atime'];
+                    
+				    $result[$data['hash']] = (object) $data;
+			    }
+		    }
+		}
+	
+		return $result;
 	}
 
 	/**
@@ -88,12 +116,29 @@ class JCacheStorageXCache extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-
+		
 		if( !xcache_isset( $cache_id ) ){
 			return true;
 		}
 
 		return xcache_unset($cache_id);
+	}
+	
+	/**
+	 * Delete a cached data entry by key
+	 *
+	 * @access	public
+	 * @param	string	$key
+	 * @return	boolean	True on success, false otherwise
+	 * @since	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+		if( !xcache_isset( $key ) ){
+			return true;
+		}
+
+		return xcache_unset($key);
 	}
 
 	/**
@@ -110,6 +155,34 @@ class JCacheStorageXCache extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		if(!ini_get('xcache.admin.enable_auth')) 
+		{ 
+	        $allinfo = xcache_list(XC_TYPE_VAR, 0);
+		    $keys = $allinfo['cache_list'];
+		    
+		    $secret = $this->_hash;
+		    foreach ($keys as $key) 
+		    { 
+		        if (strpos($key['name'], $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {			      
+		            xcache_unset($key['name']);
+		        }
+		    }
+		    
+		    return true;
+		}
+	
+		return false;
+	}
+	
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @return boolean  True on success, false otherwise.
+	 * @since	Nooku Server 0.7
+	 */
+	public function gc()
+	{
+		// dummy, xcache has builtin garbage collector, turn it on in php.ini by changing default xcache.gc_interval setting from 0 to 3600 (=1 hour)
 		return true;
 	}
 
@@ -123,20 +196,5 @@ class JCacheStorageXCache extends JCacheStorage
 	function test()
 	{
 		return (extension_loaded('xcache'));
-	}
-
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	string	The cache_id string
-	 * @since	1.5
-	 */
-	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
 	}
 }

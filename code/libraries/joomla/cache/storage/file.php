@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: file.php 14401 2010-01-26 14:10:00Z louis $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
@@ -33,10 +33,8 @@ class JCacheStorageFile extends JCacheStorage
 	function __construct( $options = array() )
 	{
 		parent::__construct($options);
-
-		$config			=& JFactory::getConfig();
-		$this->_root	= $options['cachebase'];
-		$this->_hash	= $config->getValue('config.secret');
+		
+		$this->_root = $options['cachebase'].DS.$this->_site;
 	}
 
 	/**
@@ -55,7 +53,9 @@ class JCacheStorageFile extends JCacheStorage
 
 		$path = $this->_getFilePath($id, $group);
 		$this->_setExpire($id, $group);
-		if (file_exists($path)) {
+		
+		if (file_exists($path)) 
+		{
 			$data = file_get_contents($path);
 			if($data) {
 				// Remove the initial die() statement
@@ -64,6 +64,55 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		return $data;
+	}
+	
+	/**
+	 * Get all cached data
+	 *
+	 * @return	array data
+	 * @since	Nooku Server 0.7
+	 */
+	public function keys()
+	{
+	    jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
+		        
+		$result  = array();
+		
+		if(JFolder::exists($this->_root)) 
+		{
+            $folders = JFolder::folders($this->_root);
+        
+            foreach($folders as $group)
+            {
+                $files = array();
+	            $files = JFolder::files($this->_root.DS.$group);
+
+	            foreach($files as $file) 
+	            {
+	                $key = pathinfo($file,  PATHINFO_FILENAME);
+	            
+	                if(!isset($result[$key])) 
+	                {
+	                    $stat = stat($this->_root.DS.$group.DS.$file);
+                
+	                    $data = array();
+	                    $data['name']  = $group.DS.$file;
+	                    $data['group'] = $group;
+	                    $data['site']  = $this->_site;
+	                    $data['hash']  = $key;
+	                    $data['size']  = $stat['size'];
+	                    $data['hits']  = '';
+	                    $data['created_on']  = $stat['ctime'];
+	                    $data['accessed_on'] = $stat['atime'];
+			        
+	                    $result[$data['hash']] = (object) $data;
+	                }
+	            }
+            }
+		}
+
+	    return $result;
 	}
 
 	/**
@@ -84,29 +133,33 @@ class JCacheStorageFile extends JCacheStorage
 		$die		= '<?php die("Access Denied"); ?>'."\n";
 
 		// Prepend a die string
-
-		$data		= $die.$data;
+		$data = $die.$data;
 
 		$fp = @fopen($path, "wb");
-		if ($fp) {
+		if ($fp) 
+		{
 			if ($this->_locking) {
 				@flock($fp, LOCK_EX);
 			}
+			
 			$len = strlen($data);
 			@fwrite($fp, $data, $len);
 			if ($this->_locking) {
 				@flock($fp, LOCK_UN);
 			}
+			
 			@fclose($fp);
 			$written = true;
 		}
+		
 		// Data integrity check
-		if ($written && ($data == file_get_contents($path))) {
+		if ($written && ($data == file_get_contents($path))) 
+		{
 			@file_put_contents($expirePath, ($this->_now + $this->_lifetime));
 			return true;
-		} else {
-			return false;
-		}
+		} 
+		
+		return false;
 	}
 
 	/**
@@ -122,9 +175,30 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 		@unlink($path.'_expire');
+		
 		if (!@unlink($path)) {
 			return false;
 		}
+		
+		return true;
+	}
+	
+	/**
+	 * Delete a cached data entry by key
+	 *
+	 * @access	public
+	 * @param	string	$key
+	 * @return	boolean	True on success, false otherwise
+	 * @since	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+	    @unlink($this->_root.DS.$key.'_expire');
+		
+		if (!@unlink($this->_root.DS.$key)) {
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -182,15 +256,19 @@ class JCacheStorageFile extends JCacheStorage
 	{	
 		jimport('joomla.filesystem.file');
 		$result = true;
+		
 		// files older than lifeTime get deleted from cache
 		$files = JFolder::files($this->_root, '_expire', true, true);
-		foreach($files As $file) {
+		
+		foreach($files As $file) 
+		{
 			$time = @file_get_contents($file);
 			if ($time < $this->_now) {
 				$result |= JFile::delete($file);
 				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
 		}
+		
 		return $result;
 	}
 
@@ -221,12 +299,15 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_getFilePath($id, $group);
 
 		// set prune period
-		if(file_exists($path.'_expire')) {
+		if(file_exists($path.'_expire')) 
+		{
 			$time = @file_get_contents($path.'_expire');
 			if ($time < $this->_now || empty($time)) {
 				$this->remove($id, $group);
 			}
-		} elseif(file_exists($path)) {
+		} 
+		elseif(file_exists($path)) 
+		{
 			//This means that for some reason there's no expire file, remove it
 			$this->remove($id, $group);
 		}
@@ -244,21 +325,33 @@ class JCacheStorageFile extends JCacheStorage
 	function _getFilePath($id, $group)
 	{
 		$folder	= $group;
-		$name	= md5($this->_site.'-'.$this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language).'.php';
-		$dir	= $this->_root.DS.$folder;
-
-		// If the folder doesn't exist try to create it
-		if (!is_dir($dir)) {
-
-			// Make sure the index file is there
-			$indexFile      = $dir . DS . 'index.html';
-			@ mkdir($dir) && file_put_contents($indexFile, '<html><body bgcolor="#FFFFFF"></body></html>');
+		$name	= md5($this->_hash.$this->_site.$this->_application.$this->_language.$id).'.php';
+		
+		// Check if the site folder exist, if not create it
+		$dir = $this->_root;
+		
+		if (!is_dir($dir)) 
+		{
+		    @mkdir($dir);
+		    
+		    if (!is_dir($dir)) {
+			    return false;
+		    }
 		}
 
-		// Make sure the folder exists
-		if (!is_dir($dir)) {
-			return false;
+	    // Check if the group folder exist, if not create it
+		$dir = $this->_root.'/'.$group;
+		
+		if (!is_dir($dir)) 
+		{
+		    @mkdir($dir);
+		    
+		    if (!is_dir($dir)) {
+			    return false;
+		    }
 		}
+		
+		
 		return $dir.DS.$name;
 	}
 }

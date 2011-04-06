@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: eaccelerator.php 14401 2010-01-26 14:10:00Z louis $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
@@ -25,20 +25,6 @@ defined('JPATH_BASE') or die();
 class JCacheStorageEaccelerator extends JCacheStorage
 {
 	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
-	function __construct( $options = array() )
-	{
-		parent::__construct($options);
-
-		$config			=& JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
-	}
-
-	/**
 	 * Get cached data by id and group
 	 *
 	 * @access	public
@@ -52,12 +38,53 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$this->_setExpire($cache_id);
+		
 		$cache_content = eaccelerator_get($cache_id);
-		if($cache_content === null)
-		{
+		
+		if($cache_content === null) {
 			return false;
 		}
+		
 		return $cache_content;
+	}
+	
+ 	/**
+	 * Get all cached data
+	 *
+	 * @return	array data
+	 * @since	Nooku Server 0.7
+	 */
+	public function keys()
+	{
+		$keys = eaccelerator_list_keys();
+
+		$secret = $this->_hash;
+		$result = array();
+
+		foreach ($keys as $key) 
+		{
+			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+			$name  = ltrim($key['name'], ':');
+			$parts = explode('-',$name);
+
+			if ($parts !== false && $parts[0] == $secret &&  $parts[1]=='cache') 
+			{    
+				//Set the size
+				$data = array();
+				$data['name']  = $key['name'];
+				$data['hash']  = $parts[4];
+				$data['group'] = $parts[3];
+				$data['site']  = $parts[2];
+				$data['size']  = $key['size'];
+				$data['hits']  = '';
+			    $data['created_on']  = '';
+			    $data['accessed_on'] = '';
+			    
+				$result[$data['hash']] = (object) $data;
+			}
+		}
+		
+		return $result;
 	}
 
 	/**
@@ -92,6 +119,20 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		eaccelerator_rm($cache_id.'_expire');
 		return eaccelerator_rm($cache_id);
 	}
+	
+	/**
+	 * Delete a cached data entry by key
+	 *
+	 * @access	public
+	 * @param	string	$key
+	 * @return	boolean	True on success, false otherwise
+	 * @since	Nooku Server 0.7
+	 */
+	function delete($key)
+	{
+		eaccelerator_rm($key.'_expire');
+		return eaccelerator_rm($key);
+	}
 
 	/**
 	 * Clean cache for a group given a mode.
@@ -107,6 +148,22 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		$keys = eaccelerator_list_keys();
+
+        $secret = $this->_hash;
+
+        if (is_array($keys)) 
+        {
+        	foreach ($keys as $key) 
+        	{
+        		/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+				$key['name'] = ltrim($key['name'], ':');
+
+        		if (strpos($key['name'],  $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {
+					eaccelerator_rm($key['name']);
+        		}
+        	}
+        }
 		return true;
 	}
 
@@ -153,20 +210,5 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		} else {
 			eaccelerator_put($key.'_expire',  time());
 		}
-	}
-
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	string	The cache_id string
-	 * @since	1.5
-	 */
-	function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_site.'-'.$this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
 	}
 }

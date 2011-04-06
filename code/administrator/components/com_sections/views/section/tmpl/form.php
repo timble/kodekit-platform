@@ -76,7 +76,7 @@ function submitbutton(pressbutton) {
 						<?= @text( 'Published' ); ?>:
 					</td>
 					<td>
-						<?= @helper('admin::com.sections.template.helper.listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
+						<?= @helper('listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
 					</td>
 				</tr>
 				<tr>
@@ -86,7 +86,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?= @helper('admin::com.sections.template.helper.listbox.ordering'); ?>
+						<?= @helper('listbox.ordering'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -96,7 +96,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?= @helper('admin::com.sections.template.helper.listbox.access', array('name' => 'access', 'state' => $section, 'deselect' => false)); ?>
+						<?= @helper('listbox.access', array('name' => 'access', 'state' => $section, 'deselect' => false)); ?>
 					</td>
 				</tr>
 			</table>
@@ -111,7 +111,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?= @helper('admin::com.sections.template.helper.listbox.image_names', array('name' => 'image')); ?>
+						<?= @helper('listbox.image_names', array('name' => 'image')); ?>
 					</td>
 				</tr>
 				<tr>
@@ -121,7 +121,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?=  @helper('admin::com.sections.template.helper.listbox.image_position'); ?>
+						<?=  @helper('listbox.image_position'); ?>
 					</td>
 				</tr>
 			</table>

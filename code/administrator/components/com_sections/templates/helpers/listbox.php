@@ -87,7 +87,7 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
   		$config = new KConfig($config);
   		$config->append(array(
    			'name'		=> 'image_name',
-   			'directory'	=> 'images/stories',
+   			'directory'	=> JPATH_IMAGES.'/stories',
   			'filetypes'	=> array('swf', 'gif', 'jpg', 'png'),
    			'deselect'	=> true,
   		    'preview'   => true
@@ -99,8 +99,8 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 			'class' => 'inputbox'
 			)));  
 
-		$root = KRequest::root().'/'.$config->directory;
-
+		$root = JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', $config->directory);
+		
 		KFactory::get('lib.joomla.document')->addScriptDeclaration("
 		window.addEvent('domready', function(){
 			$('".$config->name."').addEvent('change', function(){
@@ -115,7 +115,7 @@ class ComSectionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
   		}
   
 		$files = array();
-  		foreach(new DirectoryIterator(JPATH_SITE.'/'.$config->directory) as $file) {
+  		foreach(new DirectoryIterator($config->directory) as $file) {
    			if(in_array(pathinfo($file, PATHINFO_EXTENSION), $config->filetypes->toArray() )) {
     				$files[] = (string) $file;
    			}
