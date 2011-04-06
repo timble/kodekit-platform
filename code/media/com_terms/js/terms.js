@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-var Terms = Ajax.extend({
+var Terms = Request.extend({
 
 	element : null,
 	form    : null,
@@ -19,7 +19,6 @@ var Terms = Ajax.extend({
 		action      : '',
 		evalScripts : false,
 		
-		 //This event handler does not fire on MooTools 1.1.x
         onComplete: function() 
         {
         	if(typeof this.response !== 'undefined') {
@@ -81,20 +80,6 @@ var Terms = Ajax.extend({
 		
     	this.parent(data);
     },
-    
-  //This event handler only fire on MooTools 1.1.x
-    onComplete: function()
-    { 
-    	if(typeof this.response !== 'undefined') {
-        	this.element.empty().setHTML(this.response.text);
-        }
-    	
-    	this.form = this.element.getElement('form');
-        this.form.addEvent('submit', function(e) {
-   			new Event(e).stop();
-   			this.execute('add');
-  		}.bind(this));
-    }    
 });
 
 window.addEvent('domready', function() {
