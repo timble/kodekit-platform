@@ -22,6 +22,8 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 	/**
 	 * Find any <script src="" /> or <script></script> elements and render them
 	 *
+	 * <script inline></script> can be used for inline scripts
+	 *
 	 * @param string Block of text to parse
 	 * @return KTemplateFilterLink
 	 */
@@ -29,70 +31,75 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 	{
 		//Parse the script information
 		$scripts = $this->_parseScripts($text);
-		
+
 		//Prepend the script information
-		$text = $scripts.$text; 
-		
+		$text = $scripts.$text;
+
 		return $this;
 	}
-	
+
 	/**
 	 * Parse the text for script tags
-	 * 
+	 *
 	 * @param string Block of text to parse
 	 * @return string
 	 */
 	protected function _parseScripts(&$text)
 	{
 		$scripts = '';
-		
+
 		$matches = array();
-		if(preg_match_all('#<script\ src="([^"]+)"(.*)\/>#iU', $text, $matches))
+		// <script src="" />
+		if(preg_match_all('#<script(?!\s+inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
 		{
-			foreach(array_unique($matches[1]) as $key => $match) 
+			foreach(array_unique($matches[1]) as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[2][$key]);
 				$scripts .= $this->_renderScript($match, true, $attribs);
 			}
-			
+
 			$text = str_replace($matches[0], '', $text);
 		}
-			
+
 		$matches = array();
-		if(preg_match_all('#<script(.*)>(.*)<\/script>#siU', $text, $matches))
+		// <script></script>
+		if(preg_match_all('#<script(?!\s+inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
 		{
-			foreach($matches[2] as $key => $match) 
+			foreach($matches[2] as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
 				$scripts .= $this->_renderScript($match, false, $attribs);
 			}
-			
+
 			$text = str_replace($matches[0], '', $text);
 		}
-		
+
+		// get rid of inline and inline="true" in script tags
+		$text = preg_replace('#<script\s*(?:inline="true"|inline)\s*#siU', '<script', $text);
+
 		return $scripts;
 	}
-	
+
 	/**
 	 * Render script information
-	 * 
+	 *
 	 * @param string	The script information
 	 * @param boolean	True, if the script information is a URL.
 	 * @param array		Associative array of attributes
-	 * @return string 	
+	 * @return string
 	 */
 	protected function _renderScript($script, $link, $attribs = array())
 	{
 		$attribs = KHelperArray::toString($attribs);
-		
-		if(!$link) 
+
+		if(!$link)
 		{
 			$html  = '<script type="text/javascript" '.$attribs.'>'."\n";
 			$html .= trim($script);
 			$html .= '</script>'."\n";
 		}
 		else $html = '<script type="text/javascript" src="'.$script.'" '.$attribs.'></script>'."\n";
-		
+
 		return $html;
 	}
 }
