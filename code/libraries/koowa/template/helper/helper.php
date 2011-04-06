@@ -31,7 +31,7 @@ class KTemplateHelper
         //Create the template helper
         try 
         {
-            if(is_string($identifier) && strpos($identifier, '.') === false ) {
+            if(is_string($identifier) && strpos($identifier, 'com.') === false ) {
                 $identifier = 'com.default.template.helper.'.trim($identifier);
             } 
             
