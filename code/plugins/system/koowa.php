@@ -77,19 +77,14 @@ class plgSystemKoowa extends JPlugin
 			
         //Set factory identifier aliasses
         KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
-        KFactory::map('lib.koowa.application', 'lib.joomla.application');
-        KFactory::map('lib.koowa.language'   , 'lib.joomla.language');
-        KFactory::map('lib.koowa.document'   , 'lib.joomla.document');
-        KFactory::map('lib.koowa.user'       , 'lib.joomla.user');
-	    KFactory::map('lib.koowa.editor'     , 'lib.joomla.editor');
          
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('lib.koowa.user')->guest) 
+		if(!KFactory::get('lib.joomla.user')->guest) 
 		{
-		   if($offset = KFactory::get('lib.koowa.user')->getParam('timezone')) {
+		   if($offset = KFactory::get('lib.joomla.user')->getParam('timezone')) {
 		        KFactory::get('lib.joomla.config')->setValue('config.offset', $offset);
 		   }
 		}
