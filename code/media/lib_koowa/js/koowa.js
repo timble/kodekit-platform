@@ -171,7 +171,7 @@ Koowa.Query = new Class({
  * @package     Koowa_Media
  * @subpackage  Javascript
  */
-Koowa.Overlay = Ajax.extend({
+Koowa.Overlay = Request.extend({
 
     element : null,
     
@@ -180,7 +180,6 @@ Koowa.Overlay = Ajax.extend({
         evalScripts : true,
         evalStyles  : true,
         
-        //This event handler does not fire on MooTools 1.1.x
         onComplete: function() 
         {
             var element = new Element('div', {html: this.response.text});
@@ -217,31 +216,6 @@ Koowa.Overlay = Ajax.extend({
         this.request();
 
         if (this.options.initialize) this.options.initialize.call(this);
-    },
-    
-    //This event handler only fire on MooTools 1.1.x
-    onComplete: function() {
-        var element = new Element('div').setHTML(this.response.text);
-            
-        if (this.options.evalScripts) 
-        {
-            scripts = element.getElementsBySelector('script[type=text/javascript]');
-            scripts.each(function(script) {
-                new Asset.javascript(script.src, {id: script.id });
-                script.remove();
-            }.bind(this))
-        }
-        
-        if (this.options.evalStyles) 
-        {
-            styles  = element.getElementsBySelector('link[type=text/css]');
-            styles.each(function(style) {
-                new Asset.css(style.href, {id: style.id });
-                style.remove();
-            }.bind(this))
-        }
-        
-        this.element.replaceWith(element.getElement('#'+this.element.id));
     }
 });
 
@@ -272,37 +246,5 @@ String.extend({
         return (bits)
             ? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
             : null;
-    },
-    
-    // backported from Mootools 1.2.3
-    parseQueryString: function() {
-        //var vars = this.split(/[&;]/), res = {};
-        var vars = this.split(/[&;]/), res = new KQuery;
-        if (vars.length) vars.each(function(val){
-            var index = val.indexOf('='),
-                keys = index < 0 ? [''] : val.substr(0, index).match(/[^\]\[]+/g),
-                value = decodeURIComponent(val.substr(index + 1)),
-                obj = res;
-            keys.each(function(key, i){
-                var current = obj[key];
-                if(i < keys.length - 1)
-                    obj = obj[key] = current || {};
-                else if($type(current) == 'array')
-                    current.push(value);
-                else
-                    obj[key] = $defined(current) ? [current, value] : value;
-            });
-        });
-        return res;
-    },
-
-    // backported from Mootools 1.2.3
-    cleanQueryString: function(method) {
-        return this.split('&').filter(function(val){
-            var index = val.indexOf('='),
-            key = index < 0 ? '' : val.substr(0, index),
-            value = val.substr(index + 1);
-            return method ? method.run([key, value]) : $chk(value);
-        }).join('&');
     }
 });
