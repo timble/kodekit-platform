@@ -60,8 +60,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			$this->setController($config->controller);
 		}
 
-		$this->registerCallback('before.dispatch', array($this, 'authorize'));
-		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
@@ -201,17 +199,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		}
 		
         return $result;
-	}
-	
-	/**
-	 * Authorize the controller dispatching 
-	 *
-	 * @return  void|false Returns false if the authorization failed
-	 * @throws 	KDispatcherException
-	 */
-	public function _actionAuthorize(KCommandContext $context)
-	{
-	    return true;
 	}
 
 	/**
