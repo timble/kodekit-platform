@@ -240,7 +240,11 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	 */
 	public function setRequest(array $request)
 	{
-		$this->_request = new KConfig($request);
+		$this->_request = new KConfig();
+		foreach($request as $key => $value) {
+		    $this->$key = $value;
+		}
+		
 		return $this;
 	}
 
