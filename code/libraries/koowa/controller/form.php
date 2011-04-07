@@ -19,27 +19,6 @@
 abstract class KControllerForm extends KControllerModel
 {
 	/**
-	 * URL for redirection.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect = null;
-
-	/**
-	 * Redirect message.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_message = null;
-
-	/**
-	 * Redirect message type.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_type = 'message';
-
-	/**
 	 * Constructor
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
@@ -117,45 +96,6 @@ abstract class KControllerForm extends KControllerModel
 	    if($context->result->isLockable()) {
 			$context->result->unlock();
 		}
-	}
-	
-	/**
-	 * Set a URL for browser redirection.
-	 *
-	 * @param	string URL to redirect to.
-	 * @param	string	Message to display on redirect. Optional, defaults to
-	 * 			value set internally by controller, if any.
-	 * @param	string	Message type. Optional, defaults to 'message'.
-	 * @return	KControllerAbstract
-	 */
-	public function setRedirect( $url, $msg = null, $type = 'message' )
-	{
-		$this->_redirect   		 = $url;
-		$this->_redirect_message = $msg;
-		$this->_redirect_type	 = $type;
-
-		return $this;
-	}
-
-	/**
-	 * Returns an array with the redirect url, the message and the message type
-	 *
-	 * @return array	Named array containing url, message and messageType, or null if no redirect was set
-	 */
-	public function getRedirect()
-	{
-		$result = array();
-
-		if(!empty($this->_redirect))
-		{
-			$result = array(
-				'url' 		=> JRoute::_($this->_redirect, false),
-				'message' 	=> $this->_redirect_message,
-				'type' 		=> $this->_redirect_type,
-			);
-		}
-
-		return $result;
 	}
 	
 	/**
