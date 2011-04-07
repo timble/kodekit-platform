@@ -45,12 +45,20 @@ class ComDefaultCommandAuthorize extends KCommand
      */
     public function execute( $name, KCommandContext $context) 
     { 
-        $result = parent::execute($name, $context);
-        if($result == false) {
-            $context->status = KHttpResponse::FORBIDDEN;
+        //Check the token
+        if($context->caller->isDispatched() && (KRequest::method() != KHttpRequest::GET)) 
+        {
+	        if( KRequest::token() !== JUtility::getToken()) {
+        	    throw new KDispatcherException('Invalid token or session time-out.', KHttpResponse::FORBIDDEN);
+            }
+        }
+       
+        //Execute the command
+        if(parent::execute($name, $context) == false) {
+            throw new KDispatcherException($context->action.' not allowed', KHttpResponse::FORBIDDEN);
         }
         
-        return $result; 
+        return true; 
     }
     
     /**
