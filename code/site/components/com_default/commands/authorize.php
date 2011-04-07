@@ -55,7 +55,7 @@ class ComDefaultCommandAuthorize extends KCommand
        
         //Execute the command
         if(parent::execute($name, $context) == false) {
-            throw new KDispatcherException($context->action.' not allowed', KHttpResponse::FORBIDDEN);
+            throw new KDispatcherException(ucfirst($context->action).' action not allowed', KHttpResponse::FORBIDDEN);
         }
         
         return true; 
