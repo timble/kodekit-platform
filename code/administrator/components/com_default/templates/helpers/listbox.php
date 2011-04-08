@@ -22,7 +22,7 @@
 class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
 {
     /**
-     * Generates an HTML enabled optionlist
+     * Generates an HTML enabled listbox
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
@@ -54,7 +54,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
     }
     
     /**
-     * Generates an HTML published optionlist
+     * Generates an HTML published listbox
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
@@ -86,7 +86,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
     }
     
     /**
-     * Generates an HTML access optionlist
+     * Generates an HTML access listbox
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
