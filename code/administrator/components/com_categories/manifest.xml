@@ -9,5 +9,5 @@
   	<authorEmail>info@nooku.org</authorEmail>
   	<authorUrl>www.nooku.org</authorUrl>
   	<version>0.7.0</version>
-   	<description>This component manages categories</description>
+   	<description>This component provides category management</description>
 </install>
