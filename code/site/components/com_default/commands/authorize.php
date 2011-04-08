@@ -45,17 +45,19 @@ class ComDefaultCommandAuthorize extends KCommand
      */
     public function execute( $name, KCommandContext $context) 
     { 
+        $parts = explode('.', $name); 
+        
         //Check the token
-        if($context->caller->isDispatched() && (KRequest::method() != KHttpRequest::GET)) 
+        if($parts[0] == 'before' && $context->caller->isDispatched()) 
         {
-	        if( KRequest::token() !== JUtility::getToken()) {
-        	    throw new KDispatcherException('Invalid token or session time-out.', KHttpResponse::FORBIDDEN);
+            if(!$this->checkToken()) {
+                throw new KControllerException('Invalid token or session time-out', KHttpResponse::FORBIDDEN);
             }
         }
        
         //Execute the command
         if(parent::execute($name, $context) == false) {
-            throw new KDispatcherException(ucfirst($context->action).' action not allowed', KHttpResponse::FORBIDDEN);
+            throw new KControllerException(ucfirst($context->action).' action not allowed', KHttpResponse::FORBIDDEN);
         }
         
         return true; 
@@ -110,5 +112,22 @@ class ComDefaultCommandAuthorize extends KCommand
         }
             
         return $result;
+    }
+    
+ 	/**
+     * Check the token
+     * 
+     * @return  boolean Returns FALSE if the token is not valid or the session timed-out. 
+     */
+    public function checkToken()
+    {
+        if((KRequest::method() != KHttpRequest::GET)) 
+        {     
+            if( KRequest::token() !== JUtility::getToken()) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
