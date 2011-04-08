@@ -115,7 +115,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         </label>
                     </td>
                     <td>
-                        <?= @helper('admin::com.sections.template.helper.listbox.image_names', array('name' => 'image')); ?>
+                        <?= @helper('image.listbox', array('name' => 'image')); ?>
                     </td>
                 </tr>
                 <tr>
@@ -125,7 +125,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         </label>
                     </td>
                     <td>
-                        <?=  @helper('admin::com.sections.template.helper.listbox.image_position'); ?>
+                        <?=  @helper('image.position'); ?>
                     </td>
                 </tr>
             </table>
