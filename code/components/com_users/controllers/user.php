@@ -44,7 +44,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             $url =  'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
             $msg =  JText::_('You are already registered.');
             
-            $this->setRedirect($url, $message);
+            $this->setRedirect($url, $msg);
             return false;
         }
 
