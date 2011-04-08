@@ -14,10 +14,11 @@ defined('_JEXEC') or die('Restricted access');
 
 -------------------- Nooku Server Contributors ---------------------
 
-Johan Janssens  <johan@timble.net>
-Tom Janssens    <tom@timble.net>
-Stian Didriksen <tom@timble.net>
-Gergo Erdosi    <gergo@timble.net>
+Johan Janssens  <http://nooku.assembla.com/profile/johanjanssens>
+Tom Janssens    <http://nooku.assembla.com/profile/tomjanssens>
+Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+Gergo Erdosi    <http://nooku.assembla.com/profile/gergoerdosi>
+John Bell       <http://nooku.assembla.com/profile/johnbell>
 
 Nooku Server includes or is derivative of works distributed under the licenses listed below.
 The full text for most of the licenses listed below can be found in the LICENSES.php file.
