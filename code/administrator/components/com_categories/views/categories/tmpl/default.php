@@ -115,7 +115,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <? if ( $state->section == 'com_content' ) : ?>
                         <td>
-                            <a href="<?= @route( 'index.php?&option=com_sections&view=section&id='.$category->section_id )?>" title="<?= @text( 'Edit Section' ); ?>"><?= $category->section_title; ?></a>
+                            <a href="<?= @route( 'option=com_sections&view=section&id='.$category->section_id )?>" title="<?= @text( 'Edit Section' ); ?>"><?= $category->section_title; ?></a>
                         </td>
                         <td align="center">
                             <?= $category->activecount; ?>
