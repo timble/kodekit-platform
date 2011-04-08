@@ -18,5 +18,4 @@
  * @subpackage  Sections    
  */
 
-// Dispatch the controller
 echo KFactory::get('admin::com.sections.dispatcher')->dispatch();
