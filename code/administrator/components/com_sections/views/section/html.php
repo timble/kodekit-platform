@@ -10,7 +10,7 @@
  */
 
 /**
- * Section Html View Class
+ * Sections HTML View Class
  *   
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category    Nooku
@@ -22,8 +22,8 @@ class ComSectionsViewSectionHtml extends ComSectionsViewHtml
    	public function display()
    	{
 		$title = $this->getModel()->get('id') ?  'Edit Section' : 'New Section';
-   	    $this->getToolbar()->setTitle($title);
-   	      
+		$this->getToolbar()->setTitle($title);
+		
 		return parent::display();
    	}
 }
