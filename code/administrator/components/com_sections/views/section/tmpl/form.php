@@ -1,14 +1,5 @@
-<?php 
-/**
- * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Sections
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
- */
-defined('KOOWA') or die( 'Restricted access' ); ?>
+<? /** $Id$ */ ?>
+<? defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @helper('behavior.keepalive'); ?>
 
@@ -111,7 +102,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?= @helper('listbox.image_names', array('name' => 'image')); ?>
+						<?= @helper('image.listbox', array('name' => 'image')); ?>
 					</td>
 				</tr>
 				<tr>
@@ -121,7 +112,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?=  @helper('listbox.image_position'); ?>
+						<?=  @helper('image.position'); ?>
 					</td>
 				</tr>
 			</table>
