@@ -232,4 +232,15 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         return !count($this->_object_list);
     }
+    
+	/**
+     * Preform a deep clone of the object
+     *
+     * @retun void
+     */
+    public function __clone()
+    { 
+        $this->_object_list   = clone $this->_object_list;
+        $this->_priority_list = clone $this->_priority_list;
+    }
 }

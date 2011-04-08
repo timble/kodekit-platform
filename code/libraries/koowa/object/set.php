@@ -240,4 +240,14 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
     {
         return $this->_object_set->getArrayCopy();
     }
+    
+    /**
+     * Preform a deep clone of the object
+     *
+     * @retun void
+     */
+    public function __clone()
+    { 
+        $this->_object_set = clone $this->_object_set;
+    }
 }
