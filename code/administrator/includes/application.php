@@ -38,7 +38,7 @@ class JAdministrator extends JApplication
 		$config['clientId']          = 1;
 		$config['multisite']         = true;
 		$config['session_autostart'] = true; //override the configruation settings
-		
+
 		parent::__construct($config);
 
 		//Set the root in the URI based on the application name
@@ -53,7 +53,7 @@ class JAdministrator extends JApplication
 	 */
 	function initialise($options = array())
 	{
-		// If a language was specified it has priority otherwise use user or default 
+		// If a language was specified it has priority otherwise use user or default
 		// language settings
 		if (empty($options['language']))
 		{
@@ -63,8 +63,8 @@ class JAdministrator extends JApplication
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
-			} 
-			else 
+			}
+			else
 			{
 				$params = JComponentHelper::getParams('com_languages');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
@@ -93,13 +93,13 @@ class JAdministrator extends JApplication
 		}
 
 		//Forward to https
-		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') 
-		{		
+		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		{
 			$uri->setScheme('https');
 			$this->redirect($uri->toString());
 		}
 	}
-	
+
 	/**
 	 * Return a reference to the JRouter object.
 	 *
@@ -138,7 +138,7 @@ class JAdministrator extends JApplication
 		}
 
 		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
-		
+
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
 	}
@@ -167,11 +167,11 @@ class JAdministrator extends JApplication
 		//Render the document
 		$document =& JFactory::getDocument();
 		$data = $document->render($this->getCfg('caching'), $params );
-		
+
 		//Make images paths absolute
 		$site = $this->getSite();
 		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES), $data);
-		
+
 		JResponse::setBody($data);
 	}
 
@@ -179,7 +179,6 @@ class JAdministrator extends JApplication
 	 * Login authentication function
 	 *
 	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @param	array 	Array( 'remember' => boolean )
 	 * @access public
 	 * @see JApplication::login
 	 */
@@ -207,11 +206,11 @@ class JAdministrator extends JApplication
 
 		return $result;
 	}
-	
+
 	/**
 	 * Redirect to another URL.
 	 *
-	 * We need to make sure that all the redirect URL's are routed. 
+	 * We need to make sure that all the redirect URL's are routed.
      *
 	 * @see	JApplication::redirect()
 	 */
@@ -251,7 +250,7 @@ class JAdministrator extends JApplication
 
 		return $template;
 	}
-	
+
 	/**
 	 * Load the user session or create a new one
 	 *
@@ -264,29 +263,29 @@ class JAdministrator extends JApplication
 		if($this->getCfg('force_ssl') >= 1) {
 			$ssl = true;
 		}
-		
+
 		return parent::_loadSession($name, $ssl, $auto_start);
 	}
-	
+
 	/**
 	 * Load the site
-	 * 
+	 *
 	 * This function checks if the site exists in the request, or in the session. If not it
 	 * falls back on the default site.
-	 * 
+	 *
 	 * @param	string	$site 	The name of the site to load
 	 * @return	void
 	 * @throws  KException 	If the site could not be found
 	 * @since	Nooku Server 0.7
 	 */
 	protected function _loadSite($default)
-	{    
+	{
 	    if(KRequest::has('request.site')) {
 		   $site = KRequest::get('request.site', 'cmd');
 		} else {
 		    $site = JFactory::getSession()->get('site', $default);
 		}
-	    
+
 	    parent::_loadSite($site);
 	}
 }

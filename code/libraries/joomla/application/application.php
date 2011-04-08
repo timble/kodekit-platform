@@ -62,14 +62,14 @@ class JApplication extends JObject
 	 * @access	public
 	 */
 	var $scope = null;
-	
+
 	/**
 	 * The site id we are using.
 	 *
 	 * @var string
 	 */
 	var $_site = '';
-	
+
 	/**
 	* Class constructor.
 	*
@@ -103,7 +103,7 @@ class JApplication extends JObject
 
 		//create the configuration object
 		$this->_loadConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
-		
+
 		//set defines
 		define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
@@ -116,7 +116,7 @@ class JApplication extends JObject
 		if($config['session'] !== false) {
 			$this->_loadSession(JUtility::getHash($config['session_name']), false, $config['session_autostart']);
 		}
-		
+
 		//create the site
 		if(isset($config['multisite']) && $config['multisite'] == true)
 		{
@@ -124,7 +124,7 @@ class JApplication extends JObject
 		    if(!isset($config['site'])) {
 			    $config['site'] = 'default';
 		    }
-		
+
 		    $this->_loadSite($config['site']);
 		}
 
@@ -233,7 +233,7 @@ class JApplication extends JObject
 		$document =& JFactory::getDocument();
 
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-		
+
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
  	}
@@ -534,7 +534,6 @@ class JApplication extends JObject
 	 * the user details.
 	 *
 	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @param	array 	Array( 'remember' => boolean )
 	 * @return	boolean True on success.
 	 * @access	public
 	 * @since	1.5
@@ -543,7 +542,7 @@ class JApplication extends JObject
 	{
 		//Force the site
 		$options['site'] = $this->_site;
-	    
+
 	    // Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
@@ -556,7 +555,7 @@ class JApplication extends JObject
 			// we fork the session to prevent session fixation issues
 			$session->fork();
 			$this->_loadSession($session->getId());
-			
+
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
 
@@ -571,22 +570,7 @@ class JApplication extends JObject
 			 * to provide much more information about why the routine may have failed.
 			 */
 
-			if (!in_array(false, $results, true))
-			{
-				// Set the remember me cookie if enabled
-				if (isset($options['remember']) && $options['remember'])
-				{
-					jimport('joomla.utilities.simplecrypt');
-					jimport('joomla.utilities.utility');
-
-					//Create the encryption key, apply extra hardening using the user agent string
-					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
-
-					$crypt = new JSimpleCrypt($key);
-					$rcookie = $crypt->encrypt(serialize($credentials));
-					$lifetime = time() + 365*24*60*60;
-					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/' );
-				}
+			if (!in_array(false, $results, true)) {
 				return true;
 			}
 		}
@@ -645,7 +629,6 @@ class JApplication extends JObject
 		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true)) {
-			setcookie( JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/' );
 			return true;
 		}
 
@@ -664,7 +647,7 @@ class JApplication extends JObject
 	{
 		return 'system';
 	}
-	
+
 	/**
 	 * Gets the name of site
 	 *
@@ -743,7 +726,7 @@ class JApplication extends JObject
 		}
 		return $menu;
 	}
-	
+
 	/**
 	 * Load the site
 	 *
@@ -753,27 +736,27 @@ class JApplication extends JObject
 	 * @since	Nooku Server 0.7
 	 */
     protected function _loadSite($site)
-	{ 
+	{
 	    // Check if the site exists
-	    if(! KFactory::get('admin::com.sites.model.sites')->getList()->find($site)) 
+	    if(! KFactory::get('admin::com.sites.model.sites')->getList()->find($site))
 	    {
             throw new KException('Site :'.$site.' not found', KHttpResponse::NOT_FOUND);
-            return false;  
+            return false;
         }
-        
+
 		//Load the site configuration
 		require_once( JPATH_SITES.'/'.$site.'/settings.php');
 		JFactory::getConfig()->loadObject(new JSettings());
-		
+
 		//Set the site error reporting
 		$error_reporting = $this->getCfg('error_reporting');
 		if ($error_reporting >= 0) {
 			error_reporting( $error_reporting );
 		}
-		
+
 		//Set the site debug mode
 		define( 'JDEBUG', $this->getCfg('debug') );
-		
+
 		//Instanciate the site profiler
 		if ($this->getCfg('debug'))
 		{
@@ -784,20 +767,20 @@ class JApplication extends JObject
 		//Force re-creation of the database connection
 		$db =& JFactory::getDBO();
 		$db = null;
-		
+
 	    //Set the paths
 		$params = JComponentHelper::getParams('com_media');
-		
+
 		define('JPATH_FILES'    , JPATH_SITES.'/'.$site);
 	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
-	    
+
 		//Force re-login of the user if the site changed
 		$user = KFactory::get('lib.joomla.user');
-				 
+
 		if(!$user->get('guest') && (JFactory::getSession()->get('site') != $site))
 		{
 		    $session = KFactory::get('lib.joomla.session');
-		    
+
 		    // Fork the session to prevent session fixation issues if it's active
 			$session->fork();
 			if($session->getState() != 'active') {
@@ -805,7 +788,7 @@ class JApplication extends JObject
 			} else {
 				$session->fork();
 			}
-			
+
 			$this->_loadSession($session->getId());
 
 			JPluginHelper::importPlugin('user');
@@ -823,18 +806,18 @@ class JApplication extends JObject
 				'autoregister' 	=> false,
 			    'site'			=> $site
 			);
-		
+
 			$results = $this->triggerEvent('onLoginUser', array($response, $options));
-			
+
 			if(JError::isError($results[0]))
 			{
 			    $this->triggerEvent('onLoginFailure', array((array)$response));
-					
+
 				//Log the user out
-				$this->logout();	
+				$this->logout();
 			}
 		}
-		
+
 		//Set the site in the application
 		$this->_site = $site;
 	}

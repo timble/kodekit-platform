@@ -40,7 +40,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<div id="element-box" class="login">
 				<img src="templates/<?php echo $this->template ?>/images/nooku-server_logo.png" alt="Nooku Server logo">
 				<jdoc:include type="message" />
-				<jdoc:include type="component" />
+				<div id="section-box">
+					<jdoc:include type="component" />
+				</div>
 				<a class="return" href="<?php echo JURI::root(); ?>">
 					<?php echo JText::_('Return to') ?>
 					<?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Website'); ?>

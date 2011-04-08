@@ -41,10 +41,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<label for="passwd"><?php echo JText::_('Password') ?></label><br />
 			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="passwd" />
 		</p>
-		<p id="form-login-remember">
-			<label for="remember"><?php echo JText::_('Remember me') ?></label>
-			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('Remember me') ?>" id="remember" />
-		</p>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>
 	<input type="hidden" name="option" value="com_user" />

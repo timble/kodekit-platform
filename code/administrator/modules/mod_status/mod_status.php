@@ -36,7 +36,11 @@ $output[] = '<li class="preview"><a href="'.JURI::root().'" target="_blank">'.JT
 $output[] = '<li '.$class.'><a href="index.php?option=com_users&view=user&task=edit&cid[0]='.$user->id.'">'.JText::_('My Profile').'</a></li>';
 
 // Print the logout message
-$output[] = '<li '.$class.'><a href="index.php?option=com_login&amp;task=logout">'.JText::_('Logout').'</a></li>';
+JHTML::script('koowa.js', 'media/lib_koowa/js/');
+
+$token      = JUtility::getToken();
+$json       = "{method:'post', url:'index.php?option=com_users&view=logout', params:{action:'logout', _token:'".$token."'}}";
+$output[]   = '<li '.$class.'><a href="#" onclick="new Koowa.Form('.$json.').submit();">'.JText::_('Logout').'</a></li>';
 
 // reverse rendering order for rtl display
 if ( $lang->isRTL() ) {

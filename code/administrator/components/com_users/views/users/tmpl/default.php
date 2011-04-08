@@ -1,130 +1,102 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php 
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Users
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?php  JHTML::_('behavior.tooltip');  ?>
+<script src="media://lib_koowa/js/koowa.js" />
 
-<?php
-	JToolBarHelper::title( JText::_( 'User Manager' ), 'user.png' );
-	JToolBarHelper::addNewX();
-	JToolBarHelper::spacer();
-	JToolBarHelper::deleteList();
-	JToolBarHelper::spacer();
-	JToolBarHelper::custom( 'logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
-?>
-
-<form action="index.php?option=com_users" method="post" name="adminForm">
-	<table class="adminlist" cellpadding="1">
+<form action="<?= @route() ?>" method="get" name="adminForm">
+	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="3%" class="title">
-					
+				<th width="10"></th>
+				<th>
+					<?= @helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
 				</th>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort',   'Name', 'a.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<th width="15%">
+					<?= @helper('grid.sort',  array('title' => 'Username', 'column' => 'username')) ?>
 				</th>
-				<th width="15%" class="title" >
-					<?php echo JHTML::_('grid.sort',   'Username', 'a.username', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<th width="8%">
+					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'logged_in')) ?>
 				</th>
-				<th width="5%" class="title" nowrap="nowrap">
-					<?php echo JText::_( 'Logged In' ); ?>
+				<th width="8%">
+					<?= @helper('grid.sort',  array('title' => 'Enabled', 'column' => 'enabled')) ?>
 				</th>
-				<th width="5%" class="title" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'Enabled', 'a.block', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<th width="15%">
+					<?= @helper('grid.sort',  array('title' => 'Group', 'column' => 'group_name')) ?>
 				</th>
-				<th width="15%" class="title">
-					<?php echo JHTML::_('grid.sort',   'Group', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<th width="15%">
+					<?= @helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
 				</th>
-				<th width="15%" class="title">
-					<?php echo JHTML::_('grid.sort',   'E-Mail', 'a.email', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-				</th>
-				<th width="10%" class="title">
-					<?php echo JHTML::_('grid.sort',   'Last Visit', 'a.lastvisitDate', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<th width="10%">
+					<?= @helper('grid.sort',  array('title' => 'Last Visit', 'column' => 'last_visited_on')) ?>
 				</th>
 			</tr>
 			<tr>
 				<td align="center">
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($users) ?>);" />
 				</td>
-				<td width="100%">
-					<?php echo JText::_( 'Filter' ); ?>:
-					<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-					<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-					<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_type').value='0';this.form.getElementById('filter_logged').value='0';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<td colspan="2">
+					<?= @template('admin::com.default.view.list.search_form') ?>
 				</td>
 				<td></td>
-				<td align="center">
-					<?php echo $this->lists['logged'];?>
-				</td>
 				<td></td>
-				<td>
-					<?php echo $this->lists['type'];?>
-				</td>
+				<td></td>
 				<td></td>
 				<td></td>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="10">
-					<?php echo $this->pagination->getListFooter(); ?>
+				<td colspan="8">
+					<?= @helper('paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php
-			for ($i=0, $n=count( $this->items ); $i < $n; $i++)
-			{
-				$row 	=& $this->items[$i];
-
-				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
-				$task 	= $row->block ? 'unblock' : 'block';
-				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-				$link 	= 'index.php?option=com_users&amp;view=user&amp;task=edit&amp;cid[]='. $row->id. '';
-
-				if ($row->lastvisitDate == "0000-00-00 00:00:00") {
-					$lvisit = JText::_( 'Never' );
-				} else {
-					$lvisit	= JHTML::_('date', $row->lastvisitDate, '%Y-%m-%d %H:%M:%S');
-				}
-			?>
+		<? $i = 0 ?>
+		<? foreach($users as $user) : ?>
 			<tr>
 				<td align="center">
-					<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
+					<?= @helper('grid.checkbox' , array('row' => $user)) ?>
 				</td>
 				<td>
-					<a href="<?php echo $link; ?>">
-						<?php echo $row->name; ?></a>
+					<a href="<?= @route('view=user&id='.$user->id) ?>">
+						<?= @escape($user->name) ?>
+					</a>
 				</td>
 				<td>
-					<?php echo $row->username; ?>
+					<?= @escape($user->username) ?>
 				</td>
 				<td align="center">
-					<?php echo $row->loggedin ? '<img src="'.JURI::root(true).'/media/system/images/tick.png" width="16" height="16" border="0" alt="" />': ''; ?>
+					<img src="media://system/images/<?= $user->logged_in ? 'tick.png' : 'publish_x.png' ?>" border="0" />
 				</td>
 				<td align="center">
-					<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
+					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
 				</td>
 				<td>
-					<?php echo JText::_( $row->groupname ); ?>
+					<?= @escape($user->group_name) ?>
 				</td>
 				<td>
-					<a href="mailto:<?php echo $row->email; ?>">
-						<?php echo $row->email; ?></a>
+					<?= @escape($user->email) ?>
 				</td>
-				<td nowrap="nowrap">
-					<?php echo $lvisit; ?>
+				<td>
+					<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+						<?= @text('Never') ?>
+					<? else : ?>
+						<?= @helper('date.humanize', array('date' => $user->last_visited_on)) ?>
+					<? endif ?>
 				</td>
 			</tr>
-			<?php
-				}
-			?>
+			<? $i++ ?>
+		<? endforeach ?>
 		</tbody>
 	</table>
-
-	<input type="hidden" name="option" value="com_users" />
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

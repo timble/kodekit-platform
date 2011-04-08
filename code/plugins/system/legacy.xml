@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<author>Nooku Project</author>
+	<creationDate>March 2011</creationDate>
+	<copyright>Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>0.7.0</version>
+	<description>Provides legacy support for Joomla</description>	
+	
+	<!--  Files -->
+	<files folder="plugins/system">
+		<filename plugin="legacy">legacy.php</filename>
+	</files>
+</install>

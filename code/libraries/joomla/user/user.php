@@ -304,7 +304,7 @@ class JUser extends JObject
 
 		// Set the default parampath if not set already
 		if( !isset($parampath) ) {
-			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
+			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'databases'.DS.'rows';
 		}
 
 		if($loadsetupfile)

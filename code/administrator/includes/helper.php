@@ -37,7 +37,7 @@ class JAdministratorHelper
 
 		$user =& JFactory::getUser();
 		if ($user->get('guest')) {
-			$option = 'com_login';
+			$option = 'com_users';
 		}
 
 		if(empty($option)) {
@@ -48,5 +48,3 @@ class JAdministratorHelper
 		return $option;
 	}
 }
-
-?>
