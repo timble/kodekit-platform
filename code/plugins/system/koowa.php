@@ -45,7 +45,8 @@ class plgSystemKoowa extends JPlugin
 		}
 		
 		//Set constants
-		define('KDEBUG', JDEBUG);
+		define('KDEBUG'      , JDEBUG);
+		define('JPATH_IMAGES', JPATH_ROOT.'/images');
 		
 		//Set exception handler
 		set_exception_handler(array($this, 'exceptionHandler'));
