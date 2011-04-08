@@ -793,7 +793,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
                 //The delete failed
                 if($context->affected <= 0) {
-                    $context->data->setStatus(KDatabase::STATUS_FAILDED);
+                    $context->data->setStatus(KDatabase::STATUS_FAILED);
                 }
             
                 //Set the query in the context
