@@ -477,7 +477,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$function = array_pop($parts);
 		
 		//Create the complete identifier if a partial identifier was passed
-		if(is_string($identifier) && strpos($identifier, 'com.') === false ) 
+		if(is_string($identifier) && count($parts) == 1 ) 
 		{
             $identifier = clone $this->getIdentifier();
             $identifier->path = array('template','helper');
