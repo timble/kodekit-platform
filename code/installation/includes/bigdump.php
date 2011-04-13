@@ -278,7 +278,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && pre
 //			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents
 
-			if (ereg(";$", trim($dumpline)) && !$inparents) {
+			if (preg_match('/;$/', trim($dumpline)) && !$inparents) {
 				if (!TESTMODE) {
 					$db->setQuery(trim($query));
 //					echo $query . '<br />';
