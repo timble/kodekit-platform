@@ -479,6 +479,9 @@ class plgEditorTinymce extends JPlugin
 				}
 				window.addEvents({
 					'editor.show': function(editor){
+					    
+					    if(document.getElement('#editor-toggle-buttons .visual').hasClass('selected')) return false;					    
+					    
 						if(initInvisible) {
 							tinyMCE.execCommand('mceAddControl', false, editor);
 							initInvisible = false;
@@ -497,6 +500,9 @@ class plgEditorTinymce extends JPlugin
 						Cookie.write('editor_$name', 'visual');
 					},
 					'editor.hide': function(editor){
+					
+					    if(document.getElement('#editor-toggle-buttons .html').hasClass('selected')) return false;
+					
 						if(tinyMCE.get(editor)) tinyMCE.get(editor).hide();
 						$$('#$name', '#".$name."_parent')
 														.removeClass('editor-visual')
