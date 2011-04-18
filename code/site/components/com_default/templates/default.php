@@ -33,17 +33,17 @@ class ComDefaultTemplateDefault extends KTemplateDefault
      */
     public function loadHelper($identifier, $params = array())
     {
-        $view = KFactory::get($this->getView());
+        $view = $this->getView();
         
         if(KInflector::isPlural($view->getName())) 
         {
-            if($state = KFactory::get($view->getModel())->getState()) {
+            if($state = $view->getModel()->getState()) {
                 $params = array_merge( $state->getData(), $params);
             }
         } 
         else 
         {
-            if($item = KFactory::get($view->getModel())->getItem()) {
+            if($item = $view->getModel()->getItem()) {
                 $params = array_merge( $item->getData(), $params);
             }
         }   
