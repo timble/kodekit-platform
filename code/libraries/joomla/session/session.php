@@ -674,7 +674,7 @@ class JSession extends JObject
 	{
 		// set name
 		if( isset( $options['name'] ) ) {
-			session_name( 'JSESSION_'.md5($options['name']) );
+			session_name( 'KSESSION_'.md5($options['name']) );
 		}
 
 		// set id
