@@ -39,15 +39,15 @@ class JSession extends JObject
 	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
 	 * @see getState()
 	 */
-	var	$_state	=	'';
+	var	$_state	= '';
 
 	/**
 	 * Maximum age of unused session
 	 *
 	 * @access protected
-	 * @var	string $_expire minutes
+	 * @var	string $_expire seconds
 	 */
-	var	$_expire	=	15;
+	var	$_expire = 900;
 
 	/**
 	 * The session store object
@@ -55,7 +55,7 @@ class JSession extends JObject
 	 * @access protected
 	 * @var	object A JSessionStorage object
 	 */
-	var	$_store	=	null;
+	var	$_store	= null;
 
 	/**
 	* security policy
@@ -87,11 +87,6 @@ class JSession extends JObject
 	*/
 	function __construct( $store = 'none', $options = array() )
 	{
-		// Register faked "destructor" in PHP4, this needs to happen before creating the session store
-		if (version_compare(PHP_VERSION, '5') == -1) {
-			register_shutdown_function((array(&$this, '__destruct')));
-		}
-		
 		//Need to destroy any existing sessions started with session.auto_start
 		if (session_id()) {
 			session_unset();
@@ -105,11 +100,12 @@ class JSession extends JObject
 		ini_set('session.use_trans_sid', '0');
 
 		//create handler
-		$this->_store =& JSessionStorage::getInstance($store, $options);
+		$this->_store = JSessionStorage::getInstance($store, $options);
 
 		//set options
 		$this->_setOptions( $options );
 
+		//set the cookie params
 		$this->_setCookieParams();
 
 		//initialise the session
@@ -141,7 +137,7 @@ class JSession extends JObject
 	 * @return	JSession	The Session object.
 	 * @since	1.5
 	 */
-	function & getInstance($handler, $options)
+	function &getInstance($handler, $options)
 	{
 		static $instance;
 
@@ -188,7 +184,8 @@ class JSession extends JObject
 		$token = $this->get( 'session.token' );
 
 		//create a token
-		if( $token === null || $forceNew ) {
+		if( $token === null || $forceNew ) 
+		{
 			$token	=	$this->_createToken( 12 );
 			$this->set( 'session.token', $token );
 		}
@@ -235,6 +232,7 @@ class JSession extends JObject
 			// @TODO : raise error
 			return null;
 		}
+		
 		return session_name();
 	}
 
@@ -250,6 +248,7 @@ class JSession extends JObject
 			// @TODO : raise error
 			return null;
 		}
+		
 		return session_id();
 	}
 
@@ -295,6 +294,7 @@ class JSession extends JObject
 		if( $counter === 1 ) {
 			return true;
 		}
+		
 		return false;
 	}
 
@@ -312,7 +312,8 @@ class JSession extends JObject
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if($this->_state !== 'active' && $this->_state !== 'expired') {
+		if($this->_state !== 'active' && $this->_state !== 'expired') 
+		{
 			// @TODO :: generated error here
 			$error = null;
 			return $error;
@@ -321,6 +322,7 @@ class JSession extends JObject
 		if (isset($_SESSION[$namespace][$name])) {
 			return $_SESSION[$namespace][$name];
 		}
+		
 		return $default;
 	}
 
@@ -591,10 +593,13 @@ class JSession extends JObject
 	 */
 	function _setCookieParams() 
 	{
-		$cookie	=	session_get_cookie_params();
+		$cookie	= session_get_cookie_params();
 		if($this->_force_ssl) {
 			$cookie['secure'] = true;
 		}
+		
+		//Sync the cookie lifetime with the session lifetime
+		$cookie['lifetime'] = $this->_expire;
 		
 		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
 	}
@@ -612,6 +617,7 @@ class JSession extends JObject
 		$max			=	strlen( $chars ) - 1;
 		$token			=	'';
 		$name 			=  session_name();
+		
 		for( $i = 0; $i < $length; ++$i ) {
 			$token .=	$chars[ (rand( 0, $max )) ];
 		}
