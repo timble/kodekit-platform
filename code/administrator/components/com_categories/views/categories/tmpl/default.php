@@ -54,7 +54,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </tr>
             <tr>
                 <td align="center">
-                    <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+                    <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $categories );?>);" />
                 </td>
                 <td>
                     <?= @template('admin::com.default.view.list.search_form') ?>
