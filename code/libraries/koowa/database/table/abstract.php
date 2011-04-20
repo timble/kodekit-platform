@@ -523,7 +523,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      * Table select method
      *
      * The name of the resulting row(set) class is based on the table class name
-     * eg <Mycomp>Table<Tablename> -> <Mycomp>Row(set)<Tablename>
+     * eg Com<Mycomp>Table<Tablename> -> Com<Mycomp>Row(set)<Tablename>
      * 
      * This function will return an empty rowset if called without a parameter.
      *
@@ -667,6 +667,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->data      = $row;
         $context->table     = $this->getBase();
         $context->query     = null;
+        $context->insert_id = false;
         
         if($this->getCommandChain()->run('before.insert', $context) !== false) 
         {
@@ -685,11 +686,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 
                 //Reverse apply the column mappings and set the data in the row
                 $context->data->setData($this->mapColumns($data, true), false);
-            
-                //Set the row status
-                $context->data->setStatus(KDatabase::STATUS_INSERTED);
             }
-            else $context->data->setStatus(KDatabase::STATUS_FAILED); 
                 
             $this->getCommandChain()->run('after.insert', $context);
         }
@@ -711,6 +708,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->data      = $row;
         $context->table     = $this->getBase();
         $context->query     = null;
+        $context->affected  = false;
      
         if($this->getCommandChain()->run('before.update', $context) !== false) 
         {
@@ -733,18 +731,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
             if($context->affected !== false)
             {
-                //The update succeeded
-                if($context->affected > 0 ) 
-                {
-                    $context->data->setStatus(KDatabase::STATUS_UPDATED);
-                
-                    //Reverse apply the column mappings and set the data in the row
+                //Reverse apply the column mappings and set the data in the row
+                if($context->affected > 0 ) {      
                     $context->data->setData($this->mapColumns($data, true), false);
-                }
-            
-                //The update failed
-                if($context->affected <= 0) {
-                    $context->data->setStatus(KDatabase::STATUS_FAILED);
                 }
             }
             
@@ -761,7 +750,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      * Table delete method
      *
      * @param  object   	A KDatabaseRow object
-     * @return bool|integer Returns the number of rows updated, or FALSE if insert query was not executed.
+     * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
     public function delete( KDatabaseRowInterface $row )
     {
@@ -771,6 +760,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->table     = $this->getBase();
         $context->data      = $row;
         $context->query     = null;
+        $context->affected  = false;
         
         if($this->getCommandChain()->run('before.delete', $context) !== false) 
         {
@@ -784,19 +774,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             //Execute the delete query
             $context->affected = $this->_database->delete($context->table, $query);
             
-            if($context->affected !== false)
-            {
-                //The delete succeeded
-                if($context->affected > 0) {
-                    $context->data->setStatus(KDatabase::STATUS_DELETED);
-                }
-            
-                //The delete failed
-                if($context->affected <= 0) {
-                    $context->data->setStatus(KDatabase::STATUS_FAILED);
-                }
-            
-                //Set the query in the context
+            //Set the query in the context
+            if($context->affected !== false) {   
                 $context->query = $query;
             }
             
