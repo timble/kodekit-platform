@@ -144,10 +144,27 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 */
 	public function save()
 	{
-	    if($this->_new) {
-		    $result = $this->getTable()->insert($this);;
-		} else {
+	    if($this->_new) 
+	    {
+		    $result = $this->getTable()->insert($this);
+		    
+		    if($result !== false) {
+                $context->data->setStatus(KDatabase::STATUS_INSERTED);
+            } else {
+                $context->data->setStatus(KDatabase::STATUS_FAILED); 
+            }
+		} 
+		else 
+		{
 			$result = $this->getTable()->update($this);
+			
+			if($result > 0 ) {
+			    $this->setStatus(KDatabase::STATUS_UPDATED);
+			}
+            
+			if($result <= 0) {
+			    $this->setStatus(KDatabase::STATUS_FAILED);
+			}
 		}
 
 		return (bool) $result;
@@ -162,8 +179,20 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	{
 		$result = false;
 
-		if(!$this->_new) {
+		if(!$this->_new) 
+		{
 		    $result = $this->getTable()->delete($this);
+		    
+		    if($result !== false)
+            {
+                if($result > 0) {
+                    $this->setStatus(KDatabase::STATUS_DELETED);
+                }
+            
+                if($result <= 0) {
+                    $this->setStatus(KDatabase::STATUS_FAILED);
+                }
+            }
 		}
 
 		return (bool) $result;
