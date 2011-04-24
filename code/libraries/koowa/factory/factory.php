@@ -103,23 +103,20 @@ class KFactory
 	 */
 	public static function identify($identifier)
 	{		
-		if(!($identifier instanceof KIdentifier))
+		if(!is_string($identifier)) 
 		{
-			if(is_string($identifier)) 
-			{
-				$alias      = $identifier;
-				$identifier = new KIdentifier($identifier);
-			} 
-			elseif($identifier instanceof KObjectIdentifiable) 
-			{
-				$identifier = $identifier->getIdentifier();
-				$alias      = (string) $identifier;
-			} 
+			if($identifier instanceof KObjectIdentifiable) {
+			    $identifier = $identifier->getIdentifier();
+		    }   
 		} 
-		else $alias = (string) $identifier;
 		
+		$alias = (string) $identifier;
 		if(array_key_exists($alias, self::$_identifier_map)) {
 			$identifier = self::$_identifier_map[$alias];
+		}
+		
+		if(is_string($identifier)) {
+		    $identifier = new KIdentifier($identifier);
 		}
 		
 		return $identifier;
