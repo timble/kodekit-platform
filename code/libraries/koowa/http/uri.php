@@ -366,6 +366,7 @@ class KHttpUri extends KObject
     /**
      * Returns the query portion as a string or array
      * 
+     * @param 	boolean			If TRUE return an array. Default FALSE
      * @return  string|array    The query string; e.g., `foo=bar&baz=dib`.
      */
     public function getQuery($toArray = false)
