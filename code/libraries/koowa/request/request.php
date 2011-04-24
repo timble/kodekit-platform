@@ -34,14 +34,6 @@ class KRequest
     protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'PUT', 'DELETE', 'SERVER', 'REQUEST', 'SESSION');
 
     /**
-     * Accepted request methods
-     *
-     * @var array
-     */
-    protected static $_methods = array('GET', 'POST', 'PUT', 'DELETE' /*,'HEAD', 'OPTIONS'*/ );
-
-
-    /**
      * URL of the request regardless of the server
      *
      * @var KHttpUri
@@ -495,11 +487,12 @@ class KRequest
     /**
      * Returns current request method.
      *
-     * @throws  KRequestException Wgen the method could not be found
      * @return  string
      */
     public static function method()
     {
+        $method = '';
+        
         if(PHP_SAPI != 'cli')
         {
             $method  =  strtoupper($_SERVER['REQUEST_METHOD']);
@@ -515,10 +508,6 @@ class KRequest
                 }
             }
         } 
-
-        if ( ! in_array($method, self::$_methods)) {
-            throw new KRequestException('Unknown method : '.$method);
-        }
 
         return $method;
     }
