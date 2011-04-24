@@ -20,6 +20,8 @@ if(!Koowa) var Koowa = {};
  */
 Koowa.Tabs = new Class({
 
+    Implements: [Options, Events],
+    
     getOptions: function()
     {
         return {
@@ -86,5 +88,3 @@ Koowa.Tabs = new Class({
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]])
     }
 });
-
-Koowa.Tabs.implement(new Events, new Options);
