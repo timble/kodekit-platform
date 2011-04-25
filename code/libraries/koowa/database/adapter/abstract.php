@@ -356,9 +356,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param string  	The table to insert data into.
      * @param array 	An associative array where the key is the colum name and
      * 					the value is the value to insert for that column.
-     * @return bool|integer  If the insert query was executed returns the id on a table with a column having the 
-     * 						 AUTO_INCREMENT attribute. If the table does not have a column with the AUTO_INCREMENT 
-     * 						 attribute, this function will return zero. Otherwise FALSE.
+     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if 
+     * 					     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
 	public function insert($table, array $data)
 	{
@@ -383,18 +382,16 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
 				//Execute the query
-				if($context->result = $this->execute($context->query)) {
-					$context->insert_id = $this->_insert_id;
-				} else {
-					$context->insert_id = false;
-				}
+				$context->result = $this->execute($context->query);
+				
+				$context->affected = $this->_affected_rows;	
 			
 				$this->getCommandChain()->run('after.insert', $context);
 			}
-			else $context->insert_id = false;
+			else $context->affected = false;
 		}
 
-		return $context->insert_id;
+		return $context-affected;
 	}
 
 	/**
@@ -407,7 +404,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * 				 	the value is the value to use ofr that column.
      * @param mixed 	A sql string or KDatabaseQuery object to limit which rows are updated.
      * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
-     * 					no rows where updated, or -1 if an error occured. Otherwise FALSE. 
+     * 					no rows where updated, or -1 if an error occurred. Otherwise FALSE. 
      */
 	public function update($table, array $data, $where = null)
 	{
