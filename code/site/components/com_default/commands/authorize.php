@@ -51,13 +51,13 @@ class ComDefaultCommandAuthorize extends KCommand
         if($parts[0] == 'before' && $context->caller->isDispatched()) 
         {
             if(!$this->checkToken()) {
-                throw new KControllerException('Invalid token or session time-out', KHttpResponse::FORBIDDEN);
+                throw new KControllerException('Invalid token or session time-out', KHttpResponse::UNAUTHORIZED);
             }
         }
        
         //Execute the command
         if(parent::execute($name, $context) == false) {
-            throw new KControllerException(ucfirst($context->action).' action not allowed', KHttpResponse::FORBIDDEN);
+            throw new KControllerException(ucfirst($context->action).' action not allowed', KHttpResponse::UNAUTHORIZED);
         }
         
         return true; 
@@ -71,7 +71,7 @@ class ComDefaultCommandAuthorize extends KCommand
      */
     public function _controllerBeforeAdd(KCommandContext $context)
     {
-        if(JVERSION::isCompatible('1.6')) {
+        if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.create');
         } else {
             $result = KFactory::get('lib.joomla.user')->get('gid') > 18;
@@ -88,7 +88,7 @@ class ComDefaultCommandAuthorize extends KCommand
      */
     public function _controllerBeforeEdit(KCommandContext $context)
     {
-        if(JVERSION::isCompatible('1.6')) {
+        if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
         } else {
             $result = KFactory::get('lib.joomla.user')->get('gid') > 19;
@@ -105,7 +105,7 @@ class ComDefaultCommandAuthorize extends KCommand
      */
     public function _controllerBeforeDelete(KCommandContext $context)
     {
-        if(JVERSION::isCompatible('1.6')) {
+        if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
         } else {
             $result = KFactory::get('lib.joomla.user')->get('gid') > 20;
