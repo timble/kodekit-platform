@@ -31,7 +31,8 @@ class ComCacheViewHtml extends ComDefaultViewHtml
 	
     public function display()
 	{
-	    KFactory::get('admin::com.cache.toolbar.'.$this->getName(), array('title' => 'Cache Manager'))
+	    $this->getToolbar()
+	        ->setTitle('Cache Manager')
 		    ->reset()
 		    ->append('delete')
 		    ->append('purge');
