@@ -149,9 +149,9 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		    $result = $this->getTable()->insert($this);
 		    
 		    if($result !== false) {
-                $context->data->setStatus(KDatabase::STATUS_INSERTED);
+                $this->setStatus(KDatabase::STATUS_INSERTED);
             } else {
-                $context->data->setStatus(KDatabase::STATUS_FAILED); 
+                $this->setStatus(KDatabase::STATUS_FAILED); 
             }
 		} 
 		else 
