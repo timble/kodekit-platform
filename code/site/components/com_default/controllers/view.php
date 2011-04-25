@@ -29,7 +29,11 @@ class ComDefaultControllerView extends KControllerView
         parent::__construct($config);
  
         //Enqueue the authorization command
-        $this->getCommandChain()->enqueue( KFactory::get('site::com.default.command.authorize'));
+        $command = clone $this->_identifier;
+	    $command->path = 'command';
+		$command->name = 'authorize';
+	    
+        $this->getCommandChain()->enqueue(KFactory::get($command));
     }
     
     /**
