@@ -58,8 +58,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
      */
     protected function _actionRender(KCommandContext $context)
     {
-        $controller = KFactory::get($this->getController());
-        $view       = KFactory::get($controller->getView());
+        $view  = $this->getController()->getView();
     
         $document = KFactory::get('lib.joomla.document');
         $document->setMimeEncoding($view->mimetype);
