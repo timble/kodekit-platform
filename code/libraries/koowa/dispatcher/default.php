@@ -37,7 +37,7 @@ class KDispatcherDefault extends KDispatcherAbstract
             $instance = new $classname($config);
             
             //Add the factory map to allow easy access to the singleton
-            KFactory::map('lib.koowa.dispatcher', $config->identifier);
+            KFactory::map('dispatcher', $config->identifier);
         }
         
         return $instance;
