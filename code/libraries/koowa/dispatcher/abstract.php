@@ -59,7 +59,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if($config->controller !== null) {
 			$this->setController($config->controller);
 		}
-
+		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
@@ -101,7 +101,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
 			//Get the controller name
 			$controller = KRequest::get('get.view', 'cmd', $this->_controller_default);
-		
+			
 			// Controller names are always singular
 			if(KInflector::isPlural($controller)) {
 				$controller = KInflector::singularize($controller);
@@ -113,9 +113,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			    'dispatched'   => true	
         	);
 
-			$this->_controller = KFactory::get($application.'::com.'.$package.'.controller.'.$controller, $config);
+			$this->_controller = KFactory::tmp($application.'::com.'.$package.'.controller.'.$controller, $config);
 		}
-
+	
 		return $this->_controller;
 	}
 
@@ -153,27 +153,89 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		$method = KRequest::method();
         $data   = $method != 'GET' ? KRequest::get(strtolower($method), 'raw') : null;
-        
+         
         return $data;
 	}
 	
 	/**
 	 * Get the action 
+	 * 
+	 * This function throws an exception with code KHttpResponse::NOT_IMPLEMENTED if 
+	 * the action isn't implemented or KHttpResponse::METHOD_NOT_ALLOWED if the method
+	 * is not allowed
 	 *
 	 * @return	string 	The action to dispatch
+	 * @throws 	KDispatcherException 	If the action isn't implemented or the HTTP method 
+	 * 									is not allowed.
 	 */
 	public function getAction()
 	{
-        //For none GET requests get the action based on action variable or request method
+        $controller = $this->getController();
+         
+	    //For none GET requests get the action based on action variable or request method
 	    if(KRequest::method() != KHttpRequest::GET) {
             $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
         } else {
-           $action = $this->getController()->getAction();
+           $action = $controller->getAction();
+        } 
+
+        //Check if the method is allowed
+	    if(!in_array(strtolower(KRequest::method()), $controller->getActions())) 
+	    {
+            throw new KDispatcherException(
+            	'Method : '.KRequest::method().' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
+            );
         }
-           
+        
+        //Check if the action is implemented
+        if(!in_array($action, $controller->getActions())) 
+        {
+            throw new KDispatcherException(
+            	'Action :'.$action.' Not Implemented', KHttpResponse::NOT_IMPLEMENTED
+            );
+        }
+            
         return $action;
 	}
-
+	
+	/**
+	 * Get a list of allowed actions
+	 *
+     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
+	 */
+    public function getActionString()
+    {
+	    $methods = array();
+        $actions =  $this->getController()->getActions();
+	              
+        //Retrieve HTTP methods
+        foreach(array('get', 'put', 'delete', 'post') as $method) 
+        {
+            if(in_array($method, $actions)) {
+                $methods[strtoupper($method)] = $method;
+            }
+        }
+            
+        //Retrieve POST actions 
+        if(in_array('post', $methods)) 
+        {
+            $actions = array_diff($actions, array('get', 'put', 'delete', 'post', 'browse', 'read', 'display'));
+            $methods['POST'] = array_diff($actions, $methods);
+        }
+        
+        //Render to string
+        $result = implode(', ', array_keys($methods));
+        
+        foreach($methods as $method => $actions) 
+        {
+           if(is_array($actions)) {
+               $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
+           }     
+        }
+        
+        return $result;
+    }
+	
 	/**
 	 * Dispatch the controller
 	 *
@@ -181,23 +243,30 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * @return	mixed
 	 */
 	protected function _actionDispatch(KCommandContext $context)
-	{        	
+	{        	 
+	    $result = false;
+	    
 	    //Set the default controller
 	    if($context->data) {
-        	$this->_controller_default = KConfig::toData($context->data);
-        }
- 
-        //Set the date in the context
-        $context->data = $this->getData();
+	        $this->_controller_default = KConfig::toData($context->data);
+	    }
+	    
+	    //Set the allowed header
+	    if(KRequest::method() != KHttpRequest::OPTIONS) 
+	    {
+	        //Execute the controller
+	        $action        = $this->getAction();
+	        $context->data = $this->getData();
          
-        //Execute the controller
-        $result = $this->getController()->execute($this->getAction(), $context);
-        
-        //Set the response header
-	    if($context->status) {
-		    header(KHttpResponse::getHeader($context->status));
-		}
-		
+	        $result = $this->getController()->execute($action, $context);
+              
+	        //Set the status header
+            if($context->status) {
+                header(KHttpResponse::getHeader($context->status));
+            }
+	    }
+	    else header('Allow : '.$this->getActionString());
+	   
         return $result;
 	}
 
@@ -213,9 +282,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		if (KRequest::type() == 'HTTP')
 		{
-			if($redirect = KFactory::get($this->getController())->getRedirect())
+			if($redirect = $this->getController()->getRedirect())
 			{
-				KFactory::get('lib.joomla.application')
+			    KFactory::get('lib.joomla.application')
 					->redirect($redirect['url'], $redirect['message'], $redirect['type']);
 			}
 		}
@@ -223,7 +292,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if(KRequest::type() == 'AJAX')
 		{
 			$view = KRequest::get('get.view', 'cmd');
-			$context->result = KFactory::get($this->getController())->execute('display', $context);
+			$context->result = $this->getController()->execute('display', $context);
 			return $context->result;
 		}
 	}
