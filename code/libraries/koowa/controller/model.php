@@ -137,7 +137,7 @@ abstract class KControllerModel extends KControllerView
 			// Models are always plural
 			$identifier->name	= KInflector::isPlural($identifier->name) ? $identifier->name : KInflector::pluralize($identifier->name);
 
-			$this->_model = KFactory::get($identifier);
+			$this->_model = KFactory::tmp($identifier);
 		}
 
 		return $this->_model;
@@ -161,13 +161,13 @@ abstract class KControllerModel extends KControllerView
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
 			}
 
-			$model = KFactory::get($identifier);
+			$model = KFactory::tmp($identifier);
 		}
 		
 		$this->_model = $model;
 		return $this;
 	}
-
+	
 	/**
 	 * Browse a list of items
 	 * 
@@ -176,10 +176,11 @@ abstract class KControllerModel extends KControllerView
 	 */
 	protected function _actionBrowse(KCommandContext $context)
 	{
-		$rowset = $this->getModel()->getList();
+		$rowset   = $this->getModel()->getList();
+		$resource = ucfirst($this->getView()->getName());
 		
 		if(!count($rowset)) {
-		    $context->status = KHttpResponse::NOT_FOUND;
+		    throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUN);
 		} 
 		
 		return $rowset;
@@ -193,10 +194,11 @@ abstract class KControllerModel extends KControllerView
 	 */
 	protected function _actionRead(KCommandContext $context)
 	{
-	    $row = $this->getModel()->getItem();
+	    $row      = $this->getModel()->getItem();
+	    $resource = ucfirst($this->getView()->getName());
 	    		
 		if($row->isNew()) {
-		     $context->status = KHttpResponse::NOT_FOUND;
+		    throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
 		} 
 		
 		return $row;
@@ -210,7 +212,8 @@ abstract class KControllerModel extends KControllerView
 	 */
 	protected function _actionEdit(KCommandContext $context)
 	{ 
-	    $rowset = $this->getModel()->getList();
+	    $rowset   = $this->getModel()->getList();
+	    $resource = ucfirst($this->getView()->getName());
 								
 	    if(count($rowset)) 
 	    {
@@ -222,7 +225,7 @@ abstract class KControllerModel extends KControllerView
 		        $context->status = KHttpResponse::NO_CONTENT;
 		    }
 		} 
-		else $context->status = KHttpResponse::NOT_FOUND;
+		else  throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
 					
 		return $rowset;
 	}
@@ -235,19 +238,23 @@ abstract class KControllerModel extends KControllerView
 	 */
 	protected function _actionAdd(KCommandContext $context)
 	{
-		$row = $this->getModel()->getItem();
+		$row      = $this->getModel()->getItem();
+		$resource = ucfirst($this->getView()->getName());
 				
 		if($row->isNew())	
 		{	
 		    $row->setData(KConfig::toData($context->data));
 		    
-		    if($row->save()) {
-		       $context->status = KHttpResponse::CREATED;
-		    } else {
-		        $context->status = KHttpResponse::INTERNAL_SERVER_ERROR;
-		    }
+		    if(!$row->save()) 
+		    {    
+		        throw new KControllerException(
+		          $resource.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		        );
+		       
+		    } 
+		    else $context->status = KHttpResponse::CREATED;
 		} 
-		else $context->status = KHttpResponse::BAD_REQUEST;
+		else throw new KControllerException($resource.' Already Exists', KHttpResponse::BAD_REQUEST);
 				
 		return $row;
 	}
@@ -260,19 +267,22 @@ abstract class KControllerModel extends KControllerView
 	 */
 	protected function _actionDelete(KCommandContext $context)
 	{
-	    $rowset = $this->getModel()->getList();
+	    $rowset   = $this->getModel()->getList();
+	    $resource = ucfirst($this->getView()->getName());
 							
 		if(count($rowset)) 
 	    {
             $rowset->setData(KConfig::toData($context->data));
 	        
-	        if($rowset->delete()) {
-                $context->status = KHttpResponse::NO_CONTENT;
-		    } else {
-		        $context->status = KHttpResponse::INTERNAL_SERVER_ERROR;
-		    }
+	        if(!$rowset->delete()) 
+	        {
+                  throw new KControllerException(
+		             $resource.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		         );  
+		    } 
+		    else  $context->status = KHttpResponse::NO_CONTENT;
 		} 
-		else $context->status = KHttpResponse::NOT_FOUND;
+		else  throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
 					
 		return $rowset;
 	}
@@ -303,11 +313,9 @@ abstract class KControllerModel extends KControllerView
 	 * If the resource already exists it will be completely replaced based on the data
 	 * available in the request.
 	 * 
-	 * If the model state is not unique the function will return false and set the
-	 * status code to 400 BAD REQUEST.
-	 *
-	 * @param	KCommandContext		A command context object
-	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 * @param	KCommandContext			A command context object
+	 * @return 	KDatabaseRow(set)		A row(set) object containing the modified data
+	 * @throws  KControllerException 	If the model state is not unique 
 	 */
 	protected function _actionPut(KCommandContext $context)
 	{    
@@ -330,7 +338,12 @@ abstract class KControllerModel extends KControllerView
 	             
 	        $result  = parent::execute($action, $context); 
         } 
-        else  $context->status = KHttpResponse::BAD_REQUEST;
+        else 
+        {
+            throw new KControllerException(
+                ucfirst($row->getIdentifier()->name).' not found', KHttpResponse::BAD_REQUEST
+            );
+        }
       
         return $result;
 	}
@@ -362,15 +375,12 @@ abstract class KControllerModel extends KControllerView
 		{
             $view = $this->getView();
 		   
-            if(($context->status != KHttpResponse::NOT_FOUND) || $view instanceof KViewHtml)
-            {
-		        if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-			        $view->setLayout($this->_request->layout);
-		        }
+            if($view instanceof KViewTemplate && isset($this->_request->layout)) {
+                $view->setLayout($this->_request->layout);
+            }
 		    
-		        $result = $view->display();
-             }
-             else $result = false;
+            //Set the model in the view
+            $result = $view->setModel($this->getModel())->display();
 		}
 		
 		return $result;
