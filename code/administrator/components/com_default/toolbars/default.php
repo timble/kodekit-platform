@@ -25,7 +25,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
 		$html = array ();
 
 		// Start toolbar div
-		if (JVERSION::isCompatible('1.6')) {
+		if (version_compare(JVERSION,'1.6.0','ge')) {
 		    $html[] = '<div class="toolbar-list" id="'.$id.'">';
 		} else {
 			$html[] = '<div class="toolbar" id="'.$id.'">';
@@ -61,7 +61,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
 		$title = JText::_($this->_title);
 
 		$html  = '<div class="header pagetitle icon-48-'.$icon.'">';
-		if (JVERSION::isCompatible('1.6')) {
+		if (version_compare(JVERSION,'1.6.0','ge')) {
 			$html .= '<h2>'.$title.'</h2>';
 		} else {
 		    $html .= $title;
