@@ -76,24 +76,25 @@ class ComUsersHelperPassword extends KObject implements KObjectIdentifiable
      */
     public function getHash($seed)
     {
-        $configuration = KFactory::get('lib.joomla.config');
-        return md5($configuration->getValue('config.secret').$seed);
+        $secret = KFactory::get('lib.joomla.config')->getValue('config.secret');
+        return md5(secret.$seed);
     }
 
     /**
      * Returns a salt.
      *
-     * @param string $seed The seed to get the salt from (probably a
-     *                     previously generated password). Defaults to
-     *                     generating a new seed.
+     * @param string The seed to get the salt from (probably a previously generated password). 
+     * 			     Defaults to generating a new seed.
      * @return string  The generated or extracted salt.
      */
     public function getSalt($seed)
     {
-        if($seed){
-            return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2);
+        if($seed) {
+            $result = substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2);
         } else {
-            return substr(md5(mt_rand()), 0, 2);
+            $result = substr(md5(mt_rand()), 0, 2);
         }
+        
+        return $result;
     }
 }
