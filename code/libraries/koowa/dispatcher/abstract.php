@@ -207,6 +207,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     {
 	    $methods = array();
         $actions =  $this->getController()->getActions();
+        
+        //Sort the action alphabetically.
+        sort($this->_actions);
 	              
         //Retrieve HTTP methods
         foreach(array('get', 'put', 'delete', 'post') as $method) 
