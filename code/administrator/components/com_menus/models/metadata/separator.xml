@@ -3,9 +3,7 @@
 	<state>
 		<name>Separator</name>
 		<description>Separator parameters...</description>
-		<params>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-		</params>
+		<params />
 		<advanced />
 	</state>
 </metadata>
