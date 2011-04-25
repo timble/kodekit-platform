@@ -59,6 +59,8 @@ abstract class KControllerView extends KControllerAbstract
 		if(!empty($config->view)) {
 			$this->setView($config->view);
 		}
+		
+		$this->registerActionAlias('get', 'display');
 	}
 
 	/**
@@ -86,7 +88,7 @@ abstract class KControllerView extends KControllerAbstract
 	 */
 	public function getView()
 	{
-		if(!$this->_view)
+	    if(!$this->_view)
 		{
 			if(!isset($this->_request->view))
 			{
@@ -97,16 +99,18 @@ abstract class KControllerView extends KControllerAbstract
 					$this->_request->view = KInflector::pluralize($name);
 				}
 			}
-
+			
 			$identifier			= clone $this->_identifier;
 			$identifier->path	= array('view', $this->_request->view);
 			$identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			
+			//Enable the auto-filtering if the controller was dispatched or if the MVC triad was
+			//called outside of the dispatcher.
 			$config = array(
-			    'auto_filter'  => $this->isDispatched()
+			    'auto_filter'  => $this->isDispatched() || !KFactory::has('lib.koowa.dispatcher')
         	);
 			
-			$this->_view = KFactory::get($identifier, $config);
+			$this->_view = KFactory::tmp($identifier, $config);
 		}
 		
 		return $this->_view;
@@ -185,12 +189,12 @@ abstract class KControllerView extends KControllerAbstract
 	protected function _actionDisplay(KCommandContext $context)
 	{
 		$view = $this->getView();
-		
+	
         //Set the layout in the view
 	    if(isset($this->_request->layout)) {
             $view->setLayout($this->_request->layout);
 	     }
-		
+	     
         //Render the view and return the output
 		return $view->display();
 	}
