@@ -48,7 +48,6 @@ class modMainMenuHelper
 			while (count($rows) && !is_null($row = array_shift($rows)))
 			{
 				if (array_key_exists($row->parent, $ids)) {
-					$row->ionly = $params->get('menu_images_link');
 					$menu->addNode($params, $row);
 
 					// record loaded parents
@@ -276,33 +275,11 @@ class JMenuTree extends JTree
 		}
 
 		$iParams = new JParameter($tmp->params);
-		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
-			switch ($params->get('menu_images_align', 0)){
-				case 0 : 
-				$imgalign='align="left"';
-				break;
-				
-				case 1 :
-				$imgalign='align="right"';
-				break;
-				
-				default :
-				$imgalign='';
-				break;
-			}
-				
-			
-			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" '.$imgalign.' alt="'.$item->alias.'" />';
-			if($tmp->ionly){
-				 $tmp->name = null;
-			 }
-		} else {
-			$image = null;
-		}
+		
 		switch ($tmp->type)
 		{
 			case 'separator' :
-				return '<span class="separator">'.$image.$tmp->name.'</span>';
+				return '<span class="separator">'.$tmp->name.'</span>';
 				break;
 
 			case 'url' :
@@ -336,22 +313,22 @@ class JMenuTree extends JTree
 				default:
 				case 0:
 					// _top
-					$data = '<a href="'.$tmp->url.'">'.$image.$tmp->name.'</a>';
+					$data = '<a href="'.$tmp->url.'">'.$tmp->name.'</a>';
 					break;
 				case 1:
 					// _blank
-					$data = '<a href="'.$tmp->url.'" target="_blank">'.$image.$tmp->name.'</a>';
+					$data = '<a href="'.$tmp->url.'" target="_blank">'.$tmp->name.'</a>';
 					break;
 				case 2:
 					// window.open
 					$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'.$this->_params->get('window_open');
 
 					// hrm...this is a bit dickey
-					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$image.$tmp->name.'</a>';
+					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$tmp->name.'</a>';
 					break;
 			}
 		} else {
-			$data = '<a>'.$image.$tmp->name.'</a>';
+			$data = '<a>'.$tmp->name.'</a>';
 		}
 
 		return $data;

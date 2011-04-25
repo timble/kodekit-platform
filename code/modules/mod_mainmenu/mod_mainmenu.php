@@ -19,8 +19,6 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $params->def('menutype', 			'mainmenu');
 $params->def('class_sfx', 			'');
-$params->def('menu_images', 		0);
-$params->def('menu_images_align', 	0);
 $params->def('expand_menu', 		0);
 $params->def('activate_parent', 	0);
 $params->def('spacer', 				'');

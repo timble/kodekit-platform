@@ -44,19 +44,6 @@
 		<param name="maxdepth" type="text" default="10" label="Maximum Menu Depth" description="PARAMMENUMAXDEPTH" />
 	</params>
 	<params group="other">
-		<param name="menu_images" type="radio" default="0" label="Show Menu Icons" description="PARAMSHOWMENUICONS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="menu_images_align" type="radio" default="0" label="Menu Icon Alignment" description="Alignment of the Menu Icons">
-			<option value="0">Left</option>
-			<option value="1">Right</option>
-			<option value="2">None</option>
-		</param>
-		 <param name="menu_images_link" type="radio" default="0" label="Menu Icon Link" description="PARAMMENUICONLINK">
-		      	<option value="0">No</option>
-		      	<option value="1">Yes</option>
-		  </param>
 		<param name="expand_menu" type="radio" default="0" label="Expand Menu" description="PARAMEXPANDMENU">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
