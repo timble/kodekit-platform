@@ -667,7 +667,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->data      = $row;
         $context->table     = $this->getBase();
         $context->query     = null;
-        $context->insert_id = false;
+        $context->affected  = false;
         
         if($this->getCommandChain()->run('before.insert', $context) !== false) 
         {
@@ -678,11 +678,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $data = $this->mapColumns($data);
             
             //Execute the insert query
-            $context->insert_id = $this->_database->insert($context->table, $data);
+            $context->affected = $this->_database->insert($context->table, $data);
             
-            if($context->insert_id !== false)
+            if($context->affected !== false)
             {
-                $data[$this->getIdentityColumn()] = $context->insert_id;
+                if($this->getIdentityColumn()) {
+                    $data[$this->getIdentityColumn()] = $this->_database->getInsertId();
+                }
                 
                 //Reverse apply the column mappings and set the data in the row
                 $context->data->setData($this->mapColumns($data, true), false);
@@ -691,7 +693,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $this->getCommandChain()->run('after.insert', $context);
         }
 
-        return $context->insert_id;
+        return $context->affected;
     }
 
     /**
