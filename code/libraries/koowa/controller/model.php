@@ -101,7 +101,7 @@ abstract class KControllerModel extends KControllerView
 		
 		return $this;
 	}
-
+	
 	/**
 	 * Saves the model state in the session
 	 *
@@ -121,11 +121,35 @@ abstract class KControllerModel extends KControllerView
 
 		return $this;
 	}
+	
+	/**
+	 * Get the view object attached to the controller
+	 * 
+	 * If no view information is available in the request this function will
+	 * set the view information based on the name of the controller. If the
+	 * model is unique the view will be singular if it's none unique the view 
+	 * will be plural
+	 *
+	 * @return	KViewAbstract
+	 */
+	public function getView()
+	{
+	    if(!$this->_view)
+		{	
+		    if($this->getModel()->getState()->isUnique()) {
+				$this->_request->view = $name;
+			} else {
+				$this->_request->view = KInflector::pluralize($name);
+			}
+		}
+		
+		return parent::getView();
+	}
 
 	/**
-	 * Get the identifier for the model with the same name
+	 * Get the model object attached to the contoller
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KModelAbstract
 	 */
 	public function getModel()
 	{
@@ -180,7 +204,7 @@ abstract class KControllerModel extends KControllerView
 		$resource = ucfirst($this->getView()->getName());
 		
 		if(!count($rowset)) {
-		    throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUN);
+		    throw new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
 		} 
 		
 		return $rowset;
@@ -354,10 +378,8 @@ abstract class KControllerModel extends KControllerView
 	 * This function translates a GET request into a read or browse action. If the view name is 
 	 * singular a read action will be executed, if plural a browse action will be executed.
 	 * 
-	 * This function will not render anything if the following conditions are met :
-	 * 
-	 * - The result of the read or browse action is not a row or rowset object
-	 * - The contex::status is 404 NOT FOUND and the view is not a HTML view
+	 * This function will not render anything the result of the read or browse action is not a 
+	 * row or rowset object
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
