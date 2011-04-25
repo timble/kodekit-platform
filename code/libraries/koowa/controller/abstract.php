@@ -174,9 +174,9 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      *
      * @return  array Array[i] of action names.
      */
-    public function getActions()
+    public function getActions($reload = false)
     {
-        if(!$this->_actions)
+        if(!$this->_actions || $reload)
         {
             $this->_actions = array();
             
@@ -185,14 +185,14 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
                 if(substr($action, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($action, 7));
                 }
-            
+             
                 $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
             }
         }
         
         return $this->_actions;
     }
-
+    
     /**
      * Get the action that is was/will be performed.
      *
@@ -262,7 +262,10 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
         if ( !in_array($alias, $this->getActions()) )  { 
             $this->_action_map[$alias] = $action; 
-        } 
+        }    
+        
+        //Force reload of the actions
+        $this->getActions(true);
     
         return $this;
     }
@@ -276,6 +279,10 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     public function unregisterActionAlias( $action )
     {
         unset($this->_action_map[strtolower($action)]);
+        
+        //Force reload of the actions
+        $this->getActions(true);
+        
         return $this;
     }
     
