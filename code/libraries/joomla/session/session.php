@@ -598,9 +598,6 @@ class JSession extends JObject
 			$cookie['secure'] = true;
 		}
 		
-		//Sync the cookie lifetime with the session lifetime
-		$cookie['lifetime'] = $this->_expire;
-		
 		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
 	}
 
