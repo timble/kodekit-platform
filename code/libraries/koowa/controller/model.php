@@ -134,12 +134,12 @@ abstract class KControllerModel extends KControllerView
 	 */
 	public function getView()
 	{
-	    if(!$this->_view)
-		{	
+        if(!isset($this->_request->view))
+		{
 		    if($this->getModel()->getState()->isUnique()) {
-				$this->_request->view = $name;
+				$this->_request->view = $this->_identifier->name;
 			} else {
-				$this->_request->view = KInflector::pluralize($name);
+				$this->_request->view = KInflector::pluralize($this->_identifier->name);
 			}
 		}
 		
