@@ -82,34 +82,28 @@ abstract class KControllerView extends KControllerAbstract
     }
    
 	/**
-	 * Get the identifier for the view with the same name
+	 * Get the view object attached to the controller
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KViewAbstract
 	 */
 	public function getView()
 	{
 	    if(!$this->_view)
-		{
-			if(!isset($this->_request->view))
-			{
-				$name = $this->_identifier->name;
-				if($this->getModel()->getState()->isUnique()) {
-					$this->_request->view = $name;
-				} else {
-					$this->_request->view = KInflector::pluralize($name);
-				}
-			}
-			
+		{	
+		    //Get the view name
+			$view = isset($this->_request->view) ? $this->_request->view : $this->_identifier->name;
+	
+			//Created the identifier
 			$identifier			= clone $this->_identifier;
-			$identifier->path	= array('view', $this->_request->view);
+			$identifier->path	= array('view', $view);
 			$identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			
 			//Enable the auto-filtering if the controller was dispatched or if the MVC triad was
 			//called outside of the dispatcher.
 			$config = array(
-			    'auto_filter'  => $this->isDispatched() || !KFactory::has('lib.koowa.dispatcher')
+			    'auto_filter'  => $this->isDispatched() /*|| !KFactory::has('dispatcher')*/
         	);
-			
+        
 			$this->_view = KFactory::tmp($identifier, $config);
 		}
 		
