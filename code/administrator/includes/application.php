@@ -117,30 +117,35 @@ class JAdministrator extends JApplication
 	 * Dispatch the application
 	 *
 	 * @access public
+	 * @throws KDispatcherException	If the user is not logged in.
 	 */
-	function dispatch($component)
-	{
-		$document	=& JFactory::getDocument();
-		$user		=& JFactory::getUser();
-
-		switch($document->getType())
-		{
-			case 'html' :
-			{
-				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
-				}
-
-				JHTML::_('behavior.mootools');
-			} break;
-
-			default : break;
-		}
-
-		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
-
-		$contents = JComponentHelper::renderComponent($component);
-		$document->setBuffer($contents, 'component');
+	function dispatch()
+	{ 
+	    $document = JFactory::getDocument();
+	    
+	    switch($document->getType())
+        {
+            case 'html' :
+            {
+                $document->addScript( JURI::root(true).'/media/system/js/legacy.js');
+                JHTML::_('behavior.mootools');
+            }
+        }
+        
+        $document->setTitle( 
+            htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' )
+        );
+	    
+	    if(JFactory::getUser()->get('guest')) {
+	        $option = 'com_users';
+	    } else {
+	        $option = strtolower(JRequest::getCmd('option', 'com_cpanel'));
+	    }
+	 
+        JRequest::setVar('option', $option);
+        $contents = JComponentHelper::renderComponent($option);   
+	   
+        $document->setBuffer($contents, 'component');
 	}
 
 	/**
@@ -154,10 +159,6 @@ class JAdministrator extends JApplication
 		$template	= $this->getTemplate();
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
-		if($component == 'com_login') {
-			$file = 'login';
-		}
-
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
@@ -165,8 +166,7 @@ class JAdministrator extends JApplication
 		);
 
 		//Render the document
-		$document =& JFactory::getDocument();
-		$data = $document->render($this->getCfg('caching'), $params );
+		$data = JFactory::getDocument()->render($this->getCfg('caching'), $params );
 
 		//Make images paths absolute
 		$site = $this->getSite();
@@ -189,11 +189,6 @@ class JAdministrator extends JApplication
 
 		 //Make sure users are not autoregistered
 		$options['autoregister'] = false;
-
-		//Set the application login entry point
-		if(!array_key_exists('entry_url', $options)) {
-			$options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
-		}
 
 		$result = parent::login($credentials, $options);
 
