@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerLogout extends ComDefaultControllerView
+class ComUsersControllerLogout extends ComDefaultControllerPage
 {
     protected function _actionLogout(KCommandContext $context)
     {
