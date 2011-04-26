@@ -29,14 +29,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      * @var array
      */
     protected $_action_map = array();
-
-    /**
-     * Current or most recent action to be performed.
-     *
-     * @var string
-     */
-    protected $_action;
-    
+  
     /**
      * The class actions
      *
@@ -139,33 +132,36 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     {
         $action = strtolower($action);
         
-        //Set the original action in the controller to allow it to be retrieved
-        $this->setAction($action);
-
         //Update the context
         $context->action = $action;
         $context->caller = $this;
         
-        //Find the mapped action if one exists
+        //Find the mapped action
         if (isset( $this->_action_map[$action] )) {
-            $command = $this->_action_map[$action];
+           $command = $this->_action_map[$action];
         } else {
-            $command = $action;
+           $command = $action;
         }
-        
+       
+        //Execute the action
         if($this->getCommandChain()->run('before.'.$command, $context) !== false) 
         {
             $action = $context->action;
             $method = '_action'.ucfirst($command);
-    
+              
             if (!in_array($method, $this->getMethods())) {
-                throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
+               throw new KControllerException("Can't execute '$action', method: '$method' does not exist");
             }
                 
             $context->result = $this->$method($context);
             $this->getCommandChain()->run('after.'.$command, $context);
         }
-
+        
+        //Handle exceptions
+        if($context->error instanceof KException) {
+            throw $context->error;
+        }
+       
         return $context->result;
     }
 
@@ -192,35 +188,6 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
         return $this->_actions;
     }
-    
-    /**
-     * Get the action that is was/will be performed.
-     *
-     * @return   string Action name
-     */
-    public function getAction()
-    {
-        return $this->_action;
-    }
-
-    /** 
-     * Set the action that will be performed. 
-     * 
-     * @param       string Action name 
-     * @return  KControllerAbstract 
-     */ 
-    public function setAction($action) 
-    { 
-        $action = strtolower($action);
-        
-        //Find the mapped action if one exists 
-        if (isset( $this->_action_map[$action] )) { 
-            $action = $this->_action_map[$action]; 
-        } 
-        
-        $this->_action = $action; 
-        return $this; 
-    } 
     
 	/**
 	 * Get the request information
