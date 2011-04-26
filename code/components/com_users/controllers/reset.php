@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerReset extends ComDefaultControllerView
+class ComUsersControllerReset extends ComDefaultControllerPage
 {
     protected function _actionRequest(KCommandContext $context)
     {
