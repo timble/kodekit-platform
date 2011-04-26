@@ -59,6 +59,7 @@ class KControllerCommandAuthorize extends KCommand
             		'Action Not Implemented', KHttpResponse::NOT_IMPLEMENTED
                 );
                 
+                $context->header = array('Allow' =>  $context->caller->execute('options', $context));
                 return false;
             }
                
@@ -71,7 +72,8 @@ class KControllerCommandAuthorize extends KCommand
                     $context->error = new KControllerException(
                        'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
                     );
-                
+                    
+                    $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
                     return false;
                 }
             } 
