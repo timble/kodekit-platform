@@ -17,28 +17,19 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerLogin extends ComDefaultControllerView
+class ComUsersControllerLogin extends ComDefaultControllerPage
 {
-    protected function _actionDisplay(KCommandContext $context)
+    protected function _actionGet(KCommandContext $context)
     {
-        if(!$this->_request->layout) {
-            KRequest::set('get.tmpl', 'login');
-        }
+        //Force the application template
+        KRequest::set('get.tmpl', 'login');
+         
+        //Set the status
+        $context->status = KHttpResponse::UNAUTHORIZED;
+           
+        //Set the authentciation header
+        //$context->headers = array('WWW-Authenticate', 'Basic Realm="'.KRequest::base().'"');
 
-        return parent::_actionDisplay($context);
-    }
-
-    protected function _actionLogin(KCommandContext $context)
-    {
-        $credentials['username'] = KRequest::get('post.username', 'string');
-        $credentials['password'] = KRequest::get('post.password', 'raw');
-
-        $result = KFactory::get('lib.joomla.application')->login($credentials);
-
-        if(!JError::isError($result)) {
-            $this->_redirect = 'index.php';
-        } else {
-            $this->setRedirect('index.php?option=com_users&view=login', $result->getError(), 'error');
-        }
+        return parent::_actionGet($context);
     }
 }
