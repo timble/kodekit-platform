@@ -83,11 +83,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function getController()
 	{
 		if(!$this->_controller instanceof KControllerAbstract)
-		{
-		    if(isset($this->_request->view)) { 
-		        $this->_controller = $this->_request->view;
-		    }
-		   
+		{ 
 		    if(is_string($this->_controller) && strpos($this->_controller, '.') === false ) 
 		    {
 		        // Controller names are always singular
