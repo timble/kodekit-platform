@@ -20,12 +20,16 @@
 class ComUsersDispatcher extends ComDefaultDispatcher
 {
     protected function _actionDispatch(KCommandContext $context)
-	{        	 
-	    //Force the view to prevent a redirect
+	{        	
         if(KFactory::get('lib.joomla.user')->guest) 
         {  
-            if(KRequest::method() == KHttpRequest::GET) {
+            if(KRequest::method() == KHttpRequest::GET) 
+            {
+                //Force the view to prevent a redirect
                 KRequest::set('get.view', 'login');
+                
+                //Force the view to login
+                $this->view = 'login';
             }
         } 
         else 
