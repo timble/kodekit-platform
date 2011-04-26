@@ -138,10 +138,6 @@ class plgSystemKoowa extends JPlugin
 			$error->set('message', $this->_exception->getMessage());
 		}
 		
-		if($this->_exception->getCode() == KHttpResponse::UNAUTHORIZED) {
-		   header('WWW-Authenticate: Basic Realm="'.KRequest::base().'"');
-		}
-		
 		//Make sure the buffers are cleared
 		while(@ob_get_clean());
 		JError::customErrorPage($error);
