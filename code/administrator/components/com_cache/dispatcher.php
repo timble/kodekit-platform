@@ -23,7 +23,7 @@ class ComCacheDispatcher extends ComDefaultDispatcher
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'controller_default' => 'groups',
+        	'controller' => 'groups',
         ));
         parent::_initialize($config);
     }
