@@ -28,13 +28,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	protected $_controller;
 	
 	/**
-	 * Default controller name
-	 *
-	 * @var	string
-	 */
-	protected $_controller_default;
-	
-	/**
 	 * The request persistency
 	 * 
 	 * @var boolean
@@ -56,9 +49,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		//Set the controller
 		$this->_controller = $config->controller;
 		
-		//Set the controller default
-		$this->_controller_default = $config->controller_default;
-		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
@@ -77,8 +67,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller'			=> null,
-    		'controller_default'	=> $this->_identifier->package,
+        	'controller'			=> $this->_identifier->package,
     		'request'				=> KRequest::get('get', 'string'),
     		'request_persistent' 	=> false
         ));
@@ -86,22 +75,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         parent::_initialize($config);
     }
     
-	/**
-	 * Get the request information
-	 *
-	 * @return KConfig	A KConfig object with request information
-	 */
-	public function getRequest()
-	{
-		$request = parent::getRequest();
-		
-		if(!isset($request->view)) {
-		    $request->view = $this->_controller_default;
-		}
-		
-		return $request;
-	}
-
 	/**
 	 * Method to get a controller identifier
 	 *
@@ -111,21 +84,21 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		if(!$this->_controller instanceof KControllerAbstract)
 		{
-	        $identifier = isset($this->_controller) ?  $this->_controller : $this->getRequest()->view;
-		    
-		    if(is_string($identifier) && strpos($identifier, '.') === false ) 
+		    if(isset($this->_request->view)) { 
+		        $this->_controller = $this->_request->view;
+		    }
+		   
+		    if(is_string($this->_controller) && strpos($this->_controller, '.') === false ) 
 		    {
-		        $controller = $identifier;
-		        
 		        // Controller names are always singular
-			    if(KInflector::isPlural($controller)) {
-				    $controller = KInflector::singularize($controller);
+			    if(KInflector::isPlural($this->_controller)) {
+				    $this->_controller = KInflector::singularize($this->_controller);
 			    } 
 			    
 		        //Created the identifier
 			    $identifier			= clone $this->_identifier;
 			    $identifier->path	= array('controller');
-			    $identifier->name	= $controller;
+			    $identifier->name	= $this->_controller;
 			}
 		    
 			$config = array(
@@ -133,7 +106,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
         		'persistent'   => $this->_request_persistent,
 			    'dispatched'   => true	
         	);
-        	
+        
 			$this->_controller = KFactory::tmp($identifier, $config);
 		}
 	
@@ -192,7 +165,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{        	 
 	    //Set the default controller
 	    if($context->data) {
-	        $this->_controller_default = KConfig::toData($context->data);
+	        $this->_controller = KConfig::toData($context->data);
 	    }
 	    
 	    //Execute the controller
