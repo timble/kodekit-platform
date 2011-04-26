@@ -29,7 +29,7 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 $output[] = '<li class="preview"><a href="'.JURI::root().'" target="_blank">'.JText::_('Preview').'</a></li>';
 
 // Print the logout message
-$output[] = '<li '.$class.'><a href="index.php?option=com_users&view=user&task=edit&cid[0]='.JFactory::getUser()->id.'">'.JText::_('My Profile').'</a></li>';
+$output[] = '<li '.$class.'><a href="index.php?option=com_users&view=user&id='.JFactory::getUser()->id.'">'.JText::_('My Profile').'</a></li>';
 
 // Print the logout message
 JHTML::script('koowa.js', 'media/lib_koowa/js/');
@@ -37,7 +37,7 @@ JHTML::script('koowa.js', 'media/lib_koowa/js/');
 if(!strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) 
 {
     $token      = JUtility::getToken();
-    $json       = "{method:'post', url:'index.php?option=com_users&view=logout', params:{action:'logout', _token:'".$token."'}}";
+    $json       = "{method:'post', url:'index.php?option=com_users&view=user', params:{action:'logout', _token:'".$token."'}}";
     $output[]   = '<li '.$class.'><a href="#" onclick="new Koowa.Form('.$json.').submit();">'.JText::_('Logout').'</a></li>';
 }
 
