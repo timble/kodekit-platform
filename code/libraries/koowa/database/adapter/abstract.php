@@ -391,7 +391,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			else $context->affected = false;
 		}
 
-		return $context-affected;
+		return $context->affected;
 	}
 
 	/**
