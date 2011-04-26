@@ -40,17 +40,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
     {
         if (isset($this->ordering ))
         {
-            $table  = $this->getTable();
-            $db     = $table->getDatabase();
-            $query  = $db->getQuery();
-
-            //Build the where query
-            $this->_buildQueryWhere($query);;
-
-            $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
-            $select .= (string) $query;
-            $max =  (int) $db->select($select, KDatabase::FETCH_FIELD);
-
+            $max = $this->getMax();
             if ($this->ordering <= 0){
                 $this->ordering = $max + 1;
             } elseif ($this->ordering <= $max ){
@@ -59,6 +49,21 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         }
     }
 
+    protected function getMax() {
+        $table  = $this->getTable();
+        $db     = $table->getDatabase();
+        $query  = $db->getQuery();
+
+        //Build the where query
+        $this->_buildQueryWhere($query);;
+
+        $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
+        $select .= (string) $query;
+        return  (int) $db->select($select, KDatabase::FETCH_FIELD);
+        
+    }
+    
+    
     /**
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position. Order is to be only set if section 
@@ -70,7 +75,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
     protected function _beforeTableUpdate(KCommandContext $context)
     {
 
-	if (isset($this->ordering) )
+	    if ( isset($this->ordering) )
         {
             if (isset($this->order) )
             {
@@ -78,8 +83,13 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 //default action
                 parent::_beforeTableUpdate($context);
             } elseif (isset($this->old_parent)) {
-                //make space for new entry
-                $this->reorder($this->ordering);
+                $max = $this->getMax();
+                if ($this->ordering <= 0){
+                    $this->ordering = $max + 1;
+                } elseif ($this->ordering <= $max ){
+                    //make space for new entry
+                    $this->reorder($this->ordering);
+                }                
             }
         }
     }
@@ -109,13 +119,17 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     public function reorder($base=0)
     {
+		//force to integer
+        settype($base, 'int');
+        
         $table  = $this->getTable();
         $db     = $table->getDatabase();
         $query  = $db->getQuery();
 
         //Build the where query
         $this->_buildQueryWhere($query);
-        if ($base && is_numeric($base) ) {
+
+        if ($base)  {
             $query->where('ordering', '>=', $base);
         } 
 

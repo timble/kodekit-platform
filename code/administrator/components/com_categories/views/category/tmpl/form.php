@@ -65,7 +65,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                                     'attribs'    => array(
                                         'id'   => 'section',
                                         'onchange' => "var url = '"
-                                        	.@route('&id=&layout=orderable&tmpl=component&format=ajax')
+                                        	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
                                         	."&section='+$('section').value;
                                                        new Ajax(url , {method: 'get',update: $('orderable')}).request();"
                                     )
@@ -86,7 +86,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                                     array( 'filter' => array(
                                         'section' => $category->section 
                                     ))); 
-                                elseif ( substr($state->section, 0, 3) == 'com'):
+                                elseif ( substr($state->section, 0, 3) == 'com' && $state->section != 'com_content'):
                                    echo @template('form_orderable');       
                                 endif  ?>
                             </div>
