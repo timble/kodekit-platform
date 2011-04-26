@@ -9,13 +9,13 @@
  */
 
 /**
- * Action Controller Class
+ * Default Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerForm
+class KControllerDefault extends KControllerResource
 {
 
 }
