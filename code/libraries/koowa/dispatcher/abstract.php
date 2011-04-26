@@ -53,12 +53,11 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		//Set the request persistency
 		$this->_request_persistent = $config->request_persistent;
 		
+		//Set the controller
+		$this->_controller = $config->controller;
+		
 		//Set the controller default
 		$this->_controller_default = $config->controller_default;
-		
-		if($config->controller !== null) {
-			$this->setController($config->controller);
-		}
 		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
@@ -86,6 +85,22 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
         parent::_initialize($config);
     }
+    
+	/**
+	 * Get the request information
+	 *
+	 * @return KConfig	A KConfig object with request information
+	 */
+	public function getRequest()
+	{
+		$request = parent::getRequest();
+		
+		if(!isset($request->view)) {
+		    $request->view = $this->_controller_default;
+		}
+		
+		return $request;
+	}
 
 	/**
 	 * Method to get a controller identifier
@@ -94,26 +109,32 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	public function getController()
 	{
-		if(!$this->_controller)
+		if(!$this->_controller instanceof KControllerAbstract)
 		{
-			$application 	= $this->_identifier->application;
-			$package 		= $this->_identifier->package;
-
-			//Get the controller name
-			$controller = KRequest::get('get.view', 'cmd', $this->_controller_default);
-			
-			// Controller names are always singular
-			if(KInflector::isPlural($controller)) {
-				$controller = KInflector::singularize($controller);
+	        $identifier = isset($this->_controller) ?  $this->_controller : $this->getRequest()->view;
+		    
+		    if(is_string($identifier) && strpos($identifier, '.') === false ) 
+		    {
+		        $controller = $identifier;
+		        
+		        // Controller names are always singular
+			    if(KInflector::isPlural($controller)) {
+				    $controller = KInflector::singularize($controller);
+			    } 
+			    
+		        //Created the identifier
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('controller');
+			    $identifier->name	= $controller;
 			}
-			
+		    
 			$config = array(
         		'request' 	   => $this->_request,
         		'persistent'   => $this->_request_persistent,
 			    'dispatched'   => true	
         	);
-
-			$this->_controller = KFactory::tmp($application.'::com.'.$package.'.controller.'.$controller, $config);
+        	
+			$this->_controller = KFactory::tmp($identifier, $config);
 		}
 	
 		return $this->_controller;
@@ -124,8 +145,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a controller identifier
-	 * @return	KDispatcherAbstract
+	 * @throws	KDispatcherException	If the identifier is not a controller identifier
+	 * @return	KDispatcherAbstract or KIdentifier object
 	 */
 	public function setController($controller)
 	{
@@ -137,108 +158,30 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
 			}
 
-			$this->_controller = $identifier;
+			$controller = $identifier;
 		}
 		
 		$this->_controller = $controller;
+	
+		return $this;
+	}
+	
+	/**
+	 * Set the request information
+	 *
+	 * @param array	An associative array of request information
+	 * @return KControllerBread
+	 */
+	public function setRequest(array $request)
+	{
+		$this->_request = new KConfig();
+		foreach($request as $key => $value) {
+		    $this->$key = $value;
+		}
+		
 		return $this;
 	}
 
-	/**
-	 * Get the data from the request based the request method
-	 *
-	 * @return	array 	An array with the request data
-	 */
-	public function getData()
-	{
-		$method = KRequest::method();
-        $data   = $method != 'GET' ? KRequest::get(strtolower($method), 'raw') : null;
-         
-        return $data;
-	}
-	
-	/**
-	 * Get the action 
-	 * 
-	 * This function throws an exception with code KHttpResponse::NOT_IMPLEMENTED if 
-	 * the action isn't implemented or KHttpResponse::METHOD_NOT_ALLOWED if the method
-	 * is not allowed
-	 *
-	 * @return	string 	The action to dispatch
-	 * @throws 	KDispatcherException 	If the action isn't implemented or the HTTP method 
-	 * 									is not allowed.
-	 */
-	public function getAction()
-	{
-        $controller = $this->getController();
-         
-	    //For none GET requests get the action based on action variable or request method
-	    if(KRequest::method() != KHttpRequest::GET) {
-            $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
-        } else {
-           $action = $controller->getAction();
-        } 
-
-        //Check if the method is allowed
-	    if(!in_array(strtolower(KRequest::method()), $controller->getActions())) 
-	    {
-            throw new KDispatcherException(
-            	'Method : '.KRequest::method().' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
-            );
-        }
-        
-        //Check if the action is implemented
-        if(!in_array($action, $controller->getActions())) 
-        {
-            throw new KDispatcherException(
-            	'Action :'.$action.' Not Implemented', KHttpResponse::NOT_IMPLEMENTED
-            );
-        }
-            
-        return $action;
-	}
-	
-	/**
-	 * Get a list of allowed actions
-	 *
-     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
-	 */
-    public function getActionString()
-    {
-	    $methods = array();
-        $actions =  $this->getController()->getActions();
-        
-        //Sort the action alphabetically.
-        sort($this->_actions);
-	              
-        //Retrieve HTTP methods
-        foreach(array('get', 'put', 'delete', 'post') as $method) 
-        {
-            if(in_array($method, $actions)) {
-                $methods[strtoupper($method)] = $method;
-            }
-        }
-            
-        //Retrieve POST actions 
-        if(in_array('post', $methods)) 
-        {
-            $actions = array_diff($actions, array('get', 'put', 'delete', 'post', 'browse', 'read', 'display'));
-            $methods['POST'] = array_diff($actions, $methods);
-        }
-        
-        //Render to string
-        $result = implode(', ', array_keys($methods));
-        
-        foreach($methods as $method => $actions) 
-        {
-           if(is_array($actions)) {
-               $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
-           }     
-        }
-        
-        return $result;
-    }
-	
 	/**
 	 * Dispatch the controller
 	 *
@@ -247,29 +190,20 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{        	 
-	    $result = false;
-	    
 	    //Set the default controller
 	    if($context->data) {
 	        $this->_controller_default = KConfig::toData($context->data);
 	    }
 	    
-	    //Set the allowed header
-	    if(KRequest::method() != KHttpRequest::OPTIONS) 
-	    {
-	        //Execute the controller
-	        $action        = $this->getAction();
-	        $context->data = $this->getData();
-         
-	        $result = $this->getController()->execute($action, $context);
-              
-	        //Set the status header
-            if($context->status) {
-                header(KHttpResponse::getHeader($context->status));
-            }
-	    }
-	    else header('Allow : '.$this->getActionString());
-	   
+	    //Execute the controller
+	    $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
+	    
+	    if(KRequest::method() != KHttpRequest::GET) {
+            $context->data = KRequest::get(strtolower(KRequest::method()), 'raw');;
+        }
+	     
+	    $result = $this->getController()->execute($action, $context);
+	           
         return $result;
 	}
 
@@ -310,6 +244,19 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionRender(KCommandContext $context)
 	{
+	    //Headers
+	    if($context->headers) 
+	    {
+	        foreach($context->headers as $name => $value) {
+	            header($name.' : '.$value);
+	        }
+	    }
+	    
+	    //Status
+        if($context->status) {
+           header(KHttpResponse::getHeader($context->status));
+        }
+	    
 	    if(is_string($context->result)) {
 		     return $context->result;
 		}
