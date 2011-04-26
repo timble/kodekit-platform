@@ -56,7 +56,7 @@ class KControllerCommandAuthorize extends KCommand
             if(!in_array($action, $context->caller->getActions()))
             {
                 $context->error = new KControllerException(
-            		'Action : "'.$action.'" Not Implemented', KHttpResponse::NOT_IMPLEMENTED
+            		'Action Not Implemented', KHttpResponse::NOT_IMPLEMENTED
                 );
                 
                 return false;
@@ -69,7 +69,7 @@ class KControllerCommandAuthorize extends KCommand
                 if($this->$method($context) === false) 
                 {
                     $context->error = new KControllerException(
-                       'Action : "'.$action.'" Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
+                       'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
                     );
                 
                     return false;
