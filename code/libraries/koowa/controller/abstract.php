@@ -158,7 +158,16 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         }
         
         //Handle exceptions
-        if($context->error instanceof KException) {
+        if($context->error instanceof KException) 
+        {
+            //@TODO : Refactor
+            if($context->headers) 
+	        {
+	            foreach($context->headers as $name => $value) {
+	                header($name.' : '.$value);
+	            }
+	        }
+	        
             throw $context->error;
         }
        
