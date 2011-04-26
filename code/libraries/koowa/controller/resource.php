@@ -96,21 +96,25 @@ abstract class KControllerResource extends KControllerPage
 	}
 	
 	/**
-	 * Get the request information
+	 * Get the view object attached to the controller
 	 *
-	 * @return KConfig	A KConfig object with request information
+	 * @return	KViewAbstract
 	 */
-	public function getRequest()
+	public function getView()
 	{
-		$request = parent::getRequest();
-		
-	     if($this->getModel()->getState()->isUnique()) {
-			$request->view = KInflector::singularize($request->view);
-		} else {
-			$request->view = KInflector::pluralize($request->view);
+	    if(!$this->_view instanceof KViewAbstract)
+		{	
+		    if(!isset($this->_request->view)) 
+		    { 
+		        if($this->getModel()->getState()->isUnique()) {
+			        $this->_view = KInflector::singularize($this->_view);
+		        } else {
+			        $this->_view = KInflector::pluralize($this->_view);
+	    	    }
+		    }
 		}
 		
-		return $request;
+		return parent::getView();
 	}
 	
 	/**
@@ -142,7 +146,7 @@ abstract class KControllerResource extends KControllerPage
 	    $row      = $this->getModel()->getItem();
 	    $resource = ucfirst($this->getView()->getName());
 	    	
-		if($row->isNew()) {
+		if($this->getModel()->getState()->isUnique() && $row->isNew()) {
 		    $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
 		} 
 		
