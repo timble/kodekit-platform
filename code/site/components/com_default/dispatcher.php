@@ -19,6 +19,23 @@
  */
 class ComDefaultDispatcher extends KDispatcherDefault
 { 
+	/**
+	 * Method to get a controller identifier
+	 *
+	 * @return	object	The controller.
+	 */
+	public function getController()
+	{
+		if(!$this->_controller instanceof KControllerAbstract)
+		{
+		    if(isset($this->_request->view)) { 
+		        $this->_controller = $this->_request->view;
+		    }
+		}
+	
+		return parent::getController();
+	}
+    
     /**
      * Dispatch the controller and redirect
      * 
