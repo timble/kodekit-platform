@@ -125,7 +125,7 @@ abstract class KControllerResource extends KControllerPage
 		$resource = ucfirst($this->getView()->getName());
 		
 		if(!count($rowset)) {
-		   $context->error = new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
+		   $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
 		}
 		
 		return $rowset;
@@ -143,7 +143,7 @@ abstract class KControllerResource extends KControllerPage
 	    $resource = ucfirst($this->getView()->getName());
 	    	
 		if($row->isNew()) {
-		    $context->error = new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
+		    $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
 		} 
 		
 		return $row;
@@ -170,7 +170,7 @@ abstract class KControllerResource extends KControllerPage
 		        $context->status = KHttpResponse::NO_CONTENT;
 		    }
 		} 
-		else $context->error = new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
+		else $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
 					
 		return $rowset;
 	}
@@ -192,14 +192,14 @@ abstract class KControllerResource extends KControllerPage
 		    
 		    if(!$row->save()) 
 		    {    
-		        $context->error = new KControllerException(
-		          $resource.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		        );
+		        $context->setError(new KControllerException(
+		           $resource.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		        ));
 		       
 		    } 
 		    else $context->status = KHttpResponse::CREATED;
 		} 
-		else $context->error = KControllerException($resource.' Already Exists', KHttpResponse::BAD_REQUEST);
+		else $context->setError(new KControllerException($resource.' Already Exists', KHttpResponse::BAD_REQUEST));
 				
 		return $row;
 	}
@@ -221,13 +221,13 @@ abstract class KControllerResource extends KControllerPage
 	        
 	        if(!$rowset->delete()) 
 	        {
-                  $context->error = KControllerException(
+                 $context->setError(new KControllerException(
 		             $resource.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		         );  
+		         ));  
 		    } 
 		    else  $context->status = KHttpResponse::NO_CONTENT;
 		} 
-		else  $context->error = KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND);
+		else  $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
 					
 		return $rowset;
 	}
