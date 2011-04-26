@@ -37,10 +37,8 @@ class ComDefaultDispatcher extends KDispatcherDefault
         //Redirect if no view information can be found in the request
         if(!KRequest::has('get.view')) 
         {
-            $view = count($context->data) ? $context->data : $this->_controller_default;
-            
             $url = clone(KRequest::url());
-            $url->query['view'] = $view;
+            $url->query['view'] = KInflector::pluralize($this->getController()->getIdentifier()->name);
             
             KFactory::get('lib.joomla.application')->redirect($url);
         }
