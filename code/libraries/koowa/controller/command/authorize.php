@@ -55,9 +55,9 @@ class KControllerCommandAuthorize extends KCommand
             //Check if the action exists
             if(!in_array($action, $context->caller->getActions()))
             {
-                $context->error = new KControllerException(
+                $context->setError(new KControllerException(
             		'Action Not Implemented', KHttpResponse::NOT_IMPLEMENTED
-                );
+                ));
                 
                 $context->header = array('Allow' =>  $context->caller->execute('options', $context));
                 return false;
@@ -69,9 +69,9 @@ class KControllerCommandAuthorize extends KCommand
             {                
                 if($this->$method($context) === false) 
                 {
-                    $context->error = new KControllerException(
+                    $context->setError(new KControllerException(
                        'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
-                    );
+                    ));
                     
                     $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
                     return false;
@@ -92,9 +92,9 @@ class KControllerCommandAuthorize extends KCommand
     {
 	    if(!$context->caller->getModel()->getState()->isUnique()) 
 	    {  
-	         $context->error = new KControllerException(
+	         $context->setError(new KControllerException(
                 ucfirst($context->caller->getIdentifier()->name).' not found', KHttpResponse::BAD_REQUEST
-            );
+            ));
             
             return false;
 	    }
