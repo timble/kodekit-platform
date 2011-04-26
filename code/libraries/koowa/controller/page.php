@@ -40,14 +40,14 @@ abstract class KControllerPage extends KControllerAbstract
 	protected $_redirect_type = 'message';
 	
 	/**
-	 * View identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
 	 */
 	protected $_view;
 	
 	/**
-	 * Model identifier (APP::com.COMPONENT.model.NAME)
+	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -63,10 +63,10 @@ abstract class KControllerPage extends KControllerAbstract
 		parent::__construct($config);
 
 		 // Set the view identifier
-		$this->view = $config->view;
+		$this->_view = $config->view;
 		
 	    // Set the model identifier
-		$this->model = $config->model;
+		$this->_model = $config->model;
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
@@ -90,8 +90,8 @@ abstract class KControllerPage extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    	    'model'	  => null,
-        	'view'	  => null,
+    	    'model'	          => null,
+        	'view'	          => $this->_identifier->name,
         ));
 
         parent::_initialize($config);
@@ -112,22 +112,6 @@ abstract class KControllerPage extends KControllerAbstract
 	}
     
 	/**
-	 * Get the request information
-	 *
-	 * @return KConfig	A KConfig object with request information
-	 */
-	public function getRequest()
-	{
-		$request = parent::getRequest();
-		
-		if(!isset($request->view)) {
-		    $request->view = $this->_identifier->name;
-		}
-		
-		return $request;
-	}
-	
-	/**
 	 * Get the view object attached to the controller
 	 *
 	 * @return	KViewAbstract
@@ -136,15 +120,14 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 	    if(!$this->_view instanceof KViewAbstract)
 		{	
-		    $identifier = isset($this->_view) ? $this->_view : $this->getRequest()->view;
+		    if(isset($this->_request->view)) { 
+		        $this->_view = $this->_request->view;
+		    }
 		     
-		    if(is_string($identifier) && strpos($identifier, '.') === false ) 
+		    if(is_string($this->_view) && strpos($this->_view, '.') === false ) 
 		    {
-			    $view = $identifier;
-		        
-		        //Created the identifier
 			    $identifier			= clone $this->_identifier;
-			    $identifier->path	= array('view', $view);
+			    $identifier->path	= array('view', $this->_view);
 			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			}
 		    
@@ -211,7 +194,7 @@ abstract class KControllerPage extends KControllerAbstract
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
-		    
+			
 			$this->_model = KFactory::tmp($identifier);
 		}
 
