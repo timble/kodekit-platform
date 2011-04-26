@@ -40,9 +40,9 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
                 {     
                     if( KRequest::token() !== JUtility::getToken()) 
                     {
-                        $context->error =  new KControllerException(
+                        $context->setError(new KControllerException(
                         	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
-                        );
+                        ));
                         
                         return false;
                     }
