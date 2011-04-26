@@ -14,8 +14,6 @@ KRequest::instantiate();
 /**
  * Request class
  *
- * Allows to get input from GET, POST, REQUEST, COOKIE, ENV, SERVER, SESSION, FILES
- *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Request
@@ -26,13 +24,6 @@ KRequest::instantiate();
  */
 class KRequest
 {
-    /**
-     * Accepted request hashes
-     *
-     * @var array
-     */
-    protected static $_hashes = array('COOKIE', 'ENV', 'FILES', 'GET', 'POST', 'PUT', 'DELETE', 'SERVER', 'REQUEST', 'SESSION');
-
     /**
      * URL of the request regardless of the server
      *
@@ -595,7 +586,6 @@ class KRequest
      * Parse the variable identifier
      *
      * @param   string  Variable identifier
-     * @throws  KRequestException   When the hash could not be found
      * @return  array   0 => hash, 1 => parts
      */
     protected static function _parseIdentifier($identifier)
@@ -614,10 +604,6 @@ class KRequest
         }
 
         $hash = strtoupper($hash);
-
-        if(!in_array($hash, self::$_hashes)) {
-            throw new KRequestException("Unknown hash '$hash' in '$identifier'");
-        }
 
         return array($hash, $parts);
     }
