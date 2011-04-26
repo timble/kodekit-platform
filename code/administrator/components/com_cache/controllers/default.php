@@ -35,9 +35,11 @@ class ComCacheControllerDefault extends ComDefaultControllerDefault
     
 	public function getRequest()
 	{
-		//Force the site
-	    $this->_request->site = KFactory::get('lib.joomla.application')->getSite();
-	  
-	    return $this->_request;
+		$request = parent::getRequest();
+		
+	    //Force the site
+	    $request->site = KFactory::get('lib.joomla.application')->getSite();
+	    
+	    return $request;
 	}
 }
