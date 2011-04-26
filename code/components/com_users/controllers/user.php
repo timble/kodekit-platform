@@ -30,12 +30,16 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     
     public function getRequest()
     {
-        if($this->_request->layout == 'form') {
-            $this->_request->id = KFactory::get('lib.joomla.user')->id;
+        $request = parent::getRequest();
+        
+        if($request->layout == 'form') {
+            $request->id = KFactory::get('lib.joomla.user')->id;
         }
+        
+        return $request;
     }
 
-    public function _actionDisplay(KCommandContext $context)
+    public function _actionGet(KCommandContext $context)
     {
         $user = KFactory::get('lib.joomla.user');
 
@@ -48,7 +52,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             return false;
         }
 
-        return parent::_actionDisplay($context);
+        return parent::_actionGet($context);
     }
 
     protected function _actionAdd(KCommandContext $context)
