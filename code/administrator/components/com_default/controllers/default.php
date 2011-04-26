@@ -11,14 +11,14 @@
 
 
 /**
- * Default View Controller
+ * Default Controller
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerForm
+class ComDefaultControllerDefault extends ComDefaultControllerForm
 {
     /**
      * Constructor
@@ -28,18 +28,10 @@ class ComDefaultControllerDefault extends KControllerForm
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-
-        //Register command callbacks
-        $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
         
-        //Enqueue the authorization command
-        $command = clone $this->_identifier;
-	    $command->path = 'command';
-		$command->name = 'authorize';
-	    
-        $this->getCommandChain()->enqueue( KFactory::get($command));
+        $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
     }
-    
+        
     /**
      * Set the request information
      * 
@@ -98,8 +90,8 @@ class ComDefaultControllerDefault extends KControllerForm
            $this->_redirect_message = JText::_(ucfirst(KInflector::singularize($name)) . ' ' . $action.$suffix);
         }
     }
-
-    /**
+ 
+ 	/**
      * Read action
      *
      * This functions implements an extra check to hide the main menu is the view name
@@ -132,13 +124,13 @@ class ComDefaultControllerDefault extends KControllerForm
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionDisplay(KCommandContext $context)
+    protected function _actionGet(KCommandContext $context)
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
             KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
         }
         
-        return parent::_actionDisplay($context);
+        return parent::_actionGet($context);
     }
 }
