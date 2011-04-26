@@ -144,7 +144,7 @@ class modMenuHelper
 		 * Users SubMenu
 		 */
 		if ($canManageUsers) {
-			$menu->addChild(new JMenuNode(JText::_('Users'), 'index.php?option=com_users&task=view', 'class:user'), true);
+			$menu->addChild(new JMenuNode(JText::_('Users'), 'index.php?option=com_users&view=users', 'class:user'), true);
 			$menu->getParent();
 		}
 
