@@ -30,7 +30,7 @@ class ComVersionsDispatcher extends ComDefaultDispatcher
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'controller_default' => 'revisions'
+    		'controller' => 'revisions'
         ));
 
         parent::_initialize($config);
