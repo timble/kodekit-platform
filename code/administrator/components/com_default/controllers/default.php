@@ -32,7 +32,7 @@ class ComDefaultControllerDefault extends ComDefaultControllerForm
         $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
     }
         
-    /**
+	/**
      * Set the request information
      * 
      * This function translates 'limitstart' to 'offset' for compatibility with Joomla
@@ -46,8 +46,7 @@ class ComDefaultControllerDefault extends ComDefaultControllerForm
             $request['offset'] = $request['limitstart'];
         }
         
-        $this->_request = new KConfig($request);
-        return $this;
+        return parent::setRequest($request);
     }
     
     /**
