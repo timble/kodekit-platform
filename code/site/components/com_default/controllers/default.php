@@ -19,7 +19,7 @@
  */
 class ComDefaultControllerDefault extends KControllerResource
 {
-    /**
+	/**
      * Set the request information
      * 
      * This function translates 'limitstart' to 'offset' for compatibility with Joomla
@@ -33,8 +33,7 @@ class ComDefaultControllerDefault extends KControllerResource
             $request['offset'] = $request['limitstart'];
         }
         
-        $this->_request = new KConfig($request);
-        return $this;
+        return parent::setRequest($request);
     }
     
     /**
