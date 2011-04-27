@@ -47,7 +47,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		$this->_request_persistent = $config->request_persistent;
 		
 		//Set the controller
-		$this->_controller = $config->controller;
+		if(!isset($this->_controller)) {
+		    $this->_controller = $config->controller;
+		}
 		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
@@ -96,13 +98,14 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			    $identifier->path	= array('controller');
 			    $identifier->name	= $this->_controller;
 			}
+			else $identifier = $this->_controller;
 		    
 			$config = array(
         		'request' 	   => $this->_request,
         		'persistent'   => $this->_request_persistent,
 			    'dispatched'   => true	
         	);
-        
+        	
 			$this->_controller = KFactory::tmp($identifier, $config);
 		}
 	
@@ -136,22 +139,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	}
 	
 	/**
-	 * Set the request information
-	 *
-	 * @param array	An associative array of request information
-	 * @return KControllerBread
-	 */
-	public function setRequest(array $request)
-	{
-		$this->_request = new KConfig();
-		foreach($request as $key => $value) {
-		    $this->$key = $value;
-		}
-		
-		return $this;
-	}
-
-	/**
 	 * Dispatch the controller
 	 *
 	 * @param   object		A command context object
@@ -159,12 +146,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{        	 
-	    //Set the default controller
-	    if($context->data) {
-	        $this->_controller = KConfig::toData($context->data);
-	    }
-	    
-	    //Execute the controller
 	    $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
 	    
 	    if(KRequest::method() != KHttpRequest::GET) {
