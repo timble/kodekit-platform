@@ -23,8 +23,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
-
 <?php if(JModuleHelper::isEnabled('menu')) : ?>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>

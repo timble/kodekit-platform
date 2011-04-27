@@ -22,8 +22,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<link rel="stylesheet" type="text/css" href="templates/<?php echo $this->template ?>/css/rounded.css" />
-
 <script language="javascript" type="text/javascript">
 	function setFocus() {
 		document.login.username.select();
