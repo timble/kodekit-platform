@@ -28,7 +28,7 @@ class ComSectionsControllerSection extends ComDefaultControllerDefault
     {
         $id = $this->getModel()->getState()->id;
 
-		if(!$this->_deleteDependents('categories','categories',array('section' => $id))) {
+		if(!$this->_deleteDependents('categories','categories',array('parent' => $id))) {
             return false;
         }
 
