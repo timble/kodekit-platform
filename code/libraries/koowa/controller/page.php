@@ -63,10 +63,14 @@ abstract class KControllerPage extends KControllerAbstract
 		parent::__construct($config);
 
 		 // Set the view identifier
-		$this->_view = $config->view;
+		if(!isset($this->_view)) {
+		    $this->_view = $config->view;
+		}
 		
 	    // Set the model identifier
-		$this->_model = $config->model;
+	    if(!isset($this->_model)) {
+		    $this->_model = $config->model;
+	    }
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
@@ -90,7 +94,7 @@ abstract class KControllerPage extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    	    'model'	          => null,
+    	    'model'	          => $this->_identifier->name,
         	'view'	          => $this->_identifier->name,
         ));
 
@@ -119,17 +123,14 @@ abstract class KControllerPage extends KControllerAbstract
 	public function getView()
 	{
 	    if(!$this->_view instanceof KViewAbstract)
-		{	
-		    if(isset($this->_request->view)) { 
-		        $this->_view = $this->_request->view;
-		    }
-		     
+		{	  
 		    if(is_string($this->_view) && strpos($this->_view, '.') === false ) 
 		    {
 			    $identifier			= clone $this->_identifier;
 			    $identifier->path	= array('view', $this->_view);
 			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			}
+			else $identifier = $this->_view;
 		    
 			//Enable the auto-filtering if the controller was dispatched or if the MVC triad was
 			//called outside of the dispatcher.
@@ -178,22 +179,18 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 		if(!$this->_model instanceof KModelAbstract)
 		{
-			$identifier = isset($this->_model) ? $this->_model : $this->_identifier->name;
-			
-            if(is_string($identifier) && strpos($identifier, '.') === false ) 
+            if(is_string($this->_model) && strpos($this->_model, '.') === false ) 
 		    {
-			    $model = $identifier;
-			    
-			     // Model names are always plural
-			    if(KInflector::isSingular($model)) {
-				    $model = KInflector::pluralize($model);
+			    // Model names are always plural
+			    if(KInflector::isSingular($this->_model)) {
+				    $this->_model = KInflector::pluralize($this->_model);
 			    } 
 		        
-		        //Created the identifier
 			    $identifier			= clone $this->_identifier;
 			    $identifier->path	= array('model');
-			    $identifier->name	= $model;
+			    $identifier->name	= $this->_model;
 			}
+			else $identifier = $this->_model;
 			
 			$this->_model = KFactory::tmp($identifier);
 		}
@@ -341,12 +338,28 @@ abstract class KControllerPage extends KControllerAbstract
         
         $context->headers = array('Allow' => $result); 
 	}
+	
+	/**
+     * Set a request properties
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {          
+        //If the request contains view information set it the view variable
+        if($property == 'view') {
+    	    $this->_view = $value;
+    	}
+    	
+        parent::__set($property, $value);       
+  	}
 
 	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
 	 * properties by using the request property name as the method name.
 	 *
-	 * For example : $controller->view('name')->layout('form')->display();
+	 * For example : $controller->view('name')->limit(10)->browse();
 	 *
 	 * @param	string	Method name
 	 * @param	array	Array containing all the arguments for the original call
@@ -356,10 +369,14 @@ abstract class KControllerPage extends KControllerAbstract
 	 */
 	public function __call($method, $args)
 	{
-		//Check first if we are calling a mixed in method.
+	    //Check first if we are calling a mixed in method. 
+	    //This prevents the model being loaded durig object instantiation. 
 		if(!isset($this->_mixed_methods[$method])) 
         {
-			if(in_array($method, array('layout', 'view', 'format'))) 
+            //Check if the method is a state property
+			$state = $this->getModel()->getState();
+		
+			if(isset($state->$method) || in_array($method, array('layout', 'view', 'format'))) 
 			{
 				$this->$method = $args[0];
 				return $this;
