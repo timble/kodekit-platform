@@ -19,24 +19,7 @@
  * @subpackage  Default
  */
 class ComDefaultControllerPage extends KControllerPage
-{
-    /**
-     * Set the request information
-     * 
-     * This function translates 'limitstart' to 'offset' for compatibility with Joomla
-     *
-     * @param array An associative array of request information
-     * @return KControllerBread
-     */
-    public function setRequest(array $request = array())
-    {
-        if(isset($request['limitstart'])) {
-            $request['offset'] = $request['limitstart'];
-        }
-        
-        return parent::setRequest($request);
-    }
-     
+{ 
     /**
      * Display action
      * 
@@ -54,4 +37,21 @@ class ComDefaultControllerPage extends KControllerPage
         
         return parent::_actionGet($context);
     }
+    
+	/**
+     * Set a request property
+     * 
+     *  This function translates 'limitstart' to 'offset' for compatibility with Joomla
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {          
+        if($property == 'limitstart') {
+            $property = 'offset';
+        } 
+        	
+        parent::__set($property, $value);     
+  	}
 }
