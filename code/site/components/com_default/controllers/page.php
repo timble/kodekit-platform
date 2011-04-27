@@ -33,8 +33,7 @@ class ComDefaultControllerPage extends KControllerPage
             $request['offset'] = $request['limitstart'];
         }
         
-        $this->_request = new KConfig($request);
-        return $this;
+        return parent::setRequest($request);
     }
     
     /**
