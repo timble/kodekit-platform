@@ -32,27 +32,10 @@ class ComDefaultDispatcher extends KDispatcherDefault
         $config->append(array(
             'request_persistent' => true
         ));
-
+        
         parent::_initialize($config);
     }
     
-	/**
-	 * Method to get a controller identifier
-	 *
-	 * @return	object	The controller.
-	 */
-	public function getController()
-	{
-		if(!$this->_controller instanceof KControllerAbstract)
-		{
-		    if(isset($this->_request->view)) { 
-		        $this->_controller = $this->_request->view;
-		    }
-		}
-	
-		return parent::getController();
-	}
-   
     /**
      * Dispatch the controller and redirect
      * 
@@ -118,4 +101,19 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         return parent::_actionRender($context);
     }
+    
+	/**
+     * Set a request property
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {          
+        if($property == 'view') {
+    	    $this->_controller = $value;
+    	}
+    	
+        parent::__set($property, $value);       
+  	}
 }
