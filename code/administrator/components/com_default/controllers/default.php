@@ -31,24 +31,7 @@ class ComDefaultControllerDefault extends ComDefaultControllerForm
         
         $this->registerCallback(array('after.save', 'after.delete'), array($this, 'setMessage'));
     }
-        
-	/**
-     * Set the request information
-     * 
-     * This function translates 'limitstart' to 'offset' for compatibility with Joomla
-     *
-     * @param array An associative array of request information
-     * @return KControllerBread
-     */
-    public function setRequest(array $request = array())
-    {
-        if(isset($request['limitstart'])) {
-            $request['offset'] = $request['limitstart'];
-        }
-        
-        return parent::setRequest($request);
-    }
-    
+       
     /**
      * Filter that creates a redirect message based on the action
      * 
@@ -132,4 +115,21 @@ class ComDefaultControllerDefault extends ComDefaultControllerForm
         
         return parent::_actionGet($context);
     }
+    
+	/**
+     * Set a request property
+     * 
+     *  This function translates 'limitstart' to 'offset' for compatibility with Joomla
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {          
+        if($property == 'limitstart') {
+            $property = 'offset';
+        } 
+        	
+        parent::__set($property, $value);     
+  	}
 }
