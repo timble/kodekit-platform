@@ -49,13 +49,17 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         }
     }
 
+    /**
+     * Find the maximum ordering within this parent
+     * @return int
+     */
     protected function getMax() {
         $table  = $this->getTable();
         $db     = $table->getDatabase();
         $query  = $db->getQuery();
 
         //Build the where query
-        $this->_buildQueryWhere($query);;
+        $this->_buildQueryWhere($query);
 
         $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
         $select .= (string) $query;
@@ -90,6 +94,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                     //make space for new entry
                     $this->reorder($this->ordering);
                 }                
+
             }
         }
     }
