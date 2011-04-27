@@ -19,8 +19,8 @@
  */
 class ComUsersDispatcher extends ComDefaultDispatcher
 {
-    protected function _actionDispatch(KCommandContext $context)
-	{        	
+    protected function _initialize(KConfig $config)
+    {  
         if(KFactory::get('lib.joomla.user')->guest) 
         {  
             if(KRequest::method() == KHttpRequest::GET) 
@@ -28,18 +28,23 @@ class ComUsersDispatcher extends ComDefaultDispatcher
                 //Force the view to prevent a redirect
                 KRequest::set('get.view', 'login');
                 
-                //Force the view to login
-                $this->view = 'login';
+                $config->controller = 'login';
             }
         } 
-        else 
-        {
+        
+        parent::_initialize($config);
+    }
+    
+    protected function _actionDispatch(KCommandContext $context)
+	{        	
+        if(!KFactory::get('lib.joomla.user')->guest) 
+        {  
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'login') {
                 KFactory::get('lib.joomla.application')->redirect('index.php');
             }
-        }
-	           
+        } 
+               
         return parent::_actionDispatch($context);
 	}
 }
