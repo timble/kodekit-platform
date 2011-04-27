@@ -84,22 +84,22 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         $state = $this->_state;
 
         if($state->search) {
-            $query->where('name', 'LIKE',  '%'.$state->search.'%');
+            $query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
         }
 		
         //select overall section
         if ($state->section) 
         {
             if( $state->section == 'com_content' ) {
-                $query->where('section', 'NOT LIKE', 'com%');
+                $query->where('tbl.section', 'NOT LIKE', 'com%');
             } else {
-                $query->where('section', 'IN', $state->section);
+                $query->where('tbl.section', 'IN', $state->section);
             }
         }
 
         //select parent section within com_content
         if ($state->parent) {
-            $query->where('section', 'IN', $state->parent);
+            $query->where('tbl.section', 'IN', $state->parent);
         }
 
         if (is_numeric($state->published)) {
