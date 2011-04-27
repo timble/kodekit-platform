@@ -74,6 +74,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
              'state'         => null,
              'attribs'       => array(),
              'model'         => null,
+             'package'       => $this->getIdentifier()->package,
              'selected'      => 0
         ));
         
@@ -81,8 +82,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config->name = 'order'; 
 
         $app        = $this->getIdentifier()->application;
-        $package    = $this->getIdentifier()->package;
-        $identifier = $app.'::com.'.$package.'.model.'.($config->model ? $config->model : KInflector::pluralize($package));
+        $identifier = $app.'::com.'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
 
         $list = KFactory::tmp($identifier)->limit(0)->set($config->filter)->getList();
 

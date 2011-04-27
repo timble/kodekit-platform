@@ -86,7 +86,7 @@ function submitbutton(pressbutton) {
 						</label>
 					</td>
 					<td>
-						<?= @helper('listbox.ordering'); ?>
+						<?= $section->id ? @helper('admin::com.categories.template.helper.listbox.order', array('package'=>'sections')) : ''; ?>
 					</td>
 				</tr>
 				<tr>
