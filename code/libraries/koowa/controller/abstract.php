@@ -160,7 +160,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         //Handle exceptions
         if($context->getError() instanceof KException) 
         {
-            //@TODO : Refactor
+            //@TODO : Move header handling into a response object
             if($context->headers) 
 	        {
 	            foreach($context->headers as $name => $value) {
