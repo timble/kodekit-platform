@@ -25,7 +25,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 *
 	 * @var	string|object
 	 */
-	protected $_table;
+	protected $_table = false;
 
 	/**
 	 * Constructor
@@ -36,10 +36,15 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 		parent::__construct($config);
 		
-		// Set the table indentifier.
-		if(isset($config->table)) {
-			$this->setTable($config->table);
-		}
+		$this->setTable($config->table);
+			    
+		// Reset the rowset
+        $this->reset();
+	    
+        // Insert the data, if exists        
+        if(!empty($config->data)) {
+	        $this->addData($config->data->toArray(), $config->new);	
+        }
 	}
 
 	/**
@@ -53,30 +58,36 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'table'	=> null
+			'table'	=> $this->_identifier->name
 		));
 
 		parent::_initialize($config);
 	}
 
 	/**
-	 * Get the identifier for the table with the same name
-	 *
-	 * @return	KIdentifierInterface
-	 */
-	public function getTable()
-	{
-		if(!$this->_table)
-		{
-			$identifier 		= clone $this->_identifier;
-			$identifier->name	= KInflector::tableize($identifier->name);
-			$identifier->path	= array('database', 'table');
+     * Method to get a table object
+     * 
+     * Function catches KDatabaseTableExceptions that are thrown for tables that 
+     * don't exist. If no table object can be created the function will return FALSE.
+     *
+     * @return KDatabaseTableAbstract
+     */
+     public function getTable()
+    {
+        if($this->_table !== false)
+        {
+            if(!($this->_table instanceof KDatabaseTableAbstract))
+		    {   		        
+		        try {
+		            $this->_table = KFactory::get($this->_table);
+                } catch (KDatabaseTableException $e) {
+                    $this->_table = false;
+                }
+            }
+        }
 
-			$this->_table = KFactory::get($identifier);
-		}
-
-		return $this->_table;
-	}
+        return $this->_table;
+    }
 
 	/**
 	 * Method to set a table object attached to the rowset
@@ -90,18 +101,34 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 		if(!($table instanceof KDatabaseTableAbstract))
 		{
-			$identifier = KFactory::identify($table);
-
-			if($identifier->path[0] != 'table') {
-				throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
+			if(is_string($table) && strpos($table, '.') === false ) 
+		    {
+		        $identifier         = clone $this->_identifier;
+		        $identifier->path   = array('database', 'table');
+		        $identifier->name   = KInflector::tableize($table);
+		    }
+		    else  $identifier = KFactory::identify($table);
+		    
+			if($identifier->path[1] != 'table') {
+				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
 			}
 
-			$table = KFactory::get($identifier);
+			$table = $identifier;
 		}
 
 		$this->_table = $table;
 
 		return $this;
+	}
+	
+	/**
+	 * Test the connected status of the row.
+	 *
+	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+	 */
+    public function isConnected()
+	{
+	    return (bool) $this->getTable();
 	}
 
 	/**
@@ -113,7 +140,9 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 		$result = parent::reset();
 		
-	    $this->_columns	   = array_keys($this->getTable()->getColumns());
+		if($this->isConnected()) {
+	        $this->_columns	= array_keys($this->getTable()->getColumns());
+		}
 	
 		return $result;
 	}
@@ -125,7 +154,13 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	public function getRow() 
 	{
-		return $this->getTable()->getRow();
+		$result = null;
+		
+	    if($this->isConnected()) {
+		    $result = $this->getTable()->getRow();
+		}
+	    
+	    return $result;
 	}
 
 	/**
@@ -143,7 +178,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	public function __call($method, array $arguments)
 	{
 	    // If the method hasn't been mixed yet, load all the behaviors.
-		if(!isset($this->_mixed_methods[$method]))
+		if($this->isConnected() && !isset($this->_mixed_methods[$method]))
 		{
 			foreach($this->getTable()->getBehaviors() as $behavior) {
 				$this->mixin($behavior);
