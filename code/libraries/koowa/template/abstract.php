@@ -118,46 +118,49 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
-	 * Get the identifier for the view with the same name
+	 * Get the view object attached to the template
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KViewAbstract
 	 */
 	public function getView()
 	{
-		if(!$this->_view)
-		{
-			$identifier	= clone $this->_identifier;
-			$identifier->path = array('view', $identifier->name);
-			$identifier->name = 'html';
-			
-			$this->_view = KFactory::get($identifier);
+	    if(!$this->_view instanceof KViewAbstract)
+		{	   
+			$this->_view = KFactory::tmp($this->_view, $config);
 		}
 		
 		return $this->_view;
 	}
-	
+
 	/**
-	 * Method to set a view object attached to the template
+	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
-	 * @return	KTemplateAbstract
+	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
+	 * @return	KControllerAbstract
 	 */
 	public function setView($view)
 	{
 		if(!($view instanceof KViewAbstract))
 		{
-			$identifier = KFactory::identify($view);
-		
-			if($identifier->path[0] != 'view') {
-				throw new KViewException('Identifier: '.$identifier.' is not a view identifier');
+			if(is_string($view) && strpos($view, '.') === false ) 
+		    {
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('view', $view);
+			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			}
-		
-			$view = KFactory::get($identifier);
+			else $identifier = KFactory::identify($view);
+		    
+			if($identifier->path[0] != 'view') {
+				throw new KTemplateException('Identifier: '.$identifier.' is not a view identifier');
+			}
+
+			$view = $identifier;
 		}
 		
 		$this->_view = $view;
+		
 		return $this;
 	}
 	
