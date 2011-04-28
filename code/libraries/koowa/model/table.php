@@ -24,7 +24,7 @@ class KModelTable extends KModelAbstract
      *
      * @var string|object
      */
-    protected $_table;
+    protected $_table = false;
     
     /**
      * Constructor
@@ -35,10 +35,8 @@ class KModelTable extends KModelAbstract
     {
         parent::__construct($config);
 
-        if(!empty($config->table)) {
-            $this->setTable($config->table);
-        }
-
+        $this->setTable($config->table);
+      
         // Set the static states
         $this->_state
             ->insert('limit'    , 'int')
@@ -48,16 +46,16 @@ class KModelTable extends KModelAbstract
             ->insert('search'   , 'string');
 
         //Try getting a table object
-        if($table = $this->getTable())
+        if($this->isConnected())
         {
             //Set the table behaviors
             if(!empty($config->table_behaviors)) {
-                $table->addBehaviors($config->table_behaviors);
+                $this->getTable()->addBehaviors($config->table_behaviors);
             }
         
             // Set the dynamic states based on the unique table keys
-            foreach($table->getUniqueColumns() as $key => $column) {
-                $this->_state->insert($key, $column->filter, null, true, $table->mapColumns($column->related, true));
+            foreach($this->getTable()->getUniqueColumns() as $key => $column) {
+                $this->_state->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
             }
         }
     }
@@ -73,7 +71,7 @@ class KModelTable extends KModelAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table'             => null,
+            'table'             => $this->_identifier->name,
             'table_behaviors'   => array()
         ));
 
@@ -102,28 +100,24 @@ class KModelTable extends KModelAbstract
     }
     
     /**
-     * Get the identifier for the table with the same name
+     * Method to get a table object
      * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that don't exist.
+     * Function catches KDatabaseTableExceptions that are thrown for tables that 
+     * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return  KIdentifierInterface
+     * @return KDatabaseTableAbstract
      */
     public function getTable()
     {
-        if(!isset($this->_table))
+        if($this->_table !== false)
         {
-            try 
-            {               
-                $identifier         = clone $this->_identifier;
-                $identifier->name   = KInflector::tableize($identifier->name);
-                $identifier->path   = array('database', 'table');
-
-                $this->_table = KFactory::get($identifier);
-            } 
-            catch (KDatabaseTableException $e) 
-            {
-                //Set the table object to false
-                $this->_table = false;
+            if(!($this->_table instanceof KDatabaseTableAbstract))
+		    {   		        
+		        try {
+		            $this->_table = KFactory::get($this->_table);
+                } catch (KDatabaseTableException $e) {
+                    $this->_table = false;
+                }
             }
         }
 
@@ -139,21 +133,38 @@ class KModelTable extends KModelAbstract
      * @return  KModelTable
      */
     public function setTable($table)
-    {
-        if(!($table instanceof KDatabaseTableAbstract))
-        {
-            $identifier = KFactory::identify($table);
-    
-            if($identifier->path[0] != 'database' && $identifier->path[1] != 'table') {
-                throw new KModelException('Identifier: '.$identifier.' is not a table identifier');
-            }
+	{
+		if(!($table instanceof KDatabaseTableAbstract))
+		{
+			if(is_string($table) && strpos($table, '.') === false ) 
+		    {
+		        $identifier         = clone $this->_identifier;
+		        $identifier->path   = array('database', 'table');
+		        $identifier->name   = KInflector::tableize($table);
+		    }
+		    else  $identifier = KFactory::identify($table);
+		    
+			if($identifier->path[1] != 'table') {
+				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
+			}
 
-            $table = KFactory::get($identifier);
-        }
-        
-        $this->_table = $table;
-        return $this;
-    }
+			$table = $identifier;
+		}
+
+		$this->_table = $table;
+
+		return $this;
+	}
+    
+	/**
+	 * Test the connected status of the row.
+	 *
+	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+	 */
+    public function isConnected()
+	{
+	    return (bool) $this->getTable();
+	}
 
     /**
      * Method to get a item object which represents a table row
@@ -167,13 +178,13 @@ class KModelTable extends KModelAbstract
     {
         if (!isset($this->_item))
         {
-            if($table = $this->getTable())
+            if($this->isConnected())
             {
                 $query  = null;
 
                 if($this->_state->isUnique())
                 {
-                    $query = $table->getDatabase()->getQuery();
+                    $query = $this->getTable()->getDatabase()->getQuery();
 
                     $this->_buildQueryColumns($query);
                     $this->_buildQueryFrom($query);
@@ -183,7 +194,7 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryHaving($query);   
                 }
                 
-                $this->_item = $table->select($query, KDatabase::FETCH_ROW);
+                $this->_item = $this->getTable()->select($query, KDatabase::FETCH_ROW);
             }
         }
 
@@ -200,13 +211,13 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_list))
         {
-            if($table = $this->getTable())
+            if($this->isConnected())
             {
                 $query  = null;
                 
                 if(!$this->_state->isEmpty())
                 {
-                    $query = $table->getDatabase()->getQuery();
+                    $query = $this->getTable()->getDatabase()->getQuery();
                 
                     $this->_buildQueryColumns($query);
                     $this->_buildQueryFrom($query);
@@ -218,7 +229,7 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryLimit($query);
                 }
         
-                $this->_list = $table->select($query, KDatabase::FETCH_ROWSET);
+                $this->_list = $this->getTable()->select($query, KDatabase::FETCH_ROWSET);
             }
         }
 
@@ -235,17 +246,17 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
-            if($table = $this->getTable())
+            if($this->isConnected())
             {
                 //Excplicitly get a count query, build functions can then test if the
                 //query is a count query and decided how to build the query.
-                $query = $table->getDatabase()->getQuery()->count(); 
+                $query = $this->getTable()->getDatabase()->getQuery()->count(); 
                 
                 $this->_buildQueryFrom($query);
                 $this->_buildQueryJoins($query);
                 $this->_buildQueryWhere($query);
 
-                $total = $table->count($query);
+                $total = $this->getTable()->count($query);
                 $this->_total = $total;
             }
         }
@@ -263,15 +274,15 @@ class KModelTable extends KModelAbstract
     {   
         if (!isset($this->_column[$column])) 
         {   
-            if($table = $this->getTable()) 
+            if($this->isConnected()) 
             {
-                $query = $table->getDatabase()->getQuery()
+                $query = $this->getTable()->getDatabase()->getQuery()
                     ->distinct()
-                    ->group('tbl.'.$table->mapColumns($column));
+                    ->group('tbl.'.$this->getTable()->mapColumns($column));
 
                 $this->_buildQueryOrder($query);
                         
-                $this->_column[$column] = $table->select($query);
+                $this->_column[$column] = $this->getTable()->select($query);
             }
         }
             
