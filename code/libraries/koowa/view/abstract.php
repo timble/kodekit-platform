@@ -60,9 +60,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		$this->mimetype = $config->mimetype;
 
 		// set the model
-		if(!empty($config->model)) {
-			$this->setModel($config->model);
-		}
+		$this->setModel($config->model);
 	}
 
     /**
@@ -75,8 +73,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
      */
     protected function _initialize(KConfig $config)
     {
-    	$config->append(array(
-			'model'   		=> null,
+        $config->append(array(
+			'model'   		=> $this->getName(),
 	    	'output'		=> '',
     		'mimetype'		=> ''
 	  	));
@@ -123,14 +121,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function getModel()
 	{
-		if(!$this->_model)
-		{
-			$identifier	= clone $this->_identifier;
-			$name = array_pop($identifier->path);
-			$identifier->name	= KInflector::isPlural($name) ? $name : KInflector::pluralize($name);
-			$identifier->path	= array('model');
-			
-			$this->_model = KFactory::tmp($identifier);
+		if(!$this->_model instanceof KModelAbstract) {
+			$this->_model = KFactory::tmp($this->_model);
 		}
        	
 		return $this->_model;
@@ -144,20 +136,32 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 * @throws	KViewException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
 	 */
-	public function setModel($model)
+    public function setModel($model)
 	{
 		if(!($model instanceof KModelAbstract))
 		{
-			$identifier = KFactory::identify($model);
-			
-			if($identifier->path[0] != 'model') {
-				throw new KViewException('Identifier: '.$identifier.' is not a model identifier');
+	        if(is_string($model) && strpos($model, '.') === false ) 
+		    {
+			    // Model names are always plural
+			    if(KInflector::isSingular($model)) {
+				    $model = KInflector::pluralize($model);
+			    } 
+		        
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('model');
+			    $identifier->name	= $model;
 			}
-		
-			$model = KFactory::tmp($identifier);
+			else $identifier = KFactory::identify($model);
+		    
+			if($identifier->path[0] != 'model') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
+			}
+
+			$model = $identifier;
 		}
 		
 		$this->_model = $model;
+		
 		return $this;
 	}
 
