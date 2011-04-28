@@ -242,7 +242,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 */
 	public function reset()
 	{
-		$result = false;
+		$result = parent::reset();
 		
 		if($this->isConnected())
 		{
