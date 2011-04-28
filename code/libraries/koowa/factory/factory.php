@@ -214,10 +214,17 @@ class KFactory
 	 */
 	public static function has($identifier)
 	{
-		$objIdentifier = self::identify($identifier);
-		$strIdentifier = (string) $objIdentifier;
-
-		return (bool) self::$_registry->offsetExists($strIdentifier);
+		try 
+		{
+	        $objIdentifier = self::identify($identifier);
+	        $strIdentifier = (string) $objIdentifier;
+	        $result = (bool) self::$_registry->offsetExists($strIdentifier);
+		
+		} catch (KIdentifierException $e) {
+		    $result = false;
+		}
+ 		
+		return $result;
 	}
 	
 	/**
