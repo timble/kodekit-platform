@@ -22,11 +22,12 @@ class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
 	public function  _initialize(KConfig $config) 
   	{
 		$config->identity_column = 'id';
-		
+		$cascadable   = KDatabaseBehavior::factory('com.sections.database.behavior.cascadable',
+		        array('dependents' => array('admin::com.categories.model.categories.parent')));
 		$config->append(array(
     		'name' 			=> 'sections',
 			'base' 			=> 'sections',
-			'behaviors'		=>  array('lockable', 'orderable', 'sluggable'),
+			'behaviors'		=>  array('lockable', 'orderable', 'sluggable', $cascadable),
     		'column_map'	=>  
 				array(
 					'enabled' 	=> 'published',
