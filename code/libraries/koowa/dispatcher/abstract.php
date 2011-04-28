@@ -47,9 +47,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		$this->_request_persistent = $config->request_persistent;
 		
 		//Set the controller
-		if(!isset($this->_controller)) {
-		    $this->_controller = $config->controller;
-		}
+		$this->setController($config->controller);
 		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
@@ -78,35 +76,21 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     }
     
 	/**
-	 * Method to get a controller identifier
+	 * Method to get a controller object
 	 *
-	 * @return	object	The controller.
+	 * @return	KControllerAbstract
 	 */
 	public function getController()
 	{
-		if(!$this->_controller instanceof KControllerAbstract)
-		{ 
-		    if(is_string($this->_controller) && strpos($this->_controller, '.') === false ) 
-		    {
-		        // Controller names are always singular
-			    if(KInflector::isPlural($this->_controller)) {
-				    $this->_controller = KInflector::singularize($this->_controller);
-			    } 
-			    
-		        //Created the identifier
-			    $identifier			= clone $this->_identifier;
-			    $identifier->path	= array('controller');
-			    $identifier->name	= $this->_controller;
-			}
-			else $identifier = $this->_controller;
-		    
+		if(!($this->_controller instanceof KControllerAbstract))
+		{  
 			$config = array(
         		'request' 	   => $this->_request,
         		'persistent'   => $this->_request_persistent,
 			    'dispatched'   => true	
         	);
         	
-			$this->_controller = KFactory::tmp($identifier, $config);
+			$this->_controller = KFactory::tmp($this->_controller, $config);
 		}
 	
 		return $this->_controller;
@@ -118,13 +102,24 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
 	 * @throws	KDispatcherException	If the identifier is not a controller identifier
-	 * @return	KDispatcherAbstract or KIdentifier object
+	 * @return	KDispatcherAbstract
 	 */
 	public function setController($controller)
 	{
 		if(!($controller instanceof KControllerAbstract))
 		{
-			$identifier = KFactory::identify($controller);
+			if(is_string($controller) && strpos($controller, '.') === false ) 
+		    {
+		        // Controller names are always singular
+			    if(KInflector::isPlural($controller)) {
+				    $controller = KInflector::singularize($controller);
+			    } 
+			    
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('controller');
+			    $identifier->name	= $controller;
+			}
+		    else $identifier = KFactory::identify($controller);
 
 			if($identifier->path[0] != 'controller') {
 				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
