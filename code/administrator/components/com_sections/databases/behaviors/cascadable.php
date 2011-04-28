@@ -25,11 +25,14 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 	/**
 	 * Constructor.
 	 *
+	 * $config->dependents array An array of identifiers of the dependent tables 
+	 * in the format: app::com.package.model.name.column where column contains the 'foreign key'
+	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
 	public function __construct( KConfig $config = null) 
 	{ 
-		$this->_dependents = $config->dependents;
+	    $this->_dependents = $config->dependents;
 		
 		parent::__construct($config);
 	}    
