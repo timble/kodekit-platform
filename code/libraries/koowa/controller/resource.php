@@ -130,11 +130,10 @@ abstract class KControllerResource extends KControllerPage
 	{
 		$rowset   = $this->getModel()->getList();
 		$resource = ucfirst($this->getView()->getName());
-		
-		//@TODO : Review NOT_FOUND for empty browse lists
-		/*if(!count($rowset)) {
-		   $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
-		}*/
+	
+		if(!count($rowset)) {
+		   $context->status(KHttpResponse::NO_CONTENT);
+		}
 		
 		return $rowset;
 	}
