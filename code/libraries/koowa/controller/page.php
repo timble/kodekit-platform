@@ -62,15 +62,11 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 		parent::__construct($config);
 
-		 // Set the view identifier
-		if(!isset($this->_view)) {
-		    $this->_view = $config->view;
-		}
-		
 	    // Set the model identifier
-	    if(!isset($this->_model)) {
-		    $this->_model = $config->model;
-	    }
+	    $this->setModel($config->model);
+		
+		// Set the view identifier
+		$this->setView($config->view);
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
@@ -97,8 +93,13 @@ abstract class KControllerPage extends KControllerAbstract
     	    'model'	          => $this->_identifier->name,
         	'view'	          => $this->_identifier->name,
         ));
-
+        
         parent::_initialize($config);
+        
+        //Force the view to the information found in the request
+        if(isset($config->request->view)) {
+            $config->view = $config->request->view;
+        }
     }
     
  	/**
@@ -123,22 +124,15 @@ abstract class KControllerPage extends KControllerAbstract
 	public function getView()
 	{
 	    if(!$this->_view instanceof KViewAbstract)
-		{	  
-		    if(is_string($this->_view) && strpos($this->_view, '.') === false ) 
-		    {
-			    $identifier			= clone $this->_identifier;
-			    $identifier->path	= array('view', $this->_view);
-			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
-			}
-			else $identifier = $this->_view;
-		    
-			//Enable the auto-filtering if the controller was dispatched or if the MVC triad was
-			//called outside of the dispatcher.
+		{	   
+			//Enable the auto-filtering if the controller was dispatched or 
+			//if the MVC triad was called outside of the dispatcher.
 			$config = array(
+			    'model'        => $this->getModel(),
 			    'auto_filter'  => $this->isDispatched() || !KFactory::has('dispatcher')
         	);
         	
-			$this->_view = KFactory::tmp($identifier, $config);
+			$this->_view = KFactory::tmp($this->_view, $config);
 		}
 		
 		return $this->_view;
@@ -156,8 +150,14 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 		if(!($view instanceof KViewAbstract))
 		{
-			$identifier = KFactory::identify($view);
-
+			if(is_string($view) && strpos($view, '.') === false ) 
+		    {
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('view', $view);
+			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
+			}
+			else $identifier = KFactory::identify($view);
+		    
 			if($identifier->path[0] != 'view') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
 			}
@@ -177,22 +177,8 @@ abstract class KControllerPage extends KControllerAbstract
 	 */
 	public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract)
-		{
-            if(is_string($this->_model) && strpos($this->_model, '.') === false ) 
-		    {
-			    // Model names are always plural
-			    if(KInflector::isSingular($this->_model)) {
-				    $this->_model = KInflector::pluralize($this->_model);
-			    } 
-		        
-			    $identifier			= clone $this->_identifier;
-			    $identifier->path	= array('model');
-			    $identifier->name	= $this->_model;
-			}
-			else $identifier = $this->_model;
-			
-			$this->_model = KFactory::tmp($identifier);
+		if(!$this->_model instanceof KModelAbstract) {
+			$this->_model = KFactory::tmp($this->_model);
 		}
 
 		return $this->_model;
@@ -210,8 +196,19 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 		if(!($model instanceof KModelAbstract))
 		{
-			$identifier = KFactory::identify($model);
-
+	        if(is_string($model) && strpos($model, '.') === false ) 
+		    {
+			    // Model names are always plural
+			    if(KInflector::isSingular($model)) {
+				    $model = KInflector::pluralize($model);
+			    } 
+		        
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('model');
+			    $identifier->name	= $model;
+			}
+			else $identifier = KFactory::identify($model);
+		    
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
 			}
@@ -278,8 +275,10 @@ abstract class KControllerPage extends KControllerAbstract
             $view->setLayout($this->_request->layout);
 	     }
 	     
-        //Render the view and return the output
-		return $view->display();
+	    //Render the view
+        $result = $view->display();
+	     
+		return $result;
 	}
 	
 	/**
@@ -339,22 +338,6 @@ abstract class KControllerPage extends KControllerAbstract
         $context->headers = array('Allow' => $result); 
 	}
 	
-	/**
-     * Set a request properties
-     *
-     * @param  	string 	The property name.
-     * @param 	mixed 	The property value.
-     */
- 	public function __set($property, $value)
-    {          
-        //If the request contains view information set it the view variable
-        if($property == 'view') {
-    	    $this->_view = $value;
-    	}
-    	
-        parent::__set($property, $value);       
-  	}
-
 	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
 	 * properties by using the request property name as the method name.
