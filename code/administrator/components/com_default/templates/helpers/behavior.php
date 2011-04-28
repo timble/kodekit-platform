@@ -40,7 +40,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 		// Only load once
 		if (!isset($this->_loaded['mootools'])) 
 		{
-		    JHtml::_('behavior.mootools', $config->debug);
+		    JHTML::_('behavior.mootools', $config->debug);
 			$this->_loaded['mootools'] = true;
 		}
 
