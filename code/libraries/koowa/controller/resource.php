@@ -96,25 +96,28 @@ abstract class KControllerResource extends KControllerPage
 	}
 	
 	/**
-	 * Get the view object attached to the controller
+	 * Method to set a view object attached to the controller
 	 *
-	 * @return	KViewAbstract
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
+	 * @return	KControllerAbstract
 	 */
-    public function getView()
+    public function setView($view)
 	{
-	    if(!$this->_view instanceof KViewAbstract)
+	    if(is_string($view) && strpos($view, '.') === false ) 
 		{	
 		    if(!isset($this->_request->view)) 
 		    { 
 		        if($this->getModel()->getState()->isUnique()) {
-			        $this->_view = KInflector::singularize($this->_view);
+			        $view = KInflector::singularize($view);
 		        } else {
-			        $this->_view = KInflector::pluralize($this->_view);
+			        $view = KInflector::pluralize($view);
 	    	    }
 		    }
 		}
 		
-		return parent::getView();
+		return parent::setView($view);
 	}
 	
 	/**
@@ -266,8 +269,8 @@ abstract class KControllerResource extends KControllerPage
                 $view->setLayout($this->_request->layout);
             }
 		    
-            //Set the model in the view
-            $result = $view->setModel($this->getModel())->display();
+            //Render the view
+            $result = $view->display();
 		}
 		
 		return $result;
