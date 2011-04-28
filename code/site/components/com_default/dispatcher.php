@@ -19,6 +19,24 @@
  */
 class ComDefaultDispatcher extends KDispatcherDefault
 { 
+ 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        parent::_initialize($config);
+        
+        //Force the controller to the information found in the request
+        if($config->request->view) {
+            $config->controller = $config->request->view;
+        }
+    }
+    
     /**
      * Dispatch the controller and redirect
      * 
@@ -63,19 +81,4 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         return parent::_actionRender($context);
     }
-    
-	/**
-     * Set a request property
-     *
-     * @param  	string 	The property name.
-     * @param 	mixed 	The property value.
-     */
- 	public function __set($property, $value)
-    {          
-        if($property == 'view') {
-    	    $this->_controller = $value;
-    	}
-    	
-        parent::__set($property, $value);       
-  	}
 }
