@@ -286,7 +286,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     }
     
     /**
-     * Get a filter by identifier
+     * Get a behavior by identifier
      *
      * @return array    An asscociate array of filters keys are the filter identifiers
      */
