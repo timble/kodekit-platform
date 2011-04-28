@@ -263,7 +263,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
      */
     public function append($config)
     {
-        $config = (array) $config;
+        $config = KConfig::toData($config); 
         
         if(!is_numeric(key($config))) 
         {
@@ -272,7 +272,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
                 if(array_key_exists($key, $this->_data)) 
                 {
                     if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
-                        $this->_data[$key] = $this->_data[$key]->append((array)$value);
+                        $this->_data[$key] = $this->_data[$key]->append($value);
                     }
                 } 
                 else $this->__set($key, $value);
