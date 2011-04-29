@@ -219,6 +219,25 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
     {   
         return $this->_column[$column];
     }
+    
+	/**
+     * Get the model data
+     * 
+     * If the model state is unique this function will call getItem(), otherwise
+     * it will calle getList().
+     *
+     * @return KDatabaseRowset or KDatabaseRow
+     */
+    public function getData()
+    {
+        if($this->_state->isUnique()) {
+            $data = $this->getItem();
+        } else {
+            $data = $this->getList();
+        }
+
+        return $data;
+    }
 
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by
