@@ -29,39 +29,53 @@ class ComDefaultControllerForm extends KControllerResource
     {
         parent::__construct($config);
         
-        $this->registerCallback('before.read'  , array($this, 'saveReferrer'));
-		$this->registerCallback('before.browse', array($this, 'saveReferrer'));
-		
+        $this->registerCallback('before.read' , array($this, 'setReferrer'));
+        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+		$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+	
 		$this->registerCallback('after.read'  , array($this, 'lockResource'));
-		$this->registerCallback('after.edit'  , array($this, 'unlockResource'));
+		$this->registerCallback('after.save'  , array($this, 'unlockResource'));
 		$this->registerCallback('after.cancel', array($this, 'unlockResource'));
-
+		
         //Set default redirect
 		$this->_redirect = KRequest::referrer();
     }
           
 	/**
-	 * Store the referrer in the session
+	 * Set the referrer in the session
 	 *
 	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
-	public function saveReferrer(KCommandContext $context)
-	{								
-		$referrer = KRequest::referrer();
-		
-		if(isset($referrer) && KRequest::type() == 'HTTP')
-		{
-			$request  = KRequest::url();
-			
-			$request->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
-			$referrer->get(KHttpUri::PART_PATH | KHttpUri::PART_QUERY);
-			
-			//Compare request url and referrer
-			if($request != $referrer) {
-				KRequest::set('session.com.controller.referrer', (string) $referrer);
-			}
+	public function setReferrer(KCommandContext $context)
+	{								   
+	    if(!$referrer = KRequest::get('session.com.controller.referrer', 'url'))
+	    {
+	        $referrer = KRequest::referrer();
+	               
+	       //If we don't have a referrer set the plural view
+		    if(!isset($referrer))
+		    {
+		        $option = 'com_'.$this->_identifier->package;
+		        $view   = KInflector::pluralize($this->_identifier->name);
+		        $url    = 'index.php?option='.$option.'&view='.$view;
+		    
+		        $referrer = KFactory::tmp('lib.koowa.http.uri',array('uri' => $url));
+		    }
+		    
+			KRequest::set('session.com.controller.referrer', (string) $referrer);
 		}
+	}
+	
+	/**
+	 * Unset the referrer from the session
+	 *
+	 * @param 	KCommandContext		The active command context
+	 * @return void
+	 */
+	public function unsetReferrer(KCommandContext $context)
+	{								  
+	    KRequest::set('session.com.controller.referrer', null);
 	}
 	
 	/**
@@ -115,11 +129,12 @@ class ComDefaultControllerForm extends KControllerResource
 	protected function _actionSave(KCommandContext $context)
 	{
 		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
-		$result = parent::execute($action, $context);
+		$data   = parent::execute($action, $context);
 	    
 		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
-		return $result;
+	
+		return $data;
 	}
 
 	/**
@@ -137,12 +152,25 @@ class ComDefaultControllerForm extends KControllerResource
 	protected function _actionApply(KCommandContext $context)
 	{
 		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
-		$result = parent::execute($action, $context);
+		$data   = parent::execute($action, $context);
 		
 		//Create the redirect
-		$this->_redirect = KRequest::url();
+		$url  = clone KRequest::url();
+	
+		if($this->getModel()->getState()->isUnique())
+		{
+	        $url    = clone KRequest::url();
+	        $states = $this->getModel()->getState()->getData(true);
 		
-		return $result;
+		    foreach($states as $key => $value) {
+		        $url->query[$key] = $data->get($key);
+		    }
+		}
+		else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
+		
+		$this->_redirect = $url;
+		
+		return $data;
 	}
 	
 	/**
@@ -156,10 +184,11 @@ class ComDefaultControllerForm extends KControllerResource
 	protected function _actionCancel(KCommandContext $context)
 	{
 		//Don't pass through the command chain
-		$row = parent::_actionRead($context);
+		$data = parent::_actionRead($context);
 
 		//Create the redirect
 		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
-		return $row;
+		
+		return $data;
 	}
 }
