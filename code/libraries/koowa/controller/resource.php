@@ -128,13 +128,7 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionBrowse(KCommandContext $context)
 	{
-		$rowset   = $this->getModel()->getList();
-		$resource = ucfirst($this->getView()->getName());
-	
-		if(!count($rowset)) {
-		   $context->status(KHttpResponse::NO_CONTENT);
-		}
-		
+		$rowset  = $this->getModel()->getList();
 		return $rowset;
 	}
 
