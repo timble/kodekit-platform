@@ -52,9 +52,10 @@ class ComDefaultControllerForm extends KControllerResource
 	    if(!$referrer = KRequest::get('session.com.controller.referrer', 'url'))
 	    {
 	        $referrer = KRequest::referrer();
-	               
-	       //If we don't have a referrer set the plural view
-		    if(!isset($referrer))
+	        $request  = KRequest::url();
+			
+			//Compare request url and referrer
+	        if(!isset($referrer) || ((string) $referrer == (string) $request))
 		    {
 		        $option = 'com_'.$this->_identifier->package;
 		        $view   = KInflector::pluralize($this->_identifier->name);
@@ -62,7 +63,7 @@ class ComDefaultControllerForm extends KControllerResource
 		    
 		        $referrer = KFactory::tmp('lib.koowa.http.uri',array('uri' => $url));
 		    }
-		    
+	        
 			KRequest::set('session.com.controller.referrer', (string) $referrer);
 		}
 	}
