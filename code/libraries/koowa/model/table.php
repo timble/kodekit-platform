@@ -35,7 +35,7 @@ class KModelTable extends KModelAbstract
     {
         parent::__construct($config);
 
-        $this->setTable($config->table);
+       $this->_table = $config->table;
       
         // Set the static states
         $this->_state
@@ -52,7 +52,7 @@ class KModelTable extends KModelAbstract
             if(!empty($config->table_behaviors)) {
                 $this->getTable()->addBehaviors($config->table_behaviors);
             }
-        
+           
             // Set the dynamic states based on the unique table keys
             foreach($this->getTable()->getUniqueColumns() as $key => $column) {
                 $this->_state->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
@@ -113,6 +113,11 @@ class KModelTable extends KModelAbstract
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
+		        //Make sure we have a table identifier
+		        if(!($this->_table instanceof KIndetifier)) {
+		            $this->setTable($this->_table);
+			    }
+		        
 		        try {
 		            $this->_table = KFactory::get($this->_table);
                 } catch (KDatabaseTableException $e) {
@@ -235,7 +240,7 @@ class KModelTable extends KModelAbstract
 
         return $this->_list;
     }
-
+    
     /**
      * Get the total amount of items
      *
