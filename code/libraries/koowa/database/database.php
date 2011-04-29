@@ -50,8 +50,7 @@ class KDatabase
 	 */
 	const STATUS_LOADED   = 'loaded';
 	const STATUS_DELETED  = 'deleted';
-    const STATUS_INSERTED = 'inserted';
-    const STATUS_UPDATED  = 'updated';
+    const STATUS_INSERTED = 'added';
+    const STATUS_UPDATED  = 'edited';
     const STATUS_FAILED   = 'failed';
-	
 }
