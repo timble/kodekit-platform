@@ -72,7 +72,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	
 		// Set the table indentifier
     	if(isset($config->view)) {
-			$this->setView($config->view);
+			$this->_view = $config->view;
 		}
 			
 		//Register the template stream wrapper
@@ -126,7 +126,12 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	{
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
-			$this->_view = KFactory::tmp($this->_view, $config);
+		    //Make sure we have a view identifier
+		    if(!($this->_view instanceof KIndetifier)) {
+		        $this->setView($this->_view);
+            }
+		    
+		    $this->_view = KFactory::tmp($this->_view, $config);
 		}
 		
 		return $this->_view;
