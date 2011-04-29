@@ -35,7 +35,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		$this->setTable($config->table);
+		$this->_table = $config->table;
 			
 		// Reset the row
         $this->reset();
@@ -77,6 +77,11 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
+		        //Make sure we have a table identifier
+		        if(!($this->_table instanceof KIndetifier)) {
+		            $this->setTable($this->_table);
+			    }
+		        
 		        try {
 		            $this->_table = KFactory::get($this->_table);
                 } catch (KDatabaseTableException $e) {
@@ -156,7 +161,6 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 			        $this->setStatus(KDatabase::STATUS_LOADED);
 			        $result = true;
 		        }
-		        else $this->setStatus(KDatabase::STATUS_FAILED);
             }
 		}
 	
@@ -179,26 +183,23 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	    {
 	        if($this->_new) 
 	        {
-		        $result = $this->getTable()->insert($this);
-		    
-		        if($result !== false) {
-                    $this->setStatus(KDatabase::STATUS_INSERTED);
-                } else {
-                    $this->setStatus(KDatabase::STATUS_FAILED); 
-                }
+		        $status = KDatabase::STATUS_INSERTED;
+	            $result = $this->getTable()->insert($this);
 		    } 
 		    else 
 		    {
-			    $result = $this->getTable()->update($this);
-			
-			    if($result > 0 ) {
-			        $this->setStatus(KDatabase::STATUS_UPDATED);
-			    }
-            
-			    if($result <= 0) {
-			        $this->setStatus(KDatabase::STATUS_FAILED);
-			    }
+			    $status = KDatabase::STATUS_UPDATED;
+		        $result = $this->getTable()->update($this); 
 		    }
+		    
+	        if($result !== false) 
+	        {
+	            if(((integer) $result) > 0) {   
+	                $this->setStatus($status);
+	            } else {
+	                $this->setStatus(KDatabase::STATUS_FAILED);
+	            }
+            }
 	    }
 
 		return (bool) $result;
@@ -219,15 +220,13 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		    {
 		        $result = $this->getTable()->delete($this);
 		    
-		        if($result !== false)
-                {
-                    if($result > 0) {
-                        $this->setStatus(KDatabase::STATUS_DELETED);
-                    }
-            
-                    if($result <= 0) {
-                        $this->setStatus(KDatabase::STATUS_FAILED);
-                    }
+		        if($result !== false) 
+	            {
+	                if(((integer) $result) > 0) {   
+	                    $this->setStatus(KDatabase::STATUS_DELETED);
+	                } else {
+	                    $this->setStatus(KDatabase::STATUS_FAILED);
+	                }
                 }
 		    }
 		}
