@@ -680,15 +680,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             //Execute the insert query
             $context->affected = $this->_database->insert($context->table, $data);
             
-            if($context->affected !== false)
+            if($context->affected !== false) 
             {
-                if($this->getIdentityColumn()) {
-                    $data[$this->getIdentityColumn()] = $this->_database->getInsertId();
-                }
+                if(((integer) $context->affected) > 0)
+                {
+                    if($this->getIdentityColumn()) {
+                        $data[$this->getIdentityColumn()] = $this->_database->getInsertId();
+                    }
                 
-                //Reverse apply the column mappings and set the data in the row
-                $context->data->setData($this->mapColumns($data, true), false)
-                              ->setStatus(KDatabase::STATUS_INSERTED);
+                    //Reverse apply the column mappings and set the data in the row
+                    $context->data->setData($this->mapColumns($data, true), false)
+                                  ->setStatus(KDatabase::STATUS_INSERTED);
+                }
+                else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
                 
             $this->getCommandChain()->run('after.insert', $context);
@@ -732,16 +736,17 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             //Execute the update query
             $context->affected = $this->_database->update($context->table, $data, $query);
             
-            if($context->affected !== false)
+            if($context->affected !== false) 
             {
-                //Reverse apply the column mappings and set the data in the row
-                if($context->affected > 0 ) 
-                {      
+                if(((integer) $context->affected) > 0)
+                {
+                    //Reverse apply the column mappings and set the data in the row
                     $context->data->setData($this->mapColumns($data, true), false)
                                   ->setStatus(KDatabase::STATUS_UPDATED);
                 }
-            }
-            
+                else $context->data->setStatus(KDatabase::STATUS_FAILED);
+            }      
+              
             //Set the query in the context
             $context->query = $query;
             
@@ -781,9 +786,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
             //Set the query in the context
             if($context->affected !== false) 
-            {   
-                $context->query = $query;
-                $context->data->setStatus(KDatabase::STATUS_DELETED);
+            {
+                if(((integer) $context->affected) > 0) 
+                {   
+                    $context->query = $query;
+                    $context->data->setStatus(KDatabase::STATUS_DELETED);
+                }
+                else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
             
             $this->getCommandChain()->run('after.delete', $context);
