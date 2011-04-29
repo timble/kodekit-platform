@@ -47,7 +47,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		$this->_request_persistent = $config->request_persistent;
 		
 		//Set the controller
-		$this->setController($config->controller);
+		$this->_controller = $config->controller;
 		
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
@@ -84,7 +84,12 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		if(!($this->_controller instanceof KControllerAbstract))
 		{  
-			$config = array(
+		    //Make sure we have a controller identifier
+		    if(!($this->_controller instanceof KIndetifier)) {
+		        $this->setController($this->_controller);
+			}
+		    
+		    $config = array(
         		'request' 	   => $this->_request,
         		'persistent'   => $this->_request_persistent,
 			    'dispatched'   => true	
