@@ -128,8 +128,8 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionBrowse(KCommandContext $context)
 	{
-		$rowset  = $this->getModel()->getList();
-		return $rowset;
+		$data = $this->getModel()->getList();
+		return $data;
 	}
 
 	/**
@@ -140,14 +140,14 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionRead(KCommandContext $context)
 	{
-	    $row      = $this->getModel()->getItem();
-	    $resource = ucfirst($this->getView()->getName());
+	    $data = $this->getModel()->getItem();
+	    $name = ucfirst($this->getView()->getName());
 	    	
-		if($this->getModel()->getState()->isUnique() && $row->isNew()) {
-		    $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
+		if($this->getModel()->getState()->isUnique() && $data->isNew()) {
+		    $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
 		} 
 		
-		return $row;
+		return $data;
 	}
 
 	/**
@@ -158,22 +158,22 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionEdit(KCommandContext $context)
 	{ 
-	    $rowset   = $this->getModel()->getList();
-	    $resource = ucfirst($this->getView()->getName());
+	    $data = $this->getModel()->getData();
+	    $name = ucfirst($this->getView()->getName());
 								
-	    if(count($rowset)) 
+	    if(count($data)) 
 	    {
-	        $rowset->setData(KConfig::toData($context->data));
+	        $data->setData(KConfig::toData($context->data));
 	        
-	        if($rowset->save()) {
+	        if($data->save()) {
 		        $context->status = KHttpResponse::RESET_CONTENT;
 		    } else {
 		        $context->status = KHttpResponse::NO_CONTENT;
 		    }
 		} 
-		else $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
+		else $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
 					
-		return $rowset;
+		return $data;
 	}
 
 	/**
@@ -184,25 +184,25 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionAdd(KCommandContext $context)
 	{
-		$row      = $this->getModel()->getItem();
-		$resource = ucfirst($this->getView()->getName());
+		$data = $this->getModel()->getItem();
+		$name = ucfirst($this->getView()->getName());
 				
-		if($row->isNew())	
+		if($data->isNew())	
 		{	
-		    $row->setData(KConfig::toData($context->data));
+		    $data->setData(KConfig::toData($context->data));
 		    
-		    if(!$row->save()) 
+		    if(!$data->save()) 
 		    {    
 		        $context->setError(new KControllerException(
-		           $resource.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		           $name.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		        ));
 		       
 		    } 
 		    else $context->status = KHttpResponse::CREATED;
 		} 
-		else $context->setError(new KControllerException($resource.' Already Exists', KHttpResponse::BAD_REQUEST));
+		else $context->setError(new KControllerException($name.' Already Exists', KHttpResponse::BAD_REQUEST));
 				
-		return $row;
+		return $data;
 	}
 
 	/**
@@ -213,24 +213,24 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionDelete(KCommandContext $context)
 	{
-	    $rowset   = $this->getModel()->getList();
-	    $resource = ucfirst($this->getView()->getName());
+	    $data = $this->getModel()->getData();
+	    $name = ucfirst($this->getView()->getName());
 							
-		if(count($rowset)) 
+		if(count($data)) 
 	    {
-            $rowset->setData(KConfig::toData($context->data));
+            $data->setData(KConfig::toData($context->data));
 	        
-	        if(!$rowset->delete()) 
+	        if(!$data->delete()) 
 	        {
                  $context->setError(new KControllerException(
-		             $resource.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		             $name.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		         ));  
 		    } 
 		    else  $context->status = KHttpResponse::NO_CONTENT;
 		} 
-		else  $context->setError(new KControllerException($resource.' Not Found', KHttpResponse::NOT_FOUND));
+		else  $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
 					
-		return $rowset;
+		return $data;
 	}
 	
 	/**
@@ -251,10 +251,10 @@ abstract class KControllerResource extends KControllerPage
 	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 	    
 	    //Execute the action
-		$result = $this->execute($action, $context);
+		$data = $this->execute($action, $context);
 		
 		//Only process the result if a valid row or rowset object has been returned
-		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface))
+		if(($data instanceof KDatabaseRowInterface) || ($data instanceof KDatabaseRowsetInterface))
 		{
             $view = $this->getView();
 		   
@@ -263,10 +263,10 @@ abstract class KControllerResource extends KControllerPage
             }
 		    
             //Render the view
-            $result = $view->display();
+            $data = $view->display();
 		}
 		
-		return $result;
+		return $data;
 	}
 	
 	/**
@@ -301,19 +301,19 @@ abstract class KControllerResource extends KControllerPage
 	 */
 	protected function _actionPut(KCommandContext $context)
 	{   
-	    $row = $this->getModel()->getItem();
+	    $data = $this->getModel()->getItem();
 	        
         $action = 'add';
-	    if(!$row->isNew()) 
+	    if(!$data->isNew()) 
 	    {
 	        //Reset the row data
-	        $row->reset();
+	        $data->reset();
 	        $action = 'edit';
         }
 	            
         //Set the row data based on the unique state information
 	    $state = $this->getModel()->getState()->getData(true);
-	    $row->setData($state);
+	    $data->setData($state);
 	             
         return parent::execute($action, $context); 
 	}
