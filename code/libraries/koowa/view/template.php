@@ -108,7 +108,7 @@ abstract class KViewTemplate extends KViewAbstract
         $this->setLayout($config->layout);
         
         // set the template object
-        $this->setTemplate($config->template);
+        $this->_template = $config->template;
              
         //Set the template filters
         if(!empty($config->template_filters)) {
@@ -320,6 +320,11 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(!$this->_template instanceof KTemplateAbstract)
         {
+            //Make sure we have a template identifier
+            if(!($this->_template instanceof KIndetifier)) {
+                $this->setTemplate($this->_template);
+            }
+            
             $options = array(
             	'view' => $this
             );
