@@ -63,10 +63,10 @@ abstract class KControllerPage extends KControllerAbstract
 		parent::__construct($config);
 
 	    // Set the model identifier
-	    $this->setModel($config->model);
+	    $this->_model = $config->model;
 		
 		// Set the view identifier
-		$this->setView($config->view);
+		$this->_view = $config->view;
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
@@ -102,20 +102,6 @@ abstract class KControllerPage extends KControllerAbstract
         }
     }
     
- 	/**
-	 * Push the request data into the model state
-	 *
-	 * @param	string		The action to execute
-	 * @return	mixed|false The value returned by the called method, false in error case.
-	 * @throws 	KControllerException
-	 */
-	public function execute($action, $data = null)
-	{
-		$this->getModel()->set($this->getRequest());
-
-		return parent::execute($action, $data);
-	}
-    
 	/**
 	 * Get the view object attached to the controller
 	 *
@@ -125,7 +111,12 @@ abstract class KControllerPage extends KControllerAbstract
 	{
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
-			//Enable the auto-filtering if the controller was dispatched or 
+		    //Make sure we have a view identifier
+		    if(!($this->_view instanceof KIndetifier)) {
+		        $this->setView($this->_view);
+			}
+		    
+		    //Enable the auto-filtering if the controller was dispatched or 
 			//if the MVC triad was called outside of the dispatcher.
 			$config = array(
 			    'model'        => $this->getModel(),
@@ -177,8 +168,19 @@ abstract class KControllerPage extends KControllerAbstract
 	 */
 	public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract) {
-			$this->_model = KFactory::tmp($this->_model);
+		if(!$this->_model instanceof KModelAbstract) 
+		{
+			//Make sure we have a model identifier
+		    if(!($this->_model instanceof KIndetifier)) {
+		        $this->setModel($this->_model);
+			}
+		    
+		    //@TODO : Pass the state to the model using the options
+		    $options = array(
+				'state' => $this->_request
+            );
+		    
+		    $this->_model = KFactory::tmp($this->_model)->set($this->_request);
 		}
 
 		return $this->_model;
@@ -337,6 +339,24 @@ abstract class KControllerPage extends KControllerAbstract
         
         $context->headers = array('Allow' => $result); 
 	}
+	
+	/**
+     * Set a request properties
+     * 
+     * This function also pushes any request changes into the model
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {
+    	parent::__set($property, $value);
+    	
+    	//Prevent state changes through the parents constructor 
+    	if($this->_model instanceof KModelAbstract) {
+    	    $this->getModel()->set($property, $value);
+    	}
+  	}
 	
 	/**
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
