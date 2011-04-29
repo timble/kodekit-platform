@@ -36,7 +36,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 		parent::__construct($config);
 		
-		$this->setTable($config->table);
+		$this->_table = $config->table;
 			    
 		// Reset the rowset
         $this->reset();
@@ -78,6 +78,11 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
+		        //Make sure we have a table identifier
+		        if(!($this->_table instanceof KIndetifier)) {
+		            $this->setTable($this->_table);
+			    }
+		        
 		        try {
 		            $this->_table = KFactory::get($this->_table);
                 } catch (KDatabaseTableException $e) {
