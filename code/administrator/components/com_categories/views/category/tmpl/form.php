@@ -14,8 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route('id='.$category->id) ?>" method="post" name="adminForm">
 	<input type="hidden" name="section" value="<?= $category->id? $category->section : $state->section; ?>" />
-	<input type="hidden" name="id" value="<?= $category->id; ?>" />
-
+	
     <div class="grid_8">
  		<div class="border-radius-4 title clearfix">
 			<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
