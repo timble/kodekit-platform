@@ -37,7 +37,6 @@ function submitbutton(pressbutton) {
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" name="adminForm">
 	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
-	<input type="hidden" name="id" value="<?= $section->id; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 	
 	<div class="grid_8">
