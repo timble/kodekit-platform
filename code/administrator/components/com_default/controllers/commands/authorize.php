@@ -10,7 +10,7 @@
  */
 
 /**
- * Default Authorization Command
+ * Default Controller Authorization Command
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
@@ -33,20 +33,13 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
         
         if($parts[0] == 'before') 
         { 
-            //Check the token
-            if($context->caller->isDispatched())
-            {  
-                if((KRequest::method() != KHttpRequest::GET)) 
-                {     
-                    if( KRequest::token() !== JUtility::getToken()) 
-                    {
-                        $context->setError(new KControllerException(
-                        	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
-                        ));
-                        
-                        return false;
-                    }
-                }
+            if(!$this->_checkToken($context)) 
+            {    
+                $context->setError(new KControllerException(
+                	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
+                ));
+                
+                return false;
             }
         }
         
@@ -59,7 +52,7 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    public function canAdd(KCommandContext $context)
+    protected function _beforeControllerAdd(KCommandContext $context)
     {
         if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.create');
@@ -76,7 +69,7 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    public function canEdit(KCommandContext $context)
+    protected function _beforeControllerEdit(KCommandContext $context)
     {
         if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
@@ -93,7 +86,7 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    public function canDelete(KCommandContext $context)
+    protected function _beforeControllerDelete(KCommandContext $context)
     {
         if(version_compare(JVERSION,'1.6.0','ge')) {
             $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
@@ -102,5 +95,27 @@ class ComDefaultControllerCommandAuthorize extends KControllerCommandAuthorize
         }
           
         return $result;
+    }
+    
+    /**
+	 * Check the token to prevent CSRF exploits
+	 *
+	 * @param   object  The command context
+	 * @return  boolean Returns FAKSE if the check failed. Otherwise TRUE.
+	 */
+    protected function _checkToken(KCommandContext $context)
+    {
+        //Check the token
+        if($context->caller->isDispatched())
+        {  
+            if((KRequest::method() != KHttpRequest::GET)) 
+            {     
+                if( KRequest::token() !== JUtility::getToken()) {     
+                    return false;
+                }
+            }
+        }
+       
+        return true;
     }
 }
