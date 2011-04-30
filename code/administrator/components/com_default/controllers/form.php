@@ -40,16 +40,29 @@ class ComDefaultControllerForm extends KControllerResource
         //Set default redirect
 		$this->_redirect = KRequest::referrer();
     }
+    
+	/**
+	 * Get the referrer
+	 *
+	 * @return KHttpUri	A KHttpUri object. 
+	 */
+	public function getReferrer()
+	{
+	    $referrer = KFactory::tmp('lib.koowa.http.uri', 
+	        array('uri' => KRequest::get('cookie.com.controller.referrer', 'url'))
+	    );
+	    
+	    return $referrer;
+	}
           
 	/**
-	 * Set the referrer in the session
+	 * Set the referrer
 	 *
-	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
-	public function setReferrer(KCommandContext $context)
+	public function setReferrer()
 	{								   
-	    if(!$referrer = KRequest::get('session.com.controller.referrer', 'url'))
+	    if(!KRequest::has('cookie.com.controller.referrer'))
 	    {
 	        $referrer = KRequest::referrer();
 	        $request  = KRequest::url();
@@ -64,19 +77,18 @@ class ComDefaultControllerForm extends KControllerResource
 		        $referrer = KFactory::tmp('lib.koowa.http.uri',array('uri' => $url));
 		    }
 	        
-			KRequest::set('session.com.controller.referrer', (string) $referrer);
+			KRequest::set('cookie.com.controller.referrer', (string) $referrer);
 		}
 	}
 	
 	/**
-	 * Unset the referrer from the session
+	 * Unset the referrer
 	 *
-	 * @param 	KCommandContext		The active command context
 	 * @return void
 	 */
-	public function unsetReferrer(KCommandContext $context)
+	public function unsetReferrer()
 	{								  
-	    KRequest::set('session.com.controller.referrer', null);
+	    KRequest::set('cookie.com.controller.referrer', null);
 	}
 	
 	/**
@@ -133,8 +145,8 @@ class ComDefaultControllerForm extends KControllerResource
 		$data   = parent::execute($action, $context);
 	    
 		//Create the redirect
-		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
-	
+		$this->_redirect = $this->getReferrer();
+		
 		return $data;
 	}
 
@@ -188,8 +200,8 @@ class ComDefaultControllerForm extends KControllerResource
 		$data = parent::_actionRead($context);
 
 		//Create the redirect
-		$this->_redirect = KRequest::get('session.com.controller.referrer', 'url');
-		
+		$this->_redirect = $this->getReferrer();
+	
 		return $data;
 	}
 }
