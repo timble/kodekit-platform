@@ -10,7 +10,7 @@
  */
 
 /**
- * Default Controller Class
+ * Controller Authorize Command Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -39,6 +39,8 @@ class KControllerCommandAuthorize extends KCommand
 	/**
      * Command handler
      * 
+     * Only handles before.action commands to check ACL rules.
+     * 
      * @param   string      The command name
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
@@ -64,21 +66,17 @@ class KControllerCommandAuthorize extends KCommand
             }
                
             //Check the ACL rules
-            $method = 'can'.ucfirst($action);
-            if(in_array($method, $this->getMethods())) 
-            {                
-                if($this->$method($context) === false) 
-                {
-                    $context->setError(new KControllerException(
-                       'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
-                    ));
+            if(parent::execute($name, $context) === false) 
+            {
+                $context->setError(new KControllerException(
+                	'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
+                ));
                     
-                    $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
-                    return false;
-                }
-            } 
-        }
-        
+                $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
+                return false;
+            }
+        } 
+            
         return true; 
     }
     
@@ -88,7 +86,7 @@ class KControllerCommandAuthorize extends KCommand
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    public function canPut(KCommandContext $context)
+    protected function _beforeControllerPut(KCommandContext $context)
     {
 	    if(!$context->caller->getModel()->getState()->isUnique()) 
 	    {  
