@@ -159,7 +159,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'uri'  		=> '',
+			'url'  		=> '',
 			'options'  	=> array(),
 			'attribs'	=> array()
 		));
@@ -181,12 +181,12 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$this->_loaded['overlay'] = true;
 		}
 
-		$uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $config->uri));
-		$uri->query['tmpl'] = '';
+		$url = KFactory::tmp('lib.koowa.http.url', array('url' => $config->url));
+		$url->query['tmpl'] = '';
 		
 		$attribs = KHelperArray::toString($config->attribs);
 
-		$html .= '<div href="'.$uri.'" class="-koowa-overlay" id="'.$uri->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
+		$html .= '<div href="'.$url.'" class="-koowa-overlay" id="'.$url->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
 		return $html;
 	}
 	
