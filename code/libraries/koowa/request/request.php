@@ -27,28 +27,28 @@ class KRequest
     /**
      * URL of the request regardless of the server
      *
-     * @var KHttpUri
+     * @var KHttpUrl
      */
-    protected static $_uri = null;
+    protected static $_url = null;
 
     /**
      * Base path of the request.
      *
-     * @var KHttpUri
+     * @var KHttpUrl
      */
     protected static $_base = null;
     
     /**
      * Root path of the request.
      *
-     * @var KHttpUri
+     * @var KHttpUrl
      */
     protected static $_root = null;
 
     /**
      * Referrer of the request
      *
-     * @var KHttpUri
+     * @var KHttpUrl
      */
     protected static $_referrer = null;
     
@@ -331,7 +331,7 @@ class KRequest
      * @see     http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean     Only allow internal url's
-     * @return  KHttpUri    A KHttpUri object
+     * @return  KHttpUrl    A KHttpUrl object
      */
     public static function referrer($isInternal = true)
     {
@@ -339,7 +339,7 @@ class KRequest
         {
             if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) 
             {
-                self::$_referrer = KFactory::get('lib.koowa.http.uri', array('uri' => $referrer));
+                self::$_referrer = KFactory::get('lib.koowa.http.url', array('url' => $referrer));
                 
                 if($isInternal)
                 {
@@ -356,11 +356,11 @@ class KRequest
     /**
      * Return the URI of the request regardless of the server
      *
-     * @return  KHttpUri    A KHttpUri object
+     * @return  KHttpUrl    A KHttpUri object
      */
     public static function url()
     {
-        if(!isset(self::$_uri))
+        if(!isset(self::$_url))
         {
             /*
              * Since we are assigning the URI from the server variables, we first need
@@ -396,17 +396,17 @@ class KRequest
             $url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_uri = KFactory::tmp('lib.koowa.http.uri', array('uri' => $url));
+            self::$_url = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
 
         }
 
-        return self::$_uri;
+        return self::$_url;
     }
 
     /**
      * Returns the base path of the request.
      *
-     * @return  object  A KHttpUri object
+     * @return  object  A KHttpUrl object
      */
     public static function base()
     {
@@ -424,7 +424,7 @@ class KRequest
             // Sanitize the url since we can't trust the server var         
             $path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
                 
-            self::$_base = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
+            self::$_base = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
         }
         
         return self::$_base;
@@ -436,14 +436,14 @@ class KRequest
      * In most case this value will be the same as KRequest::base however it can be
      * changed by pushing in a different value
      *
-     * @return  object  A KHttpUri object
+     * @return  object  A KHttpUrl object
      */
     public static function root($path = null)
     {
         if(!is_null($path)) 
         {
-            if(!$path instanceof KhttpUri) {
-                $path = KFactory::tmp('lib.koowa.http.uri', array('uri' => $path));
+            if(!$path instanceof KhttpUrl) {
+                $path = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
             }
             
             self::$_root = $path;
