@@ -41,12 +41,12 @@ class ComDefaultControllerForm extends KControllerResource
 	/**
 	 * Get the referrer
 	 *
-	 * @return KHttpUri	A KHttpUri object. 
+	 * @return KHttpUrl	A KHttpUrl object. 
 	 */
 	public function getReferrer()
 	{
-	    $referrer = KFactory::tmp('lib.koowa.http.uri', 
-	        array('uri' => KRequest::get('cookie.com.controller.referrer', 'url'))
+	    $referrer = KFactory::tmp('lib.koowa.http.url', 
+	        array('url' => KRequest::get('cookie.com.controller.referrer', 'url'))
 	    );
 	    
 	    return $referrer;
@@ -71,7 +71,7 @@ class ComDefaultControllerForm extends KControllerResource
 		        $view   = KInflector::pluralize($this->_identifier->name);
 		        $url    = 'index.php?option='.$option.'&view='.$view;
 		    
-		        $referrer = KFactory::tmp('lib.koowa.http.uri',array('uri' => $url));
+		        $referrer = KFactory::tmp('lib.koowa.http.url',array('url' => $url));
 		    }
 	        
 			KRequest::set('cookie.com.controller.referrer', (string) $referrer);
