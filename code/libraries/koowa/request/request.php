@@ -519,6 +519,10 @@ class KRequest
         if( isset($_SERVER['HTTP_X_FLASH_VERSION'])) {
             $type = 'FLASH';
         }
+        
+        if(preg_match('/^(Shockwave|Adobe) Flash/', $_SERVER['HTTP_USER_AGENT']) == 1) {
+             $type = 'FLASH';
+        }
 
         return $type;
     }
