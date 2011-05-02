@@ -21,7 +21,7 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $sections );?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $groups );?>);" />
 			</td>
 			<td>
 				<?= @template('admin::com.default.view.list.search_form') ?>
