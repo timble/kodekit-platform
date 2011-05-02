@@ -265,27 +265,30 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
     {
         $config = KConfig::toData($config); 
         
-        if(!is_numeric(key($config))) 
+        if(is_array($config))
         {
-            foreach($config as $key => $value) 
+            if(!is_numeric(key($config))) 
             {
-                if(array_key_exists($key, $this->_data)) 
+                foreach($config as $key => $value) 
                 {
-                    if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
-                        $this->_data[$key] = $this->_data[$key]->append($value);
-                    }
-                } 
-                else $this->__set($key, $value);
-            }
-        }
-        else 
-        {
-             foreach($config as $value) 
-             { 
-                if (!in_array($value, $this->_data, true)) {
-                      $this->_data[] = $value; 
+                    if(array_key_exists($key, $this->_data)) 
+                    {
+                        if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
+                            $this->_data[$key] = $this->_data[$key]->append($value);
+                        }
+                    } 
+                    else $this->__set($key, $value);
                 }
-             } 
+            }
+            else 
+            {
+                foreach($config as $value) 
+                { 
+                    if (!in_array($value, $this->_data, true)) {
+                        $this->_data[] = $value; 
+                    }
+                 } 
+            }
         }
          
         return $this;
