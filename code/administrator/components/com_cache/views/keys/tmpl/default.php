@@ -36,7 +36,7 @@
 				<?= @template('admin::com.default.view.list.search_form') ?>
 			</td>
 			<td align="center"> 
-				<?= @helper('admin::com.cache.template.helper.listbox.groups', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
+				<?= @helper('listbox.groups', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
 			</td>
 			<td></td>
 			<td></td>
