@@ -7,8 +7,7 @@
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $keys );?>);" />
+			<th width="10">	
 			</th>
 			<th class="title" nowrap="nowrap">
 				<?= @helper('grid.sort',  array('column' => 'name', 'title' => 'Key')); ?>
@@ -31,7 +30,7 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $sections );?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $keys );?>);" />
 			</td>
 			<td>
 				<?= @template('admin::com.default.view.list.search_form') ?>
