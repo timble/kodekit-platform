@@ -48,11 +48,6 @@ class KModelTable extends KModelAbstract
         //Try getting a table object
         if($this->isConnected())
         {
-            //Set the table behaviors
-            if(!empty($config->table_behaviors)) {
-                $this->getTable()->addBehaviors($config->table_behaviors);
-            }
-           
             // Set the dynamic states based on the unique table keys
             foreach($this->getTable()->getUniqueColumns() as $key => $column) {
                 $this->_state->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
@@ -71,8 +66,7 @@ class KModelTable extends KModelAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table'             => $this->_identifier->name,
-            'table_behaviors'   => array()
+            'table' => $this->_identifier->name,
         ));
 
         parent::_initialize($config);
@@ -114,7 +108,7 @@ class KModelTable extends KModelAbstract
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
 		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIndetifier)) {
+		        if(!($this->_table instanceof KIndentifier)) {
 		            $this->setTable($this->_table);
 			    }
 		        
