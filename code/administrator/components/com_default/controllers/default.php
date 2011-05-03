@@ -32,7 +32,15 @@ class ComDefaultControllerDefault extends KControllerResource
         $this->registerCallback(array('after.edit', 'after.delete', 'after.add'), array($this, 'setMessage'));
     }
     
-    public function  _initialize(KConfig $config) 
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function  _initialize(KConfig $config) 
   	{        
 		$config->append(array(
 			'behaviors'	 =>  array('editable')
@@ -62,7 +70,7 @@ class ComDefaultControllerDefault extends KControllerResource
             if(empty($message))
             {
                 $name = ucfirst(KInflector::singularize($this->_identifier->name));
-             
+                
                 if($status != KDatabase::STATUS_FAILED)
                 {
                     $type    = 'message';
