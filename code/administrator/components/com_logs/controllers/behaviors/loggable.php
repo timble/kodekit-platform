@@ -6,22 +6,20 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
     { 
         parent::__construct($config);
 
-        $this->registerCallback('after.edit'  , array($this, 'log'));
-		$this->registerCallback('after.add', array($this, 'log'));
-		$this->registerCallback('after.delete'  , array($this, 'log'));
-		$this->registerCallback('after.read', array($this, 'log'));
+        $this->registerCallback($actions, array($this, 'logAction'));
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOW,
+            'actions' => array('after.edit', 'after.add', 'after.delete'),
         ));
 
         parent::_initialize($config);
     }
     
-    public function log(KCommandContext $context)
+    public function logAction(KCommandContext $context)
     {
         $identifier = $context->caller->getIdentifier();
 				
