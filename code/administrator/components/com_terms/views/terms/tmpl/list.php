@@ -11,7 +11,7 @@
 		<? foreach (@$terms as $term) : ?>
 		<div class="term">
 			<span><?= $term->title; ?></span>
-			<a title="<?= @text('Delete this tag ?') ?>"  onclick="Terms.execute('delete', <?= $term->id; ?>)" href="#"><span>[x]</span></a>
+			<a title="<?= @text('Delete this tag ?') ?>" data-action="delete" data-id="<?= $term->id; ?>" href="#"><span>[x]</span></a>
 		</div>
 		<? endforeach; ?>
 	</div>

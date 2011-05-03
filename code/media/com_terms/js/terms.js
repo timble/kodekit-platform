@@ -8,44 +8,47 @@
  * @link		http://www.nooku.org
  */
 
-var Terms = Request.extend({
-
+var Terms = new Class({
+	Extends: Request,
 	element : null,
 	form    : null,
 	
-	options: 
-	{
-		method      : 'post',
+	options: {
 		action      : '',
 		evalScripts : false,
 		
-        onComplete: function() 
-        {
-        	if(typeof this.response !== 'undefined') {
-            	this.element.empty().setHTML(this.response.text);
-            }
-        	
-        	//this.form = this.element.getElement('form');
-            this.form.addEvent('submit', function(e) {
-       			new Event(e).stop();
-       			this.execute('add');
-      		}.bind(this));
+        onComplete: function() {
+			if (this.response && this.response.text) {
+				this.element.empty().set('html', this.response.text);
+				new Terms(this.element);
+			} else {
+				this.get(this.url);
+			}
         }
 	},
 	
-	initialize: function(element, options)
-    {
+	initialize: function(element, options) {
+		options = options || {};
 		this.element = $(element);
-		this.form    = this.element.getElement('form');
-		this.parent(this.form.getProperty('action'), Json.evaluate(options));
+		var that = this;
+		this.element.getElements('a[data-action]').addEvent('click', function(e) {
+			e.stop();
+			that.execute(this.get('data-action'), this.get('data-id'));
+		});
+		this.form = this.element.getElement('form');
+		this.url = this.form.getProperty('action');
 		
-		this.onComplete();
+		options.url = this.url;
+		this.parent(options);
 		
-        if (this.options.initialize) this.options.initialize.call(this);
+		this.form.addEvent('submit', function(e) {
+			e.stop();
+			this.execute('add');
+      	}.bind(this));
     },
     
     execute: function(action, data)
-    {	
+    {
     	var method = '_action'+action.capitalize();
     	
     	if($type(this[method]) == 'function') 
@@ -57,31 +60,17 @@ var Terms = Request.extend({
     
     _actionDelete: function(data)
     {
-    	this.url = [this.url, 'id='+data].join('&');
-    	this.setHeader('X-HTTP-Method-Override', 'delete');
+    	this.options.url = [this.options.url, 'id='+data].join('&');
     	
-    	data = [data, this.form.toQueryString()].join('&');
-    	this.request(data);
+    	this.delete(this.form);
     },
     
     _actionAdd: function(data)
     {
-    	data = [data, this.form.toQueryString()].join('&');
-    	this.request(data);
-    },
-    
-    request: function(data)
-    {
-    	data = data || this.options.data;
-		switch($type(data)) {
-			case 'element': data = $(data).toQueryString(); break;
-			case 'object' : data = Object.toQueryString(data); break;
-		}
-		
-    	this.parent(data);
+    	this.put(this.form);
     },
 });
 
 window.addEvent('domready', function() {
-	Terms = new Terms('terms-list');
+	new Terms('terms-list');
 });
