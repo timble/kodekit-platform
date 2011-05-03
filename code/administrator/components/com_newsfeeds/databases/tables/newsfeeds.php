@@ -22,7 +22,7 @@ class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
 {
     public function _initialize(KConfig $config)
     {
-         $sluggable = KDatabaseBehavior::factory('sluggable', array('columns' => array('name')));
+         $sluggable = $this->getBehavior('sluggable', array('columns' => array('name')));
         
          $config->append(array(
             'identity_column'    => 'id',
