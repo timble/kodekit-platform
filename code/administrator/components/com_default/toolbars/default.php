@@ -19,6 +19,30 @@
  */
 class ComDefaultToolbarDefault extends KToolbarDefault
 {
+	/**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $name  = $this->_identifier->name;
+        
+        if(KInflector::isPlural($name))
+        {        
+            $this->append('new')
+                 ->append('delete');    
+        }
+        else
+        {
+            $this->append('save')
+                 ->append('apply')
+                 ->append('cancel');
+        }
+    }
+    
     public function render()
 	{
 		$id		= 'toolbar-'.$this->getName();

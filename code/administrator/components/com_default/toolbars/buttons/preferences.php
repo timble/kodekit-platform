@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultToolbarButtonPreferences extends KToolbarButtonDefault
+class ComDefaultToolbarButtonPreferences extends KToolbarButtonGet
 {    
  	/**
      * Initializes the options for the object

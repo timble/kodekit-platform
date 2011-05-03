@@ -85,13 +85,25 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         if($view instanceof ComDefaultViewHtml)
         {
-            $document->setBuffer($view->getToolbar()->render(), 'modules', 'toolbar');
-            $document->setBuffer($view->getToolbar()->renderTitle(), 'modules', 'title');
+            $name       = KInflector::isPlural($view->getName()) ? 'list' : 'item';
+            $identifier = 'admin::com.default.view.'.$name;
+            $config     = array('toolbar' => $view->getToolbar());
             
-            if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
-                KRequest::set('get.hidemainmenu', 1);
-            }
+            //Render the toolbar
+            $toolbar = $view->getTemplate()
+                           ->loadIdentifier($identifier.'.toolbar', $config)
+                           ->render();
+                           
+            $document->setBuffer($toolbar, 'modules', 'toolbar');
             
+            //Render the title
+            $title   = $view->getTemplate()
+                            ->loadIdentifier($identifier.'.toolbar_title' , $config)
+                            ->render();
+           
+            $document->setBuffer($title, 'modules', 'title'  );
+            
+            //Render the submenu
             if(isset($view->views)) 
             {
                 foreach($view->views as $name => $title)
@@ -101,7 +113,11 @@ class ComDefaultDispatcher extends KDispatcherDefault
             
                     JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_'.$component.'&view='.$name, $active );
                 }
-            }       
+            }
+            
+            if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
+                KRequest::set('get.hidemainmenu', 1);
+            }      
         }
         
         return parent::_actionRender($context);
