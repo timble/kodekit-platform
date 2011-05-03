@@ -205,7 +205,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     {
         $this->_status   = $status;
         $this->_new      = ($status === NULL) ? true : false;
-        $this->_modified = array();
         
         return $this;
     }
@@ -240,6 +239,8 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function load()
     {
+        $this->_modified = array();
+        
         return false;
     }
     
@@ -253,6 +254,8 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function save()
     {
+        $this->_modified = array();
+        
         return false;
     }
 
@@ -273,9 +276,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function reset()
     {
-        $this->_data = array();
-        $this->setStatus(NULL);
+        $this->_data     = array();
+        $this->_modified = array();
         
+        $this->setStatus(NULL);
         return true;
     }
     
