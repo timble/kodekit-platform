@@ -70,13 +70,6 @@ abstract class KControllerPage extends KControllerAbstract
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
-		
-		//Enqueue the authorization command
-        $command = clone $this->_identifier;
-	    $command->path[] = 'command';
-		$command->name = 'authorize';
-
-        $this->getCommandChain()->enqueue( KFactory::get($command) );
 	}
 
 	/**
@@ -90,8 +83,9 @@ abstract class KControllerPage extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    	    'model'	          => $this->_identifier->name,
-        	'view'	          => $this->_identifier->name,
+    	    'model'	    => $this->_identifier->name,
+        	'view'	    => $this->_identifier->name,
+    	    'behaviors' => array('executable') 
         ));
         
         parent::_initialize($config);
@@ -281,63 +275,6 @@ abstract class KControllerPage extends KControllerAbstract
         $result = $view->display();
 	     
 		return $result;
-	}
-	
-	/**
-	 * Get a list of allowed actions
-	 *
-     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
-	 */
-	protected function _actionOptions(KCommandContext $context)
-	{
-	    $methods = array();
-        
-        //Remove GET actions
-        $actions = array_diff($this->getActions(), array('browse', 'read', 'display'));
-          
-        //Authorize the action
-        foreach($actions as $key => $action)
-        {
-            //Find the mapped action if one exists
-            if (isset( $this->_action_map[$action] )) {
-                $action = $this->_action_map[$action];
-            }
-        
-            //Check if the action can be executed
-            if($this->getCommandChain()->run('before.'.$action, $context) === false) {
-                unset($actions[$key]);
-            } 
-        }
-          
-        //Sort the action alphabetically.
-        sort($actions);
-	              
-        //Retrieve HTTP methods
-        foreach(array('get', 'put', 'delete', 'post', 'options') as $method) 
-        {
-            if(in_array($method, $actions)) {
-                $methods[strtoupper($method)] = $method;
-            }
-        }
-            
-        //Retrieve POST actions 
-        if(in_array('post', $methods)) 
-        {
-            $actions = array_diff($actions, array('get', 'put', 'delete', 'post', 'options'));
-            $methods['POST'] = array_diff($actions, $methods);
-        }
-       
-        //Render to string
-        $result = implode(', ', array_keys($methods));
-        
-        foreach($methods as $method => $actions) 
-        {
-           if(is_array($actions)) {
-               $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
-           }     
-        }
-        
-        $context->headers = array('Allow' => $result); 
 	}
 	
 	/**
