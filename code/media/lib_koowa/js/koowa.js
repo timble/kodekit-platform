@@ -171,8 +171,8 @@ Koowa.Query = new Class({
  * @package     Koowa_Media
  * @subpackage  Javascript
  */
-Koowa.Overlay = Request.extend({
-
+Koowa.Overlay = new Class({
+	Extends: Request,
     element : null,
     
     options: {
@@ -180,13 +180,10 @@ Koowa.Overlay = Request.extend({
         evalScripts : true,
         evalStyles  : true,
         
-        onComplete: function() 
-        {
+        onComplete: function() {
             var element = new Element('div', {html: this.response.text});
-            this.element.replaceWith(element.getElement('[id='+this.element.id+']'));
-            
-            if (this.options.evalScripts) 
-            {
+            element.getElement('[id='+this.element.id+']').replaces(this.element);
+            if (this.options.evalScripts) {
                 scripts = element.getElementsBySelector('script[type=text/javascript]');
                 scripts.each(function(script) {
                     new Asset.javascript(script.src, {id: script.id });
@@ -194,8 +191,7 @@ Koowa.Overlay = Request.extend({
                 }.bind(this))
             }
             
-            if (this.options.evalStyles) 
-            {
+            if (this.options.evalStyles) {
                 styles  = element.getElementsBySelector('link[type=text/css]');
                 styles.each(function(style) {
                     new Asset.css(style.href, {id: style.id });
@@ -211,11 +207,10 @@ Koowa.Overlay = Request.extend({
         }
         
         this.element = $(element); 
-        this.parent(element.getAttribute('href'), options);
+		options.url = element.getAttribute('href'); 
+        this.parent(options);
         
-        this.request();
-
-        if (this.options.initialize) this.options.initialize.call(this);
+        this.send();
     }
 });
 
