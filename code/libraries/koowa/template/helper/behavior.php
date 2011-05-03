@@ -19,26 +19,23 @@
  */
 class KTemplateHelperBehavior extends KTemplateHelperAbstract
 {
-	/*
+	/**
 	 * Array which holds a list of loaded javascript libraries
-	 * 
+	 *
 	 * boolean
 	 */
-	protected $_loaded = array();
-	
+	protected static $_loaded = array();
+
 	/**
 	 * Constructor.
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct( KConfig $config = null) 
-	{ 
+	public function __construct( KConfig $config = null)
+	{
 		parent::__construct($config);
-		
-		//Reset the array of loaded scripts
-		$this->_loaded = array();
 	}
-	
+
 	/**
 	 * Method to load the mootools framework into the document head
 	 *
@@ -52,11 +49,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$config->append(array(
 			'debug' => KDEBUG
 		));
-		
+
 		$html ='';
-		
+
 		// Only load once
-		if (!isset($this->_loaded['mootools'])) 
+		if (!isset(self::$_loaded['mootools']))
 		{
 			// If no debugging value is set, use the configuration setting
 			if($config->debug) {
@@ -64,13 +61,13 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			} else {
 				$html .= '<script src="media://lib_koowa/js/mootools.js" />';
 			}
-		
-			$this->_loaded['mootools'] = true;
+
+			self::$_loaded['mootools'] = true;
 		}
 
 		return $html;
 	}
-	
+
 	/**
 	 * Render a modal box
 	 *
@@ -83,26 +80,26 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'selector' => 'a.modal',
 			'options'  => array('disableFx' => true)
  		));
- 		
+
  		$html = '';
 
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($this->_loaded['modal'])) 
+		if (!isset(self::$_loaded['modal']))
 		{
 			$html .= '<script src="media://system/js/modal.js" />';
 			$html .= '<style src="media://system/css/modal.css" />';
-			
-			$this->_loaded['modal'] = true;
+
+			self::$_loaded['modal'] = true;
 		}
-	
+
 		$signature = md5(serialize(array($config->selector,$config->options)));
-		if (!isset($this->_loaded[$signature])) 
+		if (!isset(self::$_loaded[$signature]))
 		{
-			$options = !empty($config->options) ? $config->options->toArray() : array(); 
+			$options = !empty($config->options) ? $config->options->toArray() : array();
 			$html .= "
 			<script>
 				window.addEvent('domready', function() {
-				
+
 				SqueezeBox.initialize(".json_encode($options).");
 
 				$$('".$config->selector."').each(function(el) {
@@ -114,15 +111,15 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			});
 			</script>";
 
-			$this->_loaded[$signature] = true;
+			self::$_loaded[$signature] = true;
 		}
-		
+
 		return $html;
 	}
 
 	/**
 	 * Render a tooltip
-	 * 
+	 *
 	 * @return string	The html output
 	 */
 	public function tooltip($config = array())
@@ -132,21 +129,21 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'selector' => '.hasTip',
 			'options'  => array()
  		));
- 		
+
  		$html = '';
- 	
+
 		$signature = md5(serialize(array($config->selector,$config->options)));
-		if (!isset($this->_loaded[$signature])) 
+		if (!isset(self::$_loaded[$signature]))
 		{
-			$options = !empty($config->options) ? $config->options->toArray() : array();	
+			$options = !empty($config->options) ? $config->options->toArray() : array();
 			$html .= "
 			<script>
 				window.addEvent('domready', function(){ var JTooltips = new Tips($$('".$config->selector."'), '.json_encode($options).'); });
 			</script>";
-			
-			$this->_loaded[$signature] = true;
+
+			self::$_loaded[$signature] = true;
 		}
-		
+
 		return $html;
 	}
 
@@ -163,36 +160,35 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'options'  	=> array(),
 			'attribs'	=> array()
 		));
-		
+
 		$html = '';
-		
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($this->_loaded['overlay'])) 
+		if (!isset(self::$_loaded['overlay']))
 		{
 			$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 			$html .= '<style src="media://lib_koowa/css/koowa.css" />';
-			
+
 			$options = !empty($config->options) ? $config->options->toArray() : array();
 			$html .= "
 			<script>
-				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay, '".json_encode($options)."'); }); });
+				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay, ".json_encode((object)$options)."); }); });
 			</script>";
-			
-			$this->_loaded['overlay'] = true;
+
+			self::$_loaded['overlay'] = true;
 		}
 
 		$url = KFactory::tmp('lib.koowa.http.url', array('url' => $config->url));
 		$url->query['tmpl'] = '';
-		
+
 		$attribs = KHelperArray::toString($config->attribs);
 
 		$html .= '<div href="'.$url.'" class="-koowa-overlay" id="'.$url->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
 		return $html;
 	}
-	
+
 	/**
-	 * Keep session alive 
-	 * 
+	 * Keep session alive
+	 *
 	 * This will send an ascynchronous request to the server via AJAX on an interval
 	 * in miliseconds
 	 *
@@ -205,21 +201,21 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'refresh'  => 15 * 60000, //15min
 		    'url'	   => KRequest::url()
 		));
-		
+
 		$refresh = (int) $config->refresh;
-	
+
 	    // Longest refresh period is one hour to prevent integer overflow.
 		if ($refresh > 3600000 || $refresh <= 0) {
 			$refresh = 3600000;
 		}
 
 		// Build the keepalive script.
-		$html = 
+		$html =
 		"<script>
-			Koowa.keepalive =  function() { 
+			Koowa.keepalive =  function() {
 				var request = new Request({method: 'get', url: '".$config->url."'}).send();
 			}
-			
+
 			window.addEvent('domready', function() { Koowa.keepalive.periodical('".$refresh."'); });
 		</script>";
 
