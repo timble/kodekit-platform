@@ -18,7 +18,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends ComDefaultControllerForm
+class ComDefaultControllerDefault extends KControllerResource
 {
     /**
      * Constructor
@@ -31,6 +31,15 @@ class ComDefaultControllerDefault extends ComDefaultControllerForm
         
         $this->registerCallback(array('after.edit', 'after.delete', 'after.add'), array($this, 'setMessage'));
     }
+    
+    public function  _initialize(KConfig $config) 
+  	{        
+		$config->append(array(
+			'behaviors'	 =>  array('editable')
+		));
+	
+      	parent::_initialize($config);
+  	}
        
     /**
      * Filter that creates a redirect message based on the action
