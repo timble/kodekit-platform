@@ -283,84 +283,86 @@ class JLanguage extends JObject
 		if ( ! $lang ) {
 			$lang = $this->_lang;
 		}
-
-		$path = JLanguage::getLanguagePath( $basePath, $lang);
-
-		if ( !strlen( $extension ) ) {
+		
+	    if ( !strlen( $extension ) ) {
 			$extension = 'joomla';
 		}
+		
+		$path = JLanguage::getLanguagePath( $basePath, $lang);
+
 		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
-
-		$result = false;
-		if (isset( $this->_paths[$extension][$filename] ) && ! $reload )
+		
+	    $result = true;
+		if (!isset( $this->_paths[$extension][$filename] ) || $reload )
 		{
-			// Strings for this file have already been loaded
-			$result = true;
-		}
-		else
-		{
-			// Load the language file
-			$result = $this->_load( $filename, $extension );
+		    $cache = KFactory::tmp('lib.joomla.cache', array('language', 'output'));
+		    $identifier = md5($extension.$basePath.$lang);
+		
+		    if (!$data = $cache->get($identifier)) 
+		    {
+			    // Load the language file
+			    $strings = $this->_load( $filename, $extension, true );
+			    
+			    // Check if there was a problem with loading the file
+			    if($strings === false )
+			    {
+				    // No strings, which probably means that the language file does not exist
+				    $path		= JLanguage::getLanguagePath( $basePath, $this->_default);
+				    $filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
+				    $filename	= $path.DS.$filename.'.ini';
 
-			// Check if there was a problem with loading the file
-			if ( $result === false )
-			{
-				// No strings, which probably means that the language file does not exist
-				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
-				$filename	= $path.DS.$filename.'.ini';
-
-				$result = $this->_load( $filename, $extension, false );
-			}
-
-		}
-
+				    $strings = $this->_load( $filename, $extension, false );
+				    
+			        if($strings === false) {
+                       $this->_strings = array_merge( $strings, $this->_strings);
+		            }
+			    } 
+			    else $this->_strings = array_merge( $this->_strings, (array) $strings);
+		           
+			    //Store the strings in the cache
+		   	    $cache->store(serialize($strings), $identifier);
+		    }
+			else $this->_strings = array_merge( $this->_strings, array_reverse(unserialize($data)));
+		} 
+		
 		return $result;
-
 	}
+	
 	/**
-	* Loads a language file
-	*
-	* This method will not note the successful loading of a file - use load() instead
-	*
-	* @access	private
-	* @param	string The name of the file
-	* @param	string The name of the extension
-	* @return	boolean True if new strings have been added to the language
-	* @see		JLanguage::load()
-	* @since	1.5
-	*/
-	function _load( $filename, $extension = 'unknown', $overwrite = true )
+	 * Loads a language file
+	 *
+	 * This method will not note the successful loading of a file - use load() instead
+	 *
+	 * @access	private
+	 * @param	string The name of the file
+	 * @param	string The name of the extension
+	 * @return	array|boolean  An array of loaded strings
+	 * @see		JLanguage::load()
+	 * @since	1.5
+	 */
+	function _load( $filename, $extension = 'unknown')
 	{
-		$result	= false;
-
-		if ($content = @file_get_contents( $filename ))
+	    $result = false;
+	    
+	    if ($content = @file_get_contents( $filename ))
 		{
-
 			//Take off BOM if present in the ini file
-			if ( $content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF" )
-            {
+			if ( $content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF" ) {
 				$content = substr( $content, 3 );
 		  	}
 
-			$registry	= new JRegistry();
+			$registry = new JRegistry();
 			$registry->loadINI($content);
-			$newStrings	= $registry->toArray( );
+			$result = $registry->toArray();
+			
+			// Record the result of loading the extension's file.
+		    if ( ! isset($this->_paths[$extension])) {
+			    $this->_paths[$extension] = array();
+		    }
 
-			if ( is_array( $newStrings) )
-			{
-				$this->_strings = $overwrite ? array_merge( $this->_strings, $newStrings) : array_merge( $newStrings, $this->_strings);
-				$result = true;
-			}
+		    $this->_paths[$extension][$filename] = true;
 		}
-
-		// Record the result of loading the extension's file.
-		if ( ! isset($this->_paths[$extension])) {
-			$this->_paths[$extension] = array();
-		}
-
-		$this->_paths[$extension][$filename] = $result;
 
 		return $result;
 	}
