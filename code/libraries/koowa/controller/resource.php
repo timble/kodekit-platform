@@ -45,7 +45,8 @@ abstract class KControllerResource extends KControllerPage
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'persistent'	=> false,
+    		'persistent' => false,
+    		'behaviors' => array('discoverable') 
         ));
 
         parent::_initialize($config);
