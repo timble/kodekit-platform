@@ -38,11 +38,4 @@ interface KToolbarButtonInterface
      * @return  KToolbarInterface   Toolbar
      */
     public function getParent();
-    
-    /**
-     * Render the button
-     * 
-     * @return string   Html
-     */
-    public function render();
 }

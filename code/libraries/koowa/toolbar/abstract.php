@@ -111,6 +111,16 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
         return $this;
     }
     
+ 	/**
+     * Get the toolbar's title
+     *
+     * @return   string  Title
+     */
+    public function getTitle($title)
+    {
+        return $this->_title;
+    }
+    
     /**
      * Set the toolbar's icon
      *
@@ -121,6 +131,39 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
     {
         $this->_icon = $icon;
         return $this;
+    }
+    
+	/**
+     * Get the toolbar's icon
+     *
+     * @return   string  Icon
+     */
+    public function getIcon($icon)
+    {
+        return $this->_icon;
+    }
+    
+    /**
+     * Get the toolbar buttons
+     *
+     * @param   string  Icon
+     * @return  KToolbarInterface
+     */
+    public function getButtons()
+    {
+        foreach ($this->_buttons as $key => $button)
+		{
+			if(!($button instanceof KToolbarButtonInterface))
+			{
+				$app		= $this->_identifier->application;
+				$package	= $this->_identifier->package;
+				$this->_buttons[$key] = KFactory::tmp($app.'::com.'.$package.'.toolbar.button.'.$button);
+			}
+
+			$this->_buttons[$key]->setParent($this);
+		}
+		
+		return $this->_buttons;
     }
 
     /**
@@ -156,61 +199,5 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
     {
         $this->_buttons = array();
         return $this;
-    }
-
-    /**
-     * Render the toolbar
-     *
-     * @throws KToolbarException When the button could not be found
-     * @return  string  HTML
-     */
-    public function render()
-    {
-        $id     = 'toolbar-'.$this->getName();
-        $html = array ();
-
-        // Start toolbar div
-        $html[] = '<div class="toolbar" id="'.$id.'">';
-        $html[] = '<table class="toolbar"><tr>';
-
-        // Render each button in the toolbar
-        foreach ($this->_buttons as $button)
-        {
-            if(!($button instanceof KToolbarButtonInterface))
-            {
-                $app        = $this->_identifier->application;
-                $package    = $this->_identifier->package;
-                $button = KFactory::tmp($app.'::com.'.$package.'.toolbar.button.'.$button);
-            }
-
-            $button->setParent($this);
-            $html[] = $button->render();
-        }
-
-        // End toolbar div
-        $html[] = '</tr></table>';
-        $html[] = '</div>';
-
-        return implode(PHP_EOL, $html);
-    }
-
-    /**
-     * Set the toolbar's title and icon
-     *
-     * @param   string  Title
-     * @param   string  Icon
-     * @return  KToolbarInterface
-     */
-    public function renderTitle()
-    {
-        //strip the extension
-        $icon  = preg_replace('#\.[^.]*$#', '', $this->_icon);
-        $title = JText::_($this->_title);
-
-        $html  = "<div class=\"header icon-48-$icon\">\n";
-        $html .= "$title\n";
-        $html .= "</div>\n";
-
-        return $html;
     }
 }

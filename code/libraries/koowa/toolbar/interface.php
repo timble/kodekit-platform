@@ -18,13 +18,6 @@
 interface KToolbarInterface
 {   
     /**
-     * Render the toolbar
-     *
-     * @return  string  Html
-     */
-    public function render();
-    
-    /**
      * Get the toolbar's name
      *
      * @return string

@@ -18,17 +18,57 @@
  */
 abstract class KToolbarButtonPost extends KToolbarButtonAbstract
 {
-    protected $_fields = array();
+    /**
+     * The form token value
+     *
+     * @var string
+     */
+    protected $_token_value;
     
     /**
-     * Constructor
+     * The form token name
+     *
+     * @var string
+     */
+    protected $_token_name;
+    
+    /**
+     * Associative array
+     *
+     * @var array
+     */
+    protected $_fields = array();
+    
+	/**
+     * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct(KConfig $config)
-    {
+    public function __construct( KConfig $config = null) 
+    { 
         parent::__construct($config);
-        $this->setMethod('post');
+        
+        $this->_token_value = $config->token_value;
+        $this->_token_name  = $config->token_name;
+    }
+    
+   /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'token_value' => '',
+        	'token_name'  => '_token',		
+            'method'      => 'post',
+        ));
+
+        parent::_initialize($config);
     }
     
     public function getOnClick()
@@ -38,6 +78,7 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
             $js .= "Koowa.Form.addField('$name', '$value');";
         }
         $js .= "Koowa.Form.submit('{$this->_method}');";
+        
         return $js;
     }
     

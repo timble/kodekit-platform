@@ -9,18 +9,14 @@
 */
 
 /**
- * Divider
+ * New button class for a toolbar
  * 
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Toolbar
  * @subpackage  Button
  */
-class KToolbarButtonDivider extends KToolbarButtonAbstract
+class KToolbarButtonGet extends KToolbarButtonAbstract
 {
-    public function render()
-    {
-        return '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
-    }
-
+    
 }

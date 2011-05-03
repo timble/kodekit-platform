@@ -22,7 +22,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     /**
      * Method used to submit the form
      *
-     * @var string  [get|post|delete]
+     * @var string  [GET|POST|DELETE|PUT]
      */
     protected $_method;
 
@@ -125,29 +125,6 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
         return $this->_identifier->name;
     }
 
-    public function render()
-    {
-        $text   = JText::_($this->_options->text);
-
-        $link   = $this->getLink();
-        $href   = !empty($link) ? 'href="'.JRoute::_($link).'"' : '';
-
-        $onclick =  $this->getOnClick();
-        $onclick = !empty($onclick) ? 'onclick="'. $onclick.'"' : '';
-
-        $html   = array ();
-        $html[] = '<td class="button" id="'.$this->getId().'">';
-        $html[] = '<a '.$href.' '.$onclick.' class="toolbar">';
-
-        $html[] = '<span class="'.$this->getClass().'" title="'.$text.'">';
-        $html[] = '</span>';
-        $html[] = $text;
-        $html[] = '</a>';
-        $html[] = '</td>';
-
-        return implode(PHP_EOL, $html);
-    }
-
     public function getLink()
     {
         return '#';
@@ -166,5 +143,10 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     public function getClass()
     {
         return $this->_options->icon;
+    }
+    
+    public function getText()
+    {
+        return $this->_options->text;
     }
 }
