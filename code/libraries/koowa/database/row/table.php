@@ -194,11 +194,12 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		    
 	        if($result !== false) 
 	        {
-	            if(((integer) $result) > 0) {   
+	            if(((integer) $result) > 0) 
+	            {   
+	                $this->_modified = array();
 	                $this->setStatus($status);
-	            } else {
-	                $this->setStatus(KDatabase::STATUS_FAILED);
-	            }
+	            } 
+	            else $this->setStatus(KDatabase::STATUS_FAILED);
             }
 	    }
 
@@ -222,11 +223,12 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		    
 		        if($result !== false) 
 	            {
-	                if(((integer) $result) > 0) {   
+	                if(((integer) $result) > 0) 
+	                {   
+	                    $this->_new = true;
 	                    $this->setStatus(KDatabase::STATUS_DELETED);
-	                } else {
-	                    $this->setStatus(KDatabase::STATUS_FAILED);
-	                }
+	                } 
+	                else $this->setStatus(KDatabase::STATUS_FAILED);
                 }
 		    }
 		}
