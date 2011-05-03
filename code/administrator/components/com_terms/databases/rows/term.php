@@ -30,23 +30,33 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 	 */
 	public function save()
 	{
-   		//Add the term
- 		if(!$this->load()) {
- 			parent::save();
- 		}
-
- 		//Add a relation
- 		if($this->row && $this->table)
- 		{
-			$relation = KFactory::tmp('admin::com.terms.database.row.relation');
-			$relation->terms_term_id = $this->id;
-	   		$relation->row		   = $this->row;
-			$relation->table		 = $this->table;
-
-	 		if(!$relation->load()) {
-				$relation->save();
+		if (strpos($this->title, ',') !== false) {
+			$tags = preg_split('#\s*,\s*#', $this->title, -1, PREG_SPLIT_NO_EMPTY);
+			foreach ($tags as $tag) {
+				$row = clone $this;
+				$row->title = $tag;
+				$row->save();
 			}
- 		}
+		}
+		else {
+			//Add the term
+			if(!$this->load()) {
+				parent::save();
+			}
+		
+			//Add a relation
+			if($this->row && $this->table)
+			{
+				$relation = KFactory::tmp('admin::com.terms.database.row.relation');
+				$relation->terms_term_id = $this->id;
+				$relation->row		   = $this->row;
+				$relation->table		 = $this->table;
+
+				if(!$relation->load()) {
+					$relation->save();
+				}
+			}
+		}
 
 		return true;
 	}
