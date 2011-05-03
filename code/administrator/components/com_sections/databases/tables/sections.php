@@ -22,8 +22,11 @@ class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
 	public function  _initialize(KConfig $config) 
   	{
 		$config->identity_column = 'id';
-		$cascadable   = KDatabaseBehavior::factory('com.sections.database.behavior.cascadable',
-		        array('dependents' => array('admin::com.categories.model.categories.parent')));
+		
+		$cascadable = $this->getBehavior('cascadable',
+		    array('dependents' => array('admin::com.categories.model.categories.parent'))
+	    );
+		        
 		$config->append(array(
     		'name' 			=> 'sections',
 			'base' 			=> 'sections',
@@ -40,7 +43,7 @@ class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
 				    'description' => array('html', 'tidy'),
 		        ),
 		));
-     
+	
       	parent::_initialize($config);
   	}
 }
