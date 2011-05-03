@@ -57,7 +57,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      *
      * @var object
      */
-    protected $_database;
+    protected $_database = false;
     
     /**
      * Row object or identifier (APP::com.COMPONENT.row.NAME)
@@ -135,7 +135,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
            
         // Set the table behaviors
         if(!empty($config->behaviors)) {
-            $this->addBehaviors($config->behaviors);
+            $this->addBehavior($config->behaviors);
         } 
     }
 
@@ -203,6 +203,16 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $this->_database = $database;
         return $this;
     }
+    
+	/**
+	 * Test the connected status of the table
+	 *
+	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseAdapterAbstract object.
+	 */
+    public function isConnected()
+	{
+	    return (bool) $this->getDatabase();
+	}
 
     /**
      * Gets the table schema name without the table prefix
@@ -248,26 +258,24 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         return $keys;
     }
     
-    /**
-     * Add one or more behaviors to the table
+	/**
+     * Register one or more behaviors to the table
      *
      * @param   array   Array of one or more behaviors to add.
      * @return  KDatabaseTableAbstract
      */
-    public function addBehaviors($behaviors)
+    public function addBehavior($behaviors)
     {
+        $behaviors = (array) KConfig::toData($behaviors);
+                
         foreach($behaviors as $behavior)
         {
-            if(!($behavior instanceof KDatabaseBehaviorInterface)) 
-            {
-                $identifier = (string) $behavior;
-                $behavior   = KDatabaseBehavior::factory($behavior);
-            }
-            else $identifier = (string) $behavior->getIdentifier();
-            
+            $behavior   = $this->getBehavior($behavior);
+		    $identifier = (string) $behavior->getIdentifier();
+              
             //Set the behaviors in the database schema
             $this->getInfo()->behaviors[$identifier] = $behavior;
-                        
+                         
             //Enqueue the behavior in the command chain
             $this->getCommandChain()->enqueue($behavior);
         }
@@ -275,7 +283,38 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         return $this;
     }
     
-    /**
+	/**
+     * Get a behavior by identifier
+     *
+     * @return KControllerBehaviorAbstract
+     */
+    public function getBehavior($behavior, $config = array())
+    {
+       if(!($behavior instanceof KIdentifier))
+       {
+            //Create the complete identifier if a partial identifier was passed
+           if(is_string($behavior) && strpos($behavior, '.') === false )
+           {
+               $identifier = clone $this->_identifier;
+               $identifier->path = array('database', 'behavior');
+               $identifier->name = $behavior;
+           }
+           else $identifier = KFactory::identify($behavior);
+       }
+     
+       //Make sure we have an identfier string
+       $identifier = (string) $identifier;
+       
+       if(!isset($this->getInfo()->behaviors[$identifier])) {
+           $behavior = KDatabaseBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
+       } else {
+           $behavior = $this->getInfo()->behaviors[$identifier];
+       }
+       
+       return $behavior;
+    }
+       
+	/**
      * Gets the behaviors of the table
      *
      * @return array    An asscociate array of table behaviors, keys are the behavior names
@@ -283,17 +322,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     public function getBehaviors()
     {
         return $this->getInfo()->behaviors;
-    }
-    
-    /**
-     * Get a behavior by identifier
-     *
-     * @return array    An asscociate array of filters keys are the filter identifiers
-     */
-    public function getBehavior($identifier)
-    {
-        return isset($this->getInfo()->behaviors[$identifier]) ? $this->getInfo()->behaviors[$identifier] : null;
-    }
+    }	
     
     /**
      * Gets the schema of the table
@@ -303,13 +332,22 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getInfo()
     {
-        try {
-            $info = $this->_database->getTableInfo($this->getBase());
-        } catch(KDatabaseException $e) {
-            throw new KDatabaseTableException($e->getMessage());
+        $result = null;
+        
+        if($this->isConnected())
+        {
+            try {
+                $info = $this->_database->getTableInfo($this->getBase());
+            } catch(KDatabaseException $e) {
+                throw new KDatabaseTableException($e->getMessage());
+            }
+            
+            if(isset($info[$this->getBase()])) { 
+                $result = $info[$this->getBase()];
+            }
         }
             
-        return isset($info[$this->getBase()]) ?  $info[$this->getBase()] : null;
+        return $result;
     }
     
     /**
@@ -320,13 +358,22 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getIndexes()
     {
-        try {
-            $indexes = $this->_database->getTableIndexes($this->getBase());
-        } catch(KDatabaseException $e) {
-            throw new KDatabaseTableException($e->getMessage());
+        $result = array();
+        
+        if($this->isConnected())
+        {    
+            try {
+                $indexes = $this->_database->getTableIndexes($this->getBase());
+            } catch(KDatabaseException $e) {
+                throw new KDatabaseTableException($e->getMessage());
+            }
+            
+            if(isset($indexes[$this->getBase()])) { 
+                $result = $indexes[$this->getBase()];
+            }
         }
         
-        return isset($indexes[$this->getBase()]) ? $indexes[$this->getBase()] : array();
+        return $result;
     }
     
     /**
