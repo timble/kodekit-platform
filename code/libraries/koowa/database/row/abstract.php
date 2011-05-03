@@ -30,19 +30,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Tracks the status the row
      * 
-     * Status values are:
+     * Available row status values are defined as STATUS_ constants in KDatabase 
      * 
-     * `deleted`
-     * : This row has been deleted successfully
-     * 
-     * `inserted`
-     * : The row was inserted successfully.
-     * 
-     * `updated`
-     * : The row was updated successfully.
-     * 
-     * @var string
-     * 
+     * @var string 
+     * @see KDatabase  
      */
     protected $_status = null;
     
