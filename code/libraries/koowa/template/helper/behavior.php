@@ -86,8 +86,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(self::$_loaded['modal']))
 		{
-			$html .= '<script src="media://system/js/modal.js" />';
-			$html .= '<style src="media://system/css/modal.css" />';
+			$html .= '<script src="media://lib_koowa/js/modal.js" />';
+			$html .= '<style src="media://lib_koowa/css/modal.css" />';
 
 			self::$_loaded['modal'] = true;
 		}
@@ -101,12 +101,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 				window.addEvent('domready', function() {
 
 				SqueezeBox.initialize(".json_encode($options).");
-
-				$$('".$config->selector."').each(function(el) {
-					el.addEvent('click', function(e) {
-						new Event(e).stop();
-						SqueezeBox.fromElement(el);
-					});
+				SqueezeBox.assign($$('".$config->selector."'), {
+			        parse: 'rel'
 				});
 			});
 			</script>";
