@@ -6,7 +6,7 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
     { 
         parent::__construct($config);
 
-        $this->registerCallback($config->actions, array($this, 'logAction'));
+        $this->registerCallback($config->actions->toArray(), array($this, 'logAction'));
     }
     
     protected function _initialize(KConfig $config)
