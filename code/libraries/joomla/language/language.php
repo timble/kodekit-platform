@@ -314,7 +314,7 @@ class JLanguage extends JObject
 
 				    $strings = $this->_load( $filename, $extension, false );
 				    
-			        if($strings === false) {
+			        if($strings !== false) {
                        $this->_strings = array_merge( $strings, $this->_strings);
 		            }
 			    } 
