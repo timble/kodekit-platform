@@ -34,11 +34,11 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 		$config->append(array(
 			'debug' => KDEBUG
 		));
-		
+
 		$html ='';
-		
+
 		// Only load once
-		if (!isset(self::$_loaded['mootools'])) 
+		if (!isset(self::$_loaded['mootools']))
 		{
 		    JHTML::_('behavior.mootools', $config->debug);
 			self::$_loaded['mootools'] = true;
@@ -46,11 +46,11 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 
 		return $html;
 	}
-    
-    
+
+
     /**
-     * Keep session alive 
-     * 
+     * Keep session alive
+     *
      * This will send an ascynchronous request to the server via AJAX on an interval
      *
      * @return string   The html output
@@ -59,15 +59,31 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
     {
         //Get the config session lifetime
         $lifetime = KFactory::get('lib.joomla.session')->getExpire() * 60000;
-        
+
         //Refresh time is 1 minute less than the liftime
         $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-        
+
         $config = new KConfig($config);
         $config->append(array(
             'refresh' => $refresh
         ));
-        
+
         return parent::keepalive($config);
     }
+
+   	/**
+	 * Render a modal box
+	 *
+	 * @return string	The html output
+	 */
+	public function modal($config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'selector' => 'a.modal',
+			'options'  => array('disableFx' => true)
+ 		));
+
+		return JHTML::_('behavior.modal', $config->selector, $config->toArray());
+	}
 }
