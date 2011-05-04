@@ -116,7 +116,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
      *
      * @return   string  Title
      */
-    public function getTitle($title)
+    public function getTitle()
     {
         return $this->_title;
     }
@@ -127,7 +127,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
      * @param   string  Icon
      * @return  KToolbarInterface
      */
-    public function setIcon($icon)
+    public function setIcon()
     {
         $this->_icon = $icon;
         return $this;
