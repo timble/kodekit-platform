@@ -5,7 +5,11 @@ class ComLogsViewLogsHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		KFactory::get('admin::com.logs.toolbar.logs')->reset();
+        $package = (!$this->getModel()->getState()->package) ? 'logs' : $this->getModel()->getState()->package;
+        
+		KFactory::get('admin::com.'.$package.'.toolbar.logs')
+			->reset()
+			->append(KFactory::get('admin::com.logs.toolbar.button.delete'));
 		
 		return parent::display();
 	}
