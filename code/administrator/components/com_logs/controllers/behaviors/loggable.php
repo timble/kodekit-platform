@@ -1,4 +1,5 @@
 <?php
+/** $Id$ */
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
@@ -23,12 +24,13 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
     {
         $identifier = $context->caller->getIdentifier();
 				
-		$data = array();
-		$data['action']			= $context->action;
-		$data['application']	= $identifier->application;
-		$data['type']			= $identifier->type;
-		$data['package']		= $identifier->package;
-		$data['name']			= $identifier->name;
+		$data = array(
+            'action' => $context->action,
+            'application' => $identifier->application,
+            'type' => $identifier->type,
+            'package' => $identifier->package,
+            'name' => $identifier->name,
+        );
 
 		$rowset = array();
 		if ($context->result instanceof KDatabaseRowAbstract) {
