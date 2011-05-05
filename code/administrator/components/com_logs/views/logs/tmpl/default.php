@@ -1,4 +1,4 @@
-<? /** $Id: default.php 1859 2010-12-18 20:37:31Z johanjanssens $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <style src="media://com_logs/css/logs-default.css" />

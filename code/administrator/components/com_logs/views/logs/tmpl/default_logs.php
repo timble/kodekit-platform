@@ -1,4 +1,4 @@
-<? /** $Id: default_logs.php 1055 2010-08-29 20:34:04Z tomjanssens $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <? foreach ($logs as $log) : ?>

@@ -1,5 +1,5 @@
 <?php
-/** $Id:$ */
+/** $Id$ */
 
 class ComLogsViewLogsHtml extends ComDefaultViewHtml
 {

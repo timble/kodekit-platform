@@ -1,5 +1,5 @@
 <?php
-/** $Id: logs.php 1510 2010-10-02 12:46:52Z daviddeutsch $ */
+/** $Id$ */
 
 class ComLogsModelLogs extends KModelTable
 {
