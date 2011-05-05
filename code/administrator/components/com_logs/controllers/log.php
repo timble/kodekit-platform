@@ -24,7 +24,7 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
     
     public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract) {
+		if(!($this->_model instanceof KModelAbstract)) {
 		    $this->_model = KFactory::tmp('admin::com.logs.model.logs')->set($this->_request);
 		}
 
