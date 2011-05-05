@@ -1,5 +1,5 @@
 <?php
-/** $Id: log.php 1310 2010-09-19 14:46:25Z johanjanssens $ */
+/** $Id$ */
 
 class ComLogsControllerLog extends ComDefaultControllerDefault
 {
@@ -23,13 +23,7 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
     
     public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract) 
-		{   
-		    //@TODO : Pass the state to the model using the options
-		    $options = array(
-				'state' => $this->_request
-            );
-		    
+		if(!$this->_model instanceof KModelAbstract) {
 		    $this->_model = KFactory::tmp('admin::com.logs.model.logs')->set($this->_request);
 		}
 
