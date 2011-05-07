@@ -50,9 +50,9 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
     {
         $config = new KConfig($config);
         $config->append(array(
-            'gmt_offset' => KFactory::get('lib.joomla.config')->getValue('config.offset') * 3600
+            'gmt_offset' => 0
         ));
-            
+      
         return parent::humanize($config);
     }
 }
