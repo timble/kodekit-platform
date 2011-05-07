@@ -110,7 +110,10 @@ class KCommandChain extends KObjectQueue
     {
         if($this->_enabled)
         {
-            foreach($this as $command) 
+            //Clone the commands for each iteration of the chain
+            $commands = clone $this;
+            
+            foreach($commands as $command) 
             {
                 if ( $command->execute( $name, $context ) === $this->_break_condition) {
                     return $this->_break_condition;
