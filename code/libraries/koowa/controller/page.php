@@ -171,10 +171,10 @@ abstract class KControllerPage extends KControllerAbstract
 		    
 		    //@TODO : Pass the state to the model using the options
 		    $options = array(
-				'state' => $this->_request
+				'state' => $this->getRequest()
             );
 		    
-		    $this->_model = KFactory::tmp($this->_model)->set($this->_request);
+		    $this->_model = KFactory::tmp($this->_model)->set($this->getRequest());
 		}
 
 		return $this->_model;
