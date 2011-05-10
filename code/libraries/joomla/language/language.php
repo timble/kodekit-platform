@@ -297,6 +297,10 @@ class JLanguage extends JObject
 		if (!isset( $this->_paths[$extension][$filename] ) || $reload )
 		{
 		    $cache = KFactory::tmp('lib.joomla.cache', array('language', 'output'));
+		    
+		    //Set the lifetime to 0 to make sure cache isn't garbage collected.
+	        $cache->setLifeTime(0);
+	        
 		    $identifier = md5($extension.$basePath.$lang);
 		
 		    if (!$data = $cache->get($identifier)) 
