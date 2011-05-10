@@ -69,10 +69,20 @@ class KDatabaseSchemaTable extends KObject
 	public $description;
 	
 	/**
+	 * List of columns
+	 * 
+	 * Associative array of columns, where key holds the columns name and the value is 
+	 * an KDatabaseSchemaColumn object.
+	 * 
+	 * @var	array
+	 */
+	public $columns = array();
+	
+	/**
 	 * List of behaviors
 	 * 
 	 * Associative array of behaviors, where key holds the behavior identifier string
-	 * and the value is an identifier object.
+	 * and the value is an KDatabaseBehavior object.
 	 * 
 	 * @var	array
 	 */
