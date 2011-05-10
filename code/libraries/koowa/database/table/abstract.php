@@ -99,7 +99,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $this->_rowset      = $config->rowset;
         
         //Check if the table exists
-        if(!$info = $this->getInfo()) {
+        if(!$info = $this->getSchema()) {
             throw new KDatabaseTableException('Table '.$this->_name.' does not exist');
         }
             
@@ -274,7 +274,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		    $identifier = (string) $behavior->getIdentifier();
               
             //Set the behaviors in the database schema
-            $this->getInfo()->behaviors[$identifier] = $behavior;
+            $this->getSchema()->behaviors[$identifier] = $behavior;
                          
             //Enqueue the behavior in the command chain
             $this->getCommandChain()->enqueue($behavior);
@@ -305,10 +305,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
        //Make sure we have an identfier string
        $identifier = (string) $identifier;
        
-       if(!isset($this->getInfo()->behaviors[$identifier])) {
+       if(!isset($this->getSchema()->behaviors[$identifier])) {
            $behavior = KDatabaseBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
        } else {
-           $behavior = $this->getInfo()->behaviors[$identifier];
+           $behavior = $this->getSchema()->behaviors[$identifier];
        }
        
        return $behavior;
@@ -321,7 +321,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getBehaviors()
     {
-        return $this->getInfo()->behaviors;
+        return $this->getSchema()->behaviors;
     }	
     
     /**
@@ -330,52 +330,22 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      * @return  object|null Returns a KDatabaseSchemaTable object or NULL if the table doesn't exists
      * @throws  KDatabaseTableException
      */
-    public function getInfo()
+    public function getSchema()
     {
         $result = null;
         
         if($this->isConnected())
         {
             try {
-                $info = $this->_database->getTableInfo($this->getBase());
+                $result = $this->_database->getTableSchema($this->getBase());
             } catch(KDatabaseException $e) {
                 throw new KDatabaseTableException($e->getMessage());
-            }
-            
-            if(isset($info[$this->getBase()])) { 
-                $result = $info[$this->getBase()];
             }
         }
             
         return $result;
     }
-    
-    /**
-     * Get the table indexes
-     * 
-     * @return  array
-     * @throws  KDatabaseTableException
-     */
-    public function getIndexes()
-    {
-        $result = array();
-        
-        if($this->isConnected())
-        {    
-            try {
-                $indexes = $this->_database->getTableIndexes($this->getBase());
-            } catch(KDatabaseException $e) {
-                throw new KDatabaseTableException($e->getMessage());
-            }
-            
-            if(isset($indexes[$this->getBase()])) { 
-                $result = $indexes[$this->getBase()];
-            }
-        }
-        
-        return $result;
-    }
-    
+      
     /**
      * Get a column by name
      *
@@ -401,13 +371,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         //Get the table name
         $name = $base ? $this->getBase() : $this->getName();
         
-        try {
-            $columns = $this->_database->getTableColumns($name);
-        } catch(KDatabaseException $e) {
-            throw new KDatabaseTableException($e->getMessage());
-        }
-        
-        return $this->mapColumns($columns[$name], true);
+        //Get the columns from the schema
+        $columns = $this->getSchema($name)->columns;
+     
+        return $this->mapColumns($columns, true);
     }
     
     /**
@@ -645,7 +612,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 {
                     $context->data = $this->getRow();
                     if(isset($data) && !empty($data)) {
-                        $context->data->setData($data)->setStatus(KDatabase::STATUS_LOADED); 
+                       $context->data->setData($data, false)->setStatus(KDatabase::STATUS_LOADED);
                     }
                     break;
                 }
@@ -654,7 +621,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 {
                     $context->data = $this->getRowset();
                     if(isset($data) && !empty($data)) {
-                        $context->data->addData($data, false); 
+                        $context->data->addData($data, false);
                     }
                     break;
                 }
