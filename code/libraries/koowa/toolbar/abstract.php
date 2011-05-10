@@ -72,7 +72,7 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
     {
         $config->append(array(
             'title'      => null,
-            'icon'       => 'generic.png',
+            'icon'       => 'generic',
         ));
         
         parent::_initialize($config);
