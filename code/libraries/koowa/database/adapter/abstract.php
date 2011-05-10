@@ -25,7 +25,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 *
 	 * @var boolean
 	 */
-	protected $_active = null;
+	protected $_connected = null;
 
 	/**
 	 * The database connection resource
@@ -188,10 +188,25 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function disconnect()
 	{
 		$this->_connection = null;
-		$this->_active = false;
+		$this->_connected  = false;
 		
 		return $this;
 	}
+	
+	/**
+	 * Get the database name
+	 *
+	 * @return string	The database name
+	 */
+	abstract function getDatabase();
+	
+	/**
+	 * Set the database name
+	 *
+	 * @param 	string 	The database name
+	 * @return  KDatabaseAdapterAbstract
+	 */
+	abstract function setDatabase($database);
 
 	/**
 	 * Get the connection
@@ -205,7 +220,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	{
 		return $this->_connection;
 	}
-
+	
 	/**
 	 * Set the connection
 	 *
@@ -217,7 +232,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	    $this->_connection = $resource;
 		return $this;
 	}
-
+	
 	/**
 	 * Get the insert id of the last insert operation
 	 *
@@ -560,7 +575,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     {
         if (is_array($value))
         {
-            // quote array values, not keys, then combine with commas.
+            //Quote array values, not keys, then combine with commas.
             foreach ($value as $k => $v) {
                 $value[$k] = $this->quoteValue($v);
             }
