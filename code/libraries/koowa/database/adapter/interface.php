@@ -34,13 +34,6 @@ interface KDatabaseAdapterInterface
 	public function connect();
 
 	/**
-	 * Determines if the connection to the server is active.
-	 *
-	 * @return      boolean
-	 */
-	public function active();
-
-	/**
 	 * Reconnect to the db
 	 * 
 	 * @return  KDatabaseAdapterAbstract
@@ -72,6 +65,13 @@ interface KDatabaseAdapterInterface
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function setConnection($resource);
+	
+	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @return      boolean
+	 */
+	public function isConnected();
 
 	/**
 	 * Get the insert id of the last insert operation
@@ -81,28 +81,12 @@ interface KDatabaseAdapterInterface
  	public function getInsertId();
 
 	/**
-	 * Retrieves the column schema information about the given tables
+	 * Retrieves the column schema information about the given table
 	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of columns by table
+	 * @param 	string 	A table name 
+	 * @return	KDatabaseSchemaTable
 	 */
-	public function getTableColumns($tables);
-	
-	/**
-	 * Retrieves the table schema information about the given tables
-	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of table information by table
-	 */
-	public function getTableInfo($tables);
-	
-	/**
-	 * Retrieves the index information about the given tables
-	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return	array 	An associative array of indexes by table
-	 */
-	public function getTableIndexes($tables);
+	public function getTableSchema($table);
 	
 	/**
      * Preforms a select query
