@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerRemind extends ComDefaultControllerPage
+class ComUsersControllerRemind extends ComDefaultControllerResource
 {
     protected function _actionRemind(KCommandContext $context)
     {
