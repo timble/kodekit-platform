@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: manifest.xml 855 2011-04-08 01:18:41Z johanjanssens $ -->
 <install type="component" version="1.5.0">
-	<name>Users</name>
+	<name>Languages</name>
   	<author>Nooku Project</author>
   	<creationDate>April 2011</creationDate>
   	<copyright>Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
