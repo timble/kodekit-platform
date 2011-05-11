@@ -3,11 +3,15 @@
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
+    var $_title_column = '';
+    
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
 
         $this->registerCallback($config->actions->toArray(), array($this, 'logAction'));
+        
+        $this->_title_column = $config->title_column;
     }
     
     protected function _initialize(KConfig $config)
@@ -15,6 +19,7 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOW,
             'actions' => array('after.edit', 'after.add', 'after.delete'),
+            'title_column' => 'title',
         ));
 
         parent::_initialize($config);
@@ -46,10 +51,8 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 			
 			if(!empty($status))
 			{
-				if ($row->title) {
-					$data['title'] = $row->title;
-				} elseif ($row->name) {
-					$data['title'] = $row->name;
+				if ($row->{$this->_title_column}) {
+					$data['title'] = $row->{$this->_title_column};
 				} else {
 					$data['title'] = '#'.$row->id;
 				}
