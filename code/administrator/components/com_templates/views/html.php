@@ -31,11 +31,6 @@ class ComTemplatesViewHtml extends ComDefaultViewHtml
         
         // Set base url used by things like template thumbnails
         $this->assign('templateurl', $config->template_url);
-        
-        $client	= KRequest::get('get.client', 'int', $this->getModel()->getState()->client);
-        
-        JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&view=templates&client=0',          $client == 0);
-        JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&view=templates&client=1', $client == 1);
     }
 
     protected function _initialize(KConfig $config)

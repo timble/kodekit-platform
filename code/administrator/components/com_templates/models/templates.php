@@ -37,7 +37,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
 
         $this->_state
             //@TODO states isn't set in helper listboxes, the client default state is a workaround
-            ->insert('client'   , 'int', KRequest::get('get.client', 'int', 0))
+            ->insert('client'   , 'int')
             ->insert('name'     , 'cmd', null, true)
             ->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
@@ -52,11 +52,12 @@ class ComTemplatesModelTemplates extends KModelAbstract
      * @return KDatabaseRowInterface
      */
     public function getItem()
-    { 
+    {
         if(!isset($this->_item))
         {
             //Templates without a manifest can't be parsed
             $base = $this->_state->client ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            
             $path = $base.'/templates/'.$this->_state->name;
             if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
 
