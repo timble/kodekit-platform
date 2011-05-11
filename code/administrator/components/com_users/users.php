@@ -18,8 +18,8 @@
  * @subpackage  Sections    
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_users', 'manage' )) {
-	KFactory::get('lib.koowa.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
-}
+//if (!KFactory::get('lib.joomla.user')->authorize( 'com_users', 'manage' )) {
+//	KFactory::get('lib.koowa.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+//}
 
 echo KFactory::get('admin::com.users.dispatcher')->dispatch();
