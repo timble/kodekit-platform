@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerResource
+class ComDefaultControllerDefault extends KControllerService
 {
     /**
      * Display action
