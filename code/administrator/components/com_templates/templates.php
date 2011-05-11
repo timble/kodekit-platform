@@ -18,8 +18,8 @@
  * @subpackage  Templates    
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_template', 'manage' )) {
-	KFactory::get('lib.koowa.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!KFactory::get('lib.joomla.user')->authorize( 'com_templates', 'manage' )) {
+	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 echo KFactory::get('admin::com.templates.dispatcher')->dispatch();
