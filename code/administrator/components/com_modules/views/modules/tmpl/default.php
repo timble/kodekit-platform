@@ -49,7 +49,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</td>
 				<td>
 					<?= @text( 'Filter' ) ?>:
-					<?= @template('list.search_form') ?>
+					<?= @template('admin::com.default.view.list.search_form') ?>
 				</td>
 				<td align="center">
 					<?= @helper('listbox.enabled') ?>
