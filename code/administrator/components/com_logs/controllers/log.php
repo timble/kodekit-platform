@@ -15,19 +15,12 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
 
 	public function getView()
     {
+        // If com_logs is called through HMVC, use a special layout 
+        // to display the log list that is specific to the "package(component)".
         if (!$this->isDispatched()) {
             $this->_request->layout = 'package_list';
         }
 
         return parent::getView();
     }
-    
-    public function getModel()
-	{
-		if(!($this->_model instanceof KModelAbstract)) {
-		    $this->_model = KFactory::tmp('admin::com.logs.model.logs')->set($this->_request);
-		}
-
-		return $this->_model;
-	}
 }
