@@ -65,7 +65,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
                 'name'     => $this->_state->name,
                 'client'   => $this->_state->client,
                 'default'  => $this->_state->name == $this->getDefaultTemplate(),
-                'assigned' => $this->_getTemplateAssigned($this->_state->name)
             );
 
             $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
@@ -103,7 +102,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
                         'name'     => $file->getFilename(),
                         'client'   => $this->_state->client,
                         'default'  => $file->getFilename() == $this->getDefaultTemplate(),
-                        'assigned' => $this->_getTemplateAssigned($file->getFilename())
                     );
                 }
             }
@@ -120,27 +118,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
         }
 
         return $this->_list;
-    }
-
-    /**
-     * Gets what menu items a template is assigned to
-     *
-     * Private as it's only used internally, in this class
-     *
-     * @param  string $template    The name of the template we're fetching assigned menu items for
-     * @return array               The menu item ids of where this template is assigned
-     */
-    private function _getTemplateAssigned($template)
-    {
-        $table = KFactory::get('admin::com.templates.database.table.menu');
-        $query = $table->getDatabase()->getQuery();
-
-        $query->select('menuid')
-              ->where('client_id', '=' , 0)
-              ->where('menuid'   , '<>', 0)
-              ->where('template' , '=' , $template);
-
-        return $table->select($query, KDatabase::FETCH_FIELD_LIST);
     }
 
     /**
