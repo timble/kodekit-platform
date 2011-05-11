@@ -50,7 +50,7 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 			{
 				if($where['property'] == 'tbl.tag') 
 				{
-					$table = KFactory::get($context->caller);
+					$table = $context->caller;
 				
 					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value'], '');
 					$query->where('terms_relations.table','=', $table->getName());
