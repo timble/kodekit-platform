@@ -373,25 +373,6 @@ INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu f
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__messages`
-#
-
-CREATE TABLE `#__messages` (
-  `message_id` int(10) unsigned NOT NULL auto_increment,
-  `user_id_from` int(10) unsigned NOT NULL default '0',
-  `user_id_to` int(10) unsigned NOT NULL default '0',
-  `folder_id` int(10) unsigned NOT NULL default '0',
-  `date_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `state` int(11) NOT NULL default '0',
-  `priority` int(1) unsigned NOT NULL default '0',
-  `subject` TEXT NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY  (`message_id`),
-  KEY `useridto_state` (`user_id_to`, `state`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__modules`
 #
 
