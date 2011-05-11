@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<!--<script src="media://lib_koowa/js/koowa.js" />-->
+<script src="media://lib_koowa/js/koowa.js" />
 <?= @helper('behavior.tooltip') ?>
 
 <div class="col width-15 menus">
