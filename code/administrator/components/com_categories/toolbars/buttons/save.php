@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class ComCategoriesToolbarButtonSave extends KToolbarButtonSave
+class ComCategoriesToolbarButtonSave extends KToolbarButtonPost
 {
     public function getOnClick()
     {
