@@ -41,7 +41,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 	
 		$this->_state
 			//@TODO states isn't set in helper listboxes, the client default state is a workaround
-		 	->insert('client'  	, 'int', KRequest::get('get.client', 'int', 0))
+		 	->insert('client'  	, 'int')
 		 	->insert('sort'  	, 'cmd', array('position', 'ordering'))
 		 	->insert('enabled'	, 'int')
 		 	->insert('position' , 'cmd')

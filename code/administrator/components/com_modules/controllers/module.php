@@ -25,11 +25,6 @@ class ComModulesControllerModule extends ComDefaultControllerDefault
 		parent::__construct($config);
 
 		$this->registerCallback('after.edit', array($this, 'purgeCache'));
-
-		$client	= KRequest::get('get.client', 'int', 0);
-		
-		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&view=modules&client=0',          $client == 0);
-		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&view=modules&client=1', $client == 1);
 	}
 	
 	public function purgeCache(KCommandContext $context)

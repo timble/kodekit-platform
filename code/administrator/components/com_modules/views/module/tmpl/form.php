@@ -299,6 +299,4 @@ window.addEvent('domready', function() {
 <? endif ?>
 
 <input type="hidden" name="module" value="<?= $module->module ?>" />
-<? /* @TODO maybe move this to a filter or similar */ ?>
-<input type="hidden" name="client" value="<?= $state->client ?>" />
 </form>

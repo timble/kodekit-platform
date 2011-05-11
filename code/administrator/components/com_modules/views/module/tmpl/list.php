@@ -13,8 +13,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.tooltip') ?>
 
 <form action="<?= @route('layout=form') ?>" method="get" name="adminForm" id="modules-module-list">
-	<input type="hidden" name="client" value="<?= $state->client ?>" />
-	
 	<table class="adminlist" summary="Add Module">
 		<thead>
 			<tr>
@@ -38,7 +36,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					'value'		=> $module->module
 				)) ?>>
 					<input type="radio" name="module" value="<?= $module->module ?>" />
-					<a href="<?= @route('layout=form&module='.$module->module.'&client='.$state->client) ?>">
+					<a href="<?= @route('layout=form&module='.$module->module) ?>">
 						<?= @text(@escape($module->name)) ?>
 					</a>
 				</span>

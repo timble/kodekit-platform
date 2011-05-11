@@ -22,10 +22,6 @@ class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
 {
 	public function getLink()
 	{
-		$option = KRequest::get('get.option', 'cmd');
-		$view	= KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		$client	= KRequest::get('get.client', 'int', 0);
-		
-		return 'index.php?option='.$option.'&view='.$view.'&client='.$client.'&layout=list';
+		return 'index.php?option=com_modules&view=module&layout=list';
 	}
 }
