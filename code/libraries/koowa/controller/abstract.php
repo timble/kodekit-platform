@@ -73,9 +73,6 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
         parent::__construct($config);
         
-        //Set the action
-        $this->_action = $config->action;
-        
          //Set the dispatched state
         $this->_dispatched = $config->dispatched;
         
@@ -103,7 +100,6 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
     {
         $config->append(array(
             'command_chain'     =>  new KCommandChain(),
-            'action'            => null,
             'dispatch_events'   => true,
             'enable_callbacks'  => true,
             'dispatched'		=> false,

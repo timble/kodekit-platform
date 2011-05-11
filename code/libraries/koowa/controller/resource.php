@@ -64,7 +64,7 @@ abstract class KControllerResource extends KControllerPage
 	public function loadState(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
-		$identifier  = $this->getModel()->getIdentifier().'.'.$this->_action;
+		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
 		$state       = KRequest::get('session.'.$identifier, 'raw', array());
 			
 		//Append the data to the request object
@@ -88,7 +88,7 @@ abstract class KControllerResource extends KControllerPage
 		$state  = $model->get();
 
 		// Built the session identifier based on the action
-		$identifier  = $model->getIdentifier().'.'.$this->_action;
+		$identifier  = $model->getIdentifier().'.'.$context->action;
 		
 		//Set the state in the session
 		KRequest::set('session.'.$identifier, $state);
@@ -166,7 +166,8 @@ abstract class KControllerResource extends KControllerPage
 	    {
 	        $data->setData(KConfig::toData($context->data));
 	        
-	        if($data->save()) {
+	        //Only set the reset content status if the action explicitly succeeded
+	        if($data->save() === true) {
 		        $context->status = KHttpResponse::RESET_CONTENT;
 		    } else {
 		        $context->status = KHttpResponse::NO_CONTENT;
@@ -192,7 +193,8 @@ abstract class KControllerResource extends KControllerPage
 		{	
 		    $data->setData(KConfig::toData($context->data));
 		    
-		    if(!$data->save()) 
+		    //Only throw an error if the action explicitly failed.
+		    if($data->save() === false) 
 		    {    
 		        $context->setError(new KControllerException(
 		           $name.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
@@ -220,14 +222,15 @@ abstract class KControllerResource extends KControllerPage
 		if(count($data)) 
 	    {
             $data->setData(KConfig::toData($context->data));
-	        
-	        if(!$data->delete()) 
+
+            //Only throw an error if the action explicitly failed.
+	        if($data->delete() === false) 
 	        {
                  $context->setError(new KControllerException(
 		             $name.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		         ));  
-		    } 
-		    else  $context->status = KHttpResponse::NO_CONTENT;
+		    }
+		    else $context->status = KHttpResponse::NO_CONTENT;
 		} 
 		else  $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
 					
