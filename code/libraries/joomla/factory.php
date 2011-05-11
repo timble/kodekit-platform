@@ -201,7 +201,7 @@ class JFactory
 			'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
 			'language' 		=> $conf->getValue('config.language'),
 			'storage'		=> $storage,
-			'site'			=> JFactory::getApplication()->getSite()
+			'site'			=> JFactory::getSession()->get('site')
 		);
 
 		jimport('joomla.cache.cache');
