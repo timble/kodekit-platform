@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerLogin extends ComDefaultControllerPage
+class ComUsersControllerLogin extends ComDefaultControllerResource
 {
     protected function _actionGet(KCommandContext $context)
     {
