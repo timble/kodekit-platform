@@ -34,7 +34,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			<tr>
     				<th width="20"></th>
     				<th class="title">
-    					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Module Name')) ?>
+    					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
     				</th>
     				<th nowrap="nowrap" width="7%">
     					<?= @helper('grid.sort', array('column' => 'enabled' , 'title' => 'Enabled')) ?>
