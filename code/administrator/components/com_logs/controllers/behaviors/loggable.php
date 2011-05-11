@@ -3,12 +3,12 @@
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
-    var $_title_column = '';
+    protected $_title_column = '';
     
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
-
+        
         $this->registerCallback($config->actions->toArray(), array($this, 'logAction'));
         
         $this->_title_column = $config->title_column;
