@@ -2,21 +2,57 @@
 /**
  * @version		$Id$
  * @category	Koowa
- * @package		Koowa_Controller
+ * @package     Koowa_Controller
  * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
 
 /**
- * Abstract Bread Controller Class
+ * Abstract View Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
- * @package		Koowa_Controller
+ * @package     Koowa_Controller
+ * @uses        KInflector
  */
-abstract class KControllerResource extends KControllerPage
+abstract class KControllerResource extends KControllerAbstract
 {
+	/**
+	 * URL for redirection.
+	 *
+	 * @var	string
+	 */
+	protected $_redirect = null;
+
+	/**
+	 * Redirect message.
+	 *
+	 * @var	string
+	 */
+	protected $_redirect_message = null;
+
+	/**
+	 * Redirect message type.
+	 *
+	 * @var	string
+	 */
+	protected $_redirect_type = 'message';
+	
+	/**
+	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 *
+	 * @var	string|object
+	 */
+	protected $_view;
+	
+	/**
+	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_model;
+
 	/**
 	 * Constructor
 	 *
@@ -26,15 +62,17 @@ abstract class KControllerResource extends KControllerPage
 	{
 		parent::__construct($config);
 
-		//Register the load and save request function to make the request persistent
-		if($config->persistent)
-		{
-			$this->registerCallback('before.browse' , array($this, 'loadState'));
-			$this->registerCallback('after.browse'  , array($this, 'saveState'));
-		}	
+	    // Set the model identifier
+	    $this->_model = $config->model;
+		
+		// Set the view identifier
+		$this->_view = $config->view;
+		
+		//Register display as alias for get
+		$this->registerActionAlias('display', 'get');
 	}
 
- 	/**
+	/**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -45,57 +83,46 @@ abstract class KControllerResource extends KControllerPage
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'persistent' => false,
-    		'behaviors' => array('discoverable') 
+    	    'model'	    => $this->_identifier->name,
+        	'view'	    => $this->_identifier->name,
+    	    'behaviors' => array('executable') 
         ));
-
+        
         parent::_initialize($config);
+        
+        //Force the view to the information found in the request
+        if(isset($config->request->view)) {
+            $config->view = $config->request->view;
+        }
     }
-       
+    
 	/**
-	 * Load the model state from the request
+	 * Get the view object attached to the controller
 	 *
-	 * This functions merges the request information with any model state information
-	 * that was saved in the session and returns the result.
-	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return array	An associative array of request information
+	 * @return	KViewAbstract
 	 */
-	public function loadState(KCommandContext $context)
+	public function getView()
 	{
-		// Built the session identifier based on the action
-		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
-		$state       = KRequest::get('session.'.$identifier, 'raw', array());
-			
-		//Append the data to the request object
-		$this->_request->append($state);
+	    if(!$this->_view instanceof KViewAbstract)
+		{	   
+		    //Make sure we have a view identifier
+		    if(!($this->_view instanceof KIndetifier)) {
+		        $this->setView($this->_view);
+			}
+		    
+		    //Enable the auto-filtering if the controller was dispatched or 
+			//if the MVC triad was called outside of the dispatcher.
+			$config = array(
+			    'model'        => $this->getModel(),
+			    'auto_filter'  => $this->isDispatched() || !KFactory::has('dispatcher')
+        	);
+        	
+			$this->_view = KFactory::tmp($this->_view, $config);
+		}
 		
-		//Push the request in the model
-		$this->getModel()->set($this->getRequest());
-		
-		return $this;
+		return $this->_view;
 	}
-	
-	/**
-	 * Saves the model state in the session
-	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return KControllerBread
-	 */
-	public function saveState(KCommandContext $context)
-	{
-		$model  = $this->getModel();
-		$state  = $model->get();
 
-		// Built the session identifier based on the action
-		$identifier  = $model->getIdentifier().'.'.$context->action;
-		
-		//Set the state in the session
-		KRequest::set('session.'.$identifier, $state);
-
-		return $this;
-	}
-	
 	/**
 	 * Method to set a view object attached to the controller
 	 *
@@ -104,221 +131,198 @@ abstract class KControllerResource extends KControllerPage
 	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */
-    public function setView($view)
+	public function setView($view)
 	{
-	    if(is_string($view) && strpos($view, '.') === false ) 
-		{	
-		    if(!isset($this->_request->view)) 
-		    { 
-		        if($this->getModel()->getState()->isUnique()) {
-			        $view = KInflector::singularize($view);
-		        } else {
-			        $view = KInflector::pluralize($view);
-	    	    }
-		    }
+		if(!($view instanceof KViewAbstract))
+		{
+			if(is_string($view) && strpos($view, '.') === false ) 
+		    {
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('view', $view);
+			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
+			}
+			else $identifier = KFactory::identify($view);
+		    
+			if($identifier->path[0] != 'view') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
+			}
+
+			$view = $identifier;
 		}
 		
-		return parent::setView($view);
-	}
-	
-	/**
-	 * Browse a list of items
-	 * 
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRowset	A rowset object containing the selected rows
-	 */
-	protected function _actionBrowse(KCommandContext $context)
-	{
-		$data = $this->getModel()->getList();
-		return $data;
-	}
-
-	/**
-	 * Display a single item
-	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRow	A row object containing the selected row
-	 */
-	protected function _actionRead(KCommandContext $context)
-	{
-	    $data = $this->getModel()->getItem();
-	    $name = ucfirst($this->getView()->getName());
-	    	
-		if($this->getModel()->getState()->isUnique() && $data->isNew()) {
-		    $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
-		} 
+		$this->_view = $view;
 		
-		return $data;
-	}
-
-	/**
-	 * Generic edit action, saves over an existing item
-	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRowset A rowset object containing the updated rows
-	 */
-	protected function _actionEdit(KCommandContext $context)
-	{ 
-	    $data = $this->getModel()->getData();
-	    $name = ucfirst($this->getView()->getName());
-								
-	    if(count($data)) 
-	    {
-	        $data->setData(KConfig::toData($context->data));
-	        
-	        //Only set the reset content status if the action explicitly succeeded
-	        if($data->save() === true) {
-		        $context->status = KHttpResponse::RESET_CONTENT;
-		    } else {
-		        $context->status = KHttpResponse::NO_CONTENT;
-		    }
-		} 
-		else $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
-					
-		return $data;
-	}
-
-	/**
-	 * Generic add action, saves a new item
-	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRow 	A row object containing the new data
-	 */
-	protected function _actionAdd(KCommandContext $context)
-	{
-		$data = $this->getModel()->getItem();
-		$name = ucfirst($this->getView()->getName());
-				
-		if($data->isNew())	
-		{	
-		    $data->setData(KConfig::toData($context->data));
-		    
-		    //Only throw an error if the action explicitly failed.
-		    if($data->save() === false) 
-		    {    
-		        $context->setError(new KControllerException(
-		           $name.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		        ));
-		       
-		    } 
-		    else $context->status = KHttpResponse::CREATED;
-		} 
-		else $context->setError(new KControllerException($name.' Already Exists', KHttpResponse::BAD_REQUEST));
-				
-		return $data;
-	}
-
-	/**
-	 * Generic delete function
-	 *
-	 * @param	KCommandContext	A command context object
-	 * @return 	KDatabaseRowset	A rowset object containing the deleted rows
-	 */
-	protected function _actionDelete(KCommandContext $context)
-	{
-	    $data = $this->getModel()->getData();
-	    $name = ucfirst($this->getView()->getName());
-							
-		if(count($data)) 
-	    {
-            $data->setData(KConfig::toData($context->data));
-
-            //Only throw an error if the action explicitly failed.
-	        if($data->delete() === false) 
-	        {
-                 $context->setError(new KControllerException(
-		             $name.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		         ));  
-		    }
-		    else $context->status = KHttpResponse::NO_CONTENT;
-		} 
-		else  $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
-					
-		return $data;
+		return $this;
 	}
 	
 	/**
-	 * Get action
-	 * 
-	 * This function translates a GET request into a read or browse action. If the view name is 
-	 * singular a read action will be executed, if plural a browse action will be executed.
-	 * 
-	 * This function will not render anything the result of the read or browse action is not a 
-	 * row or rowset object
+	 * Get the model object attached to the contoller
+	 *
+	 * @return	KModelAbstract
+	 */
+	public function getModel()
+	{
+		if(!$this->_model instanceof KModelAbstract) 
+		{
+			//Make sure we have a model identifier
+		    if(!($this->_model instanceof KIndetifier)) {
+		        $this->setModel($this->_model);
+			}
+		    
+		    //@TODO : Pass the state to the model using the options
+		    $options = array(
+				'state' => $this->getRequest()
+            );
+		    
+		    $this->_model = KFactory::tmp($this->_model)->set($this->getRequest());
+		}
+
+		return $this->_model;
+	}
+
+	/**
+	 * Method to set a model object attached to the controller
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KDatabaseRowsetException	If the identifier is not a model identifier
+	 * @return	KControllerAbstract
+	 */
+	public function setModel($model)
+	{
+		if(!($model instanceof KModelAbstract))
+		{
+	        if(is_string($model) && strpos($model, '.') === false ) 
+		    {
+			    // Model names are always plural
+			    if(KInflector::isSingular($model)) {
+				    $model = KInflector::pluralize($model);
+			    } 
+		        
+			    $identifier			= clone $this->_identifier;
+			    $identifier->path	= array('model');
+			    $identifier->name	= $model;
+			}
+			else $identifier = KFactory::identify($model);
+		    
+			if($identifier->path[0] != 'model') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
+			}
+
+			$model = $identifier;
+		}
+		
+		$this->_model = $model;
+		
+		return $this;
+	}
+	
+	/**
+	 * Set a URL for browser redirection.
+	 *
+	 * @param	string URL to redirect to.
+	 * @param	string	Message to display on redirect. Optional, defaults to
+	 * 			value set internally by controller, if any.
+	 * @param	string	Message type. Optional, defaults to 'message'.
+	 * @return	KControllerAbstract
+	 */
+	public function setRedirect( $url, $msg = null, $type = 'message' )
+	{
+		$this->_redirect   		 = $url;
+		$this->_redirect_message = $msg;
+		$this->_redirect_type	 = $type;
+
+		return $this;
+	}
+
+	/**
+	 * Returns an array with the redirect url, the message and the message type
+	 *
+	 * @return array	Named array containing url, message and messageType, or null if no redirect was set
+	 */
+	public function getRedirect()
+	{
+		$result = array();
+
+		if(!empty($this->_redirect))
+		{
+			$result = array(
+				'url' 		=> JRoute::_($this->_redirect, false),
+				'message' 	=> $this->_redirect_message,
+				'type' 		=> $this->_redirect_type,
+			);
+		}
+
+		return $result;
+	}
+	
+	/**
+	 * Specialised display function.
 	 *
 	 * @param	KCommandContext	A command context object
-	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
+	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionGet(KCommandContext $context)
 	{
-		//Check if we are reading or browsing
-	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
-	    
-	    //Execute the action
-		$data = $this->execute($action, $context);
-		
-		//Only process the result if a valid row or rowset object has been returned
-		if(($data instanceof KDatabaseRowInterface) || ($data instanceof KDatabaseRowsetInterface))
-		{
-            $view = $this->getView();
-		   
-            if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-                $view->setLayout($this->_request->layout);
-            }
-		    
-            //Render the view
-            $data = $view->display();
-		}
-		
-		return $data;
+		$view = $this->getView();
+	
+        //Set the layout in the view
+	    if(isset($this->_request->layout)) {
+            $view->setLayout($this->_request->layout);
+	     }
+	     
+	    //Render the view
+        $result = $view->display();
+	     
+		return $result;
 	}
 	
 	/**
-	 * Post action
-	 * 
-	 * This function translated a POST request action into an edit or add action. If the model 
-	 * state is unique a edit action will be executed, if not unique an add action will 
-	 * be executed.
+     * Set a request properties
+     * 
+     * This function also pushes any request changes into the model
+     *
+     * @param  	string 	The property name.
+     * @param 	mixed 	The property value.
+     */
+ 	public function __set($property, $value)
+    {
+    	parent::__set($property, $value);
+    	
+    	//Prevent state changes through the parents constructor 
+    	if($this->_model instanceof KModelAbstract) {
+    	    $this->getModel()->set($property, $value);
+    	}
+  	}
+	
+	/**
+	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
+	 * properties by using the request property name as the method name.
 	 *
-	 * @param	KCommandContext		A command context object
-	 * @return 	KDatabaseRow(set)	A row(set) object containing the modified data
+	 * For example : $controller->view('name')->limit(10)->browse();
+	 *
+	 * @param	string	Method name
+	 * @param	array	Array containing all the arguments for the original call
+	 * @return	KControllerBread
+	 *
+	 * @see http://martinfowler.com/bliki/FluentInterface.html
 	 */
-	protected function _actionPost(KCommandContext $context)
+	public function __call($method, $args)
 	{
-		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
-		return parent::execute($action, $context);
-	}
-	
-	/**
-	 * Put action
-	 * 
-	 * This function translates a PUT request into an edit or add action. Only if the model
-	 * state is unique and the item exists an edit action will be executed, if the resources
-	 * doesn't exist an add action will be executed.
-	 * 
-	 * If the resource already exists it will be completely replaced based on the data
-	 * available in the request.
-	 * 
-	 * @param	KCommandContext			A command context object
-	 * @return 	KDatabaseRow(set)		A row(set) object containing the modified data
-	 * @throws  KControllerException 	If the model state is not unique 
-	 */
-	protected function _actionPut(KCommandContext $context)
-	{   
-	    $data = $this->getModel()->getItem();
-	        
-        $action = 'add';
-	    if(!$data->isNew()) 
-	    {
-	        //Reset the row data
-	        $data->reset();
-	        $action = 'edit';
+	    //Check first if we are calling a mixed in method. 
+	    //This prevents the model being loaded durig object instantiation. 
+		if(!isset($this->_mixed_methods[$method])) 
+        {
+            //Check if the method is a state property
+			$state = $this->getModel()->getState();
+		
+			if(isset($state->$method) || in_array($method, array('layout', 'view', 'format'))) 
+			{
+				$this->$method = $args[0];
+				return $this;
+			}
         }
-	            
-        //Set the row data based on the unique state information
-	    $state = $this->getModel()->getState()->getData(true);
-	    $data->setData($state);
-	             
-        return parent::execute($action, $context); 
+		
+		return parent::__call($method, $args);
 	}
 }
