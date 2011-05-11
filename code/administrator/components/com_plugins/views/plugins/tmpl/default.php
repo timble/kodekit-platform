@@ -1,129 +1,94 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php 
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Modules
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?= @helper('behavior.tooltip') ?>
 
-<?php
-	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	$ordering = ($this->lists['order'] == 'p.folder' || $this->lists['order'] == 'p.ordering');
-	$rows =& $this->items;
-
-?>
-
-<form action="index.php" method="post" name="adminForm">
-<table class="adminlist">
-<thead>
-	<tr>
-		<th width="20">
-			
-		</th>
-		<th class="title">
-			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
-		<th nowrap="nowrap" width="5%">
-			<?php echo JHTML::_('grid.sort',   'Published', 'p.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
-		<th width="8%" nowrap="nowrap">
-			<?php echo JHTML::_('grid.sort',   'Order', 'p.ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			<?php if ($ordering) echo JHTML::_('grid.order',  $rows ); ?>
-		</th>
-		<th nowrap="nowrap" width="10%">
-			<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
-		<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JHTML::_('grid.sort',   'Type', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
-		<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JHTML::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-		</th>
-	</tr>
-	<tr>
-
-		<td align="center">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-		</td>
-		<td>
-			<?php echo JText::_( 'Filter' ); ?>:
-			<input type="text" name="search" id="search" value="<?php echo htmlspecialchars($this->lists['search']);?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-		</td>
-		<td align="center">
-			<?php echo $this->lists['state']; ?>
-		</td>
-		<td></td>
-		<td></td>
-		<td>
-			<?php echo $this->lists['type']; ?>
-		</td>
-		<td></td>
-	</tr>
-</thead>
-<tfoot>
-	<tr>
-		<td colspan="12">
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
-	</tr>
-</tfoot>
-<tbody>
-<?php
-	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-	$row 	= $rows[$i];
-
-	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->id );
-
-	$access 	= JHTML::_('grid.access',   $row, $i );
-	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-	$published 	= JHTML::_('grid.published', $row, $i );
-
-?>
-	<tr>
-		<td align="center">
-			<?php echo $checked; ?>
-		</td>
-		<td>
-			<?php
-			if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out ) ) {
-				echo $row->name;
-			} else {
-			?>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Plugin' );?>::<?php echo htmlspecialchars($row->name); ?>">
-				<a href="<?php echo $link; ?>">
-					<?php echo htmlspecialchars($row->name); ?></a></span>
-			<?php } ?>
-		</td>
-		<td align="center">
-			<?php echo $published;?>
-		</td>
-		<td class="order">
-			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?></span>
-			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?></span>
-			<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-			<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"  <?php echo $disabled ?> class="text_area" style="text-align: center" />
-		</td>
-		<td align="center">
-			<?php echo $access;?>
-		</td>
-		<td nowrap="nowrap">
-			<?php echo $row->folder;?>
-		</td>
-		<td nowrap="nowrap">
-			<?php echo $row->element;?>
-		</td>
-	</tr>
-	<?php
-	}
-	?>
-</tbody>
-</table>
-
-	<input type="hidden" name="option" value="com_plugins" />
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="filter_client" value="<?php echo $this->client;?>" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+<form action="<?= @route() ?>" method="get" name="adminForm">
+    <table class="adminlist">
+        <thead>
+        	<tr>
+        		<th width="20"></th>
+        		<th class="title">
+        		    <?= @helper('grid.sort', array('column' => 'name' , 'title' => 'Name')) ?>
+        		</th>
+        		<th nowrap="nowrap" width="5%">
+        			<?= @helper('grid.sort', array('column' => 'enabled' , 'title' => 'Enabled')) ?>
+        		</th>
+        		<th width="80" nowrap="nowrap">
+        			<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
+        		</th>
+        		<th nowrap="nowrap" width="10%">
+        			<?= @helper('grid.sort', array('column' => 'groupname' , 'title' => 'Access')) ?>
+        		</th>
+        		<th nowrap="nowrap"  width="10%" class="title">
+        		    <?= @helper('grid.sort', array('column' => 'folder' , 'title' => 'Type')) ?>
+        		</th>
+        	</tr>
+        	<tr>
+        		<td align="center">
+        			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($plugins) ?>);" />
+        		</td>
+        		<td>
+        			<?= @text( 'Filter' ) ?>:
+        			<?= @template('admin::com.default.view.list.search_form') ?>
+        		</td>
+        		<td align="center">
+        			<?= @helper('listbox.enabled') ?>
+        		</td>
+        		<td></td>
+        		<td></td>
+        		<td>
+        			<?= @helper('listbox.folder') ?>
+        		</td>
+        	</tr>
+        </thead>
+        <tfoot>
+        	<? if ($plugins) : ?>
+        	<tr>
+        		<td colspan="20">
+        			<?= @helper('paginator.pagination', array('total' => $total)) ?>
+        		</td>
+        	</tr>
+        	<? endif ?>
+        </tfoot>
+        <tbody>
+        <? foreach ($plugins as $plugin) : ?>
+        	<tr>
+        		<td width="20" align="center">
+        			<?= @helper('grid.checkbox',array('row' => $plugin)) ?>
+        		</td>
+        		<td class="title">
+        		<? if(!$plugin->locked()) : ?>
+        			<a href="<?= @route('view=plugin&id='.$plugin->id) ?>">
+        				<?= @escape($plugin->title) ?>
+        			</a>
+        		<? else : ?>
+        			<?= @escape($plugin->title) ?>
+        		<? endif ?>
+        		</td>
+        		<td align="center" width="15px">
+        			<?= @helper('grid.enable', array('row' => $plugin)) ?>
+        		</td>
+        		<td class="order">
+        			<?= @helper('grid.order', array('row'=> $plugin))?>
+        		</td>
+        		<td align="center">
+        			<?= @helper('grid.access', array('row' => $plugin)) ?>
+        		</td>
+        		<td nowrap="nowrap">
+        			<?= $plugin->folder ?>
+        		</td>
+        	</tr>
+        <? endforeach ?>
+        </tbody>
+    </table>
 </form>
