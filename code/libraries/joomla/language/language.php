@@ -325,7 +325,7 @@ class JLanguage extends JObject
 			    else $this->_strings = array_merge( $this->_strings, (array) $strings);
 
 			    //Store the strings in the cache
-			    if($string !== false) {
+			    if($strings !== false) {
 			       $cache->store(serialize($strings), $identifier);
 			    }
 		    }
