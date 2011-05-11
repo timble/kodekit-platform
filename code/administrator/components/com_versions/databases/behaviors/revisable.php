@@ -21,11 +21,11 @@
 class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 {
     /**
-	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
-	 *
-	 * @var	string|object
-	 */
-	protected $_table = false;
+     * The versions_revisions table object
+     *
+     * @var KDatabaseTableDefault
+     */
+    protected $_table;
     
     /**
      * Constructor 
@@ -39,8 +39,6 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         foreach($config as $key => $value) {
             $this->{'_'.$key} = $value;
         }
-        
-        $this->setTable($config->table);
     }
 
     /**
@@ -53,85 +51,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _initialize(KConfig $config)
     {
-        $config->append(
-            array('table' => 'admin::com.versions.database.table.revisions')
-        );
+        $config->append(array(
+        	'table' => KFactory::get('admin::com.versions.database.table.revisions')
+        ));
 
         parent::_initialize($config);
     }
-    
- 	/**
-     * Method to get a table object
-     * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that 
-     * don't exist. If no table object can be created the function will return FALSE.
-     *
-     * @return KDatabaseTableAbstract
-     */
-    public function getTable()
-    {
-        if($this->_table !== false)
-        {
-            if(!($this->_table instanceof KDatabaseTableAbstract))
-		    {   		        
-		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIndentifier)) {
-		            $this->setTable($this->_table);
-			    }
-		        
-		        try {
-		            $this->_table = KFactory::get($this->_table);
-                } catch (KDatabaseTableException $e) {
-                    $this->_table = false;
-                }
-            }
-        }
-
-        return $this->_table;
-    }
-
-    /**
-     * Method to set a table object attached to the model
-     *
-     * @param   mixed   An object that implements KObjectIdentifiable, an object that
-     *                  implements KIndentifierInterface or valid identifier string
-     * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
-     * @return  KModelTable
-     */
-    public function setTable($table)
-	{
-		if(!($table instanceof KDatabaseTableAbstract))
-		{
-			if(is_string($table) && strpos($table, '.') === false ) 
-		    {
-		        $identifier         = clone $this->_identifier;
-		        $identifier->path   = array('database', 'table');
-		        $identifier->name   = KInflector::tableize($table);
-		    }
-		    else  $identifier = KFactory::identify($table);
-		    
-			if($identifier->path[1] != 'table') {
-				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
-			}
-
-			$table = $identifier;
-		}
-
-		$this->_table = $table;
-
-		return $this;
-	}
-	
-	/**
-	 * Test the connected status of the row.
-	 *
-	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
-	 */
-    public function isConnected()
-	{
-	    return (bool) $this->getTable();
-	}
-    
+        
 	/**
 	 * Modify the select query
 	 * 
@@ -210,13 +136,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
     	if($this->getTable()->count($this->id)) 
     	{
-     		if ($this->_countRevisions() == 0) {
+    	    if ($this->_countRevisions() == 0) {
             	$this->_insertRevision(KDatabase::STATUS_INSERTED);
         	}
     	}
     	else 
-    	{
-    		if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
+    	{    
+    	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
     		{
     			//Restore the row
     			$this->getTable()->getRow()->setData($this->getData())->save();
