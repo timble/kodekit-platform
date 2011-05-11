@@ -19,7 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<th width="20">
 			</th>
 			<th width="25%" class="title">
-				<?= @text('Language'); ?>
+				<?= @text('Name'); ?>
 			</th>
 			<th width="5%">
 				<?= @text('Default'); ?>
