@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class ComCategoriesToolbarButtonNew extends KToolbarButtonAbstract
+class ComCategoriesToolbarButtonNew extends ComDefaultToolbarButtonNew
 {
 	public function getLink()
 	{
