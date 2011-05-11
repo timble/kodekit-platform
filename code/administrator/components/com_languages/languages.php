@@ -18,4 +18,8 @@
  * @subpackage  Languages   
  */
 
+if (!KFactory::get('lib.joomla.user')->authorize( 'com_languages', 'manage' )) {
+	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+}
+
 echo KFactory::get('admin::com.languages.dispatcher')->dispatch();
