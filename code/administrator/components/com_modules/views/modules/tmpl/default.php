@@ -97,7 +97,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					<?= @helper('grid.checkbox',array('row' => $module)) ?>
     				</td>
     				<td class="title">
-    					<a href="<?= @route('view=module&id='.$module->id) ?>">
+    					<a href="<?= @route('view=module&id='.$module->id.'&client='.$state->client) ?>">
     					    <?= @escape($module->title) ?>
     					</a>
     				</td>

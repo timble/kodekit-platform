@@ -85,7 +85,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<form action="<?= @route('id='.$module->id) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$module->id.'&client='.$state->client) ?>" method="post" name="adminForm">
 <div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ) ?></legend>
