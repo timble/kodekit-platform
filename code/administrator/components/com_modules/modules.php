@@ -19,7 +19,7 @@
  */
 
 if (!KFactory::get('lib.joomla.user')->authorize( 'com_modules', 'manage' )) {
-	KFactory::get('lib.koowa.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 echo KFactory::get('admin::com.modules.dispatcher')->dispatch();
