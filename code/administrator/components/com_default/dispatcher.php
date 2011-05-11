@@ -30,7 +30,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'request_persistent' => true
+            'request_persistent' => (KRequest::type() == 'HTTP')
         ));
         
         parent::_initialize($config);
