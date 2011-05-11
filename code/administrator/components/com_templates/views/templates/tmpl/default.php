@@ -72,7 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 
                 <td align="center">
                 <? if($template->default) : ?>
-                    <img src="<?= KRequest::root() ?>/administrator/templates/default/images/menu/icon-16-default.png" alt="<?= @text('Default') ?>" />
+                    <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
                 <? endif ?>
                 </td>
                 <? if(!$state->client) : ?>
