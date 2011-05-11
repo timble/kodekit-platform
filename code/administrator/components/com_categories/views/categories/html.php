@@ -10,7 +10,7 @@
  */
 
 /**
- * View HTML Class
+ * Categories View HTML Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category	Nooku
