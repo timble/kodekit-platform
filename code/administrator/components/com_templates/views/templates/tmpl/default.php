@@ -79,7 +79,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <td>
                         <span class="editlinktip hasTip" title="<?= $template->name ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
-                            <a href="<?= @route('&view=template&name='.$template->name) ?>">
+                            <a href="<?= @route('&view=template&name='.$template->name.'&client='.$state->client) ?>">
                                 <?= $template->name ?>
                             </a>
                         </span>
