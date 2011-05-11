@@ -40,6 +40,8 @@ class ComLanguagesModelLanguages extends KModelAbstract
 		if (!isset($this->_list)) 
 		{
 			$state = $this->_state;
+			
+			//Get the languages
 			$client	= JApplicationHelper::getClientInfo($state->client, true);
 	
 			if (empty($client)) {
@@ -61,8 +63,10 @@ class ComLanguagesModelLanguages extends KModelAbstract
 
 			$files = JFolder::files($path, '^([-_A-Za-z]*)\.xml$', true, true);
 			
+			//Set the total
 			$this->_total = count($files);
 
+			//Apply limit and offset
 			$files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
 
 			if (strtolower($this->_state->direction) == 'desc') {
