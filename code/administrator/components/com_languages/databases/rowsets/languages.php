@@ -12,10 +12,10 @@
 /**
  * Language Database Rowset Class
  *
- * @author      Ercan …zkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Languages   
+ * @subpackage  Languages
  */
 
 class ComLanguagesDatabaseRowsetLanguages extends KDatabaseRowsetAbstract

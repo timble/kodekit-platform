@@ -12,14 +12,26 @@
 /**
  * Language Database Row Class
  *
- * @author      Ercan …zkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Languages   
+ * @subpackage  Languages
  */
 
 class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 {
+	protected static $_manifest_fields = array(
+		'name',
+		'creationdate',
+		'author',
+		'copyright',
+		'authorEmail',
+		'authorUrl',
+		'version',
+		'description',
+		'group'
+	);
+
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -28,24 +40,40 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 
         parent::_initialize($config);
     }
-	
+
 	public function save()
 	{
-		if (isset($this->_modified['default']) && $this->default) 
+		if (isset($this->_modified['default']) && $this->default)
 		{
 			$params = JComponentHelper::getParams('com_languages');
 			$params->set($this->client->name, $this->language);
 
-			$table = KFactory::get('admin::com.components.database.table.components', 
+			$table = KFactory::get('admin::com.components.database.table.components',
 			             array('name' => 'components')
 			         );
-			
+
 			$row = $table->select(array('option' => 'com_languages'), KDatabase::FETCH_ROW);
 			$row->params = $params->toString();
 
 			return $row->save();
 		}
-		
+
 		return true;
+	}
+
+	public function __get($column)
+	{
+		if ($column == 'language' && empty($this->_data['language'])) {
+			$this->_data['language'] = substr(basename($this->_data['manifest_file']), 0, -4);
+		}
+		if ($column == 'manifest' && empty($this->_data['manifest'])) {
+			$this->_data['manifest'] = simplexml_load_file($this->_data['manifest_file']);
+		}
+
+		if (in_array($column, self::$_manifest_fields)) {
+			return $this->manifest->{$column};
+		}
+
+		return parent::__get($column);
 	}
 }

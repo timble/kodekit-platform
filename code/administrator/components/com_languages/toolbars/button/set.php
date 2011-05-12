@@ -12,13 +12,13 @@
 /**
  * Default Toolbar Button
  *
- * @author      Ercan …zkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Languages   
+ * @subpackage  Languages
  */
 
-class ComLanguagesToolbarButtonSet extends KToolbarButtonPost
+class ComLanguagesToolbarButtonSet extends ComDefaultToolbarButtonDefault
 {
     protected function _initialize(KConfig $config)
     {
@@ -28,15 +28,15 @@ class ComLanguagesToolbarButtonSet extends KToolbarButtonPost
 
         parent::_initialize($config);
     }
-	
+
     public function getOnClick()
     {
 		$url  = KRequest::url();
         $json = "{method:'post', url:'$url&'+id,params:{action:'edit', default:1, '$this->_token_name':'$this->_token_value'}}";
-        
+
         $msg    = JText::_('Please select an item from the list');
         return 'var id = Koowa.Grid.getIdQuery();'
             .'if(id){new Koowa.Form('.$json.').submit();} '
             .'else { alert(\''.$msg.'\'); return false; }';
-    } 
+    }
 }

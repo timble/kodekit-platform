@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id: form.php 1167 2011-05-11 15:37:22Z johanjanssens $
  * @category	Nooku

@@ -12,10 +12,10 @@
 /**
  * Component Loader
  *
- * @author      Ercan …zkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Languages   
+ * @subpackage  Languages
  */
 
 class ComLanguagesViewLanguagesHtml extends ComDefaultViewHtml
@@ -23,11 +23,11 @@ class ComLanguagesViewLanguagesHtml extends ComDefaultViewHtml
 	public function display()
 	{
 		$state = $this->getModel()->getState();
-		
+
 		$this->getToolbar()
 			->reset()
 			->append('set');
-		
+
 		return parent::display();
 	}
 }

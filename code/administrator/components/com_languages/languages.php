@@ -12,10 +12,10 @@
 /**
  * Component Loader
  *
- * @author      Ercan …zkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Languages   
+ * @subpackage  Languages
  */
 
 if (!KFactory::get('lib.joomla.user')->authorize( 'com_languages', 'manage' )) {
