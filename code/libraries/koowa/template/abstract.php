@@ -127,7 +127,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof KIndetifier)) {
+		    if(!($this->_view instanceof KIndentifier)) {
 		        $this->setView($this->_view);
             }
 		    
