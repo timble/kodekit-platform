@@ -28,9 +28,6 @@ class ComLanguagesViewLanguagesHtml extends ComDefaultViewHtml
 			->reset()
 			->append('set');
 		
-		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_languages&view=languages&client=site', $state->client === 'site');
-		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_languages&view=languages&client=administrator', $state->client === 'administrator');
-		
 		return parent::display();
 	}
 }
