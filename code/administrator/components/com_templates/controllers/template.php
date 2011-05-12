@@ -60,7 +60,7 @@ class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
             }
 
             if(isset($template->selections) || (isset($template->menus) && $template->menus == 'none')) {
-                $menus->select(array('client_id' => $state->application == 'admin', 'template' => $name))->delete();
+                $menus->select(array('client_id' => (int)($state->application == 'admin'), 'template' => $name))->delete();
             }
 
             if(isset($template->selections))
@@ -68,11 +68,11 @@ class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
                 foreach($template->selections as $selection)
                 {
                     //Erase any potential previous assignments to this menu item before setting the new one
-                    $menus->select(array('client_id' => $state->application == 'admin', 'menuid' => $selection))->delete();
+                    $menus->select(array('client_id' => (int)($state->application == 'admin'), 'menuid' => $selection))->delete();
 
         		    $menus->getRow()
         		          ->setData(array(
-        		              'client_id' => $state->application == 'admin',
+        		              'client_id' => (int)($state->application == 'admin'),
         		              'template'  => $name,
         		              'menuid'    => $selection
         		          ))

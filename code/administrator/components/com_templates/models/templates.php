@@ -133,7 +133,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
             $query = $table->getDatabase()->getQuery();
 
             $query->select('template')
-                  ->where('client_id', '=', $this->_state->application)
+                  ->where('client_id', '=', (int)($this->_state->application == 'admin'))
                   ->where('menuid'   , '=', 0);
 
             $this->_default_template = $table->select($query, KDatabase::FETCH_FIELD);
