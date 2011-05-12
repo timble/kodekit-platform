@@ -321,7 +321,7 @@ abstract class KViewTemplate extends KViewAbstract
         if(!$this->_template instanceof KTemplateAbstract)
         {
             //Make sure we have a template identifier
-            if(!($this->_template instanceof KIndetifier)) {
+            if(!($this->_template instanceof KIdentifier)) {
                 $this->setTemplate($this->_template);
             }
             

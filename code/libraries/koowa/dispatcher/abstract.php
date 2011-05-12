@@ -85,7 +85,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if(!($this->_controller instanceof KControllerAbstract))
 		{  
 		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof KIndetifier)) {
+		    if(!($this->_controller instanceof KIdentifier)) {
 		        $this->setController($this->_controller);
 			}
 		    

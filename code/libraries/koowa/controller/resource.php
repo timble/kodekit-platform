@@ -106,7 +106,7 @@ abstract class KControllerResource extends KControllerAbstract
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof KIndetifier)) {
+		    if(!($this->_view instanceof KIdentifier)) {
 		        $this->setView($this->_view);
 			}
 		    
@@ -165,7 +165,7 @@ abstract class KControllerResource extends KControllerAbstract
 		if(!$this->_model instanceof KModelAbstract) 
 		{
 			//Make sure we have a model identifier
-		    if(!($this->_model instanceof KIndetifier)) {
+		    if(!($this->_model instanceof KIdentifier)) {
 		        $this->setModel($this->_model);
 			}
 		    

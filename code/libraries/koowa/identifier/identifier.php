@@ -94,7 +94,7 @@ class KIdentifier implements KIdentifierInterface
      * Constructor
      *
      * @param   string|object   Identifier string or object in [application::]type.package.[.path].name format
-     * @throws  KIndetifierException if the identfier is not valid
+     * @throws  KIdentifierException if the identfier is not valid
      */
     public function __construct($identifier)
     {

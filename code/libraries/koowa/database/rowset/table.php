@@ -79,7 +79,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
 		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIndetifier)) {
+		        if(!($this->_table instanceof KIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
 		        
