@@ -88,7 +88,11 @@ class ModDefaultHtml extends KViewHtml
             $identifier = clone $this->_identifier;
             $identifier->name   = 'template';
             
-            $this->_template = KFactory::get($identifier);
+            $options = array( 
+               'view' => $this 
+            ); 
+ 
+            $this->_template = KFactory::get($identifier, $options); 
         }
         
         return $this->_template;
