@@ -42,7 +42,7 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			$state = $this->_state;
 			
 			//Get the languages
-			$client	= JApplicationHelper::getClientInfo($state->application, true);
+			$client	= JApplicationHelper::getClientInfo($state->application == 'admin');
 	
 			if (empty($client)) {
 				throw new KModelException('Invalid client');

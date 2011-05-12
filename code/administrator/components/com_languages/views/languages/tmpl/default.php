@@ -19,8 +19,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=administrator') ?>">
+        <li <? if($state->application == 'admin') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=admin') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
