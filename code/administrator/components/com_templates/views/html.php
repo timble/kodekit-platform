@@ -26,7 +26,7 @@ class ComTemplatesViewHtml extends ComDefaultViewHtml
     	if(!$config->template_url) 
     	{
     	    $state                = $this->getModel()->getState();
-    	    $config->template_url = KRequest::root() . ($state->client ? '/administrator' : '') . '/templates';
+    	    $config->template_url = KRequest::root() . ($state->application == 'admin' ? '/administrator' : '') . '/templates';
     	}
         
         // Set base url used by things like template thumbnails

@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <?= @helper('behavior.tooltip') ?>
 
-<form action="<?= @route('name='.$template->name.'&client='.$state->client) ?>" method="post" name="adminForm">
+<form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" name="adminForm">
     <div class="col width-50">
         <fieldset class="adminform">
             <legend><?= @text('Details') ?></legend>

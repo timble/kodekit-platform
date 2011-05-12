@@ -15,13 +15,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="col width-15 menus">
     <ul>
-        <li <? if(!$state->client) echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=0') ?>">
+        <li <? if($state->application == 'site') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=site') ?>">
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->client) echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=1') ?>">
+        <li <? if($state->application == 'admin') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=admin') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
@@ -39,7 +39,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <th width="5%">
                         <?= @text('Default') ?>
                     </th>
-                    <? if(!$state->client) : ?>
+                    <? if($state->application == 'site') : ?>
                     <th width="5%">
                         <?= @text('Assigned') ?>
                     </th>
@@ -79,7 +79,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <td>
                         <span class="editlinktip hasTip" title="<?= $template->name ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
-                            <a href="<?= @route('&view=template&name='.$template->name.'&client='.$state->client) ?>">
+                            <a href="<?= @route('&view=template&name='.$template->name.'&application='.$state->application) ?>">
                                 <?= $template->name ?>
                             </a>
                         </span>
@@ -90,7 +90,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
                     <? endif ?>
                     </td>
-                    <? if(!$state->client) : ?>
+                    <? if($state->application == 'site') : ?>
                         <td align="center">
                         <? if($template->assigned) : ?>
                             <img src="media://system/images/tick.png" alt="<?= @text('Assigned') ?>" />

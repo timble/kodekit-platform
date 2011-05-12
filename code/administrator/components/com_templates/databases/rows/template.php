@@ -42,7 +42,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
      {
         parent::setData($data, $modified);
 
-        if(isset($this->client, $this->name)) 
+        if(isset($this->application, $this->name)) 
         { 
              $this->_data = array_merge(array('pages' => '', 'ini' => ''), $this->_data);
 

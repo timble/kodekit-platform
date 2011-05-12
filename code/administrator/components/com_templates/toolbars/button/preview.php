@@ -26,7 +26,8 @@ class ComTemplatesToolbarButtonPreview extends KToolbarButtonGet
      */
     public function getOnClick()
     {
-        $url      = KRequest::get('get.client', 'int', 0) ? JURI::base() : JURI::root();
+        $model    = KFactory::get('admin::com.templates.model.templates');
+        $url      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
         $url      = json_encode($url.'index.php?tp=1&amp;template='.KRequest::get('get.name', 'cmd'));
 
         return str_replace('"', '&quot;', "window.open($url, '_blank', 'location=no,toolbar=no');return false;");

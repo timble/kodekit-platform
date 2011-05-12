@@ -36,14 +36,13 @@ class ComTemplatesModelTemplates extends KModelAbstract
         parent::__construct($config);
 
         $this->_state
-            //@TODO states isn't set in helper listboxes, the client default state is a workaround
-            ->insert('client'   , 'int')
-            ->insert('name'     , 'cmd', null, true)
-            ->insert('limit'    , 'int')
-            ->insert('offset'   , 'int')
-            ->insert('sort'     , 'cmd')
-            ->insert('direction', 'word', 'asc')
-            ->insert('search'   , 'string');
+            ->insert('application', 'cmd', 'site')
+            ->insert('name'       , 'cmd', null, true)
+            ->insert('limit'      , 'int')
+            ->insert('offset'     , 'int')
+            ->insert('sort'       , 'cmd')
+            ->insert('direction'  , 'word', 'asc')
+            ->insert('search'     , 'string');
     }
 
     /**
@@ -56,16 +55,16 @@ class ComTemplatesModelTemplates extends KModelAbstract
         if(!isset($this->_item))
         {
             //Templates without a manifest can't be parsed
-            $base = $this->_state->client ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
             
             $path = $base.'/templates/'.$this->_state->name;
             if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
 
             $data = array(
-                'path'     => $path,
-                'name'     => $this->_state->name,
-                'client'   => $this->_state->client,
-                'default'  => $this->_state->name == $this->getDefaultTemplate(),
+                'path'        => $path,
+                'name'        => $this->_state->name,
+                'application' => $this->_state->application,
+                'default'     => $this->_state->name == $this->getDefaultTemplate(),
             );
 
             $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
@@ -84,7 +83,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
         if(!isset($this->_list))
         {
             $data = array();
-            $base = $this->_state->client ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $path = $base.'/templates';
 
             foreach(new DirectoryIterator($path) as $file)
@@ -99,10 +98,10 @@ class ComTemplatesModelTemplates extends KModelAbstract
                     if(!file_exists($file->getRealPath().'/templateDetails.xml')) continue;
                     
                     $data[] = array(
-                        'path'     => $file->getRealPath(),
-                        'name'     => $file->getFilename(),
-                        'client'   => $this->_state->client,
-                        'default'  => $file->getFilename() == $this->getDefaultTemplate(),
+                        'path'        => $file->getRealPath(),
+                        'name'        => $file->getFilename(),
+                        'application' => $this->_state->application,
+                        'default'     => $file->getFilename() == $this->getDefaultTemplate(),
                     );
                 }
             }
@@ -134,7 +133,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
             $query = $table->getDatabase()->getQuery();
 
             $query->select('template')
-                  ->where('client_id', '=', $this->_state->client)
+                  ->where('client_id', '=', $this->_state->application)
                   ->where('menuid'   , '=', 0);
 
             $this->_default_template = $table->select($query, KDatabase::FETCH_FIELD);
