@@ -108,7 +108,7 @@ class KModelTable extends KModelAbstract
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
 		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIndentifier)) {
+		        if(!($this->_table instanceof KIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
 		        
