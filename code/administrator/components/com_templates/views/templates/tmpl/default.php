@@ -39,11 +39,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <th width="5%">
                         <?= @text('Default') ?>
                     </th>
-                    <? if($state->application == 'site') : ?>
-                    <th width="5%">
-                        <?= @text('Assigned') ?>
-                    </th>
-                    <? endif ?>
                     <th width="10%" align="center">
                         <?= @text('Version') ?>
                     </th>
@@ -90,13 +85,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
                     <? endif ?>
                     </td>
-                    <? if($state->application == 'site') : ?>
-                        <td align="center">
-                        <? if($template->assigned) : ?>
-                            <img src="media://system/images/tick.png" alt="<?= @text('Assigned') ?>" />
-                        <? endif ?>
-                        </td>
-                    <? endif ?>
                     <td align="center">
                         <?= $template->version ?>
                     </td>

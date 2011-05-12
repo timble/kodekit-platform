@@ -44,13 +44,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 
         if(isset($this->application, $this->name)) 
         { 
-             $this->_data = array_merge(array('pages' => '', 'ini' => ''), $this->_data);
-
-            if($this->default) {
-                $this->_data['pages'] = 'all';
-            } elseif(!$this->assigned) {
-                $this->_data['pages'] = 'none';
-            }
+             $this->_data = array_merge(array('ini' => ''), $this->_data);
 
             $this->_data['ini_file'] = $this->_data['path'].'/params.ini';
             

@@ -64,7 +64,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         				<?= $language->name; ?>
         			</td>
         			<td width="5%" align="center">
-        				<? if ($language->default): ?>
+        				<? if($language->default): ?>
         					<img src="media://system/images/star.png" alt="<?= @text('Default'); ?>" />
         				<? endif; ?>
         			</td>

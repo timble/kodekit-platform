@@ -58,27 +58,6 @@ class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
                 $params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($template->params);
                 file_put_contents($template->ini_file, $params);
             }
-
-            if(isset($template->selections) || (isset($template->menus) && $template->menus == 'none')) {
-                $menus->select(array('client_id' => (int)($state->application == 'admin'), 'template' => $name))->delete();
-            }
-
-            if(isset($template->selections))
-            {
-                foreach($template->selections as $selection)
-                {
-                    //Erase any potential previous assignments to this menu item before setting the new one
-                    $menus->select(array('client_id' => (int)($state->application == 'admin'), 'menuid' => $selection))->delete();
-
-        		    $menus->getRow()
-        		          ->setData(array(
-        		              'client_id' => (int)($state->application == 'admin'),
-        		              'template'  => $name,
-        		              'menuid'    => $selection
-        		          ))
-        		          ->save();
-                }
-        	}
         }
 
         return $templates;
