@@ -29,8 +29,17 @@ class ComDefaultDispatcher extends KDispatcherDefault
      */
     protected function _initialize(KConfig $config)
     {
+        /* 
+         * Disable model persistency on non-HTTP requests, e.g. AJAX, and requests containing 
+         * the tmpl variable set to component, e.g. requests using modal boxes. This avoids 
+         * changing the model state session variable of the requested model, which is often 
+         * undesirable under these circumstances. 
+         */
+        
+        $persistent = (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component');
+        
         $config->append(array(
-            'request_persistent' => (KRequest::type() == 'HTTP')
+            'request_persistent' => $persistent
         ));
         
         parent::_initialize($config);
