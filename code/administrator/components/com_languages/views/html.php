@@ -10,7 +10,7 @@
  */
 
 /**
- * Languages Html View Class
+ * Html View Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
@@ -18,15 +18,14 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesViewLanguagesHtml extends ComLanguagesViewHtml
+class ComLanguagesViewHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$state = $this->getModel()->getState();
-
-		$this->getToolbar()
-			->reset()
-			->append('set');
+        JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules');
+        JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins');
+        JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates');
+        JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages', true);
 
 		return parent::display();
 	}

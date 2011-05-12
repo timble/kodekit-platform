@@ -66,14 +66,33 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 		if ($column == 'language' && empty($this->_data['language'])) {
 			$this->_data['language'] = substr(basename($this->_data['manifest_file']), 0, -4);
 		}
+		
 		if ($column == 'manifest' && empty($this->_data['manifest'])) {
 			$this->_data['manifest'] = simplexml_load_file($this->_data['manifest_file']);
 		}
 
-		if (in_array($column, self::$_manifest_fields)) {
-			return $this->manifest->{$column};
+		if (in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
+			$this->_data[$column] = $this->manifest->{$column};
 		}
 
 		return parent::__get($column);
 	}
+	
+    public function toArray()
+    {
+        //Make sure all the manifest data is included
+        $this->_data['manifest'] = simplexml_load_file($this->_data['manifest_file']);
+        
+        return $this->_data;
+    }
+	
+	/**
+     * Languages are newer new, they simply exist or don't
+     *
+     * @return boolean
+     */
+    public function isNew()
+    {
+        return false;
+    }
 }

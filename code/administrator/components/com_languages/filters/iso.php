@@ -10,7 +10,7 @@
  */
 
 /**
- * File Filter Class
+ * Iso Language Filter Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
@@ -24,6 +24,7 @@ class ComLanguagesFilterIso extends KFilterCmd
     {
         $value = trim($value);
         $pattern = '#^[a-z]{2,3}\-[a-z]{2,3}$#i';
+        
         return (is_string($value) && (preg_match($pattern, $value)) == 1);
     }
 
@@ -37,6 +38,7 @@ class ComLanguagesFilterIso extends KFilterCmd
     {
         $value = trim($value);
         $pattern  = '#[^a-z\-]*#i';
+        
         return preg_replace($pattern, '', $value);
     }
 }

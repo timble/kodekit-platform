@@ -30,7 +30,7 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			->insert('limit'    , 'int', 0)
 			->insert('offset'   , 'int', 0)
 			->insert('direction', 'word', 'asc')
-			->insert('application', 'cmd', 'site')
+			->insert('application', 'int', 0)
 
 			->insert('default'	, 'boolean', false, true)
 			->insert('language'	, 'admin::com.languages.filter.iso', null, true);
@@ -43,34 +43,38 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			if($this->_state->isUnique())
             {
             	$state = $this->_state;
-            	$app = $state->application == 'admin' ? 'administrator' : $state->application;
-
+            	
 				//Get application information
-				$client	= JApplicationHelper::getClientInfo($app, true);
-            	if (empty($client)) {
-					throw new KModelException('Invalid client');
+				$client	= JApplicationHelper::getClientInfo($state->application);
+            	if (!empty($client)) 
+            	{
+					//Get the path
+            	    $default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
+				    $path    = JLanguage::getLanguagePath($client->path);
+
+				    if ($state->default) {
+					    $lang = $default;
+				    }
+				
+				    if ($state->language) {
+					    $lang = is_array($state->language) ? $state->language[0] : $state->language;
+				    }
+				
+				    $path .= '/'.$lang.'/'.$lang.'.xml';
+				    
+				    //Create the row
+				    $data = array(
+						'manifest_file' => $path,
+						'client'        => $client
+				    );
+
+				    $row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => $data));				
+				    $row->default = $row->language == $default;
+
+				    $this->_item = $row;
 				}
-
-				$default = JComponentHelper::getParams('com_languages')->get($app, 'en-GB');
-				$path = JLanguage::getLanguagePath($client->path);
-
-				if ($state->default) {
-					$lang = $default;
-				}
-				else if ($state->language) {
-					$lang = is_array($state->language) ? $state->language[0] : $state->language;
-				}
-				$path .= '/'.$lang.'/'.$lang.'.xml';
-
-				$row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => array(
-					'manifest_file' => $path,
-					'client' => $client
-				)));
-				$row->default = $row->language == $default;
-
-				$this->_item = $row;
+				else throw new KModelException('Invalid client');
             }
-
 		}
 
 		return parent::getItem();
@@ -81,17 +85,16 @@ class ComLanguagesModelLanguages extends KModelAbstract
 		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-            $app = $state->application == 'admin' ? 'administrator' : $state->application;
 
 			//Get application information
-			$client	= JApplicationHelper::getClientInfo($app, true);
+			$client	= JApplicationHelper::getClientInfo($state->application);
 
 			if (empty($client)) {
 				throw new KModelException('Invalid client');
 			}
 
 			$path    = JLanguage::getLanguagePath($client->path);
-			$default = JComponentHelper::getParams('com_languages')->get($app, 'en-GB');
+			$default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
 
 			if ($state->language)
 			{
@@ -118,10 +121,12 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			$rowset = KFactory::tmp('admin::com.languages.database.rowset.languages');
 			foreach ($files as $file)
 			{
-				$row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => array(
+				$data = array(
 					'manifest_file' => $file,
-					'client' => $client
-				)));
+					'client'        => $client
+				);
+			    
+			    $row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => $data));
 				$row->default = $row->language == $default;
 
 				$rowset->insert($row);
