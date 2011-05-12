@@ -14,20 +14,20 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="col width-15 menus">
     <ul>
-        <li <? if($state->client == 'site') echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=site') ?>">
+        <li <? if($state->application == 'site') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=site') ?>">
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->client == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=administrator') ?>">
+        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=administrator') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
     </ul>
 </div>
 <div class="col width-85">
-    <form action="<?= @route('client='.$state->client)?>" method="get">
+    <form action="<?= @route('application='.$state->application)?>" method="get">
         <table class="adminlist"  style="clear: both;">
         	<thead>
         		<tr>
