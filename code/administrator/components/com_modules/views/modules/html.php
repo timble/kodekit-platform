@@ -26,6 +26,11 @@ class ComModulesViewModulesHtml extends ComDefaultViewHtml
 			->append('enable')
 			->append('disable');
 		
+		JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules', true);
+		JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins');
+		JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates');
+		JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages');
+		
 		return parent::display();
 	}
 }
