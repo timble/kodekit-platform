@@ -1,5 +1,5 @@
 <?php
-/** $Id: message.php 1852 2010-12-13 19:40:51Z tomjanssens $ */
+/** $Id$ */
 
 class ComLogsTemplateHelperMessage extends KTemplateHelperDefault
 {

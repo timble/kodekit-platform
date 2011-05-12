@@ -1,4 +1,4 @@
-<? /** $Id: widget.php 1728 2010-10-16 02:13:49Z johanjanssens $ */ ?>
+<? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
 <style src="media://com_logs/css/logs-widget.css" />
