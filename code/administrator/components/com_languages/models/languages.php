@@ -27,10 +27,10 @@ class ComLanguagesModelLanguages extends KModelAbstract
 		parent::__construct($config);
 		
 		$this->_state
-			->insert('limit'    , 'int', 0)
-			->insert('offset'   , 'int', 0)
-			->insert('direction', 'word', 'asc')
-			->insert('client'	, 'cmd', 'site')
+			->insert('limit'      , 'int', 0)
+			->insert('offset'     , 'int', 0)
+			->insert('direction'  , 'word', 'asc')
+			->insert('application', 'cmd', 'site')
 			
 			->insert('language'	, 'admin::com.languages.filter.safefile', null, true);
 	}
@@ -42,7 +42,7 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			$state = $this->_state;
 			
 			//Get the languages
-			$client	= JApplicationHelper::getClientInfo($state->client, true);
+			$client	= JApplicationHelper::getClientInfo($state->application, true);
 	
 			if (empty($client)) {
 				throw new KModelException('Invalid client');
