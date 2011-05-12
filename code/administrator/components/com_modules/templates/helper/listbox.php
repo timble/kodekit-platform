@@ -36,7 +36,7 @@ class ComModulesTemplateHelperListbox extends KTemplateHelperListbox
 		$config->append(array(
 			//@TODO state isn't applied, work on patch later
 			'state'		=> array(
-				'client'	=> $config->client
+				'application'	=> $config->application
 			),
 			'attribs'	=> array(
 				'onchange' => 'this.form.submit()'

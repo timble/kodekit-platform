@@ -21,14 +21,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
 	$model	= $this->getView()->getModel();
 
-	if ($state->client) {
+	if ($state->application == 'admin') {
 		$path				= 'mod1_xml';
 	} else {
 		$path				= 'mod0_xml';
 	}
 
 	$lang =& JFactory::getLanguage();
-	if(!$state->client) {
+	if($state->application == 'site') {
 		$lang->load( trim($module->module), JPATH_SITE );
 	} else {
 		$lang->load( trim($module->module) );
@@ -61,7 +61,7 @@ window.addEvent('domready', function() {
 		initial		= list.get('value'),
 		state		= {},
 		request 	= new Request.JSON({
-			url: <?= json_encode(JRoute::_('index.php?option=com_modules&view=modules&format=json&client='.$state->client, false)) ?>,
+			url: <?= json_encode(JRoute::_('index.php?option=com_modules&view=modules&format=json&application='.$state->application, false)) ?>,
 			/* @TODO change onComplete to onSuccess, and add onFailure */
 			onComplete: function(data){
 
@@ -85,7 +85,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<form action="<?= @route('id='.$module->id.'&client='.$state->client) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" name="adminForm">
 <div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ) ?></legend>
@@ -111,7 +111,7 @@ window.addEvent('domready', function() {
 					<input class="text_area required" type="text" name="title" id="title" size="35" value="<?= @escape($module->title) ?>" />
 				</td>
 			</tr>
-			<? if(!$state->client) : ?>
+			<? if($state->application == 'site') : ?>
 			<tr>
 				<td width="100" class="key">
 					<?= @text('Show title') ?>:
@@ -160,7 +160,7 @@ window.addEvent('domready', function() {
 					<?= @helper('select.optionlist', array('name' => 'ordering', 'attribs' => array('id' =>'ordering'))) ?>
 				</td>
 			</tr>
-			<? if(!$state->client) : ?>
+			<? if($state->application == 'site') : ?>
 			<tr>
 				<td valign="top" class="key">
 					<label for="access">
@@ -193,7 +193,7 @@ window.addEvent('domready', function() {
 		</table>
 	</fieldset>
 	
-	<? if(!$state->client) : ?>
+	<? if($state->application == 'site') : ?>
 	
 	<script type="text/javascript">
 	window.addEvent('domready', function(){
@@ -215,7 +215,7 @@ window.addEvent('domready', function() {
 			setSelections.call(selections, false, null);
 		});
 	
-		<? if(!$state->client) : ?>
+		<? if($state->application == 'site') : ?>
 			<? if($module->pages == 'all') : ?>
 				$('menus-all').fireEvent('change');
 			<? endif ?>

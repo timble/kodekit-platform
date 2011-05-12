@@ -40,13 +40,12 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->_state
-			//@TODO states isn't set in helper listboxes, the client default state is a workaround
-		 	->insert('client'  	, 'int')
-		 	->insert('sort'  	, 'cmd', array('position', 'ordering'))
-		 	->insert('enabled'	, 'int')
-		 	->insert('position' , 'cmd')
-		 	->insert('module' 	, 'cmd')
-		 	->insert('assigned' , 'cmd');
+		 	->insert('application', 'cmd', 'site')
+		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
+		 	->insert('enabled'	  , 'int')
+		 	->insert('position'   , 'cmd')
+		 	->insert('module' 	  , 'cmd')
+		 	->insert('assigned'   , 'cmd');
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -86,7 +85,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 			$query->where('tbl.published', '=', $state->enabled);
 		}
 
-		$query->where('tbl.client_id', '=', $state->client);
+		$query->where('tbl.client_id', '=', $state->application == 'admin');
 
 		parent::_buildQueryWhere($query);
 	}
@@ -108,7 +107,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 				$query = $table->getDatabase()->getQuery()
 					->distinct()
 					->group('tbl.'.$table->mapColumns($column))
-					->where('tbl.client_id', '=', $this->_state->client);
+					->where('tbl.client_id', '=', $this->_state->application == 'admin');
 
 				$this->_buildQueryOrder($query);
 
@@ -155,7 +154,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		{
 			$this->_modules	= array();
 			$lang = KFactory::get('lib.joomla.language');
-			$root = $this->_state->client ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+			$root = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 			$path = $root.'/modules';
 		
 			jimport('joomla.filesystem.folder');
@@ -204,14 +203,14 @@ class ComModulesModelModules extends ComDefaultModelDefault
 			$query = KFactory::tmp('lib.koowa.database.query')
 						->distinct()
 					    ->select('template')
-						->where('client_id', '=', $this->_state->client);
+						->where('client_id', '=', $this->_state->application == 'admin');
 
 			//@TODO if com.templates is refactored to nooku, specifying the table name is no longer necessary
 			$table		= KFactory::get('admin::com.templates.database.table.menu', array('name' => 'templates_menu'));
 			$templates	= $table->select($query, KDatabase::FETCH_FIELD_LIST);
 			$modules	= $this->getColumn('position');
 			$positions	= $modules->getColumn('position');
-			$root		= $this->_state->client ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+			$root		= $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 
 			foreach($templates as $template)
 			{

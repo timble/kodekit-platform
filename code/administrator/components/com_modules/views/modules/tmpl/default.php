@@ -15,13 +15,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="col width-15 menus">
     <ul>
-        <li <? if(!$state->client) echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=0') ?>">
+        <li <? if($state->application == 'site') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=site') ?>">
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->client) echo 'class="active"' ?>>
-        	<a href="<?= @route('&client=1') ?>">
+        <li <? if($state->application == 'admin') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=admin') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
@@ -42,7 +42,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     				<th width="80" nowrap="nowrap">
     					<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
     				</th>
-    				<? if(!$state->client) : ?>
+    				<? if($state->application == 'site') : ?>
     					<th nowrap="nowrap" width="7%">
     						<?= @helper('grid.sort', array('column' => 'groupname' , 'title' => 'Access')) ?>
     					</th>
@@ -69,7 +69,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					<?= @helper('listbox.enabled') ?>
     				</td>
     				<td></td>
-    				<? if(!$state->client) : ?>
+    				<? if($state->application == 'site') : ?>
     					<td></td>
     				<? endif ?>
     				<td align="center">
@@ -97,7 +97,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					<?= @helper('grid.checkbox',array('row' => $module)) ?>
     				</td>
     				<td class="title">
-    					<a href="<?= @route('view=module&id='.$module->id.'&client='.$state->client) ?>">
+    					<a href="<?= @route('view=module&id='.$module->id.'&application='.$state->application) ?>">
     					    <?= @escape($module->title) ?>
     					</a>
     				</td>
@@ -107,7 +107,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     				<td class="order">
     					<?= @helper('grid.order', array('row'=> $module))?>
     				</td>
-    				<? if(!$state->client) : ?>
+    				<? if($state->application == 'site') : ?>
     					<td align="center">
     						<?= @helper('grid.access', array('row' => $module)) ?>
     					</td>
