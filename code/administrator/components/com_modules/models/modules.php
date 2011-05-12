@@ -85,7 +85,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 			$query->where('tbl.published', '=', $state->enabled);
 		}
 
-		$query->where('tbl.client_id', '=', $state->application == 'admin');
+		$query->where('tbl.client_id', '=', (int)($state->application == 'admin'));
 
 		parent::_buildQueryWhere($query);
 	}
@@ -107,7 +107,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 				$query = $table->getDatabase()->getQuery()
 					->distinct()
 					->group('tbl.'.$table->mapColumns($column))
-					->where('tbl.client_id', '=', $this->_state->application == 'admin');
+					->where('tbl.client_id', '=', (int)($this->_state->application == 'admin'));
 
 				$this->_buildQueryOrder($query);
 
@@ -203,7 +203,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 			$query = KFactory::tmp('lib.koowa.database.query')
 						->distinct()
 					    ->select('template')
-						->where('client_id', '=', $this->_state->application == 'admin');
+						->where('client_id', '=', (int)($this->_state->application == 'admin'));
 
 			//@TODO if com.templates is refactored to nooku, specifying the table name is no longer necessary
 			$table		= KFactory::get('admin::com.templates.database.table.menu', array('name' => 'templates_menu'));
