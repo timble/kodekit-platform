@@ -30,6 +30,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
 
         $this->_state
             ->insert('application', 'cmd', 'site')
+            ->insert('default'    , 'boolean', false, true)
             ->insert('name'       , 'cmd', null, true)
             ->insert('limit'      , 'int')
             ->insert('offset'     , 'int')
@@ -47,8 +48,10 @@ class ComTemplatesModelTemplates extends KModelAbstract
     {
         if(!isset($this->_item))
         {
-            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $path = $base.'/templates/'.$this->_state->name;
+            $state = $this->_state;
+            $base  = $state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $name  = $state->default ? JComponentHelper::getParams('com_templates')->get($state->application, 'site') : $state->name;
+            $path  = $base.'/templates/'.$name;
 
             if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
 
