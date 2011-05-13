@@ -146,7 +146,7 @@ window.addEvent('domready', function() {
 					</label>
 				</td>
 				<td>
-				    <?= @helper('listbox.positions') ?>
+				    <?= @helper('combobox.positions', array('application' => $state->application)) ?>
 				</td>
 			</tr>
 			<tr>
