@@ -207,7 +207,7 @@ Koowa.Overlay = new Class({
         }
         
         this.element = $(element); 
-		options.url = element.getAttribute('href'); 
+        this.options.url = element.getAttribute('href'); 
         this.parent(options);
         
         this.send();
