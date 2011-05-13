@@ -20,13 +20,6 @@
 class ComTemplatesModelTemplates extends KModelAbstract
 {
     /**
-     * Cached result of self::getDefaultTemplate
-     *
-     * @var string
-     */
-    protected $_default_template;
-
-    /**
      * Constructor
      *A
      * @param   object  An optional KConfig object with configuration options
@@ -54,8 +47,8 @@ class ComTemplatesModelTemplates extends KModelAbstract
     {
         if(!isset($this->_item))
         {
-            //Templates without a manifest can't be parsed
-            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $default = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');            
+            $base    = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
             
             $path = $base.'/templates/'.$this->_state->name;
             if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
@@ -64,7 +57,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
                 'path'        => $path,
                 'name'        => $this->_state->name,
                 'application' => $this->_state->application,
-                'default'     => $this->_state->name == $this->getDefaultTemplate(),
+                'default'     => $this->_state->name == $default,
             );
 
             $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
@@ -82,9 +75,10 @@ class ComTemplatesModelTemplates extends KModelAbstract
     { 
         if(!isset($this->_list))
         {
-            $data = array();
-            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $path = $base.'/templates';
+            $data    = array();
+            $default = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');
+            $base    = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $path    = $base.'/templates';
 
             foreach(new DirectoryIterator($path) as $file)
             {
@@ -101,7 +95,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
                         'path'        => $file->getRealPath(),
                         'name'        => $file->getFilename(),
                         'application' => $this->_state->application,
-                        'default'     => $file->getFilename() == $this->getDefaultTemplate(),
+                        'default'     => $file->getFilename() == $default,
                     );
                 }
             }
@@ -115,21 +109,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
         }
 
         return $this->_list;
-    }
-
-    /**
-     * Get the default template
-     *
-     * @return string     name of the template
-     */
-    public function getDefaultTemplate()
-    {
-        if(!isset($this->_default_template))
-        {
-            $this->_default_template = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');
-        }
-
-        return $this->_default_template;
     }
 
     /**
