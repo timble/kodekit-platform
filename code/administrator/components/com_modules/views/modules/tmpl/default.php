@@ -11,8 +11,15 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+
 <?= @helper('behavior.tooltip') ?>
-<?= @helper('behavior.modal', array('selector' => '#toolbar-modules-new a')) ?>
+<?= @helper('behavior.modal') ?>
+<script>
+    window.addEvent('domready', function(){
+        var workaround = document.getElement('#toolbar-modules-new a');
+        workaround.href += '&application=<?= $state->application ?>';
+    });
+</script>
 
 <div class="col width-15 menus">
     <ul>

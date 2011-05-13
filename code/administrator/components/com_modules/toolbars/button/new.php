@@ -23,12 +23,11 @@ class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
     public function getOnClick()
     {
         //@TODO hacky, suggest patch to toolbar that allows setting the rel attribute
-    	return '" rel="{handler:\'url\',ajaxOptions:{method:\'get\'}}';
+    	return 'new Event(arguments[0]).stop();SqueezeBox.fromElement(this);" rel="{handler:\'url\',ajaxOptions:{method:\'get\'}}';
     }
 
 	public function getLink()
 	{
-	    $model = KFactory::get('admin::com.modules.model.modules');
-		return 'index.php?option=com_modules&view=modules&layout=list&new=1&tmpl=component&application='.$model->getState()->application;
+		return 'index.php?option=com_modules&view=modules&layout=list&new=1&tmpl=component';
 	}
 }
