@@ -19,6 +19,11 @@
  */
 class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 {
+    /**
+     * Whitelist for keys to get from the xml manifest
+     *
+     * @var array
+     */
     protected static $_manifest_fields = array(
         'creationDate',
         'author',
@@ -29,6 +34,14 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
         'description'
     );
 
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return void
+     */
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -39,40 +52,33 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     }
 
     /**
-     * Set the row data
+     * Get a value by key
      *
-     * Customized to set metadata from xml
-     *
-     * @param   mixed   Either and associative array, an object or a KDatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set.
-     *                  Default TRUE
-     * @return  KDatabaseRowAbstract
+     * @param   string  The key name.
+     * @return  string  The corresponding value.
      */
-     public function setData( $data, $modified = true )
-     {
-        parent::setData($data, $modified);
-
-        return $this;
-    }
-
     public function __get($column)
     {
     	if($column == 'ini_file' && empty($this->_data['ini_file'])) {
             $this->_data['ini_file'] = $this->_data['path'].'/params.ini';
         }
-        elseif($column == 'ini' && empty($this->_data['ini']))
+
+        if($column == 'ini' && !isset($this->_data['ini']))
         {
         	if(file_exists($this->ini_file)) {
                 $this->_data['ini'] = file_get_contents($this->ini_file);
             }
         }
+
         if($column == 'manifest_file' && empty($this->_data['manifest_file'])) {
             $this->_data['manifest_file'] = $this->_data['path'].'/templateDetails.xml';
         }
-		elseif($column == 'manifest' && empty($this->_data['manifest'])) {
+		
+		if($column == 'manifest' && empty($this->_data['manifest'])) {
             $this->_data['manifest'] = simplexml_load_file($this->manifest_file);
         }
-		elseif(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
+
+		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
             $this->_data[$column] = $this->manifest->{$column};
         }
 
@@ -98,7 +104,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 
 			if(!$row->save()) return false;
 		}
-		
+
 		if(isset($this->_modified['params']))
 		{
 			$params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($this->params);
