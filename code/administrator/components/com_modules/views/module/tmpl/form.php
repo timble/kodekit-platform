@@ -56,29 +56,32 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 window.addEvent('domready', function() { 
 	<? /* @TODO @route needs to be updated to handle js contexts, using JRoute for now */ ?>
 	var list		= $('ordering'),
-		initial		= list.get('value'),
-		state		= {},
+		position	= list.get('value'),
+		cache       = {},
+		setList     = function(data){
+		    var options = [];
+		    Hash.each(data, function(module){
+		    	options.include(new Element('option', {
+		    		selected: <?= json_encode($module->ordering) ?> == module.ordering,
+		    		value: module.ordering,
+		    		text: module.ordering+'::'+module.title
+		    	}));
+		    });
+		    
+		    list.empty().adopt(options);
+		},
 		request 	= new Request.JSON({
 			url: <?= json_encode(JRoute::_('index.php?option=com_modules&view=modules&format=json&application='.$state->application, false)) ?>,
 			/* @TODO change onComplete to onSuccess, and add onFailure */
 			onComplete: function(data){
-
-				var options = [];
-				Hash.each(data, function(module){
-					options.include(new Element('option', {
-						selected: <?= json_encode($module->ordering) ?> == module.ordering,
-						value: module.ordering,
-						text: module.ordering+'::'+module.title
-					}));
-				});
-				
-				list.empty().adopt(options);
-
+			    cache[position] = data;
+			    setList(data);
 			}
 		});
 
 	$$('#combobox-position-select', '#position').addEvent('change', function(){
-		request.get({position: this.get('value')});
+	    position = this.get('value');
+	    cache[position] ? setList(cache[position]) : request.get({position: position});
 	}).fireEvent('change');
 });
 </script>
