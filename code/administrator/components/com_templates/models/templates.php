@@ -106,9 +106,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
                 }
             }
 
-            //Set the total
-            $this->_total = count($data);
-
             //Apply limit and offset
             if($this->_state->limit) {
                 $data = array_slice($data, $this->_state->offset, $this->_state->limit);
@@ -142,8 +139,9 @@ class ComTemplatesModelTemplates extends KModelAbstract
      */
     public function getTotal()
     {
-        if(!isset($this->_total)) {
-            $this->getList();
+        if(!isset($this->_total))
+        {
+            $this->_total = count($this->getList());
         }
 
         return $this->_total;
