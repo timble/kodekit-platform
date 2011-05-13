@@ -67,7 +67,7 @@ var Terms = new Class({
     
     _actionAdd: function(data)
     {
-    	this.put(this.form);
+    	this.post(this.form);
     },
 });
 
