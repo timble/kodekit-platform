@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerBehaviorExecutable extends ComDefaultControllerCommandAuthorize
+class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
     protected function _beforeAdd(KCommandContext $context)
     {
