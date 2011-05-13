@@ -34,6 +34,8 @@ class ComPluginsViewPluginsHtml extends ComDefaultViewHtml
 	    				->append('enable')
 	    				->append('disable');
 
+        $this->folders = KFactory::tmp('admin::com.plugins.model.plugins')->getColumn('folder');
+
         JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules');
         JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins', true);
         JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates');
