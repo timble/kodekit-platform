@@ -92,6 +92,17 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
             $this->_data[$column] = $this->manifest->{$column};
         }
 
+        if($column == 'positions' && !isset($this->_data['positions']))
+        {
+            $this->_data['positions'] = array();
+            if($this->manifest && isset($this->manifest->positions))
+            {
+                foreach($this->manifest->positions->children() as $position) {
+                    $this->_data['positions'][] = (string)$position;
+                }
+            }
+        }
+
         return parent::__get($column);
     }
 
