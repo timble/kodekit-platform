@@ -59,7 +59,12 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
      */
     public function __get($column)
     {
-        if($column == 'default' && !isset($this->_data['default']) && isset($this->_data['application'])) {
+        if($column == 'name' && empty($this->_data['name'])) {
+            $this->_data['name'] = basename($this->_data['path']);
+        }
+    
+        if($column == 'default' && !isset($this->_data['default']))
+        {
             $default                = JComponentHelper::getParams('com_templates')->get($this->application, 'site');
             $this->_data['default'] = $default == $this->name;
         }

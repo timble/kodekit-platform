@@ -54,7 +54,6 @@ class ComTemplatesModelTemplates extends KModelAbstract
 
             $data = array(
                 'path'        => $path,
-                'name'        => $this->_state->name,
                 'application' => $this->_state->application
             );
 
@@ -77,20 +76,18 @@ class ComTemplatesModelTemplates extends KModelAbstract
             $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $path = $base.'/templates';
 
-            foreach(new DirectoryIterator($path) as $file)
+            foreach(new DirectoryIterator($path) as $folder)
             {
-                if($file->isDir() && !($file->isDot() || in_array($file->getFilename(), array('.svn'))))
+                if($folder->isDir())
                 {
-                    //Apply states
-                    if($this->_state->name && $this->_state->name != $file->getFilename())                     continue;
-                    if($this->_state->search && strpos($file->getFilename(), $this->_state->search) === false) continue;
+                    $name_mismatch   = $this->_state->name && $this->_state->name != $folder->getFilename();
+                    $search_mismatch = $this->_state->search && strpos($folder->getFilename(), $this->_state->search) === false;
+                    $file_exists     = file_exists($folder->getRealPath().'/templateDetails.xml');
                     
-                    //Templates without a manifest can't be parsed
-                    if(!file_exists($file->getRealPath().'/templateDetails.xml')) continue;
+                    if($name_mismatch || $search_mismatch || !$file_exists) continue;
                     
                     $data[] = array(
-                        'path'        => $file->getRealPath(),
-                        'name'        => $file->getFilename(),
+                        'path'        => $folder->getRealPath(),
                         'application' => $this->_state->application
                     );
                 }
