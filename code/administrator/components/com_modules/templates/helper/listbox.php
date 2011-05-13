@@ -47,13 +47,63 @@ class ComModulesTemplateHelperListbox extends KTemplateHelperListbox
  	}
 
  	/**
- 	 * Renders menu assignment listbox
- 	 *
- 	 * @param 	array 	An optional array with configuration options
- 	 * @return	string	Html
- 	 */
- 	public function pages($config = array())
- 	{
- 		$config = new KConfig($config);
- 	}
+     * Generates a list over positions
+     *
+     * The list is the array over positions coming from the application template merged with the module positions currently in use
+     * that may not be defined in the xml
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function positions($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'position' => 'left'
+        ));
+        
+        $model = KFactory::get('admin::com.modules.model.modules');
+        $query = KFactory::tmp('lib.koowa.database.query')
+					->distinct()
+				    ->select('template')
+					->where('client_id', '=', (int)($model->getState()->application == 'admin'));
+
+		//@TODO if com.templates is refactored to nooku, specifying the table name is no longer necessary
+		$table		= KFactory::get('admin::com.templates.database.table.menu', array('name' => 'templates_menu'));
+		$templates	= $table->select($query, KDatabase::FETCH_FIELD_LIST);
+		$modules	= $model->getColumn('position');
+		$positions	= $modules->getColumn('position');
+		$root		= $model->getState()->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+
+        $template   = KFactory::tmp('admin::com.templates.model.templates')
+                          ->application($model->getState()->application)
+                          ->default(1)
+                          ->getItem();
+
+		//foreach($templates as $template)
+		//{
+			foreach($template->positions as $position)
+			{
+				if(!in_array((string)$position, $positions)) {
+					$positions[] = (string)$position;
+				}
+			}
+		//}
+
+		$positions = array_unique($positions);
+		sort($positions);
+        
+        // @TODO combobox behavior should be in the framework
+        JHTML::_('behavior.combobox');
+        
+        $html[] = '<input type="text" id="position" class="combobox" name="position" value="'.$config->position.'" />';
+        $html[] = '<ul id="combobox-position" style="display:none;">';
+        
+        foreach($positions as $position) {
+        	$html[] = '<li>'.$position.'</li>';
+        }
+        $html[] = '</ul>';
+
+        return implode(PHP_EOL, $html);
+    }
 }

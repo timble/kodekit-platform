@@ -27,14 +27,6 @@ class ComModulesModelModules extends ComDefaultModelDefault
 	 */
 	protected $_modules;
 
-	/**
-	 * A list over available module positions
-	 *
-	 * @var array
-	 */
-	protected $_positions;
-	
-
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
@@ -188,52 +180,5 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		}
 
 		return $this->_modules;
-	}
-
-	/**
-	 * Get a list over active module positions
-	 *
-	 * @return	array
-	 */
-	public function getPositions()
-	{
-		// Get the data if it doesn't already exist
-		if(!isset($this->_positions))
-		{
-			$query = KFactory::tmp('lib.koowa.database.query')
-						->distinct()
-					    ->select('template')
-						->where('client_id', '=', (int)($this->_state->application == 'admin'));
-
-			//@TODO if com.templates is refactored to nooku, specifying the table name is no longer necessary
-			$table		= KFactory::get('admin::com.templates.database.table.menu', array('name' => 'templates_menu'));
-			$templates	= $table->select($query, KDatabase::FETCH_FIELD_LIST);
-			$modules	= $this->getColumn('position');
-			$positions	= $modules->getColumn('position');
-			$root		= $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
-
-			foreach($templates as $template)
-			{
-				$path		= $root.'/templates/'.$template.'/templateDetails.xml';
-
-				if(!file_exists($path))					continue;
-				if(!$xml = simplexml_load_file($path))	continue;
-				if(!isset($xml->positions))				continue;
-
-				foreach($xml->positions->children() as $position)
-				{
-					if(!in_array((string)$position, $positions)) {
-						$positions[] = (string)$position;
-					}
-				}
-			}
-	
-			$positions = array_unique($positions);
-			sort($positions);
-			
-			$this->_positions = $positions;
-		}
-
-		return $this->_positions;
 	}
 }
