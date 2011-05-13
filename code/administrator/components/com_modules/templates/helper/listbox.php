@@ -80,15 +80,12 @@ class ComModulesTemplateHelperListbox extends KTemplateHelperListbox
                           ->default(1)
                           ->getItem();
 
-		//foreach($templates as $template)
-		//{
-			foreach($template->positions as $position)
-			{
-				if(!in_array((string)$position, $positions)) {
-					$positions[] = (string)$position;
-				}
+		foreach($template->positions as $position)
+		{
+			if(!in_array((string)$position, $positions)) {
+				$positions[] = (string)$position;
 			}
-		//}
+		}
 
 		$positions = array_unique($positions);
 		sort($positions);
