@@ -20,8 +20,14 @@
 
 class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
 {
+    public function getOnClick()
+    {
+        //@TODO hacky, suggest patch to toolbar that allows setting the rel attribute
+    	return '" rel="{handler:\'url\',ajaxOptions:{method:\'get\'}}';
+    }
+
 	public function getLink()
 	{
-		return 'index.php?option=com_modules&view=module&layout=list';
+		return 'index.php?option=com_modules&view=modules&layout=list&new=1';
 	}
 }
