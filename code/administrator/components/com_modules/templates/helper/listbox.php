@@ -62,17 +62,9 @@ class ComModulesTemplateHelperListbox extends KTemplateHelperListbox
             'position' => 'left'
         ));
         
-        $model = KFactory::get('admin::com.modules.model.modules');
-        $query = KFactory::tmp('lib.koowa.database.query')
-					->distinct()
-				    ->select('template')
-					->where('client_id', '=', (int)($model->getState()->application == 'admin'));
-
-		//@TODO if com.templates is refactored to nooku, specifying the table name is no longer necessary
-		$table		= KFactory::get('admin::com.templates.database.table.menu', array('name' => 'templates_menu'));
-		$templates	= $table->select($query, KDatabase::FETCH_FIELD_LIST);
-		$modules	= $model->getColumn('position');
-		$positions	= $modules->getColumn('position');
+        $model      = KFactory::get('admin::com.modules.model.modules');
+		$rowset     = $model->getColumn('position');
+		$positions  = $rowset->getColumn('position');
 		$root		= $model->getState()->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 
         $template   = KFactory::tmp('admin::com.templates.model.templates')
