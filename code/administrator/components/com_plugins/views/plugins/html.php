@@ -30,7 +30,7 @@ class ComPluginsViewPluginsHtml extends ComDefaultViewHtml
 	public function display()
 	{
 	    $this->getToolbar()
-	    				->append('divider')
+	                    ->reset()
 	    				->append('enable')
 	    				->append('disable');
 
