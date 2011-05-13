@@ -22,10 +22,6 @@ class ComModulesViewModuleHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		if($this->getLayout() == 'form') {
-			$this->positions = $this->getModel()->getPositions();
-		} 
-		
 		if($this->getLayout() == 'list') 
 		{
 			$this->getToolbar()
