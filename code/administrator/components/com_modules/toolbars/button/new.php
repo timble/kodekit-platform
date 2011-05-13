@@ -28,6 +28,7 @@ class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
 
 	public function getLink()
 	{
-		return 'index.php?option=com_modules&view=modules&layout=list&new=1';
+	    $model = KFactory::get('admin::com.modules.model.modules');
+		return 'index.php?option=com_modules&view=modules&layout=list&new=1&tmpl=component&application='.$model->getState()->application;
 	}
 }

@@ -31,7 +31,7 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		 	->insert('position'   , 'cmd')
 		 	->insert('module' 	  , 'cmd')
 		 	->insert('assigned'   , 'cmd')
-		 	->insert('new'        , 'boolean', false, true);
+		 	->insert('new'        , 'boolean', false);
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -139,39 +139,45 @@ class ComModulesModelModules extends ComDefaultModelDefault
         {
             if($this->_state->new)
             {
-                $this->_list = array();
-            	$lang        = KFactory::get('lib.joomla.language');
-            	$root        = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
-            	$path        = $root.'/modules';
+                $list = array();
+            	$lang = KFactory::get('lib.joomla.language');
+            	$root = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+            	$path = $root.'/modules';
+            	$this->_list = $this->getTable()->getRowset();
             
             	jimport('joomla.filesystem.folder');
-            	foreach(JFolder::folders($path) as $folder)
+            	foreach(JFolder::folders($path) as $i => $folder)
             	{
             		if(strpos($folder, 'mod_') === 0)
             		{
             			$files 				= JFolder::files( $path.'/'.$folder, '^([_A-Za-z0-9]*)\.xml$' );
             			if(!$files) continue;
             
-            			$module				= new stdClass;
-            			$module->file 		= $files[0];
-            			$module->module 	= str_replace('.xml', '', $files[0]);
-            			$module->path 		= $path.'/'.$folder;
+            			$module				= array();
+            			//The rowset wont add rows without an id to it
+            			$module['id']       = $this->getTotal() + $i;
+            			$module['file'] 		= $files[0];
+            			$module['module'] 	= str_replace('.xml', '', $files[0]);
+            			$module['path'] 		= $path.'/'.$folder;
             			
-            			$data = JApplicationHelper::parseXMLInstallFile( $module->path.'/'.$module->file);
+            			$data = JApplicationHelper::parseXMLInstallFile( $module['path'].'/'.$module['file']);
             			if($data['type'] == 'module')
             			{
-            				$module->name			= $data['name'];
-            				$module->description	= $data['description'];
+            				$module['name']			= $data['name'];
+            				$module['description']	= $data['description'];
             			}
             
-            			$this->_list[]	= $module;
+                        
+            			$list[]	= $module;            			
             
-            			$lang->load($module->module, $root);
+            			$lang->load($module['module'], $root);
             		}
             	}
-            
+            	$this->_list->addData($list);
             	// sort array of objects alphabetically by name
-            	JArrayHelper::sortObjects($this->_list, 'name' );
+            	//JArrayHelper::sortObjects($this->_list, 'name' );
+            	
+            	//$this->_list = KFactory::tmp('admin::com.modules.database.rowset.modules', array('data' => $data));
             }
             else {
                 $this->_list = parent::getList();

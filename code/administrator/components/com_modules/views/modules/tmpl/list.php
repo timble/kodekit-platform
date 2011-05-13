@@ -17,12 +17,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<thead>
 			<tr>
 				<th colspan="4">
-					<?= @text('Modules') ?>
+					<?= @text('Select module') ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-		<? foreach($modules as $i => $module) : ?>
+		<? $i = 0; foreach($modules as $module) : ?>
 			<? if(!$i%2) : ?>
 				<tr valign="top">
 			<? endif; ?>
@@ -36,7 +36,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					'value'		=> $module->module
 				)) ?>>
 					<input type="radio" name="module" value="<?= $module->module ?>" />
-					<a href="<?= @route('layout=form&module='.$module->module) ?>">
+					<a href="<?= @route('view=module&layout=form&module='.$module->module) ?>">
 						<?= @text(@escape($module->name)) ?>
 					</a>
 				</span>
@@ -49,7 +49,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<? if($i%2 || $last) : ?> 
 				</tr>
 			<? endif; ?>
-		<? endforeach ?>
+		<? $i++; endforeach ?>
 		</tbody>
 	</table>
 </form>

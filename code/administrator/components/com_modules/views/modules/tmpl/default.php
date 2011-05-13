@@ -12,6 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <?= @helper('behavior.tooltip') ?>
+<?= @helper('behavior.modal', array('selector' => '#toolbar-modules-new a')) ?>
 
 <div class="col width-15 menus">
     <ul>
