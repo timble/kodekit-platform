@@ -15,7 +15,7 @@
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Templates    
+ * @subpackage  Templates
  */
 class ComTemplatesViewTemplateHtml extends ComTemplatesViewHtml
 {
@@ -26,7 +26,7 @@ class ComTemplatesViewTemplateHtml extends ComTemplatesViewHtml
             ->prepend('preview');
 
         $template     = $this->getModel()->getItem();
-        $this->params = new JParameter($template->ini, $template->xml_file, 'template');
+        $this->params = new JParameter($template->ini, $template->manifest_file, 'template');
 
         return parent::display();
     }

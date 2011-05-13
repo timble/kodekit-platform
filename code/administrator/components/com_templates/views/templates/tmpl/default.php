@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -67,7 +67,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             <? endif ?>
             </tfoot>
             <tbody>
-            <? foreach($templates as $i => $template) : ?>
+            <? foreach($templates as $i => $template) :?>
                 <tr>
                     <td width="5">
                         <input type="radio" id="name" name="name" value="<?= $template->name ?>" class="-koowa-grid-checkbox" />
@@ -79,7 +79,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             </a>
                         </span>
                     </td>
-                    
+
                     <td align="center">
                     <? if($template->default) : ?>
                         <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
@@ -89,7 +89,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= $template->version ?>
                     </td>
                     <td>
-                        <?= $template->creationDate ?>
+                    	<? if ((string) $template->creationDate): ?>
+                        <?= @date(array('date' => $template->creationDate, 'format' => '%d %B %Y')); ?>
+                        <? endif; ?>
                     </td>
                     <td>
                         <span class="editlinktip hasTip" title="<?= @text('Author Information') ?>::<?= $template->authorEmail . '<br />' . @ $template->authorUrl ?>">

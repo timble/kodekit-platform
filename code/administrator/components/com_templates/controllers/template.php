@@ -15,7 +15,7 @@
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Templates    
+ * @subpackage  Templates
  */
 class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
 {
