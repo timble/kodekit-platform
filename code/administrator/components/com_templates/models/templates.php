@@ -129,14 +129,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
     {
         if(!isset($this->_default_template))
         {
-            $table = KFactory::get('admin::com.templates.database.table.menu');
-            $query = $table->getDatabase()->getQuery();
-
-            $query->select('template')
-                  ->where('client_id', '=', (int)($this->_state->application == 'admin'))
-                  ->where('menuid'   , '=', 0);
-
-            $this->_default_template = $table->select($query, KDatabase::FETCH_FIELD);
+            $this->_default_template = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');
         }
 
         return $this->_default_template;

@@ -27,7 +27,7 @@ class ComTemplatesToolbarButtonDefault extends KToolbarButtonPost
     public function getOnClick()
     {
         $url  = KRequest::url();
-        $json = "{method:'post', url:'$url&'+id,params:{action:'edit', 'selections[]':0, '$this->_token_name':'$this->_token_value'}}";
+        $json = "{method:'post', url:'$url&'+id,params:{action:'edit', 'default':1, '$this->_token_name':'$this->_token_value'}}";
         
         $msg    = JText::_('Please select an item from the list');
         return 'var id = Koowa.Grid.getIdQuery();'

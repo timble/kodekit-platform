@@ -64,6 +64,35 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     }
     
     /**
+     * Saves to the template data, like default state, and params.
+     *
+     * @return boolean  If successfull return TRUE, otherwise FALSE
+     */
+	public function save()
+	{
+		if(isset($this->_modified['default']) && $this->default)
+		{
+			$params = JComponentHelper::getParams('com_templates');
+			$params->set($this->application, $this->name);
+
+			$table = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'));
+
+			$row = $table->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW);
+			$row->params = $params->toString();
+
+			if(!$row->save()) return false;
+		}
+		
+		if(isset($this->_modified['params']))
+		{
+			$params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($this->params);
+			if(!file_put_contents($this->ini_file, $params)) return false;
+		}
+
+		return true;
+	}
+    
+    /**
      * Templates are newer new, they simply exist or don't
      *
      * @return boolean

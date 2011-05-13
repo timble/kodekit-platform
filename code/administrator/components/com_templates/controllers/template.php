@@ -36,30 +36,4 @@ class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
 
         return $template;
     }
-
-    /**
-     * Edit action
-     *
-     * Takes care of storing params as well as menu assignments
-     *
-     *  @return KDatabaseRow    A row object containing the selected row
-     */
-    protected function _actionEdit(KCommandContext $context)
-    {
-        $templates = parent::_actionEdit($context);
-        
-        $menus     = KFactory::get('admin::com.templates.database.table.menus');
-        $state     = $this->getModel()->getState();
-
-        foreach($templates as $name => $template)
-        {
-            if(isset($template->params)) 
-            {
-                $params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($template->params);
-                file_put_contents($template->ini_file, $params);
-            }
-        }
-
-        return $templates;
-    }
 }
