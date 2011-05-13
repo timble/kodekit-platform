@@ -10,9 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @helper('behavior.tooltip') ?>
-<? /* @TODO combobox behavior should be in the framework */ ?>
-<? JHTML::_('behavior.combobox') ?> 
+<?= @helper('behavior.tooltip') ?> 
 
 <?
 	// Initialize some variables
@@ -142,12 +140,7 @@ window.addEvent('domready', function() {
 					</label>
 				</td>
 				<td>
-					<input type="text" id="position" class="combobox" name="position" value="<?= $module->position ?>" />
-					<ul id="combobox-position" style="display:none;">
-					<? foreach($positions as $position) : ?>
-						<li><?= $position ?></li>
-					<? endforeach ?>
-					</ul>
+				    <?= @helper('listbox.positions') ?>
 				</td>
 			</tr>
 			<tr>
