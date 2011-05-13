@@ -59,6 +59,11 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
      */
     public function __get($column)
     {
+        if($column == 'default' && !isset($this->_data['default']) && isset($this->_data['application'])) {
+            $default                = JComponentHelper::getParams('com_templates')->get($this->application, 'site');
+            $this->_data['default'] = $default == $this->name;
+        }
+
     	if($column == 'ini_file' && empty($this->_data['ini_file'])) {
             $this->_data['ini_file'] = $this->_data['path'].'/params.ini';
         }

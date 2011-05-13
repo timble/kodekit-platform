@@ -47,17 +47,15 @@ class ComTemplatesModelTemplates extends KModelAbstract
     {
         if(!isset($this->_item))
         {
-            $default = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');            
-            $base    = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            
+            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $path = $base.'/templates/'.$this->_state->name;
+
             if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
 
             $data = array(
                 'path'        => $path,
                 'name'        => $this->_state->name,
-                'application' => $this->_state->application,
-                'default'     => $this->_state->name == $default,
+                'application' => $this->_state->application
             );
 
             $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
@@ -75,10 +73,9 @@ class ComTemplatesModelTemplates extends KModelAbstract
     { 
         if(!isset($this->_list))
         {
-            $data    = array();
-            $default = JComponentHelper::getParams('com_templates')->get($this->_state->application, 'site');
-            $base    = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $path    = $base.'/templates';
+            $data = array();
+            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $path = $base.'/templates';
 
             foreach(new DirectoryIterator($path) as $file)
             {
@@ -94,8 +91,7 @@ class ComTemplatesModelTemplates extends KModelAbstract
                     $data[] = array(
                         'path'        => $file->getRealPath(),
                         'name'        => $file->getFilename(),
-                        'application' => $this->_state->application,
-                        'default'     => $file->getFilename() == $default,
+                        'application' => $this->_state->application
                     );
                 }
             }
