@@ -83,6 +83,9 @@ window.addEvent('domready', function() {
 	    position = this.get('value');
 	    cache[position] ? setList(cache[position]) : request.get({position: position});
 	}).fireEvent('change');
+	
+	//Sets a placeholder for the default position, for usability
+	$('position').set('placeholder', position);
 });
 </script>
 
