@@ -72,7 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         				<?= $language->version; ?>
         			</td>
         			<td align="center">
-        				<?= @date(array('date' => $language->creationdate, 'format' => '%d %B %Y')); ?>
+        				<?= @date(array('date' => $language->creationDate, 'format' => '%d %B %Y')); ?>
         			</td>
         			<td align="center">
         				<?= $language->author; ?>
