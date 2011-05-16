@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @category	Nooku
- * @package     Nooku_Components
+ * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2009 - 2011 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +14,7 @@
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
- * @package     Nooku_Components
+ * @package     Nooku_Server
  * @subpackage  Weblinks
  */
 class ComWeblinksModelCategories extends ComDefaultModelDefault
