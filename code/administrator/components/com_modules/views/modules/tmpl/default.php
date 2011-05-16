@@ -36,7 +36,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </ul>
 </div>
 <div class="col width-85">
-    <form action="<?= @route() ?>" method="get" name="adminForm">
+    <form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">
     	<table class="adminlist">
     		<thead>
     			<tr>
@@ -67,7 +67,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			</tr>
     			<tr>
     				<td width="5" align="center">
-    					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($modules) ?>);" />
+    					<input type="checkbox" class="-koowa-grid-checkall" />
     				</td>
     				<td>
     					<?= @text( 'Filter' ) ?>:
