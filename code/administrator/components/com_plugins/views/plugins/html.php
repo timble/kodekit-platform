@@ -30,9 +30,9 @@ class ComPluginsViewPluginsHtml extends ComDefaultViewHtml
 	public function display()
 	{
 	    $this->getToolbar()
-	                    ->reset()
-	    				->append('enable')
-	    				->append('disable');
+	        ->reset()
+	  		->append('enable')
+	    	->append('disable');
 
         $this->folders = KFactory::tmp('admin::com.plugins.model.plugins')->getColumn('folder');
 
