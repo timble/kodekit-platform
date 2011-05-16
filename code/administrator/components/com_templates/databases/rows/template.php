@@ -123,13 +123,15 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 			$row = $table->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW);
 			$row->params = $params->toString();
 
-			if(!$row->save()) return false;
+			return $row->save();
 		}
 
 		if(isset($this->_modified['params']))
 		{
 			$params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($this->params);
-			if(!file_put_contents($this->ini_file, $params)) return false;
+			if(!file_put_contents($this->ini_file, $params)) {
+			    return false;
+			}
 		}
 
 		return true;
