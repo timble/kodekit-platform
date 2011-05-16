@@ -1,15 +1,22 @@
 <?php
 /**
-* @version		$Id: router.php 14401 2010-01-26 14:10:00Z louis $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
+ * @copyright	Copyright (C) 2009 - 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+/**
+ * Weblink Router
+ *
+ * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
+ * @category 	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
+ */
 
 function WeblinksBuildRoute(&$query)
 {
@@ -30,9 +37,7 @@ function WeblinksBuildRoute(&$query)
 
 	// Get the menu items for this component.
 	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_weblinks');
-		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items = JSite::getMenu()->getItems('componentid', JComponentHelper::getComponent('com_weblinks')->id);
 	}
 
 	// Search for an appropriate menu item.
@@ -197,10 +202,9 @@ function WeblinksBuildRoute(&$query)
 function WeblinksParseRoute($segments)
 {
 	$vars	= array();
-
+	
 	// Get the active menu item.
-	$menu	= &JSite::getMenu();
-	$item	= &$menu->getActive();
+	$item = JSite::getMenu()->getActive();
 
 	// Check if we have a valid menu item.
 	if (is_object($item))
@@ -212,17 +216,17 @@ function WeblinksParseRoute($segments)
 			$vars['view']	= 'weblink';
 			$vars['id']		= $segments[0];
 		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && count($segments) == 2)
+		elseif (isset($item->query['view']) && $item->query['view'] == 'weblinks' && count($segments) == 2)
 		{
 			// Weblink view.
 			$vars['view']	= 'weblink';
 			$vars['id']		= $segments[1];
 			$vars['catid']	= $segments[0];
 		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && isset($segments[0]))
+		elseif (isset($item->query['view']) && $item->query['view'] == 'weblinks' && isset($segments[0]))
 		{
 			// Category view.
-			$vars['view']	= 'category';
+			$vars['view']	= 'weblinks';
 			$vars['id']		= $segments[0];
 		}
 		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && count($segments) == 2)
@@ -235,7 +239,7 @@ function WeblinksParseRoute($segments)
 		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && isset($segments[0]))
 		{
 			// Category view.
-			$vars['view']	= 'category';
+			$vars['view']	= 'weblinks';
 			$vars['id']		= $segments[0];
 		}
 	}
@@ -257,7 +261,7 @@ function WeblinksParseRoute($segments)
 			else
 			{
 				// We are viewing a category.
-				$vars['view']	= 'category';
+				$vars['view']	= 'weblinks';
 				$vars['id']	= $segments[$count-1];
 			}
 		}

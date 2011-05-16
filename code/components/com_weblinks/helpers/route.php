@@ -1,46 +1,36 @@
 <?php
 /**
- * @version		$Id: route.php 14401 2010-01-26 14:10:00Z louis $
- * @package		Joomla
- * @subpackage	Weblinks
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
+ * @copyright	Copyright (C) 2009 - 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
-// Component Helper
-jimport('joomla.application.component.helper');
 
 /**
- * Weblinks Component Route Helper
+ * Weblink Route Helper
  *
- * @static
- * @package		Joomla
- * @subpackage	Weblinks
- * @since 1.5
+ * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
+ * @category 	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Weblinks
  */
+
 class WeblinksHelperRoute
 {
-	function getWeblinkRoute($id, $catid) {
+	function getWeblinkRoute($id, $catid) 
+	{
 		$needles = array(
 			'category' => (int) $catid,
 			'categories' => null
 		);
 
-		//Find the itemid
 		$itemid = WeblinksHelperRoute::_findItem($needles);
 		$itemid = $itemid ? '&Itemid='.$itemid : '';
 
-		//Create the link
 		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id . '&catid='.$catid . $itemid;
-
 		return $link;
 	}
 
@@ -48,11 +38,8 @@ class WeblinksHelperRoute
 	{
 		static $items;
 
-		if (!$items)
-		{
-			$component =& JComponentHelper::getComponent('com_weblinks');
-			$menu = &JSite::getMenu();
-			$items = $menu->getItems('componentid', $component->id);
+		if (!$items) {
+			$items = JSite::getMenu()->getItems('componentid', JComponentHelper::getComponent('com_weblinks')->id);
 		}
 
 		if (!is_array($items)) {
@@ -78,4 +65,3 @@ class WeblinksHelperRoute
 		return $match;
 	}
 }
-?>

@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Factory mappings
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
@@ -18,6 +18,5 @@
  * @subpackage  Weblinks
  */
 
-KLoader::load('site::com.weblinks.mappings');
-
-echo KFactory::get('site::com.weblinks.dispatcher')->dispatch();
+KFactory::map('site::com.weblinks.model.categories', 'admin::com.weblinks.model.categories');
+KFactory::map('site::com.weblinks.model.weblinks'  , 'admin::com.weblinks.model.weblinks');
