@@ -10,12 +10,24 @@
  */
 
 /**
- * Component Loader
- *   
+ * View HTML Class
+ *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
  * @package     Nooku_Components
  * @subpackage  Weblinks
  */
+class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
+{
+	public function display()
+	{
+		$this->getToolbar()
+			->setTitle(JText::_('Weblinks'))
+			->append('enable')
+			->append('disable')
+			->append('divider')
+			->append('preferences');
 
-echo KFactory::get('admin::com.weblinks.dispatcher')->dispatch();
+		return parent::display();
+	}
+}

@@ -10,12 +10,20 @@
  */
 
 /**
- * Component Loader
- *   
+ * Weblink Html View
+ *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
  * @package     Nooku_Components
  * @subpackage  Weblinks
  */
-
-echo KFactory::get('admin::com.weblinks.dispatcher')->dispatch();
+class ComWeblinksViewWeblinkHtml extends ComDefaultViewHtml
+{
+    public function display()
+   	{
+		$title = $this->getModel()->get('id') ?  'Edit Weblink' : 'New Weblink';
+		$this->getToolbar()->setTitle($title);
+       
+		return parent::display();
+   	}
+}

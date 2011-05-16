@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <config>
 	<params>
 		<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
