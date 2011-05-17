@@ -31,6 +31,7 @@ function SearchBuildRoute(&$query)
 	if(isset($query['view'])) {
 		unset($query['view']);
 	}
+	
 	return $segments;
 }
 
@@ -43,9 +44,6 @@ function SearchBuildRoute(&$query)
 function SearchParseRoute($segments)
 {
 	$vars = array();
-	
-	$view = array_shift($segments);
-	$vars['view'] = $view;
 	
 	return $vars;
 }

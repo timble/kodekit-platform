@@ -11,13 +11,7 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<? if ($params->get( 'show_page_title', 1 )) : ?>
-<div class="componentheading<?= @escape( $params->get( 'pageclass_sfx' ) );?>">
-	<?= $params->get( 'page_title', @text( 'Search' ) );?>
-</div>
-<? endif; ?>
-
-<form id="searchForm" action="index.php" method="get" name="searchForm">
+<form id="searchForm" action="<?= @route() ?>" method="get" name="searchForm">
 	<table class="contentpaneopen<?= @escape($params->get('pageclass_sfx')); ?>">
 		<tr>
 			<td nowrap="nowrap">
@@ -26,7 +20,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td nowrap="nowrap">
-				<input type="text" name="keyword" id="keyword" maxlength="20" size="30" value="<?= @escape($keyword);?>" class="inputbox" />
+				<input type="text" name="term" id="term" maxlength="20" size="30" value="<?= @escape($term);?>" class="inputbox" />
 			</td>
 			<td width="100%" nowrap="nowrap">
 				<button onclick="this.form.submit()" class="button"><?=@text( 'Search' );?></button>
@@ -55,7 +49,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<tr>
 		<td colspan="3" >
 			<br />
-			<?= @text( 'Search Keyword' ) .' <b>'. @escape($keyword) .'</b>'; ?>
+			<?= @text( 'Search Keyword' ) .' <b>'. @escape($term) .'</b>'; ?>
 		</td>
 	</tr>
 	<tr>
@@ -65,11 +59,4 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</td>
 	</tr>
 </table>
-<?if ($results) :?>
-<?= @template( 'results' );?>
-<? endif;?>
-<input type="hidden" name="option" value="com_search" />
-<input type="hidden" name="view" value="search" />
-<input type="hidden" name="Itemid" value="<?=$item_id;?>" />
 </form>
-

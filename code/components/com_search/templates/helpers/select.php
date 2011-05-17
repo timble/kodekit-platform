@@ -31,7 +31,7 @@ class ComSearchTemplateHelperSelect extends KTemplateHelperSelect
 		$search_areas = array();
 		
 		// Get and format the search areas
-		foreach(KFactory::get('site::com.search.model.search')->getSearchAreas() as $value => $title) 
+		foreach(KFactory::get('site::com.search.model.results')->getAreas() as $value => $title) 
 		{
 			$search_area = new stdClass();
 			$search_area->value = $value;

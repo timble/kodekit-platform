@@ -17,14 +17,13 @@
  * @package     Nooku_Server
  * @subpackage  Search
  */
-class ComSearchControllerSearch extends ComDefaultControllerDefault
+class ComSearchControllerDefault extends ComDefaultControllerDefault
 {
 	protected function _initialize(KConfig $config)
 	{
-		// The whole identifier must be provided as otherwise KControllerResource::setModel will
-		// pluralize the provided string (search => searches).
 		$config->append(array(
-			'model'      => 'site::com.search.model.search',
+		    'model'	     => 'results',
+		    'view'	     => 'results',
 			'behaviors'  => array('filter')
 		));
 		

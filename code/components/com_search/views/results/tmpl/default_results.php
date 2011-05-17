@@ -1,13 +1,15 @@
 <?
 /**
- * @author      Arunas Mazeika <http://nooku.assembla.com/profile/amazeika>
- * @category    Nooku
+ * @version		$Id$
+ * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Search  
+ * @subpackage  Weblinks
+ * @copyright	Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
-defined('KOOWA') or die('Restricted access');
-?>
+defined('KOOWA') or die('Restricted access'); ?>
 
 <table class="contentpaneopen<?=@escape($params->get('pageclass_sfx')); ?>">
 	<tr>
