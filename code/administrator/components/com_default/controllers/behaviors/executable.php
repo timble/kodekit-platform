@@ -27,7 +27,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      * @return  boolean     Can return both true or false.  
      * @throws  KControllerException
      */
-    public function execute( $name, KCommandContext $context) 
+    final public function execute( $name, KCommandContext $context) 
     { 
         $parts = explode('.', $name); 
         
