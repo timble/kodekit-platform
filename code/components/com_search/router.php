@@ -1,41 +1,51 @@
 <?php
 /**
- * @version		$Id: router.php 16385 2010-04-23 10:44:15Z ian $
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Search
+ * @copyright	Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
 /**
- * @param	array
- * @return	array
+ * Search Router
+ *
+ * @author    	Arunas Mazeika <http://nooku.assembla.com/profile/amazeika>
+ * @category 	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Search
  */
-function SearchBuildRoute( &$query )
+
+/**
+ * Transforms a non-SEF URI to a SEF URI.
+ * 
+ * @param array The variables
+ * @return array The segments of the SEF URI
+ */
+function SearchBuildRoute(&$query)
 {
 	$segments = array();
-
-	if (isset($query['view'])) {
+	
+	if(isset($query['view'])) {
 		unset($query['view']);
 	}
 	return $segments;
 }
 
 /**
- * @param	array
- * @return	array
+ * Provides variables from a SEF URI.
+ * 
+ * @param array The URI segments.
+ * @return array The variables.
  */
-function SearchParseRoute( $segments )
+function SearchParseRoute($segments)
 {
 	$vars = array();
-
-	$searchword	= array_shift($segments);
-	$vars['searchword'] = $searchword;
-	$vars['view'] = 'search';
-
+	
+	$view = array_shift($segments);
+	$vars['view'] = $view;
+	
 	return $vars;
 }
