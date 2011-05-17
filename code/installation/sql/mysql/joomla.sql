@@ -539,11 +539,11 @@ CREATE TABLE `#__users` (
   `activation` varchar(100) NOT NULL default '',
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
+  UNIQUE KEY (`email`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
   KEY `gid_block` (`gid`, `block`),
-  KEY `username` (`username`),
-  KEY `email` (`email`)
+  KEY `username` (`username`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
