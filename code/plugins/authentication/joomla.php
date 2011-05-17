@@ -56,11 +56,11 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$query = 'SELECT `id`, `password`, `gid`'
 			. ' FROM `#__users`'
-			. ' WHERE username=' . $db->Quote( $credentials['username'] )
+			. ' WHERE (username = ' . $db->Quote( $credentials['username'] )
+			. ' OR email = ' . $db->Quote( $credentials['username'] ).');'
 			;
 		$db->setQuery( $query );
 		$result = $db->loadObject();
-
 
 		if($result)
 		{
@@ -71,7 +71,9 @@ class plgAuthenticationJoomla extends JPlugin
 
 			if ($crypt == $testcrypt) {
 				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
+
 				$response->email = $user->email;
+				$response->username = $user->username;
 				$response->fullname = $user->name;
 				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 				$response->error_message = '';
