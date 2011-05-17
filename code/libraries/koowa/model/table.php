@@ -362,7 +362,7 @@ class KModelTable extends KModelAbstract
         } 
 
         if(array_key_exists('ordering', $this->getTable()->getColumns())) {
-            $query->order('ordering', 'ASC');
+            $query->order('tbl.ordering', 'ASC');
         }
     }
 
