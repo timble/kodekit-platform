@@ -1,215 +1,149 @@
 <?php
 /**
- * @version		$Id: search.php 14401 2010-01-26 14:10:00Z louis $
- * @package		Joomla
- * @subpackage	Search
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Search
+ * @copyright	Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
-
-// Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport('joomla.application.component.model');
 
 /**
- * Search Component Search Model
+ * Search Model Class
  *
- * @package		Joomla
- * @subpackage	Search
- * @since 1.5
+ * @author    	Arunas Mazeika <http://nooku.assembla.com/profile/amazeika>
+ * @category 	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Search
  */
-class SearchModelSearch extends JModel
-{
+class ComSearchModelSearch extends KModelAbstract
+{	
 	/**
-	 * Sezrch data array
-	 *
-	 * @var array
+	 * The search results.
+	 * 
+	 * @var array An array containing row objects (sdtClass) as returned from the search plugins.
 	 */
-	var $_data = null;
-
+	protected $_search_results = array();
+	
 	/**
-	 * Search total
-	 *
-	 * @var integer
+	 * The search areas.
+	 * 
+	 * @var array Associative array containing the search areas.
 	 */
-	var $_total = null;
-
+	protected $_search_areas = array();
+	
 	/**
-	 * Search areas
-	 *
-	 * @var integer
+	 * The constructor.
+	 * 
+	 * @param KConfig $config An optional configuration object.
 	 */
-	var $_areas = null;
-
-	/**
-	 * Pagination object
-	 *
-	 * @var object
-	 */
-	var $_pagination = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-	function __construct()
+	public function __construct(KConfig $config = null)
 	{
-		parent::__construct();
-
-		global $mainframe;
-
-		//Get configuration
-		$config = JFactory::getConfig();
-
-		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_search.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
-		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
-
-		// Set the search parameters
-		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'all');
-		$ordering		= JRequest::getWord('ordering', 'newest');
-		$this->setSearch($keyword, $match, $ordering);
-
-		//Set the search areas
-		$areas = JRequest::getVar('areas');
-		$this->setAreas($areas);
-	}
-
-	/**
-	 * Method to set the search parameters
-	 *
-	 * @access	public
-	 * @param string search string
- 	 * @param string mathcing option, exact|any|all
- 	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 */
-	function setSearch($keyword, $match = 'all', $ordering = 'newest')
-	{
-		if(isset($keyword)) {
-			$this->setState('keyword', $keyword);
+		if(!$config) {
+			$config = new KConfig();
 		}
-
-		if(isset($match)) {
-			$this->setState('match', $match);
-		}
-
-		if(isset($ordering)) {
-			$this->setState('ordering', $ordering);
-		}
+		
+		parent::__construct($config);
+		
+		$state = $this->getState();
+		$state->insert('keyword', 'string');
+		$state->insert('match', 'cmd', 'all');
+		$state->insert('ordering', 'cmd', 'newest');
+		$state->insert('areas', 'cmd', null);
+		$state->insert('limit', 'int', 20);
+		$state->insert('offset', 'int');
 	}
-
+	
 	/**
-	 * Method to set the search areas
-	 *
-	 * @access	public
-	 * @param	array	Active areas
-	 * @param	array	Search areas
+	 * Get the search results based in the current model state.
+	 * 
+	 * @return Array The search results.
 	 */
-	function setAreas($active = array(), $search = array())
+	public function getSearchResults()
 	{
-		$this->_areas['active'] = $active;
-		$this->_areas['search'] = $search;
-	}
-
-	/**
-	 * Method to get weblink item data for the category
-	 *
-	 * @access public
-	 * @return array
-	 */
-	function getData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$areas = $this->getAreas();
-
-			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();
-			$results = $dispatcher->trigger( 'onSearch', array(
-			$this->getState('keyword'),
-			$this->getState('match'),
-			$this->getState('ordering'),
-			$areas['active']) );
-
-			$rows = array();
-			foreach($results AS $result) {
-				$rows = array_merge( (array) $rows, (array) $result);
+		if(empty($this->_search_results)) 
+		{	
+			$state = $this->getState();
+			$results = array();
+			$search_results = array();
+			
+			if($state->keyword) 
+			{
+				JPluginHelper::importPlugin('search');
+				$dispatcher = & JDispatcher::getInstance();
+				$results = $dispatcher->trigger('onSearch', array(
+					$state->keyword, 
+					$state->match, 
+					$state->ordering, 
+					$state->areas));
 			}
-
-			$this->_total	= count($rows);
-			if($this->getState('limit') > 0) {
-				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
-			} else {
-				$this->_data = $rows;
+			
+			foreach($results as $result) {
+				$search_results = array_merge($search_results, $result);
 			}
+			
+			$this->_total = count($search_results);
+			
+			$this->_search_results = ($state->limit) ? array_splice($search_results, $state->offset, $state->limit) : $search_results;
 		}
-
-		return $this->_data;
+		
+		return $this->_search_results;
 	}
-
+	
 	/**
-	 * Method to get the total number of weblink items for the category
-	 *
-	 * @access public
-	 * @return integer
+	 * Get the search areas as provided by the search plugins.
+	 * 
+	 * @return Array The search areas.
 	 */
-	function getTotal()
+	public function getSearchAreas()
 	{
+		if(empty($this->_search_areas)) 
+		{	
+			$search_areas = array();
+			
+			JPluginHelper::importPlugin('search');
+			$dispatcher = & JDispatcher::getInstance();
+			$results = $dispatcher->trigger('onSearchAreas');
+			
+			foreach($results as $search_area) {
+				$search_areas = array_merge($search_areas, $search_area);
+			}
+			
+			$this->_search_areas = $search_areas;
+		}
+		
+		return $this->_search_areas;
+	}
+	
+	/**
+	 * Get the total amount of found items.
+	 *
+	 * @return  int 
+	 */
+	public function getTotal()
+	{
+		// No caching. Recalculate the total.
+	    if(empty($this->_search_results)) {
+			$this->getSearchResults();
+		}
+		
 		return $this->_total;
 	}
-
+	
 	/**
-	 * Method to get a pagination object of the weblink items for the category
-	 *
-	 * @access public
-	 * @return integer
+	 * Reset all cached data and reset the model state to it's default state.
+	 * 
+	 * @param   boolean If TRUE use defaults when resetting. Default is TRUE
+	 * @return KModelAbstract 
 	 */
-	function getPagination()
+	public function reset($default = true)
 	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
-		}
-
-		return $this->_pagination;
-	}
-
-	/**
-	 * Method to get the search areas
-	 *
-	 * @since 1.5
-	 */
-	function getAreas()
-	{
-		global $mainframe;
-
-		// Load the Category data
-		if (empty($this->_areas['search']))
-		{
-			$areas = array();
-
-			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();
-			$searchareas = $dispatcher->trigger( 'onSearchAreas' );
-
-			foreach ($searchareas as $area) {
-				$areas = array_merge( $areas, $area );
-			}
-
-			$this->_areas['search'] = $areas;
-		}
-
-		return $this->_areas;
+		$this->_search_areas = array();
+		$this->_search_results = array();
+		
+		parent::reset($default);
+		
+		return $this;
 	}
 }
