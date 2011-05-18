@@ -54,10 +54,15 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      */
     protected function _beforeAdd(KCommandContext $context)
     {
-        if(version_compare(JVERSION,'1.6.0','ge')) {
-            $result = KFactory::get('lib.joomla.user')->authorise('core.create');
-        } else {
-            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+        $result = false;
+        
+        if(!$this->_readonly)
+        {
+            if(version_compare(JVERSION,'1.6.0','ge')) {
+                $result = KFactory::get('lib.joomla.user')->authorise('core.create');
+            } else {
+                $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+            }
         }
         
         return $result;
@@ -71,12 +76,17 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      */
     protected function _beforeEdit(KCommandContext $context)
     {
-        if(version_compare(JVERSION,'1.6.0','ge')) {
-            $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
-        } else {
-            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+        $result = false;
+        
+        if(!$this->_readonly)
+        {
+            if(version_compare(JVERSION,'1.6.0','ge')) {
+                $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
+            } else {
+                $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+            }
         }
-          
+            
         return $result;
     }
     
@@ -88,10 +98,15 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      */
     protected function _beforeDelete(KCommandContext $context)
     {
-        if(version_compare(JVERSION,'1.6.0','ge')) {
-            $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
-        } else {
-            $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+        $result = false;
+        
+        if(!$this->_readonly)
+        {
+            if(version_compare(JVERSION,'1.6.0','ge')) {
+                $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
+            } else {
+                $result = KFactory::get('lib.joomla.user')->get('gid') > 22;
+            }
         }
           
         return $result;
@@ -108,7 +123,10 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         //Check the token
         if($context->caller->isDispatched())
         {  
-            if((KRequest::method() != KHttpRequest::GET)) 
+            $method = KRequest::method();
+            
+            //Only check the token for PUT, DELETE and POST requests
+            if(($method != KHttpRequest::GET) && ($method != KHttpRequest::OPTIONS)) 
             {     
                 if( KRequest::token() !== JUtility::getToken()) {     
                     return false;
