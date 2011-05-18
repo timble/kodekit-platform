@@ -70,6 +70,11 @@ abstract class KControllerResource extends KControllerAbstract
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
+		
+		//Made the executable behavior read-only
+		if($config->readonly) {
+		    $this->getBehavior('executable')->setReadOnly(true);
+		}
 	}
 
 	/**
@@ -83,9 +88,10 @@ abstract class KControllerResource extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    	    'model'	    => $this->_identifier->name,
-        	'view'	    => $this->_identifier->name,
-    	    'behaviors' => array('executable') 
+    	    'model'	     => $this->_identifier->name,
+        	'view'	     => $this->_identifier->name,
+    	    'behaviors'  => array('executable'),
+    	    'readonly'   => true, 
         ));
         
         parent::_initialize($config);
