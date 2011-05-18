@@ -34,11 +34,12 @@ class ModSearchView extends ModDefaultView
 		$this->assign('text'           , $this->params->get('text', JText::_('search...')));
 		$this->assign('moduleclass_sfx', $this->params->get('moduleclass_sfx', ''));
 		
-		$item_id = intval($this->params->get('set_itemid', 0));
-		
 		// If no menu item id is given, or its value is zero, attempt to use 
 		// the current item id of the current menu.
-		$this->assign('item_id', $item_id > 0 ? $item_id : KRequest::get('get.Itemid', 'int'));
+		$itemid = intval($this->params->get('set_itemid', 0));
+		$itemid = $itemid > 0 ? $itemid : KRequest::get('get.Itemid', 'int');
+		
+		$this->assign('itemid', $itemid);
 		
 		return parent::display();
 	}
