@@ -30,6 +30,10 @@ window.addEvent('domready', function() {
         e = new Event(e);
         new Koowa.Form(Json.evaluate(e.target.getProperty('rel'))).submit();
     });
+    
+    $$('.-koowa-grid').each(function(grid){
+        new Koowa.Grid(grid);
+});
 });
 
 /* Section: Classes */
@@ -82,30 +86,54 @@ Koowa.Form = new Class({
  * @package     Koowa_Media
  * @subpackage  Javascript
  */
-Koowa.Grid = {
-    action: function(action, id) {
-        var form = document.adminForm;
-        var cb = form[id]
-        if (cb) {
-            for (var i = 0; true; i++) {
-                var cbx = f['cb'+i];
-                if (!cbx) {
-                    break;
-                }
-                cbx.checked = false;
-            } 
-            cb.checked = true;
-            form.action.value = action;
-            form.submit();
-        }
+Koowa.Grid = new Class({
+
+    initialize: function(element){
+        
+        this.element    = $(element);
+        this.form       = this.element.match('form') ? this.element : this.element.getParent('form');
+        this.toggles    = this.element.getElements('.-koowa-grid-checkall');
+        this.checkboxes = this.element.getElements('.-koowa-grid-checkbox');
+        
+        var self = this;
+        this.toggles.addEvent('change', function(event){
+            if(event) self.checkAll(this.get('checked'));
+        });
+        
+        this.checkboxes.addEvent('change', function(event){
+            if(event) self.resetCheckAll();
+        });
     },
     
+    checkAll: function(value){
+
+        var changed = this.checkboxes.filter(function(checkbox){
+            return checkbox.get('checked') !== value;
+        });
+
+        this.checkboxes.set('checked', value);
+
+        changed.fireEvent('change');
+
+    },
+    
+    uncheckAll: function(){
+
+        var total = this.checkboxes.filter(function(checkbox){
+        	return checkbox.get('checked') !== false ;
+        }).length;
+
+        this.toggles.set('checked', this.checkboxes.length === total);
+        this.toggles.fireEvent('change');
+
+    }
+});
     /**
      * Find all selected checkboxes' ids in the grid
      *
      * @return  array   The items' ids
      */
-    getAllSelected: function() {
+Koowa.Grid.getAllSelected = function() {
         var result = new Array;
         var inputs = $$('input[class^=-koowa-grid-checkbox]');
         for (var i=0; i < inputs.length; i++) {
@@ -114,25 +142,13 @@ Koowa.Grid = {
            }
         }
         return result;
-    },
-    
-    getIdQuery: function() {
+};
+Koowa.Grid.getIdQuery = function() {
         var result = new Array();
         $each(this.getAllSelected(), function(selected){
             result.include(selected.name+'='+selected.value);
         });
         return result.join('&');
-    },
-    
-    /**
-     * Find the first selected checkbox id in the grid
-     *
-     * @return  integer The item's id or false if no item is selected
-     */
-    getFirstSelected: function() {
-        var all = this.getAllSelected();
-        if(all.length) return all[0].value;
-    }
 };
 
 /**
