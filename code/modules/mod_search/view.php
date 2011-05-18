@@ -20,7 +20,7 @@
 class ModSearchView extends ModDefaultView
 {
 	/**
-	 * Renders and echo's the views output
+	 * Renders the views output
 	 *
 	 * @return string
 	 */
