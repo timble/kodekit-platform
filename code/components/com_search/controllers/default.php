@@ -24,7 +24,6 @@ class ComSearchControllerDefault extends ComDefaultControllerDefault
 		$config->append(array(
 		    'model'	     => 'results',
 		    'view'	     => 'results',
-			'behaviors'  => array('filter')
 		));
 		
 		parent::_initialize($config);

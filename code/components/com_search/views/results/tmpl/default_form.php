@@ -20,7 +20,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td nowrap="nowrap">
-				<input type="text" name="term" id="term" maxlength="20" size="30" value="<?= @escape($term);?>" class="inputbox" />
+				<input type="text" name="term" id="term" maxlength="20" size="30" value="<?= @escape($state->term);?>" class="inputbox" />
 			</td>
 			<td width="100%" nowrap="nowrap">
 				<button onclick="this.form.submit()" class="button"><?=@text( 'Search' );?></button>
@@ -49,7 +49,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<tr>
 		<td colspan="3" >
 			<br />
-			<?= @text( 'Search Keyword' ) .' <b>'. @escape($term) .'</b>'; ?>
+			<?= @text( 'Search Keyword' ) .' <b>'. @escape($state->term) .'</b>'; ?>
 		</td>
 	</tr>
 	<tr>

@@ -36,7 +36,7 @@ class ComSearchModelResults extends KModelAbstract
 		parent::__construct($config);
 		
 		$this->_state
-		    ->insert('term'     , 'string')
+		    ->insert('term'     , 'site::com.search.filter.term')
 		    ->insert('match'    , 'cmd', 'all')
 		    ->insert('ordering' , 'cmd', 'newest')
 		    ->insert('areas'    , 'cmd', null)

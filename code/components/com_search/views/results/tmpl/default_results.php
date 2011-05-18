@@ -11,43 +11,45 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<table class="contentpaneopen<?=@escape($params->get('pageclass_sfx')); ?>">
+<table class="contentpaneopen<?= @escape($params->get('pageclass_sfx')); ?>">
 	<tr>
 		<td>
 		<? $i = 1;
 		foreach( $results as $result ) : ?>
 			<fieldset>
 				<div>
-					<span class="small<?=@escape($params->get('pageclass_sfx')); ?>">
-						<?=$offset + $i.'. ';?>
+					<span class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+						<?= $state->offset + $i.'. ';?>
 					</span>
-					<? if ( $result->href ) :
-						if ($result->browsernav == 1 ) : ?>
-							<a href="<?=@route($result->href); ?>" target="_blank">
+					<? if ( $result->href ) : ?>
+						
+					    <? if ($result->browsernav == 1 ) : ?>
+							<a href="<?= @route($result->href); ?>" target="_blank">
 						<? else : ?>
-							<a href="<?=@route($result->href); ?>">
-						<? endif;
+							<a href="<?= @route($result->href); ?>">
+						<? endif; ?>
 
-						echo @escape($result->title);
+						<?= @escape($result->title) ?>
 
-						if ( $result->href ) : ?>
+						<? if ( $result->href ) : ?>
 							</a>
-						<? endif;
-						if ( $result->section ) : ?>
+						<? endif; ?>
+						<? if ( $result->section ) : ?>
 							<br />
-							<span class="small<?=@escape($params->get('pageclass_sfx')); ?>">
-								(<?=@escape($result->section); ?>)
+							<span class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+								(<?= @escape($result->section); ?>)
 							</span>
 						<? endif; ?>
 					<? endif; ?>
 				</div>
 				<div>
-					<?=$result->text; ?>
+					<?= @helper('string.summary', array('text' => $result->text)); ?>
 				</div>
-				<?
-					if ( $params->get( 'show_date' )) : ?>
-				<div class="small<?=@escape($params->get('pageclass_sfx')); ?>">
-					<?=$result->created; ?>
+				<? if ( $params->get( 'show_date' )) : ?>
+				<div class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+					<? if($result->created) : ?>
+						<?= JHTML::Date($result->created);?>
+					<? endif; ?>
 				</div>
 				<? endif; ?>
 			</fieldset>
@@ -56,6 +58,4 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</td>
 	</tr>
 </table>
-<div class="search-pagination"><?= @helper('paginator.pagination', array('total' => $total)) ?><div class="clear_both"></div></div>		
-
-
+<div class="search-pagination"><?= @helper('paginator.pagination', array('total' => $total)) ?><div class="clear_both"></div></div>
