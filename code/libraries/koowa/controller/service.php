@@ -46,7 +46,8 @@ abstract class KControllerService extends KControllerResource
     {
     	$config->append(array(
     		'persistent' => false,
-    		'behaviors' => array('discoverable') 
+    		'behaviors'  => array('discoverable'),
+    	    'readonly'   => false, 
         ));
 
         parent::_initialize($config);
@@ -218,7 +219,7 @@ abstract class KControllerService extends KControllerResource
 	{
 	    $data = $this->getModel()->getData();
 	    $name = ucfirst($this->getView()->getName());
-							
+	  					
 		if(count($data)) 
 	    {
             $data->setData(KConfig::toData($context->data));
