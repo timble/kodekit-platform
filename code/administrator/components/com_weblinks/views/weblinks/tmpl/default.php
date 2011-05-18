@@ -39,7 +39,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</tr>
 		<tr>
 			<td align="center">
-				<input type="checkbox" class="-koowa-grid-checkall" />
+				<?= @helper( 'grid.checkall'); ?>
 			</td>
 			<td>
 				<?= @template('admin::com.default.view.list.search_form') ?>
