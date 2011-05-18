@@ -19,6 +19,27 @@
  */
 class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
 {  
+	/**
+	 * The read-only state of the behavior
+	 *
+	 * @var boolean
+	 */
+	protected $_readonly;
+		
+	/**
+	 * Constructor.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct( KConfig $config = null) 
+	{ 
+	    $this->_identifier = $config->identifier;
+		parent::__construct($config);
+		
+		$this->_priority = $config->priority;
+		$this->_readonly = (bool) $config->readonly;
+	}
+    
     /**
      * Initializes the default configuration for the object
      *
@@ -30,7 +51,8 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_HIGH,
+            'priority'  => KCommand::PRIORITY_HIGH,
+            'readonly'  => false
         ));
 
         parent::_initialize($config);
@@ -85,6 +107,61 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
     }
     
     /**
+     * Set the readonly state of the behavior
+     * 
+     * @param boolean
+     * @return KControllerBehaviorExecutable
+     */
+    public function setReadOnly($readonly)
+    {
+         $this->_readonly = (bool) $readonly; 
+         return $this;  
+    }
+    
+    /**
+     * Get the readonly state of the behavior
+     *
+     * @return boolean
+     */
+    public function getReadOnly()
+    {
+        return $this->readonly;
+    }
+    
+ 	/**
+     * Generic authorize handler for controller add actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforeAdd(KCommandContext $context)
+    {
+        return !$this->_readonly;
+    }
+    
+	/**
+     * Generic authorize handler for controller edit actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforeEdit(KCommandContext $context)
+    {
+        return !$this->_readonly;
+    }
+    
+ 	/**
+     * Generic authorize handler for controller delete actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforeDelete(KCommandContext $context)
+    {
+         return !$this->_readonly;
+    }
+    
+    /**
      * Generic authorize handler for controller put actions
      * 
      * @param   object      The command context
@@ -92,13 +169,31 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      */
     protected function _beforePut(KCommandContext $context)
     {  
-        if(!$context->caller->getModel()->getState()->isUnique()) 
-	    {  
-	         $context->setError(new KControllerException(
-                ucfirst($context->caller->getIdentifier()->name).' not found', KHttpResponse::BAD_REQUEST
-            ));
-            
-            return false;
-	    }
+        $result = false;
+       
+        if(!$this->_readonly)
+        {
+            if(!$context->caller->getModel()->getState()->isUnique()) 
+	        {  
+	             $context->setError(new KControllerException(
+                    ucfirst($context->caller->getIdentifier()->name).' not found', KHttpResponse::BAD_REQUEST
+                ));
+	        }
+	        
+	        $result = true;
+        }
+        
+        return $result;
+    }
+    
+ 	/**
+     * Generic authorize handler for controller post actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforePost(KCommandContext $context)
+    {  
+        return !$this->_readonly;
     }
 }
