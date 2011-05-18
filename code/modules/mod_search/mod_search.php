@@ -18,7 +18,7 @@
  * @subpackage  Search
  */
 
-KFactory::tmp('site::mod.search.view', array(
+echo KFactory::tmp('site::mod.search.view', array(
 	'params' => $params, 
 	'module' => $module, 
 	'attribs' => $attribs)
