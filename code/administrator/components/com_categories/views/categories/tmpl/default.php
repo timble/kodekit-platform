@@ -14,7 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 
-<form action="<?= @route() ?>" method="get" name="adminForm">
+<form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 
@@ -54,7 +54,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </tr>
             <tr>
                 <td align="center">
-                    <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $categories );?>);" />
+                    <input type="checkbox" class="-koowa-grid-checkall" />
                 </td>
                 <td>
                     <?= @template('admin::com.default.view.list.search_form') ?>
