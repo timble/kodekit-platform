@@ -113,18 +113,24 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	{
 		return $this->output;
 	}
-
+	
 	/**
-	 * Get the identifier for the model with the same name
+	 * Get the model object attached to the contoller
 	 *
-	 * @return	KIdentifierInterface
+	 * @return	KModelAbstract
 	 */
 	public function getModel()
 	{
-		if(!$this->_model instanceof KModelAbstract) {
-			$this->_model = KFactory::tmp($this->_model);
+		if(!$this->_model instanceof KModelAbstract) 
+		{
+			//Make sure we have a model identifier
+		    if(!($this->_model instanceof KIdentifier)) {
+		        $this->setModel($this->_model);
+			}
+		  
+		    $this->_model = KFactory::tmp($this->_model);
 		}
-       	
+
 		return $this->_model;
 	}
 	
