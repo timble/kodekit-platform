@@ -61,7 +61,7 @@ class ComDefaultControllerDefault extends KControllerService
      */
     public function setMessage(KCommandContext $context)
     { 
-        $data = $context->result;
+        /*$data = $context->result;
         
         if($status = $data->getStatus()) 
         {
@@ -85,7 +85,7 @@ class ComDefaultControllerDefault extends KControllerService
 
             $this->_redirect_type    = $type;
             $this->_redirect_message = $message;
-        }  
+        }*/ 
     }
  
  	/**
