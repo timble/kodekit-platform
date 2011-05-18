@@ -68,7 +68,7 @@ class KControllerBehaviorDiscoverable extends KControllerBehaviorAbstract
         
         foreach($methods as $method => $actions) 
         {
-           if(is_array($actions)) {
+           if(is_array($actions) && !empty($actions)) {
                $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
            }     
         }
