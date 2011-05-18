@@ -50,9 +50,10 @@ class ModDefaultView extends KViewHtml
     protected function _initialize(KConfig $config)
     {    
         $config->append(array(
-            'params'   => null,
-            'module'   => null,
-            'attribs'  => array(),
+            'params'      => null,
+            'module'      => null,
+            'attribs'     => array(),
+        	'auto_filter' => true
         ));
         
         parent::_initialize($config);
@@ -67,8 +68,8 @@ class ModDefaultView extends KViewHtml
 	{
 		return $this->_identifier->package;
 	}
-    
-    /**
+	
+	/**
      * Renders and echo's the views output
      *
      * @return ModDefaultHtml
@@ -77,9 +78,8 @@ class ModDefaultView extends KViewHtml
     {
         $this->output = $this->getTemplate()
                 ->loadIdentifier($this->_layout, $this->_data)
-                ->render(true);
+                ->render($this->_auto_filter);
                 
-        echo $this->output;
-        return $this;
+        return $this->output;
     }
 }
