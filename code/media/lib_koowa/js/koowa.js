@@ -101,7 +101,7 @@ Koowa.Grid = new Class({
         });
         
         this.checkboxes.addEvent('change', function(event){
-            if(event) self.resetCheckAll();
+            if(event) self.uncheckAll();
         });
     },
     
