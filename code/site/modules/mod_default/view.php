@@ -17,7 +17,7 @@
  * @package     Nooku_Modules
  * @subpackage  Default
  */
-class ModDefaultHtml extends KViewHtml
+class ModDefaultView extends KViewHtml
 {
     /**
      * Constructor
@@ -48,7 +48,7 @@ class ModDefaultHtml extends KViewHtml
      * @return  void
      */
     protected function _initialize(KConfig $config)
-    {
+    {     
         $config->append(array(
             'params'   => null,
             'module'   => null,
@@ -58,46 +58,16 @@ class ModDefaultHtml extends KViewHtml
         parent::_initialize($config);
     }
     
-    /**
-     * Get the identifier for the model with the same name
-     *
-     * @return  KIdentifierInterface
-     */
-    public function getModel()
-    {
-        if(!$this->_model)
-        {
-            $identifier = clone $this->_identifier;
-            $identifier->name   = 'model';
-            
-            $this->_model = KFactory::get($identifier);
-        }
-        
-        return $this->_model;
-    }
-    
-    /**
-     * Get the identifier for the template with the same name
-     *
-     * @return  KIdentifierInterface
-     */
-    public function getTemplate()
-    {
-        if(!$this->_template)
-        {
-            $identifier = clone $this->_identifier;
-            $identifier->name   = 'template';
-            
-            $options = array( 
-               'view' => $this 
-            ); 
- 
-            $this->_template = KFactory::get($identifier, $options); 
-        }
-        
-        return $this->_template;
-    }
-    
+	/**
+	 * Get the name
+	 *
+	 * @return 	string 	The name of the object
+	 */
+	public function getName()
+	{
+		return $this->_identifier->package;
+	}
+	  
     /**
      * Renders and echo's the views output
      *
