@@ -67,7 +67,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			</tr>
     			<tr>
     				<td width="5" align="center">
-    					<input type="checkbox" class="-koowa-grid-checkall" />
+    					<?= @helper( 'grid.checkall'); ?>
     				</td>
     				<td>
     					<?= @text( 'Filter' ) ?>:
