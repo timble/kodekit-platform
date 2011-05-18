@@ -49,7 +49,21 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		return $html;
 	}
-
+	
+	/**
+	 * Render a checkall field
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function checkall($config = array())
+	{
+		$config = new KConfig($config);
+		
+		$html = '<input type="checkbox" class="-koowa-grid-checkall" />';
+		return $html;
+	}
+	
 	/**
 	 * Render a sorting field
 	 *
