@@ -20,13 +20,6 @@
 class ComSearchModelResults extends KModelAbstract
 {	
 	/**
-	 * The search areas.
-	 * 
-	 * @var array Associative array containing the search areas.
-	 */
-	protected $_areas = array();
-	
-	/**
 	 * The constructor.
 	 * 
 	 * @param KConfig $config An optional configuration object.
@@ -86,32 +79,6 @@ class ComSearchModelResults extends KModelAbstract
 		}
 		
 		return $this->_list;
-	}
-	
-	/**
-	 * Get the search areas as provided by the search plugins.
-	 * 
-	 * @return Array The search areas.
-	 */
-	public function getAreas()
-	{
-		if(empty($this->_areas)) 
-		{	
-			$data  = array();
-		    
-		    //Import the search plugins
-			JPluginHelper::importPlugin('search');
-			
-			$results = JDispatcher::getInstance()->trigger('onSearchAreas');
-			
-		    foreach($results as $result) {
-                $data = array_merge($data, $result);
-            }
-			
-			$this->_areas = $data;
-		}
-		
-		return $this->_areas;
 	}
 	
 	/**

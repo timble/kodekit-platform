@@ -29,10 +29,8 @@ class ComSearchViewResultsHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
-		$params = KFactory::get('lib.joomla.application')->getParams();
-		
-		$this->assign('params'         , $params)
-			 ->assign('search_areas'   , $this->getModel()->getAreas());
+		$params = KFactory::get('lib.joomla.application')->getParams();	
+		$this->assign('params', $params);
 		
 		return parent::display();
 	}

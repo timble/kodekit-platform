@@ -28,10 +28,18 @@ class ComSearchTemplateHelperSelect extends KTemplateHelperSelect
 	{	
 		$config = new KConfig($config);
 		
-		$search_areas = array();
+        $areas = array();
 		
+		//Import the search plugins
+		JPluginHelper::importPlugin('search');
+		$results = JDispatcher::getInstance()->trigger('onSearchAreas');
+			    
+		foreach($results as $result) {
+		    $areas = array_merge($areas, $result);
+        }
+			
 		// Get and format the search areas
-		foreach(KFactory::get('site::com.search.model.results')->getAreas() as $value => $title) 
+		foreach($areas as $value => $title) 
 		{
 			$search_area = new stdClass();
 			$search_area->value = $value;
@@ -39,8 +47,13 @@ class ComSearchTemplateHelperSelect extends KTemplateHelperSelect
 			$search_areas[] = $search_area;
 		}
 		
-		$config->append(array('list' => $search_areas, 'name' => 'areas', 'key' => 'value'))
-			   ->append(array('selected' => $config->{$config->name}));
+		$config->append(array(
+		   'list' => $search_areas,
+		   'name' => 'areas', 
+		    'key' => 'value'
+		))->append(array(
+			'selected' => $config->{$config->name})
+	    );
 		
 		return parent::checklist($config);
 	
