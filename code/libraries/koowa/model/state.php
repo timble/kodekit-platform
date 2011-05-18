@@ -221,7 +221,27 @@ class KModelState extends KModelAbstract
      */
     public function isUnique()
     {
-        return (bool) count($this->getData(true));
+        $unique = false;
+        
+        //Get the unique states
+        $states = $this->getData(true);
+        
+        if(!empty($states)) 
+        {
+            $unique = true;
+            
+            //If a state contains multiple values the state is not unique
+            foreach($states as $state) 
+            {
+                if(is_array($state) && count($state) > 1) 
+                {
+                    $unique = false;
+                    break;
+                }
+            }
+        }
+        
+        return $unique;
     }
     
     /**
