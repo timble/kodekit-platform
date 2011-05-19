@@ -28,6 +28,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/flexie.js"></script>
 <link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
  <![endif]-->
+ 
+<? if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
+     <link href="templates/desktop/css/general.css" rel="stylesheet" type="text/css" />
+ <? endif ?>
 
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>" >
