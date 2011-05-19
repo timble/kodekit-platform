@@ -1,0 +1,65 @@
+.-koowa-box { 
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+.-koowa-box-flex { 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+.-koowa-box-horizontal 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-align: stretch;
+	
+	display: box;
+	box-orient: horizontal;
+	box-align: stretch;
+}
+
+.-koowa-box-vertical 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-align: stretch;
+	
+	display: box;
+	box-orient: vertical;
+	box-align: stretch;
+}
+
+.-koowa-box-reverse { 
+	-webkit-box-direction: reverse;
+	-moz-box-direction: reverse;
+	box-direction: reverse;
+}
+
+.-koowa-box-start 	{ 
+	-webkit-box-pack: start;
+	-moz-box-pack: start;
+	box-pack: start;
+}
+.-koowa-box-end 	{ 
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
+}
+.-koowa-box-center 	{
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+}
+
+/* @end group */
+
+.-koowa-box-scroll { overflow-y: scroll; }

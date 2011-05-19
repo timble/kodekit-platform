@@ -3,13 +3,20 @@
 body {
 	margin: 0; padding: 0;
 	font-size: 11px;
+	background-color: #FFF;
+	overflow: hidden;
 }
 
 body, td, th { font-family: Arial, Helvetica, sans-serif; }
 
-html, body { height: 95%; }
+html, body, #container { 
+	width: 100%;
+	height: 100%;
+}
 
-#minwidth { min-width: 960px; background-color: #F1F1F1; }
+#minwidth-body { 
+	min-width: 960px;
+}
 
 .clr { clear: both; overflow:hidden; height: 0; }
 
@@ -39,7 +46,7 @@ fieldset {
 	text-align: left;
 }
 
-fieldset p {  margin: 10px 0px;  }
+fieldset p {  margin: 10px 0px; }
 
 legend    {
 	color: #0B55C4;
@@ -81,15 +88,12 @@ input.button  { cursor: pointer;   }
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#333));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#555, #333);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#333333');
+	height: 31px;
 }
 
-#content-box {
-	padding: 0;
-	
-}
+
 
 #tabs-box {
-	min-height: 28px;
 	padding-top: 5px;
 	border-top: 1px solid #bbb;
 	background-color: #6497EF;
@@ -105,9 +109,10 @@ input.button  { cursor: pointer;   }
 
 #toolbar-box 			{ 
 	background-color: #F1F1F1;
+	height: 41px;
 }
 
-#toolbar-box .grid_16 {
+#toolbar-box {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -121,22 +126,45 @@ input.button  { cursor: pointer;   }
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#f1f1f1');
 }
 
-#element-box .frame {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	border-right: 1px solid #E1E1E1;
-	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
-	background: #FFF;
-}
-
-div#element-box.default form[name="adminForm"] {
+#content-box { 
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: stretch;
+	-webkit-box-flex: 1;
 	
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-align: stretch;
+	-moz-box-flex: 1;
+	
+	display: box;
+	box-orient: horizontal;
+	box-align: stretch;
+	box-flex: 1;
 }
 
-div#element-box.form form[name="adminForm"] {
+div#content-box.form {
+	overflow: auto;
+}
+
+div#content-box.default form[name="adminForm"] {
+	background-color: #F1F1F1;
+}
+
+div#content-box.form form[name="adminForm"] {
 	padding: 14px 0;
+}
+
+form[name="adminForm"] {
+	/* Fix for Mozilla, to make the element flexible */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+#component {
+	background: red;
+	height: 100%;
 }
 
 /* -- status layout */
@@ -505,7 +533,7 @@ table.adminlist {
 	width: 100%;
 	border-spacing: 0px;
 	border-collapse: collapse;
-	background-color: #E1E1E1;
+	background-color: #F1F1F1;
 	color: #666;
 }
 
@@ -557,12 +585,22 @@ table.adminlist tbody tr:nth-child(odd):hover td  { background-color: #EAF3FA; }
 table.adminlist tbody tr td 	   { height: 25px;}
 table.adminlist tbody tr:nth-child(even) td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
+table.adminlist tbody tr.selected td,
+table.adminlist tbody tr.selected:hover td {
+	background-color: #EEE;
+	-webkit-transition: background 150ms ease-in-out;
+	-moz-transition: background 150ms ease-in-out;
+	transition: background 150ms ease-in-out;
+}
+
 table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
 table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #E1E1E1; text-align: center; }
 
 table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
+
+form[name="adminForm"] table.adminlist tbody { overflow-y: scroll; overflow-x: hidden; height: inherit; }
 
 table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/template-install.dtd">
 <install type="template" version="1.5.0" client="administrator">
-	<name>Nooku</name>
-	<creationDate></creationDate>
-	<author>Tom Janssens</author>
-	<authorEmail>tom@timble.net</authorEmail>
-	<authorUrl>http://www.timble.org</authorUrl>
-	<copyright></copyright>
-	<license>GNU/GPL</license>
-	<version>1.0</version>
+	<name>Default</name>
+	<creationDate>March 2011</creationDate>
+	<author>Nooku Project</author>
+	<copyright>Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>0.7.0</version>
 	<description>Administration template for Nooku Server</description>
 	<files>
 		<filename>index.php</filename>
@@ -26,9 +26,5 @@
 		<position>debug</position>
 	</positions>
 	<params>
-		<param name="gridType" type="list" default="fluid" label="Grid Type" description="Grid type to use">
-			<option value="fluid">Fluid</option>
-			<option value="fixed">Fixed</option>
-		</param>
 	</params>
 </install>

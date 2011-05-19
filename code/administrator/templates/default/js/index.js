@@ -1,26 +1,21 @@
 /**
-* @version		$Id: index.js 14401 2010-01-26 14:10:00Z louis $
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
-
-/**
- * Joomla! 1.5 Admininstrator index template behvaior
- *
- * @package		Joomla
- * @since		1.5
- * @version  	1.0
+ * @version		$Id: weblinks.php 1294 2011-05-16 22:57:57Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Template
+ * @copyright	Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
  */
 
-//For IE6 - Background flicker fix
-try {
-  document.execCommand('BackgroundImageCache', false, true);
-} catch(e) {}
+/**
+ * Javascript loader
+ *   
+ * @author    	Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
+ * @category 	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Template
+ */
 
 document.menu = null
 window.addEvent('load', function(){
@@ -29,4 +24,8 @@ window.addEvent('load', function(){
 		var menu = new JMenu(element)
 		document.menu = menu
 	}
+});
+
+window.addEvent('domready', function(){
+	if(Element.chromatable) $$('table.adminlist').chromatable();
 });
