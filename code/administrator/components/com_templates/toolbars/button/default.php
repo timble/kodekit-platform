@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Templates    
  */
-class ComTemplatesToolbarButtonDefault extends KToolbarButtonPost
+class ComTemplatesToolbarButtonDefault extends ComDefaultToolbarButtonDefault
 {
     /**
      * Sets the template as default
