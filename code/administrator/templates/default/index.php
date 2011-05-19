@@ -23,6 +23,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
 
+<!--[if IE]>
+<script src="http://domassistant.googlecode.com/svn/branches/2.8/DOMAssistantCompressed.js" type="text/javascript"></script>
+<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/flexie.js"></script>
+<link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
+ <![endif]-->
+
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>" >
 	<div id="container" class="-koowa-box -koowa-box-vertical">
