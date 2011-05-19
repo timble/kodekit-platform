@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 
-<form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">
+<form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid" data-validation-message="<?= @text('Please select an user from the list') ?>">
 	<table class="adminlist">
 		<thead>
 			<tr>
