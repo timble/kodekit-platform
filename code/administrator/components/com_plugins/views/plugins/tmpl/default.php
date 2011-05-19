@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
-<div class="col width-15 menus">
+<div class="menus" style="width:200px">
     <ul>
         <li <? if(!$state->folder) echo 'class="active"' ?>>
             <a href="<?= @route('&folder=') ?>">
@@ -28,7 +28,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <? endforeach ?>
     </ul>
 </div>
-<div class="col width-85">
+<div class="-koowa-box-flex">
     <form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">
         <table class="adminlist">
             <thead>

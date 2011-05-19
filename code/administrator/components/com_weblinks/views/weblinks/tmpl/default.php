@@ -17,7 +17,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 
 <form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">
-<div id="editcell">
 	<table class="adminlist">
 	<thead>
 		<tr>
@@ -88,5 +87,4 @@ defined('KOOWA') or die('Restricted access'); ?>
 		<? endforeach; ?>
 	</tbody>
 	</table>
-</div>
 </form>

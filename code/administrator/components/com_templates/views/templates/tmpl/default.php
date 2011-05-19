@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <?= @helper('behavior.tooltip') ?>
 
-<div class="col width-15 menus">
+<div class="menus" style="width:200px">
     <ul>
         <li <? if($state->application == 'site') echo 'class="active"' ?>>
         	<a href="<?= @route('&application=site') ?>">
@@ -27,7 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </li>
     </ul>
 </div>
-<div class="col width-85">
+<div class="-koowa-box-flex">
     <form action="<?= @route() ?>" method="get" name="adminForm">
         <table class="adminlist">
             <thead>

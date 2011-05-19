@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 
-<div class="col width-15 menus">
+<div class="menus" style="width:200px">
     <ul>
         <li <? if($state->application == 0) echo 'class="active"' ?>>
         	<a href="<?= @route('&application=0') ?>">
@@ -26,8 +26,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </li>
     </ul>
 </div>
-<div class="col width-85">
-    <form action="<?= @route('application='.$state->application)?>" method="get">
+<div class="-koowa-box-flex">
+    <form action="<?= @route('application='.$state->application)?>" method="get" name="adminForm">
         <table class="adminlist"  style="clear: both;">
         	<thead>
         		<tr>
