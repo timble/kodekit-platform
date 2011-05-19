@@ -30,10 +30,13 @@ window.addEvent('domready', function() {
         e = new Event(e);
         new Koowa.Form(Json.evaluate(e.target.getProperty('rel'))).submit();
     });
-    
+
     $$('.-koowa-grid').each(function(grid){
         new Koowa.Grid(grid);
-});
+        
+        var toolbar = grid.get('data-toolbar') ? grid.get('data-toolbar') : '.toolbar';
+        new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
+    });
 });
 
 /* Section: Classes */
@@ -128,11 +131,11 @@ Koowa.Grid = new Class({
 
     }
 });
-    /**
-     * Find all selected checkboxes' ids in the grid
-     *
-     * @return  array   The items' ids
-     */
+/**
+ * Find all selected checkboxes' ids in the grid
+ *
+ * @return  array   The items' ids
+ */
 Koowa.Grid.getAllSelected = function() {
         var result = new Array;
         var inputs = $$('input[class^=-koowa-grid-checkbox]');
@@ -150,6 +153,132 @@ Koowa.Grid.getIdQuery = function() {
         });
         return result.join('&');
 };
+
+
+
+/**
+ * Controller class, execute actions complete with command chains
+ *
+ * @package     Koowa_Media
+ * @subpackage  Javascript
+ */
+Koowa.Controller = new Class({
+
+    Implements: [Options, Events],
+    
+	form: null,
+	toolbar: null,
+
+	options: {
+
+		toolbar: false,
+		url: window.location.href
+
+	},
+	
+	initialize: function(options){
+		
+		this.setOptions(options);
+		
+		this.form = this.options.form;
+		this.toolbar = this.options.toolbar;
+
+		this.form.store('controller', this);
+		
+		//Allows executing actions on the form element itself using fireEvent
+		this.form.addEvent('execute', this.execute.bind(this));
+		
+    },
+    
+    execute: function(action, data){
+    	var method = '_action'+action.capitalize();
+    	
+    	if($type(this[method]) == 'function') 
+    	{
+    		this.options.action = action;
+    		if(this.fireEvent('before.'+action, data)) {
+    		    this[method].call(this, data);
+    		    this.fireEvent('after.'+action, data)
+    		}
+    	}
+    	
+    	return this;
+    },
+    
+    addEvent: function(type, fn, internal){
+
+        return this.form.addEvent.apply(this.form, [type, fn, internal]);
+    
+    },
+    
+    fireEvent: function(type, args, delay){
+		var events = this.form.retrieve('events');
+		if (!events || !events[type]) return this;
+		var result = events[type].keys.map(function(fn){
+			return fn.create({'bind': this, 'delay': delay, 'arguments': args})() !== false;
+		}, this).every(function(v){ return v;});
+		return result;
+	}
+});
+
+/**
+ * Controller class specialized for grids, extends Koowa.Controller
+ *
+ * @package     Koowa_Media
+ * @subpackage  Javascript
+ */
+Koowa.Controller.Grid = new Class({
+
+    Extends: Koowa.Controller,
+    
+    options: {
+    
+        validationMessage: 'Please select an item from the list.'
+    
+    },
+    
+    initialize: function(options){
+        
+        this.parent(options);
+
+        if(this.form.get('data-validation-message')) this.options.validationMessage = this.form.get('data-validation-message');
+
+        this.addEvents({
+            'before.edit'  : this.validate,
+            'before.delete': this.validate
+        });
+    },
+    
+    validate: function(){
+        if(!Koowa.Grid.getIdQuery()) {
+            alert(this.options.validationMessage);
+            return false;
+        }
+    },
+    
+    _actionEdit: function(data){
+        var options = {
+            method:'post',
+            url: this.options.url+'&'+Koowa.Grid.getIdQuery(),
+            params: $merge({
+                action: 'edit'
+            }, data)
+        };
+    	new Koowa.Form(options).submit();
+    },
+    
+    _actionDelete: function(data){
+    	var options = {
+    	    method:'post',
+    	    url: this.options.url+'&'+Koowa.Grid.getIdQuery(),
+    	    params: $merge({
+    	        action: 'delete'
+    	    }, data)
+    	};
+    	new Koowa.Form(options).submit();
+    }
+
+});
 
 /**
  * Query class
