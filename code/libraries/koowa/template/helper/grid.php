@@ -40,16 +40,16 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 					</span>';
 		}
 		else
-		{  
+		{
 		    $column = $config->row->getIdentityColumn();
 		    $value  = $config->row->{$column};
-		    
+
 		    $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="'.$column.'[]" value="'.$value.'" />';
 		}
 
 		return $html;
 	}
-	
+
 	/**
 	 * Render a checkall field
 	 *
@@ -59,11 +59,11 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	public function checkall($config = array())
 	{
 		$config = new KConfig($config);
-		
+
 		$html = '<input type="checkbox" class="-koowa-grid-checkall" />';
 		return $html;
 	}
-	
+
 	/**
 	 * Render a sorting field
 	 *
@@ -127,13 +127,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
-		
-		$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png'; 
+
+		$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png';
 		$alt 	= $config->row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		$value 	= $config->row->enabled ? 0 : 1;
 
-		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$url   = $this->_createUrl($config).'&id='.$config->row->id;
 		$token = JUtility::getToken();
 
 		$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
@@ -155,29 +155,29 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			'row'  		=> null,
 		    'total'		=> null
 		));
-		
+
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
-	
+
 		$up   = 'media://lib_koowa/images/arrow_up.png';
 		$down = 'media://lib_koowa/images/arrow_down.png';
 
-		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$url   = $this->_createUrl($config).'&id='.$config->row->id;
 		$token = JUtility::getToken();
 
 		$uprel = "{method:'post', url:'$url', params:{order:-1, action:'edit', _token:'$token'}}";
 		$downrel = "{method:'post', url:'$url', params:{order:1, action:'edit', _token:'$token'}}";
 
-		if ($config->row->ordering > 1) { 
+		if ($config->row->ordering > 1) {
             $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" class="submitable" rel="'.$uprel.'" />';
         }
-         
+
         $html .= $config->row->ordering;
-        
+
         if($config->row->ordering != $config->total) {
             $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" class="submitable" rel="'.$downrel.'"/>';
 	    }
-        
+
 		return $html;
 	}
 
@@ -193,7 +193,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->append(array(
 			'row'  		=> null,
 		));
-		
+
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 
@@ -222,7 +222,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		}
 
-		$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+		$url   = $this->_createUrl($config).'&id='.$config->row->id;
 		$token = JUtility::getToken();
 
 		$rel   = "{method:'post',  url:'$url', params:{access:$access, _token:'$token'}}";
@@ -231,12 +231,15 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		return $html;
 	}
 
-	protected function _createURL(KDatabaseRowInterface $row)
+	protected function _createUrl(KConfig $config)
 	{
-		$option = 'com_'.$row->getIdentifier()->package;
-		$view   = $row->getIdentifier()->name;
+		if(!$url = $config->url)
+		{
+    	    $option = 'com_'.$config->row->getIdentifier()->package;
+    		$view   = $config->row->getIdentifier()->name;
 
-		$url = 'index.php?option='.$option.'&view='.$view;
+    		$url = 'index.php?option='.$option.'&view='.$view;
+		}
 
 		return $url;
 	}
