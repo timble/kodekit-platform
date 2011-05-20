@@ -19,7 +19,9 @@ else :
 endif; ?>
 		
 <script src="media://lib_koowa/js/koowa.js" />
-<script language="javascript" type="text/javascript">
+<style src="media://lib_koowa/css/koowa.css" />
+
+<script>
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {

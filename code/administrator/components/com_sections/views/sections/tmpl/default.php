@@ -13,6 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.tooltip'); ?>
  
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid">	
 	<input type="hidden" name="scope" value="<?= $state->scope;?>" />
@@ -48,7 +49,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					<?= @helper( 'grid.checkall'); ?>
 				</td>
 				<td>
-					<?= @template('admin::com.default.view.list.search_form') ?>
+					<?= @template('admin::com.default.view.grid.search_form') ?>
 				</td>
 				<td align="center"> 
 					<?= @helper('listbox.published', array('name' => 'published', 'attribs' => array('onchange' => 'this.form.submit();'))); ?>
