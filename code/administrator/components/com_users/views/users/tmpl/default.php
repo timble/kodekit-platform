@@ -11,6 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route() ?>" method="get" name="adminForm" class="-koowa-grid" data-validation-message="<?= @text('Please select an user from the list') ?>">
 	<table class="adminlist">
@@ -44,7 +45,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					<?= @helper( 'grid.checkall'); ?>
 				</td>
 				<td colspan="2">
-					<?= @template('admin::com.default.view.list.search_form') ?>
+					<?= @template('admin::com.default.view.grid.search_form') ?>
 				</td>
 				<td></td>
 				<td></td>

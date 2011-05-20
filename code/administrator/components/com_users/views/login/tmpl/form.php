@@ -13,6 +13,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <h1><?= @text('Administration Login') ?></h1>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+
 <?= @helper('behavior.keepalive'); ?>
 
 <form action="<?= @route('view=user') ?>" method="post" name="login" id="form-login">
