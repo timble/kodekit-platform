@@ -234,7 +234,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         foreach($data as $k => $row)
         {
             $instance = $this->getRow()
-                            ->setData($row)
+                            ->setData($row, $new)
                             ->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
             
             $this->insert($instance);
@@ -442,6 +442,17 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             $result[$key] = $row->toArray();
         }
         return $result;
+    }
+    
+	/**
+     * Test existence of a column
+     *
+     * @param  string  The  column name.
+     * @return boolean
+     */
+    public function __isset($column)
+    {
+        return $this->hasColumn($column);
     }
     
     /**
