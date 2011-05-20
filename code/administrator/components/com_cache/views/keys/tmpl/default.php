@@ -2,6 +2,7 @@
 <? defined('KOOWA') or die('Restricted access'); ?>
  
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route() ?>" method="get" name="adminForm">	
 <table class="adminlist" cellspacing="1">
@@ -33,7 +34,7 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $keys );?>);" />
 			</td>
 			<td>
-				<?= @template('admin::com.default.view.list.search_form') ?>
+				<?= @template('admin::com.default.view.grid.search_form') ?>
 			</td>
 			<td align="center"> 
 				<?= @helper('listbox.groups', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
