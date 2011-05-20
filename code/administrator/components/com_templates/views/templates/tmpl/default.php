@@ -11,6 +11,8 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+
 <?= @helper('behavior.tooltip') ?>
 
 <div id="sidebar">
@@ -54,7 +56,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <td></td>
                     <td colspan="6">
                     	<?= @text( 'Filter' ) ?>:
-                    	<?= @template('admin::com.default.view.list.search_form') ?>
+                    	<?= @template('admin::com.default.view.grid.search_form') ?>
                     </td>
                 </tr>
             </thead>
