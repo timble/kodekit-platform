@@ -21,8 +21,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     });
 </script>
 
-<div class="menus" style="width:200px">
-    <ul>
+<div id="sidebar">
+   	<h3><?= @text( 'Applications' ); ?></h3>
+   	<ul>
         <li <? if($state->application == 'site') echo 'class="active"' ?>>
         	<a href="<?= @route('&application=site') ?>">
         	    <?= @text('Site') ?>

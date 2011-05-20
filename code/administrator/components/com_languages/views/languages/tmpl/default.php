@@ -12,7 +12,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 
-<div class="menus" style="width:200px">
+<div id="sidebar">
+	<h3><?= @text( 'Application' ); ?></h3>
     <ul>
         <li <? if($state->application == 0) echo 'class="active"' ?>>
         	<a href="<?= @route('&application=0') ?>">

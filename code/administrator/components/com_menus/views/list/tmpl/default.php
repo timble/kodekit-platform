@@ -1,6 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="menus" style="width:200px">
+<div id="sidebar">
+	<h3><?= JText::_( 'Menus' ); ?></h3>
 	<?php echo $this->loadTemplate('menus'); ?>
 </div>
 

@@ -46,35 +46,7 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
-/* com_menus */
-.menus {
-	border-right: 1px solid #E1E1E1;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
 
-.menus ul {
-	margin: 15px 0 0 15px;
-	padding: 0;
-}
-
-.menus ul li {
-	list-style: none;
-	margin: 4px 0;
-	padding: 5px 11px;
-}
-
-.menus ul li.active {
-	padding: 4px 10px;
-	background-color: #F1F1F1;
-	border-top: 1px solid #E1E1E1;
-	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
-	-moz-border-radius: 4px 0 0 4px;
-	-webkit-border-radius: 4px 0 0 4px;
-	border-radius: 4px 0 0 4px;
-}
 
 /* com_content, com_sections */
 .com_sections div.title,

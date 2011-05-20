@@ -91,8 +91,6 @@ input.button  { cursor: pointer;   }
 	height: 31px;
 }
 
-
-
 #tabs-box {
 	padding-top: 5px;
 	border-top: 1px solid #bbb;
@@ -148,7 +146,7 @@ div#content-box.form {
 }
 
 div#content-box.default form[name="adminForm"] {
-	background-color: #F1F1F1;
+	
 }
 
 div#content-box.form form[name="adminForm"] {
@@ -160,11 +158,6 @@ form[name="adminForm"] {
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
 	box-flex: 1;
-}
-
-#component {
-	background: red;
-	height: 100%;
 }
 
 /* -- status layout */
@@ -308,11 +301,6 @@ table.toolbar td:last-child a:active {
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
 }
 
-/** for massmail component **/
-td#mm_pane			{ width: 90%; }
-input#mm_subject    { width: 200px; }
-textarea#mm_message { width: 100%; }
-
 /* panels  */
 .panel   { 
 	border: 1px solid #DDD;
@@ -452,6 +440,68 @@ div.current dd {
 #cpanel img  { padding: 10px 0; margin: 0 auto; }
 #cpanel span { display: block; text-align: center; }
 
+/* Sidebar */
+#sidebar {
+	width: 200px;
+	border-right: 1px solid #E1E1E1;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #F9F9F9;
+}
+
+#sidebar h3 {
+	color: #666;
+	font-size: 11px;
+	padding: 5px 0;
+	text-indent: 18px;
+	margin: 0;
+	background-color: #F2F2F2;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
+	border-bottom: 1px solid #E1E1E1;
+}
+
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar ul li a {
+	display: block;
+	padding: 6px 0;
+	text-indent: 18px;
+	color: #444;
+	border-top: 1px solid #F7F7F7;
+	font-weight: bold;
+}
+
+#sidebar ul li a:hover {
+	border-top-color: #c3dcf4;
+	background-color: #cee1f4;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
+	text-decoration: none;
+}
+
+#sidebar ul li.active a,
+#sidebar ul li.active a:hover {
+	color: #FFF;
+	border-top-color: #5494D2;
+	background-color: #6EA6DE;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
+}
+
 /* standard form style table */
 div.col { float: left; }
 div.width-45 { width: 45%; }
@@ -533,7 +583,6 @@ table.adminlist {
 	width: 100%;
 	border-spacing: 0px;
 	border-collapse: collapse;
-	background-color: #F1F1F1;
 	color: #666;
 }
 

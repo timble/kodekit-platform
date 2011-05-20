@@ -12,11 +12,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
-<div class="menus" style="width:200px">
+<div id="sidebar">
+    <h3><?= @text( 'Types' ); ?></h3>
     <ul>
         <li <? if(!$state->folder) echo 'class="active"' ?>>
             <a href="<?= @route('&folder=') ?>">
-                <?= @text('all') ?>
+                <?= @text('All types') ?>
             </a>
         </li>
         <? foreach($folders as $folder) : ?>
