@@ -172,13 +172,12 @@ function submitbutton(pressbutton) {
                         </label>
                     </td>
                     <td >
-                        <?/*= @helper('listbox.banner_names', array(
-                        	'name'      => 'imageurl', 
-                        	'directory' => 'images/banners', 
+                        <?= @helper('listbox.banner_names', array(
+                        	'name'      => 'imageurl',  
                             'preview'   => false, 
                             'width'     => $banner->params->get('width'),
                             'height'    => $banner->params->get('height')
-                        ));*/ ?>
+                        )); ?>
                     </td>
                 </tr>
                 <tr>
@@ -186,11 +185,10 @@ function submitbutton(pressbutton) {
                         <?=@text( 'Banner Image' ); ?>:
                     </td>
                     <td valign="top">
-                        <?/*= @helper('listbox.banner_preview', array(
+                        <?= @helper('listbox.banner_preview', array(
                         	'name'      => 'imageurl', 
-                        	'directory' => 'images/banners',
                             'selected'  => $banner->imageurl
-                        ));*/ ?>
+                        )); ?>
                     </td>
                 </tr>
                 <tr>

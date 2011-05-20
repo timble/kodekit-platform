@@ -120,7 +120,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config = new KConfig($config);
         $config->append(array(
             'name'      => 'image_name',
-            'directory' => 'images/stories',
+            'directory' =>  JPATH_IMAGES.'/stories',
             'filetypes' => array('swf', 'gif', 'jpg', 'png'),
             'deselect'  => true,
             'preview'   => true,
@@ -193,7 +193,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         }
   
         $files = array();
-        foreach(new DirectoryIterator(JPATH_SITE.'/'.$config->directory) as $file) {
+        foreach(new DirectoryIterator($config->directory) as $file) {
             if(in_array(pathinfo($file, PATHINFO_EXTENSION), $config->filetypes->toArray() )) {
                     $files[] = (string) $file;
             }
@@ -248,7 +248,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         }
         $config->append(array(
             'name'      => 'image_name',
-            'directory' => 'images/stories',
+            'directory' => JPATH_IMAGES.'/stories',
             'border'    => 2,
             'style'     => 'margin: 10px 0;'
         ))->append(array(
