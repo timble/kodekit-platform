@@ -53,14 +53,16 @@ class ComTemplatesModelTemplates extends KModelAbstract
             $name  = $state->default ? JComponentHelper::getParams('com_templates')->get($state->application, 'site') : $state->name;
             $path  = $base.'/templates/'.$name;
 
-            if(!file_exists($path.'/templateDetails.xml')) return $this->_item = null;
+            if(file_exists($path.'/templateDetails.xml')) 
+            {
+                $data = array(
+                	'path'        => $path,
+                	'application' => $this->_state->application
+                );
 
-            $data = array(
-                'path'        => $path,
-                'application' => $this->_state->application
-            );
-
-            $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
+                $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
+            } 
+            else $this->_item = null;
         }
         
         return $this->_item;
