@@ -125,19 +125,6 @@ class MenusHelper
 	/**
 	* build the select list for target window
 	*/
-	function Target( &$row )
-	{
-		$click[] = JHTML::_('select.option',  '0', JText::_( 'Parent Window With Browser Navigation' ) );
-		$click[] = JHTML::_('select.option',  '1', JText::_( 'New Window With Browser Navigation' ) );
-		$click[] = JHTML::_('select.option',  '2', JText::_( 'New Window Without Browser Navigation' ) );
-		$target = JHTML::_('select.genericlist',   $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
-
-		return $target;
-	}
-
-	/**
-	* build the select list for target window
-	*/
 	function Published( &$row )
 	{
 		$put[] = JHTML::_('select.option',  '0', JText::_( 'No' ));
