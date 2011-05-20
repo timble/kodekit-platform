@@ -12,6 +12,24 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
+<script language="javascript" type="text/javascript">
+function submitbutton(pressbutton) {
+	if (pressbutton == "cancel") {
+		submitform(pressbutton);
+		return;
+	}
+	
+	var form = document.adminForm;
+	if (form.name.value == "") {
+		alert( "<?= @text( 'Plugin must have a name', true ); ?>" );
+	} else if (form.element.value == "") {
+		alert( "<?= @text( 'Plugin must have a filename', true ); ?>" );
+	} else {
+		submitform(pressbutton);
+	}
+}
+</script>
+
 <form action="<?= @route('id='.$plugin->id) ?>" method="post" name="adminForm">
     <div class="col width-60">
     	<fieldset class="adminform">
