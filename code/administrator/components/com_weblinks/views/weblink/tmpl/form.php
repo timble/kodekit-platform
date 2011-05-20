@@ -14,6 +14,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? @helper('behavior.tooltip'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$weblink->id) ?>" method="post" name="adminForm" id="adminForm">
 <input type="hidden" name="id" value="<?= $weblink->id ?>" />
