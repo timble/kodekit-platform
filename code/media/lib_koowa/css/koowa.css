@@ -38,3 +38,8 @@
     margin:0;
     padding:4px;
 }
+
+a.-koowa-asc  { background: url(../images/sort_asc.png) no-repeat right; padding-right: 10px;}
+a.-koowa-desc { background: url(../images/sort_desc.png) no-repeat right; padding-right: 10px;}
+
+.submitable { cursor: pointer; }
