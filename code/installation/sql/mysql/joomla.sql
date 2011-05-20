@@ -39,36 +39,6 @@ CREATE TABLE `#__banner` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__bannerclient`
-#
-
-CREATE TABLE `#__bannerclient` (
-  `cid` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `contact` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `extrainfo` text NOT NULL,
-  `checked_out` tinyint(1) NOT NULL default '0',
-  `checked_out_time` time default NULL,
-  `editor` varchar(50) default NULL,
-  PRIMARY KEY  (`cid`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__bannertrack`
-#
-
-CREATE TABLE  `#__bannertrack` (
-  `track_date` date NOT NULL,
-  `track_type` int(10) unsigned NOT NULL,
-  `banner_id` int(10) unsigned NOT NULL
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__categories`
 #
 
@@ -126,7 +96,6 @@ CREATE TABLE `#__components` (
 
 INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
 INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&c=client', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1);
 INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&section=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
