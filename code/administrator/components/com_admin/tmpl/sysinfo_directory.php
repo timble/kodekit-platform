@@ -9,9 +9,7 @@ jimport('joomla.filesystem.folder');
 $cparams = JComponentHelper::getParams ('com_media');
 $config =& JFactory::getConfig();
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
-		<table class="adminlist">
+		<table>
 		<thead>
 			<tr>
 				<th width="650">
@@ -70,4 +68,3 @@ $config =& JFactory::getConfig();
 			?>
 		</tbody>
 		</table>
-</fieldset>

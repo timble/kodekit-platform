@@ -6,9 +6,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_( 'Configuration File' ); ?></legend>
-		<table class="adminlist">
+		<table>
 		<thead>
 			<tr>
 				<th width="300">
@@ -70,4 +68,3 @@ defined('_JEXEC') or die('Restricted access');
 			</tr>
 		</tbody>
 		</table>
-</fieldset>
