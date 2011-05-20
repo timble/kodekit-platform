@@ -94,7 +94,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         if($view instanceof ComDefaultViewHtml)
         {
-            $name       = KInflector::isPlural($view->getName()) ? 'list' : 'item';
+            $name       = KInflector::isPlural($view->getName()) ? 'grid' : 'form';
             $identifier = 'admin::com.default.view.'.$name;
             $config     = array('toolbar' => $view->getToolbar());
             
