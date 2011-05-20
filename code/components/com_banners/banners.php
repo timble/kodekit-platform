@@ -1,28 +1,23 @@
 <?php
 /**
- * @version		$Id: banners.php 14401 2010-01-26 14:10:00Z louis $
- * @package  Joomla
- * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Banners
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * Component Loader
+ *
+ * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Banners    
+ */
 
-// Require the com_content helper library
-require_once (JPATH_COMPONENT.DS.'controller.php');
+KLoader::load('site::com.banners.mappings');
 
-// Create the controller
-$controller = new BannersController( array('default_task' => 'click') );
-
-// Perform the Request task
-$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
-
-// Redirect if set by the controller
-$controller->redirect();
+echo KFactory::get('site::com.banners.dispatcher')->dispatch();

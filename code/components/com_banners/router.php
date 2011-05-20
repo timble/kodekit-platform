@@ -1,40 +1,46 @@
 <?php
 /**
- * @version		$Id: router.php 14401 2010-01-26 14:10:00Z louis $
- * @package		Joomla
- * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Banners
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
- * @param	array	A named array
- * @return	array
+ * Banners Router
+.*
+ * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Banners
+ */
+ 
+/**
+ * @param   array   A named array
+ * @return  array
  */
 function BannersBuildRoute( &$query )
 {
-	$segments = array();
+    $segments = array();
 
-	if (isset($query['task'])) {
-		$segments[] = $query['task'];
-		unset( $query['task'] );
-	}
-	if (isset($query['bid'])) {
-		$segments[] = $query['bid'];
-		unset( $query['bid'] );
-	}
+    if (isset($query['view'])) {
+        $segments[] = $query['view'];
+        unset( $query['view'] );
+    }
+    if (isset($query['id'])) {
+        $segments[] = $query['id'];
+        unset( $query['id'] );
+    }
 
-	return $segments;
+    return $segments;
 }
 
 /**
- * @param	array	A named array
- * @param	array
+ * @param   array   A named array
+ * @param   array
  *
  * Formats:
  *
@@ -44,30 +50,30 @@ function BannersBuildRoute( &$query )
  */
 function BannersParseRoute( $segments )
 {
-	$vars = array();
+    $vars = array();
 
-	// view is always the first element of the array
-	$count = count($segments);
+    // view is always the first element of the array
+    $count = count($segments);
 
-	if ($count)
-	{
-		$count--;
-		$segment = array_shift( $segments );
-		if (is_numeric( $segment )) {
-			$vars['bid'] = $segment;
-		} else {
-			$vars['task'] = $segment;
-		}
-	}
+    if ($count)
+    {
+        $count--;
+        $segment = array_shift( $segments );
+        if (is_numeric( $segment )) {
+            $vars['id'] = $segment;
+        } else {
+            $vars['view'] = $segment;
+        }
+    }
 
-	if ($count)
-	{
-		$count--;
-		$segment = array_shift( $segments) ;
-		if (is_numeric( $segment )) {
-			$vars['bid'] = $segment;
-		}
-	}
+    if ($count)
+    {
+        $count--;
+        $segment = array_shift( $segments) ;
+        if (is_numeric( $segment )) {
+            $vars['id'] = $segment;
+        }
+    }
 
-	return $vars;
+    return $vars;
 }
