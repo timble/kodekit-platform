@@ -13,12 +13,6 @@
 		<filename module="mod_banners">mod_banners.php</filename>
 	</files>
 	<params addpath="/administrator/components/com_banners/elements">
-		<param name="target" type="list" default="1" label="Target" description="PARAMTARGET">
-			<option value="0">Parent Window With Browser Navigation</option>
-			<option value="1">New Window With Browser Navigation</option>
-			<option value="2">New Window Without Browser Navigation</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="count" type="text" default="1" label="Count" description="PARAMNUMBERITEMS" />
 		<param name="cid" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
 		<param name="catid" type="category" section="com_banner" default="" label="Category" description="PARAMCATEGORY" />
