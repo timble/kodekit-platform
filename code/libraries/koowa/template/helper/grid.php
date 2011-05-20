@@ -95,7 +95,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		if($config->column == $config->sort)
 		{
 			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
-			$class = 'class="'.$direction.'"';
+			$class = 'class="-koowa-'.$direction.'"';
 		}
 
 		$url = clone KRequest::url();
