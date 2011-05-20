@@ -307,29 +307,10 @@ class JMenuTree extends JTree
 			} else {
 				$tmp->url = str_replace('&', '&amp;', $tmp->url);
 			}
-
-			switch ($tmp->browserNav)
-			{
-				default:
-				case 0:
-					// _top
-					$data = '<a href="'.$tmp->url.'">'.$tmp->name.'</a>';
-					break;
-				case 1:
-					// _blank
-					$data = '<a href="'.$tmp->url.'" target="_blank">'.$tmp->name.'</a>';
-					break;
-				case 2:
-					// window.open
-					$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'.$this->_params->get('window_open');
-
-					// hrm...this is a bit dickey
-					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$tmp->name.'</a>';
-					break;
-			}
-		} else {
-			$data = '<a>'.$tmp->name.'</a>';
-		}
+			
+			$data = '<a href="'.$tmp->url.'">'.$tmp->name.'</a>';
+		} 
+		else $data = '<a>'.$tmp->name.'</a>';
 
 		return $data;
 	}
