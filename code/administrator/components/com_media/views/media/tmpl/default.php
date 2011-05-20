@@ -4,7 +4,7 @@
 	<div id="media-tree_tree"></div>
 	<?php echo $this->loadTemplate('folders'); ?>
 </div>
-<div id="right">
+<div id="right" class="-koowa-box-flex">
 	<form action="index.php?option=com_media&amp;task=folder.create" name="folderForm" id="folderForm" method="post">
 	    <div id="folderview">
 	        <div class="path">
