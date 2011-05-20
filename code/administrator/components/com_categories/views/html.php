@@ -46,9 +46,8 @@ class ComCategoriesViewHtml extends ComDefaultViewHtml
             case 'com_banner':
                 
                 $title = 'Banners';
-                JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
-                JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client');
                 JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section='.$section,true);
+                JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
                 break;
                 
             case 'com_contact_details':
