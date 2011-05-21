@@ -16,13 +16,6 @@ INSERT INTO `#__banner` VALUES
 (8, 1, '', 'Joomla! Promo Books', 'joomla-promo-books', 0, 9, 0, 'shop-ad-books.jpg', 'http://shop.joomla.org/amazoncom-bookstores.html', '2007-09-19 17:28:01', 1, 0, '0000-00-00 00:00:00', '', '', 33, '', 0, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 
 --
--- Dumping data for table `#__bannerclient`
---
-
-INSERT INTO `#__bannerclient` VALUES
-(1, 'Open Source Matters', 'Administrator', 'admin@opensourcematters.org', '', 0, '00:00:00', NULL);
-
---
 -- Dumping data for table `#__categories`
 --
 
