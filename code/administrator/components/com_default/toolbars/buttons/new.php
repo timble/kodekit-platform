@@ -18,6 +18,25 @@
  */
 class ComDefaultToolbarButtonNew extends KToolbarButtonGet
 {
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'attribs' => array(
+                'href' => JRoute::_($this->getLink())
+            )
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function getLink()
     {
         $option = KRequest::get('get.option', 'cmd');
