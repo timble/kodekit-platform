@@ -129,7 +129,17 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         return $this->_identifier;
     }
     
- /**
+	/**
+	 * Test the connected status of the row.
+	 *
+	 * @return	boolean	Returns TRUE by default.
+	 */
+    public function isConnected()
+	{
+	    return true;
+	}
+    
+ 	/**
     * Returns an associative array of the raw data
     *
     * @param   boolean  If TRUE, only return the modified data. Default FALSE
