@@ -65,6 +65,9 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
             'id'         => $name,
             'text'       => ucfirst($name),
             'method'     => 'get',
+            'attribs'    => array(
+                'class'    => 'toolbar'
+            )
         ));
 
         parent::_initialize($config);
@@ -127,7 +130,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
 
     public function getLink()
     {
-        return '#';
+        return '';
     }
 
     public function getOnClick()
@@ -148,5 +151,17 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     public function getText()
     {
         return $this->_options->text;
+    }
+    
+    public function getAttribs()
+    {
+    	return $this->_options->attribs->toArray();
+    }
+    
+    public function setAttribs($attribs)
+    {
+        $this->_options->attribs = $attribs;
+
+        return $this;
     }
 }
