@@ -37,6 +37,12 @@ window.addEvent('domready', function() {
         var toolbar = grid.get('data-toolbar') ? grid.get('data-toolbar') : '.toolbar';
         new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
     });
+
+    //The name=adminForm query is for legacy, update your forms with class="-koowa-form" please
+    $$('.-koowa-form, form[method="post"][name="adminForm"]').each(function(form){
+        var toolbar = form.get('data-toolbar') ? form.get('data-toolbar') : '.toolbar';
+        new Koowa.Controller.Form({form: form, toolbar: document.getElement(toolbar)});
+    });
 });
 
 /* Section: Classes */
@@ -188,19 +194,31 @@ Koowa.Controller = new Class({
 		//Allows executing actions on the form element itself using fireEvent
 		this.form.addEvent('execute', this.execute.bind(this));
 		
+		//Attach toolbar buttons actions
+		this.toolbar.getElements('.toolbar').filter(function(button){
+		    return button.get('data-action');
+		}).each(function(button){
+		    var data = button.get('data-data'), action = button.get('data-action'), token_name = button.get('data-token-name');
+		    data = data ? JSON.decode(data) : {};
+		    
+		    //Set token data
+		    if(token_name) data[token_name] = button.get('data-token-value');
+		    
+		    button.addEvent('click', function(){
+		        this.fireEvent('execute', [action, data]);
+		    }.bind(this));
+		    
+		}, this);
     },
     
     execute: function(action, data){
     	var method = '_action'+action.capitalize();
     	
-    	if($type(this[method]) == 'function') 
-    	{
-    		this.options.action = action;
-    		if(this.fireEvent('before.'+action, data)) {
-    		    this[method].call(this, data);
-    		    this.fireEvent('after.'+action, data)
-    		}
-    	}
+		this.options.action = action;
+		if(this.fireEvent('before.'+action, data)) {
+		    this[method] ? this[method].call(this, data) : this._action_default.call(this, action, data);
+		    this.fireEvent('after.'+action, data)
+		}
     	
     	return this;
     },
@@ -243,10 +261,7 @@ Koowa.Controller.Grid = new Class({
 
         if(this.form.get('data-validation-message')) this.options.validationMessage = this.form.get('data-validation-message');
 
-        this.addEvents({
-            'before.edit'  : this.validate,
-            'before.delete': this.validate
-        });
+        this.addEvent('validate', this.validate);
     },
     
     validate: function(){
@@ -256,26 +271,41 @@ Koowa.Controller.Grid = new Class({
         }
     },
     
-    _actionEdit: function(data){
+    _action_default: function(action, data){
+        if(!this.fireEvent('validate')) return false;
+    
         var options = {
             method:'post',
             url: this.options.url+'&'+Koowa.Grid.getIdQuery(),
             params: $merge({
-                action: 'edit'
+                action: action
             }, data)
         };
     	new Koowa.Form(options).submit();
+    }
+
+});
+
+/**
+ * Controller class specialized for forms, extends Koowa.Controller
+ *
+ * @package     Koowa_Media
+ * @subpackage  Javascript
+ */
+Koowa.Controller.Form = new Class({
+
+    Extends: Koowa.Controller,
+    
+    _action_default: function(action, data){
+        if(!this.fireEvent('validate')) return false;
+    
+        this.form.adopt(new Element('input', {name: 'action', value: action}));
+        this.form.submit();
     },
     
-    _actionDelete: function(data){
-    	var options = {
-    	    method:'post',
-    	    url: this.options.url+'&'+Koowa.Grid.getIdQuery(),
-    	    params: $merge({
-    	        action: 'delete'
-    	    }, data)
-    	};
-    	new Koowa.Form(options).submit();
+    _actionCancel: function(data){
+    	this.form.adopt(new Element('input', {name: 'action', value: 'cancel'}));
+    	this.form.submit();
     }
 
 });
