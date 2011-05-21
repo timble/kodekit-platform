@@ -95,6 +95,16 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	{
 		return $this->_identifier;
 	}
+	
+	/**
+	 * Test the connected status of the model.
+	 *
+	 * @return	boolean	Returns TRUE by default.
+	 */
+    public function isConnected()
+	{
+	    return true;
+	}
 
 	/**
      * Set the model state properties
