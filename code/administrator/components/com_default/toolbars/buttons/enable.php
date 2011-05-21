@@ -29,14 +29,13 @@ class ComDefaultToolbarButtonEnable extends ComDefaultToolbarButtonDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'icon' => 'icon-32-publish'
+            'icon'    => 'icon-32-publish',
+            'attribs' => array(
+                'data-action' => 'edit',
+                'data-data'   => '{enabled:1}'
+            )
         ));
         
         parent::_initialize($config);
-    }
-    
-    public function getOnClick()
-    {
-        return "$$('.-koowa-grid').fireEvent('execute', ['edit', {enabled: 1, '$this->_token_name': '$this->_token_value'}]);";
     }
 }
