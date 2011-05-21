@@ -10,20 +10,11 @@
 <table class="toolbar">
 	<tr>
 	<? foreach ($toolbar->getButtons() as $button) : ?>
-		
-		<?
-            $link   = $button->getLink();
-            $href   = !empty($link) ? 'href="'.JRoute::_($link).'"' : '';
-
-            $onclick =  $button->getOnClick();
-            $onclick = !empty($onclick) ? 'onclick="'. $onclick.'"' : '';
-        ?>
-        
         <? if($button->getName() == 'divider') : ?>
         	</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>
     	<? else : ?>
 			<td class="button" id="<?= $button->getId() ?>">
-       			<a <?= $href.' '.$onclick ?> class="toolbar">
+       			<a <?= KHelperArray::toString($button->getAttribs()) ?>>
         			<span class="<?= $button->getClass() ?>" title="<?= @text($button->getText()); ?>"></span>
        	            <?= @text($button->getText()); ?>
        		 	</a>
