@@ -20,16 +20,24 @@
  
 class ModBannersView extends ModDefaultView
 {
+    var $_keywords; 
+    
     public function display()
     { 
         // Module parameters
-        $banners = KFactory::tmp('site::com.banners.model.banners')
-           ->enabled(1)
-           ->category($this->params->get('catid'))
-           ->client($this->params->get('cid'))
-           ->sort($this->params->get('ordering', 0))
-           ->limit($this->params->get('count', 1))
-           ->getList();
+        $model = KFactory::tmp('site::com.banners.model.banners')
+                    ->enabled(1)
+                    ->category($this->params->get('catid'))
+                    ->client($this->params->get('cid'))
+                    ->sort($this->params->get('ordering', 0))
+                    ->limit($this->params->get('count', 1));
+           
+        // Manage tags search
+        if ($this->params->get('tag_search')) {
+            $model->tags($this->_getKeywords());
+        }    
+           
+       $banners = $model->getList();
               
         // Increase impression counter
         if($banners->isHittable()) { 
@@ -39,23 +47,17 @@ class ModBannersView extends ModDefaultView
 	    // Assign vars and render view
 		$this->assign('banners', $banners);    
          
-        // manage tags search
-        //if ($this->params->get('tag_search')) {
-        //    $controller->tags($this->_getKeywords());
-        //}
+        
         
         return parent::display();
     }
     
-    private function _getKeywords()
+    protected function _getKeywords()
     {
-        static $page_keywords = null;
-        
-        if (!isset($page_keywords))
+        if (!isset($this->_keywords))
         {
-            $config = KFactory::tmp('admin::com.banners.helper.params')
-                        ->getComponentParams('com_banners');
-            $prefix = $config->get( 'tag_prefix' );
+            $params = KFactory::get('lib.joomla.application')->getParams();
+            $prefix = $params->get( 'tag_prefix' );
             
             // get keywords from document
             $keywords = JFactory::getDocument()->getMetaData( 'keywords' );
@@ -67,8 +69,7 @@ class ModBannersView extends ModDefaultView
             {
                 $keyword = trim( $keyword );
                 $regex = '#^' . $prefix . '#';
-                if (preg_match( $regex, $keyword ))
-                {
+                if (preg_match( $regex, $keyword )) {
                     $page_keywords[] = $keyword;
                 }
             }
