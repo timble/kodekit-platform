@@ -109,4 +109,11 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
      * @return KDatabaseRowsetAbstract
      */
     public function extract(KDatabaseRowInterface $row);
+    
+    /**
+	 * Test the connected status of the rowset.
+	 *
+	 * @return	bool
+	 */
+    public function isConnected()
 }
