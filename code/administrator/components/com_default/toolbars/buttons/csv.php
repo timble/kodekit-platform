@@ -29,7 +29,9 @@ class ComDefaultToolbarButtonCsv extends KToolbarButtonGet
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'icon' => 'icon-32-export'
+            'attribs' => array(
+                'href' => $this->getLink()
+            )
         ));
         
         parent::_initialize($config);
