@@ -115,5 +115,5 @@ interface KDatabaseRowsetInterface extends KObjectIdentifiable
 	 *
 	 * @return	bool
 	 */
-    public function isConnected()
+    public function isConnected();
 }
