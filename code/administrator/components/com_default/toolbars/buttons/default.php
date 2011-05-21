@@ -33,15 +33,32 @@ class ComDefaultToolbarButtonDefault extends KToolbarButtonPost
         ));
 
         parent::_initialize($config);
+        
+        $config->append(array(
+            'attribs' => array(
+                'data-action'      => $this->_identifier->name,
+                'data-token-name'  => $config->token_name,
+                'data-token-value' => $config->token_value
+            )
+        ));
     }
     
-    public function getOnClick()
+    public function getAttribs()
     {
-        $url  = KRequest::url();
-        $name = $this->_identifier->name;
+        $link = $this->getLink();
+        if(!empty($link)) {
+            $this->_options->attribs->append(array(
+                'href' => JRoute::_($link)
+            ));
+        }
         
-        $json = "{method:'post', url:'$url', element:'adminForm', params:{action:'$name', '$this->_token_name':'$this->_token_value'}}";
-
-        return 'new Koowa.Form('.$json.').submit();';
+        $onclick = $this->getOnClick();
+        if(!empty($onclick)) {
+            $this->_options->attribs->append(array(
+                'onclick' => $onclick
+            ));
+        }
+    
+    	return parent::getAttribs();
     }
 }
