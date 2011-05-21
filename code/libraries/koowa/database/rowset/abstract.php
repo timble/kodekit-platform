@@ -101,6 +101,16 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     }
     
 	/**
+	 * Test the connected status of the rowset.
+	 *
+	 * @return	boolean	Returns TRUE by default.
+	 */
+    public function isConnected()
+	{
+	    return true;
+	}
+    
+	/**
      * Add a row in the rowset
      * 
      * The row will be stored by it's identity_column if set or otherwise by
