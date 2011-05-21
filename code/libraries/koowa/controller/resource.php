@@ -273,7 +273,7 @@ abstract class KControllerResource extends KControllerAbstract
 		$view = $this->getView();
 	
         //Set the layout in the view
-	    if(isset($this->_request->layout)) {
+	    if($view instanceof KViewTemplate && isset($this->_request->layout)) {
             $view->setLayout($this->_request->layout);
 	     }
 	     
