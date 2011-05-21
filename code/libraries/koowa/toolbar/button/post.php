@@ -32,13 +32,6 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
      */
     protected $_token_name;
     
-    /**
-     * Associative array
-     *
-     * @var array
-     */
-    protected $_fields = array();
-    
 	/**
      * Constructor.
      *
@@ -64,27 +57,9 @@ abstract class KToolbarButtonPost extends KToolbarButtonAbstract
     {
         $config->append(array(
             'token_value' => '',
-        	'token_name'  => '_token',		
-            'method'      => 'post',
+        	'token_name'  => '_token'
         ));
 
         parent::_initialize($config);
-    }
-    
-    public function getOnClick()
-    {
-        $js = '';
-        foreach($this->_fields as $name => $value) {
-            $js .= "Koowa.Form.addField('$name', '$value');";
-        }
-        $js .= "Koowa.Form.submit('{$this->_method}');";
-        
-        return $js;
-    }
-    
-    public function setField($name, $value)
-    {
-        $this->_fields[$name] = $value;
-        return $this;
     }
 }
