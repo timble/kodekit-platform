@@ -95,4 +95,11 @@ interface KDatabaseRowInterface extends KObjectIdentifiable
      * @return bool
      */
     public function isNew();
+    
+	/**
+	 * Test the connected status of the row.
+	 *
+	 * @return	bool
+	 */
+    public function isConnected()
 }
