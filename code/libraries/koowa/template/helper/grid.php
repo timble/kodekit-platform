@@ -49,9 +49,29 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		return $html;
 	}
+	
+	/**
+	 * Render an search header
+	 *
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 */
+	public function search($config = array())
+	{
+	    $config = new KConfig($config);
+		$config->append(array(
+			'search' => null,
+		));
+	    
+	    $html = '<input name="search" id="search" value="'.$config->search.'" />';
+        $html .= '<button onclick="this.form.submit();">'.JText::_('Go').'</button>';
+		$html .= '<button onclick="document.getElementById("search").value="";this.form.submit();">'.JText::_('Reset').'</button>';
+	
+	    return $html;
+	}
 
 	/**
-	 * Render a checkall field
+	 * Render a checkall header
 	 *
 	 * @param 	array 	An optional array with configuration options
 	 * @return	string	Html
@@ -65,7 +85,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	}
 
 	/**
-	 * Render a sorting field
+	 * Render a sorting header
 	 *
 	 * @param 	array 	An optional array with configuration options
 	 * @return	string	Html
