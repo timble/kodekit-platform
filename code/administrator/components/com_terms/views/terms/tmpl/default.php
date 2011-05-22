@@ -10,7 +10,7 @@
 	</div>
 </div>
 
-<form action="<?= @route()?>" method="post" name="adminForm">
+<form action="<?= @route()?>" method="post" class="-koowa-grid">
 <table class="adminlist" style="clear: both;">
 <thead>
 	<tr>
