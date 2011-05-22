@@ -55,8 +55,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <tr>
                     <td></td>
                     <td colspan="6">
-                    	<?= @text( 'Filter' ) ?>:
-                    	<?= @template('admin::com.default.view.grid.search_form') ?>
+                    	<?= @helper( 'grid.search'); ?>
                     </td>
                 </tr>
             </thead>

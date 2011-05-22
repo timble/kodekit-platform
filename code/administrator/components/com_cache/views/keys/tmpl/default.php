@@ -31,10 +31,10 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count( $keys );?>);" />
+				<?= @helper( 'grid.checkall'); ?>
 			</td>
 			<td>
-				<?= @template('admin::com.default.view.grid.search_form') ?>
+				<?= @helper( 'grid.search'); ?>
 			</td>
 			<td align="center"> 
 				<?= @helper('listbox.groups', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>

@@ -72,8 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					<?= @helper( 'grid.checkall'); ?>
     				</td>
     				<td>
-    					<?= @text( 'Filter' ) ?>:
-    					<?= @template('admin::com.default.view.grid.search_form') ?>
+    					<?= @helper( 'grid.search'); ?>
     				</td>
     				<td align="center">
     					<?= @helper('listbox.enabled') ?>
