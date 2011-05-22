@@ -41,7 +41,7 @@ class ComSectionsTemplateHelperGrid extends KTemplateHelperGrid
        	$text   = $config->row->enabled ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish Item' );
        	$value  = $config->row->enabled ? 0 : 1;
 
-       	$url   = $this->_createURL($config->row).'&id='.$config->row->id;
+       	$url   = $this->_createUrl($config).'&id='.$config->row->id;
       	$token = JUtility::getToken();
 
      	$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
