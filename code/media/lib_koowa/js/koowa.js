@@ -38,8 +38,7 @@ window.addEvent('domready', function() {
         new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
     });
 
-    //The name=adminForm query is for legacy, update your forms with class="-koowa-form" please
-    $$('.-koowa-form, form[method="post"][name="adminForm"]').each(function(form){
+    $$('.-koowa-form').each(function(form){
         var toolbar = form.get('data-toolbar') ? form.get('data-toolbar') : '.toolbar';
         new Koowa.Controller.Form({form: form, toolbar: document.getElement(toolbar)});
     });
