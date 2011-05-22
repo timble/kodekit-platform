@@ -51,10 +51,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<jdoc:include type="modules" name="toolbar" />
 			<jdoc:include type="modules" name="title" />
 		</div>
-		<div id="message-box">
-			<jdoc:include type="message" />
-		</div>
+		<jdoc:include type="message" />
 		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+			
 			<jdoc:include type="component" />
 		</div>
 	</div>	 

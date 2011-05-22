@@ -1,12 +1,7 @@
 body {color: #000}
 
-#message-box {
-	margin: 0 auto; width: 100%;
-	text-align: left;
-}
-
 /* System Messages */
-#system-message    { margin: 0; padding: 0; border-bottom: 1px solid #E1E1E1;}
+#system-message    { height: 33px; margin: 0; padding: 0; border-bottom: 1px solid #E1E1E1;}
 #system-message dt { font-weight: bold; }
 #system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
 #system-message dd ul { color: #0055BB;  list-style: none; padding: 10px; margin: 0; }
