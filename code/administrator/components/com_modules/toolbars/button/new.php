@@ -20,10 +20,26 @@
 
 class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
 {
-    public function getOnClick()
+    /**
+     * Initializes the options for the object
+     *
+     * Must include @helper('behavior.modal') in view, to load the modal behavior
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
     {
-        //@TODO hacky, suggest patch to toolbar that allows setting the rel attribute
-    	return 'new Event(arguments[0]).stop();SqueezeBox.fromElement(this);" rel="{handler:\'url\',ajaxOptions:{method:\'get\'}}';
+        $config->append(array(
+            'attribs' => array(
+                'class' => 'toolbar modal',
+                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}'
+            )
+        ));
+
+        parent::_initialize($config);
     }
 
 	public function getLink()
