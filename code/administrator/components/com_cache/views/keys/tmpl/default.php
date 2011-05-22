@@ -4,7 +4,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route() ?>" method="get" name="adminForm">	
+<form action="<?= @route() ?>" method="get" class="-koowa-grid">	
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>

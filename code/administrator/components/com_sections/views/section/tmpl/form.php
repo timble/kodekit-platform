@@ -37,7 +37,7 @@ function submitbutton(pressbutton) {
 }
 </script>
 
-<form action="<?= @route('id='.$section->id) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$section->id) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 	

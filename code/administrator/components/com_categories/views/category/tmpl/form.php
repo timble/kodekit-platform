@@ -29,7 +29,7 @@ function submitbutton(pressbutton, section) {
 }
 </script>
 
-<form action="<?= @route('id='.$category->id) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="section" value="<?= $category->id? $category->section : $state->section; ?>" />
 	
     <div class="grid_8">

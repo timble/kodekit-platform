@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$user->id) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$user->id) ?>" method="post" class="-koowa-form">
 	<div class="grid_8">
 		<fieldset class="adminform">
 			<legend><?= @text('User Details') ?></legend>

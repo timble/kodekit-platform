@@ -89,7 +89,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 <div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ) ?></legend>

@@ -145,14 +145,20 @@ div#content-box.form {
 	overflow: auto;
 }
 
+div#content-box.default form.-koowa-grid,
+div#content-box.default form.-koowa-form,
 div#content-box.default form[name="adminForm"] {
 	
 }
 
+div#content-box.form form.-koowa-grid,
+div#content-box.form form.-koowa-form,
 div#content-box.form form[name="adminForm"] {
 	padding: 14px 0;
 }
 
+form.-koowa-grid,
+form.-koowa-form,
 form[name="adminForm"] {
 	/* Fix for Mozilla, to make the element flexible */
 	-webkit-box-flex: 1;
@@ -649,6 +655,8 @@ table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #E1E
 table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
 
+form.-koowa-form table.adminlist tbody,
+form.-koowa-grid table.adminlist tbody,
 form[name="adminForm"] table.adminlist tbody { overflow-y: scroll; overflow-x: hidden; height: inherit; }
 
 table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }

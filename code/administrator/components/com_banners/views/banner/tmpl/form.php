@@ -55,7 +55,7 @@ function submitbutton(pressbutton) {
 
 </script>
 
-<form action="<?=@route('id='.$banner->id)?>" method="post" name="adminForm">
+<form action="<?=@route('id='.$banner->id)?>" method="post" class="-koowa-form">
 
     <div class="col100">
         <fieldset class="adminform">

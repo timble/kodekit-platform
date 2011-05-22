@@ -31,7 +31,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </ul>
 </div>
 <div class="-koowa-box-flex">
-    <form action="<?= @route() ?>" method="get" name="adminForm">
+    <form action="<?= @route() ?>" method="get" class="-koowa-grid">
         <table class="adminlist">
             <thead>
                 <tr>

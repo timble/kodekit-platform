@@ -30,7 +30,7 @@ function submitbutton(pressbutton) {
 }
 </script>
 
-<form action="<?= @route('id='.$plugin->id) ?>" method="post" name="adminForm">
+<form action="<?= @route('id='.$plugin->id) ?>" method="post" class="-koowa-grid">
     <div class="col width-60">
     	<fieldset class="adminform">
         	<legend>
