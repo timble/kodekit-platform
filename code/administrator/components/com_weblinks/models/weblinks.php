@@ -28,20 +28,6 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		    ->insert('enabled' , 'int');
 	}
 	
-	public function getCategory()
-	{
-	    $category = null;
-	    
-	    if($this->_state->category) 
-	    {
-	        $category = KFactory::tmp('admin::com.weblinks.model.categories')
-	                        ->id($this->_state->category)
-	                        ->getItem();
-	    }
-	    
-	    return $category;
-	}
-	
 	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
 		parent::_buildQueryColumns($query);
