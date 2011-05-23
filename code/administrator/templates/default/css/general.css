@@ -141,8 +141,8 @@ input.button  { cursor: pointer;   }
 	box-flex: 1;
 }
 
-div#content-box.form {
-	overflow: auto;
+div#content-box.form form {
+	overflow-y: scroll;
 }
 
 div#content-box.default form.-koowa-grid,
