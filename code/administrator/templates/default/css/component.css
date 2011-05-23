@@ -51,7 +51,8 @@ div.message {
 	overflow-y: scroll; /* Fix, force scrollbar */
 }
 
-/* com_content, com_sections */
+/* com_banners, com_content, com_sections */
+.com_banners div.name,
 .com_sections div.title,
 .com_content div.title {
 	padding: 12px 16px 12px 12px;
@@ -62,6 +63,7 @@ div.message {
 	border: 1px solid #DDD;
 }
 
+.com_banners #name,
 .com_sections #title,
 .com_content #title {
 	margin: 0 4px 0 0;
@@ -71,6 +73,7 @@ div.message {
 	padding: 4px;
 }
 
+.com_banners label[for="alias"],
 .com_sections label[for="alias"],
 .com_content label[for="alias"] {
 	float: left;
@@ -78,6 +81,7 @@ div.message {
 	padding: 2px;
 }
 
+.com_banners label[for="alias"] input#alias,
 .com_sections label[for="alias"] input#alias,
 .com_content label[for="alias"] input#alias {
 	width: 40%;
