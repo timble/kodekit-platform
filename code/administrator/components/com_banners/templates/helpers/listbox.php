@@ -139,39 +139,43 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         if (in_array('swf', $config->filetypes->toArray()))
         {
             KFactory::get('lib.joomla.document')->addScriptDeclaration("
-            function loadFlash(config_name, value) {
-                var w = $(config_name+'-width').getValue();
-                if(w=='') w = '150';
-                var h = $(config_name+'-height').getValue();
-                if(h=='') h = '150';
-                new Swiff('".$root."/' + value, {
-                    id: config_name+'-flash-movie',
-                    container: config_name+'-flash',
-                    width: w,
-                    height: h
-                });
-                $(config_name+'-flash').setStyle('display', 'block');
-                $(config_name+'-preview').setStyle('display', 'none');
-            }
-            
-            function loadImage(config_name, value) {
-                value = value ? ('".$root."/' + value) : '".KRequest::root()."/media/system/images/blank.png';
-                $('".$config->name."-preview').src = value;
-                
-                var w = $(config_name+'-width').getValue();
-                if(w) $('".$config->name."-preview').width = w;
-                else $('".$config->name."-preview').removeAttribute('width');
-                
-                var h = $(config_name+'-height').getValue();
-                if(h) $('".$config->name."-preview').height = h;
-                else $('".$config->name."-preview').removeAttribute('height');
-                
-                $(config_name+'-flash').setStyle('display', 'none');
-                $(config_name+'-preview').setStyle('display', 'block');
-            }
-            
             window.addEvent('domready', function(){
-                $('".$config->name."').addEvent('change', function(){
+                var select = $(".json_encode($config->name)."),
+                    image = $(".json_encode($config->name.'-preview')."),
+                    flash = $(".json_encode($config->name.'-flash')."),
+                    width = $(".json_encode($config->name.'-width')."),
+                    height = $(".json_encode($config->name.'-height')."),
+                    loadFlash = function(config_name, value) {
+                        var w = width.getValue();
+                        if(w=='') w = '150';
+                        var h = height.getValue();
+                        if(h=='') h = '150';
+                        new Swiff('".$root."/' + value, {
+                            id: flash.get('id')+'-movie',
+                            container: flash.get('id'),
+                            width: w,
+                            height: h
+                        });
+                        flash.setStyle('display', 'block');
+                        image.setStyle('display', 'none');
+                    },
+                    loadImage = function(config_name, value) {
+                        value = value ? ('".$root."/' + value) : '".KRequest::root()."/media/system/images/blank.png';
+                        image.src = value;
+                        
+                        var w = width.getValue();
+                        if(w) image.width = w;
+                        else image.removeAttribute('width');
+                        
+                        var h = height.getValue();
+                        if(h) image.height = h;
+                        else image.removeAttribute('height');
+                        
+                        flash.setStyle('display', 'none');
+                        image.setStyle('display', 'block');
+                    };
+            
+                select.addEvent('change', function(){
                     if (this.value.test('^(.+).swf$')) {
                         loadFlash('".$config->name."', this.value);
                     } else {
