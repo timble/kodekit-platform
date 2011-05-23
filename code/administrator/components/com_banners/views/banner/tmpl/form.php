@@ -19,24 +19,27 @@ defined('KOOWA') or die('Restricted access') ?>
 <script>
 window.addEvent('domready', function(){
     $('banner-form').addEvent('validate', function(){
+        var errors = [];
+
         if(!$('name').get('value').trim().length) {
-        	alert(<?= json_encode(@text('You must provide a banner name.')) ?>);
-        	return false;
+            errors.include(<?= json_encode(@text('You must provide a banner name.')) ?>);
         }
 
         if(!$('imageurl').get('value')) {
-        	alert(<?= json_encode(@text('Please select an image.')) ?>);
-        	return false;
+        	errors.include(<?= json_encode(@text('Please select an image.')) ?>);
         }
 
         if(!$('clickurl').get('value').trim().length) {
-        	alert(<?= json_encode(@text('Please fill in the URL for the banner.')) ?>);
-        	return false;
+        	errors.include(<?= json_encode(@text('Please fill in the URL for the banner.')) ?>);
         }
 
         if(!$('catid').get('value')) {
-        	alert(<?= json_encode(@text('Please select a category.')) ?>);
-        	return false;
+        	errors.include(<?= json_encode(@text('Please select a category.')) ?>);
+        }
+
+        if(errors.length) {
+            alert(errors.join('\n'));
+            return false;
         }
     });
 
