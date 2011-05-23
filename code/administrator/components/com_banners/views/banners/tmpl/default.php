@@ -11,15 +11,16 @@
  
 defined('KOOWA') or die('Restricted access'); ?>
 
-<?= @helper('behavior.tooltip');?>
+<?= @helper('behavior.tooltip') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+<script type="text/javascript"></script>
 
 <form action="<?=@route()?>" method="get" class="-koowa-grid">
     <table class="adminlist">
         <thead>
             <tr>
-                <th width="1%"></th>
+                <th></th>
                 <th width="48%">
                     <?= @helper('grid.sort', array('column' => 'name')); ?>
                 </th>
@@ -46,7 +47,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                 </th>
             </tr>
             <tr>
-                <td>
+                <td align="center">
                     <?= @helper( 'grid.checkall'); ?>
                 </td>
                 <td>
