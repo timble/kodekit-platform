@@ -175,14 +175,8 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         image.setStyle('display', 'block');
                     };
             
-                $$(select, width, height).addEvent('change', function(event){
-                    if(event) event.preventDefault();
-                
-                    if (select.value.test('^(.+).swf$')) {
-                        loadFlash();
-                    } else {
-                        loadImage();
-                    }
+                $$(select, width, height).addEvent('change', function(){
+                    select.value.test('^(.+).swf$') ? loadFlash() : loadImage();
                 });
                 $(".json_encode($config->name.'-update').").addEvent('click', function(event){event.preventDefault()});
             });
