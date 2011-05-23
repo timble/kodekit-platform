@@ -56,22 +56,22 @@ function submitbutton(pressbutton) {
 <form action="<?= @route('id='.$banner->id) ?>" method="post" class="-koowa-form">
     <div class="grid_8">
         <div class="border-radius-4 name clearfix">
-			<input class="inputbox border-radius-4" type="text" name="name" id="name" size="40" maxlength="255" value="<?= $banner->name ?>" placeholder="<?= @text('Name') ?>" />
+			<input class="inputbox border-radius-4" type="text" name="name" id="name" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
 		
 			<label for="alias">
 				<?= @text( 'Alias' ) ?>
-				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $banner->slug ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
+				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
 			</label>
 		</div>
 		
 		<div class="panel">
 		    <h3><?= @text('Description/Notes') ?></h3>
-		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="description" id="description" placeholder="<?= @text('Enter your description and notes in here&hellip;') ?>"><?= $banner->description ?></textarea>
+		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="description" id="description" placeholder="<?= @text('Enter your description and notes in here&hellip;') ?>"><?= @escape($banner->description) ?></textarea>
 		</div>
 
 		<div class="panel">
 		    <h3><?= @text('Custom banner code') ?></h3>
-		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="custombannercode" id="custombannercode" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= $banner->custombannercode ?></textarea>
+		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="custombannercode" id="custombannercode" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= @escape($banner->custombannercode) ?></textarea>
 		</div>
     </div>
     <div class="grid_4">
@@ -103,7 +103,7 @@ function submitbutton(pressbutton) {
         	            </td>
         	            <td>
         	                <input class="inputbox" type="text" name="ordering" id="ordering" 
-        	                size="6" value="<?= $banner->ordering;?>" />
+        	                size="6" value="<?= $banner->ordering ?>" />
         	            </td>
         	        </tr>
         	        <tr>
@@ -113,7 +113,7 @@ function submitbutton(pressbutton) {
         	                </label>
         	            </td>
         	            <td>
-        	                <?= @helper('listbox.categories', array('name' => 'catid', 'selected' => $banner->catid ))?>
+        	                <?= @helper('listbox.categories', array('name' => 'catid', 'selected' => $banner->catid )) ?>
         	            </td>
         	        </tr>
         	        <tr>
@@ -129,12 +129,12 @@ function submitbutton(pressbutton) {
         	        </tr>
         	        <tr >
         	            <td valign="top" align="right" class="key">
-        	                <?= @text( 'Clicks' ) ?>:
+        	                <?= @text('Clicks') ?>:
         	            </td>
         	            <td colspan="2">
         	                <span id="clicks_label"><?= $banner->clicks ?></span>
-        	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text( 'Reset Clicks' ) ?>" />
-        	                <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks; ?>" />
+        	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text('Reset Clicks') ?>" />
+        	                <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks ?>" />
         	            </td>
         	        </tr>
         	        <tr>
@@ -174,11 +174,17 @@ function submitbutton(pressbutton) {
         	                </label>
         	            </td>
         	            <td>
-        	                <textarea class="inputbox" cols="70" rows="3" name="tags" id="tags"><?= $banner->tags;?></textarea>
+        	                <textarea class="inputbox" cols="70" rows="3" name="tags" id="tags"><?= $banner->tags ?></textarea>
         	            </td>
         	        </tr>
         	    </tbody>
         	</table>
+        </div>
+        
+        <? /* @TODO consider using com.terms for this */ ?>
+        <div class="panel">
+            <h3><?= @text('Tags') ?></h3>
+            <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="tags" id="tags" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= @escape($banner->tags) ?></textarea>
         </div>
     </div>
 </form>
