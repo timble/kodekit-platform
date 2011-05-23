@@ -134,7 +134,8 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'class' => 'inputbox'
         )));  
 
-        $root = KRequest::root().str_replace(JPATH_ROOT, '', $config->directory);
+        $root    = KRequest::root().str_replace(JPATH_ROOT, '', $config->directory);
+        $default = KRequest::root().'/media/system/images/blank.png';
         
         if (in_array('swf', $config->filetypes->toArray()))
         {
@@ -145,12 +146,12 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                     flash = $(".json_encode($config->name.'-flash')."),
                     width = $(".json_encode($config->name.'-width')."),
                     height = $(".json_encode($config->name.'-height')."),
-                    loadFlash = function(config_name, value) {
+                    loadFlash = function(value) {
                         var w = width.getValue();
                         if(w=='') w = '150';
                         var h = height.getValue();
                         if(h=='') h = '150';
-                        new Swiff('".$root."/' + value, {
+                        new Swiff('$root/' + value, {
                             id: flash.get('id')+'-movie',
                             container: flash.get('id'),
                             width: w,
@@ -159,9 +160,8 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         flash.setStyle('display', 'block');
                         image.setStyle('display', 'none');
                     },
-                    loadImage = function(config_name, value) {
-                        value = value ? ('".$root."/' + value) : '".KRequest::root()."/media/system/images/blank.png';
-                        image.src = value;
+                    loadImage = function(value) {
+                        image.src = value ? ('$root/' + value) : '$default';
                         
                         var w = width.getValue();
                         if(w) image.width = w;
@@ -177,9 +177,9 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             
                 select.addEvent('change', function(){
                     if (this.value.test('^(.+).swf$')) {
-                        loadFlash('".$config->name."', this.value);
+                        loadFlash(this.value);
                     } else {
-                        loadImage('".$config->name."', this.value);
+                        loadImage(this.value);
                     }
                 });
             });
