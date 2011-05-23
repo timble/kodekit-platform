@@ -12,25 +12,31 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
-<script language="javascript" type="text/javascript">
-function submitbutton(pressbutton) {
-	if (pressbutton == "cancel") {
-		submitform(pressbutton);
-		return;
-	}
-	
-	var form = document.adminForm;
-	if (form.name.value == "") {
-		alert( "<?= @text( 'Plugin must have a name', true ); ?>" );
-	} else if (form.element.value == "") {
-		alert( "<?= @text( 'Plugin must have a filename', true ); ?>" );
-	} else {
-		submitform(pressbutton);
-	}
-}
+<script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+
+<script>
+window.addEvent('domready', function(){
+    $('plugin-form').addEvent('validate', function(){
+        var errors = [];
+
+        if(!$('title').get('value').trim()) {
+            errors.include(<?= json_encode(@text('Plugin must have a title.')) ?>);
+        }
+
+        if(!$('element').get('value').trim()) {
+        	errors.include(<?= json_encode(@text('Plugin must have a filename.')) ?>);
+        }
+
+        if(errors.length) {
+            alert(errors.join('\n'));
+            return false;
+        }
+    });
+});
 </script>
 
-<form action="<?= @route('id='.$plugin->id) ?>" method="post" class="-koowa-grid">
+<form action="<?= @route('id='.$plugin->id) ?>" method="post" id="plugin-form" class="-koowa-form">
     <div class="col width-60">
     	<fieldset class="adminform">
         	<legend>
