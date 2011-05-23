@@ -134,7 +134,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$options = !empty($config->options) ? $config->options->toArray() : array();
 			$html .= "
 			<script>
-				window.addEvent('domready', function(){ var JTooltips = new Tips($$('".$config->selector."'), '.json_encode($options).'); });
+				window.addEvent('domready', function(){ new Tips($$('".$config->selector."'), ".json_encode((object)$options)."); });
 			</script>";
 
 			self::$_loaded[$signature] = true;
