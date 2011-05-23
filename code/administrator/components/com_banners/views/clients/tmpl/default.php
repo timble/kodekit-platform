@@ -24,7 +24,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://system/js/mootools.js" />  
 <script src="media://lib_koowa/js/koowa.js" />
 
-<form action="<?=@route()?>" method="get" name="adminForm">
+<form action="<?=@route()?>" method="get" class="-koowa-grid">
     <table class="adminlist">
         <thead>
             <tr>

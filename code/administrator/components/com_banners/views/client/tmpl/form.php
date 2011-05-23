@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?=@route('id='.$client->id)?>" method="post" name="adminForm">
+<form action="<?=@route('id='.$client->id)?>" method="post" class="-koowa-form">
 
     <div class="grid_5">
         <fieldset class="adminform">
