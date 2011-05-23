@@ -53,8 +53,6 @@ function submitbutton(pressbutton) {
 }
 </script>
 
-</script>
-
 <form action="<?=@route('id='.$banner->id)?>" method="post" class="-koowa-form">
 
     <div class="col100">
@@ -128,7 +126,7 @@ function submitbutton(pressbutton) {
                     </td>
                     <td>
                         <input class="inputbox" type="text" name="clickurl" id="clickurl" 
-                        size="100" maxlength="200" value="<?= $banner->clickurl;?>" />
+                        size="100" maxlength="200" value="<?= $banner->clickurl ?>" />
                     </td>
                 </tr>
                 <tr >
@@ -136,7 +134,7 @@ function submitbutton(pressbutton) {
                         <?=@text( 'Clicks' ); ?>:
                     </td>
                     <td colspan="2">
-                        <span id="clicks_label"><?= $banner->clicks;?></span>
+                        <span id="clicks_label"><?= $banner->clicks ?></span>
                         <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?=@text( 'Reset Clicks' ); ?>" />
                         <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks; ?>" />
                     </td>
