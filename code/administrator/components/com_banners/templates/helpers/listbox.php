@@ -162,17 +162,8 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                     },
                     loadImage = function() {
                         image.src = select.value ? ('$root/' + select.value) : '$default';
-                        
-                        var w = width.getValue();
-                        if(w) image.width = w;
-                        else image.removeAttribute('width');
-                        
-                        var h = height.getValue();
-                        if(h) image.height = h;
-                        else image.removeAttribute('height');
-                        
+                        image.setStyles({display: 'block', height: height.value.toInt(), width: width.value.toInt()});
                         flash.setStyle('display', 'none');
-                        image.setStyle('display', 'block');
                     };
             
                 $$(select, width, height).addEvent('change', function(){
