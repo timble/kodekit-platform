@@ -146,12 +146,12 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                     flash = $(".json_encode($config->name.'-flash')."),
                     width = $(".json_encode($config->name.'-width')."),
                     height = $(".json_encode($config->name.'-height')."),
-                    loadFlash = function(value) {
+                    loadFlash = function() {
                         var w = width.getValue();
                         if(w=='') w = '150';
                         var h = height.getValue();
                         if(h=='') h = '150';
-                        new Swiff('$root/' + value, {
+                        new Swiff('$root/' + select.value, {
                             id: flash.get('id')+'-movie',
                             container: flash.get('id'),
                             width: w,
@@ -160,8 +160,8 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         flash.setStyle('display', 'block');
                         image.setStyle('display', 'none');
                     },
-                    loadImage = function(value) {
-                        image.src = value ? ('$root/' + value) : '$default';
+                    loadImage = function() {
+                        image.src = select.value ? ('$root/' + select.value) : '$default';
                         
                         var w = width.getValue();
                         if(w) image.width = w;
@@ -175,13 +175,16 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         image.setStyle('display', 'block');
                     };
             
-                select.addEvent('change', function(){
-                    if (this.value.test('^(.+).swf$')) {
-                        loadFlash(this.value);
+                $$(select, width, height).addEvent('change', function(event){
+                    if(event) event.preventDefault();
+                
+                    if (select.value.test('^(.+).swf$')) {
+                        loadFlash();
                     } else {
-                        loadImage(this.value);
+                        loadImage();
                     }
                 });
+                $(".json_encode($config->name.'-update').").addEvent('click', function(event){event.preventDefault()});
             });
             ");
         } else {
@@ -228,7 +231,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         <input class="inputbox" type="text" name="height" 
                             id="'.$config->name.'-height" size="6"  
                             value="'.$config->height.'" />'
-                     ."<button onclick=\"$('".$config->name."').fireEvent('change');return false;\">".JText::_('update preview')."</button>"
+                     ."<button id=\"".$config->name."-update\">".JText::_('update preview')."</button>"
                      ;
         }
         return $config->preview ? $list.'<br />'.$this->image_preview($config) : $list;
