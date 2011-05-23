@@ -23,12 +23,7 @@ class ComTemplatesViewTemplatesHtml extends ComTemplatesViewHtml
     {
         $this->getToolbar()
             ->reset()
-            ->append('default');
-
-        JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules');
-        JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins');
-        JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates', true);
-        JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages');
+            ->append('set');
 
 		return parent::display();
 	}

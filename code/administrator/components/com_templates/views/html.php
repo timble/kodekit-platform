@@ -26,7 +26,7 @@ class ComTemplatesViewHtml extends ComDefaultViewHtml
     	if(!$config->template_url) 
     	{
     	    $state                = $this->getModel()->getState();
-    	    $config->template_url = KRequest::root() . ($state->application == 'admin' ? '/administrator' : '') . '/templates';
+    	    $config->template_url = KRequest::root() . ($state->application == 'admininistrator' ? '/administrator' : '') . '/templates';
     	}
         
         // Set base url used by things like template thumbnails
@@ -41,4 +41,14 @@ class ComTemplatesViewHtml extends ComDefaultViewHtml
     	
     	parent::_initialize($config);
     }
+    
+    public function display()
+	{
+        JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules');
+        JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins');
+        JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates', true);
+        JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages');
+
+		return parent::display();
+	}
 }

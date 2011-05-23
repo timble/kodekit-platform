@@ -23,8 +23,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->application == 'admin') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=admin') ?>">
+        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=administrator') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
@@ -52,22 +52,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @text('Author') ?>
                     </th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="6">
-                    	<?= @helper( 'grid.search'); ?>
-                    </td>
-                </tr>
             </thead>
-            <tfoot>
-            <? if($templates) : ?>
-                <tr>
-                    <td colspan="20">
-                        <?= @helper('paginator.pagination', array('total' => $total)) ?>
-                    </td>
-                </tr>
-            <? endif ?>
-            </tfoot>
             <tbody>
             <? foreach($templates as $i => $template) :?>
                 <tr>
@@ -75,9 +60,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <input type="radio" id="name" name="name" value="<?= $template->name ?>" class="-koowa-grid-checkbox" />
                     </td>
                     <td>
-                        <span class="editlinktip hasTip" title="<?= $template->name ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
-                            <a href="<?= @route('&view=template&name='.$template->name.'&application='.$state->application) ?>">
-                                <?= $template->name ?>
+                        <span class="editlinktip hasTip" title="<?= $template->title ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
+                            <a href="<?= @route('&view=template&name='.$template->title.'&application='.$state->application) ?>">
+                                <?= $template->title ?>
                             </a>
                         </span>
                     </td>
@@ -103,6 +88,15 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 </tr>
             <? endforeach ?>
             </tbody>
+            <tfoot>
+            <? if($templates) : ?>
+                <tr>
+                    <td colspan="20">
+                        <?= @helper('paginator.pagination', array('total' => $total)) ?>
+                    </td>
+                </tr>
+            <? endif ?>
+            </tfoot>
         </table>
     </form>
 </div>

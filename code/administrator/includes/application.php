@@ -222,27 +222,12 @@ class JAdministrator extends JApplication
 	 */
 	function getTemplate()
 	{
-		static $template;
-
-		if (!isset($template))
-		{
-			// Load the template name from the database
-			$db =& JFactory::getDBO();
-			$query = 'SELECT template'
-				. ' FROM #__templates_menu'
-				. ' WHERE client_id = 1'
-				. ' AND menuid = 0'
-				;
-			$db->setQuery( $query );
-			$template = $db->loadResult();
-
-			$template = JFilterInput::clean($template, 'cmd');
-
-			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-				$template = 'default';
-			}
+		$template = JComponentHelper::getParams('com_templates')->get('administrator');
+		
+		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
+			$template = 'default';
 		}
-
+	
 		return $template;
 	}
 

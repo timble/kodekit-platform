@@ -10,22 +10,25 @@
  */
 
 /**
- * Template Controller Executable Behavior Class
+ * Template Default Toolbar Button class, sets a template as the default one
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Templates    
  */
-class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutable
-{  
-    protected function _beforeAdd(KCommandContext $context)
+class ComTemplatesToolbarButtonSet extends ComDefaultToolbarButtonDefault
+{ 
+    protected function _initialize(KConfig $config)
     {
-        return false;
-    }
-    
-    protected function _beforeDelete(KCommandContext $context)
-    {
-        return false;
+        $config->append(array(
+            'text'     => JText::_('Make Default'),
+        	'attribs'  => array(
+                'data-action' => 'edit',
+                'data-data'   => '{default:1}'
+            )
+        ));
+        
+        parent::_initialize($config);
     }
 }

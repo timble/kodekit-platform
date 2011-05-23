@@ -29,14 +29,13 @@ class ComTemplatesModelTemplates extends KModelAbstract
         parent::__construct($config);
 
         $this->_state
-            ->insert('application', 'cmd', 'site')
-            ->insert('default'    , 'boolean', false, true)
-            ->insert('name'       , 'cmd', null, true)
             ->insert('limit'      , 'int')
             ->insert('offset'     , 'int')
             ->insert('sort'       , 'cmd')
             ->insert('direction'  , 'word', 'asc')
-            ->insert('search'     , 'string');
+            ->insert('application', 'cmd', 'site')
+            ->insert('default'    , 'boolean', false, true)
+            ->insert('name'       , 'cmd', null, true);        
     }
 
     /**
@@ -49,20 +48,31 @@ class ComTemplatesModelTemplates extends KModelAbstract
         if(!isset($this->_item))
         {
             $state = $this->_state;
-            $base  = $state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $name  = $state->default ? JComponentHelper::getParams('com_templates')->get($state->application, 'site') : $state->name;
-            $path  = $base.'/templates/'.$name;
-
-            if(file_exists($path.'/templateDetails.xml')) 
+            
+            //Get application information
+			$client	= JApplicationHelper::getClientInfo($state->application, true);
+            if (!empty($client)) 
             {
+                //Get the path
+                $default = JComponentHelper::getParams('com_templates')->get($client->name, 'site');
+             
+                if ($state->default) {
+			        $state->name = $default;
+				}
+			
+                $path  = $client->path.'/templates/'.$state->name;
+
                 $data = array(
                 	'path'        => $path,
-                	'application' => $this->_state->application
+                	'application' => $client->name
                 );
 
-                $this->_item = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
-            } 
-            else $this->_item = null;
+                $row = KFactory::tmp('admin::com.templates.database.row.template', array('data' => $data));
+                $row->default = ($row->name == $default);
+                
+                $this->_item = $row;
+            }
+            else throw new KModelException('Invalid application');
         }
         
         return $this->_item;
@@ -77,50 +87,74 @@ class ComTemplatesModelTemplates extends KModelAbstract
     { 
         if(!isset($this->_list))
         {
-            $data = array();
-            $base = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $path = $base.'/templates';
+            $state = $this->_state;
+            
+            //Get application information
+			$client	= JApplicationHelper::getClientInfo($state->application, true);
+			if(!empty($client)) 
+			{
+                $default = JComponentHelper::getParams('com_templates')->get($client->name, 'site');
+			    
+			    //Find the templates
+			    $templates = array();
+                $path      = $client->path.'/templates';
 
-            foreach(new DirectoryIterator($path) as $folder)
-            {
-                if($folder->isDir())
+                foreach(new DirectoryIterator($path) as $folder)
                 {
-                    $name_mismatch   = $this->_state->name && $this->_state->name != $folder->getFilename();
-                    $search_mismatch = $this->_state->search && strpos($folder->getFilename(), $this->_state->search) === false;
-                    $file_exists     = file_exists($folder->getRealPath().'/templateDetails.xml');
-                    
-                    if($name_mismatch || $search_mismatch || !$file_exists) continue;
-                    
-                    $data[] = array(
-                        'path'        => $folder->getRealPath(),
-                        'application' => $this->_state->application
-                    );
+                    if($folder->isDir())
+                    {
+                        if(file_exists($folder->getRealPath().'/templateDetails.xml')) 
+                        { 
+                            $templates[] = array(
+                       			'path'        => $folder->getRealPath(),
+                        		'application' => $client->name
+                            );
+                        }
+                    }
                 }
-            }
+                
+                //Set the total
+			    $this->_total = count($templates);
 
-            //Apply limit and offset
-            if($this->_state->limit) {
-                $data = array_slice($data, $this->_state->offset, $this->_state->limit);
-            }
+                //Apply limit and offset
+                if($this->_state->limit) {
+                    $templates = array_slice($template, $state->offset, $state->limit ? $state->limit : $this->_total);
+                }
+                
+			     //Apply direction
+			    if(strtolower($state->direction) == 'desc') {
+				    $templates = array_reverse($templates);
+			    }
+                
+                //Create the rowset
+                $rowset = KFactory::tmp('admin::com.templates.database.rowset.templates');
+			    foreach ($templates as $template)
+			    {
+			        $row = $rowset->getRow()->setData($template);
+			        $row->default = ($row->name == $default);
 
-            $this->_list = KFactory::tmp('admin::com.templates.database.rowset.templates', array('data' => $data));
+				    $rowset->insert($row);
+			     }
+
+			     $this->_list = $rowset;
+			}
+			else throw new KModelException('Invalid application');
         }
 
         return $this->_list;
     }
 
-    /**
-     * Get the total amount of items
-     *
-     * @return  int
-     */
     public function getTotal()
-    {
-        if(!isset($this->_total))
-        {
-            $this->_total = count($this->getList());
-        }
+	{
+		if (!$this->_total) {
+			$this->getList();
+		}
 
-        return $this->_total;
-    }
+		return $this->_total;
+	}
+    
+    public function getColumn($column)
+	{
+		return $this->getList();
+	}
 }

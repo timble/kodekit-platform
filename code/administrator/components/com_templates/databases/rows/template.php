@@ -25,13 +25,33 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
      * @var array
      */
     protected static $_manifest_fields = array(
-        'creationDate',
+    	'creationDate',
         'author',
         'copyright',
         'authorEmail',
         'authorUrl',
         'version',
         'description'
+    );
+    
+    /**
+     * Whitelist for virtual keys to be lazy initiated
+     *
+     * @var array
+     */
+    protected static $_virtual_fields = array(
+        'title',
+        'params',
+        'positions'
+    );
+    
+    /**
+     * Blacklist for hidden fields
+     *
+     * @var array
+     */
+    protected static $_hidden_fields = array(
+    	'path',
     );
 
     /**
@@ -62,34 +82,35 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
         if($column == 'name' && empty($this->_data['name'])) {
             $this->_data['name'] = basename($this->_data['path']);
         }
-    
-        if($column == 'default' && !isset($this->_data['default']))
-        {
-            $default                = JComponentHelper::getParams('com_templates')->get($this->application, 'site');
-            $this->_data['default'] = $default == $this->name;
+   
+        if($column == 'title' && empty($this->_data['title'])) {
+            $this->_data['title'] = $this->manifest->name;
         }
-
-    	if($column == 'ini_file' && empty($this->_data['ini_file'])) {
-            $this->_data['ini_file'] = $this->_data['path'].'/params.ini';
-        }
-
-        if($column == 'ini' && !isset($this->_data['ini']))
-        {
-        	if(file_exists($this->ini_file)) {
-                $this->_data['ini'] = file_get_contents($this->ini_file);
+        
+        if($column == 'manifest' && empty($this->_data['manifest'])) 
+		{
+            $file = $this->_data['path'].'/templateDetails.xml';
+            
+            if(file_exists($file)) {
+		        $this->_data['manifest'] = simplexml_load_file($file);
+            } else {
+                $this->_data['manifest'] = '';
             }
-        }
-
-        if($column == 'manifest_file' && empty($this->_data['manifest_file'])) {
-            $this->_data['manifest_file'] = $this->_data['path'].'/templateDetails.xml';
-        }
-		
-		if($column == 'manifest' && empty($this->_data['manifest'])) {
-            $this->_data['manifest'] = simplexml_load_file($this->manifest_file);
         }
 
 		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
             $this->_data[$column] = $this->manifest->{$column};
+        }
+        
+        if($column == 'params' && !isset($this->_data['params']))
+        {
+        	$file = $this->_data['path'].'/params.ini';
+        	
+            if(file_exists($file)) {
+                $this->_data['params'] = file_get_contents($file);
+            } else {
+                $this->_data['params'] = '';
+            }
         }
 
         if($column == 'positions' && !isset($this->_data['positions']))
@@ -98,7 +119,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
             if($this->manifest && isset($this->manifest->positions))
             {
                 foreach($this->manifest->positions->children() as $position) {
-                    $this->_data['positions'][] = (string)$position;
+                    $this->_data['positions'][] = (string) $position;
                 }
             }
         }
@@ -115,21 +136,23 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 	{
 		if(isset($this->_modified['default']) && $this->default)
 		{
-			$params = JComponentHelper::getParams('com_templates');
-			$params->set($this->application, $this->name);
+			//Update the params
+		    $params = JComponentHelper::getParams('com_templates')->set($this->application, $this->name);
 
-			$table = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'));
+		    //Save the params
+			$result = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'))
+                    ->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW)
+                    ->set('params', $params->toString())
+			        ->save();
+           
 
-			$row = $table->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW);
-			$row->params = $params->toString();
-
-			return $row->save();
+			return $result;
 		}
 
 		if(isset($this->_modified['params']))
 		{
 			$params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($this->params);
-			if(!file_put_contents($this->ini_file, $params)) {
+			if(!file_put_contents($this->path.'/params.ini', $params)) {
 			    return false;
 			}
 		}
@@ -145,5 +168,37 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     public function isNew()
     {
         return false;
+    }
+    
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+          
+        //Include the manifest fields
+        foreach(self::$_manifest_fields as $field) {
+           $data[$field] = (string) $this->$field;
+        }
+        
+        //Include the virtual fields
+        foreach(self::$_virtual_fields as $field) 
+        {   
+            if(is_array($this->$field)) {
+                $data[$field] = (array) $this->$field; 
+            } else {
+                $data[$field] = (string) $this->$field; 
+            }
+        }
+        
+        //Remove the hidden fields
+        foreach(self::$_hidden_fields as $field) {
+            unset($data[$field]);   
+        }
+          
+        return $data;
     }
 }

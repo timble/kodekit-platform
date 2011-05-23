@@ -328,24 +328,7 @@ class JSite extends JApplication
 			return $template;
 		}
 
-		// Get the id of the active menu item
-		$menu =& JSite::getMenu();
-		$item = $menu->getActive();
-
-		$id = 0;
-		if(is_object($item)) { // valid item retrieved
-			$id = $item->id;
-		}
-
-		// Load template entries for the active menuid and the default template
-		$db =& JFactory::getDBO();
-		$query = 'SELECT template'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND (menuid = 0 OR menuid = '.(int) $id.')'
-			. ' ORDER BY menuid DESC'
-			;
-		$db->setQuery($query, 0, 1);
-		$template = $db->loadResult();
+		$template = JComponentHelper::getParams('com_templates')->get('site');
 
 		// Allows for overriding the active template from the request
 		$template = JRequest::getCmd('template', $template);

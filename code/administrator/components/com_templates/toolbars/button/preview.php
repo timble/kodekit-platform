@@ -19,17 +19,32 @@
  */
 class ComTemplatesToolbarButtonPreview extends KToolbarButtonGet
 {
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'width'   => '640',
+            'height'  => '480',
+        ))->append(array(
+            'attribs' => array(
+                'href' 	 => $this->getLink(),
+                'target' => 'preview'
+            )
+        ));
+
+        parent::_initialize($config);
+    }
+    
     /**
-     * Opens up a popup window that exposes the module positions in a template
+     * Opens up a new window that exposes the module positions in a template
      *
      * @return  string
      */
-    public function getOnClick()
+    public function getLink()
     {
-        $model    = KFactory::get('admin::com.templates.model.templates');
-        $url      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
-        $url      = json_encode($url.'index.php?tp=1&amp;template='.KRequest::get('get.name', 'cmd'));
-
-        return str_replace('"', '&quot;', "window.open($url, '_blank', 'location=no,toolbar=no');return false;");
+        $template  = KRequest::get('get.name', 'cmd');
+        $base      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
+        $url       = $base.'index.php?tp=1&template='.KRequest::get('get.name', 'cmd');
+        
+        return $url;
     }
 }
