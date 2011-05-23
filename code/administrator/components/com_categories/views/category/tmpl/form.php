@@ -13,23 +13,18 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<script language="javascript" type="text/javascript">
-function submitbutton(pressbutton, section) {
-	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
-	
-	if ( form.title.value == "" ) {
-		alert("<?= @text( 'Category must have a title', true ); ?>");
-	} else {
-		submitform(pressbutton);
-	}
-}
+<script>
+window.addEvent('domready', function(){
+    $('category-form').addEvent('validate', function(){
+        if(!$('title').get('value').trim()) {
+            alert(<?= json_encode(@text('Category must have a title.')) ?>);
+            return false;
+        }
+    });
+});
 </script>
 
-<form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form">
+<form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
 	<input type="hidden" name="section" value="<?= $category->id? $category->section : $state->section; ?>" />
 	
     <div class="grid_8">
