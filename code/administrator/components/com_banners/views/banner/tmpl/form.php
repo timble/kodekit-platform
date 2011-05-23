@@ -65,13 +65,42 @@ function submitbutton(pressbutton) {
 		</div>
 		
 		<div class="panel">
+		    <h3><?= @text('Banner') ?></h3>
+		    <table class="paramlist admintable">
+		        <tbody>
+		            <tr>
+		                <td valign="top" class="key">
+		                    <label for="imageurl">
+		                        <?= @text( 'Banner Image Selector' ) ?>:
+		                    </label>
+		                </td>
+		                <td>
+		                    <?= @helper('listbox.banner_names', array(
+		                    	'name'      => 'imageurl',  
+		                        'preview'   => false, 
+		                        'width'     => $banner->params->get('width'),
+		                        'height'    => $banner->params->get('height')
+		                    )) ?>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td valign="top" class="key">
+		                    <?= @text( 'Banner Image' ) ?>:
+		                </td>
+		                <td valign="top">
+		                    <?= @helper('listbox.banner_preview', array(
+		                    	'name'      => 'imageurl', 
+		                        'selected'  => $banner->imageurl
+		                    )) ?>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+		
+		<div class="panel">
 		    <h3><?= @text('Description/Notes') ?></h3>
 		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="description" id="description" placeholder="<?= @text('Enter your description and notes in here&hellip;') ?>"><?= @escape($banner->description) ?></textarea>
-		</div>
-
-		<div class="panel">
-		    <h3><?= @text('Custom banner code') ?></h3>
-		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="custombannercode" id="custombannercode" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= @escape($banner->custombannercode) ?></textarea>
 		</div>
     </div>
     <div class="grid_4">
@@ -124,7 +153,7 @@ function submitbutton(pressbutton) {
         	            </td>
         	            <td>
         	                <input class="inputbox" type="text" name="clickurl" id="clickurl" 
-        	                size="100" maxlength="200" value="<?= $banner->clickurl ?>" />
+        	                size="100" maxlength="200" style="box-sizing: border-box; width: 100%" value="<?= $banner->clickurl ?>" />
         	            </td>
         	        </tr>
         	        <tr >
@@ -137,54 +166,19 @@ function submitbutton(pressbutton) {
         	                <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks ?>" />
         	            </td>
         	        </tr>
-        	        <tr>
-        	            <td colspan="3">
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td valign="top" class="key">
-        	                <label for="imageurl">
-        	                    <?= @text( 'Banner Image Selector' ) ?>:
-        	                </label>
-        	            </td>
-        	            <td>
-        	                <?= @helper('listbox.banner_names', array(
-        	                	'name'      => 'imageurl',  
-        	                    'preview'   => false, 
-        	                    'width'     => $banner->params->get('width'),
-        	                    'height'    => $banner->params->get('height')
-        	                )) ?>
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td valign="top" class="key">
-        	                <?= @text( 'Banner Image' ) ?>:
-        	            </td>
-        	            <td valign="top">
-        	                <?= @helper('listbox.banner_preview', array(
-        	                	'name'      => 'imageurl', 
-        	                    'selected'  => $banner->imageurl
-        	                )) ?>
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td valign="top" class="key">
-        	                <label for="tags">
-        	                    <?= @text( 'Tags' ) ?>:
-        	                </label>
-        	            </td>
-        	            <td>
-        	                <textarea class="inputbox" cols="70" rows="3" name="tags" id="tags"><?= $banner->tags ?></textarea>
-        	            </td>
-        	        </tr>
         	    </tbody>
         	</table>
+        </div>
+        
+        <div class="panel">
+            <h3><?= @text('Custom banner code') ?></h3>
+            <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="custombannercode" id="custombannercode" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= @escape($banner->custombannercode) ?></textarea>
         </div>
         
         <? /* @TODO consider using com.terms for this */ ?>
         <div class="panel">
             <h3><?= @text('Tags') ?></h3>
-            <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="tags" id="tags" placeholder="<?= @text('Paste in your own custom banner code here&hellip;') ?>"><?= @escape($banner->tags) ?></textarea>
+            <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="tags" id="tags" placeholder="<?= @text('Enter comma separated tags here&hellip;') ?>"><?= @escape($banner->tags) ?></textarea>
         </div>
     </div>
 </form>
