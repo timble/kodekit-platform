@@ -136,6 +136,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         $root    = KRequest::root().str_replace(JPATH_ROOT, '', $config->directory);
         $default = KRequest::root().'/media/system/images/blank.png';
+        $name    = $config->name;
         
         if (in_array('swf', $config->filetypes->toArray()))
         {
@@ -147,15 +148,11 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                     width = $(".json_encode($config->name.'-width')."),
                     height = $(".json_encode($config->name.'-height')."),
                     loadFlash = function() {
-                        var w = width.getValue();
-                        if(w=='') w = '150';
-                        var h = height.getValue();
-                        if(h=='') h = '150';
                         new Swiff('$root/' + select.value, {
                             id: flash.get('id')+'-movie',
                             container: flash.get('id'),
-                            width: w,
-                            height: h
+                            width: width.value || 150,
+                            height: height.value || 150
                         });
                         flash.setStyle('display', 'block');
                         image.setStyle('display', 'none');
