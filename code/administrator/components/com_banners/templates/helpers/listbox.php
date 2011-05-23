@@ -134,7 +134,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'class' => 'inputbox'
         )));  
 
-        $root = KRequest::root().'/'.$config->directory;
+        $root = KRequest::root().str_replace(JPATH_ROOT, '', $config->directory);
         
         if (in_array('swf', $config->filetypes->toArray()))
         {
