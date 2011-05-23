@@ -22,8 +22,6 @@ class ComLanguagesViewLanguagesHtml extends ComLanguagesViewHtml
 {
 	public function display()
 	{
-		$state = $this->getModel()->getState();
-
 		$this->getToolbar()
 			->reset()
 			->append('set');

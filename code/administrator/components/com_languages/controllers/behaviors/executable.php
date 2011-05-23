@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: templates.php 1161 2011-05-11 14:52:09Z johanjanssens $
+ * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Languages
@@ -10,22 +10,22 @@
  */
 
 /**
- * Language Database Rowset Class
+ * Language Database Row Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-
-class ComLanguagesDatabaseRowsetLanguages extends KDatabaseRowsetAbstract
-{
-    protected function _initialize(KConfig $config)
+class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutable
+{  
+    protected function _beforeAdd(KCommandContext $context)
     {
-        $config->append(array(
-            'identity_column' => 'name'
-        ));
-
-        parent::_initialize($config);
+        return false;
+    }
+    
+    protected function _beforeDelete(KCommandContext $context)
+    {
+        return false;
     }
 }

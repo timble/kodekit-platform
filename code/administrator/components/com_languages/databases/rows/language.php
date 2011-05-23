@@ -20,55 +20,67 @@
 
 class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 {
-	protected static $_manifest_fields = array(
-		'name',
-		'creationDate',
-		'author',
-		'copyright',
-		'authorEmail',
-		'authorUrl',
-		'version',
-		'description',
-		'group'
-	);
+	/**
+     * Whitelist for keys to get from the xml manifest
+     *
+     * @var array
+     */
+    protected static $_manifest_fields = array(
+    	'creationDate',
+        'author',
+        'copyright',
+        'authorEmail',
+        'authorUrl',
+        'version',
+        'description'
+    );
+    
+    /**
+     * Whitelist for virtual keys to be lazy initiated
+     *
+     * @var array
+     */
+    protected static $_virtual_fields = array(
+        'title',
+    );
+    
+    /**
+     * Blacklist for hidden fields
+     *
+     * @var array
+     */
+    protected static $_hidden_fields = array(
+    	'path',
+    );
 
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'identity_column' => 'language'
+            'identity_column' => 'name'
         ));
 
         parent::_initialize($config);
     }
 
-	public function save()
-	{
-		if (isset($this->_modified['default']) && $this->default)
-		{
-			$params = JComponentHelper::getParams('com_languages');
-			$params->set($this->client->name, $this->language);
-
-			$table = KFactory::get('admin::com.components.database.table.components',
-			             array('name' => 'components')
-			         );
-
-			$row = $table->select(array('option' => 'com_languages'), KDatabase::FETCH_ROW);
-			$row->params = $params->toString();
-
-			return $row->save();
-		}
-
-		return true;
-	}
-
 	public function __get($column)
-	{
-		if ($column == 'language' && empty($this->_data['language'])) {
-			$this->_data['language'] = substr(basename($this->_data['manifest_file']), 0, -4);
+	{    
+	    if ($column == 'name' && empty($this->_data['name'])) {
+			$this->_data['name'] = basename($this->_data['path']);
 		}
+		
+	    if($column == 'title' && empty($this->_data['title'])) {
+            $this->_data['title'] = $this->manifest->name;
+        }
 
-		if ($column == 'manifest' && empty($this->_data['manifest'])) {
-			$this->_data['manifest'] = simplexml_load_file($this->_data['manifest_file']);
+		if ($column == 'manifest' && empty($this->_data['manifest'])) 
+		{
+            $file = $this->_data['path'].'/'.basename($this->_data['path']).'.xml';
+           
+            if(file_exists($file)) {
+		        $this->_data['manifest'] = simplexml_load_file($file);
+            } else {
+                $this->_data['manifest'] = '';
+            }
 		}
 
 		if (in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
@@ -77,14 +89,25 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 
 		return parent::__get($column);
 	}
+	
+    public function save()
+	{
+		if (isset($this->_modified['default']) && $this->default)
+		{   
+		    //Update the params
+		    $params = JComponentHelper::getParams('com_languages')->set($this->application, $this->name);
+ 
+		    //Save the params   
+			$result = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'))
+                        ->select(array('option' => 'com_languages'), KDatabase::FETCH_ROW) 
+                        ->set('params', $params->toString())       
+			            ->save();
 
-    public function toArray()
-    {
-        //Make sure all the manifest data is included
-        $this->_data['manifest'] = simplexml_load_file($this->_data['manifest_file']);
+			return $result;
+		}
 
-        return $this->_data;
-    }
+		return true;
+	}
 
 	/**
      * Languages are newer new, they simply exist or don't
@@ -94,5 +117,37 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
     public function isNew()
     {
         return false;
+    }
+    
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+          
+        //Include the manifest fields
+        foreach(self::$_manifest_fields as $field) {
+           $data[$field] = (string) $this->$field;
+        }
+        
+        //Include the virtual fields
+        foreach(self::$_virtual_fields as $field) 
+        {   
+            if(is_array($this->$field)) {
+                $data[$field] = (array) $this->$field; 
+            } else {
+                $data[$field] = (string) $this->$field; 
+            }
+        }
+        
+        //Remove the hidden fields
+        foreach(self::$_hidden_fields as $field) {
+            unset($data[$field]);   
+        }
+          
+        return $data;
     }
 }

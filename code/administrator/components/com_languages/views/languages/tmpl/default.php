@@ -16,13 +16,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div id="sidebar">
 	<h3><?= @text( 'Application' ); ?></h3>
     <ul>
-        <li <? if($state->application == 0) echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=0') ?>">
+        <li <? if($state->application == 'site') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=site') ?>">
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->application == 1) echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=1') ?>">
+        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=administrator') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
@@ -59,11 +59,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         		<? foreach ($languages as $language): ?>
         		<tr>
         			<td width="20" align="center">
-        				<input type="radio" name="language[]" class="-koowa-grid-checkbox" value="<?= $language->language; ?>"
+        				<input type="radio" name="language[]" class="-koowa-grid-checkbox" value="<?= $language->name; ?>"
         					<?= $language->default ? 'checked="checked"' : ''; ?> />
         			</td>
         			<td width="25%">
-        				<?= $language->name; ?>
+        				<?= $language->title; ?>
         			</td>
         			<td width="5%" align="center">
         				<? if($language->default): ?>

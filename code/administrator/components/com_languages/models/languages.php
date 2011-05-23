@@ -27,13 +27,12 @@ class ComLanguagesModelLanguages extends KModelAbstract
 		parent::__construct($config);
 
 		$this->_state
-			->insert('limit'    , 'int', 0)
-			->insert('offset'   , 'int', 0)
-			->insert('direction', 'word', 'asc')
-			->insert('application', 'int', 0)
-
-			->insert('default'	, 'boolean', false, true)
-			->insert('language'	, 'admin::com.languages.filter.iso', null, true);
+			->insert('limit'      , 'int', 0)
+			->insert('offset'     , 'int', 0)
+			->insert('direction'  , 'word', 'asc')
+			->insert('application', 'cmd', 'site')
+			->insert('default'	  , 'boolean', false, true)
+			->insert('name'	      , 'admin::com.languages.filter.iso', null, true);
 	}
 
 	public function getItem()
@@ -45,27 +44,22 @@ class ComLanguagesModelLanguages extends KModelAbstract
             	$state = $this->_state;
             	
 				//Get application information
-				$client	= JApplicationHelper::getClientInfo($state->application);
+				$client	= JApplicationHelper::getClientInfo($state->application, true);
             	if (!empty($client)) 
             	{
 					//Get the path
             	    $default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
-				    $path    = JLanguage::getLanguagePath($client->path);
-
+				 
 				    if ($state->default) {
-					    $lang = $default;
+					    $state->language = $default;
 				    }
 				
-				    if ($state->language) {
-					    $lang = is_array($state->language) ? $state->language[0] : $state->language;
-				    }
-				
-				    $path .= '/'.$lang.'/'.$lang.'.xml';
+				     $path  = $client->path.'/language/'.$state->name;
 				    
 				    //Create the row
 				    $data = array(
-						'manifest_file' => $path,
-						'client'        => $client
+						'path'         => $path,
+						'application'  => $client->name
 				    );
 
 				    $row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => $data));				
@@ -73,7 +67,7 @@ class ComLanguagesModelLanguages extends KModelAbstract
 
 				    $this->_item = $row;
 				}
-				else throw new KModelException('Invalid client');
+				else throw new KModelException('Invalid application');
             }
 		}
 
@@ -87,52 +81,54 @@ class ComLanguagesModelLanguages extends KModelAbstract
 			$state = $this->_state;
 
 			//Get application information
-			$client	= JApplicationHelper::getClientInfo($state->application);
-
-			if (empty($client)) {
-				throw new KModelException('Invalid client');
-			}
-
-			$path    = JLanguage::getLanguagePath($client->path);
-			$default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
-
-			if ($state->language)
+			$client	= JApplicationHelper::getClientInfo($state->application, true);
+			if(!empty($client)) 
 			{
-				$lang = is_array($state->language) ? $state->language[0] : $state->language;
-				$path .= '/'.$lang;
-			}
-
-			if (!JFolder::exists($path)) {
-				throw new KModelException('Client path is not a valid folder');
-			}
-
-			$files = JFolder::files($path, '^([-_A-Za-z]*)\.xml$', true, true);
-
-			//Set the total
-			$this->_total = count($files);
-
-			//Apply limit and offset
-			$files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
-
-			if (strtolower($this->_state->direction) == 'desc') {
-				$files = array_reverse($files);
-			}
-
-			$rowset = KFactory::tmp('admin::com.languages.database.rowset.languages');
-			foreach ($files as $file)
-			{
-				$data = array(
-					'manifest_file' => $file,
-					'client'        => $client
-				);
+			    $default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
 			    
-			    $row = KFactory::tmp('admin::com.languages.database.row.language', array('data' => $data));
-				$row->default = $row->language == $default;
+			    //Find the languages
+			    $languages = array();
+                $path      = $client->path.'/language';
 
-				$rowset->insert($row);
-			}
+                foreach(new DirectoryIterator($path) as $folder)
+                {
+                    if($folder->isDir())
+                    {
+                       if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
+                       { 
+                           $languages[] = array(
+                        		'path'        => $folder->getRealPath(),
+                        		'application' => $client->name
+                            );
+                       }
+                    }
+                }
+                
+                //Set the total
+			    $this->_total = count($languages);
+                
+			    //Apply limit and offset
+                if($state->limit) {
+                    $languages = array_slice($languages, $state->offset, $state->limit ? $state->limit : $this->_total);
+                }
+                
+                //Apply direction
+			    if(strtolower($state->direction) == 'desc') {
+				    $languages = array_reverse($languages);
+			    }
 
-			$this->_list = $rowset;
+			    $rowset = KFactory::tmp('admin::com.languages.database.rowset.languages');
+			    foreach ($languages as $language)
+			    {
+				    $row = $rowset->getRow()->setData($language);
+				    $row->default = ($row->name == $default);
+
+				    $rowset->insert($row);
+			    }
+
+			    $this->_list = $rowset;	    
+			} 
+			else  throw new KModelException('Invalid application');
 		}
 
 		return parent::getList();

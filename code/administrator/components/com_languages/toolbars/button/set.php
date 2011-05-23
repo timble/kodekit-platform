@@ -23,20 +23,13 @@ class ComLanguagesToolbarButtonSet extends ComDefaultToolbarButtonDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-			'text' => JText::_('Default'),
+            'text'    => JText::_('Make Default'),
+        	'attribs' => array(
+                'data-action' => 'edit',
+                'data-data'   => '{default:1}'
+            )
         ));
-
+        
         parent::_initialize($config);
-    }
-
-    public function getOnClick()
-    {
-		$url  = KRequest::url();
-        $json = "{method:'post', url:'$url&'+id,params:{action:'edit', default:1, '$this->_token_name':'$this->_token_value'}}";
-
-        $msg    = JText::_('Please select an item from the list');
-        return 'var id = Koowa.Grid.getIdQuery();'
-            .'if(id){new Koowa.Form('.$json.').submit();} '
-            .'else { alert(\''.$msg.'\'); return false; }';
     }
 }
