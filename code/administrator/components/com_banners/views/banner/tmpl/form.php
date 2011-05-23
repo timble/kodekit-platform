@@ -18,6 +18,28 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <script>
 window.addEvent('domready', function(){
+    $('banner-form').addEvent('validate', function(){
+        if(!$('name').get('value').trim().length) {
+        	alert(<?= json_encode(@text('You must provide a banner name.')) ?>);
+        	return false;
+        }
+
+        if(!$('imageurl').get('value')) {
+        	alert(<?= json_encode(@text('Please select an image.')) ?>);
+        	return false;
+        }
+
+        if(!$('clickurl').get('value').trim().length) {
+        	alert(<?= json_encode(@text('Please fill in the URL for the banner.')) ?>);
+        	return false;
+        }
+
+        if(!$('catid').get('value')) {
+        	alert(<?= json_encode(@text('Please select a category.')) ?>);
+        	return false;
+        }
+    });
+
 	$('unlimited').addEvent('click', function() {
 		if($(this).getValue()){
 			$('imptotal').set('value','');
@@ -31,29 +53,9 @@ window.addEvent('domready', function(){
         $('clicks_field').set('value',0);
     });
 });
-
-function submitbutton(pressbutton) {
-	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
-	
-	if (form.name.value == "") {
-		alert( "<?= @text( 'You must provide a banner name.', true ) ?>" );
-	/*} else if (!getSelectedValue('adminForm','imageurl')) {
-		alert( "<?= @text( 'Please select an image.', true ) ?>" );*/
-	/*} else if (form.clickurl.value == "") {
-		alert( "<?= @text( 'Please fill in the URL for the banner.', true ) ?>" );*/
-	} else if ( getSelectedValue('adminForm','catid') == 0 ) {
-		alert( "<?= @text( 'Please select a category.', true ) ?>" );
-	} else {
-		submitform( pressbutton );
-	}
-}
 </script>
 
-<form action="<?= @route('id='.$banner->id) ?>" method="post" class="-koowa-form">
+<form action="<?= @route('id='.$banner->id) ?>" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="border-radius-4 name clearfix">
 			<input class="inputbox border-radius-4" type="text" name="name" id="name" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
@@ -97,11 +99,6 @@ function submitbutton(pressbutton) {
 		        </tbody>
 		    </table>
 		</div>
-		
-		<div class="panel">
-		    <h3><?= @text('Description/Notes') ?></h3>
-		    <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="description" id="description" placeholder="<?= @text('Enter your description and notes in here&hellip;') ?>"><?= @escape($banner->description) ?></textarea>
-		</div>
     </div>
     <div class="grid_4">
         <div class="panel">
@@ -142,7 +139,7 @@ function submitbutton(pressbutton) {
         	                </label>
         	            </td>
         	            <td>
-        	                <?= @helper('listbox.categories', array('name' => 'catid', 'selected' => $banner->catid )) ?>
+        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid'), 'selected' => $banner->catid )) ?>
         	            </td>
         	        </tr>
         	        <tr>
@@ -168,6 +165,11 @@ function submitbutton(pressbutton) {
         	        </tr>
         	    </tbody>
         	</table>
+        </div>
+        
+        <div class="panel">
+            <h3><?= @text('Description/Notes') ?></h3>
+            <textarea class="inputbox" style="box-sizing: border-box; margin: 0; resize: vertical; width: 100%" cols="70" rows="6" name="description" id="description" placeholder="<?= @text('Enter your description and notes in here&hellip;') ?>"><?= @escape($banner->description) ?></textarea>
         </div>
         
         <div class="panel">
