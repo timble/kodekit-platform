@@ -21,7 +21,7 @@ window.addEvent('domready', function(){
     $('banner-form').addEvent('validate', function(){
         var errors = [];
 
-        if(!$('name').get('value').trim().length) {
+        if(!$('name').get('value').trim()) {
             errors.include(<?= json_encode(@text('You must provide a banner name.')) ?>);
         }
 
@@ -29,7 +29,7 @@ window.addEvent('domready', function(){
         	errors.include(<?= json_encode(@text('Please select an image.')) ?>);
         }
 
-        if(!$('clickurl').get('value').trim().length) {
+        if(!$('clickurl').get('value').trim()) {
         	errors.include(<?= json_encode(@text('Please fill in the URL for the banner.')) ?>);
         }
 
