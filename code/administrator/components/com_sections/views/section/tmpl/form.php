@@ -22,22 +22,17 @@ endif; ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <script>
-function submitbutton(pressbutton) {
-	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
-
-	if ( form.title.value == '' ){
-		alert("<?=  @text('Section must have a title') ?>");
-	} else {
-		submitform(pressbutton);
-	}
-}
+window.addEvent('domready', function(){
+    $('section-form').addEvent('validate', function(){
+        if(!$('title').get('value').trim()) {
+            alert(<?= json_encode(@text('Section must have a title.')) ?>);
+            return false;
+        }
+    });
+});
 </script>
 
-<form action="<?= @route('id='.$section->id) ?>" method="post" class="-koowa-form">
+<form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
 	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 	
