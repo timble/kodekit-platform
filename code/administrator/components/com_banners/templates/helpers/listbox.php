@@ -157,12 +157,15 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             function loadImage(config_name, value) {
                 value = value ? ('".$root."/' + value) : '".KRequest::root()."/media/system/images/blank.png';
                 $('".$config->name."-preview').src = value;
+                
                 var w = $(config_name+'-width').getValue();
                 if(w) $('".$config->name."-preview').width = w;
                 else $('".$config->name."-preview').removeAttribute('width');
+                
                 var h = $(config_name+'-height').getValue();
                 if(h) $('".$config->name."-preview').height = h;
                 else $('".$config->name."-preview').removeAttribute('height');
+                
                 $(config_name+'-flash').setStyle('display', 'none');
                 $(config_name+'-preview').setStyle('display', 'block');
             }
@@ -221,7 +224,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                         <input class="inputbox" type="text" name="height" 
                             id="'.$config->name.'-height" size="6"  
                             value="'.$config->height.'" />'
-                     ."<button onclick=\"$('".$config->name."').fireEvent('change');return false;\">".JText::_('update preview')."<button>"
+                     ."<button onclick=\"$('".$config->name."').fireEvent('change');return false;\">".JText::_('update preview')."</button>"
                      ;
         }
         return $config->preview ? $list.'<br />'.$this->image_preview($config) : $list;
