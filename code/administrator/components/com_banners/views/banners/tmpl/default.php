@@ -12,9 +12,10 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @helper('behavior.tooltip') ?>
+<?= @helper('behavior.modal') ?>
+
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-<script type="text/javascript"></script>
 
 <form action="<?=@route()?>" method="get" class="-koowa-grid">
     <table class="adminlist">
