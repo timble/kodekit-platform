@@ -106,11 +106,12 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
         {
         	$file = $this->_data['path'].'/params.ini';
         	
+        	$params = '';
             if(file_exists($file)) {
-                $this->_data['params'] = file_get_contents($file);
-            } else {
-                $this->_data['params'] = '';
+               $params  = file_get_contents($file);
             }
+            
+            $this->_data['params'] = new JParameter($params, $this->_data['path'].'/templateDetails.xml', 'template');
         }
 
         if($column == 'positions' && !isset($this->_data['positions']))

@@ -45,7 +45,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <div class="col width-50">
         <fieldset class="adminform">
             <legend><?= @text('Parameters') ?></legend>
-            <? if($html = $params->render()) : ?>
+            <? if($html = $template->params->render()) : ?>
                 <?= $html ?>
             <? else : ?>
                 <div style="text-align: center; padding: 5px;">

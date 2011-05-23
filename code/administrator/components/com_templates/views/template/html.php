@@ -25,9 +25,6 @@ class ComTemplatesViewTemplateHtml extends ComTemplatesViewHtml
             ->prepend('divider')
             ->prepend('preview');
 
-        $template     = $this->getModel()->getItem();
-        $this->params = new JParameter($template->ini, $template->manifest_file, 'template');
-
         return parent::display();
     }
 }
