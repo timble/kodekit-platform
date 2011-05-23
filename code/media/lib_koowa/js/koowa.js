@@ -298,12 +298,12 @@ Koowa.Controller.Form = new Class({
     _action_default: function(action, data){
         if(!this.fireEvent('validate')) return false;
     
-        this.form.adopt(new Element('input', {name: 'action', value: action}));
+        this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: action}));
         this.form.submit();
     },
     
     _actionCancel: function(data){
-    	this.form.adopt(new Element('input', {name: 'action', value: 'cancel'}));
+    	this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: 'cancel'}));
     	this.form.submit();
     }
 
