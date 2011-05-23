@@ -142,31 +142,27 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         {
             KFactory::get('lib.joomla.document')->addScriptDeclaration("
             window.addEvent('domready', function(){
-                var select = $(".json_encode($config->name)."),
-                    image = $(".json_encode($config->name.'-preview')."),
-                    flash = $(".json_encode($config->name.'-flash')."),
-                    width = $(".json_encode($config->name.'-width')."),
-                    height = $(".json_encode($config->name.'-height')."),
+                var select = $('$name'), image = $('$name-preview'), flash = $('$name-flash'), x = $('$name-width'), y = $('$name-height'),
                     loadFlash = function() {
                         new Swiff('$root/' + select.value, {
                             id: flash.get('id')+'-movie',
                             container: flash.get('id'),
-                            width: width.value || 150,
-                            height: height.value || 150
+                            width: x.value || 150,
+                            height: y.value || 150
                         });
                         flash.setStyle('display', 'block');
                         image.setStyle('display', 'none');
                     },
                     loadImage = function() {
                         image.src = select.value ? ('$root/' + select.value) : '$default';
-                        image.setStyles({display: 'block', height: height.value.toInt(), width: width.value.toInt()});
+                        image.setStyles({display: 'block', height: y.value.toInt(), width: x.value.toInt()});
                         flash.setStyle('display', 'none');
                     };
             
-                $$(select, width, height).addEvent('change', function(){
+                $$(select, x, y).addEvent('change', function(){
                     select.value.test('^(.+).swf$') ? loadFlash() : loadImage();
                 });
-                $(".json_encode($config->name.'-update').").addEvent('click', function(event){event.preventDefault()});
+                $('$name-update').addEvent('click', function(event){event.preventDefault()});
             });
             ");
         } else {
