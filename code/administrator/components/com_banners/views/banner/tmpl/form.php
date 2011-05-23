@@ -9,9 +9,9 @@
  * @link        http://www.nooku.org
  */
 
-defined('KOOWA') or die('Restricted access'); ?>
+defined('KOOWA') or die('Restricted access') ?>
 
-<?= @helper('behavior.tooltip');?>
+<?= @helper('behavior.tooltip') ?>
   
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -40,67 +40,52 @@ function submitbutton(pressbutton) {
 	}
 	
 	if (form.name.value == "") {
-		alert( "<?= @text( 'You must provide a banner name.', true ); ?>" );
+		alert( "<?= @text( 'You must provide a banner name.', true ) ?>" );
 	/*} else if (!getSelectedValue('adminForm','imageurl')) {
-		alert( "<?= @text( 'Please select an image.', true ); ?>" );*/
+		alert( "<?= @text( 'Please select an image.', true ) ?>" );*/
 	/*} else if (form.clickurl.value == "") {
-		alert( "<?= @text( 'Please fill in the URL for the banner.', true ); ?>" );*/
+		alert( "<?= @text( 'Please fill in the URL for the banner.', true ) ?>" );*/
 	} else if ( getSelectedValue('adminForm','catid') == 0 ) {
-		alert( "<?= @text( 'Please select a category.', true ); ?>" );
+		alert( "<?= @text( 'Please select a category.', true ) ?>" );
 	} else {
 		submitform( pressbutton );
 	}
 }
 </script>
 
-<form action="<?=@route('id='.$banner->id)?>" method="post" class="-koowa-form">
-
-    <div class="col100">
-        <fieldset class="adminform">
-            <legend><?=@text( 'Details' ); ?></legend>
-
-            <table class="admintable">
+<form action="<?= @route('id='.$banner->id) ?>" method="post" class="-koowa-form">
+    <div class="grid_8">
+        <div class="border-radius-4 name clearfix">
+			<input class="inputbox border-radius-4" type="text" name="name" id="name" size="40" maxlength="255" value="<?= $banner->name ?>" placeholder="<?= @text('Name') ?>" />
+		
+			<label for="alias">
+				<?= @text( 'Alias' ) ?>
+				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $banner->slug ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
+			</label>
+		</div>
+    
+        <table class="admintable">
             <tbody>
                 <tr>
-                    <td width="20%" class="key">
-                        <label for="name">
-                            <?=@text( 'Name' ); ?>:
-                        </label>
+                    <td class="key">
+                        <?= @text( 'Show Banner' ) ?>:
                     </td>
-                    <td width="80%">
-                        <input class="inputbox" type="text" name="name" id="name" size="50" value="<?= $banner->name;?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <td width="20%" class="key">
-                        <label for="alias">
-                            <?=@text( 'Alias' ); ?>:
-                        </label>
-                    </td>
-                    <td width="80%">
-                        <input class="inputbox" type="text" name="alias" id="alias" size="50" value="<?= $banner->slug;?>" />
+                    <td>
+                        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)) ?>
                     </td>
                 </tr>
                 <tr>
                     <td class="key">
-                        <?=@text( 'Show Banner' ); ?>:
+                        <?= @text( 'Sticky' ) ?>:
                     </td>
                     <td>
-                        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="key">
-                        <?=@text( 'Sticky' ); ?>:
-                    </td>
-                    <td>
-                        <?= @helper('select.booleanlist', array('name' => 'sticky', 'selected' => $banner->sticky)); ?>
+                        <?= @helper('select.booleanlist', array('name' => 'sticky', 'selected' => $banner->sticky)) ?>
                     </td>
                 </tr>
                 <tr>
                     <td class="key">
                         <label for="ordering">
-                            <?=@text( 'Ordering' ); ?>:
+                            <?= @text( 'Ordering' ) ?>:
                         </label>
                     </td>
                     <td>
@@ -111,17 +96,17 @@ function submitbutton(pressbutton) {
                 <tr>
                     <td valign="top" align="right" class="key">
                         <label for="catid">
-                            <?=@text( 'Category' ); ?>:
+                            <?= @text( 'Category' ) ?>:
                         </label>
                     </td>
                     <td>
-                        <?=@helper('listbox.categories', array('name' => 'catid', 'selected' => $banner->catid ))?>
+                        <?= @helper('listbox.categories', array('name' => 'catid', 'selected' => $banner->catid ))?>
                     </td>
                 </tr>
                 <tr>
                     <td class="key">
                         <label for="clickurl">
-                            <?=@text( 'Click URL' ); ?>:
+                            <?= @text( 'Click URL' ) ?>:
                         </label>
                     </td>
                     <td>
@@ -131,18 +116,18 @@ function submitbutton(pressbutton) {
                 </tr>
                 <tr >
                     <td valign="top" align="right" class="key">
-                        <?=@text( 'Clicks' ); ?>:
+                        <?= @text( 'Clicks' ) ?>:
                     </td>
                     <td colspan="2">
                         <span id="clicks_label"><?= $banner->clicks ?></span>
-                        <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?=@text( 'Reset Clicks' ); ?>" />
+                        <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text( 'Reset Clicks' ) ?>" />
                         <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks; ?>" />
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" class="key">
                         <label for="custombannercode">
-                            <?=@text( 'Custom banner code' ); ?>:
+                            <?= @text( 'Custom banner code' ) ?>:
                         </label>
                     </td>
                     <td>
@@ -152,7 +137,7 @@ function submitbutton(pressbutton) {
                 <tr>
                     <td valign="top" class="key">
                         <label for="description">
-                            <?=@text( 'Description/Notes' ); ?>:
+                            <?= @text( 'Description/Notes' ) ?>:
                         </label>
                     </td>
                     <td>
@@ -166,33 +151,33 @@ function submitbutton(pressbutton) {
                 <tr>
                     <td valign="top" class="key">
                         <label for="imageurl">
-                            <?=@text( 'Banner Image Selector' ); ?>:
+                            <?= @text( 'Banner Image Selector' ) ?>:
                         </label>
                     </td>
-                    <td >
+                    <td>
                         <?= @helper('listbox.banner_names', array(
                         	'name'      => 'imageurl',  
                             'preview'   => false, 
                             'width'     => $banner->params->get('width'),
                             'height'    => $banner->params->get('height')
-                        )); ?>
+                        )) ?>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" class="key">
-                        <?=@text( 'Banner Image' ); ?>:
+                        <?= @text( 'Banner Image' ) ?>:
                     </td>
                     <td valign="top">
                         <?= @helper('listbox.banner_preview', array(
                         	'name'      => 'imageurl', 
                             'selected'  => $banner->imageurl
-                        )); ?>
+                        )) ?>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" class="key">
                         <label for="tags">
-                            <?=@text( 'Tags' ); ?>:
+                            <?= @text( 'Tags' ) ?>:
                         </label>
                     </td>
                     <td>
@@ -200,8 +185,6 @@ function submitbutton(pressbutton) {
                     </td>
                 </tr>
             </tbody>
-            </table>
-        </fieldset>
+        </table>
     </div>
-    <div class="clr"></div>
 </form>
