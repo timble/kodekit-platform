@@ -15,44 +15,161 @@
  * @category    Koowa
  * @package     Koowa_Event
  */
-class KEventDispatcher extends KPatternObservable
+class KEventDispatcher extends KObject
 {
+    /**
+	 * An associative array of event listeners queues 
+	 * 
+	 * The keys are holding the event namse and the value is 
+	 * an KObjectQueue object.
+	 *
+	 * @var array
+	 */
+	protected $_listeners;
+	
+	/**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+	public function __construct(KConfig $config = null) 
+	{
+		$this->_listeners = array();
+	}
+ 	
+ 	/**
+     * Dispatches an event by dispatching arguments to all listeners that handle
+     * the event and returning their return values.
+     *
+     * @param   object   The KEvent being dispatched 
+     * @return  KEventDispatcher
+     */
+    public function dispatchEvent(KEvent $event)
+    {
+        $result = array();
+        
+        if(isset($this->_listeners[$name])) 
+        {
+            foreach($this->_listeners[$name] as $listener) 
+            {
+                $listener->$event($event);
+                
+                if (!$event->canPropagate()) {
+                    break;
+                }
+            }
+        }
+        
+        return $this;
+    }
+         
     /**
      * Add an event listener
      *
-     * @param   object  An event handler object instance
+     * @param  string  The event name
+     * @param  object  An object implementing the KObjectHandlable interface
+     * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest), 
+     *                 default is 3. If no priority is set, the command priority will be used 
+     *                 instead.
+     * @return KEventDispatcher
      */
-    public function addListener(KEventListener $listener)
+    public function addEventListener($event, KObjectHandable $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
-        return $this->attach($listener);
+        if(is_object($listener))
+        {
+            if(!isset($this->_listeners[$event])) {
+                $this->_listeners[$event] = new KObjectQueue();
+            }
+            
+            $this->_listeners[$event]->enqueu($listener, $priority);
+        }
+            
+        return $this;
     }
 
     /**
      * Remove an event listener
      *
-     * @param   object  An event handler object instance
-     * @return  boolean True if the observer object was detached
+     * @param   string  The event name
+     * @param   object  An object implementing the KObjectHandlable interface
+     * @return  KEventDispatcher
      */
-    public function removeListener(KEventListener $listener)
+    public function removeEventListener($event, KObjectHandable $listener)
     {
-        return $this->detach($listener);
+        if(is_object($listener))
+        {
+            if(isset($this->_listeners[$event])) {
+                $this->_listeners[$event]->dequeue($listener);
+            }
+        }
+        
+        return $this;
     }
     
     /**
-     * Dispatches an event by dispatching arguments to all observers that handle
-     * the event and returning their return values.
+     * Get a list of listeners for a specific event
      *
-     * @param   string          The event name
-     * @param   array|object    An associative array of arguments or a KConfig object
-     * @return  array           An array of results from each function call
+     * @param   string  		The event name
+     * @return  KObjectQueue	An object queue containing the listeners
      */
-    public function dispatchEvent($event, $args = null)
+    public function getListeners($event)
     {
-        if(!($args instanceof KConfig)) {
-            $args = new KConfig($args);
+        $result = array();
+        if(isset($this->_listeners[$event])) {
+            $result = $this->_listeners[$event];
         }
         
-        $args->event = $event;
-        return $this->notify($args);
+        return $result;
+    }
+    
+    /**
+     * Check if we are listening to a specific event
+     *
+     * @param   string  The event name
+     * @return  boolean	TRUE if we are listening for a specific event, otherwise FALSE.
+     */
+    public function hasListeners($event)
+    {
+        $result = false;
+        if(isset($this->_listeners[$event])) {
+             $result = (boolean) count($this->_listereners[$event]);
+        }
+        
+        return $result;
+    }
+    
+	/**
+     * Set the priority of an event
+     * 
+     * @param  string    The event name
+     * @param  object    An object implementing the KObjectHandlable interface
+     * @param  integer   The event priority
+     * @return KCommandChain
+     */
+    public function setEventPriority($event, KObjectHandable $listener, $priority)
+    {
+        if(isset($this->_listeners[$event])) {
+            $this->_listeners[$event]->setPriority($listener, $priority);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Get the priority of an event
+     * 
+     * @param   string  The event name
+     * @param   object  An object implementing the KObjectHandlable interface
+     * @return  integer|false The event priority or FALSE if the event isn't listened for.
+     */
+    public function getEventPriority($event, KObjectHandable $listener)
+    {
+        $result = false;
+        
+        if(isset($this->_listeners[$event])) {
+            $result = $this->_listeners[$event]->getPriority($listener);
+        }
+        
+        return $result;
     }
 }
