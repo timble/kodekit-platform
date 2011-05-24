@@ -55,7 +55,7 @@ window.addEvent('domready', function(){
                             <?= @text( 'Published' ); ?>:
                     	</td>
                     	<td>
-                            <?= @helper('listbox.published', array('name' => 'enabled', 'state' => $category, 'deselect' => false)); ?>
+                            <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
                     	</td>
                 	</tr>
                 	<tr>
