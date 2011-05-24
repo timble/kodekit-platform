@@ -257,6 +257,10 @@ table.toolbar td a {
 	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
 	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9', endColorstr='#E3E3E3');
+	-webkit-transition: opacity 300ms ease-in-out;
+	-moz-transition: opacity 300ms ease-in-out;
+	transition: opacity 300ms ease-in-out;
+	-webkit-user-select: none;
  }
  
 table.toolbar td:first-child a { 
@@ -288,9 +292,9 @@ table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 
 table.toolbar span { display: none; }
 
-table.toolbar a:hover,
-table.toolbar td:first-child a:hover,
-table.toolbar td:last-child a:hover {
+table.toolbar a:hover:not(.disabled),
+table.toolbar td:first-child a:hover:not(.disabled),
+table.toolbar td:last-child a:hover:not(.disabled) {
 	border-color: #999;
 	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
@@ -299,12 +303,19 @@ table.toolbar td:last-child a:hover {
 	color: #333;
 }
 
-table.toolbar a:active,
-table.toolbar td:first-child a:active,
-table.toolbar td:last-child a:active {
+table.toolbar a:active:not(.disabled),
+table.toolbar td:first-child a:active:not(.disabled),
+table.toolbar td:last-child a:active:not(.disabled) {
 	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
+}
+table.toolbar td a.disabled,
+table.toolbar td a.disabled:hover,
+table.toolbar td a.disabled:active {
+    cursor: default;
+    opacity: 0.5;
+    text-decoration: none;
 }
 
 /* panels  */
