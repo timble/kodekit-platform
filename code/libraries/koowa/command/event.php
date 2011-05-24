@@ -87,7 +87,7 @@ class KCommandEvent extends KCommand
         $parts = explode('.', $name);   
         $event = 'on'.ucfirst($type.KInflector::implode($parts));
                 
-        $this->_dispatcher->dispatchEvent($event, clone($context));
+        $this->_dispatcher->dispatchEvent(new KEvent($event, clone($context)));
         
         return true;
     }
