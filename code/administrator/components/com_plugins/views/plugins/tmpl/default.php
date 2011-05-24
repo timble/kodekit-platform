@@ -47,9 +47,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             		<th nowrap="nowrap" width="10%">
             			<?= @helper('grid.sort', array('column' => 'groupname' , 'title' => 'Access')) ?>
             		</th>
-            		<th nowrap="nowrap"  width="10%" class="title">
-            		    <?= @helper('grid.sort', array('column' => 'folder' , 'title' => 'Type')) ?>
-            		</th>
             	</tr>
             	<tr>
             		<td align="center">
@@ -61,13 +58,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             		<td align="center">
             			<?= @helper('listbox.enabled') ?>
             		</td>
-            		<td colspan="3"></td>
+            		<td colspan="2"></td>
             	</tr>
             </thead>
             <tfoot>
             	<? if ($plugins) : ?>
             	<tr>
-            		<td colspan="20">
+            		<td colspan="5">
             			<?= @helper('paginator.pagination', array('total' => $total)) ?>
             		</td>
             	</tr>
@@ -96,9 +93,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             		</td>
             		<td align="center">
             			<?= @helper('grid.access', array('row' => $plugin)) ?>
-            		</td>
-            		<td nowrap="nowrap">
-            			<?= $plugin->folder ?>
             		</td>
             	</tr>
             <? endforeach ?>
