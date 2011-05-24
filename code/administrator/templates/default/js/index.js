@@ -17,15 +17,6 @@
  * @subpackage  Template
  */
 
-document.menu = null
-window.addEvent('load', function(){
-	element = $('menu')
-	if(!element.hasClass('disabled')) {
-		var menu = new JMenu(element)
-		document.menu = menu
-	}
-});
-
 window.addEvent('domready', function(){
 	if(Element.chromatable) $$('table.adminlist').chromatable();
 });

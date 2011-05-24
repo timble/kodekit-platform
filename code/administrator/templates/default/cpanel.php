@@ -24,7 +24,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <![endif]-->
 
 <?php if(JModuleHelper::isEnabled('menu')) : ?>
-	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
 
