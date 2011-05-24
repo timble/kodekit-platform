@@ -15,8 +15,47 @@
  * @category    Koowa
  * @package     Koowa_Event
  */
-class KEventListener extends KObject implements KPatternObserver, KObjectIdentifiable
+class KEventListener extends KObject implements KObjectIdentifiable
 {
+ 	/**
+     * List of event handlers
+     *
+     * @var array
+     */
+    private $__event_handlers;
+ 	
+ 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return 	void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+        	'dispatcher'     => KFactory::get('lib.koowa.event.dispatcher');
+    	    'auto_connect' => true
+        ));
+
+        parent::_initialize($config);
+    }
+    
+	/**
+	 * Constructor.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+	
+		if($config->auto_connect) {
+		    $this->connect($config->dispatcher);
+		}
+	}
+    
     /**
      * Get the object identifier
      * 
@@ -29,17 +68,64 @@ class KEventListener extends KObject implements KPatternObserver, KObjectIdentif
     }
     
     /**
-     * Method to trigger events
-     *
-     * @param  object   The event arguments
-     * @return mixed Routine return value
+     * Get the event handlers of the listener
+     * 
+     * Event handlers always start with 'on' and need to be public methods
+     * 
+     * @return array An array of public methods
      */
-    public function update(KConfig $args)
-    {       
-        if (in_array($args->event, $this->getMethods())) {
-            return $this->{$args->event}($args);
-        } 
+    public function getEventHandlers()
+    {
+        if(!$this->__event_handlers)
+        {
+            $handlers  = array();
         
-        return null;
+            //Get all the public methods
+            $reflection = new ReflectionClass($this);
+            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
+            {
+                if(substr($method, 0, 1) == 'on') {
+                    $handlers[] = $method;   
+                }
+            }
+        
+            $this->__event_handlers = $handlers;
+        }
+        
+        return $this->__event_handlers;
+    }
+   
+    /**
+     * Connect to an event dispatcher
+     * 
+     * @param  object	The event dispatcher to connect too
+     * @return KEventListener
+     */
+    public function connect(KEventDispatcher $dispatcher)
+    {
+        $handlers = $this->getEventHandlers();
+        
+        foreach($handlers as $handler) {
+            $dispatcher->addEventListener($handler, $this);    
+        }
+        
+        return $this;
+    }
+    
+	/**
+     * Disconnect from an event dispatcher
+     * 
+     * @param  object	The event dispatcher to disconnect from
+     * @return KEventListener
+     */
+    public function disconnect(KEventDispatcher $dispatcher)
+    {
+        $handlers = $this->getEventHandlers();
+        
+        foreach($handlers as $handler) {
+            $dispatcher->removeEventListener($handler, $this);    
+        }
+        
+        return $this;
     }
 }
