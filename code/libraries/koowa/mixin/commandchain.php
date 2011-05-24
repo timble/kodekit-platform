@@ -108,12 +108,12 @@ class KMixinCommandchain extends KMixinAbstract
     /**
      * Set the chain of command object
      *
-     * @var     KCommandInterface
-     * @return  KObject     The mixer object
+     * @param   object 	A command chain object
+     * @return  KObject The mixer object
      */
-    public function setCommandChain(KCommandInterface $command_chain)
+    public function setCommandChain(KCommandChain $chain)
     {
-        $this->_command_chain = $command_chain;
+        $this->_command_chain = $chain;
         return $this->_mixer;
     }
 }
