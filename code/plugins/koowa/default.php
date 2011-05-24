@@ -51,7 +51,6 @@
  * @subpackage  Koowa
  */
 abstract class PlgKoowaDefault extends KEventListener
-{	
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
@@ -96,11 +95,11 @@ abstract class PlgKoowaDefault extends KEventListener
 			$this->_type = $config['type'];
 		}
 		
-		//Register the plugin with the dispatcher
-		$dispatcher->addListener($this);
-		
 		//Force the identifier to NULL for now
 		$config['identifier'] = null;
+		
+		//Set the dispatcher
+		$config['dispatcher'] = $dispatcher;
 
 		parent::__construct(new KConfig($config));
 	}
