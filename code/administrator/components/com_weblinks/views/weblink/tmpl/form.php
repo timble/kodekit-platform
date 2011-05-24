@@ -59,7 +59,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td>
-				<?= @helper('listbox.category', array('selected' => $weblink->catid, 'attribs' => array('id' => 'catid'))) ?>
+				<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid'))) ?>
 			</td>
 		</tr>
 		<tr>
