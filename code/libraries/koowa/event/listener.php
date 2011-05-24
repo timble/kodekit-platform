@@ -23,6 +23,29 @@ class KEventListener extends KObject implements KObjectIdentifiable
      * @var array
      */
     private $__event_handlers;
+    
+    /**
+     * The event priority
+     *
+     * @var int
+     */
+    protected $_priority;
+    
+	/**
+	 * Constructor.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+	
+		 $this->_priority = $config->priority;
+		
+		if($config->auto_connect) {
+		    $this->connect($config->dispatcher);
+		}
+	}
  	
  	/**
      * Initializes the options for the object
@@ -35,27 +58,14 @@ class KEventListener extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'dispatcher'     => KFactory::get('lib.koowa.event.dispatcher');
+        	'dispatcher'   => KFactory::get('lib.koowa.event.dispatcher');
     	    'auto_connect' => true
+    		'priority'     => KCommand::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
     }
-    
-	/**
-	 * Constructor.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-	
-		if($config->auto_connect) {
-		    $this->connect($config->dispatcher);
-		}
-	}
-    
+   
     /**
      * Get the object identifier
      * 
@@ -106,7 +116,7 @@ class KEventListener extends KObject implements KObjectIdentifiable
         $handlers = $this->getEventHandlers();
         
         foreach($handlers as $handler) {
-            $dispatcher->addEventListener($handler, $this);    
+            $dispatcher->addEventListener($handler, $this, $this->_priority);    
         }
         
         return $this;
