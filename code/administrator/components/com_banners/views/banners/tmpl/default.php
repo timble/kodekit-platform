@@ -17,6 +17,11 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<div id="sidebar">
+	<h3><?= @text('Categories') ?></h3>
+	<?= @template('admin::com.categories.view.categories.list', array('state' => $state, 'categories' => KFactory::tmp('admin::com.banners.model.categories')->getList())); ?>
+</div>
+
 <form action="<?=@route()?>" method="get" class="-koowa-grid">
     <table class="adminlist">
         <thead>
@@ -24,9 +29,6 @@ defined('KOOWA') or die('Restricted access'); ?>
                 <th></th>
                 <th width="48%">
                     <?= @helper('grid.sort', array('column' => 'name')); ?>
-                </th>
-                <th width="10%">
-                    <?= @helper('grid.sort', array('column' => 'category')); ?>
                 </th>
                 <th width="5%">
                     <?= @helper('grid.sort', array('column' => 'showbanner', 'title' => 'published')); ?>
@@ -53,12 +55,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                 </td>
                 <td>
                     <?= @helper( 'grid.search'); ?>
-                </td>
-               
-                <td align="center"> 
-                    <?= @helper('listbox.categories', array(
-                        'name' => 'category', 'attribs' => array('onchange' => 'this.form.submit();'))); ?>
-                </td>                
+                </td>              
                 <td align="center"> 
                     <?= @helper('listbox.published', array( 'name' => 'enabled', 
                         'attribs' => array('onchange' => 'this.form.submit();'))); ?>
@@ -73,7 +70,7 @@ defined('KOOWA') or die('Restricted access'); ?>
         
         <tfoot>
             <tr>
-                <td colspan="9">
+                <td colspan="8">
                 <?= @helper('paginator.pagination', array('total' => $total)); ?>
                 </td>
             </tr>
@@ -92,9 +89,6 @@ defined('KOOWA') or die('Restricted access'); ?>
                             <?=$banner->name?>
                         </a>
                     </span>
-                </td>
-                <td align="center">
-                    <?=$banner->category?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $banner)) ?>
@@ -119,7 +113,7 @@ defined('KOOWA') or die('Restricted access'); ?>
             <? endforeach; ?>
         <? else : ?>
             <tr>
-                <td colspan="9" align="center">
+                <td colspan="8" align="center">
                     <?= @text('No Items Found'); ?>
                 </td>
             </tr>
