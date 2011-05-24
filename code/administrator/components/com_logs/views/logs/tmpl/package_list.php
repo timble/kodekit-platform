@@ -1,15 +1,15 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access'); ?>
 
-<style src="media://com_logs/css/logs-default.css" />
+<script src="media://lib_koowa/js/koowa.js" />
 
 <div id="list" class="-koowa-box-flex">
-	<form action="<?= @route('option=com_'.$state->package.'&layout=default')?>" method="get" class="-koowa-box-flex">
+	<form action="<?= @route('option=com_'.$state->package.'&layout=default')?>" method="get" class="-koowa-box-flex -koowa-grid">
 		<table class="adminlist" style="clear: both;">
 			<thead>
 				<tr>
 					<th width="5">
-						<?= @text('NUM') ?>
+						<?= @helper('grid.checkall') ?>
 					</th>
 					<th>
 						<?= @helper('grid.sort', array('title' => 'Applicaton', 'column' => 'application')) ?>

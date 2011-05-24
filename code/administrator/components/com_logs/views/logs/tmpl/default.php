@@ -9,7 +9,7 @@
 			<thead>
 				<tr>
 					<th width="5">
-						<?= @text('NUM') ?>
+						<?= @helper('grid.checkall') ?>
 					</th>
 					<th>
 						<?= @helper('grid.sort', array('title' => 'Applicaton', 'column' => 'application')) ?>
