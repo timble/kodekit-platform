@@ -49,7 +49,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @text( 'Published' ); ?>:
 			</td>
 			<td>
-				<?= @helper('listbox.enabled', array('state' => $weblink, 'deselect' => false)); ?>
+				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
 			</td>
 		</tr>
 		<tr>
