@@ -110,7 +110,7 @@ window.addEvent('domready', function(){
         	    <tbody>
         	        <tr>
         	            <td class="key">
-        	                <?= @text( 'Show Banner' ) ?>:
+        	                <?= @text( 'Published' ) ?>:
         	            </td>
         	            <td>
         	                <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)) ?>
