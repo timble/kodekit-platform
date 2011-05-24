@@ -115,14 +115,15 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Get the priority of an object in the queue
      * 
-     * @param object   A KObject instance
-     * @return  integer The command priority
+     * @param   object  A KObject instance
+     * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
      */
     public function getPriority(KObjectHandlable $object)
     {
+        $result = false;
+        
         if($handle = $object->getHandle())
         {
-            $result = null;
             if($this->_priority->offsetExist($handle)) {
                 $result = $this->_priority->offsetGet($handle);
             }
