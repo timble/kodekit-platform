@@ -17,6 +17,11 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<div id="sidebar">
+	<h3><?= @text('Categories') ?></h3>
+	<?= @template('admin::com.categories.view.categories.list', array('state' => $state, 'categories' => KFactory::tmp('admin::com.weblinks.model.categories')->getList())); ?>
+</div>
+
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
 	<table class="adminlist">
 	<thead>
@@ -33,9 +38,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<th width="8%" nowrap="nowrap">
 				<?= @helper('grid.sort', array('column' => 'ordering')) ?>
 			</th>
-			<th width="15%" class="title">
-				<?= @helper('grid.sort', array('column' => 'category')) ?>
-			</th>
 		</tr>
 		<tr>
 			<td align="center">
@@ -48,9 +50,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper('listbox.enabled', array('name' => 'published', 'attribs' => array('onchange' => 'this.form.submit();'))) ?>
 			</td>
 			<td></td>
-			<td align="center">
-				<?= @helper('listbox.category', array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-			</td>
 		</tr>
 	</thead>
 	<tfoot>
@@ -76,13 +75,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 			<td class="order">
 				<?= @helper('grid.order', array('row' => $weblink, 'total' => $total)); ?>
-			</td>
-			<td>
-				<span class="editlinktip hasTip" title="<?= @text( 'Edit Category' );?>::<?= @escape($weblink->category); ?>">
-					<a href="<?= @route( 'option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $weblink->catid ) ?>" >
-				        <?= @escape($weblink->category); ?>
-				  	</a>
-				</span>
 			</td>
 		</tr>
 		<? endforeach; ?>
