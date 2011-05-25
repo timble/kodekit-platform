@@ -95,7 +95,11 @@ var ChromaTable = new Class({
 											this.thead.setStyle('position', 'relative')
 										);
 
-            elements.include(this.thead.clone());
+            var cloned = this.thead.clone();
+            //Disable form elements that can mess up GET and POST requests
+            cloned.getElements('input, select, button').set('disabled', 'disabled');
+            
+            elements.include(cloned);
 		}
         
 		if(this.tfoot) {	
