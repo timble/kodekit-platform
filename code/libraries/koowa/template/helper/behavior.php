@@ -46,22 +46,12 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	public function mootools($config = array())
 	{
 		$config = new KConfig($config);
-		$config->append(array(
-			'debug' => KDEBUG
-		));
-
 		$html ='';
 
 		// Only load once
-		if (!isset(self::$_loaded['mootools']))
+		if (!isset(self::$_loaded['mootools'])) 
 		{
-			// If no debugging value is set, use the configuration setting
-			if($config->debug) {
-				$html .= '<script src="media://lib_koowa/js/mootools-uncompressed.js" />';
-			} else {
-				$html .= '<script src="media://lib_koowa/js/mootools.js" />';
-			}
-
+			$html .= '<script src="media://lib_koowa/js/mootools.js" />';
 			self::$_loaded['mootools'] = true;
 		}
 
