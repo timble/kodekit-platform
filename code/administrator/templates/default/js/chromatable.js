@@ -166,15 +166,23 @@ var ChromaTable = new Class({
 
 		if(!this.table.getElement('tr')) return;
 		
-		this.table.getElement('tr').getChildren().each(function(td, i){
+		if(thead) {
+		    thead.setStyle('width', this.getComputedWidth(this.table.getElement('thead')));
+			this.table.getElement('thead').getElements('td, th').each(function(td, i){
+				thead.getElement('thead').getElements('td, th')[i].setStyle('width', this.getComputedWidth(td));
+			}, this);
+		}
+		
+		/*this.table.getElement('tr').getChildren().each(function(td, i){
 			if(!thead.getElement('thead') || !thead.getElement('thead').getElement('tr')) return;
 			var th = thead.getElement('thead').getElement('tr').getChildren()[i];
 			$$(th, td).setStyle('width', '');
 			var size = {th: this.getComputedWidth(th, td), td: this.getComputedWidth(td, th)};
 			size.th > size.td ? td.setStyle('width', size.th) : th.setStyle('width', size.td);
-		}, this);
+		}, this);*/
 		
 		if(tfoot) {
+		    tfoot.setStyle('width', this.getComputedWidth(this.table.getElement('tfoot')));
 			this.table.getElement('tfoot').getElements('td').each(function(td, i){
 				tfoot.getElement('tfoot').getElements('td')[i].setStyle('width', this.getComputedWidth(td));
 			}, this);
