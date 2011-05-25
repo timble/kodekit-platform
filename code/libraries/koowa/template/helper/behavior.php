@@ -217,4 +217,48 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
 		return $html;
 	}
+	
+	/**
+	 * Loads the Forms.Validator class and connects it to Koowa.Controller
+	 *
+	 * This allows you to do easy, css class based forms validation-
+	 * Koowa.Controller.Form works with it automatically.
+	 * Requires koowa.js and mootools to be loaded in order to work.
+	 *
+	 * @see    http://www.mootools.net/docs/more125/more/Forms/Form.Validator
+	 *
+	 * @return string	The html output
+	 */
+	public function validator($config = array())
+	{
+	    $config = new KConfig($config);
+		$config->append(array(
+			'selector' => '.-koowa-form',
+		    'options'  => array(
+		        'scrollToErrorsOnBlur' => true
+		    )
+		));
+
+		$html = '';
+		// Load the necessary files if they haven't yet been loaded
+		if(!isset(self::$_loaded['valiator']))
+		{
+			$html .= '<script src="media://lib_koowa/js/validator.js" />';
+			//$html .= '<style src="media://lib_koowa/css/validation.css" />';
+
+            self::$_loaded['validator'] = true;
+        }
+
+		$options = !empty($config->options) ? $config->options->toArray() : array();
+		$html .= "<script>
+		window.addEvent('domready', function(){
+		    $$('$config->selector').each(function(form){
+		        new Form.Validator.Inline(form, ".json_encode((object)$options).");
+		        form.addEvent('validate', form.validate.bind(form));
+		    }); 
+		});
+		</script>";
+
+		return $html;
+	}
 }
