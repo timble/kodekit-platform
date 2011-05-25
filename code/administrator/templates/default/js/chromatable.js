@@ -79,13 +79,14 @@ var ChromaTable = new Class({
         this.thead = inner.getElement('thead');
         this.tfoot = inner.getElement('tfoot');
         
-        var styles = { },
+        var styles = {
+                position: 'absolute'
+            },
         	elements = new Elements,
         	tfoot,
         	thead;
         
-        if(this.thead) 
-        {
+        if(this.thead) {
 			var thead = this.table.clone()
 										.setStyles(styles)
 										.empty()
@@ -94,10 +95,11 @@ var ChromaTable = new Class({
 										.adopt(
 											this.thead.setStyle('position', 'relative')
 										);
+
+            elements.include(this.thead.clone());
 		}
         
-		if(this.tfoot) 
-		{	
+		if(this.tfoot) {	
 			var tfoot = this.table.clone()
 										.setStyle('position', 'absolute')
 										.empty()
@@ -113,8 +115,7 @@ var ChromaTable = new Class({
 			elements.include(this.tfoot.clone());
 		}
 
-		if(elements.length) 
-		{
+		if(elements.length) {
 			var styles = {
 				position: 'static',
 				opacity:  0
@@ -148,13 +149,13 @@ var ChromaTable = new Class({
 
 		}
 		
-	//check to see if the width is set to auto, if not, we don't need to call the resizer function
-	if (this.options.width == "100%" || "auto") {
-		window.addEvent('resize', this.resizer.bind(this, [thead, tfoot]));
-	}
-	
-	//Fire resize twice to make the thead width right
-	window.fireEvent('resize').fireEvent('resize');
+    	//check to see if the width is set to auto, if not, we don't need to call the resizer function
+    	if (this.options.width == "100%" || "auto") {
+    		window.addEvent('resize', this.resizer.bind(this, [thead, tfoot]));
+    	}
+    	
+    	//Fire resize twice to make the thead width right
+    	window.fireEvent('resize').fireEvent('resize');
 	},
 	
 	resizer: function(thead, tfoot) {
