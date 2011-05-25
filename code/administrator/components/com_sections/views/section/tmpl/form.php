@@ -11,6 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.keepalive'); ?>
+<?= @helper('behavior.validator'); ?>
 
 <?	if ( $section->name != '' ) : 
 	$name = $section->name;
@@ -21,24 +22,13 @@ endif; ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<script>
-window.addEvent('domready', function(){
-    $('section-form').addEvent('validate', function(){
-        if(!$('title').get('value').trim()) {
-            alert(<?= json_encode(@text('Section must have a title.')) ?>);
-            return false;
-        }
-    });
-});
-</script>
-
 <form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
 	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 	
 	<div class="grid_8">
 		<div class="border-radius-4 title clearfix">
-			<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 		
 			<label for="alias">
 				<?= @text( 'Alias' ); ?>
