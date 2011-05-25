@@ -178,7 +178,6 @@ var ChromaTable = new Class({
 	},
 	
 	getComputedWidth: function(el){
-	    console.log(el.getSize().x - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt(), el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt());
 	    return el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt();
 	}
 
