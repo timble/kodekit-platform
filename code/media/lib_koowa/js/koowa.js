@@ -173,12 +173,11 @@ Koowa.Controller = new Class({
     
 	form: null,
 	toolbar: null,
+	buttons: null,
 
 	options: {
-
 		toolbar: false,
 		url: window.location.href
-
 	},
 	
 	initialize: function(options){
@@ -194,9 +193,10 @@ Koowa.Controller = new Class({
 		this.form.addEvent('execute', this.execute.bind(this));
 		
 		//Attach toolbar buttons actions
-		this.toolbar.getElements('.toolbar').filter(function(button){
+		this.buttons = this.toolbar.getElements('.toolbar').filter(function(button){
 		    return button.get('data-action');
-		}).each(function(button){
+		});
+		this.buttons.each(function(button){
 		    var data = button.get('data-data'), action = button.get('data-action'), token_name = button.get('data-token-name');
 		    data = data ? JSON.decode(data) : {};
 		    
@@ -204,7 +204,7 @@ Koowa.Controller = new Class({
 		    if(token_name) data[token_name] = button.get('data-token-value');
 		    
 		    button.addEvent('click', function(){
-		        this.fireEvent('execute', [action, data]);
+		        if(!button.hasClass('disabled')) this.fireEvent('execute', [action, data]);
 		    }.bind(this));
 		    
 		}, this);
@@ -235,6 +235,19 @@ Koowa.Controller = new Class({
 			return fn.create({'bind': this, 'delay': delay, 'arguments': args})() !== false;
 		}, this).every(function(v){ return v;});
 		return result;
+	},
+	
+	checkValidity: function(){
+	    var buttons = this.buttons.filter(function(button){
+	        return button.get('data-novalidate') != 'novalidate';
+	    }, this);
+	    
+	    /* We use a class for this state instead of a data attribute because not all browsers supports attribute selectors */
+	    if(this.fireEvent('validate')) {
+	        buttons.removeClass('disabled');
+	    } else {
+	        buttons.addClass('disabled');
+	    }
 	}
 });
 
@@ -249,25 +262,24 @@ Koowa.Controller.Grid = new Class({
     Extends: Koowa.Controller,
     
     options: {
-    
-        validationMessage: 'Please select an item from the list.'
-    
+        inputs: '.-koowa-grid-checkbox'
     },
     
     initialize: function(options){
         
         this.parent(options);
 
-        if(this.form.get('data-validation-message')) this.options.validationMessage = this.form.get('data-validation-message');
-
         this.addEvent('validate', this.validate);
+        
+        //Perform grid validation and set the right classes on toolbar buttons
+        if(this.options.inputs) {
+            this.checkValidity();
+            this.form.getElements(this.options.inputs).addEvent('change', this.checkValidity.bind(this));
+        }
     },
     
     validate: function(){
-        if(!Koowa.Grid.getIdQuery()) {
-            alert(this.options.validationMessage);
-            return false;
-        }
+        if(!Koowa.Grid.getIdQuery()) return false;
     },
     
     _action_default: function(action, data){
