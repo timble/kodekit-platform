@@ -23,6 +23,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	{
 		$this->getToolbar()
 			->setTitle(JText::_('Weblinks'))
+			->append('divider')
 			->append('enable')
 			->append('disable')
 			->append('divider')
