@@ -159,14 +159,14 @@ var ChromaTable = new Class({
 //		console.log(window.getWidth(), this.table.getCoordinates().right, window.getWidth() - this.table.getCoordinates().right, thead.getCoordinates().right, window.getWidth() - thead.getCoordinates().right);
 		
 //		$$(thead, tfoot).setStyle('right', window.getWidth() - this.table.getCoordinates().right);
-		
+
 		if(!this.table.getElement('tr')) return;
 		
 		this.table.getElement('tr').getChildren().each(function(td, i){
 			if(!thead.getElement('thead') || !thead.getElement('thead').getElement('tr')) return;
 			var th = thead.getElement('thead').getElement('tr').getChildren()[i];
 			$$(th, td).setStyle('width', '');
-			var size = {th: this.getComputedWidth(th), td: this.getComputedWidth(td)};
+			var size = {th: this.getComputedWidth(th, td), td: this.getComputedWidth(td, th)};
 			size.th > size.td ? td.setStyle('width', size.th) : th.setStyle('width', size.td);
 		}, this);
 		
@@ -177,8 +177,10 @@ var ChromaTable = new Class({
 		}
 	},
 	
-	getComputedWidth: function(el){
-	    return el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt();
+	getComputedWidth: function(el, del){
+	    var width = el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt() + el.getStyle('border-left-width').toInt() + el.getStyle('border-right-width').toInt();
+	    if(del) width = width - del.getStyle('border-left-width').toInt() - del.getStyle('border-right-width').toInt();
+	    return width;
 	}
 
 });
