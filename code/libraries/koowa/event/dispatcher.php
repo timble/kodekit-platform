@@ -48,6 +48,8 @@ class KEventDispatcher extends KObject
     {
         $result = array();
         
+        $name = $event->getName();
+        
         if(isset($this->_listeners[$name])) 
         {
             foreach($this->_listeners[$name] as $listener) 
