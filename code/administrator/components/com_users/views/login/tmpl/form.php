@@ -40,10 +40,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <? endif ?>
     <div class="button_holder">
         <div class="button1">
-            <div class="next">
-                <a onclick="login.submit();">
-                    <?= @text('Login') ?></a>
-            </div>
+            <a onclick="login.submit();">
+                <?= @text('Login') ?>
+            </a>
         </div>
     </div>
     <div class="clr"></div>

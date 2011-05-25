@@ -668,28 +668,57 @@ table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #E1E
 table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
 
-form.-koowa-form table.adminlist tbody,
-form.-koowa-grid table.adminlist tbody,
-form[name="adminForm"] table.adminlist tbody { overflow-y: scroll; overflow-x: hidden; height: inherit; }
+table.adminlist .pagination { float: right; }
 
-table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
-
-.pagination div.limit {
+table.adminlist .pagination div.limit {
 	float: left;
 	height: 22px;
 	line-height: 22px;
 	margin: 0 10px;
 }
 
-/** stu nicholls solution for centering divs **/
-.container {clear:both; text-decoration:none;}
-* html .container {display:inline-block;}
+table.adminlist .pagination div.page a,
+table.adminlist .pagination div.page span {
+	margin: 0;
+	padding: 0 10px;
+	border-top: 1px solid #BBB;
+	border-bottom: 1px solid #BBB;
+	border-right: 0px none;
+	border-left: 0px none;
+	border-radius: 0;
+}
 
-/** table solution for global config **/
-table.noshow			{ width: 100%; border-collapse: collapse; padding: 0; margin: 0; }
-table.noshow tr 		{ vertical-align: top; }
-table.noshow td 		{ }
-table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
+table.adminlist .pagination div.prev a,
+table.adminlist .pagination div.prev span {
+	border-right: 0 none;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+table.adminlist .pagination div.next a,
+table.adminlist .pagination div.next span {
+	border-left: 0 none;
+	margin-left: 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+table.adminlist .pagination .active {
+	color: #333;
+	font-weight: bold;
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+}
+
+table.adminlist .pagination div.off a,
+table.adminlist .pagination div.off span {
+	border-color: #D7D7D7;
+}
+
+/* @endgroup */
 
 #editor-xtd-buttons { 
 	float: left;
@@ -700,9 +729,6 @@ table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 }
 
 #editor-xtd-buttons .left { float: left; font-weight: bold; line-height: 18px; }
-
-#editor-xtd-buttons div.button2-left,
-#editor-xtd-buttons div.button2-left div { background-image: none; }
 
 #editor-xtd-buttons div.button2-left a { 
 	height: auto;
@@ -727,7 +753,7 @@ table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 	border-left: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
 	background: #FAFAFA;
-	padding: 7px 10px;
+	padding: 7px 10px 6px 10px;
 	margin-left: 4px;
 	margin-bottom: -1px;
 	-webkit-border-radius: 5px 5px 0 0;
@@ -743,8 +769,7 @@ table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 	border-bottom: 1px solid #F0F0EE;
 }
 
-/* -- buttons -> STILL NEED CLEANUP*/
-
+/* @group Buttons */
 .button1,
 .button1 div{
 	height: 1%;
@@ -753,96 +778,67 @@ table.noshow fieldset 	{ margin: 15px 7px 7px 7px; }
 
 .button2-left,
 .button2-right,
-.button2-left div,
-.button2-right div {
+.button2-left,
+.button2-right {
 	float: left;
 }
-
-.button1 { background: url(../images/j_button1_left.png) no-repeat; white-space: nowrap; padding-left: 10px; margin-left: 5px;}
-
-.button1 .next { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
 
 .button1 a {
-	display: block;
 	height: 26px;
-	float: left;
 	line-height: 26px;
 	font-size: 12px;
-	font-weight: bold;
-	color: #333;
-	cursor: pointer;
-	padding: 0 30px 0 6px;
+	padding: 0 20px;
 }
-
-.button1 a:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
 .button2-right a,
 .button2-left span,
 .button2-right span {
+	height: 20px;
+	padding: 0 14px;
+	margin-left: 5px;
+	line-height: 20px;
+}
+
+.button1 a,
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
 	display: block;
-	height: 22px;
-	float: left;
-	line-height: 22px;
-	font-size: 11px;
 	color: #333;
 	cursor: pointer;
+	font-weight: bold;
+	background: #FFF;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#F0F0F0');
+	border: 1px solid #BBB;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .button2-left span,
 .button2-right span { cursor: default; color: #999; }
 
-.button2-left .page a,
-.button2-right .page a,
-.button2-left .page span,
-.button2-right .page span,
-.button2-left .blank a,
-.button2-right .blank a,
-.button2-left .blank span,
-.button2-right .blank span { padding: 0 6px; }
-
-.page span,
-.blank span {
-	color: #000;
-	font-weight: bold;
+.button1 a:hover,
+.button2-left a:hover,
+.button2-right a:hover {
+	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	text-decoration: none;
 }
 
-.button2-left a:hover,
-.button2-right a:hover { text-decoration: none; color: #0B55C4; }
-
-.button2-left a,
-.button2-left span { padding: 0 24px 0 6px; }
-
-.button2-right a,
-.button2-right span { padding: 0 6px 0 24px; }
-
-.button2-left { background: url(../images/j_button2_left.png) no-repeat; float: left; margin-left: 5px; }
-
-.button2-right { background: url(../images/j_button2_right.png) 100% 0 no-repeat; float: left; margin-left: 5px; }
-
-.button2-right .prev { background: url(../images/j_button2_prev.png) no-repeat; }
-
-.button2-right.off .prev { background: url(../images/j_button2_prev_off.png) no-repeat; }
-
-.button2-right .start { background: url(../images/j_button2_first.png) no-repeat; }
-
-.button2-right.off .start { background: url(../images/j_button2_first_off.png) no-repeat; }
-
-.button2-left .page,
-.button2-left .blank { background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat; }
-
-.button2-left .next { background: url(../images/j_button2_next.png) 100% 0 no-repeat; }
-
-.button2-left.off .next { background: url(../images/j_button2_next_off.png) 100% 0 no-repeat; }
-
-.button2-left .end { background: url(../images/j_button2_last.png) 100% 0 no-repeat; }
-
-.button2-left.off .end { background: url(../images/j_button2_last_off.png) 100% 0 no-repeat; }
-
-.button2-left .image 		{ background: url(../images/j_button2_image.png) 100% 0 no-repeat; }
-.button2-left .readmore 	{ background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
-.button2-left .pagebreak 	{ background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }
-.button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
+.button1 a:active,
+.button2-left a:active,
+.button2-right a:active{
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+}
+/* @endgroup */
 
 /* Tooltips */
 .tool-tip {
