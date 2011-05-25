@@ -92,7 +92,7 @@ var ChromaTable = new Class({
 										.addClass('_thead')
 										.injectBefore(inner)
 										.adopt(
-											this.thead.setStyle('position', 'relative')
+											this.thead.setStyle('position', 'absolute')
 										);
 
             var cloned = this.thead.clone();
@@ -166,16 +166,21 @@ var ChromaTable = new Class({
 			if(!thead.getElement('thead') || !thead.getElement('thead').getElement('tr')) return;
 			var th = thead.getElement('thead').getElement('tr').getChildren()[i];
 			$$(th, td).setStyle('width', '');
-			var size = {th: th.getSize().x - th.getStyle('padding-left').toInt() - th.getStyle('padding-right').toInt(), td: td.getSize().x - td.getStyle('padding-left').toInt() - td.getStyle('padding-right').toInt()};
+			var size = {th: this.getComputedWidth(th), td: this.getComputedWidth(td)};
 			size.th > size.td ? td.setStyle('width', size.th) : th.setStyle('width', size.td);
-		});
+		}, this);
 		
 		if(tfoot) {
 			this.table.getElement('tfoot').getElements('td').each(function(td, i){
-				tfoot.getElement('tfoot').getElements('td')[i].setStyle('width', td.getSize().x - td.getStyle('padding-left').toInt() - td.getStyle('padding-right').toInt());
-			});
+				tfoot.getElement('tfoot').getElements('td')[i].setStyle('width', this.getComputedWidth(td));
+			}, this);
 		}
 	},
+	
+	getComputedWidth: function(el){
+	    console.log(el.getSize().x - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt(), el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt());
+	    return el.clientWidth - el.getStyle('padding-left').toInt() - el.getStyle('padding-right').toInt();
+	}
 
 });
 
