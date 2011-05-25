@@ -26,8 +26,7 @@ var ChromaTable = new Class({
 
 	options: {
 		width: '100%',
-		height: '300px',
-		scrolling: 'yes'
+		height: '300px'
 	},
 
 	initialize: function(table, options){
@@ -128,25 +127,6 @@ var ChromaTable = new Class({
 		// If the width is auto, we need to remove padding-right on scrolling container	
 		if (this.options.width == "100%" || this.options.width == "auto") {
 			inner.setStyle('padding-right','0px');
-		}
-		
-	
-		if (this.options.scrolling == "no") {	
-			inner.before('<a href="#" class="expander" style="width:100%;">Expand table</a>');
-			inner.setStyle('padding-right','0px');
-			$(".expander").each(
-				function(int){
-					this.table.attr("ID", int);
-					$( this ).bind ("click",function(){									 
-							$("#"+$uniqueID).css({'height':'auto'});
-							$("#"+$uniqueID+" ._thead").remove();
-							this.table.remove();
-						});
-					});
-
-			//this is dependant on the jQuery resizable UI plugin
-			$("#"+$uniqueID).resizable({ handles: 's' }).css("overflow-y", "hidden");
-
 		}
 		
     	//check to see if the width is set to auto, if not, we don't need to call the resizer function
