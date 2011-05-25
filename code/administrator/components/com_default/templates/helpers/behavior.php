@@ -24,23 +24,17 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 	/**
 	 * Method to load the mootools framework into the document head
 	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
-	 *
-	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 *@return string   The html output
 	 */
 	public function mootools($config = array())
 	{
 		$config = new KConfig($config);
-		$config->append(array(
-			'debug' => KDEBUG
-		));
-
 		$html ='';
 
 		// Only load once
 		if (!isset(self::$_loaded['mootools']))
 		{
-		    JHTML::_('behavior.mootools', $config->debug);
+		    JHTML::_('behavior.mootools', false);
 			self::$_loaded['mootools'] = true;
 		}
 
