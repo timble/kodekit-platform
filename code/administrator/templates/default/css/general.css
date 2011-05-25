@@ -679,6 +679,7 @@ table.adminlist .pagination div.limit {
 
 table.adminlist .pagination div.page a,
 table.adminlist .pagination div.page span {
+	float: left;
 	margin: 0;
 	padding: 0 10px;
 	border-top: 1px solid #BBB;
