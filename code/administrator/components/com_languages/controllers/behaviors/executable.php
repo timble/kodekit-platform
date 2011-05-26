@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutable
+class ComLanguagesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {  
     protected function _beforeAdd(KCommandContext $context)
     {
