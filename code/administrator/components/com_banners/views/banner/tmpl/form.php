@@ -12,37 +12,13 @@
 defined('KOOWA') or die('Restricted access') ?>
 
 <?= @helper('behavior.tooltip') ?>
+<?= @helper('behavior.validator') ?>
   
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
 <script>
 window.addEvent('domready', function(){
-    $('banner-form').addEvent('validate', function(){
-        var errors = [];
-
-        if(!$('name').get('value').trim()) {
-            errors.include(<?= json_encode(@text('You must provide a banner name.')) ?>);
-        }
-
-        if(!$('imageurl').get('value')) {
-        	errors.include(<?= json_encode(@text('Please select an image.')) ?>);
-        }
-
-        if(!$('clickurl').get('value').trim()) {
-        	errors.include(<?= json_encode(@text('Please fill in the URL for the banner.')) ?>);
-        }
-
-        if(!$('catid').get('value')) {
-        	errors.include(<?= json_encode(@text('Please select a category.')) ?>);
-        }
-
-        if(errors.length) {
-            alert(errors.join('\n'));
-            return false;
-        }
-    });
-
 	$('unlimited').addEvent('click', function() {
 		if($(this).getValue()){
 			$('imptotal').set('value','');
@@ -61,7 +37,7 @@ window.addEvent('domready', function(){
 <form action="<?= @route('id='.$banner->id) ?>" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="border-radius-4 name clearfix">
-			<input class="inputbox border-radius-4" type="text" name="name" id="name" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
+			<input class="inputbox border-radius-4 required" type="text" name="name" id="name" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
 		
 			<label for="alias">
 				<?= @text( 'Alias' ) ?>
@@ -81,7 +57,10 @@ window.addEvent('domready', function(){
 		                </td>
 		                <td>
 		                    <?= @helper('listbox.banner_names', array(
-		                    	'name'      => 'imageurl',  
+		                    	'name'      => 'imageurl',
+		                    	'attribs'   => array(
+		                    	    'class' => 'inputbox required'
+		                    	),  
 		                        'preview'   => false, 
 		                        'width'     => $banner->params->get('width'),
 		                        'height'    => $banner->params->get('height')
@@ -142,7 +121,7 @@ window.addEvent('domready', function(){
         	                </label>
         	            </td>
         	            <td>
-        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid'), 'selected' => $banner->catid )) ?>
+        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid', 'class' => 'inputbox required'), 'selected' => $banner->catid )) ?>
         	            </td>
         	        </tr>
         	        <tr>
@@ -152,7 +131,7 @@ window.addEvent('domready', function(){
         	                </label>
         	            </td>
         	            <td>
-        	                <input class="inputbox" type="text" name="clickurl" id="clickurl" 
+        	                <input class="inputbox required validate-url" type="text" name="clickurl" id="clickurl" 
         	                size="100" maxlength="200" style="box-sizing: border-box; width: 100%" value="<?= $banner->clickurl ?>" />
         	            </td>
         	        </tr>
