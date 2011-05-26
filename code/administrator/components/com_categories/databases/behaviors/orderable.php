@@ -27,46 +27,6 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         $section = $this->_section ? $this->_section : $this->section;	
         $query->where('section', '=', $section);
     }
-
-     /**
-     * Saves the row to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
-     *
-     * @return KDatabaseRowAbstract
-     */
-    protected function _beforeTableInsert(KCommandContext $context)
-    {
-        if (isset($this->ordering ))
-        {
-            $max = $this->getMax();
-            if ($this->ordering <= 0){
-                $this->ordering = $max + 1;
-            } elseif ($this->ordering <= $max ){
-                $this->reorder($this->ordering);
-            }
-        }
-    }
-
-    /**
-     * Find the maximum ordering within this parent
-     * @return int
-     */
-    protected function getMax() {
-        $table  = $this->getTable();
-        $db     = $table->getDatabase();
-        $query  = $db->getQuery();
-
-        //Build the where query
-        $this->_buildQueryWhere($query);
-
-        $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
-        $select .= (string) $query;
-        return  (int) $db->select($select, KDatabase::FETCH_FIELD);
-        
-    }
-    
     
     /**
      * Changes the rows ordering if the virtual order field is set. Order is
@@ -78,15 +38,17 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-
-	    if ( isset($this->ordering) )
+	    if(isset($this->ordering))
         {
-            if (isset($this->order) )
+            if (isset($this->order))
             {
                 unset($this->old_parent);
                 //default action
                 parent::_beforeTableUpdate($context);
-            } elseif (isset($this->old_parent)) {
+                
+            } 
+            elseif (isset($this->old_parent)) 
+            {
                 $max = $this->getMax();
                 if ($this->ordering <= 0){
                     $this->ordering = $max + 1;
@@ -94,7 +56,6 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                     //make space for new entry
                     $this->reorder($this->ordering);
                 }                
-
             }
         }
     }
@@ -114,44 +75,4 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
             $this->reorder();
         }
     }
-
-    /**
-     * Resets the order of all rows
-     * Resetting starts at $base to allow creating space in sequence 
-     * for later record insertion.
-     *
-     * @return      KDatabaseTableAbstract
-     */
-    public function reorder($base=0)
-    {
-		//force to integer
-        settype($base, 'int');
-        
-        $table  = $this->getTable();
-        $db     = $table->getDatabase();
-        $query  = $db->getQuery();
-
-        //Build the where query
-        $this->_buildQueryWhere($query);
-
-        if ($base)  {
-            $query->where('ordering', '>=', $base);
-        } 
-
-        $db->execute("SET @order = $base");
-        $db->execute(
-             'UPDATE #__'.$table->getBase().' '
-            .'SET ordering = (@order := @order + 1) '
-            .(string) $query.' '
-            .'ORDER BY ordering ASC'
-        );
-
-        return $this;
-    }
-
-
-
-
 }
-
-
