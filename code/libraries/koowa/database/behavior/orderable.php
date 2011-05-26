@@ -105,30 +105,61 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 		return $this->_mixer;
 	}
 
-	/**
-	 * Resets the order of all rows
-	 *
-	 * @return	KDatabaseTableAbstract
-	 */
-	public function reorder()
-	{
-		$table	= $this->getTable();
-		$db 	= $table->getDatabase();
-		$query 	= $db->getQuery();
-		
-		//Build the where query
-		$this->_buildQueryWhere($query);
+	 /**
+     * Resets the order of all rows
+     * 
+     * Resetting starts at $base to allow creating space in sequence for later 
+     * record insertion.
+     *
+     * @param	integer 	Order at which to start resetting.
+     * @return      KDatabaseTableAbstract
+     */
+    public function reorder($base = 0)
+    {
+		//force to integer
+        settype($base, 'int');
+        
+        $table  = $this->getTable();
+        $db     = $table->getDatabase();
+        $query  = $db->getQuery();
 
-		$db->execute("SET @order = 0");
-		$db->execute(
-			 'UPDATE #__'.$table->getBase().' '
-			.'SET ordering = (@order := @order + 1) '
-			.(string) $query.' '
-			.'ORDER BY ordering ASC'
-		);
+        //Build the where query
+        $this->_buildQueryWhere($query);
 
-		return $this;
-	}
+        if ($base)  {
+            $query->where('ordering', '>=', (int) $base);
+        } 
+
+        $db->execute("SET @order = $base");
+        $db->execute(
+             'UPDATE #__'.$table->getBase().' '
+            .'SET ordering = (@order := @order + 1) '
+            .(string) $query.' '
+            .'ORDER BY ordering ASC'
+        );
+
+        return $this;
+    }
+    
+    /**
+     * Find the maximum ordering within this parent
+     * 
+     * @return int
+     */
+    protected function getMaxOrdering() 
+    {
+        $table  = $this->getTable();
+        $db     = $table->getDatabase();
+        $query  = $db->getQuery();
+
+        $this->_buildQueryWhere($query);
+
+        $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
+        $select .= (string) $query;
+        
+        return  (int) $db->select($select, KDatabase::FETCH_FIELD);
+        
+    }
 
  	/**
      * Saves the row to the database.
@@ -140,19 +171,15 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        if(isset($this->ordering) && $this->ordering <= 0)
+        if(isset($this->ordering))
         {
-            $table  = $this->getTable();
-            $db     = $table->getDatabase();
-            $query  = $db->getQuery();
+            $max = $this->getMaxOrdering();
             
-            //Build the where query
-            $this->_buildQueryWhere($query);;
-            
-            $select = 'SELECT MAX(ordering) FROM `#__'.$table->getName().'`';
-            $select .= (string) $query;
-            
-            $this->ordering = (int) $db->select($select, KDatabase::FETCH_FIELD) + 1;
+            if ($this->ordering <= 0) {
+                $this->ordering = $max + 1;
+            } else {
+                $this->reorder($this->ordering);
+            } 
         }
     }
 
