@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access'); ?>
     <table class="adminlist">
         <thead>
             <tr>
-                <th></th>
+                <th width="2%"></th>
                 <th width="48%">
                     <?= @helper('grid.sort', array('column' => 'name')); ?>
                 </th>
