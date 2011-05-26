@@ -212,11 +212,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function loadPath($path, $data = array())
 	{
-		//add the default path to the end of the array
-		array_push( $this->_paths, dirname($path));
+		//Add the path to the end of the array to allow for overrides
+		$this->addPath(dirname($path), true);
 		
 		// find the template 
-		$template = $this->findPath(basename($path));
+		$template = $this->findTemplate(basename($path));
 		
 		if ($template === false) {
 			throw new KTemplateException( 'Template "' . $path . '" not found' );
@@ -436,7 +436,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * @return	mixed			The full path and file name for the target file, or FALSE
 	 * 							if the file is not found in any of the paths
 	 */
-	public function findPath($file)
+	public function findTemplate($file)
 	{
 		settype($paths, 'array'); //force to array
 
