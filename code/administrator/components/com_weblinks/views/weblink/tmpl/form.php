@@ -12,6 +12,7 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? @helper('behavior.tooltip'); ?>
+<?= @helper('behavior.validator'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -31,7 +32,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="title" id="title" size="32" maxlength="250" value="<?= $weblink->title;?>" />
+				<input class="text_area required" type="text" name="title" id="title" size="32" maxlength="250" value="<?= $weblink->title;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -69,7 +70,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="url" id="url" value="<?= $weblink->url; ?>" size="32" maxlength="250" />
+				<input class="text_area required validate-url" type="text" name="url" id="url" value="<?= $weblink->url; ?>" size="32" maxlength="250" />
 			</td>
 		</tr>
 		<tr>
