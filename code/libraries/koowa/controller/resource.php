@@ -92,6 +92,7 @@ abstract class KControllerResource extends KControllerAbstract
         	'view'	     => $this->_identifier->name,
     	    'behaviors'  => array('executable'),
     	    'readonly'   => true, 
+    		'request' 	 => array('format' => 'html')
         ));
         
         parent::_initialize($config);
@@ -145,7 +146,7 @@ abstract class KControllerResource extends KControllerAbstract
 		    {
 			    $identifier			= clone $this->_identifier;
 			    $identifier->path	= array('view', $view);
-			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
+			    $identifier->name	= $this->getRequest()->format;
 			}
 			else $identifier = KFactory::identify($view);
 		    
