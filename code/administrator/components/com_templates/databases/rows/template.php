@@ -35,26 +35,6 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     );
     
     /**
-     * Whitelist for virtual keys to be lazy initiated
-     *
-     * @var array
-     */
-    protected static $_virtual_fields = array(
-        'title',
-        'params',
-        'positions'
-    );
-    
-    /**
-     * Blacklist for hidden fields
-     *
-     * @var array
-     */
-    protected static $_hidden_fields = array(
-    	'path',
-    );
-
-    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -179,26 +159,18 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     public function toArray()
     {
         $data = parent::toArray();
-          
+        
         //Include the manifest fields
         foreach(self::$_manifest_fields as $field) {
            $data[$field] = (string) $this->$field;
         }
         
-        //Include the virtual fields
-        foreach(self::$_virtual_fields as $field) 
-        {   
-            if(is_array($this->$field)) {
-                $data[$field] = (array) $this->$field; 
-            } else {
-                $data[$field] = (string) $this->$field; 
-            }
-        }
+        $data['name']      = (string) $this->name;
+        $data['title']     = (string) $this->title;
+        $data['positions'] = $this->positions;
+        $data['params']    = $this->params->toArray();
         
-        //Remove the hidden fields
-        foreach(self::$_hidden_fields as $field) {
-            unset($data[$field]);   
-        }
+        unset($data['path']);
           
         return $data;
     }
