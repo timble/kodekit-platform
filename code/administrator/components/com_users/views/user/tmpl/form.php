@@ -10,6 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<?= @helper('behavior.validator') ?>
+
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
@@ -23,7 +25,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 						<?= @text('Name') ?>:
 					</td>
 					<td>
-						<input type="text" name="name" value="<?= $user->name ?>" size="40" />
+						<input class="required" type="text" name="name" value="<?= $user->name ?>" size="40" />
 					</td>
 				</tr>
 				<tr>
@@ -31,7 +33,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 						<?= @text('Username') ?>:
 					</td>
 					<td>
-						<input type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
+						<input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
 					</td>
 				</tr>
 				<tr>
@@ -39,7 +41,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 						<?= @text('E-Mail') ?>:
 					</td>
 					<td>
-						<input type="text" name="email" value="<?= $user->email ?>" size="40" />
+						<input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" size="40" />
 					</td>
 				</tr>
 				<tr>
