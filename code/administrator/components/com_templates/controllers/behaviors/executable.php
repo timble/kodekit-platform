@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Templates    
  */
-class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutable
+class ComTemplatesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {  
     protected function _beforeAdd(KCommandContext $context)
     {
