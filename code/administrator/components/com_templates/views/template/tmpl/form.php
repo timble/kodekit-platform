@@ -14,7 +14,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <?= @helper('behavior.modal'); ?>
-<?= @helper('behavior.tooltip') ?>
+<?= @helper('behavior.tooltip'); ?>
+<?= @helper('behavior.form'); ?>
 
 <form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form">
     <div class="col width-50">
