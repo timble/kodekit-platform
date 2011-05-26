@@ -137,22 +137,6 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	}
 
 	/**
-	 * Reset the rowset
-	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
-	 */
-	public function reset()
-	{
-		$result = parent::reset();
-		
-		if($this->isConnected()) {
-	        $this->_columns	= array_keys($this->getTable()->getColumns());
-		}
-	
-		return $result;
-	}
-
-	/**
 	 * Get an empty row
 	 *
 	 * @return	object	A KDatabaseRow object.
