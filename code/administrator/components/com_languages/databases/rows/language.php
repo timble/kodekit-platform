@@ -133,20 +133,9 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
            $data[$field] = (string) $this->$field;
         }
         
-        //Include the virtual fields
-        foreach(self::$_virtual_fields as $field) 
-        {   
-            if(is_array($this->$field)) {
-                $data[$field] = (array) $this->$field; 
-            } else {
-                $data[$field] = (string) $this->$field; 
-            }
-        }
-        
-        //Remove the hidden fields
-        foreach(self::$_hidden_fields as $field) {
-            unset($data[$field]);   
-        }
+        $data['name']      = (string) $this->name;
+        $data['title']     = (string) $this->title;
+        unset($data['path']);
           
         return $data;
     }
