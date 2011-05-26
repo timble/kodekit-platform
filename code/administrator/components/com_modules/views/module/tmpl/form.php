@@ -11,6 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?> 
+<?= @helper('behavior.validator') ?>
 
 <?
 	// Initialize some variables
