@@ -273,7 +273,11 @@ Koowa.Controller.Grid = new Class({
         
         //Perform grid validation and set the right classes on toolbar buttons
         if(this.options.inputs) {
+            //This is to allow CSS3 transitions without those animating onload without user interaction
+            this.buttons.addClass('beforeload');
             this.checkValidity();
+            //Remove the class 1ms afterwards, which is enough for bypassing css transitions onload
+            this.buttons.removeClass.delay(1, this.buttons, ['beforeload']);
             this.form.getElements(this.options.inputs).addEvent('change', this.checkValidity.bind(this));
         }
     },
