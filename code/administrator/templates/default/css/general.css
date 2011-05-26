@@ -251,16 +251,19 @@ table.toolbar td a {
 	color: #333;
 	font-weight: bold;
 	font-size: 1em;
+	opacity: 1;
 	border-top: 1px solid #BBB;
 	border-bottom: 1px solid #BBB;
 	background-color: #F9F9F9;
 	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
 	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9', endColorstr='#E3E3E3');
-	-webkit-transition: opacity 300ms ease-in-out;
-	-moz-transition: opacity 300ms ease-in-out;
-	transition: opacity 300ms ease-in-out;
 	-webkit-user-select: none;
+ }
+ table.toolbar td a:not(.beforeload) {
+     -webkit-transition: opacity 300ms ease-in-out;
+     -moz-transition: opacity 300ms ease-in-out;
+     transition: opacity 300ms ease-in-out;
  }
  
 table.toolbar td:first-child a { 
@@ -313,9 +316,13 @@ table.toolbar td:last-child a:active:not(.disabled) {
 table.toolbar td a.disabled,
 table.toolbar td a.disabled:hover,
 table.toolbar td a.disabled:active {
-    cursor: default;
     opacity: 0.5;
     text-decoration: none;
+}
+/* For some bizarre reason Chrome will activate :hover on the Dashboard button if cursor: default; is applied to the table.toolbar td a.disabled selector */
+table.toolbar td a.disabled:hover,
+table.toolbar td a.disabled:active {
+    cursor: default;
 }
 
 /* panels  */
@@ -885,6 +892,22 @@ a img.calendar {
 
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; }
+
+/* Forms validation message */
+/* @TODO */
+/*.validation-advice {
+    font-size: 14px;
+    color: hsl(40, 98%, 25%);
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    text-shadow: white 0 1px 1px;
+    background-color: rgb(255, 243, 197);
+    background-image: -webkit-linear-gradient(top, rgb(255, 243, 197), rgb(255, 231, 143));
+    box-shadow: hsla(0, 0%, 0%, 0.1) 0 2px 5px, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+}*/
 
 /* CSS3 */
 input.border-radius-8,
