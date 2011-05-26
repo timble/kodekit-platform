@@ -66,16 +66,26 @@ class KViewCsv extends KViewFile
 	 */
 	public function display()
 	{
-		//Get the rowset
+		$columns = array();
+	    
+	    //Get the rowset
 		$rowset = $this->getModel()->getList();
 		
-		// Header
-		$this->output .= $this->_arrayToString($rowset->getColumns()).$this->eol;
-		
-		// Data
-		foreach($rowset as $row) {
-			$this->output .= $this->_arrayToString($row->toArray()).$this->eol;
+		// Rows
+		$rows = '';
+		foreach($rowset as $row) 
+		{
+			$data    = $row->toArray();
+		    $columns = array_merge($columns, array_keys($data));
+		    
+		    $rows .= $this->_arrayToString(array_values($data)).$this->eol;
 		}
+		
+		// Header
+		$header = $this->_arrayToString($columns).$this->eol;
+		
+		// Set the output
+		$this->output = $header.$rows;
 	 	
 		return parent::display();
 	}
@@ -91,9 +101,14 @@ class KViewCsv extends KViewFile
     	$fields = array();
         foreach($data as $value)
         {
+            //Implode array's
+            if(is_array($value)) {
+    	        $value = implode(',', $value);
+    	    }
+            
+    	     // Escape the quote character within the field (e.g. " becomes "")
             if ($this->_quoteValue($value)) 
-            {
-                // Escape the quote character within the field (e.g. " becomes "")
+            { 
                 $quoted_value = str_replace($this->quote, $this->quote.$this->quote, $value);
                 $fields[] 	  = $this->quote . $quoted_value . $this->quote;
             } 
@@ -111,7 +126,7 @@ class KViewCsv extends KViewFile
      */
     protected function _quoteValue($value)
     {
-    	if(is_numeric($value)) {
+        if(is_numeric($value)) {
     		return false;
     	}
     	
