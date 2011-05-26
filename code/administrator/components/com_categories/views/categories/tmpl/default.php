@@ -10,8 +10,6 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @helper('behavior.tooltip'); ?>
-
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
@@ -101,9 +99,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
                     <td>
-                        <span class="editlinktip hasTip" title="<?= @text( 'Title' ).'::'.$category->title; ?>">
-                            <a href="<?= @route( 'view=category&id='.$category->id ); ?>"><?= @escape($category->title); ?></a>
-                        </span>
+                        <a href="<?= @route( 'view=category&id='.$category->id ); ?>">
+                            <?= @escape($category->title); ?>
+                         </a>
                     </td>
                     <td align="center">
                         <?= @helper( 'grid.enable' , array('row' => $category)); ?>
