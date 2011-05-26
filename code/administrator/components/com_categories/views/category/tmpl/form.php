@@ -10,26 +10,17 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<?= @helper('behavior.validator') ?>
+
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-
-<script>
-window.addEvent('domready', function(){
-    $('category-form').addEvent('validate', function(){
-        if(!$('title').get('value').trim()) {
-            alert(<?= json_encode(@text('Category must have a title.')) ?>);
-            return false;
-        }
-    });
-});
-</script>
 
 <form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
 	<input type="hidden" name="section" value="<?= $category->id? $category->section : $state->section; ?>" />
 	
     <div class="grid_8">
  		<div class="border-radius-4 title clearfix">
-			<input class="inputbox border-radius-4" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
             <label for="alias">
                 <?= @text( 'Alias' ); ?>
                 <input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $category->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
