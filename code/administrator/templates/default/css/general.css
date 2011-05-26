@@ -895,6 +895,7 @@ a img.calendar {
 
 /* Forms validation message */
 .validation-advice {
+    clear: both;
     font-size: 11px;
     color: hsl(40, 98%, 25%);
     border-radius: 5px;
@@ -948,6 +949,17 @@ a img.calendar {
     top: -24px;
     font-size: 38px;
     left: 9px;
+}
+.validation-failed,
+.required,
+input[class*=validate],
+select[class*=validate] {
+    float: left;
+}
+td .validation-advice {
+    margin-top: 5px;
+    top: 0px;
+    float: left;
 }
 
 /* CSS3 */
