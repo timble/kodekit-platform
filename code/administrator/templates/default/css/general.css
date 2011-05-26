@@ -894,20 +894,61 @@ a img.calendar {
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; }
 
 /* Forms validation message */
-/* @TODO */
-/*.validation-advice {
+.validation-advice {
     font-size: 14px;
     color: hsl(40, 98%, 25%);
     border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    /*border-top-left-radius: 2.5px 5px;*/
+    float: left;
+    position: relative;
+    margin-top: 15px;
+    overflow: visible!important;
+    top: -10px;
+    left: 1px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
     padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     text-shadow: white 0 1px 1px;
     background-color: rgb(255, 243, 197);
     background-image: -webkit-linear-gradient(top, rgb(255, 243, 197), rgb(255, 231, 143));
-    box-shadow: hsla(0, 0%, 0%, 0.1) 0 2px 5px, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
-}*/
+    background-image: -moz-linear-gradient(top, rgb(255, 243, 197), rgb(255, 231, 143));
+    background-image: linear-gradient(top, rgb(255, 243, 197), rgb(255, 231, 143));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 243, 197)), to(rgb(255, 231, 143)));
+    -webkit-box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+    -moz-box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+    box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+}
+.validation-advice::before, .validation-advice::after {
+    content: '▾';
+    
+    font-family: Arial;
+    color: rgb(255, 243, 197);    
+    -webkit-transform: rotate(180deg);
+    display: block;
+    position: absolute;
+    
+    //left: 50%;
+    //margin-left: -9px;
+}
+.validation-advice::before {
+    text-shadow: white 0 1px 0;
+    top: -22px;
+    z-index: 1;
+    font-size: 36px;
+    left: 10px;
+}
+.validation-advice::after {
+    content: '▾';
+    color: hsla(48, 100%, 20%, 0.4);
+    text-shadow: hsla(0, 0%, 0%, 0.1) 0 2px 7px;
+    top: -24px;
+    font-size: 38px;
+    left: 9px;
+}
 
 /* CSS3 */
 input.border-radius-8,
