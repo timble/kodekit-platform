@@ -34,14 +34,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      */
     protected $_row;
     
-    /**
-     * The column names
-     *
-     * @var array
-     */
-    protected $_columns = array();
-
-	 /**
+	/**
      * Constructor
      *
      * @param 	object 	An optional KConfig object with configuration options.
@@ -127,18 +120,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             $handle = $row->getHandle();
         }
         
-        if($handle) 
-        {
+        if($handle) {
             $this->_object_set->offsetSet($handle, $row);
-            
-            //Add the columns, only if they don't exist yet
-            $columns = array_keys($row->toArray());
-            foreach($columns as $column)
-            {
-                if(!in_array($column, $this->_columns)) {
-                    $this->_columns[] = $column;
-                }
-            }
         }
         
         return $this;
@@ -218,14 +201,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
                 $row->setData($data, false);
             }
         }
-
-        //Track any new colums being added
-        foreach ($data as $column => $value)
-        {
-            if(!in_array($column, $this->_columns)) {
-                $this->_columns[] = $column;
-            }
-       }
 
         return $this;
     }
@@ -353,7 +328,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      */
     public function reset()
     {
-        $this->_columns    = array();
         $this->_object_set->exchangeArray(array());
 
         return true;
@@ -382,17 +356,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         
         return clone $this->_row;
     }
-     
-	/**
-     * Get a list of the columns
-     * 
-     * @return  array
-     */
-    public function getColumns()
-    {
-        return $this->_columns;
-    }
-    
+         
  	/**
      * Retrieve an array of column values
      *
@@ -422,24 +386,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         foreach($this as $row) {
             $row->$column = $value;
         }
-        
-        //Add the column
-        if(!in_array($column, $this->_columns)) {
-            $this->_columns[] = $column;
-        }
-   }
-   
-    /**
-     * Test existence of a column
-     *
-     * @param  string  The column name.
-     * @return boolean
-     */
-    public function hasColumn($column)
-    {
-        return in_array($column, $this->_columns);
     }
-    
+   
 	/**
      * Return an associative array of the data.
      *
