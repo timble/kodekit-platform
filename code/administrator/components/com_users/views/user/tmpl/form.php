@@ -11,6 +11,21 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.validator') ?>
+<? /* @TODO move this into a separate JS file */ ?>
+<script>
+if(Form && Form.validator) {
+    Form.Validator.add('validate-match', {
+		errorMsg: function(element, props){
+			return Form.Validator.getMsg('match').substitute({matchName: props.matchName || document.id(props.matchInput).get('name')});
+		},
+		test: function(element, props){
+			var eleVal = element.get('value');
+			var matchVal = document.id(props.matchInput) && document.id(props.matchInput).get('value');
+			return matchVal ? eleVal == matchVal : true;
+		}
+	});
+}
+</script>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -49,7 +64,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 						<?= @text('New Password') ?>:
 					</td>
 					<td>
-						<input type="password" name="password" maxlength="100" size="40" />
+						<input id="password" type="password" name="password" maxlength="100" size="40" />
 					</td>
 				</tr>
 				<tr>
@@ -57,7 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 						<?= @text('Verify Password') ?>:
 					</td>
 					<td>
-						<input type="password" name="password_verify" maxlength="100" size="40" />
+						<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
 					</td>
 				</tr>
 				<tr>
