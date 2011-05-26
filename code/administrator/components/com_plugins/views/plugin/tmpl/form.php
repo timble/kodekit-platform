@@ -11,6 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
+<?= @helper('behavior.validator') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -50,7 +51,7 @@ window.addEvent('domready', function(){
         				</label>
         			</td>
         			<td>
-        				<input class="text_area" type="text" name="title" id="title" size="35" value="<?= @escape($plugin->title) ?>" />
+        				<input class="text_area required" type="text" name="title" id="title" size="35" value="<?= @escape($plugin->title) ?>" />
         			</td>
         		</tr>
         		<tr>
@@ -81,7 +82,7 @@ window.addEvent('domready', function(){
         				</label>
         			</td>
         			<td>
-        				<input class="text_area" type="text" name="element" id="element" size="35" value="<?= @escape($plugin->element) ?>" />.php
+        				<input class="text_area required validate-alphanum" type="text" name="element" id="element" size="35" value="<?= @escape($plugin->element) ?>" />.php
         			</td>
         		</tr>
         		<tr>
