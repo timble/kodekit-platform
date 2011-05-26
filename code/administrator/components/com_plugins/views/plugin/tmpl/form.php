@@ -16,27 +16,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<script>
-window.addEvent('domready', function(){
-    $('plugin-form').addEvent('validate', function(){
-        var errors = [];
-
-        if(!$('title').get('value').trim()) {
-            errors.include(<?= json_encode(@text('Plugin must have a title.')) ?>);
-        }
-
-        if(!$('element').get('value').trim()) {
-        	errors.include(<?= json_encode(@text('Plugin must have a filename.')) ?>);
-        }
-
-        if(errors.length) {
-            alert(errors.join('\n'));
-            return false;
-        }
-    });
-});
-</script>
-
 <form action="<?= @route('id='.$plugin->id) ?>" method="post" id="plugin-form" class="-koowa-form">
     <div class="col width-60">
     	<fieldset class="adminform">
