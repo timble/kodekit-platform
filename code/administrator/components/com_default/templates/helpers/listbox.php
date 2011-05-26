@@ -33,7 +33,8 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
-            'deselect'  => true
+            'deselect'  => true,
+            'prompt'    => '- Select -',
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
@@ -41,7 +42,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $options = array();
         
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
         }
         
         $options[] = $this->option(array('text' => JText::_( 'Enabled' ) , 'value' => 1 ));
@@ -65,7 +66,8 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
-            'deselect'  => true
+            'deselect'  => true,
+        	'prompt'    => '- Select -',
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
@@ -73,7 +75,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $options = array();
         
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
         }
         
         $options[] = $this->option(array('text' => JText::_( 'Published' ) , 'value' => 1 ));
@@ -97,7 +99,8 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $config->append(array(
             'name'      => 'access',
             'attribs'   => array(),
-            'deselect'  => true
+            'deselect'  => true,
+            'prompt'    => '- Select -',
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
@@ -105,7 +108,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         $options  = array();
         
         if($config->deselect) {
-            $options[] =  $this->option(array('text' => '- '.JText::_( 'Select' ).' -'));
+            $options[] =  $this->option(array('text' => JText::_($config->prompt)));
         }
         
         $options[] = $this->option(array('text' => JText::_( 'Public' ), 'value' => '0' ));
