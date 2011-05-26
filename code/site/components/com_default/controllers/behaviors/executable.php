@@ -45,6 +45,28 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         
         return parent::execute($name, $context); 
     }
+    
+	/**
+     * Generic authorize handler for controller read actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforeRead(KCommandContext $context)
+    {
+        return true;
+    }
+    
+	/**
+     * Generic authorize handler for controller browse actions
+     * 
+     * @param   object      The command context
+     * @return  boolean     Can return both true or false.  
+     */
+    protected function _beforeBrowse(KCommandContext $context)
+    {
+        return true;
+    }
    
     /**
      * Generic authorize handler for controller add actions
