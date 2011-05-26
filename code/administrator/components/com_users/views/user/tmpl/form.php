@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.validator') ?>
 <? /* @TODO move this into a separate JS file */ ?>
 <script>
-if(Form && Form.validator) {
+if(Form && Form.Validator) {
     Form.Validator.add('validate-match', {
 		errorMsg: function(element, props){
 			return Form.Validator.getMsg('match').substitute({matchName: props.matchName || document.id(props.matchInput).get('name')});
