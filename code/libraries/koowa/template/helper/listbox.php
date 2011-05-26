@@ -42,7 +42,8 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 			'name'		=> '',
 			'state' 	=> null,
 			'attribs'	=> array(),
-			'model'		=> null
+			'model'		=> null,
+		    'prompt'    => '- Select -', 
 		))->append(array(
 			'value'		=> $config->name,
 			'selected'  => $config->{$config->name}
@@ -60,7 +61,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
+         	$options[] = $this->option(array('text' => '- '.JText::_($config->prompt).' -'));
         }
 		
  		foreach($list as $item) {
