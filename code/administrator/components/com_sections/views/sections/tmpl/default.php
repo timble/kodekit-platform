@@ -9,8 +9,6 @@
  * @link        http://www.nooku.org
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
-
-<?= @helper('behavior.tooltip'); ?>
  
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -75,11 +73,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					<?= @helper( 'grid.checkbox' , array('row' => $section)); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?= @text( 'Description' ).'::'. @escape($section->description); ?>">
 					<a href="<?= @route( 'view=section&id='.$section->id ); ?>">
                         <?= @escape($section->title); ?>
                     </a>
-					</span>
 				</td>
 				<td align="center">
 					<?= @helper( 'grid.publish' , array('row' => $section)); ?>
