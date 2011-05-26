@@ -402,17 +402,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         return $result;
     }
     
-	/**
-     * Test existence of a column
-     *
-     * @param  string  The  column name.
-     * @return boolean
-     */
-    public function __isset($column)
-    {
-        return $this->hasColumn($column);
-    }
-    
     /**
      * Search the mixin method map and call the method or forward the call to
      * each row for processing.
