@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div id="tabs-box">
-			<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
+			<jdoc:include type="modules" name="submenu" />
 		</div>
 		<div id="toolbar-box">
 			<jdoc:include type="modules" name="toolbar" />
@@ -49,7 +49,6 @@
 		</div>
 		<jdoc:include type="message" />
 		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
-			
 			<jdoc:include type="component" />
 		</div>
 	</div>	 

@@ -47,7 +47,7 @@ window.addEvent('domready', function(){
 		
 		<div class="panel">
 		    <h3><?= @text('Banner') ?></h3>
-		    <table class="paramlist admintable">
+		    <table class="admintable">
 		        <tbody>
 		            <tr>
 		                <td valign="top" class="key">
@@ -85,7 +85,7 @@ window.addEvent('domready', function(){
     <div class="grid_4">
         <div class="panel">
         	<h3><?= @text( 'Publish' ); ?></h3>
-        	<table class="paramlist admintable">
+        	<table class="admintable">
         	    <tbody>
         	        <tr>
         	            <td class="key">

@@ -48,7 +48,7 @@ endif; ?>
 	<div class="grid_4">
 		<div class="panel">
 			<h3><?= @text( 'Publish' ); ?></h3>
-			<table class="paramlist admintable">
+			<table class="admintable">
 				<tr>
 					<td width="100" class="key">
 						<?= @text( 'Scope' ); ?>:
@@ -89,7 +89,7 @@ endif; ?>
 		</div>
 		<div class="panel">
 			<h3><?= @text( 'Image' ); ?></h3>
-			<table class="paramlist admintable">
+			<table class="admintable">
 				<tr>
 					<td class="key">
 						<label for="image">

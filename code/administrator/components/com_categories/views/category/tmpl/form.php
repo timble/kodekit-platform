@@ -40,7 +40,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <div class="grid_4">
             <div class="panel">
                 <h3><?= @text( 'Publish' ); ?></h3>
-                <table class="paramlist admintable">
+                <table class="admintable">
                 	<tr>
                     	<td class="key">
                             <?= @text( 'Published' ); ?>:
@@ -109,7 +109,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         
         <div class="panel">
             <h3><?= @text( 'Image' ); ?></h3>
-            <table class="paramlist admintable">
+            <table class="admintable">
                 <tr>
                     <td class="key">
                         <label for="image">
