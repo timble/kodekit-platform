@@ -62,9 +62,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         $lengths    = array(60, 60, 24, 7, 4.35, 12, 10);
         $now        = strtotime(gmdate("M d Y H:i:s"));
         $time       = is_numeric($config->date) ? $config->date : strtotime($config->date);
-        
-        
-        if( !$time )
+         
+        if($time)
         { 
             if($config->gmt_offset != 0) {
                 $now =  $now + $config->gmt_offset;
