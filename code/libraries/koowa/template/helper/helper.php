@@ -26,20 +26,17 @@ class KTemplateHelper
      * @param   object  An optional KConfig object with configuration options
      * @return KTemplateHelperAbstract
      */
-    public static function factory($identifier, $config = array())
+    public static function factory($helper, $config = array())
     {       
         //Create the template helper
-        try 
-        {
-            if(is_string($identifier) && strpos($identifier, '.') === false ) {
-                $identifier = 'com.default.template.helper.'.trim($identifier);
-            } 
-            
-            $helper = KFactory::tmp($identifier, $config);
-            
-        } catch(KFactoryAdapterException $e) {
-            throw new KTemplateHelperException('Invalid identifier: '.$identifier);
-        }
+	    if(!($helper instanceof KTemplateHelperInterface))
+		{   
+		    if(is_string($helper) && strpos($helper, '.') === false ) {
+		       $helper = 'com.default.template.helper.'.trim($filter);
+		    }    
+			
+		    $helper = KFactory::tmp($helper, $config);
+		}
         
         //Check the behavior interface
         if(!($helper instanceof KTemplateHelperInterface)) 
