@@ -91,7 +91,7 @@ window.addEvent('domready', function() {
 </script>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
-<div class="col width-50">
+<div class="grid_6">
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ) ?></legend>
 
@@ -263,38 +263,33 @@ window.addEvent('domready', function() {
 	<? endif ?>
 </div>
 
-<div class="col width-50">
-	<fieldset class="adminform">
-		<legend><?= @text('Parameters') ?></legend>
-		
-		<?= @helper('accordion.startPane', array('id' => 'menu-pane')) ?>
-			<?= @template('form_accordion', array('params' => $params, 'id' => 'param-page', 'title' => 'Module Parameters')) ?>
+<div class="grid_6">		
+	<?= @helper('accordion.startPane', array('id' => 'menu-pane')) ?>
+		<?= @template('form_accordion', array('params' => $params, 'id' => 'param-page', 'title' => 'Module Parameters')) ?>
 
-			<? if($params->getNumParams('advanced')) : ?>
-			<?= @template('form_accordion', array('params' => $params, 'group' => 'advanced')) ?>
-			<? endif ?>
-		
-			<? if($params->getNumParams('other')) : ?>
-			<?= @template('form_accordion', array('params' => $params, 'group' => 'other')) ?>
-			<? endif ?>
-		<?= @helper('accordion.endPane') ?>
-	</fieldset>
+		<? if($params->getNumParams('advanced')) : ?>
+		<?= @template('form_accordion', array('params' => $params, 'group' => 'advanced')) ?>
+		<? endif ?>
+	
+		<? if($params->getNumParams('other')) : ?>
+		<?= @template('form_accordion', array('params' => $params, 'group' => 'other')) ?>
+		<? endif ?>
+	<?= @helper('accordion.endPane') ?>
 </div>
 <div class="clr"></div>
 
 <? if(!$module->module || $module->module == 'custom' || $module->module == 'mod_custom') : ?>
 <fieldset class="adminform">
-		<legend><?= @text('Custom Output') ?></legend>
-		
-		<?= @editor(array(
-			'name'		=> 'content',
-			//@TODO is escaping the module content really necessary?
-			'content'	=> @escape($module->content),
-			'height'	=> 400,
-			'cols'		=> 60,
-			'buttons'	=> array('pagebreak', 'readmore')
-		)) ?>
-
+	<legend><?= @text('Custom Output') ?></legend>
+	
+	<?= @editor(array(
+		'name'		=> 'content',
+		//@TODO is escaping the module content really necessary?
+		'content'	=> @escape($module->content),
+		'height'	=> 400,
+		'cols'		=> 60,
+		'buttons'	=> array('pagebreak', 'readmore')
+	)) ?>
 </fieldset>
 <? endif ?>
 
