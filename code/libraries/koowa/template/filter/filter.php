@@ -31,20 +31,18 @@ class KTemplateFilter
 	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KTemplateFilter
 	 */
-	public static function factory($identifier, $config = array())
+	public static function factory($filter, $config = array())
 	{		
-		try 
-		{
-			if(is_string($identifier) && strpos($identifier, '.') === false ) {
-				$identifier = 'com.default.template.filter.'.trim($identifier);
-			} 
+	    //Create the behavior
+	    if(!($filter instanceof KTemplateFilterInterface))
+		{   
+		    if(is_string($filter) && strpos($filter, '.') === false ) {
+		       $filter = 'com.default.template.filter.'.trim($filter);
+		    }    
 			
-			$filter = KFactory::tmp($identifier, $config);
-			
-		} catch(KFactoryAdapterException $e) {
-			throw new KTemplateFilterException('Invalid filter: '.$filter);
+		    $filter = KFactory::tmp($filter, $config);
 		}
-		
+	    
 		if(!($filter instanceof KTemplateFilterInterface)) 
 		{
 			$identifier = $filter->getIdentifier();
