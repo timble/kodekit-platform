@@ -37,7 +37,7 @@
 				<?= @helper( 'grid.search'); ?>
 			</td>
 			<td align="center"> 
-				<?= @helper('listbox.groups', array('attribs' => array('onchange' => 'this.form.submit();'))); ?>
+				<?= @helper('listbox.groups'); ?>
 			</td>
 			<td></td>
 			<td></td>

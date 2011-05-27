@@ -57,8 +57,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper( 'grid.search'); ?>
                 </td>              
                 <td align="center"> 
-                    <?= @helper('listbox.published', array( 'name' => 'enabled', 
-                        'attribs' => array('onchange' => 'this.form.submit();'))); ?>
+                    <?= @helper('listbox.published', array('name' => 'enabled')); ?>
                 </td>                
                 <td></td>
                 <td></td>

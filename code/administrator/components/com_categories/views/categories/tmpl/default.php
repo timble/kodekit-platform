@@ -59,7 +59,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <?= @helper( 'grid.search'); ?>
                 </td>
                 <td align="center">
-                    <?= @helper('listbox.published', array('name' => 'published', 'attribs' => array('onchange' => 'this.form.submit();'))); ?>
+                    <?= @helper('listbox.published', array('name' => 'published')); ?>
                 </td>
                 <td></td>
                 <td></td>
@@ -70,7 +70,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             'value'         => 'section',
                             'listbox_title' => 'Section',
                             'text'          => 'section_title',
-                            'attribs'       => array('onchange' => 'this.form.submit();'),
                            /* 'identifier' => 'admin::com.sections.model.sections', */
                             'filter'        => array('section' => $state->section,
                                                   'distinct' => 'section'))); ?>
