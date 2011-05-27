@@ -126,7 +126,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         $salt     = $helper->getRandom(32);
         $password = $helper->getCrypted($password, $salt).':'.$salt;
 
-        $user     = KFactory::get('lib.koowa.user', KRequest::get('session.com.users.id', 'int'));
+        $user     = KFactory::get('lib.joomla.user', KRequest::get('session.com.users.id', 'int'));
 
         JPluginHelper::importPlugin('user');
         $dispatcher = JDispatcher::getInstance();
