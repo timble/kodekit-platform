@@ -21,23 +21,21 @@ class KDatabaseBehavior
 	/**
 	 * Factory method for KDatabaseBehaviorInterface classes.
 	 *
-	 * @param	string 	Behavior indentifier
+	 * @param	mixed 	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
 	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KDatabaseBehaviorAbstract
 	 */
-	public static function factory($identifier, $config = array())
+	public static function factory($behavior, $config = array())
 	{		
 		//Create the behavior
-		try 
-		{
-			if(is_string($identifier) && strpos($identifier, '.') === false ) {
-				$identifier = 'com.default.database.behavior.'.trim($identifier);
-			} 
+	    if(!($behavior instanceof KDatabaseBehaviorInterface))
+		{   
+		    if(is_string($behavior) && strpos($behavior, '.') === false ) {
+		       $behavior = 'com.default.database.behavior.'.trim($behavior);
+		    }    
 			
-			$behavior = KFactory::tmp($identifier, $config);
-			
-		} catch(KFactoryAdapterException $e) {
-			throw new KDatabaseBehaviorException('Invalid identifier: '.$identifier);
+		    $behavior = KFactory::tmp($behavior, $config);
 		}
 		
 		//Check the behavior interface
