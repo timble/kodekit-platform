@@ -41,14 +41,14 @@ class KTemplateFilter
 		    }    
 			
 		    $filter = KFactory::tmp($filter, $config);
+		    
+		    if(!($filter instanceof KTemplateFilterInterface)) 
+		    {
+			    $identifier = $filter->getIdentifier();
+			    throw new KDatabaseBehaviorException("Template filter $identifier does not implement KTemplateFilterInterface");
+		    }
 		}
 	    
-		if(!($filter instanceof KTemplateFilterInterface)) 
-		{
-			$identifier = $filter->getIdentifier();
-			throw new KDatabaseBehaviorException("Template filter $identifier does not implement KTemplateFilterInterface");
-		}
-		
 		return $filter;
 	}
 }
