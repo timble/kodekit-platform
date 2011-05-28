@@ -270,13 +270,14 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
          
         foreach($behaviors as $behavior)
         {
-            $behavior   = $this->getBehavior($behavior);
-		    $identifier = (string) $behavior->getIdentifier();
+            if (!($behavior instanceof KControllerBehaviorInterface)) { 
+                $behavior = $this->getBehavior($behavior);
+            }
+		    
+            $identifier = (string) $behavior->getIdentifier();
 		      
-            //Set the behaviors
+            //Add the behaviors
             $this->_behaviors[$identifier] = $behavior;
-                         
-            //Enqueue the behavior in the command chain
             $this->getCommandChain()->enqueue($behavior);
         }
         
