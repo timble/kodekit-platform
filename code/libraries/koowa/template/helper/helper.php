@@ -22,7 +22,8 @@ class KTemplateHelper
     /**
      * Factory method for KTemplateHelperInterface classes.
      *
-     * @param   string  Template helper indentifier
+     * @param   mixed 	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
      * @param   object  An optional KConfig object with configuration options
      * @return KTemplateHelperAbstract
      */

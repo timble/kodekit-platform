@@ -27,7 +27,8 @@ class KTemplateFilter
 	/**
 	 * Factory method for KTemplateFilterInterface classes.
 	 *
-	 * @param	string	Template filter identifier
+	 * @param	mixed 	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
 	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KTemplateFilter
 	 */
