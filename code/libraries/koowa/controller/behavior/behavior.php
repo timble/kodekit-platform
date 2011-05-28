@@ -36,15 +36,15 @@ class KControllerBehavior
 		    }    
 			
 		    $behavior = KFactory::tmp($behavior, $config);
+		    
+		    //Check the behavior interface
+		    if(!($behavior instanceof KControllerBehaviorInterface)) 
+		    {
+			    $identifier = $behavior->getIdentifier();
+			    throw new KControllerBehaviorException("Controller behavior $identifier does not implement KControllerBehaviorInterface");
+		    }
 		}
-	  
-		//Check the behavior interface
-		if(!($behavior instanceof KControllerBehaviorInterface)) 
-		{
-			$identifier = $behavior->getIdentifier();
-			throw new KControllerBehaviorException("Controller behavior $identifier does not implement KControllerBehaviorInterface");
-		}
-		
+	 
 		return $behavior;
 	}
 }
