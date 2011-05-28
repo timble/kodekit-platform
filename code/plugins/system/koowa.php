@@ -168,10 +168,10 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-		if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
+	    if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
-			$error->set('message', $this->_exception->getMessage());
+			$error->set('message', KHttpResponse::getMessage($error->code));
 		}
 		
 	    if($this->_exception->getCode() == KHttpResponse::UNAUTHORIZED) {
