@@ -36,15 +36,15 @@ class KTemplateHelper
 		    }    
 			
 		    $helper = KFactory::tmp($helper, $config);
+		    
+		    //Check the behavior interface
+            if(!($helper instanceof KTemplateHelperInterface)) 
+            {
+                $identifier = $helper->getIdentifier();
+                throw new KTemplateHelperException("Template helper $helper does not implement KTemplateHelperInterface");
+            }
 		}
-        
-        //Check the behavior interface
-        if(!($helper instanceof KTemplateHelperInterface)) 
-        {
-            $identifier = $helper->getIdentifier();
-            throw new KTemplateHelperException("Template helper $helper does not implement KTemplateHelperInterface");
-        }
-        
+           
         return $helper;
     }
 }
