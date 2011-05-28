@@ -135,7 +135,7 @@ class plgSystemKoowa extends JPlugin
 		if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
-			$error->set('message', $this->_exception->getMessage());
+			$error->set('message', KHttpResponse::getMessage($error->code));
 		}
 		
 		//Make sure the buffers are cleared
