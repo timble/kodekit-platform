@@ -36,15 +36,15 @@ class KDatabaseBehavior
 		    }    
 			
 		    $behavior = KFactory::tmp($behavior, $config);
+		    
+		    //Check the behavior interface
+		    if(!($behavior instanceof KDatabaseBehaviorInterface)) 
+		    {
+			    $identifier = $behavior->getIdentifier();
+			    throw new KDatabaseBehaviorException("Database behavior $identifier does not implement KDatabaseBehaviorInterface");
+		    }
 		}
-		
-		//Check the behavior interface
-		if(!($behavior instanceof KDatabaseBehaviorInterface)) 
-		{
-			$identifier = $behavior->getIdentifier();
-			throw new KDatabaseBehaviorException("Database behavior $identifier does not implement KDatabaseBehaviorInterface");
-		}
-		
+	
 		return $behavior;
 	}
 }
