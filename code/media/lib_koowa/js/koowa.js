@@ -36,6 +36,9 @@ window.addEvent('domready', function() {
         
         var toolbar = grid.get('data-toolbar') ? grid.get('data-toolbar') : '.toolbar';
         new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
+        
+        //<select> elements in headers and footers are for filters, so they need to submit the form on change
+        grid.getElements('thead select, tfoot select').addEvent('change', grid.submit.bind(grid));
     });
 
     $$('.-koowa-form').each(function(form){
@@ -185,7 +188,7 @@ Koowa.Controller = new Class({
 		this.setOptions(options);
 		
 		this.form = this.options.form;
-		this.toolbar = this.options.toolbar;
+		this.toolbar = this.options.toolbar || this.form;
 
 		this.form.store('controller', this);
 		
