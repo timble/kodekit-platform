@@ -47,8 +47,6 @@ class ModBannersView extends ModDefaultView
 	    // Assign vars and render view
 		$this->assign('banners', $banners);    
          
-        
-        
         return parent::display();
     }
     
