@@ -66,23 +66,33 @@ class KViewCsv extends KViewFile
 	 */
 	public function display()
 	{
-		$columns = array();
-	    
-	    //Get the rowset
-		$rowset = $this->getModel()->getList();
+		$rows    = '';
+	    $columns = array();
+		$rowset  = $this->getModel()->getList();
 		
-		// Rows
-		$rows = '';
+		// Get the columns
 		foreach($rowset as $row) 
 		{
 			$data    = $row->toArray();
-		    $columns = array_merge($columns, array_keys($data));
+		    $columns = array_merge($columns + array_flip(array_keys($data)));
+		}
+		
+		// Empty the column values
+		foreach($columns as $key => $value) {
+		    $columns[$key] = '';
+		}
+		
+		//Create the rows
+	    foreach($rowset as $row) 
+		{
+			$data = $row->toArray();
+		    $data = array_merge($columns, $data);
 		    
 		    $rows .= $this->_arrayToString(array_values($data)).$this->eol;
 		}
 		
-		// Header
-		$header = $this->_arrayToString($columns).$this->eol;
+		// Create the header
+		$header = $this->_arrayToString(array_keys($columns)).$this->eol;
 		
 		// Set the output
 		$this->output = $header.$rows;
