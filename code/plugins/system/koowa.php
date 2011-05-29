@@ -14,7 +14,7 @@
 .*
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Nooku
- * @package     Nooku_Plugings
+ * @package     Nooku_Plugins
  * @subpackage  System
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
