@@ -713,7 +713,8 @@ table.adminlist .pagination div.next span {
 	border-radius: 0 3px 3px 0;
 }
 
-table.adminlist .pagination .active {
+table.adminlist .pagination .active,
+table.adminlist .pagination div.page span {
 	color: #333;
 	font-weight: bold;
 	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
