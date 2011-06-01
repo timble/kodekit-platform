@@ -61,7 +61,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('text' => '- '.JText::_($config->prompt).' -'));
+         	$options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 		
  		foreach($list as $item) {
