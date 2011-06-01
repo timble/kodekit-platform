@@ -17,15 +17,24 @@
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheToolbarButtonPurge extends KToolbarButtonPost
+class ComCacheToolbarButtonPurge extends ComDefaultToolbarButtonDefault
 {
-    public function getOnClick()
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
     {
-        $option = KRequest::get('get.option', 'cmd');
-        $view   = KRequest::get('get.view', 'cmd');
-        $token  = JUtility::getToken();
-        $json   = "{method:'post', url:'index.php?option=$option&view=$view', params:{action:'purge', _token:'$token'}}";
-
-        return 'new Koowa.Form('.$json.').submit();';
+        $config->append(array(
+            'attribs' => array(
+                'data-novalidate'   => 'novalidate'
+            )
+        ));
+        
+        parent::_initialize($config);
     }
 }
