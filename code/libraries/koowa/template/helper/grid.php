@@ -157,7 +157,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$token = JUtility::getToken();
 
 		$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
-		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" />';
+		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" title='.$text.' />';
 
 		return $html;
 	}
