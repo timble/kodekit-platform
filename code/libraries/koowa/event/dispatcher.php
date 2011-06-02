@@ -88,6 +88,8 @@ class KEventDispatcher extends KObject
         //Set the event name
         $event->setName($name);
         
+        
+        //Nofity the listeners
         if(isset($this->_listeners[$name])) 
         {
             foreach($this->_listeners[$name] as $listener) 
