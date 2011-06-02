@@ -11,7 +11,6 @@
  
 defined('KOOWA') or die('Restricted access'); ?>
 
-<?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.modal') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
@@ -83,11 +82,9 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper('grid.checkbox', array('row' => $banner))?>
                 </td>
                 <td align="left">
-                    <span class="editlinktip hasTip" title="<?= @text('Edit banner')?>::<?= @escape($banner->name); ?>">
-                        <a href="<?= @route('view=banner&id='.$banner->id); ?>">
-                            <?=$banner->name?>
-                        </a>
-                    </span>
+                	<a href="<?= @route('view=banner&id='.$banner->id); ?>">
+                        <?=$banner->name?>
+                    </a>
                 </td>
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $banner)) ?>
