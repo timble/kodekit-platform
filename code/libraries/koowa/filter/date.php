@@ -61,7 +61,7 @@ class KFilterDate extends KFilterTimestamp
         {
             $format = 'Y-m-d';
         
-            if (is_int($value)) {
+            if (is_numeric($value)) {
                 $result = date($format, $value); 
             } else {
                 $result = date($format, strtotime($value)); 
