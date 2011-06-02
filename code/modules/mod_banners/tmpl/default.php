@@ -19,7 +19,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <? foreach($banners as $banner) : ?>
 <div class="banneritem<?= $params->get( 'moduleclass_sfx' ) ?>">
-	<?= @template('default_'.$banner->type, array('banner' => $banner)); ?>
+	<?= @template('site::mod.banners.default_'.$banner->type, array('banner' => $banner)); ?>
 	<div class="clr"></div>
 </div>
 <?php endforeach; ?>
