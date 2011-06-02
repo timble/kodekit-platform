@@ -25,9 +25,9 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * @var array
      */
     protected $_alias_read = array(
-        '@helper('      => '$this->loadHelper(',
-        '@date('        => '$this->loadHelper(\'date.format\',',
-        '@overlay('     => '$this->loadHelper(\'behavior.overlay\', ',
+        '@helper('      => '$this->renderHelper(',
+        '@date('        => '$this->renderHelper(\'date.format\',',
+        '@overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
         '@text('        => 'JText::_(',
         '@template('    => '$this->loadIdentifier(',
         '@route('       => '$this->getView()->createRoute(',
@@ -40,24 +40,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * @var array
      */
     protected $_alias_write = array();
-    
-    /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'priority'   => KCommand::PRIORITY_HIGH,
-        ));
-
-        parent::_initialize($config);
-    }
-    
+     
     /**
      * Append an alias 
      *
