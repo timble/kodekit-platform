@@ -32,11 +32,6 @@ class ModDefaultView extends KViewHtml
         $this->params  = $config->params;
         $this->module  = $config->module;
         $this->attribs = $config->attribs;
-        
-        $template = KFactory::get('lib.joomla.application')->getTemplate();
-        $path     = JPATH_THEMES.DS.$template.DS.'html'.DS.'mod_'.$this->_identifier->package;
-          
-         $this->getTemplate()->addPath($path);
     }
     
     /**
@@ -49,7 +44,11 @@ class ModDefaultView extends KViewHtml
      */
     protected function _initialize(KConfig $config)
     {     
+        $template = clone $this->getIdentifier();
+        $template->name = 'template';
+        
         $config->append(array(
+            'template'    => $template,
             'params'      => null,
             'module'      => null,
             'attribs'     => array(),
@@ -76,8 +75,12 @@ class ModDefaultView extends KViewHtml
      */
     public function display()
     {
+        //We need a full identifier to load the base template
+	    $identifier = clone $this->getIdentifier();
+        $identifier->name = $this->_layout;
+         
         $this->output = $this->getTemplate()
-                ->loadIdentifier($this->_layout, $this->_data)
+                ->loadIdentifier($identifier, $this->_data)
                 ->render($this->_auto_filter);
                 
         return $this->output;
