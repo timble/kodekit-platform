@@ -38,13 +38,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	protected $_contents = '';
 	
-	/**
-     * The set of search directories for templates
-     *
-     * @var array
-     */
-   	protected $_paths = array();
-   	
    	/**
      * The set of template filters for templates
      *
@@ -118,6 +111,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
+	 * Get the template path
+	 * 
+	 * @return	string
+	 */
+	public function getPath()
+	{
+		return $this->_path;
+	}
+	
+	/**
 	 * Get the view object attached to the template
 	 *
 	 * @return	KViewAbstract
@@ -170,63 +173,55 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
-	 * Load a template by identifier -- first look in the templates folder for an override
+	 * Load a template by identifier
 	 * 
-	 * This functions accepts both template local template file names or identifiers
+	 * This functions only accepts full identifiers of the format
 	 * - application::com.component.view.[.path].name
 	 *
 	 * @param   string 	The template identifier
 	 * @param	array	An associative array of data to be extracted in local template scope
 	 * @return KTemplateAbstract
 	 */
-	public function loadIdentifier($identifier, $data = array())
+	public function loadIdentifier($template, $data = array())
 	{
-		try
-		{
-			$identifier = new KIdentifier($identifier);
-			
-			$file = $identifier->name;
-			$path = dirname(KLoader::path($identifier)).'/tmpl';
-		} 
-		catch(KIdentifierException $e) 
-		{
-			$file = $identifier;
-			$path = dirname($this->getView()->getIdentifier()->filepath).'/tmpl';
-		}
+	    //Identify the template
+	    $identifier = KFactory::identify($template);
+       
+        // Load the identifier
+        $file = $identifier->name; 
 		
-		// load the path
-		$this->loadPath($path.'/'.$file.'.php', $data);
+        if($identifier->filepath) {
+	       $path = dirname($identifier->filepath);
+        } else {
+	       $path = dirname(KLoader::path($identifier));
+	    }
+	   
+		$this->loadFile($path.'/'.$file.'.php', $data);
 		
 		return $this;
 	}
 	
 	/**
-	 * Load a template by path -- first look in the templates folder for an override
-	 * 
-	 * The name of the template source file automatically searches the template paths in LIFO
-	 * order.
+	 * Load a template by path
 	 *
 	 * @param   string 	The template path
 	 * @param	array	An associative array of data to be extracted in local template scope
 	 * @return KTemplateAbstract
 	 */
-	public function loadPath($path, $data = array())
+	public function loadFile($file, $data = array())
 	{
-		//Add the path to the end of the array to allow for overrides
-		$this->addPath(dirname($path), true);
-		
 		// find the template 
-		$template = $this->findTemplate(basename($path));
-		
-		if ($template === false) {
-			throw new KTemplateException( 'Template "' . $path . '" not found' );
+		$path = $this->findFile($file);
+	    
+		if ($path === false) {
+			throw new KTemplateException( 'Template "' . $file . '" not found' );
 		}
 		
 		// get the file contents
-		$contents = file_get_contents($template);
+		$contents = file_get_contents($path);
 		
 		// load the contents
-		$this->loadString($contents, $data, $template);
+		$this->loadString($contents, $data, $file);
 		
 		return $this;
 	}
@@ -348,124 +343,35 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
  	}
  	
 	/**
-	 * Get a list of template paths
+	 * Searches for the file
 	 *
-	 * @return  array	An array of template paths
+	 * @param	string	The file path to look for.
+	 * @return	mixed	The full path and file name for the target file, or FALSE
+	 * 					if the file is not found
 	 */
-	public function getPaths($paths)
-	{
-		return $this->_paths;
-	}
- 	
-	/**
-	 * Remove one or more template path(s) from the stack
-	 *
-	 * @param string|array The path(s) to remove.
-	 * @return  KTemplateAbstract
-	 */
-	public function removePath($paths)
-	{
-		// just force to array
-		settype($paths, 'array');
-
-		// loop through the path directories
-		foreach ($paths as $path)
+	public function findFile($file)
+	{    
+	    $result = false;
+	    $path   = dirname($file);
+	    
+	    // is the path based on a stream?
+		if (strpos($path, '://') === false)
 		{
-			// no surrounding spaces allowed!
-			$path = trim($path);
-
-			// remove trailing slash
-			if (substr($path, -1) == DIRECTORY_SEPARATOR) {
-				$path = substr_replace($path, '', -1);
-			}
-			
-			// remove the path from the 
-			if($key = array_search($this->_paths, $path)) {
-				unset($this->_paths[$key]);
-			}
+			// not a stream, so do a realpath() to avoid directory
+			// traversal attempts on the local file system.
+			$path = realpath($path); // needed for substr() later
+			$file = realpath($file);
 		}
 
-		return $this;
-	}
- 	
-	/**
-	 * Adds to the stack of template paths
-	 * 
-	 * If a duplicate path is added to the stack the first path in the stack 
-	 * will be kept all others are removed.
-	 *
-	 * @param string|array The path(s) to add.
-	 * @return  KTemplateAbstract
-	 */
-	public function addPath($paths, $append = false)
-	{
-		// just force to array
-		if(is_string($paths)) {
-		    settype($paths, 'array');
-		}
-
-		// loop through the paths
-		foreach ($paths as $path)
-		{
-			// no surrounding spaces allowed!
-			$path = trim($path);
-
-			// remove trailing slash
-			if (substr($path, -1) == DIRECTORY_SEPARATOR) {
-				$dir = substr_replace($path, '', -1);
-			}
-
-			// add to the top of the search dirs
-			if(!$append) {
-				array_unshift( $this->_paths, $path);
-			} else {
-				array_push( $this->_paths, $path);
-			}
-		}
-		
-		//Filter out any duplicate values
-		$this->_paths = array_unique($this->_paths);
-
-		return $this;
-	}
-	
-	/**
-	 * Searches the directory paths for a given template file.
-	 *
-	 * @param	string			The file name to look for.
-	 * @return	mixed			The full path and file name for the target file, or FALSE
-	 * 							if the file is not found in any of the paths
-	 */
-	public function findTemplate($file)
-	{
-		settype($paths, 'array'); //force to array
-
-		// start looping through the path set
-		foreach ($this->_paths as $path)
-		{
-			// get the path to the file
-			$fullname = $path.'/'.$file;
-
-			// is the path based on a stream?
-			if (strpos($path, '://') === false)
-			{
-				// not a stream, so do a realpath() to avoid directory
-				// traversal attempts on the local file system.
-				$path 	  = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
-			}
-
-			// the substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directores are not accessible via directory
-			// traversal attempts.
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path) {
-				return $fullname;
-			}
+		// The substr() check added to make sure that the realpath()
+		// results in a directory registered so that non-registered directores 
+		// are not accessible via directory traversal attempts.
+		if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
+			$result = $file;
 		}
 
 		// could not find the file in the set of paths
-		return false;
+		return $result;
 	}
 	
 	/**
@@ -478,7 +384,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * @param	mixed	Parameters to be passed to the helper
 	 * @return 	string	Helper output
 	 */
-	public function loadHelper($identifier, $params = array())
+	public function renderHelper($identifier, $params = array())
 	{
 		//Get the function to call based on the $identifier
 		$parts    = explode('.', $identifier);
