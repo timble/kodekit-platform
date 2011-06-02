@@ -13,7 +13,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.modal') ?>
 <script>
     window.addEvent('domready', function(){
