@@ -64,7 +64,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		));
 	    
 	    $html = '<input name="search" id="search" value="'.$config->search.'" />';
-        $html .= '<button onclick="this.form.submit();">'.JText::_('Go').'</button>';
+        $html .= '<button>'.JText::_('Go').'</button>';
 		$html .= '<button onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.JText::_('Reset').'</button>';
 	
 	    return $html;
