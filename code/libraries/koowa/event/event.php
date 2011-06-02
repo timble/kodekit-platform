@@ -44,18 +44,6 @@ class KEvent extends KConfig
     protected $_name;
     
     /**
-     * Constructor.
-     *
-     * @param   array	 An associative array of event parameters
-     */
-    public function __construct( $name, $params = array() )
-    { 
-        parent::__construct($params);
-        
-        $this->_name = $name;
-    } 
-    
-    /**
      * Get the event name
      * 
      * @return string	The event name
@@ -63,6 +51,18 @@ class KEvent extends KConfig
     public function getName()
     {
         return $this->_name;
+    }
+    
+	/**
+     * Set the event name
+     * 
+     * @param string	The event name
+     * @return KEvent
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
     }
     
     /**
