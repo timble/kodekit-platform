@@ -27,15 +27,11 @@
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="header-box">
-		<div class="container_16 clearfix">
-			<div class="grid_16">
-				<div id="module-status">
-					<jdoc:include type="modules" name="status"  />
-				</div>
-				<div id="module-menu">
-					<jdoc:include type="modules" name="menu" />
-				</div>
-			</div>
+		<div id="module-status">
+			<jdoc:include type="modules" name="status"  />
+		</div>
+		<div id="module-menu">
+			<jdoc:include type="modules" name="menu" />
 		</div>
 	</div>
 	<div id="content-box">
