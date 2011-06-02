@@ -12,7 +12,6 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @helper('behavior.modal'); ?>
-<?= @helper('behavior.tooltip'); ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -66,9 +65,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
 			</td>
 			<td>
-				<span class="editlinktip hasTip" title="<?= @text( 'Edit Weblinks' );?>::<?= @escape($weblink->title); ?>">
-					<a href="<?= @route( 'view=weblink&task=edit&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
-				</span>
+				<a href="<?= @route( 'view=weblink&task=edit&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
 			</td>
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $weblink)) ?>
