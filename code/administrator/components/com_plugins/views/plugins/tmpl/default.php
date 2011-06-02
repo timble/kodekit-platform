@@ -10,8 +10,6 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @helper('behavior.tooltip') ?>
-
 <div id="sidebar">
     <h3><?= @text( 'Types' ); ?></h3>
     <ul>
