@@ -19,5 +19,10 @@
  */
 interface KTemplateFilterInterface  extends KCommandInterface, KObjectIdentifiable
 {
-	
+  	/**
+     * Get the template object
+     *
+     * @return  object	The template object
+     */
+    public function getTemplate();
 }
