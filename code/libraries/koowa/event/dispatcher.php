@@ -75,7 +75,7 @@ class KEventDispatcher extends KObject
      *                 instead.
      * @return KEventDispatcher
      */
-    public function addEventListener($event, KObjectHandable $listener, $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventListener($event, KObjectHandlable $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
         if(is_object($listener))
         {
@@ -83,7 +83,7 @@ class KEventDispatcher extends KObject
                 $this->_listeners[$event] = new KObjectQueue();
             }
             
-            $this->_listeners[$event]->enqueu($listener, $priority);
+            $this->_listeners[$event]->enqueue($listener, $priority);
         }
             
         return $this;
