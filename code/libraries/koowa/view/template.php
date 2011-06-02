@@ -114,12 +114,7 @@ abstract class KViewTemplate extends KViewAbstract
         if(!empty($config->template_filters)) {
             $this->getTemplate()->addFilters($config->template_filters);
         }
-        
-        // Add default template paths
-        if(!empty($config->template_path)) {
-            $this->getTemplate()->addPath($config->template_path);
-        }
-        
+         
         // Set base and media urls for use by the view
         $this->assign('baseurl' , $config->base_url)
              ->assign('mediaurl', $config->media_url);
@@ -152,8 +147,7 @@ abstract class KViewTemplate extends KViewAbstract
             'escape'           => 'htmlspecialchars',
             'layout_default'   => 'default',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link'),
-            'template_path'    => null,
+            'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link', 'template'),
             'auto_assign'      => true,
             'auto_filter'	   => false,
             'base_url'         => KRequest::base(),
@@ -267,9 +261,12 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(empty($this->output))
 		{
-            //Load the template object
+            //We need a full identifier to load the base template
+		    $identifier = clone $this->getIdentifier();
+            $identifier->name = $this->_layout;
+		   
             $this->output = $this->getTemplate()
-                 ->loadIdentifier($this->_layout, $this->_data)
+                 ->loadIdentifier($identifier, $this->_data)
                  ->render($this->_auto_filter);
 		}
                         
@@ -319,12 +316,12 @@ abstract class KViewTemplate extends KViewAbstract
     public function getTemplate()
     {
         if(!$this->_template instanceof KTemplateAbstract)
-        {
+        { 
             //Make sure we have a template identifier
             if(!($this->_template instanceof KIdentifier)) {
                 $this->setTemplate($this->_template);
             }
-            
+              
             $options = array(
             	'view' => $this
             );
