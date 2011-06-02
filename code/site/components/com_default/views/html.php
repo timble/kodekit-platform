@@ -30,24 +30,7 @@ class ComDefaultViewHtml extends KViewDefault
          
         //Add alias filter for editor helper
         KFactory::get($this->getTemplate())->getFilter('alias')->append(array(
-            '@editor(' => '$this->loadHelper(\'admin::com.default.template.helper.editor.display\', ')
+            '@editor(' => '$this->renderHelper(\'admin::com.default.template.helper.editor.display\', ')
         );
-        
-        //Add the template override path
-        $parts = $this->_identifier->path;
-        
-        array_shift($parts);
-        if(count($parts) > 1) 
-        {
-            $path    = KInflector::pluralize(array_shift($parts));
-            $path   .= count($parts) ? '/'.implode('/', $parts) : '';
-            $path   .= DS.strtolower($this->getName()); 
-        } 
-        else $path  = strtolower($this->getName());
-               
-        $template = KFactory::get('lib.joomla.application')->getTemplate();
-        $path     = JPATH_THEMES.'/'.$template.'/'.'html/com_'.$this->_identifier->package.DS.$path;
-          
-         KFactory::get($this->getTemplate())->addPath($path);
     }
 }
