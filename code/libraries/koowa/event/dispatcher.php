@@ -44,11 +44,12 @@ class KEventDispatcher extends KObject
      * @param   object   The KEvent being dispatched 
      * @return  KEventDispatcher
      */
-    public function dispatchEvent(KEvent $event)
+    public function dispatchEvent($name, KEvent $event)
     {
         $result = array();
         
-        $name = $event->getName();
+        //Set the event name
+        $event->setName($name);
         
         if(isset($this->_listeners[$name])) 
         {
@@ -75,15 +76,15 @@ class KEventDispatcher extends KObject
      *                 instead.
      * @return KEventDispatcher
      */
-    public function addEventListener($event, KObjectHandlable $listener, $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventListener($name, KObjectHandlable $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
         if(is_object($listener))
         {
-            if(!isset($this->_listeners[$event])) {
-                $this->_listeners[$event] = new KObjectQueue();
+            if(!isset($this->_listeners[$name])) {
+                $this->_listeners[$name] = new KObjectQueue();
             }
             
-            $this->_listeners[$event]->enqueue($listener, $priority);
+            $this->_listeners[$name]->enqueue($listener, $priority);
         }
             
         return $this;
@@ -96,12 +97,12 @@ class KEventDispatcher extends KObject
      * @param   object  An object implementing the KObjectHandlable interface
      * @return  KEventDispatcher
      */
-    public function removeEventListener($event, KObjectHandable $listener)
+    public function removeEventListener($name, KObjectHandable $listener)
     {
         if(is_object($listener))
         {
-            if(isset($this->_listeners[$event])) {
-                $this->_listeners[$event]->dequeue($listener);
+            if(isset($this->_listeners[$name])) {
+                $this->_listeners[$name]->dequeue($listener);
             }
         }
         
@@ -114,11 +115,11 @@ class KEventDispatcher extends KObject
      * @param   string  		The event name
      * @return  KObjectQueue	An object queue containing the listeners
      */
-    public function getListeners($event)
+    public function getListeners($name)
     {
         $result = array();
-        if(isset($this->_listeners[$event])) {
-            $result = $this->_listeners[$event];
+        if(isset($this->_listeners[$name])) {
+            $result = $this->_listeners[$name];
         }
         
         return $result;
@@ -130,11 +131,11 @@ class KEventDispatcher extends KObject
      * @param   string  The event name
      * @return  boolean	TRUE if we are listening for a specific event, otherwise FALSE.
      */
-    public function hasListeners($event)
+    public function hasListeners($name)
     {
         $result = false;
-        if(isset($this->_listeners[$event])) {
-             $result = (boolean) count($this->_listereners[$event]);
+        if(isset($this->_listeners[$name])) {
+             $result = (boolean) count($this->_listereners[$name]);
         }
         
         return $result;
@@ -148,10 +149,10 @@ class KEventDispatcher extends KObject
      * @param  integer   The event priority
      * @return KCommandChain
      */
-    public function setEventPriority($event, KObjectHandable $listener, $priority)
+    public function setEventPriority($name, KObjectHandable $listener, $priority)
     {
-        if(isset($this->_listeners[$event])) {
-            $this->_listeners[$event]->setPriority($listener, $priority);
+        if(isset($this->_listeners[$name])) {
+            $this->_listeners[$name]->setPriority($listener, $priority);
         }
         
         return $this;
@@ -164,12 +165,12 @@ class KEventDispatcher extends KObject
      * @param   object  An object implementing the KObjectHandlable interface
      * @return  integer|false The event priority or FALSE if the event isn't listened for.
      */
-    public function getEventPriority($event, KObjectHandable $listener)
+    public function getEventPriority($name, KObjectHandable $listener)
     {
         $result = false;
         
-        if(isset($this->_listeners[$event])) {
-            $result = $this->_listeners[$event]->getPriority($listener);
+        if(isset($this->_listeners[$name])) {
+            $result = $this->_listeners[$name]->getPriority($listener);
         }
         
         return $result;
