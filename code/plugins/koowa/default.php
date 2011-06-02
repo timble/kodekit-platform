@@ -76,34 +76,34 @@ abstract class PlgKoowaDefault extends KEventListener
     /**
      * Constructor
      */
-    function __construct($dispatcher, $config = array())
-    {
+function __construct($dispatcher, $config = array())
+	{
 		if (isset($config['params']))
 		{
-			if ($config['params'] instanceof JRegistry) {
-				$this->params = $config['params'];
+		    if ($config['params'] instanceof JRegistry) {
+				$this->_params = $config['params'];
 			} else {
-				$this->params = new JRegistry;
-				$this->params->loadINI($config['params']);
+				$this->_params = new JRegistry;
+				$this->_params->loadINI($config['params']);
 			}
 		}
-        
-        if ( isset( $config['name'] ) ) {
-            $this->_name = $config['name'];
-        }
 
-        if ( isset( $config['type'] ) ) {
-            $this->_type = $config['type'];
-        }
-        
-        //Register the plugin with the dispatcher
-        $dispatcher->addListener($this);
-        
-        //Force the identifier to NULL for now
-        $config['identifier'] = null;
+		if ( isset( $config['name'] ) ) {
+			$this->_name = $config['name'];
+		}
 
-        parent::__construct(new KConfig($config));
-    }
+		if ( isset( $config['type'] ) ) {
+			$this->_type = $config['type'];
+		}
+		
+		//Force the identifier to NULL for now
+		$config['identifier'] = null;
+		
+		//Set the dispatcher
+		$config['dispatcher'] = $dispatcher;
+
+		parent::__construct(new KConfig($config));
+	}
     
     /**
      * Loads the plugin language file
