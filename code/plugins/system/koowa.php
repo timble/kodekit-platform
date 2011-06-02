@@ -112,7 +112,9 @@ class plgSystemKoowa extends JPlugin
 		
 		//Change the Joomla error handler to our own local handler and call it
 		JError::setErrorHandling( E_ERROR, 'callback', array($this,'errorHandler'));
-		JError::raiseError($exception->getCode(), $exception->getMessage());
+		
+		//Make sure we have a valid status code
+		JError::raiseError(KHttpResponse::isError($exception->getCode()) ? $exception->getCode() : 500, $exception->getMessage());
 	}
 
 	/**
