@@ -29,8 +29,14 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	 * @param	array	An associative array of data to be extracted in local template scope
 	 * @return KTemplateAbstract
 	 */
-	public function loadPath($path, $data = array())
+	public function loadFile($path, $data = array())
 	{
+	    //If the path doesn't contain the /tmpl/ folder add it
+	    if(strpos($path, '/tmpl/') === false) {
+	        $path = dirname($path).'/tmpl/'.basename($path);
+	    }
+	    
+	    //Load from cache or cache the template 
 	    $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
 		
 	    //Set the lifetime to 0 to make sure cache isn't garbage collected.
@@ -41,10 +47,42 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	    if ($template = $cache->get($identifier)) {
 		    $this->loadString($template, $data, $path);
 	    } else {
-	        parent::loadPath($path, $data);
+	        parent::loadFile($path, $data);
 	    }
 	    
 		return $this;
+	}
+	
+	/**
+	 * Searches for the file
+	 * 
+	 * This function first tries to find a template override, if no override exists
+	 * it will try to find the default template
+	 *
+	 * @param	string	The file path to look for.
+	 * @return	mixed	The full path and file name for the target file, or FALSE
+	 * 					if the file is not found
+	 */
+	public function findFile($path)
+	{
+	    $template  = KFactory::get('lib.joomla.application')->getTemplate();
+        $override  = JPATH_THEMES.'/'.$template.'/html';
+	    $override .= str_replace(array(JPATH_BASE.'/components', '/views'), '', $path);
+	     
+	    //Try to load the template override
+	    $result = parent::findFile($override);
+	    
+	    if($result === false) 
+	    {
+	        //If the path doesn't contain the /tmpl/ folder add it
+	        if(strpos($path, '/tmpl/') === false) {
+	            $path = dirname($path).'/tmpl/'.basename($path);
+	        }
+	      
+	        $result = parent::findFile($path);
+	    } 
+	    
+	    return $result;
 	}
 	
 	/**
@@ -93,7 +131,7 @@ class ComDefaultTemplateDefault extends KTemplateDefault
      * @param   mixed   Parameters to be passed to the helper
      * @return  string  Helper output
      */
-    public function loadHelper($identifier, $params = array())
+    public function renderHelper($identifier, $params = array())
     {
         $view = $this->getView();
         
@@ -110,6 +148,6 @@ class ComDefaultTemplateDefault extends KTemplateDefault
             }
         }   
         
-        return parent::loadHelper($identifier, $params);
+        return parent::renderHelper($identifier, $params);
     }
 }
