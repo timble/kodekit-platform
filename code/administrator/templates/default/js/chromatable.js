@@ -54,7 +54,11 @@ var ChromaTable = new Class({
 			height:			this.options.height,
 			width:			this.options.width
 		});
-				
+		
+		//Workaround for WebKit bug where borders on <td>s inside hidden parent <tfoot> still show the border
+		inner.getElements('tfoot tr > *').setStyle('border-color', 'transparent');
+
+
 		inner.getElements('tr').each(function(tr){
 			var checkbox = tr.getElement('input[type=checkbox]');
 			if(!checkbox) return;
@@ -137,6 +141,8 @@ var ChromaTable = new Class({
 			inner.setStyle('padding-right','0px');
 		}
 		
+		this.inner = inner;
+		
     	//check to see if the width is set to auto, if not, we don't need to call the resizer function
     	if (this.options.width == "100%" || "auto") {
     		window.addEvent('resize', this.resizer.bind(this, [thead, tfoot]));
@@ -187,6 +193,19 @@ var ChromaTable = new Class({
 				tfoot.getElement('tfoot').getElements('td')[i].setStyle('width', this.getComputedWidth(td));
 			}, this);
 		}
+		
+		//Background magic
+		var backgroundHeight = this.inner.getElement('tbody tr').offsetHeight*2,
+		    backgroundOffset = this.inner.getElement('tbody').offsetTop,
+		    backgrounds = {
+		        odd: this.inner.getElement('tbody tr:odd').getStyle('background-color'),
+		        even: this.inner.getElement('tbody tr:even').getStyle('background-color')
+		    };
+		this.inner.setStyles({
+		    backgroundSize: '100% '+backgroundHeight+'px',
+		    backgroundPosition: '0px '+(backgroundOffset-2)+'px',
+		    backgroundImage: '-webkit-gradient(linear, left top, left bottom, color-stop(0, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.even+'), color-stop(0.5, '+backgrounds.odd+'), color-stop(1, '+backgrounds.odd+'))'
+		});
 	},
 	
 	getComputedWidth: function(el, del){
