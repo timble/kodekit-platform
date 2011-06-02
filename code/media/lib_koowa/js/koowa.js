@@ -36,9 +36,6 @@ window.addEvent('domready', function() {
         
         var toolbar = grid.get('data-toolbar') ? grid.get('data-toolbar') : '.toolbar';
         new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
-        
-        //<select> elements in headers and footers are for filters, so they need to submit the form on change
-        grid.getElements('thead select, tfoot select').addEvent('change', grid.submit.bind(grid));
     });
 
     $$('.-koowa-form').each(function(form){
@@ -207,19 +204,19 @@ Koowa.Controller = new Class({
 		    if(token_name) data[token_name] = button.get('data-token-value');
 		    
 		    button.addEvent('click', function(){
-		        if(!button.hasClass('disabled')) this.fireEvent('execute', [action, data]);
+		        if(!button.hasClass('disabled')) this.fireEvent('execute', [action, data, button.get('data-novalidate') == 'novalidate']);
 		    }.bind(this));
 		    
 		}, this);
     },
     
-    execute: function(action, data){
+    execute: function(action, data, novalidate){
     	var method = '_action'+action.capitalize();
     	
 		this.options.action = action;
-		if(this.fireEvent('before.'+action, data)) {
-		    this[method] ? this[method].call(this, data) : this._action_default.call(this, action, data);
-		    this.fireEvent('after.'+action, data)
+		if(this.fireEvent('before.'+action, [data, novalidate])) {
+		    this[method] ? this[method].call(this, data) : this._action_default.call(this, action, data, novalidate);
+		    this.fireEvent('after.'+action, [data, novalidate])
 		}
     	
     	return this;
@@ -283,14 +280,17 @@ Koowa.Controller.Grid = new Class({
             this.buttons.removeClass.delay(1, this.buttons, ['beforeload']);
             this.form.getElements(this.options.inputs).addEvent('change', this.checkValidity.bind(this));
         }
+        
+        //<select> elements in headers and footers are for filters, so they need to submit the form on change
+        this.form.getElements('thead select, tfoot select').addEvent('change', this.form.submit.bind(this.form));
     },
     
     validate: function(){
         if(!Koowa.Grid.getIdQuery()) return false;
     },
     
-    _action_default: function(action, data){
-        if(!this.fireEvent('validate')) return false;
+    _action_default: function(action, data, novalidate){
+        if(!novalidate && !this.fireEvent('validate')) return false;
     
         var options = {
             method:'post',
@@ -314,16 +314,58 @@ Koowa.Controller.Form = new Class({
 
     Extends: Koowa.Controller,
     
-    _action_default: function(action, data){
-        if(!this.fireEvent('validate')) return false;
+    options: {
+        updateToolbarOnChanged: true
+    },
+    
+    //Default values in the form, used as ajaxed form inputs may have a different default value than the input's defaultValue property
+    defaults: {},
+    
+    initialize: function(options){
+    
+        this.parent(options);
+        
+        //Perform form validation and set the right classes on toolbar buttons
+        if(this.options.updateToolbarOnChanged) {
+        
+            //Gather preset values when one of the elements get focus
+            var buttons = this.buttons.filter(function(button){
+                    return button.get('data-novalidate') != 'novalidate';
+                }, this), 
+                elements = $$(this.form.elements).filter('[name]'), 
+                setDefaults = function(){
+                    //Only run setDefaults once
+                    elements.removeEvent('focus', setDefaults);
+
+                    elements.each(function(element){
+                        this.defaults[element.get('name')] = element.get('value');
+                    }, this);
+
+                    var self = this, changed = [];
+                    elements.addEvent('change', function(){
+                        var name = this.get('name'), value = this.get('value'), defaultValue = self.defaults[name];
+                        
+                        value !== defaultValue ? changed.include(this) : changed.erase(this);
+                        changed.length ? buttons.removeClass('disabled') : buttons.addClass('disabled');
+                    });
+                    
+                }.bind(this);
+            elements.addEvent('focus', setDefaults);
+            window.addEvent('load', setDefaults);
+            
+            //This is to allow CSS3 transitions without those animating onload without user interaction
+            buttons.addClass('beforeload disabled')
+                        //Remove the class 1ms afterwards, which is enough for bypassing css transitions onload
+                        .removeClass.delay(1, this.buttons, ['beforeload']);
+        }
+    
+    },
+    
+    _action_default: function(action, data, novalidate){
+        if(!novalidate && !this.fireEvent('validate')) return false;
     
         this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: action}));
         this.form.submit();
-    },
-    
-    _actionCancel: function(data){
-    	this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: 'cancel'}));
-    	this.form.submit();
     }
 
 });
