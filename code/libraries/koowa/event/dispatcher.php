@@ -28,25 +28,62 @@ class KEventDispatcher extends KObject
 	protected $_listeners;
 	
 	/**
+     * The event object
+     * 
+     * @var KEvent
+     */
+    protected $_event = null;
+	
+	/**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
      */
 	public function __construct(KConfig $config = null) 
 	{
-		$this->_listeners = array();
+		parent::__construct($config);
+	    
+	    $this->_listeners = array();
+		$this->_event     = $config->event;
 	}
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'event'   => new KEvent(),
+        ));
+
+        parent::_initialize($config);
+    }
  	
  	/**
      * Dispatches an event by dispatching arguments to all listeners that handle
      * the event and returning their return values.
      *
-     * @param   object   The KEvent being dispatched 
+     * @param   object|array   An array, a KConfig or a KEvent object 
      * @return  KEventDispatcher
      */
-    public function dispatchEvent($name, KEvent $event)
+    public function dispatchEvent($name, $event = array())
     {
         $result = array();
+        
+        //Make sure we have an event object
+        if(!$event instanceof KEvent) 
+        {
+            $params = $event;
+            $event  = $this->getEvent();
+            foreach ($params as $key => $value) {
+                $event->$key = $value;
+            }
+        }
         
         //Set the event name
         $event->setName($name);
@@ -174,5 +211,15 @@ class KEventDispatcher extends KObject
         }
         
         return $result;
+    }
+    
+	/**
+     * Factory method for a command context.
+     * 
+     * @return  KCommandContext
+     */
+    public function getEvent()
+    {   
+        return clone $this->_event;
     }
 }
