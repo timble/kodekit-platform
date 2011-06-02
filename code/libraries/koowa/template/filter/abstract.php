@@ -81,6 +81,16 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         return $this->_priority;
     }
+    
+    /**
+     * Get the template object
+     *
+     * @return  object	The template object
+     */
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
         
     /**
      * Command handler
