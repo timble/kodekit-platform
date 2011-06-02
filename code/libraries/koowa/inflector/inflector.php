@@ -339,7 +339,8 @@ class KInflector
 	 * @param string $string The word to check
 	 * @return boolean
 	 */
-	public static function isSingular($string) {
+	public static function isSingular($string) 
+	{
 		return self::singularize(self::pluralize($string)) == $string;
 	}
 
@@ -349,7 +350,8 @@ class KInflector
 	 * @param string $string
 	 * @return boolean
 	 */
-	public static function isPlural($plural) {
+	public static function isPlural($plural) 
+	{
 		return self::pluralize(self::singularize($plural)) == $plural;
 	}
 
