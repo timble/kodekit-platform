@@ -75,7 +75,8 @@ input.button  { cursor: pointer; }
 	display: none;
 }
 
-.submitable { 
+.submitable,
+[data-action] { 
 	cursor: pointer; 
 }
 
