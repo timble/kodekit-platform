@@ -28,17 +28,11 @@ class ComDefaultToolbarButtonDefault extends KToolbarButtonPost
      */
     protected function _initialize(KConfig $config)
     {
-        $config->append(array(
-            'token_value' => JUtility::getToken(),	
-        ));
-
         parent::_initialize($config);
         
         $config->append(array(
             'attribs' => array(
-                'data-action'      => $this->_identifier->name,
-                'data-token-name'  => $config->token_name,
-                'data-token-value' => $config->token_value
+                'data-action'      => $this->_identifier->name
             )
         ));
     }
