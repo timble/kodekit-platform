@@ -46,20 +46,21 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper( 'grid.search'); ?>
 			</td>
 			<td align="center">
-				<?= @helper('listbox.published', array('name' => 'published')) ?>
+				<?= @helper('listbox.published', array('name' => 'enabled')) ?>
 			</td>
 			<td></td>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr>
-			<td colspan="9">
+			<td colspan="4">
 				<?= @helper('paginator.pagination', array('total' => $total)) ?>
 			</td>
 		</tr>
 	</tfoot>
 	<tbody>
-	<? foreach ($weblinks as $weblink) : ?>
+	<? if ($total) : ?>
+		<? foreach ($weblinks as $weblink) : ?>
 		<tr>
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
@@ -75,6 +76,13 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 		</tr>
 		<? endforeach; ?>
+	<? else : ?>
+		<tr>
+	        <td colspan="4" align="center">
+	             <?= @text('No Items Found'); ?>
+	        </td>
+	    </tr>
+	<? endif ?>
 	</tbody>
 	</table>
 </form>
