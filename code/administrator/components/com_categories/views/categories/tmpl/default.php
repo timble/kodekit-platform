@@ -91,7 +91,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </tfoot>
 
         <tbody>
-        <? if( $total) : ?>
+        <? if($total) : ?>
             <? foreach( $categories as $category) :  ?>
                 <tr>
                     <td align="center">
@@ -130,8 +130,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <? endforeach; ?>
             <? else : ?>
 				<tr>
-                    <td colspan="10">
-                        <?= @text('There are no '.$state->section.' Categories'); ?>
+                    <td colspan="10" align="center">
+                         <?= @text('No Items Found'); ?>
                     </td>
                 </tr>
             <? endif ?>
