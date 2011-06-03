@@ -153,11 +153,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		$value 	= $config->row->enabled ? 0 : 1;
 
-		$url   = $this->_createUrl($config).'&id='.$config->row->id;
-		$token = JUtility::getToken();
-
-		$rel   = "{method:'post', url:'$url', params:{enabled:$value, _token:'$token', action:'edit'}}";
-		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" class="submitable" rel="'.$rel.'" title='.$text.' />';
+		$data  = "{enabled:$value}";
+		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
 
 		return $html;
 	}
@@ -182,20 +179,17 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$up   = 'media://lib_koowa/images/arrow_up.png';
 		$down = 'media://lib_koowa/images/arrow_down.png';
 
-		$url   = $this->_createUrl($config).'&id='.$config->row->id;
-		$token = JUtility::getToken();
-
-		$uprel = "{method:'post', url:'$url', params:{order:-1, action:'edit', _token:'$token'}}";
-		$downrel = "{method:'post', url:'$url', params:{order:1, action:'edit', _token:'$token'}}";
+		$updata   = "{order:-1}";
+		$downdata = "{order:1}";
 
 		if ($config->row->ordering > 1) {
-            $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" class="submitable" rel="'.$uprel.'" />';
+            $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
         }
 
         $html .= $config->row->ordering;
 
         if($config->row->ordering != $config->total) {
-            $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" class="submitable" rel="'.$downrel.'"/>';
+            $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" data-action="edit" data-data="'.$downdata.'"/>';
 	    }
 
 		return $html;
@@ -242,25 +236,9 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		}
 
-		$url   = $this->_createUrl($config).'&id='.$config->row->id;
-		$token = JUtility::getToken();
-
-		$rel   = "{method:'post',  url:'$url', params:{access:$access, _token:'$token'}}";
-		$html .= '<span style="color:'.$color.'" class="submitable" rel="'.$rel.'" />'.$group.'</span>';
+		$data  = "{access:$access}";
+		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'" />'.$group.'</span>';
 
 		return $html;
-	}
-
-	protected function _createUrl(KConfig $config)
-	{
-		if(!$url = $config->url)
-		{
-    	    $option = 'com_'.$config->row->getIdentifier()->package;
-    		$view   = $config->row->getIdentifier()->name;
-
-    		$url = 'index.php?option='.$option.'&view='.$view;
-		}
-
-		return $url;
 	}
 }
