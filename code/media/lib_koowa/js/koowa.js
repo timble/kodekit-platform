@@ -284,6 +284,48 @@ Koowa.Controller.Grid = new Class({
         
         //<select> elements in headers and footers are for filters, so they need to submit the form on change
         this.form.getElements('thead select, tfoot select').addEvent('change', this.form.submit.bind(this.form));
+        
+        //Pick up actions that are in the grid itself
+        var token_name = this.form.get('data-token-name'),
+            token_value = this.form.get('data-token-value'),
+            checkboxes = this.form.getElements('tbody tr .-koowa-grid-checkbox');
+        this.form.getElements('tbody tr').each(function(tr){
+            var checkbox = tr.getElement('.-koowa-grid-checkbox'),
+                id = {name: checkbox.get('name'), value: checkbox.get('value')},
+                //Attributes with hyphens don't work with the MT 1.2 selector engine, it's fixed in 1.3 so this is a workaround
+                actions = tr.getElements('*').filter(function(action){
+                    return action.get('data-action');
+                });
+            
+            actions.each(function(action){
+                var data = action.get('data-data'), actionName = action.get('data-action');
+                    data = data ? JSON.decode(data) : {},
+                    eventType = action.get('data-event-type');
+
+                //Set token data
+                if(token_name) data[token_name] = token_value;
+
+                if(!eventType) {
+                    var onchange = ['[type="radio"]', '[type="checkbox"]', 'select'].filter(function(test){
+                            return action.match(test);
+                        });
+                        
+                    eventType = onchange.length ? 'change' : 'click';
+                }
+
+
+                action.addEvent(eventType, function(){
+                    checkboxes.set('checked', '');
+                    checkbox.set('checked', 'checked');
+                    checkboxes.fireEvent('change');
+
+                    this.fireEvent('execute', [actionName, data, true]);
+                }.bind(this));
+                
+            
+            }, this);
+
+        }, this);
     },
     
     validate: function(){
