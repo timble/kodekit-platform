@@ -63,7 +63,7 @@ input[type="radio"] { border: 0 none; }
 
 input.disabled { background-color: #F0F0F0; }
 
-input.button  { cursor: pointer;   }
+input.button  { cursor: pointer; }
 
 .ellipsis {
 	overflow: hidden;
@@ -809,12 +809,12 @@ table.adminlist .pagination div.off span {
 	line-height: 20px;
 }
 
+input.button,
 .button1 a,
 .button2-left a,
 .button2-right a,
 .button2-left span,
 .button2-right span {
-	display: block;
 	color: #333;
 	cursor: pointer;
 	font-weight: bold;
@@ -828,9 +828,18 @@ table.adminlist .pagination div.off span {
 	border-radius: 3px;
 }
 
+.button1 a,
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
+	display: block;
+}
+
 .button2-left span,
 .button2-right span { cursor: default; color: #999; }
 
+input.button:hover,
 .button1 a:hover,
 .button2-left a:hover,
 .button2-right a:hover {
