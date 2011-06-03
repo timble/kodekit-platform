@@ -95,7 +95,8 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
 		if (isset($this->_modified['default']) && $this->default)
 		{   
 		    //Update the params
-		    $params = JComponentHelper::getParams('com_languages')->set($this->application, $this->name);
+		    $params = JComponentHelper::getParams('com_languages');
+		    $params->set($this->application, $this->name);
  
 		    //Save the params   
 			$result = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'))
