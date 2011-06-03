@@ -849,6 +849,7 @@ input.button:hover,
 	text-decoration: none;
 }
 
+input.button:active,
 .button1 a:active,
 .button2-left a:active,
 .button2-right a:active{
