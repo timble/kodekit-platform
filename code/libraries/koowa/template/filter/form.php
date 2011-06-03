@@ -86,6 +86,15 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
             );
         }
         
+        // GET : Add token to .-koowa-grid forms
+        if(!empty($this->_token_value)) 
+        {
+            $text    = preg_replace('/(<form.*method="get".*class=".*-koowa-grid.*".*)>/i', 
+            	'\1 data-token-name="'.$this->_token_name.'" data-token-value="'.$this->_token_value.'">', 
+                $text
+            );
+        }
+        
         // GET : Add query params
         $matches = array();
         if(preg_match_all('#<form.*action=".*\?(.*)".*method="get".*>#iU', $text, $matches))
