@@ -143,6 +143,15 @@ var ChromaTable = new Class({
 		
 		this.inner = inner;
 		
+		//For the zebras to work, there must be at least 2 rows
+		if(this.inner.getElements('tbody tr').length < 2) {
+		    var fake = new Element('tr', {
+		        styles: {visibility: 'hidden'},
+		        html: '<td colspan="'+this.inner.getElements('thead tr th').length+'">&nbsp;</td>'
+		    });
+		    this.inner.getElement('tbody').adopt([fake, fake.clone()]);
+		}
+		
     	//check to see if the width is set to auto, if not, we don't need to call the resizer function
     	if (this.options.width == "100%" || "auto") {
     		window.addEvent('resize', this.resizer.bind(this, [thead, tfoot]));
