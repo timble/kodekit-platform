@@ -196,12 +196,13 @@ Koowa.Controller = new Class({
 		this.buttons = this.toolbar.getElements('.toolbar').filter(function(button){
 		    return button.get('data-action');
 		});
+		var token_name = this.form.get('data-token-name'), token_value = this.form.get('data-token-value');
 		this.buttons.each(function(button){
-		    var data = button.get('data-data'), action = button.get('data-action'), token_name = button.get('data-token-name');
+			var data = button.get('data-data'), action = button.get('data-action');
 		    data = data ? JSON.decode(data) : {};
 		    
 		    //Set token data
-		    if(token_name) data[token_name] = button.get('data-token-value');
+		    if(token_name) data[token_name] = token_value;
 		    
 		    button.addEvent('click', function(){
 		        if(!button.hasClass('disabled')) this.fireEvent('execute', [action, data, button.get('data-novalidate') == 'novalidate']);
