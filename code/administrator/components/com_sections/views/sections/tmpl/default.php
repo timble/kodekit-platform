@@ -61,13 +61,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="13">
+				<td colspan="8">
 					<?= @helper('paginator.pagination', array('total' => $total)); ?>
 				</td>
 			</tr>
 		</tfoot>
 		<tbody>
-		<? foreach ( $sections as $section ) :  ?>
+		<? if ($total) : ?>
+			<? foreach ( $sections as $section ) :  ?>
 			<tr>
 				<td align="center">
 					<?= @helper( 'grid.checkbox' , array('row' => $section)); ?>
@@ -97,6 +98,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
+		<? else : ?>
+			<tr>
+		        <td colspan="8" align="center">
+		             <?= @text('No Items Found'); ?>
+		        </td>
+		    </tr>
+		<? endif ?>
 		</tbody>		
-		</table>
-		</form>		
+	</table>
+</form>		
