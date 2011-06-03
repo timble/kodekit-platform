@@ -60,10 +60,10 @@ class JCacheStorageMemcache extends JCacheStorage
 		$this->_db        =& JCacheStorageMemcache::getConnection();
 		
 	    // memcahed has no list keys, we do our own accounting, initalise key index
-		if (self::$_db->get($this->_hash.'-index') === false) 
+		if ($this->_db->get($this->_hash.'-index') === false) 
 		{
 			$empty = array();
-			self::$_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
+			$this->_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
 		}
 	}
 
@@ -144,7 +144,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function keys()
 	{
-		$keys   = self::$_db->get($this->_hash.'-index');
+		$keys   = $this->_db->get($this->_hash.'-index');
 		$secret = $this->_hash;
 
 		$result = array();
@@ -197,7 +197,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash.'-index');
+		$index = $this->_db->get($this->_hash.'-index');
 		if ($index === false) {
 			$index = array();
 		}
@@ -207,12 +207,12 @@ class JCacheStorageMemcache extends JCacheStorage
 		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
 		
-		self::$_db->replace($this->_hash.'-index', $index , 0, 0);
+		$this->_db->replace($this->_hash.'-index', $index , 0, 0);
 		$this->unlockindex();
 
 		// prevent double writes, write only if it doesn't exist else replace
-		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime)) {
-			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
+		if (!$this->_db->replace($cache_id, $data, $this->_compress, $this->_lifetime)) {
+			$this->_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
 		}
 
 		return true;
@@ -235,7 +235,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash.'-index');
+		$index = $this->_db->get($this->_hash.'-index');
 		if ($index === false) {
 			$index = array();
 		}
@@ -244,10 +244,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			if ($value->name == $cache_id) unset ($index[$key]);
 			break;
 		}
-		self::$_db->replace($this->_hash.'-index', $index, 0, 0);
+		$this->_db->replace($this->_hash.'-index', $index, 0, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($cache_id);
+		return $this->_db->delete($cache_id);
 	}
 	
 	/**
@@ -264,7 +264,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash.'-index');
+		$index = $this->_db->get($this->_hash.'-index');
 		if ($index === false) {
 			$index = array();
 		}
@@ -275,10 +275,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			break;
 		}
 		
-		self::$_db->replace($this->_hash.'-index', $index, 0, 0);
+		$this->_db->replace($this->_hash.'-index', $index, 0, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($key);
+		return $this->_db->delete($key);
 	}
 
 	/**
@@ -299,7 +299,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash.'-index');
+		$index = $this->_db->get($this->_hash.'-index');
 		if ($index === false) {
 			$index = array();
 		}
@@ -309,11 +309,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		{
 			if (strpos($value->name,  $secret.'-cache-'.$this->_site.'-'.$group.'-')===0 xor $mode != 'group') 
 			{
-				self::$_db->delete($value->name,0);
+				$this->_db->delete($value->name,0);
 				unset ($index[$key]);
 			}
 		}
-		self::$_db->replace($this->_hash.'-index', $index , 0, 0);
+		$this->_db->replace($this->_hash.'-index', $index , 0, 0);
 		$this->unlockindex();
 		return true;
 	}
@@ -365,7 +365,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	private function lockindex()
 	{
 		$looptime 	= 300;
-		$data_lock 	= self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
+		$data_lock 	= $this->_db->add($this->_hash.'-index_lock', 1, false, 30);
 
 		if ($data_lock === FALSE) {
 
@@ -380,7 +380,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
+				$data_lock = $this->_db->add($this->_hash.'-index_lock', 1, false, 30);
 				$lock_counter++;
 			}
 		}
@@ -396,6 +396,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	private function unlockindex()
 	{
-		return self::$_db->delete($this->_hash.'-index_lock');
+		return $this->_db->delete($this->_hash.'-index_lock');
 	}
 }
