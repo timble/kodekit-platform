@@ -39,9 +39,6 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper('grid.sort', array('column' => 'sticky')); ?>
                 </th>
                 <th width="5%">
-                    <?= @helper('grid.sort', array('column' => 'impmade', 'title' => 'Impressions')); ?>
-                </th>
-                <th width="5%">
                     <?= @helper('grid.sort', array('column' => 'clicks')); ?>
                 </th>
                 <th width="5%">
@@ -62,13 +59,12 @@ defined('KOOWA') or die('Restricted access'); ?>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
             </tr>
         </thead>
         
         <tfoot>
             <tr>
-                <td colspan="8">
+                <td colspan="7">
                 <?= @helper('paginator.pagination', array('total' => $total)); ?>
                 </td>
             </tr>
@@ -93,14 +89,10 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper( 'grid.order' , array('row' => $banner, 'total' => $banner->total)); ?>
                 </td>
                 <td align="center">
-                    <?=$banner->sticky?>
+                    <?= $banner->sticky ? @text('Yes') : @text('No'); ?>
                 </td>
                 <td align="center">
-                    <?=$banner->hits?>
-                </td>
-                <td align="center">
-                    <?= $banner->clicks;?> -
-				    <?= sprintf( '%.2f%%', 100 * ($banner->clicks/$banner->hits));?>
+                    <?= $banner->clicks;?>
                 </td>
                 <td align="center">
                     <?=$banner->tags?>
@@ -109,7 +101,7 @@ defined('KOOWA') or die('Restricted access'); ?>
             <? endforeach; ?>
         <? else : ?>
             <tr>
-                <td colspan="8" align="center">
+                <td colspan="7" align="center">
                     <?= @text('No Items Found'); ?>
                 </td>
             </tr>
