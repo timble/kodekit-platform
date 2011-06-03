@@ -381,13 +381,31 @@ Koowa.Controller.Form = new Class({
                     elements.removeEvent('focus', setDefaults);
 
                     elements.each(function(element){
-                        this.defaults[element.get('name')] = element.get('value');
+                        if(element.match('[type="checkbox"]')) {
+                            this.defaults[element.get('name')] = element.get('checked');
+                        } else if(element.match('[type="radio"]')) {
+                            if(element.get('checked')) this.defaults[element.get('name')] = element.get('id');
+                        } else {
+                            this.defaults[element.get('name')] = element.get('value');
+                        }
                     }, this);
 
                     var self = this, changed = [];
                     elements.addEvent('change', function(){
-                        var name = this.get('name'), value = this.get('value'), defaultValue = self.defaults[name];
-                        
+                        if(this.match('[type="checkbox"]')) {
+                            var name = this.get('name'), value = this.get('checked');
+                        } else if(this.match('[type="radio"]')) {
+                            var name = this.get('name'), value = this.get('id'), 
+                                siblings = elements.filter('[name="'+this.get('name')+'"]').erase(this);                
+
+                            siblings.each(function(sibling){
+                                changed.erase(sibling)
+                            });
+                        } else {
+                            var name = this.get('name'), value = this.get('value');
+                        }
+                        var defaultValue = self.defaults[name];
+
                         value !== defaultValue ? changed.include(this) : changed.erase(this);
                         changed.length ? buttons.removeClass('disabled') : buttons.addClass('disabled');
                     });
