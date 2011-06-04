@@ -53,7 +53,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     				</th>
     				<? if($state->application == 'site') : ?>
     					<th nowrap="nowrap" width="7%">
-    						<?= @helper('grid.sort', array('column' => 'groupname' , 'title' => 'Access')) ?>
+    						<?= @helper('grid.sort', array('column' => 'access' , 'title' => 'Access')) ?>
     					</th>
     				<? endif ?>
     				<th nowrap="nowrap" width="7%">
