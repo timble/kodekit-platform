@@ -35,24 +35,6 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowAbstract
         'description'
     );
     
-    /**
-     * Whitelist for virtual keys to be lazy initiated
-     *
-     * @var array
-     */
-    protected static $_virtual_fields = array(
-        'title',
-    );
-    
-    /**
-     * Blacklist for hidden fields
-     *
-     * @var array
-     */
-    protected static $_hidden_fields = array(
-    	'path',
-    );
-
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
