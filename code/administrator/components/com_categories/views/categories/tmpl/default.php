@@ -33,7 +33,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <?= @text('Ordering') ?>
                 </th>
                 <th width="7%">
-                    <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'groupname')   ); ?>
+                    <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'access')   ); ?>
                 </th>
                 <? if ( $state->section == 'com_content') : ?>
                     <th width="20%"  class="title">
