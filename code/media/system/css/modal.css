@@ -21,9 +21,6 @@
 	-webkit-box-shadow: #333 0px 5px 15px;
 	-moz-box-shadow: #333 0px 5px 15px;
 	box-shadow: #333 0px 5px 15px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
 }
 
 * html #sbox-window {
