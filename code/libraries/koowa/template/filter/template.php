@@ -53,8 +53,8 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
 			{
 			    if(is_string($match) && strpos($match, '.') === false ) 
 		        {
-		            $path =  dirname($this->getTemplate()->getPath()).'/'.$match.'.php';
-		            $text = str_replace($matches[0][$key], '$this->loadFile("'.$path.'"', $text);
+		            $path =  dirname($this->getTemplate()->getPath()).DS.$match.'.php';
+		            $text = str_replace($matches[0][$key], '$this->loadFile('."'".$path."'", $text);
 		        }
 			}
 		}
