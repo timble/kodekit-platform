@@ -43,7 +43,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             			<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
             		</th>
             		<th nowrap="nowrap" width="10%">
-            			<?= @helper('grid.sort', array('column' => 'groupname' , 'title' => 'Access')) ?>
+            			<?= @helper('grid.sort', array('column' => 'access' , 'title' => 'Access')) ?>
             		</th>
             	</tr>
             	<tr>
