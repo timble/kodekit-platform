@@ -54,4 +54,19 @@ class ComBannersDatabaseRowBanner extends KDatabaseRowDefault
         $this->clicks++;
         return $this->save();
     }
+    
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+         
+        $data['type']      = $this->type;
+        $data['params']    = $this->params->toArray();
+     
+        return $data;
+    }
 }
