@@ -133,7 +133,7 @@ abstract class KControllerResource extends KControllerAbstract
 			$this->_view = KFactory::tmp($this->_view, $config);
 			
 			//Make sure the view exists
-		    if(!file_exists(dirname($this->_view->filepath))) {
+		    if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
 		        throw new KControllerException('View :'.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
 		    }
 		}
