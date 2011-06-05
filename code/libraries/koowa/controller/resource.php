@@ -105,8 +105,14 @@ abstract class KControllerResource extends KControllerAbstract
     
 	/**
 	 * Get the view object attached to the controller
+	 * 
+	 * This function will check if the view folder exists. If not it will throw
+	 * an exception. This is a security measure to make sure we can only explicitly
+	 * get data from views the have been physically defined. 
 	 *
+	 * @throws  KControllerException if the view cannot be found.
 	 * @return	KViewAbstract
+	 *  
 	 */
 	public function getView()
 	{
@@ -116,7 +122,7 @@ abstract class KControllerResource extends KControllerAbstract
 		    if(!($this->_view instanceof KIdentifier)) {
 		        $this->setView($this->_view);
 			}
-		    
+			
 		    //Enable the auto-filtering if the controller was dispatched or 
 			//if the MVC triad was called outside of the dispatcher.
 			$config = array(
@@ -125,6 +131,11 @@ abstract class KControllerResource extends KControllerAbstract
         	);
         	
 			$this->_view = KFactory::tmp($this->_view, $config);
+			
+			//Make sure the view exists
+		    if(!file_exists(dirname($this->_view->filepath))) {
+		        throw new KControllerException('View :'.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
+		    }
 		}
 		
 		return $this->_view;
