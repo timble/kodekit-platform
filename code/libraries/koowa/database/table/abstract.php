@@ -565,7 +565,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $query   = $this->_database->getQuery();    
             
             foreach($columns as $column => $value) {
-                $query->where($column, '=', $value);
+                $query->where($column, 'IN', $value);
             }
         }
         
