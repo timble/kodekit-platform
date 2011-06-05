@@ -21,15 +21,15 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <input type="hidden" name="action" value="login" />
 
     <p id="form-login-username">
-        <label for="modlgn_username">
+        <label for="username">
             <?= @text('Username') ?><br />
-            <input name="username" id="modlgn_username" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Username') ?>" />
+            <input name="username" id="username" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Username') ?>" />
         </label>
     </p>
 
     <p id="form-login-password">
-        <label for="modlgn_passwd"><?= @text('Password') ?></label><br />
-        <input name="password" id="modlgn_passwd" type="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
+        <label for="password"><?= @text('Password') ?></label><br />
+        <input name="password" type="password" id="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
     </p>
     <p id="form-login-site">
      	<label for="modlgn_site"><?php echo JText::_('Site'); ?></label><br />
