@@ -18,18 +18,11 @@
 <!--[if lte IE 6]>
 <link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-
-<script language="javascript" type="text/javascript">
-	function setFocus() {
-		document.login.username.select();
-		document.login.username.focus();
-	}
-</script>
 </head>
 
 <?php echo JHTML::_('behavior.keepalive'); ?>
 
-<body class="<?php echo JRequest::getVar('option', 'cmd'); ?>" onload="javascript:setFocus()">
+<body class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container">
 		<div id="login-box" class="login">
 			<img src="templates/<?php echo $this->template ?>/images/nooku-server_logo.png" alt="Nooku Server logo">
