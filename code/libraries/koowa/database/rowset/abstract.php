@@ -257,7 +257,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             { 
                 foreach($needle as $key => $value)
                 {
-                    if($row->{$key} != $value) {
+                    if(!in_array($row->{$key}, (array) $value)) {
                         $result->extract($row);
                     } 
                 }
