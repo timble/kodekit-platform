@@ -23,7 +23,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <p id="form-login-username">
         <label for="modlgn_username">
             <?= @text('Username') ?><br />
-            <input name="username" id="modlgn_username" type="text" class="inputbox" size="20" placeholder="<?= @text('Username') ?>" />
+            <input name="username" id="modlgn_username" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Username') ?>" />
         </label>
     </p>
 
