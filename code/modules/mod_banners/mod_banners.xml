@@ -14,7 +14,6 @@
 	</files>
 	<params addpath="/administrator/components/com_banners/elements">
 		<param name="count" type="text" default="1" label="Count" description="PARAMNUMBERITEMS" />
-		<param name="cid" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
 		<param name="catid" type="category" section="com_banner" default="" label="Category" description="PARAMCATEGORY" />
 		<param name="tag_search" type="radio" default="0" label="Search By Tags" description="PARAMSEARCHBYTAG">
 			<option value="0">No</option>
