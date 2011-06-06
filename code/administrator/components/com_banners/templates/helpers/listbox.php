@@ -120,7 +120,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config = new KConfig($config);
         $config->append(array(
             'name'      => 'image_name',
-            'directory' =>  JPATH_IMAGES.'/stories',
+            'directory' =>  JPATH_IMAGES.'/banners',
             'filetypes' => array('swf', 'gif', 'jpg', 'png'),
             'deselect'  => true,
             'preview'   => true,
