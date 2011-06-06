@@ -12,15 +12,4 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
         
         parent::_initialize($config);
     }
-
-	public function getView()
-    {
-        // If com_logs is called through HMVC, use a special layout 
-        // to display the log list that is specific to the "package(component)".
-        if (!$this->isDispatched() && empty($this->_request->layout)) {
-            $this->_request->layout = 'package_list';
-        }
-
-        return parent::getView();
-    }
 }
