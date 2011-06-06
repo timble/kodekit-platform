@@ -49,7 +49,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
             } 
             elseif (isset($this->old_parent)) 
             {
-                $max = $this->getMax();
+                $max = $this->getMaxOrdering();
                 if ($this->ordering <= 0){
                     $this->ordering = $max + 1;
                 } elseif ($this->ordering <= $max ){
