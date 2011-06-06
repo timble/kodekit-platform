@@ -4,7 +4,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 
 <div id="list" class="-koowa-box-flex">
-	<form action="<?= @route('option=com_'.$state->package.'&layout=default')?>" method="get" class="-koowa-box-flex -koowa-grid">
+	<form action="<?= @route('option=com_'.$state->package)?>" method="get" class="-koowa-box-flex -koowa-grid">
 		<table class="adminlist" style="clear: both;">
 			<thead>
 				<tr>
