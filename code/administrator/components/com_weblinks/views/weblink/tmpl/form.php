@@ -20,31 +20,44 @@ defined('KOOWA') or die('Restricted access'); ?>
 <form action="<?= @route('id='.$weblink->id) ?>" method="post" class="-koowa-form">
 <input type="hidden" name="id" value="<?= $weblink->id ?>" />
 
-<div class="col width-50">
+<div class="grid_8">
+	<div class="border-radius-4 title clearfix">
+		<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $weblink->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+        <label for="alias">
+            <?= @text( 'Alias' ); ?>:
+            <input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $weblink->slug; ?>" />
+        </label>
+    </div>
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ); ?></legend>
 
 		<table class="admintable">
 		<tr>
-			<td width="100" align="right" class="key">
-				<label for="title">
-					<?= @text( 'Name' ); ?>:
+			<td valign="top" align="right" class="key">
+				<label for="url">
+					<?= @text( 'URL' ); ?>:
 				</label>
 			</td>
 			<td>
-				<input class="text_area required" type="text" name="title" id="title" size="32" maxlength="250" value="<?= $weblink->title;?>" />
+				<input class="text_area required validate-url" type="text" name="url" id="url" value="<?= $weblink->url; ?>" size="70" maxlength="250" />
 			</td>
 		</tr>
 		<tr>
-			<td width="100" align="right" class="key">
-				<label for="alias">
-					<?= @text( 'Alias' ); ?>:
-				</label>
+			<td valign="top" align="right" class="key">
+				<?= @text( 'Description' ); ?>:
 			</td>
 			<td>
-				<input class="text_area" type="text" name="alias" id="alias" size="32" maxlength="250" value="<?= $weblink->slug;?>" />
+				<textarea class="text_area" cols="40" rows="9" name="description" id="description"><?= $weblink->description; ?></textarea>
 			</td>
 		</tr>
+		</table>
+	</fieldset>
+</div>
+
+<div class="grid_4">
+    <div class="panel">
+        <h3><?= @text( 'Publish' ); ?></h3>
+        <table class="admintable">
 		<tr>
 			<td valign="top" align="right" class="key">
 				<?= @text( 'Published' ); ?>:
@@ -65,16 +78,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key">
-				<label for="url">
-					<?= @text( 'URL' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="text_area required validate-url" type="text" name="url" id="url" value="<?= $weblink->url; ?>" size="32" maxlength="250" />
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right" class="key">
 				<label for="ordering">
 					<?= JText::_( 'Ordering' ); ?>:
 				</label>
@@ -84,21 +87,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 		</tr>
 	</table>
-	</fieldset>
+</div>
 </div>
 
-<div class="col width-50">
-	<fieldset class="adminform">
-		<legend><?= @text( 'Description' ); ?></legend>
-
-		<table class="admintable">
-		<tr>
-			<td>
-				<textarea class="text_area" cols="44" rows="9" name="description" id="description"><?= $weblink->description; ?></textarea>
-			</td>
-		</tr>
-		</table>
-	</fieldset>
-</div>
-<div class="clr"></div>
 </form>

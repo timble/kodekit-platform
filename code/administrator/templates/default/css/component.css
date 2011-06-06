@@ -52,6 +52,7 @@ div.message {
 }
 
 /* com_categories, com_banners, com_content, com_sections */
+.com_weblinks div.title,
 .com_categories div.title,
 .com_banners div.name,
 .com_sections div.title,
@@ -64,6 +65,7 @@ div.message {
 	border: 1px solid #DDD;
 }
 
+.com_weblinks #title,
 .com_categories #title,
 .com_banners #name,
 .com_sections #title,
@@ -75,6 +77,7 @@ div.message {
 	padding: 4px;
 }
 
+.com_weblinks label[for="alias"],
 .com_categories label[for="alias"],
 .com_banners label[for="alias"],
 .com_sections label[for="alias"],
@@ -84,6 +87,7 @@ div.message {
 	padding: 2px;
 }
 
+.com_weblinks label[for="alias"] input#alias,
 .com_categories label[for="alias"] input#alias,
 .com_banners label[for="alias"] input#alias,
 .com_sections label[for="alias"] input#alias,
