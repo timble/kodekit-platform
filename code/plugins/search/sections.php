@@ -46,7 +46,7 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 
 	$searchText = $text;
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
+	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchSectionAreas() ) )) {
