@@ -26,7 +26,6 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         $this->_state
             ->insert('enabled',     'int')
             ->insert('category',    'int')
-            ->insert('client',      'int')
             ->insert('tags',        'string');
     }
     
@@ -52,9 +51,9 @@ class ComBannersModelBanners extends ComDefaultModelDefault
             
             $query->join[] = array(
                 'type' => 'LEFT',
-                'table' => '(SELECT cid, catid, COUNT(bid) AS tot FROM #__banner 
-                GROUP BY catid, cid) AS bannerscount',
-                'condition' => array('tbl.catid = bannerscount.catid', 'tbl.cid=bannerscount.cid')
+                'table' => '(SELECT catid, COUNT(bid) AS tot FROM #__banner 
+                GROUP BY catid) AS bannerscount',
+                'condition' => array('tbl.catid = bannerscount.catid')
             );
             
             $query->where('cc.section', 'LIKE', 'com_banner');
@@ -75,10 +74,6 @@ class ComBannersModelBanners extends ComDefaultModelDefault
             $query->where('tbl.catid', '=', $state->category);
         }
         
-        if ($state->client) {
-            $query->where('tbl.cid', '=', $state->client);
-        }
-        
         if (!empty($state->search)) {
             $query->where('LOWER(tbl.name)', 'LIKE', '%'.strtolower($state->search).'%');
         }
@@ -94,7 +89,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
     
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
-        $sort       = $this->_state->sort;
+        $sort       = $this->_state->sort ? $this->_state->sort : 'category';
         $direction  = strtoupper($this->_state->direction);
         
         switch ($sort)
@@ -110,16 +105,9 @@ class ComBannersModelBanners extends ComDefaultModelDefault
                 
             case 'category':
                 $query->order('category', $direction);
-                $query->order('client', $direction);
                 $query->order('tbl.ordering', 'ASC');
                 break;
-                
-            case 'client':
-                $query->order('client', $direction);
-                $query->order('category', $direction);
-                $query->order('tbl.ordering', 'ASC');
-                break;
-                
+
             default:
                 $query->order($this->getTable()->mapColumns($sort), $direction); 
         }

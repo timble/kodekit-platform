@@ -12,17 +12,34 @@
 /**
  * Banners Orderable Behavior Class
  *
- * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
+ * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Banners    
  */
-class ComBannersDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
+class ComBannersDatabaseBehaviorOrderable extends ComCategoriesDatabaseBehaviorOrderable
 {
     public function _buildQueryWhere(KDatabaseQuery $query)
     {
         //Implement your where query here depending on your conditions
-        $query->where('catid', '=', $this->catid);
-        $query->where('cid'  , '=', $this->cid);
+        $parent = $this->_parent ? $this->_parent : $this->catid;
+        $query->where('catid', '=', $parent);
     }
+
+    /**
+     * Reorders the old category if record has changed categories
+     *
+     * @param   KCommandContext Context
+     */
+    protected function _afterTableUpdate(KCommandContext $context)
+    {
+        if (isset($this->old_parent) && $this->old_parent != $this->catid )
+        {
+            //category has changed,
+            //tidy up the old category
+            $this->_parent = $this->old_parent;
+            $this->reorder();
+        }
+    }
+
 }

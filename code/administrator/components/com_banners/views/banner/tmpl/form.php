@@ -110,8 +110,16 @@ window.addEvent('domready', function(){
         	                </label>
         	            </td>
         	            <td>
-        	                <input class="inputbox" type="text" name="ordering" id="ordering" 
-        	                size="6" value="<?= $banner->ordering ?>" />
+        	                <div id="orderable">
+        	                   <? if($banner->id): ?>
+                                    <?= @helper('admin::com.categories.template.helper.listbox.order',
+                                    array(
+                                        'package' => 'banners', 
+                                        'filter' => array(
+                                        'category' => $banner->catid 
+                                    ))); ?>
+                                <? endif ?>
+        	                </div>
         	            </td>
         	        </tr>
         	        <tr>
@@ -121,7 +129,13 @@ window.addEvent('domready', function(){
         	                </label>
         	            </td>
         	            <td>
-        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid', 'class' => 'inputbox required'), 'selected' => $banner->catid )) ?>
+        	                <input type="hidden" name="old_parent" value="<?= $banner->catid ?>" />
+        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid', 'class' => 'inputbox required',
+        	                 'onchange' => "var url = '"
+                                        	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
+                                        	."&category='+$('catid').value;
+                                                       new Ajax(url , {method: 'get',update: $('orderable')}).request();"
+        	                ), 'selected' => $banner->catid )) ?>
         	            </td>
         	        </tr>
         	        <tr>
