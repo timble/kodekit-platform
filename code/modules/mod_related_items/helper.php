@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
 
 class modRelatedItemsHelper
 {
@@ -36,7 +36,7 @@ class modRelatedItemsHelper
 
 		$showDate			= $params->get('showDate', 0);
 		$conf =& JFactory::getConfig();
-		
+
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
 			if ($params->get('cache_items', 0)==1 && $conf->getValue( 'config.caching' )) {
@@ -120,5 +120,5 @@ class modRelatedItemsHelper
 		}
 
 		return $related;
-	}	
+	}
 }
