@@ -31,12 +31,13 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'value'         => 'id',
             'filter'        => array(),
             'app'           => $this->getIdentifier()->application,
+            'package'       => $this->getIdentifier()->package,
             'deselect'      => true
         ))->append(array(	
             'column'        => $config->name,
             'listbox_title' => ucfirst($config->name),
             'listbox_sort'  => $config->text,
-            'identifier'    => $config->app.'::com.'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->name)
+            'identifier'    => $config->app.'::com.'.$config->package.'.model.'.KInflector::pluralize($config->name)
         ))->append(array(
             'selected'      => $config->{$config->column},
 	    ));

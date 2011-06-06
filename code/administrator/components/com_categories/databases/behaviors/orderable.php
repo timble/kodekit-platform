@@ -19,12 +19,12 @@
  */
 class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
 {
-    protected $_section;
+    protected $_parent;
 
     public function _buildQueryWhere(KDatabaseQuery $query)
     {
         //Implement your where query here depending on your conditions
-        $section = $this->_section ? $this->_section : $this->section;	
+        $section = $this->_parent ? $this->_parent : $this->section;	
         $query->where('section', '=', $section);
     }
     
@@ -71,7 +71,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         {
             //section has changed,
             //tidy up the old section
-            $this->_section = $this->old_parent;
+            $this->_parent = $this->old_parent;
             $this->reorder();
         }
     }
