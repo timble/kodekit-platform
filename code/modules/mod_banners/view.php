@@ -28,7 +28,6 @@ class ModBannersView extends ModDefaultView
         $model = KFactory::tmp('site::com.banners.model.banners')
                     ->enabled(1)
                     ->category($this->params->get('catid'))
-                    ->client($this->params->get('cid'))
                     ->sort($this->params->get('ordering', 0))
                     ->limit($this->params->get('count', 1));
            
