@@ -30,12 +30,7 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	 * @return KTemplateAbstract
 	 */
 	public function loadFile($path, $data = array())
-	{
-	    //If the path doesn't contain the /tmpl/ folder add it
-	    if(strpos($path, '/tmpl/') === false) {
-	        $path = dirname($path).'/tmpl/'.basename($path);
-	    }
-	    
+	{ 
 	    //Load from cache or cache the template 
 	    $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
 		
