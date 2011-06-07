@@ -29,4 +29,30 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         return JHTML::_('select.genericlist', $tree, 'users_group_id', 'size="10"', 'value', 'text', $config->selected);
     }
+
+    public function users($config = array())
+    {
+        $config = new KConfig($config);
+		$config->append(array(
+		    'deselect'  => true,
+		    'prompt'	=> '- Select -'
+		));
+
+		$list = KFactory::tmp('admin::com.users.model.users')
+		    ->set('sort', 'name')
+		    ->set('limit', 0)
+		    ->getList();
+
+ 		if($config->deselect) {
+         	$options[] = $this->option(array('text' => $config->prompt, 'value' => -1));
+        }
+
+        foreach($list as $item) {
+			$options[] = $this->option(array('text' => $item->name, 'value' => $item->id));
+		}
+
+		$config->options = $options;
+
+		return $this->optionlist($config);
+    }
 }
