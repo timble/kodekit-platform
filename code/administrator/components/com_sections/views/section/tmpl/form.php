@@ -12,12 +12,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.keepalive'); ?>
 <?= @helper('behavior.validator'); ?>
-
-<?	if ( $section->name != '' ) : 
-	$name = $section->name;
-else :
-	$name = @text('New Section');
-endif; ?>
 		
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
@@ -49,14 +43,6 @@ endif; ?>
 		<div class="panel">
 			<h3><?= @text( 'Publish' ); ?></h3>
 			<table class="admintable">
-				<tr>
-					<td width="100" class="key">
-						<?= @text( 'Scope' ); ?>:
-					</td>
-					<td>
-						<strong><?= $section->id ? $section->scope : $state->scope; ?></strong>
-					</td>
-				</tr>
 				<tr>
 					<td class="key">
 						<?= @text( 'Published' ); ?>:
