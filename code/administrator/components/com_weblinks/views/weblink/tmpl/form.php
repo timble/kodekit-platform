@@ -73,7 +73,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				</label>
 			</td>
 			<td>
-				<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid'))) ?>
+				<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
 			</td>
 		</tr>
 		<tr>
@@ -86,8 +86,8 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper('listbox.ordering'); ?>
 			</td>
 		</tr>
-	</table>
-</div>
+		</table>
+	</div>
 </div>
 
 </form>
