@@ -21,11 +21,29 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
 {
     protected $_parent;
 
+    /**
+     * The parent column name
+     *
+     * @var string
+     */
+    protected $_parent_column;
+
+    
+    public function __construct( KConfig $config = null)
+    {
+        $config->append(array('parent_column' => null));
+        $this->_parent_column = $config->parent_column;
+        
+        parent::__construct($config);
+    }
+
     public function _buildQueryWhere(KDatabaseQuery $query)
     {
-        //Implement your where query here depending on your conditions
-        $section = $this->_parent ? $this->_parent : $this->section;	
-        $query->where('section', '=', $section);
+        if ($this->_parent_column)
+        {
+            $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};   
+            $query->where($this->_parent_column, '=', $parent);
+        }
     }
     
     /**
@@ -43,9 +61,8 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
             if (isset($this->order))
             {
                 unset($this->old_parent);
-                //default action
-                parent::_beforeTableUpdate($context);
-                
+                //default action               
+                $this->order($this->order);
             } 
             elseif (isset($this->old_parent)) 
             {
@@ -67,7 +84,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _afterTableUpdate(KCommandContext $context)
     {
-        if (isset($this->old_parent) && $this->old_parent != $this->section )
+        if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
         {
             //section has changed,
             //tidy up the old section

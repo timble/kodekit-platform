@@ -22,10 +22,11 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
     public function  _initialize(KConfig $config) 
     {
         $config->identity_column = 'id';
-		
+        $orderable = Kfactory::get('admin::com.categories.database.behavior.orderable', array('parent_column' => 'section'));
+            		
         $config->append(array(
             'name'       => 'categories',
-            'behaviors'  => array('lockable', 'orderable', 'sluggable', 'cascadable'),
+            'behaviors'  => array('lockable',$orderable, 'sluggable', 'cascadable'),
             'column_map' => array(
                 'enabled'      => 'published',
                 'locked_on'    => 'checked_out_time',

@@ -23,12 +23,13 @@ class ComBannersDatabaseTableBanners extends KDatabaseTableDefault
     public function _initialize(KConfig $config)
     {
         $sluggable = KDatabaseBehavior::factory('sluggable', array('columns' => array('name')));
-            
+        $orderable = Kfactory::get('admin::com.categories.database.behavior.orderable', array('parent_column' => 'catid'));
+
         $config->append(array(
             'identity_column'    => 'bid',
             'base'               => 'banner',
             'name'               => 'banner',
-            'behaviors'		     => array('creatable', 'lockable', $sluggable, 'orderable', 'hittable'),
+            'behaviors'		     => array('creatable', 'lockable', $sluggable, $orderable, 'hittable'),
             'column_map'         => array(
                 'enabled'    => 'showBanner',
                 'created_on' => 'date',
