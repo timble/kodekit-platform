@@ -10,9 +10,9 @@
  */
 
 /**
- * Sections Database Table class
+ * Articls Database Table class
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles

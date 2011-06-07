@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Grid Template Helper
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku

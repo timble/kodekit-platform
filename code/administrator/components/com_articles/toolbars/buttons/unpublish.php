@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Unpublish Toolbar Button Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku

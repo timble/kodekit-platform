@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @version     $Id$
  * @category    Nooku
@@ -8,7 +8,8 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-?>
+
+defined('KOOWA') or die('Restricted access') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://com_articles/js/articles.js" />

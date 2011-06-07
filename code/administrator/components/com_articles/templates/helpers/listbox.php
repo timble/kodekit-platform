@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Listbox Template Helper
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku
@@ -27,6 +27,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'      => 'section',
             'deselect'  => true,
             'selected'  => -1,
+            'prompt'	=> '- Select -'
         ));
 
         $list = KFactory::tmp('admin::com.sections.model.sections')
@@ -36,7 +37,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             ->getList();
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_('Select').' -', 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
@@ -57,10 +58,11 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'      => 'category',
             'deselect'  => true,
             'selected'  => $config->category,
+            'prompt'	=> '- Select -'
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_('Select').' -', 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
@@ -93,7 +95,8 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config->append(array(
             'name'      => 'created_by',
             'deselect'  => true,
-            'selected'  => $config->created_by,
+            'selected'  => $config->created_by,    
+            'prompt'	=> '- Select -'
         ));
 
         $list = KFactory::tmp('admin::com.articles.model.articles')
@@ -101,7 +104,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             ->getAuthors();
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_('Select').' -'));
+            $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
         foreach($list as $item) {
@@ -120,10 +123,11 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'      => 'state',
             'deselect'  => true,
             'selected'  => $config->state,
+            'prompt'	=> '- Select -'
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_('Select').' -'));
+            $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
         $options[] = $this->option(array('text' => JText::_('Published'), 'value' => 1));
