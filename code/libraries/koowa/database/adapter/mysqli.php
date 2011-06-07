@@ -239,8 +239,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		{
 			$this->_table_schema[$table] = $this->_fetchTableInfo($table);
 			
-			$schema->indexes = $this->_fetchTableIndexes($table);
-			$schema->columns = $this->_fetchTableColumns($table);	
+			$this->_table_schema[$table]->indexes = $this->_fetchTableIndexes($table);
+			$this->_table_schema[$table]->columns = $this->_fetchTableColumns($table);	
 		}
 
 		return $this->_table_schema[$table];
