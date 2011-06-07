@@ -237,10 +237,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 		if(!isset($this->_table_schema[$table]))
 		{
-			$schema = $this->_fetchTableInfo($table);
+			$this->_table_schema[$table] = $this->_fetchTableInfo($table);
+			
+			$schema->indexes = $this->_fetchTableIndexes($table);
 			$schema->columns = $this->_fetchTableColumns($table);	
-
-			$this->_table_schema[$table] = $schema;
 		}
 
 		return $this->_table_schema[$table];
@@ -501,7 +501,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	}
  	   		
 	    // Get the related fields if the column is primary key or part of a unqiue multi column index
-        if($indexes = $this->_fetchTableIndexes($info->Table)) 
+        if($indexes = $this->_table_schema[$info->Table]->indexes) 
         {
             foreach($indexes as $index)
             {
