@@ -210,7 +210,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      *
      * @param  array    An associative array of row data to be inserted. 
      * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return void
+     * @return  KDatabaseRowsetAbstract
      * @see __construct
      */
     public function addData(array $data, $new = true)
@@ -224,6 +224,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             
             $this->insert($instance);
         }
+        
+        return $this.
     }
    
     /**
