@@ -87,4 +87,14 @@ class KDatabaseSchemaTable extends KObject
 	 * @var	array
 	 */
 	public $behaviors = array();
+	
+	/**
+	 * List of indexes
+	 * 
+	 * Associative array of indexes, where key holds the index name and the
+	 * and the value is an object.
+	 * 
+	 * @var	array
+	 */
+	public $indexes = array();
 }
