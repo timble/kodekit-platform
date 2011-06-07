@@ -18,18 +18,13 @@
  */
 class ComLogsToolbarButtonDelete extends ComDefaultToolbarButtonDefault
 {
+    
     public function getOnClick()
-    {
-        $url  = KRequest::url();
-        $query = $url->getQuery(true);
-        $query['option'] = 'com_logs';
-        $url->setQuery($query);
-
-        $json = "{method:'post', url:'$url&'+id, params:{action:'delete', '$this->_token_name':'$this->_token_value'}}";
-
-        $msg    = JText::_('Please select an item from the list');
-        return 'var id = Koowa.Grid.getIdQuery();'
-            .'if(id){new Koowa.Form('.$json.').submit();} '
-            .'else { alert(\''.$msg.'\'); return false; }';
-    }
+	{
+		return "$$('.-koowa-grid').each(function(form){
+            form.addEvent('before.delete', function(e){
+                this.options.url = 'index.php?option=com_logs&view=log';
+            });
+        });";
+	}
 }
