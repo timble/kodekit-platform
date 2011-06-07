@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
-	<input type="hidden" name="section" value="<?= $category->id? $category->section : $state->section; ?>" />
+	<input type="hidden" name="section" value="<?= $category->id ? $category->section : $state->section; ?>" />
 	
     <div class="grid_8">
  		<div class="border-radius-4 title clearfix">
@@ -49,6 +49,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
                     	</td>
                 	</tr>
+                	<? $section = $category->id ? $category->section : $state->section; ?>
+                	<? if ( substr($section, 0, 3) != 'com' OR $section =='com_content') : ?>
                 	<tr>
                     	<td class="key">
                             <label for="section">
@@ -56,25 +58,21 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             </label>
                     	</td>
                     	<td>
-                            <? $section = $category->id ? $category->section : $state->section ;
-                            if ( substr($section, 0, 3) == 'com' && $section !='com_content') : ?>
-                                <input type="hidden" name="section" value="<?= $section ?>"  />
- 	                        <?= @text($section) ; 
-                            else : ?>
-                                <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
-                                <?= @helper('listbox.section', array(
-                                    'identifier' => "admin::com.sections.model.sections",
-                                    'attribs'    => array(
-                                        'id'   => 'section',
-                                        'onchange' => "var url = '"
-                                        	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
-                                        	."&section='+$('section').value;
-                                                       new Ajax(url , {method: 'get',update: $('orderable')}).request();"
-                                    )
-                                ));
-                            endif  ?>
+                            <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
+                            <?= @helper('listbox.section', array(
+                                'identifier' => "admin::com.sections.model.sections",
+                                'attribs'    => array(
+                                    'id'   => 'section',
+                                    'class' => 'required',
+                                    'onchange' => "var url = '"
+                                    	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
+                                    	."&section='+$('section').value;
+                                                   new Ajax(url , {method: 'get',update: $('orderable')}).request();"
+                                )
+                            )); ?>
                     	</td>
                 	</tr>
+                	<? endif;  ?>
                 	<tr>
                     	<td class="key">
                             <label for="ordering">
