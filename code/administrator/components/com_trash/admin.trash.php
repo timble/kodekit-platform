@@ -27,7 +27,7 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 if($task == 'viewContent')
 {
-	JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
+	JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_articles&view=articles');
 	JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
 	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
 	JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
@@ -119,7 +119,7 @@ function viewTrashContent( $option )
 	if (!in_array($filter_order, array('c.title', 'c.id', 'sectname', 'catname'))) {
 		$filter_order = 'sectname';
 	}
-	
+
 	if (!in_array(strtoupper($filter_order_Dir), array('ASC', 'DESC'))) {
 		$filter_order_Dir = '';
 	}

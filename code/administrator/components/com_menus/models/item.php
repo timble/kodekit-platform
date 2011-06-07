@@ -25,11 +25,11 @@ class MenusModelItem extends JModel
 {
 	/**
 	* Menu Item ID
-	* 
+	*
 	* @var int
 	*/
 	var $_id = null;
-	
+
 	/** @var object JTable object */
 	var $_table = null;
 
@@ -55,10 +55,10 @@ class MenusModelItem extends JModel
 				}
 			}
 		}
-		
+
 		$this->setId();
 	}
-	
+
 	function setId()
 	{
 		$array = JRequest::getVar('cid', array(0), '', 'array');
@@ -124,6 +124,21 @@ class MenusModelItem extends JModel
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
+
+				if(isset($table->linkparts['option']))
+				{
+    			    switch($table->linkparts['option'])
+    			    {
+    			        case 'com_content':
+    			            $table->linkparts['option'] = 'com_articles';
+    			            break;
+
+    			        case 'com_user':
+    			            $table->linkparts['option'] = 'com_users';
+    			            break;
+    			    }
+				}
+
 				if ($component = @$table->linkparts['option']) {
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
@@ -222,6 +237,19 @@ class MenusModelItem extends JModel
 		{
 			$comp	= &$this->getComponent();
 			$option	= preg_replace( '#\W#', '', $comp->option );
+
+		    // Handle legacy options.
+		    switch($option)
+		    {
+		        case 'com_content':
+		            $option = 'com_articles';
+		            break;
+
+		        case 'com_user':
+		            $option = 'com_users';
+		            break;
+		    }
+
 			$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
 
 			$params = new JParameter( $item->params );
@@ -373,7 +401,7 @@ class MenusModelItem extends JModel
 
 		return true;
 	}
-	
+
 	function checkin()
 	{
 		if ($this->_id) {
@@ -556,7 +584,7 @@ class MenusModelItem extends JModel
 
 		// clean cache
 		MenusHelper::cleanCache();
-		
+
 		return true;
 	}
 
@@ -618,6 +646,21 @@ class MenusModelItem extends JModel
 				break;
 			case 'component':
 			default:
+			    // Handle legacy options.
+			    if(isset($item->linkparts['option']))
+			    {
+    			    switch($item->linkparts['option'])
+    			    {
+    			        case 'com_content':
+    			            $item->linkparts['option'] = 'com_articles';
+    			            break;
+
+    			        case 'com_user':
+    			            $item->linkparts['option'] = 'com_users';
+    			            break;
+    			    }
+			    }
+
 				if (isset($item->linkparts['view']))
 				{
 					// View is set... so we konw to look in view file
