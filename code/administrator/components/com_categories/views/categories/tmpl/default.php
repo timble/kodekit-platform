@@ -106,7 +106,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @helper( 'grid.enable' , array('row' => $category)); ?>
                     </td>
                     <td class="order">
-                        <?= @helper( 'grid.order' , array('row' => $category, 'total' => $category->maxorder )); ?>
+                        <?= @helper( 'grid.order' , array('row' => $category, 'total' => $category->order_total )); ?>
                     </td>
                     <td align="center">
                         <?= @helper( 'grid.access' , array('row' => $category)); ?>

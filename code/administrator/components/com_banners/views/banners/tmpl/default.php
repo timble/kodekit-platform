@@ -86,7 +86,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper('grid.enable', array('row' => $banner)) ?>
                 </td>
                 <td align="center">
-                    <?= @helper( 'grid.order' , array('row' => $banner, 'total' => $banner->total)); ?>
+                    <?= @helper( 'grid.order' , array('row' => $banner, 'total' => $banner->order_total)); ?>
                 </td>
                 <td align="center">
                     <?= $banner->sticky ? @text('Yes') : @text('No'); ?>

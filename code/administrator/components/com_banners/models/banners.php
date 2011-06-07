@@ -34,8 +34,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         parent::_buildQueryColumns($query);
         
         $query
-            ->select('cc.title AS category')
-            ->select('bannerscount.tot AS total');
+            ->select('cc.title AS category');
     }
     
     protected function _buildQueryJoins(KDatabaseQuery $query)
@@ -48,14 +47,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
                 'categories AS cc',
                 array('cc.id = tbl.catid')
             );
-            
-            $query->join[] = array(
-                'type' => 'LEFT',
-                'table' => '(SELECT catid, COUNT(bid) AS tot FROM #__banner 
-                GROUP BY catid) AS bannerscount',
-                'condition' => array('tbl.catid = bannerscount.catid')
-            );
-            
+                        
             $query->where('cc.section', 'LIKE', 'com_banner');
         }
     }

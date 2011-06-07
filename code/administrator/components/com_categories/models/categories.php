@@ -50,7 +50,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
                 $query->select('SUM(IF(child.catid,1,0)) activecount');
             }
         }
-        $query->select('order.maxorder');
     }
 
 
@@ -68,11 +67,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
                     $query->join('LEFT',substr($this->_state->section,4).' AS child','child.catid = tbl.id');
                 }
             }
-        
-            $query->join[]=array('type' => 'LEFT',
-	        'table' => '(SELECT section ordersection, MAX(ordering) maxorder FROM #__categories 
-                            GROUP BY section) AS order', 
-                'condition' => array('order.ordersection = tbl.section'));
         }    
         
         parent::_buildQueryJoins($query);

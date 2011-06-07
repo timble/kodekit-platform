@@ -92,4 +92,32 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
             $this->reorder();
         }
     }
+    
+
+    /**
+     * Modify the select query
+     *
+     * If the $this->_parent_column is set, this will modify the query to add the column needed by the behavior
+     */
+    protected function _beforeTableSelect(KCommandContext $context)
+    {
+        if($parent_column = $this->_parent_column)
+        {
+            $query = $context->query;
+               
+            if(!is_null($query) && !$query->count)
+            {
+                $table = $context->caller;
+
+                $query->join[]=array('type' => 'LEFT',
+                    'table' => '(SELECT '.$parent_column.' , COUNT(ordering) order_total FROM #__'.$table->getBase().' ' 
+                            .'GROUP BY '.$parent_column.') AS orderable',
+                    'condition' => array('orderable.'.$parent_column.' = tbl.'.$parent_column ));
+
+                $query->select('orderable.order_total');
+            }
+        }
+    }
+    
+    
 }
