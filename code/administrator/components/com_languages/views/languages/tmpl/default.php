@@ -13,21 +13,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<div id="sidebar">
-	<h3><?= @text( 'Application' ); ?></h3>
-    <ul>
-        <li <? if($state->application == 'site') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=site') ?>">
-        	    <?= @text('Site') ?>
-        	</a>
-        </li>
-        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=administrator') ?>">
-        	    <?= @text('Administrator') ?>
-        	</a>
-        </li>
-    </ul>
-</div>
+<?= @template('default_sidebar'); ?>
+
 <div class="-koowa-box-flex">
     <form action="<?= @route('application='.$state->application)?>" method="get" class="-koowa-grid">
         <table class="adminlist"  style="clear: both;">
