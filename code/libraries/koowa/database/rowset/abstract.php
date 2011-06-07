@@ -225,7 +225,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             $this->insert($instance);
         }
         
-        return $this.
+        return $this;
     }
    
     /**
