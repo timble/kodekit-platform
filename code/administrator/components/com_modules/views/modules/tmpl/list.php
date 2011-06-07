@@ -31,11 +31,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<span <?= KHelperArray::toString(array(
 				'class' 	=> 'editlinktip hasTip',
 				'title'		=> @escape(@text($module->description)),
-				'name'		=> 'module',
-				'value'		=> $module->module
+				'name'		=> 'type',
+				'value'		=> $module->type
 			)) ?>>
-				<a href="<?= @route('view=module&layout=form&module='.$module->module) ?>">
-					<?= @text(@escape($module->name)) ?>
+				<a href="<?= @route('view=module&layout=form&type='.$module->type) ?>">
+					<?= @text(@escape($module->title)) ?>
 				</a>
 			</span>
 		</td>

@@ -22,8 +22,6 @@ class ComModulesTemplateHelperListbox extends KTemplateHelperListbox
 {
 	/**
 	 * Customized to add a few attributes.
-	 *
-	 * @TODO propose making the onchange attribute the default?
 	 * 
 	 * @param 	array 	An optional array with configuration options
 	 * @return	string	Html

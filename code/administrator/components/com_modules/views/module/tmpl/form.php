@@ -13,46 +13,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.tooltip') ?> 
 <?= @helper('behavior.validator') ?>
 
-<?
-	// Initialize some variables
-	$db 	=& JFactory::getDBO();
-
-	$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
-	$model	= $this->getView()->getModel();
-
-	if ($state->application == 'admin') {
-		$path				= 'mod1_xml';
-	} else {
-		$path				= 'mod0_xml';
-	}
-
-	$lang =& JFactory::getLanguage();
-	if($state->application == 'site') {
-		$lang->load( trim($module->module), JPATH_SITE );
-	} else {
-		$lang->load( trim($module->module) );
-	}
-
-	// xml file for module
-	if ($module->module == 'custom') {
-		$xmlfile = JApplicationHelper::getPath( $path, 'mod_custom' );
-	} else {
-		$xmlfile = JApplicationHelper::getPath( $path, $module->module );
-	}
-
-	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-	if ($data)
-	{
-		foreach($data as $key => $value) {
-			$module->$key = $value;
-		}
-	}
-
-	// get params definitions
-	$params = new JParameter( $module->params, $xmlfile, 'module' );
-
-?>
-
 <script type="text/javascript">
 window.addEvent('domready', function() { 
 	<? /* @TODO @route needs to be updated to handle js contexts, using JRoute for now */ ?>
@@ -102,7 +62,7 @@ window.addEvent('domready', function() {
 				</td>
 				<td>
 					<strong>
-						<?= @text($module->module) ?>
+						<?= @text($module->type) ?>
 					</strong>
 				</td>
 			</tr>
@@ -265,20 +225,20 @@ window.addEvent('domready', function() {
 
 <div class="grid_6">		
 	<?= @helper('accordion.startPane', array('id' => 'menu-pane')) ?>
-		<?= @template('form_accordion', array('params' => $params, 'id' => 'param-page', 'title' => 'Module Parameters')) ?>
+		<?= @template('form_accordion', array('params' => $module->params, 'id' => 'param-page', 'title' => 'Module Parameters')) ?>
 
-		<? if($params->getNumParams('advanced')) : ?>
-		<?= @template('form_accordion', array('params' => $params, 'group' => 'advanced')) ?>
+		<? if($module->params->getNumParams('advanced')) : ?>
+		<?= @template('form_accordion', array('params' => $module->params, 'group' => 'advanced')) ?>
 		<? endif ?>
 	
-		<? if($params->getNumParams('other')) : ?>
-		<?= @template('form_accordion', array('params' => $params, 'group' => 'other')) ?>
+		<? if($module->params->getNumParams('other')) : ?>
+		<?= @template('form_accordion', array('params' => $module->params, 'group' => 'other')) ?>
 		<? endif ?>
 	<?= @helper('accordion.endPane') ?>
 </div>
 <div class="clr"></div>
 
-<? if(!$module->module || $module->module == 'custom' || $module->module == 'mod_custom') : ?>
+<? if(!$module->type || $module->type == 'custom' || $module->type == 'mod_custom') : ?>
 <fieldset class="adminform">
 	<legend><?= @text('Custom Output') ?></legend>
 	
@@ -293,5 +253,5 @@ window.addEvent('domready', function() {
 </fieldset>
 <? endif ?>
 
-<input type="hidden" name="module" value="<?= $module->module ?>" />
+<input type="hidden" name="type" value="<?= $module->type ?>" />
 </form>

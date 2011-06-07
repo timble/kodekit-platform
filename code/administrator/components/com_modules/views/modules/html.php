@@ -17,19 +17,29 @@
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComModulesViewModulesHtml extends ComDefaultViewHtml
+class ComModulesViewModulesHtml extends ComModulesViewHtml
 {
 	public function display()
 	{
-		$this->getToolbar()
-			->append('divider')
-			->append('enable')
-			->append('disable');
-		
-		JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules', true);
-		JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins');
-		JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates');
-		JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages');
+		//Load language files for each module
+	    if($this->getLayout() == 'list') 
+		{
+		    foreach($this->getModel()->getList() as $module) 
+		    {
+		       if($module->application == 'site') {
+	                KFactory::get('lib.joomla.language')->load($module->type, JPATH_SITE );
+	            } else {
+		            KFactory::get('lib.joomla.language')->load($module->type);
+	            }
+		    }
+		} 
+		else
+		{
+	        $this->getToolbar()
+			    ->append('divider')
+			    ->append('enable')
+			    ->append('disable');
+		}
 		
 		return parent::display();
 	}

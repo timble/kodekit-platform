@@ -29,8 +29,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         	    <?= @text('Site') ?>
         	</a>
         </li>
-        <li <? if($state->application == 'admin') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=admin') ?>">
+        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
+        	<a href="<?= @route('&application=administrator') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
@@ -63,7 +63,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
     				</th>
     				<th nowrap="nowrap" width="10%"  class="title">
-    					<?= @helper('grid.sort', array('column' => 'module' , 'title' => 'Type')) ?>
+    					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
     				</th>
     			</tr>
     			<tr>
@@ -85,7 +85,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     				</td>
     				<td></td>
     				<td>
-    					<?= @helper('listbox.module') ?>
+    					<?= @helper('listbox.type') ?>
     				</td>
     			</tr>
     		</thead>
@@ -129,7 +129,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     					) ?>
     				</td>
     				<td>
-    					<?= $module->module ? $module->module : @text( 'User' ) ?>
+    					<?= $module->type ? $module->type : @text( 'User' ) ?>
     				</td>
     			</tr>
     		<? endforeach ?>

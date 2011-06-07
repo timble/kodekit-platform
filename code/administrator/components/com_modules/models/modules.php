@@ -29,9 +29,9 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
 		 	->insert('enabled'	  , 'int')
 		 	->insert('position'   , 'cmd')
-		 	->insert('module' 	  , 'cmd')
+		 	->insert('type' 	  , 'cmd')
 		 	->insert('assigned'   , 'cmd')
-		 	->insert('new'        , 'boolean', false);
+		 	->insert('installed'  , 'boolean', false);
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -63,15 +63,16 @@ class ComModulesModelModules extends ComDefaultModelDefault
 			$query->where('tbl.position', '=', $state->position);
 		}
 		
-		if($state->module) {
-			$query->where('tbl.module', '=', $state->module);
+		if($state->type) {
+			$query->where('tbl.module', '=', $state->type);
 		}
 
 		if($state->enabled !== '' && $state->enabled !== null) {
 			$query->where('tbl.published', '=', $state->enabled);
 		}
-
-		$query->where('tbl.client_id', '=', (int)($state->application == 'admin'));
+		
+		$client	= JApplicationHelper::getClientInfo($state->application, true);
+		$query->where('tbl.client_id', '=', $client->id);
 
 		parent::_buildQueryWhere($query);
 	}
@@ -90,10 +91,12 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		{	
 			if($table = $this->getTable()) 
 			{
-				$query = $table->getDatabase()->getQuery()
+				$client	= JApplicationHelper::getClientInfo($this->_state->application, true);
+			    
+			    $query = $table->getDatabase()->getQuery()
 					->distinct()
 					->group('tbl.'.$table->mapColumns($column))
-					->where('tbl.client_id', '=', (int)($this->_state->application == 'admin'));
+					->where('tbl.client_id', '=', $client->id);
 
 				$this->_buildQueryOrder($query);
 
@@ -120,8 +123,8 @@ class ComModulesModelModules extends ComDefaultModelDefault
 		{
 			$this->_item = parent::getItem();
 
-			if($this->_item->isNew() && $this->_state->module) {
-				$this->_item->module = $this->_state->module;
+			if($this->_item->isNew() && $this->_state->type) {
+				$this->_item->type = $this->_state->type;
 			}
 		}
 
@@ -130,6 +133,9 @@ class ComModulesModelModules extends ComDefaultModelDefault
 
     /**
      * Get a list of items
+     * 
+     * If the installed state is TRUE this function will return a list of the installed
+     * modules.
      *
      * @return KDatabaseRowsetInterface
      */
@@ -137,51 +143,36 @@ class ComModulesModelModules extends ComDefaultModelDefault
     { 
         if(!isset($this->_list))
         {
-            if($this->_state->new)
+            $state = $this->_state;
+            
+            if($state->installed)
             {
-                $list = array();
-            	$lang = KFactory::get('lib.joomla.language');
-            	$root = $this->_state->application == 'admin' ? JPATH_ADMINISTRATOR : JPATH_ROOT;
-            	$path = $root.'/modules';
-            	$this->_list = $this->getTable()->getRowset();
-            
-            	jimport('joomla.filesystem.folder');
-            	foreach(JFolder::folders($path) as $i => $folder)
-            	{
-            		if(strpos($folder, 'mod_') === 0)
-            		{
-            			$files 				= JFolder::files( $path.'/'.$folder, '^([_A-Za-z0-9]*)\.xml$' );
-            			if(!$files) continue;
-            
-            			$module				= array();
-            			//The rowset wont add rows without an id to it
-            			$module['id']       = $this->getTotal() + $i;
-            			$module['file'] 		= $files[0];
-            			$module['module'] 	= str_replace('.xml', '', $files[0]);
-            			$module['path'] 		= $path.'/'.$folder;
-            			
-            			$data = JApplicationHelper::parseXMLInstallFile( $module['path'].'/'.$module['file']);
-            			if($data['type'] == 'module')
-            			{
-            				$module['name']			= $data['name'];
-            				$module['description']	= $data['description'];
-            			}
-            
-                        
-            			$list[]	= $module;            			
-            
-            			$lang->load($module['module'], $root);
-            		}
-            	}
-            	$this->_list->addData($list);
-            	// sort array of objects alphabetically by name
-            	//JArrayHelper::sortObjects($this->_list, 'name' );
-            	
-            	//$this->_list = KFactory::tmp('admin::com.modules.database.rowset.modules', array('data' => $data));
+            	$client	= JApplicationHelper::getClientInfo($state->application, true);
+            	if(!empty($client)) 
+			    {
+            	    $modules = array();
+            	    $path = $client->path.'/modules';
+            	    
+			        foreach(new DirectoryIterator($path) as $folder)
+                    {
+                        if($folder->isDir())
+                        {
+                            if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
+                            { 
+                                $modules[] = array(
+                                    'id'          => $folder->getFilename(),
+                       				'type'        => $folder->getFilename(),
+                        			'application' => $client->name,
+                                    'title'		  => null
+	                                );
+                            }
+                        }
+                    }
+                    
+            	    $this->_list = $this->getTable()->getRowset()->addData($modules);
+			    }
             }
-            else {
-                $this->_list = parent::getList();
-            }
+            else $this->_list = parent::getList();
         }
 
         return $this->_list;

@@ -29,16 +29,16 @@ class ComModulesControllerModule extends ComDefaultControllerDefault
 	
 	public function purgeCache(KCommandContext $context)
 	{
-		$cache = JFactory::getCache();
+		$cache = KFactory::get('lib.joomla.cache');
 		foreach($context->result as $row)
 		{
-			// clean cache for all 3 front-end user groups (guest, reg, special)
+			// Clean cache for all 3 front-end user groups (guest, reg, special)
 			$cache->remove($row->id . '0', $row->module);
 			$cache->remove($row->id . '1', $row->module);
 			$cache->remove($row->id . '2', $row->module);
 		}
 		
-		// clean content cache because of loadposition plugin
+		// Clean content cache because of loadposition plugin
 		$cache->clean( 'com_content' );
 	}
 }
