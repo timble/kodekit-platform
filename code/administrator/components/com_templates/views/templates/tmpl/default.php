@@ -15,21 +15,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
-<div id="sidebar">
-    <h3><?= @text( 'Applications' ); ?></h3>
-    <ul>
-        <li <? if($state->application == 'site') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=site') ?>">
-        	    <?= @text('Site') ?>
-        	</a>
-        </li>
-        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=administrator') ?>">
-        	    <?= @text('Administrator') ?>
-        	</a>
-        </li>
-    </ul>
-</div>
+<?= @template('default_sidebar'); ?>
+
 <div class="-koowa-box-flex">
     <form action="<?= @route() ?>" method="get" class="-koowa-grid">
         <table class="adminlist">
