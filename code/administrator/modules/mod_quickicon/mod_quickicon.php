@@ -38,10 +38,10 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 	?>
 	<div id="cpanel">
 		<?php
-		$link = 'index.php?option=com_content&amp;task=add';
+		$link = 'index.php?option=com_articles&amp;view=article&amp;id=';
 		quickiconButton( $link, 'icon-48-article-add.png', JText::_( 'Add New Article' ) );
 
-		$link = 'index.php?option=com_content';
+		$link = 'index.php?option=com_articles';
 		quickiconButton( $link, 'icon-48-article.png', JText::_( 'Article Manager' ) );
 
 		$link = 'index.php?option=com_frontpage';
