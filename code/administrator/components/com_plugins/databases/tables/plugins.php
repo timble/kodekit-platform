@@ -36,9 +36,11 @@ class ComPluginsDatabaseTablePlugins extends KDatabaseTableDefault
             'behaviors'  =>  array('lockable', 'orderable'),
             'column_map' =>  array(
                 'title'     => 'name',
+                'name'		=> 'element',
                 'enabled' 	=> 'published',
                 'locked_on' => 'checked_out_time',
-                'locked_by' => 'checked_out'
+                'locked_by' => 'checked_out',
+                'type'		=> 'folder'
             ),
             'filters'    => array('params' => 'ini')
         ));

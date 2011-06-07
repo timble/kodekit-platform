@@ -17,16 +17,14 @@
  * @package     Nooku_Server
  * @subpackage  Plugins    
  */
-class ComPluginsViewPluginsHtml extends ComPluginsViewHtml
+class ComPluginsViewHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-	    $this->getToolbar()
-	        ->reset()
-	  		->append('enable')
-	    	->append('disable');
-
-        $this->types = KFactory::tmp('admin::com.plugins.model.plugins')->getColumn('type');
+        JSubMenuHelper::addEntry(JText::_('Modules'), 'index.php?option=com_modules&view=modules');
+        JSubMenuHelper::addEntry(JText::_('Plugins'), 'index.php?option=com_plugins&view=plugins', true);
+        JSubMenuHelper::addEntry(JText::_('Templates'), 'index.php?option=com_templates&view=templates');
+        JSubMenuHelper::addEntry(JText::_('Languages'), 'index.php?option=com_languages&view=languages');
 
 		return parent::display();
 	}

@@ -26,7 +26,7 @@ class ComPluginsModelPlugins extends ComDefaultModelDefault
 		$this->_state
 		 	->insert('sort'   , 'cmd', 'folder')
 		 	->insert('enabled', 'int')
-		 	->insert('folder' , 'cmd');
+		 	->insert('type'   , 'cmd');
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -44,8 +44,8 @@ class ComPluginsModelPlugins extends ComDefaultModelDefault
 			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
 		}
 		
-		if($state->folder) {
-			$query->where('tbl.folder', '=', $state->folder);
+		if($state->type) {
+			$query->where('tbl.folder', '=', $state->type);
 		}
 
 		if($state->enabled !== '' && $state->enabled !== null) {

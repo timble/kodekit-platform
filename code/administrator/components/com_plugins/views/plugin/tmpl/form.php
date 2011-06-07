@@ -38,10 +38,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         				<?= @text('Published') ?>:
         			</td>
         			<td>
-        				<?= @helper('select.booleanlist', array(
-        					'name'		=> 'enabled',
-        					'selected'	=> $plugin->enabled	
-        				)) ?>
+        				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected'	=> $plugin->enabled)) ?>
         			</td>
         		</tr>
         		<tr>
@@ -51,7 +48,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         				</label>
         			</td>
         			<td>
-        				<?= $plugin->folder ?>
+        				<?= $plugin->type ?>
         			</td>
         		</tr>
         		<tr>
@@ -61,7 +58,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         				</label>
         			</td>
         			<td>
-        				<input class="text_area required validate-alphanum" type="text" name="element" id="element" size="35" value="<?= @escape($plugin->element) ?>" />.php
+        				<input class="text_area required validate-alphanum" type="text" name="element" id="element" size="35" value="<?= @escape($plugin->name) ?>" />.php
         			</td>
         		</tr>
         		<tr>
@@ -99,10 +96,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         	    <?= @text('Parameters') ?>
         	</legend>
         	<?= @helper('accordion.startPane', array('id' => 'plugin-pane')) ?>
-				<?= @template('form_accordion', array('params' => $params, 'id' => 'param-page', 'title' => 'Plugin Parameters')) ?>
+				<?= @template('form_accordion', array('params' => $plugin->params, 'id' => 'param-page', 'title' => 'Plugin Parameters')) ?>
 	
-				<? if($params->getNumParams('advanced')) : ?>
-				<?= @template('form_accordion', array('params' => $params, 'group' => 'advanced')) ?>
+				<? if($plugin->params->getNumParams('advanced')) : ?>
+				<?= @template('form_accordion', array('params' => $plugin->params, 'group' => 'advanced')) ?>
 				<? endif ?>
 			<?= @helper('accordion.endPane') ?>
     	</fieldset>

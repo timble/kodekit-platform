@@ -20,6 +20,21 @@
 class ComPluginsDatabaseRowPlugin extends KDatabaseRowDefault
 {
 	/**
+     * Whitelist for keys to get from the xml manifest
+     *
+     * @var array
+     */
+    protected static $_manifest_fields = array(
+    	'creationDate',
+        'author',
+        'copyright',
+        'authorEmail',
+        'authorUrl',
+        'version',
+        'description'
+    );
+	
+	/**
 	 * Get a value by key
 	 *
 	 * This method is specialized because of the magic property "description"
@@ -28,22 +43,48 @@ class ComPluginsDatabaseRowPlugin extends KDatabaseRowDefault
 	 * @param   string  The key name.
 	 * @return  string  The corresponding value.
 	 */
-	public function __get($key)
+	public function __get($column)
 	{
-		if($key == 'description') 
+	    if($column == 'manifest' && empty($this->_data['manifest'])) 
 		{
-		    if(!isset($this->_data['description']) && isset($this->folder, $this->element))
-		    {
-		        $manifest = JPATH_SITE.'/plugins/'.$this->folder.'/'.$this->element.'.xml';
-		        if(file_exists($manifest))
-		        {
-		            $xml                        = simplexml_load_file($manifest);
-			        $this->_data['description'] = $xml->description;   
-		        }
-		        else  $this->_data['description'] = null;    
-		    }
-		}
+            $file = JPATH_PLUGINS.'/'.$this->type.'/'.$this->name.'.xml';
+		     
+            if(file_exists($file)) {
+		        $this->_data['manifest'] = simplexml_load_file($file);
+            } else {
+                $this->_data['manifest'] = '';
+            }
+        }
 
-		return parent::__get($key);
+		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
+            $this->_data[$column] = isset($this->manifest->{$column}) ? $this->manifest->{$column} : '';
+        }
+        
+	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
+        {
+	        $file = JPATH_PLUGINS.'/'.$this->type.'/'.$this->name.'.xml';
+	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
+        }
+	   
+		return parent::__get($column);
 	}
+	
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+        
+        //Include the manifest fields
+        foreach(self::$_manifest_fields as $field) {
+           $data[$field] = (string) $this->$field;
+        }
+        
+        $data['title']  = (string) $this->title;
+        $data['params'] = $this->params->toArray();
+        return $data;
+    }
 }

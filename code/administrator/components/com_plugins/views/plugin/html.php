@@ -17,13 +17,16 @@
  * @package     Nooku_Server
  * @subpackage  Plugins    
  */
-class ComPluginsViewPluginHtml extends ComDefaultViewHtml
+class ComPluginsViewPluginHtml extends ComPluginsViewHtml
 {
     public function display()
     {
-		$plugin       = $this->getModel()->getItem();
-		$manifest     = JPATH_SITE.'/plugins/'.$plugin->folder.'/'.$plugin->element.'.xml';
-		$this->params = new JParameter($plugin->params, $manifest, 'plugin');
+        $plugin = $this->getModel()->getItem();
+        
+        //If both the folder and element is specified, we may load the language file
+        if(isset($plugin->type, $plugin->name)) {
+            KFactory::get('lib.joomla.language')->load('plg_'.$plugin->type.'_'.$plugin->name, JPATH_ADMINISTRATOR);
+        }
 
 		return parent::display();
 	}

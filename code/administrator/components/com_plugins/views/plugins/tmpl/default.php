@@ -10,23 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
-    <h3><?= @text( 'Types' ); ?></h3>
-    <ul>
-        <li <? if(!$state->folder) echo 'class="active"' ?>>
-            <a href="<?= @route('&folder=') ?>">
-                <?= @text('All types') ?>
-            </a>
-        </li>
-        <? foreach($folders as $folder) : ?>
-        <li <? if($state->folder == $folder->folder) echo 'class="active"' ?>>
-            <a href="<?= @route('folder='.$folder->folder) ?>">
-                <?= $folder->folder ?>
-            </a>
-        </li>
-        <? endforeach ?>
-    </ul>
-</div>
+<?= @template('default_sidebar'); ?>
+
 <div class="-koowa-box-flex">
     <form action="<?= @route() ?>" method="get" class="-koowa-grid">
         <table class="adminlist">
