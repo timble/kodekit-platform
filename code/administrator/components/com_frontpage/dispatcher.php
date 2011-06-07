@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Component Dispatcher
  *
  * @author      Richie Mortimer <http://nooku.assembla.com/profile/ravenlife>
  * @category    Nooku

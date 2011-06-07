@@ -10,7 +10,7 @@
  */
 
 /**
- * Listbox Template Helper
+ * Frontpage Listbox Template Helper
  *
  * @author      Richie Mortimer <http://nooku.assembla.com/profile/ravenlife>
  * @category    Nooku

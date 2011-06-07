@@ -10,7 +10,7 @@
  */
 
 /**
- * Frontpage Articles HTML View Class
+ * Frontpage Articles Html View Class
  *
  * @author      Richie Mortimer <http://nooku.assembla.com/profile/ravenlife>
  * @category    Nooku
