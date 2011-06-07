@@ -237,7 +237,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 
 		$data  = "{access:$access}";
-		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'" />'.$group.'</span>';
+		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'">'.$group.'</span>';
 
 		return $html;
 	}
