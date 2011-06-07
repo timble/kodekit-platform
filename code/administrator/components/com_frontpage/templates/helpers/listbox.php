@@ -37,7 +37,7 @@ class ComFrontpageTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             ->getList();
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($prompt), 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
@@ -62,7 +62,7 @@ class ComFrontpageTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($prompt), 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
@@ -104,7 +104,7 @@ class ComFrontpageTemplateHelperListbox extends ComDefaultTemplateHelperListbox
               ->group('u.name')
               ->order('u.name');
 
-        $default[] = array('value' => '', 'text' => JText::_($prompt));
+        $default[] = array('value' => '', 'text' => JText::_($config->prompt));
         $options = $db->select($query, KDatabase::FETCH_ARRAY_LIST);
 
         $config->options = array_merge($default, $options);
