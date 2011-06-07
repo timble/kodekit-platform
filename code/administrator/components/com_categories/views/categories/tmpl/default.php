@@ -85,7 +85,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tfoot>
             <tr>
                 <td colspan="13">
-                    <? if ($total) echo @helper('paginator.pagination', array('total' => $total)); ?>
+                    <?= @helper('paginator.pagination', array('total' => $total)); ?>
                 </td>
             </tr>
         </tfoot>
