@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
 class modLatestNewsHelper
 {
@@ -32,7 +32,7 @@ class modLatestNewsHelper
 		$show_front	= $params->get('show_front', 1);
 		$aid		= $user->get('aid', 0);
 
-		$contentConfig = &JComponentHelper::getParams( 'com_articles' );
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$access		= !$contentConfig->get('show_noauth');
 
 		$nullDate	= $db->getNullDate();

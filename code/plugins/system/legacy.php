@@ -24,19 +24,15 @@ class plgSystemLegacy extends JPlugin
     public function onAfterRoute()
     {
         $application = JFactory::getApplication();
-        $option      = JRequest::getVar('option', null, 'method', 'cmd');
-        $view        = JRequest::getVar('view', null, 'method', 'cmd');
-        $layout      = JRequest::getVar('layout', null, 'method', 'cmd');
-        $task        = JRequest::getVar('task', null, 'method', 'cmd');
 
         if($application->isSite())
         {
-            switch($option)
+            switch(JRequest::getVar('option', null, 'method', 'cmd'))
             {
                 case 'com_user':
                     JRequest::setVar('option', 'com_users', 'get');
 
-                    switch($view)
+                    switch(JRequest::getVar('view', null, 'method', 'cmd'))
                     {
                         case 'login':
                             if(!JFactory::getUser()->guest) {
@@ -57,71 +53,18 @@ class plgSystemLegacy extends JPlugin
                             break;
 
                         case 'user':
-                            if($task == 'edit') {
+                            if(JRequest::getVar('task', null, 'get', 'cmd') == 'edit') {
                                 JRequest::setVar('layout', 'form', 'get');
                             }
                     }
 
-                    switch($task)
+                    switch(JRequest::getVar('task', null, 'method', 'cmd'))
                     {
                         case 'login':
                             JRequest::setVar('view', 'login', 'get');
                             JRequest::setVar('action', 'login', 'post');
                             JRequest::setVar('password', JRequest::getVar('passwd', null, 'method', 'none'), 'post');
 
-                            break;
-                    }
-
-                    break;
-
-                case 'com_content':
-                    JRequest::setVar('option', 'com_articles', 'get');
-
-                    switch($view)
-                    {
-                        case 'frontpage':
-                            JRequest::setVar('view', 'articles', 'get');
-                            JRequest::setVar('featured', 'true', 'get');
-
-                            break;
-
-                        case 'category':
-                            JRequest::setVar('view', 'articles', 'get');
-                            JRequest::setVar('category', JRequest::getVar('id', null, 'get', 'int'));
-                            JRequest::setVar('id', null, 'get');
-
-                            switch($layout)
-                            {
-                                case 'blog':
-                                    JRequest::setVar('layout', 'category_blog', 'get');
-                                    break;
-
-                                default:
-                                    JRequest::setVar('layout', 'category_default', 'get');
-                                    break;
-                            }
-                            break;
-
-                        case 'section':
-                            JRequest::setVar('view', 'articles', 'get');
-                            JRequest::setVar('section', JRequest::getVar('id', null, 'get', 'int'));
-                            JRequest::setVar('id', null, 'get');
-
-                            switch($layout)
-                            {
-                                case 'blog':
-                                    JRequest::setVar('layout', 'section_blog', 'get');
-                                    break;
-
-                                default:
-                                    JRequest::setVar('layout', 'section_default', 'get');
-                                    break;
-                            }
-                            break;
-
-                        case 'archive':
-                            JRequest::setVar('view', 'articles', 'get');
-                            JRequest::setVar('layout', 'archived', 'get');
                             break;
                     }
 

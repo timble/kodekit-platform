@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
 class modNewsFlashHelper
 {
@@ -74,7 +74,7 @@ class modNewsFlashHelper
 		$catid 	= (int) $params->get('catid', 0);
 		$items 	= (int) $params->get('items', 0);
 
-		$contentConfig	= &JComponentHelper::getParams( 'com_articles' );
+		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
 		$noauth			= !$contentConfig->get('show_noauth');
 		$date =& JFactory::getDate();
 		$now = $date->toMySQL();
