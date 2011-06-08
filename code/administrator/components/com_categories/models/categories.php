@@ -15,16 +15,16 @@
  * @author		John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category	Nooku
  * @package		Nooku_Server
- * @subpackage	Categories    
+ * @subpackage	Categories
  */
 class ComCategoriesModelCategories extends ComDefaultModelDefault
-{	
+{
     protected $child_id;
 
     public function __construct(KConfig $config)
 	{
         parent::__construct($config);
-		
+
         // Set the state
         $this->_state
             ->insert('section'   , 'string')
@@ -34,16 +34,15 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('distinct'  , 'string');
 
     }
-	
+
     protected function _buildQueryColumns(KDatabaseQuery $query)
     {
         parent::_buildQueryColumns($query);
-        
+
         if ( $this->_state->section)
         {
             if ( $this->_state->section == 'com_content' || is_numeric($this->_state->section)){
                 $query->select('sections.title AS section_title')
-                      ->select('sections.id AS section_id')
                       ->select('SUM( IF(content.state <> -2,1,0)) activecount')
                       ->select('SUM( IF(content.state = -2,1,0)) trashcount');
             } else {
@@ -67,8 +66,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
                     $query->join('LEFT',substr($this->_state->section,4).' AS child','child.catid = tbl.id');
                 }
             }
-        }    
-        
+        }
+
         parent::_buildQueryJoins($query);
     }
 
@@ -80,9 +79,9 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         if($state->search) {
             $query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
         }
-		
+
         //select overall section
-        if ($state->section) 
+        if ($state->section)
         {
             if( $state->section == 'com_content' ) {
                 $query->where('tbl.section', 'NOT LIKE', 'com%');
@@ -99,7 +98,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         if (is_numeric($state->published)) {
             $query->where('tbl.published', '=', $state->published);
         }
-	      
+
         parent::_buildQueryWhere($query);
     }
 
@@ -108,7 +107,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         $state = $this->_state;
         if( $state->distinct ) {
             $query->distinct();
-            $query->group($state->distinct);    
+            $query->group($state->distinct);
         } else {
             $query->group('tbl.id');
         }
@@ -129,7 +128,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
                 $query->order('sections.ordering','ASC');
             }
         }
-         
+
 	    $query->order('ordering', 'ASC');
     }
 }

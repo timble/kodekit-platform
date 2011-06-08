@@ -15,15 +15,15 @@
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Categories    
+ * @subpackage  Categories
  */
 class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
-{	
-    public function  _initialize(KConfig $config) 
+{
+    public function  _initialize(KConfig $config)
     {
         $config->identity_column = 'id';
         $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'section'));
-            		
+
         $config->append(array(
             'name'       => 'categories',
             'behaviors'  => array('lockable',$orderable, 'sluggable', 'cascadable'),
@@ -31,10 +31,11 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
                 'enabled'      => 'published',
                 'locked_on'    => 'checked_out_time',
                 'locked_by'    => 'checked_out',
-                'slug'         => 'alias'
+                'slug'         => 'alias',
+                'section_id'   => 'section'
                 ),
             ));
-     
+
         parent::_initialize($config);
     }
 }
