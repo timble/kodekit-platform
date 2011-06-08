@@ -90,9 +90,10 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         $this->meta_data = implode(PHP_EOL, array('robots='.$this->meta_robots, 'author='.$this->meta_author));
 
-        $result = parent::save();
+        $modified = $this->_modified;
+        $result   = parent::save();
 
-        if(isset($this->_modified['featured']))
+        if(isset($modified['featured']))
         {
             $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
             $featured->id = $this->id;
