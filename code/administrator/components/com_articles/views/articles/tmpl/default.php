@@ -33,7 +33,7 @@ defined('KOOWA') or die('Restricted access') ?>
                     <?= @helper('grid.sort', array('column' => 'featured')) ?>
                 </th>
                 <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
+                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => ($state->featured == true) ? 'featured_ordering' : 'ordering')) ?>
                 </th>
                 <th width="7%">
                     <?= @helper('grid.sort', array('column' => 'access')) ?>
