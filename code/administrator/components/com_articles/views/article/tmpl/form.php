@@ -47,7 +47,6 @@ defined('KOOWA') or die('Restricted access') ?>
         <?= @editor(array(
                 'name' => 'text',
                 'text' => $article->text,
-                'editor' => 'tinymce',
                 'width' => '100%',
                 'height' => '300',
                 'cols' => '60',
