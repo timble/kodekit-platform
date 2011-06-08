@@ -144,6 +144,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'enabled'
+		))->append(array(
+		    'data'		=> array($config->field => $config->row->{$config->field})
 		));
 
 		$html = '';
@@ -152,9 +154,10 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$img    = $config->row->{$config->field} ? 'enabled.png' : 'disabled.png';
 		$alt 	= $config->row->{$config->field} ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-		$value 	= $config->row->{$config->field} ? 0 : 1;
+		
+	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
+	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
 
-		$data  = "{enabled:$value}";
 		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
 
 		return $html;
@@ -172,7 +175,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->append(array(
 			'row'  		=> null,
 		    'total'		=> null,
-		    'field'		=> 'ordering'
+		    'field'		=> 'ordering',
+		    'data'		=> array('order' => 0)
 		));
 
 		$html = '';
@@ -180,10 +184,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		$up   = 'media://lib_koowa/images/arrow_up.png';
 		$down = 'media://lib_koowa/images/arrow_down.png';
-
-		$updata   = "{order:-1}";
-		$downdata = "{order:1}";
-
+		
+		$config->data->order = -1;
+		$updata   = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+		
+		$config->data->order = +1;
+		$downdata = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+		
 		if ($config->row->{$config->field} > 1) {
             $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
         }
@@ -209,6 +216,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'access'
+		))->append(array(
+		    'data'		=> array($config->field => $config->row->{$config->field})
 		));
 
 		$html = '';
@@ -238,8 +247,10 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			} break;
 
 		}
+		
+		$config->data->{$config->field} = $access;
+	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
 
-		$data  = "{access:$access}";
 		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'">'.$group.'</span>';
 
 		return $html;
