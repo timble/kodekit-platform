@@ -60,7 +60,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	{
 	    $config = new KConfig($config);
 		$config->append(array(
-			'search' => null,
+			'search' => null
 		));
 	    
 	    $html = '<input name="search" id="search" value="'.$config->search.'" />';
@@ -143,15 +143,16 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		$config->append(array(
 			'row'  		=> null,
+		    'field'		=> 'enabled'
 		));
 
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 
-		$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png';
-		$alt 	= $config->row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$text 	= $config->row->enabled ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-		$value 	= $config->row->enabled ? 0 : 1;
+		$img    = $config->row->{$config->field} ? 'enabled.png' : 'disabled.png';
+		$alt 	= $config->row->{$config->field} ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
+		$value 	= $config->row->{$config->field} ? 0 : 1;
 
 		$data  = "{enabled:$value}";
 		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
@@ -170,7 +171,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		$config->append(array(
 			'row'  		=> null,
-		    'total'		=> null
+		    'total'		=> null,
+		    'field'		=> 'ordering'
 		));
 
 		$html = '';
@@ -182,13 +184,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$updata   = "{order:-1}";
 		$downdata = "{order:1}";
 
-		if ($config->row->ordering > 1) {
+		if ($config->row->{$config->field} > 1) {
             $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
         }
 
-        $html .= $config->row->ordering;
+        $html .= $config->row->{$config->field};
 
-        if($config->row->ordering != $config->total) {
+        if($config->row->{$config->field} != $config->total) {
             $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" data-action="edit" data-data="'.$downdata.'"/>';
 	    }
 
@@ -206,12 +208,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		$config->append(array(
 			'row'  		=> null,
+		    'field'		=> 'access'
 		));
 
 		$html = '';
 		$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 
-		switch($config->row->access)
+		switch($config->row->{$config->field})
 		{
 			case 0 :
 			{
