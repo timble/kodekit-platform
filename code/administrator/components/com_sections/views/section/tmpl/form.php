@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -12,31 +12,30 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.keepalive'); ?>
 <?= @helper('behavior.validator'); ?>
-		
+
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
 	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
-	
+
 	<div class="grid_8">
 		<div class="border-radius-4 title clearfix">
 			<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
-		
+
 			<label for="alias">
 				<?= @text( 'Alias' ); ?>
 				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
 			</label>
 		</div>
 		<?= @editor( array('name' => 'description',
-				'editor' => 'tinymce', 	
-				'width' => '100%', 
-				'height' => '300', 
-				'cols' => '60', 
-				'rows' => '20', 
-				'buttons' => null, 
-				'options' => array('theme' => 'simple', 'pagebreak', 'readmore'))); 
+				'width' => '100%',
+				'height' => '300',
+				'cols' => '60',
+				'rows' => '20',
+				'buttons' => null,
+				'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
 		?>
 	</div>
 	<div class="grid_4">
