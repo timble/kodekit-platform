@@ -103,7 +103,7 @@ defined('KOOWA') or die('Restricted access') ?>
                         </td>
                         <td class="paramlist_value">
                             <?= @helper('admin::com.users.template.helper.listbox.users',
-                                array('selected' => $article->id ? $article->created_by : $user->id, 'deselect' => false)) ?>
+                                array('selected' => $article->id ? $article->created_by : $user->id, 'deselect' => false, 'name' => 'created_by')) ?>
                         </td>
                     </tr>
                     <tr>
