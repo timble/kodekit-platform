@@ -69,10 +69,10 @@ defined('KOOWA') or die('Restricted access') ?>
                 </tr>
                 <tr>
                     <td class="paramlist_key">
-                        <label><?= @text('Frontpage') ?></label>
+                        <label><?= @text('Featured') ?></label>
                     </td>
                     <td>
-                        <?= @helper('select.booleanlist', array('name' => 'frontpage', 'selected' => $article->frontpage)) ?>
+                        <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
                     </td>
                 </tr>
                 <tr>

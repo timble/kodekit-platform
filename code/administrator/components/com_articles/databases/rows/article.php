@@ -92,7 +92,25 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         $result = parent::save();
 
-        // TODO: Add frontpage publishing and removal.
+        if(isset($this->_modified['featured']))
+        {
+            $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
+            $featured->id = $this->id;
+
+            if($this->featured)
+            {var_dump($featured->load());exit;
+                if(!$featured->load()) {exit;
+                    $featured->save();
+                }
+            }
+            else
+            {
+                if($featured->load()) {
+                    $featured->delete();
+                }
+            }
+        }
+
         // TODO: Add cache cleaning.
 
         return $result;

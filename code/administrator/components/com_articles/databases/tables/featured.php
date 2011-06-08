@@ -24,11 +24,7 @@ class ComArticlesDatabaseTableFeatured extends KDatabaseTableDefault
         $config->append(array(
             'identity_column' => 'content_id',
             'name'            => 'content_frontpage',
-            'behaviors'       => array('orderable'),
-            'column_map'      => array(
-                'section_id'  => 'sectionid',
-                'category_id' => 'catid'
-            )
+            'behaviors'       => array('orderable')
         ));
 
         parent::_initialize($config);

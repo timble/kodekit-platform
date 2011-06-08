@@ -15,7 +15,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <script src="media://com_articles/js/articles.js" />
-	
+
 <?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
@@ -104,8 +104,7 @@ defined('KOOWA') or die('Restricted access') ?>
                     <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>
                 </td>
                 <td align="center">
-                    <? // TODO: Make this clickable. ?>
-                    <img src="media://lib_koowa/images/<?= $article->featured ? 'enabled.png' : 'disabled.png' ?>" />
+					<?= @helper('grid.featured', array('row' => $article)) ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>
