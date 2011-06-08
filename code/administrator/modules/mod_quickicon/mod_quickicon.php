@@ -44,9 +44,6 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 		$link = 'index.php?option=com_articles';
 		quickiconButton( $link, 'icon-48-article.png', JText::_( 'Article Manager' ) );
 
-		$link = 'index.php?option=com_frontpage';
-		quickiconButton( $link, 'icon-48-frontpage.png', JText::_( 'Frontpage Manager' ) );
-
 		$link = 'index.php?option=com_sections&amp;scope=content';
 		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
 

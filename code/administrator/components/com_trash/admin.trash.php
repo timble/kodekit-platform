@@ -30,7 +30,7 @@ if($task == 'viewContent')
 	JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_articles&view=articles');
 	JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
 	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
-	JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage');
+	
 	if(JFactory::getUser()->authorize('com_trash', 'manage')) {
 		JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent', true);
 	}
@@ -301,7 +301,7 @@ function deleteTrash( $cid, $option )
 	{
 		$obj =& JTable::getInstance('content');
 
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
+		require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'tables'.DS.'frontpage.php');
 		$fp = new TableFrontPage( $db );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );

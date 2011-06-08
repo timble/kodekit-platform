@@ -18,7 +18,7 @@
  * @subpackage  Articles
  */
 
-/*if (!KFactory::get('lib.joomla.user')->authorize( 'com_frontpage', 'manage' )) {
+/*if (!KFactory::get('lib.joomla.user')->authorize( 'com_content', 'manage' )) {
 	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 

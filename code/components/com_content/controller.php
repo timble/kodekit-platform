@@ -161,7 +161,7 @@ class ContentController extends JController
 
 		// manage frontpage items
 		//TODO : Move this into a frontpage model
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
+		require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'tables'.DS.'frontpage.php');
 		$fp = new TableFrontPage($db);
 
 		if (JRequest::getVar('frontpage', false, '', 'boolean'))

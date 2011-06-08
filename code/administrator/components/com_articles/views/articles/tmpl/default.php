@@ -12,7 +12,11 @@
 defined('KOOWA') or die('Restricted access') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+
 <script src="media://com_articles/js/articles.js" />
+	
+<?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
     <table class="adminlist">
@@ -20,19 +24,19 @@ defined('KOOWA') or die('Restricted access') ?>
             <tr>
                 <th width="10"></th>
                 <th>
-                    <?= @helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
+                    <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
                 <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'State', 'column' => 'state')) ?>
+                    <?= @helper('grid.sort', array('column' => 'state')) ?>
                 </th>
                 <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'Front Page', 'column' => 'frontpage')) ?>
+                    <?= @helper('grid.sort', array('column' => 'featured')) ?>
                 </th>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
                 <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'Access', 'column' => 'access')) ?>
+                    <?= @helper('grid.sort', array('column' => 'access')) ?>
                 </th>
                 <th width="8%">
                     <?= @helper('grid.sort', array('title' => 'Section', 'column' => 'section_title')) ?>
@@ -101,7 +105,7 @@ defined('KOOWA') or die('Restricted access') ?>
                 </td>
                 <td align="center">
                     <? // TODO: Make this clickable. ?>
-                    <img src="media://lib_koowa/images/<?= $article->frontpage ? 'enabled.png' : 'disabled.png' ?>" />
+                    <img src="media://lib_koowa/images/<?= $article->featured ? 'enabled.png' : 'disabled.png' ?>" />
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>

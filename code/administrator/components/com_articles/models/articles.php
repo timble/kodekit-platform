@@ -27,9 +27,10 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('section'   , 'int', -1)
             ->insert('category'  , 'int', -1)
             ->insert('published' , 'int')
-            ->insert('state', 'int')
+            ->insert('state'     , 'int')
             ->insert('created_by', 'int')
-            ->insert('access', 'int');
+            ->insert('access'    , 'int')
+            ->insert('featured'  , 'boolean');
 
         $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -77,19 +78,28 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $query->select('section.title AS section_title')
             ->select('category.title AS category_title')
             ->select('user.name AS created_by_name')
-            ->select('IF(frontpage.content_id, 1, 0) AS frontpage')
+            ->select('IF(frontpage.content_id, 1, 0) AS featured')
             ->select('group.name AS group_name');
     }
 
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
+         parent::_buildQueryJoins($query);
+        
+        $state = $this->_state;
+        
         $query->join('LEFT', 'sections AS section', 'section.id = tbl.sectionid')
-            ->join('LEFT', 'categories AS category', 'category.id = tbl.catid')
-            ->join('LEFT', 'users AS user', 'user.id = tbl.created_by')
-            ->join('LEFT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id')
-            ->join('LEFT', 'groups AS group', 'group.id = tbl.access');
+              ->join('LEFT', 'categories AS category', 'category.id = tbl.catid')
+              ->join('LEFT', 'users AS user', 'user.id = tbl.created_by')
+              ->join('LEFT', 'groups AS group', 'group.id = tbl.access');
+              
+        if(is_bool($state->featured) && $state->featured == true) { 
+            $query->join('RIGHT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
+        } else {
+            $query->join('LEFT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
+        }
     }
-
+ 
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         parent::_buildQueryWhere($query);

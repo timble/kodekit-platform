@@ -104,11 +104,6 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'com_components', 'manage', 'users', 'administrator' );
 		$this->addACL( 'com_components', 'manage', 'users', 'manager' );
 
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_frontpage', 'manage', 'users', 'manager' );
-		$this->addACL( 'com_frontpage', 'edit', 'users', 'manager' );
-
 		// access to installers and base installer
 		$this->addACL( 'com_installer', 'installer', 'users', 'administrator' );
 		$this->addACL( 'com_installer', 'installer', 'users', 'super administrator' );
