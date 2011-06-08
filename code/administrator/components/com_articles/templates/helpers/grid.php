@@ -69,15 +69,13 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
 
                 break;
         }
+ 
+        $data  = "{state:$value}";
 
-        $url   = 'index.php?option=com_articles&view=article&id='.$config->row->id;
+		$html  = '<script src="media://lib_koowa/js/koowa.js" />';
+        $html .= '<img src="media://system/images/'.$image.'" border="0" alt="'.$alt.'" data-action="edit" data-data="'.$data.'" />';
         
-        $token = JUtility::getToken();
-        $rel   = "{method:'post', url:'$url', params:{state:$value, _token:'$token', action:'edit'}}";
-
-        $html[] = '<img src="media://system/images/'.$image.'" border="0" alt="'.$alt.'" class="submitable" rel="'.$rel.'" />';
-
-        return implode(PHP_EOL, $html);
+        return $html;
     }
 
     public function featured($config = array())
@@ -90,14 +88,13 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
         $image    = $config->row->featured ? 'enabled.png' : 'disabled.png';
         $alt 	  = $config->row->enabled ? JText::_( 'Featured' ) : JText::_( 'Unfeatured' );
         
-        $url      = 'index.php?option=com_articles&view=article&id='.$config->row->id;
-        $token    = JUtility::getToken();
-        
         $featured = $config->row->featured ? 0 : 1;
-        $rel      = "{method:'post', url:'$url', params:{featured:$featured, _token:'$token', action:'edit'}}";
+     
+        $data  = "{featured:$featured}";
+        
+        $html = '<script src="media://lib_koowa/js/koowa.js" />';
+        $html .= '<img src="media://lib_koowa/images/'.$image.'" border="0" alt="'.$alt.'" data-action="edit" data-data="'.$data.'" />';
 
-        $html[] = '<img src="media://lib_koowa/images/'.$image.'" border="0" alt="'.$alt.'" class="submitable" rel="'.$rel.'" />';
-
-        return implode(PHP_EOL, $html);
+        return $html;
     }
 }
