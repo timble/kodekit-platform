@@ -98,8 +98,8 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             $featured->id = $this->id;
 
             if($this->featured)
-            {var_dump($featured->load());exit;
-                if(!$featured->load()) {exit;
+            {
+                if(!$featured->load()) {
                     $featured->save();
                 }
             }
