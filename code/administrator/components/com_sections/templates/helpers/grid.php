@@ -30,18 +30,20 @@ class ComSectionsTemplateHelperGrid extends KTemplateHelperGrid
    	{
     	$config = new KConfig($config);
        	$config->append(array(
-        	'row'           => null,
-      	));
-
-      	$html = '';
-       	$html .= '<script src="media://lib_koowa/js/koowa.js" />';
-                
+        	'row'   => null,
+       		'field'	=> 'enabled'
+      	))->append(array(
+		    'data'	=> array($config->field => $config->row->{$config->field})
+		));
+        
       	$img    = $config->row->enabled ? 'enabled.png' : 'disabled.png';
        	$alt    = $config->row->enabled ? JText::_( 'Published' ) : JText::_( 'Draft' );
        	$text   = $config->row->enabled ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish Item' );
-       	$value  = $config->row->enabled ? 0 : 1;
-
-     	$data  = "{enabled:$value}";
+       
+       	$config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
+	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+	
+       	$html  = '<script src="media://lib_koowa/js/koowa.js" />';
       	$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" />';
 
        	return $html;
