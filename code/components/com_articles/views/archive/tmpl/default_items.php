@@ -12,65 +12,65 @@
 defined('KOOWA') or die('Restricted access') ?>
 
 <ul id="archive-list" style="list-style: none;">
-<?php foreach ($this->items as $item) : ?>
-	<li class="row<?php echo ($item->odd +1 ); ?>">
+<? foreach ($this->items as $item) : ?>
+	<li class="row<?= ($item->odd +1 ); ?>">
 		<h4 class="contentheading">
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
-				<?php echo $this->escape($item->title); ?></a>
+			<a href="<?= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
+				<?= @escape($item->title); ?></a>
 		</h4>
 
-		<?php if (($this->params->get('show_section') && $item->sectionid) || ($this->params->get('show_category') && $item->catid)) : ?>
+		<? if (($this->params->get('show_section') && $item->sectionid) || ($this->params->get('show_category') && $item->catid)) : ?>
 			<div>
-			<?php if ($this->params->get('show_section') && $item->sectionid && isset($item->section)) : ?>
+			<? if ($this->params->get('show_section') && $item->sectionid && isset($item->section)) : ?>
 				<span>
-				<?php if ($this->params->get('link_section')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($item->sectionid)).'">'; ?>
-				<?php endif; ?>
+				<? if ($this->params->get('link_section')) : ?>
+					<a href="<?= JRoute::_(ContentHelperRoute::getSectionRoute($item->sectionid)) ?>">
+				<? endif; ?>
 
-				<?php echo $this->escape($item->section); ?>
+				<?= @escape($item->section); ?>
 
-				<?php if ($this->params->get('link_section')) : ?>
-					<?php echo '</a>'; ?>
-				<?php endif; ?>
+				<? if ($this->params->get('link_section')) : ?>
+					</a>
+				<? endif; ?>
 
-				<?php if ($this->params->get('show_category')) : ?>
-					<?php echo ' - '; ?>
-				<?php endif; ?>
+				<? if ($this->params->get('show_category')) : ?>
+					<?= ' - '?>
+				<? endif; ?>
 				</span>
-			<?php endif; ?>
-			<?php if ($this->params->get('show_category') && $item->catid) : ?>
+			<? endif; ?>
+			<? if ($this->params->get('show_category') && $item->catid) : ?>
 				<span>
-				<?php if ($this->params->get('link_category')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug, $item->sectionid)).'">'; ?>
-				<?php endif; ?>
-				<?php echo $this->escape($item->category); ?>
-				<?php if ($this->params->get('link_category')) : ?>
-					<?php echo '</a>'; ?>
-				<?php endif; ?>
+				<? if ($this->params->get('link_category')) : ?>
+					<a href="<?= JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug, $item->sectionid)) ?>">
+				<? endif; ?>
+				<?= @escape($item->category); ?>
+				<? if ($this->params->get('link_category')) : ?>
+					</a>
+				<? endif; ?>
 				</span>
-			<?php endif; ?>
+			<? endif; ?>
 			</div>
-		<?php endif; ?>
+		<? endif; ?>
 
 		<h5 class="metadata">
-		<?php if ($this->params->get('show_create_date')) : ?>
+		<? if ($this->params->get('show_create_date')) : ?>
 			<span class="created-date">
-				<?php echo JText::_('Created') .': '.  JHTML::_( 'date', $item->created, JText::_('DATE_FORMAT_LC2')) ?>
+				<?= @text('Created') .': '.  JHTML::_( 'date', $item->created, JText::_('DATE_FORMAT_LC2')) ?>
 			</span>
-			<?php endif; ?>
-			<?php if ($this->params->get('show_author')) : ?>
+			<? endif; ?>
+			<? if ($this->params->get('show_author')) : ?>
 			<span class="author">
-				<?php echo JText::_('Author').': '; echo $this->escape($item->created_by_alias) ? $this->escape($item->created_by_alias) : $this->escape($item->author); ?>
+				<?=  @text('Author').': '; echo @escape($item->created_by_alias) ? @escape($item->created_by_alias) : @escape($item->author); ?>
 			</span>
 		<?php endif; ?>
 		</h5>
 		<div class="intro">
-			<?php echo substr(strip_tags($item->introtext), 0, 255);  ?>...
+			<?= substr(strip_tags($item->introtext), 0, 255);  ?>...
 		</div>
 	</li>
 <?php endforeach; ?>
 </ul>
 <div id="navigation">
-	<span><?php echo $this->pagination->getPagesLinks(); ?></span>
-	<span><?php echo $this->pagination->getPagesCounter(); ?></span>
+	<span><?= $this->pagination->getPagesLinks(); ?></span>
+	<span><?= $this->pagination->getPagesCounter(); ?></span>
 </div>

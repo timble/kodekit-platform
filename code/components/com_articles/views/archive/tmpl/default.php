@@ -11,24 +11,28 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
-<?php endif; ?>
+<form id="jForm" action="<?= JRoute::_('index.php')?>" method="post">
+    <? if ($this->params->get('show_page_title', 1)) : ?>
+	<div class="componentheading<?= @escape($this->params->get('pageclass_sfx')); ?>">
+	    <?= @escape($this->params->get('page_title')); ?>
+	</div>
+    <? endif; ?>
 	<p>
-		<?php if ($this->params->get('filter')) : ?>
-		<?php echo JText::_('Filter').'&nbsp;'; ?>
-		<input type="text" name="filter" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
-		<?php endif; ?>
-		<?php echo $this->form->monthField; ?>
-		<?php echo $this->form->yearField; ?>
-		<?php echo $this->form->limitField; ?>
-		<button type="submit" class="button"><?php echo JText::_('Filter'); ?></button>
+		<? if ($this->params->get('filter')) : ?>
+		    <?= @text('Filter').'&nbsp;'; ?>
+			<input type="text" name="filter" value="<?= @escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
+		<? endif; ?>
+		
+		<?= $this->form->monthField; ?>
+		<?= $this->form->yearField; ?>
+		<?= $this->form->limitField; ?>
+		
+		<button type="submit" class="button"><?= @text('Filter'); ?></button>
 	</p>
 
-<?php echo $this->loadTemplate('items'); ?>
+<?= @template('default_items'); ?>
 
-	<input type="hidden" name="view" value="archive" />
-	<input type="hidden" name="option" value="com_content" />
-	<input type="hidden" name="viewcache" value="0" />
+<input type="hidden" name="view" value="archive" />
+<input type="hidden" name="option" value="com_content" />
+<input type="hidden" name="viewcache" value="0" />
 </form>
