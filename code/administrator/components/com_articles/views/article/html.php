@@ -28,6 +28,9 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         $this->assign('categories', $categories);
         $this->assign('user', KFactory::get('lib.joomla.user'));
 
+        $folders = KFactory::get('admin::com.articles.model.folders')->getList();
+        $this->assign('folders', $folders);
+
         return parent::display();
     }
 }

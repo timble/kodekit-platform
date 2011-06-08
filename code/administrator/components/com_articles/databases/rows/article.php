@@ -22,6 +22,20 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 {
     public function save()
     {
+        if(isset($this->_modified['category_id']))
+        {
+            if($this->category_id == 0)
+            {
+                $this->section_id = 0;
+            }
+            else
+            {
+                $this->section_id = KFactory::tmp('admin::com.categories.model.categories')
+                    ->set('id', $this->category_id)
+                    ->getItem()->section_id;
+            }
+        }
+
         if($this->created_on && strlen(trim($this->created_on)) <= 10) {
             $this->created_on .= ' 00:00:00';
         }

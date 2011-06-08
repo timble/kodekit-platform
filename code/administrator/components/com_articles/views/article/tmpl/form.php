@@ -75,22 +75,6 @@ defined('KOOWA') or die('Restricted access') ?>
                         <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
                     </td>
                 </tr>
-                <tr>
-                    <td class="paramlist_key">
-                        <label for="sectionid"><?= @text('Section') ?></label>
-                    </td>
-                    <td>
-                        <?= @helper('listbox.sections', array('name' => 'section_id', 'selected' => $article->section_id, 'deselect' => false, 'attribs' => array('id' =>'article-form-sections', 'class' => 'required'))) ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="paramlist_key">
-                        <label for="catid"><?= @text('Category') ?></label>
-                    </td>
-                    <td>
-                        <select id="article-form-categories" name="category_id" class="required validate-unsigned"></select>
-                    </td>
-                </tr>
             </table>
         </div>
         <div class="panel">
@@ -195,6 +179,10 @@ defined('KOOWA') or die('Restricted access') ?>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="panel">
+            <h3><?= @text('Category') ?></h3>
+            <?= @template('form_folders', array('folders' => $folders, 'article' => $article)) ?>
         </div>
     </div>
 </form>
