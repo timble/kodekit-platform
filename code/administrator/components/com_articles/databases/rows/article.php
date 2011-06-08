@@ -117,6 +117,20 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         return $result;
     }
 
+    public function delete()
+    {
+        $result = parent::delete();
+
+        $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
+        $featured->id = $this->id;
+
+        if($featured->load()) {
+            $featured->delete();
+        }
+
+        return $result;
+    }
+
     public function __get($name)
     {
         switch($name)
