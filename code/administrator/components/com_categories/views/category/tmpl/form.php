@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
 	<input type="hidden" name="section" value="<?= $category->id ? $category->section : $state->section; ?>" />
-	
+
     <div class="grid_8">
  		<div class="border-radius-4 title clearfix">
 			<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
@@ -27,13 +27,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </label>
         </div>
         <?= @editor( array('name' => 'description',
-                            'editor' => 'tinymce',  
-                            'width' => '100%', 
-                            'height' => '300', 
-                            'cols' => '60', 
-                            'rows' => '20', 
-                            'buttons' => null, 
-                            'options' => array('theme' => 'simple', 'pagebreak', 'readmore'))); 
+                            'width' => '100%',
+                            'height' => '300',
+                            'cols' => '60',
+                            'rows' => '20',
+                            'buttons' => null,
+                            'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
             ?>
     </div>
 
@@ -84,10 +83,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 								 <? if( $category->id ) : ?>
                                     <?= @helper('listbox.order',
                                     array( 'filter' => array(
-                                        'section' => $category->section 
-                                    ))); 
+                                        'section' => $category->section
+                                    )));
                                 elseif ( substr($state->section, 0, 3) == 'com' && $state->section != 'com_content'):
-                                   echo @template('form_orderable');       
+                                   echo @template('form_orderable');
                                 endif  ?>
                             </div>
                     	</td>
@@ -104,7 +103,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 </tr>
             </table>
         </div>
-        
+
         <div class="panel">
             <h3><?= @text( 'Image' ); ?></h3>
             <table class="admintable">
