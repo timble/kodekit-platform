@@ -31,7 +31,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             'height' => '300',
                             'cols' => '60',
                             'rows' => '20',
-                            'buttons' => null,
+                            'buttons' => true,
                             'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
             ?>
     </div>
