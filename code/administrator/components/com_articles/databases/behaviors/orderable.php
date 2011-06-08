@@ -25,7 +25,7 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         if($this->mixer->getIdentifier()->name == 'article')
         {
             $query->where('catid', '=', $this->category_id)
-                ->where('state', '>=', 0);
+                  ->where('state', '>=', 0);
         }
     }
 }
