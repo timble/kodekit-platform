@@ -35,8 +35,11 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
     {
         $config = new KConfig($config);
         $config->append(array(
-            'row' => null,
-        ));
+            'row'   => null,
+            'field' => 'state',
+        ))->append(array(
+		    'data'	=> array($config->field => $config->row->{$config->field})
+		));
 
         switch($config->row->state)
         {
@@ -81,7 +84,8 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
                 break;
         }
  
-        $data  = "{state:$value}";
+        $config->data->{$config->field} = $value;
+	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
 
 		$html  = '<script src="media://lib_koowa/js/koowa.js" />';
         $html .= '<img src="media://system/images/'.$image.'" border="0" alt="'.$alt.'" data-action="edit" data-data="'.$data.'" />';
@@ -93,15 +97,17 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
     {
         $config = new KConfig($config);
         $config->append(array(
-            'row' => null,
-        ));
+            'row'   => null,
+            'field' => 'featured'
+        ))->append(array(
+		    'data'	=> array($config->field => $config->row->{$config->field})
+		));
 
         $image    = $config->row->featured ? 'enabled.png' : 'disabled.png';
         $alt 	  = $config->row->enabled ? JText::_( 'Featured' ) : JText::_( 'Unfeatured' );
-        
-        $featured = $config->row->featured ? 0 : 1;
-     
-        $data  = "{featured:$featured}";
+       
+        $config->data->{$config->field} =  $config->row->{$config->field} ? 0 : 1;
+	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
         
         $html = '<script src="media://lib_koowa/js/koowa.js" />';
         $html .= '<img src="media://lib_koowa/images/'.$image.'" border="0" alt="'.$alt.'" data-action="edit" data-data="'.$data.'" />';
