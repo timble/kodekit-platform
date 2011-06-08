@@ -68,6 +68,7 @@ class KEventDispatcher extends KObject
      * Dispatches an event by dispatching arguments to all listeners that handle
      * the event and returning their return values.
      *
+     * @param   string  The event name
      * @param   object|array   An array, a KConfig or a KEvent object 
      * @return  KEventDispatcher
      */
@@ -94,7 +95,7 @@ class KEventDispatcher extends KObject
         {
             foreach($this->_listeners[$name] as $listener) 
             {
-                $listener->$event($event);
+                $listener->$name($event);
                 
                 if (!$event->canPropagate()) {
                     break;
