@@ -79,6 +79,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->select('category.title AS category_title')
             ->select('user.name AS created_by_name')
             ->select('IF(frontpage.content_id, 1, 0) AS featured')
+            ->select('frontpage.ordering AS featured_ordering')
             ->select('group.name AS group_name');
     }
 
