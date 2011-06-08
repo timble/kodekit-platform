@@ -21,7 +21,7 @@ class ComFrontpageViewHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
+        JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_articles&view=articles');
         JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
         JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
         JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_frontpage', true);
