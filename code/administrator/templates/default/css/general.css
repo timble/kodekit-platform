@@ -462,6 +462,22 @@ div.current dd {
 #cpanel img  { padding: 10px 0; margin: 0 auto; }
 #cpanel span { display: block; text-align: center; }
 
+/* @group Filter */
+#filter { 
+	padding: 4px 10px 4px; 
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#E9E9E9));
+	background-image: -moz-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#E9E9E9));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2F2F2', endColorstr='#E9E9E9');
+	border-bottom: 1px solid #DDD;
+}
+
+#filter ul 		{ list-style: none; margin: 0; padding: 0; float: left; }
+#filter ul li 	{ float: left; }
+#filter ul li a 	{ display: block; margin: 0 2px; padding: 2px 7px; font-weight: bold; color: #363636; }
+#filter ul li a:hover { background-color: #A0A0A0; color: #FFF; border-radius: 10px; text-decoration: none; }
+#filter ul li.active a { background: #A0A0A0; color: #FFF; border-radius: 10px; -webkit-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0; }
+/* @end */
+
 /* Sidebar */
 #sidebar {
 	width: 200px;
@@ -475,14 +491,10 @@ div.current dd {
 #sidebar h3 {
 	color: #666;
 	font-size: 11px;
-	padding: 5px 0;
-	text-indent: 18px;
+	padding: 6px 0;
+	text-indent: 12px;
 	margin: 0;
-	background-color: #F2F2F2;
-	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
-	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
-	border-bottom: 1px solid #E1E1E1;
+	text-transform: uppercase;
 }
 
 #sidebar ul {
@@ -499,7 +511,7 @@ div.current dd {
 #sidebar ul li a {
 	display: block;
 	padding: 6px 0;
-	text-indent: 18px;
+	text-indent: 22px;
 	color: #444;
 	border-top: 1px solid #F7F7F7;
 	font-weight: bold;

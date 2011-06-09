@@ -19,6 +19,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
+    <?= @template('default_filter'); ?>
     <table class="adminlist">
         <thead>
             <tr>
@@ -140,6 +141,13 @@ defined('KOOWA') or die('Restricted access') ?>
                 </td>
             </tr>
         <? endforeach ?>
+        <? if(!$total) : ?>
+        	<tr>
+        	    <td colspan="10" align="center">
+        	         <?= @text('No Items Found'); ?>
+        	    </td>
+        	</tr>
+        <? endif; ?>
         </tbody>
     </table>
 </form>
