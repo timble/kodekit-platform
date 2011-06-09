@@ -138,11 +138,11 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Load the row from the database using the data in the row
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return object	If successfull returns the row object, otherwise NULL
 	 */
 	public function load()
 	{
-		$result = false;
+		$result = null;
 		
 		if($this->_new)
 		{
@@ -159,7 +159,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 			        $this->_new      = false;
 			    
 			        $this->setStatus(KDatabase::STATUS_LOADED);
-			        $result = true;
+			        $result = $this;
 		        }
             }
 		}

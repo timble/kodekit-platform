@@ -236,13 +236,13 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Load the row from the database.
      *
-     * @return boolean  If successfull return TRUE, otherwise FALSE
+     * @return object	If successfull returns the row object, otherwise NULL
      */
     public function load()
     {
         $this->_modified = array();
         
-        return false;
+        return $this;
     }
     
     /**

@@ -29,7 +29,7 @@ interface KDatabaseRowInterface extends KObjectIdentifiable
 	/**
      * Load the row from the database.
      *
-     * @return KDatabaseRowAbstract
+     * @return object	If successfull returns the row object, otherwise NULL
      */
 	public function load();
     
