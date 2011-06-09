@@ -36,8 +36,8 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 </script>
 
-<form action="<?= @route('id='.$article->id) ?>" method="post" name="adminForm" class="com_content -koowa-form">
-    <div class="grid_8">
+<form action="<?= @route('id='.$article->id) ?>" method="post" id="article-form" class="-koowa-form">
+    <div id="main" class="grid_8">
         <div class="border-radius-4 title clearfix">
             <input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
             <label for="slug"><?= @text('Slug') ?></label>
@@ -55,7 +55,7 @@ defined('KOOWA') or die('Restricted access') ?>
                 'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
         ?>
     </div>
-    <div class="grid_4">
+    <div id="panels" class="grid_4">
         <div class="panel">
             <h3><?= @text('Publish') ?></h3>
             <table class="paramlist admintable">

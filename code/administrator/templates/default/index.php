@@ -26,7 +26,7 @@
  <![endif]-->
  
 <? if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
-     <link href="templates/desktop/css/general.css" rel="stylesheet" type="text/css" />
+     <link href="templates/desktop/css/template.css" rel="stylesheet" type="text/css" />
  <? endif ?>
 
 </head>
