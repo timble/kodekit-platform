@@ -24,13 +24,15 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
 	{
 		$config = new KConfig($config);
 		
-		if($config->featured == true) {
+		if($config->featured == true) 
+		{
 		    $config->field = 'featured_ordering';
+		    $config->data  = array('featured_order' => true);
 		}
 	    
 	    return parent::order($config);
 	}
-    
+
     public function state($config = array())
     {
         $config = new KConfig($config);

@@ -136,20 +136,37 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
-        $direction = strtoupper($this->_state->direction);
+        $state = $this->_state;
+        
+        $direction = strtoupper($state->direction);
 
-        if($this->_state->sort == 'ordering')
+        if(is_bool($state->featured) && $state->featured == true) 
         {
-            $query->order('section_title', 'ASC')
-                ->order('category_title', 'ASC')
-                ->order('ordering', $direction);
+            if($this->_state->sort == 'ordering')
+            {
+                $query->order('featured_ordering',  $direction);
+            }    
+            else
+            {
+                $query->order($this->_state->sort, $direction)
+                      ->order('featured_ordering', 'ASC');
+            }
         }
-        else
+        else 
         {
-            $query->order($this->_state->sort, $direction)
-                ->order('section_title', 'ASC')
-                ->order('category_title', 'ASC')
-                ->order('ordering', 'ASC');
+            if($this->_state->sort == 'ordering')
+            {
+                $query->order('section_title', 'ASC')
+                    ->order('category_title', 'ASC')
+                    ->order('ordering', $direction);
+            }
+            else
+            {
+                $query->order($this->_state->sort, $direction)
+                    ->order('section_title', 'ASC')
+                    ->order('category_title', 'ASC')
+                    ->order('ordering', 'ASC');
+            }
         }
     }
 }

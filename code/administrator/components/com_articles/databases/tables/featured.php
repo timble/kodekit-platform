@@ -21,10 +21,11 @@ class ComArticlesDatabaseTableFeatured extends KDatabaseTableDefault
 {
     public function  _initialize(KConfig $config)
     {
+        $config->identity_column = 'content_id';
+        
         $config->append(array(
-            'identity_column' => 'content_id',
-            'name'            => 'content_frontpage',
-            'behaviors'       => array('orderable')
+            'name'       => 'content_frontpage',
+            'behaviors'  => array('orderable')
         ));
 
         parent::_initialize($config);

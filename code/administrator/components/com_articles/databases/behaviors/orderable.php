@@ -20,9 +20,21 @@
 
 class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
 {
+    protected function _beforeTableUpdate(KCommandContext $context)
+    {
+        if($this->featured_order) 
+        {
+            KFactory::tmp('admin::com.articles.database.row.featured')
+               ->set('id', $this->id)
+               ->load()
+               ->order($this->order);
+        } 
+        else parent::_beforeTableUpdate($context);
+    }
+     
     public function _buildQueryWhere(KDatabaseQuery $query)
     {
-        if($this->mixer->getIdentifier()->name == 'article')
+        if($this->mixer->getIdentifier()->name == 'article' && !isset($this->featured_order))
         {
             $query->where('catid', '=', $this->category_id)
                   ->where('state', '>=', 0);
