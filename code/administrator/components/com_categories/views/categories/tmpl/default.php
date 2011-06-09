@@ -13,6 +13,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<div id="sidebar">
+	<h3><?= @text('Sections') ?></h3>
+	<?= @template('admin::com.sections.view.sections.list', array('state' => $state, 'sections' => KFactory::tmp('admin::com.sections.model.sections')->getList())); ?>
+</div>
+
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
@@ -36,11 +41,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'access')   ); ?>
                 </th>
                 <? if ( $state->section == 'com_content') : ?>
-                    <th width="20%"  class="title">
-                        <?= @helper('grid.sort',  array('title' => 'Section', 'column' => 'section_title')   ); ?>
-                    </th>
                     <th width="5%">
-                <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
+                        <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
                     </th>
                     <th width="5%" nowrap="nowrap">
                         <?= @helper('grid.sort',  array( 'title' => 'Num Trash', 'column' => 'trashcount') ); ?> 
@@ -64,16 +66,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <td></td>
                 <td></td>
                 <? if ( $state->section == 'com_content') : ?>
-                    <td>
-                        <?= @helper('listbox.categories', 
-                        array('column'      => 'parent', 
-                            'value'         => 'section',
-                            'listbox_title' => 'Section',
-                            'text'          => 'section_title',
-                           /* 'identifier' => 'admin::com.sections.model.sections', */
-                            'filter'        => array('section' => $state->section,
-                                                  'distinct' => 'section'))); ?>
-                    </td>
                     <td></td>
                     <td></td>
                 <? else : ?>
@@ -112,9 +104,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @helper( 'grid.access' , array('row' => $category)); ?>
                     </td>
                     <? if ( $state->section == 'com_content' ) : ?>
-                        <td>
-                            <a href="<?= @route( 'option=com_sections&view=section&id='.$category->section_id )?>" title="<?= @text( 'Edit Section' ); ?>"><?= $category->section_title; ?></a>
-                        </td>
                         <td align="center">
                             <?= $category->activecount; ?>
                         </td>
