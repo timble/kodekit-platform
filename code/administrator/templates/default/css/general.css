@@ -513,11 +513,13 @@ div.current dd {
 	padding: 6px 0;
 	text-indent: 22px;
 	color: #444;
-	border-top: 1px solid #F7F7F7;
+	border-top: 1px solid #F9F9F9;
 	font-weight: bold;
 }
 
-#sidebar ul li a:hover {
+#sidebar ul li a:hover,
+#sidebar ul li.active ul li a:hover {
+	color: #444;
 	border-top-color: #c3dcf4;
 	background-color: #cee1f4;
 	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
@@ -534,6 +536,16 @@ div.current dd {
 	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
 	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
+}
+
+#sidebar ul li ul li a {
+	text-indent: 32px;
+}
+
+#sidebar ul li.active ul li a {
+	background: none;
+	color: #444;
+	border-top-color: #F9F9F9;
 }
 
 /* standard form style table */

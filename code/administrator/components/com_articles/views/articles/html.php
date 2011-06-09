@@ -31,6 +31,9 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
             ->append('unarchive')
             ->append('divider')
             ->append('preferences');
+            
+       	$folders = KFactory::get('admin::com.articles.model.folders')->getList();
+       	$this->assign('folders', $folders);
 
         return parent::display();
     }

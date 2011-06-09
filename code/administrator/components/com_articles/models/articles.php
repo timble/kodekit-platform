@@ -24,8 +24,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->_state
-            ->insert('section'   , 'int', -1)
-            ->insert('category'  , 'int', -1)
+            ->insert('section'   , 'int')
+            ->insert('category'  , 'int')
             ->insert('published' , 'int')
             ->insert('state'     , 'int')
             ->insert('created_by', 'int')
@@ -117,11 +117,11 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.title', 'LIKE', '%'.$state->search.'%');
         }
 
-        if($state->section > -1) {
+        if(is_numeric($state->section)) {
             $query->where('tbl.sectionid', '=', $state->section );
         }
 
-        if($state->category > -1) {
+        if(is_numeric($state->category)) {
             $query->where('tbl.catid', '=',  $state->category);
         }
 
