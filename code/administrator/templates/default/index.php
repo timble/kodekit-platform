@@ -30,7 +30,7 @@
  <? endif ?>
 
 </head>
-<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>" >
+<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?> <?php echo JDEBUG ? '-koowa-box-scroll' : '' ?>">
 	<div id="container" class="-koowa-box -koowa-box-vertical">
 		<div id="header-box">
 			<div id="module-status">
