@@ -17,9 +17,9 @@ class ComArticlesModelFolders extends KModelAbstract
             foreach($sections as $section)
             {
                 $folders->insert($folders->getRow()->setData(array(
-                    'id'	      => $section->id,
-                    'title'       => $section->title,
-                    'section_id'  => 0
+                    'id'	    => $section->id,
+                    'title'     => $section->title,
+                    'parent_id' => 0
                 ), false));
             }
 
@@ -33,9 +33,9 @@ class ComArticlesModelFolders extends KModelAbstract
             foreach($categories as $category)
             {
                 $folders->insert($folders->getRow()->setData(array(
-                    'id'	      => $category->id,
-                    'title'		  => $category->title,
-                    'section_id'  => $category->section_id
+                    'id'	    => $category->id,
+                    'title'	    => $category->title,
+                    'parent_id' => $category->section_id
                 ), false));
             }
 
