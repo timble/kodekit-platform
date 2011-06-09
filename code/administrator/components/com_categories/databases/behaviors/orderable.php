@@ -28,6 +28,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
+    protected $_table;
     
     public function __construct( KConfig $config = null)
     {
@@ -42,7 +43,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         if ($this->_parent_column)
         {
             $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};   
-            $query->where($this->_parent_column, '=', $parent);
+            $query->where($this->_table->mapColumns($this->_parent_column), '=', $parent);
         }
     }
     
@@ -56,7 +57,8 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-	    if(isset($this->ordering))
+        $this->_table = $context->caller;
+        if(isset($this->ordering))
         {
             if (isset($this->order))
             {
@@ -84,6 +86,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _afterTableUpdate(KCommandContext $context)
     {
+        $this->_table = $context->caller;
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
         {
             //section has changed,
@@ -101,6 +104,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _beforeTableSelect(KCommandContext $context)
     {
+        $this->_table = $context->caller;
         if($parent_column = $this->_parent_column)
         {
             $query = $context->query;
@@ -108,6 +112,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
             if(!is_null($query) && !$query->count)
             {
                 $table = $context->caller;
+                $parent_column = $table->mapColumns($parent_column);
 
                 $query->join[]=array('type' => 'LEFT',
                     'table' => '(SELECT '.$parent_column.' , COUNT(ordering) order_total FROM #__'.$table->getBase().' ' 

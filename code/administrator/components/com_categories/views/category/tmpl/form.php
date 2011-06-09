@@ -27,6 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </label>
         </div>
         <?= @editor( array('name' => 'description',
+                            'editor' => null,
                             'width' => '100%',
                             'height' => '300',
                             'cols' => '60',
@@ -48,29 +49,32 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
                     	</td>
                 	</tr>
-                	<? $section = $category->id ? $category->section : $state->section; ?>
+                	<? $section = $category->id ? $category->section_id : $state->section; ?>
                 	<? if ( substr($section, 0, 3) != 'com' OR $section =='com_content') : ?>
                 	<tr>
-                    	<td class="key">
-                            <label for="section">
-                                <?= @text( 'Section' ); ?>:
-                            </label>
-                    	</td>
-                    	<td>
-                            <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
-                            <?= @helper('listbox.section', array(
-                                'identifier' => "admin::com.sections.model.sections",
-                                'attribs'    => array(
-                                    'id'   => 'section',
-                                    'class' => 'required',
-                                    'onchange' => "var url = '"
-                                    	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
-                                    	."&section='+$('section').value;
+                    	    <td class="key">
+                                <label for="section_id">
+                                    <?= @text( 'Section' ); ?>:
+                                </label>
+                    	    </td>
+                    	    <td>
+                                <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
+                                <?= @helper('listbox.section', array(
+                                    'identifier' => "admin::com.sections.model.sections",
+                                    'column'     => 'section_id',
+                                    'attribs'    => array(
+                                        'id'       => 'section_id',
+                                        'class'    => 'required',
+                                        'onchange' => "var url = '"
+                                            .@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
+                                            ."&section='+$('section_id').value;
                                                    new Ajax(url , {method: 'get',update: $('orderable')}).request();"
-                                )
-                            )); ?>
-                    	</td>
+                                    )
+                                )); ?>
+                    	    </td>
                 	</tr>
+                        <? else : ?>
+                            <input type="hidden" name="section_id" value="<?= $category->id ? $category->section_id : $state->section; ?>" />
                 	<? endif;  ?>
                 	<tr>
                     	<td class="key">
@@ -83,7 +87,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 								 <? if( $category->id ) : ?>
                                     <?= @helper('listbox.order',
                                     array( 'filter' => array(
-                                        'section' => $category->section
+                                        'section' => $category->section_id
                                     )));
                                 elseif ( substr($state->section, 0, 3) == 'com' && $state->section != 'com_content'):
                                    echo @template('form_orderable');

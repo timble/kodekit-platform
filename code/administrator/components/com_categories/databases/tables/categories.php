@@ -22,7 +22,7 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
     public function  _initialize(KConfig $config)
     {
         $config->identity_column = 'id';
-        $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'section'));
+        $orderable = $this->getBehavior('admin::com.categories.database.behavior.orderable', array('parent_column' => 'section_id'));
 
         $config->append(array(
             'name'       => 'categories',
