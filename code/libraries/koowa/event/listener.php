@@ -94,14 +94,14 @@ class KEventListener extends KObject implements KObjectIdentifiable
             $reflection = new ReflectionClass($this);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
             {
-                if(substr($method, 0, 1) == 'on') {
-                    $handlers[] = $method;   
+                if(substr($method->name, 0, 2) == 'on') {
+                    $handlers[] = $method->name;   
                 }
             }
-        
+            
             $this->__event_handlers = $handlers;
         }
-        
+          
         return $this->__event_handlers;
     }
    
