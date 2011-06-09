@@ -24,7 +24,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</li>
 		<li class="<?= $state->state == '0' ? 'active' : ''; ?>">
 			<a href="<?= @route('state=0' ) ?>">
-			    <?= 'Unpublished' ?>
+			    <?= 'Drafts' ?>
 			</a> 
 		</li>
 		<li class="<?= $state->state == '-1' ? 'active' : ''; ?>">

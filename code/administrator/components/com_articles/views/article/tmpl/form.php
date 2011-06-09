@@ -61,7 +61,7 @@ defined('KOOWA') or die('Restricted access') ?>
             <table class="paramlist admintable">
                 <tr>
                     <td class="paramlist_key">
-                        <label><?= @text('Published') ?></label>
+                        <label><?= @text('State') ?></label>
                     </td>
                     <td>
                         <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
