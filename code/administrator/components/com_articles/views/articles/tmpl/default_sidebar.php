@@ -15,17 +15,22 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<ul>
 		<li class="<?= $state->featured == false && !is_numeric($state->section) && !is_numeric($state->category) ? 'active' : ''; ?>">
 			<a href="<?= @route('featured=&section=&category=' ) ?>">
-			    <?= 'All articles' ?>
+			    <?= @text('All articles')?>
 			</a>
 		</li>
 		<li class="<?= $state->featured == true && !is_numeric($state->section) && !is_numeric($state->category) ? 'active' : ''; ?>">
 			<a href="<?= @route('featured=1&section=&category=' ) ?>">
-			    <?= 'Featured' ?>
+			    <?= @text('Featured')?>
 			</a> 
 		</li>
 	</ul>
 	<h3><?= @text('Folders')?></h3>
 	<ul>
+		<li class="<?= $state->category == '0' && $state->category == '0' ? 'active' : ''; ?>">
+			<a href="<?= @route('featured=&section=0&category=0' ) ?>">
+				<?= @text('Uncategorised') ?>
+			</a>
+		</li>
 		<? foreach($folders->find(array('parent_id' => 0)) as $section) : ?>
 		<li class="<?= $state->section == $section->id ? 'active' : ''; ?>">
 			<a href="<?= @route('featured=&section='.$section->id.'&category=' ) ?>">

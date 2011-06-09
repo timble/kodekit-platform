@@ -40,12 +40,6 @@ defined('KOOWA') or die('Restricted access') ?>
                     <?= @helper('grid.sort', array('column' => 'access')) ?>
                 </th>
                 <th width="8%">
-                    <?= @helper('grid.sort', array('title' => 'Section', 'column' => 'section_title')) ?>
-                </th>
-                <th width="8%">
-                    <?= @helper('grid.sort', array('title' => 'Category', 'column' => 'category_title')) ?>
-                </th>
-                <th width="8%">
                     <?= @helper('grid.sort', array('title' => 'Author', 'column' => 'created_by_name')) ?>
                 </th>
                 <th width="8%">
@@ -59,19 +53,11 @@ defined('KOOWA') or die('Restricted access') ?>
                 <td>
                     <?= @helper('grid.search') ?>
                 </td>
-                <td>
-                    <?= @helper('listbox.states', array('attribs' => array('id' => 'articles-form-state'))) ?>
-                </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td>
                     <?= @helper('listbox.access', array('attribs' => array('id' => 'articles-form-access'))) ?>
-                </td>
-                <td>
-                    <?= @helper('listbox.sections', array('selected' => $state->section, 'attribs' => array('id' => 'articles-form-section'))) ?>
-                </td>
-                <td>
-                    <?= @helper('listbox.categories', array('selected' => $state->category, 'attribs' => array('id' => 'articles-form-category'))) ?>
                 </td>
                 <td>
                     <?= @helper('listbox.authors', array('attribs' => array('id' => 'articles-form-created-by'))) ?>
@@ -81,7 +67,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </thead>
         <tfoot>
             <tr>
-                <td colspan="10">
+                <td colspan="8">
                     <?= @helper('paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
@@ -114,24 +100,6 @@ defined('KOOWA') or die('Restricted access') ?>
                     <?= @helper('grid.access', array('row' => $article)) ?>
                 </td>
                 <td>
-                    <? if($article->section_id) : ?>
-                        <a href="<?= @route('option=com_sections&view=section&id='.$article->section_id) ?>">
-                            <?= $article->section_title ?>
-                        </a>
-                    <? else : ?>
-                        <?= @text('Uncategorised') ?>
-                    <? endif ?>
-                </td>
-                <td>
-                    <? if($article->category_id) : ?>
-                        <a href="<?= @route('option=com_categories&view=category&id='.$article->category_id) ?>">
-                            <?= $article->category_title ?>
-                        </a>
-                    <? else : ?>
-                        <?= @text('Uncategorised') ?>
-                    <? endif ?>
-                </td>
-                <td>
                     <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
                         <?= $article->created_by_name ?>
                     </a>
@@ -143,7 +111,7 @@ defined('KOOWA') or die('Restricted access') ?>
         <? endforeach ?>
         <? if(!$total) : ?>
         	<tr>
-        	    <td colspan="10" align="center">
+        	    <td colspan="8" align="center">
         	         <?= @text('No Items Found'); ?>
         	    </td>
         	</tr>
