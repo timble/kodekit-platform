@@ -96,3 +96,31 @@ div.message {
 	margin: 0;
 	padding: 2px;
 }
+
+.com_articles .panel.folders {
+	padding-bottom: 14px;
+}
+
+.com_articles .panel.folders h3 {
+	margin-bottom: 10px;
+}
+
+.com_articles .panel.folders span {
+	padding: 12px 10px 4px 14px;
+	font-weight: bold;
+	clear: left;
+	float: left;
+}
+
+.com_articles .panel.folders input,
+.com_articles .panel.folders label {
+	margin-top: 8px;
+	float: left;
+}
+
+.com_articles .panel.folders input {
+	margin: 8px 5px 0 24px;
+	display: list-item;
+	float: left;
+	clear: left;
+}
