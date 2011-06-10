@@ -14,16 +14,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <? if( $state->section == 'com_content') : ?>
-    <div id="sidebar">
-        <h3><?= @text('Sections') ?></h3>
-        <?= @template('admin::com.sections.view.sections.list', array('state' => $state, 'sections' => KFactory::tmp('admin::com.sections.model.sections')->getList())); ?>
-    </div>
+    <?= @template('default_sidebar'); ?>
 <? endif; ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 
+    <?= @template('default_filter'); ?>
     <table class="adminlist">
         <thead>
             <tr>
@@ -62,17 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <td>
                     <?= @helper( 'grid.search'); ?>
                 </td>
-                <td align="center">
-                    <?= @helper('listbox.published', array('name' => 'published')); ?>
-                </td>
-                <td></td>
-                <td></td>
-                <? if ( $state->section == 'com_content') : ?>
-                    <td></td>
-                    <td></td>
-                <? else : ?>
-                    <td></td>
-                <? endif ?>
+                <td colspan="<?= $state->section == 'com_content' ? '5' : '4' ?>"></td>
             </tr>
         </thead>
 
