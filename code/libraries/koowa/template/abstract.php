@@ -239,11 +239,9 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$this->_contents = $string;
 		$this->_path     = empty($path) ? md5($string) : $path;
 		
-		// set the data
-		if(!empty($data)) {
-			$this->_data = $data;
-		}
-		
+		// Merge the data
+	    $this->_data = array_merge($this->_data, $data);
+	
 		return $this;
 	}
 	
