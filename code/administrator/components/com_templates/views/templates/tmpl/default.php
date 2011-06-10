@@ -17,73 +17,69 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('default_sidebar'); ?>
 
-<div class="-koowa-box-flex">
-    <form action="<?= @route() ?>" method="get" class="-koowa-grid">
-        <table class="adminlist">
-            <thead>
-                <tr>
-                    <th width="20"></th>
-                    <th class="title">
-                        <?= @text('Name') ?>
-                    </th>
-                    <th width="5%">
-                        <?= @text('Default') ?>
-                    </th>
-                    <th width="10%" align="center">
-                        <?= @text('Version') ?>
-                    </th>
-                    <th width="15%" class="title">
-                        <?= @text('Date') ?>
-                    </th>
-                    <th width="25%" class="title">
-                        <?= @text('Author') ?>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            <? foreach($templates as $i => $template) :?>
-                <tr>
-                    <td width="5">
-                        <input type="radio" id="name" name="name" value="<?= $template->name ?>" class="-koowa-grid-checkbox" />
-                    </td>
-                    <td>
-                        <span class="editlinktip hasTip" title="<?= $template->title ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
-                            <a href="<?= @route('&view=template&name='.$template->title.'&application='.$state->application) ?>">
-                                <?= $template->title ?>
-                            </a>
-                        </span>
-                    </td>
+<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+    <table class="adminlist">
+        <thead>
+            <tr>
+                <th width="20"></th>
+                <th class="title">
+                    <?= @text('Name') ?>
+                </th>
+                <th width="5%">
+                    <?= @text('Default') ?>
+                </th>
+                <th width="10%" align="center">
+                    <?= @text('Version') ?>
+                </th>
+                <th width="15%" class="title">
+                    <?= @text('Date') ?>
+                </th>
+                <th width="25%" class="title">
+                    <?= @text('Author') ?>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach($templates as $i => $template) :?>
+            <tr>
+                <td width="5">
+                    <input type="radio" id="name" name="name" value="<?= $template->name ?>" class="-koowa-grid-checkbox" />
+                </td>
+                <td>
+                    <span class="editlinktip hasTip" title="<?= $template->title ?>::<img border=&quot;1&quot; src=&quot;<?= $templateurl.'/'.$template->name.'/template_thumbnail.png' ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?= @text( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
+                        <a href="<?= @route('&view=template&name='.$template->title.'&application='.$state->application) ?>">
+                            <?= $template->title ?>
+                        </a>
+                    </span>
+                </td>
 
-                    <td align="center">
-                    <? if($template->default) : ?>
-                        <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
-                    <? endif ?>
-                    </td>
-                    <td align="center">
-                        <?= $template->version ?>
-                    </td>
-                    <td>
-                    	<? if ((string) $template->creationDate): ?>
-                        <?= @date(array('date' => $template->creationDate, 'format' => '%d %B %Y')); ?>
-                        <? endif; ?>
-                    </td>
-                    <td>
-                        <span class="editlinktip hasTip" title="<?= @text('Author Information') ?>::<?= $template->authorEmail . '<br />' . @ $template->authorUrl ?>">
-                            <?= $template->author ?>
-                        </span>
-                    </td>
-                </tr>
-            <? endforeach ?>
-            </tbody>
-            <tfoot>
-            <? if($templates) : ?>
-                <tr>
-                    <td colspan="20">
-                        <?= @helper('paginator.pagination', array('total' => $total)) ?>
-                    </td>
-                </tr>
-            <? endif ?>
-            </tfoot>
-        </table>
-    </form>
-</div>
+                <td align="center">
+                <? if($template->default) : ?>
+                    <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
+                <? endif ?>
+                </td>
+                <td align="center">
+                    <?= $template->version ?>
+                </td>
+                <td>
+                	<? if ((string) $template->creationDate): ?>
+                    <?= @date(array('date' => $template->creationDate, 'format' => '%d %B %Y')); ?>
+                    <? endif; ?>
+                </td>
+                <td>
+                    <span class="editlinktip hasTip" title="<?= @text('Author Information') ?>::<?= $template->authorEmail . '<br />' . @ $template->authorUrl ?>">
+                        <?= $template->author ?>
+                    </span>
+                </td>
+            </tr>
+        <? endforeach ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="20">
+                    <?= @helper('paginator.pagination', array('total' => $total)) ?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
