@@ -70,7 +70,6 @@ defined('KOOWA') or die('Restricted access'); ?>
         </tfoot>
         
         <tbody>
-        <? if (count($banners)) : ?>
             <? foreach ($banners as $banner) : ?>
             <tr>
                 <td align="center">
@@ -98,13 +97,6 @@ defined('KOOWA') or die('Restricted access'); ?>
                 </td>
             </tr>
             <? endforeach; ?>
-        <? else : ?>
-            <tr>
-                <td colspan="7" align="center">
-                    <?= @text('No Items Found'); ?>
-                </td>
-            </tr>
-        <? endif; ?>
         </tbody>
     </table>
 </form>
