@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -12,30 +12,35 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_numeric($state->state) && !$state->featured ? 'active' : ''; ?> separator-right">
-			<a href="<?= @route('state=&featured=' ) ?>">
+		<li class="<?= !is_numeric($state->state) && !$state->featured && !$state->trashed ? 'active' : ''; ?> separator-right">
+			<a href="<?= @route('state=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
 		</li>
 		<li class="<?= $state->state == '1' ? 'active' : ''; ?>">
 			<a href="<?= @route('state=1' ) ?>">
 			    <?= 'Published' ?>
-			</a> 
+			</a>
 		</li>
 		<li class="<?= $state->state == '0' ? 'active' : ''; ?>">
 			<a href="<?= @route('state=0' ) ?>">
 			    <?= 'Drafts' ?>
-			</a> 
+			</a>
 		</li>
 		<li class="<?= $state->state == '-1' ? 'active' : ''; ?>">
 			<a href="<?= @route('state=-1' ) ?>">
 			    <?= 'Archived' ?>
-			</a> 
+			</a>
 		</li>
 		<li class="<?= $state->featured ? 'active' : ''; ?> separator-left">
 			<a href="<?= @route( $state->featured ? 'featured=' : 'featured=1' ) ?>">
 			    <?= 'Featured' ?>
-			</a> 
+			</a>
+		</li>
+		<li class="<?= $state->trashed ? 'active' : '' ?>">
+			<a href="<?= @route( $state->trashed ? 'trashed=' : 'trashed=1' ) ?>">
+			    <?= 'Trashed' ?>
+			</a>
 		</li>
 	</ul>
 </div>

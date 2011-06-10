@@ -24,16 +24,19 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
         $config->identity_column = 'id';
 
         $config->append(array(
-            'name'          => 'content',
-            'behaviors'     => array('creatable', 'modifiable', 'lockable', 'orderable', 'sluggable'),
-            'column_map'    => array(
-                'locked_on'   => 'checked_out_time',
-                'locked_by'   => 'checked_out',
-                'slug'        => 'alias',
-                'section_id'  => 'sectionid',
-                'category_id' => 'catid',
-                'created_on'  => 'created',
-                'modified_on' => 'modified',
+            'name' => 'content',
+            'behaviors' => array(
+            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable',
+                'admin::com.versions.database.behavior.revisable'
+            ),
+            'column_map' => array(
+                'locked_on'        => 'checked_out_time',
+                'locked_by'        => 'checked_out',
+                'slug'       	   => 'alias',
+                'section_id'       => 'sectionid',
+                'category_id'	   => 'catid',
+                'created_on' 	   => 'created',
+                'modified_on'      => 'modified',
                 'meta_description' => 'metadesc',
                 'meta_keywords'    => 'metakey',
                 'meta_data'        => 'metadata'

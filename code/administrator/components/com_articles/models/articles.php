@@ -30,7 +30,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('state'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
-            ->insert('featured'  , 'boolean');
+            ->insert('featured'  , 'boolean')
+            ->insert('trashed'   , 'int');
 
         $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -86,21 +87,21 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
          parent::_buildQueryJoins($query);
-        
+
         $state = $this->_state;
-        
+
         $query->join('LEFT', 'sections AS section', 'section.id = tbl.sectionid')
               ->join('LEFT', 'categories AS category', 'category.id = tbl.catid')
               ->join('LEFT', 'users AS user', 'user.id = tbl.created_by')
               ->join('LEFT', 'groups AS group', 'group.id = tbl.access');
-              
-        if(is_bool($state->featured) && $state->featured == true) { 
+
+        if(is_bool($state->featured) && $state->featured == true) {
             $query->join('RIGHT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
         } else {
             $query->join('LEFT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
         }
     }
- 
+
     protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         parent::_buildQueryWhere($query);
@@ -132,27 +133,31 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         if(is_numeric($state->access)) {
             $query->where('tbl.access', '=', $state->access);
         }
+
+        if($state->trashed) {
+            $query->where('tbl.trashed', '=', 1);
+        }
     }
 
     protected function _buildQueryOrder(KDatabaseQuery $query)
     {
         $state = $this->_state;
-        
+
         $direction = strtoupper($state->direction);
 
-        if(is_bool($state->featured) && $state->featured == true) 
+        if(is_bool($state->featured) && $state->featured == true)
         {
             if($this->_state->sort == 'ordering')
             {
                 $query->order('featured_ordering',  $direction);
-            }    
+            }
             else
             {
                 $query->order($this->_state->sort, $direction)
                       ->order('featured_ordering', 'ASC');
             }
         }
-        else 
+        else
         {
             if($this->_state->sort == 'ordering')
             {
