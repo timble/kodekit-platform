@@ -73,7 +73,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </tfoot>
 
         <tbody>
-        <? if($total) : ?>
             <? foreach( $categories as $category) :  ?>
                 <tr>
                     <td align="center">
@@ -105,15 +104,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                             <?= $category->activecount; ?>
                         </td>
                     <? endif ?>
-                    </tr>
-                <? endforeach; ?>
-            <? else : ?>
-				<tr>
-                    <td colspan="10" align="center">
-                         <?= @text('No Items Found'); ?>
-                    </td>
-                </tr>
-            <? endif ?>
+            	</tr>
+            <? endforeach; ?>
        </tbody>
     </table>
 </form>
