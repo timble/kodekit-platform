@@ -22,6 +22,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 </div>
 
 <form action="<?=@route()?>" method="get" class="-koowa-grid">
+    <?= @template('default_filter'); ?>
     <table class="adminlist">
         <thead>
             <tr>
@@ -52,9 +53,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                 <td>
                     <?= @helper( 'grid.search'); ?>
                 </td>              
-                <td align="center"> 
-                    <?= @helper('listbox.published', array('name' => 'enabled')); ?>
-                </td>                
+                <td></td>                
                 <td></td>
                 <td></td>
                 <td></td>

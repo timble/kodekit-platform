@@ -26,6 +26,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         $this->_state
             ->insert('enabled',     'int')
             ->insert('category',    'int')
+            ->insert('sticky',    	'int')
             ->insert('tags',        'string');
     }
     
@@ -64,6 +65,10 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         
         if ($state->category) {
             $query->where('tbl.catid', '=', $state->category);
+        }
+        
+        if (is_numeric($state->sticky)) {
+            $query->where('tbl.sticky', '=', $state->sticky);
         }
         
         if (!empty($state->search)) {
