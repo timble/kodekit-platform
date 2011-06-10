@@ -26,11 +26,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @var KDatabaseTableDefault
      */
     protected $_table;
-    
+
     /**
-     * Constructor 
-     * 
-     * @param KConfig $config 
+     * Constructor
+     *
+     * @param KConfig $config
      */
     public function __construct(KConfig $config = null)
     {
@@ -57,33 +57,33 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
         parent::_initialize($config);
     }
-        
+
 	/**
 	 * Modify the select query
-	 * 
+	 *
 	 * If the query's where information includes a 'trashed' propery, select all the trashed
 	 * rows for this table.
-	 * 
+	 *
 	 * @return false
 	 */
 	protected function _beforeTableSelect(KCommandContext $context)
 	{
 		$query = $context->query;
-		
-		if(!is_null($query)) 
+
+		if(!is_null($query))
 		{
-			foreach($query->where as $key => $where) 
+			foreach($query->where as $key => $where)
 			{
-				if($where['property'] == 'tbl.trashed' && $where['value'] == 1) 
+				if($where['property'] == 'tbl.trashed' && $where['value'] == 1)
 				{
-					$table  = $this->getTable();
-					
+					$table  = $context->caller;
+
 					//Get the revisable model
 					$identifier = clone($table->getIdentifier());
 					$identifier->path[0] = 'model';
-				
+
 					$revisable = KFactory::get($identifier);
-					
+
 					//Get the revisions model
 					$revisions = KFactory::get('admin::com.versions.model.revisions')
         							->status('deleted')
@@ -91,42 +91,46 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         							->set($revisable->get())
       								->table($table->getName());
 
-      				//Set the context data 
-      				if(!$query->count) 
-      				{			
-      					$context->data = $table->getRowset()
-      										->setData($revisions->getList()->data)
-      										->setStatus(KDatabase::STATUS_LOADED);
+      				//Set the context data
+      				if(!$query->count)
+      				{
+                        $rowset = $table->getRowset();
+
+                        foreach($revisions->getList() as $row) {
+                            $rowset->insert($rowset->getRow()->setData($row->data, false));
+                        }
+
+      					$context->data = $rowset;
       				}
       				else $context->data = $revisions->getTotal();
-     			
+
       				return false;
 				}
 			}
 		}
 	}
-	
+
     /**
      * Store a revision on insert
      *
-     * Add a new revision of the row. It might seem unnecessary to store a revision for an item 
-     * that was just created and has not been edited yet, but will prove useful in a context where 
+     * Add a new revision of the row. It might seem unnecessary to store a revision for an item
+     * that was just created and has not been edited yet, but will prove useful in a context where
      * multiple websites are using the same revision repository.
      *
      * @param   KCommandContext $context
      * @return  void
      */
     protected function _afterTableInsert(KCommandContext $context)
-    { 
+    {
     	if($this->_countRevisions(KDatabase::STATUS_INSERTED) == 0) {
     		$this->_insertRevision(KDatabase::STATUS_INSERTED);
     	}
     }
-    
+
     /**
      * Before table update
-     * 
-     * Add a new revision if the row exists and it hasn't been revised yet. If the row was deleted 
+     *
+     * Add a new revision if the row exists and it hasn't been revised yet. If the row was deleted
      * revert it.
      *
      * @param  KCommandContext $context
@@ -134,25 +138,26 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-    	if($this->getTable()->count($this->id)) 
+    	if($this->getTable()->count($this->id))
     	{
     	    if ($this->_countRevisions() == 0) {
             	$this->_insertRevision(KDatabase::STATUS_INSERTED);
         	}
     	}
-    	else 
-    	{    
-    	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
+    	else
+
+    	{
+    	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
     			//Restore the row
     			$this->getTable()->getRow()->setData($this->getData())->save();
-    			
+
     			//Set the row status to updated
     			$this->setStatus(KDatabase::STATUS_UPDATED);
-    			
+
     			//Delete the revision
     			$this->_deleteRevisions(KDatabase::STATUS_DELETED);
-    			
+
     			return false;
     		}
     	}
@@ -173,11 +178,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
             $this->_insertRevision(KDatabase::STATUS_UPDATED);
         }
     }
-    
+
 	/**
      * Before Table Delete
-     * 
-     * Add a new revision if the row exists and it hasn't been revised yet. Delete the revisions for 
+     *
+     * Add a new revision if the row exists and it hasn't been revised yet. Delete the revisions for
      * the row, if the row was previously deleted.
      *
      * @param  KCommandContext $context
@@ -185,33 +190,33 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableDelete(KCommandContext $context)
     {
-   		if ($this->getTable()->count($this->id)) 
-   		{	
+   		if ($this->getTable()->count($this->id))
+   		{
    			if($this->_countRevisions() == 0) {
            		 $this->_insertRevision(KDatabase::STATUS_INSERTED);
    			}
-        } 
+        }
         else
         {
-    	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1) 
+    	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			$this->_deleteRevisions();	
+    			$this->_deleteRevisions();
     			return false;
     		}
         }
     }
-    
+
   	/**
      * After Table Delete
-     * 
+     *
      * After a row has been deleted, save the previously preseved data as revision
      * with status deleted.
-     * 
+     *
      * @param  KCommandContext $context
      * @return void
      */
     protected function _afterTableDelete(KCommandContext $context)
-    { 
+    {
     	$this->_insertRevision(KDatabase::STATUS_DELETED);
     }
 
@@ -224,21 +229,21 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     protected function _insertRevision($status)
     {
     	$table = $this->getTable();
-    	
+
     	// Get the row data
     	if ($status == KDatabase::STATUS_UPDATED) {
             $data = $this->getData(true);
         } else {
             $data = $this->getData();
         }
-        
+
     	// Create the new revision
     	$revision = $this->_table->getRow();
     	$revision->table    = $table->getName();
         $revision->row      = $this->id;
         $revision->status   = $status;
         $revision->data     = (object) $table->filter($data);
-         
+
     	// Set the created_on and created_by information based on the creatable
     	// or modifiable data in the row itself in cascading order
         if($this->isCreatable())
@@ -251,7 +256,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
                 $revision->created_on = $this->created_on;
             }
     	}
-          
+
         if ($this->isModifiable())
     	{
             if(isset($this->modified_by) && !empty($this->modified_by)) {
@@ -262,11 +267,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
                 $revision->created_on = $this->modified_on;
             }
     	}
-    	
+
         // Store the revision
         $revision->save();
     }
-    
+
  	/**
      * Find an existing revision
      *
@@ -280,14 +285,14 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
            	'table'  => $this->getTable()->getName(),
             'row'    => $this->id
     	);
-    	
+
     	if($status) {
     		$query['status'] = $status;
     	}
-    		
+
     	return $this->_table->count($query);
     }
-    
+
 	/**
      * Delete one or all revisions for a row
      *
@@ -301,11 +306,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
            	'table'  => $this->getTable()->getName(),
             'row'    => $this->id
     	);
-    	
+
     	if($status) {
     		$query['status'] = $status;
     	}
-    		
+
     	return $this->_table->select($query)->delete();
     }
 }
