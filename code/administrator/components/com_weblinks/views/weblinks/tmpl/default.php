@@ -16,10 +16,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<div id="sidebar">
-	<h3><?= @text('Categories') ?></h3>
-	<?= @template('admin::com.categories.view.categories.list', array('categories' => KFactory::tmp('admin::com.weblinks.model.categories')->getList())); ?>
-</div>
+<?= @template('default_sidebar'); ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>
