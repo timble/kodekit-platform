@@ -55,13 +55,13 @@ class MenusViewItem extends JView
 		} else {
 			JToolBarHelper::cancel('cancelItem');
 		}
-		
+
 		JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view', true);
 		JSubMenuHelper::addEntry(JText::_('Menus'), 'index.php?option=com_menus');
 		if(JFactory::getUser()->authorize('com_trash', 'manage')) {
 			JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewMenu');
 		}
-		
+
 		// Load component language files
 		$component		= &$this->get('Component');
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
@@ -161,7 +161,8 @@ class MenusViewItem extends JView
 		$n = count($components);
 		for($i = 0; $i < $n; $i++)
 		{
-			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
+		    $option = $components[$i]->option == 'com_articles' ? 'com_content' : $components[$i]->option;
+			$path   = JPATH_SITE.DS.'components'.DS.$option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
 
 			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
