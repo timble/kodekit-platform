@@ -8,7 +8,7 @@
 	<state>
 		<name>Standard Article Layout</name>
 		<description>STANDARD ARTICLE LAYOUT DESC</description>
-		<url addpath="/administrator/components/com_content/elements">
+		<url addpath="/administrator/components/com_articles/elements">
 			<param name="id" type="article" default="0" label="Select Article" description="An article" />
 		</url>
 		<params>
