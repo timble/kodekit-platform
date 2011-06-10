@@ -104,7 +104,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 	}
     
 	/**
-     * Add a row in the rowset
+     * Insert a row into the rowset
      * 
      * The row will be stored by it's identity_column if set or otherwise by
      * it's object handle.
@@ -341,7 +341,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * @return  KDatabaseRowInterface
      */
     public function getRow()
-    {
+    { 
         if(!($this->_row instanceof KDatabaseRowInterface))
         {
             $identifier         = clone $this->_identifier;
