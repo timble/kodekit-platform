@@ -468,9 +468,10 @@ div.current dd {
 
 /* @group Filter */
 #filter { 
-	padding: 4px 10px 4px; 
+	padding: 4px 10px 4px;
+	background-color: #E9E9E9;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#E9E9E9));
-	background-image: -moz-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#E9E9E9));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#F2F2F2, #E9E9E9);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2F2F2', endColorstr='#E9E9E9');
 	border-bottom: 1px solid #DDD;
 }
