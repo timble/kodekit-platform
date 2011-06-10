@@ -146,8 +146,16 @@ defined('KOOWA') or die('Restricted access') ?>
             <?= @template('form_folders', array('folders' => $folders, 'article' => $article)) ?>
         </div>
         <div class="panel">
-            <h3><?= @text('Metadata') ?></h3>
-            <?= @template('form_metadata') ?>
+            <h3><?= @text('Description') ?></h3>
+            <table width="100%" class="paramlist admintable" cellspacing="1">
+    		<tbody>
+        		<tr>
+            		<td class="paramlist_value">
+                		<textarea name="meta_description" cols="58" rows="5" class="text_area"><?= $article->meta_description ?></textarea>
+            		</td>
+        		</tr>
+    		</tbody>
+			</table>
         </div>
     </div>
 </form>

@@ -12,32 +12,5 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="sidebar" class="-koowa-box-scroll">
 	<h3><?= @text('Folders')?></h3>
-	<ul>
-		<li class="<?= !is_numeric($state->section) && !is_numeric($state->category) ? 'active' : ''; ?>">
-			<a href="<?= @route('section=&category=' ) ?>">
-			    <?= @text('All articles')?>
-			</a>
-		</li>
-		<li class="<?= $state->category == '0' && $state->category == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route('section=0&category=0' ) ?>">
-				<?= @text('Uncategorised') ?>
-			</a>
-		</li>
-		<? foreach($folders->find(array('parent_id' => 0)) as $section) : ?>
-		<li class="<?= $state->section == $section->id ? 'active' : ''; ?>">
-			<a href="<?= @route('section='.$section->id.'&category=' ) ?>">
-				<?= @escape($section->title) ?>
-			</a>
-			<ul>
-				<? foreach($folders->find(array('parent_id' => $section->id)) as $category) : ?>
-				<li class="<?= $state->category == $category->id ? 'active' : ''; ?>">
-					<a href="<?= @route('section=&category='.$category->id ) ?>">
-						<?= $category->title; ?>
-					</a>
-				</li>
-				<? endforeach ?>
-			</ul>
-		</li>
-		<? endforeach ?>
-	</ul>
+	<?= @template('admin::com.articles.view.folders.list', array('folders' => KFactory::tmp('admin::com.articles.model.folders')->getList())); ?>
 </div>

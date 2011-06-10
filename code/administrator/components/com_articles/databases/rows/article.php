@@ -90,19 +90,9 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
-        if(!empty($this->meta_keywords))
-        {
-            $keys = explode(',', str_ireplace(array("\n", "\r", '"', '<', '>'), '', $this->meta_keywords));
-            $keys = array_filter(array_map('trim', $keys));
-
-            $this->meta_keywords = implode(', ', $keys);
-        }
-
         if(!empty($this->meta_description)) {
             $this->meta_description = str_ireplace(array('"', '<', '>'), '', $this->meta_description);
         }
-
-        $this->meta_data = implode(PHP_EOL, array('robots='.$this->meta_robots, 'author='.$this->meta_author));
 
         $modified = $this->_modified;
         $result   = parent::save();
@@ -150,26 +140,11 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         switch($name)
         {
             case 'text':
+                
                 if(!isset($this->text)) {
                     $this->text = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
                 }
-                break;
-
-            case 'meta_robots':
-            case 'meta_author':
-                if(!isset($this->meta_robots) || !isset($this->meta_author))
-                {
-                    if($this->meta_data)
-                    {
-                        list($robots, $author) = explode(PHP_EOL, $this->meta_data);
-
-                        $robots = trim(substr($robots, strpos($robots, '=') + 1));
-                        $author = trim(substr($author, strpos($author, '=') + 1));
-                    }
-
-                    $this->meta_robots = isset($robots) ? $robots : '';
-                    $this->meta_author = isset($author) ? $author : '';
-                }
+                
                 break;
         }
 

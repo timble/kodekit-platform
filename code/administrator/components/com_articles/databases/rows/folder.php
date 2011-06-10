@@ -10,7 +10,7 @@
  */
 
 /**
- * Folders Database Rowset Class
+ * Folder Database Row Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
@@ -18,15 +18,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesDatabaseRowsetFolders extends ComArticlesDatabaseRowsetNodes
+class ComArticlesDatabaseRowFolder extends ComArticlesDatabaseRowNode
 {
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'new'               => false,
-            'identity_column'   => 'id'
-        ));
-
-        parent::_initialize($config);
-    }
+	
 }

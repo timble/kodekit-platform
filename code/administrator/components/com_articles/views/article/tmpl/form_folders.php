@@ -19,12 +19,15 @@ defined('KOOWA') or die('Restricted access') ?>
     'translate' => true));
 ?>
 
-<? foreach($folders->find(array('parent_id' => 0)) as $section) : ?>
-	<span class="section"><?= @escape($section->title) ?></span><br />
-    <?= @helper('listbox.radiolist', array(
-    	'list'     => $folders->find(array('parent_id' => $section->id)),
-    	'name'     => 'category_id',
-        'text'     => 'title',
-    	'selected' => $article->category_id));
-    ?>
+<? foreach($folders as $folder) : ?>
+	<span class="section"><?= @escape($folder->title); ?></span><br />
+	<? if($folder->hasChildren()) : ?>
+		<?= @helper('listbox.radiolist', array(
+				'list'     => $folder->getChildren(),
+				'selected' => $article->category_id,
+				'name'     => 'category_id',
+		        'text'     => 'title',
+			));
+		?>
+	<? endif; ?>
 <? endforeach ?>

@@ -32,9 +32,6 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
             ->append('divider')
             ->append('preferences');
 
-       	$folders = KFactory::get('admin::com.articles.model.folders')->getList();
-       	$this->assign('folders', $folders);
-
         return parent::display();
     }
 
@@ -45,7 +42,7 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
         $identifier       = clone $this->_identifier;
         $identifier->path = array('toolbar');
 
-        if($this->state->trashed) {
+        if($this->getModel()->getState()->trashed) {
             $identifier = 'admin::com.versions.toolbar.trash';
         } else {
             $identifier->name = $name;
