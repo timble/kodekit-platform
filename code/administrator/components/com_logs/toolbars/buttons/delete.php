@@ -22,7 +22,7 @@ class ComLogsToolbarButtonDelete extends ComDefaultToolbarButtonDefault
     {
         $config->append(array(
             'attribs' => array(
-                'data-url' => 'index.php?option=com_logs&view=log'
+                'data-url' => 'index.php?option=com_logs&view=logs'
              )
         ));
         
