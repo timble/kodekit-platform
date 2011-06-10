@@ -18,13 +18,14 @@
  */
 class ComLogsToolbarButtonDelete extends ComDefaultToolbarButtonDefault
 {
-    
-    public function getOnClick()
-	{
-		return "$$('.-koowa-grid').each(function(form){
-            form.addEvent('before.delete', function(e){
-                this.options.url = 'index.php?option=com_logs&view=log';
-            });
-        });";
-	}
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'attribs' => array(
+                'data-url' => 'index.php?option=com_logs&view=log'
+             )
+        ));
+        
+        parent::_initialize($config);
+    }
 }
