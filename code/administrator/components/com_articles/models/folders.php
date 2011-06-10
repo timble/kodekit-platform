@@ -20,6 +20,18 @@
 
 class ComArticlesModelFolders extends KModelAbstract
 {
+    public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+		
+		$this->_state
+			->insert('published' ,'int', 1)
+			->insert('limit'    , 'int')
+            ->insert('offset'   , 'int')
+            ->insert('sort'     , 'cmd', 'ordering')
+            ->insert('direction', 'word', 'asc');
+	}
+    
     public function getList()
     {
         if(!isset($this->_list))
@@ -28,10 +40,11 @@ class ComArticlesModelFolders extends KModelAbstract
             $children = array();
 
             $categories = KFactory::tmp('admin::com.categories.model.categories')
-                ->set('published', 1)
-                ->set('section', 'com_content')
-                ->set('limit', 0)
-                ->set('sort', 'ordering')
+                ->published($this->_state->published)
+                ->section('com_content')
+                ->limit(0)
+                ->sort($this->_state->sort)
+                ->direction($this->_state->direction)
                 ->getList();
 
             foreach($categories as $category)
@@ -52,10 +65,11 @@ class ComArticlesModelFolders extends KModelAbstract
             }
 
             $sections = KFactory::tmp('admin::com.sections.model.sections')
-                ->set('published', 1)
-                ->set('scope', 'content')
-                ->set('limit', 0)
-                ->set('sort', 'ordering')
+                ->published($this->_state->published)
+                ->scope('content')
+                ->limit(0)
+                ->sort($this->_state->sort)
+                ->direction($this->_state->direction)
                 ->getList();
 
             $count = 0;
@@ -93,6 +107,14 @@ class ComArticlesModelFolders extends KModelAbstract
                 }
             }
             
+            //Set the total
+			$this->_total = count($folders);
+            
+            //Apply limit and offset
+            if($this->_state->limit) {
+				$folders = array_slice( $folders, $this->_state->offset, $this->_state->limit, true);
+			}
+            
 			//Create the paths of each node
 			foreach($folders as $key => $folder)
 			{
@@ -118,4 +140,13 @@ class ComArticlesModelFolders extends KModelAbstract
 
         return $this->_list;
     }
+    
+    public function getTotal()
+	{
+		if (!$this->_total) {
+			$this->getList();
+		}
+
+		return $this->_total;
+	}
 }
