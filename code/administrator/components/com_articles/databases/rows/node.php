@@ -119,6 +119,6 @@ class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
 	public function setParent( $node )
 	{
 		$this->_parent = $node;
-		$this;
+		return $this;
 	}
 }
