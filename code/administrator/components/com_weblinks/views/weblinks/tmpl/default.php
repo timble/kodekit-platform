@@ -22,6 +22,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 </div>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
+    <?= @template('default_filter'); ?>
 	<table class="adminlist">
 	<thead>
 		<tr>
@@ -45,9 +46,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<td>
 				<?= @helper( 'grid.search'); ?>
 			</td>
-			<td align="center">
-				<?= @helper('listbox.published', array('name' => 'enabled')) ?>
-			</td>
+			<td></td>
 			<td></td>
 		</tr>
 	</thead>
@@ -59,7 +58,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</tr>
 	</tfoot>
 	<tbody>
-	<? if ($total) : ?>
 		<? foreach ($weblinks as $weblink) : ?>
 		<tr>
 			<td align="center">
@@ -76,7 +74,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 		</tr>
 		<? endforeach; ?>
-	<? else : ?>
+	<? if (!$total) : ?>
 		<tr>
 	        <td colspan="4" align="center">
 	             <?= @text('No Items Found'); ?>
