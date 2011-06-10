@@ -555,11 +555,14 @@ div.current dd {
 
 #sidebar ul li a {
 	display: block;
-	padding: 6px 0;
-	text-indent: 22px;
+	padding: 6px 0 6px 22px;
 	color: #444;
 	border-top: 1px solid #F9F9F9;
 	font-weight: bold;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #sidebar ul li a:hover,
@@ -584,7 +587,7 @@ div.current dd {
 }
 
 #sidebar ul li ul li a {
-	text-indent: 32px;
+	padding-left: 32px;
 }
 
 #sidebar ul li.active ul li a {
