@@ -15,6 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">	
 	<input type="hidden" name="scope" value="<?= $state->scope;?>" />
+	<?= @template('default_filter'); ?>
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -67,7 +68,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</tr>
 		</tfoot>
 		<tbody>
-		<? if ($total) : ?>
 			<? foreach ( $sections as $section ) :  ?>
 			<tr>
 				<td align="center">
@@ -98,7 +98,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
-		<? else : ?>
+		<? if (!$total) : ?>
 			<tr>
 		        <td colspan="8" align="center">
 		             <?= @text('No Items Found'); ?>

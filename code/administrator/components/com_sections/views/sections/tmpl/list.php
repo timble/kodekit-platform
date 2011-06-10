@@ -12,13 +12,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <ul>
 	<li class="<?= $state->parent == null ? 'active' : ''; ?>">
-		<a href="<?= @route('parent=&section=com_content' ) ?>">
+		<a href="<?= @route('&parent=' ) ?>">
 			<?= @text('All sections') ?>
 		</a>
 	</li>
 	<? foreach ($sections as $section) : ?>
 	<li class="<?= $state->parent == $section->id ? 'active' : ''; ?>">
-		<a href="<?= @route('parent='.$section->id.'&section=com_content' ) ?>">
+		<a href="<?= @route('&parent='.$section->id ) ?>">
 			<?= @escape($section->title) ?>
 		</a>
 	</li>
