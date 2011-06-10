@@ -13,10 +13,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<div id="sidebar">
-	<h3><?= @text('Sections') ?></h3>
-	<?= @template('admin::com.sections.view.sections.list', array('state' => $state, 'sections' => KFactory::tmp('admin::com.sections.model.sections')->getList())); ?>
-</div>
+<? if( $state->section == 'com_content') : ?>
+    <div id="sidebar">
+        <h3><?= @text('Sections') ?></h3>
+        <?= @template('admin::com.sections.view.sections.list', array('state' => $state, 'sections' => KFactory::tmp('admin::com.sections.model.sections')->getList())); ?>
+    </div>
+<? endif; ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
