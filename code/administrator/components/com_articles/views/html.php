@@ -26,9 +26,9 @@ class ComArticlesViewHtml extends ComDefaultViewHtml
         JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
         JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
 
-        if(JFactory::getUser()->authorize('com_trash', 'manage')) {
-            JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
-        }
+        //if(JFactory::getUser()->authorize('com_trash', 'manage')) {
+        //    JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent');
+        //}
 
         return parent::display();
     }
