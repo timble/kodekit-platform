@@ -96,8 +96,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
       				{
                         $rowset = $table->getRowset();
 
-                        foreach($revisions->getList() as $row) {
-                            $rowset->insert($rowset->getRow()->setData($row->data, false));
+                        foreach($revisions->getList() as $row) 
+                        {
+                            $row = $rowset->getRow()
+                                          ->setData($row->data, false)
+                                          ->setStatus(KDatabase::STATUS_LOADED);
+                             
+                            $rowset->insert($row);
                         }
 
       					$context->data = $rowset;
@@ -145,11 +150,10 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         	}
     	}
     	else
-
-    	{
+    	{ 
     	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			//Restore the row
+    		    //Restore the row
     			$this->getTable()->getRow()->setData($this->getData())->save();
 
     			//Set the row status to updated
@@ -157,7 +161,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
     			//Delete the revision
     			$this->_deleteRevisions(KDatabase::STATUS_DELETED);
-
+    			
     			return false;
     		}
     	}
@@ -310,7 +314,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	if($status) {
     		$query['status'] = $status;
     	}
-
+    	
     	return $this->_table->select($query)->delete();
     }
 }
