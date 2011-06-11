@@ -22,12 +22,14 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
     public function  _initialize(KConfig $config)
     {
         $config->identity_column = 'id';
+        
+        //Revisable behavior
+        $revisable = 'admin::com.versions.database.behavior.revisable';
 
         $config->append(array(
             'name' => 'content',
             'behaviors' => array(
-            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable',
-                'admin::com.versions.database.behavior.revisable'
+            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', $revisable  
             ),
             'column_map' => array(
                 'locked_on'        => 'checked_out_time',
