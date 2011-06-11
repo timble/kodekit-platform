@@ -21,13 +21,9 @@ class ComVersionsToolbarButtonRestore extends KToolbarButtonPost
 {
     protected function _initialize(KConfig $config)
     {
-        $option	= KRequest::get('get.option', 'cmd');
-		$view	= KRequest::get('get.view', 'cmd');
-
         $config->append(array(
             'attribs' => array(
-                'data-action' => 'restore',
-                'data-url'    => 'index.php?option='.$option.'&view='.$view.'&trashed=1'
+                'data-action' => 'edit',
             )
         ));
 

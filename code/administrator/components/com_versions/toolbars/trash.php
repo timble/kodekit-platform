@@ -23,7 +23,7 @@ class ComVersionsToolbarTrash extends KToolbarAbstract
 	{
         parent::__construct($config);
 		
-		$this->append(KFactory::tmp('admin::com.versions.toolbar.button.delete'))
-			 ->append(KFactory::tmp('admin::com.versions.toolbar.button.restore'));
+		$this->append('delete')
+			 ->append('restore');
 	}
 }
