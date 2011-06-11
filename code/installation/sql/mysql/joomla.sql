@@ -635,3 +635,14 @@ CREATE TABLE `#__core_acl_aro_sections` (
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
 
 # --------------------------------------------------------
+
+CREATE TABLE `#__versions_revisions` (
+  `table` varchar(64) NOT NULL,
+  `row` bigint(20) unsigned NOT NULL,
+  `revision` bigint(20) unsigned NOT NULL DEFAULT '1',
+  `created_on` datetime NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `data` longtext NOT NULL COMMENT '@Filter("json")',
+  `status` varchar(100) NOT NULL,
+  PRIMARY KEY  (`table`,`row`,`revision`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
