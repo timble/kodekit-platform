@@ -31,22 +31,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<p>
 		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
-	<form action="index.php" method="post" name="login" id="form-login">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&view=login') ?>" method="post" name="login" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('Username') ?></label><br />
 			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('Username') ?>" size="18" />
 		</p>
 		<p id="form-login-password">
-			<label for="passwd"><?php echo JText::_('Password') ?></label><br />
-			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="passwd" />
+			<label for="password"><?php echo JText::_('Password') ?></label><br />
+			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="password" />
 		</p>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>
-	<input type="hidden" name="option" value="com_user" />
-	<input type="hidden" name="task" value="login" />
+	<input type="hidden" name="action" value="login" />
 	<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<input type="hidden" name="_token" value="<?php echo JUtility::getToken() ?>" />
 	</form>
 	</div>
 </body>
