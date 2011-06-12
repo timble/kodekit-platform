@@ -15,15 +15,15 @@
  * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Newsfeeds    
+ * @subpackage  Newsfeeds
  */
- 
+
 class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
 {
     public function _initialize(KConfig $config)
     {
          $sluggable = $this->getBehavior('sluggable', array('columns' => array('name')));
-        
+
          $config->append(array(
             'identity_column'    => 'id',
             'base'               => 'newsfeeds',
@@ -34,9 +34,13 @@ class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
                 'locked_on' => 'checked_out_time',
                 'locked_by' => 'checked_out',
                 'slug'      => 'alias'
+            ),
+            'filters'            => array(
+                'slug' => 'slug',
+                'link' => 'url'
             )
         ));
-        
+
         parent::_initialize($config);
     }
 }
