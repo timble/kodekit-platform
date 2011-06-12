@@ -33,7 +33,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
         'version',
         'description'
     );
-    
+
     /**
      * Initializes the options for the object
      *
@@ -62,15 +62,15 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
         if($column == 'name' && empty($this->_data['name'])) {
             $this->_data['name'] = basename($this->_data['path']);
         }
-   
+
         if($column == 'title' && empty($this->_data['title'])) {
             $this->_data['title'] = $this->manifest->name;
         }
-        
-        if($column == 'manifest' && empty($this->_data['manifest'])) 
+
+        if($column == 'manifest' && empty($this->_data['manifest']))
 		{
             $file = $this->_data['path'].'/templateDetails.xml';
-            
+
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
             } else {
@@ -81,16 +81,16 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
             $this->_data[$column] = $this->manifest->{$column};
         }
-        
+
         if($column == 'params' && !isset($this->_data['params']))
         {
         	$file = $this->_data['path'].'/params.ini';
-        	
+
         	$params = '';
             if(file_exists($file)) {
                $params  = file_get_contents($file);
             }
-            
+
             $this->_data['params'] = new JParameter($params, $this->_data['path'].'/templateDetails.xml', 'template');
         }
 
@@ -118,14 +118,15 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 		if(isset($this->_modified['default']) && $this->default)
 		{
 			//Update the params
-		    $params = JComponentHelper::getParams('com_templates')->set($this->application, $this->name);
+		    $params = JComponentHelper::getParams('com_templates');
+		    $params->set($this->application, $this->name);
 
 		    //Save the params
 			$result = KFactory::get('admin::com.components.database.table.components', array('name' => 'components'))
                     ->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW)
                     ->set('params', $params->toString())
 			        ->save();
-           
+
 
 			return $result;
 		}
@@ -140,7 +141,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
 
 		return true;
 	}
-    
+
     /**
      * Templates are newer new, they simply exist or don't
      *
@@ -150,7 +151,7 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     {
         return false;
     }
-    
+
 	/**
      * Return an associative array of the data.
      *
@@ -159,19 +160,19 @@ class ComTemplatesDatabaseRowTemplate extends KDatabaseRowAbstract
     public function toArray()
     {
         $data = parent::toArray();
-        
+
         //Include the manifest fields
         foreach(self::$_manifest_fields as $field) {
            $data[$field] = (string) $this->$field;
         }
-        
+
         $data['name']      = (string) $this->name;
         $data['title']     = (string) $this->title;
         $data['positions'] = $this->positions;
         $data['params']    = $this->params->toArray();
-        
+
         unset($data['path']);
-          
+
         return $data;
     }
 }
