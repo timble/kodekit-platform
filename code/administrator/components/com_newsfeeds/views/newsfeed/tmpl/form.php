@@ -18,11 +18,11 @@ if(Form && Form.Validator) {
 
 <form action="<?= @route('id='.$newsfeed->id) ?>" method="post" class="-koowa-form">
     <div class="grid_8">
-        <div class="border-radius-4 title clearfix">
-        	<input class="inputbox border-radius-4 required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= $newsfeed->name; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+        <div class="panel title group">
+        	<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= $newsfeed->name; ?>" placeholder="<?= @text( 'Title' ); ?>" />
             <label for="alias">
                 <?= @text( 'Alias' ); ?>:
-                <input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $newsfeed->slug; ?>" />
+                <input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $newsfeed->slug; ?>" />
             </label>
         </div>
         <fieldset class="adminform">

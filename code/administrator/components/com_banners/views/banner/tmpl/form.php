@@ -36,12 +36,12 @@ window.addEvent('domready', function(){
 
 <form action="<?= @route('id='.$banner->id) ?>" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
-        <div class="border-radius-4 name clearfix">
-			<input class="inputbox border-radius-4 required" type="text" name="name" id="name" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
+        <div class="panel title group">
+			<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
 		
 			<label for="alias">
 				<?= @text( 'Alias' ) ?>
-				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
+				<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
 			</label>
 		</div>
 		

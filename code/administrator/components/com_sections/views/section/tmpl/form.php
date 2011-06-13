@@ -21,12 +21,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 
 	<div class="grid_8">
-		<div class="border-radius-4 title clearfix">
-			<input class="inputbox border-radius-4 required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+		<div class="panel title clearfix">
+			<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 
 			<label for="alias">
 				<?= @text( 'Alias' ); ?>
-				<input class="inputbox border-radius-4" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
+				<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
 			</label>
 		</div>
 		<?= @editor( array('name' => 'description',

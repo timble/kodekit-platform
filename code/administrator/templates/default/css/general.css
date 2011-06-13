@@ -361,6 +361,40 @@ table.toolbar td a.disabled:active {
 	border-radius: 5px 5px 0 0;
 }
 
+.panel.title {
+	padding: 12px 16px 12px 12px;
+	background-color: #F0F0F0;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F0F0F0), to(#EAEAEA));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#F0F0F0, #EAEAEA);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F0F0', endColorstr='#EAEAEA');
+}
+
+.panel.title input#title {
+	margin: 0 4px 0 0;
+	display: block;
+	font-size: 200%;
+	width: 99%;
+	padding: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.panel.title label[for=alias] {
+	float: left;
+	width: 90%;
+	padding: 2px;
+}
+
+.panel.title label[for=alias] input {
+	width: 40%;
+	margin: 0;
+	padding: 2px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
 .panel .adminlist     { border: 0 none; background-color: #f6f6f6; }
 .panel .adminlist td  { border: 0 none; }
 

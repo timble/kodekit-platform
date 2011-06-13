@@ -51,56 +51,6 @@ div.message {
 	overflow-y: scroll; /* Fix, force scrollbar */
 }
 
-/* com_categories, com_banners, com_articles, com_sections, com_newsfeeds */
-.com_newsfeeds div.title,
-.com_weblinks div.title,
-.com_categories div.title,
-.com_banners div.name,
-.com_sections div.title,
-.com_articles div.title {
-	padding: 12px 16px 12px 12px;
-	margin-bottom: 12px;
-	background-color: #F0F0F0;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F0F0F0), to(#EAEAEA));
-	background-image: -moz-linear-gradient(0% 0% 270deg,#F0F0F0, #EAEAEA);
-	border: 1px solid #DDD;
-}
-
-.com_newsfeeds #title,
-.com_weblinks #title,
-.com_categories #title,
-.com_banners #name,
-.com_sections #title,
-.com_articles #title {
-	margin: 0 4px 0 0;
-	display: block;
-	font-size: 200%;
-	width: 99%;
-	padding: 4px;
-}
-
-.com_newsfeeds label[for=alias],
-.com_weblinks label[for="alias"],
-.com_categories label[for="alias"],
-.com_banners label[for="alias"],
-.com_sections label[for="alias"],
-.com_articles label[for="alias"] {
-	float: left;
-	width: 90%;
-	padding: 2px;
-}
-
-.com_newsfeeds label[for=alias] input#alias,
-.com_weblinks label[for="alias"] input#alias,
-.com_categories label[for="alias"] input#alias,
-.com_banners label[for="alias"] input#alias,
-.com_sections label[for="alias"] input#alias,
-.com_articles label[for="alias"] input#alias {
-	width: 40%;
-	margin: 0;
-	padding: 2px;
-}
-
 .com_articles .panel.folders {
 	padding-bottom: 14px;
 }
