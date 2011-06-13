@@ -51,7 +51,8 @@ div.message {
 	overflow-y: scroll; /* Fix, force scrollbar */
 }
 
-/* com_categories, com_banners, com_articles, com_sections */
+/* com_categories, com_banners, com_articles, com_sections, com_newsfeeds */
+.com_newsfeeds div.title,
 .com_weblinks div.title,
 .com_categories div.title,
 .com_banners div.name,
@@ -65,6 +66,7 @@ div.message {
 	border: 1px solid #DDD;
 }
 
+.com_newsfeeds #title,
 .com_weblinks #title,
 .com_categories #title,
 .com_banners #name,
@@ -77,6 +79,7 @@ div.message {
 	padding: 4px;
 }
 
+.com_newsfeeds label[for=alias],
 .com_weblinks label[for="alias"],
 .com_categories label[for="alias"],
 .com_banners label[for="alias"],
@@ -87,6 +90,7 @@ div.message {
 	padding: 2px;
 }
 
+.com_newsfeeds label[for=alias] input#alias,
 .com_weblinks label[for="alias"] input#alias,
 .com_categories label[for="alias"] input#alias,
 .com_banners label[for="alias"] input#alias,
