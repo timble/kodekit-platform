@@ -273,7 +273,7 @@ Koowa.Controller = new Class({
 	        }
 	    }
 	    return options;
-	},
+	}
 });
 
 /**
@@ -314,6 +314,10 @@ Koowa.Controller.Grid = new Class({
             token_value = this.form.get('data-token-value'),
             checkboxes = this.form.getElements('tbody tr .-koowa-grid-checkbox');
         this.form.getElements('tbody tr').each(function(tr){
+        
+            //skip rows that are readonly
+            if(tr.get('data-readonly')) return;
+        
             var checkbox = tr.getElement('.-koowa-grid-checkbox');
             if(!checkbox) return;
             var id = {name: checkbox.get('name'), value: checkbox.get('value')},
