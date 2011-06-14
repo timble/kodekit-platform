@@ -25,7 +25,7 @@ class ComArticlesModelCategories extends KModelAbstract
 		parent::__construct($config);
 		
 		$this->_state
-			->insert('published' ,'int', 1)
+			->insert('published' ,'int')
 			->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
             ->insert('sort'     , 'cmd', 'ordering')
