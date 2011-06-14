@@ -19,6 +19,11 @@
  */
 class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 {
+    /**
+     * List of dependent columns
+     * 
+     * @var array
+     */
     protected $_dependents;
     
 	/**
@@ -34,7 +39,24 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 	    $this->_dependents = $config->dependents;
 		
 		parent::__construct($config);
-	}    
+	} 
+
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @return void
+     */
+	protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+			'dependents' => array('admin::com.categories.model.categories.parent'),
+	  	));
+
+    	parent::_initialize($config);
+   	}
     
     /**
      * Deletes dependent rows.
