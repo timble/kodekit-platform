@@ -19,7 +19,6 @@
  */
 class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 {
-
     protected $_dependents;
     
 	/**
@@ -46,30 +45,26 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableDelete(KCommandContext $context)
     {
+        $result = true;
+        
         $id = $this->get($this->getTable()->getIdentityColumn());
 
         foreach($this->_dependents as $dependent)
         {                 
-            $parts = explode('.', $dependent);
+            $parts  = explode('.', $dependent);
             $column = array_pop($parts);
-            $name = array_pop($parts);
+            $name   = array_pop($parts);
             
             $identifier = implode('.', $parts).'.'.$name;
     
-            $rowset = KFactory::tmp($identifier)->set($column, $id)->limit(0)->getList();
+            $rowset = KFactory::tmp($identifier)
+                        ->set($column, $id)
+                        ->limit(0)
+                        ->getList();
 
-            $count = $rowset->count();
-
-            $what  = ucfirst( ($count == 1) ? KInflector::singularize($name) : $name);        
-            if($count) 
-            {
-                if ( $result = $rowset->delete() ) {
-                    KFactory::get('lib.joomla.application')->enqueueMessage("$count $what deleted");
-                } else {
-                    KFactory::get('lib.joomla.application')->enqueueMessage("Delete $what failed",'notice');
-                }
+            if($rowset->count()) {
+                $result = $rowset->delete();
             } 
-            else $result = true;
         }
         
         return $result;
