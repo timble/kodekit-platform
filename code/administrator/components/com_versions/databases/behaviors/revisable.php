@@ -77,7 +77,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 				$where[$condition['property']] = $condition['value'];
 			}
 			    
-			if(isset($where['tbl.trashed']) && $where['tbl.trashed'] == 1)
+			if(isset($where['tbl.deleted']) && $where['tbl.deleted'] == 1)
 			{
 				$table  = $context->caller;
 				
