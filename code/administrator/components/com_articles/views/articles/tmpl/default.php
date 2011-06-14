@@ -81,13 +81,17 @@ defined('KOOWA') or die('Restricted access') ?>
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
                 <td>
-                	<? if($article->state == -1) : ?>
-                		<?= @escape($article->title).' [ '.@text('Archived').' ] ' ?>
-                	<? else : ?>
-                        <a href="<?= @route('view=article&id='.$article->id) ?>">
-                            <?= @escape($article->title) ?>
-                        </a>
-                    <? endif ?>
+                	<?if($article->getStatus() != 'deleted') : ?>
+                        <? if($article->state == -1) : ?>
+                		    <?= @escape($article->title).' [ '.@text('Archived').' ] ' ?>
+                	    <? else : ?>
+                        	<a href="<?= @route('view=article&id='.$article->id) ?>">
+                                <?= @escape($article->title) ?>
+                        	</a>
+                        <? endif ?>
+                     <? else : ?>
+                     	<?= @escape($article->title); ?>
+                     <? endif; ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>

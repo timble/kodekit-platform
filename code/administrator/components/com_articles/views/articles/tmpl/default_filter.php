@@ -17,14 +17,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			    <?= 'All' ?>
 			</a>
 		</li>
+		<li class="<?= $state->state == '0' ? 'active' : ''; ?>">
+			<a href="<?= @route('state=0' ) ?>">
+			    <?= 'Draft' ?>
+			</a>
+		</li>
 		<li class="<?= $state->state == '1' ? 'active' : ''; ?>">
 			<a href="<?= @route('state=1' ) ?>">
 			    <?= 'Published' ?>
-			</a>
-		</li>
-		<li class="<?= $state->state == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route('state=0' ) ?>">
-			    <?= 'Drafts' ?>
 			</a>
 		</li>
 		<li class="<?= $state->state == '-1' ? 'active' : ''; ?>">

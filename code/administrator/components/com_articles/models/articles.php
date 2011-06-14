@@ -134,7 +134,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.access', '=', $state->access);
         }
 
-        if($state->trashed) {
+        if($this->getTable()->isRevisable() && $state->trashed) {
             $query->where('tbl.trashed', '=', 1);
         }
     }
