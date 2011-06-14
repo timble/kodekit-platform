@@ -43,8 +43,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         {
             if ( $this->_state->section == 'com_content' || is_numeric($this->_state->section)){
                 $query->select('sections.title AS section_title')
-                      ->select('SUM( IF(content.state <> -2,1,0)) activecount')
-                      ->select('SUM( IF(content.state = -2,1,0)) trashcount');
+                      ->select('SUM( IF(content.state <> -2,1,0)) activecount');
             } else {
                 $query->select('SUM(IF(child.catid,1,0)) activecount');
             }

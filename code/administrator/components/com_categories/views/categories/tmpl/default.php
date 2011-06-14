@@ -40,18 +40,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <th width="7%">
                     <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'access')   ); ?>
                 </th>
-                <? if ( $state->section == 'com_content') : ?>
-                    <th width="5%">
-                        <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
-                    </th>
-                    <th width="5%" nowrap="nowrap">
-                        <?= @helper('grid.sort',  array( 'title' => 'Num Trash', 'column' => 'trashcount') ); ?> 
-                    </th>
-                <? else : ?>
-                     <th width="5%" nowrap="nowrap">
-                        <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
-                    </th>
-                <? endif ?>
+                <th width="5%">
+                    <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
+                </th>
             </tr>
             <tr>
                 <td align="center">
@@ -60,7 +51,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <td>
                     <?= @helper( 'grid.search'); ?>
                 </td>
-                <td colspan="<?= $state->section == 'com_content' ? '5' : '4' ?>"></td>
             </tr>
         </thead>
 
@@ -92,18 +82,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <td align="center">
                         <?= @helper( 'grid.access' , array('row' => $category)); ?>
                     </td>
-                    <? if ( $state->section == 'com_content' ) : ?>
-                        <td align="center">
-                            <?= $category->activecount; ?>
-                        </td>
-                        <td align="center">
-                            <?= $category->trashcount; ?>
-                        </td>
-                    <? else : ?>
-                        <td align="center">
-                            <?= $category->activecount; ?>
-                        </td>
-                    <? endif ?>
+                    <td align="center">
+                        <?= $category->activecount; ?>
+                    </td>
             	</tr>
             <? endforeach; ?>
        </tbody>
