@@ -76,7 +76,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </tfoot>
         <tbody>
         <? foreach($articles as $article) : ?>
-            <tr>
+            <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>"  >
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
