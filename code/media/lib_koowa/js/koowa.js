@@ -316,7 +316,9 @@ Koowa.Controller.Grid = new Class({
         this.form.getElements('tbody tr').each(function(tr){
         
             //skip rows that are readonly
-            if(tr.get('data-readonly')) return;
+            if(tr.get('data-readonly') == 1) {
+            	return;
+            }
         
             var checkbox = tr.getElement('.-koowa-grid-checkbox');
             if(!checkbox) return;
