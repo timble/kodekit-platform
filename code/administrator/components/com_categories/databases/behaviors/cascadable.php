@@ -28,9 +28,11 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableDelete(KCommandContext $context)
     {
+        $result = true;
+        
         $section = $this->section;
         if ( is_numeric($section) || !$section) {
-            $section = 'com_content';
+            $section = 'com_articles';
         } 
         
         $parts = explode('_',$section);
@@ -38,10 +40,6 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
         //@TODO : Remove when refactoring is completed
         switch ($parts[1])
         {
-            case 'content':
-                $name = 'articles';
-                $package ='content';
-                break;
             case 'contact':
                 $name = 'contacts';
                 $package ='contact';
@@ -53,21 +51,15 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
                  
         $identifier = 'admin::com.'.$package.'.model.'.$name;
         
-        $rowset = KFactory::tmp($identifier)->category($this->id)->limit(0)->getList();
+        $rowset = KFactory::tmp($identifier)
+                    ->category($this->id)
+                    ->limit(0)
+                    ->getList();
 
-        $count = $rowset->count();
-        $what  = ucfirst( ($count == 1) ? KInflector::singularize($name) : $name);        
-        if($count) 
-        {
-            if ( $result = $rowset->delete() ) {
-                KFactory::get('lib.joomla.application')->enqueueMessage("$count $what deleted");
-            } else {
-                KFactory::get('lib.joomla.application')->enqueueMessage("Delete $what failed",'notice');
-            }
+        if($rowset->count()) {
+            $result = $rowset->delete();
         } 
-        else $result = true;
         
-        return $result;
-              
+        return $result; 
     }
 }
