@@ -79,25 +79,17 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 			    
 			if(isset($where['tbl.deleted']) && $where['tbl.deleted'] == 1)
 			{
-				$table  = $context->caller;
-				
-				//Get the revisions model
-				$revisions = KFactory::get('admin::com.versions.model.revisions')
-        						->status('deleted')
-      							->table($table->getName());
-
-      			//Only select the revisions we need
-      		    if(isset($where['tbl.'.$table->getIdentityColumn()])) {
-      		        $revisions->row($where['tbl.'.$table->getIdentityColumn()]);
-      		    }
-
-      			//Set the context data
+      			$table = $context->caller;
+    
+      			$revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $where);
+			    
+			    //Set the context data
       			if(!$query->count)
       			{
-                    $rowset = $table->getRowset();
+      			    $rowset = $table->getRowset();
 
-                    foreach($revisions->getList() as $row) 
-                    {
+                    foreach($revisions as $row) 
+                    {  
                         $row = $rowset->getRow()
                                    ->setData($row->data, false)
                                    ->setStatus(KDatabase::STATUS_DELETED);
@@ -107,7 +99,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
       			    $context->data = $rowset;
       		    }
-      			else $context->data = $revisions->getTotal();
+      			else $context->data = count($revisions);
 
       			return false;
 			}
@@ -222,6 +214,30 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
     	$this->_insertRevision(KDatabase::STATUS_DELETED);
     }
+    
+    /**
+     * Select the revisions
+     *
+     * @param  object   A database table object
+     * @param  string   The row status
+     * @param  array    Array of row id's
+     * @return KDatabaseRowsetInterface
+     */
+    protected function _selectRevisions($table, $status, $where)
+    {
+        $query = array(
+        	'table'  => $table->getName(),
+            'status' => $status,
+        );
+        
+        //Get the selected rows
+        if(isset($where['tbl.'.$table->getIdentityColumn()])) {
+            $query['row'] = $where['tbl.'.$table->getIdentityColumn()];
+        }
+          
+        $revisions = $this->_table->select($query);
+        return $revisions;
+    }
 
     /**
      * Insert a new revision
@@ -278,7 +294,6 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
  	/**
      * Find an existing revision
      *
-     * @param  object 	A KDatabaseRowInterface object
      * @param  string   The row status to look for
      * @return	boolean
      */
@@ -299,7 +314,6 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 	/**
      * Delete one or all revisions for a row
      *
-     * @param  object 	A KDatabaseRowInterface object
      * @param  string   The row status to look for
      * @return	boolean
      */
