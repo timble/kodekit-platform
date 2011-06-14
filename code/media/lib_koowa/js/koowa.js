@@ -314,8 +314,9 @@ Koowa.Controller.Grid = new Class({
             token_value = this.form.get('data-token-value'),
             checkboxes = this.form.getElements('tbody tr .-koowa-grid-checkbox');
         this.form.getElements('tbody tr').each(function(tr){
-            var checkbox = tr.getElement('.-koowa-grid-checkbox'),
-                id = {name: checkbox.get('name'), value: checkbox.get('value')},
+            var checkbox = tr.getElement('.-koowa-grid-checkbox');
+            if(!checkbox) return;
+            var id = {name: checkbox.get('name'), value: checkbox.get('value')},
                 //Attributes with hyphens don't work with the MT 1.2 selector engine, it's fixed in 1.3 so this is a workaround
                 actions = tr.getElements('*').filter(function(action){
                     return action.get('data-action');
