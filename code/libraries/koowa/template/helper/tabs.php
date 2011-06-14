@@ -46,11 +46,12 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
         
         $id      = strtolower($config->id);
         $attribs = KHelperArray::toString($config->attribs);
-        $options = (object) $config->options->toArray();
+        //Don't pass an empty array as options
+        $options = $config->options->toArray() ? ', '.$config->options : '';
     
         $html .= "
             <script>
-                window.addEvent('domready', function(){ new Koowa.Tabs('tabs-".$id."', ".json_encode($config->options)."); });
+                window.addEvent('domready', function(){ new Koowa.Tabs('tabs-".$id."'".$options."); });
             </script>";
     
         $html .= '<dl class="tabs" id="tabs-'.$id.'" '.$attribs.'>';

@@ -153,7 +153,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 		
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
-	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+	    $data = str_replace('"', '&quot;', $config->data);
 
 		$html  = '<script src="media://lib_koowa/js/koowa.js" />';  
 		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
@@ -181,10 +181,10 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$down = 'media://lib_koowa/images/arrow_down.png';
 		
 		$config->data->order = -1;
-		$updata   = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+		$updata   = str_replace('"', '&quot;', $config->data);
 		
 		$config->data->order = +1;
-		$downdata = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+		$downdata = str_replace('"', '&quot;', $config->data);
 		
 		$html = '<script src="media://lib_koowa/js/koowa.js" />';
 		
@@ -243,7 +243,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 		
 		$config->data->{$config->field} = $access;
-	    $data = str_replace('"', '&quot;', json_encode(KConfig::toData($config->data)));
+	    $data = str_replace('"', '&quot;', $config->data);
 
 		$html  = '<script src="media://lib_koowa/js/koowa.js" />';
 		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'">'.$group.'</span>';

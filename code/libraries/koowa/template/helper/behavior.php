@@ -121,10 +121,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$signature = md5(serialize(array($config->selector,$config->options)));
 		if (!isset(self::$_loaded[$signature]))
 		{
-			$options = !empty($config->options) ? $config->options->toArray() : array();
+		    //Don't pass an empty array as options
+			$options = $config->options->toArray() ? ', '.$config->options : '';
 			$html .= "
 			<script>
-				window.addEvent('domready', function(){ new Tips($$('".$config->selector."'), ".json_encode((object)$options)."); });
+				window.addEvent('domready', function(){ new Tips($$('".$config->selector."')".$options."); });
 			</script>";
 
 			self::$_loaded[$signature] = true;
@@ -154,10 +155,11 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 			$html .= '<style src="media://lib_koowa/css/koowa.css" />';
 
-			$options = !empty($config->options) ? $config->options->toArray() : array();
+			//Don't pass an empty array as options
+			$options = $config->options->toArray() ? ', '.$config->options : '';
 			$html .= "
 			<script>
-				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay, ".json_encode($options)."); }); });
+				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay".$options."); }); });
 			</script>";
 
 			self::$_loaded['overlay'] = true;
@@ -240,13 +242,14 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
             self::$_loaded['validator'] = true;
         }
 
-		$options = !empty($config->options) ? $config->options->toArray() : array();
+		//Don't pass an empty array as options
+		$options = $config->options->toArray() ? ', '.$config->options : '';
 		$html .= "<script>
 		window.addEvent('domready', function(){
 		    $$('$config->selector').each(function(form){
-		        new Form.Validator.Inline(form, ".json_encode((object)$options).");
+		        new Form.Validator.Inline(form".$options.");
 		        form.addEvent('validate', form.validate.bind(form));
-		    }); 
+		    });
 		});
 		</script>";
 
