@@ -311,6 +311,6 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
      */
     public function __toString()
     {
-        return $this->toJson()
+        return $this->toJson();
     }
 }
