@@ -840,4 +840,36 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
         return $data;
     }
+    
+	/**
+	 * Search the behaviors to see if this table behaves as.
+	 *
+	 * Function is also capable of checking is a behavior has been mixed succesfully
+	 * using is[Behavior] function. If the behavior exists the function will return 
+	 * TRUE, otherwise FALSE.
+	 *
+	 * @param  string 	The function name
+	 * @param  array  	The function arguments
+	 * @throws BadMethodCallException 	If method could not be found
+	 * @return mixed The result of the function
+	 */
+	public function __call($method, array $arguments)
+	{
+		// If the method is of the form is[Bahavior] handle it.
+		$parts = KInflector::explode($method);
+
+		if($parts[0] == 'is' && isset($parts[1]))
+		{
+            foreach($this->getBehaviors() as $behavior) 
+            {
+                if($behavior->getIdentifier()->name == $parts[1]) {
+                    return true;
+                }
+            }
+               
+			return false;
+		}
+
+		return parent::__call($method, $arguments);
+	}
 }
