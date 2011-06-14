@@ -81,6 +81,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 			{
       			$table = $context->caller;
     
+      			//Get the revisions
       			$revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $where);
 			    
 			    //Set the context data
