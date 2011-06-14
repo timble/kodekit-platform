@@ -37,7 +37,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			    <?= 'Featured' ?>
 			</a>
 		</li>
-		<li class="<?= $state->trashed ? 'active' : '' ?>">
+		<li class="<?= $state->deleted ? 'active' : '' ?>">
 			<a href="<?= @route( $state->deleted ? 'deleted=' : 'deleted=1' ) ?>">
 			    <?= 'Trashed' ?>
 			</a>
