@@ -155,7 +155,7 @@ abstract class KToolbarButtonAbstract extends KObject implements KToolbarButtonI
     
     public function getAttribs()
     {
-    	return $this->_options->attribs->toArray();
+    	return $this->_options->attribs;
     }
     
     public function setAttribs($attribs)
