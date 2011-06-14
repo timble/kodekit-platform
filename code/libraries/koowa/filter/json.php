@@ -55,7 +55,7 @@ class KFilterJson extends KFilterAbstract
         $result = null;
         
         if(is_a($value, 'KConfig')) {
-            $value = $value->toArray(); 
+            $value = (string)$value; 
         }   
         
         if(is_string($value)) {
