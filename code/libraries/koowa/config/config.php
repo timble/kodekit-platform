@@ -240,6 +240,16 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         return $array;
     }
     
+ 	/**
+     * Returns a string with the encapsulated data in JSON format
+     *             
+     * @return string   returns the data encoded to JSON
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray());
+    }
+    
     /**
      * Return the data 
      *
@@ -292,5 +302,15 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         }
          
         return $this;
-    } 
+    }
+
+    /**
+     * Returns a string with the encapsulated data in JSON format
+     *             
+     * @return string   returns the data encoded to JSON
+     */
+    public function __toString()
+    {
+        return $this->toJson()
+    }
 }
