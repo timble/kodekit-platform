@@ -175,9 +175,7 @@ var ChromaTable = new Class({
 			height = parent.getSize().y, 
 			offset = this.table.getParent().getTop() - parent.getTop();
 		this.table.getParent().setStyle('height', height-offset);
-//		console.log(window.getWidth(), this.table.getCoordinates().right, window.getWidth() - this.table.getCoordinates().right, thead.getCoordinates().right, window.getWidth() - thead.getCoordinates().right);
-		
-//		$$(thead, tfoot).setStyle('right', window.getWidth() - this.table.getCoordinates().right);
+
 
 		if(!this.table.getElement('tr')) return;
 		
