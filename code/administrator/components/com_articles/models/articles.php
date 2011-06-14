@@ -31,7 +31,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
-            ->insert('trashed'   , 'int');
+            ->insert('deleted'   , 'int');
 
         $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -134,8 +134,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.access', '=', $state->access);
         }
 
-        if($this->getTable()->isRevisable() && $state->trashed) {
-            $query->where('tbl.trashed', '=', 1);
+        if($this->getTable()->isRevisable() && $state->deleted) {
+            $query->where('tbl.deleted', '=', 1);
         }
     }
 
