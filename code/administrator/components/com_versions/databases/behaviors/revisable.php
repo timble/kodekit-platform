@@ -196,7 +196,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         {
     	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			$this->_deleteRevisions();
+    			$context->affected = $this->_deleteRevisions();
     			return false;
     		}
         }
