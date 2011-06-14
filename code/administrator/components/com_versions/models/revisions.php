@@ -106,6 +106,10 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
         if($state->status) {
         	$query->where('tbl.status' , '=', $state->status);
         }
+        
+        if($state->row) {
+        	$query->where('tbl.row' , 'IN', array($state->row));
+        }
 
         if($state->table && !$state->isUnique()) {
         	$query->where('tbl.table', '=', $state->table);
