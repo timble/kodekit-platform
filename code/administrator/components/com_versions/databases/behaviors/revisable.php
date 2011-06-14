@@ -72,45 +72,44 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
 		if(!is_null($query))
 		{
-			foreach($query->where as $key => $where)
+			$where = array();
+		    foreach($query->where as $condition) {
+				$where[$condition['property']] = $condition['value'];
+			}
+			    
+			if(isset($where['tbl.trashed']) && $where['tbl.trashed'] == 1)
 			{
-				if($where['property'] == 'tbl.trashed' && $where['value'] == 1)
-				{
-					$table  = $context->caller;
+				$table  = $context->caller;
+				
+				//Get the revisions model
+				$revisions = KFactory::get('admin::com.versions.model.revisions')
+        						->status('deleted')
+      							->table($table->getName());
 
-					//Get the revisable model
-					$identifier = clone($table->getIdentifier());
-					$identifier->path[0] = 'model';
+      			//Only select the revisions we need
+      		    if(isset($where['tbl.'.$table->getIdentityColumn()])) {
+      		        $revisions->row($where['tbl.'.$table->getIdentityColumn()]);
+      		    }
 
-					$revisable = KFactory::get($identifier);
+      			//Set the context data
+      			if(!$query->count)
+      			{
+                    $rowset = $table->getRowset();
 
-					//Get the revisions model
-					$revisions = KFactory::get('admin::com.versions.model.revisions')
-        							->status('deleted')
-        							->row($revisable->get('id'))
-        							->set($revisable->get())
-      								->table($table->getName());
-
-      				//Set the context data
-      				if(!$query->count)
-      				{
-                        $rowset = $table->getRowset();
-
-                        foreach($revisions->getList() as $row) 
-                        {
-                            $row = $rowset->getRow()
-                                          ->setData($row->data, false)
-                                          ->setStatus(KDatabase::STATUS_LOADED);
+                    foreach($revisions->getList() as $row) 
+                    {
+                        $row = $rowset->getRow()
+                                   ->setData($row->data, false)
+                                   ->setStatus(KDatabase::STATUS_DELETED);
                              
-                            $rowset->insert($row);
-                        }
+                        $rowset->insert($row);
+                    }
 
-      					$context->data = $rowset;
-      				}
-      				else $context->data = $revisions->getTotal();
+      			    $context->data = $rowset;
+      		    }
+      			else $context->data = $revisions->getTotal();
 
-      				return false;
-				}
+      			return false;
 			}
 		}
 	}
