@@ -39,9 +39,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<th width="5%" nowrap="nowrap">
 					<?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
-					<?= @helper('grid.sort',  array( 'title' => 'Num Trash', 'column' => 'trashcount') ); ?>
-				</th>
 			</tr>
 			<tr>
 				<td align="center">
@@ -53,7 +50,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<td align="center"> 
 					<?= @helper('listbox.published', array('name' => 'published')); ?>
 				</td>
-				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -92,9 +88,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</td>
 				<td align="center">
 					<?= $section->activecount; ?>
-				</td>
-				<td align="center">
-					<?= $section->trashcount; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

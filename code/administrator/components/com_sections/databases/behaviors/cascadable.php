@@ -36,9 +36,9 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 	 */
 	public function __construct( KConfig $config = null) 
 	{ 
+	    parent::__construct($config);
+	    
 	    $this->_dependents = $config->dependents;
-		
-		parent::__construct($config);
 	} 
 
 	/**
@@ -70,7 +70,7 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
         $result = true;
         
         $id = $this->get($this->getTable()->getIdentityColumn());
-
+        
         foreach($this->_dependents as $dependent)
         {                 
             $parts  = explode('.', $dependent);
@@ -78,7 +78,7 @@ class ComSectionsDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
             $name   = array_pop($parts);
             
             $identifier = implode('.', $parts).'.'.$name;
-    
+            
             $rowset = KFactory::tmp($identifier)
                         ->set($column, $id)
                         ->limit(0)

@@ -34,8 +34,7 @@ class ComSectionsModelSections extends ComDefaultModelDefault
 	{
 		parent::_buildQueryColumns($query);
 		$query->select('categorycount')
-			->select('SUM( IF(active.state <> -2,1,0)) activecount')
-			->select('SUM( IF(active.state = -2,1,0)) trashcount');
+			->select('SUM( IF(active.state <> -2,1,0)) activecount');
 	}
 
 	protected function _buildQueryJoins(KDatabaseQuery $query)
