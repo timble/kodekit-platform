@@ -143,7 +143,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </div>
         <div class="panel folders group">
             <h3><?= @text('Category') ?></h3>
-            <?= @template('form_folders', array('folders' => $folders, 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  KFactory::tmp('admin::com.articles.model.categories')->getList(), 'article' => $article)) ?>
         </div>
         <div class="panel">
             <h3><?= @text('Description') ?></h3>

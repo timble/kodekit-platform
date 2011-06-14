@@ -21,14 +21,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<?= @text('Uncategorised') ?>
 		</a>
 	</li>
-	<? foreach($folders as $folder) : ?>
-	<li class="<?= $state->section == $folder->id ? 'active' : ''; ?>">
-		<a href="<?= @route('section='.$folder->id.'&category=' ) ?>">
-			<?= @escape($folder->title) ?>
+	<? foreach($categories as $category) : ?>
+	<li class="<?= $state->section == $category->id ? 'active' : ''; ?>">
+		<a href="<?= @route('section='.$category->id.'&category=' ) ?>">
+			<?= @escape($category->title) ?>
 		</a>
-		<? if($folder->hasChildren()) : ?>
+		<? if($category->hasChildren()) : ?>
 		<ul>
-			<? foreach($folder->getChildren() as $child) : ?>
+			<? foreach($category->getChildren() as $child) : ?>
 			<li class="<?= $state->category == $child->id ? 'active' : ''; ?>">
 				<a href="<?= @route('section=&category='.$child->id ) ?>">
 					<?= $child->title; ?>

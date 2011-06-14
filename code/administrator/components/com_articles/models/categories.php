@@ -10,7 +10,7 @@
  */
 
 /**
- * Folders Table Model Class
+ * Categories Model Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
@@ -18,7 +18,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesModelFolders extends KModelAbstract
+class ComArticlesModelCategories extends KModelAbstract
 {
     public function __construct(KConfig $config)
 	{
