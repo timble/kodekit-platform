@@ -42,7 +42,8 @@ class ComSitesModelSites extends KModelAbstract
             //Get the sites
 			foreach(new DirectoryIterator(JPATH_SITES) as $file)
 			{
-				if($file->isDir() && !($file->isDot() || in_array($file->getFilename(), array('.svn')))) {
+				if($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.')) 
+				{
         			$data[] = array(
         				'name' => $file->getFilename()
 				    );
