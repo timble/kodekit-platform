@@ -94,23 +94,13 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         if($view instanceof ComDefaultViewHtml)
         {
-            $name       = KInflector::isPlural($view->getName()) ? 'grid' : 'form';
-            $identifier = 'admin::com.default.view.'.$name;
-            $config     = array('toolbar' => $view->getToolbar());
-            
+            $toolbar = KTemplateHelper::factory('toolbar', array('toolbar' => $view->getToolbar()));
+
             //Render the toolbar
-            $toolbar = $view->getTemplate()
-                           ->loadIdentifier($identifier.'.toolbar', $config)
-                           ->render();
-                           
-            $document->setBuffer($toolbar, 'modules', 'toolbar');
+            $document->setBuffer($toolbar->toolbar(), 'modules', 'toolbar');
             
-            //Render the title
-            $title   = $view->getTemplate()
-                            ->loadIdentifier($identifier.'.toolbar_title' , $config)
-                            ->render();
-           
-            $document->setBuffer($title, 'modules', 'title'  );
+            //Render the title            
+            $document->setBuffer($toolbar->title(), 'modules', 'title');
             
             //Render the submenu
             if(isset($view->views)) 
