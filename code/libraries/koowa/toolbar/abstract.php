@@ -32,13 +32,13 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
      * @var     string
      */
     protected $_icon = '';
-    
+     
     /**
-     * Buttons in the toolbar
+     * Commands in the toolbar
      *
      * @var     array
      */
-    protected $_buttons = array();
+    protected $_commands = array();
 
     /**
      * Constructor
@@ -71,8 +71,8 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'title'      => null,
-            'icon'       => 'generic',
+            'title'    => null,
+            'icon'     => 'generic',
         ));
         
         parent::_initialize($config);
@@ -146,58 +146,73 @@ abstract class KToolbarAbstract extends KObject implements KToolbarInterface, KO
     /**
      * Get the toolbar buttons
      *
-     * @param   string  Icon
-     * @return  KToolbarInterface
+     * @return  array 
      */
-    public function getButtons()
-    {
-        foreach ($this->_buttons as $key => $button)
-		{
-			if(!($button instanceof KToolbarButtonInterface))
-			{
-				$app		= $this->_identifier->application;
-				$package	= $this->_identifier->package;
-				$this->_buttons[$key] = KFactory::tmp($app.'::com.'.$package.'.toolbar.button.'.$button);
-			}
-
-			$this->_buttons[$key]->setParent($this);
-		}
-		
-		return $this->_buttons;
+    public function getCommands()
+    {	
+		return $this->_commands;
     }
 
     /**
      * Append a button
      *
-     * @param   KToolbarButtonInterface|string  Button
-     * @return  this
+     * @param   string	The command name
+     * @param	mixed	Parameters to be passed to the command
+     * @return  KToolbarInterface
      */
-    public function append($button)
+    public function append($command, $config = array())
     {
-        array_push($this->_buttons, $button);
+        //Find the command function to call
+         if(method_exists($this, '_command'.ucfirst($command))) {
+            $function =  '_command'.ucfirst($command);
+        } else {
+            $function = '_commandAction';
+        }
+        
+        //Create the config object 
+        $command = new KToolbarCommand($command, $config);
+        
+        //Call the command function
+        $this->$function($command);
+        
+        array_push($this->_commands, $command);
         return $this;
     }
 
     /**
      * Prepend a button
      *
-     * @param   KToolbarButtonInterface Button
-     * @return  this
+     * @param   string	The command name
+     * @param	mixed	Parameters to be passed to the command
+     * @return  KToolbarInterface
      */
-    public function prepend($button)
+    public function prepend($command, $config = array())
     {
-        array_unshift($this->_buttons, $button);
+        //Find the command function to call
+        if(method_exists($this, '_command'.ucfirst($command))) {
+            $function =  '_command'.ucfirst($command);
+        } else {
+            $function = '_commandAction';
+        }
+        
+        //Create the config object 
+        $command = new KToolbarCommand($command, $config);
+      
+        //Call the command function
+        $this->$function($command);
+        
+        array_unshift($this->_commands, $command);
         return $this;
     }
     
     /**
-     * Reset the button array
+     * Reset the commands array
      *
-     * @return  this
+     * @return  KToolbarInterface
      */
     public function reset()
     {
-        $this->_buttons = array();
+        $this->_commands = array();
         return $this;
     }
 }
