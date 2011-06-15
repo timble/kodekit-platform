@@ -7,8 +7,10 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
+(function(){
+var $ = document.id;
 
-var Terms = new Class({
+this.Terms = new Class({
 	Extends: Request,
 	element : null,
 	form    : null,
@@ -68,8 +70,9 @@ var Terms = new Class({
     _actionAdd: function(data)
     {
     	this.post(this.form);
-    },
+    }
 });
+})();
 
 window.addEvent('domready', function() {
 	new Terms('terms-list');
