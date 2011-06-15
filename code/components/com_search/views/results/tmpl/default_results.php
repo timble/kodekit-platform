@@ -58,4 +58,4 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</td>
 	</tr>
 </table>
-<div class="search-pagination"><?= @helper('paginator.pagination', array('total' => $total)) ?><div class="clear_both"></div></div>
+<div class="search-pagination"><?= @helper('paginator.pagination', array('total' => $total)) ?><div style="clear: both;"></div></div>
