@@ -25,7 +25,7 @@ class ComTemplatesToolbarButtonSet extends ComDefaultToolbarButtonDefault
             'text'     => JText::_('Make Default'),
         	'attribs'  => array(
                 'data-action' => 'edit',
-                'data-data'   => '{default:1}'
+                'data-data'   => array('default' => 1)
             )
         ));
         
