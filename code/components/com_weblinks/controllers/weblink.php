@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * @version		$Id$
  * @category	Nooku
@@ -32,7 +32,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
         $weblink = parent::_actionRead($context);
 
 		// Redirect the user if the request doesn't include layout=form
-		if ($this->_request->layout != 'form')
+		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
 				KFactory::get('lib.joomla.application')->redirect($weblink->url);
