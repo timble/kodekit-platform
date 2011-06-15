@@ -539,6 +539,8 @@ div.current dd {
 	padding: 2px 7px;
 	font-weight: bold;
 	color: #363636;
+	text-transform: capitalize;
+	text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
 }
 
 #filter ul li a:hover,
@@ -549,12 +551,18 @@ div.current dd {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
 }
 
-#filter ul li.active a { 
+#filter ul li.active a,
+#filter ul li a:active { 
 	-webkit-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
 	-moz-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0; 
 	box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
+}
+
+#filter ul li a:active {
+    background: gray;
 }
 /* @end */
 
