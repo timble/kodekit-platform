@@ -12,7 +12,7 @@
 /**
  * Listbox Template Helper
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Modules    
