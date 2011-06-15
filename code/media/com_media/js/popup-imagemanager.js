@@ -17,7 +17,10 @@
  * @subpackage	Media
  * @since		1.5
  */
-var ImageManager = {
+(function(){
+var $ = document.id;
+
+this.ImageManager = {
 	initialize: function()
 	{
 		o = this._getUriObject(window.self.location.href);
@@ -240,6 +243,7 @@ var ImageManager = {
 			: null;
 	}
 };
+})();
 
 window.addEvent('domready', function(){
 	ImageManager.initialize();
