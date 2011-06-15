@@ -10,30 +10,23 @@
  */
 
 /**
- * Next Toolbar Button Class
- * 
- * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * Default Toolbar Class
+ *
+ * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-
-class ComModulesToolbarButtonNew extends ComDefaultToolbarButtonNew
+class ComModulesToolbarDefault extends ComDefaultToolbarDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _commandNew(KToolbarCommand $command)
     {
-        $config->append(array(
+        $command->append(array(
             'attribs' => array(
-                'class' => 'toolbar modal',
+                'class' => array('modal'),
                 'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}'
+                'href'	=> 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component';
             )
         ));
-
-        parent::_initialize($config);
     }
-
-	public function getLink()
-	{
-		return 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component';
-	}
 }

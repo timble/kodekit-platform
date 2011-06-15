@@ -18,7 +18,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://com_articles/js/article.js" />
 
 <script>
-    var categories = <?= json_encode($categories) ?>;
+    var categories = <?= json_encode(KFactory::tmp('admin::com.articles.model.categories')->getList()) ?>;
 
     <? if($article->category_id) : ?>
         window.addEvent('domready', function() {
