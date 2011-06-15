@@ -10,14 +10,14 @@
  */
 
 /**
- * Revision Row
+ * Default Toolbar Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Versions
  */
-class ComVersionsToolbarGrid extends KToolbarAbstract
+class ComVersionsToolbarDefault extends KToolbarAbstract
 {
 	public function __construct(KConfig $config)
 	{
@@ -26,4 +26,13 @@ class ComVersionsToolbarGrid extends KToolbarAbstract
 		$this->append('delete')
 			 ->append('restore');
 	}
+	
+    protected function _commandRestore(KToolbarCommand $command)
+    {
+        $command->append(array(
+            'attribs' => array(
+                'data-action' => 'edit',
+            )
+        ));
+    }
 }
