@@ -33,9 +33,9 @@ class KTemplateHelper
 	    if(!($helper instanceof KTemplateHelperInterface))
 		{   
 		    if(is_string($helper) && strpos($helper, '.') === false ) {
-		       $helper = 'com.default.template.helper.'.trim($filter);
+		       $helper = 'com.default.template.helper.'.trim($helper);
 		    }    
-			
+		   
 		    $helper = KFactory::tmp($helper, $config);
 		    
 		    //Check the behavior interface
