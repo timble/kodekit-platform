@@ -17,11 +17,11 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesToolbarDefault extends ComDefaultToolbarDefault
+class ComLanguagesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    protected function _commandSet(KToolbarCommand $command)
+    protected function _commandSet(KControllerToolbarCommand $command)
     {
-        $command->text = JText::_('Make Default');
+        $command->label = JText::_('Make Default');
         
         $command->append(array(
         	'attribs' => array(

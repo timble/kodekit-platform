@@ -27,7 +27,7 @@ class ComBannersViewBannersHtml extends ComBannersViewHtml
             ->append('enable')
             ->append('disable')
             ->append('divider')
-            ->append(KFactory::tmp('admin::com.banners.toolbar.button.preferences', array('height' => 88)));
+            ->append('preferences', array('height' => 88));
         
         return parent::display();
     }

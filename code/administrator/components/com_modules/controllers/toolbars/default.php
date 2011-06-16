@@ -17,9 +17,9 @@
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComModulesToolbarDefault extends ComDefaultToolbarDefault
+class ComModulesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    protected function _commandNew(KToolbarCommand $command)
+    protected function _commandNew(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(

@@ -24,8 +24,8 @@ class ComSectionsViewSectionsHtml extends ComSectionsViewHtml
    	    $this->getToolbar()
    	        ->setTitle('Sections')
 			->append('divider')     
-			->append(KFactory::tmp('admin::com.sections.toolbar.button.enable', array('text' => 'publish')))
-			->append(KFactory::tmp('admin::com.sections.toolbar.button.disable', array('text' => 'unpublish')));
+			->append('enable', array('label' => 'publish')))
+			->append('disable', array('label' => 'unpublish')));
                                         
 		return parent::display();
 	}

@@ -17,9 +17,9 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesToolbarDefault extends ComDefaultToolbarDefault
+class ComArticlesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    protected function _commandPublish(KToolbarCommand $command)
+    protected function _commandPublish(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(
@@ -29,7 +29,7 @@ class ComArticlesToolbarDefault extends ComDefaultToolbarDefault
         )); 
     }
     
-    protected function _commandUnpublish(KToolbarCommand $command)
+    protected function _commandUnpublish(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(
@@ -39,7 +39,7 @@ class ComArticlesToolbarDefault extends ComDefaultToolbarDefault
         )); 
     }
     
-    protected function _commandArchive(KToolbarCommand $command)
+    protected function _commandArchive(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(
@@ -49,7 +49,7 @@ class ComArticlesToolbarDefault extends ComDefaultToolbarDefault
         )); 
     }
     
-    protected function _commandUnarchive(KToolbarCommand $command)
+    protected function _commandUnarchive(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(

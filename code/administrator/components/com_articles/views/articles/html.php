@@ -40,10 +40,10 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
         $name = $this->getName();
 
         $identifier       = clone $this->_identifier;
-        $identifier->path = array('toolbar');
+        $identifier->path = array('controller', 'toolbar');
 
         if($this->getModel()->getState()->deleted) {
-            $identifier = 'admin::com.versions.toolbar.grid';
+            $identifier = 'admin::com.versions.controller.toolbar.default';
         } else {
             $identifier->name = $name;
         }

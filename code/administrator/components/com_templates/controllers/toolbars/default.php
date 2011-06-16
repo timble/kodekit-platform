@@ -17,11 +17,11 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComTemplatesToolbarDefault extends ComDefaultToolbarDefault
+class ComTemplatesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    protected function _commandSet(KToolbarCommand $command)
+    protected function _commandSet(KControllerToolbarCommand $command)
     {
-        $command->text = JText::_('Make Default');
+        $command->label = JText::_('Make Default');
         
         $command->append(array(
         	'attribs' => array(
@@ -31,7 +31,7 @@ class ComTemplatesToolbarDefault extends ComDefaultToolbarDefault
         ));
     }
     
-    protected function _commandPreview(KToolbarCommand $command)
+    protected function _commandPreview(KControllerToolbarCommand $command)
     {
         $template  = KRequest::get('get.name', 'cmd');
         $base      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
