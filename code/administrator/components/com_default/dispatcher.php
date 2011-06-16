@@ -94,7 +94,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
         
         if($view instanceof ComDefaultViewHtml)
         {
-            $toolbar = KTemplateHelper::factory('toolbar', array('toolbar' => $view->getToolbar()));
+            $toolbar = KTemplateHelper::factory('toolbar', array('toolbar' => $this->getController()->getToolbar()));
 
             //Render the toolbar
             $document->setBuffer($toolbar->toolbar(), 'modules', 'toolbar');
