@@ -17,7 +17,7 @@
  * @package    	Nooku_Components
  * @subpackage 	Versions
  */
-class ComVersionsToolbarDefault extends KToolbarAbstract
+class ComVersionsControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
 	public function __construct(KConfig $config)
 	{
@@ -27,7 +27,7 @@ class ComVersionsToolbarDefault extends KToolbarAbstract
 			 ->append('restore');
 	}
 	
-    protected function _commandRestore(KToolbarCommand $command)
+    protected function _commandRestore(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
