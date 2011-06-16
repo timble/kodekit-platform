@@ -33,15 +33,15 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
         if(KInflector::isPlural($name))
         {        
             //Insert the default commands
-            $this->append('new')
-                 ->append('delete');    
+            $this->insert('new')
+                 ->insert('delete');    
         }
         else
         {
             //Insert the default commands
-            $this->append('save')
-                 ->append('apply')
-                 ->append('cancel');
+            $this->insert('save')
+                 ->insert('apply')
+                 ->insert('cancel');
             
             //Set the title
             $name  = ucfirst($this->getName());  
