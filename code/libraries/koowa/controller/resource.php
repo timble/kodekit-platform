@@ -52,6 +52,13 @@ abstract class KControllerResource extends KControllerAbstract
 	 * @var	string|object
 	 */
 	protected $_model;
+	
+	/**
+	 * Toolbar object or identifier (APP::com.COMPONENT.model.NAME)
+	 *
+	 * @var	string|object
+	 */
+	protected $_toolbar;
 
 	/**
 	 * Constructor
@@ -67,6 +74,9 @@ abstract class KControllerResource extends KControllerAbstract
 		
 		// Set the view identifier
 		$this->_view = $config->view;
+		
+		// Set the view identifier
+		$this->_toolbar = $config->toolbar;
 		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
@@ -90,6 +100,7 @@ abstract class KControllerResource extends KControllerAbstract
     	$config->append(array(
     	    'model'	     => $this->_identifier->name,
         	'view'	     => $this->_identifier->name,
+    		'toolbar'	 => $this->_identifier->name,
     	    'behaviors'  => array('executable'),
     	    'readonly'   => true, 
     		'request' 	 => array('format' => 'html')
@@ -146,7 +157,7 @@ abstract class KControllerResource extends KControllerAbstract
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
+	 * @throws	KControllerException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */
 	public function setView($view)
@@ -172,6 +183,59 @@ abstract class KControllerResource extends KControllerAbstract
 		
 		return $this;
 	}
+	
+	/**
+	 * Get the view object attached to the controller
+	 *
+	 * @throws  KControllerException if the view cannot be found.
+	 * @return	KControllerToolbarAbstract 
+	 */
+    public function getToolbar()
+    { 
+        if(!$this->_toolbar instanceof KControllerToolbarAbstract)
+		{	   
+		    //Make sure we have a view identifier
+		    if(!($this->_toolbar instanceof KIdentifier)) {
+		        $this->setToolbar($this->_toolbar);
+			}
+		
+			$this->_toolbar = KFactory::tmp($this->_toolbar);
+		}    
+         
+        return $this->_toolbar;
+    }
+	
+	/**
+	 * Method to set a toolbar object attached to the controller
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIndentifierInterface or valid identifier string
+	 * @throws	KControllerException	If the identifier is not a view identifier
+	 * @return	KControllerToolbarAbstract 
+	 */
+    public function setToolbar($toolbar)
+    {
+        if(!($toolbar instanceof KControllerToolbarAbstract))
+		{
+			if(is_string($toolbar) && strpos($toolbar, '.') === false ) 
+		    {
+			    $identifier         = clone $this->_identifier;
+                $identifier->path   = array('controller', 'toolbar');
+                $identifier->name   = $this->getView()->getName();
+			}
+			else $identifier = KFactory::identify($toolbar);
+			
+			if($identifier->path[1] != 'toolbar') {
+				throw new KControllerException('Identifier: '.$identifier.' is not a toolbar identifier');
+			}
+
+			$toolbar = $identifier;
+		}
+		
+		$this->_toolbar = $toolbar;
+        
+        return $this;
+    }
 	
 	/**
 	 * Get the model object attached to the contoller

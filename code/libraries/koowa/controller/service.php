@@ -102,7 +102,7 @@ abstract class KControllerService extends KControllerResource
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
+	 * @throws	KControllerException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */
     public function setView($view)
