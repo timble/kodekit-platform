@@ -58,6 +58,9 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
         
         // Set the icon
         $this->setIcon($config->icon);
+        
+        // Set the controller
+        $this->_controller = $config->controller;
     }
 
     /**
@@ -71,8 +74,9 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'title'    => null,
-            'icon'     => 'generic',
+            'title'       => null,
+            'icon'        => 'generic',
+            'controller'  => null
         ));
         
         parent::_initialize($config);
@@ -87,6 +91,17 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
     public function getIdentifier()
     {
         return $this->_identifier;
+    }
+    
+	/**
+     * Get the controller object
+     * 
+     * @return  KIdentifier 
+     * @see     KObjectIdentifiable
+     */
+    public function getController()
+    {
+        return $this->_controller;
     }
 
     /**
