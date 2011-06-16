@@ -1,30 +1,30 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
+ * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Templates
+ * @subpackage  Plugins
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Template HTML View class
+ * Plugins Toolbar Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @category    Nooku
+ * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Templates
+ * @subpackage  Plugins    
  */
-class ComTemplatesViewTemplateHtml extends ComTemplatesViewHtml
+class ComPluginsControllerToolbarPlugins extends ComDefaultControllerToolbarDefault
 {
-    public function display()
+    public function __construct(KConfig $config)
     {
-        $this->getToolbar()
-            ->prepend('divider')
-            ->prepend('preview');
-
-        return parent::display();
+        parent::__construct($config);
+       
+        $this->reset()
+	  		 ->append('enable')
+	    	 ->append('disable');
     }
 }

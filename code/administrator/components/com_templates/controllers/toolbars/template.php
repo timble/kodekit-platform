@@ -23,18 +23,23 @@ class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbar
     {
         parent::__construct($config);
        
-        $this->reset()
-             ->append('set');
+        $this->prepend('divider')
+             ->prepend('preview');
+        
     }
-    
-    protected function _commandSet(KControllerToolbarCommand $command)
+   
+    protected function _commandPreview(KControllerToolbarCommand $command)
     {
-        $command->label = JText::_('Make Default');
+        $template  = KRequest::get('get.name', 'cmd');
+        $base      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
         
         $command->append(array(
-        	'attribs' => array(
-                'data-action' => 'edit',
-                'data-data'   => '{default:1}'
+            'width'   => '640',
+            'height'  => '480',
+        ))->append(array(
+            'attribs' => array(
+                'href' 	 =>  $base.'index.php?tp=1&template='.$template,
+                'target' => 'preview'
             )
         ));
     }

@@ -21,11 +21,6 @@ class ComPluginsViewPluginsHtml extends ComPluginsViewHtml
 {
 	public function display()
 	{
-	    $this->getToolbar()
-	        ->reset()
-	  		->append('enable')
-	    	->append('disable');
-
         $this->types = KFactory::tmp('admin::com.plugins.model.plugins')->getColumn('type');
 
 		return parent::display();
