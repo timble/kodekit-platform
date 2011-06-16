@@ -199,7 +199,11 @@ abstract class KControllerResource extends KControllerAbstract
 		        $this->setToolbar($this->_toolbar);
 			}
 		
-			$this->_toolbar = KFactory::tmp($this->_toolbar);
+			$config = array(
+			    'controller' => $this
+			);
+			
+			$this->_toolbar = KFactory::tmp($this->_toolbar, $config);
 		}    
          
         return $this->_toolbar;
