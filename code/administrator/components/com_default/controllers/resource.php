@@ -54,18 +54,4 @@ class ComDefaultControllerResource extends KControllerResource
         	
         parent::__set($property, $value);     
   	}
-  	
- 	/**
-     * Get the identifier for the toolbar with the same name
-     *
-     * @return  KIdentifierInterface
-     */
-    public function getToolbar()
-    {
-        $identifier         = clone $this->_identifier;
-        $identifier->path   = array('toolbar');
-        $identifier->name   = $this->getName();
-        
-        return KFactory::get($identifier);
-    }
 }
