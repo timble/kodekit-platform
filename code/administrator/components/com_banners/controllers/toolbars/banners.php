@@ -23,10 +23,10 @@ class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefa
     {
         parent::__construct($config);
        
-         $this->append('divider')
-              ->append('enable')
-              ->append('disable')
-              ->append('divider')
-              ->append('preferences', array('height' => 88));
+         $this->insert('divider')
+              ->insert('enable')
+              ->insert('disable')
+              ->insert('divider')
+              ->insert('preferences', array('height' => 88));
     }
 }

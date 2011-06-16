@@ -24,7 +24,7 @@ class ComPluginsControllerToolbarPlugins extends ComDefaultControllerToolbarDefa
         parent::__construct($config);
        
         $this->reset()
-	  		 ->append('enable')
-	    	 ->append('disable');
+	  		 ->insert('enable')
+	    	 ->insert('disable');
     }
 }

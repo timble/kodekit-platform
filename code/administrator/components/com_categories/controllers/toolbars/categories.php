@@ -23,9 +23,9 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
     {
         parent::__construct($config);
        
-        $this->append('divider')     
-			 ->append('enable', array('text' => 'publish'))
-			 ->append('disable', array('text' => 'unpublish'));
+        $this->insert('divider')     
+			 ->insert('enable', array('text' => 'publish'))
+			 ->insert('disable', array('text' => 'unpublish'));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)

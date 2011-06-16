@@ -23,10 +23,10 @@ class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDe
     {
         parent::__construct($config);
        
-        $this->append('divider')
-			 ->append('enable')
-			 ->append('disable')
-			 ->append('divider')
-			 ->append('preferences');
+        $this->insert('divider')
+			 ->insert('enable')
+			 ->insert('disable')
+			 ->insert('divider')
+			 ->insert('preferences');
     }
 }

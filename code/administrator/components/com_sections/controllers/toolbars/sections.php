@@ -23,9 +23,9 @@ class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDe
     {
         parent::__construct($config);
        
-        $this->append('divider')     
-			 ->append('enable', array('label' => 'publish')))
-			 ->append('disable', array('label' => 'unpublish')));
+        $this->insert('divider')     
+			 ->insert('enable', array('label' => 'publish')))
+			 ->insert('disable', array('label' => 'unpublish')));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)

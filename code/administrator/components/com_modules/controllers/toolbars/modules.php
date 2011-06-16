@@ -23,9 +23,9 @@ class ComModulesControllerToolbarModules extends ComDefaultControllerToolbarDefa
     {
         parent::__construct($config);
        
-        $this->append('divider')
-			 ->append('enable')
-			 ->append('disable');
+        $this->insert('divider')
+			 ->insert('enable')
+			 ->insert('disable');
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)

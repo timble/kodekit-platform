@@ -23,14 +23,14 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
     {
         parent::__construct($config);
        
-        $this->append('divider')
-             ->append('publish')
-             ->append('unpublish')
-             ->append('divider')
-             ->append('archive')
-             ->append('unarchive')
-             ->append('divider')
-             ->append('preferences');
+        $this->insert('divider')
+             ->insert('publish')
+             ->insert('unpublish')
+             ->insert('divider')
+             ->insert('archive')
+             ->insert('unarchive')
+             ->insert('divider')
+             ->insert('preferences');
     }
     
     /*public function getToolbar()

@@ -23,8 +23,8 @@ class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbar
     {
         parent::__construct($config);
        
-        $this->prepend('divider')
-             ->prepend('preview');
+        $this->insert('divider')
+             ->insert('preview');
         
     }
    

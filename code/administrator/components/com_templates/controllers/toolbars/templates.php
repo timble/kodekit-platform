@@ -24,7 +24,7 @@ class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbar
         parent::__construct($config);
        
         $this->reset()
-             ->append('set');
+             ->insert('set');
     }
     
     protected function _commandSet(KControllerToolbarCommand $command)

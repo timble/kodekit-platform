@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: sections.php 592 2011-03-16 00:30:35Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache
@@ -10,31 +10,31 @@
  */
 
 /**
- * Cache Purge Button
+ * Default Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheToolbarButtonPurge extends ComDefaultToolbarButtonDefault
+class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    /**
-     * Initializes the config for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return  void
-     */
-    protected function _initialize(KConfig $config)
+    public function __construct(KConfig $config)
     {
-        $config->append(array(
+        parent::__construct($config);
+       
+        $this->setTitle('Cache Manager')
+		     ->reset()
+		     ->insert('delete')
+		     ->insert('purge');
+    }
+    
+    protected _commandPurge(KControllerToolbarCommand $command)
+    {
+        $command->append(array(
             'attribs' => array(
                 'data-novalidate'   => 'novalidate'
             )
         ));
-        
-        parent::_initialize($config);
     }
 }

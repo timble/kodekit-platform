@@ -28,15 +28,4 @@ class ComCacheViewHtml extends ComDefaultViewHtml
 		
 		parent::__construct($config);
 	}
-	
-    public function display()
-	{
-	    $this->getToolbar()
-	        ->setTitle('Cache Manager')
-		    ->reset()
-		    ->append('delete')
-		    ->append('purge');
-		          
-		return parent::display();
-	}
 }

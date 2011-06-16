@@ -23,8 +23,8 @@ class ComUsersControllerToolbarUsers extends ComDefaultControllerToolbarDefault
     {
         parent::__construct($config);
        
-        $this->append('divider')
-			 ->append('enable')
-			 ->append('disable');
+        $this->insert('divider')
+			 ->insert('enable')
+			 ->insert('disable');
     }
 }
