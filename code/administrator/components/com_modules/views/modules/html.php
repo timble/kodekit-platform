@@ -33,14 +33,7 @@ class ComModulesViewModulesHtml extends ComModulesViewHtml
 	            }
 		    }
 		} 
-		else
-		{
-	        $this->getToolbar()
-			    ->append('divider')
-			    ->append('enable')
-			    ->append('disable');
-		}
-		
+	
 		return parent::display();
 	}
 }

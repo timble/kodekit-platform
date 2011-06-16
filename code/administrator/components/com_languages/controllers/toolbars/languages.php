@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: templates.php 1161 2011-05-11 14:52:09Z johanjanssens $
+ * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Languages
@@ -10,15 +10,23 @@
  */
 
 /**
- * Default Toolbar Button
+ * Languages Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
+class ComLanguagesControllerToolbarLanguages extends ComDefaultControllerToolbarDefault
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->reset()
+			 ->append('set');
+    }
+    
     protected function _commandSet(KControllerToolbarCommand $command)
     {
         $command->label = JText::_('Make Default');

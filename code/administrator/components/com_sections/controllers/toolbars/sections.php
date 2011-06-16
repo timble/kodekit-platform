@@ -10,22 +10,32 @@
  */
 
 /**
- * Default Toolbar Class
+ * Sections Toolbar Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComModulesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
+class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDefault
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->append('divider')     
+			 ->append('enable', array('label' => 'publish')))
+			 ->append('disable', array('label' => 'unpublish')));
+    }
+    
     protected function _commandNew(KControllerToolbarCommand $command)
     {
+        $option  = KRequest::get('get.option', 'cmd');
+		$view	 = KInflector::singularize(KRequest::get('get.view', 'cmd'));
+	
         $command->append(array(
             'attribs' => array(
-                'class' => array('modal'),
-                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
-                'href'	=> 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component'
+                'href'     => JRoute::_('index.php?option='.$option.'&view='.$view.'&scope=content' )
             )
         ));
     }

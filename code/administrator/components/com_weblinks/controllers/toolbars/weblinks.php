@@ -10,25 +10,23 @@
  */
 
 /**
- * View HTML Class
+ * Weblinks Toolbar Class
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
+class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDefault
 {
-	public function display()
-	{
-		$this->getToolbar()
-			->setTitle(JText::_('Weblinks'))
-			->append('divider')
-			->append('enable')
-			->append('disable')
-			->append('divider')
-			->append('preferences');
-
-		return parent::display();
-	}
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->append('divider')
+			 ->append('enable')
+			 ->append('disable')
+			 ->append('divider')
+			 ->append('preferences');
+    }
 }

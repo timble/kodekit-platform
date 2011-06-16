@@ -22,12 +22,7 @@ class ComBannersViewBannersHtml extends ComBannersViewHtml
 {
     public function display()
     { 
-        $this->getToolbar()
-            ->append('divider')
-            ->append('enable')
-            ->append('disable')
-            ->append('divider')
-            ->append('preferences', array('height' => 88));
+       
         
         return parent::display();
     }

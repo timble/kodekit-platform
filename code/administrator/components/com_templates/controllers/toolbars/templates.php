@@ -10,15 +10,23 @@
  */
 
 /**
- * Default Toolbar Button
+ * Templates Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComTemplatesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
+class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbarDefault
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->reset()
+             ->append('set');
+    }
+    
     protected function _commandSet(KControllerToolbarCommand $command)
     {
         $command->label = JText::_('Make Default');

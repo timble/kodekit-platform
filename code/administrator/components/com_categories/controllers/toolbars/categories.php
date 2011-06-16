@@ -10,15 +10,24 @@
  */
 
 /**
- * Default Toolbar Class
+ * Categories Toolbar Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
-class ComCategoriesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
+class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolbarDefault
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->append('divider')     
+			 ->append('enable', array('text' => 'publish'))
+			 ->append('disable', array('text' => 'unpublish'));
+    }
+    
     protected function _commandNew(KControllerToolbarCommand $command)
     {
         $option  = KRequest::get('get.option', 'cmd');

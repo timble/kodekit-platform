@@ -10,15 +10,45 @@
  */
 
 /**
- * Default Toolbar Class
+ * Articles Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
+class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDefault
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+       
+        $this->append('divider')
+             ->append('publish')
+             ->append('unpublish')
+             ->append('divider')
+             ->append('archive')
+             ->append('unarchive')
+             ->append('divider')
+             ->append('preferences');
+    }
+    
+    /*public function getToolbar()
+    {
+        $name = $this->getName();
+
+        $identifier       = clone $this->_identifier;
+        $identifier->path = array('controller', 'toolbar');
+
+        if($this->getModel()->getState()->deleted) {
+            $identifier = 'admin::com.versions.controller.toolbar.default';
+        } else {
+            $identifier->name = $name;
+        }
+
+        return KFactory::get($identifier);
+    }*/
+    
     protected function _commandPublish(KControllerToolbarCommand $command)
     {
         $command->append(array(
