@@ -68,9 +68,9 @@ class ComDefaultViewHtml extends KViewDefault
     public function getToolbar()
     {
         $identifier         = clone $this->_identifier;
-        $identifier->path   = array('toolbar');
+        $identifier->path   = array('controller', 'toolbar');
         $identifier->name   = $this->getName();
-        
+         
         return KFactory::get($identifier);
     }
 }

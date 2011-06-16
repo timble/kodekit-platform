@@ -122,7 +122,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
             $html  = '<td class="button" id="'.$id.'">';
        		$html .= '	<a '.KHelperArray::toString($command->attribs).'>';
         	$html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->text).'"></span>';
-       	    $html .= JText::_($command->text);
+       	    $html .= JText::_($command->label);
        		$html .= '   </a>';
         	$html .= '</td>';
        	}

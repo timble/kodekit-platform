@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultToolbarDefault extends KToolbarDefault
+class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 {
 	/**
      * Constructor
@@ -43,7 +43,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         }
     }
     
-    protected function _commandAction(KToolbarCommand $command)
+    protected function _commandAction(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'    => array(
@@ -52,7 +52,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));
     }
   
-    protected function _commandNew(KToolbarCommand $command)
+    protected function _commandNew(KControllerToolbarCommand $command)
     {
         $option = KRequest::get('get.option', 'cmd');
         $view   = KInflector::singularize(KRequest::get('get.view', 'cmd'));
@@ -64,7 +64,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));
     }
     
-    protected function _commandCancel(KToolbarCommand $command)
+    protected function _commandCancel(KControllerToolbarCommand $command)
     {  
         $command->append(array(
         	'attribs' => array(
@@ -74,7 +74,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));	
     }
     
-    protected function _commandEnable(KToolbarCommand $command)
+    protected function _commandEnable(KControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-publish'; 
         
@@ -86,7 +86,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));
     }
     
-    protected function _commandDisable(KToolbarCommand $command)
+    protected function _commandDisable(KControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-unpublish';
         
@@ -98,7 +98,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));
     }
     
-    protected function _commandExport(KToolbarCommand $command)
+    protected function _commandExport(KControllerToolbarCommand $command)
     {
         $url = clone KRequest::url();
         $query = parse_str($url->getQuery(), $vars);
@@ -116,7 +116,7 @@ class ComDefaultToolbarDefault extends KToolbarDefault
         ));
     }
       
-    protected function _commandPreferences(KToolbarCommand $command)
+    protected function _commandPreferences(KControllerToolbarCommand $command)
     { 
         $command->append(array(
             'width'   => '640',
