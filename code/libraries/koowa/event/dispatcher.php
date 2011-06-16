@@ -44,26 +44,8 @@ class KEventDispatcher extends KObject
 		parent::__construct($config);
 	    
 	    $this->_listeners = array();
-		$this->_event     = $config->event;
 	}
 	
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'event'   => new KEvent(),
-        ));
-
-        parent::_initialize($config);
-    }
- 	
  	/**
      * Dispatches an event by dispatching arguments to all listeners that handle
      * the event and returning their return values.
@@ -77,18 +59,10 @@ class KEventDispatcher extends KObject
         $result = array();
         
         //Make sure we have an event object
-        if(!$event instanceof KEvent) 
-        {
-            $params = $event;
-            $event  = $this->getEvent();
-            foreach ($params as $key => $value) {
-                $event->$key = $value;
-            }
+        if(!$event instanceof KEvent) {
+            $event = new KEvent($name, $event);
         }
-        
-        //Set the event name
-        $event->setName($name);
-            
+             
         //Nofity the listeners
         if(isset($this->_listeners[$name])) 
         {
@@ -213,15 +187,5 @@ class KEventDispatcher extends KObject
         }
         
         return $result;
-    }
-    
-	/**
-     * Factory method for a command context.
-     * 
-     * @return  KCommandContext
-     */
-    public function getEvent()
-    {   
-        return clone $this->_event;
     }
 }
