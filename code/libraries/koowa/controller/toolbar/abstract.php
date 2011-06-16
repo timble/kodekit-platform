@@ -175,7 +175,7 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
      * @param	mixed	Parameters to be passed to the command
      * @return  KToolbarInterface
      */
-    public function append($command, $config = array())
+    public function insert($command, $config = array())
     {
         //Find the command function to call
          if(method_exists($this, '_command'.ucfirst($command))) {
@@ -193,33 +193,7 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
         array_push($this->_commands, $command);
         return $this;
     }
-
-    /**
-     * Prepend a command
-     *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
-     * @return  KToolbarInterface
-     */
-    public function prepend($command, $config = array())
-    {
-        //Find the command function to call
-        if(method_exists($this, '_command'.ucfirst($command))) {
-            $function =  '_command'.ucfirst($command);
-        } else {
-            $function = '_commandAction';
-        }
-        
-        //Create the config object 
-        $command = new KControllerToolbarCommand($command, $config);
-      
-        //Call the command function
-        $this->$function($command);
-        
-        array_unshift($this->_commands, $command);
-        return $this;
-    }
-    
+ 
     /**
      * Reset the commands array
      *

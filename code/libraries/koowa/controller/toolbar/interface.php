@@ -25,20 +25,11 @@ interface KControllerToolbarInterface
     public function getName();
     
     /**
-     * Append a command
+     * Insert a command
      * 
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
      * @return  KToolbarInterface
      */
-    public function append($command, $config = array());
-    
-    /**
-     * Prepend a command
-     *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
-     * @return  KToolbarInterface
-     */
-    public function prepend($command, $config = array());
+    public function insert($command, $config = array());
 }
