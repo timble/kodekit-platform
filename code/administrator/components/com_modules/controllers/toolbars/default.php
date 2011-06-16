@@ -24,8 +24,8 @@ class ComModulesControllerToolbarDefault extends ComDefaultControllerToolbarDefa
         $command->append(array(
             'attribs' => array(
                 'class' => array('modal'),
-                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}'
-                'href'	=> 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component';
+                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
+                'href'	=> 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component'
             )
         ));
     }

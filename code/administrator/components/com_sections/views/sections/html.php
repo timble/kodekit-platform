@@ -24,8 +24,8 @@ class ComSectionsViewSectionsHtml extends ComSectionsViewHtml
    	    $this->getToolbar()
    	        ->setTitle('Sections')
 			->append('divider')     
-			->append('enable', array('label' => 'publish')))
-			->append('disable', array('label' => 'unpublish')));
+			->append('enable', array('label' => 'publish'))
+			->append('disable', array('label' => 'unpublish'));
                                         
 		return parent::display();
 	}
