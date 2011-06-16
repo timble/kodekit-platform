@@ -131,6 +131,18 @@ class KObjectQueue extends KObject implements Iterator, Countable
         
         return $result;
     }
+    
+    /**
+     * Check if the queue has an item with the given priority
+     * 
+     * @param  int 	The priority to search for
+     * @return boolean
+     */
+    public function hasPriority($priority)
+    {
+        $result = array_search($priority, $this->_priority_list);
+        return $result;
+    }
    
  	/**
      * Returns the number of elements in the queue
