@@ -23,8 +23,8 @@ class ComVersionsControllerToolbarDefault extends ComDefaultControllerToolbarDef
 	{
         parent::__construct($config);
 		
-		$this->append('delete')
-			 ->append('restore');
+		$this->insert('delete')
+			 ->insert('restore');
 	}
 	
     protected function _commandRestore(KControllerToolbarCommand $command)
