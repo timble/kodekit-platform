@@ -154,10 +154,6 @@ input.button  { cursor: pointer; }
 	box-flex: 1;
 }
 
-div#content-box.form form {
-	overflow-y: scroll;
-}
-
 div#content-box.default form.-koowa-grid,
 div#content-box.default form.-koowa-form,
 div#content-box.default form[name="adminForm"] {
@@ -168,6 +164,7 @@ div#content-box.form form.-koowa-grid,
 div#content-box.form form.-koowa-form,
 div#content-box.form form[name="adminForm"] {
 	padding: 14px 0;
+	overflow-y: scroll;
 }
 
 form.-koowa-grid,
