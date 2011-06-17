@@ -82,6 +82,12 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         return $html;
     }
     
+    /**
+     * Render the toolbar 
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
     public function toolbar($config = array())
     {
         $config = new KConfig($config);
@@ -91,11 +97,16 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         } else {
           $html = '<div class="toolbar" id="toolbar-'.$this->_toolbar->getName().'">';
         }
-
+        
         $html .= '<table class="toolbar">';
 	    $html .= '<tr>';
-	    foreach ($this->_toolbar->getCommands() as $command) {
-             $html .= $this->button(array('command' => $command));   
+	    foreach ($this->_toolbar as $command) 
+	    {
+            if($command->getName() != 'seperator') { 
+	            $html .= $this->command(array('command' => $command));   
+            } else {
+                $html .= $this->seperator(array('command' => $command));
+            }
        	}
 		$html .= '</tr>';
 		$html .= '</table>';
@@ -105,7 +116,13 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 		return $html;
     }
     
-    public function button($config = array())
+    /**
+     * Render a toolbar command
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function command($config = array())
     {
         $config = new KConfig($config);
         $config->append(array(
@@ -114,19 +131,35 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         
         $command = $config->command;
           
-        if($command->getName() != 'divider') 
-        {	
-			$id = 'toolbar-'.$this->_toolbar->getName().'-'.$command->id;
-			$command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
+        $id = 'toolbar-'.$this->_toolbar->getName().'-'.$command->id;
+		$command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
 			
-            $html  = '<td class="button" id="'.$id.'">';
-       		$html .= '	<a '.KHelperArray::toString($command->attribs).'>';
-        	$html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->text).'"></span>';
-       	    $html .= JText::_($command->label);
-       		$html .= '   </a>';
-        	$html .= '</td>';
-       	}
-       	else $html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
+        $html  = '<td class="button" id="'.$id.'">';
+        $html .= '	<a '.KHelperArray::toString($command->attribs).'>';
+        $html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->text).'"></span>';
+       	$html .= JText::_($command->label);
+       	$html .= '   </a>';
+        $html .= '</td>';
+       	
+    	return $html;
+    }
+    
+	/**
+     * Render a seperator
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function seperator($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+        	'command' => NULL
+        ));
+        
+        $command = $config->command;
+          
+       	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
        	
     	return $html;
     }
