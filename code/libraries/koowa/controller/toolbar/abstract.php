@@ -2,7 +2,8 @@
 /**
 * @version      $Id$
 * @category		Koowa
-* @package		Koowa_Toolbar
+* @package		Koowa_Controller
+* @subpackage 	Toolbar
 * @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
@@ -12,9 +13,9 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
- * @package     Koowa_Toolbar
+ * @package     Koowa_Controller
+ * @subpackage 	Toolbar
  * @uses        KInflector
- * @uses        KMixinClass
  * @uses        KFactory
  */
 abstract class KControllerToolbarAbstract extends KObjectArray implements KObjectIdentifiable
