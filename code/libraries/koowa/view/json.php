@@ -74,7 +74,7 @@ class KViewJson extends KViewAbstract
 	 * model data, if it set it will be returned instead.
 	 * 
 	 * If the model contains a callback state, the callback value will be used to apply 
-	 * padding to the JSON output and the mimetype will be application/javascript.
+	 * padding to the JSON output.
  	 *
 	 *  @return string 	The output of the view
 	 */
@@ -94,9 +94,7 @@ class KViewJson extends KViewAbstract
         }
         
         //Handle JSONP
-        if(!empty($this->_padding))
-        {
-            $this->mimetype   = 'application/javascript';
+        if(!empty($this->_padding)) {
             $this->output     = $this->_padding.'('.$this->output.');';
         }
 
