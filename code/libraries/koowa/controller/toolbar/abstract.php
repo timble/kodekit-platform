@@ -17,7 +17,7 @@
  * @uses        KMixinClass
  * @uses        KFactory
  */
-abstract class KControllerToolbarAbstract extends KObjectArray implements KControllerToolbarInterface, KObjectIdentifiable
+abstract class KControllerToolbarAbstract extends KObjectArray implements KObjectIdentifiable
 {
     /**
      * The toolbar title
