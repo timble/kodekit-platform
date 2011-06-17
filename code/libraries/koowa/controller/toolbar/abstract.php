@@ -76,7 +76,7 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
             'title'         => KInflector::humanize($this->getName()),
             'icon'          => 'generic',
             'controller'    => null,
-            'auto_commands' => true
+            'auto_defaults' => true
         ));
         
         parent::_initialize($config);
