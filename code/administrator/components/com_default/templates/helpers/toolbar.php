@@ -131,7 +131,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         
         $command = $config->command;
           
-        $id = 'toolbar-'.$this->_toolbar->getName().'-'.$command->id;
+        $id = 'toolbar-'.$command->id;
 		$command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
 			
         $html  = '<td class="button" id="'.$id.'">';
