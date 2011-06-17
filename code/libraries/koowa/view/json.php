@@ -20,6 +20,35 @@
  */
 class KViewJson extends KViewAbstract
 {
+ 	/**
+     * The padding for JSONP
+     *
+     * @var string
+     */
+    protected $_padding;
+ 	
+ 	/**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        //Padding can explicitly be turned off by setting to FALSE
+        if(empty($config->padding) && $config->padding !== false)
+        {
+            $state = $this->getModel()->getState();
+            
+            if(isset($state->callback) && (strlen($state->callback) > 0)) {
+                $config->padding = $state->callback;
+            }
+        }
+        
+        $this->_padding = $config->padding;
+    }
+	
 	/**
      * Initializes the config for the object
      *
@@ -32,6 +61,7 @@ class KViewJson extends KViewAbstract
     {
     	$config->append(array(
 			'mimetype'	  => 'application/json',
+    	    'padding'	  => ''
        	));
     	
     	parent::_initialize($config);
@@ -53,7 +83,6 @@ class KViewJson extends KViewAbstract
         if(empty($this->output)) 
         {
             $model = $this->getModel();
-            $state = $model->getState();
 
             if(KInflector::isPlural($this->getName())) {
                 $data = $model->getList();
@@ -62,13 +91,13 @@ class KViewJson extends KViewAbstract
             }
 
             $this->output = json_encode($data->toArray());
-
-            //If callback state is set, then format the output to JSONP
-            if(isset($state->callback) && (strlen($state->callback) > 0))
-            {
-                $this->mimetype   = 'application/javascript';
-                $this->output     = $state->callback.'('.$this->output.');';
-            }
+        }
+        
+        //Handle JSONP
+        if(!empty($this->_padding))
+        {
+            $this->mimetype   = 'application/javascript';
+            $this->output     = $this->_padding.'('.$this->output.');';
         }
 
         return parent::display();
