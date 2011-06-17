@@ -17,21 +17,22 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbarDefault
+class ComTemplatesControllerToolbarTemplate extends ComDefaultControllerToolbarDefault
 {
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
        
-        $this->insert('divider')
-             ->insert('preview');
-        
+        $this->addSeperator()
+             ->addPreview();     
     }
    
     protected function _commandPreview(KControllerToolbarCommand $command)
     {
-        $template  = KRequest::get('get.name', 'cmd');
-        $base      = KRequest::get('get.application', 'cmd', 'site') == 'admin' ? JURI::base() : JURI::root();
+        $state = $this->getController()->getModel()->getState();
+        
+        $template = $state->name;
+        $base     = $state->application == 'site' ? JURI::root() : JURI::base();
         
         $command->append(array(
             'width'   => '640',

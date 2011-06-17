@@ -22,32 +22,31 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-       
-        $this->insert('divider')
-             ->insert('publish')
-             ->insert('unpublish')
-             ->insert('divider')
-             ->insert('archive')
-             ->insert('unarchive')
-             ->insert('divider')
-             ->insert('preferences');
+        
+        $state = $this->getController()->getModel()->getState();
+        
+        if($state->deleted != true) 
+        {
+            $this->addSeperator()
+                 ->addPublish()
+                 ->addUnpublish()
+                 ->addSeperator()
+                 ->addArchive()
+                 ->addUnarchive()
+                 ->addSeperator()
+                 ->addPreferences();
+        }    
+        else $this->addRestore();  
     }
     
-    /*public function getToolbar()
+    protected function _commandRestore(KControllerToolbarCommand $command)
     {
-        $name = $this->getName();
-
-        $identifier       = clone $this->_identifier;
-        $identifier->path = array('controller', 'toolbar');
-
-        if($this->getModel()->getState()->deleted) {
-            $identifier = 'admin::com.versions.controller.toolbar.default';
-        } else {
-            $identifier->name = $name;
-        }
-
-        return KFactory::get($identifier);
-    }*/
+        $command->append(array(
+            'attribs' => array(
+                'data-action' => 'edit',
+            )
+        ));
+    }
     
     protected function _commandPublish(KControllerToolbarCommand $command)
     {

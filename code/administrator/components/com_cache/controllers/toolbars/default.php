@@ -24,9 +24,17 @@ class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefaul
         parent::__construct($config);
        
         $this->setTitle('Cache Manager')
-		     ->reset()
-		     ->insert('delete')
-		     ->insert('purge');
+		     ->addDelete('delete')
+		     ->addPurge();
+    }
+    
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'auto_defaults' => false
+        ));
+        
+        parent::_initialize($config);
     }
     
     protected _commandPurge(KControllerToolbarCommand $command)

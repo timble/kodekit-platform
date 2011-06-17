@@ -23,8 +23,16 @@ class ComLanguagesControllerToolbarLanguages extends ComDefaultControllerToolbar
     {
         parent::__construct($config);
        
-        $this->reset()
-			 ->insert('set');
+        $this->addSet();
+    }
+    
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'auto_commands' => false
+        ));
+        
+        parent::_initialize($config);
     }
     
     protected function _commandSet(KControllerToolbarCommand $command)

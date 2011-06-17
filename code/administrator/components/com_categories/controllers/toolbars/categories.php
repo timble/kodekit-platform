@@ -23,16 +23,16 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
     {
         parent::__construct($config);
        
-        $this->insert('divider')     
-			 ->insert('enable', array('text' => 'publish'))
-			 ->insert('disable', array('text' => 'unpublish'));
+        $this->addSeperator()    
+			 ->addEenable(array('lable' => 'publish'))
+			 ->addDdisable(array('label' => 'unpublish'));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $option  = KRequest::get('get.option', 'cmd');
-		$view	 = KInflector::singularize(KRequest::get('get.view', 'cmd'));
-		$section = KRequest::get('get.section','string');
+        $option  = $this->_identifier->package;
+		$view	 = $this->_identifier->name;
+		$section = $this->getController()->getModel()->get('section');
 		
         $command->append(array(
             'attribs' => array(

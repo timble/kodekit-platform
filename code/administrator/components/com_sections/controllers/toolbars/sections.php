@@ -23,15 +23,15 @@ class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDe
     {
         parent::__construct($config);
        
-        $this->insert('divider')     
-			 ->insert('enable', array('label' => 'publish')))
-			 ->insert('disable', array('label' => 'unpublish')));
+        $this->addSeperator()     
+			 ->addEnable(array('label' => 'publish')))
+			 ->addDisable(array('label' => 'unpublish')));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $option  = KRequest::get('get.option', 'cmd');
-		$view	 = KInflector::singularize(KRequest::get('get.view', 'cmd'));
+        $option  = $this->_identifier->package;
+		$view	 = $this->_identifier->name;
 	
         $command->append(array(
             'attribs' => array(
