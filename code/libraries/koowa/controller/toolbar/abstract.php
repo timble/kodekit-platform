@@ -17,7 +17,7 @@
  * @uses        KMixinClass
  * @uses        KFactory
  */
-abstract class KControllerToolbarAbstract extends KObject implements KControllerToolbarInterface, KObjectIdentifiable
+abstract class KControllerToolbarAbstract extends KObjectArray implements KControllerToolbarInterface, KObjectIdentifiable
 {
     /**
      * The toolbar title
@@ -34,11 +34,11 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
     protected $_icon = '';
      
     /**
-     * Commands in the toolbar
+     * Controller object
      *
      * @var     array
      */
-    protected $_commands = array();
+    protected $_controller = null;
 
     /**
      * Constructor
@@ -51,16 +51,15 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
         if(!isset($config)) $config = new KConfig();
         
         parent::__construct($config);
-
-        // Set the title
-        $title = empty($config->title) ? KInflector::humanize($this->getName()) : $config->title;
-        $this->setTitle($title);
-        
-        // Set the icon
-        $this->setIcon($config->icon);
         
         // Set the controller
         $this->_controller = $config->controller;
+
+        // Set the title
+        $this->setTitle($config->title);
+        
+        // Set the icon
+        $this->setIcon($config->icon);
     }
 
     /**
@@ -74,9 +73,10 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'title'       => null,
-            'icon'        => 'generic',
-            'controller'  => null
+            'title'         => KInflector::humanize($this->getName()),
+            'icon'          => 'generic',
+            'controller'    => null,
+            'auto_commands' => true
         ));
         
         parent::_initialize($config);
@@ -140,7 +140,7 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
      * Set the toolbar's icon
      *
      * @param   string  Icon
-     * @return  KToolbarInterface
+     * @return  KControllerToolbarInterface
      */
     public function setIcon($icon)
     {
@@ -159,49 +159,76 @@ abstract class KControllerToolbarAbstract extends KObject implements KController
     }
     
     /**
-     * Get the toolbar buttons
+     * Add a seperator
      *
-     * @return  array 
+     * @return  KControllerToolbarInterface
      */
-    public function getCommands()
-    {	
-		return $this->_commands;
+    public function addSeperator()
+    {
+        $this[] = new KControllerToolbarCommand('seperator');
+        return $this;
     }
 
     /**
-     * Append a command
+     * Add a command
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  KToolbarInterface
+     * @return  KControllerToolbarInterface
      */
-    public function insert($command, $config = array())
+    public function addCommand($name, $config = array())
     {
+        //Create the config object 
+        $command = new KControllerToolbarCommand($name, $config);
+        
         //Find the command function to call
-         if(method_exists($this, '_command'.ucfirst($command))) {
-            $function =  '_command'.ucfirst($command);
-        } else {
-            $function = '_commandAction';
+        if(method_exists($this, '_command'.ucfirst($name))) 
+        {
+            $function =  '_command'.ucfirst($name);
+            $this->$function($command);
+        } 
+        else 
+        {
+            $command->append(array(
+         		'attribs'    => array(
+               		'data-action'  => $command->getName()
+                )
+            ));
         }
         
-        //Create the config object 
-        $command = new KControllerToolbarCommand($command, $config);
-        
-        //Call the command function
-        $this->$function($command);
-        
-        array_push($this->_commands, $command);
+        $this->$name = $command;
         return $this;
     }
  
     /**
      * Reset the commands array
      *
-     * @return  KToolbarInterface
+     * @return  KConttrollerToolbarInterface
      */
     public function reset()
     {
-        $this->_commands = array();
+        $this->_data = array();
         return $this;
+    }
+    
+ 	/**
+     * Add a command by it's name
+	 *
+     * @param   string  Method name
+     * @param   array   Array containing all the arguments for the original call
+     * @see addCommand()
+     */
+    public function __call($method, $args)
+    {  
+		$parts = KInflector::explode($method);
+
+		if($parts[0] == 'add' && isset($parts[1]))
+		{
+		    $config = isset($args[0]) ? $args[0] : array();	    
+		    $this->addCommand(strtolower($parts[1]), $config);
+			return $this;
+		}
+        
+        return parent::__call($method, $args);
     }
 }
