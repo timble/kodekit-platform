@@ -87,22 +87,25 @@ class ComDefaultDispatcher extends KDispatcherDefault
      */
     protected function _actionRender(KCommandContext $context)
     {
+        //Get the view
         $view  = $this->getController()->getView();
     
+        //Set the document mimetype
         $document = KFactory::get('lib.joomla.document');
         $document->setMimeEncoding($view->mimetype);
         
+        //Render the toolbar and menubar
         if($view instanceof ComDefaultViewHtml)
         {
-            $toolbar = KTemplateHelper::factory('toolbar', array('toolbar' => $this->getController()->getToolbar()));
+            $toolbar = KTemplateHelper::factory('toolbar', array(
+            				'toolbar' => $this->getController()->getToolbar()
+                        ));
 
             //Render the toolbar
-            $document->setBuffer($toolbar->toolbar(), 'modules', 'toolbar');
-            
-            //Render the title            
+            $document->setBuffer($toolbar->toolbar(), 'modules', 'toolbar');     
             $document->setBuffer($toolbar->title(), 'modules', 'title');
             
-            //Render the submenu
+            //Render the menubar
             if(isset($view->views)) 
             {
                 foreach($view->views as $name => $title)
@@ -114,6 +117,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
                 }
             }
             
+            //Hide the menubar
             if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
                 KRequest::set('get.hidemainmenu', 1);
             }      
