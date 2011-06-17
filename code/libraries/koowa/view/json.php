@@ -9,7 +9,10 @@
  */
 
 /**
- * View JSON Class
+ * View JSON Class 
+ * 
+ * The JSON view implements supports for JSONP through the models callback
+ * state. If a callback is present the output will be padded. 
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -37,8 +40,11 @@ class KViewJson extends KViewAbstract
 	/**
 	 * Return the views output
 	 * 
-	 * If the view 'output' variable is empty the output will be generated based on
-	 * the model data, if it set it will be returned instead.
+	 * If the view 'output' variable is empty the output will be generated based on the 
+	 * model data, if it set it will be returned instead.
+	 * 
+	 * If the model contains a callback state, the callback value will be used to apply 
+	 * padding to the JSON output and the mimetype will be application/javascript.
  	 *
 	 *  @return string 	The output of the view
 	 */
@@ -47,6 +53,7 @@ class KViewJson extends KViewAbstract
         if(empty($this->output)) 
         {
             $model = $this->getModel();
+            $state = $model->getState();
 
             if(KInflector::isPlural($this->getName())) {
                 $data = $model->getList();
@@ -55,6 +62,13 @@ class KViewJson extends KViewAbstract
             }
 
             $this->output = json_encode($data->toArray());
+
+            //If callback state is set, then format the output to JSONP
+            if(isset($state->callback) && (strlen($state->callback) > 0))
+            {
+                $this->mimetype   = 'application/javascript';
+                $this->output     = $state->callback.'('.$this->output.');';
+            }
         }
 
         return parent::display();
