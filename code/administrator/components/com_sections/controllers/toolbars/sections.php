@@ -35,7 +35,7 @@ class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDe
 	
         $command->append(array(
             'attribs' => array(
-                'href'     => JRoute::_('index.php?option='.$option.'&view='.$view.'&scope=content' )
+                'href'     => JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&scope=content' )
             )
         ));
     }
