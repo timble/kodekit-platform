@@ -112,7 +112,7 @@ abstract class KViewTemplate extends KViewAbstract
              
         //Set the template filters
         if(!empty($config->template_filters)) {
-            $this->getTemplate()->addFilters($config->template_filters);
+            $this->getTemplate()->addFilter($config->template_filters);
         }
          
         // Set base and media urls for use by the view
