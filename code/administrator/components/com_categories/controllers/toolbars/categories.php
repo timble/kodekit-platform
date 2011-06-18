@@ -24,8 +24,8 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
         parent::__construct($config);
        
         $this->addSeperator()    
-			 ->addEenable(array('label' => 'publish'))
-			 ->addDdisable(array('label' => 'unpublish'));
+			 ->addEnable(array('label' => 'publish'))
+			 ->addDisable(array('label' => 'unpublish'));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
