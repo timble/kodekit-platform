@@ -29,7 +29,7 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	 * @param	array	An associative array of data to be extracted in local template scope
 	 * @return KTemplateAbstract
 	 */
-	public function loadFile($path, $data = array())
+	public function loadFile($path, $data = array(), $process = true)
 	{
 	    //Load from cache or cache the template
 	    $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
@@ -39,12 +39,15 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	    
 	    $identifier = md5($path); 
 	     
-	    if ($template = $cache->get($identifier)) {
-		    $this->loadString($template, $data, $path);
-	    } else {
-	        parent::loadFile($path, $data);
-	    }
-	    
+	    if (!$template = $cache->get($identifier)) 
+	    {
+		    //Load the file
+	        parent::loadFile($path, $data, $process);
+	        
+		    $cache->store($this->_contents, $identifier);
+	    } 
+	    else $this->loadString($template, $data, false);
+	        
 		return $this;
 	}
 	
@@ -80,40 +83,6 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	    return $result;
 	}
 
-	/**
-	 * Pass the data through the filter chain and perform
-	 * 
-	 * This function implements a caching mechanism when reading the template. If
-	 * the tempplate cannot be found in the cache it will be filtered and stored in
-	 * the cache. Otherwise it will be loaded from the cache and returned directly.
-	 *
-	 * @param string	The filter mode
-	 * @return string	The filtered data
-	 */
-	public function filter($mode = KTemplateFilter::MODE_READ)
-	{	
-	    if($mode == KTemplateFilter::MODE_READ)
-        {
-            $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
-		
-		    //Set the lifetime to 0 to make sure cache isn't garbage collected.
-	        $cache->setLifeTime(0);
-	    
-	        $identifier = md5($this->_path);
-	    
-	        if (!$template = $cache->get($identifier)) 
-	        {
-	            $template = parent::filter($mode);
-	            
-	            //Store the object in the cache
-		   	    $cache->store($template, $identifier);
-	        }
-        }
-        else $template = parent::filter($mode);
-	    
-	    return $template;
-	}
-    
     /**
      * Load a template helper
      * 
