@@ -145,8 +145,8 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIndentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
-	 * @return	KControllerAbstract
+	 * @throws	KTemplateException	If the identifier is not a view identifier
+	 * @return	KTemplateAbstract
 	 */
 	public function setView($view)
 	{
@@ -180,9 +180,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template identifier
 	 * @param	array	An associative array of data to be extracted in local template scope
+	 * @param	boolean	Process the string by including it as a stream. Default is TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadIdentifier($template, $data = array())
+	public function loadIdentifier($template, $data = array(), $process = true)
 	{
 	    //Identify the template
 	    $identifier = KFactory::identify($template);
@@ -196,7 +197,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	       $path = dirname(KLoader::path($identifier));
 	    }
 	   
-		$this->loadFile($path.'/'.$file.'.php', $data);
+		$this->loadFile($path.'/'.$file.'.php', $data, $process);
 		
 		return $this;
 	}
@@ -206,9 +207,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template path
 	 * @param	array	An associative array of data to be extracted in local template scope
+	 * @param	boolean	Process the string by including it as a stream. Default is TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadFile($file, $data = array())
+	public function loadFile($file, $data = array(), $process = true)
 	{
 		// find the template 
 		$path = $this->findFile($file);
@@ -217,11 +219,14 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 			throw new KTemplateException( 'Template "' . $file . '" not found' );
 		}
 		
+		// store the path
+		$this->_path = $path;
+		
 		// get the file contents
 		$contents = file_get_contents($path);
 		
 		// load the contents
-		$this->loadString($contents, $data, $file);
+		$this->loadString($contents, $data, $process);
 		
 		return $this;
 	}
@@ -231,49 +236,67 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template contents
 	 * @param	array	An associative array of data to be extracted in local template scope
-	 * @param	string	The template path. If empty the path will be calculated based on the template contents.
+	 * @param	boolean	Process the string data by including it as a stream. Default is TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadString($string, $data = array(), $path = '')
+	public function loadString($string, $data = array(), $process = true)
 	{
-		$this->_contents = $string;
-		$this->_path     = empty($path) ? md5($string) : $path;
-		
+		//Set the data
+	    $this->_contents = $string;
+	
 		// Merge the data
 	    $this->_data = array_merge($this->_data, $data);
-	
+	    
+	    // Process the string data
+	    if($process == true) {
+	        $this->_contents = $this->process();
+	    }
+	     
 		return $this;
 	}
 	
 	/**
-	 * Implement a sandbox to load and render a template
+	 * Implement a sandbox to process a template
 	 * 
 	 * This function passes the template through the read filter chain and then include 
-	 * it in local scope buffers the result and passes it through the write filter chain 
-	 * before returning.
-	 *
-	 * @param  boolean 	If TRUE apply write filters. Default FALSE.
-	 * @return KTemplateAbstract
+	 * it in local scope buffers the result.
+	 * 
+	 * @return 	string
+	 */
+	public function process()
+	{
+	    if(!empty($this->_contents))
+	    {
+	        $key = md5($this->_contents); 
+	    
+	        //Set the template in the template registry
+       	    KFactory::get('lib.koowa.template.registry')->set($key, $this);
+       	
+       	    extract($this->_data, EXTR_SKIP); //extract the data in local scope
+       	
+       	    // Capturing output into a buffer
+		    ob_start();
+		    include 'tmpl://'.$key;
+		    $this->_contents = ob_get_clean();
+		
+		    //Remove the template object from the template registry
+       	    KFactory::get('lib.koowa.template.registry')->del($key);
+	    }
+	    
+       	return $this->_contents;
+	}
+	
+	/**
+	 * Renders the template and returns the result
+ 	 *
+	 * @return 	string
 	 */
 	public function render($filter = false)
 	{	
-		//Set the template in the template registry
-       	KFactory::get('lib.koowa.template.registry')->set($this->_path, $this);
-       	
-       	extract($this->_data, EXTR_SKIP); //extract the data in local scope
-       	
-       	// Capturing output into a buffer
-		ob_start();
-		include 'tmpl://'.$this->_path;
-		$this->_contents = ob_get_clean();
-		
-		if($filter) {
+		if($filter == true) {
 			$this->_contents = $this->filter(KTemplateFilter::MODE_WRITE);
 		}
-	
-		//Remove the template object from the template registry
-       	KFactory::get('lib.koowa.template.registry')->del($this->_path);
-       
+
 		return $this->_contents;
 	}
 
@@ -299,9 +322,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * @param array 	Array of one or more behaviors to add.
 	 * @return KTemplate
 	 */
-	public function addFilters($filters)
+	public function addFilter($filters)
  	{
- 		foreach($filters as $filter)
+ 		$filters = (array) KConfig::toData($filters);
+ 	    
+ 	    foreach($filters as $filter)
 		{
 			if(!($filter instanceof KTemplateFilterInterface)) 
 			{
