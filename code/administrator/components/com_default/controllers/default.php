@@ -19,19 +19,7 @@
  * @subpackage  Default
  */
 class ComDefaultControllerDefault extends KControllerService
-{
-    /**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-        
-        $this->registerCallback(array('after.edit', 'after.delete', 'after.add'), array($this, 'setMessage'));
-    }
-    
+{ 
     /**
      * Initializes the options for the object
      *
@@ -49,45 +37,6 @@ class ComDefaultControllerDefault extends KControllerService
       	parent::_initialize($config);
   	}
        
-    /**
-     * Filter that creates a redirect message based on the action
-     * 
-     * This function takes the row(set) status into account. If the status is STATUS_FAILED the status message information 
-     * us used to generate an appropriate redirect message and set the redirect to the referrer. Otherwise, we generate the 
-     * message based on the action and identifier name.
-     *
-     * @param KCommandContext   The active command context
-     * @return void
-     */
-    public function setMessage(KCommandContext $context)
-    { 
-        /*$data = $context->result;
-        
-        if($status = $data->getStatus()) 
-        {
-            $message = $data->getStatusMessage();
-            
-            if(empty($message))
-            {
-                $name = ucfirst(KInflector::singularize($this->_identifier->name));
-                
-                if($status != KDatabase::STATUS_FAILED)
-                {
-                    $type    = 'message';
-                    $message = JText::_($name. ' ' .$status);
-                }
-                else  
-                {
-                    $type    = 'error';
-                    $message = JText::_($name. ' ' .$context->action.' failed');
-                }
-            } 
-
-            $this->_redirect_type    = $type;
-            $this->_redirect_message = $message;
-        }*/ 
-    }
- 
  	/**
      * Read action
      *
