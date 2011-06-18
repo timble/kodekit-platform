@@ -301,7 +301,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function addFilter($filters)
  	{
- 		$filters = (array) $filters;
+ 		$filters =  (array) KConfig::toData($filters);
  	    
  	    foreach($filters as $filter)
 		{
