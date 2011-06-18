@@ -60,8 +60,6 @@ class ComCategoriesViewHtml extends ComDefaultViewHtml
                 JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section='.$section,true);
         }
 
-	    $this->getToolbar()->setTitle(JText::_(ucfirst($title).' Category Manager'));
-
         return parent::display();
     }
 }
