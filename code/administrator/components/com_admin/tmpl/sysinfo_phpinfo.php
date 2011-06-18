@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
 				ob_end_clean();
 
 				preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-				$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
+				$output = preg_replace('#<table#', '<table align="center"', $output[1][0]);
 				$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 				$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
 				$output = preg_replace('#<hr />#', '', $output);
