@@ -48,7 +48,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <td align="center">
                 	 <?= @helper( 'grid.checkall'); ?>
                 </td>
-                <td>
+                <td colspan="5">
                     <?= @helper( 'grid.search'); ?>
                 </td>
             </tr>
