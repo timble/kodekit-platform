@@ -20,43 +20,37 @@
 
 class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 {
+    public function __get($column)
+    {
+        if($column == 'params' && !($this->_data['params']) instanceof JParameter)
+        {
+	        $file = JPATH_BASE.'/components/com_articles/databases/rows/article.xml';
+			
+			$params	= new JParameter($this->_data['params']);
+			$params->loadSetupFile($file);
+
+			$this->_data['params'] = $params;
+        }
+        
+        if($column == 'text' && !isset($this->_data['text'])) {
+            $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
+        }
+        
+        return parent::__get($column);
+    }
+    
     public function save()
     {
         if(isset($this->_modified['category_id']))
         {
-            if($this->category_id == 0)
-            {
-                $this->section_id = 0;
-            }
-            else
+            if($this->category_id != 0)
             {
                 $this->section_id = KFactory::tmp('admin::com.categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
-            }
-        }
-
-        if($this->created_on && strlen(trim($this->created_on)) <= 10) {
-            $this->created_on .= ' 00:00:00';
-        }
-
-        if(strlen(trim($this->publish_up)) <= 10) {
-            $this->publish_up .= ' 00:00:00';
-        }
-
-        if(trim($this->publish_down) == JText::_('Never') || trim($this->publish_down) == '') {
-            $this->publish_down = $this->getTable()->getDefault('publish_down');
-        } elseif(strlen(trim($this->publish_down)) <= 10) {
-            $this->publish_down .= ' 00:00:00';
-        }
-
-        if(is_array($this->params))
-        {
-            foreach($params as $key => $value) {
-                $attribs[] = $key.'='.$value;
-            }
-
-            $this->attribs = implode(PHP_EOL, $attribs);
+                    
+            } 
+            else $this->section_id = 0;
         }
 
         $text    = str_replace('<br>', '<br />', $this->text);
@@ -69,10 +63,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             $this->introtext = trim($this->introtext);
             $this->fulltext  = trim($this->fulltext);
         }
-        else
-        {
-            $this->introtext = trim($text);
-        }
+        else $this->introtext = trim($text);
 
         if(empty($this->title))
         {
@@ -90,8 +81,8 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
-        if(!empty($this->meta_description)) {
-            $this->meta_description = str_ireplace(array('"', '<', '>'), '', $this->meta_description);
+        if(!empty($this->description)) {
+            $this->description = str_ireplace(array('"', '<', '>'), '', $this->description);
         }
 
         $modified = $this->_modified;
@@ -116,8 +107,6 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             }
         }
 
-        // TODO: Add cache cleaning.
-
         return $result;
     }
 
@@ -133,21 +122,5 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         }
 
         return $result;
-    }
-
-    public function __get($name)
-    {
-        switch($name)
-        {
-            case 'text':
-                
-                if(!isset($this->text)) {
-                    $this->text = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
-                }
-                
-                break;
-        }
-
-        return parent::__get($name);
     }
 }
