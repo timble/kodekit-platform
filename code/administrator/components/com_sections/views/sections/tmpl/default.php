@@ -47,9 +47,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<td>
 					<?= @helper( 'grid.search'); ?>
 				</td>
-				<td align="center"> 
-					<?= @helper('listbox.published', array('name' => 'published')); ?>
-				</td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
