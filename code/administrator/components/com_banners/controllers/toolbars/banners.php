@@ -27,6 +27,6 @@ class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefa
               ->addEnable()
               ->addDisable()
               ->addSeperator()
-              ->addPreferences', array('height' => 88));
+              ->addPreferences(array('height' => 88));
     }
 }
