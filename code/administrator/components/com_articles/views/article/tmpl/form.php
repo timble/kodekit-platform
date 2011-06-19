@@ -75,6 +75,22 @@ defined('KOOWA') or die('Restricted access') ?>
                         <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
                     </td>
                 </tr>
+                <tr>
+                	<td width="40%" class="paramlist_key">
+            	        <label for="publish_up"><?= @text('Start Publishing') ?></label>
+                    </td>
+                    <td class="paramlist_value">
+                        <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
+                    </td>
+                </tr>
+                <tr>
+                	<td width="40%" class="paramlist_key">
+                    	<label for="publish_down"><?= @text('Finish Publishing') ?></label>
+                    </td>
+                    <td class="paramlist_value">
+                        <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="panel">
@@ -112,22 +128,6 @@ defined('KOOWA') or die('Restricted access') ?>
                         </td>
                         <td class="paramlist_value">
                         	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
-                    </tr>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="publish_up"><?= @text('Start Publishing') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                        	<?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="publish_down"><?= @text('Finish Publishing') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                        <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
-                        </td>
                     </tr>
                 </tbody>
             </table>
