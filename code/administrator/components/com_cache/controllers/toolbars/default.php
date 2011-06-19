@@ -37,7 +37,7 @@ class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefaul
         parent::_initialize($config);
     }
     
-    protected _commandPurge(KControllerToolbarCommand $command)
+    protected function _commandPurge(KControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
