@@ -36,12 +36,14 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'category_id'	   => 'catid',
                 'created_on' 	   => 'created',
                 'modified_on'      => 'modified',
-                'meta_description' => 'metadesc',
-                'meta_keywords'    => 'metakey',
-                'meta_data'        => 'metadata'
+                'description'      => 'metadesc',
+                'params'		   => 'attribs'
             ),
             'filters' => array(
-    			'description' => array('html', 'tidy')
+    			'description' => array('html', 'tidy'),
+                'introtext'   => array('html', 'tidy'),
+                'fulltext'    => array('html', 'tidy'),
+                'params'	  => 'ini'
 		    )
         ));
 
