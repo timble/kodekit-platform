@@ -15,7 +15,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.validator') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
-<script src="media://com_articles/js/article.js" />
+<style src="media://system/css/calendar-jos.css" />
 
 <script>
     var categories = <?= json_encode(KFactory::tmp('admin::com.articles.model.categories')->getList()) ?>;
@@ -111,20 +111,14 @@ defined('KOOWA') or die('Restricted access') ?>
                             <label for="created_on"><?= @text('Created Date') ?></label>
                         </td>
                         <td class="paramlist_value">
-                            <? $options = array('format' => '%Y-%m-%d %H:%M:%S') ?>
-
-                            <? if($article->id) $options['date'] = $article->created_on ?>
-                            <?= JHTML::_('calendar', @helper('date.format', $options), 'created_on', 'created_on', $format = '%Y-%m-%d %H:%M:%S',
-                                array('class' => 'inputbox', 'size' => 25, 'maxlength' => '19')) ?>
+                        	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
                     </tr>
                     <tr>
                         <td width="40%" class="paramlist_key">
                             <label for="publish_up"><?= @text('Start Publishing') ?></label>
                         </td>
                         <td class="paramlist_value">
-                            <? if($article->id) $options['date'] = $article->publish_up ?>
-                            <?= JHTML::_('calendar', @helper('date.format', $options), 'publish_up', 'publish_up', $format = '%Y-%m-%d %H:%M:%S',
-                                array('class' => 'inputbox', 'size' => 25, 'maxlength' => '19')) ?>
+                        	<?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
                         </td>
                     </tr>
                     <tr>
@@ -132,10 +126,7 @@ defined('KOOWA') or die('Restricted access') ?>
                             <label for="publish_down"><?= @text('Finish Publishing') ?></label>
                         </td>
                         <td class="paramlist_value">
-                        <? $date = !(int) $article->publish_down ? JText::_('Never') : @helper('date.format',
-                            array('date' => $article->publish_down, 'format' => '%Y-%m-%d %H:%M:%S')) ?>
-                        <?= JHTML::_('calendar', $date, 'publish_down', 'publish_down', $format = '%Y-%m-%d %H:%M:%S',
-                            array('class' => 'inputbox', 'size' => 25, 'maxlength' => '19')) ?>
+                        <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
                         </td>
                     </tr>
                 </tbody>
@@ -151,7 +142,7 @@ defined('KOOWA') or die('Restricted access') ?>
     		<tbody>
         		<tr>
             		<td class="paramlist_value">
-                		<textarea name="meta_description" cols="58" rows="5" class="text_area"><?= $article->meta_description ?></textarea>
+                		<textarea name="description" cols="58" rows="5" class="text_area"><?= $article->description ?></textarea>
             		</td>
         		</tr>
     		</tbody>
