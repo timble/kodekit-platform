@@ -20,24 +20,16 @@
 
 class ComNewsfeedsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-    public function category($config = array())
+    public function category( $config = array())
 	{
-	    $config = new Kconfig($config);
+		$config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'categories',
+			'name' 		=> 'category',
+			'value'		=> 'id',
+			'text'		=> 'title',
+		));
 
-        $list = KFactory::tmp('admin::com.categories.model.categories')
-            ->set('section', 'com_newsfeeds')
-            ->set('limit', 0)
-            ->getList();
-
-        $options   = array();
-        $options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
-
- 		foreach($list as $item) {
-			$options[] =  $this->option(array('text' => $item->title, 'value' => $item->id));
-		}
-
-        $config->options = $options;
-
-        return parent::optionlist($config);
+		return parent::_listbox($config);
 	}
 }
