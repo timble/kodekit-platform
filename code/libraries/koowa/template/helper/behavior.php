@@ -27,16 +27,6 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	protected static $_loaded = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct( KConfig $config = null)
-	{
-		parent::__construct($config);
-	}
-
-	/**
 	 * Method to load the mootools framework into the document head
 	 *
 	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
