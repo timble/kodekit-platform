@@ -16,7 +16,17 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<script src="media://com_articles/js/articles.js" />
+<script>
+window.addEvent('domready', function() {
+	var elForm       = document.id('articles-form');
+	
+	['articles-form-created-by','articles-form-access'].each(function(item) {
+		document.id(item).addEvent('change', function() {
+			elForm.submit();
+		})
+	});
+});
+</script>
 
 <?= @template('default_sidebar'); ?>
 
