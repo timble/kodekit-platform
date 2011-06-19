@@ -4,7 +4,7 @@
 <style src="media://lib_koowa/css/koowa.css" />
 <script src="media://lib_koowa/js/koowa.js" />
 
-<?= @template('default_sidebar', array('categories' => $categories)) ?>
+<?= @template('default_sidebar') ?>
 
 <form action="<?= @route()?>" method="get" class="-koowa-grid">
 	<?= @template('default_filter') ?>
