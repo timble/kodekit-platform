@@ -77,7 +77,7 @@ defined('KOOWA') or die('Restricted access') ?>
                 </tr>
                 <tr>
                 	<td width="40%" class="paramlist_key">
-            	        <label for="publish_up"><?= @text('Start Publishing') ?></label>
+            	        <label for="publish_up"><?= @text('Publish on') ?></label>
                     </td>
                     <td class="paramlist_value">
                         <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
@@ -85,7 +85,7 @@ defined('KOOWA') or die('Restricted access') ?>
                 </tr>
                 <tr>
                 	<td width="40%" class="paramlist_key">
-                    	<label for="publish_down"><?= @text('Finish Publishing') ?></label>
+                    	<label for="publish_down"><?= @text('Unpublish on') ?></label>
                     </td>
                     <td class="paramlist_value">
                         <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
@@ -94,7 +94,7 @@ defined('KOOWA') or die('Restricted access') ?>
             </table>
         </div>
         <div class="panel">
-            <h3><?= @text('Parameters') ?></h3>
+            <h3><?= @text('Details') ?></h3>
             <table width="100%" class="paramlist admintable" cellspacing="1">
                 <tbody>
                     <tr>
@@ -108,15 +108,7 @@ defined('KOOWA') or die('Restricted access') ?>
                     </tr>
                     <tr>
                         <td width="40%" class="paramlist_key">
-                            <label for="created_by_alias"><?= @text('Author Alias') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                            <input type="text" name="created_by_alias" value="<?= $article->created_by_alias ?>" size="25">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="access"><?= @text('Access Level') ?></label>
+                            <label for="access"><?= @text('Visibility') ?></label>
                         </td>
                         <td class="paramlist_value">
                             <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
@@ -124,7 +116,7 @@ defined('KOOWA') or die('Restricted access') ?>
                     </tr>
                     <tr>
                         <td width="40%" class="paramlist_key">
-                            <label for="created_on"><?= @text('Created Date') ?></label>
+                            <label for="created_on"><?= @text('Created on') ?></label>
                         </td>
                         <td class="paramlist_value">
                         	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
