@@ -95,7 +95,7 @@ if(Form && Form.Validator) {
     		        </label>
     		    </td>
     		    <td>
-    			<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $newsfeed->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
+	    			<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $newsfeed->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
     		    </td>
     		</tr>
     		<tr>
