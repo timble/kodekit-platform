@@ -27,48 +27,16 @@ class ComNewsfeedsModelCategories extends ComDefaultModelDefault
 
         parent::_initialize($config);
     }
-
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    
+    protected function _buildQueryWhere(KDatabaseQuery $query)
     {
-		parent::_buildQueryJoins($query);
-		
-		$query->join('LEFT', 'newsfeeds AS newsfeeds', 'newsfeeds.catid = tbl.id');
-    }
-
-	protected function _buildQueryOrder(KDatabaseQuery $query)
-    {
-		parent::_buildQueryOrder($query);
-		
-		$query->order('tbl.ordering', 'DESC');
-    }
-
-	protected function _buildQueryWhere(KDatabaseQuery $query)
-    {
-		parent::_buildQueryWhere($query);
-		
-		$query->where('tbl.section', '=', 'com_newsfeeds')
-			  ->where('tbl.published', '=', '1')
-			  ->where('newsfeeds.published', '=', '1')
-			  ->where('tbl.access', '<=', KFactory::get('lib.joomla.user')->get('aid', '0'));
+        parent::_buildQueryWhere($query);
+        
+        $query->where('tbl.section', '=', 'com_newsfeeds');
     }
     
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            if($table = $this->getTable()) 
-            {
-                $query = $table->getDatabase()->getQuery()
-                    ->distinct()
-                    ->group('tbl.'.$table->mapColumns($column))
-                    ->where('tbl.section', '=', 'com_newsfeeds');
-
-                $this->_buildQueryOrder($query);
-                        
-                $this->_column[$column] = $table->select($query);
-            }
-        }
-            
-        return $this->_column[$column];
-    }
+    protected function _buildQueryOrder(KDatabaseQuery $query)
+    {
+        $query->order('tbl.title', 'ASC');
+    } 
 }
