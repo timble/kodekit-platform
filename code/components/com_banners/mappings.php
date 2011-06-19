@@ -19,4 +19,3 @@
  */
 
 KFactory::map('site::com.banners.model.banners',    'admin::com.banners.model.banners');
-KFactory::map('site::com.banners.model.clicks',     'admin::com.banners.model.banners');

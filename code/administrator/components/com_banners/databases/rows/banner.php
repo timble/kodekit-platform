@@ -44,17 +44,6 @@ class ComBannersDatabaseRowBanner extends KDatabaseRowDefault
     	return parent::__get($column);
     }
     
-    /**
-     * Increases clicks counter
-     * 
-     * @return boolean
-     */
-    public function click()
-    {
-        $this->clicks++;
-        return $this->save();
-    }
-    
 	/**
      * Return an associative array of the data.
      *

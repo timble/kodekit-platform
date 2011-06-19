@@ -26,8 +26,10 @@ class ComBannersControllerBanner extends ComDefaultControllerDefault
 		// Redirect the user if the banner has a url
 		if ($banner->clickurl) 
 		{
-			//Increase click counter
-		    $banner->click();
+			// Increase hit counter
+			if($banner->isHittable()) { 
+			    $banner->hit(); 
+			}
 		    
 		    KFactory::get('lib.joomla.application')->redirect($banner->clickurl);
 			return true;

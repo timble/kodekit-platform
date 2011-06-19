@@ -34,17 +34,10 @@ class ModBannersView extends ModDefaultView
         // Manage tags search
         if ($this->params->get('tag_search')) {
             $model->tags($this->_getKeywords());
-        }    
-           
-       $banners = $model->getList();
-              
-        // Increase impression counter
-        if($banners->isHittable()) { 
-            $banners->hit(); 
         }
                
 	    // Assign vars and render view
-		$this->assign('banners', $banners);    
+		$this->assign('banners', $model->getList());    
          
         return parent::display();
     }
