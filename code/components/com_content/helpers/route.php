@@ -94,7 +94,7 @@ class ContentHelperRoute
 
 	function _findItem($needles)
 	{
-		$component =& JComponentHelper::getComponent('com_content');
+		$component =& JComponentHelper::getComponent('com_articles');
 
 		$menus	= &JApplication::getMenu('site', array());
 		$items	= $menus->getItems('componentid', $component->id);
