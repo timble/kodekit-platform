@@ -260,7 +260,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$this->_contents = $string;
 	
 		// Merge the data
-	    $this->_data = array_merge($this->_data, $data);
+	    $this->_data = array_merge((array) $this->_data, $data);
 	    
 	    // Process the data
 	    if($process == true) {
