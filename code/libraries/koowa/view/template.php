@@ -19,21 +19,7 @@
  * @uses        KFactory
  */
 abstract class KViewTemplate extends KViewAbstract
-{
-    /**
-     * Layout name
-     *
-     * @var     string
-     */
-    protected $_layout;
-    
-    /**
-     * Default Layout name
-     *
-     * @var     string
-     */
-    protected $_layout_default;
-
+{ 
     /**
      * Template identifier (APP::com.COMPONENT.template.NAME)
      *
@@ -54,14 +40,7 @@ abstract class KViewTemplate extends KViewAbstract
      * @var boolean
      */
     protected $_auto_assign;
-    
-    /**
-     * Auto filter
-     *
-     * @var boolean
-     */
-    protected $_auto_filter;
-    
+     
     /**
      * The assigned data
      *
@@ -94,19 +73,10 @@ abstract class KViewTemplate extends KViewAbstract
         
         // set the auto assign state
         $this->_auto_assign = $config->auto_assign;
-        
-        // set the auto filter state
-        $this->_auto_filter = $config->auto_filter;
-        
-        // set the default layout for the view
-        $this->_layout_default = $config->layout_default;
-        
+          
          // user-defined escaping callback
         $this->setEscape($config->escape);
-        
-        // set the layout
-        $this->setLayout($config->layout);
-        
+         
         // set the template object
         $this->_template = $config->template;
              
@@ -145,15 +115,11 @@ abstract class KViewTemplate extends KViewAbstract
         
         $config->append(array(
             'escape'           => 'htmlspecialchars',
-            'layout_default'   => 'default',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link', 'template'),
             'auto_assign'      => true,
-            'auto_filter'	   => false,
             'base_url'         => KRequest::base(),
             'media_url'        => KRequest::root().'/media',
-        ))->append(array(
-            'layout'            => $config->layout_default
         ));
         
         parent::_initialize($config);
@@ -255,7 +221,7 @@ abstract class KViewTemplate extends KViewAbstract
      * Return the views output
      *
      * @param  boolean 	If TRUE apply write filters. Default FALSE.
-     * @return string   The output of the view
+     * @return string 	The output of the view
      */
     public function display()
     {
@@ -263,37 +229,14 @@ abstract class KViewTemplate extends KViewAbstract
 		{
             //We need a full identifier to load the base template
 		    $identifier = clone $this->getIdentifier();
-            $identifier->name = $this->_layout;
+            $identifier->name = $this->getLayout();
 		   
             $this->output = $this->getTemplate()
-                 ->loadIdentifier($identifier, $this->_data)
-                 ->render($this->_auto_filter);
+                                 ->loadIdentifier($identifier, $this->_data)
+                                 ->render();
 		}
                         
         return parent::display();
-    }
-
-    /**
-    * Get the layout.
-    *
-    * @return string The layout name
-    */
-
-    public function getLayout()
-    {
-        return $this->_layout;
-    }
-
-   /**
-    * Sets the layout name to use
-    *
-    * @param    string  The template name.
-    * @return   KViewAbstract
-    */
-    public function setLayout($layout, $default = false)
-    {
-        $this->_layout = $layout;
-        return $this;
     }
 
      /**
