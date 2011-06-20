@@ -43,8 +43,7 @@ class ComSectionsTemplateHelperGrid extends KTemplateHelperGrid
        	$config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 	
-       	$html  = '<script src="media://lib_koowa/js/koowa.js" />';
-      	$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" />';
+      	$html = '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" />';
 
        	return $html;
  	}
