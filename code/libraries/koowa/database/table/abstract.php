@@ -705,7 +705,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                 
                     //Reverse apply the column mappings and set the data in the row
                     $context->data->setData($this->mapColumns($data, true), false)
-                                  ->setStatus(KDatabase::STATUS_INSERTED);
+                                  ->setStatus(KDatabase::STATUS_CREATED);
                 }
                 else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
@@ -747,7 +747,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
             //Get the data and apply the column mappings
             $data = $this->mapColumns($data);
-            
+         
             //Execute the update query
             $context->affected = $this->_database->update($context->table, $data, $query);
             
