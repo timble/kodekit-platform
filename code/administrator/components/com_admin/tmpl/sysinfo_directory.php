@@ -6,7 +6,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.folder');
-$cparams = JComponentHelper::getParams ('com_media');
+$cparams = JComponentHelper::getParams ('com_files');
 $config =& JFactory::getConfig();
 ?>
 		<table>

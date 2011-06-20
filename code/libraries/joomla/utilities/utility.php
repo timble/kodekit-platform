@@ -129,7 +129,7 @@ class JUtility
 			$session->start();
 		} 
 		
-		$hash = JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
+		$hash		= JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
 		return $hash;
 	}
 

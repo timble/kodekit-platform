@@ -32,41 +32,41 @@ class plgButtonImage extends JPlugin
 	function onDisplay($name)
 	{
 		global $mainframe;
-		$params =& JComponentHelper::getParams('com_media');
+		$params =& JComponentHelper::getParams('com_files');
 		
 		//Find out who has permission to upload and change the acl to let them.
 		$acl = & JFactory::getACL();
 		switch ($params->get('allowed_media_usergroup')) 
 		{
 			case '1':
-				$acl->addACL( 'com_media', 'upload', 'users', 'publisher' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'publisher' );
 				break;
 			case '2':
-				$acl->addACL( 'com_media', 'upload', 'users', 'publisher' );
-				$acl->addACL( 'com_media', 'upload', 'users', 'editor' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'publisher' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'editor' );
 				break;
 			case '3': 
-				$acl->addACL( 'com_media', 'upload', 'users', 'publisher' );
-				$acl->addACL( 'com_media', 'upload', 'users', 'editor' );				
-				$acl->addACL( 'com_media', 'upload', 'users', 'author' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'publisher' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'editor' );				
+				$acl->addACL( 'com_files', 'upload', 'users', 'author' );
 				break;								
 			case '4':
-				$acl->addACL( 'com_media', 'upload', 'users', 'publisher' );				
-				$acl->addACL( 'com_media', 'upload', 'users', 'editor' );
-				$acl->addACL( 'com_media', 'upload', 'users', 'author' );
-				$acl->addACL( 'com_media', 'upload', 'users', 'registered' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'publisher' );				
+				$acl->addACL( 'com_files', 'upload', 'users', 'editor' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'author' );
+				$acl->addACL( 'com_files', 'upload', 'users', 'registered' );
 				break;
 		}
 	
 		//Make sure the user is authorized to view this page
 		$user = & JFactory::getUser();
-		if (!$user->authorize( 'com_media', 'popup' )) {
+		if (!$user->authorize( 'com_files', 'popup' )) {
 			return;
 		}
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 
-		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
+		$link = 'index.php?option=com_files&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 
 		JHTML::_('behavior.modal');
 

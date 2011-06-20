@@ -769,7 +769,7 @@ class JApplication extends JObject
 		$db = null;
 
 	    //Set the paths
-		$params = JComponentHelper::getParams('com_media');
+		$params = JComponentHelper::getParams('com_files');
 
 		define('JPATH_FILES'    , JPATH_SITES.'/'.$site);
 	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));

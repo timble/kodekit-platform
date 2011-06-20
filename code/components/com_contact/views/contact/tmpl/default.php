@@ -4,7 +4,7 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$cparams = JComponentHelper::getParams ('com_media');
+$cparams = JComponentHelper::getParams ('com_files');
 ?>
 <?php if ( $this->params->get( 'show_page_title', 1 ) && !$this->contact->params->get( 'popup' ) && $this->params->get('page_title') != $this->contact->name ) : ?>
 	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

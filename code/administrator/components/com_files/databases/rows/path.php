@@ -1,0 +1,32 @@
+<?php
+
+class ComFilesDatabaseRowPath extends KDatabaseRowDefault
+{
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+			'identity_column' => 'identifier'
+		));
+
+		parent::_initialize($config);
+	}
+	public function __get($column)
+	{
+		if ($column == 'path' && !empty($this->_data['path'])) {
+			$result = $this->_data['path'];
+			// Prepend with site root if it is a relative path
+			if (!preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
+				$result = JPATH_ROOT.'/'.$result;
+			}
+			$result = rtrim(str_replace('\\', '/', $result), '\\');
+			return $result;
+		}
+
+		return parent::__get($column);
+	}
+
+	public function __toString()
+	{
+		return (string) $this->path;
+	}
+}

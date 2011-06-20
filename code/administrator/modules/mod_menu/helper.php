@@ -76,7 +76,7 @@ class modMenuHelper
 
 			$query = 'SELECT *' .
 				' FROM #__components' .
-				' WHERE '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				' WHERE '.$db->NameQuote( 'option' ).' <> "com_files"' .
 				' AND enabled = 1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
@@ -136,7 +136,7 @@ class modMenuHelper
 		/*
 		 * Users SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Media'), 'index.php?option=com_media', 'class:media'), true);
+		$menu->addChild(new JMenuNode(JText::_('Files'), 'index.php?option=com_files', 'class:files'), true);
 		$menu->getParent();
 		
 		/*
@@ -230,7 +230,7 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Components'), null, 'disabled'));
 
 		// Components SubMenu
-		$menu->addChild(new JMenuNode(JText::_('Media'), null, 'disabled'));
+		$menu->addChild(new JMenuNode(JText::_('Files'), null, 'disabled'));
 		
 		// Content SubMenu
 		$menu->addChild(new JMenuNode(JText::_('Users'), null, 'disabled'));

@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-$cparams =& JComponentHelper::getParams('com_media');
+$cparams =& JComponentHelper::getParams('com_files');
 ?>
 <?php if ($this->params->get('show_page_title')) : ?>
 <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

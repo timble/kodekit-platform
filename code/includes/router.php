@@ -105,7 +105,7 @@ class JRouterSite extends JRouter
 				$route = str_replace('index.php/', '', $route);
 			}
 		}
-		
+
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
 
@@ -163,17 +163,17 @@ class JRouterSite extends JRouter
 
 		$menu  =& JSite::getMenu(true);
 		$route = $uri->getPath();
-		
+
 		//Get the variables from the uri
 		$vars = $uri->getQuery(true);
-		
+
 		//Remove the site from the route
 		$site  = JFactory::getApplication()->getSite();
 		$route = ltrim(str_replace($site, '', $route), '/');
-		
+
 		/*
 		 * Parse the application route
-		 */ 
+		 */
 		if(substr($route, 0, 2) == '!+')
 		{
 			$segments	= explode('/', $route);
@@ -186,11 +186,11 @@ class JRouterSite extends JRouter
 		{
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
-			
+
 			foreach ($items as $item)
 			{
 				$lenght = strlen($item->route); //get the lenght of the route
-				
+
 				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
 				{
 					$route   = substr($route, $lenght);
@@ -202,7 +202,7 @@ class JRouterSite extends JRouter
 				}
 			}
 		}
-		
+
 		// Set the active menu item
 		if ( isset($vars['Itemid']) ) {
 			$menu->setActive(  $vars['Itemid'] );
@@ -253,7 +253,7 @@ class JRouterSite extends JRouter
 				$vars = $item->query;
 			}
 		}
-	
+
 		return $vars;
 	}
 
@@ -262,7 +262,7 @@ class JRouterSite extends JRouter
 	    $site = JFactory::getApplication()->getSite();
 	    if($site != 'default') {
 	        $uri->setVar('site', $site);
-	    }
+	}
 	}
 
 	function _buildSefRoute(&$uri)
@@ -309,7 +309,7 @@ class JRouterSite extends JRouter
 					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
 				}
 			}
-			
+
 			$result = implode('/', $parts);
 			$tmp	= ($result != "") ? '/'.$result : '';
 		}
@@ -331,7 +331,7 @@ class JRouterSite extends JRouter
 		if(!$built) {
 			$tmp = '!+/'.substr($query['option'], 4).'/'.$tmp;
 		}
-		
+
 		//Add the site
 	    $site = JFactory::getApplication()->getSite();
 	    if($site != 'default') {

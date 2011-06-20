@@ -130,19 +130,19 @@ class JAuthorization extends gacl_api
 		// uncomment following to allow managers to edit modules
 		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
 		
-		$this->addACL( 'com_media', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'com_media', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_media', 'manage', 'users', 'manager' );
-		$this->addACL( 'com_media', 'popup', 'users', 'super administrator' );
-		$this->addACL( 'com_media', 'popup', 'users', 'administrator' );
-		$this->addACL( 'com_media', 'popup', 'users', 'manager' );
-		$this->addACL( 'com_media', 'popup', 'users', 'registered' );
-		$this->addACL( 'com_media', 'popup', 'users', 'author' );
-		$this->addACL( 'com_media', 'popup', 'users', 'editor' );
-		$this->addACL( 'com_media', 'popup', 'users', 'publisher' );
-		$this->addACL( 'com_media', 'upload', 'users', 'super administrator' );
-		$this->addACL( 'com_media', 'upload', 'users', 'administrator' );
-		$this->addACL( 'com_media', 'upload', 'users', 'manager' );
+		$this->addACL( 'com_files', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_files', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_files', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_files', 'popup', 'users', 'super administrator' );
+		$this->addACL( 'com_files', 'popup', 'users', 'administrator' );
+		$this->addACL( 'com_files', 'popup', 'users', 'manager' );
+		$this->addACL( 'com_files', 'popup', 'users', 'registered' );
+		$this->addACL( 'com_files', 'popup', 'users', 'author' );
+		$this->addACL( 'com_files', 'popup', 'users', 'editor' );
+		$this->addACL( 'com_files', 'popup', 'users', 'publisher' );
+		$this->addACL( 'com_files', 'upload', 'users', 'super administrator' );
+		$this->addACL( 'com_files', 'upload', 'users', 'administrator' );
+		$this->addACL( 'com_files', 'upload', 'users', 'manager' );
 
 		$this->addACL( 'com_menus', 'manage', 'users', 'administrator' );
 		$this->addACL( 'com_menus', 'manage', 'users', 'super administrator' );

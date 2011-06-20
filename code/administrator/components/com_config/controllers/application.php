@@ -243,7 +243,7 @@ class ConfigControllerApplication extends ConfigController
 		}
 
 		$mediapost['params'] = JRequest::getVar('mediaparams', array(), 'post', 'array');
-		$mediapost['option'] = 'com_media';
+		$mediapost['option'] = 'com_files';
 		//Sanitize $file_path
 		$image_path  = $mediapost['params']['image_path'];
 		if(strpos($image_path, '/') === 0 || strpos($image_path, '\\') === 0) {
@@ -257,7 +257,7 @@ class ConfigControllerApplication extends ConfigController
 		$mediapost['params']['image_path'] = $image_path;
 		$mediapost['params']['file_path'] = $image_path;
 
-		$table->loadByOption( 'com_media' );
+		$table->loadByOption( 'com_files' );
 		$table->bind( $mediapost );
 
 		// pre-save checks

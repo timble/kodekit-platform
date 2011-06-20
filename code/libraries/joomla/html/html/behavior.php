@@ -226,11 +226,8 @@ class JHTMLBehavior
 		$script = array(
 			'window.addEvent("domready", function() {',
 			'	SqueezeBox.initialize('.JHTMLBehavior::_getJSObject($opt).');',
-			'	$$("'.$selector.'").each(function(el) {',
-			'		el.addEvent("click", function(e) {',
-			'			new Event(e).stop();',
-			'			SqueezeBox.fromElement(el);',
-			'		});',
+			'	SqueezeBox.assign($$("'.$selector.'"), {',
+			'		parse: "rel"',
 			'	});',
 			'});'
 		);
