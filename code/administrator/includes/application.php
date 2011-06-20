@@ -170,7 +170,7 @@ class JAdministrator extends JApplication
 
 		//Make images paths absolute
 		$site = $this->getSite();
-		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES), $data);
+		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES), $data);
 
 		JResponse::setBody($data);
 	}

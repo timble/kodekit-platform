@@ -201,7 +201,7 @@ class JSite extends JApplication
 		$data = $document->render( $this->getCfg('caching'), $params);
 	
 		//Make images paths absolute
-		$path = JURI::root(true).'/'.str_replace(JPATH_ROOT.'/', '', JPATH_IMAGES.'/');
+		$path = JURI::root(true).'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
 		
 		$data = str_replace(JURI::base().'images/', $path, $data);
 		$data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
