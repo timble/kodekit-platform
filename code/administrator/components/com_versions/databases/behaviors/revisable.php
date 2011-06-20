@@ -119,8 +119,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableInsert(KCommandContext $context)
     {
-    	if($this->_countRevisions(KDatabase::STATUS_INSERTED) == 0) {
-    		$this->_insertRevision(KDatabase::STATUS_INSERTED);
+    	if($this->_countRevisions(KDatabase::STATUS_CREATED) == 0) {
+    		$this->_insertRevision(KDatabase::STATUS_CREATED);
     	}
     }
 
@@ -138,7 +138,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	if($this->getTable()->count($this->id))
     	{
     	    if ($this->_countRevisions() == 0) {
-            	$this->_insertRevision(KDatabase::STATUS_INSERTED);
+            	$this->_insertRevision(KDatabase::STATUS_CREATED);
         	}
     	}
     	else
@@ -189,7 +189,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
    		if ($this->getTable()->count($this->id))
    		{
    			if($this->_countRevisions() == 0) {
-           		 $this->_insertRevision(KDatabase::STATUS_INSERTED);
+           		 $this->_insertRevision(KDatabase::STATUS_CREATED);
    			}
         }
         else
