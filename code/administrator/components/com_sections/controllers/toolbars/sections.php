@@ -31,7 +31,7 @@ class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDe
     protected function _commandNew(KControllerToolbarCommand $command)
     {
         $option  = $this->_identifier->package;
-		$view	 = $this->_identifier->name;
+		$view	 = KInflector::singularize($this->_identifier->name);
 	
         $command->append(array(
             'attribs' => array(
