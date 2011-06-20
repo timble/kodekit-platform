@@ -134,14 +134,17 @@ abstract class KControllerResource extends KControllerAbstract
 		        $this->setView($this->_view);
 			}
 			
-		    //Enable the auto-filtering if the controller was dispatched or 
-			//if the MVC triad was called outside of the dispatcher.
+			//Create the view
 			$config = array(
-			    'model'        => $this->getModel(),
-			    'auto_filter'  => $this->isDispatched() || !KFactory::has('dispatcher')
+			    'model'  => $this->getModel(),
         	);
         	
 			$this->_view = KFactory::tmp($this->_view, $config);
+			
+			//Set the layout
+			if(isset($this->_request->layout)) {
+        	    $this->_view->setLayout($this->_request->layout);
+        	} 
 			
 			//Make sure the view exists
 		    if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
@@ -350,17 +353,8 @@ abstract class KControllerResource extends KControllerAbstract
 	 */
 	protected function _actionGet(KCommandContext $context)
 	{
-		$view = $this->getView();
-	
-        //Set the layout in the view
-	    if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-            $view->setLayout($this->_request->layout);
-	     }
-	     
-	    //Render the view
-        $result = $view->display();
-	     
-		return $result;
+		$result = $this->getView()->display();   
+	    return $result;
 	}
 	
 	/**
