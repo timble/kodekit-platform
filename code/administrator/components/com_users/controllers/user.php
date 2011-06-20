@@ -69,7 +69,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     
     public function notify(KCommandContext $context)
     {
-        if($context->result->status == KDatabase::STATUS_INSERTED)
+        if($context->result->status == KDatabase::STATUS_CREATED)
         {
             $application = KFactory::get('lib.joomla.application');
 
