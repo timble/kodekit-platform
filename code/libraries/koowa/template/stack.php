@@ -38,7 +38,7 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
     { 
         parent::__construct($config);
         
-        $this->_object_stack = new ArrayObject();
+        $this->_object_stack = array();
     }
     
     /**
@@ -88,7 +88,7 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
      */
     public function push(KTemplateAbstract $template)
     {
-        $this->_object_stack->append($template);
+        $this->_object_stack[] = $template;
         return $this;
     }
     
@@ -111,6 +111,16 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
     {
         return array_pop($this->_object_stack);
     } 
+    
+	/**
+     * Counts the number of elements
+     * 
+     * @return integer	The number of elements
+     */
+    public function count()
+    {
+        return count($this->_object_stack);
+    }
 
     /**
      * Check to see if the registry is empty
@@ -120,5 +130,5 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
     public function isEmpty()
     {
         return empty($this->_object_stack);
-    }
+    }  
 }
