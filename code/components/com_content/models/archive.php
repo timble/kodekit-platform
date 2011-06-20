@@ -147,7 +147,7 @@ class ContentModelArchive extends JModel
 		// Get the page/component configuration
 		$params = $this->getState('parameters.menu');
 		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
+			$params = &JComponentHelper::getParams('com_articles');
 		}
 
 		// Special ordering for archive articles

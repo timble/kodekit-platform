@@ -147,7 +147,7 @@ class ContentModelFrontpage extends JModel
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
+			$params = &JComponentHelper::getParams('com_articles');
 		}
 
 		$orderby_sec	= $params->def('orderby_sec', '');

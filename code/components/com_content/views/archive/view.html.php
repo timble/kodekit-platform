@@ -42,7 +42,7 @@ class ContentViewArchive extends ContentView
 		$document	=& JFactory::getDocument();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams('com_content');
+		$params = &$mainframe->getParams('com_articles');
 
 		// Request variables
 		$task 		= JRequest::getCmd('task');

@@ -41,7 +41,7 @@ class ContentViewCategory extends ContentView
 		$menu  = $menus->getActive();
 
 		// Get the page/component configuration
-		$params = clone($mainframe->getParams('com_content'));
+		$params = clone($mainframe->getParams('com_articles'));
 
 		// Request variables
 		$layout     = JRequest::getCmd('layout');
@@ -77,7 +77,7 @@ class ContentViewCategory extends ContentView
 
 		JRequest::setVar('limit', (int) $limit);
 
-		$contentConfig = &JComponentHelper::getParams('com_content');
+		$contentConfig = &JComponentHelper::getParams('com_articles');
 		$params->def('show_page_title', 	$contentConfig->get('show_title'));
 
 		// Get some data from the model

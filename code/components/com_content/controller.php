@@ -209,7 +209,7 @@ class ContentController extends JController
 		if (!$isNew)
 		{
 			// If the article isn't new, then we need to clean the cache so that our changes appear realtime :)
-			$cache = &JFactory::getCache('com_content');
+			$cache = &JFactory::getCache('com_articles');
 			$cache->clean();
 		}
 

@@ -34,7 +34,7 @@ class ContentViewArticle extends ContentView
 		$document	=& JFactory::getDocument();
 		$dispatcher	=& JDispatcher::getInstance();
 		$pathway	=& $mainframe->getPathway();
-		$params		=& $mainframe->getParams('com_content');
+		$params		=& $mainframe->getParams('com_articles');
 
 		// Initialize variables
 		$article	=& $this->get('Article');

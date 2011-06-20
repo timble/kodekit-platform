@@ -353,7 +353,7 @@ class ContentModelArticle extends JModel
 
 		// Filter settings
 		jimport( 'joomla.application.component.helper' );
-		$config	= JComponentHelper::getParams( 'com_content' );
+		$config	= JComponentHelper::getParams( 'com_articles' );
 		$user	= &JFactory::getUser();
 		$gid	= $user->get( 'gid' );
 
@@ -489,7 +489,7 @@ class ContentModelArticle extends JModel
 		global $mainframe;
 
 		// Get the page/component configuration
-		$params = clone($mainframe->getParams('com_content'));
+		$params = clone($mainframe->getParams('com_articles'));
 
 		// Merge article parameters into the page configuration
 		$aparams = new JParameter($this->_article->attribs);
