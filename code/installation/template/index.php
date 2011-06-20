@@ -24,7 +24,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div id="header-box">
 			<div class="container_16 clearfix">
 				<div class="grid_16">
-					<div id="version">v<?php echo JVERSION ?></div>
+					<div id="version">v<?php echo Koowa::getVersion() ?></div>
 					<span><?php echo JText::_('Installation') ?> <?php echo JText::_('of') ?> Nooku Server</span>
 				</div>
 			</div>

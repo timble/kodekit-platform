@@ -25,7 +25,7 @@
 	<div id="content-box">
 		<div class="container_16 clearfix">
 			<div class="grid_16">
-				<h2><?php echo JText::_('preTitle') ?> <?php echo $this->version ?>:</h2>
+				<h2><?php echo JText::_('preTitle') ?> Nooku <?php echo Koowa::getVersion() ?>:</h2>
 				<div class="install-text grid_6">
 					<?php echo JText::_('tipPreinstall') ?>
 				</div>
