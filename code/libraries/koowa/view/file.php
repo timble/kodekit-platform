@@ -92,7 +92,7 @@ class KViewFile extends KViewAbstract
     /**
      * Return the views output
      *
-     * @return KViewFile
+     * @return void
      */
     public function display()
     {
