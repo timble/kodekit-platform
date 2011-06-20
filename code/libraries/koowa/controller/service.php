@@ -123,7 +123,7 @@ abstract class KControllerService extends KControllerResource
 	}
 	
 	/**
-	 * Browse a list of items
+	 * Generic browse action, fetches a list
 	 * 
 	 * @param	KCommandContext	A command context object
 	 * @return 	KDatabaseRowset	A rowset object containing the selected rows
@@ -135,7 +135,7 @@ abstract class KControllerService extends KControllerResource
 	}
 
 	/**
-	 * Display a single item
+	 * Generic read action, fetches an item
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	KDatabaseRow	A row object containing the selected row
@@ -244,8 +244,8 @@ abstract class KControllerService extends KControllerResource
 	 * This function translates a GET request into a read or browse action. If the view name is 
 	 * singular a read action will be executed, if plural a browse action will be executed.
 	 * 
-	 * This function will not render anything the result of the read or browse action is not a 
-	 * row or rowset object
+	 * If the result of the read or browse action is not a row or rowset object the fucntion will
+	 * passthrough the result, request the attached view to render itself.
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
@@ -256,22 +256,14 @@ abstract class KControllerService extends KControllerResource
 	    $action = KInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 	    
 	    //Execute the action
-		$data = $this->execute($action, $context);
+		$result = $this->execute($action, $context);
 		
 		//Only process the result if a valid row or rowset object has been returned
-		if(($data instanceof KDatabaseRowInterface) || ($data instanceof KDatabaseRowsetInterface))
-		{
-            $view = $this->getView();
-		   
-            if($view instanceof KViewTemplate && isset($this->_request->layout)) {
-                $view->setLayout($this->_request->layout);
-            }
-		    
-            //Render the view
-            $data = $view->display();
+		if(($result instanceof KDatabaseRowInterface) || ($result instanceof KDatabaseRowsetInterface)) {
+            $result = parent::_actionGet($context);
 		}
 		
-		return $data;
+		return (string) $result;
 	}
 	
 	/**
