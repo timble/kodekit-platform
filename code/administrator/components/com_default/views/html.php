@@ -53,8 +53,8 @@ class ComDefaultViewHtml extends KViewDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'views'             =>  array(),
-            'layout_default'    => KInflector::isSingular($this->getName()) ? 'form' : 'default'
+            'views'  =>  array(),
+            'layout' => KInflector::isSingular($this->getName()) ? 'form' : 'default'
         ));
         
         parent::_initialize($config);
