@@ -215,8 +215,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
         } else {
 	       $path = dirname(KLoader::path($identifier));
 	    }
+	    
+	    // Find the template 
+		$file = $this->findFile($path.'/'.$file.'.php');
+	    
+		if ($file === false) {
+			throw new KTemplateException( 'Template "' . $file . '" not found' );
+		}
 	   
-		$this->loadFile($path.'/'.$file.'.php', $data, $process);
+		// Load the file
+		$this->loadFile($file, $data, $process);
 		
 		return $this;
 	}
@@ -231,18 +239,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function loadFile($file, $data = array(), $process = true)
 	{
-		// find the template 
-		$path = $this->findFile($file);
-	    
-		if ($path === false) {
-			throw new KTemplateException( 'Template "' . $file . '" not found' );
-		}
-		
 		// store the path
-		$this->_path  = $path;
+		$this->_path  = $file;
 		
 		// get the file contents
-		$contents = file_get_contents($path);
+		$contents = file_get_contents($file);
 		
 		// load the contents
 		$this->loadString($contents, $data, $process);
