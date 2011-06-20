@@ -79,9 +79,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		//Register the template stream wrapper
 		KTemplateStream::register();
 		
-		//Set the template search paths
-		$this->_paths = KConfig::toData($config->paths);
-		
 		 // Mixin a command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
@@ -99,7 +96,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     	$config->append(array(
     		'stack'				=> KFactory::get('lib.koowa.template.stack'),
     		'view '				=> null,
-    		'paths'				=> array(),
             'command_chain' 	=> new KCommandChain(),
     		'dispatch_events'   => false,
     		'enable_callbacks' 	=> false,
