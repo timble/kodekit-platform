@@ -258,7 +258,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Syncronize ACL.
 		$acl = KFactory::get('lib.joomla.acl');
 
-		if($this->_status == KDatabase::STATUS_INSERTED)
+		if($this->_status == KDatabase::STATUS_CREATED)
 		{
 			$acl->add_object('users', $this->name, $this->id, null, null, 'ARO');
 			$acl->add_group_object($this->users_group_id, 'users', $this->id, 'ARO');
