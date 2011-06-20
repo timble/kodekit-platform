@@ -26,7 +26,7 @@ class ComCacheModelKeys extends KModelAbstract
 		$this->_state
 		    ->insert('name'  , 'cmd')
 		    ->insert('hash'  , 'cmd')
-		    ->insert('group' , 'cmd')
+		    ->insert('group' , 'url')
 		    ->insert('site'  , 'cmd', 'default')
 		 	->insert('limit' , 'int')
             ->insert('offset', 'int')
