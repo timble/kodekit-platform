@@ -76,16 +76,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
 			</td>
 		</tr>
-		<tr>
-			<td valign="top" align="right" class="key">
-				<label for="ordering">
-					<?= JText::_( 'Ordering' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?= @helper('listbox.ordering'); ?>
-			</td>
-		</tr>
 		</table>
 	</div>
 </div>

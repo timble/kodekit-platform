@@ -108,24 +108,6 @@ if(Form && Form.Validator) {
 	    			<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $newsfeed->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
     		    </td>
     		</tr>
-    		<tr>
-    		    <td class="key">
-    		        <label for="ordering">
-    		            <?= @text( 'Ordering' ) ?>
-    		        </label>
-    		    </td>
-    		    <td>
-    		        <div id="orderable">
-    		             <? if( $newsfeed->id ) : ?>
-    		                <?= @helper('admin::com.categories.template.helper.listbox.order',array( 'filter' => array(
-    		                    'parent' => 'com_newsfeeds'
-    		                )));
-    		            elseif ( substr($state->section, 0, 3) == 'com'):
-    		               echo @template('form_orderable');
-    		            endif  ?>
-    		        </div>
-    		    </td>
-    		</tr>
     		</table>
     	</div>
     </div>

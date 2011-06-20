@@ -73,14 +73,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         		</tr>
         		<tr>
         			<td valign="top" class="key">
-        				<?= @text('Order') ?>:
-        			</td>
-        			<td>
-        				<?= @helper('listbox.ordering') ?>
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
         				<?= @text('Description') ?>:
         			</td>
         			<td>

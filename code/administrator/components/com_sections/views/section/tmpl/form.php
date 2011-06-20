@@ -51,16 +51,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					</td>
 				</tr>
 				<tr>
-					<td class="key">
-						<label for="ordering">
-							<?= @text( 'Ordering' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?= $section->id ? @helper('admin::com.categories.template.helper.listbox.order', array('package'=>'sections')) : ''; ?>
-					</td>
-				</tr>
-				<tr>
 					<td nowrap="nowrap" class="key">
 						<label for="access">
 							<?= @text( 'Access Level' ); ?>:

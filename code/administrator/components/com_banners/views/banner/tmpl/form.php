@@ -104,25 +104,6 @@ window.addEvent('domready', function(){
         	            </td>
         	        </tr>
         	        <tr>
-        	            <td class="key">
-        	                <label for="ordering">
-        	                    <?= @text( 'Ordering' ) ?>:
-        	                </label>
-        	            </td>
-        	            <td>
-        	                <div id="orderable">
-        	                   <? if($banner->id): ?>
-                                    <?= @helper('admin::com.categories.template.helper.listbox.order',
-                                    array(
-                                        'package' => 'banners', 
-                                        'filter' => array(
-                                        'category' => $banner->catid 
-                                    ))); ?>
-                                <? endif ?>
-        	                </div>
-        	            </td>
-        	        </tr>
-        	        <tr>
         	            <td valign="top" align="right" class="key">
         	                <label for="catid">
         	                    <?= @text( 'Category' ) ?>:
@@ -130,12 +111,11 @@ window.addEvent('domready', function(){
         	            </td>
         	            <td>
         	                <input type="hidden" name="old_parent" value="<?= $banner->catid ?>" />
-        	                <?= @helper('listbox.categories', array('name' => 'catid', 'attribs' => array('id' => 'catid', 'class' => 'inputbox required',
-        	                 'onchange' => "var url = '"
-                                        	.@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
-                                        	."&category='+$('catid').value;
-                                                       new Ajax(url , {method: 'get',update: $('orderable')}).request();"
-        	                ), 'selected' => $banner->catid )) ?>
+        	                <?= @helper('listbox.categories', array(
+								'name' => 'catid', 
+								'attribs' => array('id' => 'catid', 'class' => 'inputbox required'), 
+								'selected' => $banner->catid 
+							)) ?>
         	            </td>
         	        </tr>
         	        <tr>

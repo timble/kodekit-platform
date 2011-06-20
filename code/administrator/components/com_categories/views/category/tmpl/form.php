@@ -64,11 +64,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                                     'column'     => 'section_id',
                                     'attribs'    => array(
                                         'id'       => 'section_id',
-                                        'class'    => 'required',
-                                        'onchange' => "var url = '"
-                                            .@route('&id=&layout=form_orderable&tmpl=component&format=ajax')
-                                            ."&section='+$('section_id').value;
-                                                   new Ajax(url , {method: 'get',update: $('orderable')}).request();"
+                                        'class'    => 'required'
                                     )
                                 )); ?>
                     	    </td>
@@ -76,25 +72,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <? else : ?>
                             <input type="hidden" name="section_id" value="<?= $category->id ? $category->section_id : $state->section; ?>" />
                 	<? endif;  ?>
-                	<tr>
-                    	<td class="key">
-                            <label for="ordering">
-                                <?= @text( 'Ordering' ); ?>:
-                            </label>
-                    	</td>
-                    	<td>
-                    	    <div id="orderable">
-								 <? if( $category->id ) : ?>
-                                    <?= @helper('listbox.order',
-                                    array( 'filter' => array(
-                                        'section' => $category->section_id
-                                    )));
-                                elseif ( substr($state->section, 0, 3) == 'com' && $state->section != 'com_content'):
-                                   echo @template('form_orderable');
-                                endif  ?>
-                            </div>
-                    	</td>
-                	</tr>
                 <tr>
                     <td valign="top" class="key">
                         <label for="access">
