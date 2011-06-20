@@ -40,6 +40,13 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 * @var string
 	 */
 	public $mimetype = '';
+	
+	/**
+     * Layout name
+     *
+     * @var     string
+     */
+    protected $_layout;
 
 	/**
 	 * Constructor
@@ -61,6 +68,9 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 
 		// set the model
 		$this->setModel($config->model);
+		
+		// set the layout
+        $this->setLayout($config->layout);
 	}
 
     /**
@@ -74,9 +84,10 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-			'model'   		=> $this->getName(),
-	    	'output'		=> '',
-    		'mimetype'		=> ''
+			'model'   	=> $this->getName(),
+	    	'output'	=> '',
+    		'mimetype'	=> '',
+            'layout'    => 'default',
 	  	));
         
         parent::_initialize($config);
@@ -102,6 +113,16 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	{
 		$total = count($this->_identifier->path);
 		return $this->_identifier->path[$total - 1];
+	}
+	
+	/**
+	 * Get the format
+	 *
+	 * @return 	string 	The format of the view
+	 */
+	public function getFormat()
+	{
+		return $this->_identifier->name;
 	}
 
 	/**
@@ -170,6 +191,28 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		
 		return $this;
 	}
+	
+ 	/**
+    * Get the layout.
+    *
+    * @return string The layout name
+    */
+    public function getLayout()
+    {
+        return $this->_layout;
+    }
+
+   /**
+    * Sets the layout name to use
+    *
+    * @param    string  The template name.
+    * @return   KViewAbstract
+    */
+    public function setLayout($layout)
+    {
+        $this->_layout = $layout;
+        return $this;
+    }
 
 	/**
 	 * Create a route based on a full or partial query string 
