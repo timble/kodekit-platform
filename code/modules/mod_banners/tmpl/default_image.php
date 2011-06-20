@@ -12,7 +12,7 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? if (trim($banner->clickurl)) : ?>
-<a href="<?=@route('view=banner&id='.$banner->id)?>" title="<?= $banner->name ?>" onclick="<?= $onclick ?>" >
+<a href="<?=@route('view=banner&id='.$banner->id)?>" title="<?= $banner->name ?>">
 <? endif; ?>
 <img src="images/banners/<?= $banner->imageurl?>" alt="<?= $banner->name?>" width="<?= $banner->width?>" height="<?= $banner->height?>" />
 <? if (trim($banner->clickurl)) : ?>
