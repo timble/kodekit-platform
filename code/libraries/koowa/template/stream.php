@@ -60,8 +60,8 @@ class KTemplateStream
      * Opens the template file and converts markup.
      * 
      * This function filters the data from the stream by pushing it through the template's 
-     * read filter chain. The template object to use for filtering is looked up based on the 
-     * stream's path. 
+     * read filter chain. The template object to use for filtering is the top node on the
+     * template stack
      * 
      * @param string    The stream path
      * @return boolean
@@ -69,13 +69,10 @@ class KTemplateStream
     public function stream_open($path) 
     {       
         //Get the view script source
-        $path = str_replace('tmpl://', '', $path);
+        $identifier = str_replace('tmpl://', '', $path);
             
-        //Get the template object from the template repository and filter 
-        //the data before reading                   
-        $this->_data = KFactory::get('lib.koowa.template.registry')
-                            ->get($path)
-                            ->filter(KTemplateFilter::MODE_READ);
+        //Get the template object from the template stack and parse it                  
+        $this->_data = KFactory::get($identifier)->top()->parse();
         
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file
@@ -204,9 +201,12 @@ class KTemplateStream
         if($error = error_get_last()) 
         {
             if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
-            {
+            { 
+                $identifier = str_replace('tmpl://', '', $path);
+                $path = KFactory::get($identifier)->top()->getPath();
+                
                 while(@ob_get_clean());
-                echo '<strong>Fatal Error</strong>: '.$error['message'].' in <strong>'.$error['file'].'</strong> on line <strong>'.$error['line'].'</strong>';
+                echo '<strong>Fatal Error</strong>: '.$error['message'].' in <strong>'.$path.'</strong> on line <strong>'.$error['line'].'</strong>';
             }
         }
     }
