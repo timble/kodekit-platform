@@ -279,7 +279,7 @@ abstract class KViewTemplate extends KViewAbstract
      * Method to set a template object attached to the view
      *
      * @param   mixed   An object that implements KObjectIdentifiable, an object that 
-     *                  implements KIndentifierInterface or valid identifier string
+     *                  implements KIdentifierInterface or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KViewAbstract
      */

@@ -94,11 +94,11 @@ class KFactory
 	 * Returns an identifier string. 
 	 * 
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
-	 * object that implements KObjectIdentifiable, or a KIndentifierInterface, or valid identifier 
+	 * object that implements KObjectIdentifiable, or a KIdentifierInterface, or valid identifier 
 	 * string. Function will also check for identifier mappings and return the mapped identifier.
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @return KIdentifier
 	 */
 	public static function identify($identifier)

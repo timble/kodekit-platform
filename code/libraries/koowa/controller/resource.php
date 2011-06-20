@@ -159,7 +159,7 @@ abstract class KControllerResource extends KControllerAbstract
 	 * Method to set a view object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */
@@ -216,7 +216,7 @@ abstract class KControllerResource extends KControllerAbstract
 	 * Method to set a toolbar object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a view identifier
 	 * @return	KControllerToolbarAbstract 
 	 */
@@ -273,7 +273,7 @@ abstract class KControllerResource extends KControllerAbstract
 	 * Method to set a model object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a model identifier
 	 * @return	KControllerAbstract
 	 */

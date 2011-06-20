@@ -159,7 +159,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 * Method to set a model object attached to the view
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KViewException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
 	 */

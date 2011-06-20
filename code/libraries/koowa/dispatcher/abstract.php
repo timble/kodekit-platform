@@ -107,7 +107,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * Method to set a controller object attached to the dispatcher
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KDispatcherException	If the identifier is not a controller identifier
 	 * @return	KDispatcherAbstract
 	 */

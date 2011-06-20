@@ -159,7 +159,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * Method to set a view object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */

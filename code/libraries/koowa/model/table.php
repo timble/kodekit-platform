@@ -129,7 +129,7 @@ class KModelTable extends KModelAbstract
      * Method to set a table object attached to the model
      *
      * @param   mixed   An object that implements KObjectIdentifiable, an object that
-     *                  implements KIndentifierInterface or valid identifier string
+     *                  implements KIdentifierInterface or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KModelTable
      */

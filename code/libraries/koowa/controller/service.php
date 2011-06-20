@@ -101,7 +101,7 @@ abstract class KControllerService extends KControllerResource
 	 * Method to set a view object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */

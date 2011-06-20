@@ -22,7 +22,7 @@ class KControllerBehavior
 	 * Factory method for KControllerBehaviorInterface classes.
 	 *
 	 * @param	mixed 	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @param 	object 	An optional KConfig object with configuration options
 	 * @return KControllerBehaviorAbstract
 	 */

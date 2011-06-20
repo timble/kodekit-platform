@@ -97,7 +97,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 * Method to set a table object attached to the rowset
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIndentifierInterface or valid identifier string
+	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KDatabaseRowException	If the identifier is not a table identifier
 	 * @return	KDatabaseRowsetAbstract
 	 */
