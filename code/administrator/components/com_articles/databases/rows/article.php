@@ -41,30 +41,33 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
     
     public function save()
     {
+        //Set the section_id based on the category_id
         if(isset($this->_modified['category_id']))
         {
             if($this->category_id != 0)
             {
-                $this->section_id = KFactory::tmp('admin::com.categories.model.categories')
+                $this->_data['section_id'] = KFactory::tmp('admin::com.categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
                     
             } 
-            else $this->section_id = 0;
+            else $this->_data['section_id'] = 0;
         }
 
+        //Set the introtext and the full text
         $text    = str_replace('<br>', '<br />', $this->text);
         $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
 
         if(preg_match($pattern, $text))
         {
-            list($this->introtext, $this->fulltext) = preg_split($pattern, $text, 2);
+            list($introtext, $fulltext) = preg_split($pattern, $text, 2);
 
-            $this->introtext = trim($this->introtext);
-            $this->fulltext  = trim($this->fulltext);
+            $this->_data['introtext'] = trim($introtext);
+            $this->_data['fulltext' ] = trim($fulltext);
         }
-        else $this->introtext = trim($text);
+        else $this->_data['introtext'] = trim($text);
 
+        //Validate the title
         if(empty($this->title))
         {
             $this->_status          = KDatabase::STATUS_FAILED;
@@ -73,6 +76,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
+        //Validate the text
         if(empty($this->introtext) && empty($this->fulltext))
         {
             $this->_status          = KDatabase::STATUS_FAILED;
@@ -81,13 +85,10 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
-        if(!empty($this->description)) {
-            $this->description = str_ireplace(array('"', '<', '>'), '', $this->description);
-        }
-
         $modified = $this->_modified;
         $result   = parent::save();
 
+        //Set the featured
         if(isset($modified['featured']))
         {
             $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
@@ -122,5 +123,13 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         }
 
         return $result;
+    }
+    
+    public function toArray()
+    {
+        $data = parent::toArray();
+        
+        $data['params'] = $this->params->toArray(); 
+        return $data;
     }
 }
