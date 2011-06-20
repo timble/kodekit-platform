@@ -73,7 +73,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </a>
 				</td>
 				<td align="center">
-					<?= @helper( 'grid.publish' , array('row' => $section)); ?>
+					<?= @helper('grid.enable', array('row' => $section)) ?>
 				</td>
 				<td class="order">
 					<?= @helper( 'grid.order' , array('row' => $section, 'total' => $total)); ?>
