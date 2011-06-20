@@ -202,7 +202,7 @@ class KTemplateStream
         {
             if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
             { 
-                $identifier = str_replace('tmpl://', '', $path);
+                $identifier = str_replace('tmpl://', '', $error['file']);
                 $path = KFactory::get($identifier)->top()->getPath();
                 
                 while(@ob_get_clean());
