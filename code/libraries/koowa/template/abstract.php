@@ -51,6 +51,13 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * @var	string|object
 	 */
     protected $_view;
+    
+    /**
+	 * The template stack object
+	 *
+	 * @var	KTemplateStack
+	 */
+    protected $_stack;
     	
 	/**
 	 * Constructor
@@ -63,10 +70,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	{
 		parent::__construct($config);
 	
-		// Set the table indentifier
-    	if(isset($config->view)) {
-			$this->_view = $config->view;
-		}
+		// Set the view indentifier
+    	$this->_view = $config->view;
+		
+    	// Set the template stack object
+		$this->_stack = $config->stack;
 			
 		//Register the template stream wrapper
 		KTemplateStream::register();
@@ -89,6 +97,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
+    		'stack'				=> KFactory::get('lib.koowa.template.stack'),
     		'view '				=> null,
     		'paths'				=> array(),
             'command_chain' 	=> new KCommandChain(),
@@ -141,6 +150,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 
 	/**
+	 * Get the template stack object
+ 	 *
+	 * @return 	KTemplateStack
+	 */
+	public function getStack()
+	{
+	    return $this->_stack;
+	}
+
+	/**
 	 * Method to set a view object attached to the controller
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
@@ -180,9 +199,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template identifier
 	 * @param	array	An associative array of data to be extracted in local template scope
+	 * @param	boolean	If TRUE process the data using a tmpl stream. Default TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadIdentifier($template, $data = array())
+	public function loadIdentifier($template, $data = array(), $process = true)
 	{
 	    //Identify the template
 	    $identifier = KFactory::identify($template);
@@ -196,7 +216,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	       $path = dirname(KLoader::path($identifier));
 	    }
 	   
-		$this->loadFile($path.'/'.$file.'.php', $data);
+		$this->loadFile($path.'/'.$file.'.php', $data, $process);
 		
 		return $this;
 	}
@@ -206,9 +226,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template path
 	 * @param	array	An associative array of data to be extracted in local template scope
+	 * @param	boolean	If TRUE process the data using a tmpl stream. Default TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadFile($file, $data = array())
+	public function loadFile($file, $data = array(), $process = true)
 	{
 		// find the template 
 		$path = $this->findFile($file);
@@ -217,11 +238,14 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 			throw new KTemplateException( 'Template "' . $file . '" not found' );
 		}
 		
+		// store the path
+		$this->_path  = $path;
+		
 		// get the file contents
 		$contents = file_get_contents($path);
 		
 		// load the contents
-		$this->loadString($contents, $data, $file);
+		$this->loadString($contents, $data, $process);
 		
 		return $this;
 	}
@@ -231,66 +255,58 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param   string 	The template contents
 	 * @param	array	An associative array of data to be extracted in local template scope
-	 * @param	string	The template path. If empty the path will be calculated based on the template contents.
+	 * @param	boolean	If TRUE process the data using a tmpl stream. Default TRUE.
 	 * @return KTemplateAbstract
 	 */
-	public function loadString($string, $data = array(), $path = '')
+	public function loadString($string, $data = array(), $process = true)
 	{
 		$this->_contents = $string;
-		$this->_path     = empty($path) ? md5($string) : $path;
-		
+	
 		// Merge the data
 	    $this->_data = array_merge($this->_data, $data);
+	    
+	    // Process the data
+	    if($process == true) {
+	        $this->__sandbox();
+	    }
 	
 		return $this;
 	}
 	
 	/**
-	 * Implement a sandbox to load and render a template
+	 * Render the template
 	 * 
-	 * This function passes the template through the read filter chain and then include 
-	 * it in local scope buffers the result and passes it through the write filter chain 
-	 * before returning.
+	 * This function passes the template throught write filter chain and returns the
+	 * result.
 	 *
-	 * @param  boolean 	If TRUE apply write filters. Default FALSE.
-	 * @return KTemplateAbstract
+	 * @return string	The rendered data
 	 */
-	public function render($filter = false)
+	public function render()
 	{	
-		//Set the template in the template registry
-       	KFactory::get('lib.koowa.template.registry')->set($this->_path, $this);
-       	
-       	extract($this->_data, EXTR_SKIP); //extract the data in local scope
-       	
-       	// Capturing output into a buffer
-		ob_start();
-		include 'tmpl://'.$this->_path;
-		$this->_contents = ob_get_clean();
-		
-		if($filter) {
-			$this->_contents = $this->filter(KTemplateFilter::MODE_WRITE);
-		}
-	
-		//Remove the template object from the template registry
-       	KFactory::get('lib.koowa.template.registry')->del($this->_path);
-       
-		return $this->_contents;
+		$context = $this->getCommandContext();
+		$context->data = $this->_contents;
+				
+        $result = $this->getCommandChain()->run(KTemplateFilter::MODE_WRITE, $context);
+        
+        return $context->data;
 	}
-
+	
 	/**
-	 * Pass the data through the filter chain and perform
+	 * Parse the template
+	 * 
+	 * This function passes the template throught read filter chain and returns the
+	 * result.
 	 *
-	 * @param string	The filter mode
-	 * @return string	The filtered data
+	 * @return string	The parsed data
 	 */
-	public function filter($mode = KTemplateFilter::MODE_READ)
+	public function parse()
 	{	
         $context = $this->getCommandContext();
 		$context->data = $this->_contents;
 				
-        $result = $this->getCommandChain()->run($mode, $context);
- 		
- 		return $context->data;
+        $result = $this->getCommandChain()->run(KTemplateFilter::MODE_READ, $context);
+        
+        return $context->data;
 	}
 	
 	/**
@@ -411,6 +427,33 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
+	 * Process the template using a simple sandbox
+	 * 
+	 * This function passes the template through the read filter chain before letting
+	 * the PHP parser executed it. The result is buffered.
+	 *
+	 * @param  boolean 	If TRUE apply write filters. Default FALSE.
+	 * @return KTemplateAbstract
+	 */
+	private function __sandbox()
+	{	
+	    //Set the template in the template stack
+       	$this->getStack()->push(clone $this);
+       
+       	extract($this->_data, EXTR_SKIP); //extract the data in local scope
+       	
+       	// Capturing output into a buffer
+		ob_start();
+		include 'tmpl://'.$this->getStack()->getIdentifier();
+		$this->_contents = ob_get_clean();
+		
+		//Remove the template object from the template stack
+       	$this->getStack()->pop();
+		
+		return $this;
+	}
+
+	/**
 	 * Renders the template and returns the result
  	 *
 	 * @return 	string
@@ -418,7 +461,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function __toString()
 	{
 		try {
-			$result = $this->render();
+		    $result = $this->_contents;
 		} catch (Exception $e) {
 			$result = $e->getMessage();
 		} 
