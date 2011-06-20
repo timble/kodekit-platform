@@ -155,8 +155,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 
-		$html  = '<script src="media://lib_koowa/js/koowa.js" />';  
-		$html .= '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
+		$html = '<img src="media://lib_koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
 
 		return $html;
 	}
@@ -186,7 +185,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->data->order = +1;
 		$downdata = str_replace('"', '&quot;', $config->data);
 		
-		$html = '<script src="media://lib_koowa/js/koowa.js" />';
+		$html = '';
 		
 		if ($config->row->{$config->field} > 1) {
             $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
@@ -245,8 +244,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->data->{$config->field} = $access;
 	    $data = str_replace('"', '&quot;', $config->data);
 
-		$html  = '<script src="media://lib_koowa/js/koowa.js" />';
-		$html .= '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'">'.$group.'</span>';
+		$html = '<span style="color:'.$color.'" data-action="edit" data-data="'.$data.'">'.$group.'</span>';
 
 		return $html;
 	}
