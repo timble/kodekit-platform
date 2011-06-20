@@ -23,12 +23,21 @@ class ComArticlesTemplateHelperBehavior extends KTemplateHelperBehavior
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'data'	  => '',
+			'data'	  => gmdate("M d Y H:i:s"),
 		    'name'    => '',
 		    'format'  => '%Y-%m-%d %H:%M:%S',
-		    'attribs' => array('size' => 25, 'maxlenght' => 19)
+		    'attribs' => array('size' => 25, 'maxlenght' => 19),
+		    'gmt_offset' => KFactory::get('lib.joomla.config')->getValue('config.offset') * 3600
  		));
  		
+	    if(!is_numeric($config->date)) {
+            $config->date = strtotime($config->date);
+        }
+        
+        if($config->date) { 
+            $config->date = strftime($config->format, $config->date /*+ $config->gmt_offset*/);
+        } 
+        
 	    $html = '';
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(self::$_loaded['calendar']))
@@ -48,13 +57,13 @@ class ComArticlesTemplateHelperBehavior extends KTemplateHelperBehavior
         				button         :    'button-".$config->name."', 
         				align          :    'Tl',
         				singleClick    :    true,
-        				showsTime	   :    true
+        				showsTime	   :    false
     				});});
     			</script>";
 		
 		$attribs = KHelperArray::toString($config->attribs);
 
-   		$html .= '<input disabled="disabled" type="text" name="'.$config->name.'" id="'.$config->name.'" value="'.$config->date.'" '.$attribs.' />';
+   		$html .= '<input type="text" name="'.$config->name.'" id="'.$config->name.'" value="'.$config->date.'" '.$attribs.' />';
 		$html .= '<img class="calendar" src="media://system/images/calendar.png" alt="calendar" id="button-'.$config->name.'" />';
 		
 		return $html;
