@@ -21,7 +21,6 @@ class ComNewsfeedsViewHtml extends ComDefaultViewHtml
 {
     protected function _initialize(KConfig $config)
     {
-        // TODO: Add this to config.
         JSubMenuHelper::addEntry(JText::_('Newsfeeds'), 'index.php?option=com_newsfeeds&view=newsfeeds', true);
         JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&view=categories&section=com_newsfeeds');
 

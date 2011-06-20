@@ -10,7 +10,7 @@
  */
 
 /**
- * Newsfeeds Helper Class - Filter
+ * Listbox Template Helper Class
  *
  * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku

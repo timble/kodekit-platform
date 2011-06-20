@@ -1,9 +1,19 @@
-<? JHTML::_('behavior.calendar') ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Newsfeeds
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
+
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
-<style src="media://com_tournaments/css/admin/backend.css" />
 
 <script>
 if(Form && Form.Validator) {
@@ -66,7 +76,7 @@ if(Form && Form.Validator) {
                     </label>
                 </td>
                 <td>
-                    <?= @helper('lib.koowa.template.helper.select.booleanlist', array('name' => 'rtl', 'selected' => $newsfeed->rtl)) ?>
+                    <?= @helper('select.booleanlist', array('name' => 'rtl', 'selected' => $newsfeed->rtl)) ?>
                 </td>
             </tr>
             <tr>
@@ -85,7 +95,7 @@ if(Form && Form.Validator) {
     		        <?= @text( 'Published' ) ?>:
     		    </td>
     		    <td>
-    		        <?= @helper('lib.koowa.template.helper.select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
+    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
     		    </td>
     		</tr>
     		<tr>
@@ -107,8 +117,7 @@ if(Form && Form.Validator) {
     		    <td>
     		        <div id="orderable">
     		             <? if( $newsfeed->id ) : ?>
-    		                <?= @helper('admin::com.categories.template.helper.listbox.order',
-    		                array( 'filter' => array(
+    		                <?= @helper('admin::com.categories.template.helper.listbox.order',array( 'filter' => array(
     		                    'parent' => 'com_newsfeeds'
     		                )));
     		            elseif ( substr($state->section, 0, 3) == 'com'):

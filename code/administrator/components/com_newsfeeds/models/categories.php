@@ -12,7 +12,7 @@
 /**
  * Newsfeeds Model Class
  *
- * @author      Babs GÅ¡sgens <http://nooku.assembla.com/profile/babsgosgens>
+ * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Newsfeeds

@@ -13,5 +13,10 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <div id="sidebar">
 	<h3><?= @text('Categories') ?></h3>
-	<?= @template('admin::com.categories.view.categories.list', array('categories' => KFactory::tmp('admin::com.categories.model.categories')->section('com_newsfeeds')->sort('title')->getList()) )?>
+	<?= @template('admin::com.categories.view.categories.list', array(
+			'categories' => KFactory::tmp('admin::com.categories.model.categories')
+	                            ->section('com_newsfeeds')
+	                            ->sort('title')
+	                            ->getList()))
+	?>
 </div>

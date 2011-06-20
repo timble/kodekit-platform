@@ -1,6 +1,15 @@
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Newsfeeds
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<style src="media://com_default/css/admin.css" />
 <style src="media://lib_koowa/css/koowa.css" />
 <script src="media://lib_koowa/js/koowa.js" />
 
@@ -55,7 +64,7 @@
                         <?= @helper('grid.checkbox', array('row' => $newsfeed)) ?>
                     </td>
                     <td>
-                    	<a href="<?= @route('index.php?option=com_newsfeeds&view=newsfeed&layout=form&id='.$newsfeed->id) ?>">
+                    	<a href="<?= @route('view=newsfeed&id='.$newsfeed->id) ?>">
                     	    <?= @escape($newsfeed->name) ?>
                     	</a>
                     </td>
