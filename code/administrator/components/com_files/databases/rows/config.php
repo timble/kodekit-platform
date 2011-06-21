@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
@@ -66,12 +66,17 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 
 	public function __get($column)
 	{
-		if (in_array($column, $this->_comma_separated->toArray()) && isset($this->_data[$column]) && is_string($this->_data[$column])) {
-			$values = array();
-			if (!empty($this->_data[$column])) {
-				$values = explode(',', $this->_data[$column]);
+		if (in_array($column, $this->_comma_separated->toArray())) {
+			if (isset($this->_data[$column]) && is_string($this->_data[$column])) {
+				$values = array();
+				if (!empty($this->_data[$column])) {
+					$values = explode(',', $this->_data[$column]);
+				}
+				$this->_data[$column] = $values;
 			}
-			$this->_data[$column] = $values;
+			else {
+				return array();
+			}
 		}
 
 		return parent::__get($column);
