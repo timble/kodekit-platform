@@ -31,18 +31,4 @@ class ComWeblinksTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
 		return parent::_listbox($config);
 	}
-
-	public function ordering( $config = array() )
-	{
-		$config = new KConfig($config);
-		$config->append(array(
-			'model'     => 'weblinks',
-			'name'      => 'ordering',
-			'value'     => 'ordering',
-			'text'      => 'ordering',
-			'deselect'  => false
-		));
-
-		return parent::_listbox($config);
-	}
 }
