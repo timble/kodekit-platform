@@ -43,4 +43,20 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
         
         return $toolbar;
     }
+    
+    public function loadState(KCommandContext $context)
+	{
+		// Built the session identifier based on the action
+		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
+		$state       = KRequest::get('session.'.$identifier, 'raw', array());
+		$state['id'] = null;
+        
+		//Append the data to the request object
+		$this->_request->append($state);
+		
+		//Push the request in the model
+		$this->getModel()->set($this->getRequest());
+		
+		return $this;
+	}
 }
