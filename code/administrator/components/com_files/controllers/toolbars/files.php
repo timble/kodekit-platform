@@ -40,7 +40,7 @@ class ComFilesControllerToolbarFiles extends ComDefaultControllerToolbarDefault
     {
         $command->append(array(
             'attribs'  => array(
-                'href' => '#ercan'
+                'href' => '#'
             )
         ));
     }
