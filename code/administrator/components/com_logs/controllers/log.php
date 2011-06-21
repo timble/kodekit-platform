@@ -8,7 +8,16 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
         parent::__construct($config);
         
         $this->_request->package = $config->package;
-        $this->_request->layout = 'package_list';
+        
+        if ($this->isDispatched() && $config->package) {
+            $this->_request->layout = 'package_list';
+            
+            // Inherit the views from the calling component's view
+            $view = clone $this->getView()->getIdentifier();
+            $view->package = $config->package;
+            
+            $this->getView()->views = KFactory::get($view)->views;
+        }
     }
     
     protected function _initialize(KConfig $config)
@@ -28,7 +37,7 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
     {
         $toolbar = parent::getToolbar();
         
-        if ($this->_request->package) {
+        if ($this->_request->package && $this->isDispatched()) {
             $toolbar->setTitle(ucfirst($this->_request->package).' Logs');
         }
         
