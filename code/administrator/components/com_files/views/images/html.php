@@ -42,7 +42,7 @@ class ComFilesViewImagesHtml extends ComDefaultViewHtml
 		
 		// prepare an extensions array for fancyupload
 		$extensions = $config->upload_extensions;
-		if(!empty($extensions)) {
+		if(!empty($extensions)) 
 		{
 			foreach ($extensions as &$ext) {
 				$ext = '*.'.$ext;
