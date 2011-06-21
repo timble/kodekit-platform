@@ -19,5 +19,10 @@
  */
 interface KTemplateHelperInterface  extends KObjectIdentifiable
 {
-	
+ 	/**
+     * Get the template object
+     *
+     * @return  object	The template object
+     */
+    public function getTemplate();
 }
