@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesDatabaseRowPath extends KDatabaseRowDefault
@@ -28,17 +28,17 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 
 		parent::_initialize($config);
 	}
-	
+
 	public function __get($column)
 	{
-		if ($column == 'path' && !empty($this->_data['path'])) 
+		if ($column == 'path' && !empty($this->_data['path']))
 		{
 			$result = $this->_data['path'];
 			// Prepend with site root if it is a relative path
 			if (!preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
-				$result = JPATH_ROOT.'/'.$result;
+				$result = JPATH_FILES.'/'.$result;
 			}
-			
+
 			$result = rtrim(str_replace('\\', '/', $result), '\\');
 			return $result;
 		}
