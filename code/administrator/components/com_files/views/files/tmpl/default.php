@@ -95,11 +95,11 @@ window.addEvent('domready', function() {
 <?= @template('templates_icons'); ?>
 <?= @template('templates_details'); ?>
 
-<div id="left">
+<div id="sidebar">
 	<div id="files-tree"></div>
 	<?= @template('folders');?>
 </div>
-<div id="right">
+<div class="-koowa-box-flex">
 	<div id="files-canvas">
         <div class="path">
 			<span id="path-active"></span>/
