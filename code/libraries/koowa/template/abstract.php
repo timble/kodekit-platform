@@ -95,7 +95,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     {
     	$config->append(array(
     		'stack'				=> KFactory::get('lib.koowa.template.stack'),
-    		'view '				=> null,
+    		'view'				=> null,
             'command_chain' 	=> new KCommandChain(),
     		'dispatch_events'   => false,
     		'enable_callbacks' 	=> false,
@@ -126,6 +126,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
+	 * Get the template stack object
+ 	 *
+	 * @return 	KTemplateStack
+	 */
+	public function getStack()
+	{
+	    return $this->_stack;
+	}
+	
+	/**
 	 * Get the view object attached to the template
 	 *
 	 * @return	KViewAbstract
@@ -143,16 +153,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		}
 		
 		return $this->_view;
-	}
-
-	/**
-	 * Get the template stack object
- 	 *
-	 * @return 	KTemplateStack
-	 */
-	public function getStack()
-	{
-	    return $this->_stack;
 	}
 
 	/**
@@ -413,7 +413,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		else $identifier = implode('.', $parts);
 		
 		//Create the template helper
-		$helper = KTemplateHelper::factory($identifier);
+		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
 		
 		//Call the helper function
 		if (!is_callable( array( $helper, $function ) )) {
