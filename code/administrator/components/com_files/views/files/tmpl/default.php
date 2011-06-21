@@ -95,12 +95,11 @@ window.addEvent('domready', function() {
 <?= @template('templates_icons'); ?>
 <?= @template('templates_details'); ?>
 
-<div id="sidebar">
+<div id="sidebar" class="scroll">
 	<div id="files-tree"></div>
 	<?= @template('folders');?>
 </div>
-<div class="-koowa-box-flex">
-	<div id="files-canvas">
+<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
         <div class="path">
 			<span id="path-active"></span>/
 			<input class="inputbox" type="text" id="foldername" name="foldername"  />
@@ -110,15 +109,13 @@ window.addEvent('domready', function() {
 				<option value="details"><?= @text('Details'); ?></option>
 			</select>
 		</div>
-		<div class="view">
+		<div class="view scroll -koowa-box-flex">
 			<div id="files-container">
 
 			</div>
-			<div class="clr"></div>
 		</div>
 
 		<? if (KFactory::get('lib.joomla.user')->authorize('com_files', 'upload')): ?>
 			<?= @template('uploader');?>
 		<? endif; ?>
-	</div>
 </div>
