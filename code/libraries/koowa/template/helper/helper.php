@@ -32,17 +32,16 @@ class KTemplateHelper
         //Create the template helper
 	    if(!($helper instanceof KTemplateHelperInterface))
 		{   
-		    if(is_string($helper) && strpos($helper, '.') === false ) {
-		       $helper = 'com.default.template.helper.'.trim($helper);
+		    $identifier = $helper;
+		    if(is_string($identifier) && strpos($identifier, '.') === false ) {
+		       $identifier = 'com.default.template.helper.'.trim($identifier);
 		    }    
 		   
-		    $helper = KFactory::tmp($helper, $config);
+		    $helper = KFactory::tmp($identifier, $config);
 		    
 		    //Check the behavior interface
-            if(!($helper instanceof KTemplateHelperInterface)) 
-            {
-                $identifier = $helper->getIdentifier();
-                throw new KTemplateHelperException("Template helper $helper does not implement KTemplateHelperInterface");
+            if(!($helper instanceof KTemplateHelperInterface)) {
+                throw new KTemplateHelperException("Template helper $identifier does not implement KTemplateHelperInterface");
             }
 		}
            
