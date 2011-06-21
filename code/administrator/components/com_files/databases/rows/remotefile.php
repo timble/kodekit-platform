@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
@@ -184,6 +184,3 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 		return $response;
 	}
 }
-
-class ComFilesDatabaseRowRemotefileException extends KException {}
-class ComFilesDatabaseRowRemotefileAdapterException extends KException {}
