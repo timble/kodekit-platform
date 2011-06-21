@@ -18,86 +18,19 @@
  * @subpackage  Banners
  */
 class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
-{
-    /**
-     * Generates an HTML optionlist based on the distinct data from a model column.
-     * 
-     * The column used will be defined by the name -> value => column options in
-     * cascading order. 
-     * 
-     * If no 'model' name is specified the model identifier will be created using 
-     * the helper identifier. The model name will be the pluralised package name. 
-     * 
-     * If no 'value' option is specified the 'name' option will be used instead. 
-     * If no 'text'  option is specified the 'value' option will be used instead.
-     * 
-     * @param   array   An optional array with configuration options
-     * @return  string  Html
-     * @see __call()
-     */
-    protected function _listbox($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'app'       => $this->getIdentifier()->application,
-            'package'   => $this->getIdentifier()->package,
-            'name'      => '',
-            'state'     => null,
-            'filter'    => array(),
-            'attribs'   => array(),
-            'model'     => null
-        ))->append(array(
-            'value'     => $config->name,
-            'selected'  => $config->{$config->name}
-        ))->append(array(
-            'text'      => $config->value,
-            'column'    => $config->value,
-            'deselect'  => true
-        ));
-        
-        $app        = $config->app;
-        $package    = $config->package;
-        $identifier = $app.'::com.'.$package.'.model.'.($config->model ? $config->model : KInflector::pluralize($package));
-        
-        $model = KFactory::tmp($identifier);
-        foreach ($config->filter as $name => $value) {
-            $model->set($name, $value);
-        }
-        $list = $model->getList($config->column);
-        
-        $options   = array();
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => '- '.JText::_( 'Select').' -'));
-        }
-        
-        foreach($list as $item) {
-            $options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
-        }
-        
-        //Add the options to the config object
-        $config->options = $options;
+{    
+	public function category( $config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'categories',
+			'name' 		=> 'category',
+			'value'		=> 'id',
+			'text'		=> 'title',
+		));
 
-        return $this->optionlist($config);
-    }
-    
-    /**
-     * Returns back a list of categories to choose from 
-     */
-    public function categories( $config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'app'       => 'admin',
-            'package'   => 'categories',
-            'model'     => 'categories',
-            'name'      => 'catid',
-            'value'     => 'id',
-            'text'      => 'title',
-            'filter' => array('section' => 'com_banner')
-        ));
-
-        return $this->_listbox($config);
-    }
+		return parent::_listbox($config);
+	}
     
     /**
      * Image names helper

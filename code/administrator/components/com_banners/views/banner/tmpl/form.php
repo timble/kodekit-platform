@@ -102,12 +102,7 @@ window.addEvent('domready', function(){
         	                </label>
         	            </td>
         	            <td>
-        	                <input type="hidden" name="old_parent" value="<?= $banner->catid ?>" />
-        	                <?= @helper('listbox.categories', array(
-								'name' => 'catid', 
-								'attribs' => array('id' => 'catid', 'class' => 'inputbox required'), 
-								'selected' => $banner->catid 
-							)) ?>
+        	                <?= @helper('listbox.category', array('name' => 'catid', 'selected' => $banner->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
         	            </td>
         	        </tr>
         	        <tr>
