@@ -28,8 +28,8 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
     { 
         parent::__construct($config);
            
-        $this->registerCallback('before.get' , array($this,  'fetchResource'));
-        $this->registerCallback('after.get'  , array($this,  'storeResource'));
+        $this->registerCallback('before.get' , array($this,  'fetchView'));
+        $this->registerCallback('after.get'  , array($this,  'storeView'));
     }
 	
 	/**
@@ -56,7 +56,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void	
 	 */
-	public function fetchResource(KCommandContext $context)
+	public function fetchView(KCommandContext $context)
 	{
 	    $view   = $this->getView();
 	    $cache  = KFactory::get('lib.joomla.cache', array($this->_getGroup(), 'output'));
@@ -75,7 +75,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
             $context->result = $result; 
 
             //Prevent data re-caching
-            $this->unregisterCallback('after.get'  , array($this,  'storeResource'));
+            $this->unregisterCallback('after.get'  , array($this,  'storeView'));
             
             //Prevent data re-fetching
             $this->registerCallback('before.read'   , create_function('', 'return false;'));
@@ -89,7 +89,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	public function storeResource(KCommandContext $context)
+	public function storeView(KCommandContext $context)
 	{
 	    $view   = $this->getView();
 	    $cache  = KFactory::tmp('lib.joomla.cache', array($this->_getGroup(), 'output'));
