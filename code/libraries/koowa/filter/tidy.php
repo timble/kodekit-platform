@@ -103,7 +103,7 @@ class KFilterTidy extends KFilterAbstract
         //Tidy is not installed, return the input
         if($tidy = $this->getTidy($value)) 
         {
-            if($tidy->cleanRepair())) {
+            if($tidy->cleanRepair()) {
                $value = (string) $tidy;
             }
         }
