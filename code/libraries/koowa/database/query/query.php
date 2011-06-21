@@ -235,28 +235,27 @@ class KDatabaseQuery extends KObject
      */
     public function where( $property, $constraint = null, $value = null, $condition = 'AND' )
     {
-        if(empty($property)) {
-            return $this;
-        }
-        
-        $where = array();
-        $where['property'] = $property;
-
-        if(isset($constraint) && isset($value))
+        if(!empty($property)) 
         {
-            $constraint = strtoupper($constraint);
-            $condition  = strtoupper($condition);
-            
-            $where['constraint'] = $constraint;
-            $where['value']      = $value;
-        }
-        
-        $where['condition']  = count($this->where) ? $condition : '';
+            $where = array();
+            $where['property'] = $property;
 
-        //Make sure we don't store the same where clauses twice
-        $signature = md5($property.$constraint.$value);
-        $this->where[$signature] = $where;
+            if(isset($constraint))
+            {
+                $constraint = strtoupper($constraint);
+                $condition  = strtoupper($condition);
+            
+                $where['constraint'] = $constraint;
+                $where['value']      = $value;
+            }
         
+            $where['condition']  = count($this->where) ? $condition : '';
+
+            //Make sure we don't store the same where clauses twice
+            $signature = md5($property.$constraint.$value);
+            $this->where[$signature] = $where;
+        }
+            
         return $this;
     }
 
