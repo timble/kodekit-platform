@@ -9,7 +9,7 @@
 */
 
 /**
- * Ascii filter
+ * Base64 filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
