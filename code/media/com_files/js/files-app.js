@@ -12,7 +12,7 @@ Files.App = new Class({
 		},
 		container: {
 			element: 'files-container',
-			batch_delete: '#toolbar-files-delete a'
+			batch_delete: '#toolbar-delete a'
 		}
 	},
 
