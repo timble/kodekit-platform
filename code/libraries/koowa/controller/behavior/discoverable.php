@@ -10,7 +10,7 @@
  */
 
 /**
- * Controller Authorize Command Class
+ * Controller Discoverable Command Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
