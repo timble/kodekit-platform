@@ -22,7 +22,7 @@ Koowa.version = 0.7;
 /* Section: Functions */
 var $get = function(key, defaultValue) {
     return location.search.get(key, defaultValue);
-}   
+}
 
 /* Section: onDomReady */
 window.addEvent('domready', function() {
@@ -45,6 +45,8 @@ window.addEvent('domready', function() {
 });
 
 /* Section: Classes */
+(function(){
+var $ = document.id;
 
 /**
  * Creates a 'virtual form'
@@ -479,6 +481,7 @@ Koowa.Overlay = new Class({
         this.send();
     }
 });
+})();
 
 
 /**

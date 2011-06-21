@@ -18,6 +18,9 @@ if(!Koowa) var Koowa = {};
  * @package     Nooku_Media
  * @subpackage  Javascript
  */
+(function(){
+var $ = document.id;
+
 Koowa.Tabs = new Class({
 
     Implements: [Options, Events],
@@ -88,3 +91,4 @@ Koowa.Tabs = new Class({
         this.fireEvent('onActive', [this.titles[i], this.descriptions[i]])
     }
 });
+})();

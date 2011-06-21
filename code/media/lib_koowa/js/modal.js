@@ -15,8 +15,10 @@
  * @author		Harald Kirschner <mail [at] digitarald.de>
  * @copyright	Author
  */
+(function(){
+var $ = document.id;
 
-var SqueezeBox = {
+this.SqueezeBox = {
 
 	presets: {
 		onOpen: $empty,
@@ -433,3 +435,4 @@ SqueezeBox.handlers.extend({
 SqueezeBox.handlers.url = SqueezeBox.handlers.ajax;
 SqueezeBox.parsers.url = SqueezeBox.parsers.ajax;
 SqueezeBox.parsers.adopt = SqueezeBox.parsers.clone;
+})();
