@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesViewImagesHtml extends ComDefaultViewHtml
@@ -35,14 +35,14 @@ class ComFilesViewImagesHtml extends ComDefaultViewHtml
 		$folders = KFactory::tmp('admin::com.files.controller.folder')
 		                ->tree(true)
 		                ->browse();
-		                
+
 		$this->assign('folders', $folders);
 
 		$config = KFactory::get('admin::com.files.database.row.config');
-		
+
 		// prepare an extensions array for fancyupload
 		$extensions = $config->upload_extensions;
-		if(!empty($extensions)) 
+		if(!empty($extensions))
 		{
 			foreach ($extensions as &$ext) {
 				$ext = '*.'.$ext;

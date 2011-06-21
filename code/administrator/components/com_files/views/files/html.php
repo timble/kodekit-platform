@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesViewFilesHtml extends ComDefaultViewHtml
@@ -30,25 +30,21 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 	public function display()
 	{
-		$this->getToolbar()
-			->reset()
-			->append(KFactory::tmp('admin::com.files.toolbar.button.delete'));
-
 		$root     = str_replace('\\', '/', JPATH_ROOT.DS);
 		$basepath = str_replace($root, '', $this->getModel()->getState()->basepath);
-		
+
 		$folders = KFactory::tmp('admin::com.files.controller.folder')
 			->identifier($this->getModel()->getState()->identifier)
 			->tree(true)
 			->browse();
-			
+
 		$this->assign('folders', $folders);
 
 		$config = KFactory::get('admin::com.files.database.row.config');
 
 		// prepare an extensions array for fancyupload
 		$extensions = $config->upload_extensions;
-		if(!empty($extensions)) 
+		if(!empty($extensions))
 		{
 			foreach ($extensions as &$ext) {
 				$ext = '*.'.$ext;
@@ -60,7 +56,7 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		$this->assign('allowed_extensions', $str);
 		$this->assign('maxsize'           , $config->upload_maxsize);
 		$this->assign('path'              , $basepath);
-		
+
 		if (!$this->editor) {
 			$this->assign('editor', '');
 		}
