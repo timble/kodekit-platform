@@ -40,7 +40,9 @@ window.addEvent('domready', function() {
 		var clear = document.id('upload-clear');
 
 		$$(start, clear).setStyle('display', status ? 'block' : 'none');
-		web_form.setStyle('display', status ? 'none' : 'block');
+		if (status) {
+			web_form.setStyle('display', 'none');
+		}
 		web.set('disabled', status);
 	};
 
