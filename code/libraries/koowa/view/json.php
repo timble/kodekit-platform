@@ -85,12 +85,12 @@ class KViewJson extends KViewAbstract
             $model = $this->getModel();
 
             if(KInflector::isPlural($this->getName())) {
-                $data = $model->getList();
+                $data = array_values($model->getList()->toArray());
             } else {
-                $data = $model->getItem();
+                $data = $model->getItem()->toArray();
             }
 
-            $this->output = json_encode($data->toArray());
+            $this->output = json_encode($data);
         }
         
         //Handle JSONP
