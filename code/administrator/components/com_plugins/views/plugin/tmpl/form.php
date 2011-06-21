@@ -19,9 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <form action="<?= @route('id='.$plugin->id) ?>" method="post" id="plugin-form" class="-koowa-form">
     <div class="col width-60">
     	<fieldset class="adminform">
-        	<legend>
-        	    <?= @text('Details') ?>
-        	</legend>
+        	<legend><?= @text('Details') ?></legend>
         	<table class="admintable">
         		<tr>
         			<td width="100" class="key">

@@ -54,10 +54,9 @@ window.addEvent('domready', function() {
 <div class="grid_6">
 	<fieldset class="adminform">
 		<legend><?= @text( 'Details' ) ?></legend>
-
 		<table class="admintable">
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<?= @text('Module Type') ?>:
 				</td>
 				<td>
@@ -78,7 +77,7 @@ window.addEvent('domready', function() {
 			</tr>
 			<? if($state->application == 'site') : ?>
 			<tr>
-				<td width="100" class="key">
+				<td class="key">
 					<?= @text('Show title') ?>:
 				</td>
 				<td>
@@ -90,7 +89,7 @@ window.addEvent('domready', function() {
 			</tr>
 			<? endif ?>
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<?= @text('Published') ?>:
 				</td>
 				<td>
@@ -101,7 +100,7 @@ window.addEvent('domready', function() {
 				</td>
 			</tr>
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<label for="position" class="hasTip" title="<?= @text('MODULE_POSITION_TIP_TEXT', true) ?>">
 						<?= @text('Position') ?>:
 					</label>
@@ -111,7 +110,7 @@ window.addEvent('domready', function() {
 				</td>
 			</tr>
 			<tr>
-				<td valign="top"  class="key">
+				<td class="key">
 					<label for="ordering">
 						<?= @text( 'Order' ) ?>:
 					</label>
@@ -134,7 +133,7 @@ window.addEvent('domready', function() {
 			<? endif ?>
 			<? if($module->id) : ?>
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<?= @text('ID') ?>:
 				</td>
 				<td>

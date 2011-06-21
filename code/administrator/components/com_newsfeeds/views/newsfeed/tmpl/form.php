@@ -37,12 +37,11 @@ if(Form && Form.Validator) {
         </div>
         <fieldset class="adminform">
             <legend><?= @text( 'Details' ) ?></legend>
-
             <table class="admintable">
             <tr>
                 <td class="key">
                     <label for="link">
-                        <?= @text( 'Link' ) ?>
+                        <?= @text( 'Link' ) ?>:
                     </label>
                 </td>
                 <td>
@@ -52,7 +51,7 @@ if(Form && Form.Validator) {
             <tr>
                 <td class="key">
                     <label for="numarticles">
-                        <?= @text( 'Number of Articles' ) ?>
+                        <?= @text( 'Number of Articles' ) ?>:
                     </label>
                 </td>
                 <td>
@@ -61,9 +60,9 @@ if(Form && Form.Validator) {
             </tr>
             <tr>
                 <td class="key">
-                    <span class="editlinktip hasTip" title="<?= @text( 'TIPCACHETIME' ) ?>">
-                <?= @text( 'Cache time' ) ?>
-            </span>
+                    <label for="cache_time">
+                        <?= @text( 'Cache time' ) ?>:
+                    </label>
                 </td>
                 <td>
                     <input class="inputbox required validate-integer validate-count" type="text" size="4" name="cache_time" id="cache_time" value="<?= $newsfeed->cache_time ?>" />
@@ -72,15 +71,11 @@ if(Form && Form.Validator) {
             <tr>
                 <td class="key">
                     <label for="rtl">
-                        <?= @text( 'RTL feed' ) ?>
+                        <?= @text( 'RTL feed' ) ?>:
                     </label>
                 </td>
                 <td>
                     <?= @helper('select.booleanlist', array('name' => 'rtl', 'selected' => $newsfeed->rtl)) ?>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
                 </td>
             </tr>
             </table>
@@ -91,8 +86,10 @@ if(Form && Form.Validator) {
             <h3><?= @text( 'Publish' ); ?></h3>
             <table class="admintable">
     		<tr>
-    		    <td valign="top" align="right" class="key">
-    		        <?= @text( 'Published' ) ?>:
+    		    <td class="key">
+    		        <label for="enabled">
+    		            <?= @text( 'Published' ) ?>:
+    		        </label>
     		    </td>
     		    <td>
     		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
@@ -101,7 +98,7 @@ if(Form && Form.Validator) {
     		<tr>
     		    <td class="key">
     		        <label for="catid">
-    		            <?= @text( 'Category' ) ?>
+    		            <?= @text( 'Category' ) ?>:
     		        </label>
     		    </td>
     		    <td>

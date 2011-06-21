@@ -40,37 +40,35 @@ window.addEvent('domready', function(){
 		<div class="panel">
 		    <h3><?= @text('Banner') ?></h3>
 		    <table class="admintable">
-		        <tbody>
-		            <tr>
-		                <td valign="top" class="key">
-		                    <label for="imageurl">
-		                        <?= @text( 'Banner Image Selector' ) ?>:
-		                    </label>
-		                </td>
-		                <td>
-		                    <?= @helper('listbox.banner_names', array(
-		                    	'name'      => 'imageurl',
-		                    	'attribs'   => array(
-		                    	    'class' => 'inputbox required'
-		                    	),  
-		                        'preview'   => false, 
-		                        'width'     => $banner->params->get('width'),
-		                        'height'    => $banner->params->get('height')
-		                    )) ?>
-		                </td>
-		            </tr>
-		            <tr>
-		                <td valign="top" class="key">
-		                    <?= @text( 'Banner Image' ) ?>:
-		                </td>
-		                <td valign="top">
-		                    <?= @helper('listbox.banner_preview', array(
-		                    	'name'      => 'imageurl', 
-		                        'selected'  => $banner->imageurl
-		                    )) ?>
-		                </td>
-		            </tr>
-		        </tbody>
+            <tr>
+                <td class="key">
+                    <label for="imageurl">
+                        <?= @text( 'Banner Image Selector' ) ?>:
+                    </label>
+                </td>
+                <td>
+                    <?= @helper('listbox.banner_names', array(
+                    	'name'      => 'imageurl',
+                    	'attribs'   => array(
+                    	    'class' => 'inputbox required'
+                    	),  
+                        'preview'   => false, 
+                        'width'     => $banner->params->get('width'),
+                        'height'    => $banner->params->get('height')
+                    )) ?>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" class="key">
+                    <?= @text( 'Banner Image' ) ?>:
+                </td>
+                <td valign="top">
+                    <?= @helper('listbox.banner_preview', array(
+                    	'name'      => 'imageurl', 
+                        'selected'  => $banner->imageurl
+                    )) ?>
+                </td>
+            </tr>
 		    </table>
 		</div>
     </div>
@@ -78,55 +76,57 @@ window.addEvent('domready', function(){
         <div class="panel">
         	<h3><?= @text( 'Publish' ); ?></h3>
         	<table class="admintable">
-        	    <tbody>
-        	        <tr>
-        	            <td class="key">
-        	                <?= @text( 'Published' ) ?>:
-        	            </td>
-        	            <td>
-        	                <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)) ?>
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td class="key">
-        	                <?= @text( 'Sticky' ) ?>:
-        	            </td>
-        	            <td>
-        	                <?= @helper('select.booleanlist', array('name' => 'sticky', 'selected' => $banner->sticky)) ?>
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td valign="top" align="right" class="key">
-        	                <label for="catid">
-        	                    <?= @text( 'Category' ) ?>:
-        	                </label>
-        	            </td>
-        	            <td>
-        	                <?= @helper('listbox.category', array('name' => 'catid', 'selected' => $banner->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
-        	            </td>
-        	        </tr>
-        	        <tr>
-        	            <td class="key">
-        	                <label for="clickurl">
-        	                    <?= @text( 'Click URL' ) ?>:
-        	                </label>
-        	            </td>
-        	            <td>
-        	                <input class="inputbox required validate-url" type="text" name="clickurl" id="clickurl" 
-        	                size="100" maxlength="200" style="box-sizing: border-box; width: 100%" value="<?= $banner->clickurl ?>" />
-        	            </td>
-        	        </tr>
-        	        <tr >
-        	            <td valign="top" align="right" class="key">
-        	                <?= @text('Hits') ?>:
-        	            </td>
-        	            <td colspan="2">
-        	                <span id="hits_label"><?= $banner->hits ?></span>
-        	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text('Reset Hits') ?>" />
-        	                <input type="hidden" id="hits_field" name="hits" value="<?= $banner->hits ?>" />
-        	            </td>
-        	        </tr>
-        	    </tbody>
+	        <tr>
+	            <td class="key">
+	                <label for="enabled">
+	                    <?= @text( 'Published' ) ?>:
+	                </label>
+	            </td>
+	            <td>
+	                <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)) ?>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="key">
+	                <label for="sticky">
+	                    <?= @text( 'Sticky' ) ?>:
+	                </label>
+	            </td>
+	            <td>
+	                <?= @helper('select.booleanlist', array('name' => 'sticky', 'selected' => $banner->sticky)) ?>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="key">
+	                <label for="catid">
+	                    <?= @text( 'Category' ) ?>:
+	                </label>
+	            </td>
+	            <td>
+	                <?= @helper('listbox.category', array('name' => 'catid', 'selected' => $banner->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="key">
+	                <label for="clickurl">
+	                    <?= @text( 'Click URL' ) ?>:
+	                </label>
+	            </td>
+	            <td>
+	                <input class="inputbox required validate-url" type="text" name="clickurl" id="clickurl" 
+	                size="100" maxlength="200" style="box-sizing: border-box; width: 100%" value="<?= $banner->clickurl ?>" />
+	            </td>
+	        </tr>
+	        <tr >
+	            <td class="key">
+	                <?= @text('Hits') ?>:
+	            </td>
+	            <td colspan="2">
+	                <span id="hits_label"><?= $banner->hits ?></span>
+	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text('Reset Hits') ?>" />
+	                <input type="hidden" id="hits_field" name="hits" value="<?= $banner->hits ?>" />
+	            </td>
+	        </tr>
         	</table>
         </div>
         

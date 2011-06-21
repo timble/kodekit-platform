@@ -44,14 +44,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<table class="admintable">
 				<tr>
 					<td class="key">
-						<?= @text( 'Published' ); ?>:
+						<label for="enabled">
+							<?= @text( 'Published' ); ?>:
+						</label>
 					</td>
 					<td>
 						<?= @helper('listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
 					</td>
 				</tr>
 				<tr>
-					<td nowrap="nowrap" class="key">
+					<td class="key">
 						<label for="access">
 							<?= @text( 'Access Level' ); ?>:
 						</label>

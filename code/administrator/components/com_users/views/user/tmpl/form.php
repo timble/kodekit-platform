@@ -36,48 +36,60 @@ if(Form && Form.Validator) {
 			<legend><?= @text('User Details') ?></legend>
 			<table class="admintable">
 				<tr>
-					<td width="100" class="key">
-						<?= @text('Name') ?>:
+					<td class="key">
+						<label for="name">
+						    <?= @text('Name') ?>:
+						</label>
 					</td>
 					<td>
 						<input class="required" type="text" name="name" value="<?= $user->name ?>" size="40" />
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
-						<?= @text('Username') ?>:
+					<td class="key">
+						<label for="username">
+						    <?= @text('Username') ?>:
+						</label>
 					</td>
 					<td>
 						<input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
-						<?= @text('E-Mail') ?>:
+					<td class="key">
+						<label for="email">
+						    <?= @text('E-Mail') ?>:
+						</label>
 					</td>
 					<td>
 						<input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" size="40" />
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
-						<?= @text('New Password') ?>:
+					<td class="key">
+						<label for="password">
+						    <?= @text('New Password') ?>:
+						</label>
 					</td>
 					<td>
 						<input id="password" type="password" name="password" maxlength="100" size="40" />
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
-						<?= @text('Verify Password') ?>:
+					<td class="key">
+						<label for="password_verify">
+						    <?= @text('Verify Password') ?>:
+						</label>
 					</td>
 					<td>
 						<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
 					</td>
 				</tr>
 				<tr>
-                    <td width="100" class="key">
-                        <?= @text('Group') ?>:
+                    <td class="key">
+                        <label for="users_group_id">
+                            <?= @text('Group') ?>:
+                        </label>
                     </td>
                     <td>
                        <?= @helper('listbox.groups', array('selected' => $user->users_group_id)) ?>
@@ -96,23 +108,27 @@ if(Form && Form.Validator) {
 			<h3><?= @text('System Information') ?></h3>
 			<table class="admintable">
 				<tr>
-					<td width="100" class="key">
-						<?= @text('Enable User') ?>:
+					<td class="key">
+						<label for="enabled">
+						    <?= @text('Enable User') ?>:
+						</label>
 					</td>
 					<td>
 						<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
-						<?= @text('Receive System E-mails') ?>:
+					<td class="key">
+						<label for="send_email">
+						    <?= @text('Receive System E-mails') ?>:
+						</label>
 					</td>
 					<td>
 						<?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
+					<td class="key">
 						<?= @text('Register Date') ?>:
 					</td>
 					<td>
@@ -120,7 +136,7 @@ if(Form && Form.Validator) {
 					</td>
 				</tr>
 				<tr>
-					<td width="100" class="key">
+					<td class="key">
 						<?= @text('Last Visit') ?>:
 					</td>
 					<td>

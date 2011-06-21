@@ -28,12 +28,11 @@ defined('KOOWA') or die('Restricted access'); ?>
             <input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $weblink->slug; ?>" />
         </label>
     </div>
-	<fieldset class="adminform">
-		<legend><?= @text( 'Details' ); ?></legend>
-
+	<div class="panel">
+	    <h3><?= @text( 'Details' ); ?></h3>
 		<table class="admintable">
 		<tr>
-			<td valign="top" align="right" class="key">
+			<td class="key">
 				<label for="url">
 					<?= @text( 'URL' ); ?>:
 				</label>
@@ -43,15 +42,17 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 		</tr>
 		<tr>
-			<td valign="top" align="right" class="key">
-				<?= @text( 'Description' ); ?>:
+			<td valign="top" class="key">
+				<label for="description">
+					<?= @text( 'Description' ); ?>:
+				</label>
 			</td>
 			<td>
 				<textarea class="text_area" cols="40" rows="9" name="description" id="description"><?= $weblink->description; ?></textarea>
 			</td>
 		</tr>
 		</table>
-	</fieldset>
+	</div>
 </div>
 
 <div class="grid_4">
@@ -59,15 +60,17 @@ defined('KOOWA') or die('Restricted access'); ?>
         <h3><?= @text( 'Publish' ); ?></h3>
         <table class="admintable">
 		<tr>
-			<td valign="top" align="right" class="key">
-				<?= @text( 'Published' ); ?>:
+			<td class="key">
+			    <label for="enabled">
+			        <?= @text( 'Published' ) ?>:
+			    </label>
 			</td>
 			<td>
 				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
 			</td>
 		</tr>
 		<tr>
-			<td valign="top" align="right" class="key">
+			<td class="key">
 				<label for="catid">
 					<?= @text( 'Category' ); ?>:
 				</label>
