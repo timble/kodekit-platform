@@ -21,7 +21,7 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
 {
     protected function _actionLogin(KCommandContext $context)
     {
-        if($return = KRequest::get('post.return', 'alnum'))
+        if($return = KRequest::get('post.return', 'base64'))
         {
             $return = base64_decode($return);
 
