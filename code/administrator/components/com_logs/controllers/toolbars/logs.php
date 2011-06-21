@@ -23,6 +23,7 @@ class ComLogsControllerToolbarLogs extends ComDefaultControllerToolbarDefault
         $command->append(array(
             'attribs' => array(
                 'data-url' => 'index.php?option=com_logs&view=logs',
+                'data-action' => 'delete'
             )
         ));
     }
