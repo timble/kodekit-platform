@@ -1,4 +1,22 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * File Mimetype Filter Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files   
+ */
 
 class ComFilesFilterFileMimetype extends KFilterFilename
 {
@@ -38,17 +56,21 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 		$config = $this->_config;
 		$row = $context->caller;
 
-		if (is_uploaded_file($row->file) && $config->restrict && !in_array($row->extension, $config->ignored_extensions->toArray())) {
-			if ($row->isImage()) {
+		if (is_uploaded_file($row->file) && $config->restrict && !in_array($row->extension, $config->ignored_extensions->toArray())) 
+		{
+			if ($row->isImage()) 
+			{
 				if (getimagesize($row->file) === false) {
 					$context->setError(JText::_('WARNINVALIDIMG'));
 					return false;
 				}
 			}
-			else {
+			else 
+			{
 				$mime = KFactory::tmp('admin::com.files.database.row.file')->setData(array('path' => $row->file))->mimetype;
 
-				if ($config->check_mime && $mime) {
+				if ($config->check_mime && $mime) 
+				{
 					if (in_array($mime, $config->illegal_mimetypes->toArray()) || !in_array($mime, $config->allowed_mimetypes->toArray())) {
 						$context->setError(JText::_('WARNINVALIDMIME'));
 						return false;

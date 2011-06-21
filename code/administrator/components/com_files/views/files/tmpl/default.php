@@ -1,3 +1,14 @@
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
@@ -10,7 +21,7 @@
 <style src="media://com_files/css/files-layout-icons.css" />
 
 <script src="media://com_files/js/delegation.js" />
-<script src="media://com_files/js/ejs/ejs_production.js" />
+<script src="media://com_files/js/ejs/ejs.js" />
 
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://system/js/mootree.js" />

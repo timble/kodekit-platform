@@ -1,4 +1,22 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Folder Database Row Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files   
+ */
 
 jimport('joomla.filesystem.folder');
 
@@ -10,7 +28,8 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		$this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 
-		if ($config->validator !== false) {
+		if ($config->validator !== false) 
+		{
         	if ($config->validator === true) {
         		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
         	}

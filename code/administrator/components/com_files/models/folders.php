@@ -1,4 +1,22 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Folders Model Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files   
+ */
 
 jimport('joomla.filesystem.folder');
 
@@ -13,7 +31,8 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 	public function getItem()
 	{
-		if (!isset($this->_item)) {
+		if (!isset($this->_item)) 
+		{
 			$this->_item	= KFactory::tmp('admin::com.files.database.row.folder', array(
 				'data' => array(
 					'basepath' => $this->_state->basepath,
@@ -26,7 +45,8 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 	public function getList()
 	{
-		if (!isset($this->_list)) {
+		if (!isset($this->_list)) 
+		{
 			$state = $this->_state;
 			if (!$state->basepath) {
 				throw new KModelException('Basepath is not a valid folder');
@@ -48,13 +68,15 @@ class ComFilesModelFolders extends ComFilesModelDefault
 			if (is_string($name)) {
 				$folders[] = $name;
 			}
-			else if (is_array($name)) {
+			else if (is_array($name)) 
+			{
 				$folders = array();
 				foreach ($name as $n) {
 					$folders[] = $n;
 				}
 			}
-			else {
+			else 
+			{
 				$folders = JFolder::folders($path, '.', $state->tree ? true : false, true, array('.svn', '.git', 'CVS'));
 
 				foreach ($folders as &$folder) {
@@ -84,7 +106,8 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 			$rowset = KFactory::tmp('admin::com.files.database.rowset.folders');
 
-			foreach ($folders as $folder) {
+			foreach ($folders as $folder) 
+			{
 				$row = KFactory::tmp('admin::com.files.database.row.folder', array(
 					'data' => array(
 						'basepath' => $basepath,
@@ -92,7 +115,8 @@ class ComFilesModelFolders extends ComFilesModelDefault
 					)
 				));
 
-				if ($state->tree && count(explode('/', $folder)) != 1) {
+				if ($state->tree && count(explode('/', $folder)) != 1) 
+				{
 					$base = dirname($folder);
 
 					$parts = explode('/', $base);
@@ -104,10 +128,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 					$parent->children->insert($row);
 				}
-				else {
-					$rowset->insert($row);
-				}
-
+				else $rowset->insert($row);
 			}
 
 			$this->_list = $rowset;

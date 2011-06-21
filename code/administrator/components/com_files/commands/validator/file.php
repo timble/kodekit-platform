@@ -1,16 +1,36 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * File Validator Command Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files   
+ */
 
 class ComFilesCommandValidatorFile extends KCommand
 {
 	protected function _databaseBeforeDelete($context)
 	{
+	    
 	}
 
 	protected function _databaseBeforeSave($context)
 	{
 		$row = $context->caller;
 
-		if (!is_uploaded_file($row->file)) {
+		if (!is_uploaded_file($row->file)) 
+		{
 			// remote file
 			$file = KFactory::tmp('admin::com.files.database.row.remotefile');
 			$file->setData(array('file' => $row->file));

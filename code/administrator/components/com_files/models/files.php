@@ -1,4 +1,22 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Files Model Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files   
+ */
 
 jimport('joomla.filesystem.folder');
 
@@ -6,7 +24,8 @@ class ComFilesModelFiles extends ComFilesModelDefault
 {
 	public function getItem()
 	{
-		if (!isset($this->_item)) {
+		if (!isset($this->_item)) 
+		{
 			$this->_item	= KFactory::tmp('admin::com.files.database.row.file', array(
 				'data' => array(
 					'basepath' => $this->_state->basepath,
@@ -19,7 +38,8 @@ class ComFilesModelFiles extends ComFilesModelDefault
 
 	public function getList()
 	{
-		if (!isset($this->_list)) {
+		if (!isset($this->_list)) 
+		{
 			$state = $this->_state;
 			if (!$state->basepath) {
 				throw new KModelException('Basepath is not a valid folder');
@@ -37,29 +57,35 @@ class ComFilesModelFiles extends ComFilesModelDefault
 			}
 
 			$name = $state->path ? $state->path : null;
-			if (is_string($name)) {
+			if (is_string($name)) 
+			{
 				$files[] = $name;
 			}
-			else if (is_array($name)) {
+			else if (is_array($name)) 
+			{
 				$files = array();
 				foreach ($name as $n) {
 					$files[] = $n;
 				}
 			}
-			else {
+			else 
+			{
 				$filter = '.';
 				$type = (array) $state->type;
-				if (in_array('image', $type)) {
+				if (in_array('image', $type)) 
+				{
 					$filter = '(?:';
 					$filter .= implode('|', ComFilesDatabaseRowFile::$image_extensions);
 					$filter .= ')$';
 				}
 				$files = JFolder::files($path, $filter, false, true, array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'));
 
-				foreach ($files as &$file) {
+				foreach ($files as &$file) 
+				{
 					$file = str_replace('\\', '/', $file);
 					$file = str_replace($basepath.'/', '', $file);
 				}
+				
 				unset($file);
 			}
 
@@ -82,7 +108,8 @@ class ComFilesModelFiles extends ComFilesModelDefault
 			}
 
 			$data = array();
-			foreach ($files as $file) {
+			foreach ($files as $file) 
+			{
 				$data[] = array(
 					'basepath' => $basepath,
 					'path' => $file
