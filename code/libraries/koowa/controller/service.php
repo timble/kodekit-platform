@@ -161,7 +161,6 @@ abstract class KControllerService extends KControllerResource
 	protected function _actionEdit(KCommandContext $context)
 	{ 
 	    $data = $this->getModel()->getData();
-	    $name = ucfirst($this->getView()->getName());
 								
 	    if(count($data)) 
 	    {
@@ -174,7 +173,7 @@ abstract class KControllerService extends KControllerResource
 		        $context->status = KHttpResponse::NO_CONTENT;
 		    }
 		} 
-		else $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
+		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
 					
 		return $data;
 	}
@@ -188,7 +187,6 @@ abstract class KControllerService extends KControllerResource
 	protected function _actionAdd(KCommandContext $context)
 	{
 		$data = $this->getModel()->getItem();
-		$name = ucfirst($this->getView()->getName());
 				
 		if($data->isNew())	
 		{	
@@ -198,13 +196,13 @@ abstract class KControllerService extends KControllerResource
 		    if($data->save() === false) 
 		    {    
 		        $context->setError(new KControllerException(
-		           $name.' Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		           'Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		        ));
 		       
 		    } 
 		    else $context->status = KHttpResponse::CREATED;
 		} 
-		else $context->setError(new KControllerException($name.' Already Exists', KHttpResponse::BAD_REQUEST));
+		else $context->setError(new KControllerException('Resource Already Exists', KHttpResponse::BAD_REQUEST));
 				
 		return $data;
 	}
@@ -218,7 +216,6 @@ abstract class KControllerService extends KControllerResource
 	protected function _actionDelete(KCommandContext $context)
 	{
 	    $data = $this->getModel()->getData();
-	    $name = ucfirst($this->getView()->getName());
 	  					
 		if(count($data)) 
 	    {
@@ -228,12 +225,12 @@ abstract class KControllerService extends KControllerResource
 	        if($data->delete() === false) 
 	        {
                  $context->setError(new KControllerException(
-		             $name.' Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		             'Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		         ));  
 		    }
 		    else $context->status = KHttpResponse::NO_CONTENT;
 		} 
-		else  $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
+		else  $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
 					
 		return $data;
 	}
