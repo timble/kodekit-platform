@@ -37,7 +37,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= @helper('grid.sort', array('column' => 'sticky')); ?>
                 </th>
                 <th width="5%">
-                    <?= @helper('grid.sort', array('column' => 'clicks')); ?>
+                    <?= @helper('grid.sort', array('column' => 'hits')); ?>
                 </th>
                 <th width="5%">
                     <?= @text('Tags'); ?>
@@ -87,7 +87,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                     <?= $banner->sticky ? @text('Yes') : @text('No'); ?>
                 </td>
                 <td align="center">
-                    <?= $banner->clicks;?>
+                    <?= $banner->hits;?>
                 </td>
                 <td align="center">
                     <?=$banner->tags?>

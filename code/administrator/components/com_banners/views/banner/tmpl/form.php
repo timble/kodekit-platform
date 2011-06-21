@@ -19,17 +19,9 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <script>
 window.addEvent('domready', function(){
-	$('unlimited').addEvent('click', function() {
-		if($(this).getValue()){
-			$('imptotal').set('value','');
-		}
-	});
-    $('imptotal').addEvent('focus', function() {
-        $('unlimited').set('checked',false);
-    });
     $('reset_hits').addEvent('click', function() {
-        $('clicks_label').setHTML(0);
-        $('clicks_field').set('value',0);
+        $('hits_label').setHTML(0);
+        $('hits_field').set('value',0);
     });
 });
 </script>
@@ -131,12 +123,12 @@ window.addEvent('domready', function(){
         	        </tr>
         	        <tr >
         	            <td valign="top" align="right" class="key">
-        	                <?= @text('Clicks') ?>:
+        	                <?= @text('Hits') ?>:
         	            </td>
         	            <td colspan="2">
-        	                <span id="clicks_label"><?= $banner->clicks ?></span>
-        	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text('Reset Clicks') ?>" />
-        	                <input type="hidden" id="clicks_field" name="clicks" value="<?= $banner->clicks ?>" />
+        	                <span id="hits_label"><?= $banner->hits ?></span>
+        	                <input id="reset_hits" name="reset_hits" type="button" class="button" value="<?= @text('Reset Hits') ?>" />
+        	                <input type="hidden" id="hits_field" name="hits" value="<?= $banner->hits ?>" />
         	            </td>
         	        </tr>
         	    </tbody>
