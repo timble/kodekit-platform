@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesViewFolderJson extends KViewJson
@@ -27,7 +27,7 @@ class ComFilesViewFolderJson extends KViewJson
 		$result = new stdclass;
 		$result->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
 
-		if ($result->status !== false) 
+		if ($result->status !== false)
 		{
 	        $result->folder = $row->getData();
 			$result->folder['type'] = 'folder';
