@@ -70,7 +70,7 @@ class ComDefaultControllerBehaviorEditable extends KControllerBehaviorAbstract
 			//Compare request url and referrer
 	        if(!isset($referrer) || ((string) $referrer == (string) $request))
 		    {
-		        $identifier = $this->mixer->getIdentifier();
+		        $identifier = $this->getMixer()->getIdentifier();
 		          
 		        $option = 'com_'.$identifier->package;
 		        $view   = KInflector::pluralize($identifier->name);
