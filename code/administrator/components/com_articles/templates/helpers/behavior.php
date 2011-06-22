@@ -44,6 +44,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 		{
 			$html .= '<script src="media://system/js/calendar.js" />';
 			$html .= '<script src="media://system/js/calendar-setup.js" />';
+			$html .= '<style src="media://system/css/calendar-jos.css" />';
 			
 			$html .= '<script>'.$this->_calendartranslation().'</script>';
 
