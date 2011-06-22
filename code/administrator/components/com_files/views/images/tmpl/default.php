@@ -109,11 +109,11 @@ window.addEvent('domready', function() {
 <div id="images">
 	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
 	<?= @helper('tabs.startPanel', array('title' => 'Insert')); ?>
-		<div class="finder -koowa-box-horizontal">
-			<div class="-koowa-box-flex scroll" id="folder-tree"></div>
-			<div class="-koowa-box-flex scroll" id="images-canvas"></div>
-			<div class="-koowa-box-vertical">
-				<div class="-koowa-box-flex scroll" id="image-details"></div>
+		<div id="insert" class="-koowa-box-horizontal">
+			<div id="folder-tree" class="-koowa-box-flex scroll"></div>
+			<div id="images-canvas" class="scroll"></div>
+			<div id="details" class="-koowa-box-vertical">
+				<div id="image-details" class="-koowa-box-flex"></div>
 				<table class="properties">
 					<tr class="hide">
 						<td><label for="url"><?= @text('Image URL') ?></label></td>

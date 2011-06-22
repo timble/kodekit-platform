@@ -11,14 +11,14 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="image_details">
-[% var ratio= 160 / (width > height ? width : height);%]
+[% var ratio= 150 / (width > height ? width : height);%]
 <ul>
-	<li>
+	<li class="info">
+		[%=width%] x  [%=height%] | [%=new Files.Filesize(size).humanize()%]
+	</li>
+	<li class="preview">
 		<img src="/[%=baseurl%]/[%=path%]" width="[%=ratio*width%]"
 			height="[%=ratio*height%]" alt="[%=name%]" border="0" />
-	</li>
-	<li>
-		[%=width%] x  [%=height%] | [%=new Files.Filesize(size).humanize()%]
 	</li>
 </ul>
 </textarea>

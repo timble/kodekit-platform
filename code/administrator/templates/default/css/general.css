@@ -428,31 +428,49 @@ table.toolbar td a.disabled:active {
 
 dl.tabs {
 	float: left;
-	margin: 10px 0 -1px 0;
+	margin: 10px 0 0 0;
 	z-index: 50;
 }
 
 dl.tabs dt {
 	float: left;
-	padding: 4px 10px;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-top: 1px solid #ccc;
-	margin-left: 3px;
+	padding: 6px 14px;
+	border: 1px solid #ccc;
+	margin-left: 6px;
 	background: #f0f0f0;
 	color: #666;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+	margin-bottom: -1px;
 }
 
-dl.tabs dt.open {
-	background: #F9F9F9;
-	border-bottom: 1px solid #F9F9F9;
+dl.tabs dt:hover {
+	background: #F6F6F6;
 	z-index: 100;
-	color: #000;
+	color: #333;
+}
+
+dl.tabs dt:active,
+dl.tabs dt.open,
+dl.tabs dt.open:active {
+	background: #F9F9F9;
+	z-index: 100;
+	color: #333;
+	border-bottom-color: #F9F9F9;
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px; 
+}
+
+dl.tabs dt:active {
+	background: #EEE;
+	border-bottom-color: #CCC;
 }
 
 div.current {
 	clear: both;
-	border: 1px solid #ccc;
+	border: 1px solid #CCC;
 	padding: 10px 10px;
 }
 

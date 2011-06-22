@@ -2,15 +2,51 @@
 	 background-color: #F9F9F9
 }
 
-.finder {
+#insert {
 	border: 1px solid #E1E1E1;
 	background-color: #FFF;
 }
-.finder > * { border-right: 1px solid #E1E1E1; height: 300px; }
+#insert > * { border-right: 1px solid #E1E1E1; height: 300px; }
 
-#images-canvas ul {
+#insert .properties {
+	background-color: #F4F4F4;
+	border-top: 1px solid #E1E1E1;
+}
+
+#insert .buttons {
+	background-color: #F4F4F4;
+	border-top: 1px solid #E1E1E1;
+	padding: 4px;
+}
+
+#insert .hide {
+	display: none;
+}
+
+#insert #images-canvas {
+	width: 200px;
+}
+
+#insert #images-canvas ul {
 	margin: 0;
 	padding: 0;
+}
+
+#insert #image-details ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#insert #image-details ul li.info {
+	background-color: #FAFAFA;
+	border-bottom: 1px solid #F1F1F1;
+	padding: 6px 0;
+}
+
+#insert #image-details ul li.preview {
+	padding: 10px;
 }
 
 li.files-node {
@@ -21,30 +57,7 @@ li.files-node {
 
 li.files-node a {
 	display: block;
-	padding: 4px 10px;
-	
-}
-
-.finder .properties {
-	background-color: #F4F4F4;
-	border-top: 1px solid #E1E1E1;
-}
-
-.finder .buttons {
-	background-color: #F4F4F4;
-	border-top: 1px solid #E1E1E1;
-	padding: 4px;
-}
-
-.finder .hide {
-	display: none;
-}
-
-.finder #image-details ul {
-	list-style: none;
-	padding: 10px;
-	margin: 0;
-	text-align: center;
+	padding: 4px 10px;	
 }
 
 li.files-node a {
