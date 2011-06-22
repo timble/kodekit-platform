@@ -82,7 +82,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         {
             $query  = KFactory::tmp('lib.koowa.database.query')
                 ->where('username', '=', $this->username)
-                ->where('id', '<>', $this->id);
+                ->where('id', '<>', (int) $this->id);
 
             $total  = KFactory::tmp('admin::com.users.database.table.users')
                 ->count($query);
@@ -108,7 +108,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		{
 			$query	= KFactory::tmp('lib.koowa.database.query')
 				->where('email', '=', $this->email)
-				->where('id', '<>', $this->id);
+				->where('id', '<>', (int) $this->id);
 
 			$total	= KFactory::tmp('admin::com.users.database.table.users')
 				->count($query);
