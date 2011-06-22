@@ -145,9 +145,6 @@ class KObject implements KObjectHandlable
      *
      * When using mixin(), the calling object inherits the methods of the mixed
      * in objects, in a LIFO order. 
-     * 
-     * This function notifies the mixing through the onMixin function it is being
-     * mixed.
      *
      * @param   object  An object that implements KMinxInterface
      * @return  KObject
@@ -160,9 +157,8 @@ class KObject implements KObjectHandlable
             $this->_mixed_methods[$method] = $object;
         }
         
-        //Notify the mixin
+        //Set the mixer
         $object->setMixer($this);
-        $object->onMixin();
         
         return $this;
     }
