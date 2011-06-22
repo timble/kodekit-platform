@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesTemplateHelperBehavior extends KTemplateHelperBehavior
+class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 {
 	public function calendar($config = array())
 	{
