@@ -24,13 +24,6 @@ interface KMixinInterface extends KObjectHandlable
      */
     public function getMixableMethods();
     
-    /**
-     * Notification function called when the mixin is being mixed
-     * 
-     * @return void
-     */
-    public function onMixin();
-    
 	/**
      * Get the mixer object
      * 
