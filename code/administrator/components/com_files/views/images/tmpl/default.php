@@ -21,7 +21,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://com_files/css/images-default.css" />
 
 <script src="media://com_files/js/delegation.js" />
-<script src="media://com_files/js/ejs/ejs_production.js" />
+<script src="media://com_files/js/ejs/ejs.js" />
 
 <script src="media://lib_koowa/js/koowa.js" />
 <script src="media://system/js/mootree.js" />
@@ -72,7 +72,7 @@ window.addEvent('domready', function() {
 				var el = response.folder;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
-				app.tree.selected.insert({
+				Files.app.tree.selected.insert({
 					text: row.name,
 					id: row.path,
 					data: {

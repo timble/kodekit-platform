@@ -30,7 +30,6 @@ class ComFilesViewImagesHtml extends ComDefaultViewHtml
 
 	public function display()
 	{
-		$this->getToolbar()->reset();
 
 		$folders = KFactory::tmp('admin::com.files.controller.folder')
 		                ->tree(true)
