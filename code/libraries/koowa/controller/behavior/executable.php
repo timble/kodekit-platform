@@ -10,7 +10,7 @@
  */
 
 /**
- * Controller Authorize Command Class
+ * Controller Executable Behavior Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
