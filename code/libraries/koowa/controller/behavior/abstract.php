@@ -104,7 +104,7 @@ abstract class KControllerBehaviorAbstract extends KMixinAbstract implements KCo
 		
 		if(method_exists($this, $method)) 
 		{
-			$this->mixer = $context->caller;
+			$this->setMixer($context->caller);
 			return $this->$method($context);
 		}
 		
