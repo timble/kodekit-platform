@@ -30,4 +30,19 @@ interface KMixinInterface extends KObjectHandlable
      * @return void
      */
     public function onMixin();
+    
+	/**
+     * Get the mixer object
+     * 
+     * @return object 	The mixer object
+     */
+    public function getMixer();
+    
+    /**
+     * Set the mixer object
+     * 
+     * @param object The mixer object
+     * @return KMixinInterface
+     */
+    public function setMixer($mixer);
 }
