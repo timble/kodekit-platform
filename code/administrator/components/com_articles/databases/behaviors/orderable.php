@@ -34,7 +34,7 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      
     public function _buildQueryWhere(KDatabaseQuery $query)
     {
-        if($this->mixer->getIdentifier()->name == 'article' && !isset($this->featured_order))
+        if($this->getMixer()->getIdentifier()->name == 'article' && !isset($this->featured_order))
         {
             $query->where('catid', '=', $this->category_id)
                   ->where('state', '>=', 0);
