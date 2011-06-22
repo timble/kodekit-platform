@@ -68,7 +68,7 @@ Files.Images.App = new Class({
 			onAdopt: function(id) {
 				var hash = window.location.hash;
 				var selected = null;
-				if (hash.substr(1, 2) == '!/' && hash.substr(2) != '/') {
+				if (hash.substr(1, 2) == '/' && hash.substr(2) != '/') {
 					selected = this.get(hash.substr(3));
 				}
 				selected = selected || this.root;
@@ -78,7 +78,7 @@ Files.Images.App = new Class({
 			root: {
 				text: '/',
 				data: {
-					url: '#!/'
+					url: '#/'
 				}
 			}
 		});
@@ -107,7 +107,7 @@ Files.Images.App = new Class({
 		null,
 		{'type': 'image'});
 
-		window.location.hash = '#!'+path;
+		window.location.hash = '#'+path;
 	},
 	getPath: function() {
 		return this.active;
