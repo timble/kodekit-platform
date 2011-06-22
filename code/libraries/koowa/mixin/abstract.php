@@ -166,17 +166,7 @@ abstract class KMixinAbstract implements KMixinInterface
         
         return $this->__mixable_methods;
     }
-    
-    /**
-     * Notification function called when the mixin is being mixed
-     * 
-     * @return void
-     */
-    public function onMixin()
-    {
-        //do nothing
-    }
-   
+     
     /**
      * Overloaded set function
      *
