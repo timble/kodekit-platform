@@ -105,7 +105,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 		if(method_exists($this, $method)) 
 		{
 			if($context->data instanceof KDatabaseRowInterface) {
-			     $this->mixer = $context->data;
+			     $this->setMixer($context->data);
 			}
 		    
 			return $this->$method($context);
