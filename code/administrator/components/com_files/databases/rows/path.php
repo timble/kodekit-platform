@@ -42,6 +42,9 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 			$result = rtrim(str_replace('\\', '/', $result), '\\');
 			return $result;
 		}
+		else if ($column == 'relative_path') {
+			return $this->getRelativePath();
+		}
 
 		return parent::__get($column);
 	}
@@ -49,5 +52,12 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 	public function __toString()
 	{
 		return (string) $this->path;
+	}
+
+	public function getRelativePath()
+	{
+		$path = $this->path;
+		$root = str_replace('\\', '/', JPATH_ROOT);
+		return str_replace($root.'/', '', $path);
 	}
 }

@@ -30,11 +30,10 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 	public function display()
 	{
-		$root     = str_replace('\\', '/', JPATH_ROOT.DS);
-		$basepath = str_replace($root, '', $this->getModel()->getState()->basepath);
+		$state = $this->getModel()->getState();
 
 		$folders = KFactory::tmp('admin::com.files.controller.folder')
-			->identifier($this->getModel()->getState()->identifier)
+			->identifier($state->identifier)
 			->tree(true)
 			->browse();
 
@@ -55,7 +54,7 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 		$this->assign('allowed_extensions', $str);
 		$this->assign('maxsize'           , $config->upload_maxsize);
-		$this->assign('path'              , $basepath);
+		$this->assign('path'              , $state->identifier->relative_path);
 
 		if (!$this->editor) {
 			$this->assign('editor', '');
