@@ -54,11 +54,8 @@ abstract class KMixinAbstract implements KMixinInterface
             $this->_initialize($config);
         }
             
-        if(!empty($config->mixer)) {
-            $this->_mixer = $config->mixer;
-        } else {
-            $this->_mixer = $this;
-        }
+        //Set the mixer
+        $this->_mixer = $config->mixer;
     }
     
     /**
@@ -72,8 +69,30 @@ abstract class KMixinAbstract implements KMixinInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'mixer' =>  null,
+            'mixer' =>  $this,
         ));
+    }
+    
+  	/**
+     * Get the mixer object
+     * 
+     * @return object 	The mixer object
+     */
+    public function getMixer()
+    {
+        return $this->_mixer;
+    }
+    
+    /**
+     * Set the mixer object
+     * 
+     * @param object The mixer object
+     * @return KMixinInterface
+     */
+    public function setMixer($mixer)
+    {
+        $this->_mixer = $mixer;
+        return $this;
     }
     
     /**
@@ -167,11 +186,7 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function __set($key, $value) 
     {
-        if($key == 'mixer') {
-            $this->_mixer = $value;
-        } else {
-            $this->_mixer->$key = $value;
-        }
+        $this->_mixer->$key = $value;
     }
 
     /**
@@ -182,11 +197,7 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function __get($key)
     {
-        if($key == 'mixer') {
-            return $this->_mixer;
-        } else {
-            return $this->_mixer->$key;
-        }
+        return $this->_mixer->$key;
     }
 
     /**
