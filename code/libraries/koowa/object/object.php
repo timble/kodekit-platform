@@ -161,7 +161,7 @@ class KObject implements KObjectHandlable
         }
         
         //Notify the mixin
-        $object->mixer = $this;
+        $object->setMixer($this);
         $object->onMixin();
         
         return $this;
@@ -244,7 +244,7 @@ class KObject implements KObjectHandlable
             $result = null;
             
             //Switch the mixin's attached mixer
-            $object->mixer = $this;
+            $object->setMixer($this);
             
             // Call_user_func_array is ~3 times slower than direct method calls. 
             switch(count($arguments)) 
