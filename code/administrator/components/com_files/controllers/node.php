@@ -10,12 +10,12 @@
  */
 
 /**
- * Node Controller Class 
+ * Node Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesControllerNode extends ComDefaultControllerDefault
@@ -32,12 +32,12 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 		parent::_initialize($config);
 	}
 
-	public function setRequest(array $request)
+	public function loadState(KCommandContext $context)
 	{
-		$config = KFactory::get('admin::com.files.database.row.config');
-		$row = KFactory::tmp('admin::com.files.model.paths')->identifier($request['identifier'])->getItem();
-		$config->setData(json_decode($row->parameters, true));
+		parent::loadState($context);
 
-		return parent::setRequest($request);
+		KFactory::get('admin::com.files.model.configs')
+			->set($this->getRequest())
+			->getItem();
 	}
 }

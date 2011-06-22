@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesModelStateNode extends KModelState
@@ -39,9 +39,9 @@ class ComFilesModelStateNode extends KModelState
     public function getIdentifier()
     {
     	if (is_string($this->_state['identifier']->value)) {
-    		$this->_state['identifier']->value = KFactory::tmp('admin::com.files.model.paths')->identifier($this->_state['identifier']->value)->getItem();
+    		$this->_state['identifier']->value = KFactory::get('admin::com.files.model.paths')->identifier($this->_state['identifier']->value)->getItem();
     	}
-    	
+
 		return $this->_state['identifier']->value;
     }
 }
