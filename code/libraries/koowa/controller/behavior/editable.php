@@ -217,7 +217,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
             $this->getToolbar()
                  ->addCommand('save')
                  ->addCommand('apply')
-                 ->addCommand('cancel');
+                 ->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
         }        
     }
 }
