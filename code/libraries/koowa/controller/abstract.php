@@ -265,7 +265,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      * @return  KControllerAbstract
      */
     public function addBehavior($behaviors)
-    {
+    { 
         $behaviors = (array) KConfig::toData($behaviors);
          
         foreach($behaviors as $behavior)
@@ -275,10 +275,13 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
             }
 		    
             $identifier = (string) $behavior->getIdentifier();
-		      
+               
             //Add the behaviors
             $this->_behaviors[$identifier] = $behavior;
-            $this->getCommandChain()->enqueue($behavior);
+            
+            if($this->getCommandChain()->enqueue($behavior)) {
+                $this->_actions = null; //reset the actions
+            }
         }
         
         return $this;
