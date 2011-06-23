@@ -126,10 +126,10 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 
 		$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
 
-		$scheme = $uri->get(KHttpUrl::PART_SCHEME);
-		$host = $uri->get(KHttpUrl::PART_HOST);
-		$port = $uri->get(KHttpUrl::PART_PORT);
-		$path = $uri->get(KHttpUrl::PART_PATH | KHttpUrl::PART_FORMAT | KHttpUrl::PART_QUERY | KHttpUrl::PART_FRAGMENT);
+		$scheme = $uri->get(KHttpUrl::SCHEME);
+		$host = $uri->get(KHttpUrl::HOST);
+		$port = $uri->get(KHttpUrl::PORT);
+		$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT | KHttpUrl::QUERY | KHttpUrl::FRAGMENT);
 
 		if ($scheme == 'https://') {
 			if (!in_array('ssl', stream_get_transports())) {
