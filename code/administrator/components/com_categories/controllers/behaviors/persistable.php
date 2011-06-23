@@ -35,7 +35,7 @@ class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPers
         $state       = KRequest::get('session.'.$identifier, 'raw', array());
 
         //Append the data to the request object
-        $this->_request->append($state);
+        $this->getRequest()->append($state);
 
         //Push the request in the model
         $this->getModel()->set($this->getRequest());
