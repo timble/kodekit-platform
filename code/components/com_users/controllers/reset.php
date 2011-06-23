@@ -44,10 +44,10 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         $user->activation = md5($token.$salt).':'.$salt;
         $user->save();
 
-        $configuration = KFactory::get('lib.joomla.config');
-        $url           = JURI::base().JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
+        $configuration = KFactory::get('lib.joomla.config');  
         $site_name     = $configuration->getValue('sitename');
-
+        $site_url      = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
         $from_email    = $configuration->getValue('mailfrom');
         $from_name     = $configuration->getValue('fromname');
         $subject       = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
