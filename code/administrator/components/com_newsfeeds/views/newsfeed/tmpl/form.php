@@ -26,6 +26,8 @@ if(Form && Form.Validator) {
 }
 </script>
 
+<?= @toolbar(); ?>
+
 <form action="<?= @route('id='.$newsfeed->id) ?>" method="post" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
