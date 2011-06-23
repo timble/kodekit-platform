@@ -27,6 +27,7 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 	    $this->getColumn('email')->unique = true;
 
 	    $this->getColumn('users_group_id')->default = 0;
+	    $this->getColumn('enabled')->default = 1;
 	}
 
     protected function _initialize(KConfig $config)
