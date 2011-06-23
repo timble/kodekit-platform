@@ -25,13 +25,14 @@ abstract class KControllerService extends KControllerResource
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-
-		//Register the load and save request function to make the request persistent
-		if($config->persistent)
-		{
-			$this->registerCallback('before.browse' , array($this, 'loadState'));
-			$this->registerCallback('after.browse'  , array($this, 'saveState'));
-		}	
+		
+		if($config->persistent) {
+			$this->registerCallback('before.browse' , array($this, 'addBehavior'), 'persistable');
+		}
+		
+		//Conditionally register the editable behavior
+		$commands = array('before.read', 'before.save', 'before.apply', 'before.cancel');
+		$this->registerCallback($commands, array($this, 'addBehavior'), 'editable');
 	}
 
  	/**
@@ -53,50 +54,6 @@ abstract class KControllerService extends KControllerResource
         parent::_initialize($config);
     }
        
-	/**
-	 * Load the model state from the request
-	 *
-	 * This functions merges the request information with any model state information
-	 * that was saved in the session and returns the result.
-	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return array	An associative array of request information
-	 */
-	public function loadState(KCommandContext $context)
-	{
-		// Built the session identifier based on the action
-		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
-		$state       = KRequest::get('session.'.$identifier, 'raw', array());
-			
-		//Append the data to the request object
-		$this->_request->append($state);
-		
-		//Push the request in the model
-		$this->getModel()->set($this->getRequest());
-		
-		return $this;
-	}
-	
-	/**
-	 * Saves the model state in the session
-	 *
-	 * @param 	KCommandContext		The active command context
-	 * @return KControllerBread
-	 */
-	public function saveState(KCommandContext $context)
-	{
-		$model  = $this->getModel();
-		$state  = $model->get();
-
-		// Built the session identifier based on the action
-		$identifier  = $model->getIdentifier().'.'.$context->action;
-		
-		//Set the state in the session
-		KRequest::set('session.'.$identifier, $state);
-
-		return $this;
-	}
-	
 	/**
 	 * Method to set a view object attached to the controller
 	 *
@@ -195,8 +152,9 @@ abstract class KControllerService extends KControllerResource
 		    //Only throw an error if the action explicitly failed.
 		    if($data->save() === false) 
 		    {    
+			    $error = $data->getStatusMessage();
 		        $context->setError(new KControllerException(
-		           'Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		           $error ? $error : 'Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
 		        ));
 		       
 		    } 
@@ -224,9 +182,10 @@ abstract class KControllerService extends KControllerResource
             //Only throw an error if the action explicitly failed.
 	        if($data->delete() === false) 
 	        {
-                 $context->setError(new KControllerException(
-		             'Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		         ));  
+			    $error = $data->getStatusMessage();
+                $context->setError(new KControllerException(
+		            $error ? $error : 'Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		        ));  
 		    }
 		    else $context->status = KHttpResponse::NO_CONTENT;
 		} 
