@@ -174,10 +174,10 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the application route
 		 */
-		if(substr($route, 0, 2) == '!+')
+		if(substr($route, 0, 2) == 'component')
 		{
 			$segments	= explode('/', $route);
-			$route      = str_replace('!+/'.$segments[1], '', $route);
+			$route      = str_replace('component/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
@@ -329,7 +329,7 @@ class JRouterSite extends JRouter
 		}
 
 		if(!$built) {
-			$tmp = '!+/'.substr($query['option'], 4).'/'.$tmp;
+			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
 		}
 
 		//Add the site
