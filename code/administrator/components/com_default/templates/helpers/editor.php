@@ -45,6 +45,12 @@ class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
         $editor  = KFactory::get('lib.joomla.editor', array($config->editor));
         $options = KConfig::toData($config->options);
 
-        return $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::toData($config->buttons), $options);
+        if (version_compare(JVERSION, '1.6.0', 'ge')) { 
+            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::toData($config->buttons), $config->name, null, null, $options); 
+        } else { 
+            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::toData($config->buttons), $options); 
+        } 
+        
+        return $result;
     }
 }
