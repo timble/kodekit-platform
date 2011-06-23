@@ -92,7 +92,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * @param   int     The offset of the item
      * @param   mixed   The item's value
-     * @return  object  KObjectSet
+     * @return  object  KObjectArray
      */
     public function offsetSet($offset, $value)
     {
@@ -114,7 +114,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      * Required by interface ArrayAccess
      *
      * @param   int     The offset of the item
-     * @return  object 	KObjectSet
+     * @return  object 	KObjectArray
      */
     public function offsetUnset($offset)
     {
