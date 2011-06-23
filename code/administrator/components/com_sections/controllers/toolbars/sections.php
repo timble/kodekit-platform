@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Modules
+ * @subpackage  Sections
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -15,17 +15,17 @@
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Modules
+ * @subpackage  Section
  */
 class ComSectionsControllerToolbarSections extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
         $this->addSeperator()     
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
+			 
+        return parent::getCommands();
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
