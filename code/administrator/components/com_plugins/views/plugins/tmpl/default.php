@@ -18,7 +18,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <thead>
         	<tr>
         		<th width="20"></th>
-        		<th class="title">
+        		<th>
         		    <?= @helper('grid.sort', array('column' => 'name' , 'title' => 'Name')) ?>
         		</th>
         		<th nowrap="nowrap" width="5%">
@@ -51,10 +51,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tbody>
         <? foreach ($plugins as $plugin) : ?>
         	<tr>
-        		<td width="20" align="center">
+        		<td align="center">
         			<?= @helper('grid.checkbox',array('row' => $plugin)) ?>
         		</td>
-        		<td class="title">
+        		<td>
         		<? if(!$plugin->locked()) : ?>
         			<a href="<?= @route('view=plugin&id='.$plugin->id) ?>">
         				<?= @escape($plugin->title) ?>

@@ -21,7 +21,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <thead>
             <tr>
                 <th width="10"></th>
-    			<th class="title">
+    			<th>
     			    <?= @helper('grid.sort', array('column' => 'name')) ?>
     			</th>
     			<th width="7%">
@@ -38,7 +38,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			</th>
              </tr>
             <tr>
-                <td>
+                <td align="center">
                     <?= @helper('grid.checkall') ?>
                 </td>
                 <td>
@@ -60,7 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tbody>
             <? foreach($newsfeeds as $newsfeed) : ?>
         		<tr>
-                    <td>
+                    <td align="center">
                         <?= @helper('grid.checkbox', array('row' => $newsfeed)) ?>
                     </td>
                     <td>

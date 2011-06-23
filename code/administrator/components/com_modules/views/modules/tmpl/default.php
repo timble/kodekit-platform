@@ -28,8 +28,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th width="20"></th>
-				<th class="title">
+				<th width="10"></th>
+				<th>
 					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
@@ -54,7 +54,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</th>
 			</tr>
 			<tr>
-				<td width="5" align="center">
+				<td align="center">
 					<?= @helper( 'grid.checkall'); ?>
 				</td>
 				<td>

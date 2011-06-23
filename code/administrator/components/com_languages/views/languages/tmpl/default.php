@@ -19,9 +19,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <table class="adminlist"  style="clear: both;">
     	<thead>
     		<tr>
-    			<th width="20">
-    			</th>
-    			<th width="25%" class="title">
+    			<th width="10"></th>
+    			<th>
     				<?= @text('Name'); ?>
     			</th>
     			<th width="5%">
@@ -44,16 +43,15 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     	<tbody>
     		<? foreach ($languages as $language): ?>
     		<tr>
-    			<td width="20" align="center">
-    				<input type="radio" name="language[]" class="-koowa-grid-checkbox" value="<?= $language->name; ?>"
-    					<?= $language->default ? 'checked="checked"' : ''; ?> />
+    			<td align="center">
+    				<input type="radio" name="language[]" class="-koowa-grid-checkbox" value="<?= $language->name; ?>" />
     			</td>
-    			<td width="25%">
+    			<td>
     				<?= $language->title; ?>
     			</td>
-    			<td width="5%" align="center">
+    			<td align="center">
     				<? if($language->default): ?>
-    					<img src="media://system/images/star.png" alt="<?= @text('Default'); ?>" />
+    				<img src="media://system/images/star.png" alt="<?= @text('Default'); ?>" />
     				<? endif; ?>
     			</td>
     			<td align="center">

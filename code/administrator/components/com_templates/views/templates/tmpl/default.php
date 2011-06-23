@@ -21,8 +21,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <table class="adminlist">
         <thead>
             <tr>
-                <th width="20"></th>
-                <th class="title">
+                <th width="10"></th>
+                <th>
                     <?= @text('Name') ?>
                 </th>
                 <th width="5%">
@@ -42,7 +42,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tbody>
         <? foreach($templates as $i => $template) :?>
             <tr>
-                <td width="5">
+                <td>
                     <input type="radio" id="name" name="name" value="<?= $template->name ?>" class="-koowa-grid-checkbox" />
                 </td>
                 <td>
