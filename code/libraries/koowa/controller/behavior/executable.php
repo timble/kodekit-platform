@@ -75,12 +75,12 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
         if($parts[0] == 'before') 
         {
             $action = $parts[1];
-             
+            
             //Check if the action exists
             if(!in_array($action, $context->caller->getActions()))
             {
                 $context->setError(new KControllerException(
-            		'Action Not Implemented', KHttpResponse::NOT_IMPLEMENTED
+            		'Action '.ucfirst($action).' Not Implemented', KHttpResponse::NOT_IMPLEMENTED
                 ));
                 
                 $context->header = array('Allow' =>  $context->caller->execute('options', $context));
@@ -93,7 +93,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
 		        if($context->action != 'options') 
 		        {
 		            $context->setError(new KControllerException(
-		        		'Action Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
+		        		'Action '.unfirst($action).' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
 		            ));
 		        
 		            $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
@@ -123,7 +123,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      *
      * @return boolean
      */
-    public function getReadOnly()
+    public function isReadOnly()
     {
         return $this->readonly;
     }
