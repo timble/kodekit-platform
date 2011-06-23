@@ -24,6 +24,7 @@ class ComUsersModelUsers extends KModelTable
         parent::__construct($config);
 
         $this->_state
+        	->insert('activation'  , 'md5', null, true)
             ->insert('email'       , 'email', null, true)
             ->insert('group_name'  , 'string')
             ->insert('username'    , 'alnum', null, true);

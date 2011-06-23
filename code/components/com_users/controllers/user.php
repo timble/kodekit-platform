@@ -25,7 +25,27 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $this->registerCallback('before.edit', array($this, 'sanitizeData'))
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
-             ->registerCallback('after.add'  , array($this, 'notify'  ));
+             ->registerCallback('after.add'  , array($this, 'notify'))
+             ->registerCallback('after.read' , array($this, 'activate'));
+    }
+
+    public function activate(KCommandContext $context)
+    {
+    	$row = $context->result;
+    	$activation = $context->caller->getModel()->get('activation');
+    	if (!empty($activation)) {
+    		if ($row->id && $row->activation === $activation) {
+	    		$row->activation = '';
+	    		$row->enabled = 1;
+
+	    		if ($row->save()) {
+	    			return KFactory::get('lib.joomla.application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
+	    		}
+    		}
+
+    		return KFactory::get('lib.joomla.application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
+
+    	}
     }
 
     public function getRequest()
@@ -94,7 +114,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $parameters     = JComponentHelper::getParams('com_users');
         $site_name      = $config->getValue('sitename');
         $site_url       = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
-        $activation_url = $site_url.JRoute::_('index.php?option=com_user&task=activate&activation='.$context->data->activation);
+        $activation_url = $site_url.JRoute::_('index.php?option=com_users&view=user&activation='.$context->data->activation);
         $password       = preg_replace('/[\x00-\x1F\x7F]/', '', $context->data->password);
 
         if($parameters->get('useractivation') == 1 ) {
