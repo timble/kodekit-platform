@@ -98,11 +98,7 @@ if(Form && Form.Validator) {
                     </td>
                 </tr>
 			</table>
-
-			<?
-				$user_instance = $user->id ? JUser::getInstance($user->id) : JUser::getInstance();
-				echo $user_instance->getParameters(true)->render('params');
-			?>
+			<?= $user->params->render('params'); ?>
 		</fieldset>
 	</div>
 	<div class="grid_4">
