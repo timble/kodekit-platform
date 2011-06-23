@@ -19,13 +19,13 @@
  */
 class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
         $this->addSeperator()    
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
+	    
+        return parent::getCommands();
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
