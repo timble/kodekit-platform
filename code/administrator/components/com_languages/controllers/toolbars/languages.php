@@ -29,7 +29,7 @@ class ComLanguagesControllerToolbarLanguages extends ComDefaultControllerToolbar
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'auto_commands' => false
+            'auto_defaults' => false
         ));
         
         parent::_initialize($config);
