@@ -19,14 +19,14 @@
  */
 class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
         $this->addSeperator()
 			 ->addEnable()
 			 ->addDisable()
 			 ->addSeperator()
 			 ->addPreferences();
+			 
+	    return parent::getCommands();
     }
 }
