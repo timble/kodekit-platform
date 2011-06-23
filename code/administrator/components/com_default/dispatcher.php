@@ -91,20 +91,16 @@ class ComDefaultDispatcher extends KDispatcherDefault
         $view  = $this->getController()->getView();
     
         //Set the document mimetype
-        $document = KFactory::get('lib.joomla.document');
-        $document->setMimeEncoding($view->mimetype);
+        KFactory::get('lib.joomla.document')->setMimeEncoding($view->mimetype);
         
-        //Render the toolbar and menubar
+        //Disabled the application menubar
+        if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
+            KRequest::set('get.hidemainmenu', 1);
+        }  
+        
+        //Render the menubar
         if($view instanceof ComDefaultViewHtml)
         {
-            $toolbar = KTemplateHelper::factory('toolbar', array(
-            				'toolbar' => $this->getController()->getToolbar()
-                        ));
-
-            //Render the toolbar
-            $document->setBuffer($toolbar->toolbar(), 'modules', 'toolbar');     
-            $document->setBuffer($toolbar->title(), 'modules', 'title');
-            
             //Render the menubar
             if(isset($view->views)) 
             {
@@ -115,13 +111,10 @@ class ComDefaultDispatcher extends KDispatcherDefault
             
                     JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_'.$component.'&view='.$name, $active );
                 }
-            }
-            
-            //Hide the menubar
-            if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
-                KRequest::set('get.hidemainmenu', 1);
-            }      
+            }   
         }
+        
+         
         
         return parent::_actionRender($context);
     }
