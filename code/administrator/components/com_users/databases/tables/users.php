@@ -22,11 +22,13 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 	public function __construct(KConfig $config)
 	{
 	    parent::__construct($config);
-	    
+
 	    //Make sure the email field is unique
 	    $this->getColumn('email')->unique = true;
+
+	    $this->getColumn('users_group_id')->default = 0;
 	}
-    
+
     protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
@@ -42,7 +44,7 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 				'last_visited_on'	=> 'lastvisitDate'
 			)
 		));
-		
+
 		parent::_initialize($config);
 	}
 }
