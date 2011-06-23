@@ -21,6 +21,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     });
 </script>
 
+<?= @toolbar(); ?>
+
 <?= @template('default_sidebar'); ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
