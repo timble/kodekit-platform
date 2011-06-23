@@ -27,15 +27,15 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
              ->registerCallback('after.add'  , array($this, 'notify'  ));
     }
-    
+
     public function getRequest()
     {
         $request = parent::getRequest();
-        
+
         if($request->layout == 'form') {
             $request->id = KFactory::get('lib.joomla.user')->id;
         }
-        
+
         return $request;
     }
 
@@ -43,11 +43,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $user = KFactory::get('lib.joomla.user');
 
-        if($this->_request->layout == 'register' && !$user->guest) 
+        if($this->_request->layout == 'register' && !$user->guest)
         {
             $url =  'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
             $msg =  JText::_('You are already registered.');
-            
+
             $this->setRedirect($url, $msg);
             return false;
         }
@@ -57,6 +57,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionAdd(KCommandContext $context)
     {
+    	$parameters = JComponentHelper::getParams('com_users');
+
         if(!($group_name = $parameters->get('new_usertype'))) {
             $group_name = 'Registered';
         }
@@ -76,7 +78,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             $message = JText::_('REG_COMPLETE_ACTIVATE');
         }
         else $message = JText::_('REG_COMPLETE');
-       
+
         $this->setRedirect('index.php?Itemid='.JSite::getMenu()->getDefault()->id, $message);
 
         return parent::_actionAdd($context);
