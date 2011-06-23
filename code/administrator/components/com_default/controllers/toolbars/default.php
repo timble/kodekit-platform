@@ -20,34 +20,6 @@
 class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 {
 	/**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-       
-        $name  = $this->_identifier->name;
-        
-        //Insert the default commands
-        if($config->auto_defaults)
-        {
-            if(KInflector::isPlural($name))
-            {        
-                $this->addCommand('new')
-                     ->addCommand('delete');   
-            } 
-            else
-            {    
-                $this->addCommand('save')
-                     ->addCommand('apply')
-                     ->addCommand('cancel');
-            }
-        }
-    }
-    
-	/**
      * Set the toolbar's title
      * 
      * Override the toolbar title for singlural toolbars.
@@ -68,40 +40,6 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
         }
         
         return parent::setTitle($title);
-    }
-    
-	/**
-     * New toolbar command
-     * 
-     * @param   object  A KControllerToolbarCommand object
-     * @return  void
-     */
-    protected function _commandNew(KControllerToolbarCommand $command)
-    {
-        $option = $this->_identifier->package;
-        $view   = KInflector::singularize($this->_identifier->name);
-        
-        $command->append(array(
-            'attribs' => array(
-                'href'     => JRoute::_( 'index.php?option=com_'.$option.'&view='.$view)
-            )
-        ));
-    }
-    
-    /**
-     * Cancel toolbar command
-     * 
-     * @param   object  A KControllerToolbarCommand object
-     * @return  void
-     */
-    protected function _commandCancel(KControllerToolbarCommand $command)
-    {  
-        $command->append(array(
-        	'attribs' => array(
-                'data-action' 	  => 'cancel',
-        		'data-novalidate' => 'novalidate'
-            )
-        ));	
     }
     
     /**
