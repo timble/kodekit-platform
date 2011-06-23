@@ -191,7 +191,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
     }
 
     /**
-     * Method to get a ite
+     * Method to get a item
      *
      * @return  object
      */
