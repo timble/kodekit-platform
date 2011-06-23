@@ -110,7 +110,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * it's object handle.
      *
      * @param  object   A KDatabaseRow object to be inserted
-     * @return KDatabaseRowsetAbstract
+     * @return boolean	TRUE on success FALSE on failure
      */
     public function insert(KDatabaseRowInterface $row)
     {
@@ -124,7 +124,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             $this->_object_set->offsetSet($handle, $row);
         }
         
-        return $this;
+        return true;
     }
     
  	/**
