@@ -95,11 +95,15 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 					
 			foreach($callbacks as $key => $callback) 
    			{
-                //Append the config to the context
-   				$context->append($params[$key]); 
-   				
+                $param = $params[$key]; 
+   			    
+                if(is_array($param) && is_numeric(key($param))) { 
+   				    $result = call_user_func_array($callback, $params);
+                } else {
+                    $result = call_user_func($callback,  $context->append($param));
+                }
+   			  
    				//Call the callback
-   				$result = call_user_func($callback, $context);
 				if ( $result === false) {
         			break;
         		}
@@ -131,7 +135,10 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
  	 * Registers a callback function
  	 * 
  	 * If the callback has already been registered. It will not be re-registered. 
- 	 * If params are passed those will be merged with the existing paramaters.
+ 	 * 
+ 	 * If params are passed as a associative array or as a KConfig object they will be merged with the 
+ 	 * context of the command chain and passed along. If they are passed as an indexed array they
+ 	 * will be passed to the callback directly.
  	 * 
  	 * @param  	string|array	The command name to register the callback for or an array of command names
  	 * @param 	callback		The callback function to register
