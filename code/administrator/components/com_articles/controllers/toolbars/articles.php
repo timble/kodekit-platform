@@ -19,10 +19,8 @@
  */
 class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-        
         $state = $this->getController()->getModel()->getState();
         
         if($state->deleted != true) 
@@ -36,7 +34,9 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addSeperator()
                  ->addPreferences();
         }    
-        else $this->addRestore();  
+        else $this->addRestore(); 
+        
+        return parent::getCommands();
     }
     
     protected function _commandRestore(KControllerToolbarCommand $command)
