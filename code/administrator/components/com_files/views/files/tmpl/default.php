@@ -92,6 +92,8 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<?= @toolbar(); ?>
+
 <?= @template('templates_icons'); ?>
 <?= @template('templates_details'); ?>
 
