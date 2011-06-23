@@ -46,16 +46,20 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
   	/**
      * Inserts an object in the set
      * 
-     * @param   object      The object to insert
-     * @return  KObjectSet
+     * @param   object	The object to insert
+     * @return  boolean	TRUE on success FALSE on failure
      */
     public function insert( KObjectHandlable $object)
     { 
-        if($handle = $object->getHandle()) {
+        $result = false;
+        
+        if($handle = $object->getHandle()) 
+        {
             $this->_object_set->offsetSet($handle, $object);
+            $result = true;
         }
        
-       return $this;
+       return $result;
     }
     
     /**
