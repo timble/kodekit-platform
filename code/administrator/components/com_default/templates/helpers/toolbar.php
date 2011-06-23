@@ -22,12 +22,12 @@
 class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 {
 	/**
-	 * A toolbar object
-	 * 
-	 * @var KToolbar
+	 * Toolbar object
+	 *
+	 * @var	object
 	 */
     protected $_toolbar;
-    
+	
 	/**
 	 * Constructor
 	 *
@@ -39,9 +39,13 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 	{
 		parent::__construct($config);
 	
+		if(!isset($config->toolbar)) {
+		    $config->toolbar = $this->_template->getView()->getToolbar();
+		}
+		
 		$this->_toolbar = $config->toolbar;
 	}
-    
+	
 	/**
      * Initializes the options for the object
      *
@@ -68,13 +72,16 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     public function title($config = array())
     {
         $config = new KConfig($config);
+        $config->append(array(
+        	'toolbar' => $this->_toolbar
+        ));
         
-        $html = '<div class="header pagetitle icon-48-'.$this->_toolbar->getIcon().'">';
+        $html = '<div class="header pagetitle icon-48-'.$config->toolbar->getIcon().'">';
         
         if (version_compare(JVERSION,'1.6.0','ge')) {
-			$html .= '<h2>'.JText::_($this->_toolbar->getTitle()).'</h2>';
+			$html .= '<h2>'.JText::_($config->toolbar->getTitle()).'</h2>';
         } else {
-            $html .= $this->_toolbar->getTitle();
+            $html .= $config->toolbar->getTitle();
         }
 		
 		$html .= '</div>';
@@ -91,16 +98,19 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     public function toolbar($config = array())
     {
         $config = new KConfig($config);
+        $config->append(array(
+        	'toolbar' => $this->_toolbar
+        ));
         
         if (version_compare(JVERSION,'1.6.0','ge')) {
-		  $html	= '<div class="toolbar-list" id="toolbar-'.$this->_toolbar->getName().'">';
+		  $html	= '<div class="toolbar-list" id="toolbar-'.$config->toolbar->getName().'">';
         } else {
-          $html = '<div class="toolbar" id="toolbar-'.$this->_toolbar->getName().'">';
+          $html = '<div class="toolbar" id="toolbar-'.$config->toolbar->getName().'">';
         }
         
         $html .= '<table class="toolbar">';
 	    $html .= '<tr>';
-	    foreach ($this->_toolbar as $command) 
+	    foreach ($config->toolbar->getCommands() as $command) 
 	    {
             if($command->getName() != 'seperator') { 
 	            $html .= $this->command(array('command' => $command));   
@@ -162,5 +172,27 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
        	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
        	
     	return $html;
+    }
+    
+    /**
+     * Render the toolbar
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function render($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+        	'toolbar' => $this->_toolbar
+        ));
+        
+        $document = KFactory::get('lib.joomla.document');
+        
+        //Render the toolbar
+        $document->setBuffer($this->toolbar($config), 'modules', 'toolbar');   
+
+        //Render the title
+        $document->setBuffer($this->title($config)  , 'modules', 'title'  ); 
     }
 }
