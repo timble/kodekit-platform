@@ -16,6 +16,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<?= @toolbar(); ?>
+
 <form action="<?= @route('id='.$plugin->id) ?>" method="post" id="plugin-form" class="-koowa-form">
     <div class="col width-60">
     	<fieldset class="adminform">
