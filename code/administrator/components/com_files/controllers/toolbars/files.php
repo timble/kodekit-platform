@@ -20,20 +20,11 @@
 
 class ComFilesControllerToolbarFiles extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-		 parent::__construct($config);
-
 		 $this->addDelete();
-    }
-
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-    		'auto_defaults' => false
-    	));
-
-    	parent::_initialize($config);
+		 
+		 return parent::getCommands();
     }
 
 	protected function _commandDelete(KControllerToolbarCommand $command)
