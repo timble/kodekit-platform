@@ -24,8 +24,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         parent::__construct($config);
 
         $this->registerCallback('after.add', array($this, 'notify'));
+        $this->registerCallback(array('after.save', 'after.apply'), array($this, 'setErrorMessage'));
     }
-   
+
     protected function _actionDelete(KCommandContext $context)
     {
         $rowset = parent::_actionDelete($context);
@@ -37,7 +38,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         return $rowset;
     }
-    
+
     protected function _actionLogin(KCommandContext $context)
     {
         $credentials['username'] = KRequest::get('post.username', 'string');
@@ -45,28 +46,39 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $result = KFactory::get('lib.joomla.application')->login($credentials);
 
-        if(JError::isError($result)) 
+        if(JError::isError($result))
         {
             $this->_redirect_type    = 'error';
             $this->_redirect_message =  $result->getError();
         }
-        
+
         $this->_redirect = KRequest::referrer();
     }
-    
+
     protected function _actionLogout(KCommandContext $data)
     {
         $result = KFactory::get('lib.joomla.application')->logout();
-         
-        if(JError::isError($result)) 
+
+        if(JError::isError($result))
         {
             $this->_redirect_type    = 'error';
             $this->_redirect_message =  $result->getError();
         }
-        
+
         $this->_redirect = KRequest::referrer();
     }
-    
+
+    public function setErrorMessage(KCommandContext $context)
+    {
+    	$row = $context->result;
+    	if ($row instanceof KDatabaseRowInterface) {
+	    	if ($row->getStatus() === KDatabase::STATUS_FAILED) {
+	    		$this->_redirect_message = $row->getStatusMessage();
+				$this->_redirect_type	 = 'error';
+	    	}
+    	}
+    }
+
     public function notify(KCommandContext $context)
     {
         if($context->result->status == KDatabase::STATUS_CREATED)

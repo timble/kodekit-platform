@@ -55,25 +55,25 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Validate received data.
 		if(($this->_new || isset($this->_modified['name'])) && trim($this->name) == '')
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_('Please enter a name!');
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_('Please enter a name!'));
 
 			return false;
 		}
 
 		if(($this->_new || isset($this->_modified['username'])) &&  trim($this->username) == '')
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_('Please enter a username!');
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_('Please enter a username!'));
 
 			return false;
 		}
 
 		if(($this->_new || isset($this->_modified['username'])) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_('Please enter a valid username. No spaces, at least 2 characters '.
-				'and must contain <strong>only</strong> letters and numbers.');
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_('Please enter a valid username. No spaces, at least 2 characters '.
+				'and must contain <strong>only</strong> letters and numbers.'));
 
 			return false;
 		}
@@ -89,8 +89,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
             if($total)
             {
-                $this->_status          = KDatabase::STATUS_FAILED;
-                $this->_status_message  = JText::_('This username is already in use.');
+                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatusMessage(JText::_('This username is already in use.'));
 
                 return $this;
             }
@@ -98,8 +98,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		if(($this->_new || isset($this->_modified['email'])) && (trim($this->email) == '') || !(KFactory::tmp('lib.koowa.filter.email')->validate($this->email)))
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_('Please enter a valid e-mail address.');
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_('Please enter a valid e-mail address.'));
 
 			return false;
 		}
@@ -115,8 +115,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 			if($total)
 			{
-				$this->_status			= KDatabase::STATUS_FAILED;
-				$this->_status_message	= JText::_('This e-mail address is already registered.');
+				$this->setStatus(KDatabase::STATUS_FAILED);
+				$this->setStatusMessage(JText::_('This e-mail address is already registered.'));
 
 				return false;
 			}
@@ -125,8 +125,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Don't allow users to block themselves.
 		if(isset($this->_modified['enabled']) && !$this->_new && $user->id == $this->id && !$this->enabled)
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't block yourself!");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("You can't block yourself!"));
 
 			return false;
 		}
@@ -134,25 +134,25 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 	    // Don't allow to save a user without a group.
         if(($this->_new || isset($this->_modified['users_group_id'])) && !$this->users_group_id)
         {
-            $this->_status            = KDatabase::STATUS_FAILED;
-            $this->_status_message    = JText::_("You can't create a user without a user group.");
+            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatusMessage(JText::_("You can't create a user without a user group."));
 
             return false;
         }
 
 		// Don't allow users below super administrator to edit a super administrator.
 		if(!$this->_new && $old_row->users_group_id == 25 && $user->gid != 25) {
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't edit a super administrator account.");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("You can't edit a super administrator account."));
 
 			return false;
 		}
 
 		// Don't allow users below super administrator to create an administrators.
 		if(isset($this->_modified['users_group_id']) && $this->users_group_id == 24 && !($user->gid == 25 || ($user->id == $this->id && $user->gid == 24))) {
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't create a user with this user group level. "
-				."Only super administrators have this ability.");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
+				."Only super administrators have this ability."));
 
 			return false;
 		}
@@ -160,9 +160,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Don't allow users below super administrator to create a super administrator.
 		if($this->users_group_id == 25 && $user->gid != 25)
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't create a user with this user group level. "
-				."Only super administrators have this ability.");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
+				."Only super administrators have this ability."));
 
 			return false;
 		}
@@ -179,9 +179,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 			if($total <= 1)
 			{
-				$this->_status			= KDatabase::STATUS_FAILED;
-				$this->_status_message	= JText::_("You can't change this user's group because ".
-					"the user is the only active super administrator for your site.");
+				$this->setStatus(KDatabase::STATUS_FAILED);
+				$this->setStatusMessage(JText::_("You can't change this user's group because ".
+					"the user is the only active super administrator for your site."));
 
 				return false;
 			}
@@ -189,8 +189,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		// Check if passwords match.
 		if(isset($this->_modified['password']) && $this->password != $this->password_verify) {
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("Passwords don't match!");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("Passwords don't match!"));
 
 			return false;
 		}
@@ -293,9 +293,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Don't allow administrators to delete other administrators or super administrators.
 		if($user->gid == 24 && ($this->users_group_id == 24 || $this->users_group_id == 25))
 		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't delete a user with this user group level. "
-				."Only super administrators have this ability.");
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_("You can't delete a user with this user group level. "
+				."Only super administrators have this ability."));
 
 			return false;
 		}
