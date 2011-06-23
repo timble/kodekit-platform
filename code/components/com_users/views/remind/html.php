@@ -22,7 +22,7 @@ class ComUsersViewRemindHtml extends ComDefaultViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'layout_default' => 'form'
+            'layout' => 'form'
         ));
 
         parent::_initialize($config);
