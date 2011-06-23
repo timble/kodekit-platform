@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @toolbar(); ?>
 
-<?= @template('default_sidebar'); ?>
+<?= @template('default_sidebar', array('groups' => $groups)); ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
 	<table class="adminlist">

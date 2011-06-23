@@ -67,7 +67,7 @@ class ComUsersModelUsers extends KModelTable
 		parent::_buildQueryWhere($query);
 
 		if($this->_state->group) {
-			$query->where('users_group_id', '=', $this->_state->group);
+			$query->where('tbl.gid', '=', $this->_state->group);
 		}
 
 	   if($this->_state->search) {

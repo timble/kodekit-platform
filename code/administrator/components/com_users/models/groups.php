@@ -25,9 +25,13 @@ class ComUsersModelGroups extends KModelTable
     {
         if(!isset($this->_tree))
         {
+	        $this->_tree   = KFactory::get('lib.joomla.acl')->get_group_children_tree(null, 'USERS', false);
+	        return $this->_tree;
+
+	        /* @TODO: Fix query when query refactoring branch is merged.
+
             $table = $this->getTable();
 
-            // @TODO: Fix query when query refactoring branch is merged.
             $query = $table->getDatabase()->getQuery()
                 ->select(array('node.id', 'node.name', '(COUNT(parent.name) - 3) AS depth'))
                 ->from('core_acl_aro_groups AS node')
@@ -40,6 +44,7 @@ class ComUsersModelGroups extends KModelTable
                 ->order('node.lft');
 
             $this->_tree = $table->select($query, KDatabase::FETCH_ROWSET);
+            */
         }
 
         return $this->_tree;
