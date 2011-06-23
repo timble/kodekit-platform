@@ -58,39 +58,47 @@ class KObjectQueue extends KObject implements Iterator, Countable
      * 
      * @param   object      A KObject instance
      * @param   integer     The associated priority
-     * @return  KObjectQueue
+     * @return  boolean		TRUE on success FALSE on failure
      */
     public function enqueue( KObjectHandlable $object, $priority)
     {
+        $result = false;
+        
         if($handle = $object->getHandle()) 
         {
             $this->_object_list->offsetSet($handle, $object);
         
             $this->_priority_list->offsetSet($handle, $priority);
             $this->_priority_list->asort(); 
+            
+            $result = true;
         }
         
-        return $this;
+        return $result;
     }
     
     /**
      * Removes an object from the queue
      * 
-     * @param   object      A KObject instance
-     * @return  KObjectQueue
+     * @param   object	A KObject instance
+     * @return  boolean	TRUE on success FALSE on failure
      */
     public function dequeue( KObjectHandlable $object)
     {
+        $result = false;
+        
         if($handle = $object->getHandle())
         {
             if($this->_object_list->offsetExists($handle)) 
             {
                 $this->_object_list->offsetUnset($handle);
                 $this->_priority_list->offsetUnSet($handle); 
+                
+                $result = true;
             }
         }
 
-        return $this;
+        return $result;
     }
      
     /**
@@ -141,6 +149,23 @@ class KObjectQueue extends KObject implements Iterator, Countable
     public function hasPriority($priority)
     {
         $result = array_search($priority, $this->_priority_list);
+        return $result;
+    }
+    
+    /**
+     * Check if the queue Does contain a given object
+     * 
+     * @param  mixed $datum 
+     * @return bool
+     */
+    public function contains(KObjectHandlable $object)
+    {
+        $result = false;
+        
+        if($handle = $object->getHandle()) {
+            $result = $this->_object_list->offsetExists($handle);
+        }
+        
         return $result;
     }
    
