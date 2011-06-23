@@ -39,7 +39,7 @@ class ComFilesCommandValidatorFile extends KCommand
 
 			if (empty($row->path)) {
 				$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $row->file));
-	        	$path = $uri->get(KHttpUrl::PART_PATH | KHttpUrl::PART_FORMAT);
+	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}
