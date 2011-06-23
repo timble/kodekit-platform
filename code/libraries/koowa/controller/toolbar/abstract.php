@@ -18,7 +18,7 @@
  * @uses        KInflector
  * @uses        KFactory
  */
-abstract class KControllerToolbarAbstract extends KObjectArray implements KObjectIdentifiable
+abstract class KControllerToolbarAbstract extends KObject implements KObjectIdentifiable
 {
     /**
      * The toolbar title
@@ -40,6 +40,13 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
      * @var     array
      */
     protected $_controller = null;
+    
+    /** 
+     * The commands
+     *
+     * @var array
+     */
+    protected $_commands = array();
 
     /**
      * Constructor
@@ -77,7 +84,6 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
             'title'         => KInflector::humanize($this->getName()),
             'icon'          => 'generic',
             'controller'    => null,
-            'auto_defaults' => true
         ));
         
         parent::_initialize($config);
@@ -166,10 +172,10 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
      */
     public function addSeperator()
     {
-        $this[] = new KControllerToolbarCommand('seperator');
+        $this->_commands[] = new KControllerToolbarCommand('seperator');
         return $this;
     }
-
+     
     /**
      * Add a command
      *
@@ -197,8 +203,18 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
             ));
         }
         
-        $this->$name = $command;
+        $this->_commands[$name] = $command;
         return $this;
+    }
+    
+ 	/**
+     * Get the list of commands
+     *
+     * @return  array
+     */
+    public function getCommands()
+    {
+        return $this->_commands;   
     }
  
     /**
@@ -208,7 +224,7 @@ abstract class KControllerToolbarAbstract extends KObjectArray implements KObjec
      */
     public function reset()
     {
-        $this->_data = array();
+        $this->_commands = array();
         return $this;
     }
     
