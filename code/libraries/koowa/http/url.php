@@ -93,19 +93,19 @@ class KHttpUrl extends KObject
      * 
      * @see get()
      */
-    const PART_SCHEME   = 1;
-    const PART_USER     = 2;
-    const PART_PASS     = 4;
-    const PART_HOST     = 8;
-    const PART_PORT     = 16;
-    const PART_PATH     = 32;
-    const PART_FORMAT   = 64;
-    const PART_QUERY    = 128;
-    const PART_FRAGMENT = 256;
+    const SCHEME   = 1;
+    const USER     = 2;
+    const PASS     = 4;
+    const HOST     = 8;
+    const PORT     = 16;
+    const PATH     = 32;
+    const FORMAT   = 64;
+    const QUERY    = 128;
+    const FRAGMENT = 256;
     
-    const PART_AUTH     = 6;
-    const PART_BASE     = 63;
-    const PART_ALL      = 511;
+    const AUTH     = 6;
+    const BASE     = 63;
+    const FULL     = 511;
     
     /**
      * The scheme [http|https|ftp|mailto|...]
@@ -257,23 +257,23 @@ class KHttpUrl extends KObject
     /**
      * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * @param integer A bitmask of binary or'ed HTTP_URL constants; PART_ALL is the default
+     * @param integer A bitmask of binary or'ed HTTP_URL constants; FULL is the default
      * @return  string
      */
-    public function get($parts = self::PART_ALL)
+    public function get($parts = self::FULL)
     {
         $url = '';
         
         //Add the scheme
-        if(($parts & self::PART_SCHEME) && !empty($this->scheme)) {
+        if(($parts & self::SCHEME) && !empty($this->scheme)) {
             $url .=  urlencode($this->scheme).'://';
         }  
         
         //Add the username and password
-        if(($parts & self::PART_USER) && !empty($this->user)) 
+        if(($parts & self::USER) && !empty($this->user)) 
         {
             $url .= urlencode($this->user);
-            if(($parts & self::PART_PASS) && !empty($this->pass)) {
+            if(($parts & self::PASS) && !empty($this->pass)) {
                 $url .= ':' . urlencode($this->pass);
             }
             
@@ -281,31 +281,31 @@ class KHttpUrl extends KObject
         }
         
         // Add the host and port, if any.
-        if(($parts & self::PART_HOST) && !empty($this->host)) 
+        if(($parts & self::HOST) && !empty($this->host)) 
         {
             $url .=  urlencode($this->host);
             
-            if(($parts & self::PART_PORT) && !empty($this->port)) {
+            if(($parts & self::PORT) && !empty($this->port)) {
                 $url .=  ':' . (int) $this->port;
             }
         }
         
         // Add the rest of the url. we use trim() instead of empty() on string
         // elements to allow for string-zero values.
-        if(($parts & self::PART_PATH) && !empty($this->path)) 
+        if(($parts & self::PATH) && !empty($this->path)) 
         {
             $url .= $this->_pathEncode($this->path);
-            if(($parts & self::PART_FORMAT) && trim($this->format) !== '') {
+            if(($parts & self::FORMAT) && trim($this->format) !== '') {
                 $url .= '.' . urlencode($this->format);
             }
         }
         
         $query = $this->getQuery();
-        if(($parts & self::PART_QUERY) && !empty($query)) {
+        if(($parts & self::QUERY) && !empty($query)) {
             $url .= '?' . $this->getQuery();
         }
         
-        if(($parts & self::PART_FRAGMENT) && trim($this->fragment) !== '') {
+        if(($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
             $url .=  '#' . urlencode($this->fragment);
         }
                      
@@ -424,7 +424,7 @@ class KHttpUrl extends KObject
      */
     public function __toString()
     {
-        return $this->get(self::PART_ALL);
+        return $this->get(self::FULL);
     }
     
     /**
