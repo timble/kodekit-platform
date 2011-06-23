@@ -19,12 +19,12 @@
  */
 class ComNewsfeedsControllerToolbarNewsfeeds extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
         $this->addSeperator()
 			 ->addEnable()
 			 ->addDisable();
+	
+	    return parent::getCommands();
     }
 }
