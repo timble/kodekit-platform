@@ -35,20 +35,4 @@ class KControllerToolbarDefault extends KControllerToolbarAbstract
             )
         ));
     }
-    
-    /**
-     * Cancel toolbar command
-     * 
-     * @param   object  A KControllerToolbarCommand object
-     * @return  void
-     */
-    protected function _commandCancel(KControllerToolbarCommand $command)
-    {  
-        $command->append(array(
-        	'attribs' => array(
-                'data-action' 	  => 'cancel',
-        		'data-novalidate' => 'novalidate'
-            )
-        ));	
-    }
 }
