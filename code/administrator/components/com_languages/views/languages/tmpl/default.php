@@ -13,6 +13,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<?= @toolbar(); ?>
+
 <?= @template('default_sidebar'); ?>
 
 <form action="<?= @route('application='.$state->application)?>" method="get" class="-koowa-grid">
