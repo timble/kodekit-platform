@@ -1,9 +1,9 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
+ * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Banners
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -12,21 +12,21 @@
 /**
  * Banners Toolbar Class
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
+ * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
+ * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Banners    
  */
 class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
-         $this->addSeperator()
+        $this->addSeperator()
               ->addEnable()
               ->addDisable()
               ->addSeperator()
               ->addPreferences(array('height' => 88));
+         
+        return parent::getCommands();
     }
 }
