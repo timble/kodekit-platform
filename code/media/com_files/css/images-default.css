@@ -5,6 +5,7 @@
 #insert {
 	border: 1px solid #E1E1E1;
 	background-color: #FFF;
+	width: 100%; /* Mozilla fix */
 }
 #insert > * { border-right: 1px solid #E1E1E1; height: 300px; }
 
