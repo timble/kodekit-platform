@@ -42,14 +42,14 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
         $config = KFactory::get('lib.joomla.config');
         $url    = JRoute::_('index.php?option=com_user&view=login');
 
-        $email = array(
+        $details = array(
             'from_email' => $config->getValue('mailfrom'),
             'from_name'  => $config->getValue('fromname'),
             'subject'    => JText::sprintf('USERNAME_REMINDER_EMAIL_TITLE', $config->getValue('sitename')),
             'body'		 => JText::sprintf('USERNAME_REMINDER_EMAIL_TEXT', $config->getValue('sitename'), $user->username, $url)
         );
 
-        if(!JUtility::sendMail($email['from_email'], $email['from_name'], $email, $email['subject'], $email['body']))
+        if(!JUtility::sendMail($details['from_email'], $details['from_name'], $email, $details['subject'], $details['body']))
 		{
 		    $this->setRedirect(KRequest::referrer(), JText::_('ERROR_SENDING_REMINDER_EMAIL'), 'error');
 			return false;
