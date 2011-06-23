@@ -103,6 +103,8 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<?= @toolbar(); ?>
+
 <?= @template('templates');?>
 <?= @template('folders');?>
 
