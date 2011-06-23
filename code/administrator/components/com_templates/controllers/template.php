@@ -19,13 +19,6 @@
  */
 class ComTemplatesControllerTemplate extends ComDefaultControllerDefault
 {
-    /**
-     * Read action
-     *
-     * This functions loads the language file for a template
-     *
-     *  @return KDatabaseRow    A row object containing the selected row
-     */
     protected function _actionRead(KCommandContext $context)
     {
         $template = parent::_actionRead($context);
