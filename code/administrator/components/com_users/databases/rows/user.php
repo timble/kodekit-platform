@@ -23,11 +23,11 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     {
    	 	if($column == 'params' && !($this->_data['params'] instanceof JParameter))
 		{
-			$xml_path	= JPATH_BASE.'/components/com_users/databases/rows/';
+			$xml_path	= JPATH_ADMINISTRATOR.'/components/com_users/databases/rows';
 			$xml_name	= str_replace(' ', '_', strtolower($this->group_name));
 
 			if(!file_exists($file = $xml_path.'/'.$xml_name.'.xml')) {
-				$file = $xml_path.'/default.xml';
+				$file = $xml_path.'/user.xml';
 			}
 
 			$params	= new JParameter($this->_data['params']);
@@ -92,7 +92,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
                 $this->setStatus(KDatabase::STATUS_FAILED);
                 $this->setStatusMessage(JText::_('This username is already in use.'));
 
-                return $this;
+                return false;
             }
         }
 

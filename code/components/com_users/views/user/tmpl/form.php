@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -78,7 +78,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </tr>
     <? endif ?>
     </table>
-    <?= $parameters->render('params') ?>
+    <?= $user->params->render(); ?>
 
     <button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?= @text('Save') ?></button>
 </form>
