@@ -26,19 +26,33 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
         if($parameters->get('allowUserRegistration') == '0') {
             return false;
         }
-        
+
         return true;
     }
-    
+
+    protected function _beforeRead(KCommandContext $context)
+    {
+    	$parameters = JComponentHelper::getParams('com_users');
+
+        if($parameters->get('allowUserRegistration') == '0') {
+	        $view = $context->caller->getView();
+	    	if ($view->getName() === 'user' && $view->getLayout() === 'register') {
+	    		return false;
+	    	}
+        }
+
+        return true;
+    }
+
     protected function _beforeEdit(KCommandContext $context)
     {
         $request = $context->caller->getRequest();
-        
+
         if($request->id == 0 || $request->id != KFactory::get('lib.joomla.user')->id) {
             return false;
         }
-        
-        $result = !KFactory::get('lib.joomla.user')->guest;       
+
+        $result = !KFactory::get('lib.joomla.user')->guest;
         return $result;
     }
 }
