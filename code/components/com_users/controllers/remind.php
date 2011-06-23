@@ -39,8 +39,9 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
 			return false;
         }
 
-        $config = KFactory::get('lib.joomla.config');
-        $url    = JRoute::_('index.php?option=com_user&view=login');
+        $config     = KFactory::get('lib.joomla.config');
+        $site_url   = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $url        = $site_url.JRoute::_('index.php?option=com_users&view=login');
 
         $details = array(
             'from_email' => $config->getValue('mailfrom'),
