@@ -56,8 +56,8 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$query = 'SELECT `id`, `password`, `gid`'
 			. ' FROM `#__users`'
-			. ' WHERE (username = ' . $db->Quote( $credentials['username'] )
-			. ' OR email = ' . $db->Quote( $credentials['username'] ).');'
+			. ' WHERE (email = ' . $db->Quote( $credentials['username'] )
+			. ' OR username = ' . $db->Quote( $credentials['username'] ).');'
 			;
 		$db->setQuery( $query );
 		$result = $db->loadObject();

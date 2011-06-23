@@ -122,6 +122,19 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			}
 		}
 
+		/*
+		 * If username field is an email it has to be the same with email field.
+		 * This removes the possibilitiy that a user can get locked out of her account
+		 * if someone else uses that username as the email field.
+		 */
+		if (KFactory::tmp('lib.koowa.filter.email')->validate($this->username) === true
+				&& $this->username !== $this->email) {
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage(JText::_('Your e-mail and username should match if you want to use an e-mail address as your username.'));
+
+			return false;
+		}
+
 		// Don't allow users to block themselves.
 		if(isset($this->_modified['enabled']) && !$this->_new && $user->id == $this->id && !$this->enabled)
 		{
