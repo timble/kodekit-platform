@@ -127,9 +127,7 @@ input.button  { cursor: pointer; }
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 8px 0;
-	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
 	background-color: #F9F9F9;
 	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f9f9f9), to(#f1f1f1));
 	background-image: -moz-linear-gradient(0% 35% 270deg,#f9f9f9, #f1f1f1);
