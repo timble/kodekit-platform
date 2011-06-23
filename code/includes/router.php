@@ -174,7 +174,7 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the application route
 		 */
-		if(substr($route, 0, 2) == 'component')
+		if(substr($route, 0, 9) == 'component')
 		{
 			$segments	= explode('/', $route);
 			$route      = str_replace('component/'.$segments[1], '', $route);
