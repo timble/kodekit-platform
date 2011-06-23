@@ -1,6 +1,6 @@
 <?php
 /**
-* @version      $Id: helpers.php 506 2008-10-04 14:40:02Z mathias $
+* @version      $Id$
 * @category     Koowa
 * @package      Koowa_Template
 * @subpackage   Filter
