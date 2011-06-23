@@ -19,13 +19,13 @@
  */
 class ComModulesControllerToolbarModules extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
         $this->addSeperator()
 			 ->addEenable()
 			 ->addDisable();
+        
+        return parent::getCommands();
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
