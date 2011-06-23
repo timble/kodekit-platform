@@ -24,7 +24,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         parent::__construct($config);
 
         $this->registerCallback('after.add', array($this, 'notify'));
-        $this->registerCallback(array('after.save', 'after.apply'), array($this, 'setErrorMessage'));
     }
 
     protected function _actionDelete(KCommandContext $context)
@@ -66,17 +65,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         }
 
         $this->_redirect = KRequest::referrer();
-    }
-
-    public function setErrorMessage(KCommandContext $context)
-    {
-    	$row = $context->result;
-    	if ($row instanceof KDatabaseRowInterface) {
-	    	if ($row->getStatus() === KDatabase::STATUS_FAILED) {
-	    		$this->_redirect_message = $row->getStatusMessage();
-				$this->_redirect_type	 = 'error';
-	    	}
-    	}
     }
 
     public function notify(KCommandContext $context)
