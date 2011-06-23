@@ -50,8 +50,6 @@
 #menu ul li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
 #menu ul li.node:hover > a { background-position: 95% 50%; }
 
-#menu li:first-of-type a { border-left: 1px solid #555; }
-
 #menu li.disabled a, #menu li.disabled:hover a { color: #666; cursor: default; }
 
 #menu ul a {
@@ -112,7 +110,7 @@
 	font-size: 12px; font-weight: bold; text-decoration: none;	
 	background-repeat: no-repeat;
 	background-image: none !important; /*background-position: 3px 50%;*/
-	border-right: 1px solid #555;
+	border-left: 1px solid #555;
 }
 
 #statusmenu li.disabled a { color: #DDD; cursor: default; }
@@ -121,9 +119,6 @@
 	background-color: #1C44F3;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
-
-/* statusmenu */
-#module-status li:first-of-type a { border-left: 1px solid #555; }
 
 /* submenu styling */
 #submenu {
