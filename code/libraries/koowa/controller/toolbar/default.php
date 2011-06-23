@@ -18,5 +18,37 @@
  */
 class KControllerToolbarDefault extends KControllerToolbarAbstract
 {
+	/**
+     * New toolbar command
+     * 
+     * @param   object  A KControllerToolbarCommand object
+     * @return  void
+     */
+    protected function _commandNew(KControllerToolbarCommand $command)
+    {
+        $option = $this->_identifier->package;
+        $view   = KInflector::singularize($this->_identifier->name);
+        
+        $command->append(array(
+            'attribs' => array(
+                'href'     => JRoute::_( 'index.php?option=com_'.$option.'&view='.$view)
+            )
+        ));
+    }
     
+    /**
+     * Cancel toolbar command
+     * 
+     * @param   object  A KControllerToolbarCommand object
+     * @return  void
+     */
+    protected function _commandCancel(KControllerToolbarCommand $command)
+    {  
+        $command->append(array(
+        	'attribs' => array(
+                'data-action' 	  => 'cancel',
+        		'data-novalidate' => 'novalidate'
+            )
+        ));	
+    }
 }
