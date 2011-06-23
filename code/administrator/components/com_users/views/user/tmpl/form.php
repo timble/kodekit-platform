@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -129,6 +129,7 @@ if(Form && Form.Validator) {
 						<?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
 					</td>
 				</tr>
+				<? if (!$user->isNew()): ?>
 				<tr>
 					<td class="key">
 						<?= @text('Register Date') ?>:
@@ -153,6 +154,7 @@ if(Form && Form.Validator) {
 						<? endif ?>
 					</td>
 				</tr>
+				<? endif; ?>
 			</table>
 		</div>
 	</div>
