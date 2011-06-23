@@ -19,22 +19,14 @@
  */
 class ComLanguagesControllerToolbarLanguages extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
-       
-        $this->addSet();
-    }
-    
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'auto_defaults' => false
-        ));
+        $this->reset()
+             ->addSet();
         
-        parent::_initialize($config);
+        return parent::getCommands();
     }
-    
+     
     protected function _commandSet(KControllerToolbarCommand $command)
     {
         $command->label = JText::_('Make Default');
