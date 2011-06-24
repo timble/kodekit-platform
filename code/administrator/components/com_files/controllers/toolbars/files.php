@@ -22,8 +22,7 @@ class ComFilesControllerToolbarFiles extends ComDefaultControllerToolbarDefault
 {
     public function getCommands()
     {
-		 $this->reset()
-		      ->addDelete();
+		 $this->addDelete();
 		 
 		 return parent::getCommands();
     }
