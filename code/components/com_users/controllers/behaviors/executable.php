@@ -19,7 +19,7 @@
  */
 class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    protected function _beforeAdd(KCommandContext $context)
+    public function canAdd()
     {
         $parameters = JComponentHelper::getParams('com_users');
 
@@ -30,12 +30,13 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
         return true;
     }
 
-    protected function _beforeRead(KCommandContext $context)
+    public function canRead()
     {
     	$parameters = JComponentHelper::getParams('com_users');
 
-        if($parameters->get('allowUserRegistration') == '0') {
-	        $view = $context->caller->getView();
+        if($parameters->get('allowUserRegistration') == '0') 
+        {
+	        $view = $this->getView();
 	    	if ($view->getName() === 'user' && $view->getLayout() === 'register') {
 	    		return false;
 	    	}
@@ -44,9 +45,9 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
         return true;
     }
 
-    protected function _beforeEdit(KCommandContext $context)
+    public function canEdit(KCommandContext $context)
     {
-        $request = $context->caller->getRequest();
+        $request = $this->getRequest();
 
         if($request->id == 0 || $request->id != KFactory::get('lib.joomla.user')->id) {
             return false;
