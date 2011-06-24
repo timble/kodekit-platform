@@ -113,6 +113,8 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
  	/**
      * Get an object handle
      * 
+     * Force the object to be enqueue in the command chain.
+     * 
      * @return string A string that is unique, or NULL
      * @see execute()
      */
