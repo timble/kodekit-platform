@@ -34,7 +34,7 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
     {
     	$parameters = JComponentHelper::getParams('com_users');
 
-        if($parameters->get('allowUserRegistration') == '0') 
+        if($parameters->get('allowUserRegistration') == '0')
         {
 	        $view = $this->getView();
 	    	if ($view->getName() === 'user' && $view->getLayout() === 'register') {
@@ -45,7 +45,7 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
         return true;
     }
 
-    public function canEdit(KCommandContext $context)
+    public function canEdit()
     {
         $request = $this->getRequest();
 
