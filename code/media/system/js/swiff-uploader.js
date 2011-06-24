@@ -22,7 +22,7 @@ Fx.ProgressBar = new Class({
 	},
 
 	initialize: function(element, options) {
-		this.element = $(element);
+		this.element = document.id(element);
 		this.parent(options);
 
 		var url = this.options.url;
@@ -62,7 +62,7 @@ Fx.ProgressBar = new Class({
 
 		this.element.setStyle('backgroundPosition', css + ' 0px').title = Math.round(to) + '%';
 
-		var text = $(this.options.text);
+		var text = document.id(this.options.text);
 		if (text) text.set('text', Math.round(to) + '%');
 
 		return this;
@@ -190,10 +190,10 @@ Swiff.Uploader = new Class({
 		if (!path.contains('?')) path += '?noCache=' + $time(); // cache in IE
 
 		// container options for Swiff class
-		this.options.container = this.box = new Element('span', {'class': 'swiff-uploader-box'}).inject($(this.options.container) || document.body);
+		this.options.container = this.box = new Element('span', {'class': 'swiff-uploader-box'}).inject(document.id(this.options.container) || document.body);
 
 		// target
-		this.target = $(this.options.target);
+		this.target = document.id(this.options.target);
 		if (this.target) {
 			var scroll = window.getScroll();
 			this.box.setStyles({
