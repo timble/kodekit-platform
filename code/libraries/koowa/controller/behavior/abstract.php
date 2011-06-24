@@ -43,6 +43,11 @@ abstract class KControllerBehaviorAbstract extends KMixinAbstract implements KCo
 		parent::__construct($config);
 		
 		$this->_priority = $config->priority;
+		
+		//Automatically mixin the behavior
+		if($config->auto_mixin) {
+		    $this->mixin($this);
+		}
 	}
 	
 	/**
@@ -57,6 +62,7 @@ abstract class KControllerBehaviorAbstract extends KMixinAbstract implements KCo
     {
     	$config->append(array(
 			'priority'   => KCommand::PRIORITY_NORMAL,
+    	    'auto_mixin' => false
 	  	));
 	  	
     	parent::_initialize($config);
@@ -149,14 +155,14 @@ abstract class KControllerBehaviorAbstract extends KMixinAbstract implements KCo
     {
         $methods   = parent::getMixableMethods($mixer);
         $methods[] = 'is'.ucfirst($this->_identifier->name);
-        
+          
         foreach($this->getMethods() as $method)
         {
             if(substr($method, 0, 7) == '_action') {
                 $methods[] = strtolower(substr($method, 7));
             }  
         }
-        
-        return array_diff($methods, array('execute'));
+     
+        return array_diff($methods, array('execute', 'getIdentifier', 'getPriority', 'getHandle'));
     }
 }
