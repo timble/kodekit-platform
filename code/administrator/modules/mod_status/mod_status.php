@@ -37,7 +37,7 @@ JHTML::script('koowa.js', 'media/lib_koowa/js/');
 if(!strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) 
 {
     $token      = JUtility::getToken();
-    $json       = "{method:'post', url:'index.php?option=com_users&view=user', params:{action:'logout', _token:'".$token."'}}";
+    $json       = "{method:'post', url:'index.php?option=com_users&view=user&id=".JFactory::getUser()->id."', params:{action:'logout', _token:'".$token."'}}";
     $output[]   = '<li '.$class.'><a href="#" onclick="new Koowa.Form('.$json.').submit();">'.JText::_('Logout').'</a></li>';
 }
 
