@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <ul <?= isset($id) && $id === false ? '' : 'id="folder-tree-html"'; ?>>
 <? foreach($folders as $folder): ?>
 	<li>
-		<a href="#!/<?= $folder->path; ?>" title="<?= $folder->path; ?>">
+		<a href="#/<?= $folder->path; ?>" title="<?= $folder->path; ?>">
 			<!--id:<?= $folder->path; ?>-->
 			<?= $folder->name; ?>
 		</a>
