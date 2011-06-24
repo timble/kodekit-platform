@@ -44,7 +44,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     		}
 
     		return KFactory::get('lib.joomla.application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
-
     	}
     }
 

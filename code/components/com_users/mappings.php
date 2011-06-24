@@ -19,6 +19,7 @@
  */
 
 KFactory::map('site::com.users.controller.default'   , 'admin::com.users.controller.default');
+KFactory::map('site::com.users.model.users'          , 'admin::com.users.model.users');
 KFactory::map('site::com.users.database.row.user'    , 'admin::com.users.database.row.user');
 KFactory::map('site::com.users.database.table.groups', 'admin::com.users.database.table.groups');
 KFactory::map('site::com.users.database.table.users' , 'admin::com.users.database.table.users');

@@ -28,7 +28,12 @@ class ComUsersModelUsers extends KModelTable
 	{
 		parent::__construct($config);
 
-		$this->_state->insert('group', 'int');
+        $this->_state
+        	->insert('activation'  , 'md5', null, true)
+            ->insert('email'       , 'email', null, true)
+            ->insert('username'    , 'alnum', null, true)
+            ->insert('group_name'  , 'string')
+            ->insert('group', 'int');
 	}
 
 	/**
@@ -69,6 +74,11 @@ class ComUsersModelUsers extends KModelTable
 		if($this->_state->group) {
 			$query->where('tbl.gid', '=', $this->_state->group);
 		}
+
+	    if($this->_state->group_name) {
+            // @TODO: Change usertype to group_name when mapping is fixed.
+            $query->where('LOWER(usertype)', '=', $this->_state->group_name);
+        }
 
 	   if($this->_state->search) {
             $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
