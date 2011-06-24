@@ -150,7 +150,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      */
     public function canBrowse()
     {
-        return false;
+        return true;
     }
     
 	/**
