@@ -1,12 +1,12 @@
 ::-webkit-scrollbar {
 	width: 10px;
 	background-color: #EEE;
-	background-image: -webkit-gradient(linear, 0% 100%, 75% 100%, from(#CACACA), to(#FFF));
+	background-image: -webkit-gradient(linear, 0% 100%, 50% 100%, from(#CACACA), to(#FFF));
 }
 
 ::-webkit-scrollbar:horizontal {
 	height: 10px;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CACACA), to(#FFF));
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 50%, from(#CACACA), to(#FFF));
 }
  
 ::-webkit-scrollbar-track {
