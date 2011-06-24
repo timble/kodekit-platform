@@ -22,9 +22,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				<td class="title">
 					<strong><?php echo JText::_( 'Last Activity' ); ?></strong>
 				</td>
-				<td class="title">
-					<strong><?php echo JText::_( 'Logout' ); ?></strong>
-				</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -57,11 +54,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				</td>
 				<td>
 					<?php echo JText::sprintf( 'activity hours', ($now - $row->time)/3600.0 );?>
-				</td>
-				<td>
-				<?php if ($auth && $user->get('gid') > 24 && $row->userid != $user->get('id')) : ?>
-					<input type="image" src="<?php echo JURI::root(true) ?>/media/system/images/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
-				<?php endif; ?>
 				</td>
 			</tr>
 			<?php
