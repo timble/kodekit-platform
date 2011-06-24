@@ -36,7 +36,7 @@ var JTabs = new Class({
     },
 
     initialize: function(dlist, options){
-        this.dlist = $(dlist);
+        this.dlist = document.id(dlist);
         this.setOptions(this.getOptions(), options);
         this.titles = this.dlist.getElements('dt');
         this.descriptions = this.dlist.getElements('dd');
