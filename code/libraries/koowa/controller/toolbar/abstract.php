@@ -196,11 +196,15 @@ abstract class KControllerToolbarAbstract extends KObject implements KObjectIden
         } 
         else 
         {
-            $command->append(array(
-         		'attribs'    => array(
-               		'data-action'  => $command->getName()
-                )
-            ));
+            //Don't set an action for GET commands
+            if(!isset($command->attribs->href)) 
+            {
+                $command->append(array(
+         			'attribs'    => array(
+               			'data-action'  => $command->getName()
+                    )
+                ));
+            }
         }
         
         $this->_commands[$name] = $command;
