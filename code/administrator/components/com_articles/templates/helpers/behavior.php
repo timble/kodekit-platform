@@ -23,7 +23,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'data'	  => gmdate("M d Y H:i:s"),
+			'date'	  => gmdate("M d Y H:i:s"),
 		    'name'    => '',
 		    'format'  => '%Y-%m-%d %H:%M:%S',
 		    'attribs' => array('size' => 25, 'maxlenght' => 19),
