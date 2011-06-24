@@ -97,7 +97,7 @@ window.addEvent('domready', function() {
 <?= @template('templates_icons'); ?>
 <?= @template('templates_details'); ?>
 
-<div id="sidebar" class="scroll">
+<div id="sidebar">
 	<div id="files-tree"></div>
 	<?= @template('folders');?>
 </div>
@@ -111,7 +111,7 @@ window.addEvent('domready', function() {
 				<option value="details"><?= @text('Details'); ?></option>
 			</select>
 		</div>
-		<div class="view scroll -koowa-box-flex">
+		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-container">
 
 			</div>

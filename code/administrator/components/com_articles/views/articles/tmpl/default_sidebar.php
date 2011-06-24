@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar" class="-koowa-box-scroll">
+<div id="sidebar">
 	<h3><?= @text('Categories')?></h3>
 	<?= @template('admin::com.articles.view.categories.list', array('categories' => KFactory::tmp('admin::com.articles.model.categories')->getList())); ?>
 </div>
