@@ -22,7 +22,7 @@ Fx.ProgressBar = new Class({
 	},
 
 	initialize: function(element, options) {
-		this.element = $(element);
+		this.element = document.id(element);
 		this.parent(options);
 
 		var url = this.options.url;
@@ -62,7 +62,7 @@ Fx.ProgressBar = new Class({
 
 		this.element.setStyle('backgroundPosition', css + ' 0px').title = Math.round(to) + '%';
 
-		var text = $(this.options.text);
+		var text = document.id(this.options.text);
 		if (text) text.set('text', Math.round(to) + '%');
 
 		return this;
