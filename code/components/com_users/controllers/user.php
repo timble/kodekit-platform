@@ -26,7 +26,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $this->registerCallback('before.edit', array($this, 'sanitizeData'))
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
              ->registerCallback('after.add'  , array($this, 'notify'))
+             ->registerCallback('after.save'  , array($this, 'redirectHome'))
              ->registerCallback('after.read' , array($this, 'activate'));
+
+		// Force view to singular since we don't have a users view
+		$this->_view = 'user';
     }
 
     public function activate(KCommandContext $context)
@@ -98,9 +102,12 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         }
         else $message = JText::_('REG_COMPLETE');
 
-        $this->setRedirect('index.php?Itemid='.JSite::getMenu()->getDefault()->id, $message);
-
         return parent::_actionAdd($context);
+    }
+
+    public function redirectHome(KCommandContext $context)
+    {
+    	$this->setRedirect('index.php?Itemid='.JSite::getMenu()->getDefault()->id, $message);
     }
 
     public function notify(KCommandContext $context)

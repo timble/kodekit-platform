@@ -77,7 +77,7 @@ class ComUsersModelUsers extends KModelTable
 
 	    if($this->_state->group_name) {
             // @TODO: Change usertype to group_name when mapping is fixed.
-            $query->where('LOWER(usertype)', '=', $this->_state->group_name);
+            $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
         }
 
 	   if($this->_state->search) {
