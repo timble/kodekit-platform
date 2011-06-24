@@ -21,8 +21,7 @@ class ComPluginsControllerToolbarPlugins extends ComDefaultControllerToolbarDefa
 {
     public function getCommands()
     {
-        $this->reset()
-             ->addCommand('enable')
+        $this->addCommand('enable')
 	    	 ->addCommand('disable');
 	    	 
 	    return parent::getCommands();
