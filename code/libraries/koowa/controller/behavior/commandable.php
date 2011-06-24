@@ -146,11 +146,23 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 	 * .
 	 * @param	KCommandContext	A command context object
 	 */
-    protected function _afterBrowse(KCommandContext $contex)
+    protected function _afterBrowse(KCommandContext $context)
     {     
-        if($this->hasToolbar()) {
-            $this->getToolbar()->addCommand('new');
-            $this->getToolbar()->addCommand('delete');
+        if($this->hasToolbar()) 
+        {
+            if($this->canAdd()) 
+            {
+                $identifier = $context->caller->getIdentifier();
+                $config     = array('attribs' => array(
+                					'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
+                              ));
+                
+                $this->getToolbar()->addCommand('new', $config);
+            }
+            
+            if($this->canDelete()) {
+                $this->getToolbar()->addCommand('delete');
+            }
         }
     }
 }
