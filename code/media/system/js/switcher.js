@@ -45,20 +45,20 @@ var JSwitcher = new Class({
 		}
 
 		this.toggler = $E('a.active', toggler);
-		this.page    = $('page-'+ this.toggler.id);
+		this.page    = document.id('page-'+ this.toggler.id);
 
 		this.show(this.page);
 		if (this.options.cookieName)
 		{
 			if((page = Cookie.get(this.options.cookieName))) {
-				this.switchTo($(page));
+				this.switchTo(document.id(page));
 			}
 		}
 	},
 
 	switchTo: function(toggler)
 	{
-		page = $chk(toggler) ? $('page-'+toggler.id) : null;
+		page = $chk(toggler) ? document.id('page-'+toggler.id) : null;
 		if(page && page != this.page)
 		{
 			//hide old element
@@ -92,8 +92,8 @@ JSwitcher.implement(new Options);
 
 document.switcher = null;
 window.addEvent('domready', function(){
- 	toggler = $('submenu')
-  	element = $('config-document')
+ 	toggler = document.id('submenu')
+  	element = document.id('config-document')
   	if(element) {
   		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
   	}
