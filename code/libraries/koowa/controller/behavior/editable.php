@@ -206,27 +206,35 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	}
 	
 	/**
-	 * Add default toolbar commands
+	 * Add default toolbar commands and set the toolbar title
 	 * .
 	 * @param	KCommandContext	A command context object
 	 */
-    protected function _afterRead(KCommandContext $contex)
+    protected function _afterRead(KCommandContext $context)
     {
         if($this->isCommandable() && $this->hasToolbar())
         {
-            if($this->getModel()->getState()->isUnique()) {    
+            $name = ucfirst($context->caller->getIdentifier()->name);
+            
+            if($this->getModel()->getState()->isUnique()) 
+            {    
                 $saveable = $this->canEdit();
-            } else {
+                $title    = 'Edit '.$name;
+            } 
+            else 
+            {
                 $saveable = $this->canAdd();
+                $title    = 'New '.$name;  
             }
             
             if($saveable)
             {
                 $this->getToolbar()
+                     ->setTitle($title)
                      ->addCommand('save')
                      ->addCommand('apply');
             }
-            
+                   
             $this->getToolbar()->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
         }        
     }
