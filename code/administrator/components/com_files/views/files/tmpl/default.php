@@ -76,7 +76,7 @@ window.addEvent('domready', function() {
 					text: row.name,
 					id: row.path,
 					data: {
-						url: '#!'+row.path
+						url: '#'+row.path
 					}
 				});
 			},
