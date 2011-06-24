@@ -243,7 +243,7 @@ abstract class KControllerService extends KControllerResource
 	 * 
 	 * This function translates a PUT request into an edit or add action. Only if the model
 	 * state is unique and the item exists an edit action will be executed, if the resources
-	 * doesn't exist an add action will be executed.
+	 * doesn't exist and the state is unique an add action will be executed.
 	 * 
 	 * If the resource already exists it will be completely replaced based on the data
 	 * available in the request.
@@ -255,19 +255,25 @@ abstract class KControllerService extends KControllerResource
 	protected function _actionPut(KCommandContext $context)
 	{   
 	    $data = $this->getModel()->getItem();
-	        
-        $action = 'add';
-	    if(!$data->isNew()) 
-	    {
-	        //Reset the row data
-	        $data->reset();
-	        $action = 'edit';
-        }
+	    
+	    if($this->getModel()->getState()->isUnique()) 
+	    { 
+            $action = 'add';
+	        if(!$data->isNew()) 
+	        {
+	            //Reset the row data
+	            $data->reset();
+	            $action = 'edit';
+            }
 	            
-        //Set the row data based on the unique state information
-	    $state = $this->getModel()->getState()->getData(true);
-	    $data->setData($state);
+            //Set the row data based on the unique state information
+	        $state = $this->getModel()->getState()->getData(true);
+	        $data->setData($state);
 	             
-        return parent::execute($action, $context); 
+            $data = parent::execute($action, $context); 
+	    } 
+	    else $context->setError(new KControllerException(ucfirst('Resource not found', KHttpResponse::BAD_REQUEST)));
+	    
+	    return $data;
 	}
 }
