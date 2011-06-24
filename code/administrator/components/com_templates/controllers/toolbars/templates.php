@@ -21,8 +21,7 @@ class ComTemplatesControllerToolbarTemplates extends ComDefaultControllerToolbar
 {
     public function getCommands()
     {
-        $this->reset()
-             ->addSet();
+        $this->addSet();
         
         return parent::getCommands();
     }
