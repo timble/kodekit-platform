@@ -52,7 +52,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    public function canAdd(KCommandContext $context)
+    public function canAdd()
     {
         $result = false;
         
