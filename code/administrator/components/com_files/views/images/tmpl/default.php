@@ -29,14 +29,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://system/js/swiff-uploader.js" />
 <script src="media://system/js/uploader.js" />
 
-<script src="media://com_files/js/files.js" />
-<script src="media://com_files/js/files-template.js" />
-<script src="media://com_files/js/files-container.js" />
-<script src="media://com_files/js/files-tree.js" />
-<script src="media://com_files/js/files-row.js" />
-<script src="media://com_files/js/files-uploader.js" />
+<script src="media://com_files/js/files.filesize.js" />
+<script src="media://com_files/js/files.template.js" />
+<script src="media://com_files/js/files.container.js" />
+<script src="media://com_files/js/files.tree.js" />
+<script src="media://com_files/js/files.row.js" />
+<script src="media://com_files/js/files.uploader.js" />
 
-<script src="media://com_files/js/images.js" />
+<script src="media://com_files/js/files.images.js" />
 
 <script>
 
