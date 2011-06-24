@@ -24,9 +24,9 @@
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
 
-<? if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
+<?php if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
      <link href="templates/desktop/css/template.css" rel="stylesheet" type="text/css" />
- <? endif ?>
+ <?php endif ?>
 
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?> <?php echo JDEBUG ? '-koowa-box-scroll' : '' ?>">
