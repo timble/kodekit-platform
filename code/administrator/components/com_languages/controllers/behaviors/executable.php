@@ -19,12 +19,12 @@
  */
 class ComLanguagesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {  
-    protected function _beforeAdd(KCommandContext $context)
+    public function canAdd()
     {
         return false;
     }
     
-    protected function _beforeDelete(KCommandContext $context)
+    public function canDelete()
     {
         return false;
     }
