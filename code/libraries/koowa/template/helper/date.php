@@ -76,7 +76,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
             }
             else
             {
-                $difference = $time;
+                $difference = $time - $now; 
                 $tense      = 'from now';
             }
 
