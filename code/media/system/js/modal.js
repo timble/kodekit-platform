@@ -110,11 +110,11 @@ var SqueezeBox = {
 				link: 'cancel'
 			}, this.options.contentFx)).set(0)
 		};
-		$(this.doc.body).adopt(this.overlay, this.win);
+		document.id(this.doc.body).adopt(this.overlay, this.win);
 	},
 
 	assign: function(to, options) {
-		return ($(to) || $$(to)).addEvent('click', function() {
+		return (document.id(to) || $$(to)).addEvent('click', function() {
 			return !SqueezeBox.fromElement(this, options);
 		});
 	},
@@ -123,7 +123,7 @@ var SqueezeBox = {
 		this.initialize();
 
 		if (this.element != null) this.trash();
-		this.element = $(subject) || false;
+		this.element = document.id(subject) || false;
 
 		this.setOptions($merge(this.presets, options || {}));
 
@@ -324,10 +324,10 @@ SqueezeBox.parsers.extend({
 	},
 
 	clone: function(preset) {
-		if ($(this.options.target)) return $(this.options.target);
+		if (document.id(this.options.target)) return document.id(this.options.target);
 		if (this.element && !this.element.parentNode) return this.element;
 		var bits = this.url.match(/#([\w-]+)$/);
-		return (bits) ? $(bits[1]) : (preset ? this.element : false);
+		return (bits) ?  document.id(bits[1]) : (preset ? this.element : false);
 	},
 
 	ajax: function(preset) {
@@ -369,7 +369,7 @@ SqueezeBox.handlers.extend({
 			}
 			size.x = size.x.toInt();
 			size.y = size.y.toInt();
-			this.asset = $(tmp);
+			this.asset = document.id(tmp);
 			tmp = null;
 			this.asset.width = size.x;
 			this.asset.height = size.y;
