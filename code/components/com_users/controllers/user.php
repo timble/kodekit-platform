@@ -92,7 +92,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         {
             $password = KFactory::get('site::com.users.helper.password');
 
-            $context->data->activation = $password->getHash($password->getRandom());
+            $context->data->activation = $password->getHash($password->getRandom(32));
             $context->data->enabled = 0;
 
             $message = JText::_('REG_COMPLETE_ACTIVATE');
