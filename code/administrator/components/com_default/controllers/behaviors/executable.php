@@ -46,39 +46,16 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         return parent::execute($name, $context); 
     }
     
- 	/**
-     * Generic authorize handler for controller read actions
-     * 
-     * @param   object      The command context
-     * @return  boolean     Can return both true or false.  
-     */
-    protected function _beforeRead(KCommandContext $context)
-    {
-        return true;
-    }
-    
-	/**
-     * Generic authorize handler for controller browse actions
-     * 
-     * @param   object      The command context
-     * @return  boolean     Can return both true or false.  
-     */
-    protected function _beforeBrowse(KCommandContext $context)
-    {
-        return true;
-    }
-   
     /**
      * Generic authorize handler for controller add actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeAdd(KCommandContext $context)
+    public function canAdd()
     {
         $result = false;
         
-        if(!$this->_readonly)
+        if(parent::canAdd())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
                 $result = KFactory::get('lib.joomla.user')->authorise('core.create');
@@ -93,14 +70,13 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
   	/**
      * Generic authorize handler for controller edit actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeEdit(KCommandContext $context)
+    public function canEdit()
     {
         $result = false;
         
-        if(!$this->_readonly)
+        if(parent::canEdit())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
                 $result = KFactory::get('lib.joomla.user')->authorise('core.edit');
@@ -118,11 +94,11 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
      * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeDelete(KCommandContext $context)
+    public function canDelete()
     {
         $result = false;
         
-        if(!$this->_readonly)
+        if(parent::canDelete())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
                 $result = KFactory::get('lib.joomla.user')->authorise('core.delete');
