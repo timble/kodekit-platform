@@ -31,7 +31,7 @@ this.Terms = new Class({
 	
 	initialize: function(element, options) {
 		options = options || {};
-		this.element = $(element);
+		this.element = document.id(element);
 		var that = this;
 		this.element.getElements('a[data-action]').addEvent('click', function(e) {
 			e.stop();
