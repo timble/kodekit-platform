@@ -54,16 +54,24 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $this->_redirect = KRequest::referrer();
     }
 
-    protected function _actionLogout(KCommandContext $data)
+    protected function _actionLogout(KCommandContext $context)
     {
-        $result = KFactory::get('lib.joomla.application')->logout();
+        $users = $this->getModel()->getList();
+        					
+	    if(count($users)) 
+	    {
+	        foreach($users as $user)
+	        {
+	            $result = KFactory::get('lib.joomla.application')->logout($user->id);
 
-        if(JError::isError($result))
-        {
-            $this->_redirect_type    = 'error';
-            $this->_redirect_message =  $result->getError();
-        }
-
+                if(JError::isError($result))
+                {
+                    $this->_redirect_type    = 'error';
+                    $this->_redirect_message =  $result->getError();
+                }
+	        }
+		} 
+        
         $this->_redirect = KRequest::referrer();
     }
 
