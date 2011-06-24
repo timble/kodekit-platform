@@ -40,7 +40,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 		parent::__construct($config);
 	
 		if(!isset($config->toolbar)) {
-		    $config->toolbar = $this->_template->getView()->getToolbar();
+		    $config->toolbar = $this->getTemplate()->getView()->getToolbar();
 		}
 		
 		$this->_toolbar = $config->toolbar;
