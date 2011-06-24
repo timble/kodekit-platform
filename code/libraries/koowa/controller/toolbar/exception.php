@@ -15,6 +15,6 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Controller
- * @subpackage 	Toolba
+ * @subpackage 	Toolbar
  */
 class KControllerToolbarException extends KControllerException {}
