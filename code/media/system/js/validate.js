@@ -70,7 +70,7 @@ var JFormValidator = new Class({
 	{
 		// Iterate through the form object and attach the validate method to all input fields.
 		$A(form.elements).each(function(el){
-			el = $(el);
+			el = document.id(el);
 			if ((el.getTag() == 'input' || el.getTag() == 'button') && el.getProperty('type') == 'submit') {
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
@@ -84,8 +84,8 @@ var JFormValidator = new Class({
 	validate: function(el)
 	{
 		// If the field is required make sure it has a value
-		if ($(el).hasClass('required')) {
-			if (!($(el).getValue())) {
+		if (document.id(el).hasClass('required')) {
+			if (!(document.id(el).getValue())) {
 				this.handleResponse(false, el);
 				return false;
 			}
@@ -99,9 +99,9 @@ var JFormValidator = new Class({
 		}
 
 		// Check the additional validation types
-		if ((handler) && (handler != 'none') && (this.handlers[handler]) && $(el).getValue()) {
+		if ((handler) && (handler != 'none') && (this.handlers[handler]) && document.id(el).getValue()) {
 			// Execute the validation handler and return result
-			if (this.handlers[handler].exec($(el).getValue()) != true) {
+			if (this.handlers[handler].exec(document.id(el).getValue()) != true) {
 				this.handleResponse(false, el);
 				return false;
 			}
@@ -149,12 +149,12 @@ var JFormValidator = new Class({
 		if (state == false) {
 			el.addClass('invalid');
 			if (el.labelref) {
-				$(el.labelref).addClass('invalid');
+				document.id(el.labelref).addClass('invalid');
 			}
 		} else {
 			el.removeClass('invalid');
 			if (el.labelref) {
-				$(el.labelref).removeClass('invalid');
+				document.id(el.labelref).removeClass('invalid');
 			}
 		}
 	}
