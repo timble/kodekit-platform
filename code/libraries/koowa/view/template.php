@@ -220,7 +220,6 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Return the views output
      *
-     * @param  boolean 	If TRUE apply write filters. Default FALSE.
      * @return string 	The output of the view
      */
     public function display()
