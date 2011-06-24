@@ -31,12 +31,10 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
-	public function __construct( KConfig $config = null) 
-	{ 
-	    $this->_identifier = $config->identifier;
+	public function __construct( KConfig $config) 
+	{
 		parent::__construct($config);
 		
-		$this->_priority = $config->priority;
 		$this->_readonly = (bool) $config->readonly;
 	}
     
@@ -51,8 +49,9 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'  => KCommand::PRIORITY_HIGH,
-            'readonly'  => false
+            'priority'   => KCommand::PRIORITY_HIGH,
+            'readonly'   => false,
+            'auto_mixin' => true
         ));
 
         parent::_initialize($config);
@@ -88,22 +87,38 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
             }
                
             //Check if the action can be executed
-		    if(parent::execute($name, $context) === false) 
-		    {
-		        if($context->action != 'options') 
+            $method = 'can'.ucfirst($action);
+            
+            if(method_exists($this, $method)) 
+            {
+		        if($this->$method() === false) 
 		        {
-		            $context->setError(new KControllerException(
-		        		'Action '.ucfirst($action).' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
-		            ));
+		            if($context->action != 'options') 
+		            {
+		                $context->setError(new KControllerException(
+		        			'Action '.ucfirst($action).' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
+		                ));
 		        
-		            $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
-		        }
+		                $context->header = array('Allow' =>  $context->caller->execute('options', $context));  
+		            }
                     
-		        return false;
-		    }
+		            return false;
+		        }
+            }
         } 
             
         return true; 
+    }
+    
+ 	/**
+     * Get an object handle
+     * 
+     * @return string A string that is unique, or NULL
+     * @see execute()
+     */
+    public function getHandle()
+    {
+       return spl_object_hash( $this );
     }
     
     /**
@@ -128,72 +143,53 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
         return $this->readonly;
     }
     
- 	/**
-     * Generic authorize handler for controller add actions
+	/**
+     * Generic authorize handler for controller browse actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeAdd(KCommandContext $context)
+    public function canBrowse()
     {
-        return !$this->_readonly;
+        return true;
+    }
+    
+	/**
+     * Generic authorize handler for controller read actions
+     * 
+     * @return  boolean     Can return both true or false.  
+     */
+    public function canRead()
+    {
+        return true;
     }
     
 	/**
      * Generic authorize handler for controller edit actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeEdit(KCommandContext $context)
+    public function canEdit()
     {
         return !$this->_readonly;
     }
     
+ 	/**
+     * Generic authorize handler for controller add actions
+     * 
+     * @return  boolean     Can return both true or false.  
+     */
+    public function canAdd()
+    {
+        return !$this->_readonly;
+    }
+   
  	/**
      * Generic authorize handler for controller delete actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
-    protected function _beforeDelete(KCommandContext $context)
+    public function canDelete()
     {
          return !$this->_readonly;
-    }
-    
-    /**
-     * Generic authorize handler for controller put actions
-     * 
-     * @param   object      The command context
-     * @return  boolean     Can return both true or false.  
-     */
-    protected function _beforePut(KCommandContext $context)
-    {  
-        $result = false;
-       
-        if(!$this->_readonly)
-        {
-            if(!$context->caller->getModel()->getState()->isUnique()) 
-	        {  
-	             $context->setError(new KControllerException(
-                    ucfirst($context->caller->getIdentifier()->name).' not found', KHttpResponse::BAD_REQUEST
-                ));
-	        }
-	        
-	        $result = true;
-        }
-        
-        return $result;
-    }
-    
- 	/**
-     * Generic authorize handler for controller post actions
-     * 
-     * @param   object      The command context
-     * @return  boolean     Can return both true or false.  
-     */
-    protected function _beforePost(KCommandContext $context)
-    {  
-        return !$this->_readonly;
     }
 }
