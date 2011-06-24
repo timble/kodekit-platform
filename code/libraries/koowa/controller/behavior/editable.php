@@ -214,10 +214,20 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     {
         if($this->isCommandable() && $this->hasToolbar())
         {
-            $this->getToolbar()
-                 ->addCommand('save')
-                 ->addCommand('apply')
-                 ->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
+            if($this->getModel()->getState()->isUnique()) {    
+                $saveable = $this->canEdit();
+            } else {
+                $saveable = $this->canAdd();
+            }
+            
+            if($saveable)
+            {
+                $this->getToolbar()
+                     ->addCommand('save')
+                     ->addCommand('apply');
+            }
+            
+            $this->getToolbar()->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
         }        
     }
 }
