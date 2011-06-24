@@ -118,7 +118,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      */
     public function getHandle()
     {
-       return spl_object_hash( $this );
+        return KMixinAbstract::getHandle();
     }
     
     /**
@@ -150,7 +150,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      */
     public function canBrowse()
     {
-        return true;
+        return false;
     }
     
 	/**
