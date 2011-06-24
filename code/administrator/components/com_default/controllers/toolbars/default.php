@@ -19,29 +19,6 @@
  */
 class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 {
-	/**
-     * Set the toolbar's title
-     * 
-     * Override the toolbar title for singlural toolbars.
-     *
-     * @param   string  Title
-     * @return  KToolbarInterface
-     */
-    public function setTitle($title)
-    {
-        $name = $this->_identifier->name;
-        
-        if(KInflector::isSingular($name))
-        {     
-            $state = $this->getController()->getModel()->getState();   
-            
-            $name  = ucfirst($this->getName());  
-            $title = $state->isUnique() ? 'Edit '.$name : 'New '.$name;
-        }
-        
-        return parent::setTitle($title);
-    }
-    
     /**
      * Enable toolbar command
      * 
