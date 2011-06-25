@@ -68,9 +68,6 @@ abstract class KControllerResource extends KControllerAbstract
 		// Set the view identifier
 		$this->_view = $config->view;
 		
-		// Set the view identifier
-		$this->_toolbar = $config->toolbar;
-		
 		//Register display as alias for get
 		$this->registerActionAlias('display', 'get');
 		
