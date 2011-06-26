@@ -64,7 +64,7 @@ class ComArticlesModelCategories extends KModelAbstract
                 );
             }
 
-            $sections = KFactory::tmp('admin::com.sections.model.sections')
+            $sections = KFactory::tmp('admin::com.articles.model.sections')
                 ->published($this->_state->published)
                 ->scope('content')
                 ->limit(0)

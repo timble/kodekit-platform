@@ -29,7 +29,8 @@ class ComArticlesControllerToolbarMenubar extends ComDefaultControllerToolbarMen
         ));
         
         $this->addCommand('Sections' , array(
-        	'href' => JRoute::_('index.php?option=com_sections&scope=content'), 
+        	'href' => JRoute::_('index.php?option=com_articles&view=sections'), 
+            'active' => ($name == 'section')
         ));
         
         $this->addCommand('Categories', array(

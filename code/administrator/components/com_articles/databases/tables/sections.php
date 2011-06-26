@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Sections
+ * @subpackage  Articles
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link       	http://www.nooku.org
@@ -15,9 +15,9 @@
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Sections    
+ * @subpackage  Articles    
  */
-class ComSectionsDatabaseTableSections extends KDatabaseTableDefault
+class ComArticlesDatabaseTableSections extends KDatabaseTableDefault
 {
 	public function  _initialize(KConfig $config) 
   	{

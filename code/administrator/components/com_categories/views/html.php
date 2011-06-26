@@ -30,34 +30,12 @@ class ComCategoriesViewHtml extends ComDefaultViewHtml
 
         switch($section)
         {
-            case 'com_content':
-
-                $title = 'Articles';
-                JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_articles&view=articles');
-                JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
-                JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content',true);
-
-                break;
-
-            case 'com_banner':
-
-                $title = 'Banners';
-                JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section='.$section,true);
-                JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
-                break;
-
             case 'com_contact_details':
 
                 $title = 'Contacts';
                 JSubMenuHelper::addEntry(JText::_('Contacts'), 'index.php?option=com_contact');
                 JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_contact_details',true);
                 break;
-
-            default:
-
-                $title= substr($section,4);
-                JSubMenuHelper::addEntry(JText::_($title), 'index.php?option='.$section);
-                JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section='.$section,true);
         }
 
         return parent::display();

@@ -25,17 +25,6 @@ if (!$user->authorize( 'com_trash', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-if($task == 'viewContent')
-{
-	JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_articles&view=articles');
-	JSubMenuHelper::addEntry(JText::_('Sections'), 'index.php?option=com_sections&scope=content');
-	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_content');
-	
-	if(JFactory::getUser()->authorize('com_trash', 'manage')) {
-		JSubMenuHelper::addEntry(JText::_('Trash'), 'index.php?option=com_trash&task=viewContent', true);
-	}
-}
-
 if($task == 'viewMenu')
 {
 	JSubMenuHelper::addEntry(JText::_('Items'), 'index.php?option=com_menus&task=view');
