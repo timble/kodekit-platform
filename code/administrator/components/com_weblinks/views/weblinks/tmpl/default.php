@@ -11,8 +11,6 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<?= @helper('behavior.modal'); ?>
-
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
