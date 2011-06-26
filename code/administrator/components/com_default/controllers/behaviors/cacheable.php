@@ -20,18 +20,32 @@
 class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 {
 	/**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    { 
-        parent::__construct($config);
-           
-        $this->registerCallback('before.get' , array($this,  'fetchView'));
-        $this->registerCallback('after.get'  , array($this,  'storeView'));
-    }
+	 * List of modules to cache
+	 *
+	 * @var	array
+	 */
+	protected $_modules;
 	
+	/**
+	 * The cached state of the resource
+	 * 
+	 * @var boolean
+	 */
+	protected $_output = ''; 
+	
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+
+		// Set the view identifier
+		$this->_modules = KConfig::toData($config->modules);
+	}
+
 	/**
      * Initializes the options for the object
      *
@@ -44,7 +58,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
     {
     	//Allow higher priority before read and browse actions to fire.
         $config->append(array(
-			'priority'   => KCommand::PRIORITY_LOW,
+            'modules'	=> array('toolbar', 'title', 'submenu')
 	  	));
 	  	
     	parent::_initialize($config);
@@ -56,30 +70,39 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void	
 	 */
-	public function fetchView(KCommandContext $context)
-	{
+	protected function _beforeGet(KCommandContext $context)
+	{ 
 	    $view   = $this->getView();
 	    $cache  = KFactory::get('lib.joomla.cache', array($this->_getGroup(), 'output'));
         $key    = $this->_getKey();
-	    
-        if($result = $cache->get($key))
+        
+        if($data = $cache->get($key))
         {
+            $data = unserialize($data);
+            
             //Render the view output
             if($view instanceof KViewTemplate) 
             {
-                $result = $view->getTemplate()
-                               ->loadString($result, array(), false)
+                $context->result = $view->getTemplate()
+                               ->loadString($data['component'], array(), false)
                                ->render();
+            } 
+            else $context->result = $data['component'];
+            
+            //Render the modules
+            if(isset($data['modules']))
+            {
+                foreach($data['modules'] as $name => $content) {
+                    KFactory::get('lib.joomla.document')->setBuffer($content, 'modules', $name);
+                }
+            }  
+ 
+            //Dequeue the commandable behavior from the chain
+            if($commandable = $this->getBehavior('commandable')) {
+                $this->getCommandChain()->dequeue($commandable);
             }
-            
-            $context->result = $result; 
-
-            //Prevent data re-caching
-            $this->unregisterCallback('after.get'  , array($this,  'storeView'));
-            
-            //Prevent data re-fetching
-            $this->registerCallback('before.read'   , create_function('', 'return false;'));
-            $this->registerCallback('before.browse' , create_function('', 'return false;'));
+           
+            $this->_output = $context->result;
 	    }
 	}
 	
@@ -89,21 +112,64 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	public function storeView(KCommandContext $context)
+	protected function _afterGet(KCommandContext $context)
 	{
-	    $view   = $this->getView();
-	    $cache  = KFactory::tmp('lib.joomla.cache', array($this->_getGroup(), 'output'));
-	    $key    = $this->_getKey();   
-	    
-	    //Store the unrendered view output
-	    if($view instanceof KViewTemplate) {
-	        $result = (string) $view->getTemplate();
-	    } else {
-	        $result = $context->result;
+	    if(empty($this->_output))
+	    {
+	        $view   = $this->getView();
+	        $cache  = KFactory::tmp('lib.joomla.cache', array($this->_getGroup(), 'output'));
+	        $key    = $this->_getKey();
+
+	        $data  = array();
+	   
+	        //Store the unrendered view output
+	        if($view instanceof KViewTemplate) 
+	        {
+	            $data['component'] = (string) $view->getTemplate();
+	        
+	            $buffer = KFactory::get('lib.joomla.document')->getBuffer();
+	            if(isset($buffer['modules'])) {       
+	                $data['modules'] = array_intersect_key($buffer['modules'], array_flip($this->_modules));
+	            }
+	        } 
+	        else $data['component'] = $context->result;
+	        
+	        $cache->store(serialize($data), $key);
 	    }
-	       
-	    //Get the unrendered view data 	    
-	    $cache->store((string) $result, $key);
+	}
+	
+	/**
+	 * Return the cached data after read
+	 * 
+	 * Only if cached data was found return it but allow the chain to continue to allow
+	 * processing all the read commands
+	 *
+	 * @param   KCommandContext	A command context object
+	 * @return 	void
+	 */
+	protected function _afterRead(KCommandContext $context)
+	{ 
+	    if(!empty($this->_output)) {
+	        $context->result = $this->_output;
+	    }
+	}
+	
+	/**
+	 * Return the cached data before browse
+	 * 
+	 * Only if cached data was fetch return it and break the chain to dissallow any
+	 * further processing to take place
+	 * 
+	 * @param   KCommandContext	A command context object
+	 * @return 	void
+	 */
+    protected function _beforeBrowse(KCommandContext $context)
+	{
+	    if(!empty($this->_output)) 
+	    {
+	        $context->result = $this->_output;
+	        return false;
+	    }
 	}
 	
 	/**
@@ -167,8 +233,8 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	protected function _getKey()
 	{
 	    $view  = $this->getView();
-	    $state = $this->getModel()->getState();
-	   
+	    $state = $this->getModel()->getState()->toArray();
+	    
 	    $key = $view->getLayout().'-'.$view->getFormat().':'.md5(http_build_query($state));
 	    return $key;
 	}
