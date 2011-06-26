@@ -123,7 +123,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	 */
 	public function unlockResource(KCommandContext $context)
 	{								  
-	    if($context->result->isLockable()) {
+	    if($context->result instanceof KDatabaseRowInterface && $context->result->isLockable()) {
 			$context->result->unlock();
 		}
 	}
