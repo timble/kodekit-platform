@@ -14,7 +14,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Controller
- * @subpackage 	Toolba
+ * @subpackage 	Toolbar
  */
 class KControllerToolbarDefault extends KControllerToolbarAbstract
 {
