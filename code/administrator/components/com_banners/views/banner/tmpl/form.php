@@ -26,8 +26,6 @@ window.addEvent('domready', function(){
 });
 </script>
 
-<?= @toolbar(); ?>
-
 <form action="<?= @route('id='.$banner->id) ?>" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
