@@ -20,13 +20,6 @@
 class ComDefaultViewHtml extends KViewDefault
 {
     /**
-     * Associatives array of view names
-     * 
-     * @var array
-     */
-    public $views;
-    
-    /**
      * Constructor
      *
      * @param   object  An optional KConfig object with configuration options
@@ -34,9 +27,7 @@ class ComDefaultViewHtml extends KViewDefault
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
-        $this->views = $config->views;
-        
+         
         //Add alias filter for editor helper
         $this->getTemplate()->getFilter('alias')->append(array(
             '@editor(' => '$this->renderHelper(\'admin::com.default.template.helper.editor.display\', ')
@@ -53,7 +44,6 @@ class ComDefaultViewHtml extends KViewDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'views'  =>  array(),
             'layout' => KInflector::isSingular($this->getName()) ? 'form' : 'default'
         ));
         
