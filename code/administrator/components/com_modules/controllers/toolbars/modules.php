@@ -22,7 +22,7 @@ class ComModulesControllerToolbarModules extends ComDefaultControllerToolbarDefa
     public function getCommands()
     {
         $this->addSeperator()
-			 ->addEenable()
+			 ->addEnable()
 			 ->addDisable();
         
         return parent::getCommands();
