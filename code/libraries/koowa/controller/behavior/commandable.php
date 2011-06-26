@@ -35,7 +35,6 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 	{
 		parent::__construct($config);
 
-		// Set the view identifier
 		$this->_toolbar = $config->toolbar;
 	}
 	
@@ -50,13 +49,12 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'toolbar'	 => null,
-    	    'priority'   => KCommand::PRIORITY_LOW,
+    		'toolbar'	=> null,
         ));
  
         parent::_initialize($config);
     }
-    	
+      	
 	/**
 	 * Get the view object attached to the controller
 	 *
@@ -115,46 +113,65 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
     }
     
     /**
-	 * Check if the controller has a toolbar
-	 *
-	 * @return	boolean	TRUE if a toolbar exists, otherwise FALSE
-	 */
-    public function hasToolbar()
-    { 
-        return isset($this->_toolbar);
-    }
-    
-    /**
-	 * Set the toolbar 
-	 *
-	 * @param   KCommandContext	A command context object
-	 * @return 	boolean
+	 * Add default toolbar commands
+	 * .
+	 * @param	KCommandContext	A command context object
 	 */
     protected function _beforeGet(KCommandContext $context)
     {
-        $view = $this->getView();
-        
-        //Set the toolbar name based on the view name
-        $this->setToolbar($view->getName());
-        
-        //Allow getting the toolbar from the view
-        $this->getView()->mixin($this);
+        if(!$this->_toolbar) {
+            $this->setToolbar($this->getView()->getName());
+        }
     }
-     
+        
+	/**
+	 * Add default toolbar commands and set the toolbar title
+	 * .
+	 * @param	KCommandContext	A command context object
+	 */
+    protected function _afterRead(KCommandContext $context)
+    { 
+        if($this->_toolbar)
+        {
+            $name = ucfirst($context->caller->getIdentifier()->name);
+            
+            if($this->getModel()->getState()->isUnique()) 
+            {        
+                $saveable = $this->canEdit();
+                $title    = 'Edit '.$name;
+            } 
+            else 
+            {
+                $saveable = $this->canAdd();
+                $title    = 'New '.$name;  
+            }
+            
+            if($saveable)
+            {
+                $this->getToolbar()
+                     ->setTitle($title)
+                     ->addCommand('save')
+                     ->addCommand('apply');
+            }
+                   
+            $this->getToolbar()->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));        
+        }
+    }
+      
     /**
 	 * Add default toolbar commands
 	 * .
 	 * @param	KCommandContext	A command context object
 	 */
     protected function _afterBrowse(KCommandContext $context)
-    {     
-        if($this->hasToolbar()) 
+    {    
+        if($this->_toolbar)
         {
             if($this->canAdd()) 
             {
                 $identifier = $context->caller->getIdentifier();
                 $config     = array('attribs' => array(
-                					'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
+                    				'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
                               ));
                 
                 $this->getToolbar()->addCommand('new', $config);
