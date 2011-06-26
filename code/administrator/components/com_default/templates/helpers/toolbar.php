@@ -22,48 +22,6 @@
 class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 {
 	/**
-	 * Toolbar object
-	 *
-	 * @var	object
-	 */
-    protected $_toolbar;
-	
-	/**
-	 * Constructor
-	 *
-	 * Prevent creating instances of this class by making the contructor private
-	 * 
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-	
-		if(!isset($config->toolbar)) {
-		    $config->toolbar = $this->getTemplate()->getView()->getToolbar();
-		}
-		
-		$this->_toolbar = $config->toolbar;
-	}
-	
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options.
-     * @return 	void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-    		'toolbar' => null,
-        ));
-        
-        parent::_initialize($config);
-    }
-	
-	/**
      * Render the toolbar title
      * 
      * @param   array   An optional array with configuration options
@@ -73,7 +31,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'toolbar' => $this->_toolbar
+        	'toolbar' => null
         ));
         
         $html = '<div class="header pagetitle icon-48-'.$config->toolbar->getIcon().'">';
@@ -95,11 +53,11 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
      * @param   array   An optional array with configuration options
      * @return  string  Html
      */
-    public function toolbar($config = array())
+    public function render($config = array())
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'toolbar' => $this->_toolbar
+        	'toolbar' => null
         ));
         
         if (version_compare(JVERSION,'1.6.0','ge')) {
@@ -140,13 +98,18 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         ));
         
         $command = $config->command;
-          
+        
+         //Add a toolbar class
+        $command->attribs->class->append(array('toolbar'));
+        
+        //Create the id
         $id = 'toolbar-'.$command->id;
+       
 		$command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
 			
         $html  = '<td class="button" id="'.$id.'">';
         $html .= '	<a '.KHelperArray::toString($command->attribs).'>';
-        $html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->text).'"></span>';
+        $html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->title).'"></span>';
        	$html .= JText::_($command->label);
        	$html .= '   </a>';
         $html .= '</td>';
@@ -172,27 +135,5 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
        	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
        	
     	return $html;
-    }
-    
-    /**
-     * Render the toolbar
-     *
-     * @param   array   An optional array with configuration options
-     * @return  string  Html
-     */
-    public function render($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-        	'toolbar' => $this->_toolbar
-        ));
-        
-        $document = KFactory::get('lib.joomla.document');
-        
-        //Render the toolbar
-        $document->setBuffer($this->toolbar($config), 'modules', 'toolbar');   
-
-        //Render the title
-        $document->setBuffer($this->title($config)  , 'modules', 'title'  ); 
     }
 }
