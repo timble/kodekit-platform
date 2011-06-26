@@ -70,10 +70,12 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 	    $html .= '<tr>';
 	    foreach ($config->toolbar->getCommands() as $command) 
 	    {
-            if($command->getName() != 'seperator') { 
-	            $html .= $this->command(array('command' => $command));   
+            $name = $command->getName();
+	        
+	        if(method_exists($this, $name)) {
+                $html .= $this->$name(array('command' => $command));
             } else {
-                $html .= $this->seperator(array('command' => $command));
+                $html .= $this->command(array('command' => $command));   
             }
        	}
 		$html .= '</tr>';
@@ -134,6 +136,25 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
           
        	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
        	
+    	return $html;
+    }
+    
+	/**
+     * Render a modal button
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function modal($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+        	'command' => NULL
+        ));
+        
+        $html  = $this->getTemplate()->renderHelper('behavior.modal');
+        $html .= $this->command($config);
+        
     	return $html;
     }
 }
