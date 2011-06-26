@@ -21,6 +21,8 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
 {
  	/**
      * Add a command
+     * 
+     * Disable the menubar only for singular views that are editable.
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
@@ -30,7 +32,9 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
     {
         parent::addCommand($name, $config);
         
-        if(KInflector::isSingular($this->getController()->getView()->getName())) {
+        $controller = $this->getController();
+        
+        if($controller->isEditable() && KInflector::isSingular($controller->getView()->getName())) {
             $this->_commands[$name]->disabled = true;
         }
         
