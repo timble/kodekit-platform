@@ -23,8 +23,8 @@ class ComFilesControllerImage extends ComDefaultControllerResource
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'persistent' => false,
-			'request' => array(
+			'persistable' => false,
+			'request'     => array(
 				'identifier' => 'files.files'
 			)
 		));
