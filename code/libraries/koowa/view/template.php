@@ -226,12 +226,8 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(empty($this->output))
 		{
-            //We need a full identifier to load the base template
-		    $identifier = clone $this->getIdentifier();
-            $identifier->name = $this->getLayout();
-		   
-            $this->output = $this->getTemplate()
-                                 ->loadIdentifier($identifier, $this->_data)
+		    $this->output = $this->getTemplate()
+                                 ->loadIdentifier($this->_layout, $this->_data)
                                  ->render();
 		}
                         
@@ -248,6 +244,35 @@ abstract class KViewTemplate extends KViewAbstract
     {
         $this->_escape = $spec;
         return $this;
+    }
+    
+	/**
+     * Sets the layout name
+     *
+     * @param    string  The template name.
+     * @return   KViewAbstract
+     */
+    public function setLayout($layout)
+    {
+        if(is_string($layout) && strpos($layout, '.') === false ) 
+		{
+            $identifier = clone $this->_identifier; 
+            $identifier->name = $layout;
+	    }
+		else $identifier = KFactory::identify($layout);
+        
+        $this->_layout = $identifier;
+        return $this;
+    }
+    
+	/**
+     * Get the layout.
+     *
+     * @return string The layout name
+     */
+    public function getLayout()
+    {
+        return $this->_layout->name;
     }
     
     /**
