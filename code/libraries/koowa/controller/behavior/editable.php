@@ -28,15 +28,16 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     { 
         parent::__construct($config);
         
+        $this->registerCallback('before.read' , array($this, 'setReferrer'));
         $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
 		$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
 	
 		$this->registerCallback('after.read'  , array($this, 'lockResource'));
 		$this->registerCallback('after.save'  , array($this, 'unlockResource'));
 		$this->registerCallback('after.cancel', array($this, 'unlockResource'));
-	
-		//Make sure a referrer is set.
-        $this->setReferrer();
+		
+		//Set the default redirect.
+        $this->setRedirect(KRequest::referrer());
     }
     
 	/**
@@ -204,38 +205,4 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	
 		return $data;
 	}
-	
-	/**
-	 * Add default toolbar commands and set the toolbar title
-	 * .
-	 * @param	KCommandContext	A command context object
-	 */
-    protected function _afterRead(KCommandContext $context)
-    {
-        if($this->isCommandable() && $this->hasToolbar())
-        {
-            $name = ucfirst($context->caller->getIdentifier()->name);
-            
-            if($this->getModel()->getState()->isUnique()) 
-            {    
-                $saveable = $this->canEdit();
-                $title    = 'Edit '.$name;
-            } 
-            else 
-            {
-                $saveable = $this->canAdd();
-                $title    = 'New '.$name;  
-            }
-            
-            if($saveable)
-            {
-                $this->getToolbar()
-                     ->setTitle($title)
-                     ->addCommand('save')
-                     ->addCommand('apply');
-            }
-                   
-            $this->getToolbar()->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
-        }        
-    }
 }
