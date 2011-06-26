@@ -23,8 +23,8 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'persistent' => false,
-			'request' => array(
+			'persistable' => false,
+			'request'     => array(
 				'identifier' => 'files.files'
 			)
 		));
