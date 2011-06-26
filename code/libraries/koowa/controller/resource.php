@@ -150,7 +150,7 @@ abstract class KControllerResource extends KControllerAbstract
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIdentifierInterface or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a view identifier
-	 * @return	KControllerAbstract
+	 * @return	object	A KViewAbstract object or a KIdentifier object
 	 */
 	public function setView($view)
 	{
@@ -173,7 +173,7 @@ abstract class KControllerResource extends KControllerAbstract
 		
 		$this->_view = $view;
 		
-		return $this;
+		return $this->_view;
 	}
 	
 	/**
@@ -206,8 +206,8 @@ abstract class KControllerResource extends KControllerAbstract
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIdentifierInterface or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a model identifier
-	 * @return	KControllerAbstract
+	 * @throws	KControllerException	If the identifier is not a model identifier
+	 * @return	object	A KModelAbstract object or a KIdentifier object
 	 */
 	public function setModel($model)
 	{
@@ -235,7 +235,7 @@ abstract class KControllerResource extends KControllerAbstract
 		
 		$this->_model = $model;
 		
-		return $this;
+		return $this->_model;
 	}
 	
 	/**
@@ -284,8 +284,8 @@ abstract class KControllerResource extends KControllerAbstract
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionGet(KCommandContext $context)
-	{
-		$result = $this->getView()->display();   
+	{ 
+	    $result = $this->getView()->display();   
 	    return $result;
 	}
 	
