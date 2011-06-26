@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComModulesViewModuleHtml extends ComModulesViewHtml
+class ComModulesViewModuleHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
