@@ -26,13 +26,9 @@ abstract class KControllerService extends KControllerResource
 	{
 		parent::__construct($config);
 		
-		if($config->persistent) {
+		if($config->persistable) {
 			$this->registerCallback('before.browse' , array($this, 'addBehavior'), 'persistable');
 		}
-		
-		//Conditionally register the editable behavior
-		$commands = array('before.read', 'before.save', 'before.apply', 'before.cancel');
-		$this->registerCallback($commands, array($this, 'addBehavior'), 'editable');
 	}
 
  	/**
@@ -46,8 +42,8 @@ abstract class KControllerService extends KControllerResource
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'persistent' => false,
-    		'behaviors'  => array('discoverable'),
+    		'persistable' => false,
+    		'behaviors'  => array('discoverable', 'editable'),
     	    'readonly'   => false, 
         ));
 
