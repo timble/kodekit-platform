@@ -415,11 +415,8 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		if($parts[0] == 'is' && isset($parts[1]))
 		{
 		    //Lazy mix behaviors
-            if(!isset($this->_mixed_methods[$method]))
-		    {
-			    foreach($this->getBehaviors() as $behavior) {
-				    $this->mixin($behavior);
-			    }
+            if(!isset($this->_mixed_methods[$method])) {
+                $this->mixin($this->getBehavior(strtolower($parts[1])));
 		    }
 		    
 		    if(isset($this->_mixed_methods[$method])) {
