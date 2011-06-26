@@ -56,7 +56,6 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
      */
 	protected function _initialize(KConfig $config)
     {
-    	//Allow higher priority before read and browse actions to fire.
         $config->append(array(
             'modules'	=> array('toolbar', 'title', 'submenu')
 	  	));
