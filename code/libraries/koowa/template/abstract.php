@@ -205,20 +205,20 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
        
         // Load the identifier
         $file = $identifier->name; 
-		
+        
         if($identifier->filepath) {
 	       $path = dirname($identifier->filepath);
         } else {
 	       $path = dirname(KLoader::path($identifier));
 	    }
-	    
+	 
 	    // Find the template 
 		$file = $this->findFile($path.'/'.$file.'.php');
 	    
 		if ($file === false) {
 			throw new KTemplateException( 'Template "' . $file . '" not found' );
 		}
-	   
+		
 		// Load the file
 		$this->loadFile($file, $data, $process);
 		
@@ -403,17 +403,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		$parts    = explode('.', $identifier);
 		$function = array_pop($parts);
 		
-		//Create the complete identifier if a partial identifier was passed
-		if(is_string($identifier) && count($parts) == 1 ) 
-		{
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('template','helper');
-            $identifier->name = $parts[0];
-		} 
-		else $identifier = implode('.', $parts);
-		
-		//Create the template helper
-		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
+		$helper = $this->getHelper(implode('.', $parts));
 		
 		//Call the helper function
 		if (!is_callable( array( $helper, $function ) )) {
@@ -421,6 +411,32 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		}	
 		
 		return $helper->$function($params);
+	}
+	
+	/**
+	 * Get a template helper
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	Parameters to be passed to the helper
+	 * @return 	KTemplateHelperInterface
+	 */
+	public function getHelper($helper)
+	{	
+		//Create the complete identifier if a partial identifier was passed
+		if(is_string($helper) && strpos($helper, '.') === false ) 
+		{
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('template','helper');
+            $identifier->name = $helper;
+		}
+		else $identifier = KFactory::identify($helper);
+	 
+		
+		//Create the template helper
+		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
+		
+		return $helper;
 	}
 	
 	/**
