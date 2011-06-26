@@ -23,9 +23,9 @@ class ComWeblinksControllerToolbarMenubar extends ComDefaultControllerToolbarMen
     { 
         $name = $this->getController()->getIdentifier()->name;
         
-        $this->addCommand('Newsfeeds', array(
+        $this->addCommand('Weblinks', array(
         	'href'   => JRoute::_('index.php?option=com_weblinks&view=weblinks'),
-        	'active' => ($name == 'banner')
+        	'active' => ($name == 'weblink')
         ));
         
         $this->addCommand('Categories', array(
