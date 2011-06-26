@@ -84,22 +84,23 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     }
       
     /**
-     * Preferences toolbar command
+     * Modal toolbar command
      * 
      * @param   object  A KControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandPreferences(KControllerToolbarCommand $command)
+    protected function _commandModal(KControllerToolbarCommand $command)
     { 
         $option = $this->_identifier->package;
         
         $command->append(array(
             'width'   => '640',
             'height'  => '480',
+            'href'	  => ''
         ))->append(array(
             'attribs' => array(
                 'class' => array('modal'),
-                'href'  => 'index.php?option=com_config&controller=component&component=com_'.$option,
+                'href'  => $command->href,
                 'rel'   => '{handler: \'iframe\', size: {x: '.$command->width.', y: '.$command->height.'}}'
             )
         ));
