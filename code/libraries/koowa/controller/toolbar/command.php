@@ -15,7 +15,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Controller
- * @subpackage 	Toolba
+ * @subpackage 	Toolbar
  */
 class KControllerToolbarCommand extends KConfig
 {
@@ -40,10 +40,10 @@ class KControllerToolbarCommand extends KConfig
             'icon'       => 'icon-32-'.$name,
             'id'         => $name,
             'label'      => ucfirst($name),
-            'title'		 => '',
             'disabled'   => false,
+            'title'		 => '', 
             'attribs'    => array(
-                'class'        => array('toolbar'),
+                'class'        => array(),
             )
         ));
         
