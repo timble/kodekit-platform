@@ -26,13 +26,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * @var	string|object
 	 */
 	protected $_controller;
-	
-	/**
-	 * The request persistency
-	 * 
-	 * @var boolean
-	 */
-	protected $_request_persistent;
 
 	/**
 	 * Constructor.
@@ -42,9 +35,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-		
-		//Set the request persistency
-		$this->_request_persistent = $config->request_persistent;
 		
 		//Set the controller
 		$this->_controller = $config->controller;
@@ -69,7 +59,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     	$config->append(array(
         	'controller'			=> $this->_identifier->package,
     		'request'				=> KRequest::get('get', 'string'),
-    		'request_persistent' 	=> false
         ))->append(array(
             'request' 				=> array('format' => KRequest::format() ? KRequest::format() : 'html')
         ));
@@ -90,10 +79,18 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		    if(!($this->_controller instanceof KIdentifier)) {
 		        $this->setController($this->_controller);
 			}
+			
+			/* 
+         	 * Disable controller persistency on non-HTTP requests, e.g. AJAX, and requests containing 
+         	 * the tmpl variable set to component, e.g. requests using modal boxes. This avoids 
+         	 * changing the model state session variable of the requested model, which is often 
+         	 * undesirable under these circumstances. 
+         	 */  
+            $persistable = (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component');
 		    
 		    $config = array(
         		'request' 	   => $this->_request,
-        		'persistent'   => $this->_request_persistent,
+        		'persistable'  => $persistable,
 			    'dispatched'   => true	
         	);
         	
