@@ -13,8 +13,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.tooltip') ?> 
 <?= @helper('behavior.validator') ?>
 
-<?= @toolbar(); ?>
-
 <script type="text/javascript">
 window.addEvent('domready', function() { 
 	<? /* @TODO @route needs to be updated to handle js contexts, using JRoute for now */ ?>
