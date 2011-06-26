@@ -32,7 +32,10 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addArchive()
                  ->addUnarchive()
                  ->addSeperator()
-                 ->addPreferences();
+                 ->addModal(array(
+                    'label' => 'Preferences',
+                 	'href' => 'index.php?option=com_config&controller=component&component=com_articles')
+                 );
         }    
         else $this->addRestore(); 
         
