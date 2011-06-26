@@ -28,20 +28,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
      * @return  void
      */
     protected function _initialize(KConfig $config)
-    {
-        /* 
-         * Disable model persistency on non-HTTP requests, e.g. AJAX, and requests containing 
-         * the tmpl variable set to component, e.g. requests using modal boxes. This avoids 
-         * changing the model state session variable of the requested model, which is often 
-         * undesirable under these circumstances. 
-         */
-        
-        $persistent = (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component');
-        
-        $config->append(array(
-            'request_persistent' => $persistent
-        ));
-        
+    { 
         parent::_initialize($config);
         
         //Force the controller to the information found in the request
@@ -78,44 +65,22 @@ class ComDefaultDispatcher extends KDispatcherDefault
     }
     
     /**
-     * Push the controller data into the document
-     * 
-     * This function divert the standard behavior and will push specific controller data
-     * into the document
+     * Set the mimetype of the document and hide the menu if required
      *
      * @return  KDispatcherDefault
      */
     protected function _actionRender(KCommandContext $context)
     {
-        //Get the view
-        $view  = $this->getController()->getView();
-    
+        $view = $this->getController()->getView();
+        
         //Set the document mimetype
         KFactory::get('lib.joomla.document')->setMimeEncoding($view->mimetype);
         
         //Disabled the application menubar
         if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
             KRequest::set('get.hidemainmenu', 1);
-        }  
-        
-        //Render the menubar
-        if($view instanceof ComDefaultViewHtml)
-        {
-            //Render the menubar
-            if(isset($view->views)) 
-            {
-                foreach($view->views as $name => $title)
-                {
-                    $active    = ($name == strtolower($view->getName()));
-                    $component = $this->_identifier->package;
-            
-                    JSubMenuHelper::addEntry(JText::_($title), 'index.php?option=com_'.$component.'&view='.$name, $active );
-                }
-            }   
-        }
-        
-         
-        
+        } 
+   
         return parent::_actionRender($context);
     }
 }
