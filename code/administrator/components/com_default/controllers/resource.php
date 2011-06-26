@@ -21,6 +21,20 @@
 class ComDefaultControllerResource extends KControllerResource
 { 
     /**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     */
+    protected function  _initialize(KConfig $config) 
+  	{        
+		$config->append(array(
+			//'behaviors'	 =>  array('cacheable')
+		));
+	
+      	parent::_initialize($config);
+  	}
+    
+    /**
      * Display action
      * 
      * If the controller was not dispatched manually load the langauges files 
@@ -34,7 +48,7 @@ class ComDefaultControllerResource extends KControllerResource
         if(!$this->isDispatched()) {
             KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
         }
-        
+         
         return parent::_actionGet($context);
     }
     
