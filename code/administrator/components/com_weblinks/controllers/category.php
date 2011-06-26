@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComBannersControllerCategory extends ComDefaultControllerDefault
+class ComWeblinksControllerCategory extends ComDefaultControllerDefault
 { 
     protected function _actionGet(KCommandContext $context)
     {
