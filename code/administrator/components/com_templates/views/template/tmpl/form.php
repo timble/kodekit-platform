@@ -19,8 +19,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
-<?= @toolbar(); ?>
-
 <form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form">
     <div class="col width-50">
         <fieldset class="adminform">
