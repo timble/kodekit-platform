@@ -36,8 +36,6 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 </script>
 
-<?= @toolbar(); ?>
-
 <form action="<?= @route('id='.$article->id) ?>" method="post" id="article-form" class="-koowa-form">
     <div id="main" class="grid_8">
         <div class="panel title clearfix">
