@@ -28,8 +28,6 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @toolbar(); ?>
-
 <?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
