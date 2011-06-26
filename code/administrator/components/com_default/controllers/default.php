@@ -20,6 +20,20 @@
  */
 class ComDefaultControllerDefault extends KControllerService
 {    
+    /**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     */
+    protected function  _initialize(KConfig $config) 
+  	{        
+		$config->append(array(
+			//'behaviors'	 =>  array('cacheable')
+		));
+	
+      	parent::_initialize($config);
+  	}
+ 	
  	/**
      * Read action
      *
@@ -59,7 +73,7 @@ class ComDefaultControllerDefault extends KControllerService
         if(!$this->isDispatched()) {
             KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
         }
-        
+         
         return parent::_actionGet($context);
     }
     
