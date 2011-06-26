@@ -15,8 +15,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<?= @toolbar(); ?>
-
 <form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
 	<input type="hidden" name="section" value="<?= $category->id ? $category->section : $state->section; ?>" />
 
