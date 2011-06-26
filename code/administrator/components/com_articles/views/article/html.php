@@ -18,7 +18,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesViewArticleHtml extends ComArticlesViewHtml
+class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
