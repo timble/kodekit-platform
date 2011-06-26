@@ -89,7 +89,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     		'mimetype'	=> '',
             'layout'    => 'default',
 	  	));
-        
+	  
         parent::_initialize($config);
     }
     
@@ -193,21 +193,21 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	}
 	
  	/**
-    * Get the layout.
-    *
-    * @return string The layout name
-    */
+     * Get the layout.
+     *
+     * @return string The layout name
+     */
     public function getLayout()
     {
         return $this->_layout;
     }
 
    /**
-    * Sets the layout name to use
-    *
-    * @param    string  The template name.
-    * @return   KViewAbstract
-    */
+     * Sets the layout name to use
+     *
+     * @param    string  The template name.
+     * @return   KViewAbstract
+     */
     public function setLayout($layout)
     {
         $this->_layout = $layout;
@@ -272,7 +272,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			{
 				$result[] = 'view='.$this->getName();
 				if(!isset($parts['layout']) && $this->_layout != $this->_layout_default) {
-					$result[] = 'layout='.$this->_layout;
+					$result[] = 'layout='.$this->getLayout();
 				}
 			}
 			
