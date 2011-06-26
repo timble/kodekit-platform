@@ -25,7 +25,11 @@ class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefa
               ->addEnable()
               ->addDisable()
               ->addSeperator()
-              ->addPreferences(array('height' => 88));
+              ->addModal(array(
+                    'label'  => 'Preferences',
+              		'height' => 88,
+                    'href'   => 'index.php?option=com_config&controller=component&component=com_banners'
+                  ));
          
         return parent::getCommands();
     }
