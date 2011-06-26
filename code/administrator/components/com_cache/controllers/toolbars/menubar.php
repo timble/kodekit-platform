@@ -24,7 +24,7 @@ class ComCacheControllerToolbarMenubar extends ComDefaultControllerToolbarMenuba
         $this->addCommand('Groups', array(
         	'href' => JRoute::_('index.php?option=com_cache&view=groups'),
         	'active' => true 
-        )));
+        ));
         
         $this->addCommand('Keys', array(
         	'href' => JRoute::_('index.php?option=com_cache&view=keys'),
