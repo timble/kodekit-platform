@@ -63,8 +63,8 @@ class JCacheStorageApc extends JCacheStorage
 
 			if ($parts !== false && $parts[0] == $secret &&  $parts[1] == 'cache') 
 			{
-				$data = array();
-				$data['name']  = $key['name'];
+			    $data = array();
+				$data['name']  = $key['info'];
 				$data['hash']  = $parts[4];
 				$data['group'] = $parts[3];
 				$data['site']  = $parts[2];
