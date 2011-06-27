@@ -91,7 +91,6 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     /**
      * Generic authorize handler for controller delete actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
     public function canDelete()
