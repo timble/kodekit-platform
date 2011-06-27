@@ -41,7 +41,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 Files.sitebase = '<?= ltrim(JURI::root(true), '/'); ?>';
 Files.path = '<?= $path; ?>';
-Files.baseurl = Files.sitebase +'/'+Files.path;
+Files.baseurl = '<?= ltrim(JURI::root(true).'/'.$path, '/'); ?>';
 Files.identifier = '<?= $state->identifier->identifier; ?>';
 
 Files.token = '<?= JUtility::getToken();?>';
