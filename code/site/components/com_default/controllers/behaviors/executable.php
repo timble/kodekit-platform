@@ -115,7 +115,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
 	 * Check the token to prevent CSRF exploits
 	 *
 	 * @param   object  The command context
-	 * @return  boolean Returns FAKSE if the check failed. Otherwise TRUE.
+	 * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
 	 */
     protected function _checkToken(KCommandContext $context)
     {
