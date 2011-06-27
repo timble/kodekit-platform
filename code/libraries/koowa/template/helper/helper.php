@@ -37,7 +37,7 @@ class KTemplateHelper
 		       $identifier = 'com.default.template.helper.'.trim($identifier);
 		    }    
 		   
-		    $helper = KFactory::tmp($identifier, $config);
+		    $helper = KFactory::get($identifier, $config);
 		    
 		    //Check the behavior interface
             if(!($helper instanceof KTemplateHelperInterface)) {
