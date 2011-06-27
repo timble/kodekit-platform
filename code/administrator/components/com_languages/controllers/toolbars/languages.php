@@ -21,12 +21,12 @@ class ComLanguagesControllerToolbarLanguages extends ComDefaultControllerToolbar
 {
     public function getCommands()
     {
-        $this->addSet();
+        $this->addDefault();
         
         return parent::getCommands();
     }
      
-    protected function _commandSet(KControllerToolbarCommand $command)
+    protected function _commandDefault(KControllerToolbarCommand $command)
     {
         $command->label = JText::_('Make Default');
         
