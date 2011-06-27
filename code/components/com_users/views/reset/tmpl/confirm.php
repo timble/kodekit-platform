@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     $Id$
  * @category	Nooku
@@ -25,12 +25,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </tr>
         <tr>
             <td height="40">
-                <label for="username" class="hasTip" title="<?= @text('RESET_PASSWORD_USERNAME_TIP_TITLE') ?>::<?= @text('RESET_PASSWORD_USERNAME_TIP_TEXT') ?>">
-                    <?= @text('User Name') ?>:
+                <label for="email" class="hasTip" title="<?= @text('RESET_PASSWORD_EMAIL_TIP_TITLE') ?>::<?= @text('RESET_PASSWORD_EMAIL_TIP_TEXT') ?>">
+                    <?= @text('Email') ?>:
                 </label>
             </td>
             <td>
-                <input id="username" name="username" type="text" class="required" size="36" />
+                <input id="email" name="email" type="text" class="required" size="36" />
             </td>
         </tr>
         <tr>

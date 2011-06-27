@@ -64,7 +64,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
     protected function _actionConfirm(KCommandContext $context)
     {
         $token    = KRequest::get('post.token', 'alnum');
-        $username = KRequest::get('post.username', 'string');
+        $email    = KRequest::get('post.email', 'email');
 
         if(strlen($token) != 32)
         {
@@ -73,7 +73,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         }
 
         $user = KFactory::tmp('site::com.users.model.users')
-            ->set('username', $username)
+            ->set('email', $email)
             ->getItem();
 
         if(!$user->id || $user->block)
