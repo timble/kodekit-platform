@@ -51,8 +51,7 @@ class ModDefaultView extends KViewHtml
             'template'    => $template,
             'params'      => null,
             'module'      => null,
-            'attribs'     => array(),
-        	'auto_filter' => true
+            'attribs'     => array()
         ));
         
         parent::_initialize($config);
@@ -75,13 +74,9 @@ class ModDefaultView extends KViewHtml
      */
     public function display()
     {
-         //We need a full identifier to load the base template
-	    $identifier = clone $this->getIdentifier();
-        $identifier->name = $this->_layout;
-        
         $this->output = $this->getTemplate()
-                ->loadIdentifier($identifier, $this->_data)
-                ->render($this->_auto_filter);
+                ->loadIdentifier($this->_layout, $this->_data)
+                ->render();
                 
         return $this->output;
     }
