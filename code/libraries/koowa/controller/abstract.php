@@ -261,25 +261,12 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	/**
      * Check if a behavior exists
      *
-     * @param 	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+     * @param 	string	The name of the behavior
      * @return  boolean	TRUE if the behavior exists, FALSE otherwise
      */
 	public function hasBehavior($behavior)
-	{
-	   if(!($behavior instanceof KIdentifier))
-       {
-            //Create the complete identifier if a partial identifier was passed
-           if(is_string($behavior) && strpos($behavior, '.') === false )
-           {
-               $identifier = clone $this->_identifier;
-               $identifier->path = array('controller', 'behavior');
-               $identifier->name = $behavior;
-           }
-       }
-       else $identifier = KFactory::identify($behavior);
-       
-       return isset($this->_behaviors[(string) $identifier]); 
+	{ 
+	    return isset($this->_behaviors[$behavior]); 
 	}
 	
 	/**
@@ -297,11 +284,9 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
             if (!($behavior instanceof KControllerBehaviorInterface)) { 
                 $behavior = $this->getBehavior($behavior);
             }
-		    
-            $identifier = (string) $behavior->getIdentifier();
-               
+		       
             //Add the behaviors
-            $this->_behaviors[$identifier] = $behavior;
+            $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;
             
             if($this->getCommandChain()->enqueue($behavior)) {
                 $this->_actions = null; //reset the actions
@@ -329,14 +314,11 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
            }
            else $identifier = KFactory::identify($behavior);
        }
-     
-       //Make sure we have an identfier string
-       $identifier = (string) $identifier;
-            
-       if(!isset($this->_behaviors[$identifier])) {
+           
+       if(!isset($this->_behaviors[$identifier->name])) {
            $behavior = KControllerBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
        } else {
-           $behavior = $this->_behaviors[$identifier];
+           $behavior = $this->_behaviors[$identifier->name];
        }
        
        return $behavior;
