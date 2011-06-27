@@ -259,6 +259,17 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     }
     
 	/**
+     * Check if a behavior exists
+     *
+     * @param 	string	The name of the behavior
+     * @return  boolean	TRUE if the behavior exists, FALSE otherwise
+     */
+	public function hasBehavior($behavior)
+	{ 
+	    return isset($this->_behaviors[$behavior]); 
+	}
+    
+	/**
      * Register one or more behaviors to the table
      *
      * @param   array   Array of one or more behaviors to add.
@@ -273,11 +284,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             if (!($behavior instanceof KDatabaseBehaviorInterface)) { 
                 $behavior   = $this->getBehavior($behavior); 
             } 
-            
-		    $identifier = (string) $behavior->getIdentifier();
               
 		    //Add the behavior
-            $this->getSchema()->behaviors[$identifier] = $behavior;
+            $this->getSchema()->behaviors[$behavior->getIdentifier()->name] = $behavior;
             $this->getCommandChain()->enqueue($behavior);
         }
         
@@ -287,6 +296,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 	/**
      * Get a behavior by identifier
      *
+     * @param  
      * @return KControllerBehaviorAbstract
      */
     public function getBehavior($behavior, $config = array())
@@ -302,14 +312,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
            }
            else $identifier = KFactory::identify($behavior);
        }
-     
-       //Make sure we have an identfier string
-       $identifier = (string) $identifier;
        
-       if(!isset($this->getSchema()->behaviors[$identifier])) {
+       if(!isset($this->getSchema()->behaviors[$identifier->name])) {
            $behavior = KDatabaseBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
        } else {
-           $behavior = $this->getSchema()->behaviors[$identifier];
+           $behavior = $this->getSchema()->behaviors[$identifier->name];
        }
        
        return $behavior;
@@ -860,13 +867,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 
 		if($parts[0] == 'is' && isset($parts[1]))
 		{
-            foreach($this->getBehaviors() as $behavior) 
-            {
-                if($behavior->getIdentifier()->name == $parts[1]) {
-                    return true;
-                }
+            if($this->hasBehavior(strtolower($parts[1]))) {
+                 return true;    
             }
-               
+		        
 			return false;
 		}
 
