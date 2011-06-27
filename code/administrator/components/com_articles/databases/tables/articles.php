@@ -42,7 +42,7 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),
-                'params'	  => 'ini'
+                'attribs'	  => 'ini'
 		    )
         ));
 
