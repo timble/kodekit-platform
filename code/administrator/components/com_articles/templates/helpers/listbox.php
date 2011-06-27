@@ -30,7 +30,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'prompt'	=> '- Select -'
         ));
 
-        $list = KFactory::tmp('admin::com.sections.model.sections')
+        $list = KFactory::tmp('admin::com.articles.model.sections')
             ->set('scope', 'content')
             ->set('sort', 'title')
             ->set('limit', 0)
