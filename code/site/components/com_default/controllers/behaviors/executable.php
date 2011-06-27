@@ -49,7 +49,6 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     /**
      * Generic authorize handler for controller add actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
     public function canAdd()
@@ -71,7 +70,6 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     /**
      * Generic authorize handler for controller edit actions
      * 
-     * @param   object      The command context
      * @return  boolean     Can return both true or false.  
      */
     public function canEdit()
