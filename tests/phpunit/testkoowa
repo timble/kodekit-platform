@@ -1,0 +1,57 @@
+#!/usr/bin/php
+<?php
+/**
+ * @version     $Id$
+ * @package     Koowa_Tests
+ * @copyright   Copyright (C) 2007 - 2008 Joomlatools. All rights reserved.
+ * @license     GNU GPLv2 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link        http://www.koowa.org
+ */
+
+// Error Reporting
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+
+// Constants
+define('_JEXEC', 1 );
+define('JPATH_BASE', realpath('.') );
+define('DS', DIRECTORY_SEPARATOR );
+
+// Includes
+require_once JPATH_BASE.'/koowa_unit_testing/defines.php';
+require_once KPATH_INCLUDES.'/commandline.php';
+require_once KPATH_LIBRARIES.'/PEAR/Console/Color.php';
+
+
+// Output buffering
+ob_start();
+
+// Title
+include KPATH_HELP.'/title.php';
+
+// Display help first
+if(Commandline::getInstance()->get('h'))
+{
+	include KPATH_HELP.'/help.php';
+    die;
+}
+// Check dependencies
+require_once KPATH_INCLUDES.'/dependencies.php';
+if(!Dependencies::checkJoomla() OR !Dependencies::checkKoowa())
+{
+	include KPATH_HELP.'/help.php';
+    echo Console_Color::convert('%RMake sure Joomla! and Koowa are correctly installed.%n'.PHP_EOL);
+    die;
+}
+
+// Load Frameworks
+require_once ( JPATH_KOOWA_APP.'/includes/framework.php' );
+require_once ( JPATH_KOOWA.'/koowa.php');
+
+// Application
+$mainframe = JFactory::getApplication('koowapp');
+$mainframe->initialise();
+$mainframe->dispatch();
+
+// Output
+echo ob_get_clean();
