@@ -301,14 +301,31 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 */
 	public function __call($method, array $arguments)
 	{ 
-	    // If the method hasn't been mixed yet, load all the behaviors.
-	    if($this->isConnected() && !isset($this->_mixed_methods[$method]))
+	    if($this->isConnected())
 		{
-			foreach($this->getTable()->getBehaviors() as $behavior) {
-				$this->mixin($behavior);
-			}
+		    $parts = KInflector::explode($method);
+		    
+		     //Check if a behavior is mixed
+		    if($parts[0] == 'is' && isset($parts[1]))
+		    {
+		        if(!isset($this->_mixed_methods[$method]))
+                { 
+		             //Lazy mix behaviors
+		            $behavior = strtolower($parts[1]);
+		        
+                    if($this->getTable()->hasBehavior($behavior)) 
+                    {
+                        $this->mixin($this->getTable()->getBehavior($behavior));
+                        return true;
+		            }
+		    
+			        return false;
+                }
+		       
+                return true;
+		    }
 		}
-
+		   
 		return parent::__call($method, $arguments);
 	}
 }
