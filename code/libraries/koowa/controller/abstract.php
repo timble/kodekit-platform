@@ -259,6 +259,30 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	}
 	
 	/**
+     * Check if a behavior exists
+     *
+     * @param 	mixed	An object that implements KObjectIdentifiable, an object that
+	 *                  implements KIdentifierInterface or valid identifier string
+     * @return  boolean	TRUE if the behavior exists, FALSE otherwise
+     */
+	public function hasBehavior($behavior)
+	{
+	   if(!($behavior instanceof KIdentifier))
+       {
+            //Create the complete identifier if a partial identifier was passed
+           if(is_string($behavior) && strpos($behavior, '.') === false )
+           {
+               $identifier = clone $this->_identifier;
+               $identifier->path = array('controller', 'behavior');
+               $identifier->name = $behavior;
+           }
+       }
+       else $identifier = KFactory::identify($behavior);
+       
+       return isset($this->_behaviors[(string) $identifier]); 
+	}
+	
+	/**
      * Register one or more behaviors to the controller
      *
      * @param   array   Array of one or more behaviors to add.
@@ -415,8 +439,9 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		if($parts[0] == 'is' && isset($parts[1]))
 		{
 		    //Lazy mix behaviors
-            if(!isset($this->_mixed_methods[$method])) {
-                $this->mixin($this->getBehavior(strtolower($parts[1])));
+		    $behavior = strtolower($parts[1]);
+            if(!isset($this->_mixed_methods[$method]) && $this->hasBehavior($behavior)) {
+                $this->mixin($this->getBehavior($behavior));
 		    }
 		    
 		    if(isset($this->_mixed_methods[$method])) {
