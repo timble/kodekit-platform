@@ -432,7 +432,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		}
 		else $identifier = KFactory::identify($helper);
 	 
-		
 		//Create the template helper
 		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
 		
