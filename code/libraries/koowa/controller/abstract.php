@@ -414,7 +414,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
             //Execute the action
             return $this->execute($method, $context);
         }
-         
+        
         //Check if a behavior is mixed
 		$parts = KInflector::explode($method);
 
@@ -422,17 +422,21 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 		{
 		    //Lazy mix behaviors
 		    $behavior = strtolower($parts[1]);
-            if(!isset($this->_mixed_methods[$method]) && $this->hasBehavior($behavior)) {
-                $this->mixin($this->getBehavior($behavior));
-		    }
 		    
-		    if(isset($this->_mixed_methods[$method])) {
-				return true;
-			}
-
-			return false;
+            if(!isset($this->_mixed_methods[$method]))
+            { 
+                if($this->hasBehavior($behavior)) 
+                {
+                    $this->mixin($this->getBehavior($behavior));
+                    return true;
+		        }
+		  
+			    return false;
+            }
+            
+            return true;
 		}
-        
+     
         return parent::__call($method, $args);
     }
 }
