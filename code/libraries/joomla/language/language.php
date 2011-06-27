@@ -97,6 +97,13 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 	var $_used		= array();
+	
+	/**
+	 * The cache object
+	 *
+	 * @var	JCache
+	 */
+    var $_cache;
 
 	/**
 	* Constructor activating the default information of the language
@@ -296,14 +303,13 @@ class JLanguage extends JObject
 	    $result = true;
 		if (!isset( $this->_paths[$extension][$filename] ) || $reload )
 		{
-		    $cache = KFactory::tmp('lib.joomla.cache', array('language', 'output'));
-		    
-		    //Set the lifetime to 0 to make sure cache isn't garbage collected.
-	        $cache->setLifeTime(0);
-	        
 		    $identifier = md5($extension.$basePath.$lang);
+		    
+		    if(!isset($this->_cache)) {
+		        $this->_cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
+		    }
 		
-		    if (!$data = $cache->get($identifier)) 
+		    if (!$data = $this->_cache->get($identifier)) 
 		    {
 			    // Load the language file
 			    $strings = $this->_load( $filename, $extension, true );
@@ -326,7 +332,7 @@ class JLanguage extends JObject
 
 			    //Store the strings in the cache
 			    if($strings !== false) {
-			       $cache->store(serialize($strings), $identifier);
+			       $this->_cache->store(serialize($strings), $identifier);
 			    }
 		    }
 			else $this->_strings = array_merge( $this->_strings, array_reverse(unserialize($data)));
