@@ -59,8 +59,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     	    </td>
                     	    <td>
                                 <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
-                                <?= @helper('listbox.section', array(
-                                    'identifier' => "admin::com.sections.model.sections",
+                                <?= @helper('listbox.sections', array(
+                                    'identifier' => "admin::com.articles.model.sections",
                                     'column'     => 'section_id',
                                     'attribs'    => array(
                                         'id'       => 'section_id',
