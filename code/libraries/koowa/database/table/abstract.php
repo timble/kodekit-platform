@@ -266,7 +266,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
 	public function hasBehavior($behavior)
 	{ 
-	    return isset($this->_behaviors[$behavior]); 
+	    return isset($this->getSchema()->behaviors[$behavior]); 
 	}
     
 	/**
@@ -709,7 +709,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                     if($this->getIdentityColumn()) {
                         $data[$this->getIdentityColumn()] = $this->_database->getInsertId();
                     }
-                
+                    
                     //Reverse apply the column mappings and set the data in the row
                     $context->data->setData($this->mapColumns($data, true), false)
                                   ->setStatus(KDatabase::STATUS_CREATED);
