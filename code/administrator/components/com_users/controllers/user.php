@@ -62,7 +62,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    {
 	        foreach($users as $user)
 	        {
-	            $result = KFactory::get('lib.joomla.application')->logout($user->id);
+	            $clients = array(0, 1); //Force logout from site and administrator
+	            $result = KFactory::get('lib.joomla.application')
+	                            ->logout($user->id, array('clientid' => $clients));
 
                 if(JError::isError($result))
                 {
