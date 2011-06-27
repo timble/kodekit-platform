@@ -20,6 +20,29 @@
 class ComDefaultTemplateDefault extends KTemplateDefault
 { 
 	/**
+	 * The cache object
+	 *
+	 * @var	JCache
+	 */
+    protected $_cache;
+    
+	/**
+	 * Constructor
+	 *
+	 * Prevent creating instances of this class by making the contructor private
+	 * 
+	 * @param 	object 	An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+	
+		if(KFactory::get('lib.joomla.config')->getValue('config.caching')) {
+	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
+		}
+	}
+	
+	/**
 	 * Load a template by path -- first look in the templates folder for an override
 	 * 
 	 * This function tries to get the template from the cache. If it cannot be found 
@@ -30,25 +53,22 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	 * @return KTemplateAbstract
 	 */
 	public function loadFile($path, $data = array(), $process = true)
-	{ 
-	    //Load from cache or cache the template 
-	    $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
-		
-	    //Set the lifetime to 0 to make sure cache isn't garbage collected.
-	    $cache->setLifeTime(0);
-	    
-	    $identifier = md5($path); 
-	     
-	    if ($template = $cache->get($identifier)) 
+	{
+	    if(isset($this->_cache))
 	    {
-		    // store the path
-		    $this->_path = $path;
+	        $identifier = md5($path); 
+	     
+	        if ($template = $this->_cache->get($identifier)) 
+	        {
+		        // store the path
+		        $this->_path = $path;
 		    
-	        $this->loadString($template, $data, $process);
+	            $this->loadString($template, $data, $process);
+	            return $this;
+	        }
 	    } 
-	    else parent::loadFile($path, $data, $process);
-	    
-		return $this;
+	 
+		return parent::loadFile($path, $data, $process);;
 	}
 	
 	/**
@@ -94,22 +114,22 @@ class ComDefaultTemplateDefault extends KTemplateDefault
 	 */
 	public function parse()
 	{	
-	    $cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
-		
-	    //Set the lifetime to 0 to make sure cache isn't garbage collected.
-	    $cache->setLifeTime(0);
-	    
-	    $identifier = md5($this->_path);
-	    
-	    if (!$template = $cache->get($identifier)) 
+	    if(isset($this->_cache))
 	    {
-	        $template = parent::parse();
+	        $identifier = md5($this->_path);
+	     
+	        if (!$template = $this->_cache->get($identifier)) 
+	        {
+	            $template = parent::parse();
 	            
-	        //Store the object in the cache
-		   	$cache->store($template, $identifier);
+	            //Store the object in the cache
+		   	    $this->_cache->store($template, $identifier);
+	        }
+	        
+	        return $template;
 	    }
 	    
-	    return $template;
+	    return parent::parse();
 	}
     
     /**
