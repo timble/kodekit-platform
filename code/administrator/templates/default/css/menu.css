@@ -123,15 +123,15 @@
 /* submenu styling */
 #submenu {
 	list-style: none;
-	padding: 0;
-	margin: 5px 0 0 15px;
+	margin: 0;
+	padding: 0 0 0 15px;
 	float: left;
 }
 
 #submenu li {
 	float: left;
 	padding: 0;
-	margin: 0 2px;
+	margin: 5px 2px 0 2px;
 }
 
 #submenu li a,
