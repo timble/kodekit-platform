@@ -24,9 +24,9 @@ class ComFilesDatabaseTablePaths extends KDatabaseTableAbstract
 	{
 		$config->append(array(
 			'filters' => array(
-				'identifier' => 'raw',
-				'path'       => 'raw',
-				'parameters' => 'raw'
+				'identifier' => 'identifier',
+				'path'       => 'com.files.filter.path',
+				'parameters' => 'json'
 			)
 		));
 
