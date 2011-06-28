@@ -52,7 +52,7 @@ function submitbutton(pressbutton) {
 						<?php echo JText::_( 'Menu Item Type' ); ?>
 					</legend>
 					<div style="float:right">
-						<button type="button" onclick="location.href='index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo htmlspecialchars($this->item->menutype);?><?php echo $this->item->expansion; ?>&amp;cid[]=<?php echo $this->item->id; ?>';">
+						<button type="button" onclick="document.location.href = 'index.php?option=com_menus&amp;task=type&amp;menutype=<?php echo htmlspecialchars($this->item->menutype);?><?php echo $this->item->expansion; ?>&amp;cid[0]=<?php echo $this->item->id; ?>'; ">
 							<?php echo JText::_( 'Change Type' ); ?></button>
 					</div>
 					<h2><?php echo $this->name; ?></h2>
