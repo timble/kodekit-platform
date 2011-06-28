@@ -27,7 +27,7 @@ class ComFilesCommandValidatorFile extends KCommand
 		if (!is_uploaded_file($row->file))
 		{
 			// remote file
-			$file = KFactory::tmp('admin::com.files.database.row.remotefile');
+			$file = KFactory::tmp('admin::com.files.database.row.url');
 			$file->setData(array('file' => $row->file));
 			$file->load();
 			$row->contents = $file->contents;

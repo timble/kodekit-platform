@@ -17,4 +17,4 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesDatabaseRowRemotefileException extends KException {}
+class ComFilesDatabaseRowUrlException extends KException {}

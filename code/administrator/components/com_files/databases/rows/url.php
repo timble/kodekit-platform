@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
+class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 {
 	/**
 	 * Adapters to use for remote access
@@ -53,7 +53,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 		$response = $this->_fetch($url);
 
 		if ($response === false) {
-			throw new ComFilesDatabaseRowRemotefileException('File cannot be downloaded');
+			throw new ComFilesDatabaseRowUrlException('File cannot be downloaded');
 		}
 
 		$this->contents = $response;
@@ -71,10 +71,10 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 				$response = $this->$function($url);
 				break;
 			}
-			catch (ComFilesDatabaseRowRemotefileAdapterException $e) {
+			catch (ComFilesDatabaseRowUrlAdapterException $e) {
 				continue;
 			}
-			catch (ComFilesDatabaseRowRemotefileException $e)
+			catch (ComFilesDatabaseRowUrlException $e)
 			{
 				if ($i+1 < count($this->_adapters)) {
 					continue;
@@ -91,7 +91,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 	protected function _fetchCurl($url)
 	{
 		if (!function_exists('curl_init')) {
-			throw new ComFilesDatabaseRowRemotefileAdapterException('Adapter does not exist');
+			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$ch = curl_init();
@@ -106,7 +106,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 		$response = curl_exec($ch);
 
 		if (curl_errno($ch)) {
-			throw new ComFilesDatabaseRowRemotefileException('Curl Error: '.curl_error($ch));
+			throw new ComFilesDatabaseRowUrlException('Curl Error: '.curl_error($ch));
 		}
 
 		$info = curl_getinfo($ch);
@@ -122,7 +122,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 	protected function _fetchFsockopen($url)
 	{
 		if (!in_array('tcp', stream_get_transports())) {
-			throw new ComFilesDatabaseRowRemotefileAdapterException('Adapter does not exist');
+			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
@@ -134,7 +134,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 
 		if ($scheme == 'https://') {
 			if (!in_array('ssl', stream_get_transports())) {
-				throw new ComFilesDatabaseRowRemotefileAdapterException('fsockopen does not support SSL');
+				throw new ComFilesDatabaseRowUrlAdapterException('fsockopen does not support SSL');
 			}
 			$host = 'ssl://'.$host;
 			$port = 443;
@@ -151,7 +151,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 		$errstr = null;
 		$fp = @fsockopen($host, $port, $errno, $errstr, 120);
 		if (!$fp) {
-			throw new ComFilesDatabaseRowRemotefileException('PHP Socket Error: '.$errstr);
+			throw new ComFilesDatabaseRowUrlException('PHP Socket Error: '.$errstr);
 		}
 		$out = "GET $path HTTP/1.1\r\n";
 		$out .= "Host: $host\r\n";
@@ -177,7 +177,7 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 	protected function _fetchFopen($url)
 	{
 		if (!ini_get('allow_url_fopen')) {
-			throw new ComFilesDatabaseRowRemotefileAdapterException('Adapter does not exist');
+			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$response = file_get_contents($url);
