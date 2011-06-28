@@ -22,20 +22,21 @@ class ComFilesViewJson extends KViewJson
 {
     public function display()
     {
+    	$model = $this->getModel();
+
         if(KInflector::isPlural($this->getName())) {
-            $data = $this->_generateListOutput();
+            $data = $this->_getList($model);
         } else {
-            $data = $this->_generateItemOutput();
+            $data = $this->_getItem($model);
         }
 
-        $this->output = json_encode($data);
+        $this->output = $data;
 
         return parent::display();
     }
 
-    protected function _generateListOutput()
+    protected function _getList(KModelAbstract $model)
     {
-        $model = $this->getModel();
         $list  = array_values($model->getList()->toArray());
         $state = $model->getState();
         $total = $model->getTotal();
@@ -49,9 +50,9 @@ class ComFilesViewJson extends KViewJson
         return $output;
     }
 
-    protected function _generateItemOutput()
+    protected function _getItem(KModelAbstract $model)
     {
-        $row = $this->getModel()->getItem();
+        $row = $model->getItem();
 
         $output = new stdclass;
         $output->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
