@@ -20,4 +20,5 @@
 
 class ComFilesViewFoldersJson extends ComFilesViewNodesJson
 {
+    
 }

@@ -20,4 +20,5 @@
 
 class ComFilesViewImagesHtml extends ComFilesViewFilesHtml
 {
+    
 }

@@ -32,6 +32,7 @@ class ComFilesFilterFolderUploadable extends KFilterAbstract
 
 	protected function _validate($context)
 	{
+	    
 	}
 
 	protected function _sanitize($context)

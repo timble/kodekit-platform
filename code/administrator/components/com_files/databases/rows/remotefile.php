@@ -64,7 +64,8 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 	protected function _fetch($url)
 	{
 		$response = false;
-		foreach ($this->_adapters as $i => $adapter) {
+		foreach ($this->_adapters as $i => $adapter) 
+		{
 			try {
 				$function = '_fetch'.ucfirst($adapter);
 				$response = $this->$function($url);
@@ -73,8 +74,8 @@ class ComFilesDatabaseRowRemotefile extends KDatabaseRowAbstract
 			catch (ComFilesDatabaseRowRemotefileAdapterException $e) {
 				continue;
 			}
-			catch (ComFilesDatabaseRowRemotefileException $e) {
-
+			catch (ComFilesDatabaseRowRemotefileException $e) 
+			{
 				if ($i+1 < count($this->_adapters)) {
 					continue;
 				}
