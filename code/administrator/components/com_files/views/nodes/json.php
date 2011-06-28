@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesViewNodesJson extends KViewJson
@@ -25,7 +25,7 @@ class ComFilesViewNodesJson extends KViewJson
 		$list = $this->getModel()->getList();
 
 		$result = array();
-		foreach ($list as $row) 
+		foreach ($list as $row)
 		{
 			$array = $row->getData();
 
@@ -36,23 +36,24 @@ class ComFilesViewNodesJson extends KViewJson
 			$array['type'] = $type;
 			$array['name'] = $row->name;
 
-			if ($name == 'file') 
+			if ($name == 'file')
 			{
 				$array['extension'] = $row->extension;
 				$array['size']      = $row->size;
 				$array['icons']     = $row->icons;
-				
-				if ($type == 'image') 
+
+				if ($type == 'image')
 				{
 					$array['thumbnail'] = $row->thumbnail;
 					$array['width']     = $row->width;
 					$array['height']    = $row->height;
 				}
 			}
+			unset($array['basepath']);
 
 			$result[] = $array;
 		}
-		
+
     	$this->output = json_encode($result);
 
     	return $this->output;
