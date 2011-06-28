@@ -15,21 +15,16 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesCommandValidatorFile extends KCommand
 {
-	protected function _databaseBeforeDelete($context)
-	{
-	    
-	}
-
 	protected function _databaseBeforeSave($context)
 	{
 		$row = $context->caller;
 
-		if (!is_uploaded_file($row->file)) 
+		if (!is_uploaded_file($row->file))
 		{
 			// remote file
 			$file = KFactory::tmp('admin::com.files.database.row.remotefile');
@@ -37,14 +32,14 @@ class ComFilesCommandValidatorFile extends KCommand
 			$file->load();
 			$row->contents = $file->contents;
 
-			if (empty($row->path)) 
+			if (empty($row->path))
 			{
 				$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $row->file));
 	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}
-	        	
+
 	        	$row->path = $path;
 			}
 		}

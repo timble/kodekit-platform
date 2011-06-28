@@ -15,16 +15,11 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesCommandValidatorFolder extends KCommand
 {
-	protected function _databaseBeforeDelete($context)
-	{
-	    
-	}
-
 	protected function _databaseBeforeSave($context)
 	{
 		$row = $context->caller;
