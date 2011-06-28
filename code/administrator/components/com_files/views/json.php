@@ -20,48 +20,48 @@
 
 class ComFilesViewJson extends KViewJson
 {
-	public function display()
-	{
-		if(KInflector::isPlural($this->getName())) {
-			$data = $this->_generateListOutput();
-		} else {
-			$data = $this->_generateItemOutput();
-		}
+    public function display()
+    {
+        if(KInflector::isPlural($this->getName())) {
+            $data = $this->_generateListOutput();
+        } else {
+            $data = $this->_generateItemOutput();
+        }
 
-		$this->output = json_encode($data);
+        $this->output = json_encode($data);
 
-		return parent::display();
-	}
+        return parent::display();
+    }
 
-	protected function _generateListOutput()
-	{
-    	$model = $this->getModel();
-    	$list  = array_values($model->getList()->toArray());
-    	$state = $model->getState();
-    	$total = $model->getTotal();
+    protected function _generateListOutput()
+    {
+        $model = $this->getModel();
+        $list  = array_values($model->getList()->toArray());
+        $state = $model->getState();
+        $total = $model->getTotal();
 
-		$output = new stdclass;
-		$output->total = $total;
-		$output->limit = $state->limit;
-		$output->offset = $state->offset;
-		$output->items = $list;
+        $output = new stdclass;
+        $output->total = $total;
+        $output->limit = $state->limit;
+        $output->offset = $state->offset;
+        $output->items = $list;
 
-		return $output;
-	}
+        return $output;
+    }
 
-	protected function _generateItemOutput()
-	{
-		$row = $this->getModel()->getItem();
+    protected function _generateItemOutput()
+    {
+        $row = $this->getModel()->getItem();
 
-		$output = new stdclass;
-		$output->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
+        $output = new stdclass;
+        $output->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
 
-		if ($output->status !== false)
-		{
-	        $output->item = $row->toArray();
-		}
-		else $output->error = $row->getStatusMessage();
+        if ($output->status !== false)
+        {
+            $output->item = $row->toArray();
+        }
+        else $output->error = $row->getStatusMessage();
 
-		return $output;
-	}
+        return $output;
+    }
 }
