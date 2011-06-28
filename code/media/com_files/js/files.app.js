@@ -96,7 +96,7 @@ Files.App = new Class({
 		var that = this;
 		this.folder = new Files.Folder({'path': path});
 		this.folder.getChildren(function(resp) {
-			$each(resp, function(el) {
+			$each(resp.items, function(el) {
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				that.container.insert(row, 'last');

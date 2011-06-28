@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 jimport('joomla.filesystem.file');
@@ -31,7 +31,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		$this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 
-        if ($config->validator !== false) 
+        if ($config->validator !== false)
         {
         	if ($config->validator === true) {
         		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
@@ -41,15 +41,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         }
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
-	}
-
-	public function setPath(KCommandContext $context)
-	{
-		if ($this->parent) 
-		{
-			$this->path = $this->parent.'/'.$this->path;
-			$this->parent = '';
-		}
 	}
 
     protected function _initialize(KConfig $config)
@@ -63,12 +54,21 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         parent::_initialize($config);
     }
 
+	public function setPath(KCommandContext $context)
+	{
+		if ($this->parent)
+		{
+			$this->path = $this->parent.'/'.$this->path;
+			$this->parent = '';
+		}
+	}
+
 	public function save()
 	{
 		$context = $this->getCommandContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false) 
+		if ($this->getCommandChain()->run('before.save', $context) !== false)
 		{
 			if (!empty($this->contents)) {
 				$context->result = file_put_contents($this->fullpath, $this->contents);
@@ -80,7 +80,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			$this->getCommandChain()->run('after.save', $context);
         }
 
-		if ($context->result === false) 
+		if ($context->result === false)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
@@ -94,7 +94,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$context = $this->getCommandContext();
 		$context->result = false;
 
-		if ($this->getCommandChain()->run('before.delete', $context) !== false) 
+		if ($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
         	$context->result = JFile::delete($this->fullpath);
 			$this->getCommandChain()->run('after.delete', $context);
@@ -112,6 +112,29 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		return (empty($this->path) || !file_exists($this->fullpath)) ? true : false;
 	}
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+		unset($data['basepath']);
+
+		$data['type'] = $this->isImage() ? 'image' : 'file';
+		$data['name'] = 'file';
+
+		$data['extension'] = $this->extension;
+		$data['size']      = $this->size;
+		$data['icons']     = $this->icons;
+
+		if ($this->isImage() == 'image')
+		{
+			$data['thumbnail'] = $this->thumbnail;
+			$data['width']     = $this->width;
+			$data['height']    = $this->height;
+		}
+
+        return $data;
+    }
 
 	public function __get($column)
 	{
@@ -148,13 +171,13 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function __set($column, $value)
 	{
-		if (in_array($column, array('path', 'basepath', 'name'))) 
+		if (in_array($column, array('path', 'basepath', 'name')))
 		{
 			unset($this->size);
 			unset($this->mimetype);
 		}
 
-		if ($column == 'name') 
+		if ($column == 'name')
 		{
 			$path = dirname($this->_data['path']);
 			$path .= '/'.$value;
@@ -172,7 +195,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		if ($this->parent) {
 			$path .= '/'.$this->parent;
 		}
-		
+
 		$path .= '/'.$this->path;
 
 		return $path;
@@ -202,7 +225,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		list($width, $height) = getimagesize($this->fullpath);
 
-		switch ($column) 
+		switch ($column)
 		{
 			case 'width':
 				return $width;
