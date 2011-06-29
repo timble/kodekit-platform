@@ -21,10 +21,10 @@ class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDe
 {
     public function getCommands()
     {
-        $this->addSeperator()
+        $this->addSeparator()
 			 ->addEnable()
 			 ->addDisable()
-			 ->addSeperator()
+			 ->addSeparator()
 			 ->addModal(array(
 			    'label' => 'Preferences',
 			 	'href' => 'index.php?option=com_config&controller=component&component=com_weblinks')

@@ -21,10 +21,10 @@ class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefa
 {
     public function getCommands()
     {
-        $this->addSeperator()
+        $this->addSeparator()
               ->addEnable()
               ->addDisable()
-              ->addSeperator()
+              ->addSeparator()
               ->addModal(array(
                     'label'  => 'Preferences',
               		'height' => 88,

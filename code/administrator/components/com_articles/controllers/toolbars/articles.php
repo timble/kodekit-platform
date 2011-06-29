@@ -25,13 +25,13 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
         
         if($state->deleted != true) 
         {
-            $this->addSeperator()
+            $this->addSeparator()
                  ->addPublish()
                  ->addUnpublish()
-                 ->addSeperator()
+                 ->addSeparator()
                  ->addArchive()
                  ->addUnarchive()
-                 ->addSeperator()
+                 ->addSeparator()
                  ->addModal(array(
                     'label' => 'Preferences',
                  	'href' => 'index.php?option=com_config&controller=component&component=com_articles')

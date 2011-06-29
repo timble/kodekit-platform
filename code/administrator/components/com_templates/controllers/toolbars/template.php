@@ -21,7 +21,7 @@ class ComTemplatesControllerToolbarTemplate extends ComDefaultControllerToolbarD
 {
     public function getCommands()
     {
-        $this->addSeperator()
+        $this->addSeparator()
              ->addPreview();
 
         return parent::getCommands();
