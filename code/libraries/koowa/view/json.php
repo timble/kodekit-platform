@@ -9,10 +9,10 @@
  */
 
 /**
- * View JSON Class 
- * 
+ * View JSON Class
+ *
  * The JSON view implements supports for JSONP through the models callback
- * state. If a callback is present the output will be padded. 
+ * state. If a callback is present the output will be padded.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -26,7 +26,7 @@ class KViewJson extends KViewAbstract
      * @var string
      */
     protected $_padding;
- 	
+
  	/**
      * Constructor
      *
@@ -35,20 +35,20 @@ class KViewJson extends KViewAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         //Padding can explicitly be turned off by setting to FALSE
         if(empty($config->padding) && $config->padding !== false)
         {
             $state = $this->getModel()->getState();
-            
+
             if(isset($state->callback) && (strlen($state->callback) > 0)) {
                 $config->padding = $state->callback;
             }
         }
-        
+
         $this->_padding = $config->padding;
     }
-	
+
 	/**
      * Initializes the config for the object
      *
@@ -63,24 +63,24 @@ class KViewJson extends KViewAbstract
 			'mimetype'	  => 'application/json',
     	    'padding'	  => ''
        	));
-    	
+
     	parent::_initialize($config);
     }
 
 	/**
 	 * Return the views output
-	 * 
-	 * If the view 'output' variable is empty the output will be generated based on the 
+	 *
+	 * If the view 'output' variable is empty the output will be generated based on the
 	 * model data, if it set it will be returned instead.
-	 * 
-	 * If the model contains a callback state, the callback value will be used to apply 
+	 *
+	 * If the model contains a callback state, the callback value will be used to apply
 	 * padding to the JSON output.
  	 *
 	 *  @return string 	The output of the view
 	 */
     public function display()
     {
-        if(empty($this->output)) 
+        if(empty($this->output))
         {
             $model = $this->getModel();
 
@@ -90,9 +90,13 @@ class KViewJson extends KViewAbstract
                 $data = $model->getItem()->toArray();
             }
 
-            $this->output = json_encode($data);
+            $this->output = $data;
         }
-        
+
+        if (!is_string($this->output)) {
+        	$this->output = json_encode($this->output);
+        }
+
         //Handle JSONP
         if(!empty($this->_padding)) {
             $this->output     = $this->_padding.'('.$this->output.');';
