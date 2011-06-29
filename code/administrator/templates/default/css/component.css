@@ -48,7 +48,7 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
-.com_admin #content-box,
+.com_info #content-box,
 .com_config #content-box {
 	overflow-y: scroll; /* Fix, force scrollbar */
 }

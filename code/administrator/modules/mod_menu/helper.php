@@ -180,7 +180,7 @@ class modMenuHelper
 			
 			if ($canConfig) {
 				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
-				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&task=sysinfo', 'class:info'));
+				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system', 'class:info'));
 				$menu->addSeparator();
 			}
 
