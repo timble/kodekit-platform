@@ -144,13 +144,15 @@ abstract class KFilterAbstract implements KFilterInterface
 	 * Add a filter based on priority
 	 * 
 	 * @param object 	A KFilter
-	 * @param integer	The filter priority
+	 * @param integer	The command priority, usually between 1 (high priority) and 5 (lowest), 
+     *                  default is 3. If no priority is set, the command priority will be used 
+     *                  instead.
 	 *
-	 * @return this
+	 * @return KFilterAbstract
 	 */
-	public function addFilter(KFilterInterface $filter)
+	public function addFilter(KFilterInterface $filter, $priority = null)
 	{	
-		$this->_chain->enqueue($filter);
+		$this->_chain->enqueue($filter, $priority);
 		return $this;
 	}
 	
