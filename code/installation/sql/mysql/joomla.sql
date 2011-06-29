@@ -507,10 +507,10 @@ CREATE TABLE `#__users` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY (`email`),
+  UNIQUE KEY (`username`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
-  KEY `gid_block` (`gid`, `block`),
-  KEY `username` (`username`)
+  KEY `gid_block` (`gid`, `block`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
