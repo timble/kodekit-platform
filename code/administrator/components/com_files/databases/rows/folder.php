@@ -112,7 +112,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		unset($data['basepath']);
 
 		$data['type'] = 'folder';
-		$data['name'] = 'folder';
+		$data['name'] = $this->name;
 
         return $data;
     }
