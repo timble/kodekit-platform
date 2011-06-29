@@ -166,13 +166,13 @@ abstract class KControllerToolbarAbstract extends KObject implements KObjectIden
     }
     
     /**
-     * Add a seperator
+     * Add a separator
      *
      * @return  KControllerToolbarInterface
      */
-    public function addSeperator()
+    public function addSeparator()
     {
-        $this->_commands[] = new KControllerToolbarCommand('seperator');
+        $this->_commands[] = new KControllerToolbarCommand('separator');
         return $this;
     }
      
