@@ -69,7 +69,7 @@ window.addEvent('domready', function() {
 			onSuccess: function(response, responseText) {
 				document.id('foldername').set('value', '');
 
-				var el = response.folder;
+				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.tree.selected.insert({

@@ -260,8 +260,10 @@ class JAdministrator extends JApplication
 	 */
 	protected function _loadSite($default)
 	{
-	    if(KRequest::has('request.site')) {
-		   $site = KRequest::get('request.site', 'cmd');
+	    $method = strtolower(KRequest::method());
+	    
+	    if(KRequest::has($method.'.site')) {
+		   $site = KRequest::get($method.'.site', 'cmd');
 		} else {
 		    $site = JFactory::getSession()->get('site', $default);
 		}

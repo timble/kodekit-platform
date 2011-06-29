@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 jimport('joomla.filesystem.folder');
@@ -28,7 +28,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		$this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 
-		if ($config->validator !== false) 
+		if ($config->validator !== false)
 		{
         	if ($config->validator === true) {
         		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
@@ -36,11 +36,11 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 			$this->getCommandChain()->enqueue(KFactory::tmp($config->validator));
         }
-		
+
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
 	}
-	
-	public function setPath(KCommandContext $context) 
+
+	public function setPath(KCommandContext $context)
 	{
 		if ($this->parent) {
 			$this->path = $this->parent.'/'.$this->path;
@@ -105,6 +105,18 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return $this->path ? !is_dir($this->fullpath) : true;
 	}
 
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+		unset($data['basepath']);
+
+		$data['type'] = 'folder';
+		$data['name'] = 'folder';
+
+        return $data;
+    }
+
 	public function __get($column)
 	{
 		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
@@ -125,7 +137,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		return parent::__get($column);
 	}
-	
+
 	public function __set($column, $value)
 	{
 		if ($column == 'parent') {
@@ -134,7 +146,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		else {
 			parent::__set($column, $value);
 		}
-	}	
+	}
 
     public function getData($modified = false)
     {

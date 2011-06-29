@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesFilterFolderUploadable extends KFilterAbstract
@@ -26,12 +26,13 @@ class ComFilesFilterFolderUploadable extends KFilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.folder.name'), KCommand::PRIORITY_HIGH);
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.folder.exists'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.folder.name'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.folder.exists'), KCommand::PRIORITY_HIGH);
 	}
 
 	protected function _validate($context)
 	{
+
 	}
 
 	protected function _sanitize($context)

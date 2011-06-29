@@ -15,7 +15,7 @@
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
 
 class ComFilesFilterFileUploadable extends KFilterAbstract
@@ -26,16 +26,17 @@ class ComFilesFilterFileUploadable extends KFilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.file.name'), KCommand::PRIORITY_HIGH);
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.file.exists'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.name'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.exists'), KCommand::PRIORITY_HIGH);
 
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.file.extension'));
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.file.mimetype'));
-		$this->_chain->enqueue(KFactory::tmp('admin::com.files.filter.file.size'));
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.extension'));
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.mimetype'));
+		$this->addFilter(KFactory::tmp('admin::com.files.filter.file.size'));
 	}
 
 	protected function _validate($context)
 	{
+
 	}
 
 	protected function _sanitize($context)

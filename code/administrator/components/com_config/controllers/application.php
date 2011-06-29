@@ -242,35 +242,25 @@ class ConfigControllerApplication extends ConfigController
 			return false;
 		}
 
-		$mediapost['params'] = JRequest::getVar('mediaparams', array(), 'post', 'array');
-		$mediapost['option'] = 'com_files';
-		//Sanitize $file_path
-		$image_path  = $mediapost['params']['image_path'];
-		if(strpos($image_path, '/') === 0 || strpos($image_path, '\\') === 0) {
-			//Leading slash.  Kill it and default to /media
-			$image_path = 'images';
-		}
+		$row = KFactory::tmp('admin::com.files.model.paths')->identifier('files.files')->getItem();
+
+		$media = JRequest::getVar('mediaparams', array(), 'post', 'array');
+		$image_path  = trim($media['image_path'], '/\\');
+		unset($media['image_path']);
+
 		if(strpos($image_path, '..') !== false) {
 			//downward directories.  Kill it and default to images/
 			$image_path = 'images';
 		}
-		$mediapost['params']['image_path'] = $image_path;
-		$mediapost['params']['file_path'] = $image_path;
 
-		$table->loadByOption( 'com_files' );
-		$table->bind( $mediapost );
+		$row->path = $image_path;
+		$row->parameters = (object) $media;
 
-		// pre-save checks
-		if (!$table->check()) {
-			JError::raiseWarning( 500, $table->getError() );
+		// TODO: Save returns false if there is nothing changed. Find a solution for that.
+		/*if (!$row->save()) {
+			JError::raiseWarning( 500, $row->getStatusMessage() );
 			return false;
-		}
-
-		// save the changes
-		if (!$table->store()) {
-			JError::raiseWarning( 500, $table->getError() );
-			return false;
-		}
+		}*/
 
 		$config = new JRegistry('config');
 		$config_array = array();

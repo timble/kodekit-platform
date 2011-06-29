@@ -328,4 +328,19 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		return true;
 	}
+	
+	/**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+        
+        unset($data['password']);
+        unset($data['activation']);
+        
+        return $data;
+    }
 }

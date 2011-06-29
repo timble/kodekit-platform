@@ -124,5 +124,3 @@ class ComFilesMixinMimetype extends KMixinAbstract
 		return $mimetype;
 	}
 }
-
-class ComFilesMixinMimetypeException extends Exception {}

@@ -32,12 +32,14 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 		parent::_initialize($config);
 	}
 
-	public function loadState(KCommandContext $context)
+	public function getRequest()
 	{
-		parent::loadState($context);
+		$request = parent::getRequest();
 
 		KFactory::get('admin::com.files.model.configs')
-			->set($this->getRequest())
+			->set($request)
 			->getItem();
+
+		return $request;
 	}
 }

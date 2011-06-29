@@ -10,11 +10,11 @@
  */
 
 /**
- * Specialized exception for remote files
+ * Specialized exception for remote file adapters
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesDatabaseRowRemotefileException extends KException {}
+class ComFilesDatabaseRowUrlAdapterException extends KException {}

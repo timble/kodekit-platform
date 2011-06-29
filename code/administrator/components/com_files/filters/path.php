@@ -20,7 +20,7 @@
 
 class ComFilesFilterPath extends KFilterAbstract
 {
-    protected static $pattern = '#^[a-z0-9_\.-\s/:~]*$#i';
+     protected static $pattern = '#^[a-z0-9_\.-\s/:~]*$#i';
 
      protected static $safepath_pattern = array('#(\.){2,}#', '#^\.#');
 

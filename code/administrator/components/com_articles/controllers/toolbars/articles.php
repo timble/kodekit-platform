@@ -37,7 +37,12 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  	'href' => 'index.php?option=com_config&controller=component&component=com_articles')
                  );
         }    
-        else $this->addRestore(); 
+        else 
+        {
+            $this->reset()
+                 ->addDelete()
+                 ->addRestore(); 
+        }
         
         return parent::getCommands();
     }

@@ -145,7 +145,7 @@ window.addEvent('domready', function() {
 			if (json.status) {
 				file.element.addClass('file-success');
 				file.info.set('html', 'Image was uploaded');
-				var el = json.file;
+				var el = json.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.container.insert(row);
@@ -168,7 +168,7 @@ window.addEvent('domready', function() {
 		data: form,
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
-				var el = json.file;
+				var el = json.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.container.insert(row);

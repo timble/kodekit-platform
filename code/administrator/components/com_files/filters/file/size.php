@@ -46,9 +46,11 @@ class ComFilesFilterFileSize extends KFilterAbstract
 	{
 		$config = $this->_config;
 
-		if ($config->maximum_size) {
+		if ($config->maximum_size) 
+		{
 			$row = $context->caller;
 			$size = $row->contents ? strlen($row->contents) : filesize($row->file);
+			
 			if ($size > $config->maximum_size) {
 				$context->setError(JText::_('WARNFILETOOLARGE'));
 				return false;

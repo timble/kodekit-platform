@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: json.php 1829 2011-06-21 01:59:15Z johanjanssens $
+ * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -10,14 +10,12 @@
  */
 
 /**
- * Nodes Json View Class
+ * Mimetype Exception Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files
+ * @subpackage  Files   
  */
 
-class ComFilesViewFoldersJson extends ComFilesViewNodesJson
-{
-}
+class ComFilesMixinMimetypeException extends KException {}

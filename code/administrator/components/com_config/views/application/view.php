@@ -33,8 +33,12 @@ class ConfigApplicationView
 		$table =& JTable::getInstance('component');
 		$table->loadByOption( 'com_users' );
 		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml' );
-		$table->loadByOption( 'com_files' );
-		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_files'.DS.'config.xml' );
+
+		$files_row = KFactory::tmp('admin::com.files.model.paths')->identifier('files.files')->getItem();
+		$params = json_decode($files_row->parameters);
+		$params->image_path = $files_row->path_value;
+		$mediaparams = new JParameter('', JPATH_ADMINISTRATOR.'/components/com_files/config.xml');
+		$mediaparams->loadObject($params);
 
 		// Build the component's submenu
 		$contents = '';

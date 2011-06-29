@@ -45,6 +45,9 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 		else if ($column == 'relative_path') {
 			return $this->getRelativePath();
 		}
+		else if ($column == 'path_value') {
+			return $this->_data['path'];
+		}
 
 		return parent::__get($column);
 	}

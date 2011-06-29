@@ -429,7 +429,9 @@ class JSite extends JApplication
 	 */
     protected function _loadSite($site)
 	{
-	    if(!KRequest::has('request.site')) 
+	    $method = strtolower(KRequest::method());
+	    
+	    if(!KRequest::has($method.'.site')) 
 	    {
 		    $uri  =	clone(JURI::getInstance());
 	    	$path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
@@ -448,7 +450,7 @@ class JSite extends JApplication
                 }
 		    }
 	    } 
-	    else $site = KRequest::get('request.site', 'cmd');
+	    else $site = KRequest::get($method.'.site', 'cmd');
 	    
 	    parent::_loadSite($site);
 	}

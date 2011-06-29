@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' );
 	<ul>
 		<li class="<?= !is_numeric($state->group) ? 'active' : ''; ?>">
 			<a href="<?= @route('group=' ) ?>">
-			    <?= @text('All groups')?>
+			    <?= @text('All users')?>
 			</a>
 		</li>
 		<? foreach($groups as $group): ?>
