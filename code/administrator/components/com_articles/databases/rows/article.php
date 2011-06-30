@@ -64,8 +64,10 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
             $this->introtext = trim($introtext);
             $this->fulltext = trim($fulltext);
+        } else {
+        	$this->introtext = trim($text);
+        	$this->fulltext = '';
         }
-        else $this->fulltext = trim($text);
 
         //Validate the title
         if(empty($this->title))
