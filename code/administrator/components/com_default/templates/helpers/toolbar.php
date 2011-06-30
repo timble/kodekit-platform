@@ -120,12 +120,12 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     }
     
 	/**
-     * Render a seperator
+     * Render a separator
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
      */
-    public function seperator($config = array())
+    public function separator($config = array())
     {
         $config = new KConfig($config);
         $config->append(array(
