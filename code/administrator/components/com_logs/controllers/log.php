@@ -33,17 +33,6 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
         $config->toolbar = 'admin::com.logs.controller.toolbar.logs';
     }
     
-    public function getToolbar()
-    {
-        $toolbar = parent::getToolbar();
-        
-        if ($this->_request->package && $this->isDispatched()) {
-            $toolbar->setTitle(ucfirst($this->_request->package).' Logs');
-        }
-        
-        return $toolbar;
-    }
-    
     public function loadState(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
