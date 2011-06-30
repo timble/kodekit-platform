@@ -37,22 +37,7 @@ class JAdminSubMenu
 		// Lets get some variables we are going to need
 		$menu = JToolBar::getInstance('submenu');
 		$list = $menu->_bar;
-		if(!is_array($list) || !count($list))
-		{
-			$option = JRequest::getCmd('option');
-			if($option == 'com_categories')
-			{
-				$section = JRequest::getCmd('section');
-				if ($section) {
-					if ($section != 'content') {
-						// special handling for specific core components
-						$map['com_contact_details']	= 'com_contact';
-						$map['com_banner']			= 'com_banners';
-
-						$option = isset( $map[$section] ) ? $map[$section] : $section;
-					}
-				}
-			}
+		if(!is_array($list) || !count($list)) {
 			$list = JAdminSubMenu::_loadDBList($option);
 		}
 
