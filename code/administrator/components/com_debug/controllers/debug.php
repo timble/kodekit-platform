@@ -19,7 +19,7 @@
  * @subpackage  Debug
  */
 class ComDebugControllerDebug extends ComDefaultControllerResource
-{ 
+{
     /**
      * Constructor.
      *
