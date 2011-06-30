@@ -1,7 +1,7 @@
 <?php
 /** $Id$ */
 
-class PlgEventDebug extends KEventListener
+class plgKoowaDebug extends PlgKoowaDefault
 {
 	public $queries = array();
 	
@@ -9,7 +9,7 @@ class PlgEventDebug extends KEventListener
 	{		
 		if(KDEBUG) 
 		{
-			KFactory::get('lib.koowa.profiler')->mark( $args->event );
+			KFactory::get('lib.joomla.profiler')->mark( $args->event );
 			return parent::update($args);
 		}
 	}
