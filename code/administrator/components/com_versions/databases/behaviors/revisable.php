@@ -26,6 +26,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @var KDatabaseTableDefault
      */
     protected $_table;
+    
+    /**
+     * The revisions limit
+     *
+     * @var integer
+     */
+    protected $_limit;
 
     /**
      * Constructor
@@ -52,7 +59,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'table' => KFactory::get('admin::com.versions.database.table.revisions')
+        	'table' => KFactory::get('admin::com.versions.database.table.revisions'),
+            'limit' => 1
         ));
 
         parent::_initialize($config);
@@ -119,8 +127,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableInsert(KCommandContext $context)
     {
-    	if($this->_countRevisions(KDatabase::STATUS_CREATED) == 0) {
-    		$this->_insertRevision(KDatabase::STATUS_CREATED);
+    	if($this->_limit > 1)
+    	{
+            if($this->_countRevisions(KDatabase::STATUS_CREATED) == 0) {
+    		    $this->_insertRevision(KDatabase::STATUS_CREATED);
+    	    }
     	}
     }
 
@@ -135,27 +146,33 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-    	if($this->getTable()->count($this->id))
+        if($this->getTable()->count($this->id))
     	{
-    	    if ($this->_countRevisions() == 0) {
-            	$this->_insertRevision(KDatabase::STATUS_CREATED);
-        	}
-    	}
+    	    if($this->_limit > 1)
+    	    {
+    	        if ($this->_countRevisions() == 0) {
+                   $this->_insertRevision(KDatabase::STATUS_CREATED);
+        	    }
+    	    }
+        }
     	else
-    	{ 
-    	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
-    		{
-    		    //Restore the row
-    			$this->getTable()->getRow()->setData($this->getData())->save();
+    	{     
+    	    if($this->_limit > 0)
+    	    {
+    	        if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
+    		    {
+    		        //Restore the row
+    			    $this->getTable()->getRow()->setData($this->getData())->save();
 
-    			//Set the row status to updated
-    			$this->setStatus(KDatabase::STATUS_UPDATED);
+    			    //Set the row status to updated
+    			    $this->setStatus(KDatabase::STATUS_UPDATED);
 
-    			//Delete the revision
-    			$this->_deleteRevisions(KDatabase::STATUS_DELETED);
+    			    //Delete the revision
+    			    $this->_deleteRevisions(KDatabase::STATUS_DELETED);
     			
-    			return false;
-    		}
+    			    return false;
+    		    }    
+    	    }
     	}
     }
 
@@ -169,10 +186,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableUpdate(KCommandContext $context)
     {
-    	// Only insert new revision if the database was updated
-        if ((bool) $context->affected) {
-            $this->_insertRevision(KDatabase::STATUS_UPDATED);
-        }
+        if($this->_limit > 1)
+    	{
+            // Only insert new revision if the database was updated
+            if ((bool) $context->affected) {
+                $this->_insertRevision(KDatabase::STATUS_UPDATED);
+            }
+    	}
     }
 
 	/**
@@ -186,17 +206,20 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableDelete(KCommandContext $context)
     {
-   		if ($this->getTable()->count($this->id))
+        if ($this->getTable()->count($this->id))
    		{
-   			if($this->_countRevisions() == 0) {
-           		 $this->_insertRevision(KDatabase::STATUS_CREATED);
-   			}
-        }
-        else
-        {
-    	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
+   		    if($this->_limit > 1)
+    	    {
+   		        if($this->_countRevisions() == 0) {
+           		    $this->_insertRevision(KDatabase::STATUS_CREATED);
+   			    }
+    	    }
+         }
+         else
+         {
+    	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			$context->affected = $this->_deleteRevisions();
+    	        $context->affected = $this->_deleteRevisions();
     			return false;
     		}
         }
@@ -213,7 +236,9 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableDelete(KCommandContext $context)
     {
-    	$this->_insertRevision(KDatabase::STATUS_DELETED);
+        if($this->_limit > 0) {
+            $this->_insertRevision(KDatabase::STATUS_DELETED);
+        }
     }
     
     /**
