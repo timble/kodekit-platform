@@ -1,0 +1,1 @@
+../.nooku-components/system/debug.php
