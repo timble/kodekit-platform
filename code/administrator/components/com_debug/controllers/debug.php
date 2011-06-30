@@ -36,5 +36,8 @@ class ComDebugControllerDebug extends ComDefaultControllerResource
         //Force request variables
         $config->request->view   = 'debug';
         $config->request->layout = 'default';
+        
+        //Set the factory instance of the profiler
+        KFactory::set('lib.joomla.profiler', JProfiler::getInstance('Application'));
     }
 }
