@@ -47,10 +47,10 @@ class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 				 return;
 			}
 
-			$classes = JLoader::register();
-			if(array_key_exists( $class, $classes)) {
-				$path = $classes[$class];
-			}
+		    $classes = method_exists('JLoader','getClassList') ? JLoader::getClassList() : JLoader::register();
+ 			if(array_key_exists( $class, $classes)) {
+ 				$path = $classes[$class];
+ 			}
 		} 
 		
 		return $path;
