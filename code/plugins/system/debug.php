@@ -1,9 +1,9 @@
 <?php
 /** $Id$ */
 
-class PlgApplicationDebug extends KCommand
+class PlgSystemDebug extends PlgKoowaDefault
 {
-	public function execute( $name, KCommandContext $context) 
+	/*public function execute( $name, KCommandContext $context) 
 	{
 		return KDEBUG ? parent::execute($name, $context) : true;
 	}
@@ -19,6 +19,6 @@ class PlgApplicationDebug extends KCommand
 	
 		$context->result = KFilter::factory('tidy', array('config' => $config))
 					->sanitize((string) $context->result);
-	}
+	}*/
 }
 
