@@ -1,0 +1,1 @@
+../.nooku-components/koowa/debug.php
