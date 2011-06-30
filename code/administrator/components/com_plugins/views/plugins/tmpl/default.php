@@ -74,13 +74,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         		</td>
         	</tr>
         <? endforeach ?>
-        <? if (!$total) : ?>
-        	<tr>
-                <td colspan="8" align="center">
-                     <?= @text('No Items Found'); ?>
-                </td>
-            </tr>
-        <? endif ?>
         </tbody>
     </table>
 </form>
