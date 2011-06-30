@@ -21,7 +21,7 @@ class ComNewsfeedsControllerToolbarNewsfeeds extends ComDefaultControllerToolbar
 {
     public function getCommands()
     {
-        $this->addSeperator()
+        $this->addSeparator()
 			 ->addEnable()
 			 ->addDisable();
 	

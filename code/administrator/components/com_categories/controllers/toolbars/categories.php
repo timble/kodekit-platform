@@ -21,7 +21,7 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
 {
     public function getCommands()
     {
-        $this->addSeperator()    
+        $this->addSeparator()    
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
 	    

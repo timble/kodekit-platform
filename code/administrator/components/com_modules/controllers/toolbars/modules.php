@@ -21,7 +21,7 @@ class ComModulesControllerToolbarModules extends ComDefaultControllerToolbarDefa
 {
     public function getCommands()
     {
-        $this->addSeperator()
+        $this->addSeparator()
 			 ->addEnable()
 			 ->addDisable();
         
@@ -30,12 +30,10 @@ class ComModulesControllerToolbarModules extends ComDefaultControllerToolbarDefa
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $command->append(array(
-            'attribs' => array(
-                'class' => array('modal'),
-                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
-                'href'	=> 'index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component'
-            )
-        ));
+        $command->attribs = array(
+            'class' => array('modal'),
+            'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
+            'href'	=> JRoute::_('index.php?option=com_modules&view=modules&layout=list&installed=1&tmpl=component')
+        );
     }
 }

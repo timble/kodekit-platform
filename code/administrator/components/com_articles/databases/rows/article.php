@@ -25,20 +25,20 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
 	        $file = JPATH_BASE.'/components/com_articles/databases/rows/article.xml';
-			
+
 			$params	= new JParameter($this->_data['params']);
 			$params->loadSetupFile($file);
 
 			$this->_data['params'] = $params;
         }
-        
+
         if($column == 'text' && !isset($this->_data['text'])) {
             $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
         }
-        
+
         return parent::__get($column);
     }
-    
+
     public function save()
     {
         //Set the section_id based on the category_id
@@ -49,8 +49,8 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
                 $this->_data['section_id'] = KFactory::tmp('admin::com.categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
-                    
-            } 
+
+            }
             else $this->_data['section_id'] = 0;
         }
 
@@ -62,10 +62,12 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         {
             list($introtext, $fulltext) = preg_split($pattern, $text, 2);
 
-            $this->_data['introtext'] = trim($introtext);
-            $this->_data['fulltext' ] = trim($fulltext);
+            $this->introtext = trim($introtext);
+            $this->fulltext = trim($fulltext);
+        } else {
+        	$this->introtext = trim($text);
+        	$this->fulltext = '';
         }
-        else $this->_data['introtext'] = trim($text);
 
         //Validate the title
         if(empty($this->title))
@@ -124,12 +126,12 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         return $result;
     }
-    
+
     public function toArray()
     {
         $data = parent::toArray();
-        
-        $data['params'] = $this->params->toArray(); 
+
+        $data['params'] = $this->params->toArray();
         return $data;
     }
 }

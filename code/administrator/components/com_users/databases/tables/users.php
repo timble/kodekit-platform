@@ -23,8 +23,9 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 	{
 	    parent::__construct($config);
 
-	    //Make sure the email field is unique
+	    //Make sure the email and username fields are unique
 	    $this->getColumn('email')->unique = true;
+	    $this->getColumn('username')->unique = true;
 
 	    $this->getColumn('users_group_id')->default = 0;
 	    $this->getColumn('enabled')->default = 1;

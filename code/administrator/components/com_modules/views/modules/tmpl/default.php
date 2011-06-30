@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.modal') ?>
 <script>
     window.addEvent('domready', function(){
-        var workaround = document.getElement('#toolbar-modules-new a');
+        var workaround = document.getElement('#toolbar-new a');
         workaround.href += '&application=<?= $state->application ?>';
     });
 </script>

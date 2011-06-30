@@ -63,4 +63,10 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 		$root = str_replace('\\', '/', JPATH_ROOT);
 		return str_replace($root.'/', '', $path);
 	}
+
+	public function getParameters()
+	{
+		return KFactory::get('admin::com.files.model.configs')
+			->identifier($this->identifier)->getItem();
+	}
 }

@@ -21,7 +21,7 @@ class ComArticlesControllerToolbarSections extends ComDefaultControllerToolbarDe
 {
     public function getCommands()
     {
-        $this->addSeperator()     
+        $this->addSeparator()     
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
 			 

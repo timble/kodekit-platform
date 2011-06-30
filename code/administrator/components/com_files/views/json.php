@@ -42,10 +42,10 @@ class ComFilesViewJson extends KViewJson
         $total = $model->getTotal();
 
         $output = new stdclass;
-        $output->total = $total;
-        $output->limit = $state->limit;
+        $output->total  = $total;
+        $output->limit  = $state->limit;
         $output->offset = $state->offset;
-        $output->items = $list;
+        $output->items  = $list;
 
         return $output;
     }
@@ -57,11 +57,11 @@ class ComFilesViewJson extends KViewJson
         $output = new stdclass;
         $output->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
 
-        if ($output->status !== false)
-        {
+        if ($output->status !== false){
             $output->item = $row->toArray();
+        } else {
+            $output->error = $row->getStatusMessage();
         }
-        else $output->error = $row->getStatusMessage();
 
         return $output;
     }
