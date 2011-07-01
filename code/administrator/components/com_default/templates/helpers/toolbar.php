@@ -134,7 +134,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         
         $command = $config->command;
           
-       	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
+       	$html = '<td class="divider"></td>';
        	
     	return $html;
     }
