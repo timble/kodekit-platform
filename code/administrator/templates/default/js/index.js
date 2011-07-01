@@ -19,4 +19,5 @@
 
 window.addEvent('domready', function(){
 	if(Element.chromatable) $$('table.adminlist').chromatable();
+	$$('td.divider').getPrevious().addClass('last');
 });
