@@ -14,11 +14,19 @@ defined('_JEXEC') or die('Restricted access');
 
 -------------------- Nooku Server Contributors ---------------------
 
-Johan Janssens  <http://nooku.assembla.com/profile/johanjanssens>
-Tom Janssens    <http://nooku.assembla.com/profile/tomjanssens>
-Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
-Gergo Erdosi    <http://nooku.assembla.com/profile/gergoerdosi>
-John Bell       <http://nooku.assembla.com/profile/johnbell>
+John Bell       		<http://nooku.assembla.com/profile/johnbell>
+Cristiano Cucco 		<http://nooku.assembla.com/profile/cristiano.cucco>
+Stian Didriksen 		<http://nooku.assembla.com/profile/stiandidriksen>
+Gergo Erdosi    		<http://nooku.assembla.com/profile/gergoerdosi>
+Babs Gšsgens    		<http://nooku.assembla.com/profile/babsgosgens>
+Johan Janssens  		<http://nooku.assembla.com/profile/johanjanssens>
+Tom Janssens    		<http://nooku.assembla.com/profile/tomjanssens>
+Torkil Johnsen 			<http://nooku.assembla.com/profile/torkiljohnsen>
+Arunas Mazeika  		<http://nooku.assembla.com/profile/amazeika>
+Richie Mortimer 		<http://nooku.assembla.com/profile/RavenLife>
+Ercan Ozkaya    		<http://nooku.assembla.com/profile/ercanozkaya>
+Inge Van Bremen-Valstar	<https://nooku.assembla.com/profile/ivanbremen>
+Jeremy Wilken   		<http://nooku.assembla.com/profile/gnomeontherun>
 
 Nooku Server includes or is derivative of works distributed under the licenses listed below.
 The full text for most of the licenses listed below can be found in the LICENSES.php file.
