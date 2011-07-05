@@ -58,4 +58,16 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
             $this->setRedirect($return, $result->getError(), 'error');
         }
     }
+
+	public function getView()
+	{
+		$view = parent::getView();
+
+		if ($view) {
+			$return = KFilter::factory('base64')->sanitize($this->_request->return);
+			$view->assign('return', $return);
+		}
+
+		return $view;
+	}
 }
