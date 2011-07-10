@@ -23,7 +23,7 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
-		// Check for suhosin
+		//Suhosin compatibility
 		if(in_array('suhosin', get_loaded_extensions()))
 		{
 			//Attempt setting the whitelist value
@@ -36,6 +36,14 @@ class plgSystemKoowa extends JPlugin
 				return;
 			}
 		}
+		
+		//Safety Extender compatibility
+		if(extension_loaded('safeex') && strpos('tmpl', ini_get('safeex.url_include_proto_whitelist')) === false)
+		{
+		    $whitelist = ini_get('safeex.url_include_proto_whitelist');
+		    $whitelist = (strlen($whitelist) ? $whitelist . ',' : '') . 'tmpl';
+		    ini_set('safeex.url_include_proto_whitelist', $whitelist);
+ 		}
 		
 		//Set constants
 		define('KDEBUG', JDEBUG);
