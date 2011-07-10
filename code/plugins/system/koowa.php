@@ -44,6 +44,14 @@ class plgSystemKoowa extends JPlugin
 			}
 		}
 		
+	    //Safety Extender compatibility
+		if(extension_loaded('safeex') && strpos('tmpl', ini_get('safeex.url_include_proto_whitelist')) === false)
+		{
+		    $whitelist = ini_get('safeex.url_include_proto_whitelist');
+		    $whitelist = (strlen($whitelist) ? $whitelist . ',' : '') . 'tmpl';
+		    ini_set('safeex.url_include_proto_whitelist', $whitelist);
+ 		}
+		
 		//Set constants
 		define('KDEBUG'      , JDEBUG);
 		
