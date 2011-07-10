@@ -82,7 +82,7 @@ abstract class KControllerToolbarAbstract extends KObject implements KObjectIden
     {
         $config->append(array(
             'title'         => KInflector::humanize($this->getName()),
-            'icon'          => 'generic',
+            'icon'          => $this->getName(),
             'controller'    => null,
         ));
         
