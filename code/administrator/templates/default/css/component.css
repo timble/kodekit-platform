@@ -80,3 +80,12 @@ div.message {
 	float: left;
 	clear: left;
 }
+
+.com_articles textarea[name="description"] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	resize: vertical;
+	width: 100%
+}

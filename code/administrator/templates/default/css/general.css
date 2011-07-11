@@ -273,7 +273,8 @@ table.toolbar td a {
      transition: opacity 300ms ease-in-out;
  }
  
-table.toolbar td:first-child a { 
+table.toolbar td:first-child a,
+table.toolbar td.divider + td a { 
 	-webkit-border-top-left-radius: 4px;
 	-moz-border-radius-topleft: 4px;
 	border-top-left-radius: 4px;
@@ -284,7 +285,9 @@ table.toolbar td:first-child a {
 	border-bottom: 1px solid #BBB;
 	border-left: 1px solid #BBB;
 }
-table.toolbar td:last-child a { 
+
+table.toolbar td:last-child a,
+table.toolbar td.last a { 
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
 	border-top-right-radius: 4px;
@@ -296,15 +299,12 @@ table.toolbar td:last-child a {
 	border-right: 1px solid #BBB;
 }
 
-
 table.toolbar td.spacer  {  }
-table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
+table.toolbar td.divider { width: 5px; }
 
 table.toolbar span { display: none; }
 
-table.toolbar a:hover:not(.disabled),
-table.toolbar td:first-child a:hover:not(.disabled),
-table.toolbar td:last-child a:hover:not(.disabled) {
+table.toolbar a:hover:not(.disabled) {
 	border-color: #999;
 	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
@@ -313,9 +313,7 @@ table.toolbar td:last-child a:hover:not(.disabled) {
 	color: #333;
 }
 
-table.toolbar a:active:not(.disabled),
-table.toolbar td:first-child a:active:not(.disabled),
-table.toolbar td:last-child a:active:not(.disabled) {
+table.toolbar a:active:not(.disabled) {
 	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
