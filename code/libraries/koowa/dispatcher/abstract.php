@@ -79,18 +79,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		    if(!($this->_controller instanceof KIdentifier)) {
 		        $this->setController($this->_controller);
 			}
-			
-			/* 
-         	 * Disable controller persistency on non-HTTP requests, e.g. AJAX, and requests containing 
-         	 * the tmpl variable set to component, e.g. requests using modal boxes. This avoids 
-         	 * changing the model state session variable of the requested model, which is often 
-         	 * undesirable under these circumstances. 
-         	 */  
-            $persistable = (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component');
 		    
 		    $config = array(
         		'request' 	   => $this->_request,
-        		'persistable'  => $persistable,
 			    'dispatched'   => true	
         	);
         	

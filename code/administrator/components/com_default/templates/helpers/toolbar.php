@@ -39,7 +39,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         if (version_compare(JVERSION,'1.6.0','ge')) {
 			$html .= '<h2>'.JText::_($config->toolbar->getTitle()).'</h2>';
         } else {
-            $html .= $config->toolbar->getTitle();
+            $html .= JText::_($config->toolbar->getTitle());
         }
 		
 		$html .= '</div>';
@@ -134,7 +134,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         
         $command = $config->command;
           
-       	$html = '</tr></table><table class="toolbar"><tr><td class="divider"></td></tr></table><table class="toolbar"><tr>';
+       	$html = '<td class="divider"></td>';
        	
     	return $html;
     }
