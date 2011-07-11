@@ -85,17 +85,8 @@ class plgEditorTinymce extends JPlugin
 		/*
 		 * Lets get the default template for the site application
 		 */
-		$db =& JFactory::getDBO();
-		$query = 'SELECT template'
-		. ' FROM #__templates_menu'
-		. ' WHERE client_id = 0'
-		. ' AND menuid = 0'
-		;
-		$db->setQuery( $query );
-		$template = $db->loadResult();
-
-		$content_css = '';
-
+		$template       = JComponentHelper::getParams('com_templates')->get('site');
+		$content_css    = '';
 		$templates_path = JPATH_SITE.DS.'templates';
 		
 		// loading of css file for 'styles' dropdown

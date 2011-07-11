@@ -471,23 +471,6 @@ CREATE TABLE `#__session` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__templates_menu`
-#
-
-CREATE TABLE `#__templates_menu` (
-  `template` varchar(255) NOT NULL default '',
-  `menuid` int(11) NOT NULL default '0',
-  `client_id` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY (`menuid`, `client_id`, `template`(255))
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# Dumping data for table `#__templates_menu`
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('default', '0', '1');
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__users`
 #
 

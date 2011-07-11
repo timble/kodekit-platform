@@ -113,13 +113,6 @@ class InstallerModelTemplates extends InstallerModel
 			}
 		}
 
-		// Get a list of the currently active templates
-		$query = 'SELECT template' .
-				' FROM #__templates_menu' .
-				' WHERE 1';
-		$db->setQuery($query);
-		$activeList = $db->loadResultArray();
-
 		$rows = array();
 		$rowid = 0;
 		// Check that the directory contains an xml file
@@ -137,9 +130,12 @@ class InstallerModelTemplates extends InstallerModel
 				$row->client_id	= $template->client;
 				$row->directory = $template->folder;
 				$row->baseDir	= $template->baseDir;
-
+				
+				$client	= JApplicationHelper::getClientInfo($template->client);
+			    $params = JComponentHelper::getParams('com_templates');
+			    
 				// Is the template active?
-				if (in_array($row->directory, $activeList)) {
+				if ($row->directory == $params->get($client->name)) {
 					$row->active = true;
 				} else {
 					$row->active = false;

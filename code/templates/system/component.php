@@ -18,13 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 	<?php
-	$db = & JFactory::getDbo();
-		$query	= 'SELECT template'
-				. ' FROM #__templates_menu'
-				. ' WHERE client_id = 0 AND menuid = 0';
-
-		$db->setQuery($query);
-		$template = $db->loadResult();
+    $template = JComponentHelper::getParams('com_templates')->get('site');
 
  if($this->direction == 'rtl' && (!file_exists(JPATH_THEMES.DS.$template.DS.'css/template_rtl.css') || !file_exists(JPATH_THEMES.DS.$template.DS.'css/template.css'))) : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/template_rtl.css" type="text/css" />
