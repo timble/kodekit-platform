@@ -207,7 +207,12 @@ class JRouterSite extends JRouter
 		if ( isset($vars['Itemid']) ) {
 			$menu->setActive(  $vars['Itemid'] );
 		}
-
+		
+		// FIXME: remove this after com_content is fully gone
+		if ($vars['option'] == 'com_articles') {
+			$vars['option'] = 'com_content';
+		}
+		
 		//Set the variables
 		$this->setVars($vars);
 
@@ -322,9 +327,12 @@ class JRouterSite extends JRouter
 		{
 			$item = $menu->getItem($query['Itemid']);
 
-			if (is_object($item) && $query['option'] == $item->component) {
-				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
-				$built = true;
+			if (is_object($item)) {
+				// FIXME: remove this after com_content is fully gone
+				if (($query['option'] === 'com_content' && $item->component === 'com_articles') || $query['option'] == $item->component) {
+					$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
+					$built = true;
+				}
 			}
 		}
 
