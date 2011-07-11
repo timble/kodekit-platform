@@ -32,7 +32,6 @@ class modMenuHelper
 		$usertype	= $user->get('usertype');
 
 		// cache some acl checks
-		$canCheckin			= $user->authorize('com_checkin', 'manage');
 		$canConfig			= $user->authorize('com_config', 'manage');
 		$manageTemplates	= $user->authorize('com_templates', 'manage');
 		$manageMenuMan		= $user->authorize('com_menus', 'manage');
@@ -184,10 +183,6 @@ class modMenuHelper
 				$menu->addSeparator();
 			}
 
-			if ($canCheckin) {
-				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
-				$menu->addSeparator();
-			}
 			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
 			$menu->getParent();
 		}
