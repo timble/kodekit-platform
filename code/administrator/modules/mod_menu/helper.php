@@ -157,16 +157,16 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
 			$menu->addSeparator();
 			if ($editAllModules) {
-				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_modules', 'class:module'));
+				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_extensions&view=modules', 'class:module'));
 			}
 			if ($editAllPlugins) {
-				$menu->addChild(new JMenuNode(JText::_('Plugins'), 'index.php?option=com_plugins', 'class:plugin'));
+				$menu->addChild(new JMenuNode(JText::_('Plugins'), 'index.php?option=com_extensions&view=plugins', 'class:plugin'));
 			}
 			if ($manageTemplates) {
-				$menu->addChild(new JMenuNode(JText::_('Templates'), 'index.php?option=com_templates', 'class:themes'));
+				$menu->addChild(new JMenuNode(JText::_('Templates'), 'index.php?option=com_extensions&view=templates', 'class:themes'));
 			}
 			if ($manageLanguages) {
-				$menu->addChild(new JMenuNode(JText::_('Languages'), 'index.php?option=com_languages', 'class:language'));
+				$menu->addChild(new JMenuNode(JText::_('Languages'), 'index.php?option=com_extensions&view=languages', 'class:language'));
 			}
 			$menu->getParent();
 		}
