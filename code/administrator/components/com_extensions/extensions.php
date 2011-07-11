@@ -24,6 +24,14 @@
 
 if (!KFactory::get('lib.joomla.user')->authorize( 'com_languages', 'manage' )) {
 	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+}
+
+if (!KFactory::get('lib.joomla.user')->authorize( 'com_templates', 'manage' )) {
+	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+}
+
+if (!KFactory::get('lib.joomla.user')->authorize( 'com_plugins', 'manage' )) {
+	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
 echo KFactory::get('admin::com.extensions.dispatcher')->dispatch();
