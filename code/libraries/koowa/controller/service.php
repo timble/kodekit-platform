@@ -17,20 +17,6 @@
  */
 abstract class KControllerService extends KControllerResource
 {
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-		
-		if($config->persistable) {
-			$this->registerCallback('before.browse' , array($this, 'addBehavior'), 'persistable');
-		}
-	}
-
  	/**
      * Initializes the default configuration for the object
      *
