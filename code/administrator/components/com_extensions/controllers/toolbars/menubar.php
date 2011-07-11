@@ -17,29 +17,29 @@
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComModulesControllerToolbarMenubar extends ComDefaultControllerToolbarMenubar
+class ComExtensionsControllerToolbarMenubar extends ComDefaultControllerToolbarMenubar
 {
     public function getCommands()
     { 
         $name = $this->getController()->getIdentifier()->name;
         
         $this->addCommand('Modules', array(
-        	'href' => JRoute::_('index.php?option=com_modules&view=modules'), 
+        	'href' => JRoute::_('index.php?option=com_extensions&view=modules'), 
             'active' => ($name == 'module')
         ));
         
         $this->addCommand('Plugins', array(
-        	'href' => JRoute::_('index.php?option=com_plugins&view=plugins'),
+        	'href' => JRoute::_('index.php?option=com_extensions&view=plugins'),
         	'active' => ($name == 'plugin')
         ));
         
         $this->addCommand('Templates', array(
-        	'href' => JRoute::_('index.php?option=com_templates&view=templates'),
+        	'href' => JRoute::_('index.php?option=com_extensions&view=templates'),
             'active' => ($name == 'template')
         ));
         
         $this->addCommand('Languages', array(
-        	'href' => JRoute::_('index.php?option=com_languages&view=languages'),
+        	'href' => JRoute::_('index.php?option=com_extensions&view=languages'),
             'active' => ($name == 'language')
         ));
          
