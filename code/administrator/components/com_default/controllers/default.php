@@ -20,19 +20,44 @@
  */
 class ComDefaultControllerDefault extends KControllerService
 {    
-    /**
-     * Constructor.
-     *
-     * @param   object  An optional KConfig object with configuration options.
-     */
-    protected function  _initialize(KConfig $config) 
-  	{        
-		$config->append(array(
-			//'behaviors'	 =>  array('cacheable')
-		));
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+
+		if($config->persistable && $this->isDispatched()) {
+			$this->registerCallback('before.browse' , array($this, 'addBehavior'), 'persistable');
+		}
+	}
 	
-      	parent::_initialize($config);
-  	}
+	/**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	/* 
+         * Disable controller persistency on non-HTTP requests, e.g. AJAX, and requests containing 
+         * the tmpl variable set to component, e.g. requests using modal boxes. This avoids 
+         * changing the model state session variable of the requested model, which is often 
+         * undesirable under these circumstances. 
+         */  
+        
+        $config->append(array(
+    		'persistable'  => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+            //'behaviors'  =>  array('cacheable')
+        ));
+
+        parent::_initialize($config);
+    }
  	
  	/**
      * Read action
