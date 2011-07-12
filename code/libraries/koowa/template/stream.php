@@ -28,7 +28,7 @@ class KTemplateStream
     private $_pos = 0;
 
     /**
-     * Data for streaming.
+     * Template data
      *
      * @var string
      */
@@ -42,6 +42,13 @@ class KTemplateStream
     private $_stat;
     
     /**
+     * Template path
+     *
+     * @var string
+     */
+    private $_path;
+    
+    /**
      * Register the stream wrapper 
      * 
      * Function prevents from registering the wrapper twice
@@ -50,12 +57,9 @@ class KTemplateStream
     {       
         if (!in_array('tmpl', stream_get_wrappers())) {
             stream_wrapper_register('tmpl', __CLASS__);
-        }
-        
-        //Set shutdown function to handle stream errors
-        register_shutdown_function(array(__CLASS__, 'stream_error')); 
+        } 
     } 
-
+     
     /**
      * Opens the template file and converts markup.
      * 
@@ -67,12 +71,18 @@ class KTemplateStream
      * @return boolean
      */
     public function stream_open($path) 
-    {       
+    {        
         //Get the view script source
         $identifier = str_replace('tmpl://', '', $path);
-            
-        //Get the template object from the template stack and parse it                  
-        $this->_data = KFactory::get($identifier)->top()->parse();
+        
+        //Get the template object from the template stack and parse it
+        $template = KFactory::get($identifier)->top();
+        
+        //Get the template path
+        $this->_path = $template->getPath();
+        
+        //Get the template data
+        $this->_data = $template->parse();
         
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file
@@ -188,29 +198,7 @@ class KTemplateStream
                 return false;
         }
     }
-    
-    /**
-     * Hanlde stream errors
-     * 
-     * Clean all output buffers and display the latest error
-     * 
-     * @return bool
-     */
-    public static function stream_error() 
-    { 
-        if($error = error_get_last()) 
-        {
-            if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
-            { 
-                $identifier = str_replace('tmpl://', '', $error['file']);
-                $path = KFactory::get($identifier)->top()->getPath();
-                
-                while(@ob_get_clean());
-                echo '<strong>Fatal Error</strong>: '.$error['message'].' in <strong>'.$path.'</strong> on line <strong>'.$error['line'].'</strong>';
-            }
-        }
-    }
-    
+     
     /**
      * Url statistics.
      *
