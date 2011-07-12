@@ -96,10 +96,33 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		KTemplateStream::register();
 		
 		//Set shutdown function to handle sandbox errors
-        register_shutdown_function(array($this, '__sandboxShutdown')); 
+        register_shutdown_function(array($this, '__destroy')); 
 		
 		 // Mixin a command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
+	}
+	
+	/**
+     * Destructor
+     * 
+     * Hanlde sandbox shutdown. Clean all output buffers and display the latest error
+     * if an error is found. 
+     * 
+     * @return bool
+     */
+	public function __destroy()
+	{
+	    if(!$this->getStack()->isEmpty())
+	    {
+	        if($error = error_get_last()) 
+            {
+                if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
+                {  
+                    while(@ob_get_clean());
+                    $this->__sandboxError($error['type'], $error['message'], $error['file'], $error['line']);
+                }
+            }
+	    }
 	}
 	
  	/**
@@ -499,25 +522,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     {
         echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>'; 
         return true;
-    }
-    
-	/**
-     * Hanlde sandbox shutdown
-     * 
-     * Clean all output buffers and display the latest error
-     * 
-     * @return bool
-     */
-    private function __sandboxShutdown() 
-    {  
-        if($error = error_get_last()) 
-        {
-            if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
-            {  
-                while(@ob_get_clean());
-                $this->__sandboxError($error['type'], $error['message'], $error['file'], $error['line']);
-            }
-        }
     }
 
 	/**
