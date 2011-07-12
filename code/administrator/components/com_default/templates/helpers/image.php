@@ -165,7 +165,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
   			'id'		=> $config->name.'-preview',
   			'class'		=> 'preview',
   			'width'		=> $config->width,
-  			'height'	=> $config->width,
+  			'height'	=> $config->height,
   			'border'	=> $config->border,
   			'alt'		=> JText::_('Preview'),
   			'style'		=> $config->style
