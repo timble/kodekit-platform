@@ -91,6 +91,8 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	 */
 	public function unsetReferrer()
 	{								  
+	    $identifier = $this->getMixer()->getIdentifier();
+	    
 	    KRequest::set('cookie.'.$identifier->application.'.com.controller.referrer', null);
 	}
 	
