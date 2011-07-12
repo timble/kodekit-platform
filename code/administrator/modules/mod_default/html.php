@@ -17,7 +17,7 @@
  * @package     Nooku_Modules
  * @subpackage  Default
  */
-class ModDefaultView extends KViewHtml
+class ModDefaultHtml extends KViewHtml
 {
     /**
      * Constructor
