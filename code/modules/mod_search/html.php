@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Search
  */
-class ModSearchView extends ModDefaultView
+class ModSearchHtml extends ModDefaultHtml
 {
 	/**
 	 * Renders the views output
