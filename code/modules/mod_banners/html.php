@@ -18,7 +18,7 @@
  * @subpackage  Banners
  */
  
-class ModBannersView extends ModDefaultView
+class ModBannersHtml extends ModDefaultHtml
 {
     var $_keywords; 
     
