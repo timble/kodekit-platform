@@ -13,7 +13,7 @@
 /**
  * Page Controller
  *
- * @author      Stian Didriksen <stian@nooku.org>
+ * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Debug

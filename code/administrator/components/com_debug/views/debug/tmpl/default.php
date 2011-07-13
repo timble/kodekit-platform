@@ -1,5 +1,14 @@
-<? /** $Id$ */ ?>
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Debug
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_debug/css/debug-default.css" />
 
@@ -7,31 +16,31 @@
 <?=	@helper('tabs.startPane', array('id' => 'debug')); ?>
 <?= @helper('tabs.startPanel', array('title' => 'Profiles', 'attribs' => array( 'class' => 'icon icon-32-timeline'))); ?>
 	<h4><?= @text('Profile Information' ) ?></h4>
-	<? foreach ( KFactory::get('lib.koowa.profiler')->getMarks() as $mark ) : ?>
+	<? foreach ( KFactory::get('lib.joomla.profiler')->getBuffer() as $mark ) : ?>
 		<div><?= $mark ?></div>
 	<? endforeach; ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Memory', 'attribs' => array( 'class' => 'icon icon-32-profiles'))); ?>
 	<h4><?= @text('Memory Usage' ) ?></h4>
-	<?=  KFactory::get('lib.koowa.profiler')->getMemory(); ?>
+	<?=  KFactory::get('lib.joomla.profiler')->getMemory(); ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Queries', 'attribs' => array( 'class' => 'icon icon-32-storage'))); ?>
-	<h4><?= JText::sprintf( 'Queries logged',  count(KFactory::get('admin::plg.event.debug')->queries)) ?></h4>
+	<h4><?/*= JText::sprintf( 'Queries logged',  count(KFactory::get('admin::plg.event.debug')->queries)) */?></h4>
 	<ol>
-	<? foreach (KFactory::get('admin::plg.event.debug')->queries as $k => $sql) : ?>
+	<?/* foreach (KFactory::get('admin::plg.event.debug')->queries as $k => $sql) : ?>
 	<li>
 		<pre><code class="language-sql"><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', '<br />\\0', $sql); ?></code></pre>
 	</li>
-	<? endforeach; ?>
+	<? endforeach; */?>
 	</ol>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Languages', 'attribs' => array( 'class' => 'icon icon-32-resources'))); ?>
 	<h4><?= @text( 'Language Files Loaded' ) ?></h4>
 	<ul>
-	<? foreach ( KFactory::get('lib.koowa.language')->getPaths() as $extension => $files) : ?>
+	<? foreach ( KFactory::get('lib.joomla.language')->getPaths() as $extension => $files) : ?>
 		<? foreach ( $files as $file => $status ) : ?>
 			<li><?= $file ?></li>
 		<? endforeach; ?>
@@ -42,7 +51,7 @@
 <?= @helper('tabs.startPanel', array('title' => 'Strings', 'attribs' => array( 'class' => 'icon icon-32-audits'))); ?>
 	<h4><?= @text( 'Untranslated Strings Diagnostic' ) ?></h4>
 	<pre>
-	<? foreach (KFactory::get('lib.koowa.language')->getOrphans() as $key => $occurance) : ?>
+	<? foreach (KFactory::get('lib.joomla.language')->getOrphans() as $key => $occurance) : ?>
 		<? foreach ( $occurance as $i => $info) : ?>
 		<?	
 			$class	= @$info['class'];
