@@ -1,0 +1,68 @@
+#debug .current { overflow: auto; -webkit-box-flex: 1; height: 100%; } /* scroll inside the tabs */
+
+/* @group Moving away from flexi */
+#debug {
+        -webkit-box-flex: 0 !important;
+}
+#debug-handle {
+        width: 100%;
+}
+/* @end */
+
+/* @group JS related */
+#tabs-debug::after {
+        content: 'press ctrl+i to hide the debug bar';
+        margin-top: 13px;
+        position: absolute;
+        right: 30px;
+}
+/* @end */
+
+/* @group Tabs */
+#debug dl.tabs {
+        width: 100%;
+        display: inline-block;
+        margin: 0;
+        border-bottom: 1px solid #ccc;
+        background-color: #E6E6E6;
+}
+#debug dl.tabs dt {
+        padding: 4px 0;
+        float: left;
+        -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E6E6E6), to(#E6E6E6), color-stop(.6,#E6E6E6)) 100% / 0px 1px 0 1px stretch stretch;
+        color: #666;
+        font-weight: bold;
+        font-size: 110%;
+}
+#debug dl.tabs dt.open {
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E5E5E5), to(#E5E5E5), color-stop(.6,#C0C0C0));
+        -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E0E0E0), to(#E0E0E0), color-stop(.6,#7E7E7E)) 100% / 0px 1px 0 1px stretch stretch;
+        color: #222;
+}
+#debug dl.tabs dt span {
+        padding: 0px 12px;
+        height: 32px;
+        padding-left: 45px;
+        background-position: 10px 0px; background-repeat: no-repeat;
+        display: table-cell; vertical-align: middle
+}
+#debug div.current {
+        padding: 0 20px;
+        background-color: #FFF;
+}
+#debug div.current dd {
+        padding: 0;
+        margin: 0;
+}
+/* @end */
+
+/* @group Icons */
+.icon-32-audits span            { background-image: url(../images/icon-32-audits.png); }
+.icon-32-console span           { background-image: url(../images/icon-32-console.png); }
+.icon-32-elements span          { background-image: url(../images/icon-32-elements.png); }
+.icon-32-profiles span          { background-image: url(../images/icon-32-profiles.png); }
+.icon-32-resources span         { background-image: url(../images/icon-32-resources.png); }
+.icon-32-scripts span           { background-image: url(../images/icon-32-scripts.png); }
+.icon-32-storage span           { background-image: url(../images/icon-32-storage.png); }
+.icon-32-timeline span          { background-image: url(../images/icon-32-timeline.png); }
+/* @end */
