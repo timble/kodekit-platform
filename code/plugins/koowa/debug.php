@@ -31,28 +31,28 @@ class PlgKoowaDebug extends PlgKoowaDefault
 		}
 	}
 	
-	public function onDatabaseAfterSelect(KCommandContext $context)
+	public function onDatabaseAfterSelect(KEvent $event)
 	{
-		$this->queries[] = $context->query;
+		$this->queries[] = $event->query;
 	}
 	
-	public function onDatabaseAfterUpdate(KCommandContext $context)
+	public function onDatabaseAfterUpdate(KEvent $event)
 	{
-		$this->queries[] = $context->query;
+		$this->queries[] = $event->query;
 	}
 		
-	public function onDatabaseAfterInsert(KCommandContext $context)
+	public function onDatabaseAfterInsert(KEvent $event)
 	{
-		$this->queries[] = $context->query;
+		$this->queries[] = $event->query;
 	}
 		
-	public function onDatabaseAfterDelete(KCommandContext $context)
+	public function onDatabaseAfterDelete(KEvent $event)
 	{
-		$this->queries[] = $context->query;
+		$this->queries[] = $event->query;
 	}
 	
-	public function onDatabaseAfterShow(KCommandContext $context)
+	public function onDatabaseAfterShow(KEvent $event)
 	{
-		$this->queries[] = $context->query;
+		$this->queries[] = $event->query;
 	}
 }
