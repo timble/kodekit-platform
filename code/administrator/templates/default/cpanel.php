@@ -53,7 +53,7 @@
 	</div>
 	<?php if(KDEBUG) : ?>
 	<div id="debug">
-	   
+	   <?php echo KFactory::get('admin::com.debug.controller.debug')->display() ?>
 	</div>
 	<?php endif ?>
 </body>

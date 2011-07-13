@@ -133,8 +133,8 @@ class InstallerModelLanguages extends InstallerModel
 
 				// if current than set published
 				$clientVals =& JApplicationHelper::getClientInfo($row->client_id);
-				$lang = JComponentHelper::getParams('com_languages');
-				if ( $lang->get($clientVals->name, 'en-GB') == basename( $row->language ) ) {
+				$lang = JComponentHelper::getParams('com_extensions');
+				if ( $lang->get('language_'.$clientVals->name, 'en-GB') == basename( $row->language ) ) {
 					$row->published	= 1;
 				} else {
 					$row->published = 0;
@@ -202,9 +202,9 @@ class InstallerModelLanguages extends InstallerModel
 			$client	=& JApplicationHelper::getClientInfo($item->client_id);
 
 			// Don't delete a default ( published language )
-			$params = JComponentHelper::getParams('com_languages');
+			$params = JComponentHelper::getParams('com_extensions');
 			$tag	= basename($item->language);
-			if ( $params->get($client->name, 'en-GB') == $tag ) {
+			if ( $params->get('language_'.$client->name, 'en-GB') == $tag ) {
 				$failed[]	= $id;
 				JError::raiseWarning('', JText::_('UNINSTALLLANGPUBLISHEDALREADY'));
 				return;

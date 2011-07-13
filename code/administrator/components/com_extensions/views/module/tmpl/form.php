@@ -32,7 +32,7 @@ window.addEvent('domready', function() {
 		    list.empty().adopt(options);
 		},
 		request 	= new Request.JSON({
-			url: <?= json_encode(JRoute::_('index.php?option=com_modules&view=modules&format=json&application='.$state->application, false)) ?>,
+			url: <?= json_encode(JRoute::_('index.php?option=com_extensions&view=modules&format=json&application='.$state->application, false)) ?>,
 			/* @TODO change onComplete to onSuccess, and add onFailure */
 			onComplete: function(data){
 			    cache[position] = data;

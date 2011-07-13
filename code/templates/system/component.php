@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 	<?php
-    $template = JComponentHelper::getParams('com_templates')->get('site');
+    $template = JComponentHelper::getParams('com_extensions')->get('template_site');
 
  if($this->direction == 'rtl' && (!file_exists(JPATH_THEMES.DS.$template.DS.'css/template_rtl.css') || !file_exists(JPATH_THEMES.DS.$template.DS.'css/template.css'))) : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/template_rtl.css" type="text/css" />

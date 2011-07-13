@@ -436,7 +436,7 @@ class JInstallationModel extends JModel
 
 				// Because database config has not yet been set we just
 				// do the trick by a plain update of the proper record.
-				$where[] = "`option`='com_languages'";
+				$where[] = "`option`='com_extensions'";
 				$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
 				$query = "UPDATE #__components " .

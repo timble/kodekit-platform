@@ -48,7 +48,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
             	if (!empty($client)) 
             	{
 					//Get the path
-            	    $default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
+            	    $default = JComponentHelper::getParams('com_extensions')->get('language_'.$client->name, 'en-GB');
 				 
 				    if ($state->default) {
 					    $state->language = $default;
@@ -84,7 +84,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 			$client	= JApplicationHelper::getClientInfo($state->application, true);
 			if(!empty($client)) 
 			{
-			    $default = JComponentHelper::getParams('com_languages')->get($client->name, 'en-GB');
+			    $default = JComponentHelper::getParams('com_extensions')->get('language_'.$client->name, 'en-GB');
 			    
 			    //Find the languages
 			    $languages = array();

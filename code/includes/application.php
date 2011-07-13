@@ -61,9 +61,9 @@ class JSite extends JApplication
 			} 
 			else 
 			{
-				$params =  JComponentHelper::getParams('com_languages');
+				$params =  JComponentHelper::getParams('com_extensions');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, 'en-GB');
+				$options['language'] = $params->get('language_'.$client->name, 'en-GB');
 			}
 
 		}
@@ -328,7 +328,7 @@ class JSite extends JApplication
 			return $template;
 		}
 
-		$template = JComponentHelper::getParams('com_templates')->get('site');
+		$template = JComponentHelper::getParams('com_extensions')->get('template_site');
 
 		// Allows for overriding the active template from the request
 		$template = JRequest::getCmd('template', $template);

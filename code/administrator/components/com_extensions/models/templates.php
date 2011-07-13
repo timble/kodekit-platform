@@ -54,7 +54,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
             if (!empty($client)) 
             {
                 //Get the path
-                $default = JComponentHelper::getParams('com_templates')->get($client->name, 'site');
+                $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
              
                 if ($state->default) {
 			        $state->name = $default;
@@ -93,7 +93,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 			$client	= JApplicationHelper::getClientInfo($state->application, true);
 			if(!empty($client)) 
 			{
-                $default = JComponentHelper::getParams('com_templates')->get($client->name, 'site');
+                $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
 			    
 			    //Find the templates
 			    $templates = array();

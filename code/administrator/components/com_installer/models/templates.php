@@ -132,10 +132,10 @@ class InstallerModelTemplates extends InstallerModel
 				$row->baseDir	= $template->baseDir;
 				
 				$client	= JApplicationHelper::getClientInfo($template->client);
-			    $params = JComponentHelper::getParams('com_templates');
+			    $params = JComponentHelper::getParams('com_extensions');
 			    
 				// Is the template active?
-				if ($row->directory == $params->get($client->name)) {
+				if ($row->directory == $params->get('template_'.$client->name)) {
 					$row->active = true;
 				} else {
 					$row->active = false;

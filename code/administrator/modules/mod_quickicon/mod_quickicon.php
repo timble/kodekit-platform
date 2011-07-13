@@ -62,7 +62,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 		}
 
 		if ( $user->get('gid') > 24 ) {
-			$link = 'index.php?option=com_languages&amp;client=0';
+			$link = 'index.php?option=com_extensions&view=languages';
 			quickiconButton( $link, 'icon-48-language.png', JText::_( 'Language Manager' ) );
 		}
 

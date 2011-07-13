@@ -85,7 +85,7 @@ class plgEditorTinymce extends JPlugin
 		/*
 		 * Lets get the default template for the site application
 		 */
-		$template       = JComponentHelper::getParams('com_templates')->get('site');
+		$template       = JComponentHelper::getParams('com_extensions')->get('template_site');
 		$content_css    = '';
 		$templates_path = JPATH_SITE.DS.'templates';
 		

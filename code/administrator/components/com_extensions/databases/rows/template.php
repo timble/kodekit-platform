@@ -118,12 +118,12 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 		if(isset($this->_modified['default']) && $this->default)
 		{
 			//Update the params
-		    $params = JComponentHelper::getParams('com_templates');
-		    $params->set($this->application, $this->name);
+		    $params = JComponentHelper::getParams('com_extensions');
+		    $params->set('template_'.$this->application, $this->name);
 
 		    //Save the params
 			$result = KFactory::get('admin::com.extensions.database.table.components')
-                           ->select(array('option' => 'com_templates'), KDatabase::FETCH_ROW)
+                           ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW)
                            ->set('params', $params->toString())
 			               ->save();
 		}

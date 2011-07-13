@@ -51,6 +51,11 @@
 		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
 			<jdoc:include type="component" />
 		</div>
-	</div>	 
+	</div>
+	<?php if(KDEBUG) : ?>
+	<div id="debug">
+	   <?php echo KFactory::get('admin::com.debug.controller.debug')->display() ?>
+	</div>
+	<?php endif ?>	 
 </body>
 </html>
