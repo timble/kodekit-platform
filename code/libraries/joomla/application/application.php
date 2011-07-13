@@ -757,13 +757,6 @@ class JApplication extends JObject
 		//Set the site debug mode
 		define( 'JDEBUG', $this->getCfg('debug') );
 
-		//Instanciate the site profiler
-		if ($this->getCfg('debug'))
-		{
-			jimport( 'joomla.error.profiler' );
-			$GLOBALS['_PROFILER'] =& JProfiler::getInstance( 'Application' );
-		}
-
 		//Force re-creation of the database connection
 		$db =& JFactory::getDBO();
 		$db = null;

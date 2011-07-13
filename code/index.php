@@ -42,7 +42,6 @@ $mainframe->initialise();
 JPluginHelper::importPlugin('system');
 
 // trigger the onAfterInitialise events
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 $mainframe->triggerEvent('onAfterInitialise');
 
 /**
@@ -57,7 +56,6 @@ $Itemid = JRequest::getInt( 'Itemid');
 $mainframe->authorize($Itemid);
 
 // trigger the onAfterRoute events
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 $mainframe->triggerEvent('onAfterRoute');
 
 /**
@@ -69,7 +67,6 @@ $option = JRequest::getCmd('option');
 $mainframe->dispatch($option);
 
 // trigger the onAfterDispatch events
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 $mainframe->triggerEvent('onAfterDispatch');
 
 /**
@@ -80,7 +77,6 @@ $mainframe->triggerEvent('onAfterDispatch');
 $mainframe->render();
 
 // trigger the onAfterRender events
-JDEBUG ? $_PROFILER->mark('afterRender') : null;
 $mainframe->triggerEvent('onAfterRender');
 
 /**
