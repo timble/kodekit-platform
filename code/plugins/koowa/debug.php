@@ -18,7 +18,7 @@
  * @subpackage 	Versions
  */
 
-class plgKoowaDebug extends PlgKoowaDefault
+class PlgKoowaDebug extends PlgKoowaDefault
 {
 	public $queries = array();
 	
