@@ -9,6 +9,8 @@
  * @link        http://www.nooku.org
  */
 
+jimport( 'joomla.error.profiler' );
+
 /**
  * Debug Event Dispatcher
  * 
