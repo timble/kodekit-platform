@@ -3,7 +3,7 @@
  * @version		$Id: dispatcher.php 693 2011-04-26 18:46:51Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
- * @subpackage  Versions
+ * @subpackage  Plugins
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
@@ -15,7 +15,7 @@
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package    	Nooku_Components
- * @subpackage 	Versions
+ * @subpackage 	Plugins
  */
 
 class PlgKoowaDebug extends PlgKoowaDefault
