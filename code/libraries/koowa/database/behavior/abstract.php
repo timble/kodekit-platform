@@ -43,6 +43,11 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
 		parent::__construct($config);
 		
 		$this->_priority = $config->priority;
+		
+	    //Automatically mixin the behavior with the mixer (table object)
+		if($config->auto_mixin) {
+		    $this->mixin($this);
+		}
 	}
 	
 	/**
@@ -57,6 +62,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
     {
     	$config->append(array(
 			'priority'   => KCommand::PRIORITY_NORMAL,
+    	    'auto_mixin' => false
 	  	));
 
     	parent::_initialize($config);
