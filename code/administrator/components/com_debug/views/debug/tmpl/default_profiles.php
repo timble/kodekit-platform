@@ -14,4 +14,3 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <? foreach ( $marks as $mark ) : ?>
 	<div><?= $mark ?></div>
 <? endforeach; ?>
-</div>

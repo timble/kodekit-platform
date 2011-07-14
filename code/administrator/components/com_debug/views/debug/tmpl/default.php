@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_debug/css/debug-default.css" />
 
-<div id="debug" class="profiler">
+<div id="debug" class="profiler -koowa-box-vertical -koowa-box-flex">
 <?=	@helper('tabs.startPane', array('id' => 'debug')); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Overview', 'attribs' => array( 'class' => 'icon icon-32-profiles'))); ?>
