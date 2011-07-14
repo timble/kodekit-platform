@@ -30,6 +30,7 @@ class ComCacheDatabaseRowKey extends KDatabaseRowAbstract
     
     public function delete()
     { 
-        return KFactory::get('lib.joomla.cache')->delete( $this->name );	 
+        KFactory::get('lib.joomla.cache')->delete( $this->name );	
+        return true; 
     }
 }
