@@ -20,6 +20,23 @@
 class KTemplateFilterStyle extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'priority'   => KCommand::PRIORITY_LOW,
+        ));
+
+        parent::_initialize($config);
+    }
+	
+	/**
 	 * Find any <style src"" /> or <style></style> elements and render them
 	 *
 	 * @param string Block of text to parse
@@ -47,7 +64,7 @@ class KTemplateFilterStyle extends KTemplateFilterAbstract implements KTemplateF
 		$styles = '';
 		
 		$matches = array();
-		if(preg_match_all('#<style\ src="([^"]+)"(.*)\/>#iU', $text, $matches))
+		if(preg_match_all('#<style\s*src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match) 
 			{
