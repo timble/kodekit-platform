@@ -52,10 +52,8 @@
 			<jdoc:include type="component" />
 		</div>
 		<?php if(KDEBUG) : ?>
-		<div id="debug" class="-koowa-box-scroll">
 			<?php echo KFactory::get('admin::com.debug.controller.debug')->display(); ?>
 		<?php endif; ?>
-		</div>
 	</div>
 </body>
 </html>
