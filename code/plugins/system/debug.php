@@ -32,20 +32,4 @@ class plgSystemDebug extends JPlugin
 		
 		parent::__construct($subject, $config);
 	}
-    
-    public function onAfterRender()
-	{
-		//Render the debug information
-	    if(KDEBUG) 
-		{
-		    if(JFactory::getDocument()->getType() == 'html') 
-		    {
-		        $html = KFactory::get('admin::com.debug.controller.debug')->display();
-		       
-		        $body = JResponse::getBody();
-		        $body = str_replace('</body>', $html.'</body>', $body);
-		        JResponse::setBody($body);
-		    }
-		}
-	}
 }

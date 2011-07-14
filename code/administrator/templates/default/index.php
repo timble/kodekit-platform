@@ -30,7 +30,7 @@
  <?php endif ?>
 
 </head>
-<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?> <?php echo JDEBUG ? '-koowa-box-scroll' : '' ?>">
+<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container" class="-koowa-box -koowa-box-vertical">
 		<div id="header-box">
 			<div id="module-status">
@@ -50,6 +50,11 @@
 		<jdoc:include type="message" />
 		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
 			<jdoc:include type="component" />
+		</div>
+		<?php if(KDEBUG) : ?>
+		<div id="debug" class="-koowa-box-scroll">
+			<?php echo KFactory::get('admin::com.debug.controller.debug')->display(); ?>
+		<?php endif; ?>
 		</div>
 	</div>
 </body>
