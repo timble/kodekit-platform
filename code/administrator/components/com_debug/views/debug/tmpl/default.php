@@ -24,7 +24,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Queries', 'attribs' => array( 'class' => 'icon icon-32-storage'))); ?>
-	<?= @template('default_queries'); ?>
+	<?/*= @template('default_queries'); */?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Languages', 'attribs' => array( 'class' => 'icon icon-32-resources'))); ?>

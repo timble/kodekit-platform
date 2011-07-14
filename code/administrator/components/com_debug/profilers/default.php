@@ -8,14 +8,16 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<h4>
-<?= @text('Memory : ') ?>
-<?= $memory; ?>
-</h4>
-
-<h4>
-<?= @text('Queries : ') ?>
-<?= count($queries);?>
-</h4>
+/**
+ * Default Profiler Class
+ * 
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @category    Nooku
+ * @package     Nooku_Components
+ * @subpackage  Debug
+ */
+class ComDebugProfilerDefault extends ComDebugProfilerAbstract
+{
+    
+}

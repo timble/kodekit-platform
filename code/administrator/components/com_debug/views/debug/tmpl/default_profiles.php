@@ -11,7 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h4><?= @text('Profile Information' ) ?></h4>
-<? foreach ( JProfiler::getInstance('Application')->getBuffer() as $mark ) : ?>
+<? foreach ( $marks as $mark ) : ?>
 	<div><?= $mark ?></div>
 <? endforeach; ?>
 </div>
