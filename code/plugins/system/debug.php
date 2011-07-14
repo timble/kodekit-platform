@@ -24,8 +24,10 @@ class plgSystemDebug extends JPlugin
     public function __construct($subject, $config = array())
 	{
 	    //Intercept the events
-	    if(KDEBUG) {
-	        KFactory::set('lib.koowa.event.dispatcher', KFactory::tmp('admin::com.debug.event.dispatcher'));
+	    if(KDEBUG) 
+	    {
+	        $profiler = KFactory::get('admin::com.debug.profiler.event');
+	        KFactory::set('lib.koowa.command.event', $profiler);
 		}
 		
 		parent::__construct($subject, $config);
@@ -38,8 +40,8 @@ class plgSystemDebug extends JPlugin
 		{
 		    if(JFactory::getDocument()->getType() == 'html') 
 		    {
-		       $html = KFactory::get('admin::com.debug.controller.debug')->display();
-		    
+		        $html = KFactory::get('admin::com.debug.controller.debug')->display();
+		       
 		        $body = JResponse::getBody();
 		        $body = str_replace('</body>', $html.'</body>', $body);
 		        JResponse::setBody($body);
