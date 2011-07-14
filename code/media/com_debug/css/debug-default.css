@@ -1,13 +1,9 @@
-#debug .current { overflow: auto; -webkit-box-flex: 1; height: 100%; } /* scroll inside the tabs */
-
-/* @group Moving away from flexi */
 #debug {
-        -webkit-box-flex: 0 !important;
+	height: 300px;
+	border-top: 2px solid #AAA;
 }
-#debug-handle {
-        width: 100%;
-}
-/* @end */
+
+#debug .current { overflow: auto !important; -webkit-box-flex: 1; height: 260px; } /* scroll inside the tabs */
 
 /* @group JS related */
 #tabs-debug::after {
@@ -23,7 +19,7 @@
         width: 100%;
         display: inline-block;
         margin: 0;
-        border-bottom: 1px solid #ccc;
+        
         background-color: #E6E6E6;
 }
 #debug dl.tabs dt {
@@ -33,6 +29,15 @@
         color: #666;
         font-weight: bold;
         font-size: 110%;
+         
+        /* Overrides for default tabs styling */
+        -moz-border-radius: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-left: 0;
+        background: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
 }
 #debug dl.tabs dt.open {
         background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E5E5E5), to(#E5E5E5), color-stop(.6,#C0C0C0));
