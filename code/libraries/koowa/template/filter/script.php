@@ -20,6 +20,24 @@
 class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'priority'   => KCommand::PRIORITY_LOW,
+        ));
+
+        parent::_initialize($config);
+    }
+	
+	
+	/**
 	 * Find any <script src="" /> or <script></script> elements and render them
 	 *
 	 * <script inline></script> can be used for inline scripts
