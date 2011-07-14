@@ -102,7 +102,7 @@ class KCommand extends KObject implements KCommandInterface
     }
     
     /**
-     * Get the priority of a behavior
+     * Get the priority of the command
      *
      * @return  integer The command priority
      */
