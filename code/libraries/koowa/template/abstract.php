@@ -492,7 +492,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	private function __sandbox()
 	{	
 	    //Set the error handler
-        set_error_handler(array($this, '__sandboxError'), E_WARNING | E_NOTICE);
+        set_error_handler(array($this, 'sandboxError'), E_WARNING | E_NOTICE);
 	    
 	    //Set the template in the template stack
        	$this->getStack()->push(clone $this);
@@ -518,10 +518,15 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
      * 
      * @return bool
      */
-    private function __sandboxError($code, $message, $file = '', $line = 0, $context = array())
+    public function sandboxError($code, $message, $file = '', $line = 0, $context = array())
     {
-        echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>'; 
-        return true;
+        if($file == 'tmpl://lib.koowa.template.stack') 
+        {
+            echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>'; 
+            return true;
+        }
+        
+        return false;
     }
 
 	/**
