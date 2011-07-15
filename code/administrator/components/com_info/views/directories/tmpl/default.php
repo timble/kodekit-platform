@@ -23,13 +23,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </tr>
     </thead>
     <tbody>
-        <? foreach($directories as $directory) : ?>
+        <? foreach($items as $item) : ?>
             <tr>
                 <td>
-                    <?= $directory->name ?>
+                    <?= $item->name ?>
                 </td>
                 <td>
-                    <?= @helper('grid.writable', array('writable' => $directory->writable)) ?>
+                    <?= @helper('grid.writable', array('writable' => $item->writable)) ?>
                 </td>
             </tr>
         <? endforeach ?>

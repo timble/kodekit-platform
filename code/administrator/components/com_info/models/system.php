@@ -38,7 +38,7 @@ class ComInfoModelSystem extends KModelAbstract
                 ),
                 array(
                     'setting' => JText::_('Database Collation'),
-                    'value'   => KFactory::tmp('admin::com.plugins.database.table.plugins')->getSchema()->collation
+                    'value'   => KFactory::tmp('admin::com.extensions.database.table.plugins')->getSchema()->collation
                 ),
                 array(
                     'setting' => JText::_('PHP Version'),

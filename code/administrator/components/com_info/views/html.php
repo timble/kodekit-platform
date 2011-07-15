@@ -22,24 +22,14 @@ class ComInfoViewHtml extends ComDefaultViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'layout_default' => 'default',
-            'auto_assign'    => false,
-            'views'          => array(
-                'system'         => JText::_('System Information'),
-                'configuration'  => JText::_('Configuration File'),
-                'directories'    => JText::_('Directory Permissions'),
-                'phpinformation' => JText::_('PHP Information'),
-                'phpsettings'    => JText::_('PHP Settings')
-            )
+         	'layout'      => 'default'
         ));
 
         parent::_initialize($config);
     }
-
-    public function display()
-    {
-        $this->getToolbar()->reset();
-
-        return parent::display();
-    }
+    
+	public function getName()
+	{
+		return 'items';
+	}
 }
