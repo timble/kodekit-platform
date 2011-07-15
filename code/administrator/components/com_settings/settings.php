@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-if (!$user->authorize( 'com_config', 'manage' )) {
+if (!$user->authorize( 'com_settings', 'manage' )) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
@@ -35,7 +35,7 @@ if($controller = JRequest::getWord('controller', 'application')) {
 }
 
 // Create the controller
-$classname	= 'ConfigController'.ucfirst($controller);
+$classname	= 'SettingsController'.ucfirst($controller);
 $controller	= new $classname( );
 
 JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true );

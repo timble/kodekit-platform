@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package		Joomla
 * @subpackage	Config
 */
-class ConfigApplicationView
+class SettingsApplicationView
 {
 	function showConfig( &$row, &$lists )
 	{
@@ -85,7 +85,7 @@ class ConfigApplicationView
 							<fieldset class="adminform">
 								<legend><?php echo JText::_( 'Media Settings' ); ?>
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNPATHCHANGES' ); ?>">
-					<?php echo ConfigApplicationView::WarningIcon(); ?>
+					<?php echo SettingsApplicationView::WarningIcon(); ?>
 				</span>
 								</legend>
 								<?php echo $mediaparams->render('mediaparams'); ?>
@@ -119,7 +119,7 @@ class ConfigApplicationView
 
 		<input type="hidden" name="c" value="global" />
 		<input type="hidden" name="live_site" value="<?php echo isset($row->live_site) ? $row->live_site : ''; ?>" />
-		<input type="hidden" name="option" value="com_config" />
+		<input type="hidden" name="option" value="com_settings" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHTML::_( 'form.token' ); ?>

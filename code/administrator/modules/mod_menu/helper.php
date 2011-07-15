@@ -32,7 +32,7 @@ class modMenuHelper
 		$usertype	= $user->get('usertype');
 
 		// cache some acl checks
-		$canConfig			= $user->authorize('com_config', 'manage');
+		$canConfig			= $user->authorize('com_settings', 'manage');
 		$manageTemplates	= $user->authorize('com_templates', 'manage');
 		$manageMenuMan		= $user->authorize('com_menus', 'manage');
 		$manageLanguages	= $user->authorize('com_languages', 'manage');
@@ -178,7 +178,7 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 			
 			if ($canConfig) {
-				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
+				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_settings', 'class:config'));
 				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system', 'class:info'));
 				$menu->addSeparator();
 			}
@@ -201,7 +201,7 @@ class modMenuHelper
 		$user	 =& JFactory::getUser();
 		$usertype = $user->get('usertype');
 
-		$canConfig			= $user->authorize('com_config', 'manage');
+		$canConfig			= $user->authorize('com_settings', 'manage');
 		$installModules		= $user->authorize('com_installer', 'module');
 		$editAllModules		= $user->authorize('com_modules', 'manage');
 		$installPlugins		= $user->authorize('com_installer', 'plugin');

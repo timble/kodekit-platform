@@ -24,6 +24,6 @@ jimport('joomla.application.component.controller');
  * @subpackage	Config
  * @since 1.5
  */
-class ConfigController extends JController
+class SettingsController extends JController
 {
 }

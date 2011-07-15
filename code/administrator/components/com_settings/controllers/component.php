@@ -22,7 +22,7 @@ require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
  * @package		Joomla
  * @subpackage	Config
  */
-class ConfigControllerComponent extends JController
+class SettingsControllerComponent extends JController
 {
 	/**
 	 * Custom Constructor
@@ -63,7 +63,7 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
-		$view = new ConfigViewComponent( );
+		$view = new SettingsViewComponent( );
 		$view->assignRef('component', $table);
 		$view->setModel( $model, true );
 		$view->display();
@@ -102,7 +102,7 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
-		//$this->setRedirect( 'index.php?option=com_config', $msg );
+		//$this->setRedirect( 'index.php?option=com_settings', $msg );
 		$this->edit();
 	}
 

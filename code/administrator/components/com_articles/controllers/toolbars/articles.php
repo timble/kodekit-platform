@@ -34,7 +34,7 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addSeparator()
                  ->addModal(array(
                     'label' => 'Preferences',
-                 	'href' => 'index.php?option=com_config&controller=component&component=com_articles')
+                 	'href' => 'index.php?option=com_settings&controller=component&component=com_articles')
                  );
         }    
         else 

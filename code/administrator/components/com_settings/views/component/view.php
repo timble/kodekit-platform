@@ -21,7 +21,7 @@ jimport( 'joomla.application.component.view' );
  * @package		Joomla
  * @subpackage	Config
  */
-class ConfigViewComponent extends JView
+class SettingsViewComponent extends JView
 {
 	/**
 	 * Display the view
@@ -60,7 +60,7 @@ class ConfigViewComponent extends JView
 		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
 
 		<input type="hidden" name="controller" value="component" />
-		<input type="hidden" name="option" value="com_config" />
+		<input type="hidden" name="option" value="com_settings />
 		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHTML::_( 'form.token' ); ?>

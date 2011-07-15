@@ -21,7 +21,7 @@ jimport( 'joomla.application.component.model' );
  * @package		Joomla
  * @subpackage	Config
  */
-class ConfigModelComponent extends JModel
+class SettingsModelComponent extends JModel
 {
 	/**
 	 * Get the params for the configuration variables

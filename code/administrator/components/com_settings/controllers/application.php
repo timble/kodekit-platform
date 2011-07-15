@@ -21,7 +21,7 @@ require_once( JPATH_COMPONENT.DS.'views'.DS.'application'.DS.'view.php' );
  * @package		Joomla
  * @subpackage	Config
  */
-class ConfigControllerApplication extends ConfigController
+class SettingsControllerApplication extends SettingsController
 {
 	/**
 	 * Custom Constructor
@@ -204,7 +204,7 @@ class ConfigControllerApplication extends ConfigController
 		$lists['session_handlers'] = JHTML::_('select.genericlist',  $options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 
 		// SHOW EDIT FORM
-		ConfigApplicationView::showConfig($row, $lists);
+		SettingsApplicationView::showConfig($row, $lists);
 	}
 
 	/**
@@ -395,7 +395,7 @@ class ConfigControllerApplication extends ConfigController
 		$task = $this->getTask();
 		switch ($task) {
 			case 'apply' :
-				$this->setRedirect('index.php?option=com_config', $msg);
+				$this->setRedirect('index.php?option=com_settings', $msg);
 				break;
 
 			case 'save' :
@@ -432,11 +432,11 @@ class ConfigControllerApplication extends ConfigController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('http://help.joomla.org/helpsites-15.xml')) === false ) {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR FETCH'), 'error');
+			$this->setRedirect('index.php?option=com_settingss', JText::_('HELPREFRESH ERROR FETCH'), 'error');
 		} else if (!JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data)) {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR STORE'), 'error');
+			$this->setRedirect('index.php?option=com_settings', JText::_('HELPREFRESH ERROR STORE'), 'error');
 		} else {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH SUCCESS'));
+			$this->setRedirect('index.php?option=com_settings', JText::_('HELPREFRESH SUCCESS'));
 		}
 	}
 }

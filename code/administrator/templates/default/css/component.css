@@ -49,7 +49,7 @@ div.message {
 }
 
 .com_info #content-box,
-.com_config #content-box {
+.com_settings #content-box {
 	overflow-y: scroll; /* Fix, force scrollbar */
 }
 

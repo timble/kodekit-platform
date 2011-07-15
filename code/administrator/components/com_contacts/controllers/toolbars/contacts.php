@@ -28,7 +28,7 @@ class ComContactsControllerToolbarContacts extends ComDefaultControllerToolbarDe
               ->addModal(array(
                     'label'  => 'Preferences',
               		'height' => 500,
-                    'href'   => 'index.php?option=com_config&controller=component&component=com_contacts'
+                    'href'   => 'index.php?option=com_settings&controller=component&component=com_contacts'
                   ));
          
         return parent::getCommands();
