@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h4><?= @text( 'Language Files Loaded' ) ?></h4>
 <ul>
-<? foreach ( KFactory::get('lib.joomla.language')->getPaths() as $extension => $files) : ?>
+<? foreach ( $paths as $extension => $files) : ?>
 	<? foreach ( $files as $file => $status ) : ?>
 		<li><?= $file ?></li>
 	<? endforeach; ?>

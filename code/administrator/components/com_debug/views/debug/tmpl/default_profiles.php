@@ -12,5 +12,5 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h4><?= @text('Profile Information' ) ?></h4>
 <? foreach ( $marks as $mark ) : ?>
-	<div><?= $mark ?></div>
+	<div><?= $mark['caller'].'::'.$mark['message'].' : '.sprintf('%.3f', $mark['time']).' seconds , '.$mark['memory'] ?></div>
 <? endforeach; ?>

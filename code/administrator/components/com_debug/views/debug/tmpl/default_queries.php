@@ -13,7 +13,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <ol>
 <?foreach ($queries as $query) : ?>
 <li>
-	<pre><code class="language-sql"><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', '<br />\\0', $query->query); ?></code></pre>
+	<span>[<?= sprintf('%.3f', $query->time*1000).' msec' ?>]</span>
+	<pre><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', '<br />\\0', $query->query); ?></pre>
 </li>
 <? endforeach; ?>
 </ol>

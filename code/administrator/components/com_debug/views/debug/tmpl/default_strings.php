@@ -10,9 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<h4><?= @text( 'Untranslated Strings Diagnostic' ) ?></h4>
+<h4><?= @text( 'Untranslated Strings' ) ?></h4>
 <pre>
-<? foreach (KFactory::get('lib.joomla.language')->getOrphans() as $key => $occurance) : ?>
+<? foreach ($strings as $key => $occurance) : ?>
 	<? foreach ( $occurance as $i => $info) : ?>
 	<?	
 		$class	= @$info['class'];
