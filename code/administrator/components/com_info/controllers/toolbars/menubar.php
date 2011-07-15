@@ -45,7 +45,7 @@ class ComInfoControllerToolbarMenubar extends ComDefaultControllerToolbarMenubar
         
         $this->addCommand('PHP Settings', array(
         	'href' => JRoute::_('index.php?option=com_info&view=phpsettings'),
-            'active' => ($name == 'phpsettings')
+            'active' => ($name == 'phpsetting')
         ));
           
         return parent::getCommands();
