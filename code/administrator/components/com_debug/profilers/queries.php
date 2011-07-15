@@ -18,7 +18,7 @@
  * @subpackage  Debug
  */
  
-class ComDebugEventDatabase extends KEventListener
+class ComDebugProfilerQueries extends KEventListener
 {    
     /**
      * The start time

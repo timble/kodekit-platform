@@ -21,12 +21,12 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $profiler = KFactory::get('admin::com.debug.event.profiler');
-        $database = KFactory::get('admin::com.debug.event.database');
+        $profiler = KFactory::get('admin::com.debug.profiler.events');
+        $database = KFactory::get('admin::com.debug.profiler.queries');
         $language = KFactory::get('lib.joomla.language');
 	    
 	    $this->assign('memory'  , $profiler->getMemory())
-	         ->assign('marks'   , $profiler->getMarks())
+	         ->assign('events'  , $profiler->getEvents())
 	         ->assign('queries' , $database->getQueries())
 	         ->assign('paths'   , $language->getPaths())
 	         ->assign('strings' , $language->getOrphans());

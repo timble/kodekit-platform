@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugEventProfiler extends KEventDispatcher
+class ComDebugProfilerEvents extends KEventDispatcher
 {
    /**
     * The start time
@@ -31,7 +31,7 @@ class ComDebugEventProfiler extends KEventDispatcher
      *
      * @var array
      */
-    protected $_marks;
+    protected $_events;
  	
  	/**
      * Constructor.
@@ -44,7 +44,7 @@ class ComDebugEventProfiler extends KEventDispatcher
         
         $this->_start = $config->start;
         
-        KFactory::get('admin::com.debug.event.database', array('dispatcher' => $this));
+        KFactory::get('admin::com.debug.profiler.queries', array('dispatcher' => $this));
     }
     
 	/**
@@ -69,9 +69,9 @@ class ComDebugEventProfiler extends KEventDispatcher
      *
      * @return array Array of profiler marks
      */
-    public function getMarks() 
+    public function getEvents() 
     {
-        return $this->_marks;    
+        return $this->_events;    
     }
     
 	/**
@@ -110,7 +110,7 @@ class ComDebugEventProfiler extends KEventDispatcher
      */
     public function dispatchEvent($name, $event = array())
     {
-        $this->_marks[] = array(
+        $this->_events[] = array(
         	'message' => $name,
             'time'    => $this->getElapsedTime(),
             'memory'  => $this->getMemory(),
