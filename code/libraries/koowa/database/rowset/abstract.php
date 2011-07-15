@@ -359,37 +359,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         return clone $this->_row;
     }
          
- 	/**
-     * Retrieve an array of column values
-     *
-     * @param   string  The column name.
-     * @return  array   An array of all the column values
-     */
-    public function getColumn($column)
-    {
-        $result = array();
-        foreach($this as $key => $row) {
-            $result[$key] = $row->$column;        
-        }
-
-        return $result;
-    }
-
-    /**
-     * Set the value of all the columns
-     *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
-     * @return  void
-     */
-    public function setColumn($column, $value)
-    {
-        //Set the data
-        foreach($this as $row) {
-            $row->$column = $value;
-        }
-    }
-   
 	/**
      * Return an associative array of the data.
      *
