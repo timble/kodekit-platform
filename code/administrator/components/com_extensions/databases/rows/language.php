@@ -93,7 +93,7 @@ class ComExtensionsDatabaseRowLanguage extends KDatabaseRowAbstract
 	}
 
 	/**
-     * Languages are newer new, they simply exist or don't
+     * Languages are newer new
      *
      * @return boolean
      */
