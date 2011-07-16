@@ -21,7 +21,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 {
     /**
      * Constructor
-     *A
+     *
      * @param   object  An optional KConfig object with configuration options
      */
     public function __construct(KConfig $config)
