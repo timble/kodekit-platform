@@ -140,7 +140,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 	}
 
     /**
-     * Templates are newer new, they simply exist or don't
+     * Templates are newer new
      *
      * @return boolean
      */
