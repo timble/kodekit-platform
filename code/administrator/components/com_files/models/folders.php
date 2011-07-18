@@ -136,9 +136,4 @@ class ComFilesModelFolders extends ComFilesModelDefault
 
 		return parent::getList();
 	}
-
-	public function getColumn($column)
-	{
-		return $this->getList();
-	}
 }
