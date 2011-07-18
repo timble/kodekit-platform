@@ -20,53 +20,6 @@
 
 class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-    protected function _listbox($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'          => '',
-            'state'         => null,
-            'attribs'       => array(),
-            'text'          => 'title',
-            'value'         => 'id',
-            'filter'        => array(),
-            'app'           => $this->getIdentifier()->application,
-            'package'       => $this->getIdentifier()->package,
-            'deselect'      => true
-        ))->append(array(	
-            'column'        => $config->name,
-            'listbox_title' => ucfirst($config->name),
-            'listbox_sort'  => $config->text,
-            'identifier'    => $config->app.'::com.'.$config->package.'.model.'.KInflector::pluralize($config->name)
-        ))->append(array(
-            'selected'      => $config->{$config->column},
-	    ));
-
-        $list = KFactory::tmp($config->identifier)
-            ->limit(0)
-            ->set($config->filter)
-            ->sort($config->listbox_sort)
-            ->getList();
-
-        $options   = array();
-        if($config->deselect){
-            $options[] = $this->option(array('text' => '- '.JText::_( 'Select '.$config->listbox_title ).' -'));
-		}
-
-        foreach($list as $item) {
-            $options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
-        }
-
-        $list = $this->optionlist(array(
-            'options'       => $options,
-            'name'          => $config->column,
-            'selected'      => $config->selected,
-            'attribs'       => $config->attribs
-        ));
-
-        return $list;
-     }
-
      public function order($config = array())
      {
          $config = new KConfig($config);
