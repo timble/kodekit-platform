@@ -10,11 +10,21 @@
  */
 
 /**
- * Component Loader
+ * Settings Controller Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-echo KFactory::get('admin::com.settings.dispatcher')->dispatch();
+class ComSettingsControllerToolbarSettings extends ComDefaultControllerToolbarDefault
+{  
+    public function getCommands()
+    {
+        $this->addSave()
+			 ->addApply()
+			 ->addCancel(array('attribs' => array('data-novalidate' => 'novalidate')));
+			 
+        return parent::getCommands();
+    }
+}

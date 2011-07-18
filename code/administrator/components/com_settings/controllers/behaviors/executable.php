@@ -10,11 +10,22 @@
  */
 
 /**
- * Component Loader
+ * Executable Controller Behavior
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-echo KFactory::get('admin::com.settings.dispatcher')->dispatch();
+class ComSettingsControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
+{  
+    public function canAdd()
+    {
+        return false; 
+    }
+    
+    public function canDelete()
+    { 
+        return false; 
+    }
+}

@@ -10,11 +10,28 @@
  */
 
 /**
- * Component Loader
+ * Settings Model Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-echo KFactory::get('admin::com.settings.dispatcher')->dispatch();
+
+class ComSettingsViewSettingsJson extends KViewJson
+{
+    public function display()
+    {
+        $model = $this->getModel();
+
+        if(KInflector::isPlural($this->getName())) {
+            $data = array('settings' => $model->getList()->toArray());
+        } else {
+            $data = $model->getItem()->toArray();
+        }
+
+        $this->output = $data;
+
+        return parent::display();
+    }
+}

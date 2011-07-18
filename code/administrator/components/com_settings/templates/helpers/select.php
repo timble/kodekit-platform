@@ -10,11 +10,28 @@
  */
 
 /**
- * Component Loader
+ * Select Template Helper
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-echo KFactory::get('admin::com.settings.dispatcher')->dispatch();
+
+class ComSettingsTemplateHelperSelect extends KTemplateHelperSelect
+{
+	public function booleanlist( $config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'name'   	=> '',
+			'attribs'	=> array(),
+			'true'		=> 'yes',
+			'false'		=> 'no',
+			'selected'	=> null,
+			'translate'	=> true
+		));
+		
+		return parent::booleanlist($config);
+	}
+}
