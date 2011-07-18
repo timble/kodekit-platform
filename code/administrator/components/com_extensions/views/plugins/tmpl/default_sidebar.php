@@ -19,9 +19,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </a>
         </li>
         <? foreach($types as $type) : ?>
-        <li <? if($state->type == $type->type) echo 'class="active"' ?>>
-            <a href="<?= @route('type='.$type->type) ?>">
-                <?= $type->type ?>
+        <li <? if($state->type == $type) echo 'class="active"' ?>>
+            <a href="<?= @route('type='.$type) ?>">
+                <?= $type ?>
             </a>
         </li>
         <? endforeach ?>
