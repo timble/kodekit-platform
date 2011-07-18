@@ -238,17 +238,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 
         return $data;
     }
-    
-    /**
-     * Get the distinct values of a column
-     *
-     * @return object
-     */
-    public function getColumn($column)
-    {   
-        return $this->_column[$column];
-    }
-    
+      
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by
      * using the state name as the method name.
