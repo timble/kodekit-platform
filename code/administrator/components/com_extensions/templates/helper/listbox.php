@@ -30,11 +30,10 @@ class ComExtensionsTemplateHelperListbox extends KTemplateHelperListbox
 	protected function _listbox($config = array())
  	{
 		$config = new KConfig($config);
-
+		
 		$config->append(array(
-			//@TODO state isn't applied, work on patch later
-			'state'		=> array(
-				'application'	=> $config->application
+			'filter' => array(
+				'application' => $config->application
 			)
 		));
 
@@ -47,10 +46,9 @@ class ComExtensionsTemplateHelperListbox extends KTemplateHelperListbox
 		$config->append(array(
 			'model' 	=> 'modules',
 			'name'		=> 'position',
-			
 		));
 
-		return parent::_listbox($config);
+		return $this->_listbox($config);
  	}
  	
     public function types($config = array())
@@ -61,6 +59,6 @@ class ComExtensionsTemplateHelperListbox extends KTemplateHelperListbox
 			'name'		=> 'type',
 		));
 
-		return parent::_listbox($config);
+		return $this->_listbox($config);
  	}
 }
