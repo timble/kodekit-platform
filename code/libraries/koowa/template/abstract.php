@@ -69,6 +69,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
         2     => 'Warning',
         4     => 'Parse Error',
         8     => 'Notice',
+        64    => 'Compile Error',
         256   => 'User Error',
         512   => 'User Warning',
         2048  => 'Strict',
@@ -116,7 +117,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	    {
 	        if($error = error_get_last()) 
             {
-                if($error['type'] === E_ERROR || $error['type'] === E_PARSE) 
+                if($error['type'] === E_ERROR || $error['type'] === E_PARSE || $error['type'] === E_COMPILE_ERROR) 
                 {  
                     while(@ob_get_clean());
                     $this->sandboxError($error['type'], $error['message'], $error['file'], $error['line']);
@@ -514,7 +515,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
  	/**
-     * Hanlde sandbox errors
+     * Handle sandbox errors
      * 
      * @return bool
      */
