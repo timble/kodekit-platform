@@ -39,7 +39,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
 		parent::__construct($config);
 	
 		if(KFactory::get('lib.joomla.config')->getValue('config.caching')) {
-	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
+	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('database', 'output'));
 		}
 	}
     
