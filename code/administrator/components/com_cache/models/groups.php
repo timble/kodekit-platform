@@ -76,28 +76,6 @@ class ComCacheModelGroups extends KModelAbstract
         
         return $this->_total;
     }
-   
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            $result = array();
-            $data   = $this->_getData();
-		    
-	        foreach($data as $key => $value) 
-		    {
-	            $value = (object) $value;
-	            
-		        if(isset ($value->{$column})) {
-			        $result[$key] = $data[$key];
-		        }
-		    }
-		    
-		    $this->_column[$column] = KFactory::tmp('admin::com.cache.database.rowset.groups', array('data' => $data));
-        }
-            
-        return $this->_column[$column];
-    }
     
     protected function _getData()
     {
