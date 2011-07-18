@@ -175,14 +175,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * @return  KDatabaseRowsetAbstract
      */
      public function setData( $data, $modified = true )
-     {
-         //Get the data
-        if($data instanceof KDatabaseRowInterface) {
-            $data = $data->toArray();
-        } else {
-            $data = (array) $data;
-        }
-        
+     { 
         //Prevent changing the identity column
         if(isset($this->_identity_column)) {
             unset($data[$this->_identity_column]);
