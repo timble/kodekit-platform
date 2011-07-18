@@ -266,31 +266,6 @@ class KModelTable extends KModelAbstract
     }
 
     /**
-     * Get the list of items based on the distinct column values
-     *
-     * @param string    The column name
-     * @return KDatabaseRowset
-     */
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            if($this->isConnected()) 
-            {
-                $query = $this->getTable()->getDatabase()->getQuery()
-                    ->distinct()
-                    ->group('tbl.'.$this->getTable()->mapColumns($column));
-
-                $this->_buildQueryOrder($query);
-                        
-                $this->_column[$column] = $this->getTable()->select($query);
-            }
-        }
-            
-        return $this->_column[$column];
-    }
-
-    /**
      * Builds SELECT columns list for the query
      */
     protected function _buildQueryColumns(KDatabaseQuery $query)
