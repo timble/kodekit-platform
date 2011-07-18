@@ -39,24 +39,4 @@ class ComNewsfeedsModelCategories extends ComDefaultModelDefault
     {
         $query->order('tbl.title', 'ASC');
     }
-    
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            if($table = $this->getTable()) 
-            {
-                $query = $table->getDatabase()->getQuery()
-                    ->distinct()
-                    ->group('tbl.'.$table->mapColumns($column))
-                    ->where('tbl.section', '=', 'com_newsfeeds');
-
-                $this->_buildQueryOrder($query);
-                        
-                $this->_column[$column] = $table->select($query);
-            }
-        }
-            
-        return $this->_column[$column];
-    }
 }
