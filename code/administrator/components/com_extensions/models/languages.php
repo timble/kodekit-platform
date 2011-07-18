@@ -142,9 +142,4 @@ class ComExtensionsModelLanguages extends KModelAbstract
 
 		return $this->_total;
 	}
-
-	public function getColumn($column)
-	{
-		return $this->getList();
-	}
 }
