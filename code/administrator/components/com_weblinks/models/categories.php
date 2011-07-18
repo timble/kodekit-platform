@@ -65,24 +65,4 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
 			  ->where('weblinks.published', '=', '1')
 			  ->where('tbl.access', '<=', KFactory::get('lib.joomla.user')->get('aid', '0'));
     }
-    
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            if($table = $this->getTable()) 
-            {
-                $query = $table->getDatabase()->getQuery()
-                    ->distinct()
-                    ->group('tbl.'.$table->mapColumns($column))
-                    ->where('tbl.section', '=', 'com_weblinks');
-
-                $this->_buildQueryOrder($query);
-                        
-                $this->_column[$column] = $table->select($query);
-            }
-        }
-            
-        return $this->_column[$column];
-    }
 }
