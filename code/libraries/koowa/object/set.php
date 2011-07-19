@@ -118,7 +118,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      */
     public function offsetExists($object)
     {
-        if($object instanceof KConfigHandlable) {
+        if($object instanceof KObjectHandlable) {
             return $this->contains($object);
         }
     }
@@ -133,7 +133,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      */
     public function offsetGet($object)
     {       
-        if($object instanceof KConfigHandlable) {
+        if($object instanceof KObjectHandlable) {
             return $this->_object_set->offsetGet($object->getHandle());
         }
     }
@@ -149,7 +149,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      */
     public function offsetSet($object, $data)
     {
-        if($object instanceof KConfigHandlable) {
+        if($object instanceof KObjectHandlable) {
             $this->insert($object);
         }
         return $this;
@@ -165,7 +165,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      */
     public function offsetUnset($object)
     {
-        if($object instanceof KConfigHandlable) {
+        if($object instanceof KObjectHandlable) {
             $this->extract($object);
         }
         
