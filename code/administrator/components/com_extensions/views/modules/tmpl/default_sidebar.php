@@ -18,10 +18,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <?= @text('All positions') ?>
             </a>
         </li>
-        <? foreach(KFactory::tmp('admin::com.extensions.model.modules')->application('site')->getList() as $module) : ?>
-        <li <? if($state->position == $module->position && $state->application == 'site') echo 'class="active"' ?>>
-            <a href="<?= @route('position='.$module->position.'&application=site') ?>">
-                <?= $module->position; ?>
+        <? foreach(array_unique(KFactory::tmp('admin::com.extensions.model.modules')->application('site')->getList()->getColumn('position')) as $position) : ?>
+        <li <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?>>
+            <a href="<?= @route('position='.$position.'&application=site') ?>">
+                <?= $position; ?>
             </a>
         </li>
         <? endforeach ?>
@@ -33,10 +33,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <?= @text('All positions') ?>
             </a>
         </li>
-        <? foreach(KFactory::tmp('admin::com.extensions.model.modules')->application('administrator')->getList() as $module) : ?>
-        <li <? if($state->position == $module->position && $state->application == 'administrator') echo 'class="active"' ?>>
-            <a href="<?= @route('position='.$module->position.'&application=administrator') ?>">
-                <?= $module->position; ?>
+        <? foreach(array_unique(KFactory::tmp('admin::com.extensions.model.modules')->application('administrator')->getList()->getColumn('position')) as $position) : ?>
+        <li <? if($state->position == $position && $state->application == 'administrator') echo 'class="active"' ?>>
+            <a href="<?= @route('position='.$position.'&application=administrator') ?>">
+                <?= $position; ?>
             </a>
         </li>
         <? endforeach ?>
