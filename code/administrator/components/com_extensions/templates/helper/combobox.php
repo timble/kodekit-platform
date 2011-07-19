@@ -37,16 +37,16 @@ class ComExtensionsTemplateHelperCombobox extends KTemplateHelperListbox
             'application' => 'site'
         ));
 
-        $positions  = KFactory::tmp('admin::com.extensions.model.modules')->application($config->application)->getColumn('position');
+        $positions  = KFactory::tmp('admin::com.extensions.model.modules')->application($config->application)->getList()->getColumn('position');
         
 		$template   = KFactory::tmp('admin::com.extensions.model.templates')
                           ->application($config->application)
                           ->default(1)
                           ->getItem();
-
+                          
         $positions  = array_unique(array_merge($template->positions, $positions));
 		sort($positions);
-        
+	
         // @TODO combobox behavior should be in the framework
         JHTML::_('behavior.combobox');
         
