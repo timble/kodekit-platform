@@ -20,11 +20,11 @@ class KDatabase
 	/**
 	 * Database operations
 	 */
-	const OPERATION_SELECT = 1;
-	const OPERATION_INSERT = 2;
-	const OPERATION_UPDATE = 4;
-	const OPERATION_DELETE = 8;
-	const OPERATION_SHOW   = 16;
+	const OPERATION_SELECT = 'select';
+	const OPERATION_INSERT = 'insert';
+	const OPERATION_UPDATE = 'update';
+	const OPERATION_DELETE = 'delete';
+	const OPERATION_SHOW   = 'show';
 
 	/**
 	 * Database result mode
