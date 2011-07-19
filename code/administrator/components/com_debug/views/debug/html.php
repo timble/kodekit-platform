@@ -24,12 +24,23 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
         $profiler = KFactory::get('admin::com.debug.profiler.events');
         $database = KFactory::get('admin::com.debug.profiler.queries');
         $language = KFactory::get('lib.joomla.language');
+        
+        //Remove the template includes
+        $includes = get_included_files();
+        
+        foreach($includes as $key => $value)
+        {
+            if($value == 'tmpl://lib.koowa.template.stack') {
+                unset($includes[$key]);
+            }
+        }
 	    
-	    $this->assign('memory'  , $profiler->getMemory())
-	         ->assign('events'  , $profiler->getEvents())
-	         ->assign('queries' , $database->getQueries())
-	         ->assign('paths'   , $language->getPaths())
-	         ->assign('strings' , $language->getOrphans());
+	    $this->assign('memory'   , $profiler->getMemory())
+	         ->assign('events'   , $profiler->getEvents())
+	         ->assign('queries'  , $database->getQueries())
+	         ->assign('languages', $language->getPaths())
+	         ->assign('includes' , $includes)
+	         ->assign('strings'  , $language->getOrphans());
                         
         return parent::display();
     }

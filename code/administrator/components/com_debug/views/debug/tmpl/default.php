@@ -27,8 +27,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<?= @template('default_queries'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Languages', 'attribs' => array( 'class' => 'icon icon-32-resources'))); ?>
-	<?= @template('default_languages'); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Resources', 'attribs' => array( 'class' => 'icon icon-32-resources'))); ?>
+	<?= @template('default_resources'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Strings', 'attribs' => array( 'class' => 'icon icon-32-audits'))); ?>

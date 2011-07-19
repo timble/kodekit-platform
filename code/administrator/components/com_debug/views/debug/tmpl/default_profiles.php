@@ -10,7 +10,23 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<h4><?= @text('Profile Information' ) ?></h4>
-<? foreach ( $events as $event ) : ?>
-	<div><?= $event['caller'].'::'.$event['message'].' : '.sprintf('%.3f', $event['time']).' seconds , '.$event['memory'] ?></div>
-<? endforeach; ?>
+<table>
+	<thead>
+    	<tr>
+    		<th><?= @text('Identifier') ?></th>
+    		<th><?= @text('Event'); ?></th>
+    		<th><?= @text('Time'); ?></th>
+    		<th><?= @text('Memory'); ?></th>
+    	</tr>
+  	</thead>
+  	<tbody>
+  		<? foreach ( $events as $event ) : ?>
+  		<tr>  
+			<td><?= $event['caller'] ?></div>
+            <td><?= $event['message'] ?></td>
+            <td><?= sprintf('%.3f', $event['time']).' seconds' ?></td>
+            <td><?= $event['memory'] ?></td>
+        </tr>
+         <? endforeach; ?>
+  	</tbody>
+</table>
