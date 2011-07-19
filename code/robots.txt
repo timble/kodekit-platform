@@ -10,5 +10,4 @@ Disallow: /media/
 Disallow: /modules/
 Disallow: /plugins/
 Disallow: /templates/
-Disallow: /sites/
 Disallow: /tmp/
