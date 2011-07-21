@@ -118,7 +118,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 
                 //Apply limit and offset
                 if($this->_state->limit) {
-                    $templates = array_slice($template, $state->offset, $state->limit ? $state->limit : $this->_total);
+                    $templates = array_slice($templates, $state->offset, $state->limit ? $state->limit : $this->_total);
                 }
                 
 			     //Apply direction
