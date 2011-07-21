@@ -422,13 +422,13 @@ table.toolbar td a.disabled:active {
 
 /* tabs */
 
-dl.tabs {
+#content-box dl.tabs {
 	float: left;
 	margin: 10px 0 0 0;
 	z-index: 50;
 }
 
-dl.tabs dt {
+#content-box dl.tabs dt {
 	float: left;
 	padding: 6px 14px;
 	border: 1px solid #ccc;
@@ -441,15 +441,15 @@ dl.tabs dt {
 	margin-bottom: -1px;
 }
 
-dl.tabs dt:hover {
+#content-box dl.tabs dt:hover {
 	background: #F6F6F6;
 	z-index: 100;
 	color: #333;
 }
 
-dl.tabs dt:active,
-dl.tabs dt.open,
-dl.tabs dt.open:active {
+#content-box dl.tabs dt:active,
+#content-box dl.tabs dt.open,
+#content-box dl.tabs dt.open:active {
 	background: #F9F9F9;
 	z-index: 100;
 	color: #333;
@@ -459,18 +459,18 @@ dl.tabs dt.open:active {
 	box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px; 
 }
 
-dl.tabs dt:active {
+#content-box dl.tabs dt:active {
 	background: #EEE;
 	border-bottom-color: #CCC;
 }
 
-div.current {
+#content-box div.current {
 	clear: both;
 	border: 1px solid #CCC;
 	padding: 10px 10px;
 }
 
-div.current dd {
+#content-box div.current dd {
 	padding: 0;
 	margin: 0;
 }

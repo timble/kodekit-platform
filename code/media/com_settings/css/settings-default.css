@@ -7,8 +7,8 @@
 	background-color: #F9F9F9;
 	overflow-y: scroll;
 	
-	float: none;
-	margin: 0;
+	float: none !important;
+	margin: 0 !important;
 	
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -29,11 +29,11 @@
 }
 
 #content-box dl.tabs dt {
-	float: none;
+	float: none !important;
 	padding: 0 !important;
 	margin: 0 !important;
 	border: 0 none !important;
-	background: none;
+	background: none !important;
 }
 
 #content-box dl.tabs dt span {
