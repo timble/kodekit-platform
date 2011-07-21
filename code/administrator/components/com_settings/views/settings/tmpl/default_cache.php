@@ -10,8 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<fieldset class="adminform">
-	<legend><?= @text( 'Cache' ); ?></legend>
+<section>
+	<h3><?= @text( 'Cache' ); ?></h3>
 	<table class="admintable" cellspacing="1">
 
 		<tbody>
@@ -78,4 +78,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<? endif; ?>
 		</tbody>
 	</table>
-</fieldset>
+</section>

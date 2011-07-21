@@ -10,8 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<fieldset class="adminform">
-	<legend><?= @text( 'General' ); ?></legend>
+<section>
+	<h3><?= @text( 'General' ); ?></h3>
 	<table class="admintable" cellspacing="1">
 	<tbody>
 		<tr>
@@ -46,12 +46,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 	</tbody>
 	</table>
-</fieldset>		
+</section>		
 		
-<fieldset class="adminform">
-<legend><?= @text( 'Defaults' ); ?></legend>
+<section>
+	<h3><?= @text( 'Defaults' ); ?></h3>
 	<table class="admintable" cellspacing="1">
-	<tbody>	
+	<tbody>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'WYSIWYG Editor' ); ?>::<?= @text( 'TIPDEFWYSIWYG' ); ?>">
@@ -84,4 +84,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 	</tbody>
 	</table>
-</fieldset>
+</section>

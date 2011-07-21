@@ -10,8 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<fieldset class="adminform">
-	<legend><?= @text( 'Locale' ); ?></legend>
+<section>
+	<h3><?= @text( 'Locale' ); ?></h3>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
@@ -26,4 +26,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 		</tbody>
 	</table>
-</fieldset>
+</section>

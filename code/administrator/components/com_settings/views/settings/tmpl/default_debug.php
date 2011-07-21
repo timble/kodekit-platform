@@ -10,10 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<fieldset class="adminform">
-	<legend><?= @text( 'Debug' ); ?></legend>
+<section>
+	<h3><?= @text( 'Debug' ); ?></h3>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
 		<tr>
 			<td width="185" class="key">
@@ -36,14 +35,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</td>
 		</tr>
 		<tr>
-				<td class="key">
-					<span class="editlinktip hasTip" title="<?= @text( 'Error Reporting' ); ?>::<?= @text( 'TIPERRORREPORTING' ); ?>">
-						<?= @text( 'Error Reporting' ); ?>
-					</span>
-				</td>
-				<td>
-					<?= @helper('listbox.error_reportings', array('name' => 'settings[system][error_reporting]', 'selected' => $settings->error_reporting)); ?>
-				</td>
-			</tr>
+			<td class="key">
+				<span class="editlinktip hasTip" title="<?= @text( 'Error Reporting' ); ?>::<?= @text( 'TIPERRORREPORTING' ); ?>">
+					<?= @text( 'Error Reporting' ); ?>
+				</span>
+			</td>
+			<td>
+				<?= @helper('listbox.error_reportings', array('name' => 'settings[system][error_reporting]', 'selected' => $settings->error_reporting)); ?>
+			</td>
+		</tr>
 	</table>
-</fieldset>
+</section>

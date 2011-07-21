@@ -10,10 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<fieldset class="adminform">
-	<legend><?php echo JText::_( 'FTP' ); ?></legend>
+<section>
+	<h3><?php echo JText::_( 'FTP' ); ?></h3>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
 		<tr>
 			<td width="185" class="key">
@@ -77,4 +76,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 		</tbody>
 	</table>
-</fieldset>
+</section>

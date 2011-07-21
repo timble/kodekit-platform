@@ -10,11 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-
-<fieldset class="adminform">
-	<legend><?= @text( 'Mail' ); ?></legend>
+<section>
+	<h3><?= @text( 'Mail' ); ?></h3>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
 		<tr>
 			<td width="185" class="key">
@@ -118,4 +116,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 		</tbody>
 	</table>
-</fieldset>
+</section>
