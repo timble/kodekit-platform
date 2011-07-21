@@ -4,8 +4,7 @@ body{
 	direction: rtl;
 }
 
-.button1 { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; padding-right: 10px; white-space: nowrap; padding-left: 0px; }
-.button1 .next { background: url(../images/j_button1_prev.png) no-repeat; }
+.button1 { margin-left: 5px; padding-right: 10px; white-space: nowrap; padding-left: 0px; }
 .button1 a { padding: 0 6px 0 30px; }
 
 .button1,
@@ -18,66 +17,15 @@ body{
 }
 
 .button2-left {
-	background:transparent url(../images/j_button2_right.png) no-repeat scroll 100%;
 	float: right;
-}
-
-.button2-left .end{
-	background:	transparent url(../images/j_button2_first.png) no-repeat scroll 0% 0;
-}
-
-.button2-left.off .end{
-	background:	transparent url(../images/j_button2_first_off.png) no-repeat scroll 0% 0;
-}
-
-.button2-left .next{
-	background:	transparent url(../images/j_button2_prev.png) no-repeat scroll 0% 0;
-}
-
-.button2-left.off .next{
-	background:	transparent url(../images/j_button2_prev_off.png) no-repeat scroll 0% 0;
-}
-
-.button2-left .page,
-.button2-left .blank {
-	background: url(../images/j_button2_left_cap.png) 0 no-repeat;
 }
 
 .button2-right a, .button2-right span {
 	padding:0pt 24px 0pt 6px;
 }
 
-.button2-left .image {
-	background:transparent url(../images/j_button2_image_rtl.png) no-repeat scroll 0% 0pt;
-}
-
-.button2-left .pagebreak {
-	background:transparent url(../images/j_button2_pagebreak_rtl.png) no-repeat scroll 0% 0pt;
-}
-
-.button2-left .readmore {
-	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0% 0pt;
-}
-
 .button2-right {
-	background:transparent url(../images/j_button2_left.png) no-repeat scroll 0% 0pt;
 	float: right;
-}
-
-.button2-right .prev {
-	background:transparent url(../images/j_button2_next.png) no-repeat scroll 100%;
-}
-
-.button2-right.off .prev {
-	background:transparent url(../images/j_button2_next_off.png) no-repeat scroll 100%;
-}
-
-.button2-right .start {
-	background:transparent url(../images/j_button2_last.png) no-repeat scroll 100%;
-}
-
-.button2-right.off .start {
-	background:transparent url(../images/j_button2_last_off.png) no-repeat scroll 100%;
 }
 
 
