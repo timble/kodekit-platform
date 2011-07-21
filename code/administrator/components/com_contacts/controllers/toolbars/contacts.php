@@ -23,13 +23,7 @@ class ComContactsControllerToolbarContacts extends ComDefaultControllerToolbarDe
     {
         $this->addSeparator()
               ->addEnable()
-              ->addDisable()
-              ->addSeparator()
-              ->addModal(array(
-                    'label'  => 'Preferences',
-              		'height' => 500,
-                    'href'   => 'index.php?option=com_settings&controller=component&component=com_contacts'
-                  ));
+              ->addDisable();
          
         return parent::getCommands();
     }   

@@ -23,13 +23,7 @@ class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefa
     {
         $this->addSeparator()
               ->addEnable()
-              ->addDisable()
-              ->addSeparator()
-              ->addModal(array(
-                    'label'  => 'Preferences',
-              		'height' => 88,
-                    'href'   => 'index.php?option=com_settings&controller=component&component=com_banners'
-                  ));
+              ->addDisable();
          
         return parent::getCommands();
     }
