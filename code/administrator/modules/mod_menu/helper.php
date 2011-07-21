@@ -173,7 +173,7 @@ class modMenuHelper
 		/*
 		 * System SubMenu
 		 */
-		if ($canConfig || $canCheckin)
+		if ($canConfig)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 			
