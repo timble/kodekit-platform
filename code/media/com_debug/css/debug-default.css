@@ -16,48 +16,39 @@
 
 /* @group Tabs */
 #debug dl.tabs {
-        width: 100%;
-        display: inline-block;
-        margin: 0;
-        
-        background-color: #E6E6E6;
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    background-color: #E6E6E6;
+    border-bottom: 1px solid #ccc;
 }
 #debug dl.tabs dt {
-        padding: 4px 0;
-        float: left;
-        -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E6E6E6), to(#E6E6E6), color-stop(.6,#E6E6E6)) 100% / 0px 1px 0 1px stretch stretch;
-        color: #666;
-        font-weight: bold;
-        font-size: 110%;
-         
-        /* Overrides for default tabs styling */
-        -moz-border-radius: 0;
-        border-radius: 0;
-        margin-bottom: 0;
-        margin-left: 0;
-        background: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
+    padding: 4px 0;
+    float: left;
+    -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E6E6E6), to(#E6E6E6), color-stop(.6,#E6E6E6)) 100% / 0px 1px 0 1px stretch stretch;
+    color: #666;
+    font-weight: bold;
+    font-size: 110%;
 }
 #debug dl.tabs dt.open {
-        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E5E5E5), to(#E5E5E5), color-stop(.6,#C0C0C0));
-        -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E0E0E0), to(#E0E0E0), color-stop(.6,#7E7E7E)) 100% / 0px 1px 0 1px stretch stretch;
-        color: #222;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E5E5E5), to(#E5E5E5), color-stop(.6,#C0C0C0));
+    -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E0E0E0), to(#E0E0E0), color-stop(.6,#7E7E7E)) 100% / 0px 1px 0 1px stretch stretch;
+    color: #222;
 }
 #debug dl.tabs dt span {
-        padding: 0px 12px;
-        height: 32px;
-        padding-left: 45px;
-        background-position: 10px 0px; background-repeat: no-repeat;
-        display: table-cell; vertical-align: middle
+    padding: 0px 12px;
+    height: 32px;
+    padding-left: 45px;
+    background-position: 10px 0px; background-repeat: no-repeat;
+    display: table-cell; vertical-align: middle;
 }
 #debug div.current {
-        padding: 0 20px;
-        background-color: #FFF;
+    padding: 0 20px;
+    background-color: #FFF;
 }
 #debug div.current dd {
-        padding: 0;
-        margin: 0;
+    padding: 0;
+    margin: 0;
 }
 /* @end */
 
