@@ -10,14 +10,6 @@
 <?php  if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
-
-<!--[if IE 7]>
-<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-
-<!--[if lte IE 6]>
-<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
-<![endif]-->
 </head>
 
 <?php echo JHTML::_('behavior.keepalive'); ?>
