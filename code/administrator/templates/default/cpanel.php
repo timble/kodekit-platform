@@ -21,14 +21,10 @@
  <?php endif ?>
 
 </head>
-<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?> <?php echo JDEBUG ? '-koowa-box-scroll' : '' ?>">
+<body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="header-box">
-		<div id="module-status">
-			<jdoc:include type="modules" name="status"  />
-		</div>
-		<div id="module-menu">
-			<jdoc:include type="modules" name="menu" />
-		</div>
+		<jdoc:include type="modules" name="menu" />
+		<jdoc:include type="modules" name="status"  />
 	</div>
 	<div id="content-box">
 		<div id="element-box" class="container_16 clearfix">

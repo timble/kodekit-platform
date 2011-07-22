@@ -1,11 +1,20 @@
 /* ---- Basic menu styles ------------------- */
 
 /* common styling */
-#menu, #menu ul, #menu li { margin: 0; padding: 0; border: 0 none; }
+#menu, #menu ul, #menu li,
+#statusmenu, #statusmenu, #statusmenu li { margin: 0; padding: 0; border: 0 none; list-style: none; }
+
+#menu {
+	display: -webkit-box;
+	display: -moz-box;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
 
 #menu       { position:relative; z-index: 100;}
-#menu li    { float:left;  position:relative; list-style: none; display: inline;}
-#menu li a  { display:block; white-space: nowrap;  }
+#menu li    { float:left; position:relative; display: inline; }
+#menu li a,
+#statusmenu li a  { display:block; white-space: nowrap; }
 #menu li li { clear: both; }
 #menu li ul { visibility: hidden; position:absolute; }
 
@@ -37,7 +46,8 @@
 #menu ul li.node { background: transparent url(../images/arrow-right.png) no-repeat 95% 50%; }
 #menu ul li.separator { background: #DDE1E6; height: 1px; margin: 4px 0; }
 
-#menu a, #menu div {
+#menu a, #menu div,
+#statusmenu a {
 	padding: 0.60em 1.5em 0.45em;
 	color: #FFF;
 	line-height: 1.6em; vertical-align: middle;
@@ -50,7 +60,8 @@
 #menu ul li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
 #menu ul li.node:hover > a { background-position: 95% 50%; }
 
-#menu li.disabled a, #menu li.disabled:hover a { color: #666; cursor: default; }
+#menu li.disabled a, #menu li.disabled:hover a,
+#statusmenu li.disabled a { color: #666; cursor: default; }
 
 #menu ul a {
 	padding-left: 15px;
@@ -59,7 +70,8 @@
 }
 
 /* 1 level - hover */
-#menu li:hover { 
+#menu li:hover,
+#statusmenu li:hover { 
 	background-color: #1C44F3;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
@@ -97,39 +109,22 @@
 #menu li:hover li:hover li:hover a { color: #FFF; }
 
 /* statusmenu */
-#statusmenu, #statusmenu li { margin: 0; padding: 0; border: 0 none; }
-
-#statusmenu       { position:relative; z-index: 100;}
-#statusmenu li    { float:left;  position:relative; list-style: none; display: inline;}
-#statusmenu li a  { display:block; white-space: nowrap; }
-
-#statusmenu a {
-	padding: 0.60em 1.5em 0.45em;
-	color: #FFF;
-	line-height: 1.6em; vertical-align: middle;
-	font-size: 12px; font-weight: bold; text-decoration: none;	
-	background-repeat: no-repeat;
-	background-image: none !important; /*background-position: 3px 50%;*/
-	border-left: 1px solid #555;
+#statusmenu {
+	display: -webkit-box;
+	display: -moz-box;
 }
-
-#statusmenu li.disabled a { color: #DDD; cursor: default; }
-
-#statusmenu li:hover { 
-	background-color: #1C44F3;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4F6EF6), to(#1C44F3));
-	background-image: -moz-linear-gradient(0% 0% 270deg,#4F6EF6, #1C44F3); }
 
 /* submenu styling */
 #submenu {
+	display: -webkit-box;
+	display: -moz-box;
+	
 	list-style: none;
 	margin: 0;
 	padding: 0 0 0 15px;
-	float: left;
 }
 
 #submenu li {
-	float: left;
 	padding: 0;
 	margin: 5px 2px 0 2px;
 }

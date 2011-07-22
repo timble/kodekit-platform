@@ -93,36 +93,33 @@ input.button  { cursor: pointer; }
 }
 
 /* -- overall styles ------------------------------ */
-
-#footer .copyright { margin: 10px; text-align: center; }
-
 #header-box  { 
+	display: -webkit-box;
+	display: -moz-box;
+	
+	height: 31px;
 	background-color: #333;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#333));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#555, #333);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#333333');
-	height: 31px;
 }
 
 #tabs-box {
+	display: -webkit-box;
+	display: -moz-box;
+	
 	border-top: 1px solid #bbb;
 	background-color: #6497EF;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6497EF), to(#427FE2));
 	background-image: -moz-linear-gradient(0% 0% 270deg,#6497EF, #427FE2);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6497EF', endColorstr='#427FE2');
-	width: 100%;
-}
-
-#tabs-box #submenu-box {
-	float: left;
-}
-
-#toolbar-box 			{ 
-	background-color: #F1F1F1;
-	height: 41px;
 }
 
 #toolbar-box {
+	display: -webkit-box;
+	display: -moz-box;
+	
+	height: 41px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -173,11 +170,6 @@ form[name="adminForm"] {
 	box-flex: 1;
 }
 
-/* -- status layout */
-#module-status      { float: right; }
-#module-status span { display: block; float: left; color: #FFF; line-height: 16px; padding: 0 22px 0 0; margin: 5px 0 5px 22px; border-right: 1px solid #FFF; }
-#module-status a 	{ color: #FFF; }
-
 /* -- various styles -- */
 span.note {
 	display: block;
@@ -218,7 +210,6 @@ span.note {
 /** toolbar **/
 
 div.header {
-	float: right;
 	padding-top: 5px;
 	margin-right: 25px;
 	font-size: 14px; font-weight: bold; color: #444;
@@ -227,17 +218,12 @@ div.header {
 
 div.header span { color: #666; }
 
-div.configuration {
-	font-size: 14px; font-weight: bold; color: #0B55C4; line-height: 16px;
-	padding-left: 30px;
-	margin-left: 10px;
-	background-image: url(../images/menu/icon-16-config.png);
-	background-repeat: no-repeat;
+div.toolbar { 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
 }
 
-div.toolbar { float: left; text-align: right; padding: 0; }
-
-table.toolbar { float: left; border-collapse: collapse; padding: 0; margin: 0 5px; }
+table.toolbar { border-collapse: collapse; padding: 0; margin: 0 5px; }
 
 table.toolbar td {
 	margin: 0 !important;

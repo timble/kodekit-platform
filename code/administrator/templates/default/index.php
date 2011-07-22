@@ -33,12 +33,8 @@
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container" class="-koowa-box -koowa-box-vertical">
 		<div id="header-box">
-			<div id="module-status">
-				<jdoc:include type="modules" name="status"  />
-			</div>
-			<div id="module-menu">
-				<jdoc:include type="modules" name="menu" />
-			</div>
+			<jdoc:include type="modules" name="menu" />
+			<jdoc:include type="modules" name="status"  />
 		</div>
 		<div id="tabs-box">
 			<jdoc:include type="modules" name="submenu" />
