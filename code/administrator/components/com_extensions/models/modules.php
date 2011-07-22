@@ -70,36 +70,6 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 	}
 
 	/**
-	 * Get the list of items based on the distinct column values
-	 *
-	 * We are specializing it because of the admin/site state filter
-	 *
-	 * @param string	The column name
-	 * @return KDatabaseRowset
-	 */
-	public function getColumn($column)
-	{	
-		if (!isset($this->_column[$column])) 
-		{	
-			if($table = $this->getTable()) 
-			{
-				$client	= JApplicationHelper::getClientInfo($this->_state->application, true);
-				
-			    $query = $table->getDatabase()->getQuery()
-					->distinct()
-					->group('tbl.'.$table->mapColumns($column))
-					->where('tbl.client_id', '=', $client->id);
-
-				$this->_buildQueryOrder($query);
-
-				$this->_column[$column] = $table->select($query);
-			}
-		}
-			
-		return $this->_column[$column];
-	}
-
-	/**
 	 * Method to get a item object which represents a table row
 	 *
 	 * If the model state is unique a row is fetched from the database based on the state.
