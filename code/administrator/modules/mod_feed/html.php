@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mod_banners.php 2176 2011-07-12 14:08:26Z johanjanssens $
+ * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
@@ -10,16 +10,19 @@
  */
 
 /**
- * Module Feed
+ * Feed Module Html View Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-
-echo KFactory::tmp('admin::mod.feed.html')
-        ->assign('params' , $params)
-    	->assign('module' , $module)
-    	->assign('attribs', $attribs)
-    	->display();
+ 
+class ModFeedHtml extends ModDefaultHtml
+{
+    public function display()
+    { 
+        $this->feed = JFactory::getFeedParser($this->params->get('rssurl'), $this->params->get('cache_time', 15) * 60);	
+        return parent::display();
+    }
+} 
