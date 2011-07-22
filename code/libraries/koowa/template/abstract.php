@@ -169,6 +169,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
+	 * Get the template data
+	 * 
+	 * @return	mixed
+	 */
+	public function getData()
+	{
+		return $this->_data;
+	}
+	
+	/**
 	 * Get the template stack object
  	 *
 	 * @return 	KTemplateStack
