@@ -24,15 +24,19 @@ class ModBannersHtml extends ModDefaultHtml
     
     public function display()
     { 
+        $this->assign('header_text'    , trim($this->module->params->get('header_text')));
+        $this->assign('footer_text'    , trim($this->module->params->get('footer_text')));
+        $this->assign('moduleclass_sfx', $this->module->params->get('moduleclass_sfx'));
+        
         // Module parameters
         $model = KFactory::tmp('site::com.banners.model.banners')
                     ->enabled(1)
-                    ->category($this->params->get('catid'))
-                    ->sort($this->params->get('ordering', 0))
-                    ->limit($this->params->get('count', 1));
+                    ->category($this->module->params->get('catid'))
+                    ->sort($this->module->params->get('ordering', 0))
+                    ->limit($this->module->params->get('count', 1));
            
         // Manage tags search
-        if ($this->params->get('tag_search')) {
+        if ($this->module->params->get('tag_search')) {
             $model->tags($this->_getKeywords());
         }
                

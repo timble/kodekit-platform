@@ -11,22 +11,22 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div class="bannergroup<?php echo $params->get( 'moduleclass_sfx' ) ?>">
+<div class="bannergroup<?= $moduleclass_sfx ?>">
 
-<? if (trim( $params->get( 'header_text' ) )) : ?>
-<div class="bannerheader"><?= trim( $params->get( 'header_text' ) ) ?></div>
+<? if ($header_text) : ?>
+<div class="bannerheader"><?= trim( $header_text ) ?></div>
 <? endif; ?>
 
 <? foreach($banners as $banner) : ?>
-<div class="banneritem<?= $params->get( 'moduleclass_sfx' ) ?>">
+<div class="banneritem<?= $moduleclass_sfx ?>">
 	<?= @template('site::mod.banners.default_'.$banner->type, array('banner' => $banner)); ?>
 	<div class="clr"></div>
 </div>
 <?php endforeach; ?>
 
-<? if (trim( $params->get( 'footer_text' ) )) : ?>
-<div class="bannerfooter<?$params->get( 'moduleclass_sfx' ) ?>">
-    <?= trim( $params->get( 'footer_text' ) ) ?>
+<? if ($footer_text) : ?>
+<div class="bannerfooter<?= $moduleclass_sfx ?>">
+    <?= $footer_text; ?>
 </div>
 <? endif; ?>
 </div>
