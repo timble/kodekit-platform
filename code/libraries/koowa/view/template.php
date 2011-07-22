@@ -73,6 +73,9 @@ abstract class KViewTemplate extends KViewAbstract
         
         // set the auto assign state
         $this->_auto_assign = $config->auto_assign;
+        
+        //set the data
+        $this->_data = KConfig::toData($config->data);
           
          // user-defined escaping callback
         $this->setEscape($config->escape);
@@ -114,6 +117,7 @@ abstract class KViewTemplate extends KViewAbstract
         $identifier = clone $this->_identifier;
         
         $config->append(array(
+            'data'			   => array(),
             'escape'           => 'htmlspecialchars',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link', 'template'),
