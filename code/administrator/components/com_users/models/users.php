@@ -33,7 +33,8 @@ class ComUsersModelUsers extends KModelTable
             ->insert('email'       , 'email', null, true)
             ->insert('username'    , 'alnum', null, true)
             ->insert('group_name'  , 'string')
-            ->insert('group', 'int');
+            ->insert('group'       , 'int')
+            ->insert('loggedin'    , 'boolean', false);
 	}
 
 	/**
@@ -45,11 +46,17 @@ class ComUsersModelUsers extends KModelTable
 	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
 	    parent::_buildQueryColumns($query);
+	    
+	    $state = $this->_state;
 
-	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS logged_in');
+	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS loggedin');
 	    $query->select('IF(tbl.block = 1, 0, 1) AS enabled');
+	    
+	    if($state->loggedin) {
+	        $query->select(array('session.client_id AS loggedin_client_id', 'session.time AS loggedin_on', 'session.session_id AS loggedin_session_id'));
+	    }
 	}
-
+	
 	/**
      * Builds LEFT JOINS clauses for the query.
      *
@@ -58,7 +65,13 @@ class ComUsersModelUsers extends KModelTable
      */
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-	    $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+	    $state = $this->_state;
+	    
+	    if($state->loggedin) {
+			$query->join('RIGHT', 'session AS session', 'tbl.id = session.userid');
+        } else {
+            $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+        }
 	}
 
 	/**
@@ -70,19 +83,21 @@ class ComUsersModelUsers extends KModelTable
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		parent::_buildQueryWhere($query);
+		
+		$state = $this->_state;
 
-		if($this->_state->group) {
-			$query->where('tbl.gid', '=', $this->_state->group);
+		if($state->group) {
+			$query->where('tbl.gid', '=', $state->group);
 		}
 
-	    if($this->_state->group_name) {
+	    if($state->group_name) {
             // @TODO: Change usertype to group_name when mapping is fixed.
-            $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
+            $query->where('LOWER(tbl.usertype)', '=', $state->group_name);
         }
 
-	   if($this->_state->search) {
-            $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
-                ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
+	    if($state->search) {
+            $query->where('name', 'LIKE', '%'.$state->search.'%')
+                  ->where('email', 'LIKE', '%'.$state->search.'%', 'OR');
         }
 	}
 }
