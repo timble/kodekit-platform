@@ -18,8 +18,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route() ?>" method="post" id="com-form-login">
     <input type="hidden" name="action" value="login" />
-    <? if ($return): ?>
-    <input type="hidden" name="return" value="<?=$return?>" />
+    <? if ($return = $parameters->get('login')): ?>
+    <input type="hidden" name="return" value="<?=base64_encode($return)?>" />
     <? endif ?>
 
     <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>">
