@@ -19,6 +19,6 @@
  */
 
 echo KFactory::tmp('site::mod.search.html')
-    	->assign('module' , $module)
-    	->assign('attribs', $attribs)
+    	->module($module)
+    	->attribs($attribs)
     	->display();

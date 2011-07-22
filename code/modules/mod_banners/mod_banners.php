@@ -21,6 +21,6 @@
 KLoader::load('site::com.banners.mappings');
 
 echo KFactory::tmp('site::mod.banners.html')
-    	->assign('module' , $module)
-    	->assign('attribs', $attribs)
+    	->module($module)
+    	->attribs($attribs)
     	->display();
