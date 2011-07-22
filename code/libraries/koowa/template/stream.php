@@ -155,6 +155,17 @@ class KTemplateStream
     {
         
     }
+    
+	/**
+     * Retrieve the underlaying resource	
+     *	
+     * @param  int  $cast_as
+     * @return boolean  	Always returns false as there is nounderlaying resource to return.	
+     */
+    public function stream_cast($cast_as)
+    {
+        return false; 
+    }
 
     /**
      * Seek to a specific point in the stream.
