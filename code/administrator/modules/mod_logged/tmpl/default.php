@@ -1,69 +1,55 @@
 <?php
-/** $Id: default.php 10381 2008-06-01 03:35:53Z pasamio $ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
+/**
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Banners
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
-<form method="post" action="index.php?option=com_users">
-	<table class="adminlist">
-		<thead>
-			<tr>
-				<td class="title">
-					<strong><?php echo '#' ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_( 'Name' ); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_( 'Group' ); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_( 'Client' ); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_( 'Last Activity' ); ?></strong>
-				</td>
-			</tr>
-		</thead>
-		<tbody>
-	<?php
-		$i		= 0;
-		$now	= time();
-		foreach ($rows as $row) :
-			$auth = $user->authorize( 'com_users', 'manage' );
-			if ($auth) :
-				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
-				$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
-			else :
-				$name 	= $row->username;
-			endif;
+defined('KOOWA') or die('Restricted access'); ?>
 
-			$clientInfo =& JApplicationHelper::getClientInfo($row->client_id);
-			?>
-			<tr>
-				<td width="5%">
-					<?php echo $pageNav->getRowOffset( $i ); ?>
-				</td>
-				<td>
-					<?php echo $name;?>
-				</td>
-				<td>
-					<?php echo $row->usertype;?>
-				</td>
-				<td>
-					<?php echo $clientInfo->name;?>
-				</td>
-				<td>
-					<?php echo JText::sprintf( 'activity hours', ($now - $row->time)/3600.0 );?>
-				</td>
-			</tr>
-			<?php
-			$i++;
-		endforeach;
-		?>
-		</tbody>
-	</table>
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="client" value="" />
-	<input type="hidden" name="cid[]" id="cid_value" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
-</form>
+<table class="adminlist">
+<thead>
+	<tr>
+		<th>
+			<strong><?= @text( 'Name' ); ?></strong>
+		</th>
+		<th>
+			<strong><?= @text( 'User Group' ); ?></strong>
+		</th>
+		<th>
+			<strong><?= @text( 'Application' ); ?></strong>
+		</th>
+		<th>
+			<strong><?= @text( 'Last Activity' ); ?></strong>
+		</th>
+	</tr>
+</thead>
+<tbody>
+<?php foreach ($users as $user) : ?>
+   <tr>
+		<td>
+			<? if (KFactory::get('lib.joomla.user')->authorize( 'com_users', 'manage' )) : ?>
+		    	<a href="<?=  @route('index.php?option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
+		    		<?= $user->username; ?>
+		    	</a>
+		       <? else : ?>
+		           <?= $user->username; ?>
+		       <? endif; ?>
+		</td>
+		<td>
+			<?= $user->group_name;?>
+		</td>
+		<td>
+			<?= JApplicationHelper::getClientInfo($user->loggedin_client_id)->name;?>
+		</td>
+		<td>
+			<?= @helper('admin::com.users.template.helper.date.humanize', array('date' => $user->loggedin_on - date_offset_get(new DateTime)));?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
