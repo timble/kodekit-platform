@@ -19,7 +19,6 @@
  */
 
 echo KFactory::tmp('admin::mod.feed.html')
-        ->assign('params' , $params)
-    	->assign('module' , $module)
-    	->assign('attribs', $attribs)
+    	->module($module)
+    	->attribs($attribs)
     	->display();

@@ -19,6 +19,6 @@
  */
 
 echo KFactory::tmp('admin::mod.logged.html')
-    	->assign('module' , $module)
-    	->assign('attribs', $attribs)
+    	->module($module)
+    	->attribs($attribs)
     	->display();
