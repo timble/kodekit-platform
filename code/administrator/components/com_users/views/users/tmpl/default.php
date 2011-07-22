@@ -27,7 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					<?= @helper('grid.sort',  array('title' => 'Username', 'column' => 'username')) ?>
 				</th>
 				<th width="8%">
-					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'logged_in')) ?>
+					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
 				</th>
 				<th width="8%">
 					<?= @helper('grid.sort',  array('title' => 'Enabled', 'column' => 'enabled')) ?>
@@ -79,7 +79,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 					<?= @escape($user->username) ?>
 				</td>
 				<td align="center">
-					<img src="media://system/images/<?= $user->logged_in ? 'tick.png' : 'publish_x.png' ?>" border="0" />
+					<img src="media://system/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
 				</td>
 				<td align="center">
 					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
