@@ -157,10 +157,10 @@ class KTemplateStream
     }
     
 	/**
-     * Retrieve the underlaying resource	
+     * Signal that stream_select is not supported by returning false	
      *	
-     * @param  int  $cast_as
-     * @return boolean  	Always returns false as there is nounderlaying resource to return.	
+     * @param  int   Can be STREAM_CAST_FOR_SELECT or STREAM_CAST_AS_STREAM
+     * @return bool  Always returns false as there is nounderlaying resource to return.	
      */
     public function stream_cast($cast_as)
     {
