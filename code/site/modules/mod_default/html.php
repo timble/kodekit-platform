@@ -20,21 +20,6 @@
 class ModDefaultHtml extends KViewHtml
 {
     /**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-        
-        //Assign module specific options
-        $this->params  = $config->params;
-        $this->module  = $config->module;
-        $this->attribs = $config->attribs;
-    }
-    
-    /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -48,10 +33,11 @@ class ModDefaultHtml extends KViewHtml
         $template->name = 'template';
         
         $config->append(array(
-            'template'    => $template,
-            'params'      => null,
-            'module'      => null,
-            'attribs'     => array(),
+            'template' 		   => $template,
+        	'template_filters' => array('site::mod.default.chrome'),
+            'data'			   => array(
+                'styles' => array() 
+            )
         ));
         
         parent::_initialize($config);
@@ -74,10 +60,34 @@ class ModDefaultHtml extends KViewHtml
      */
     public function display()
     { 
-        $this->output = $this->getTemplate()
+		//Load the language files.
+		//Type only exists if the module is loaded through ComExtensionsModelsModules
+		if(isset($this->module->type)) {
+            KFactory::get('lib.joomla.language')->load($this->module->type);
+		}
+        
+        $this->module->content = $this->getTemplate()
                 ->loadIdentifier($this->_layout, $this->_data)
                 ->render();
-                
-        return $this->output;
+	
+        return $this->module->content;
+    }
+    
+    /**
+     * Set a view properties
+     *
+     * @param   string  The property name.
+     * @param   mixed   The property value.
+     */
+    public function __set($property, $value)
+    {
+        if($property == 'module') 
+        {
+            if(is_string($value->params)) {
+                $value->params = new JParameter($value->params);
+            }
+        }
+        
+        parent::__set($property, $value);
     }
 }
