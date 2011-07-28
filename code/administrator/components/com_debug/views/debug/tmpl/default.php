@@ -11,6 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_debug/css/debug-default.css" />
+<script src="media://com_debug/js/keyboard.js" />
 <script src="media://com_debug/js/debug.js" />
 
 <div id="debug" class="profiler">
