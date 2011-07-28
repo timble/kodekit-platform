@@ -1,5 +1,6 @@
 #debug {
 	height: 300px;
+	overflow: hidden;
 	border-top: 2px solid #AAA;
 }
 
