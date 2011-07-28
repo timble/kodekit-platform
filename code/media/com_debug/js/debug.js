@@ -8,12 +8,18 @@ window.addEvent('domready', function(){
 
 	new Element('div', {
 		'id': 'debug-handle',
-		'class': 'sidebar-resizer-horizontal',
+		'class': 'resize-handle-ns',
 		'styles': {
-			'top': '80%'
+			'top': '80%',
+			'cursor': 'ns-resize',
+			'height': '4px',
+			'margin-top': '-1px',
+			'position': 'absolute',
+			'width': '100%'
 		}
 	}).inject($('debug'), 'before');
-	return;
+
+    var bodyHeight = document.body.getSize().y;
 	$('debug-handle').makeDraggable({
 		//style: false,
 		
@@ -22,21 +28,24 @@ window.addEvent('domready', function(){
 			y: 'top'
 		},
 		onBeforeStart: function(element){
-			var coor = element.getCoordinates();
+			var coor = element.getCoordinates(), bodyHeight = document.body.getSize().y;
 			element.setStyle('top', coor.top+3);
+			console.warn('ai ai');
 		},
 		onDrag: function(element){
-			var height = this.element.getStyle(this.options.modifiers.y).toFloat(), offset = height+3, total = document.body.getSize().y, percent = (height/total)*100;
+		    console.warn('ei ei', this.element);
+			var height = this.element.getStyle(this.options.modifiers.y).toFloat(), offset = height+3, percent = (height/bodyHeight)*100;
 			$('container').setStyle('height', percent + '%');
 			$('debug').setStyle('height', (100-percent) + '%');
 			cookie.set('position', percent);
-			window.fireEvent('resize');
+			console.warn('oi oi');
 		},
 		onComplete: function(element){
-			var height = $('container').getSize().y+3, total = document.body.getSize().y, percent = (height/total)*100;
+			var height = $('container').getSize().y+3, percent = (height/bodyHeight)*100;
 			element.setStyle('top', percent + '%');
 		}
 	});
+	return;
 	$('debug-handle').setStyle('top', ( (($('container').getSize().y+3)/document.body.getSize().y)*100 ) + '%');
 	
 	if(cookie.get('hidden')) {
