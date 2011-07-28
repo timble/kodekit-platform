@@ -1,7 +1,13 @@
+/* This overflow hidden on the container is for making the resize work smoothly */
+#container {
+    overflow: hidden;
+}
+
 #debug {
 	height: 300px;
 	overflow: hidden;
 	border-top: 2px solid #AAA;
+	position: relative;
 }
 
 #debug .current { overflow: auto !important; -webkit-box-flex: 1; height: 260px; } /* scroll inside the tabs */
