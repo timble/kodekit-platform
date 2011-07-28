@@ -10,6 +10,13 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<style src="media://com_debug/highlighter/prettify.css" />
+<script src="media://com_debug/highlighter/prettify.js" />
+<script src="media://com_debug/highlighter/lang-sql.js" />
+<script>
+window.addEvent('domready', prettyPrint);
+</script>
+
 <table>
 	<thead>
     	<tr>
@@ -25,7 +32,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
   			<td><?= $key + 1; ?></td>
 			<td><?= $query->operation; ?></td>
             <td><?= sprintf('%.3f', $query->time*1000).' msec' ?></td>
-            <td><pre><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', '<br />\\0', $query->query); ?></pre></td>
+            <td><pre class="prettyprint lang-sql"><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', "\n".'\\0', $query->query); ?></pre></td>
         </tr>
          <? endforeach; ?>
   	</tbody>
