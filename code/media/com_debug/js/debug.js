@@ -13,13 +13,14 @@ window.addEvent('domready', function(){
 			'top': '80%',
 			'cursor': 'ns-resize',
 			'height': '4px',
-			'margin-top': '-1px',
+			'margin-top': '-5px',
 			'position': 'absolute',
-			'width': '100%'
+			'width': '100%',
+			'z-index': '2'
 		}
 	}).inject($('debug'), 'before');
 
-    var bodyHeight = document.body.getSize().y;
+    var bodyHeight = document.body.clientHeight;
 	$('debug-handle').makeDraggable({
 		//style: false,
 		
@@ -28,25 +29,22 @@ window.addEvent('domready', function(){
 			y: 'top'
 		},
 		onBeforeStart: function(element){
-			var coor = element.getCoordinates(), bodyHeight = document.body.getSize().y;
+			var coor = element.getCoordinates(), bodyHeight = document.body.clientHeight;
 			element.setStyle('top', coor.top+3);
-			console.warn('ai ai');
 		},
 		onDrag: function(element){
-		    console.warn('ei ei', this.element);
 			var height = this.element.getStyle(this.options.modifiers.y).toFloat(), offset = height+3, percent = (height/bodyHeight)*100;
 			$('container').setStyle('height', percent + '%');
 			$('debug').setStyle('height', (100-percent) + '%');
 			cookie.set('position', percent);
-			console.warn('oi oi');
+			window.fireEvent('resize');
 		},
 		onComplete: function(element){
 			var height = $('container').getSize().y+3, percent = (height/bodyHeight)*100;
 			element.setStyle('top', percent + '%');
 		}
 	});
-	return;
-	$('debug-handle').setStyle('top', ( (($('container').getSize().y+3)/document.body.getSize().y)*100 ) + '%');
+	$('debug-handle').setStyle('top', ( (($('container').getSize().y+3)/bodyHeight)*100 ) + '%');
 	
 	if(cookie.get('hidden')) {
 		$$('#debug', '#debug-handle').setStyle('display', 'none');
