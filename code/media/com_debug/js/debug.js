@@ -50,7 +50,6 @@ window.addEvent('domready', function(){
 		$$('#debug', '#debug-handle').setStyle('display', 'none');
 		$('container').setStyle('height', '');
 	}
-	return;
 	window.fireEvent('resize');
 	
 	var myKeyboardEvents = new Keyboard({
