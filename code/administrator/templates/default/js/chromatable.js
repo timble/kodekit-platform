@@ -104,6 +104,48 @@ var ChromaTable = new Class({
             cloned.getElements('input, select, button').set('disabled', 'disabled').removeProperty('name');
             
             elements.include(cloned);
+            
+            //Do sortable magic
+            var sortables = thead.getElements('th.-koowa-sortable'), tbody = this.table.getElement('tbody'), rows;
+            tbody.getChildren().each(function(tr, i){
+                tr.set('data-index', i);
+            });
+            sortables.each(function(sortable, i){
+                sortable.addEvent('click', function(){
+                    rows = tbody.getChildren().sort(function(a, b){
+                        var leftCell = a.getChildren('.-koowa-sortable')[i], rightCell = b.getChildren('.-koowa-sortable')[i];
+                        
+                        if(!leftCell.retrieve('comparable')) {
+                            leftValue = leftCell.get('data-comparable') || leftCell.get('text');
+                            try {
+                            leftValue = JSON.parse ? JSON.parse(leftValue) : JSON.decode(leftValue);
+                            } catch(e) {}
+                            leftCell.store('comparable', leftValue);
+                        } else {
+                            leftValue = leftCell.retrieve('comparable');
+                        }
+                        
+                        if(!rightCell.retrieve('comparable')) {
+                            rightValue = rightCell.get('data-comparable') || rightCell.get('text');
+                            try {
+                            rightValue = JSON.parse ? JSON.parse(rightValue) : JSON.decode(rightValue);
+                            } catch(e) {}
+                            rightCell.store('comparable', rightValue);
+                        } else {
+                            rightValue = rightCell.retrieve('comparable');
+                        }
+                        
+                        if(leftValue === rightValue) {
+                            var sort = sortable.hasClass('-koowa-sortable-reverse') ? a.get('data-index').toInt(10) < b.get('data-index').toInt(10) : a.get('data-index').toInt(10) > b.get('data-index').toInt(10);
+                            return sort ? 1 : -1;
+                        }
+                        var sort = sortable.hasClass('-koowa-sortable-reverse') ? leftValue < rightValue : leftValue > rightValue;
+                        return sort ? 1 : -1;
+                    });
+                    tbody.adopt(rows);
+                    sortable.toggleClass('-koowa-sortable-reverse');
+                }.bind(this));
+            }, this);
 		}
         
 		if(this.tfoot) {	
