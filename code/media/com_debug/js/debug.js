@@ -6,28 +6,28 @@ window.addEvent('domready', function(){
 	$('container').setStyle('height', Math.max(10, Math.min(90, y))+'%');
 	$('debug').setStyle('height', (100-y) + '%');
 
+    var bodyHeight = document.body.clientHeight, content = $('content-box'), maxHeight = content && content.getPosition().y, minLimit = parseInt((maxHeight || bodyHeight*0.2) + 130, 10), maxLimit = parseInt(bodyHeight*0.8, 10), cursor;
+    
 	new Element('div', {
 		'id': 'debug-handle',
 		'class': 'resize-handle-ns',
 		'styles': {
 			'top': '80%',
 			'cursor': 'ns-resize',
-			'height': '4px',
-			'margin-top': '-5px',
+			'height': '6px',
+			'margin-top': '-2px',
 			'position': 'absolute',
 			'width': '100%',
 			'z-index': '2'
 		}
-	}).inject($('debug'), 'before');
+	}).inject($('debug'), 'before');    
 
-    var bodyHeight = document.body.clientHeight, content = $('content-box'), maxHeight = content && content.getPosition().y;
-    console.log([bodyHeight*0.3, 1000]);
 	$('debug-handle').makeDraggable({
 		//style: false,
 		
 		limit: {
 		    x: false,
-		    y: [(maxHeight || bodyHeight*0.2) + 130, bodyHeight*0.8]
+		    y: [minLimit, maxLimit]
 		},
 		modifiers: {
 			x: false,
@@ -38,8 +38,7 @@ window.addEvent('domready', function(){
 			bodyHeight = document.body.clientHeight;
 			maxHeight = content && content.getPosition().y;
 			this.options.limit.y = [(maxHeight || bodyHeight*0.2) + 130, bodyHeight*0.8];
-			element.setStyle('top', coor.top+3);
-			document.body.setStyle('cursor', element.getStyle('cursor'));
+			element.setStyle('top', coor.top+2);
 		},
 		onDrag: function(element){
 			var height = this.element.getStyle(this.options.modifiers.y).toFloat(), offset = height+3, percent = (height/bodyHeight)*100;
@@ -47,17 +46,40 @@ window.addEvent('domready', function(){
 			$('debug').setStyle('height', (100-percent) + '%');
 			cookie.set('position', percent);
 			
-			console.log(this.limit);
+			//Reached minimum height, change cursor
+			if(this.limit.y[1] == this.value.now.y) {
+			    element.setStyle('cursor', 'n-resize');
+			    document.body.setStyle('cursor', 'n-resize');
+			//Reached maximum height, change cursor again
+			} else if(this.limit.y[0] == this.value.now.y) {
+			    element.setStyle('cursor', 's-resize');
+			    document.body.setStyle('cursor', 's-resize');
+			//No limit reached, set cursor to standard
+			} else {
+			    element.setStyle('cursor', 'ns-resize');
+			    document.body.setStyle('cursor', 'ns-resize');
+			}
 			
 			window.fireEvent('resize');
 		},
 		onComplete: function(element){
-			var height = $('container').getSize().y+3, percent = (height/bodyHeight)*100;
+			var height = $('container').getSize().y, percent = (height/bodyHeight)*100;
 			element.setStyle('top', percent + '%');
 			document.body.setStyle('cursor', '');
 		}
 	});
-	$('debug-handle').setStyle('top', ( (($('container').getSize().y+3)/bodyHeight)*100 ) + '%');
+	$('debug-handle').setStyle('top', ( (($('container').getSize().y)/bodyHeight)*100 ) + '%');
+	
+	//Set cursor depending on boundaries
+	var barY = $('debug-handle').getCoordinates().top + 2;
+	if(maxLimit == barY) {
+	    cursor = 'n-resize';
+	} else if(minLimit == barY) {
+	    cursor = 's-resize';
+	} else {
+	    cursor = 'ns-resize';
+	}
+	$('debug-handle').setStyle('cursor', cursor);
 	
 	if(cookie.get('hidden')) {
 		$$('#debug', '#debug-handle').setStyle('display', 'none');
