@@ -53,7 +53,7 @@
     background-position: 10px bottom;
 }
 #debug div.current {
-    padding: 0 20px;
+    padding: 0;
     background-color: #FFF;
     /* Why is the negative margin needed to clear the 2px whitespace? */
     margin-top: -2px;
@@ -61,6 +61,9 @@
 #debug div.current dd {
     padding: 0;
     margin: 0;
+}
+#debug div.current h4 {
+    padding: 0 10px;
 }
 /* @group Close button */
 #debug .close {
