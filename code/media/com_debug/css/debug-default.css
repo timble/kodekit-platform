@@ -49,6 +49,9 @@
     background-position: 10px 0px; background-repeat: no-repeat;
     display: table-cell; vertical-align: middle;
 }
+#debug dl.tabs dt:active span {
+    background-position: 10px bottom;
+}
 #debug div.current {
     padding: 0 20px;
     background-color: #FFF;
