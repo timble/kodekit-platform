@@ -14,7 +14,7 @@
 
 /* @group JS related */
 #tabs-debug::after {
-        content: 'press ctrl+i to hide the debug bar';
+        content: 'type the letter "d" to toggle the debug bar';
         margin-top: 13px;
         position: absolute;
         right: 30px;

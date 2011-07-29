@@ -90,7 +90,7 @@ window.addEvent('domready', function(){
 	var myKeyboardEvents = new Keyboard({
 		defaultEventType: 'keyup', 
 		events: { 
-			'ctrl+i': function(){
+			'd': function(){
 				if(cookie.get('hidden')) {
 					$$('#debug', '#debug-handle').setStyle('display', '');
 					$('container').setStyle('height', cookie.get('position').toFloat() + '%');
