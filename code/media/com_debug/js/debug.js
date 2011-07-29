@@ -85,7 +85,16 @@ window.addEvent('domready', function(){
 		$$('#debug', '#debug-handle').setStyle('display', 'none');
 		$('container').setStyle('height', '');
 	}
+	
+	//Height fix for scrollbars and such
+	window.addEvent('resize', function(){
+	    var element = $('debug').getElement('.current');
+	    if(element) element.setStyle('height', document.body.clientHeight - element.getPosition().y);
+	});
+	
 	window.fireEvent('resize');
+	//To prevent flash of faulty height
+	document.head.grab(new Element('style', {text: '#debug .current {height: '+(document.body.clientHeight-$('container').getSize().y-43)+'px}'}));
 	
 	var toggle = function(){
 	    if(cookie.get('hidden')) {
