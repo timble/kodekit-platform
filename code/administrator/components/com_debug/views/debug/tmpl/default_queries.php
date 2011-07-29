@@ -20,18 +20,18 @@ window.addEvent('domready', prettyPrint);
 <table class="adminlist">
 	<thead>
     	<tr>
-    		<th><?= @text('#') ?></th>
-    		<th><?= @text('Type') ?></th>
-    		<th><?= @text('Time'); ?></th>
+    		<th class="-koowa-sortable"><?= @text('#') ?></th>
+    		<th class="-koowa-sortable"><?= @text('Type') ?></th>
+    		<th class="-koowa-sortable"><?= @text('Time'); ?></th>
     		<th><?= @text('Query'); ?></th>
     	</tr>
   	</thead>
   	<tbody>
   		<?foreach ($queries as $key => $query) : ?>
   		<tr>  
-  			<td><?= $key + 1; ?></td>
-			<td><?= $query->operation; ?></td>
-            <td><?= sprintf('%.3f', $query->time*1000).' msec' ?></td>
+  			<td class="-koowa-sortable"><?= $key + 1; ?></td>
+			<td class="-koowa-sortable"><?= $query->operation; ?></td>
+            <td class="-koowa-sortable" data-comparable="<?= $query->time*1000 ?>"><?= sprintf('%.3f', $query->time*1000).' msec' ?></td>
             <td><pre class="prettyprint lang-sql"><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', "\n".'\\0', $query->query); ?></pre></td>
         </tr>
          <? endforeach; ?>
