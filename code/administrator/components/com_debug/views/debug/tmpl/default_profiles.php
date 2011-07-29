@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<table>
+<table class="adminlist">
 	<thead>
     	<tr>
     		<th><?= @text('Identifier') ?></th>
