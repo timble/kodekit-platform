@@ -31,6 +31,7 @@ window.addEvent('domready', function(){
 		onBeforeStart: function(element){
 			var coor = element.getCoordinates(), bodyHeight = document.body.clientHeight;
 			element.setStyle('top', coor.top+3);
+			document.body.setStyle('cursor', element.getStyle('cursor'));
 		},
 		onDrag: function(element){
 			var height = this.element.getStyle(this.options.modifiers.y).toFloat(), offset = height+3, percent = (height/bodyHeight)*100;
@@ -42,6 +43,7 @@ window.addEvent('domready', function(){
 		onComplete: function(element){
 			var height = $('container').getSize().y+3, percent = (height/bodyHeight)*100;
 			element.setStyle('top', percent + '%');
+			document.body.setStyle('cursor', '');
 		}
 	});
 	$('debug-handle').setStyle('top', ( (($('container').getSize().y+3)/bodyHeight)*100 ) + '%');
