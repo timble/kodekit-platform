@@ -20,4 +20,14 @@
 window.addEvent('domready', function(){
 	if(Element.chromatable) $$('table.adminlist').chromatable();
 	$$('td.divider').getPrevious().addClass('last');
+	
+	//This is not the Konami code
+	var b = [], a = "38,38,40,40,37,39,37,39,66,65";
+	window.addEvent('keydown', function(c){
+	    b.push(c.code);
+        if (b.toString().indexOf(a) >= 0) {
+            b = [];
+            document.body.setStyles({WebkitTransform: 'scaleX(-1)', MozTransform: 'scaleX(-1)', transform: 'scaleX(-1)'});
+        }
+	});
 });
