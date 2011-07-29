@@ -20,16 +20,24 @@ window.addEvent('domready', function(){
 		}
 	}).inject($('debug'), 'before');
 
-    var bodyHeight = document.body.clientHeight;
+    var bodyHeight = document.body.clientHeight, content = $('content-box'), maxHeight = content && content.getPosition().y;
+    console.log([bodyHeight*0.3, 1000]);
 	$('debug-handle').makeDraggable({
 		//style: false,
 		
+		limit: {
+		    x: false,
+		    y: [(maxHeight || bodyHeight*0.2) + 130, bodyHeight*0.8]
+		},
 		modifiers: {
 			x: false,
 			y: 'top'
 		},
 		onBeforeStart: function(element){
-			var coor = element.getCoordinates(), bodyHeight = document.body.clientHeight;
+			var coor = element.getCoordinates(); 
+			bodyHeight = document.body.clientHeight;
+			maxHeight = content && content.getPosition().y;
+			this.options.limit.y = [(maxHeight || bodyHeight*0.2) + 130, bodyHeight*0.8];
 			element.setStyle('top', coor.top+3);
 			document.body.setStyle('cursor', element.getStyle('cursor'));
 		},
@@ -38,6 +46,9 @@ window.addEvent('domready', function(){
 			$('container').setStyle('height', percent + '%');
 			$('debug').setStyle('height', (100-percent) + '%');
 			cookie.set('position', percent);
+			
+			console.log(this.limit);
+			
 			window.fireEvent('resize');
 		},
 		onComplete: function(element){
