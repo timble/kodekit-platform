@@ -87,21 +87,26 @@ window.addEvent('domready', function(){
 	}
 	window.fireEvent('resize');
 	
-	var myKeyboardEvents = new Keyboard({
-		defaultEventType: 'keyup', 
-		events: { 
-			'd': function(){
-				if(cookie.get('hidden')) {
-					$$('#debug', '#debug-handle').setStyle('display', '');
-					$('container').setStyle('height', cookie.get('position').toFloat() + '%');
-					cookie.erase('hidden');
-				} else {
-					$$('#debug', '#debug-handle').setStyle('display', 'none');
-					$('container').setStyle('height', '');
-					cookie.set('hidden', true);
-				}
-				window.fireEvent('resize');
-			}
-		}
+	var toggle = function(){
+	    if(cookie.get('hidden')) {
+	    	$$('#debug', '#debug-handle').setStyle('display', '');
+	    	$('container').setStyle('height', cookie.get('position').toFloat() + '%');
+	    	cookie.erase('hidden');
+	    } else {
+	    	$$('#debug', '#debug-handle').setStyle('display', 'none');
+	    	$('container').setStyle('height', '');
+	    	cookie.set('hidden', true);
+	    }
+	    window.fireEvent('resize');
+	};
+	window.addEvent('keypress', function(event){
+	    if(event.target !== document.body || event.key !== 'd') return;
+
+	    toggle();
+	});
+	$('debug').getElement('.close').addEvent('click', function(event){
+	    event.stop();
+
+	    toggle();
 	});
 });
