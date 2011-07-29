@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 window.addEvent('domready', prettyPrint);
 </script>
 
-<table>
+<table class="adminlist">
 	<thead>
     	<tr>
     		<th><?= @text('#') ?></th>
