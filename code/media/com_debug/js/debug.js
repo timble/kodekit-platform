@@ -87,9 +87,21 @@ window.addEvent('domready', function(){
 	}
 	
 	//Height fix for scrollbars and such
+	var doubletap;
 	window.addEvent('resize', function(){
 	    var element = $('debug').getElement('.current');
-	    if(element) element.setStyle('height', document.body.clientHeight - element.getPosition().y);
+	    if(element) {
+	        element.setStyle('height', document.body.clientHeight - element.getPosition().y);
+	        // we may need to double tap
+	        clearTimeout(doubletap);
+	        doubletap = setTimeout(function(){
+	            element.setStyle('height', document.body.clientHeight - element.getPosition().y);
+	        }, 10);
+	    }
+	});
+	//Another fix for chromatable
+	$('tabs-debug').getElements('dt').addEvent('click', function(){
+	    window.fireEvent('resize', [], 0.1);
 	});
 	
 	window.fireEvent('resize');
