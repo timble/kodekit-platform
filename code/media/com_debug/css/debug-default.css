@@ -57,6 +57,27 @@
     padding: 0;
     margin: 0;
 }
+/* @group Close button */
+#debug .close {
+    position: absolute;
+    top: 13px;
+    left: 6px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-image: url(../images/close.png);
+}
+#debug .close:hover {
+    background-position: -14px 0;
+}
+#debug .close:active {
+    background-position: -28px 0;
+}
+
+#debug dl.tabs .icon-32-profiles {
+    margin-left: 26px;
+}
+/* @end */
 /* @end */
 
 /* @group Icons */
