@@ -98,3 +98,9 @@
 .icon-32-storage span           { background-image: url(../images/icon-32-storage.png); }
 .icon-32-timeline span          { background-image: url(../images/icon-32-timeline.png); }
 /* @end */
+
+/* @group horizontal scrollbar fix */
+#debug .prettyprint {
+    white-space: pre-line;
+}
+/* @end */
