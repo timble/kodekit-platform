@@ -55,6 +55,8 @@
 #debug div.current {
     padding: 0 20px;
     background-color: #FFF;
+    /* Why is the negative margin needed to clear the 2px whitespace? */
+    margin-top: -2px;
 }
 #debug div.current dd {
     padding: 0;
