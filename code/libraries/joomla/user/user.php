@@ -194,6 +194,23 @@ class JUser extends JObject
 
 		if (empty($instances[$id])) {
 			$user = new JUser($id);
+            
+            // Legacy: Return gid and usertype of parent core group.
+            if($user->gid > 30) {
+                $group = KFactory::tmp('admin::com.groups.model.groups')
+                    ->set('id', $user->gid)
+                    ->getItem();
+
+                foreach($group->getParents('DESC') as $parent) {
+                    if($parent->id < 30) {
+                        $user->gid      = $parent->id;
+                        $user->usertype = $parent->name;
+                        
+                        break;
+                    }
+                }
+            }
+            
 			$instances[$id] = $user;
 		}
 
