@@ -32,8 +32,8 @@ if(Form && Form.Validator) {
 
 <form action="<?= @route('id='.$user->id) ?>" method="post" class="-koowa-form">
 	<div class="grid_8">
-		<fieldset class="adminform">
-			<legend><?= @text('User Details') ?></legend>
+		<div class="panel">
+			<h3><?= @text('User Details') ?></h3>
 			<table class="admintable">
 				<tr>
 					<td class="key">
@@ -85,19 +85,12 @@ if(Form && Form.Validator) {
 						<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
 					</td>
 				</tr>
-				<tr>
-                    <td class="key">
-                        <label for="users_group_id">
-                            <?= @text('Group') ?>:
-                        </label>
-                    </td>
-                    <td>
-                       <?= @helper('admin::com.groups.template.helper.select.groups', array('selected' => $user->users_group_id, 'name' => 'users_group_id')) ?>
-                    </td>
-                </tr>
 			</table>
+		</div>
+		<div class="panel">
+			<h3><?= @text('User Parameters') ?></h3>
 			<?= $user->params->render('params'); ?>
-		</fieldset>
+		</div>
 	</div>
 	<div class="grid_4">
 		<div class="panel">
@@ -150,6 +143,10 @@ if(Form && Form.Validator) {
 				</tr>
 				<? endif; ?>
 			</table>
+		</div>
+		<div class="panel">
+			<h3><?= @text('Group') ?></h3>
+			<?= @helper('admin::com.groups.template.helper.select.groups', array('selected' => $user->users_group_id, 'name' => 'users_group_id')) ?>
 		</div>
 	</div>
 </form>

@@ -22,7 +22,7 @@ defined('KOOWA') or die( 'Restricted access' );
 		</li>
 		<? foreach($groups as $group) : ?>
             <li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
-                <a href="<?= @route('group='.$group->id) ?>">
+                <a style="padding-left: <?= ($group->depth * 15) + 22 ?>px" href="<?= @route('group='.$group->id) ?>">
                     <?= $group->name ?>
                 </a>
             </li>
