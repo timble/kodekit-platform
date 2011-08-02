@@ -21,11 +21,13 @@ defined('KOOWA') or die( 'Restricted access' );
 			</a>
 		</li>
 		<? foreach($groups as $group) : ?>
-		<li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
-			<a href="<?= @route('group='.$group->id) ?>">
-				<?= $group->name ?>
-			</a>
-		</li>
+            <? if($group->depth) : ?>
+                <li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
+                    <a href="<?= @route('group='.$group->id) ?>">
+                        <?= $group->name ?>
+                    </a>
+                </li>
+            <? endif ?>
 		<? endforeach ?>
 	</ul>
 </div>
