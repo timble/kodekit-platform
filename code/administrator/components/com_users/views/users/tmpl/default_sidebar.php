@@ -20,10 +20,10 @@ defined('KOOWA') or die( 'Restricted access' );
 			    <?= @text('All users')?>
 			</a>
 		</li>
-		<? foreach($groups as $group): ?>
-		<li class="<?= $state->group == $group->value ? 'active' : ''; ?>">
-			<a href="<?= @route('group='.$group->value) ?>">
-				<?= $group->text ?>
+		<? foreach($groups as $group) : ?>
+		<li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
+			<a href="<?= @route('group='.$group->id) ?>">
+				<?= $group->name ?>
 			</a>
 		</li>
 		<? endforeach ?>

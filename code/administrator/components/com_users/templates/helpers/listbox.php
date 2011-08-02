@@ -19,17 +19,6 @@
  */
 class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-    public function groups($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array('selected' => 0));
-
-        $acl    = KFactory::get('lib.joomla.acl');
-        $tree   = $acl->get_group_children_tree(null, 'USERS', false);
-
-        return JHTML::_('select.genericlist', $tree, 'users_group_id', 'size="10"', 'value', 'text', $config->selected);
-    }
-
     public function users($config = array())
     {
         $config = new KConfig($config);

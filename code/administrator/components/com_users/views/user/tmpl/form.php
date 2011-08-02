@@ -92,7 +92,7 @@ if(Form && Form.Validator) {
                         </label>
                     </td>
                     <td>
-                       <?= @helper('listbox.groups', array('selected' => $user->users_group_id)) ?>
+                       <?= @helper('admin::com.groups.template.helper.select.groups', array('selected' => $user->users_group_id, 'name' => 'users_group_id')) ?>
                     </td>
                 </tr>
 			</table>

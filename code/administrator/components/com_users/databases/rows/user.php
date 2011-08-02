@@ -269,22 +269,47 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Syncronize ACL.
-		$acl = KFactory::get('lib.joomla.acl');
-
 		if($this->_status == KDatabase::STATUS_CREATED)
 		{
-			$acl->add_object('users', $this->name, $this->id, null, null, 'ARO');
-			$acl->add_group_object($this->users_group_id, 'users', $this->id, 'ARO');
+            $aro = KFactory::tmp('admin::com.groups.database.row.aro')
+                ->setData(array(
+                    'section_value' => 'users',
+                    'value' => $this->id,
+                    'name' => $this->name
+                ));
+            $aro->save();
+            
+            KFactory::tmp('admin::com.groups.database.row.arosgroup')
+                ->setData(array(
+                    'group_id' => $this->users_group_id,
+                    'aro_id'   => $aro->id
+                ))->save();
 		}
 		else
 		{
-			$object_id		= $acl->get_object_id('users', $this->id, 'ARO');
-			$object_groups	= $acl->get_object_groups($object_id, 'ARO');
+            if(isset($this->_modified['name']) || isset($this->_modified['users_group_id'])) {
+                $aro = KFactory::tmp('admin::com.groups.database.table.aros')
+                    ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
 
-			$acl->del_group_object($object_groups[0], 'users', $this->id, 'ARO');
-			$acl->add_group_object($this->users_group_id, 'users', $this->id, 'ARO');
+                if(isset($this->_modified['name'])) {
+                    $aro->name = $this->name;
+                    $aro->save();
+                }
 
-			$acl->edit_object($object_id, 'users', $this->name, $this->id, 0, 0, 'ARO');
+                if(isset($this->_modified['users_group_id'])) {
+                    KFactory::tmp('admin::com.groups.database.table.arosgroups')
+                        ->select(array('aro_id' => $aro->id), KDatabase::FETCH_ROW)
+                        ->delete();
+                    
+                    KFactory::tmp('admin::com.groups.database.table.arosgroups')
+                        ->select(null, KDatabase::FETCH_ROW)
+                        ->setData(array(
+                            'group_id' => $this->users_group_id,
+                            'aro_id'   => $aro->id
+                        ))
+                        ->save();
+                }
+            }
 		}
 
 		return true;
@@ -317,13 +342,16 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
+        // Syncronize ACL.
 		if($this->_status == KDatabase::STATUS_DELETED)
 		{
-			// Syncronize ACL.
-			$acl = KFactory::get('lib.joomla.acl');
-
-			$object_id = $acl->get_object_id('users', $this->id, 'ARO');
-			$acl->del_object($object_id, 'ARO', true);
+            $aro = KFactory::tmp('admin::com.groups.database.table.aros')
+                ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
+            $aro->delete();
+         
+            KFactory::tmp('admin::com.groups.database.table.arosgroups')
+                ->select(array('aro_id' => $aro->id), KDatabase::FETCH_ROW)
+                ->delete();
 		}
 
 		return true;
