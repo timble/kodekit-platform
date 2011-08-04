@@ -1,0 +1,92 @@
+.map-wrapper {
+	background-color: white;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.1)), to(rgba(0,0,0,0.01)));
+	background-position: center top;
+	background-repeat: repeat-x;
+	border: 1px solid white;
+	-webkit-box-shadow: black 0 0 1px;
+	-moz-box-shadow: black 0 0 1px;
+	box-shadow: black 0 0 1px;
+	
+	display:inline-block;
+	width: 720px;
+	text-align:center;
+	position:relative;
+},
+.map-wrapper:active {
+	cursor: crosshair;
+}
+.map {
+	height:40px;
+}
+.map h1 {
+	font-size: 20px;
+	line-height: 40px;
+	
+	//background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, .1)), to(hsla(0, 0%, 0%, .1)));
+	background-repeat: repeat-y;
+	background-size: 100% 40px;
+	cursor: default;
+	//-webkit-background-clip: text;
+	color: #595959;
+	text-shadow: white 0px 1px 0px, hsla(0, 0%, 0%, .2) 0px 2px 6px;
+}
+
+.map-direction {
+	position:absolute;
+	text-align:center;
+	font-size: 160px;
+	line-height: 320px;
+	left: 40%;
+	right: 40%;
+	top: 50%;
+	margin-top: -160px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.3)), to(hsla(0, 0%, 0%, 0.3)));
+	cursor: default;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: lightgray;
+	text-shadow: rgba(255,255,255,0.4) 0 1px 0;
+	z-index: 0;
+}
+
+#holder {
+    left: 0px;
+    right: 0px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    z-index: 1;
+}
+
+.map-points-from {
+	left: 0;
+	right: 50%;
+}
+.map-points-to, .map-points-from {
+	z-index: 3;
+	position: absolute;
+	overflow: hidden;
+	width: 360px;
+}
+.map-points-to {
+	right: 0;
+	left: 50%;
+}
+.map-points-from li {
+	padding-right: 10px;
+}
+.map-points-to li {
+	padding-left: 10px;
+}
+
+#submenu li ul {
+	z-index: 2;
+}
+
+ul {
+	list-style: none;
+}
+ul li {
+	background-image: none;
+}
