@@ -80,7 +80,7 @@ class ComCacheModelGroups extends KModelAbstract
     protected function _getData()
     {
         $data = array();
-        $keys = KFactory::tmp('admin::com.cache.model.keys')->site($this->_state->site)->getList();
+        $keys = KFactory::tmp('admin::com.cache.model.items')->site($this->_state->site)->getList();
        
         foreach($keys as $key) 
         {

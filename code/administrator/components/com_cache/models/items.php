@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheModelKeys extends KModelAbstract
+class ComCacheModelItems extends KModelAbstract
 {	
     public function __construct(KConfig $config)
 	{
@@ -79,7 +79,7 @@ class ComCacheModelKeys extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_list = KFactory::tmp('admin::com.cache.database.rowset.keys', array('data' => $data));
+		    $this->_list = KFactory::tmp('admin::com.cache.database.rowset.items', array('data' => $data));
         }
         
         return $this->_list;

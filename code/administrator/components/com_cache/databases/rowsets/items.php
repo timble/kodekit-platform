@@ -18,7 +18,7 @@
  * @subpackage  Cache
  */
  
-class ComCacheDatabaseRowsetKeys extends KDatabaseRowsetAbstract
+class ComCacheDatabaseRowsetItems extends KDatabaseRowsetAbstract
 {	
     protected function _initialize(KConfig $config)
     {

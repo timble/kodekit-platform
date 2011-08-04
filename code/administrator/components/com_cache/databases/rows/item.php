@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheDatabaseRowKey extends KDatabaseRowAbstract
+class ComCacheDatabaseRowItem extends KDatabaseRowAbstract
 {	
     protected function _initialize(KConfig $config)
     {

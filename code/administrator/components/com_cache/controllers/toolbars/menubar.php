@@ -21,16 +21,16 @@ class ComCacheControllerToolbarMenubar extends ComDefaultControllerToolbarMenuba
 {
     public function getCommands()
     { 
-         $name = $this->getController()->getIdentifier()->name;
+        $name = $this->getController()->getIdentifier()->name;
+        
+        $this->addCommand('Items', array(
+        	'href' => JRoute::_('index.php?option=com_cache&view=items'),
+            'active' => ($name == 'item')
+        ));
         
         $this->addCommand('Groups', array(
         	'href' => JRoute::_('index.php?option=com_cache&view=groups'),
         	'active' => ($name == 'group')
-        ));
-        
-        $this->addCommand('Keys', array(
-        	'href' => JRoute::_('index.php?option=com_cache&view=keys'),
-            'active' => ($name == 'key')
         ));
          
         return parent::getCommands();
