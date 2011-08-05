@@ -1,4 +1,5 @@
-#element-box #files-sidebar {
+/* Joomla Specific Styling */
+#element-box #sidebar {
 	float: left;
 	width: 20%;
 }
@@ -8,6 +9,8 @@
 	width: 79%;
 	border: 1px solid #CCC;
 }
+
+/* --- End --- */
 
 #treeview {
 	overflow: auto;

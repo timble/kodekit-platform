@@ -70,11 +70,11 @@ window.addEvent('domready', function() {
 </script>
 
 
-<div id="files-app">
+<div id="files-app" class="-koowa-box -koowa-box-flex">
 	<?= @template('templates_icons'); ?>
 	<?= @template('templates_details'); ?>
 	
-	<div id="files-sidebar">
+	<div id="sidebar">
 		<div id="files-tree"></div>
 		<?= @template('folders');?>
 	</div>
