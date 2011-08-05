@@ -16,7 +16,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
         ));
 
         $html  = '<div class="container">';
-        $html  = '<div class="pagination" id="files-paginator">';
+        $html .= '<div class="pagination" id="files-paginator">';
         $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config->toArray()).'</div>';
         $html .=  $this->_pages();
         $html .= '<div class="limit"> '.JText::_('Page').' <span class="page-current">1</span>';
