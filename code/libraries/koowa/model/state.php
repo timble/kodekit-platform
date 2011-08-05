@@ -178,8 +178,8 @@ class KModelState extends KModelAbstract
         {
             if(isset($state->value))
             {
-                //Only return unique data 
-                if($unique) 
+                 //Only return unique data 
+                 if($unique) 
                  {
                     //Unique values cannot be null or an empty string
                     if($state->unique && (!empty($state->value) || is_numeric($state->value))) 
