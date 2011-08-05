@@ -182,14 +182,14 @@ class KModelState extends KModelAbstract
                 if($unique) 
                  {
                     //Unique values cannot be null or an empty string
-                    if($state->unique && (!empty($state->value) || is_numeric($state->value) || !(is_array($state->value) && count($state->value) > 1))) 
+                    if($state->unique && (!empty($state->value) || is_numeric($state->value))) 
                     {
                         $result = true;
                         
                         //Check related states to see if they are set
                         foreach($state->required as $required)
                         {
-                            if(empty($this->_state[$required]->value) && !is_numeric($this->_state[$required]->value)) 
+                            if(empty($this->_state[$required]->value) && !is_numeric($state->value)) 
                             {
                                 $result = false;
                                 break;
@@ -221,8 +221,27 @@ class KModelState extends KModelAbstract
      */
     public function isUnique()
     {
+        $unique = false;
+        
+        //Get the unique states
         $states = $this->getData(true);
-        return !empty($states);
+        
+        if(!empty($states)) 
+        {
+            $unique = true;
+            
+            //If a state contains multiple values the state is not unique
+            foreach($states as $state) 
+            {
+                if(is_array($state) && count($state) > 1) 
+                {
+                    $unique = false;
+                    break;
+                }
+            }
+        }
+        
+        return $unique;
     }
     
     /**
