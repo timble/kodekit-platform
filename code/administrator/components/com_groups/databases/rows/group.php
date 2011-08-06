@@ -1,4 +1,22 @@
 <?php
+/**
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Groups
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Group Database Row Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Groups
+ */
 class ComGroupsDatabaseRowGroup extends ComGroupsDatabaseRowNode
 {
 	protected function _initialize(KConfig $config)
@@ -14,16 +32,18 @@ class ComGroupsDatabaseRowGroup extends ComGroupsDatabaseRowNode
 	
 	public function save()
 	{
-		if(!$this->_new && $this->id <= 30) {
+		if(!$this->_new && $this->id <= 30) 
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_('Changes are not allowed to core groups!'));
+            $this->setStatusMessage('Changes are not allowed to core groups!');
 
             return false;
 		}
         
-        if($this->parent_id > 30) {
+        if($this->parent_id > 30) 
+        {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_('Only core groups can be selected as parent group!'));
+            $this->setStatusMessage('Only core groups can be selected as parent group!');
 
             return false;
         }
@@ -41,9 +61,10 @@ class ComGroupsDatabaseRowGroup extends ComGroupsDatabaseRowNode
 	
 	public function delete()
 	{
-	   if($this->id <= 30) {
+	   if($this->id <= 30) 
+	   {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_('Changes are not allowed to core groups!'));
+            $this->setStatusMessage('Changes are not allowed to core groups!');
 
             return false;
         }

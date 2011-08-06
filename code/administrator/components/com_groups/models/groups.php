@@ -1,4 +1,23 @@
 <?php
+/**
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Groups
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Groups Model Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Groups
+ */
+
 class ComGroupsModelGroups extends KModelDefault
 {
     public function __construct(KConfig $config)
@@ -22,7 +41,8 @@ class ComGroupsModelGroups extends KModelDefault
     
     protected function _buildQueryJoins(KDatabaseQuery $query)
     {
-    	if(!$this->_state->isUnique()) {
+    	if(!$this->_state->isUnique()) 
+    	{
     	    $name = $this->getTable()->getName();
             $query->join('LEFT', $name.' AS parent', 'tbl.lft BETWEEN parent.lft AND parent.rgt');
     	}
@@ -32,8 +52,10 @@ class ComGroupsModelGroups extends KModelDefault
     {
         parent::_buildQueryWhere($query);
 
-        if(!$this->_state->isUnique()) {
-	        if($this->_state->parent) {
+        if(!$this->_state->isUnique()) 
+        {
+	        if($this->_state->parent) 
+	        {
 	            $parent = $this->getTable()->select($this->_state->parent, KDatabase::FETCH_ROW);
 	
 	            $query->where('tbl.lft', '>', $parent->lft, 'AND')

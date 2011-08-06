@@ -12,7 +12,7 @@
 /**
  * Node Database Row Class
  *
- * @author      Israel Canasa <israel@timble.net>
+ * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Groups
