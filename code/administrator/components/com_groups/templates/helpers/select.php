@@ -24,11 +24,12 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-		    'name' => 'group'
+		    'name' => 'group',
+			'core' => null
 		));
 		
 		$groups  = KFactory::tmp('admin::com.groups.model.groups')
-            ->set('core', true)
+            ->set('core', is_null($config->core) ? null : $config->core)
             ->set('limit', 0)
 		    ->getList();
 		

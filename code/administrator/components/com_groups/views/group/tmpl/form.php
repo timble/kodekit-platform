@@ -23,7 +23,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         
         <div class="panel">
             <h3><?= @text( 'Group' ); ?></h3>
-        	<?= @helper('select.groups', array('name' => 'target_id', 'selected' => $group->parent_id, 'exclude' => $group)) ?>
+        	<?= @helper('select.groups', array('name' => 'target_id', 'selected' => $group->parent_id, 'exclude' => $group, 'core' => true)) ?>
        	</div>
     </div>
 </form>
