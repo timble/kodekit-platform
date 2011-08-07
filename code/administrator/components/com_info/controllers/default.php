@@ -20,5 +20,5 @@
 
 class ComInfoControllerDefault extends ComDefaultControllerResource
 {
-
+   
 }

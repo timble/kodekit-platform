@@ -13,11 +13,8 @@
    	
    	<administration>
 		<submenu>
-			<menu view="system">System Information</menu>
-			<menu view="configuration">Configuration File</menu>
-			<menu view="directories">Directory Permissions</menu>
-			<menu view="phpinformation">PHP Information</menu>
-			<menu view="phpsettings">PHP Settings</menu>
+			<menu view="newsfeeds">Newsfeeds</menu>
+			<menu view="categories">Categories</menu>
 		</submenu>
 	</administration>
 	

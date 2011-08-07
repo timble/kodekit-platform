@@ -10,4 +10,14 @@
   	<authorUrl>www.nooku.org</authorUrl>
   	<version>0.7.0</version>
    	<description>This component provides extension management</description>
+   	
+   	<administration>
+		<submenu>
+			<menu view="modules">Modules</menu>
+			<menu view="plugins">Plugins</menu>
+			<menu view="templates">Templates</menu>
+			<menu view="languages">Languages</menu>
+		</submenu>
+	</administration>
+	
 </install>
