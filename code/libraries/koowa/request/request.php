@@ -423,14 +423,16 @@ class KRequest
         if(!isset(self::$_base))
         {
             // Get the base request path
-            if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
-                //Apache CGI
-                $path =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-            } else {
-                //Others
-                $path =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-            }
-
+            if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo')  && !empty($_SERVER['REQUEST_URI'])) 
+            {    
+                // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
+                // We don't have user-supplied PATH_INFO in PHP_SELF
+                $path = $_SERVER['PHP_SELF'];
+            } 
+            else $path = $_SERVER['SCRIPT_NAME'];
+            
+            $path = rtrim(dirname($path), '/\\');
+         
             // Sanitize the url since we can't trust the server var
             $path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
 
