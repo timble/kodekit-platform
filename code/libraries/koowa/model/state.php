@@ -178,39 +178,37 @@ class KModelState extends KModelAbstract
         {
             if(isset($state->value))
             {
-                 //Only return unique data 
-                 if($unique) 
-                 {
-                    //Unique values cannot be null or an empty string
-                    if($state->unique && (!empty($state->value) || is_numeric($state->value))) 
+                // Only return unique data. 
+                if($unique) 
+                {
+                    if($state->unique && $this->_validate($state)) 
                     {
                         $result = true;
-                        
-                        //Check related states to see if they are set
+                    
+                        // Check related states to see if they are set.
                         foreach($state->required as $required)
                         {
-                            if(empty($this->_state[$required]->value) && !is_numeric($state->value)) 
-                            {
+                            if(!$this->_validate($this->_state[$required])) {
                                 $result = false;
                                 break;
                             }
                         }
                         
-                        //Prepare the data to be returned. Include states
+                        // Prepare the data to be returned. Include states.
                         if($result) 
                         {
                             $data[$name] = $state->value;
-                            
+                        
                             foreach($state->required as $required) {
                                 $data[$required] = $this->_state[$required]->value;
                             }
                         }
                     }
-                    
-                } else $data[$name] = $state->value;    
+                } 
+                else $data[$name] = $state->value;    
             }
         }
-            
+        
         return $data;
     }
     
@@ -221,27 +219,8 @@ class KModelState extends KModelAbstract
      */
     public function isUnique()
     {
-        $unique = false;
-        
-        //Get the unique states
         $states = $this->getData(true);
-        
-        if(!empty($states)) 
-        {
-            $unique = true;
-            
-            //If a state contains multiple values the state is not unique
-            foreach($states as $state) 
-            {
-                if(is_array($state) && count($state) > 1) 
-                {
-                    $unique = false;
-                    break;
-                }
-            }
-        }
-        
-        return $unique;
+        return !empty($states);
     }
     
     /**
@@ -269,5 +248,35 @@ class KModelState extends KModelAbstract
     public function toArray()
     {
         return $this->getData();
+    }
+    
+    /**
+     * Validate a unique state.
+     * 
+     * @param  object  The state object.
+     * @return boolean True if unique state is valid, false otherwise.
+     */
+    protected function _validate($state)
+    {
+        // Unique values can't be null or empty string.
+        if(empty($state->value) && !is_numeric($state->value)) {
+            return false;
+        }
+                    
+        if(is_array($state->value)) 
+        {
+            // If a state contains multiple values the state is not unique.
+            if(count($state->value) > 1) {
+                return false;
+            }
+                        
+            // The first element of the array can't be null or empty string.
+            $first = array_slice($state->value, 0, 1);
+            if(empty($first) && !is_numeric($first)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
