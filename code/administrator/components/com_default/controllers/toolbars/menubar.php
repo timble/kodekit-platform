@@ -40,4 +40,38 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
         
         return $this;
     }
+
+    /**
+	 * Get the list of commands
+	 *
+	 * Will attempt to use information from the xml manifest if possible
+	 *
+	 * @return  array
+	 */
+	public function getCommands()
+	{
+	    $name     = $this->getController()->getIdentifier()->name;
+	    $package  = $this->_identifier->package;
+	    $manifest = JPATH_ADMINISTRATOR.'/components/com_'.$package.'/manifest.xml';
+
+	    if(file_exists($manifest))
+	    {
+	        $xml = simplexml_load_file($manifest);
+	        
+	        if(isset($xml->administration->submenu)) 
+	        {
+	            foreach($xml->administration->submenu->children() as $menu)
+	            {
+	                $view = $menu['view'];
+	                
+	                $this->addCommand(JText::_((string)$menu), array(
+	            		'href'   => JRoute::_('index.php?option=com_'.$package.'&view='.$view),
+	            		'active' => (KInflector::pluralize($name) == $view)
+	                ));
+	            }
+	        }
+	    }
+	
+	    return parent::getCommands();   
+	}
 }
