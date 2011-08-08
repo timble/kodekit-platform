@@ -35,11 +35,11 @@ class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilte
     { 
         parent::__construct($config);
         
-       //Load the theme chrome functions
+        //Load the theme chrome functions
         if(!self::$_loaded)
         {
-            KLoader::load(JPATH_THEMES.'/system/html/modules.php');
-		    KLoader::load(JPATH_THEMES.'/'.$config->template.'/html/modules.php');
+            include JPATH_THEMES.'/system/html/modules.php';
+		    include JPATH_THEMES.'/'.$config->template.'/html/modules.php';
         }
     }
 	
