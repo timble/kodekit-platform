@@ -38,8 +38,8 @@ class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilte
         //Load the theme chrome functions
         if(!self::$_loaded)
         {
-            KLoader::load(JPATH_THEMES.'/system/html/modules.php');
-		    KLoader::load(JPATH_THEMES.'/'.$config->template.'/html/modules.php');
+            include JPATH_THEMES.'/system/html/modules.php';
+		    include JPATH_THEMES.'/'.$config->template.'/html/modules.php';
         }
     }
 	
@@ -73,12 +73,12 @@ class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilte
 		
 	    foreach($data->styles as $style)
 		{
-            $method = 'modChrome_'.$style;
-                
+		    $method = 'modChrome_'.$style;
+		   
 			// Apply chrome and render module
 		    if (function_exists($method))
-			{
-		        $data->module->style   = implode(' ', $data->styles);
+			{  
+			    $data->module->style   = implode(' ', $data->styles);
 		        $data->module->content = $text;
 		       
 				ob_start();
