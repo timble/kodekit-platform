@@ -66,9 +66,18 @@ class ModDefaultHtml extends KViewHtml
             KFactory::get('lib.joomla.language')->load($this->module->type);
 		}
         
-        $this->module->content = $this->getTemplate()
+        if(empty($this->module->content)) 
+		{
+            $this->output = $this->getTemplate()
                 ->loadIdentifier($this->_layout, $this->_data)
                 ->render();
+		}
+		else 
+		{
+		     $this->output = $this->getTemplate()
+                ->loadString($this->module->content, $this->_data, false)
+                ->render();
+		}
 	
         return $this->module->content;
     }
