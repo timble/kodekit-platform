@@ -54,7 +54,7 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 				
 		        //Create module object
 			    $module   	       = new KObject();
-			    $module->id        = 0;
+			    $module->id        = uniqid();
 				$module->content   = $matches[2][$key];
 				$module->position  = $attributes['position'];
 				$module->params    = $attributes['params'];
