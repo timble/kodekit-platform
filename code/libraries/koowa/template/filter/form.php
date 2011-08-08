@@ -111,5 +111,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
                 $text = str_replace($matches[0][$key], $matches[0][$key].$input, $text);
             }   
         }
+        
+        return $this;
     }
 }
