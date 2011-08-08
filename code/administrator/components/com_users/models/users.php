@@ -17,7 +17,7 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersModelUsers extends KModelTable
+class ComUsersModelUsers extends ComDefaultModelDefault
 {
     /**
      * Constructor.
