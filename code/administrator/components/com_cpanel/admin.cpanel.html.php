@@ -38,7 +38,7 @@ class HTML_cpanel
 		{
 			$title = $module->title ;
 			echo $pane->startPanel( $title, 'cpanel-panel-'.$module->name );
-			echo KFactory::tmp('admin::mod.'.substr($module->type, 4).'.html')->module($module)->params($module->params)->display();
+			echo KFactory::tmp('admin::mod.'.substr($module->type, 4).'.html')->module($module)->display();
 			echo $pane->endPanel();
 		}
 
