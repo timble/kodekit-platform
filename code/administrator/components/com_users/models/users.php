@@ -33,7 +33,10 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             ->insert('email'       , 'email', null, true)
             ->insert('username'    , 'alnum', null, true)
             ->insert('group_name'  , 'string')
-            ->insert('group', 'int');
+            ->insert('group'       , 'int')
+            ->insert('enabled'     , 'int')
+            ->insert('never_visited', 'int')
+            ->insert('logged_in'   , 'int');
 	}
 
 	/**
@@ -79,8 +82,20 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             // @TODO: Change usertype to group_name when mapping is fixed.
             $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
         }
+        
+        if(is_numeric($this->_state->enabled)) {
+        	$query->where('tbl.block', '=', $this->_state->enabled);
+        }
+        
+        if(is_numeric($this->_state->logged_in)) {
+        	$query->where('session.session_id', '!=', 'null');
+        }
+        
+        if(is_numeric($this->_state->never_visited)) {
+        	$query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
+        }
 
-	   if($this->_state->search) {
+	    if($this->_state->search) {
             $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
                 ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
         }
