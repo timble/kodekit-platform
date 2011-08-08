@@ -10,9 +10,9 @@
  */
 
 /**
- * Modules Filter
+ * Module Template Filter
  * 
- * Filter to dynamically populate a module position from data rendered through a template.
+ * This filter allow to dynamically inject data into module position.
  * 
  * Filter will parse elements of the form <modules position="[position]">[content]</modules> 
  * and prepend or append the content to the module position. 
