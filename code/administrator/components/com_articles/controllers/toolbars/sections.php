@@ -33,10 +33,6 @@ class ComArticlesControllerToolbarSections extends ComDefaultControllerToolbarDe
         $option  = $this->_identifier->package;
 		$view	 = KInflector::singularize($this->_identifier->name);
 	
-        $command->append(array(
-            'attribs' => array(
-                'href'     => JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&scope=content' )
-            )
-        ));
+        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&scope=content' ); 
     }
 }
