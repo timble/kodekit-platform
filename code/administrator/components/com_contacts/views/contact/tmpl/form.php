@@ -74,8 +74,20 @@ defined('KOOWA') or die('Restricted access') ?>
 							<?= @text( 'Linked to User' ); ?>:
 						</label>
 					</td>
-					<td >
+					<td>
+					<? if(method_exists('KTemplateHelperBehavior', 'autocomplete')) : ?>
+					    <?= @helper('behavior.autocomplete', array(
+                           'value' => $contact->user_id, 
+                           'name' => 'user',
+                           'target' => 'name',
+                           'model' => @route('option=com_users&view=users&format=json', true),
+                           'label' => 'User',
+                           'text' => KFactory::tmp('admin::com.users.model.users')->id($contact->user_id)->getItem()->name,
+                           'placeholder' => 'Start typing a name'
+                       )) ?>
+					<? else : ?>
 						<?= @helper('admin::com.users.template.helper.listbox.users', array('name' => 'user', 'text' => 'name', 'column' => 'id', 'value' => 'id', 'selected' => $contact->user)); ?>
+					<? endif ?>
 					</td>
 				</tr>
 				<tr>
