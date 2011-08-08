@@ -24,6 +24,12 @@
  */
 class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {  
+    /**
+	 * Find any <module></module> elements and inject them into the JDocument object
+	 *
+	 * @param string Block of text to parse
+	 * @return ComDefaultTemplateFilterModule
+	 */
     public function write(&$text)
     {   
 		$matches = array();
