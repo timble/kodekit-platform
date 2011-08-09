@@ -20,13 +20,6 @@
 class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
   	/**
-	 * Is the chrome loaded
-	 *
-	 * @var boolean
-	 */
-	protected static $_loaded = false;
-  	
-  	/**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
@@ -35,12 +28,8 @@ class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilte
     { 
         parent::__construct($config);
         
-        //Load the theme chrome functions
-        if(!self::$_loaded)
-        {
-            include JPATH_THEMES.'/system/html/modules.php';
-		    include JPATH_THEMES.'/'.$config->template.'/html/modules.php';
-        }
+        include_once JPATH_THEMES.'/system/html/modules.php';
+		include_once JPATH_THEMES.'/'.$config->template.'/html/modules.php';
     }
 	
 	/**
