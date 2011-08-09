@@ -44,10 +44,10 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 		$link = 'index.php?option=com_articles';
 		quickiconButton( $link, 'icon-48-article.png', JText::_( 'Article Manager' ) );
 
-		$link = 'index.php?option=com_sections&amp;scope=content';
+		$link = 'index.php?option=com_articles&amp;view=sections';
 		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
 
-		$link = 'index.php?option=com_categories&amp;section=com_content';
+		$link = 'index.php?option=com_articles&amp;view=categories';
 		quickiconButton( $link, 'icon-48-category.png', JText::_( 'Category Manager' ) );
 
 		$link = 'index.php?option=com_files';
