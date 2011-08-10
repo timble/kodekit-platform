@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesModelStateNode extends KModelState
+class ComFilesModelStateNode extends KConfigState
 {
     public function __get($name)
     {
