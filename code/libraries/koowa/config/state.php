@@ -9,42 +9,29 @@
  */
 
 /**
- * State Model
+ * State Config Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
- * @package     Koowa_Model
+ * @package     Koowa_Config
  */
-class KModelState extends KModelAbstract
+class KConfigState extends KConfig
 {
 	/**
-	 * Initializes the options for the object
-	 *
-	 * Called from {@link __construct()} as a first step of object instantiation.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 * @return  array   void
-	 */
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-            'state'      => array(),
-       	));
-    }
-
-	/**
-     * Get a state value
+     * Retrieve a configuration item and return $default if there is no element set.
      *
-     * @param  	string 	The user-specified state name.
-     * @return 	string 	The corresponding state value or NULL if the state doesn't exist
+     * @param string 
+     * @param mixed 
+     * @return mixed
      */
-    public function __get($name)
+    public function get($name, $default = null)
     {
-    	if(isset($this->_state[$name])) {
-    		return $this->_state[$name]->value;
-    	}
-
-    	return null;
+        $result = $default;
+        if(isset($this->_data[$name])) {
+            $result = $this->_data[$name]->value;
+        }
+        
+        return $result;
     }
 
     /**
@@ -56,20 +43,9 @@ class KModelState extends KModelAbstract
      */
     public function __set($name, $value)
     {
-    	if(isset($this->_state[$name])) {
-    		$this->_state[$name]->value = $value;
+    	if(isset($this->_data[$name])) {
+    		$this->_data[$name]->value = $value;
     	}
-   }
-
-	/**
-     * Test existence of a state
-     *
-     * @param  string  The column key.
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return isset($this->_state[$name]);
     }
 
     /**
@@ -80,8 +56,8 @@ class KModelState extends KModelAbstract
      */
     public function __unset($name)
     {
-        if(isset($this->_state[$name])) {
-            $this->_state[$name]->value = $this->_state[$name]->default;
+        if(isset($this->_data[$name])) {
+            $this->_data[$name]->value = $this->_data[$name]->default;
         }
     }
 
@@ -93,7 +69,7 @@ class KModelState extends KModelAbstract
      * @param   mixed       The default value of the state
      * @param   boolean     TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
      * @param   array       Array of required states to determine if the state is unique. Only applicable if the state is unqiue. 
-     * @return  KModelState
+     * @return  KConfigState
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
@@ -104,7 +80,7 @@ class KModelState extends KModelAbstract
         $state->unique   = $unique;
         $state->required = $required;
         $state->default  = $default;
-        $this->_state[$name] = $state;
+        $this->_data[$name] = $state;
 
         return $this;
     }
@@ -113,11 +89,11 @@ class KModelState extends KModelAbstract
      * Remove an existing state
      *
      * @param   string      The name of the state
-     * @return  KModelState
+     * @return  KConfigState
      */
     public function remove( $name )
     {
-        unset($this->_state[$name]);
+        unset($this->_data[$name]);
         return $this;
     }
 
@@ -125,11 +101,11 @@ class KModelState extends KModelAbstract
      * Reset all state data and revert to the default state
      *
      * @param   boolean If TRUE use defaults when resetting. Default is TRUE
-     * @return KModelState
+     * @return KConfigState
      */
     public function reset($default = true)
     {
-        foreach($this->_state as $state) {
+        foreach($this->_data as $state) {
             $state->value = $default ? $state->default : null;
         }
         
@@ -140,22 +116,22 @@ class KModelState extends KModelAbstract
      * Set the state data
      *
      * @param   array|object    An associative array of state values by name
-     * @return  KModelState
+     * @return  KConfigState
      */
     public function setData(array $data)
     {
         // Filter data
         foreach($data as $key => $value)
         {
-            if(isset($this->_state[$key]))
+            if(isset($this->_data[$key]))
             {
-                $filter = $this->_state[$key]->filter;
+                $filter = $this->_data[$key]->filter;
 
                 if(!($filter instanceof KFilterInterface)) {
                     $filter = KFilter::factory($filter);
                 }
 
-                $this->_state[$key]->value = $filter->sanitize($value);
+                $this->_data[$key]->value = $filter->sanitize($value);
             }
         }
 
@@ -174,7 +150,7 @@ class KModelState extends KModelAbstract
     {
         $data = array();
 
-        foreach ($this->_state as $name => $state) 
+        foreach ($this->_data as $name => $state) 
         {
             if(isset($state->value))
             {
@@ -189,7 +165,7 @@ class KModelState extends KModelAbstract
                         //Check related states to see if they are set
                         foreach($state->required as $required)
                         {
-                            if(empty($this->_state[$required]->value) && !is_numeric($state->value)) 
+                            if(empty($this->_data[$required]->value) && !is_numeric($state->value)) 
                             {
                                 $result = false;
                                 break;

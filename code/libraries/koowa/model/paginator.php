@@ -23,7 +23,7 @@
  * @category    Koowa
  * @package     Koowa_Model
  */
-class KModelPaginator extends KModelState
+class KModelPaginator extends KConfigState
 {
     /**
      * Constructor
