@@ -276,7 +276,9 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			foreach($config->model as $item)
 			{
 				$data[] = array('value' => $item->id, 'text' => $item->text);
-				if($item->id == $config->value) $config->text = $item->text;
+				if($item->id == $config->value) { 
+				    $config->text = $item->text;
+				}
 			}
 		    
 		} 
