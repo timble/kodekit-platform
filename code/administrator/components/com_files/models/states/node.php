@@ -22,11 +22,11 @@ class ComFilesModelStateNode extends KConfigState
 {
     public function __get($name)
     {
-    	if ($name == 'container' && isset($this->_state[$name]) && is_string($this->_state[$name]->value)) {
-			$this->_state[$name]->value = KFactory::tmp('admin::com.files.model.containers')->id($this->_state[$name]->value)->getItem();
+    	if ($name == 'container' && isset($this->_data[$name]) && is_string($this->_data[$name]->value)) {
+			$this->_data[$name]->value = KFactory::tmp('admin::com.files.model.containers')->id($this->_data[$name]->value)->getItem();
     	}
     	else if ($name == 'basepath') {
-    		return (string) (isset($this->_state['container']) ? $this->container : '');
+    		return (string) (isset($this->_data['container']) ? $this->container : '');
     	}
 
     	return parent::__get($name);
