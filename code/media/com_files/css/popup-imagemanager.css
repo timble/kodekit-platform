@@ -1,0 +1,178 @@
+/**
+* @version $Id: popup-imagemanager.css 6668 2007-02-18 19:13:36Z hackwar $
+* @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+* @license GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/**
+ * ImageManager javascript behavior styling
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+
+html, body {
+	color: ButtonText;
+	font: 11px Tahoma, Verdana, sans-serif;
+	margin: 0; padding: 0;
+}
+
+img      { border: 0 none; }
+
+form     { padding: 0px; margin: 0 auto; width: 550px; padding-top: 5px; }
+fieldset { margin-top: 0.5em; border: 1px solid #CCCCCC; padding-top: 10px; }
+button   { padding: 3px; border: 1px solid #CCCCCC; font-weight: bold; color: #0B55C4; background-color: white; }
+button:hover { border: 1px solid #0B55C4; }
+
+select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
+
+iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0; padding: 0; margin-top: 0.5em;}
+iframe#imageframe  { height: 175px; }
+iframe#uploadview { height: 40px; }
+
+a       { padding: 5px; border: 1px solid ButtonFace; }
+a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
+
+.buttons { width: 70px; text-align: center; }
+
+#f_alt, #f_url, #f_title { width: 22em; }
+
+#messages {
+	position: relative;
+	left: 175px;
+	top: 115px;
+	background-color: white;
+	width: 200px;
+	float: left;
+	margin-top: -52px;
+	border: 1px solid #ccc;
+	text-align: center;
+	padding: 15px;
+}
+
+#message {
+	font-size: 15px;
+	font-weight: bold;
+	color: #69c;
+}
+
+/**
+ * Upload Widget CSS
+ */
+
+#upload-flash {
+	font-size: 12px;
+	margin-left: 5px;
+}
+#upload-flash ul {
+	margin-left: -15px;
+}
+
+#upload-flash .progress {
+	background: url(../images/progress.gif) no-repeat;
+	background-position: +50% 0;
+	margin-right: 0.5em;
+	vertical-align: middle;
+}
+
+#upload-queue {
+	list-style: none;
+	clear:both;
+	margin-left:25px;
+	padding:10px;
+}
+
+#upload-queue li.file {
+	border-bottom: 1px solid #eee;
+	background: url(../images/upload.png) no-repeat 4px 6px;
+	border:1px solid #ccc;
+	overflow: auto;
+}
+
+#upload-queue li.file.file-uploading {
+	background-image: url(../images/uploading.png);
+	background-color: #D9DDE9;
+}
+
+#upload-queue li.file.file-success {
+	background-image: url(../images/success.png);
+}
+
+#upload-queue li.file.file-failed {
+	background-image: url(../images/failed.png);
+}
+
+#upload-queue li.file .file-name {
+	font-size: 1.2em;
+	margin-left: 25px;
+	display: block;
+	clear: left;
+	line-height: 20px;
+	height: 20px;
+	font-weight: bold;
+}
+
+#upload-queue li.file .file-remove {
+	font-size: 0.9em;
+	float: right;
+	line-height: 18px;
+	margin-right: 6px;
+}
+
+
+#upload-queue li.file .file-size {
+	font-size: 0.9em;
+	line-height: 18px;
+	float: right;
+	margin-right: 6px;
+}
+
+#upload-queue li.file .file-info {
+	display: block;
+	margin-left: 44px;
+	font-size: 0.9em;
+	line-height: 18px;
+}
+
+p.overall-title,
+p.current-title,
+p.current-text {
+	margin: 0;
+	padding: 0;
+	font-weight:bold;
+}
+p.overall-title { margin-top: 15px;}
+
+div#upload-flash ul li {
+	float:left;
+	clear:right;
+	margin-left: 10px;
+}
+
+li a#upload-browse,
+li a#upload-clear,
+li a#upload-start {
+	display:block;
+	padding: 3px;
+	border: 1px solid #ccc;
+	background-color: #efefef;
+}
+
+div#files-noimages {
+	width: 100%;
+	text-align:center;
+	font-size:14px;
+	font-weight:bold;
+	color:#CCCCCC;
+}
+
+.overall-title, .current-title {
+	font-size:12px;
+}
