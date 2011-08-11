@@ -17,7 +17,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
-	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 
 	<div class="grid_8">

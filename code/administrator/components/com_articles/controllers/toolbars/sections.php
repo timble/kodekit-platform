@@ -28,11 +28,4 @@ class ComArticlesControllerToolbarSections extends ComDefaultControllerToolbarDe
         return parent::getCommands();
     }
     
-    protected function _commandNew(KControllerToolbarCommand $command)
-    {
-        $option  = $this->_identifier->package;
-		$view	 = KInflector::singularize($this->_identifier->name);
-	
-        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&scope=content' ); 
-    }
 }

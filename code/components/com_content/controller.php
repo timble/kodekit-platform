@@ -194,8 +194,7 @@ class ContentController extends JController
 		// gets section name of item
 		$query = 'SELECT s.title' .
 				' FROM #__sections AS s' .
-				' WHERE s.scope = "content"' .
-				' AND s.id = ' . (int) $post['sectionid'];
+				' WHERE s.id = ' . (int) $post['sectionid'];
 		$db->setQuery($query);
 		// gets category name of item
 		$section = $db->loadResult();
