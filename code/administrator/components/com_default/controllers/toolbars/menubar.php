@@ -62,11 +62,11 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
 	        {
 	            foreach($xml->administration->submenu->children() as $menu)
 	            {
-	                $view = $menu['view'];
+	                $view = (string)$menu['view'];
 	                
 	                $this->addCommand(JText::_((string)$menu), array(
 	            		'href'   => JRoute::_('index.php?option=com_'.$package.'&view='.$view),
-	            		'active' => (KInflector::pluralize($name) == $view)
+	            		'active' => ($name == KInflector::singularize($view))
 	                ));
 	            }
 	        }
