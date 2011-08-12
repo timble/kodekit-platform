@@ -1,0 +1,105 @@
+#files-compact > * {
+	 background-color: #F9F9F9
+}
+
+#insert {
+	border: 1px solid #E1E1E1;
+	background-color: #FFF;
+	width: 100%; /* Mozilla fix */
+}
+#insert > * { border-right: 1px solid #E1E1E1; height: 300px; }
+
+#insert .properties {
+	background-color: #F4F4F4;
+	border-top: 1px solid #E1E1E1;
+}
+
+#insert .buttons {
+	background-color: #F4F4F4;
+	border-top: 1px solid #E1E1E1;
+	padding: 4px;
+}
+
+#insert .hide {
+	display: none;
+}
+
+#insert #files-container {
+	width: 200px;
+}
+
+#insert #files-container ul {
+	margin: 0;
+	padding: 0;
+}
+
+#insert #files-preview {
+	width: 200px;
+}
+#insert #files-preview ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#insert #files-preview ul li.info {
+	background-color: #FAFAFA;
+	border-bottom: 1px solid #F1F1F1;
+	padding: 6px 0;
+}
+
+#insert #files-preview ul li.preview {
+	padding: 10px;
+}
+
+li.files-node {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+li.files-node a {
+	display: block;
+	padding: 4px 10px;	
+}
+
+li.files-node a {
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 10px;
+	white-space: nowrap;
+	padding: 2px 5px 2px 0px;
+	overflow: hidden; text-overflow: ellipsis;
+	border-top: 1px solid #FFF;
+	padding: 3px 10px;
+	height: 15px;
+	color: #000;
+}
+
+li.files-node a:hover	{ 
+	border-top-color: #c5dbf0;
+	background-color: #cee1f4;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
+}
+
+li.files-node.active a,
+li.files-node.active a:hover {  
+	color: #FFF;
+	border-top-color: #5494D2;
+	background-color: #6EA6DE;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.path {
+	background-color: #EEE;
+	border-left: 1px solid #E1E1E1;
+	border-right: 1px solid #E1E1E1;
+	border-bottom: 1px solid #E1E1E1;
+	padding: 4px;
+}
