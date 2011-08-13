@@ -49,7 +49,7 @@ class ComArticlesModelCategories extends KModelAbstract
 
             foreach($categories as $category)
             {
-                $children[$category->section_id][] = array(
+                $children[$category->section][] = array(
                     'id'	      => $category->id,
                     'title'	      => $category->title,
                     'slug'		  => $category->slug,
@@ -58,7 +58,7 @@ class ComArticlesModelCategories extends KModelAbstract
                  	'locked_by'	  => $category->locked_by,
                     'locked_on'   => $category->locked_on,    
                     'access'	  => $category->access,
-                    'parent_id'   => $category->section_id,
+                    'parent_id'   => $category->section,
                     'path'		  => '',
                     'type'		  => 'category'
                 );
