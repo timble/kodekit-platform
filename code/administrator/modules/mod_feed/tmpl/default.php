@@ -11,10 +11,10 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div style="direction: <?= $params->get('rssrtl', 0) ? 'rtl' :'ltr'; ?>; text-align: <?= $params->get('rssrtl', 0) ? 'right' :'left'; ?>">
+<div style="direction: <?= $module->params->get('rssrtl', 0) ? 'rtl' :'ltr'; ?>; text-align: <?= $module->params->get('rssrtl', 0) ? 'right' :'left'; ?>">
 
 <table cellpadding="0" cellspacing="0">	
-    <? if (!is_null( $feed->get_title() ) && $params->get('rsstitle', 1)) : ?>
+    <? if (!is_null( $feed->get_title() ) && $module->params->get('rsstitle', 1)) : ?>
 	<tr>
 		<td>
 			<strong>
@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	</tr>
 	<? endif; ?>
 
-	<? if ($params->get('rssdesc', 1)) : ?>
+	<? if ($module->params->get('rssdesc', 1)) : ?>
 	<tr>
 		<td>
 			<?= $feed->get_description(); ?>
@@ -34,7 +34,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	</tr>
 	<? endif; ?>
 			
-	<? if ($feed->get_image_url() && $params->get('rssimage', 1)) : ?>
+	<? if ($feed->get_image_url() && $module->params->get('rssimage', 1)) : ?>
 	<tr>
 		<td align="center">
 			<img src="<?= $feed->get_image_url(); ?>" alt="<?= $feed->get_image_title(); ?>"/>
@@ -45,7 +45,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<tr>
 		<td>
 			<ul class="newsfeed">
-			<? foreach(array_slice($feed->get_items(), 0, $params->get('rssitems', 5)) as $item) : ?>
+			<? foreach(array_slice($feed->get_items(), 0, $module->params->get('rssitems', 5)) as $item) : ?>
 				<li>
 				<? if ( !is_null( $item->get_link() ) ) : ?>
 					<a href="<?= $item->get_link(); ?>" target="_child">
@@ -53,17 +53,17 @@ defined('KOOWA') or die('Restricted access'); ?>
 					</a>
 				<? endif; ?>
 
-				<? if ($params->get('rssitemdesc', 1)) : 
+				<? if ($module->params->get('rssitemdesc', 1)) : 
 					
 					$text = html_entity_decode($item->get_description());
 					$text = str_replace('&apos;', "'", $text);
 
 					// Word limit
-					if ($params->def('word_count', 0)) 
+					if ($module->params->def('word_count', 0)) 
 					{
 						$texts = explode(' ', $text);
 						$count = count($texts);
-						if ($count > $params->def('word_count', 0)) 
+						if ($count > $module->params->def('word_count', 0)) 
 						{
 							$text = '';
 							for ($i = 0; $i < $words; $i ++) {
@@ -74,7 +74,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 						}
 					}
 				    ?>
-					<div style="text-align: <?= $params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important">
+					<div style="text-align: <?= $module->params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important">
 					    <?= $text; ?>
 					</div>
 				<? endif; ?>

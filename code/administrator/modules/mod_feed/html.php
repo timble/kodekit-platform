@@ -22,7 +22,7 @@ class ModFeedHtml extends ModDefaultHtml
 {
     public function display()
     { 
-        $this->feed = JFactory::getFeedParser($this->params->get('rssurl'), $this->params->get('cache_time', 15) * 60);	
+        $this->feed = JFactory::getFeedParser($this->module->params->get('rssurl'), $this->module->params->get('cache_time', 15) * 60);	
         return parent::display();
     }
 } 
