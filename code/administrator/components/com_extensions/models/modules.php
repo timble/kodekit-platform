@@ -63,8 +63,11 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			$query->where('tbl.published', '=', $state->enabled);
 		}
 		
-		$client	= JApplicationHelper::getClientInfo($state->application, true);
-		$query->where('tbl.client_id', '=', $client->id);
+		if($state->application !== false)
+		{
+		    $client	= JApplicationHelper::getClientInfo($state->application, true);
+	    	$query->where('tbl.client_id', '=', $client->id);
+	    }
 
 		parent::_buildQueryWhere($query);
 	}
