@@ -34,7 +34,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			'display' => 4,
 			'offset'  => 0,
 			'limit'	  => 0,
-			'attribs' => array('attribs' => array('onchange' => 'this.form.submit();'))
+			'attribs' => array('onchange' => 'this.form.submit();')
 		));
 		
 		$html = '';
