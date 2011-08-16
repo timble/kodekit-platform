@@ -103,7 +103,13 @@ Koowa.Grid = new Class({
         this.element    = $(element);
         this.form       = this.element.match('form') ? this.element : this.element.getParent('form');
         this.toggles    = this.element.getElements('.-koowa-grid-checkall');
-        this.checkboxes = this.element.getElements('.-koowa-grid-checkbox');
+        this.checkboxes = this.element.getElements('.-koowa-grid-checkbox').filter(function(checkbox) {
+        	return !checkbox.disabled;
+        });
+        
+        if(!this.checkboxes.length) {
+        	this.toggles.set('disabled', 'disabled');
+        }
         
         var self = this;
         this.toggles.addEvent('change', function(event){
