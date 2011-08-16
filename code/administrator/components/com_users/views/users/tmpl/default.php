@@ -16,6 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @template('default_sidebar', array('groups' => $groups)); ?>
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">
+	<?= @template('default_filter'); ?>
 	<table class="adminlist">
 		<thead>
 			<tr>
