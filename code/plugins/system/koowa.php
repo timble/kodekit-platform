@@ -229,7 +229,7 @@ class plgSystemKoowa extends JPlugin
 	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
 	        );
 	        
-	        if(KFactory::get('lib.koowa.application')->login($credentials) !== true) 
+	        if(KFactory::get('lib.joomla.application')->login($credentials) !== true) 
 	        {  
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
