@@ -41,7 +41,7 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 		{			
 			$path = KInflector::camelize(implode('_', $identifier->path));
 			$classname = 'Mod'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
-			
+				
 			//Don't allow the auto-loader to load module classes if they don't exists yet
 			if (!class_exists( $classname, false ))
 			{
@@ -58,6 +58,9 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 					$classpath = $identifier->path;
 					$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
 					
+					//Create the fallback path and make an exception for views
+					$path = ($classtype != 'view') ? KInflector::camelize(implode('_', $classpath)) : '';
+					
 					/*
 					 * Find the classname to fallback too and auto-load the class
 					 * 
@@ -71,7 +74,7 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 					} elseif(class_exists('ModDefault'.ucfirst($identifier->name))) {
 						$classname = 'ModDefault'.ucfirst($identifier->name);
 					} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
-						$classname = 'K'.ucfirst($classtype).ucfirst($identifier->name);
+						$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
 					} elseif(class_exists('K'.ucfirst($classtype).'Default')) {
 						$classname = 'K'.ucfirst($classtype).'Default';
 					} else {
