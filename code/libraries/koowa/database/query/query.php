@@ -253,7 +253,9 @@ class KDatabaseQuery extends KObject
 
             //Make sure we don't store the same where clauses twice
             $signature = md5($property.$constraint.$value);
-            $this->where[$signature] = $where;
+            if(!isset($this->where[$signature])) {
+                $this->where[$signature] = $where;
+            }
         }
             
         return $this;
