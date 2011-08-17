@@ -121,12 +121,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::tmp('site::com.users.helper.password');
-
-        $salt     = $helper->getRandom(32);
-        $password = $helper->getCrypted($password, $salt).':'.$salt;
-
-        $user     = KFactory::get('lib.joomla.user', array(KRequest::get('session.com.users.id', 'int')));
+        $user     = KFactory::tmp('lib.joomla.user', array(KRequest::get('session.com.users.id', 'int')));
 
         JPluginHelper::importPlugin('user');
         $dispatcher = JDispatcher::getInstance();
@@ -136,6 +131,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             ->set('id', $user->id)
             ->getItem()
             ->set('password', $password)
+           	->set('password_verify', $password_verify)
             ->set('activation', '')
             ->save();
 

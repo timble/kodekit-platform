@@ -139,7 +139,7 @@ class JAdministrator extends JApplication
 	    if(JFactory::getUser()->get('guest')) {
 	        $option = 'com_users';
 	    } else {
-	        $option = strtolower(JRequest::getCmd('option', 'com_cpanel'));
+	        $option = strtolower(JRequest::getCmd('option', 'com_dashboard'));
 	    }
 	 
         JRequest::setVar('option', $option);

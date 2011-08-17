@@ -3,29 +3,28 @@
  * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Info
+ * @subpackage  Templates
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Component Dispatcher
+ * Template Database Rowset Class
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Info
+ * @subpackage  Templates
  */
-
-class ComInfoDispatcher extends ComDefaultDispatcher
-{
+class ComTemplatesDatabaseRowsetTemplates extends KDatabaseRowsetAbstract
+{       
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'controller' => 'system'
+            'identity_column'   => 'name'
         ));
-
+        
         parent::_initialize($config);
     }
 }
