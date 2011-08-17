@@ -77,7 +77,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
         KFactory::get('lib.joomla.document')->setMimeEncoding($view->mimetype);
         
         //Disabled the application menubar
-        if(KInflector::isSingular($view->getName()) && !KRequest::has('get.hidemainmenu')) {
+        if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
             KRequest::set('get.hidemainmenu', 1);
         } 
    
