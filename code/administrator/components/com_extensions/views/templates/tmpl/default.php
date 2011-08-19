@@ -25,9 +25,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <th>
                     <?= @text('Name') ?>
                 </th>
-                <th width="5%">
-                    <?= @text('Default') ?>
-                </th>
                 <th width="10%" align="center">
                     <?= @text('Version') ?>
                 </th>
@@ -37,6 +34,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <th width="25%" class="title">
                     <?= @text('Author') ?>
                 </th>
+                <th width="25%">
+    				<?= @text('Author Email'); ?>
+    			</th>
             </tr>
         </thead>
         <tbody>
@@ -50,27 +50,27 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <a href="<?= @route('&view=template&name='.$template->title.'&application='.$state->application) ?>">
                             <?= $template->title ?>
                         </a>
+                        <? if($template->default) : ?>
+                   		 <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
+                        <? endif ?>
                     </span>
-                </td>
-
-                <td align="center">
-                <? if($template->default) : ?>
-                    <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
-                <? endif ?>
                 </td>
                 <td align="center">
                     <?= $template->version ?>
                 </td>
-                <td>
+                <td align="center">
                 	<? if ((string) $template->creationDate): ?>
-                    <?= @date(array('date' => $template->creationDate, 'format' => '%d %B %Y')); ?>
+                        <?= @date(array('date' => $template->creationDate, 'format' => '%d %B %Y')); ?>
                     <? endif; ?>
                 </td>
-                <td>
+                <td align="center">
                     <span class="editlinktip hasTip" title="<?= @text('Author Information') ?>::<?= $template->authorEmail . '<br />' . @ $template->authorUrl ?>">
                         <?= $template->author ?>
                     </span>
                 </td>
+                <td align="center">
+    				<?= $template->authorEmail; ?>
+    			</td>
             </tr>
         <? endforeach ?>
         </tbody>
