@@ -23,16 +23,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			<th>
     				<?= @text('Name'); ?>
     			</th>
-    			<th width="5%">
-    				<?= @text('Default'); ?>
-    			</th>
     			<th width="10%">
     				<?= @text('Version'); ?>
     			</th>
-    			<th width="10%">
+    			<th width="15%">
     				<?= @text('Date'); ?>
     			</th>
-    			<th width="20%">
+    			<th width="25%">
     				<?= @text('Author'); ?>
     			</th>
     			<th width="25%">
@@ -48,10 +45,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     			</td>
     			<td>
     				<?= $language->title; ?>
-    			</td>
-    			<td align="center">
     				<? if($language->default): ?>
-    				<img src="media://system/images/star.png" alt="<?= @text('Default'); ?>" />
+    					<img src="media://system/images/star.png" alt="<?= @text('Default'); ?>" />
     				<? endif; ?>
     			</td>
     			<td align="center">
