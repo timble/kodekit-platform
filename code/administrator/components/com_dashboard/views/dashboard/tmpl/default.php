@@ -11,13 +11,10 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-
-<table class="adminform" width="100%">
-<tr>
-<td width="55%">
+<div class="-koowa-box-flex">
     <?= @template('default_icons'); ?>
-</td>
-<td width="45%">
+</div>
+<div class="-koowa-box-flex">
 <?= @helper('accordion.startPane') ?>
     <? foreach ($modules as $module) : ?>
         <?= @helper('accordion.startPanel', array('title' => $module->title)) ?>
@@ -25,6 +22,4 @@ defined('KOOWA') or die('Restricted access'); ?>
         <?= @helper('accordion.endPanel') ?>
     <? endforeach ?>
 <?= @helper('accordion.endPane') ?>
-</td>
-</tr>
-</table>
+</div>
