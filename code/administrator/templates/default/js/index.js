@@ -18,7 +18,7 @@
  */
 
 window.addEvent('domready', function(){
-	if(Element.chromatable) $$('table.adminlist').chromatable();
+	if(Element.chromatable) $$('form.-koowa-grid table').chromatable();
 	$$('td.divider').getPrevious().addClass('last');
 	
 	//This is not the Konami code
