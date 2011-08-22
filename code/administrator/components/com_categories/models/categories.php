@@ -28,7 +28,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         // Set the state
         $this->_state
             ->insert('section'   , 'string')
-            //as 'section' is ambiguous, we need an alias
             ->insert('parent'    , 'string')
             ->insert('published' , 'int')
             ->insert('distinct'  , 'string');
