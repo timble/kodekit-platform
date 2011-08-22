@@ -10,14 +10,14 @@
  */
 
 /**
- * Default Template
+ * Abstract Template
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateAbstract extends KTemplateAbstract
+abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 { 
 	/**
 	 * The cache object
