@@ -85,7 +85,7 @@ class ModDefaultTemplate extends KTemplateDefault
 	{
 	    $template  = KFactory::get('lib.joomla.application')->getTemplate();
         $override  = JPATH_THEMES.'/'.$template.'/html';
-	    $override .= str_replace(array(JPATH_BASE.'/modules'), '', $path);
+	    $override .= str_replace(array(JPATH_BASE.'/modules', JPATH_BASE.'/components', '/views'), '', $path);
 	     
 	    //Try to load the template override
 	    $result = parent::findFile($override);
