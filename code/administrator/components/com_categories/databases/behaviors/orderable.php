@@ -111,7 +111,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 $table = $context->caller;
                 $parent_column = $table->mapColumns($parent_column);
 
-                $query->join[]=array('type' => 'LEFT',
+                $query->join[] = array('type' => 'LEFT',
                     'table' => '(SELECT '.$parent_column.' , COUNT(ordering) order_total FROM #__'.$table->getBase().' ' 
                             .'GROUP BY '.$parent_column.') AS orderable',
                     'condition' => array('orderable.'.$parent_column.' = tbl.'.$parent_column ));
