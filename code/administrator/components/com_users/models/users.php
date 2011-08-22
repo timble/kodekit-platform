@@ -65,7 +65,13 @@ class ComUsersModelUsers extends ComDefaultModelDefault
      */
 	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-	    $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+	    $state = $this->_state;
+	    
+	    if($state->loggedin) {
+			$query->join('RIGHT', 'session AS session', 'tbl.id = session.userid');
+        } else {
+            $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
+        }
 	}
 
 	/**
