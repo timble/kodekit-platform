@@ -79,7 +79,7 @@ class ModDefaultHtml extends KViewHtml
                 ->render();
 		}
 	
-        return $this->module->content;
+        return $this->output;
     }
     
     /**
