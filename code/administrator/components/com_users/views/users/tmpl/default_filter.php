@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_numeric($state->enabled) && !$state->never_visited && !$state->logged_in ? 'active' : ''; ?> separator-right">
+		<li class="<?= !is_numeric($state->enabled) && !$state->never_visited && !$state->loggedin ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('enabled=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
@@ -27,8 +27,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			    <?= @text('Disabled') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->logged_in == '1' ? 'active' : ''; ?> separator-left">
-			<a href="<?= @route( $state->logged_in == '1'? 'logged_in=' : 'logged_in=1' ) ?>">
+		<li class="<?= $state->loggedin == '1' ? 'active' : ''; ?> separator-left">
+			<a href="<?= @route( $state->loggedin == '1'? 'loggedin=' : 'loggedin=1' ) ?>">
 			    <?= @text('Logged in') ?>
 			</a> 
 		</li>

@@ -29,14 +29,14 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::__construct($config);
 
         $this->_state
-        	->insert('activation'  , 'md5', null, true)
-            ->insert('email'       , 'email', null, true)
-            ->insert('username'    , 'alnum', null, true)
-            ->insert('group_name'  , 'string')
-            ->insert('group'       , 'int')
-            ->insert('enabled'     , 'int')
+        	->insert('activation'   , 'md5', null, true)
+            ->insert('email'        , 'email', null, true)
+            ->insert('username'     , 'alnum', null, true)
+            ->insert('group_name'   , 'string')
+            ->insert('group'        , 'int')
+            ->insert('enabled'      , 'int')
             ->insert('never_visited', 'int')
-            ->insert('logged_in'   , 'int');
+            ->insert('loggedin'     , 'int');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
         	$query->where('tbl.block', '=', $this->_state->enabled);
         }
         
-        if(is_numeric($this->_state->logged_in)) {
+        if(is_numeric($this->_state->loggedin)) {
         	$query->where('session.session_id', '!=', 'null');
         }
         
