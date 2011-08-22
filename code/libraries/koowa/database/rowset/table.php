@@ -139,14 +139,15 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Get an empty row
 	 *
+	 * @param	array An optional associative array of configuration settings.
 	 * @return	object	A KDatabaseRow object.
 	 */
-	public function getRow() 
+	public function getRow(array $options = array()) 
 	{
 		$result = null;
 		
 	    if($this->isConnected()) {
-		    $result = $this->getTable()->getRow();
+		    $result = $this->getTable()->getRow($options);
 		}
 	    
 	    return $result;
