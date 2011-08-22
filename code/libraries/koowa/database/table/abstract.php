@@ -60,20 +60,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     protected $_database = false;
     
     /**
-     * Row object or identifier (APP::com.COMPONENT.row.NAME)
-     *
-     * @var string|object
-     */
-    protected $_row;
-
-    /**
-     * Rowet object or identifier (APP::com.COMPONENT.rowset.NAME)
-     *
-     * @var string|object
-     */
-    protected $_rowset;
-
-    /**
      * Default values for this table
      *
      * @var array
@@ -95,8 +81,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $this->_name        = $config->name;
         $this->_base        = $config->base;
         $this->_database    = $config->database;
-        $this->_row         = $config->row;
-        $this->_rowset      = $config->rowset;
         
         //Check if the table exists
         if(!$info = $this->getSchema()) {
@@ -154,8 +138,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         
         $config->append(array(
             'database'          => KFactory::get('lib.koowa.database.adapter.mysqli'),
-            'row'               => null,
-            'rowset'            => null,
             'name'              => empty($package) ? $name : $package.'_'.$name,
             'column_map'        => null,
             'filters'           => array(),
@@ -495,52 +477,40 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     /**
      * Get an instance of a row object for this table
      *
+     * @param	array An optional associative array of configuration settings.
      * @return  KDatabaseRowInterface
      */
-    public function getRow()
+    public function getRow(array $options = array())
     {
-        if(!($this->_row instanceof KDatabaseRowInterface))
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->path   = array('database', 'row');
-            $identifier->name   = KInflector::singularize($this->_identifier->name);
+        $identifier         = clone $this->_identifier;
+        $identifier->path   = array('database', 'row');
+        $identifier->name   = KInflector::singularize($this->_identifier->name);
             
-            //The row default options
-            $options  = array(
-                'table'             => $this, 
-                'identity_column'   => $this->mapColumns($this->getIdentityColumn(), true)
-            );
-            
-            $this->_row = KFactory::tmp($identifier, $options); 
-        }
-        
-        return clone $this->_row;
+        //The row default options
+        $options['table'] = $this; 
+        $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
+             
+        return KFactory::tmp($identifier, $options); 
     }
     
     /**
      * Get an instance of a rowset object for this table
      *
+     * @param	array An optional associative array of configuration settings.
      * @return  KDatabaseRowInterface
      */
-    public function getRowset()
+    public function getRowset(array $options = array())
     {
-        if(!($this->_rowset instanceof KDatabaseRowsetInterface))
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->path   = array('database', 'rowset');
+        $identifier         = clone $this->_identifier;
+        $identifier->path   = array('database', 'rowset');
             
-            //The row default options
-            $options  = array(
-                'table'             => $this, 
-                'identity_column'   => $this->mapColumns($this->getIdentityColumn(), true)
-            );
-        
-            $this->_rowset = KFactory::tmp($identifier, $options);  
-        }
-        
-        return clone $this->_rowset;
+        //The rowset default options
+        $options['table'] = $this; 
+        $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
+    
+        return KFactory::tmp($identifier, $options);
     }
-
+    
     /**
      * Table select method
      *
