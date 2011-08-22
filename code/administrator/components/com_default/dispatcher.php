@@ -56,7 +56,8 @@ class ComDefaultDispatcher extends KDispatcherDefault
         if(!KRequest::has('get.view')) 
         {
             $url = clone(KRequest::url());
-            $url->query['view'] = $this->getController()->getView()->getName();
+            $url->query['option'] = 'com_'.$this->getIdentifier()->package;
+            $url->query['view']   = $this->getController()->getView()->getName();
            
             KFactory::get('lib.joomla.application')->redirect($url);
         }
