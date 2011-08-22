@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateAbstract extends KTemplateAbstract
+abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 { 
 	/**
 	 * The cache object
