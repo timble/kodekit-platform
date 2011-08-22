@@ -51,6 +51,10 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 
 	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS logged_in');
 	    $query->select('IF(tbl.block = 1, 0, 1) AS enabled');
+	    
+	    if($this->_state->loggedin) {
+	        $query->select(array('session.client_id AS loggedin_client_id', 'session.time AS loggedin_on', 'session.session_id AS loggedin_session_id'));
+	    }
 	}
 
 	/**
