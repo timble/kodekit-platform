@@ -91,11 +91,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
                     foreach($revisions as $row) 
                     {  
-                        $row = $rowset->getRow()
-                                   ->setData($row->data, false)
-                                   ->setStatus(KDatabase::STATUS_DELETED);
-                             
-                        $rowset->insert($row);
+                        $options = array(
+            				'data'   => $row,
+                			'status' => KDatabase::STATUS_DELETED,
+                    		'new'    => false,   
+                        );
+                              
+                        $rowset->insert($rowset->getRow($options));
                     }
 
       			    $context->data = $rowset;
