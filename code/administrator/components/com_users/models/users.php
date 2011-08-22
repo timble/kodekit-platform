@@ -35,7 +35,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             ->insert('group_name'   , 'string')
             ->insert('group'        , 'int')
             ->insert('enabled'      , 'int')
-            ->insert('never_visited', 'int')
+            ->insert('visited'      , 'int')
             ->insert('loggedin'     , 'int');
 	}
 
@@ -101,13 +101,19 @@ class ComUsersModelUsers extends ComDefaultModelDefault
         	$query->where('session.session_id', '!=', 'null');
         }
         
-        if(is_numeric($this->_state->never_visited)) {
-        	$query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
+        if(is_numeric($this->_state->visited))
+        {  
+            if(!$this->_state->visited) {
+        	    $query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
+            } else {
+                $query->where('lastvisitDate', '!=', '0000-00-00 00:00:00');
+            }
         }
 
-	    if($this->_state->search) {
+	    if($this->_state->search) 
+	    {
             $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
-                ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
+                  ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
         }
 	}
 }
