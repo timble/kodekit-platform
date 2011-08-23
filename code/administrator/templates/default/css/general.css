@@ -619,11 +619,13 @@ table.toolbar td a.disabled:active {
 #sidebar ul li.active a,
 #sidebar ul li.active a:hover {
 	color: #FFF;
-	border-top-color: #5494D2;
+	border-top-color: #72A8DF;
 	background-color: #6EA6DE;
-	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
-	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+	box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+	text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 }
 
 #sidebar ul li ul li a {
