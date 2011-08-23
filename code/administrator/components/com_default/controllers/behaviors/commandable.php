@@ -132,7 +132,6 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
             $title = $this->getView()->getTemplate()->getHelper('toolbar')->title($config);
             $document->setBuffer($title, 'modules', 'title');
 	      
-        
             //Render the menubar
             $document = KFactory::get('lib.joomla.document');
             $config   = array('menubar' => $this->getMenubar());
