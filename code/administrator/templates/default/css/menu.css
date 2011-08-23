@@ -52,10 +52,13 @@
 	color: #FFF;
 	line-height: 1.6em; vertical-align: middle;
 	font-size: 12px; font-weight: bold; text-decoration: none;
-	cursor: pointer;
 	background-repeat: no-repeat;
 	background-image: none !important; /*background-position: 3px 50%;*/
 	border-right: 1px solid #555;
+}
+/* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
+#statusmenu a:hover {
+    cursor: pointer;
 }
 #menu ul li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
 #menu ul li.node:hover > a { background-position: 95% 50%; }
