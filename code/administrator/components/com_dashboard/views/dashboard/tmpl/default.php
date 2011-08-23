@@ -14,7 +14,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <div class="-koowa-box-flex">
     <?= @template('default_icons'); ?>
 </div>
-<div class="-koowa-box-flex">
+<div style="width:550px;">
 <?= @helper('accordion.startPane') ?>
     <? foreach ($modules as $module) : ?>
         <?= @helper('accordion.startPanel', array('title' => $module->title)) ?>
