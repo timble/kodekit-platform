@@ -27,6 +27,13 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 	protected $_menubar;
 	
 	/**
+	 * Array of parts to render
+	 *
+	 * @var array
+	 */
+	protected $_render;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
@@ -37,6 +44,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 
 		// Set the view identifier
 		$this->_menubar = $config->menubar;
+		$this->_render  = KConfig::toData($config->render);
 	}
 	
 	/**
@@ -51,6 +59,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
     {
     	$config->append(array(
     		'menubar' => 'menubar',
+    	    'render'  => array('toolbar', 'menubar', 'title')
         ));
  
         parent::_initialize($config);
@@ -124,19 +133,34 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
         {
             //Render the toolbar
 	        $document = KFactory::get('lib.joomla.document');
-            $config   = array('toolbar' => $this->getToolbar());
-	            
-	        $toolbar = $this->getView()->getTemplate()->getHelper('toolbar')->render($config);
+	        
+            if(in_array('toolbar', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this->getToolbar());
+	            $toolbar = $this->getView()->getTemplate()->getHelper('toolbar')->render($config);      
+            } 
+            else $toolbar = false;
+            
             $document->setBuffer($toolbar, 'modules', 'toolbar');
-                
-            $title = $this->getView()->getTemplate()->getHelper('toolbar')->title($config);
+
+            //Render the title
+            if(in_array('title', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this->getToolbar());
+                $title = $this->getView()->getTemplate()->getHelper('toolbar')->title($config);
+            } 
+            else $title = false;
+            
             $document->setBuffer($title, 'modules', 'title');
 	      
             //Render the menubar
-            $document = KFactory::get('lib.joomla.document');
-            $config   = array('menubar' => $this->getMenubar());
-                
-            $menubar = $this->getView()->getTemplate()->getHelper('menubar')->render($config);
+            if(in_array('menubar', $this->_render)) 
+            {
+                $config = array('menubar' => $this->getMenubar());
+                $menubar = $this->getView()->getTemplate()->getHelper('menubar')->render($config);
+            } 
+            else $menubar = false;
+            
             $document->setBuffer($menubar, 'modules', 'submenu');
         }
     }
