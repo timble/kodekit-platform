@@ -21,6 +21,15 @@ window.addEvent('domready', function(){
 	if(Element.chromatable) $$('form.-koowa-grid table').chromatable();
 	$$('td.divider').getPrevious().addClass('last');
 	
+	var sidebar = $('sidebar');
+	if(sidebar) {
+	    sidebar.getElements('li > a').addEvent('click', function(e){
+	        this.getParent('ul').getElements('.active').removeClass('active');
+	        
+	        $$(this, this.getParent()).addClass('active');
+	    });
+	}
+	
 	//This is not the Konami code
 	var b = [], a = "38,38,40,40,37,39,37,39,66,65";
 	window.addEvent('keydown', function(c){
