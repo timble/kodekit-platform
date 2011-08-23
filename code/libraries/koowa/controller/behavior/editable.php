@@ -50,7 +50,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	    $identifier = $this->getMixer()->getIdentifier();
 	    
 	    $referrer = KFactory::tmp('lib.koowa.http.url', 
-	        array('url' => KRequest::get('cookie.'.$identifier->application.'.com.controller.referrer', 'url'))
+	        array('url' => KRequest::get('cookie.referrer_'.md5(KRequest::referrer()), 'url'))
 	    );
 	    
 	    return $referrer;
@@ -65,7 +65,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{								   
 	    $identifier = $this->getMixer()->getIdentifier();
 	    
-	    if(!KRequest::has('cookie.'.$identifier->application.'.com.controller.referrer'))
+	    if(!KRequest::has('cookie.referrer_'.md5(KRequest::referrer())))
 	    {
 	        $referrer = KRequest::referrer();
 	        $request  = KRequest::url();
@@ -80,7 +80,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		        $referrer = KFactory::tmp('lib.koowa.http.url',array('url' => $url));
 		    }
 	        
-			KRequest::set('cookie.'.$identifier->application.'.com.controller.referrer', (string) $referrer);
+			KRequest::set('cookie.referrer_'.md5(KRequest::url()), (string) $referrer);
 		}
 	}
 	
@@ -92,8 +92,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	public function unsetReferrer()
 	{								  
 	    $identifier = $this->getMixer()->getIdentifier();
-	    
-	    KRequest::set('cookie.'.$identifier->application.'.com.controller.referrer', null);
+	    KRequest::set('cookie.referrer_'.md5(KRequest::referrer()), null);
 	}
 	
 	/**
