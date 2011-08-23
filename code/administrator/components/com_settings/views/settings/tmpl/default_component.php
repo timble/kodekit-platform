@@ -11,15 +11,14 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('tabs.startPanel', array('id' => $settings->getName(), 'title' => @text(ucfirst($settings->getName())))) ?>
-	<div class="grid_6">
-		<fieldset class="adminform">
-			<legend><?=  @text(ucfirst($settings->getName())); ?></legend>
-			<? 
-			    $params = new JParameter( null, $settings->getPath() );
-				$params->loadArray($settings->toArray());
-				
-				echo $params->render('settings['.$settings->getName().']');
-			?>
-		</fieldset>
-	</div>
+	<h2><?=  @text(ucfirst($settings->getName())); ?></h2>
+	<section>
+		<h3><?=  @text(ucfirst($settings->getName())); ?></h3>
+		<? 
+		    $params = new JParameter( null, $settings->getPath() );
+			$params->loadArray($settings->toArray());
+			
+			echo $params->render('settings['.$settings->getName().']');
+		?>
+	</section>
 <?= @helper('tabs.endPanel') ?>

@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?= @text( 'TIPDATETIMEDISPLAY' ) .': '. JHTML::_('date',  'now', @text('DATE_FORMAT_LC2')); ?>">
 					<?= @text( 'Time Zone' ); ?>
 				</span>

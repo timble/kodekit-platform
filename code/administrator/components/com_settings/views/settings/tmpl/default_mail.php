@@ -15,10 +15,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Mailer' ); ?>::<?= @text( 'TIPMAILER' ); ?>">
-						<?= @text( 'Mailer' ); ?>
-					</span>
+					<?= @text( 'Mailer' ); ?>
+				</span>
 			</td>
 			<td>
 				<?= @helper('listbox.mailers', array('name' => 'settings[system][mailer]', 'selected' => $settings->mailer)); ?>
@@ -27,8 +27,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Mail From' ); ?>::<?= @text( 'TIPMAILFROM' ); ?>">
-						<?= @text( 'Mail From' ); ?>
-					</span>
+					<?= @text( 'Mail From' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][mailfrom]" size="30" value="<?= $settings->mailfrom; ?>" />
@@ -37,8 +37,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'From Name' ); ?>::<?= @text( 'TIPFROMNAME' ); ?>">
-						<?= @text( 'From Name' ); ?>
-					</span>
+					<?= @text( 'From Name' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][fromname]" size="30" value="<?= $settings->fromname; ?>" />
@@ -47,8 +47,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Sendmail Path' ); ?>::<?= @text( 'TIPSENDMAILPATH' ); ?>">
-						<?= @text( 'Sendmail Path' ); ?>
-					</span>
+					<?= @text( 'Sendmail Path' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][sendmail]" size="30" value="<?= $settings->sendmail; ?>" />
@@ -57,8 +57,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'SMTP Auth' ); ?>::<?= @text( 'TIPSMTPAUTH' ); ?>">
-						<?= @text( 'SMTP Auth' ); ?>
-					</span>
+					<?= @text( 'SMTP Auth' ); ?>
+				</span>
 			</td>
 			<td>
 				<?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]'));?>
@@ -67,7 +67,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tr>
  			<td class="key">
    				<span class="editlinktip hasTip" title="<?= @text( 'SMTP Security' ); ?>::<?= @text( 'TIPSMTPSECURITY' ); ?>">
-	    				<?= @text( 'SMTP Security' ); ?>
+	    			<?= @text( 'SMTP Security' ); ?>
 				</span>
 			</td>
 			<td>
@@ -87,8 +87,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'SMTP User' ); ?>::<?= @text( 'TIPSMTPUSER' ); ?>">
-						<?= @text( 'SMTP User' ); ?>
-					</span>
+					<?= @text( 'SMTP User' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][smtpuser]" size="30" value="<?= $settings->smtpuser; ?>" />
@@ -97,8 +97,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'SMTP Pass' ); ?>::<?= @text( 'TIPSMTPPASS' ); ?>">
-						<?= @text( 'SMTP Pass' ); ?>
-					</span>
+					<?= @text( 'SMTP Pass' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="password" name="settings[system][smtppass]" size="30" value="<?= $settings->smtppass; ?>" />
@@ -107,8 +107,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'SMTP Host' ); ?>::<?= @text( 'TIPSMTPHOST' ); ?>">
-						<?= @text( 'SMTP Host' ); ?>
-					</span>
+					<?= @text( 'SMTP Host' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][smtphost]" size="30" value="<?= $settings->smtphost; ?>" />

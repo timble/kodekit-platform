@@ -15,10 +15,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Hostname' ); ?>::<?= @text( 'TIPDATABASEHOSTNAME' ); ?>">
-						<?= @text( 'Hostname' ); ?>
-					</span>
+					<?= @text( 'Hostname' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][host]" size="30" value="<?= $settings->host; ?>" />
@@ -27,8 +27,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Username' ); ?>::<?= @text( 'TIPDATABASEUSERNAME' ); ?>">
-						<?= @text( 'Username' ); ?>
-					</span>
+					<?= @text( 'Username' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][user]" size="30" value="<?= $settings->user; ?>" />
@@ -37,8 +37,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database' ); ?>::<?= @text( 'TIPDATABASENAME' ); ?>">
-						<?= @text( 'Database' ); ?>
-					</span>
+					<?= @text( 'Database' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][db]" size="30" value="<?= $settings->db; ?>" />
@@ -47,8 +47,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database Prefix' ); ?>::<?= @text( 'TIPDATABASEPREFIX' ); ?>">
-						<?= @text( 'Database Prefix' ); ?>
-					</span>
+					<?= @text( 'Database Prefix' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="settings[system][dbprefix]" size="10" value="<?= $settings->dbprefix; ?>" />

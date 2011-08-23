@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Enable Debugging' ); ?>::<?= @text('TIPDEBUGGINGINFO'); ?>">
 					<?= @text( 'Debug System' ); ?>
 				</span>

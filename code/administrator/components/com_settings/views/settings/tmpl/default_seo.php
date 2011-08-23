@@ -13,10 +13,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <section>
 	<h3><?= @text( 'SEO' ); ?></h3>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Search Engine Friendly URLs' ); ?>::<?= @text('Search Engine Optimization Settings'); ?>">
 					<?= @text( 'Search Engine Friendly URLs' ); ?>
 				</span>
@@ -26,7 +25,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Use mod_rewrite' ); ?>::<?= @text('TIPUSEMODREWRITE'); ?>">
 					<?= @text( 'Use mod_rewrite' ); ?>
 				</span>
@@ -39,7 +38,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'URL Suffix' ); ?>::<?= @text('TIPURLSUFFIX'); ?>">
 					<?= @text( 'Add suffix to URLs' ); ?>
 				</span>

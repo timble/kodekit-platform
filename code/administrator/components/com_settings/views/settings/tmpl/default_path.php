@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Path to Log-folder' ); ?>::<?= @text( 'TIPLOGFOLDER' ); ?>">
 						<?= @text( 'Log-folder' ); ?>
 					</span>
@@ -25,7 +25,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</td>
 			</tr>
 			<tr>
-				<td valign="top" class="key">
+				<td class="key">
 					<span class="editlinktip hasTip" title="<?= @text( 'Path to Temp-folder' ); ?>::<?= @text( 'TIPTMPFOLDER' ); ?>">
 						<?= @text( 'Temp-folder' ); ?>
 					</span>

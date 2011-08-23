@@ -25,7 +25,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Site Offline' ); ?>::<?= @text( 'TIPSETYOURSITEISOFFLINE' ); ?>">
 				<?= @text( 'Site Offline' ); ?>
 				</span>
@@ -73,7 +73,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td width="185" class="key">
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Feedlimit' ); ?>::<?= @text( 'TIPFEEDLIMIT' ); ?>">
 					<?= @text( 'Feed Length' ); ?>
 				</span>
