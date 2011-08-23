@@ -28,7 +28,7 @@ var $get = function(key, defaultValue) {
 window.addEvent('domready', function() {
     $$('.submitable').addEvent('click', function(e){
         e = new Event(e);
-        new Koowa.Form(Json.evaluate(e.target.getProperty('rel'))).submit();
+        new Koowa.Form(Json.decode(e.target.getProperty('rel'))).submit();
     });
 
     $$('.-koowa-grid').each(function(grid){
