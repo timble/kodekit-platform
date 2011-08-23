@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<form class="-koowa-grid -koowa-box-scroll">
+<form class="-koowa-grid">
 <table class="adminlist">
     <thead>
         <tr>
