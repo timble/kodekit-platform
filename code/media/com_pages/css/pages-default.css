@@ -1,0 +1,64 @@
+#menus ul li:last-of-type a { border-bottom: 0px none !important; }
+
+/* @group Controls */
+table.adminlist .controls {
+	display: none;
+}
+
+table.adminlist tr:hover .controls {
+	display: inline-block;
+	float: right;
+}
+
+table.adminlist tr:hover .controls a,
+table.adminlist tr:hover .controls span {
+	padding: 1px 5px;
+	margin-right: 1px;
+	background: #FFF;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	font-weight: bold;
+}
+
+table.adminlist tr:hover .controls a.left-end,
+table.adminlist tr:hover .controls span.left-end {
+	-webkit-border-top-left-radius: 3px; 	-moz-border-radius-topleft: 3px;
+	-webkit-border-bottom-left-radius: 3px; -moz-border-radius-bottomleft: 3px;
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	border-left: 1px solid #d7dade;
+}
+
+table.adminlist tr:hover .controls a.right-end,
+table.adminlist tr:hover .controls span.right-end {
+	margin-right: 4px !important;
+	-webkit-border-top-right-radius: 3px; 		-moz-border-radius-topright: 3px;
+	-webkit-border-bottom-right-radius: 3px; 	-moz-border-radius-bottomright: 3px;
+	border-top: 1px solid #d7dade;
+	border-bottom: 1px solid #d7dade;
+	border-right: 1px solid #d7dade;
+}
+
+table.adminlist tr:hover .controls span.right-end {
+	color: #999;
+}
+
+table.adminlist tr:hover .controls a:link,
+table.adminlist tr:hover .controls a:visited {
+	color: #666;
+	text-decoration: none;
+}
+
+table.adminlist tr:hover .controls a:hover {
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px; -webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px; -moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	color: #333;
+	-webkit-transition: all 150ms ease-in-out;
+}
+
+table.adminlist tr:hover .controls a:active{
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; -webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px; -moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	-webkit-transition-duration: 0s;
+}
+/* @end */
