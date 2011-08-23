@@ -34,4 +34,15 @@
 			<option value="1">Yes</option>
 		</param>
 	</params>
+	
+	<config> 
+        <fields name="params"> 
+            <fieldset name="basic"> 
+                <field name="auth_basic" type="radio" default="0" label="Basic Authentication" description="If yes, basic authentication support will be enabled"> 
+                <option value="0">No</option> 
+                <option value="1">Yes</option> 
+            </field> 
+            </fieldset> 
+        </fields> 
+    </config> 
 </install>
