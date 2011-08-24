@@ -255,9 +255,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	{
 	    //Identify the template
 	    $identifier = KFactory::identify($template);
-       
-        // Load the identifier
-        $file = $identifier->name; 
         
         if($identifier->filepath) {
 	       $path = dirname($identifier->filepath);
@@ -266,10 +263,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	    }
 	 
 	    // Find the template 
-		$file = $this->findFile($path.'/'.$file.'.php');
+		$file = $this->findFile($path.'/'.$identifier->name.'.php');
 	    
 		if ($file === false) {
-			throw new KTemplateException( 'Template "' . $file . '" not found' );
+			throw new KTemplateException('Template "'.$identifier->name.'" not found');
 		}
 		
 		// Load the file

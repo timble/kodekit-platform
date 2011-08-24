@@ -224,7 +224,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
 		$html = '';
 		// Load the necessary files if they haven't yet been loaded
-		if(!isset(self::$_loaded['valiator']))
+		if(!isset(self::$_loaded['validator']))
 		{
 		    if(version_compare(JVERSION,'1.6.0','ge')) {
 		        $html .= '<script src="media://lib_koowa/js/validator-1.3.js" />';

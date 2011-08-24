@@ -222,6 +222,11 @@ class KRequest
         foreach(array_reverse($keys, true) as $key) {
             $value = array($key => $value);
         }
+        
+        // Add the global if it's doesn't exist
+        if(!isset($GLOBALS['_'.$hash])) { 
+           $GLOBALS['_'.$hash] = array(); 
+        } 
 
         $GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
     }

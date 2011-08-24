@@ -24,7 +24,7 @@ Koowa.version = 0.7;
 window.addEvent('domready', function() {
     $$('.submitable').addEvent('click', function(event){
         event = new Event(event);
-        new Koowa.Form(Json.evaluate(event.target.getProperty('rel'))).submit();
+        new Koowa.Form(Json.decode(event.target.getProperty('rel'))).submit();
     });
 
     $$('.-koowa-grid').each(function(grid){

@@ -341,6 +341,15 @@ class KInflector
 	 */
 	public static function isSingular($string) 
 	{
+		// Check cache assuming the string is plural.
+		$singular = isset(self::$_cache['singularized'][$string]) ? self::$_cache['singularized'][$string] : null;
+		$plural   = $singular && isset(self::$_cache['pluralized'][$singular]) ? self::$_cache['pluralized'][$singular] : null;
+		
+		if($singular && $plural) {
+			return $plural != $string;
+		}
+		
+		// If string is not in the cache, try to pluralize and singularize it.
 		return self::singularize(self::pluralize($string)) == $string;
 	}
 
@@ -350,9 +359,18 @@ class KInflector
 	 * @param string $string
 	 * @return boolean
 	 */
-	public static function isPlural($plural) 
+	public static function isPlural($string) 
 	{
-		return self::pluralize(self::singularize($plural)) == $plural;
+		// Check cache assuming the string is singular.
+		$plural   = isset(self::$_cache['pluralized'][$string]) ? self::$_cache['pluralized'][$string] : null;
+		$singular = $plural && isset(self::$_cache['singularized'][$plural]) ? self::$_cache['singularized'][$plural] : null;
+		
+		if($plural && $singular) {
+			return $singular != $string;
+		}
+		
+		// If string is not in the cache, try to singularize and pluralize it.
+		return self::pluralize(self::singularize($string)) == $string;
 	}
 
     /**

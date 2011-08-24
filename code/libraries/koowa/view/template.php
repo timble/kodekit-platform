@@ -297,7 +297,7 @@ abstract class KViewTemplate extends KViewAbstract
             	'view' => $this
             );
             
-            $this->_template = KFactory::get($this->_template, $options);
+            $this->_template = KFactory::tmp($this->_template, $options);
         }
         
         return $this->_template;
