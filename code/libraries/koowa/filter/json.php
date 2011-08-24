@@ -46,6 +46,9 @@ class KFilterJson extends KFilterAbstract
     
     /**
      * Sanitize a value
+     * 
+     * If the value passed for sanitisation is a json encoding string it will be decoded, 
+     * otherwise the value will be encoded.
      *
      * @param   scalar  Value to be sanitized
      * @return  string
@@ -53,20 +56,22 @@ class KFilterJson extends KFilterAbstract
     protected function _sanitize($value)
     {
         $result = null;
-        
-        if(is_a($value, 'KConfig')) {
-            $value = (string)$value; 
-        }   
-        
+         
+        //Try to decode the string
         if(is_string($value)) {
             $result = json_decode($value);
         }
         
-        if(is_null($result)) {
+        //Encode the data if it could not be decode
+        if(is_null($result)) 
+        {
+            if($value instanceof KConfig) {
+                $value = KConfig::toData($value); 
+            }     
+            
             $result =  json_encode($value);
         }
         
         return $result;
     }
 }
-
