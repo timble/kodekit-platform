@@ -109,7 +109,8 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	/**
      * Set the model state properties
      *
-     * This function overloads the KObject::set() function and only acts on state properties.
+     * This function overloads the KObject::set() function and only acts on state properties it
+     * will reset (unsets) the $_list, $_item and $_total model properties when a state changes.
      *
      * @param   string|array|object	The name of the property, an associative array or an object
      * @param   mixed  				The value of the property
@@ -117,14 +118,37 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
      */
     public function set( $property, $value = null )
     {
-    	if(is_object($property)) {
+    	$changed = false;
+        
+        if(is_object($property)) {
     		$property = (array) KConfig::toData($property);
     	}
 
-    	if(is_array($property)) {
+        if(is_array($property))
+        {
+            foreach($property as $key => $value)
+            {
+                if(isset($this->_state->$key) && $this->_state->$key != $value)
+                {
+                    $changed = true;
+                    break;
+                }
+            }
+            
         	$this->_state->setData($property);
-        } else {
-        	$this->_state->$property = $value;
+        } 
+        else
+        {
+            if(isset($this->_state->$property) && $this->_state->$property != $value) {
+                $changed = true;
+            }
+        }
+        
+        if($changed)
+        {
+            unset($this->_list);
+            unset($this->_item);
+            unset($this->_total);
         }
 
         return $this;
