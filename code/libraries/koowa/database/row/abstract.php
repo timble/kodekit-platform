@@ -74,7 +74,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
 		}
-           
+		
         // Reset the row
         $this->reset();
         
@@ -280,7 +280,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_data     = array();
         $this->_modified = array();
         
-        $this->setStatus(NULL);
         return true;
     }
     

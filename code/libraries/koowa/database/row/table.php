@@ -236,9 +236,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		
 		if($this->isConnected())
 		{
-	        if($this->_data = $this->getTable()->getDefaults()) 
-	        {
-		        $this->setStatus(null);
+	        if($this->_data = $this->getTable()->getDefaults()) {
 		        $result = true;
 		    }
 		}
