@@ -134,7 +134,7 @@ class KHelperArray
     {
         $output = array();
         
-        if(is_a($array, 'KConfig'))
+        if($array instanceof KConfig)
         {
             $data = array();
             foreach($array as $key => $item)
