@@ -49,8 +49,6 @@ function submitbutton(pressbutton) {
 	var text = <?php echo $this->editor->getContent( 'text' ); ?>
 	if (form.title.value == '') {
 		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
-	} else if (text == '') {
-		return alert ( "<?php echo JText::_( 'Article must have some text', true ); ?>");
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
 		// for articles
 		if (form.catid && getSelectedValue('adminForm','catid') < 1) {

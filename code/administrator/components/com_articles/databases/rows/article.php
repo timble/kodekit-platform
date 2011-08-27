@@ -78,15 +78,6 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
-        //Validate the text
-        if(empty($this->introtext) && empty($this->fulltext))
-        {
-            $this->_status          = KDatabase::STATUS_FAILED;
-            $this->_status_message  = JText::_('Article must have some text');
-
-            return false;
-        }
-
         $modified = $this->_modified;
         $result   = parent::save();
 

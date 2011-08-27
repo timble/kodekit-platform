@@ -131,11 +131,6 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if(empty($this->introtext) && empty($this->fulltext)) {
-			$this->setError(JText::_('Article must have some text'));
-			return false;
-		}
-
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if(!empty($this->metakey)) { // only process if not empty
