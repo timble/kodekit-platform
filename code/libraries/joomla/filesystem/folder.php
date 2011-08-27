@@ -253,7 +253,7 @@ class JFolder
 	function delete($path)
 	{
 		// Sanity check
-		if (!$path) {
+		if(in_array($path, array(null, '/', JPATH_ROOT, JPATH_BASE))) {
 			// Bad programmer! Bad Bad programmer!
 			JError::raiseWarning(500, 'JFolder::delete: ' . JText::_('Attempt to delete base directory') );
 			return false;
