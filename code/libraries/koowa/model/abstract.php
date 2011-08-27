@@ -79,7 +79,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'state'      => KFactory::tmp('lib.koowa.config.state'),
+            'state' => KFactory::tmp('lib.koowa.config.state'),
        	));
 
        	parent::_initialize($config);
@@ -258,5 +258,15 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
         }
 
         return parent::__call($method, $args);
+    }
+    
+	/**
+     * Preform a deep clone of the object.
+     *
+     * @retun void
+     */
+    public function __clone()
+    {
+        $this->_state = clone $this->_state;
     }
 }
