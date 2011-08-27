@@ -142,6 +142,8 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
             if(isset($this->_state->$property) && $this->_state->$property != $value) {
                 $changed = true;
             }
+            
+            $this->_state->$property = $value;
         }
         
         if($changed)
