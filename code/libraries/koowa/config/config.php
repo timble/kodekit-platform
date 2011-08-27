@@ -54,7 +54,7 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         $array = array();
         foreach ($this->_data as $key => $value) 
         {
-            if (is_object($value)) {
+            if ($value instanceof KConfig || $value instanceof stdClass) {
                 $array[$key] = clone $value;
             } else {
                 $array[$key] = $value;
