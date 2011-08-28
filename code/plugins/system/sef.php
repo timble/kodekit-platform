@@ -108,9 +108,22 @@ class plgSystemSef extends JPlugin
      */
    	 function route( &$matches )
      {    
-         $url    = str_replace('&amp;','&',$matches[3]);
-         $route  = JRoute::_($url);
+         $url = str_replace('&amp;','&',$matches[3]);
+         $uri = new JURI(JURI::base(true).'/'.$url);
+        
+         //Remove basepath
+		 $path = substr_replace($uri->getPath(), '', 0, strlen(JURI::base(true)));
+		  
+		 //Remove prefix
+		 $path = trim(str_replace('index.php', '', $path), '/');
+		   
+         if(empty($path)) 
+         {
+             $route  = JRoute::_($url);
+             $result =  $matches[1].$matches[2].$route;
+         }
+         else $result = $matches[0];
          
-         return $matches[1].$matches[2].$route;
+         return $result;
       }
 }
