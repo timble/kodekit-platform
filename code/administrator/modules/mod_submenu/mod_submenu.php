@@ -37,8 +37,10 @@ class JAdminSubMenu
 		// Lets get some variables we are going to need
 		$menu = JToolBar::getInstance('submenu');
 		$list = $menu->_bar;
-		if(!is_array($list) || !count($list)) {
-			$list = JAdminSubMenu::_loadDBList($option);
+		if(!is_array($list) || !count($list)) 
+		{
+			$option = JRequest::getCmd('option');
+			$list 	= JAdminSubMenu::_loadDBList($option);
 		}
 
 		if (!is_array($list) || !count($list)) {
