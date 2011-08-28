@@ -63,7 +63,7 @@ class ComDefaultFilterIni extends KFilterAbstract
         
         $handler = JRegistryFormat::getInstance('INI');
 
-        if(is_a($value, 'KConfig')) {
+        if($value instanceof KConfig) {
             $value = $value->toArray(); 
         }    
 

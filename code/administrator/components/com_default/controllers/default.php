@@ -30,7 +30,7 @@ class ComDefaultControllerDefault extends KControllerService
 		parent::__construct($config);
 
 		if($config->persistable && $this->isDispatched()) {
-			$this->registerCallback('before.browse' , array($this, 'addBehavior'), 'persistable');
+			$this->addBehavior('persistable');
 		}
 	}
 	
