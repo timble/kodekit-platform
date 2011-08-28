@@ -56,7 +56,7 @@ class modMenuHelper
 		/*
 		 * Site SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Dashboard'), 'index.php', 'class:cpanel'), true);
+		$menu->addChild(new JMenuNode(JText::_('Dashboard'), 'index.php?option=com_dashboard&view=dashboard', 'class:cpanel'), true);
 		$menu->getParent();
 		
 		/*
@@ -183,7 +183,7 @@ class modMenuHelper
 				$menu->addSeparator();
 			}
 
-			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
+			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache&view=items', 'class:config'));
 			$menu->getParent();
 		}
 
