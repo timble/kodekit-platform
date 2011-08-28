@@ -20,6 +20,19 @@
 
 class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
+    public function authors($config = array())
+    {
+        $config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'articles',
+			'name' 		=> 'created_by',
+			'value'		=> 'created_by_id',
+			'text'		=> 'created_by_name',
+		));
+
+		return parent::_listbox($config);
+    }
+    
     public function sections($config = array())
     {
         $config = new KConfig($config);
@@ -67,11 +80,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
 
-        if($config->section == '0')
-        {
-            $config->selected = 0;
-        }
-        else
+        if($config->section != '0')
         {
             $list = KFactory::tmp('admin::com.categories.model.categories')
                 ->set('section', $config->section > 0 ? $config->section : 'com_content')
@@ -83,33 +92,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                 $options[] = $this->option(array('text' => $item->title, 'value' => $item->id));
             }
         }
-
-        $config->options = $options;
-
-        return $this->optionlist($config);
-    }
-
-    public function authors($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'      => 'created_by',
-            'deselect'  => true,
-            'selected'  => $config->created_by,    
-            'prompt'	=> '- Select -'
-        ));
-
-        $list = KFactory::tmp('admin::com.articles.model.articles')
-            ->set($config)
-            ->getAuthors();
-
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt)));
-        }
-
-        foreach($list as $item) {
-            $options[] = $this->option(array('text' => $item->name, 'value' => $item->id));
-        }
+        else $config->selected = 0;
 
         $config->options = $options;
 
