@@ -88,6 +88,22 @@ interface KDatabaseAdapterInterface
 	 */
 	public function getTableSchema($table);
 	
+    /**
+     * Lock a table.
+     * 
+     * @param  string  Base name of the table.
+     * @param  string  Real name of the table.
+     * @return boolean True on success, false otherwise.
+     */
+    public function lockTable($base, $name);
+    
+    /**
+     * Unlock a table.
+     * 
+     * @return boolean True on success, false otherwise.
+     */
+    public function unlockTable();
+	
 	/**
      * Preforms a select query
      *
@@ -101,6 +117,17 @@ interface KDatabaseAdapterInterface
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
 	public function select($sql, $mode = KDatabase::RESULT_STORE);
+	
+	/**
+     * Preforms a show query
+     *
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * 							value must be one of the KDatabase::FETCH_* constants.
+     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * 					    	In all cases, FALSE is returned on failure.
+     */
+	public function show($query, $mode = KDatabase::FETCH_ARRAY_LIST);
 
 	/**
      * Inserts a row of data into a table.
