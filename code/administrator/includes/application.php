@@ -98,6 +98,8 @@ class JAdministrator extends JApplication
 			$uri->setScheme('https');
 			$this->redirect($uri->toString());
 		}
+		
+		parent::route($uri);
 	}
 
 	/**
