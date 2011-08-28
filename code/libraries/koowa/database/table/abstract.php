@@ -792,6 +792,66 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 
         return $context->affected;
     }
+    
+ 	/**
+     * Lock the table.
+     * 
+     * return boolean True on success, false otherwise.
+     */
+    public function lock()
+    {
+        $result = null;
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $this->getBase();
+        
+        if($this->getCommandChain()->run('before.lock', $context) !== false) 
+        {
+            if($this->isConnected()) 
+            {
+                try {
+                    $context->result = $this->_database->lockTable($this->getBase(), $this->getName());
+                } catch(KDatabaseException $e) {
+                    throw new KDatabaseTableException($e->getMessage());
+                }
+            }
+            
+            $this->getCommandChain()->run('after.lock', $context);
+        }
+        
+        return $context->result;
+    }
+    
+    /**
+     * Unlock the table.
+     * 
+     * return boolean True on success, false otherwise.
+     */
+    public function unlock()
+    {
+        $result = null;
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $this->getBase();
+        
+        if($this->getCommandChain()->run('before.unlock', $context) !== false) 
+        {
+            if($this->isConnected()) 
+            {
+                try {
+                    $context->result = $this->_database->unlockTable();
+                } catch(KDatabaseException $e) {
+                    throw new KDatabaseTableException($e->getMessage());
+                }
+            }
+            
+            $this->getCommandChain()->run('after.unlock', $context);
+        }
+        
+        return $context->result;
+    }
 
     /**
      * Table filter method
@@ -817,7 +877,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
         return $data;
     }
-    
+     
 	/**
 	 * Search the behaviors to see if this table behaves as.
 	 *
