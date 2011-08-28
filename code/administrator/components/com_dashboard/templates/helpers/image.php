@@ -28,10 +28,10 @@ class ComDashboardTemplateHelperImage extends KTemplateHelperAbstract
              'image' => '',
              'style' => KFactory::get('lib.joomla.language')->isRTL() ? 'right' : 'left'
         ));
-        
+         
 		$html  = '<div style="float:'.$config->style.'">';
 		$html .= '<div class="icon">';
-		$html .= '	<a href='.JRoute::_($config->link).'>';
+		$html .= '	<a href='.JRoute::_('index.php?'.$config->link).'>';
 		$html .= '		<img src="base://templates/default/images/header/'.$config->image.'.png" />';		    
 		$html .= '		<span>'.JText::_($config->text).'</span>';
 		$html .= '	</a>';
