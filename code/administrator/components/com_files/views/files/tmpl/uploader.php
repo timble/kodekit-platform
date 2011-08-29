@@ -155,7 +155,7 @@ window.addEvent('domready', function() {
 		
 		<div style="clear: both"></div>
 		
-		<div id="files-upload-multi" style="width: 600px; height: 250px;"></div>
+		<div id="files-upload-multi"></div>
 
 	</div>
 	<div class="clr"></div>
