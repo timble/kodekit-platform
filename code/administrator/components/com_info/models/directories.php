@@ -45,7 +45,7 @@ class ComInfoModelDirectories extends KModelAbstract
                 'plugins/system/'           => JPATH_PLUGINS.'/system',
                 'plugins/user'              => JPATH_PLUGINS.'/user',
                 'templates/'                => JPATH_THEMES,
-                'tmp/'                      => KFactory::get('lib.joomla.config')->getValue('config.tmp_path', JPATH_ROOT.'/tmp')
+                'tmp/'                      => KFactory::get('joomla:config')->getValue('config.tmp_path', JPATH_ROOT.'/tmp')
             );
 
             foreach(new DirectoryIterator(JPATH_ADMINISTRATOR.'/language') as $language)
@@ -72,7 +72,7 @@ class ComInfoModelDirectories extends KModelAbstract
                 );
             }
 
-            $this->_list = KFactory::tmp('admin::com.info.database.rowset.configuration')
+            $this->_list = KFactory::get('com://admin/info.database.rowset.configuration')
                 ->addData($rows, false);
         }
 

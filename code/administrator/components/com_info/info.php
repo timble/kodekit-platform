@@ -17,4 +17,4 @@
  * @package     Nooku_Server
  * @subpackage  Info
  */
-echo KFactory::get('admin::com.info.dispatcher')->dispatch();
+echo KFactory::get('com://admin/info.dispatcher')->dispatch();

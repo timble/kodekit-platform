@@ -23,7 +23,7 @@ class ComInfoControllerConfiguration extends ComInfoControllerDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'model' => 'admin::com.info.model.configuration',
+            'model' => 'com://admin/info.model.configuration',
             'view'  => 'configuration'
         ));
 

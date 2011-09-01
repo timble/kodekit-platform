@@ -86,7 +86,7 @@ class ComInfoModelPhpsettings extends KModelAbstract
                 )
             );
 
-            $this->_list = KFactory::tmp('admin::com.info.database.rowset.system')
+            $this->_list = KFactory::get('com://admin/info.database.rowset.system')
                 ->addData($rows, false);
         }
 
