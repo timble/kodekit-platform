@@ -18,7 +18,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
+class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements KObjectInstantiatable
 { 
     /**
 	 * The cache object
@@ -48,7 +48,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
      *
      * @return KDatabaseTableDefault
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
