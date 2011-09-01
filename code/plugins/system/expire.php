@@ -20,6 +20,13 @@
  */
 class plgSystemExpire extends JPlugin
 {
+    /**
+     * Quick lookup cache, mostly useful for <img /> and url() rewrites as there are often duplicates on page
+     *
+     * @var array
+     */
+    protected $_cache = array();
+
     public function onAfterRender()
     {
         $response = JResponse::getBody();
@@ -50,23 +57,28 @@ class plgSystemExpire extends JPlugin
 	 */
 	protected function _processResourceURL($url)
 	{
-	    // Remote resources cannot be processed
-	    if(KFactory::get('koowa:filter.url')->validate($url)) {
-	        return $url;
-	    }
-	    
-	    /** 
-	     * The count is a referenced value, so need to be passed as a variable.
-	     * And the count is needed to prevent the root to be replaced multiple times in a longer path.
-	     */
-	    $count = 1;
-        $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
-
-        if($modified = filemtime($src)) {
-            $join  = strpos($url, '?') ? '&' : '?';
-            return $url.$join.'modified='.$modified;
+	    if(!isset($this->_cache[$url]))
+	    {
+    	    // Remote resources cannot be processed
+    	    if(KFactory::get('koowa:filter.url')->validate($url)) {
+    	        return $this->_cache[$url] = $url;
+    	    }
+    	    
+    	    /** 
+    	     * The count is a referenced value, so need to be passed as a variable.
+    	     * And the count is needed to prevent the root to be replaced multiple times in a longer path.
+    	     */
+    	    $count = 1;
+            $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
+    
+            if($modified = filemtime($src)) {
+                $join  = strpos($url, '?') ? '&' : '?';
+                $this->_cache[$url] = $url.$join.'modified='.$modified;
+            } else {
+                $this->_cache[$url] = $url;
+            }
         }
 
-        return $url;
+        return $this->_cache[$url];
 	}
 }
