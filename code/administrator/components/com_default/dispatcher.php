@@ -37,6 +37,28 @@ class ComDefaultDispatcher extends KDispatcherDefault
         }
     }
     
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDispatcherDefault
+     */
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+              
+            //Add the factory map to allow easy access to the singleton
+            KFactory::map('dispatcher', $config->identifier);
+        }
+        
+        return $instance;
+    }
+    
     /**
      * Dispatch the controller and redirect
      * 
@@ -59,7 +81,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $url->query['option'] = 'com_'.$this->getIdentifier()->package;
             $url->query['view']   = $this->getController()->getView()->getName();
            
-            KFactory::get('lib.joomla.application')->redirect($url);
+            KFactory::get('joomla:application')->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -75,7 +97,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
         $view = $this->getController()->getView();
         
         //Set the document mimetype
-        KFactory::get('lib.joomla.document')->setMimeEncoding($view->mimetype);
+        KFactory::get('joomla:document')->setMimeEncoding($view->mimetype);
         
         //Disabled the application menubar
         if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
