@@ -43,11 +43,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    		$row->enabled = 1;
 
 	    		if ($row->save()) {
-	    			return KFactory::get('lib.joomla.application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
+	    			return KFactory::get('joomla:application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
 	    		}
     		}
 
-    		return KFactory::get('lib.joomla.application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
+    		return KFactory::get('joomla:application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
     	}
     }
 
@@ -56,7 +56,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $request = parent::getRequest();
 
         if($request->layout == 'form') {
-            $request->id = KFactory::get('lib.joomla.user')->id;
+            $request->id = KFactory::get('joomla:user')->id;
         }
 
         return $request;
@@ -64,7 +64,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function _actionGet(KCommandContext $context)
     {
-        $user = KFactory::get('lib.joomla.user');
+        $user = KFactory::get('joomla:user');
 
         if($this->_request->layout == 'register' && !$user->guest)
         {
@@ -88,12 +88,12 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $context->data->id             = 0;
         $context->data->group_name     = $group_name;
-        $context->data->users_group_id = KFactory::get('lib.joomla.acl')->get_group_id('', $group_name, 'ARO');
-        $context->data->registered_on  = KFactory::get('lib.joomla.date')->toMySQL();
+        $context->data->users_group_id = KFactory::get('joomla:acl')->get_group_id('', $group_name, 'ARO');
+        $context->data->registered_on  = KFactory::get('joomla:date')->toMySQL();
 
         if($parameters->get('useractivation') == '1')
         {
-            $password = KFactory::get('site::com.users.helper.password');
+            $password = KFactory::get('com://site/users.helper.password');
 
             $context->data->activation = $password->getHash($password->getRandom(32));
             $context->data->enabled = 0;
@@ -122,7 +122,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function notify(KCommandContext $context)
     {
-        $config = KFactory::get('lib.joomla.config');
+        $config = KFactory::get('joomla:config');
 
         $subject = sprintf(JText::_('Account details for'), $context->data->name, $config->getValue('sitename'));
         $subject = html_entity_decode($subject, ENT_QUOTES);
@@ -141,7 +141,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $message = html_entity_decode($message, ENT_QUOTES);
 
-        $super_administrators = KFactory::tmp('site::com.users.model.users')
+        $super_administrators = KFactory::get('com://site/users.model.users')
             ->set('group_name', 'super administrator')
             ->set('limit', 0)
             ->getList();

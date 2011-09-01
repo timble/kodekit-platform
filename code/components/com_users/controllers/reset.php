@@ -27,7 +27,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
+        $user = KFactory::get('com://site/users.model.users')
             ->set('email', $email)
             ->getItem();
 
@@ -37,14 +37,14 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::tmp('site::com.users.helper.password');
+        $helper = KFactory::get('com://site/users.helper.password');
         $token  = $helper->getHash($helper->getRandom());
         $salt   = $helper->getSalt($token);
 
         $user->activation = md5($token.$salt).':'.$salt;
         $user->save();
 
-        $configuration = KFactory::get('lib.joomla.config');
+        $configuration = KFactory::get('joomla:config');
         $site_name     = $configuration->getValue('sitename');
         $site_url      = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
@@ -72,7 +72,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
+        $user = KFactory::get('com://site/users.model.users')
             ->set('email', $email)
             ->getItem();
 
@@ -90,7 +90,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::tmp('site::com.users.helper.password');
+        $helper = KFactory::get('com://site/users.helper.password');
 
         if($parts[0] != $helper->getCrypted($token, $parts[1]))
         {
@@ -121,13 +121,13 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user     = KFactory::tmp('lib.joomla.user', array(KRequest::get('session.com.users.id', 'int')));
+        $user     = KFactory::get('joomla:user', array(KRequest::get('session.com.users.id', 'int')));
 
         JPluginHelper::importPlugin('user');
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
 
-        KFactory::tmp('site::com.users.model.users')
+        KFactory::get('com://site/users.model.users')
             ->set('id', $user->id)
             ->getItem()
             ->set('password', $password)

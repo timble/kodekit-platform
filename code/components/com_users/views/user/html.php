@@ -23,12 +23,12 @@ class ComUsersViewUserHtml extends ComDefaultViewHtml
     {
         $this->parameters = $this->getParameters();
 		
-        KFactory::get('lib.joomla.document')->setTitle($this->parameters->get('page_title')); 
+        KFactory::get('joomla:document')->setTitle($this->parameters->get('page_title')); 
         return parent::display();
     }
     
     public function getParameters()
     {
-       return KFactory::get('lib.joomla.application')->getParams();
+       return KFactory::get('joomla:application')->getParams();
     }
 }

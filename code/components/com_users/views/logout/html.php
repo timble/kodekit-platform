@@ -23,8 +23,8 @@ class ComUsersViewLogoutHtml extends ComDefaultViewHtml
     {
         $title = JText::_('Logout');
 
-        KFactory::get('lib.joomla.application')->getPathway()->addItem($title);
-        KFactory::get('lib.joomla.document')->setTitle($title);
+        KFactory::get('joomla:application')->getPathway()->addItem($title);
+        KFactory::get('joomla:document')->setTitle($title);
         
         $this->parameters = $this->getParameters();
 

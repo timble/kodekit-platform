@@ -49,11 +49,11 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
     {
         $request = $this->getRequest();
 
-        if($request->id == 0 || $request->id != KFactory::get('lib.joomla.user')->id) {
+        if($request->id == 0 || $request->id != KFactory::get('joomla:user')->id) {
             return false;
         }
 
-        $result = !KFactory::get('lib.joomla.user')->guest;
+        $result = !KFactory::get('joomla:user')->guest;
         return $result;
     }
 }

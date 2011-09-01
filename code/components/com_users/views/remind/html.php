@@ -32,13 +32,13 @@ class ComUsersViewRemindHtml extends ComDefaultViewHtml
     {
         $this->parameters = $this->getParameters();
 
-        KFactory::get('lib.joomla.document')->setTitle($this->parameters->get('page_title'));
+        KFactory::get('joomla:document')->setTitle($this->parameters->get('page_title'));
         return parent::display();
     }
 
     public function getParameters()
     {
-        $parameters = KFactory::get('lib.joomla.application')->getParams();
+        $parameters = KFactory::get('joomla:application')->getParams();
         $menu       = JSite::getMenu()->getActive();
 
         if(is_object($menu))
