@@ -31,7 +31,7 @@ class ComBannersControllerBanner extends ComDefaultControllerDefault
 			    $banner->hit(); 
 			}
 		    
-		    KFactory::get('lib.joomla.application')->redirect($banner->clickurl);
+		    KFactory::get('joomla:application')->redirect($banner->clickurl);
 			return true;
 		}
 

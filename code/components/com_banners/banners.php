@@ -18,6 +18,6 @@
  * @subpackage  Banners    
  */
 
-KLoader::load('site::com.banners.mappings');
+KLoader::load('com://site/banners.mappings');
 
-echo KFactory::get('site::com.banners.dispatcher')->dispatch();
+echo KFactory::get('com://site/banners.dispatcher')->dispatch();
