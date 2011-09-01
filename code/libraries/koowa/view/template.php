@@ -21,7 +21,7 @@
 abstract class KViewTemplate extends KViewAbstract
 { 
     /**
-     * Template identifier (APP::com.COMPONENT.template.NAME)
+     * Template identifier (com://APP/COMPONENT.template.NAME)
      *
      * @var string|object
      */
@@ -297,7 +297,7 @@ abstract class KViewTemplate extends KViewAbstract
             	'view' => $this
             );
             
-            $this->_template = KFactory::tmp($this->_template, $options);
+            $this->_template = KFactory::get($this->_template, $options);
         }
         
         return $this->_template;
