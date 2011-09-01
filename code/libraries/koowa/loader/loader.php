@@ -29,7 +29,7 @@ require_once Koowa::getPath().'/loader/adapter/abstract.php';
 require_once Koowa::getPath().'/loader/adapter/koowa.php';
 
 //Instantiate the loader singleton
-KLoader::instantiate();
+KLoader::getInstance();
 
 /**
  * KLoader class
@@ -97,7 +97,7 @@ class KLoader
      *
      * @return void
      */
-    public static function instantiate()
+    public static function getInstance($config = array())
     {
         static $instance;
         
