@@ -46,7 +46,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
    	protected $_filters = array();
    	
    	/**
-	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
 	 */
@@ -137,7 +137,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'stack'				=> KFactory::get('lib.koowa.template.stack'),
+    		'stack'				=> KFactory::get('koowa:template.stack'),
     		'view'				=> null,
             'command_chain' 	=> new KCommandChain(),
     		'dispatch_events'   => false,
@@ -202,7 +202,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		        $this->setView($this->_view);
             }
 		    
-		    $this->_view = KFactory::tmp($this->_view, $config);
+		    $this->_view = KFactory::get($this->_view, $config);
 		}
 		
 		return $this->_view;
@@ -244,7 +244,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * Load a template by identifier
 	 * 
 	 * This functions only accepts full identifiers of the format
-	 * - application::com.component.view.[.path].name
+	 * -  com:[//application/]component.view.[.path].name
 	 *
 	 * @param   string 	The template identifier
 	 * @param	array	An associative array of data to be extracted in local template scope
@@ -528,7 +528,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
      */
     public function sandboxError($code, $message, $file = '', $line = 0, $context = array())
     {
-        if($file == 'tmpl://lib.koowa.template.stack') 
+        if($file == 'tmpl://koowa:template.stack') 
         {
             if(ini_get('display_errors')) {
                 echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>';
