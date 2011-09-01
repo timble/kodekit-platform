@@ -113,7 +113,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 		$module->title     = $this->_title;
 		$module->user      = 0;
 		
-		$text = KFactory::tmp('admin::mod.default.html')->module($module)->attribs($this->_attribs)->styles($this->_styles)->display();
+		$text = KFactory::get('mod://admin/default.html')->module($module)->attribs($this->_attribs)->styles($this->_styles)->display();
         
         return $this;
     }    
