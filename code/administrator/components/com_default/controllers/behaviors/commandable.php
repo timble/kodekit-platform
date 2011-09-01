@@ -20,7 +20,7 @@
 class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorCommandable
 {  
 	/**
-	 * Menubar object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Menubar object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -84,7 +84,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_menubar = KFactory::tmp($this->_menubar, $config);
+			$this->_menubar = KFactory::get($this->_menubar, $config);
 		}    
          
         return $this->_menubar;
@@ -132,7 +132,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
         if($this->isDispatched() && ($this->getView() instanceof KViewHtml))
         {
             //Render the toolbar
-	        $document = KFactory::get('lib.joomla.document');
+	        $document = KFactory::get('joomla:document');
 	        
             if(in_array('toolbar', $this->_render)) 
             {
