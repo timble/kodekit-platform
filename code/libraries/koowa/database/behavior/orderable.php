@@ -112,7 +112,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * record insertion.
      *
      * @param	integer 	Order at which to start resetting.
-     * @return      KDatabaseTableAbstract
+     * @return	KDatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
     {
