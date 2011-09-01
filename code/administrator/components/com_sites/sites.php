@@ -18,4 +18,4 @@
  * @subpackage  Sites   
  */
 
-echo KFactory::get('admin::com.sites.dispatcher')->dispatch();
+echo KFactory::get('com://admin/sites.dispatcher')->dispatch();
