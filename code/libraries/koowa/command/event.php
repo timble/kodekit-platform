@@ -56,7 +56,7 @@ class KCommandEvent extends KCommand
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'dispatcher'   => KFactory::get('lib.koowa.event.dispatcher')
+            'dispatcher'   => KFactory::get('koowa:event.dispatcher')
         ));
 
         parent::_initialize($config);
