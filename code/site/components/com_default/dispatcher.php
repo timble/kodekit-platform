@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherDefault
+class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstantiatable
 { 
  	/**
      * Initializes the options for the object
@@ -42,7 +42,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
      *
      * @return KDispatcherDefault
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
