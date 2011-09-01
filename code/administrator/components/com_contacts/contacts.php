@@ -18,8 +18,8 @@
  * @subpackage  Contacts   
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_contacts', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!KFactory::get('joomla:user')->authorize( 'com_contacts', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('admin::com.contacts.dispatcher')->dispatch();
+echo KFactory::get('com://admin/contacts.dispatcher')->dispatch();

@@ -60,7 +60,7 @@ defined('KOOWA') or die('Restricted access') ?>
 						</label>
 					</td>
 					<td>
-						<?= @helper('admin::com.categories.template.helper.listbox.categories', array(
+						<?= @helper('com://admin/categories.template.helper.listbox.categories', array(
                             'name' => 'category',
                             'text' => 'title',
                             'filter' => array('section' => 'com_contact_details'),
@@ -81,7 +81,7 @@ defined('KOOWA') or die('Restricted access') ?>
                            'target' => 'name',
                            'model'  => @route('option=com_users&view=users&format=json', true),
                            'label'  => 'User',
-                           'text'   => KFactory::tmp('admin::com.users.model.users')->id($contact->user_id)->getItem()->name,
+                           'text'   => KFactory::get('com://admin/users.model.users')->id($contact->user_id)->getItem()->name,
                            'placeholder' => 'Start typing a name'
                        )) ?>
 					</td>
@@ -103,7 +103,7 @@ defined('KOOWA') or die('Restricted access') ?>
 						</label>
 					</td>
 					<td>
-						<?= @helper('admin::com.default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
+						<?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
 					</td>
 				</tr>
 				<?php if ($contact->id) : ?>
