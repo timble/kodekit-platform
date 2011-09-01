@@ -7,7 +7,7 @@
 	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>nooku.org</authorUrl>
-	<version>7.0</version>
+	<version>0.7</version>
 	<description>Rewrites URIs on the page to be suitable for long browser caching, by making them contain a query variable that change based on the modified timestamp.</description>
 	<files>
 		<filename plugin="expire">expire.php</filename>
