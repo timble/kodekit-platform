@@ -18,7 +18,7 @@
  * @subpackage  Debug
  */
  
-class ComDebugProfilerQueries extends KEventListener
+class ComDebugProfilerQueries extends KEventListener implements KObjectInstantiatable
 {    
     /**
      * The start time
@@ -39,7 +39,7 @@ class ComDebugProfilerQueries extends KEventListener
      *
      * @return ComDebugProfilerEvents
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
