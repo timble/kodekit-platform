@@ -22,7 +22,7 @@ class ModLatestHtml extends ModDefaultHtml
 {
     public function display()
     { 
-        $this->articles = KFactory::tmp('admin::com.articles.model.articles')->sort('created')->direction('desc')->limit(10)->getList(); 
+        $this->articles = KFactory::get('com://admin/articles.model.articles')->sort('created')->direction('desc')->limit(10)->getList(); 
         return parent::display();
     }
 } 

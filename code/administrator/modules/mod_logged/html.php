@@ -22,7 +22,7 @@ class ModLoggedHtml extends ModDefaultHtml
 {
     public function display()
     { 
-        $this->users = KFactory::tmp('admin::com.users.model.users')->loggedin(1)->limit(10)->getList(); 
+        $this->users = KFactory::get('com://admin/users.model.users')->loggedin(1)->limit(10)->getList(); 
         return parent::display();
     }
 } 

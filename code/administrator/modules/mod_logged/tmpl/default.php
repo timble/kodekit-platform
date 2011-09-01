@@ -32,7 +32,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?php foreach ($users as $user) : ?>
    <tr>
 		<td>
-			<? if (KFactory::get('lib.joomla.user')->authorize( 'com_users', 'manage' )) : ?>
+			<? if (KFactory::get('joomla:user')->authorize( 'com_users', 'manage' )) : ?>
 		    	<a href="<?=  @route('index.php?option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
 		    		<?= $user->username; ?>
 		    	</a>
@@ -47,7 +47,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<?= JApplicationHelper::getClientInfo($user->loggedin_client_id)->name;?>
 		</td>
 		<td>
-			<?= @helper('admin::com.users.template.helper.date.humanize', array('date' => $user->loggedin_on - date_offset_get(new DateTime)));?>
+			<?= @helper('com://admin/users.template.helper.date.humanize', array('date' => $user->loggedin_on - date_offset_get(new DateTime)));?>
 		</td>
 	</tr>
 <?php endforeach; ?>
