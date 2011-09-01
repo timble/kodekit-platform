@@ -21,7 +21,7 @@
 abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 {
 	/**
-	 * Model identifier (APP::com.COMPONENT.model.NAME)
+	 * Model identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -149,7 +149,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		        $this->setModel($this->_model);
 			}
 		  
-		    $this->_model = KFactory::tmp($this->_model);
+		    $this->_model = KFactory::get($this->_model);
 		}
 
 		return $this->_model;
