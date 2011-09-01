@@ -22,7 +22,7 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table' => 'admin::com.categories.database.table.categories'
+            'table' => 'com://admin/categories.database.table.categories'
         ));
 
         parent::_initialize($config);
@@ -63,6 +63,6 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
 		$query->where('tbl.section', '=', 'com_weblinks')
 			  ->where('tbl.published', '=', '1')
 			  ->where('weblinks.published', '=', '1')
-			  ->where('tbl.access', '<=', KFactory::get('lib.joomla.user')->get('aid', '0'));
+			  ->where('tbl.access', '<=', KFactory::get('joomla:user')->get('aid', '0'));
     }
 }

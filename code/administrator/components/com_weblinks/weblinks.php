@@ -18,8 +18,8 @@
  * @subpackage  Weblinks
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_weblinks', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!KFactory::get('joomla:user')->authorize( 'com_weblinks', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('admin::com.weblinks.dispatcher')->dispatch();
+echo KFactory::get('com://admin/weblinks.dispatcher')->dispatch();
