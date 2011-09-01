@@ -37,8 +37,8 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	{
 		parent::__construct($config);
 	
-		if(KFactory::get('lib.joomla.config')->getValue('config.caching')) {
-	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('template', 'output'));
+		if(KFactory::get('joomla:config')->getValue('config.caching')) {
+	        $this->_cache = KFactory::get('joomla:cache', array('template', 'output'));
 		}
 	}
 	
@@ -84,7 +84,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	 */
 	public function findFile($path)
 	{
-	    $template  = KFactory::get('lib.joomla.application')->getTemplate();
+	    $template  = KFactory::get('joomla:application')->getTemplate();
         $override  = JPATH_THEMES.'/'.$template.'/html';
 	    $override .= str_replace(array(JPATH_BASE.'/modules', JPATH_BASE.'/components', '/views'), '', $path);
 	     
