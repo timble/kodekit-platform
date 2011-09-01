@@ -62,7 +62,7 @@ class ComCacheModelGroups extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		      
-		    $this->_list = KFactory::tmp('admin::com.cache.database.rowset.groups', array('data' => $data));
+		    $this->_list = KFactory::get('com://admin/cache.database.rowset.groups', array('data' => $data));
         }
         
         return $this->_list;
@@ -80,7 +80,7 @@ class ComCacheModelGroups extends KModelAbstract
     protected function _getData()
     {
         $data = array();
-        $keys = KFactory::tmp('admin::com.cache.model.items')->site($this->_state->site)->getList();
+        $keys = KFactory::get('com://admin/cache.model.items')->site($this->_state->site)->getList();
        
         foreach($keys as $key) 
         {

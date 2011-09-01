@@ -79,7 +79,7 @@ class ComCacheModelItems extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_list = KFactory::tmp('admin::com.cache.database.rowset.items', array('data' => $data));
+		    $this->_list = KFactory::get('com://admin/cache.database.rowset.items', array('data' => $data));
         }
         
         return $this->_list;
@@ -96,6 +96,6 @@ class ComCacheModelItems extends KModelAbstract
     
     protected function _getData()
     {  
-        return KFactory::get('lib.joomla.cache')->keys();
+        return KFactory::get('joomla:cache')->keys();
     }
 }
