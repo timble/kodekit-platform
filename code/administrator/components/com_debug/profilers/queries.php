@@ -34,6 +34,22 @@ class ComDebugProfilerQueries extends KEventListener
      */
     protected $_queries = array();
     
+	/**
+     * Force creation of a singleton
+     *
+     * @return ComDebugProfilerEvents
+     */
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) {
+            $instance = new self($config);
+        }
+        
+        return $instance;
+    }
+    
     /**
      * Get queries
      *

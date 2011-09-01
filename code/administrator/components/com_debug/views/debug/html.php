@@ -21,16 +21,16 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $profiler = KFactory::get('admin::com.debug.profiler.events');
-        $database = KFactory::get('admin::com.debug.profiler.queries');
-        $language = KFactory::get('lib.joomla.language');
+        $profiler = KFactory::get('com://admin/debug.profiler.events');
+        $database = KFactory::get('com://admin/debug.profiler.queries');
+        $language = KFactory::get('joomla:language');
         
         //Remove the template includes
         $includes = get_included_files();
         
         foreach($includes as $key => $value)
         {
-            if($value == 'tmpl://lib.koowa.template.stack') {
+            if($value == 'tmpl://koowa.template.stack') {
                 unset($includes[$key]);
             }
         }

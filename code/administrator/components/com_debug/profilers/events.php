@@ -44,7 +44,23 @@ class ComDebugProfilerEvents extends KEventDispatcher
         
         $this->_start = $config->start;
         
-        KFactory::get('admin::com.debug.profiler.queries', array('dispatcher' => $this));
+        KFactory::get('com://admin/debug.profiler.queries', array('dispatcher' => $this));
+    }
+    
+	/**
+     * Force creation of a singleton
+     *
+     * @return ComDebugProfilerEvents
+     */
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) {
+            $instance = new self($config);
+        }
+        
+        return $instance;
     }
     
 	/**

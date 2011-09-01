@@ -26,7 +26,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
   			<tr>  
   				<td><?= $i; ?></td>
   				<td><?= $extension; ?></td>
-				<td><?= @helper('admin::com.files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
+				<td><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
             	<td><?= str_replace(JPATH_ROOT, '', $file); ?></td>
             	<td></td>
         	</tr>
@@ -51,7 +51,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
   			<tr>  
   				<td><?= $i; ?></td>
   				<td><?= @text('PHP') ?></td>
-				<td><?= @helper('admin::com.files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
+				<td><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
             	<td><?= str_replace(JPATH_ROOT, '', $file); ?></td>
             	<td></td>
         	</tr>
