@@ -24,7 +24,7 @@ class ComBannersDispatcher extends ComDefaultDispatcher
 	{
 	    $result = parent::_actionAuthorize($context);
 	    
-	    if(!KFactory::get('lib.joomla.user')->authorize( 'com_weblinks', 'manage' ))
+	    if(!KFactory::get('joomla:user')->authorize( 'com_weblinks', 'manage' ))
 	    {
 	        throw new KDispatcherException(JText::_('ALERTNOTAUTH'), KHttpResponse::FORBIDDEN);
             $result = false;
