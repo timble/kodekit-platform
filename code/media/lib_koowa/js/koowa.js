@@ -393,9 +393,10 @@ Koowa.Controller.Grid = new Class({
         }
     
         var idQuery = Koowa.Grid.getIdQuery(),
+            append = this.options.url.match(/\?/) ? '&' : '?',
             options = {
                 method:'post',
-                url: this.options.url+(idQuery ? '&'+idQuery : ''),
+                url: this.options.url+(idQuery ? append+idQuery : ''),
                 params: $merge({
                     action: action
                 }, data)
