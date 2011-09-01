@@ -76,7 +76,7 @@ class ComDefaultControllerDefault extends KControllerService
         if(isset($row))
         {
             if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
-                KFactory::get('lib.joomla.application')->enqueueMessage($row->lockMessage(), 'notice');
+                KFactory::get('joomla:application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 
@@ -96,7 +96,7 @@ class ComDefaultControllerDefault extends KControllerService
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
-            KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
+            KFactory::get('joomla:language')->load('com_'.$this->getIdentifier()->package); 
         }
          
         return parent::_actionGet($context);
