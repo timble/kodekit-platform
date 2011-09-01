@@ -21,7 +21,7 @@ class ComWeblinksViewCategoriesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$params = KFactory::get('lib.joomla.application')->getParams();
+		$params = KFactory::get('joomla:application')->getParams();
 
 		// Build the image, if set
 		if ($params->get('image') != -1)

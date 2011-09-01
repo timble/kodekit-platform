@@ -30,8 +30,8 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 
 	public function display()
     {
-		$category = KFactory::get('site::com.weblinks.model.categories')->getItem();
-		$items = KFactory::get('site::com.weblinks.model.weblinks')->catid(KRequest::get('get.id', 'int'))->getList();
+		$category = KFactory::get('com://site/weblinks.model.categories')->getItem();
+		$items = KFactory::get('com://site/weblinks.model.weblinks')->catid(KRequest::get('get.id', 'int'))->getList();
 
 		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
 		$xml .= '<rss version="2.0">'.PHP_EOL;
@@ -41,7 +41,7 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 		$xml .= '	<link>'.KRequest::url().'</link>'.PHP_EOL;
 		$xml .= '	<lastBuildDate>'.date('r').'</lastBuildDate>'.PHP_EOL;
 		$xml .= '	<generator>'.JURI::base().'</generator>'.PHP_EOL;
-		$xml .= '	<language>'.KFactory::get('lib.joomla.language')->getTag().'</language>'.PHP_EOL;
+		$xml .= '	<language>'.KFactory::get('joomla:language')->getTag().'</language>'.PHP_EOL;
 
 		foreach($items as $item)
 		{

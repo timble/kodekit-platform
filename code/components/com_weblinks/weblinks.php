@@ -18,6 +18,6 @@
  * @subpackage  Weblinks
  */
 
-KLoader::load('site::com.weblinks.mappings');
+KLoader::load('com://site/weblinks.mappings');
 
-echo KFactory::get('site::com.weblinks.dispatcher')->dispatch();
+echo KFactory::get('com://site/weblinks.dispatcher')->dispatch();

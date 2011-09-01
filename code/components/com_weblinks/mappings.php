@@ -18,5 +18,5 @@
  * @subpackage  Weblinks
  */
 
-KFactory::map('site::com.weblinks.model.categories', 'admin::com.weblinks.model.categories');
-KFactory::map('site::com.weblinks.model.weblinks'  , 'admin::com.weblinks.model.weblinks');
+KFactory::map('com://site/weblinks.model.categories', 'com://admin/weblinks.model.categories');
+KFactory::map('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');
