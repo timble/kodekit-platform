@@ -28,7 +28,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<?= @helper('site::com.search.template.helper.select.searchphrase');?>
+				<?= @helper('com://site/search.template.helper.select.searchphrase');?>
 			</td>
 		</tr>
 		<tr>
@@ -36,13 +36,13 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<label for="ordering">
 					<?= @text( 'Ordering' );?>:
 				</label>
-				<?= @helper('site::com.search.template.helper.select.ordering');?>
+				<?= @helper('com://site/search.template.helper.select.ordering');?>
 			</td>
 		</tr>
 	</table>
 	<? if ($params->get( 'search_areas', 1 )) : ?>
 		<?= @text( 'Search Only' );?>:
-		<?= @helper('site::com.search.template.helper.select.searchareas');?>
+		<?= @helper('com://site/search.template.helper.select.searchareas');?>
 	<? endif; ?>
 
 	<table class="searchintro<?= @escape($params->get('pageclass_sfx')); ?>">
