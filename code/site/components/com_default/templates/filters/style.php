@@ -33,7 +33,7 @@ class ComDefaultTemplateFilterStyle extends KTemplateFilterStyle
             return parent::_renderStyle($style, $link, $attribs);
         }
         
-        $document = KFactory::get('lib.joomla.document');
+        $document = KFactory::get('joomla:document');
             
         if($link) {
             $document->addStyleSheet($style, 'text/css', null, $attribs);
