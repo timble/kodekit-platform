@@ -19,30 +19,32 @@
  */
 class KFactoryAdapterKoowa extends KFactoryAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'koowa';
+	
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param 	mixed  		 Identifier or Identifier object - lib.koowa.[.path].name
+	 * @param 	mixed  		 Identifier or Identifier object - koowa.[.path].name
 	 * @param 	object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, KConfig $config)
 	{
-		$classname = false;
-
-		if($identifier->type == 'lib' && $identifier->package == 'koowa')
-		{
-			$classname = 'K'.KInflector::implode($identifier->path).ucfirst($identifier->name);
-			$filepath  = KLoader::path($identifier);
+        $classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).ucfirst($identifier->name);
+		$filepath  = KLoader::path($identifier);
 			
-			if (!class_exists($classname))
-			{
-				// use default class instead
-				$classname = 'K'.KInflector::implode($identifier->path).'Default';
+		if (!class_exists($classname))
+		{
+			// use default class instead
+			$classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).'Default';
 				
-				if (!class_exists($classname)) {
-					throw new KFactoryAdapterException("Class [$classname] not found in file [".basename($filepath)."]" );
-				}
+			if (!class_exists($classname)) {
+				throw new KFactoryAdapterException("Class [$classname] not found in file [".basename($filepath)."]" );
 			}
 		}
 
