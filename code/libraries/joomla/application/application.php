@@ -738,7 +738,7 @@ class JApplication extends JObject
     protected function _loadSite($site)
 	{
 	    // Check if the site exists
-	    if(! KFactory::get('admin::com.sites.model.sites')->getList()->find($site))
+	    if(! KFactory::get('com://admin/sites.model.sites')->getList()->find($site))
 	    {
             throw new KException('Site :'.$site.' not found', KHttpResponse::NOT_FOUND);
             return false;
@@ -768,11 +768,11 @@ class JApplication extends JObject
 	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
 
 		//Force re-login of the user if the site changed
-		$user = KFactory::get('lib.joomla.user');
+		$user = KFactory::get('joomla:user');
 
 		if(!$user->get('guest') && (JFactory::getSession()->get('site') != $site))
 		{
-		    $session = KFactory::get('lib.joomla.session');
+		    $session = KFactory::get('joomla:session');
 
 		    // Fork the session to prevent session fixation issues if it's active
 			$session->fork();

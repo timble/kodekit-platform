@@ -197,7 +197,7 @@ class JUser extends JObject
             
             // Legacy: Return gid and usertype of parent core group.
             if($user->gid > 30) {
-                $group = KFactory::tmp('admin::com.groups.model.groups')
+                $group = KFactory::get('com://admin/groups.model.groups')
                     ->set('id', $user->gid)
                     ->getItem();
 

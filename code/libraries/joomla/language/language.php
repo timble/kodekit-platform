@@ -306,7 +306,7 @@ class JLanguage extends JObject
 		    $identifier = md5($extension.$basePath.$lang);
 		    
 		    if(!isset($this->_cache)) {
-		        $this->_cache = KFactory::tmp('lib.joomla.cache', array('language', 'output'));
+		        $this->_cache = KFactory::get('joomla:cache', array('language', 'output'));
 		    }
 		
 		    if (!$data = $this->_cache->get($identifier)) 
