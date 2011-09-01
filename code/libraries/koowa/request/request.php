@@ -197,12 +197,12 @@ class KRequest
     public static function set($identifier, $value)
     {
         list($hash, $keys) = self::_parseIdentifier($identifier);
-
+        
         // Add to _REQUEST hash if original hash is get, post, or cookies
         if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
             self::set('request.'.implode('.', $keys), $value);
         }
-
+        
         // Store cookies persistently
         if($hash == 'COOKIE')
         {
@@ -227,7 +227,7 @@ class KRequest
         if(!isset($GLOBALS['_'.$hash])) { 
            $GLOBALS['_'.$hash] = array(); 
         } 
-
+        
         $GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
     }
 
@@ -354,11 +354,11 @@ class KRequest
         {
             if($referrer = KRequest::get('server.HTTP_REFERER', 'url'))
             {
-                self::$_referrer = KFactory::get('lib.koowa.http.url', array('url' => $referrer));
+                self::$_referrer = KFactory::get('koowa:http.url', array('url' => $referrer));
 
                 if($isInternal)
                 {
-                    if(!KFactory::get('lib.koowa.filter.internalurl')->validate((string)self::$_referrer)) {
+                    if(!KFactory::get('koowa:filter.internalurl')->validate((string)self::$_referrer)) {
                         return null;
                     }
                 }
@@ -408,10 +408,10 @@ class KRequest
             }
 
             // Sanitize the url since we can't trust the server var
-            $url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
+            $url = KFactory::get('koowa:filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
+            self::$_url = KFactory::get('koowa:http.url', array('url' => $url));
 
         }
 
@@ -439,9 +439,9 @@ class KRequest
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
+            $path = KFactory::get('koowa:filter.url')->sanitize($path);
 
-            self::$_base = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
+            self::$_base = KFactory::get('koowa:http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -460,7 +460,7 @@ class KRequest
         if(!is_null($path))
         {
             if(!$path instanceof KhttpUrl) {
-                $path = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
+                $path = KFactory::get('koowa:http.url', array('url' => $path));
             }
 
             self::$_root = $path;
