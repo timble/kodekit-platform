@@ -30,6 +30,6 @@ class ComDefaultModelDefault extends KModelDefault
         parent::__construct($config);
 
         // Set the static states
-        $this->_state->limit = KFactory::get('lib.joomla.application')->getCfg('list_limit');
+        $this->_state->limit = KFactory::get('joomla:application')->getCfg('list_limit');
     }
 }
