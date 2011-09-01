@@ -18,6 +18,13 @@
  */
 class KFactoryAdapterModule extends KFactoryAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'mod';
+	
 	/**
 	 * Create an instance of a class based on a class identifier
 	 * 
@@ -30,60 +37,55 @@ class KFactoryAdapterModule extends KFactoryAdapterAbstract
 	 *                     -> Framework Default
 	 *
 	 * @param mixed  		 Identifier or Identifier object - application::mod.module.[.path].name
-	 * @param 	object 		 An optional KConfig object with configuration options
+	 * @param  object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, KConfig $config)
-	{
-		$classname = false;
-		
-		if($identifier->type == 'mod') 
-		{			
-			$path = KInflector::camelize(implode('_', $identifier->path));
-			$classname = 'Mod'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
+	{		
+		$path = KInflector::camelize(implode('_', $identifier->path));
+		$classname = 'Mod'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
 				
-			//Don't allow the auto-loader to load module classes if they don't exists yet
-			if (!class_exists( $classname, false ))
+		//Don't allow the auto-loader to load module classes if they don't exists yet
+		if (!class_exists( $classname, false ))
+		{
+			//Find the file
+			if($path = KLoader::load($identifier))
 			{
-				//Find the file
-				if($path = KLoader::load($identifier))
-				{
-					//Don't allow the auto-loader to load module classes if they don't exists yet
-					if (!class_exists( $classname, false )) {
-						throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
-					}
+				//Don't allow the auto-loader to load module classes if they don't exists yet
+				if (!class_exists( $classname, false )) {
+					throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
 				}
-				else 
-				{
-					$classpath = $identifier->path;
-					$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
+			}
+			else 
+			{
+				$classpath = $identifier->path;
+				$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
 					
-					//Create the fallback path and make an exception for views
-					$path = ($classtype != 'view') ? KInflector::camelize(implode('_', $classpath)) : '';
+				//Create the fallback path and make an exception for views
+				$path = ($classtype != 'view') ? KInflector::camelize(implode('_', $classpath)) : '';
 					
-					/*
-					 * Find the classname to fallback too and auto-load the class
-					 * 
-					 * Fallback sequence : -> Named Module
-					 *                     -> Default Module
-					 *                     -> Framework Specific 
-					 *                     -> Framework Default
-					 */
-					if(class_exists('Mod'.ucfirst($identifier->package).ucfirst($identifier->name))) {
-						$classname = 'Mod'.ucfirst($identifier->package).ucfirst($identifier->name);
-					} elseif(class_exists('ModDefault'.ucfirst($identifier->name))) {
-						$classname = 'ModDefault'.ucfirst($identifier->name);
-					} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
-						$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
-					} elseif(class_exists('K'.ucfirst($classtype).'Default')) {
-						$classname = 'K'.ucfirst($classtype).'Default';
-					} else {
-						$classname = false;
-					}
+				/*
+				 * Find the classname to fallback too and auto-load the class
+				 * 
+				 * Fallback sequence : -> Named Module
+				 *                     -> Default Module
+				 *                     -> Framework Specific 
+				 *                     -> Framework Default
+				 */
+				if(class_exists('Mod'.ucfirst($identifier->package).ucfirst($identifier->name))) {
+					$classname = 'Mod'.ucfirst($identifier->package).ucfirst($identifier->name);
+				} elseif(class_exists('ModDefault'.ucfirst($identifier->name))) {
+					$classname = 'ModDefault'.ucfirst($identifier->name);
+				} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
+					$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
+				} elseif(class_exists('K'.ucfirst($classtype).'Default')) {
+					$classname = 'K'.ucfirst($classtype).'Default';
+				} else {
+					$classname = false;
 				}
 			}
 		}
-
+	    
 		return $classname;
 	}
 }
