@@ -38,10 +38,29 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
 	{
 		parent::__construct($config);
 	
-		if(KFactory::get('lib.joomla.config')->getValue('config.caching')) {
-	        $this->_cache = KFactory::tmp('lib.joomla.cache', array('database', 'output'));
+		if(KFactory::get('joomla:config')->getValue('config.caching')) {
+	        $this->_cache = KFactory::get('joomla:cache', array('database', 'output'));
 		}
 	}
+	
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDatabaseTableDefault
+     */
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
     
     /**
      * Initializes the options for the object
@@ -53,7 +72,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli
      */
     protected function _initialize(KConfig $config)
     {
-        $db = KFactory::get('lib.joomla.database');
+        $db = KFactory::get('joomla:database');
         
 		$resource = method_exists($db, 'getConnection') ? $db->getConnection() : $db->_resource;
 		$prefix   = method_exists($db, 'getPrefix')     ? $db->getPrefix()     : $db->_table_prefix;
