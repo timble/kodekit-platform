@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Sites   
  */
-class ComSitesModelSites extends KModelAbstract
+class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
 {	
      public function __construct(KConfig $config)
      {
@@ -32,7 +32,7 @@ class ComSitesModelSites extends KModelAbstract
              ->insert('search'    , 'string');
     }
     
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
