@@ -4,14 +4,14 @@
  * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  System
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * System plugin that enables full HTTP cache support by rewriting asset urls so they're unique, 
- * and update them when the file is modified.
+ * System plugin that enables full HTTP cache support by rewriting asset urls so 
+ * they're unique, and update them when the file is modified.
  *
  * @author		Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
@@ -21,7 +21,8 @@
 class plgSystemExpire extends JPlugin
 {
     /**
-     * Quick lookup cache, mostly useful for <img /> and url() rewrites as there are often duplicates on page
+     * Quick lookup cache, mostly useful for <img /> and url() rewrites as there 
+     * are often duplicates on page
      *
      * @var array
      */
@@ -71,12 +72,12 @@ class plgSystemExpire extends JPlugin
     	    $count = 1;
             $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
     
-            if($modified = filemtime($src)) {
+            if($modified = filemtime($src)) 
+            {
                 $join  = strpos($url, '?') ? '&' : '?';
                 $this->_cache[$url] = $url.$join.'modified='.$modified;
-            } else {
-                $this->_cache[$url] = $url;
-            }
+            } 
+            else $this->_cache[$url] = $url;
         }
 
         return $this->_cache[$url];
