@@ -75,7 +75,7 @@ class KFilterSlug extends KFilterAbstract
 	 */
 	protected function _validate($value)
 	{
-		return KFactory::tmp('lib.koowa.filter.cmd')->validate($value);
+		return KFactory::get('koowa:filter.cmd')->validate($value);
 	}
 	
 	/**
@@ -93,7 +93,7 @@ class KFilterSlug extends KFilterAbstract
 		$value = str_replace($this->_separator, ' ', $value);
 		
 		//convert to ascii characters
-		$value = KFactory::tmp('lib.koowa.filter.ascii')->sanitize($value);
+		$value = KFactory::get('koowa:filter.ascii')->sanitize($value);
 		
 		//lowercase and trim
 		$value = trim(strtolower($value));
