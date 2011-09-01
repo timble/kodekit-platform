@@ -33,8 +33,8 @@ class KTemplateHelper
 	    if(!($helper instanceof KTemplateHelperInterface))
 		{   
 		    $identifier = $helper;
-		    if(is_string($identifier) && strpos($identifier, '.') === false ) {
-		       $identifier = 'com.default.template.helper.'.trim($identifier);
+		    if(is_string($identifier) && strpos($identifier, ':') === false ) {
+		       $identifier = 'com:default.template.helper.'.trim($identifier);
 		    }    
 		   
 		    $helper = KFactory::get($identifier, $config);
