@@ -19,12 +19,26 @@
  */
 abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = '';
+	
 	/**
 	 * The basepath 
 	 * 
 	 * @var string
 	 */
 	protected $_basepath = '';
+	
+	/**
+	 * The class prefiex
+	 * 
+	 * @var string
+	 */
+	protected $_prefiex = '';
 	
 	/**
      * Constructor.
@@ -35,6 +49,16 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
     {
         $this->_basepath = $basepath; 
     }
+    
+	/**
+	 * Get the type
+	 *
+	 * @return string	Returns the type
+	 */
+	public function getType()
+	{
+		return $this->_type;
+	}
     
 	/**
 	 * Get the base path
