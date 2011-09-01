@@ -40,14 +40,14 @@ abstract class KControllerResource extends KControllerAbstract
 	protected $_redirect_type = 'message';
 	
 	/**
-	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
 	 */
 	protected $_view;
 	
 	/**
-	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Model object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -128,7 +128,7 @@ abstract class KControllerResource extends KControllerAbstract
 			    'model'  => $this->getModel(),
         	);
         	
-			$this->_view = KFactory::tmp($this->_view, $config);
+			$this->_view = KFactory::get($this->_view, $config);
 			
 			//Set the layout
 			if(isset($this->_request->layout)) {
@@ -195,7 +195,7 @@ abstract class KControllerResource extends KControllerAbstract
 				'state' => $this->getRequest()
             );
 		    
-		    $this->_model = KFactory::tmp($this->_model)->set($this->getRequest());
+		    $this->_model = KFactory::get($this->_model)->set($this->getRequest());
 		}
 
 		return $this->_model;
