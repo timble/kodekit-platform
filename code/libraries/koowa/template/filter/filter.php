@@ -38,10 +38,10 @@ class KTemplateFilter
 	    if(!($filter instanceof KTemplateFilterInterface))
 		{   
 		    if(is_string($filter) && strpos($filter, '.') === false ) {
-		       $filter = 'com.default.template.filter.'.trim($filter);
+		       $filter = 'com:default.template.filter.'.trim($filter);
 		    }    
 			
-		    $filter = KFactory::tmp($filter, $config);
+		    $filter = KFactory::get($filter, $config);
 		    
 		    if(!($filter instanceof KTemplateFilterInterface)) 
 		    {
