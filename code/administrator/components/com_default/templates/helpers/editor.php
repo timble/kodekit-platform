@@ -42,7 +42,7 @@ class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
             'options'   => array()
         ));
 
-        $editor  = KFactory::get('lib.joomla.editor', array($config->editor));
+        $editor  = KFactory::get('joomla:editor', array($config->editor));
         $options = KConfig::toData($config->options);
 
         if (version_compare(JVERSION, '1.6.0', 'ge')) { 
