@@ -366,7 +366,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();
                
-        return KFactory::tmp($identifier, $options); 
+        return KFactory::get($identifier, $options); 
     }
          
 	/**
