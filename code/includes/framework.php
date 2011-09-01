@@ -71,4 +71,4 @@ KIdentifier::registerApplication('site' , JPATH_SITE);
 KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
 
 //Koowa : setup factory mappings
-KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
+KFactory::map('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
