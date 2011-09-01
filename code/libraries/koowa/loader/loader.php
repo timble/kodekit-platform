@@ -55,6 +55,13 @@ class KLoader
      */
     protected static $_adapters = null;
     
+    /**
+     * Prefix map
+     *
+     * @var array
+     */
+    protected static $_prefix_map = null;
+    
 
     /**
      * Constructor
@@ -64,7 +71,8 @@ class KLoader
     final private function __construct() 
     { 
         //Created the adapter registry
-        self::$_adapters  = array();
+        self::$_adapters   = array();
+        self::$_prefix_map = array();
         self::$_registry = new ArrayObject();
         
         // Register the autoloader in a way to play well with as many configurations as possible.
@@ -150,49 +158,44 @@ class KLoader
      */
     public static function path($class)
     {
-        if(self::$_registry->offsetExists((string)$class)) {
-            return self::$_registry->offsetGet((string)$class);
-        }
-        
-        $result = false;
+        if(!self::$_registry->offsetExists((string)$class)) 
+        {
+            $result = false;
                 
-        //If the class is a classname try to find the adapter based on the 
-        //class prefix to reduce overhead in running through the chain, if 
-        //it's an identifier run through all 
-        if(ctype_upper(substr($class, 0, 1)))
-        {
-            $word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
-            $parts = explode('_', $word);
-            
-            if(isset(self::$_adapters[$parts[0]])) {
-                $result = self::$_adapters[$parts[0]]->path( $class );
-            }
-        } 
-        else 
-        {
-            if(!($class instanceof KIdentifier)) {
-                $class = new KIdentifier($class);
-            }
-            
-            $adapters = array_reverse(self::$_adapters);
-            foreach($adapters as $adapter)
+            //If the class is a classname try to find the adapter based on the 
+            //class prefix otherwise assume the class is an identifier
+            if(ctype_upper(substr($class, 0, 1)))
             {
-                if($result = $adapter->path( $class )) {
-                    break;
+                $word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
+                $parts = explode('_', $word);
+            
+                if(isset(self::$_prefix_map[$parts[0]])) {
+                    $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->path( $class );
+                }
+            } 
+            else 
+            {
+                if(!($class instanceof KIdentifier)) {
+                    $class = new KIdentifier($class);
+                }
+              
+                if(isset(self::$_adapters[$class->type])) {
+                    $result = self::$_adapters[$class->type]->path( $class );
+                }
+            }
+        
+            if ($result !== false) 
+            {
+                //Get the canonicalized absolute pathname
+                $path = realpath($result);
+                $result = $path !== false ? $path : $result;
+            
+                if($result !== false) {
+                    self::$_registry->offsetSet((string) $class, $result);
                 }
             }
         }
-        
-        if ($result !== false) 
-        {
-            //Get the canonicalized absolute pathname
-            $path = realpath($result);
-            $result = $path !== false ? $path : $result;
-            
-            if($result !== false) {
-                self::$_registry->offsetSet((string) $class, $result);
-            }
-        }
+        else $result = self::$_registry->offsetGet((string)$class);
         
         return $result;
     }
@@ -205,6 +208,7 @@ class KLoader
      */
     public static function addAdapter(KLoaderAdapterInterface $adapter)
     {
-        self::$_adapters[$adapter->getPrefix()] = $adapter;
+        self::$_adapters[$adapter->getType()] = $adapter;
+        self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
     }
 }
