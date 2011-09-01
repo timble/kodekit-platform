@@ -31,11 +31,11 @@ class KFactory
 	protected static $_registry = null;
 	
 	/**
-	 * The commandchain
-	 *
-	 * @var	KLoaderChain
-	 */
-	protected static $_chain = null;
+     * Adapter list
+     *
+     * @var array
+     */
+    protected static $_adapters = null;
 	
 	/**
 	 * The identifier alias map
@@ -59,7 +59,6 @@ class KFactory
 	final private function __construct(KConfig $config) 
 	{ 
 		self::$_registry = new ArrayObject();
-        self::$_chain     = new KFactoryChain();
 	}
 	
 	/**
@@ -143,33 +142,9 @@ class KFactory
 		
 			//Perform the mixin 
 			self::_mixin($strIdentifier, $instance);
-			
-			self::$_registry->offsetSet($strIdentifier, $instance);
 		}
-		
-		return self::$_registry->offsetGet($strIdentifier);
-	}
-
-	/**
-	 * Get an instance of a class based on a class identifier always creating a
-	 * new instance.
-	 *
-	 * @param	string|object	The class identifier or an identifier object
-	 * @param 	array  			An optional associative array of configuration settings.
-	 * @throws 	KFactoryException
-	 * @return 	object  		Return object on success, throws exception on failure
-	 */
-	public static function tmp($identifier, array $config = array())
-	{
-		$objIdentifier = self::identify($identifier);
-		$strIdentifier = (string) $objIdentifier;
-	
-		//Instantiate the identifier
-		$instance = self::_instantiate($objIdentifier, $config);
-		
-		//Perform the mixin 
-		self::_mixin($strIdentifier, $instance);
-		
+		else $instance = self::$_registry->offsetGet($strIdentifier);
+	    
 		return $instance;
 	}
 
@@ -285,7 +260,7 @@ class KFactory
      */
     public static function addAdapter(KFactoryAdapterInterface $adapter)
     {
-        self::$_chain->enqueue($adapter);
+        self::$_adapters[$adapter->getType()] = $adapter;
     }
     
     /**
@@ -302,7 +277,7 @@ class KFactory
             $mixins = self::$_mixin_map[$identifier];
             foreach($mixins as $mixin) 
             {
-                $mixin = KFactory::tmp($mixin, array('mixer'=> $instance));
+                $mixin = KFactory::get($mixin, array('mixer'=> $instance));
                 $instance->mixin($mixin);
             }
         }
@@ -317,33 +292,34 @@ class KFactory
      * @return  object          Return object on success, throws exception on failure
      */
     protected static function _instantiate($identifier, array $config = array())
-    {           
-        $context =  self::$_chain->getContext();
-        $config  =  new KConfig($config);
-        $context->config = $config;
+    {          
+        $config = new KConfig($config);
         
-        $result = self::$_chain->run($identifier, $context);
-    
-        //If we get a string returned we assume it's a classname
-        if(is_string($result)) 
+        if(isset(self::$_adapters[$identifier->type])) 
         {
-            //Set the classname
-            $identifier->classname = $result;
+            $result = self::$_adapters[$identifier->type]->instantiate($identifier, $config);
+          
+            //If we get a string returned we assume it's a classname
+            if(is_string($result)) 
+            {
+                //Set the classname
+                $identifier->classname = $result;
             
-            //Set the filepath
-            $identifier->filepath = KLoader::path($identifier);
+                //Set the filepath
+                $identifier->filepath = KLoader::path($identifier);
             
-            //If the object is indentifiable push the identifier in through the constructor
-            if(array_key_exists('KObjectIdentifiable', class_implements($identifier->classname))) {
-                $config->identifier = $identifier;
-            }
+                //If the object is indentifiable push the identifier in through the constructor
+                if(array_key_exists('KObjectIdentifiable', class_implements($identifier->classname))) {
+                    $config->identifier = $identifier;
+                }
                             
-            // If the class has an instantiate method call it
-            if(is_callable(array($identifier->classname, 'instantiate'), false)) {
-                $result = call_user_func(array($identifier->classname, 'instantiate'), $config);
-            } 
-            else {
-                $result = new $identifier->classname($config);
+                // If the class has an instantiate method call it
+                if(is_callable(array($identifier->classname, 'instantiate'), false)) {
+                    $result = call_user_func(array($identifier->classname, 'instantiate'), $config);
+                } 
+                else {
+                    $result = new $identifier->classname($config);
+                }
             }
         }
         
