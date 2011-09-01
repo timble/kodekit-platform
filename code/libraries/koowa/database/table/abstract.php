@@ -137,7 +137,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $name    = $this->_identifier->name;
         
         $config->append(array(
-            'database'          => KFactory::get('lib.koowa.database.adapter.mysqli'),
+            'database'          => KFactory::get('koowa:database.adapter.mysqli'),
             'name'              => empty($package) ? $name : $package.'_'.$name,
             'column_map'        => null,
             'filters'           => array(),
@@ -490,7 +490,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $options['table'] = $this; 
         $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
              
-        return KFactory::tmp($identifier, $options); 
+        return KFactory::get($identifier, $options); 
     }
     
     /**
@@ -508,7 +508,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $options['table'] = $this; 
         $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
     
-        return KFactory::tmp($identifier, $options);
+        return KFactory::get($identifier, $options);
     }
     
     /**
