@@ -20,7 +20,7 @@
 class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 {  
 	/**
-	 * Toolbar object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Toolbar object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -74,7 +74,7 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_toolbar = KFactory::tmp($this->_toolbar, $config);
+			$this->_toolbar = KFactory::get($this->_toolbar, $config);
 		}    
          
         return $this->_toolbar;
