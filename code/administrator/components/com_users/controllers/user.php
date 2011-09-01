@@ -30,7 +30,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $rowset = parent::_actionDelete($context);
 
-        $list = KFactory::tmp('admin::com.users.model.sessions')
+        $list = KFactory::get('com://admin/users.model.sessions')
             ->set('username', $rowset->username)
             ->getList()
             ->delete();
@@ -43,7 +43,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $credentials['username'] = KRequest::get('post.username', 'string');
         $credentials['password'] = KRequest::get('post.password', 'raw');
 
-        $result = KFactory::get('lib.joomla.application')->login($credentials);
+        $result = KFactory::get('joomla:application')->login($credentials);
 
         if(JError::isError($result))
         {
@@ -63,7 +63,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	        foreach($users as $user)
 	        {
 	            $clients = array(0, 1); //Force logout from site and administrator
-	            $result = KFactory::get('lib.joomla.application')
+	            $result = KFactory::get('joomla:application')
 	                            ->logout($user->id, array('clientid' => $clients));
 
                 if(JError::isError($result))
@@ -81,7 +81,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         if($context->result->status == KDatabase::STATUS_CREATED)
         {
-            $application = KFactory::get('lib.joomla.application');
+            $application = KFactory::get('joomla:application');
 
             // Send e-mail to the user.
             $mail_from_email    = $application->getCfg('mailfrom');
@@ -90,7 +90,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
             if($mail_from_email == '' || $mail_from_name == '')
             {
-                $user = KFactory::get('lib.joomla.user');
+                $user = KFactory::get('joomla:user');
 
                 $mail_from_email    = $user->email;
                 $mail_from_name     = $user->name;

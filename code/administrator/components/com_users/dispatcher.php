@@ -21,7 +21,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
 {
     protected function _initialize(KConfig $config)
     {  
-        if(KFactory::get('lib.joomla.user')->guest) 
+        if(KFactory::get('joomla:user')->guest) 
         {  
             if(KRequest::method() == KHttpRequest::GET) 
             {
@@ -37,11 +37,11 @@ class ComUsersDispatcher extends ComDefaultDispatcher
     
     protected function _actionDispatch(KCommandContext $context)
 	{        	
-        if(!KFactory::get('lib.joomla.user')->guest) 
+        if(!KFactory::get('joomla:user')->guest) 
         {  
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'login') {
-                KFactory::get('lib.joomla.application')->redirect('index.php');
+                KFactory::get('joomla:application')->redirect('index.php');
             }
         } 
                

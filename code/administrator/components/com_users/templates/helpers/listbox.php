@@ -27,7 +27,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		    'prompt'	=> '- Select -'
 		));
 
-		$list = KFactory::tmp('admin::com.users.model.users')
+		$list = KFactory::get('com://admin/users.model.users')
 		    ->set('sort', 'name')
 		    ->set('limit', 0)
 		    ->getList();

@@ -41,7 +41,7 @@ class ComUsersControllerGroup extends ComDefaultControllerDefault
 	    
 	    //Set the toolbar
 	    if($this->isCommandable()) {
-	        $this->setToolbar('admin::com.'.$package.'.controller.toolbar.'.$view->getName());
+	        $this->setToolbar('com://admin/'.$package.'.controller.toolbar.'.$view->getName());
 	    }
 	    
         return parent::_actionGet($context);

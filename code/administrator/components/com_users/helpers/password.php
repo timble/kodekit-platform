@@ -76,7 +76,7 @@ class ComUsersHelperPassword extends KObject implements KObjectIdentifiable
      */
     public function getHash($seed)
     {
-        $secret = KFactory::get('lib.joomla.config')->getValue('config.secret');
+        $secret = KFactory::get('joomla:config')->getValue('config.secret');
         return md5($secret.$seed);
     }
 
