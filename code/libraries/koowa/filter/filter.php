@@ -55,10 +55,10 @@ class KFilter
 		try 
 		{
 			if(is_string($filter) && strpos($filter, '.') === false ) {
-				$filter = 'com.default.filter.'.trim($filter);
+				$filter = 'com:default.filter.'.trim($filter);
 			} 
 			
-			$filter = KFactory::tmp($filter, $config);
+			$filter = KFactory::get($filter, $config);
 			
 		} catch(KFactoryAdapterException $e) {
 			throw new KFilterException('Invalid filter: '.$filter);
