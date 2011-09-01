@@ -33,15 +33,16 @@ class plgSystemExpire extends JPlugin
         $response = JResponse::getBody();
         
         // Stylesheets, favicons etc
-        $response = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, _replace), $response);
+        $response = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, '_replace'), $response);
         
         // Scripts
-        $response = preg_replace_callback('#<script.*src="([^"]+)".*>.*</script>#iU', array($this, _replace), $response);
+        $response = preg_replace_callback('#<script.*src="([^"]+)".*>[.\n\r]*</script>#iU', array($this, '_replace'), $response);
         
         // Image tags
-        $response = preg_replace_callback('#<img.*src="([^"]+)".*/>#iU', array($this, _replace), $response);
+        $response = preg_replace_callback('#<img.*src="([^"]+)".*/>#iU', array($this, '_replace'), $response);
         
-        // @TODO add support for inline CSS url() URIs
+        // Inline CSS URIs
+        $response = preg_replace_callback('#style=".*url\(([^"]+)\)"#iU', array($this, '_replace'), $response);
         
         JResponse::setBody($response);
     }
@@ -71,8 +72,8 @@ class plgSystemExpire extends JPlugin
     	     */
     	    $count = 1;
             $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
-    
-            if($modified = filemtime($src)) 
+
+            if(file_exists($src) && $modified = filemtime($src))
             {
                 $join  = strpos($url, '?') ? '&' : '?';
                 $this->_cache[$url] = $url.$join.'modified='.$modified;
