@@ -48,7 +48,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => $this->getIdentifier()->application.'::com.'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+		    'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 			'column'    => $config->value,
@@ -57,7 +57,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		    'sort'	    => $config->text,
 		));
 		
-		$list = KFactory::tmp($config->identifier)->limit(0)->set($config->filter)->sort($config->sort)->getList();
+		$list = KFactory::get($config->identifier)->limit(0)->set($config->filter)->sort($config->sort)->getList();
 		
 		//Get the list of items
  	    $items = $list->getColumn($config->value);
