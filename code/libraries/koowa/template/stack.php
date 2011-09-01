@@ -20,7 +20,7 @@
   * @category   Koowa
   * @package    Koowa_Template
   */
-class KTemplateStack extends KObject implements KObjectIdentifiable
+class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInstantiatable
 { 
     /**
      * The object container
@@ -53,7 +53,7 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
      *
      * @return void
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
