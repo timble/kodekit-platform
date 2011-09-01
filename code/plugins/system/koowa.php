@@ -175,10 +175,7 @@ class plgSystemKoowa extends JPlugin
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
 	        }
-	        
-	        //Reset the user object in the factory
-	        KFactory::set('joomla:user', JFactory::getUser());
-	         
+	           
 	        //Force the token
 	        KRequest::set('request._token', JUtility::getToken());
 	        
