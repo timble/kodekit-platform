@@ -27,6 +27,13 @@ interface KLoaderAdapterInterface
 	public function path($class);
 	
 	/**
+	 * Get the type
+	 *
+	 * @return string	Returns the type
+	 */
+	public function getType();
+	
+	/**
 	 * Get the class prefix
 	 *
 	 * @return string	Returns the class prefix
