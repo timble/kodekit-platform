@@ -19,5 +19,22 @@
  */
 class KDatabaseTableDefault extends KDatabaseTableAbstract
 {
-
+	/**
+     * Force creation of a singleton
+     *
+     * @return KDatabaseTableDefault
+     */
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
 }
