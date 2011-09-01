@@ -17,4 +17,4 @@
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-echo KFactory::get('admin::com.settings.dispatcher')->dispatch();
+echo KFactory::get('com://admin/settings.dispatcher')->dispatch();

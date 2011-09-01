@@ -27,7 +27,7 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'		=> 'editor'
         ));
        
-		$editors = KFactory::get('admin::com.extensions.model.plugins')
+		$editors = KFactory::get('com://admin/extensions.model.plugins')
 		            ->type('editors')
 		            ->enabled(1)
 		            ->sort(array('ordering', 'name'))

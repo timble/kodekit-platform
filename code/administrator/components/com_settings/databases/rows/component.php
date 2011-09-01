@@ -58,7 +58,7 @@ class ComSettingsDatabaseRowComponent extends ComSettingsDatabaseRowAbstract
     {
         $config->append(array(
              'id'     => '',
-             'table'  => 'admin::com.extensions.database.table.components'
+             'table'  => 'com://admin/extensions.database.table.components'
         ));
         
         parent::_initialize($config);
