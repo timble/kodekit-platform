@@ -27,7 +27,7 @@
  *     // Create a url object;
  *    
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = KFactory::get('lib.koowa.http.url', array('url' => $url) );
+ *     $url = KFactory::get('koowa:http.url', array('url' => $url) );
  * 
  *     // the $ur properties are ...
  *     // 
