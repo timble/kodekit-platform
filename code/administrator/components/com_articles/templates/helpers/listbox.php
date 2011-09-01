@@ -43,7 +43,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'prompt'	=> '- Select -'
         ));
 
-        $list = KFactory::tmp('admin::com.articles.model.sections')
+        $list = KFactory::get('com://admin/articles.model.sections')
             ->set('scope', 'content')
             ->set('sort', 'title')
             ->set('limit', 0)
@@ -82,7 +82,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         if($config->section != '0')
         {
-            $list = KFactory::tmp('admin::com.categories.model.categories')
+            $list = KFactory::get('com://admin/categories.model.categories')
                 ->set('section', $config->section > 0 ? $config->section : 'com_content')
                 ->set('sort', 'title')
                 ->set('limit', 0)

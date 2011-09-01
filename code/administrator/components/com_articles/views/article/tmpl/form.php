@@ -17,7 +17,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 
 <script>
-    var categories = <?= json_encode(KFactory::tmp('admin::com.articles.model.categories')->getList()) ?>;
+    var categories = <?= json_encode(KFactory::get('com://admin/articles.model.categories')->getList()) ?>;
 
     <? if($article->category_id) : ?>
         window.addEvent('domready', function() {
@@ -101,7 +101,7 @@ defined('KOOWA') or die('Restricted access') ?>
                             <label for="created_by"><?= @text('Author') ?></label>
                         </td>
                         <td class="paramlist_value">
-                            <?= @helper('admin::com.users.template.helper.listbox.users',
+                            <?= @helper('com://admin/users.template.helper.listbox.users',
                                 array('selected' => $article->id ? $article->created_by : $user->id, 'deselect' => false, 'name' => 'created_by')) ?>
                         </td>
                     </tr>
@@ -125,7 +125,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </div>
         <div class="panel folders group">
             <h3><?= @text('Category') ?></h3>
-            <?= @template('form_categories', array('categories' =>  KFactory::tmp('admin::com.articles.model.categories')->getList(), 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  KFactory::get('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
         </div>
         <div class="panel">
             <h3><?= @text('Description') ?></h3>

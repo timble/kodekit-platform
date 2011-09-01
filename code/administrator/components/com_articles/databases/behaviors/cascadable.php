@@ -30,7 +30,7 @@ class ComArticlesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 	 * Constructor.
 	 *
 	 * $config->dependents array An array of identifiers of the dependent tables 
-	 * in the format: app::com.package.model.name.column where column contains the 'foreign key'
+	 * in the format: com://app/package.model.name.column where column contains the 'foreign key'
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
@@ -52,7 +52,7 @@ class ComArticlesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
 	protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-			'dependents' => array('admin::com.categories.model.categories.parent'),
+			'dependents' => array('com://admin/categories.model.categories.parent'),
 	  	));
 
     	parent::_initialize($config);
@@ -79,7 +79,7 @@ class ComArticlesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
             
             $identifier = implode('.', $parts).'.'.$name;
             
-            $rowset = KFactory::tmp($identifier)
+            $rowset = KFactory::get($identifier)
                         ->set($column, $id)
                         ->limit(0)
                         ->getList();
