@@ -92,7 +92,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr )
 		{
-			$strHtml .= $tab . '<link rel="stylesheet" href="'.$strSrc.'" type="'.$strAttr['mime'].'"';
+			$strHtml .= $tab . '<link rel="stylesheet" href="'.$this->_processResourceURL($strSrc).'" type="'.$strAttr['mime'].'"';
 			if (!is_null($strAttr['media'])){
 				$strHtml .= ' media="'.$strAttr['media'].'" ';
 			}
@@ -127,7 +127,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate script file links
 		foreach ($document->_scripts as $strSrc => $strType) {
-			$strHtml .= $tab.'<script type="'.$strType.'" src="'.$strSrc.'"></script>'.$lnEnd;
+			$strHtml .= $tab.'<script type="'.$strType.'" src="'.$this->_processResourceURL($strSrc).'"></script>'.$lnEnd;
 		}
 
 		// Generate script declarations
@@ -154,5 +154,35 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		return $strHtml;
+	}
+	
+	/**
+	 * Adds 'modified' query variable to resource URI when possible, makes browsers caching useful and failsafe
+	 *
+	 * Method made protected since it's not available in Joomla
+	 *
+	 * @since  Nooku Server Alpha 4
+	 * @return string
+	 */
+	protected function _processResourceURL($url)
+	{
+	    // Remote resources cannot be processed
+	    if(KFactory::get('koowa:filter.url')->validate($url)) {
+	        return $url;
+	    }
+	    
+	    /** 
+	     * The count is a referenced value, so need to be passed as a variable.
+	     * And the count is needed to prevent the root to be replaced multiple times in a longer path.
+	     */
+	    $count = 1;
+        $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
+
+        if($modified = filemtime($src)) {
+            $join  = strpos($url, '?') ? '&' : '?';
+            return $url.$join.'modified='.$modified;
+        }
+
+        return $url;
 	}
 }
