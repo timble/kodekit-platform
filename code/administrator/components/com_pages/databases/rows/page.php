@@ -18,9 +18,9 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
+class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode implements KObjectInstantiatable
 {
-	public function instantiate(KConfig $config)
+	public static function getInstance(KConfig $config)
 	{
 		if($config->data['type']) {
 			$type = $config->data['type'] == 'menulink' ? 'Link' : ucfirst($config->data['type']);
