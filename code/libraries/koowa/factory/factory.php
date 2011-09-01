@@ -9,7 +9,7 @@
  */
 
 //Instantiate the factory singleton
-KFactory::instantiate();
+KFactory::getInstance();
 
 /**
  * KFactory class
@@ -73,7 +73,7 @@ class KFactory
 	 *
 	 * @return void
 	 */
-	public static function instantiate($config = array())
+	public static function getInstance($config = array())
 	{
 		static $instance;
 		
@@ -314,10 +314,9 @@ class KFactory
                 }
                             
                 // If the class has an instantiate method call it
-                if(is_callable(array($identifier->classname, 'instantiate'), false)) {
-                    $result = call_user_func(array($identifier->classname, 'instantiate'), $config);
-                } 
-                else {
+                if(array_key_exists('KObjectInstantiatable', class_implements($identifier->classname))) {
+                    $result = call_user_func(array($identifier->classname, 'getInstance'), $config);
+                } else {
                     $result = new $identifier->classname($config);
                 }
             }
