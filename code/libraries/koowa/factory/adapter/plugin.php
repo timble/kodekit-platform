@@ -18,7 +18,13 @@
  */
 class KFactoryAdapterPlugin extends KFactoryAdapterAbstract
 {
-
+    /** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'plg';
+    
 	/**
 	 * Create an instance of a class based on a class identifier
 	 * 
@@ -30,21 +36,18 @@ class KFactoryAdapterPlugin extends KFactoryAdapterAbstract
 	{
 		$classname = false;
 		
-		if($identifier->type == 'plg') 
-		{			
-			$classpath = KInflector::camelize(implode('_', $identifier->path));
-			$classname = 'Plg'.ucfirst($identifier->package).$classpath.ucfirst($identifier->name);
+	    $classpath = KInflector::camelize(implode('_', $identifier->path));
+		$classname = 'Plg'.ucfirst($identifier->package).$classpath.ucfirst($identifier->name);
 			
-			//Don't allow the auto-loader to load plugin classes if they don't exists yet
-			if (!class_exists( $classname, false ))
+		//Don't allow the auto-loader to load plugin classes if they don't exists yet
+		if (!class_exists( $classname, false ))
+		{
+			//Find the file
+			if($path = KLoader::load($identifier))
 			{
-				//Find the file
-				if($path = KLoader::load($identifier))
-				{
-					//Don't allow the auto-loader to load plugin classes if they don't exists yet
-					if (!class_exists( $classname, false )) {
-						throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
-					}
+				//Don't allow the auto-loader to load plugin classes if they don't exists yet
+				if (!class_exists( $classname, false )) {
+					throw new KFactoryAdapterException("Class [$classname] not found in file [".$path."]" );
 				}
 			}
 		}
