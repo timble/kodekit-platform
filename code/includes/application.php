@@ -90,15 +90,18 @@ class JSite extends JApplication
 	    if(!isset($uri)) {
 		    $uri = clone(JURI::getInstance());
 		}
- 		
- 		// get the route based on the path
- 		$route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
-
- 		//Redirect to the default menu item if the route is empty
-		if(empty($route) && $this->getRouter()->getMode() == JROUTER_MODE_SEF) 
+		
+		if(KRequest::type() != 'AJAX')
 		{
-		   $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
-		   $this->redirect($route, '', '', true);
+ 		    // get the route based on the path
+ 		    $route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
+
+ 		    //Redirect to the default menu item if the route is empty
+		    if(empty($route) && $this->getRouter()->getMode() == JROUTER_MODE_SEF) 
+		    {
+		       $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
+		       $this->redirect($route, '', '', true);
+		    }
 		}
 		
 		parent::route($uri);
