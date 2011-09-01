@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugProfilerEvents extends KEventDispatcher
+class ComDebugProfilerEvents extends KEventDispatcher implements KObjectInstantiatable
 {
    /**
     * The start time
@@ -52,7 +52,7 @@ class ComDebugProfilerEvents extends KEventDispatcher
      *
      * @return ComDebugProfilerEvents
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
