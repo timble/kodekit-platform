@@ -52,13 +52,13 @@ class plgSystemKoowa extends JPlugin
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
 		//Load the koowa plugins
-		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
+		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('com://admin/default.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('lib.joomla.user')->guest) 
+		if(!KFactory::get('joomla:user')->guest) 
 		{
-		   if($offset = KFactory::get('lib.joomla.user')->getParam('timezone')) {
-		        KFactory::get('lib.joomla.config')->setValue('config.offset', $offset);
+		   if($offset = KFactory::get('joomla:user')->getParam('timezone')) {
+		        KFactory::get('joomla:config')->setValue('config.offset', $offset);
 		   }
 		}
 		
@@ -79,7 +79,7 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 1) && KFactory::get('lib.joomla.user')->get('guest')) {
+	    if($this->params->get('auth_basic', 1) && KFactory::get('joomla:user')->get('guest')) {
 	        $this->_authenticateUser();
 	    }
 	    
@@ -142,7 +142,7 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-		if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
+		if(KFactory::get('joomla:config')->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
 			$error->set('message', KHttpResponse::getMessage($error->code));
@@ -170,14 +170,14 @@ class plgSystemKoowa extends JPlugin
 	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
 	        );
 	        
-	        if(KFactory::get('lib.joomla.application')->login($credentials) !== true) 
+	        if(KFactory::get('joomla:application')->login($credentials) !== true) 
 	        {  
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
 	        }
 	        
 	        //Reset the user object in the factory
-	        KFactory::set('lib.joomla.user', JFactory::getUser());
+	        KFactory::set('joomla:user', JFactory::getUser());
 	         
 	        //Force the token
 	        KRequest::set('request._token', JUtility::getToken());

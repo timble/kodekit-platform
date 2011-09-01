@@ -27,10 +27,10 @@ class plgSystemDebug extends JPlugin
 	    if(KDEBUG) 
 	    {
 	        //Create the event profiler
-	        $profiler = KFactory::get('admin::com.debug.profiler.events');
+	        $profiler = KFactory::get('com://admin/debug.profiler.events');
 	        
 	        //Replace the event dispatcher
-	        KFactory::set('lib.koowa.event.dispatcher', $profiler);
+	        KFactory::set('koowa:event.dispatcher', $profiler);
 		}
 		
 		parent::__construct($subject, $config);
