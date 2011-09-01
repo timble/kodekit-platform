@@ -23,7 +23,7 @@ class ComFilesModelStateNode extends KConfigState
     public function __get($name)
     {
     	if ($name == 'container' && isset($this->_data[$name]) && is_string($this->_data[$name]->value)) {
-			$this->_data[$name]->value = KFactory::tmp('admin::com.files.model.containers')->id($this->_data[$name]->value)->getItem();
+			$this->_data[$name]->value = KFactory::get('com://admin/files.model.containers')->id($this->_data[$name]->value)->getItem();
     	}
     	else if ($name == 'basepath') {
     		return (string) (isset($this->_data['container']) ? $this->container : '');

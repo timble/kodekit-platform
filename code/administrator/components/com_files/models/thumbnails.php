@@ -25,8 +25,8 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 
 		$this->_state
 			->insert('container', 'identifier', null)
-			->insert('folder', 'admin::com.files.filter.path', null)
-			->insert('files', 'admin::com.files.filter.path', null)
+			->insert('folder', 'com://admin/files.filter.path', null)
+			->insert('files', 'com://admin/files.filter.path', null)
 			->insert('source', 'raw', null, true)
 			;
 	}

@@ -26,8 +26,8 @@ class ComFilesFilterFolderUploadable extends KFilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.folder.name'), KCommand::PRIORITY_HIGH);
-		$this->addFilter(KFactory::tmp('admin::com.files.filter.folder.exists'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::get('com://admin/files.filter.folder.name'), KCommand::PRIORITY_HIGH);
+		$this->addFilter(KFactory::get('com://admin/files.filter.folder.exists'), KCommand::PRIORITY_HIGH);
 	}
 
 	protected function _validate($context)

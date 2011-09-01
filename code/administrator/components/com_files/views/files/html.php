@@ -32,14 +32,14 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 	{
 		$state = $this->getModel()->getState();
 
-		$folders = KFactory::tmp('admin::com.files.controller.folder')
+		$folders = KFactory::get('com://admin/files.controller.folder')
 			->container($state->container)
 			->tree(true)
 			->browse();
 
 		$this->assign('folders', $folders);
 
-		$config = KFactory::get('admin::com.files.model.configs')->getItem();
+		$config = KFactory::get('com://admin/files.model.configs')->getItem();
 
 		// prepare an extensions array for fancyupload
 		$extensions = $config->upload_extensions;

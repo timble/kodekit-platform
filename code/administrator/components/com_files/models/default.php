@@ -25,14 +25,14 @@ class ComFilesModelDefault extends KModelAbstract
 		parent::__construct($config);
 
 		$this->_state
-			->insert('limit'    , 'int', KFactory::get('lib.joomla.application')->getCfg('list_limit'))
+			->insert('limit'    , 'int', KFactory::get('joomla:application')->getCfg('list_limit'))
 			->insert('offset'   , 'int', 0)
 			->insert('search'	, 'filename')
 			->insert('direction', 'word', 'asc')
 
 			->insert('container', 'identifier', null)
-			->insert('path'		, 'admin::com.files.filter.path', null, true) // unique
-			->insert('folder'	, 'admin::com.files.filter.path', '')
+			->insert('path'		, 'com://admin/files.filter.path', null, true) // unique
+			->insert('folder'	, 'com://admin/files.filter.path', '')
 			->insert('types'	, 'cmd', '')
 			->insert('editor'   , 'cmd', '') // used in modal windows
 			;
@@ -41,7 +41,7 @@ class ComFilesModelDefault extends KModelAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'state'      => KFactory::tmp('admin::com.files.model.state.node'),
+            'state'      => KFactory::get('com://admin/files.model.state.node'),
        	));
 
        	parent::_initialize($config);

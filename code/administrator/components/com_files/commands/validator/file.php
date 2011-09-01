@@ -27,14 +27,14 @@ class ComFilesCommandValidatorFile extends KCommand
 		if (!is_uploaded_file($row->file))
 		{
 			// remote file
-			$file = KFactory::tmp('admin::com.files.database.row.url');
+			$file = KFactory::get('com://admin/files.database.row.url');
 			$file->setData(array('file' => $row->file));
 			$file->load();
 			$row->contents = $file->contents;
 
 			if (empty($row->path))
 			{
-				$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $row->file));
+				$uri = KFactory::get('koowa:http.url', array('url' => $row->file));
 	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
@@ -44,8 +44,8 @@ class ComFilesCommandValidatorFile extends KCommand
 			}
 		}
 
-		$row->path = KFactory::tmp('admin::com.files.filter.file.name')->sanitize($row->path);
+		$row->path = KFactory::get('com://admin/files.filter.file.name')->sanitize($row->path);
 
-		return KFilter::factory('admin::com.files.filter.file.uploadable')->validate($context);
+		return KFilter::factory('com://admin/files.filter.file.uploadable')->validate($context);
 	}
 }

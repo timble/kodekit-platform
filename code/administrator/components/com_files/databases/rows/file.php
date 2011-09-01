@@ -31,10 +31,10 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         if ($config->validator !== false)
         {
         	if ($config->validator === true) {
-        		$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
+        		$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
         	}
 
-			$this->getCommandChain()->enqueue(KFactory::tmp($config->validator));
+			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
         }
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
@@ -66,7 +66,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		$result = null;
 		if ($this->isImage()) {
-			$thumb = KFactory::tmp('admin::com.files.model.thumbnails')
+			$thumb = KFactory::get('com://admin/files.model.thumbnails')
 				->source($this)
 				->getItem();
 
@@ -80,7 +80,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		$result = null;
 		if ($this->isImage()) {
-			$thumb = KFactory::tmp('admin::com.files.model.thumbnails')
+			$thumb = KFactory::get('com://admin/files.model.thumbnails')
 				->source($this)
 				->getItem();
 
@@ -247,7 +247,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function getMimeType()
 	{
-		return KFactory::get('admin::com.files.mixin.mimetype')->getMimetype($this->fullpath);
+		return KFactory::get('com://admin/files.mixin.mimetype')->getMimetype($this->fullpath);
 	}
 
 	public function getExtension()

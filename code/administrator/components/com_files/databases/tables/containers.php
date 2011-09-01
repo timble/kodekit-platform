@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseTableContainers extends KDatabaseTableAbstract
+class ComFilesDatabaseTableContainers extends KDatabaseTableDefault
 {
 	protected function _initialize(KConfig $config)
 	{

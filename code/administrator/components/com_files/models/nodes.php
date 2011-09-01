@@ -27,7 +27,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 			$state = $this->_state;
 			$type = !empty($state->types) ? (array) $state->types : array();
 
-			$list = KFactory::tmp('admin::com.files.database.rowset.nodes');
+			$list = KFactory::get('com://admin/files.database.rowset.nodes');
 
 			// Special case for limit=0. We set it to -1
 			// so loop goes on till end since limit is a negative value
@@ -37,7 +37,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = KFactory::tmp('admin::com.files.model.folders')->set($state->getData())
+				$folders = KFactory::get('com://admin/files.model.folders')->set($state->getData())
 					->limit(0)->offset(0)->getList();
 				foreach ($folders as $folder) {
 					if (!$limit_left) {
@@ -57,7 +57,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$files = KFactory::tmp('admin::com.files.model.files')->set($state->getData())
+				$files = KFactory::get('com://admin/files.model.files')->set($state->getData())
 					->limit(0)->offset(0)->getList();
 
 				foreach ($files as $file) {

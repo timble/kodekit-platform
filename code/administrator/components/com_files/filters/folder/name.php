@@ -34,6 +34,6 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _sanitize($value)
 	{
-		return KFactory::tmp('admin::com.files.filter.path')->sanitize($value);
+		return KFactory::get('com://admin/files.filter.path')->sanitize($value);
 	}
 }

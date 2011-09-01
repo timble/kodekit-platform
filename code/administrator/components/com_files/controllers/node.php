@@ -36,7 +36,7 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 
-		KFactory::get('admin::com.files.model.configs')
+		KFactory::get('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
 
@@ -47,7 +47,7 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
-            KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package);
+            KFactory::get('joomla:language')->load('com_'.$this->getIdentifier()->package);
         }
 
         $result = $this->getView()->display();

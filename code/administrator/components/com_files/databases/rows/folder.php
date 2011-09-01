@@ -21,14 +21,14 @@
 class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 {
 	/**
-	 * Nodes object or identifier (APP::com.COMPONENT.rowset.NAME)
+	 * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
 	 *
 	 * @var string|object
 	 */
 	protected $_children = null;
 
 	/**
-	 * Node object or identifier (APP::com.COMPONENT.rowset.NAME)
+	 * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
 	 *
 	 * @var string|object
 	 */
@@ -43,10 +43,10 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		if ($config->validator !== false)
 		{
 			if ($config->validator === true) {
-				$config->validator = 'admin::com.files.command.validator.'.$this->getIdentifier()->name;
+				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue(KFactory::tmp($config->validator));
+			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
 		}
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
@@ -166,7 +166,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 
 		if ($column == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = KFactory::tmp('admin::com.files.database.rowset.folders');
+			$this->_data['children'] = KFactory::get('com://admin/files.database.rowset.folders');
 		}
 
 		return parent::__get($column);
@@ -243,7 +243,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 				'identity_column' => $this->getIdentityColumn()
 			);
 
-			$this->_children = KFactory::tmp($identifier, $options);
+			$this->_children = KFactory::get($identifier, $options);
 		}
 
 		return $this->_children;

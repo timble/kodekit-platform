@@ -125,7 +125,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$uri = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
+		$uri = KFactory::get('koowa:http.url', array('url' => $url));
 
 		$scheme = $uri->get(KHttpUrl::SCHEME);
 		$host = $uri->get(KHttpUrl::HOST);

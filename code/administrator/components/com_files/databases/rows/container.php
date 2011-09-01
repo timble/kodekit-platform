@@ -66,7 +66,7 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 
 	public function getParameters()
 	{
-		return KFactory::get('admin::com.files.model.configs')
+		return KFactory::get('com://admin/files.model.configs')
 			->container($this->id)->getItem();
 	}
 }

@@ -31,7 +31,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 	{
 		if (!isset($this->_item))
 		{
-			$this->_item = KFactory::tmp('admin::com.files.database.row.folder', array(
+			$this->_item = KFactory::get('com://admin/files.database.row.folder', array(
 				'data' => array(
 					'basepath' => $this->_state->basepath,
 					'path' => $this->_state->path
@@ -97,7 +97,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 				);
 			}
 
-			$rowset = KFactory::tmp('admin::com.files.database.rowset.folders');
+			$rowset = KFactory::get('com://admin/files.database.rowset.folders');
 			$rowset->addData($results);
 
 			$this->_list = $rowset;

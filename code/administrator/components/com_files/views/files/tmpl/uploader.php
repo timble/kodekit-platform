@@ -147,7 +147,7 @@ window.addEvent('domready', function() {
 		</ul>
 		<p id="upload-max">
 			<?= @text('Max'); ?>
-			<?= @helper('admin::com.files.template.helper.filesize.humanize', array('size' => $maxsize))?>
+			<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $maxsize))?>
 		</p>
 	</div>
 	<div class="clr"></div>

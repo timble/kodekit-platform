@@ -28,10 +28,10 @@ class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
 	protected function _authorize()
 	{
-		$minimum = KFactory::get('admin::com.files.model.configs')->getItem()->allowed_media_usergroup;
+		$minimum = KFactory::get('com://admin/files.model.configs')->getItem()->allowed_media_usergroup;
 		$minimum = isset(self::$_group_map[$minimum]) ? self::$_group_map[$minimum] : 18;
 
-		$result = KFactory::get('lib.joomla.user')->get('gid') >= $minimum;
+		$result = KFactory::get('joomla:user')->get('gid') >= $minimum;
 
 		return $result;
 	}

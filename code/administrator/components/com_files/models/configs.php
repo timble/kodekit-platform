@@ -26,12 +26,26 @@ class ComFilesModelConfigs extends ComDefaultModelDefault
 		$this->_state->insert('container', 'identifier', null);
 	}
 
+    public static function instantiate($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) 
+        {
+            //Create the singleton
+            $classname = $config->identifier->classname;
+            $instance = new $classname($config);
+        }
+        
+        return $instance;
+    }
+
 	public function getItem()
 	{
 		if (!isset($this->_item))
 		{
-			$this->_item = KFactory::get('admin::com.files.database.row.config');
-			$container = KFactory::get('admin::com.files.model.containers')->id((string)$this->_state->container)->getItem();
+			$this->_item = KFactory::get('com://admin/files.database.row.config');
+			$container = KFactory::get('com://admin/files.model.containers')->id((string)$this->_state->container)->getItem();
 
 			$this->_item->container = $container;
 			$this->_item->setData(json_decode($container->parameters, true));

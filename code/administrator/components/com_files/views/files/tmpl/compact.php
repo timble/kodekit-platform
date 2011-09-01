@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @template('admin::com.files.views.files.initialize'); ?>
+<?= @template('com://admin/files.views.files.initialize'); ?>
 
 <script src="media://com_files/js/files.compact.js" />
 
@@ -67,8 +67,8 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @template('admin::com.files.view.files.templates_compact');?>
-<?= @template('admin::com.files.view.files.folders');?>
+<?= @template('com://admin/files.view.files.templates_compact');?>
+<?= @template('com://admin/files.view.files.folders');?>
 
 <div id="files-compact">
 	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
@@ -91,7 +91,7 @@ window.addEvent('domready', function() {
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.startPanel', array('title' => 'Upload')); ?>
 
-		<?= @template('admin::com.files.view.files.uploader'); ?>
+		<?= @template('com://admin/files.view.files.uploader'); ?>
 
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.endPane'); ?>

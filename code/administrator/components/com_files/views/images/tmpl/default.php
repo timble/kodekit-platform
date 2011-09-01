@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= KFactory::tmp('admin::com.files.controller.file')
+<?= KFactory::get('com://admin/files.controller.file')
 	->container('com_files.files')
 	->layout('compact')
 	->types(array('image'))
