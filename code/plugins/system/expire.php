@@ -30,6 +30,11 @@ class plgSystemExpire extends JPlugin
         // Scripts
         $response = preg_replace_callback('#<script.*src="([^"]+)".*>.*</script>#iU', array($this, _replace), $response);
         
+        // Image tags
+        $response = preg_replace_callback('#<img.*src="([^"]+)".*/>#iU', array($this, _replace), $response);
+        
+        // @TODO add support for inline CSS url() URIs
+        
         JResponse::setBody($response);
     }
     
