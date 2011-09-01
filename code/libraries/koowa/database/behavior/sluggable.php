@@ -165,7 +165,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
         
         //Create the filter
-        $filter = KFactory::tmp('lib.koowa.filter.slug', $config);
+        $filter = KFactory::get('koowa:filter.slug', $config);
         return $filter;
     }
     
