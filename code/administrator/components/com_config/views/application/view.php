@@ -34,7 +34,7 @@ class ConfigApplicationView
 		$table->loadByOption( 'com_users' );
 		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml' );
 
-		$files_row = KFactory::tmp('admin::com.files.model.paths')->identifier('files.files')->getItem();
+		$files_row = KFactory::get('com://admin/files.model.paths')->identifier('files.files')->getItem();
 		$params = json_decode($files_row->parameters);
 		$params->image_path = $files_row->path_value;
 		$mediaparams = new JParameter('', JPATH_ADMINISTRATOR.'/components/com_files/config.xml');

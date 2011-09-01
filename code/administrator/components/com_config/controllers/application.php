@@ -242,7 +242,7 @@ class ConfigControllerApplication extends ConfigController
 			return false;
 		}
 
-		$row = KFactory::tmp('admin::com.files.model.paths')->identifier('files.files')->getItem();
+		$row = KFactory::get('com://admin/files.model.paths')->identifier('files.files')->getItem();
 
 		$media = JRequest::getVar('mediaparams', array(), 'post', 'array');
 		$image_path  = trim($media['image_path'], '/\\');
