@@ -28,7 +28,7 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 			'core' => null
 		));
 		
-		$groups  = KFactory::tmp('admin::com.groups.model.groups')
+		$groups  = KFactory::get('com://admin/groups.model.groups')
             ->set('core', is_null($config->core) ? null : $config->core)
             ->set('limit', 0)
 		    ->getList();

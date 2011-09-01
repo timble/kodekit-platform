@@ -18,7 +18,7 @@
  * @subpackage  Groups
  */
 
-class ComGroupsDatabaseTableNodes extends KDatabaseTableAbstract
+class ComGroupsDatabaseTableNodes extends KDatabaseTableDefault
 {
     public function lock()
     {
