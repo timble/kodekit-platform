@@ -52,7 +52,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'table' => KFactory::get('admin::com.versions.database.table.revisions')
+        	'table' => KFactory::get('com://admin/versions.database.table.revisions')
         ));
 
         parent::_initialize($config);
