@@ -18,14 +18,14 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultEventDispatcher extends KEventDispatcher
+class ComDefaultEventDispatcher extends KEventDispatcher implements KObjectInstantiatable
 {
 	/**
      * Force creation of a singleton
      *
      * @return KDatabaseTableDefault
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
