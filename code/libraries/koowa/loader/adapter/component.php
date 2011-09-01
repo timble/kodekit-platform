@@ -19,8 +19,15 @@
  */
 class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'com';
+	
 	/**
-	 * The prefix
+	 * The class prefix
 	 * 
 	 * @var string
 	 */
@@ -36,29 +43,26 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	{
 		$path = false; 
 		
-		if (strpos($classname, $this->_prefix) === 0) 
+		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
+		$parts = explode('_', $word);
+			
+		if (array_shift($parts) == 'com') 
 		{
-			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
-			$parts = explode('_', $word);
-			
-			if (array_shift($parts) == 'com') 
-			{
-				$component = 'com_'.strtolower(array_shift($parts));
-				$file 	   = array_pop($parts);
+			$component = 'com_'.strtolower(array_shift($parts));
+			$file 	   = array_pop($parts);
 				
-				if(count($parts)) 
-				{
-					foreach($parts as $key => $value) {
-						$parts[$key] = KInflector::pluralize($value);
-					}
+			if(count($parts)) 
+			{
+				foreach($parts as $key => $value) {
+					$parts[$key] = KInflector::pluralize($value);
+				}
 					
-					$path = implode('/', $parts);
-					$path = $path.'/'.$file;
-				} 
-				else $path = $file;
+				$path = implode('/', $parts);
+				$path = $path.'/'.$file;
+			} 
+			else $path = $file;
 			
-				$path = $this->_basepath.'/components/'.$component.'/'.$path.'.php';
-			}
+			$path = $this->_basepath.'/components/'.$component.'/'.$path.'.php';
 		}
 		
 		return $path;
@@ -67,7 +71,7 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	/**
 	 * Get the path based on an identifier
 	 *
-	 * @param  object  			An Identifier object - [application::]com.component.view.[.path].name
+	 * @param  object  			An Identifier object - com:[//application/]component.view.[.path].name
 	 * @return string|false		Returns the path on success FALSE on failure
 	 */
 	protected function _pathFromIdentifier($identifier)
