@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesModelConfigs extends ComDefaultModelDefault
+class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInstantiatable
 {
 	public function __construct(KConfig $config)
 	{
@@ -26,7 +26,7 @@ class ComFilesModelConfigs extends ComDefaultModelDefault
 		$this->_state->insert('container', 'identifier', null);
 	}
 
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
