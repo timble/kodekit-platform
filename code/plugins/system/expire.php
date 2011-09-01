@@ -36,15 +36,30 @@ class plgSystemExpire extends JPlugin
         $response = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, '_replace'), $response);
         
         // Scripts
-        $response = preg_replace_callback('#<script.*src="([^"]+)".*>[.\n\r]*</script>#iU', array($this, '_replace'), $response);
+        $response = preg_replace_callback('#<script.*src="([^"]+)".*>.*<\/script>#iU', array($this, '_replace'), $response);
         
         // Image tags
-        $response = preg_replace_callback('#<img.*src="([^"]+)".*/>#iU', array($this, '_replace'), $response);
+        $response = preg_replace_callback('#<img.*src="([^"]+)".*\/>#iU', array($this, '_replace'), $response);
         
-        // Inline CSS URIs
+        // Inline CSS URIs in attributes
         $response = preg_replace_callback('#style=".*url\(([^"]+)\)"#iU', array($this, '_replace'), $response);
         
+        // Inline CSS URIs within style tags
+        $response = preg_replace_callback('#<style.*>(.*)<\/style>#siU', array($this, '_replaceInlineCSS'), $response);
+        
         JResponse::setBody($response);
+    }
+    
+    protected function _replaceInlineCSS($matches)
+    {
+        return preg_replace_callback('#url\(([^"]+)\)#iU', array($this, '_replaceInlineCSSMatch'), $matches[0]);
+    }
+    
+    protected function _replaceInlineCSSMatch($matches)
+    {
+        $match = trim($matches[1], '"\'');
+        if(strpos($match, '..') === 0) $match = KRequest::root().ltrim($match, '.');
+        return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);
     }
     
     protected function _replace($matches)
