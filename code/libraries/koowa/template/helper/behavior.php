@@ -155,7 +155,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			self::$_loaded['overlay'] = true;
 		}
 
-		$url = KFactory::tmp('lib.koowa.http.url', array('url' => $config->url));
+		$url = KFactory::get('koowa:http.url', array('url' => $config->url));
 		$url->query['tmpl'] = '';
 
 		$attribs = KHelperArray::toString($config->attribs);
