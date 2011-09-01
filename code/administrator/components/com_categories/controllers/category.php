@@ -38,7 +38,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
 	    
 	    //Set the toolbar
 	    if($this->isCommandable()) {
-	        $this->setToolbar('admin::com.categories.controller.toolbar.'.$view->getName());
+	        $this->setToolbar('com://admin/categories.controller.toolbar.'.$view->getName());
 	    }
 	    
         return parent::_actionGet($context);

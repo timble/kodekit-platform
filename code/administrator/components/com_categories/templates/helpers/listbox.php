@@ -36,9 +36,9 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config->name = 'order'; 
 
         $app        = $this->getIdentifier()->application;
-        $identifier = $app.'::com.'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
+        $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
 
-        $list = KFactory::tmp($identifier)->limit(0)->set($config->filter)->getList();
+        $list = KFactory::get($identifier)->limit(0)->set($config->filter)->getList();
 
         $options = array();
         foreach($list as $item) {
