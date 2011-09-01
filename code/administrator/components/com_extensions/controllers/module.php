@@ -29,7 +29,7 @@ class ComExtensionsControllerModule extends ComDefaultControllerDefault
 	
 	public function purgeCache(KCommandContext $context)
 	{
-		$cache = KFactory::get('lib.joomla.cache');
+		$cache = KFactory::get('joomla:cache');
 		foreach($context->result as $row)
 		{
 			// Clean cache for all 3 front-end user groups (guest, reg, special)

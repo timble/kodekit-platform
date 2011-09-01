@@ -25,7 +25,7 @@ class ComExtensionsViewPluginHtml extends ComDefaultViewHtml
         
         //If both the folder and element is specified, we may load the language file
         if(isset($plugin->type, $plugin->name)) {
-            KFactory::get('lib.joomla.language')->load('plg_'.$plugin->type.'_'.$plugin->name, JPATH_ADMINISTRATOR);
+            KFactory::get('joomla:language')->load('plg_'.$plugin->type.'_'.$plugin->name, JPATH_ADMINISTRATOR);
         }
 
 		return parent::display();

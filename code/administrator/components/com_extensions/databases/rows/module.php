@@ -84,7 +84,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		{
 		    if(!$this->isNew()) 
 		    {
-		        $table = KFactory::get('admin::com.extensions.database.table.menus');
+		        $table = KFactory::get('com://admin/extensions.database.table.menus');
 				$query = $table->getDatabase()->getQuery()
 								->select('menuid')
 								->where('moduleid', '=', $this->id);
@@ -121,7 +121,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 
 		if(in_array('pages', $modified)) 
 		{
-		    $table = KFactory::get('admin::com.extensions.database.table.menus');
+		    $table = KFactory::get('com://admin/extensions.database.table.menus');
 		
 		    //Clean up existing assignemnts
 		    $table->select(array('moduleid' => $this->id))->delete();
@@ -168,7 +168,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		
 		if($this->getStatus() != KDatabase::STATUS_FAILED) 
 		{	
-		    KFactory::get('admin::com.extensions.database.table.menus')
+		    KFactory::get('com://admin/extensions.database.table.menus')
 			    ->select(array('moduleid' => $this->id))
 			    ->delete();
 		}

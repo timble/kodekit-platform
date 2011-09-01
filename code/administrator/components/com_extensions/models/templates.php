@@ -67,7 +67,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
                 	'application' => $client->name
                 );
 
-                $row = KFactory::tmp('admin::com.extensions.database.row.template', array('data' => $data));
+                $row = KFactory::get('com://admin/extensions.database.row.template', array('data' => $data));
                 $row->default = ($row->name == $default);
                 
                 $this->_item = $row;
@@ -127,7 +127,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 			    }
                 
                 //Create the rowset
-                $rowset = KFactory::tmp('admin::com.extensions.database.rowset.templates');
+                $rowset = KFactory::get('com://admin/extensions.database.rowset.templates');
 			    foreach ($templates as $template)
 			    {
 			        $row = $rowset->getRow()->setData($template);

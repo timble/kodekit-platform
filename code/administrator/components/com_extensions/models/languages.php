@@ -32,7 +32,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 			->insert('direction'  , 'word', 'asc')
 			->insert('application', 'cmd', 'site')
 			->insert('default'	  , 'boolean', false, true)
-			->insert('name'	      , 'admin::com.languages.filter.iso', null, true);
+			->insert('name'	      , 'com://admin/languages.filter.iso', null, true);
 	}
 
 	public function getItem()
@@ -62,7 +62,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 						'application'  => $client->name
 				    );
 
-				    $row = KFactory::tmp('admin::com.extensions.database.row.language', array('data' => $data));				
+				    $row = KFactory::get('com://admin/extensions.database.row.language', array('data' => $data));				
 				    $row->default = $row->language == $default;
 
 				    $this->_item = $row;
@@ -117,7 +117,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 				    $languages = array_reverse($languages);
 			    }
 
-			    $rowset = KFactory::tmp('admin::com.extensions.database.rowset.languages');
+			    $rowset = KFactory::get('com://admin/extensions.database.rowset.languages');
 			    foreach ($languages as $language)
 			    {
 				    $row = $rowset->getRow()->setData($language);

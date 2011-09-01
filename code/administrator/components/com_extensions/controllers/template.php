@@ -24,7 +24,7 @@ class ComExtensionsControllerTemplate extends ComDefaultControllerDefault
         $template = parent::_actionRead($context);
 
         if(isset($template->name)) {
-            KFactory::get('lib.joomla.language')->load('tpl_'.$template->name, JPATH_ADMINISTRATOR);
+            KFactory::get('joomla:language')->load('tpl_'.$template->name, JPATH_ADMINISTRATOR);
         }
 
         return $template;

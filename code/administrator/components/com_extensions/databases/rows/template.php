@@ -122,7 +122,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 		    $params->set('template_'.$this->application, $this->name);
 
 		    //Save the params
-			$result = KFactory::get('admin::com.extensions.database.table.components')
+			$result = KFactory::get('com://admin/extensions.database.table.components')
                            ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW)
                            ->set('params', $params->toString())
 			               ->save();
@@ -130,7 +130,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 	
 		if(isset($this->_modified['params']))
 		{
-		    $params = KFactory::tmp('admin::com.templates.filter.ini')->sanitize($this->params);
+		    $params = KFactory::get('com://admin/templates.filter.ini')->sanitize($this->params);
 			if(!file_put_contents($this->path.'/params.ini', $params)) {
 			    return false;
 			}
