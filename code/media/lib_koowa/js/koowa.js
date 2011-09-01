@@ -330,7 +330,7 @@ Koowa.Controller.Grid = new Class({
         this.form.getElements('tbody tr').each(function(tr){
         
             //skip rows that are readonly
-            if(tr.get('data-readonly')) {
+            if(tr.get('data-readonly') == true) {
                 return;
             }
         
