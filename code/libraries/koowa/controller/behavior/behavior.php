@@ -32,10 +32,10 @@ class KControllerBehavior
 	    if(!($behavior instanceof KControllerBehaviorInterface))
 		{   
 		    if(is_string($behavior) && strpos($behavior, '.') === false ) {
-		       $behavior = 'com.default.controller.behavior.'.trim($behavior);
+		       $behavior = 'com:default.controller.behavior.'.trim($behavior);
 		    }    
 			
-		    $behavior = KFactory::tmp($behavior, $config);
+		    $behavior = KFactory::get($behavior, $config);
 		    
 		    //Check the behavior interface
 		    if(!($behavior instanceof KControllerBehaviorInterface)) 
