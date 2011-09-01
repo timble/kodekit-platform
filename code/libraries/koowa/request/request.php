@@ -9,7 +9,7 @@
  */
 
 //Instantiate the request singleton
-KRequest::instantiate();
+KRequest::getInstance();
 
 /**
  * Request class
@@ -125,7 +125,7 @@ class KRequest
      *
      * @return void
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
 
