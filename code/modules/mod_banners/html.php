@@ -29,7 +29,7 @@ class ModBannersHtml extends ModDefaultHtml
         $this->assign('moduleclass_sfx', $this->module->params->get('moduleclass_sfx'));
         
         // Module parameters
-        $model = KFactory::tmp('site::com.banners.model.banners')
+        $model = KFactory::get('com://site/banners.model.banners')
                     ->enabled(1)
                     ->category($this->module->params->get('catid'))
                     ->sort($this->module->params->get('ordering', 0))
@@ -50,7 +50,7 @@ class ModBannersHtml extends ModDefaultHtml
     {
         if (!isset($this->_keywords))
         {
-            $params = KFactory::get('lib.joomla.application')->getParams();
+            $params = KFactory::get('joomla:application')->getParams();
             $prefix = $params->get( 'tag_prefix' );
             
             // get keywords from document

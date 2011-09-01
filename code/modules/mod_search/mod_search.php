@@ -18,7 +18,7 @@
  * @subpackage  Search
  */
 
-echo KFactory::tmp('site::mod.search.html')
+echo KFactory::get('mod://site/search.html')
     	->module($module)
     	->attribs($attribs)
     	->display();
