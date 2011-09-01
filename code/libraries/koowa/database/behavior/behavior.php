@@ -32,10 +32,10 @@ class KDatabaseBehavior
 	    if(!($behavior instanceof KDatabaseBehaviorInterface))
 		{   
 		    if(is_string($behavior) && strpos($behavior, '.') === false ) {
-		       $behavior = 'com.default.database.behavior.'.trim($behavior);
+		       $behavior = 'com:default.database.behavior.'.trim($behavior);
 		    }    
 			
-		    $behavior = KFactory::tmp($behavior, $config);
+		    $behavior = KFactory::get($behavior, $config);
 		    
 		    //Check the behavior interface
 		    if(!($behavior instanceof KDatabaseBehaviorInterface)) 
