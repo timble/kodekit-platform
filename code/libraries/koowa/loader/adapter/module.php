@@ -19,8 +19,15 @@
  */
 class KLoaderAdapterModule extends KLoaderAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'mod';
+	
 	/**
-	 * The prefix
+	 * The class prefix
 	 * 
 	 * @var string
 	 */
@@ -36,29 +43,26 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 	{	
 		$path = false; 
 		
-		if (strpos($classname, $this->_prefix) === 0) 
-		{	
-			$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
-			$parts = explode('_', $word);
+		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
+		$parts = explode('_', $word);
 			
-			if (array_shift($parts) == 'mod') 
-			{	
-				$module = 'mod_'.strtolower(array_shift($parts));
-				$file 	   = array_pop($parts);
+		if (array_shift($parts) == 'mod') 
+		{	
+			$module = 'mod_'.strtolower(array_shift($parts));
+			$file 	   = array_pop($parts);
 				
-				if(count($parts)) 
-				{
-					foreach($parts as $key => $value) {
-						$parts[$key] = KInflector::pluralize($value);
-					}
+			if(count($parts)) 
+			{
+				foreach($parts as $key => $value) {
+					$parts[$key] = KInflector::pluralize($value);
+				}
 					
-					$path = implode('/', $parts);
-					$path = $path.'/'.$file;
-				} 
-				else $path = $file;
+				$path = implode('/', $parts);
+				$path = $path.'/'.$file;
+			} 
+			else $path = $file;
 				
-				$path = $this->_basepath.'/modules/'.$module.'/'.$path.'.php';			
-			}
+			$path = $this->_basepath.'/modules/'.$module.'/'.$path.'.php';			
 		}
 		
 		return $path;
