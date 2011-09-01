@@ -39,14 +39,14 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 		// Load the old row if editing an existing page.
 		if(!$this->_new)
 		{
-			$old_row = KFactory::tmp('admin::com.pages.database.table.pages')
+			$old_row = KFactory::get('com://admin/pages.database.table.pages')
 				->select($this->id, KDatabase::FETCH_ROW);
 		}
 
 		// Set menu name.
 		if($this->pages_menu_id)
 		{
-			$menu = KFactory::tmp('admin::com.pages.database.table.menus')
+			$menu = KFactory::get('com://admin/pages.database.table.menus')
 				->select($this->pages_menu_id, KDatabase::FETCH_ROW);
 
 			if($this->_new || $menu->name != $old_row->pages_menu_name) {
@@ -57,7 +57,7 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 		// Set component id.
 		if($this->type == 'component' && $this->type_option)
 		{
-			$component = KFactory::tmp('admin::com.extensions.model.components')
+			$component = KFactory::get('com://admin/extensions.model.components')
 				->set('option', $this->type_option)
 				->getItem();
 
@@ -95,7 +95,7 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 		// Set level.
 		if(isset($this->_modified['parent_id']))
 		{
-				$parent = KFactory::tmp('admin::com.pages.database.table.pages')
+				$parent = KFactory::get('com://admin/pages.database.table.pages')
 					->select($this->parent_id, KDatabase::FETCH_ROW);
 
 				$this->level = $parent->level + 1;
@@ -105,7 +105,7 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 		if(isset($this->_modified['parent_id']) && !$this->_new)
 		{
 			$level		= $this->level;
-			$subpages	= KFactory::tmp('admin::com.pages.database.table.pages')
+			$subpages	= KFactory::get('com://admin/pages.database.table.pages')
 				->select(array('parent_id' => $this->id));
 
 			while(count($subpages))
@@ -113,17 +113,17 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 				$subpages->level = ++$level;
 				$subpages->save();
 
-				$query = KFactory::tmp('lib.koowa.database.query')
+				$query = KFactory::get('koowa:database.query')
 					->where('parent_id', 'IN', $subpages->id);
 
-				$subpages = KFactory::tmp('admin::com.pages.database.table.pages')
+				$subpages = KFactory::get('com://admin/pages.database.table.pages')
 					->select($query);
 			}
 		}
 
 		if(isset($this->_modified['home']) && $this->home == 1)
 		{
-			$page = KFactory::tmp('admin::com.pages.database.table.pages')
+			$page = KFactory::get('com://admin/pages.database.table.pages')
 				->select(array('home' => 1), KDatabase::FETCH_ROW);
 
 			$page->home = 0;
@@ -133,7 +133,7 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 		// Set parameters.
 		if(isset($this->_modified['params']))
 		{
-			$params	= KFactory::get('admin::com.default.parameter.default');
+			$params	= KFactory::get('com://admin/default.parameter.default');
 			$params->bind($this->_data['params']);
 
 			$this->params = $params->toString();
@@ -145,17 +145,17 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode
 	public function delete()
 	{
 		// Delete subpages.
-		$subpages	= KFactory::tmp('admin::com.pages.database.table.pages')
+		$subpages	= KFactory::get('com://admin/pages.database.table.pages')
 			->select(array('parent_id' => $this->id));
 
 		while(count($subpages))
 		{
 			$subpages->delete();
 
-			$query = KFactory::tmp('lib.koowa.database.query')
+			$query = KFactory::get('koowa:database.query')
 				->where('parent_id', 'IN', $subpages->id);
 
-			$subpages = KFactory::tmp('admin::com.pages.database.table.pages')
+			$subpages = KFactory::get('com://admin/pages.database.table.pages')
 				->select($query);
 		}
 

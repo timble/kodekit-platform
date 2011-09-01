@@ -24,7 +24,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
     {
 		if($column == 'type_description' && !isset($this->_data['type_description']))
 		{
-			$query			= KFactory::tmp('lib.koowa.http.url', array('url' => $this->_data['link']))->query;
+			$query			= KFactory::get('koowa:http.url', array('url' => $this->_data['link']))->query;
 			$description	= $this->component_name ? $this->component_name : ucfirst(substr($query['option'], 4));
 
 			if (isset($query['view'])) {

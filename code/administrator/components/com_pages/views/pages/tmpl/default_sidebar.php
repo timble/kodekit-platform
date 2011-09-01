@@ -13,5 +13,5 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <div id="sidebar">
 	<h3><?= @text('Menus'); ?></h3>
-	<?= @template('admin::com.pages.view.menus.list', array('state' => $state, 'menus' => KFactory::tmp('admin::com.pages.model.menus')->getList())); ?>
+	<?= @template('com://admin/pages.view.menus.list', array('state' => $state, 'menus' => KFactory::get('com://admin/pages.model.menus')->getList())); ?>
 </div>

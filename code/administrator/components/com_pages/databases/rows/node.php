@@ -21,14 +21,14 @@
 class ComPagesDatabaseRowNode extends KDatabaseRowDefault
 {
     /**
-     * Nodes object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
     protected $_children = null;
  	
     /**
-     * Node object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
@@ -95,7 +95,7 @@ class ComPagesDatabaseRowNode extends KDatabaseRowDefault
                 'identity_column' => $this->getIdentityColumn()
             );
                
-            $this->_children = KFactory::tmp($identifier, $options); 
+            $this->_children = KFactory::get($identifier, $options); 
         }
         
 	    return $this->_children;

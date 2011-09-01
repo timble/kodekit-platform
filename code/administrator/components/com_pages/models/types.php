@@ -26,7 +26,7 @@ class ComPagesModelTypes extends KModelAbstract
 	{
 		if(!isset($this->_list))
 		{
-			$table = KFactory::get('admin::com.extensions.database.table.components');
+			$table = KFactory::get('com://admin/extensions.database.table.components');
 			$query = $table->getDatabase()->getQuery()
 				->where('link', '<>', '')
 				->where('parent', '=', 0)

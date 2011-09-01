@@ -10,7 +10,7 @@
  */
 
 defined('KOOWA') or die('Restricted access') ?>
-<? $model = KFactory::get('admin::com.pages.model.pages') ?>
+<? $model = KFactory::get('com://admin/pages.model.pages') ?>
 
 <? $system_parameters = $model->getSystemParameters() ?>
 <? if($rendered_parameters = $system_parameters->render('params')) : ?>

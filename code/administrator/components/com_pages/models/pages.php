@@ -123,7 +123,7 @@ class ComPagesModelPages extends KModelTable
 					break;
 			}
 
-			$xml = KFactory::tmp('lib.joomla.xml', array('simple'));
+			$xml = KFactory::get('joomla:xml', array('simple'));
 			$xml->loadFile($path);
 
 			$this->_page_xml = $xml;
@@ -140,7 +140,7 @@ class ComPagesModelPages extends KModelTable
 
 			if(file_exists($path))
 			{
-				$xml = KFactory::tmp('lib.joomla.xml', array('simple'));
+				$xml = KFactory::get('joomla:xml', array('simple'));
 				$xml->loadFile($path);
 			}
 			else {
@@ -159,7 +159,7 @@ class ComPagesModelPages extends KModelTable
 		{
 			$path = JPATH_BASE.'/components/com_pages/databases/rows/component.xml';
 
-			$xml = KFactory::tmp('lib.joomla.xml', array('simple'));
+			$xml = KFactory::get('joomla:xml', array('simple'));
 			$xml->loadFile($path);
 			
 			$this->_system_xml = $xml;
@@ -190,7 +190,7 @@ class ComPagesModelPages extends KModelTable
 	{
 		$page		= $this->getItem();
 		$state		= $this->getPageXml()->document->getElementByPath('state');
-		$parameters	= KFactory::tmp('admin::com.default.parameter.default');
+		$parameters	= KFactory::get('com://admin/default.parameter.default');
 
 		if($state instanceof JSimpleXMLElement)
 		{
@@ -214,7 +214,7 @@ class ComPagesModelPages extends KModelTable
 	{
 		$page		= $this->getItem();
 		$state		= $this->getPageXml()->document->getElementByPath('state');
-		$parameters	=  KFactory::tmp('admin::com.default.parameter.default', array('data' => $page->params));
+		$parameters	=  KFactory::get('com://admin/default.parameter.default', array('data' => $page->params));
 
 		if($state instanceof JSimpleXMLElement) {
 			$parameters->setXML($state->getElementByPath('params'));
@@ -227,7 +227,7 @@ class ComPagesModelPages extends KModelTable
 	{
 		$page		= $this->getItem();
 		$state		= $this->getPageXml()->document->getElementByPath('state');
-		$parameters	=  KFactory::tmp('admin::com.default.parameter.default', array('data' => $page->params));
+		$parameters	=  KFactory::get('com://admin/default.parameter.default', array('data' => $page->params));
 
 		if($state instanceof JSimpleXMLElement) {
 			$parameters->setXML($state->getElementByPath('advanced'));
@@ -239,7 +239,7 @@ class ComPagesModelPages extends KModelTable
 	public function getComponentParameters()
 	{
 		$page		= $this->getItem();
-		$parameters	= KFactory::get('admin::com.default.parameter.default', array('data' => $page->params));
+		$parameters	= KFactory::get('com://admin/default.parameter.default', array('data' => $page->params));
 
 		if($xml = $this->getComponentXml())
 		{
@@ -287,7 +287,7 @@ class ComPagesModelPages extends KModelTable
 	{
 		$page		= $this->getItem();
 		$xml		= $this->getSystemXml();
-		$parameters = KFactory::tmp('admin::com.default.parameter.default', array('data' => $page->params));
+		$parameters = KFactory::get('com://admin/default.parameter.default', array('data' => $page->params));
 
 		$parameters->setXML($xml->document->getElementByPath('state/params'));
 
@@ -296,7 +296,7 @@ class ComPagesModelPages extends KModelTable
 
 	public function getComponents()
 	{
-		$table = KFactory::get('admin::com.extensions.database.table.components');
+		$table = KFactory::get('com://admin/extensions.database.table.components');
 		$query = $table->getDatabase()->getQuery()
 			->where('link', '<>', '')
 			->where('parent', '=', 0)
@@ -313,7 +313,7 @@ class ComPagesModelPages extends KModelTable
 			->select('extensions_module_id')
 			->where('pages_page_id', 'IN', array(0, $this->_state->id));
 
-		$modules = KFactory::get('admin::com.pages.database.table.pages_modules_relations')
+		$modules = KFactory::get('com://admin/pages.database.table.pages_modules_relations')
 			->select($query, KDatabase::FETCH_FIELD_LIST);
 
 		return $modules;

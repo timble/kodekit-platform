@@ -12,8 +12,8 @@
 defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.modal'); ?>
 
-<? $modules_available	= KFactory::tmp('admin::com.extensions.model.modules')->limit(0)->getList() ?>
-<? $modules_assigned	= KFactory::get('admin::com.pages.model.pages')->getAssignedModules() ?>
+<? $modules_available	= KFactory::get('com://admin/extensions.model.modules')->limit(0)->getList() ?>
+<? $modules_assigned	= KFactory::get('com://admin/pages.model.pages')->getAssignedModules() ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>
 <section>

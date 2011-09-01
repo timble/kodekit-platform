@@ -16,15 +16,15 @@ defined('KOOWA') or die('Restricted access') ?>
 	<fieldset>
 		<div class="row toggle-select">
 			<label for="status"><?= @text('Status') ?>:</label>
-			<?= @helper('admin::com.pages.template.helper.listbox.published',  array('deselect' => false)) ?>
+			<?= @helper('com://admin/pages.template.helper.listbox.published',  array('deselect' => false)) ?>
 		</div>
 		<div class="row toggle-select">
 			<label for="publish_up"><?= @text('Visibility') ?>:</label>
-			<?= @helper('admin::com.pages.template.helper.listbox.access',  array('deselect' => false)) ?>
+			<?= @helper('com://admin/pages.template.helper.listbox.access',  array('deselect' => false)) ?>
 		</div>
 		<div class="row">
 			<label for="parent"><?= @text('Parent') ?>:</label><br />
-			<span id="parent"><?= @helper('admin::com.pages.template.helper.listbox.parents',
+			<span id="parent"><?= @helper('com://admin/pages.template.helper.listbox.parents',
 				array('pages_page_id' => $page->id, 'pages_menu_id' => $state->menu, 'selected' => $page->parent_id)) ?></span>
 		</div>
 	</fieldset>
@@ -33,7 +33,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <section>
 	<h3><?= @text('Content') ?></h3>
 	<fieldset>
-		<? $model = KFactory::get('admin::com.pages.model.pages') ?>
+		<? $model = KFactory::get('com://admin/pages.model.pages') ?>
 
 		<? if($state->type['name'] == 'component') : ?>
 			<? $url_parameters = $model->getUrlParameters(); ?>
@@ -53,7 +53,7 @@ defined('KOOWA') or die('Restricted access') ?>
 	</fieldset>
 </section>
 
-<? $model = KFactory::get('admin::com.pages.model.pages') ?>
+<? $model = KFactory::get('com://admin/pages.model.pages') ?>
 
 <? $advanced_parameters = $model->getAdvancedParameters() ?>
 <? if($rendered_parameters = $advanced_parameters->render('params')) : ?>

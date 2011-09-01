@@ -27,13 +27,13 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 			'name'	=> 'parent_id'
 		));
 
-		$query = KFactory::tmp('lib.koowa.database.query')
+		$query = KFactory::get('koowa:database.query')
 			->where('pages_menu_id', '=', $config->pages_menu_id)
 			->where('enabled', '<>', -2)
 			->order(array('parent_id', 'ordering'))
 			->limit(0);
 
-		$pages = KFactory::tmp('admin::com.pages.database.table.pages')
+		$pages = KFactory::get('com://admin/pages.database.table.pages')
 			->select($query);
 
 		if($config->pages_page_id) 

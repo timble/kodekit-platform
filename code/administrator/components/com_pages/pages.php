@@ -18,8 +18,8 @@
  * @subpackage  Pages
  */
 
-/*if (!KFactory::get('lib.joomla.user')->authorize( 'com_pages', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+/*if (!KFactory::get('joomla:user')->authorize( 'com_pages', 'manage' )) {
+	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
-echo KFactory::get('admin::com.pages.dispatcher')->dispatch();
+echo KFactory::get('com://admin/pages.dispatcher')->dispatch();

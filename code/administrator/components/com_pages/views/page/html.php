@@ -22,14 +22,14 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$language	= KFactory::get('lib.koowa.language');
+		$language	= KFactory::get('koowa:language');
 		$components	= $this->getModel()->getComponents();
 		
 		foreach($components as $component) {
 			$language->load($component->option, JOOMLA_PATH.'/administrator');
 		}
 		
-		$this->assign('live_site', KFactory::get('lib.koowa.settings')->joomla_url);
+		$this->assign('live_site', KFactory::get('koowa:settings')->joomla_url);
 
 		return parent::display();
 	}

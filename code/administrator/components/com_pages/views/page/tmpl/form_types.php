@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<? $components = KFactory::get('admin::com.pages.model.types')->getList() ?>
+<? $components = KFactory::get('com://admin/pages.model.types')->getList() ?>
 
 <div id="components" class="scroll">
 	<h3><?= @text('Component') ?></h3>

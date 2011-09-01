@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<? $model = KFactory::get('admin::com.pages.model.pages') ?>
+<? $model = KFactory::get('com://admin/pages.model.pages') ?>
 
 <? $component_parameters = $model->getComponentParameters() ?>
 <?= @helper('tabs.startPanel', array('title' => 'Component')); ?>

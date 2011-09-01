@@ -26,13 +26,13 @@ class ComPagesDispatcher extends ComDefaultDispatcher
 
 		if($view == 'pages' && !KRequest::has('get.menu'))
 		{
-			$page = KFactory::tmp('admin::com.pages.model.pages')->home(1)->getList()->top();
+			$page = KFactory::get('com://admin/pages.model.pages')->home(1)->getList()->top();
 			
 			$url = clone(KRequest::url());
             $url->query['view']   = $view;
             $url->query['menu']  = $page->pages_menu_id;
            
-            KFactory::get('lib.joomla.application')->redirect($url);
+            KFactory::get('joomla:application')->redirect($url);
 		}
 	
 		return parent::_actionDispatch($context);
