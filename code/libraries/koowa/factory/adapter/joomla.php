@@ -18,6 +18,13 @@
  */
 class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'joomla';
+	
 	/**
 	 * The alias type map
 	 *
@@ -32,26 +39,20 @@ class KFactoryAdapterJoomla extends KFactoryAdapterAbstract
 	/**
 	 * Create an instance of a class based on a class identifier
 	 *
-	 * @param 	mixed  		 Identifier or Identifier object - lib.joomla.[.path].name
+	 * @param 	mixed  		 Identifier or Identifier object - joomla.[.path].name
 	 * @param 	object 		 An optional KConfig object with configuration options
 	 * @return object|false  Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, KConfig $config)
 	{
-		$instance = false;
-
-		if($identifier->type == 'lib' && $identifier->package == 'joomla')
-		{
-			$name = ucfirst($identifier->name);
+        $name = ucfirst($identifier->package);
 			
-			//Check to see of the type is an alias
-			if(array_key_exists($name, $this->_alias_map)) {
-				$name = $this->_alias_map[$name];
-			}
-
-			$instance = call_user_func_array(array('JFactory', 'get'.$name), $config->toArray());
+		//Check to see of the type is an alias
+		if(array_key_exists($name, $this->_alias_map)) {
+			$name = $this->_alias_map[$name];
 		}
 
+		$instance = call_user_func_array(array('JFactory', 'get'.$name), $config->toArray());
 		return $instance;
 	}
 }
