@@ -16,7 +16,7 @@
  * @package     Koowa_Factory
  * @subpackage 	Adapter
  */
-interface KFactoryAdapterInterface extends KCommandInterface
+interface KFactoryAdapterInterface
 {
 	/**
 	 * Create an object instance based on a class identifier
@@ -26,4 +26,11 @@ interface KFactoryAdapterInterface extends KCommandInterface
 	 * @return 	object|false 	Return object on success, returns FALSE on failure
 	 */
 	public function instantiate($identifier, KConfig $config);
+	
+	/**
+	 * Get the type
+	 *
+	 * @return string	Returns the type
+	 */
+	public function getType();
 }
