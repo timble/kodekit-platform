@@ -42,7 +42,7 @@ class KIdentifier implements KIdentifierInterface
     protected $_application = '';
 
     /**
-     * The identifier type [com|plg|lib|mod]
+     * The identifier type [com|plg|mod]
      * 
      * @var string
      */
@@ -54,7 +54,7 @@ class KIdentifier implements KIdentifierInterface
      * @var string
      */
     protected $_package = '';
-
+    
     /**
      * The identifier path 
      *   
@@ -102,36 +102,34 @@ class KIdentifier implements KIdentifierInterface
         $identifier = (string) $identifier;
         
         //Check if the identifier is valid
-        if(strpos($identifier, '.') === FALSE) {
+        if(strpos($identifier, ':') === FALSE) {
             throw new KIdentifierException('Wrong identifier format : '.$identifier);
         }
+        
+        //Get the parts
+        $parts = parse_url($identifier);
 
         //Set the application
-        if(strpos($identifier, '::')) { 
-            list($this->application, $parts) = explode('::', $identifier);
-        } else {
-            $parts = $identifier;
+        if(isset($parts['host'])) { 
+            $this->application = $parts['host'];
         }
-
-        $parts = explode('.', $parts);
-
-        // Set the extension
-        $this->_type = array_shift($parts);
+         
+        // Set the type
+        $this->_type = $parts['scheme'];
         
-        // Set the extension
-        $this->_package = array_shift($parts);
-
+        // Set the path
+        $this->_path = trim($parts['path'], '/'); 
+        $this->_path = explode('.', $this->_path);
+        
+        // Set the extension (first part)
+        $this->_package = array_shift($this->_path);
+        
         // Set the name (last part)
-        if(count($parts)) {
-            $this->_name = array_pop($parts);
+        if(count($this->_path)) {
+            $this->_name = array_pop($this->_path);
         }
 
-        // Set the path (rest)
-        if(count($parts)) {
-            $this->_path = $parts;
-        }
-        
-         //Cache the identifier to increase performance
+        //Cache the identifier to increase performance
         $this->_identifier = $identifier;
     }
     
@@ -219,12 +217,14 @@ class KIdentifier implements KIdentifierInterface
     {
         if($this->_identifier == '')
         {
-            if(!empty($this->_application)) {
-                $this->_identifier .= $this->_application.'::';
-            }
-        
             if(!empty($this->_type)) {
                 $this->_identifier .= $this->_type;
+            }
+            
+            if(!empty($this->_application)) {
+                $this->_identifier .= '://'.$this->_application.'/';
+            } else {
+                $this->_identifier .= ':';
             }
         
             if(!empty($this->_package)) {
