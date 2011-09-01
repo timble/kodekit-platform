@@ -18,8 +18,15 @@
  */
 class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 {
+	/** 
+	 * The adapter type
+	 * 
+	 * @var string
+	 */
+	protected $_type = 'joomla';
+	
 	/**
-	 * The prefix
+	 * The class prefix
 	 * 
 	 * @var string
 	 */
@@ -59,14 +66,14 @@ class KLoaderAdapterJoomla extends KLoaderAdapterAbstract
 	/**
 	 * Get the path based on an identifier
 	 *
-	 * @param  object  			An Identifier object - lib.joomla.[.path].name
+	 * @param  object  			An Identifier object - joomla.[.path].name
 	 * @return string|false		Returns the path on success FALSE on failure
 	 */
 	protected function _pathFromIdentifier($identifier)
 	{
 		$path = false;
 		
-		if($identifier->type == 'lib' && $identifier->package == 'joomla')
+		if($identifier->type == 'joomla')
 		{
 			if(count($identifier->path)) {
 				$path .= implode('.',$identifier->path);
