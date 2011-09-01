@@ -1,0 +1,67 @@
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Plugins
+ * @subpackage  System
+ * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * System plugin that enables full HTTP cache support by rewriting asset urls so they're unique, 
+ * and update them when the file is modified.
+ *
+ * @author		Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @category	Nooku
+ * @package     Nooku_Plugins
+ * @subpackage  System
+ */
+class plgSystemExpire extends JPlugin
+{
+    public function onAfterRender()
+    {
+        $response = JResponse::getBody();
+        
+        // Stylesheets, favicons etc
+        $response = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, _replace), $response);
+        
+        // Scripts
+        $response = preg_replace_callback('#<script.*src="([^"]+)".*>.*</script>#iU', array($this, _replace), $response);
+        
+        JResponse::setBody($response);
+    }
+    
+    protected function _replace($matches)
+    {
+        return str_replace($matches[1], $this->_processResourceURL($matches[1]), $matches[0]);
+    }
+    
+    /**
+	 * Adds 'modified' query variable to resource URI when possible, makes browsers caching useful and failsafe
+	 *
+	 * @return string
+	 */
+	protected function _processResourceURL($url)
+	{
+	    // Remote resources cannot be processed
+	    if(KFactory::get('koowa:filter.url')->validate($url)) {
+	        return $url;
+	    }
+	    
+	    /** 
+	     * The count is a referenced value, so need to be passed as a variable.
+	     * And the count is needed to prevent the root to be replaced multiple times in a longer path.
+	     */
+	    $count = 1;
+        $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
+
+        if($modified = filemtime($src)) {
+            $join  = strpos($url, '?') ? '&' : '?';
+            return $url.$join.'modified='.$modified;
+        }
+
+        return $url;
+	}
+}

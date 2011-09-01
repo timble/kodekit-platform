@@ -278,6 +278,7 @@ INSERT INTO `#__plugins` VALUES (27, 'System - SEF','sef','system',0,2,1,0,0,0,'
 INSERT INTO `#__plugins` VALUES (28, 'System - Debug', 'debug', 'system', 0, 3, 1, 0, 0, 0, '0000-00-00 00:00:00', 'queries=1\nmemory=1\nlangauge=1\n\n');
 INSERT INTO `#__plugins` VALUES (29, 'System - Legacy', 'legacy', 'system', 0, 4, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', 'browsercache=0\ncachetime=15\n\n');
+INSERT INTO `#__plugins` VALUES (31, 'System - Expire', 'expire', 'system', 0, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # Newly added for Nooku Server
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Expire</name>
+	<author>Stian Didriksen</author>
+	<creationDate>September 2011</creationDate>
+	<copyright>(C) 2007 - 2010 Johan Janssens. All rights reserved.</copyright>
+	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>nooku.org</authorUrl>
+	<version>0.1</version>
+	<description>Rewrites URIs on the page to be suitable for long browser caching, by making them contain a query variable that change based on the modified timestamp.</description>
+	<files>
+		<filename plugin="expire">expire.php</filename>
+	</files>
+</install>
