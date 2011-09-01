@@ -58,7 +58,7 @@ class KEventListener extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'dispatcher'   => KFactory::get('lib.koowa.event.dispatcher'),
+        	'dispatcher'   => KFactory::get('koowa:event.dispatcher'),
     	    'auto_connect' => true,
     		'priority'     => KCommand::PRIORITY_NORMAL 
         ));
