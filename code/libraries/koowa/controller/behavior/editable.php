@@ -49,7 +49,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{
 	    $identifier = $this->getMixer()->getIdentifier();
 	    
-	    $referrer = KFactory::tmp('lib.koowa.http.url', 
+	    $referrer = KFactory::get('koowa:http.url', 
 	        array('url' => KRequest::get('cookie.referrer_'.md5(KRequest::referrer()), 'url'))
 	    );
 	    
@@ -77,7 +77,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		        $view   = KInflector::pluralize($identifier->name);
 		        $url    = 'index.php?option='.$option.'&view='.$view;
 		    
-		        $referrer = KFactory::tmp('lib.koowa.http.url',array('url' => $url));
+		        $referrer = KFactory::get('koowa:http.url',array('url' => $url));
 		    }
 	        
 			KRequest::set('cookie.referrer_'.md5(KRequest::url()), (string) $referrer);
