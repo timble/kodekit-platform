@@ -17,14 +17,14 @@
  * @package     Koowa_Database
  * @subpackage  Table
  */
-class KDatabaseTableDefault extends KDatabaseTableAbstract
+class KDatabaseTableDefault extends KDatabaseTableAbstract implements KObjectInstantiatable
 {
 	/**
      * Force creation of a singleton
      *
      * @return KDatabaseTableDefault
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
         
