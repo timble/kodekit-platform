@@ -18,4 +18,4 @@
  * @subpackage  Dashboard
  */
 
-echo KFactory::get('admin::com.dashboard.dispatcher')->dispatch();
+echo KFactory::get('com://admin/dashboard.dispatcher')->dispatch();

@@ -31,7 +31,7 @@ class ComDashboardViewDashboardHtml extends ComDefaultViewHtml
     
     public function display()
 	{
-		$modules = KFactory::tmp('admin::com.extensions.model.modules')->position('cpanel')->application('administrator')->enabled(1)->getList();
+		$modules = KFactory::get('com://admin/extensions.model.modules')->position('cpanel')->application('administrator')->enabled(1)->getList();
 		$this->assign('modules', $modules);
         
 		return parent::display();
