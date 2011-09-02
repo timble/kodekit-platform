@@ -69,3 +69,27 @@ RewriteRule (.*) index.php
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
 ########## End - Joomla! core SEF Section
+
+########## Begin - Optimal default expiration time
+## Note: You need to enable the "System - Expire" plugin for this to work optimally
+## Based on: http://akeeba.assembla.com/code/master-htaccess/git/nodes/htaccess.txt 
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    ExpiresByType text/css "now plus 1 year"
+    ExpiresByType application/javascript "now plus 1 year"
+    ExpiresByType application/x-javascript "now plus 1 year"
+    
+    ExpiresByType image/bmp "now plus 1 year"
+    ExpiresByType image/gif "now plus 1 year"
+    ExpiresByType image/jpeg "now plus 1 year"
+    ExpiresByType image/png "now plus 1 year"
+    ExpiresByType image/svg+xml "now plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon "now plus 1 year"
+    ExpiresByType image/x-icon "now plus 1 year"
+    ExpiresByType image/ico "now plus 1 year"
+    ExpiresByType image/icon "now plus 1 year"
+    ExpiresByType text/ico "now plus 1 year"
+    ExpiresByType application/ico "now plus 1 year"
+</IfModule>
+########## End - Optimal expiration time
