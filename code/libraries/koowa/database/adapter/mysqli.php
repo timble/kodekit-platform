@@ -205,7 +205,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function getDatabase()
 	{
 	    if(!isset($this->_database)) {
-	        $database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
+	        $this->_database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
 	    } 
 	    
 	    return $this->_database;
