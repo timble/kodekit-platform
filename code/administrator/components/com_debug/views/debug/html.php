@@ -30,7 +30,7 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
         
         foreach($includes as $key => $value)
         {
-            if($value == 'tmpl://koowa.template.stack') {
+            if($value == 'tmpl://koowa:template.stack') {
                 unset($includes[$key]);
             }
         }
