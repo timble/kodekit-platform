@@ -228,7 +228,7 @@ class KIdentifier implements KIdentifierInterface
             }
         
             if(!empty($this->_package)) {
-                $this->_identifier .= '.'.$this->_package;
+                $this->_identifier .= $this->_package;
             }
         
             if(count($this->_path)) {
