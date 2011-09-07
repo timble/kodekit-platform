@@ -178,7 +178,7 @@ class KConfigState extends KConfig
                             $data[$name] = $state->value;
                             
                             foreach($state->required as $required) {
-                                $data[$required] = $this->_state[$required]->value;
+                                $data[$required] = $this->_data[$required]->value;
                             }
                         }
                     }
