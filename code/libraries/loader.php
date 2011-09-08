@@ -15,11 +15,30 @@ if(!defined('DS')) {
 	define( 'DS', DIRECTORY_SEPARATOR );
 }
 
+// Register JLoader::load as an autoload class handler.
+spl_autoload_register(array('JLoader','load'));
+
 /**
  * @package		Joomla.Framework
  */
-class JLoader
+abstract class JLoader
 {
+	/**
+	 * Container for already imported library paths.
+	 *
+	 * @var    array
+	 * @since  0.7
+	 */
+	protected static $_imported = array();
+	
+	/**
+	 * Container for already imported library paths.
+	 *
+	 * @var    array
+	 * @since  0.7
+	 */
+	protected static $_classes = array();
+	 
 	 /**
 	 * Loads a class from specified directories.
 	 *
@@ -29,17 +48,11 @@ class JLoader
 	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath, $base = null, $key = 'libraries.' )
+	public static function import( $filePath, $base = null, $key = 'libraries.' )
 	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array();
-		}
-
 		$keyPath = $key ? $key . $filePath : $filePath;
 
-		if (!isset($paths[$keyPath]))
+		if (!isset(self::$_imported[$keyPath]))
 		{
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
@@ -80,10 +93,10 @@ class JLoader
 				$rs   = include($base.DS.$path.'.php');
 			}
 
-			$paths[$keyPath] = $rs;
+			self::$_imported[$keyPath] = $rs;
 		}
 
-		return $paths[$keyPath];
+		return self::$_imported[$keyPath];
 	}
 
 	/**
@@ -91,34 +104,27 @@ class JLoader
 	 *
 	 * @param	string $classname	The class name
 	 * @param	string $file		Full path to the file that holds the class
+	 * @param   bool   $force  		True to overwrite the autoload path value for the class if it already exists.
 	 * @return	array|boolean  		Array of classes
 	 * @since 	1.5
 	 */
-	function & register ($class = null, $file = null)
+	public static function register ($class = null, $path = null, $force = true)
 	{
-		static $classes;
+	    // Sanitize class name.
+		$class = strtolower($class);
 
-		if(!isset($classes)) {
-			$classes    = array();
-		}
+		// Only attempt to register the class if the name and file exist.
+		if (!empty($class) && is_file($path)) {
 
-		if($class && is_file($file))
-		{
-			// Force to lower case.
-			$class = strtolower($class);
-			$classes[$class] = $file;
-
-			// In php4 we load the class immediately.
-			if((version_compare( phpversion(), '5.0' ) < 0)) {
-				JLoader::load($class);
+			// Register the class with the autoloader if not already registered or the force flag is set.
+			if (empty(self::$_classes[$class]) || $force) {
+				self::$_classes[$class] = $path;
 			}
-
 		}
 
-		return $classes;
+		return self::$_classes;
 	}
-
-
+	
 	/**
 	 * Load the file for a class
 	 *
@@ -127,7 +133,7 @@ class JLoader
 	 * @return  boolean True on success
 	 * @since   1.5
 	 */
-	function load( $class )
+	public static function load( $class )
 	{
 		$class = strtolower($class); //force to lower case
 
@@ -136,32 +142,27 @@ class JLoader
 		}
 
 		$classes = JLoader::register();
-		if(array_key_exists( strtolower($class), $classes)) {
+		if(array_key_exists( strtolower($class), $classes)) 
+		{
 			include($classes[$class]);
 			return true;
 		}
+		
 		return false;
 	}
-}
-
-
-/**
- * When calling a class that hasn't been defined, __autoload will attempt to
- * include the correct file for that class.
- *
- * This function get's called by PHP. Never call this function yourself.
- *
- * @param 	string 	$class
- * @access 	public
- * @return  boolean
- * @since   1.5
- */
-function __autoload($class)
-{
-	if(JLoader::load($class)) {
-		return true;
+	
+	/**
+	 * Method to get the list of registered classes and their respective file 
+	 * paths for the autoloader.
+	 *
+	 * @return  array  The array of class => path values for the autoloader.
+	 *
+	 * @since   0.7
+	 */
+	public static function getClassList()
+	{
+		return self::$_classes;
 	}
-	return false;
 }
 
 /**
@@ -171,7 +172,8 @@ function __autoload($class)
  *
  * @param mixed Exit code or string. Defaults to zero.
  */
-function jexit($message = 0) {
+function jexit($message = 0) 
+{
     exit($message);
 }
 
@@ -182,6 +184,7 @@ function jexit($message = 0) {
  * @param string $path A dot syntax path
  * @since 1.5
  */
-function jimport( $path ) {
+function jimport( $path ) 
+{
 	return JLoader::import($path);
 }
