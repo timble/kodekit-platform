@@ -26,15 +26,22 @@ class KDatabaseTableDefault extends KDatabaseTableAbstract implements KObjectIns
      */
     public static function getInstance($config = array())
     {
-        static $instance;
+        static $instances;
         
-        if ($instance === NULL) 
+        // For fallbacks we need to store instancess depending on classname
+        if ($instances === NULL) {
+            $instances = array();
+        }
+
+        // Check if an instance with this identifier already exists or not
+        $instance = (string)$config->identifier;
+        if (!isset($instances[$instance]))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
-            $instance = new $classname($config);
+            $instances[$instance] = new $classname($config);
         }
         
-        return $instance;
+        return $instances[$instance];
     }
 }
