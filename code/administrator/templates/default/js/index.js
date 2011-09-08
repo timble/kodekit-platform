@@ -18,7 +18,12 @@
  */
 
 window.addEvent('domready', function(){
-	if(Element.chromatable) $$('form.-koowa-grid table').chromatable();
+	if(Element.chromatable) {
+	    $$('form.-koowa-grid table').chromatable();
+	    
+	    // If debug bar present, add chromatable support to it
+	    if($('debug')) $$('#debug .adminlist').chromatable();
+	}
 	$$('td.divider').getPrevious().addClass('last');
 	
 	var sidebar = $('sidebar');
