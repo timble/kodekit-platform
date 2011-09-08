@@ -295,6 +295,8 @@ class KFactory
     {          
         $config = new KConfig($config);
         
+        $result = null;
+        
         if(isset(self::$_adapters[$identifier->type])) 
         {
             $result = self::$_adapters[$identifier->type]->instantiate($identifier, $config);
@@ -322,7 +324,7 @@ class KFactory
             }
         }
         
-        if(!is_object($result)) {
+        if(!isset($result) || !is_object($result)) {
             throw new KFactoryException('Cannot create object from identifier : '.$identifier);
         }
                 
