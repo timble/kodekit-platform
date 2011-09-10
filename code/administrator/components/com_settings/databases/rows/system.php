@@ -32,7 +32,7 @@ class ComSettingsDatabaseRowSystem extends ComSettingsDatabaseRowAbstract
         $config->append(array(
              'name' => 'system',
              'path'	=> JPATH_CONFIGURATION.DS.'configuration.php',
-             'data' => KFactory::get('joomla:config')->toArray()
+             'data' => JFactory::getConfig()->toArray()
         ));
         
         parent::_initialize($config);
@@ -48,7 +48,7 @@ class ComSettingsDatabaseRowSystem extends ComSettingsDatabaseRowAbstract
         if(!empty($this->_modified)) 
         {
             $config = new JRegistry('config');
-            $config->loadArray(KFactory::get('joomla:config')->toArray());
+            $config->loadArray(JFactory::getConfig()->toArray());
             $config->loadArray($this->_data);
             
 		    if (file_put_contents($this->getPath(), $config->toString('PHP', 'config', array('class' => 'JConfig'))) === false) 
