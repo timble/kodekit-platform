@@ -96,6 +96,6 @@ class ComCacheModelItems extends KModelAbstract
     
     protected function _getData()
     {  
-        return KFactory::get('joomla:cache')->keys();
+        return JFactory::getCache()->keys();
     }
 }
