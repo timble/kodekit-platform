@@ -312,7 +312,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
                $identifier->path = array('controller', 'behavior');
                $identifier->name = $behavior;
            }
-           else $identifier = KFactory::identify($behavior);
+           else $identifier = KIdentifier::identify($behavior);
        }
            
        if(!isset($this->_behaviors[$identifier->name])) {
