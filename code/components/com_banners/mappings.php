@@ -18,4 +18,4 @@
  * @subpackage  Weblinks
  */
 
-KFactory::map('com://site/banners.model.banners',    'com://admin/banners.model.banners');
+KIdentifier::map('com://site/banners.model.banners',    'com://admin/banners.model.banners');
