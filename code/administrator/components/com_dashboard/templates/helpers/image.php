@@ -26,7 +26,7 @@ class ComDashboardTemplateHelperImage extends KTemplateHelperAbstract
              'link'  => 'order',
              'text'  => '',
              'image' => '',
-             'style' => KFactory::get('joomla:language')->isRTL() ? 'right' : 'left'
+             'style' => JFactory::getLanguage()->isRTL() ? 'right' : 'left'
         ));
          
 		$html  = '<div style="float:'.$config->style.'">';
