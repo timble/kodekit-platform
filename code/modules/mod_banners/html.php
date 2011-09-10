@@ -50,7 +50,7 @@ class ModBannersHtml extends ModDefaultHtml
     {
         if (!isset($this->_keywords))
         {
-            $params = KFactory::get('joomla:application')->getParams();
+            $params = JFactory::getApplication()->getParams();
             $prefix = $params->get( 'tag_prefix' );
             
             // get keywords from document
