@@ -178,7 +178,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
-			else $identifier = KFactory::identify($model);
+			else $identifier = KIdentifier::identify($model);
 		    
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
