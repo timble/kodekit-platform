@@ -72,7 +72,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	protected function _beforeGet(KCommandContext $context)
 	{ 
 	    $view   = $this->getView();
-	    $cache  = KFactory::get('joomla:cache', array($this->_getGroup(), 'output'));
+	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
         $key    = $this->_getKey();
         
         if($data = $cache->get($key))
@@ -92,7 +92,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
             if(isset($data['modules']))
             {
                 foreach($data['modules'] as $name => $content) {
-                    KFactory::get('joomla:document')->setBuffer($content, 'modules', $name);
+                    JFactory::getDocument()->setBuffer($content, 'modules', $name);
                 }
             }  
  
@@ -116,7 +116,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	    if(empty($this->_output))
 	    {
 	        $view   = $this->getView();
-	        $cache  = KFactory::get('joomla:cache', array($this->_getGroup(), 'output'));
+	        $cache  = JFactory::getCache($this->_getGroup(), 'output');
 	        $key    = $this->_getKey();
 
 	        $data  = array();
@@ -126,7 +126,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	        {
 	            $data['component'] = (string) $view->getTemplate();
 	        
-	            $buffer = KFactory::get('joomla:document')->getBuffer();
+	            $buffer = JFactory::getDocument()->getBuffer();
 	            if(isset($buffer['modules'])) {       
 	                $data['modules'] = array_intersect_key($buffer['modules'], array_flip($this->_modules));
 	            }
@@ -182,7 +182,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	    $status = $context->result->getStatus();
 	    
 	    if($status == KDatabase::STATUS_CREATED) {
-	         KFactory::get('joomla:cache')->clean($this->_getGroup());
+	         JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
@@ -199,7 +199,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	    $status = $context->result->getStatus();
 	    
 	    if($status == KDatabase::STATUS_DELETED) {
-	        KFactory::get('joomla:cache')->clean($this->_getGroup());
+	        JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
@@ -216,7 +216,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	    $status = $context->result->getStatus();
 	    
 	    if($status == KDatabase::STATUS_UPDATED) {
-	        KFactory::get('joomla:cache')->clean($this->_getGroup());
+	        JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
