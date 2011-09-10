@@ -67,37 +67,35 @@ class plgSystemKoowa extends JPlugin
 		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
 		 //Setup the loader
-		KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-		KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
-		KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-		KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-        KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+		KLoader::registerAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+        KLoader::registerAdapter(new KLoaderAdapterModule(JPATH_BASE));
+        KLoader::registerAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
+        KLoader::registerAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 		
-        //Setup the factory
-		KFactory::addAdapter(new KFactoryAdapterKoowa());
-		KFactory::addAdapter(new KFactoryAdapterJoomla());
-		KFactory::addAdapter(new KFactoryAdapterModule());
-		KFactory::addAdapter(new KFactoryAdapterPlugin());
-		KFactory::addAdapter(new KFactoryAdapterComponent());
+        // Koowa : setup factory
+        KIdentifier::registerAdapter(new KIdentifierAdapterKoowa());
+        KIdentifier::registerAdapter(new KIdentifierAdapterModule());
+        KIdentifier::registerAdapter(new KIdentifierAdapterPlugin());
+        KIdentifier::registerAdapter(new KIdentifierAdapterComponent());
 		
-		//Setup the identifier application paths
-		KIdentifier::registerApplication('site' , JPATH_SITE);
-		KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+        //Koowa : register identifier application paths
+        KIdentifier::registerApplication('site' , JPATH_SITE);
+        KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+
+        //Koowa : setup factory mappings
+        KIdentifier::map('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
 		
 	    //Setup the request
         KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
-			
-        //Set factory identifier aliasses
-        KFactory::map('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
-         
+			 
 		//Load the koowa plugins
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('com://admin/default.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('joomla:user')->guest) 
+		if(!JFactory::getUser()->guest) 
 		{
-		   if($offset = KFactory::get('joomla:user')->getParam('timezone')) {
-		        KFactory::get('joomla:config')->setValue('config.offset', $offset);
+		   if($offset = JFactory::getUser()->getParam('timezone')) {
+		        JFactory::getConfig()->setValue('config.offset', $offset);
 		   }
 		}
 
@@ -118,7 +116,7 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 0) && KFactory::get('joomla:user')->get('guest')) {
+	    if($this->params->get('auth_basic', 0) && JFactory::getUser()->guest)) {
 	        $this->_authenticateUser();
 	    }
 	    
@@ -128,11 +126,8 @@ class plgSystemKoowa extends JPlugin
 	     * In case another plugin have logged in after we initialized we need to reset the token and user object
 	     * One plugin that could cause that, are the Remember Me plugin
 	     */
-	     if(KFactory::get('joomla:user')->get('guest') && !JFactory::getUser()->get('guest'))
-	     {
-	         //Reset the user object in the factory
-	         KFactory::set('joomla:user', JFactory::getUser());
-	          
+	     if(KFactory::get('joomla:user')->get('guest') && !JFactory::getUser()->guest)
+	     { 
 	         //Force the token
 	         KRequest::set('request._token', JUtility::getToken());
 	     }
@@ -196,7 +191,7 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-	    if(KFactory::get('joomla:config')->getValue('config.debug')) {
+	    if(JFactory::getConfig()->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
 			$error->set('message', KHttpResponse::getMessage($error->code));
@@ -229,7 +224,7 @@ class plgSystemKoowa extends JPlugin
 	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
 	        );
 	        
-	        if(KFactory::get('joomla:application')->login($credentials) !== true) 
+	        if(JFactory::getApplication()->login($credentials) !== true) 
 	        {  
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
