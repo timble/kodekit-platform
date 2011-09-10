@@ -292,7 +292,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                $identifier->path = array('database', 'behavior');
                $identifier->name = $behavior;
            }
-           else $identifier = KFactory::identify($behavior);
+           else $identifier = KIdentifier::identify($behavior);
        }
        
        if(!isset($this->getSchema()->behaviors[$identifier->name])) {
