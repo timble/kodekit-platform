@@ -27,7 +27,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 		    'name'    => '',
 		    'format'  => '%Y-%m-%d %H:%M:%S',
 		    'attribs' => array('size' => 25, 'maxlenght' => 19),
-		    'gmt_offset' => KFactory::get('joomla:config')->getValue('config.offset') * 3600
+		    'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
  		));
  		
 	    if(!is_numeric($config->date)) {
