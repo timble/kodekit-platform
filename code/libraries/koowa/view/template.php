@@ -263,7 +263,7 @@ abstract class KViewTemplate extends KViewAbstract
             $identifier = clone $this->_identifier; 
             $identifier->name = $layout;
 	    }
-		else $identifier = KFactory::identify($layout);
+		else $identifier = KIdentifier::identify($layout);
         
         $this->_layout = $identifier;
         return $this;
@@ -321,7 +321,7 @@ abstract class KViewTemplate extends KViewAbstract
                 $identifier->path = array('template');
                 $identifier->name = $template;
 			}
-			else $identifier = KFactory::identify($template);
+			else $identifier = KIdentifier::identify($template);
             
             if($identifier->path[0] != 'template') {
                 throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
