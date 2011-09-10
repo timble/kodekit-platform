@@ -31,7 +31,7 @@ class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 		$minimum = KFactory::get('com://admin/files.model.configs')->getItem()->allowed_media_usergroup;
 		$minimum = isset(self::$_group_map[$minimum]) ? self::$_group_map[$minimum] : 18;
 
-		$result = KFactory::get('joomla:user')->get('gid') >= $minimum;
+		$result = JFactory::getUser()->get('gid') >= $minimum;
 
 		return $result;
 	}
