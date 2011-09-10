@@ -98,7 +98,7 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
                 $identifier->path   = array('controller', 'toolbar');
                 $identifier->name   = $toolbar;
 			}
-			else $identifier = KFactory::identify($toolbar);
+			else $identifier = KIdentifier::identify($toolbar);
 			
 			if($identifier->path[1] != 'toolbar') {
 				throw new KControllerBehaviorException('Identifier: '.$identifier.' is not a toolbar identifier');
