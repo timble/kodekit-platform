@@ -43,11 +43,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    		$row->enabled = 1;
 
 	    		if ($row->save()) {
-	    			return KFactory::get('joomla:application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
+	    			return JFactory::getApplication()->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
 	    		}
     		}
 
-    		return KFactory::get('joomla:application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
+    		return JFactory::getApplication()->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
     	}
     }
 
@@ -56,7 +56,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $request = parent::getRequest();
 
         if($request->layout == 'form') {
-            $request->id = KFactory::get('joomla:user')->id;
+            $request->id = JFactory::getUser()->id;
         }
 
         return $request;
@@ -64,7 +64,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function _actionGet(KCommandContext $context)
     {
-        $user = KFactory::get('joomla:user');
+        $user = JFactory::getUser();
 
         if($this->_request->layout == 'register' && !$user->guest)
         {
@@ -88,8 +88,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $context->data->id             = 0;
         $context->data->group_name     = $group_name;
-        $context->data->users_group_id = KFactory::get('joomla:acl')->get_group_id('', $group_name, 'ARO');
-        $context->data->registered_on  = KFactory::get('joomla:date')->toMySQL();
+        $context->data->users_group_id = JFactory::getACL()->get_group_id('', $group_name, 'ARO');
+        $context->data->registered_on  = JFactory::getDate()->toMySQL();
 
         if($parameters->get('useractivation') == '1')
         {
@@ -122,7 +122,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function notify(KCommandContext $context)
     {
-        $config = KFactory::get('joomla:config');
+        $config = JFactory::getConfig();
 
         $subject = sprintf(JText::_('Account details for'), $context->data->name, $config->getValue('sitename'));
         $subject = html_entity_decode($subject, ENT_QUOTES);
