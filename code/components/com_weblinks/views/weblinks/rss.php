@@ -41,7 +41,7 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 		$xml .= '	<link>'.KRequest::url().'</link>'.PHP_EOL;
 		$xml .= '	<lastBuildDate>'.date('r').'</lastBuildDate>'.PHP_EOL;
 		$xml .= '	<generator>'.JURI::base().'</generator>'.PHP_EOL;
-		$xml .= '	<language>'.KFactory::get('joomla:language')->getTag().'</language>'.PHP_EOL;
+		$xml .= '	<language>'.JFactory::getLanguage()->getTag().'</language>'.PHP_EOL;
 
 		foreach($items as $item)
 		{
