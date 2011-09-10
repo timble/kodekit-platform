@@ -38,8 +38,8 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
 	{
 		parent::__construct($config);
 	
-		if(KFactory::get('joomla:config')->getValue('config.caching')) {
-	        $this->_cache = KFactory::get('joomla:cache', array('database', 'output'));
+		if(JFactory::getConfig()->getValue('config.caching')) {
+	        $this->_cache = JFactory::getCache('database', 'output');
 		}
 	}
 	
@@ -72,11 +72,11 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
      */
     protected function _initialize(KConfig $config)
     {
-        $db = KFactory::get('joomla:database');
+        $db = JFactory::getDBO();
         
 		$resource = method_exists($db, 'getConnection') ? $db->getConnection() : $db->_resource;
 		$prefix   = method_exists($db, 'getPrefix')     ? $db->getPrefix()     : $db->_table_prefix;
-        
+		
         $config->append(array(
     		'connection'   => $resource,
             'table_prefix' => $prefix,
