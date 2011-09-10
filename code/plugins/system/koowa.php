@@ -55,10 +55,10 @@ class plgSystemKoowa extends JPlugin
 		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('com://admin/default.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('joomla:user')->guest) 
+		if(!JFactory::getUser()->guest) 
 		{
-		   if($offset = KFactory::get('joomla:user')->getParam('timezone')) {
-		        KFactory::get('joomla:config')->setValue('config.offset', $offset);
+		   if($offset = JFactory::getUser()->getParam('timezone')) {
+		        JFactory::getConfig()->setValue('config.offset', $offset);
 		   }
 		}
 		
@@ -79,7 +79,7 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 1) && KFactory::get('joomla:user')->get('guest')) {
+	    if($this->params->get('auth_basic', 1) && JFactory::getUser()->get('guest')) {
 	        $this->_authenticateUser();
 	    }
 	    
@@ -142,7 +142,7 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-		if(KFactory::get('joomla:config')->getValue('config.debug')) {
+		if(JFactory::getConfig()->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
 			$error->set('message', KHttpResponse::getMessage($error->code));
@@ -170,7 +170,7 @@ class plgSystemKoowa extends JPlugin
 	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
 	        );
 	        
-	        if(KFactory::get('joomla:application')->login($credentials) !== true) 
+	        if(JFactory::getApplication()->login($credentials) !== true) 
 	        {  
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
