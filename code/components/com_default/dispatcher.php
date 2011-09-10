@@ -53,7 +53,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $instance = new $classname($config);
               
             //Add the factory map to allow easy access to the singleton
-            KFactory::map('dispatcher', $config->identifier);
+            KIdentifier::map('dispatcher', $config->identifier);
         }
         
         return $instance;
@@ -80,7 +80,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $url = clone(KRequest::url());
             $url->query['view'] = $this->getController()->getView()->getName();
            
-            KFactory::get('joomla:application')->redirect($url);
+            JFactory::getApplication()->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -98,7 +98,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
     {
         $view  = $this->getController()->getView();
     
-        $document = KFactory::get('joomla:document');
+        $document = JFactory::getDocument();
         $document->setMimeEncoding($view->mimetype);
         
         return parent::_actionRender($context);
