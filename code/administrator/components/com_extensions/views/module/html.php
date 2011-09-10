@@ -24,9 +24,9 @@ class ComExtensionsViewModuleHtml extends ComDefaultViewHtml
 	    $module = $this->getModel()->getItem();
 	   
 	    if($module->application == 'site') {
-	        KFactory::get('joomla:language')->load($module->type, JPATH_SITE );
+	        JFactory::getLanguage()->load($module->type, JPATH_SITE );
 	    } else {
-		    KFactory::get('joomla:language')->load($module->type);
+		    JFactory::getLanguage()->load($module->type);
 	    }
 		
 		return parent::display();
