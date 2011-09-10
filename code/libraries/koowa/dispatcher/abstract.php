@@ -114,7 +114,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			    $identifier->path	= array('controller');
 			    $identifier->name	= $controller;
 			}
-		    else $identifier = KFactory::identify($controller);
+		    else $identifier = KIdentifier::identify($controller);
 
 			if($identifier->path[0] != 'controller') {
 				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
@@ -161,7 +161,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			if($redirect = $this->getController()->getRedirect())
 			{
-			    KFactory::get('joomla:application')
+			    JFactory::getApplication()
 					->redirect($redirect['url'], $redirect['message'], $redirect['type']);
 			}
 		}
