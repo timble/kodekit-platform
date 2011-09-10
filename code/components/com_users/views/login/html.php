@@ -23,8 +23,8 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
     {
         $title = JText::_('Login');
 
-        KFactory::get('joomla:application')->getPathway()->addItem($title);
-        KFactory::get('joomla:document')->setTitle($title);
+        JFactory::getApplication()->getPathway()->addItem($title);
+        JFactory::getDocument()->setTitle($title);
         
         $this->parameters = $this->getParameters();
 
