@@ -53,7 +53,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
             $instance = new $classname($config);
               
             //Add the factory map to allow easy access to the singleton
-            KFactory::map('dispatcher', $config->identifier);
+            KIdentifier::map('dispatcher', $config->identifier);
         }
         
         return $instance;
@@ -81,7 +81,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
             $url->query['option'] = 'com_'.$this->getIdentifier()->package;
             $url->query['view']   = $this->getController()->getView()->getName();
            
-            KFactory::get('joomla:application')->redirect($url);
+            JFactory::getApplication()->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -97,7 +97,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
         $view = $this->getController()->getView();
         
         //Set the document mimetype
-        KFactory::get('joomla:document')->setMimeEncoding($view->mimetype);
+        JFactory::getDocument()->setMimeEncoding($view->mimetype);
         
         //Disabled the application menubar
         if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
