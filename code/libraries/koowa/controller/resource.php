@@ -137,7 +137,7 @@ abstract class KControllerResource extends KControllerAbstract
 			
 			//Make sure the view exists
 		    if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
-		        throw new KControllerException('View :'.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
+		        throw new KControllerException('View : '.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
 		    }
 		}
 		
@@ -162,7 +162,7 @@ abstract class KControllerResource extends KControllerAbstract
 			    $identifier->path	= array('view', $view);
 			    $identifier->name	= $this->getRequest()->format;
 			}
-			else $identifier = KFactory::identify($view);
+			else $identifier = KIdentifier::identify($view);
 		    
 			if($identifier->path[0] != 'view') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
@@ -224,7 +224,7 @@ abstract class KControllerResource extends KControllerAbstract
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
-			else $identifier = KFactory::identify($model);
+			else $identifier = KIdentifier::identify($model);
 		    
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
