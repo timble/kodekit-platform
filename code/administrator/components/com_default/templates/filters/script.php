@@ -33,7 +33,7 @@ class ComDefaultTemplateFilterScript extends KTemplateFilterScript
             return parent::_renderScript($script, $link, $attribs);
         }
         
-        $document = KFactory::get('joomla:document');
+        $document = JFactory::getDocument();
         
         if($link) {
             $document->addScript($script, 'text/javascript');
