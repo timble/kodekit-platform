@@ -8,6 +8,11 @@
  */
 
 /**
+ * Registry Classes
+ */
+require_once Koowa::getPath().'/loader/registry.php';
+
+/**
  * Excpetion Classes
  */
 require_once Koowa::getPath().'/exception/interface.php';
@@ -62,7 +67,6 @@ class KLoader
      */
     protected static $_prefix_map = null;
     
-
     /**
      * Constructor
      *
@@ -73,10 +77,10 @@ class KLoader
         //Created the adapter registry
         self::$_adapters   = array();
         self::$_prefix_map = array();
-        self::$_registry = new ArrayObject();
+        self::$_registry = new KLoaderRegistry();
         
         // Register the autoloader in a way to play well with as many configurations as possible.
-        spl_autoload_register(array(__CLASS__, 'load'));
+        spl_autoload_register(array(__CLASS__, 'loadClass'));
 
         if (function_exists('__autoload')) {
             spl_autoload_register('__autoload');
@@ -107,108 +111,164 @@ class KLoader
         
         return $instance;
     }
-
+    
     /**
-     * Load a class based on a class name or an identifier
-     *
-     * @param string|object The class name, identifier or identifier object
-     * @return boolean      Returns TRUE on success throws exception on failure
+     * Get the class registry object
+     * 
+     * @return object KLoaderRegistry
      */
-    public static function load($class)
+    public static function getRegistry()
     {
+        return self::$_registry;
+    }
+    
+	/**
+     * Get the registered class prefixes
+     * 
+     * @return array
+     */
+    public static function getPrefixes()
+    {
+        return array_keys(self::$_prefix_map);
+    }
+    
+	/**
+     * Get the registered types
+     * 
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return array_keys(self::$_adapters);
+    }
+    
+    /**
+     * Load a class based on a class name
+     *
+     * @param string    The class name
+     * @param string    The basepath
+     * @return boolean  Returns TRUE on success throws exception on failure
+     */
+    public static function loadClass($class, $basepath = null)
+    {
+        $result = false;
+         
         //Extra filter added to circomvent issues with Zend Optimiser and strange classname.        
         if((ctype_upper(substr($class, 0, 1)) || (strpos($class, '.') !== false)))
         {
             //Pre-empt further searching for the named class or interface.
             //Do not use autoload, because this method is registered with
             //spl_autoload already.
-            if (class_exists($class, false) || interface_exists($class, false)) {
-                return true;
-            }
-        
-            //Get the path
-            $result = self::path( $class );
-        
-            //Don't re-include files and stat the file if it exists
-            if ($result !== false && !in_array($result, get_included_files()) && file_exists($result))
+            if (!class_exists($class, false) && !interface_exists($class, false)) 
             {
-                $mask = E_ALL ^ E_WARNING;
-                if (defined('E_DEPRECATED')) {
-                    $mask = $mask ^ E_DEPRECATED;
-                }
-            
-                $old = error_reporting($mask);
-                $included = include $result;
-                error_reporting($old);
-
-                if ($included) {
-                    return $result;
+                //Get the path
+                $path = self::findPath( $class, $basepath );
+        
+                if ($path !== false) {
+                    $result = self::loadFile($path);
                 }
             }
+            else $result = true;
         }
         
-        return false;
+        return $result;
+    }
+    
+	/**
+     * Load a class based on an identifier
+     *
+     * @param string|object The identifier or identifier object
+     * @return boolean      Returns TRUE on success throws exception on failure
+     */
+    public static function loadIdentifier($identifier)
+    {
+        $result = false;
+         
+        $identifier = KIdentifier::identify($identifier);
+        
+        //Get the path
+        $path = $identifier->filepath;
+        
+        if ($path !== false) {
+            $result = self::loadFile($path);
+        }
+        
+        return $result;
     }
     
     /**
-     * Get the path based on a class name or an identifier
+     * Load a class based on a path
      *
-     * @param string|object The class name, identifier or identifier object
+     * @param string	The file path
+     * @return boolean  Returns TRUE on success throws exception on failure
+     */
+    public static function loadFile($path)
+    {
+        $result = false;
+        
+        //Don't re-include files and stat the file if it exists
+        if (!in_array($path, get_included_files()) && file_exists($path))
+        {
+            $mask = E_ALL ^ E_WARNING;
+            if (defined('E_DEPRECATED')) {
+                $mask = $mask ^ E_DEPRECATED;
+            }
+            
+            $old = error_reporting($mask);
+            $included = include $path;
+            error_reporting($old);
+
+            if ($included) {
+                $result = true;
+            }
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Get the path based on a class name
+     *
+     * @param string	The class name
+     * @param string    The basepath
      * @return string   Returns canonicalized absolute pathname
      */
-    public static function path($class)
+    public static function findPath($class, $basepath = null)
     {
-        if(!self::$_registry->offsetExists((string)$class)) 
+        if(!self::$_registry->offsetExists((string) $class)) 
         {
             $result = false;
                 
-            //If the class is a classname try to find the adapter based on the 
-            //class prefix otherwise assume the class is an identifier
-            if(ctype_upper(substr($class, 0, 1)))
-            {
-                $word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
-                $parts = explode('_', $word);
+            $word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
+            $parts = explode('_', $word);
             
-                if(isset(self::$_prefix_map[$parts[0]])) {
-                    $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->path( $class );
-                }
-            } 
-            else 
-            {
-                if(!($class instanceof KIdentifier)) {
-                    $class = new KIdentifier($class);
-                }
-              
-                if(isset(self::$_adapters[$class->type])) {
-                    $result = self::$_adapters[$class->type]->path( $class );
-                }
+            if(isset(self::$_prefix_map[$parts[0]])) {
+                $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->findPath( $class, $basepath);
             }
-        
+             
             if ($result !== false) 
             {
                 //Get the canonicalized absolute pathname
                 $path = realpath($result);
                 $result = $path !== false ? $path : $result;
-            
-                if($result !== false) {
-                    self::$_registry->offsetSet((string) $class, $result);
-                }
             }
+            
+              self::$_registry->offsetSet((string) $class, $result);
         }
         else $result = self::$_registry->offsetGet((string)$class);
         
         return $result;
     }
-
+    
     /**
      * Add a loader adapter
      *
      * @param object    A KLoaderAdapter
      * @return void
      */
-    public static function addAdapter(KLoaderAdapterInterface $adapter)
+    public static function registerAdapter(KLoaderAdapterInterface $adapter)
     {
-        self::$_adapters[$adapter->getType()] = $adapter;
+        self::$_adapters[$adapter->getType()]     = $adapter;
         self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
     }
 }
