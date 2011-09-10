@@ -226,7 +226,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 			    $identifier->path	= array('view', $view);
 			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			}
-			else $identifier = KFactory::identify($view);
+			else $identifier = KIdentifier::identify($view);
 		    
 			if($identifier->path[0] != 'view') {
 				throw new KTemplateException('Identifier: '.$identifier.' is not a view identifier');
@@ -254,16 +254,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function loadIdentifier($template, $data = array(), $process = true)
 	{
 	    //Identify the template
-	    $identifier = KFactory::identify($template);
-        
-        if($identifier->filepath) {
-	       $path = dirname($identifier->filepath);
-        } else {
-	       $path = dirname(KLoader::path($identifier));
-	    }
-	 
+	    $identifier = KIdentifier::identify($template);
+         
 	    // Find the template 
-		$file = $this->findFile($path.'/'.$identifier->name.'.php');
+		$file = $this->findFile(dirname($identifier->filepath).'/'.$identifier->name.'.php');
 	    
 		if ($file === false) {
 			throw new KTemplateException('Template "'.$identifier->name.'" not found');
@@ -480,7 +474,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
             $identifier->path = array('template','helper');
             $identifier->name = $helper;
 		}
-		else $identifier = KFactory::identify($helper);
+		else $identifier = KIdentifier::identify($helper);
 	 
 		//Create the template helper
 		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
