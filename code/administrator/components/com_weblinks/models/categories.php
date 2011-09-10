@@ -63,6 +63,6 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
 		$query->where('tbl.section', '=', 'com_weblinks')
 			  ->where('tbl.published', '=', '1')
 			  ->where('weblinks.published', '=', '1')
-			  ->where('tbl.access', '<=', KFactory::get('joomla:user')->get('aid', '0'));
+			  ->where('tbl.access', '<=', JFactory::getUser()->get('aid', '0'));
     }
 }
