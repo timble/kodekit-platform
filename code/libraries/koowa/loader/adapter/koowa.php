@@ -39,7 +39,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 	 * @param  string		  	The class name 
 	 * @return string|false		Returns the path on success FALSE on failure
 	 */
-	protected function _pathFromClassname($classname)
+	public function findPath($classname, $basepath = null)
 	{
 		$path     = false;
 		
@@ -49,7 +49,7 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		// If class start with a 'K' it is a Koowa framework class and we handle it
 		if(array_shift($parts) == $this->_prefix)
 		{	
-			$path = strtolower(implode('/', $parts));
+		    $path = strtolower(implode('/', $parts));
 				
 			if(count($parts) == 1) {
 				$path = $path.'/'.$path;
@@ -64,30 +64,4 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 		
 		return $path;
 	}	
-	
-	/**
-	 * Get the path based on an identifier
-	 *
-	 * @param  object  			An Identifier object - joomla.[.path].name
-	 * @return string|false		Returns the path on success FALSE on failure
-	 */
-	protected function _pathFromIdentifier($identifier)
-	{
-		$path = false;
-		
-		if($identifier->type == 'koowa')
-		{
-			if(count($identifier->path)) {
-				$path .= implode('/',$identifier->path);
-			}
-
-			if(!empty($identifier->name)) {
-				$path .= '/'.$identifier->name;
-			}
-				
-			$path = $this->_basepath.'/'.$path.'.php';
-		}
-		
-		return $path;
-	}
 }
