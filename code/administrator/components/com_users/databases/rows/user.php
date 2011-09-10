@@ -41,7 +41,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	public function save()
 	{
-		KLoader::load('joomla.user.helper');
+		KLoader::loadIdentifier('joomla:user.helper');
 
 		// Load the old row if editing an existing user.
 		if(!$this->_new)
@@ -50,7 +50,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 				->select($this->id, KDatabase::FETCH_ROW);
 		}
 
-		$user = KFactory::get('joomla:user');
+		$user = JFactory::getUser();
 
 		// Validate received data.
 		if(($this->_new || isset($this->_modified['name'])) && trim($this->name) == '')
@@ -317,7 +317,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	public function delete()
 	{
-		$user = KFactory::get('joomla:user');
+		$user = JFactory::getUser();
 
 		// Don't allow users to delete themselves.
 		if($user->id == $this->id)
