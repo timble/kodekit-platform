@@ -111,7 +111,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
-		    else  $identifier = KFactory::identify($table);
+		    else  $identifier = KIdentifier::identify($table);
 		    
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
