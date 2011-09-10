@@ -39,7 +39,7 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
             'password' => KRequest::get('post.password', 'raw')
         );
 
-        $result = KFactory::get('joomla:application')->login($credentials, $options);
+        $result = JFactory::getApplication()->login($credentials, $options);
 
         if(!JError::isError($result))
         {
