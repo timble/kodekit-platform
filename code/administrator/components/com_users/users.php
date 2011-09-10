@@ -18,7 +18,7 @@
  * @subpackage  Sections    
  */
 
-//if (!KFactory::get('joomla:user')->authorize( 'com_users', 'manage' )) {
+//if (!JFactory::getUser()->authorize( 'com_users', 'manage' )) {
 //	KFactory::get('koowa:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 //}
 
