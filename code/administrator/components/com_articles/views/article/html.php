@@ -22,7 +22,7 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $this->assign('user', KFactory::get('joomla:user'));
+        $this->assign('user', JFactory::getUser());
         return parent::display();
     }
 }
