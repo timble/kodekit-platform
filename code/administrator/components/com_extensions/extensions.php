@@ -18,20 +18,20 @@
  * @subpackage  Extensions   
  */
 
-/*if (!KFactory::get('joomla:user')->authorize( 'com_modules', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+/*if (!JFactory::getUser()->authorize( 'com_modules', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-if (!KFactory::get('joomla:user')->authorize( 'com_languages', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_languages', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-if (!KFactory::get('joomla:user')->authorize( 'com_templates', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_templates', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-if (!KFactory::get('joomla:user')->authorize( 'com_plugins', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_plugins', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
 echo KFactory::get('com://admin/extensions.dispatcher')->dispatch();
