@@ -36,7 +36,7 @@ class ComDefaultEventDispatcher extends KEventDispatcher implements KObjectInsta
             $instance = new $classname($config);
             
             //Add the factory map to allow easy access to the singleton
-            KFactory::map('koowa:event.dispatcher', $config->identifier);
+            KIdentifier::map('koowa:event.dispatcher', $config->identifier);
             
         }
         
