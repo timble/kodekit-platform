@@ -48,7 +48,7 @@ defined('KOOWA') or die('Restricted access');
     )); 
 ?>
 
-<? if ( KFactory::get('joomla:user')->get('gid') > 23 )  : ?>	
+<? if ( JFactory::getUser()->get('gid') > 23 )  : ?>	
 <?= @helper('image.icon', array(
 		'link'  => 'option=com_menus',
 		'text'  => 'Menu Manager',
@@ -57,7 +57,7 @@ defined('KOOWA') or die('Restricted access');
 ?>
 <? endif; ?>
 
-<? if ( KFactory::get('joomla:user')->get('gid') > 24 )  : ?>	
+<? if ( JFactory::getUser()->get('gid') > 24 )  : ?>	
 <?= @helper('image.icon', array(
 		'link'  => 'option=com_extensions&view=languages',
 		'text'  => 'Language Manager',
@@ -66,7 +66,7 @@ defined('KOOWA') or die('Restricted access');
 ?>
 <? endif; ?>	
 	
-<? if ( KFactory::get('joomla:user')->get('gid') > 23 )  : ?>	
+<? if ( JFactory::getUser()->get('gid') > 23 )  : ?>	
 <?= @helper('image.icon', array(
 		'link'  => 'option=com_users',
 		'text'  => 'User Manager',
@@ -75,7 +75,7 @@ defined('KOOWA') or die('Restricted access');
 ?>
 <? endif; ?>
 	
-<? if ( KFactory::get('joomla:user')->get('gid') > 24 )  : ?>	
+<? if ( JFactory::getUser()->get('gid') > 24 )  : ?>	
 <?= @helper('image.icon', array(
 		'link'  => 'option=com_settings',
 		'text'  => 'Global Configuration',
