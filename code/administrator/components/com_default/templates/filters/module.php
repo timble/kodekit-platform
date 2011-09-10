@@ -64,7 +64,7 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 				$module->user      = 0;
 				$module->module    = 'mod_dynamic';
 				
-			    KFactory::get('joomla:document')->modules[$attributes['position']][] = $module;
+			    JFactory::getDocument()->modules[$attributes['position']][] = $module;
 			}
 		}
 		
