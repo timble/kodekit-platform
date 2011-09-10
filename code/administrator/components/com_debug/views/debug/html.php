@@ -23,7 +23,7 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
     {
         $profiler = KFactory::get('com://admin/debug.profiler.events');
         $database = KFactory::get('com://admin/debug.profiler.queries');
-        $language = KFactory::get('joomla:language');
+        $language = JFactory::getLanguage();
         
         //Remove the template includes
         $includes = get_included_files();
