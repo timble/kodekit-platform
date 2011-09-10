@@ -25,7 +25,7 @@ class ComFilesModelDefault extends KModelAbstract
 		parent::__construct($config);
 
 		$this->_state
-			->insert('limit'    , 'int', KFactory::get('joomla:application')->getCfg('list_limit'))
+			->insert('limit'    , 'int', JFactory::getApplication()->getCfg('list_limit'))
 			->insert('offset'   , 'int', 0)
 			->insert('search'	, 'filename')
 			->insert('direction', 'word', 'asc')
