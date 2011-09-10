@@ -35,7 +35,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
-				KFactory::get('joomla:application')->redirect($weblink->url);
+				JFactory::getApplication()->redirect($weblink->url);
 			}
 
 			return true;
