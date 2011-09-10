@@ -18,8 +18,8 @@
  * @subpackage  Newsfeeds
  */
 
-if (!KFactory::get('joomla:user')->authorize( 'com_newsfeeds', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_newsfeeds', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 echo KFactory::get('com://admin/newsfeeds.dispatcher')->dispatch();
