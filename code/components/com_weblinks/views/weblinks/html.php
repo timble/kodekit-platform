@@ -31,7 +31,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	                        ->getItem();
 	                        
 	    $categories = KFactory::get('com://site/weblinks.model.categories')->getList();
-		$params     = KFactory::get('joomla:application')->getParams();
+		$params     = JFactory::getApplication()->getParams();
 
 		// Set up the category image
 		if (isset( $category->image ) && $category->image != '')
