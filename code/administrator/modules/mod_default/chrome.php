@@ -45,7 +45,7 @@ class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilte
     {
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOW,
-            'template'   => KFactory::get('joomla:application')->getTemplate()
+            'template'   => JFactory::getApplication()->getTemplate()
         ));
 
         parent::_initialize($config);
