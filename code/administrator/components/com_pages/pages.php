@@ -18,8 +18,8 @@
  * @subpackage  Pages
  */
 
-/*if (!KFactory::get('joomla:user')->authorize( 'com_pages', 'manage' )) {
-	KFactory::get('joomla:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+/*if (!JFactory::getUser()->authorize( 'com_pages', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
 echo KFactory::get('com://admin/pages.dispatcher')->dispatch();
