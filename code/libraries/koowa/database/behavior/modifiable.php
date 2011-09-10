@@ -71,7 +71,7 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 		if(!empty($modified))
 		{
 			if(isset($this->modified_by)) {
-				$this->modified_by = (int) KFactory::get('joomla:user')->get('id');
+				$this->modified_by = (int) JFactory::getUser()->get('id');
 			}
 		
 			if(isset($this->modified_on)) {
