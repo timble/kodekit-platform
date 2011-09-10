@@ -768,11 +768,11 @@ class JApplication extends JObject
 	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
 
 		//Force re-login of the user if the site changed
-		$user = KFactory::get('joomla:user');
+		$user = JFactory::getUser();
 
 		if(!$user->get('guest') && (JFactory::getSession()->get('site') != $site))
 		{
-		    $session = KFactory::get('joomla:session');
+		    $session = JFactory::getSession();
 
 		    // Fork the session to prevent session fixation issues if it's active
 			$session->fork();
