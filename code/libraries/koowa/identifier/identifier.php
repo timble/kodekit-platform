@@ -28,6 +28,20 @@ class KIdentifier implements KIdentifierInterface
     protected static $_applications = array();
     
     /**
+     * Associative array of identifier adapters
+     *
+     * @var array
+     */
+    protected static $_adapters = array();
+    
+    /**
+	 * The identifier alias map
+	 *
+	 * @var	array
+	 */
+	protected static $_identifier_map = array();
+    
+    /**
      * The identifier
      *
      * @var string
@@ -74,21 +88,21 @@ class KIdentifier implements KIdentifierInterface
      *
      * @var string
      */
-    public $filepath = '';
+    protected $_filepath = '';
+    
+     /**
+     * The classname
+     *
+     * @var string
+     */
+    protected $_classname = '';
     
     /**
      * The base path
      *
      * @var string
      */
-    public $basepath = '';
-    
-    /**
-     * The classname
-     *
-     * @var string
-     */
-    public $classname = '';
+    public $basepath;
     
     /**
      * Constructor
@@ -133,6 +147,51 @@ class KIdentifier implements KIdentifierInterface
         $this->_identifier = $identifier;
     }
     
+	/**
+	 * Returns an identifier string. 
+	 * 
+	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
+	 * object that implements KObjectIdentifiable, or a KIdentifierInterface, or valid identifier 
+	 * string. Function will also check for identifier mappings and return the mapped identifier.
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
+	 *                  implements KIdentifierInterface or valid identifier string
+	 * @return KIdentifier
+	 */
+	public static function identify($identifier)
+	{		
+		if(!is_string($identifier)) 
+		{
+			if($identifier instanceof KObjectIdentifiable) {
+			    $identifier = $identifier->getIdentifier();
+		    }   
+		} 
+		
+		$alias = (string) $identifier;
+		if(array_key_exists($alias, self::$_identifier_map)) {
+			$identifier = self::$_identifier_map[$alias];
+		}
+		
+		if(is_string($identifier)) {
+		    $identifier = new KIdentifier($identifier);
+		}
+		
+		return $identifier;
+	}
+	
+	/**
+	 * Creates an alias for an identifier
+	 *
+	 * @param mixed  The alias 
+	 * @param mixed  The class indentifier or identifier object
+	 */
+	public static function map($alias, $identifier)
+	{		
+		$identifier = self::identify($identifier);
+		
+		self::$_identifier_map[$alias] = $identifier;
+	}
+    
     /**
 	 * Register an application path
 	 * 
@@ -144,7 +203,18 @@ class KIdentifier implements KIdentifierInterface
     {
         self::$_applications[$application] = $path;
     }
-        
+    
+	/**
+     * Add a factory adapter
+     *
+     * @param object    A KFactoryAdapter
+     * @return void
+     */
+    public static function registerAdapter(KIdentifierAdapterInterface $adapter)
+    {
+        self::$_adapters[$adapter->getType()] = $adapter;
+    }
+       
     /** 
      * Implements the virtual class properties
      * 
@@ -175,11 +245,13 @@ class KIdentifier implements KIdentifierInterface
                $this->basepath = self::$_applications[$value];
             }
             
-            //Set the propertys
+            //Set the properties
             $this->{'_'.$property} = $value;
                 
-            //Force recreation of the identifier string
+            //Unset the properties
             $this->_identifier = '';
+            $this->_classname  = '';
+            $this->_filepath   = '';
         }
     }
     
@@ -192,7 +264,16 @@ class KIdentifier implements KIdentifierInterface
      */
     public function &__get($property)
     {
-        if(isset($this->{'_'.$property})) {
+        if(isset($this->{'_'.$property})) 
+        { 
+            if($property == 'filepath' && empty($this->_filepath)) {
+                $this->_filepath = self::$_adapters[$this->_type]->findPath($this);
+            }
+              
+            if($property == 'classname' && empty($this->_classname)) {
+                $this->_classname = self::$_adapters[$this->_type]->findClass($this);
+            }
+            
             return $this->{'_'.$property};
         }
     }
