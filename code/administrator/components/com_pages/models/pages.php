@@ -123,7 +123,7 @@ class ComPagesModelPages extends KModelTable
 					break;
 			}
 
-			$xml = KFactory::get('joomla:xml', array('simple'));
+			$xml = JFactory::getXMLParser('simple');
 			$xml->loadFile($path);
 
 			$this->_page_xml = $xml;
@@ -140,7 +140,7 @@ class ComPagesModelPages extends KModelTable
 
 			if(file_exists($path))
 			{
-				$xml = KFactory::get('joomla:xml', array('simple'));
+				$xml = JFactory::getXMLParser('simple');
 				$xml->loadFile($path);
 			}
 			else {
@@ -159,7 +159,7 @@ class ComPagesModelPages extends KModelTable
 		{
 			$path = JPATH_BASE.'/components/com_pages/databases/rows/component.xml';
 
-			$xml = KFactory::get('joomla:xml', array('simple'));
+			$xml = JFactory::getXMLParser('simple');
 			$xml->loadFile($path);
 			
 			$this->_system_xml = $xml;
