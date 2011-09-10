@@ -108,7 +108,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
                 $identifier->path   = array('controller', 'toolbar');
                 $identifier->name   = $menubar;
 			}
-			else $identifier = KFactory::identify($menubar);
+			else $identifier = KIdentifier::identify($menubar);
 			
 			if($identifier->path[1] != 'toolbar') {
 				throw new KControllerBehaviorException('Identifier: '.$identifier.' is not a toolbar identifier');
@@ -132,7 +132,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
         if($this->isDispatched() && ($this->getView() instanceof KViewHtml))
         {
             //Render the toolbar
-	        $document = KFactory::get('joomla:document');
+	        $document = JFactory::getDocument();
 	        
             if(in_array('toolbar', $this->_render)) 
             {
