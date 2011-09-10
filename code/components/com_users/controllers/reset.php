@@ -44,7 +44,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         $user->activation = md5($token.$salt).':'.$salt;
         $user->save();
 
-        $configuration = KFactory::get('joomla:config');
+        $configuration = JFactory::getConfig();
         $site_name     = $configuration->getValue('sitename');
         $site_url      = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
@@ -121,7 +121,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user     = KFactory::get('joomla:user', array(KRequest::get('session.com.users.id', 'int')));
+        $user = JFactory::getUser(KRequest::get('session.com.users.id', 'int'));
 
         JPluginHelper::importPlugin('user');
         $dispatcher = JDispatcher::getInstance();
