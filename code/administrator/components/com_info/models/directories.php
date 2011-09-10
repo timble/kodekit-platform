@@ -45,7 +45,7 @@ class ComInfoModelDirectories extends KModelAbstract
                 'plugins/system/'           => JPATH_PLUGINS.'/system',
                 'plugins/user'              => JPATH_PLUGINS.'/user',
                 'templates/'                => JPATH_THEMES,
-                'tmp/'                      => KFactory::get('joomla:config')->getValue('config.tmp_path', JPATH_ROOT.'/tmp')
+                'tmp/'                      => JFactory::getConfig()->getValue('config.tmp_path', JPATH_ROOT.'/tmp')
             );
 
             foreach(new DirectoryIterator(JPATH_ADMINISTRATOR.'/language') as $language)
