@@ -32,7 +32,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?php foreach ($users as $user) : ?>
    <tr>
 		<td>
-			<? if (KFactory::get('joomla:user')->authorize( 'com_users', 'manage' )) : ?>
+			<? if (JFactory::getUser()->authorize( 'com_users', 'manage' )) : ?>
 		    	<a href="<?=  @route('index.php?option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
 		    		<?= $user->username; ?>
 		    	</a>
