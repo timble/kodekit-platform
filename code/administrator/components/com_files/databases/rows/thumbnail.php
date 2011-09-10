@@ -9,7 +9,7 @@
  * @link        http://www.nooku.org
  */
 
-KLoader::load('com://admin/files.helper.phpthumb.phpthumb');
+KLoader::loadIdentifier('com://admin/files.helper.phpthumb.phpthumb');
 
 /**
  * Thumbnail Database Row Class
