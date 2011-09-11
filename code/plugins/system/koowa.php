@@ -116,7 +116,7 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 0) && JFactory::getUser()->guest)) {
+	    if($this->params->get('auth_basic', 0) && JFactory::getUser()->guest) {
 	        $this->_authenticateUser();
 	    }
 	    
