@@ -49,7 +49,7 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 		if (array_shift($parts) == 'mod') 
 		{	
 		    //Switch the basepath
-		    if(isset($basepath)) {
+		    if(!empty($basepath)) {
 		        $this->_basepath = $basepath;
 		    }
 		    

@@ -41,15 +41,15 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	 */
 	public function findPath($classname, $basepath = null)
 	{
-		$path = false; 
-			
+		$path = false;
+	
 		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
 		$parts = explode('_', $word);
 			
 		if (array_shift($parts) == 'com') 
 		{
 		    //Switch the basepath
-		    if(isset($basepath)) {
+		    if(!empty($basepath)) {
 		        $this->_basepath = $basepath;
 		    }
 		    

@@ -49,7 +49,7 @@ class KLoaderAdapterPlugin extends KLoaderAdapterAbstract
 		if (array_shift($parts) == 'plg') 
 		{	
 		    //Switch the basepath
-		    if(isset($basepath)) {
+		    if(!empty($basepath)) {
 		        $this->_basepath = $basepath;
 		    }
 		    
