@@ -79,12 +79,7 @@ class KLoader
         self::$_prefix_map = array();
         self::$_registry = new KLoaderRegistry();
         
-        // Register the autoloader in a way to play well with as many configurations as possible.
-        spl_autoload_register(array(__CLASS__, 'loadClass'));
-
-        if (function_exists('__autoload')) {
-            spl_autoload_register('__autoload');
-        }
+        self::register();
     }
         
     /**
@@ -113,6 +108,21 @@ class KLoader
     }
     
     /**
+     * Registers this instance as an autoloader.
+     *
+     * @return void
+     */
+    public static function register()
+    {
+        spl_autoload_register(array(__CLASS__, 'loadClass'));
+
+        if (function_exists('__autoload')) {
+            spl_autoload_register('__autoload');
+        }
+    }
+    
+    
+    /**
      * Get the class registry object
      * 
      * @return object KLoaderRegistry
@@ -123,23 +133,13 @@ class KLoader
     }
     
 	/**
-     * Get the registered class prefixes
+     * Get the registered adapters
      * 
      * @return array
      */
-    public static function getPrefixes()
+    public static function getAdapters()
     {
-        return array_keys(self::$_prefix_map);
-    }
-    
-	/**
-     * Get the registered types
-     * 
-     * @return array
-     */
-    public static function getTypes()
-    {
-        return array_keys(self::$_adapters);
+        return self::$_adapters;
     }
     
     /**
@@ -253,7 +253,7 @@ class KLoader
                 $result = $path !== false ? $path : $result;
             }
             
-              self::$_registry->offsetSet((string) $class, $result);
+            self::$_registry->offsetSet((string) $class, $result);
         }
         else $result = self::$_registry->offsetGet((string)$class);
         
