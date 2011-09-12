@@ -8,22 +8,10 @@
  */
 
 /**
- * Registry Classes
- */
-require_once Koowa::getPath().'/loader/registry.php';
-
-/**
  * Excpetion Classes
  */
 require_once Koowa::getPath().'/exception/interface.php';
 require_once Koowa::getPath().'/exception/exception.php';
-
-/**
- * Indentifier Classes
- */
-require_once Koowa::getPath().'/identifier/interface.php';
-require_once Koowa::getPath().'/identifier/identifier.php';
-require_once Koowa::getPath().'/identifier/exception.php';
 
 /**
  * Loader Classes
@@ -32,6 +20,11 @@ require_once Koowa::getPath().'/loader/adapter/interface.php';
 require_once Koowa::getPath().'/loader/adapter/exception.php';
 require_once Koowa::getPath().'/loader/adapter/abstract.php';
 require_once Koowa::getPath().'/loader/adapter/koowa.php';
+
+/**
+ * Registry Classes
+ */
+require_once Koowa::getPath().'/loader/registry.php';
 
 //Instantiate the loader singleton
 KLoader::getInstance();
