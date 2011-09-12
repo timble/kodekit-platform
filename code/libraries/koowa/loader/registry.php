@@ -8,7 +8,7 @@
  */
 
 /**
- * KLoader Registry Class
+ * Loader Registry Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
@@ -78,7 +78,6 @@ class KLoaderRegistry extends ArrayObject
  	/**
      * Get an item from the array by offset
      *
-     *
      * @param   int     The offset
      * @return  mixed   The item from the array
      */
@@ -87,14 +86,14 @@ class KLoaderRegistry extends ArrayObject
         if(!parent::offsetExists($offset))
         {
             if($this->_cache) {
-                $path = apc_fetch($this->_cache_prefix.$offset);
+                $result = apc_fetch($this->_cache_prefix.$offset);
             } else {
-                $path = false;
+                $result = false;
             }
         }
-        else $path = parent::offsetGet($offset);
+        else $result = parent::offsetGet($offset);
         
-        return $path; 
+        return $result; 
     }
 
     /**
