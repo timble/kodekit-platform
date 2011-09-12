@@ -17,14 +17,21 @@
  * @category    Koowa
  * @package     Koowa_Identifier
  */
-interface KIdentifierInterface
-{
+interface KIdentifierInterface extends Serializable 
+{ 
     /**
-     * Constructor
-     *
-     * @param   string|object   Identifier string or object in [application::]type.component.[.path].name format
-     */
-    public function __construct($identifier);
+     * Returns an identifier object. 
+	 * 
+	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
+	 * object that implements KObjectIdentifiable, or a KIdentifierInterface, or valid identifier 
+	 * string. Function will also check for identifier mappings and return the mapped identifier.
+	 *
+	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
+	 *                  implements KIdentifierInterface or valid identifier string
+	 * @return KIdentifier
+	 * @see __construct()
+	 */
+	public static function identify($identifier);
 
     /**
      * Formats the indentifier as a [application::]type.component.[.path].name string
