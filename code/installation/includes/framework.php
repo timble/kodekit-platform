@@ -49,7 +49,6 @@ KLoader::registerAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 		
 // Koowa : setup factory
 KIdentifier::registerAdapter(new KIdentifierAdapterKoowa());
-KIdentifier::registerAdapter(new KIdentifierAdapterJoomla());
 KIdentifier::registerAdapter(new KIdentifierAdapterComponent());
 		
 //Koowa : register identifier application paths
