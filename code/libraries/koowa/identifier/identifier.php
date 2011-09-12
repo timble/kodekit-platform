@@ -21,6 +21,13 @@
 class KIdentifier implements KIdentifierInterface
 {
     /**
+     * The identifier container
+     *
+     * @var array
+     */
+    protected static $_registry = null;
+    
+    /**
      * An associative array of application paths
      * 
      * @var array
@@ -102,29 +109,28 @@ class KIdentifier implements KIdentifierInterface
      *
      * @var string
      */
-    public $basepath;
+    protected $_basepath = '';
     
     /**
      * Constructor
      *
-     * @param   string|object   Identifier string or object in [application::]type.package.[.path].name format
+     * @param   string   Identifier string or object in [application::]type.package.[.path].name format
      * @throws  KIdentifierException if the identfier is not valid
      */
-    public function __construct($identifier)
-    {
-        // We also accept objects to allow for auto-cloning
-        $identifier = (string) $identifier;
-        
+    private function __construct($identifier)
+    { 
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new KIdentifierException('Wrong identifier format : '.$identifier);
+            throw new KIdentifierException('Malformed identifier : '.$identifier);
         }
         
         //Get the parts
-        $parts = parse_url($identifier);
+        if(false === $parts = parse_url($identifier)) {
+            throw new KIdentifierException('Malformed identifier : '.$identifier);
+        }
 
         //Set the application
-        if(isset($parts['host'])) { 
+        if(isset($parts['host'])) {   
             $this->application = $parts['host'];
         }
          
@@ -148,7 +154,7 @@ class KIdentifier implements KIdentifierInterface
     }
     
 	/**
-	 * Returns an identifier string. 
+	 * Returns an identifier object. 
 	 * 
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an 
 	 * object that implements KObjectIdentifiable, or a KIdentifierInterface, or valid identifier 
@@ -157,24 +163,35 @@ class KIdentifier implements KIdentifierInterface
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
 	 *                  implements KIdentifierInterface or valid identifier string
 	 * @return KIdentifier
+	 * @see __construct()
 	 */
 	public static function identify($identifier)
 	{		
-		if(!is_string($identifier)) 
-		{
-			if($identifier instanceof KObjectIdentifiable) {
-			    $identifier = $identifier->getIdentifier();
-		    }   
-		} 
+	    if(!isset(self::$_registry)) {
+	        self::$_registry = new KIdentifierRegistry();
+	    }
+	      
+	    if(!self::$_registry->offsetExists((string) $identifier)) 
+        {  
+            if(!is_string($identifier)) 
+		    {
+			    if($identifier instanceof KObjectIdentifiable) {
+			        $identifier = $identifier->getIdentifier();
+		        }   
+		    } 
 		
-		$alias = (string) $identifier;
-		if(array_key_exists($alias, self::$_identifier_map)) {
-			$identifier = self::$_identifier_map[$alias];
-		}
+		    $alias = (string) $identifier;
+		    if(array_key_exists($alias, self::$_identifier_map)) {
+			    $identifier = self::$_identifier_map[$alias];
+		    }
 		
-		if(is_string($identifier)) {
-		    $identifier = new KIdentifier($identifier);
-		}
+		    if(is_string($identifier)) {
+		        $identifier = new KIdentifier($identifier);
+		    }
+		     
+		    self::$_registry->offsetSet((string) $identifier, $identifier);
+        }
+        else $identifier = self::$_registry->offsetGet((string)$identifier);
 		
 		return $identifier;
 	}
@@ -191,6 +208,62 @@ class KIdentifier implements KIdentifierInterface
 		
 		self::$_identifier_map[$alias] = $identifier;
 	}
+	
+	/**
+	 * Serialize the identifier
+	 *
+	 * @return string 	The serialised identifier
+	 */
+	public function serialize()
+	{  
+        $data = array(
+            'application' => $this->_application,
+            'type'		  => $this->_type,
+            'package'	  => $this->_package,
+            'path'		  => $this->_path,
+            'name'		  => $this->_name,
+            'identifier'  => $this->_identifier,
+            'basepath'    => $this->_basepath,
+            'filepath'	  => $this->filepath,
+            'classname'   => $this->classname,
+        );
+        
+        return serialize($data);
+	}
+    
+	/**
+	 * Unserialize the identifier
+	 *
+	 * @return string 	The serialised identifier
+	 */
+	public function unserialize($data)
+	{
+	    $data = unserialize($data);
+	    
+	    foreach($data as $property => $value) {
+	        $this->{'_'.$property} = $value;
+	    }
+	}
+	
+	/**
+     * Get the registered adapters
+     * 
+     * @return array
+     */
+    public static function getAdapters()
+    {
+        return self::$_adapters;
+    }
+    
+	/**
+     * Get the registered application
+     * 
+     * @return array
+     */
+    public static function getApplications()
+    {
+        return self::$_applications;
+    }
     
     /**
 	 * Register an application path
@@ -242,7 +315,7 @@ class KIdentifier implements KIdentifierInterface
                     throw new KIdentifierException('Unknow application : '.$value);  
                }
                
-               $this->basepath = self::$_applications[$value];
+               $this->_basepath = self::$_applications[$value];
             }
             
             //Set the properties
