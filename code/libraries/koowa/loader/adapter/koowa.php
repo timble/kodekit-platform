@@ -43,8 +43,8 @@ class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
 	{
 		$path     = false;
 		
-		$word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1',  $classname);
-		$parts = explode('_', $word);
+		$word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname);
+		$parts = explode(' ', $word);
 		
 		// If class start with a 'K' it is a Koowa framework class and we handle it
 		if(array_shift($parts) == $this->_prefix)

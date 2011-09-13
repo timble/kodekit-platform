@@ -232,8 +232,8 @@ class KLoader
         {
             $result = false;
                 
-            $word  = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $class);
-            $parts = explode('_', $word);
+            $word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class);
+            $parts = explode(' ', $word);
             
             if(isset(self::$_prefix_map[$parts[0]])) {
                 $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->findPath( $class, $basepath);

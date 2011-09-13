@@ -43,8 +43,8 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 	{	
 		$path = false; 
 		
-		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $classname));
-		$parts = explode('_', $word);
+		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname));
+		$parts = explode(' ', $word);
 			
 		if (array_shift($parts) == 'mod') 
 		{	
