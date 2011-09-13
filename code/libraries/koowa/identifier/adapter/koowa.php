@@ -57,7 +57,9 @@ class KIdentifierAdapterKoowa extends KIdentifierAdapterAbstract
 	 */
 	public function findPath(KIdentifier $identifier)
 	{
-		if(count($identifier->path)) {
+	    $path = '';
+	    
+	    if(count($identifier->path)) {
 			$path .= implode('/',$identifier->path);
 		}
 
