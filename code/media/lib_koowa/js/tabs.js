@@ -47,8 +47,8 @@ Koowa.Tabs = new Class({
     {
         this.dlist = $(dlist);
         this.setOptions(this.getOptions(), options);
-        this.titles = this.dlist.getElements('dt');
-        this.descriptions = this.dlist.getElements('dd');
+        this.titles = this.dlist.getChildren('dt');
+        this.descriptions = this.dlist.getChildren('dd');
         this.content = new Element('div').injectAfter(this.dlist).addClass('current');
           
         if(this.options.height) {
