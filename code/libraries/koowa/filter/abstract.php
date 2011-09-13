@@ -38,6 +38,13 @@ abstract class KFilterAbstract implements KFilterInterface
      * @var KIdentifierInterface
      */
     protected $_identifier;
+    
+    /**
+     * Associative array of filter instances
+     * 
+     * @var array
+     */
+    private static $_instances = array();
 	
 	/**
 	 * Constructor
@@ -75,24 +82,24 @@ abstract class KFilterAbstract implements KFilterInterface
     {
         return $this->_identifier;
     }
-    
-	/**
+   
+    /**
      * Force creation of a singleton
      *
-     * @return KDatabaseTableDefault
+     * @return KFilterInterface
      */
     public static function getInstance($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
+    { 
+        // Check if an instance with this identifier already exists or not
+        $instance = (string) $config->identifier;
+        if (!isset(self::$_instances[$instance]))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
-            $instance = new $classname($config);
+            self::$_instances[$instance] = new $classname($config);
         }
         
-        return $instance;
+        return self::$_instances[$instance];
     }
 	
 	/**
