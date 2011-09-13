@@ -153,7 +153,7 @@ class modMenuHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
+			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer&view=components', 'class:install'));
 			$menu->addSeparator();
 			if ($editAllModules) {
 				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_extensions&view=modules', 'class:module'));
