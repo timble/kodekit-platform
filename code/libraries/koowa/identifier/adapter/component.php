@@ -93,7 +93,8 @@ class KIdentifierAdapterComponent extends KIdentifierAdapterAbstract
 	 */
 	public function findPath(KIdentifier $identifier)
 	{
-		$parts = $identifier->path;
+        $path  = '';
+	    $parts = $identifier->path;
 				
 		$component = 'com_'.strtolower($identifier->package);
 			

@@ -52,6 +52,7 @@ class KIdentifierAdapterPlugin extends KIdentifierAdapterAbstract
 	 */
 	public function findPath(KIdentifier $identifier)
 	{
+	    $path  = ''; 
 	    $parts = $identifier->path;
 			
 		$name  = array_shift($parts);

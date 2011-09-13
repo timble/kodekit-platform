@@ -86,7 +86,8 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 	 */
 	public function findPath(KIdentifier $identifier)
 	{
-		$parts = $identifier->path;
+		$path  = '';
+	    $parts = $identifier->path;
 		$name  = $identifier->package;
 				
 		if(!empty($identifier->name))
