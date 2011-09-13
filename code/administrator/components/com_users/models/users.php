@@ -29,14 +29,15 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::__construct($config);
 
         $this->_state
-        	->insert('activation'   , 'md5', null, true)
-            ->insert('email'        , 'email', null, true)
-            ->insert('username'     , 'alnum', null, true)
-            ->insert('group_name'   , 'string')
-            ->insert('group'        , 'int')
-            ->insert('enabled'      , 'int')
-            ->insert('visited'      , 'int')
-            ->insert('loggedin'     , 'int');
+        	->insert('activation' , 'md5', null, true)
+            ->insert('email'      , 'email', null, true)
+            ->insert('username'   , 'alnum', null, true)
+            ->insert('group'      , 'int')
+            ->insert('group_name' , 'string')
+            ->insert('group_tree' , 'boolean', false)
+            ->insert('enabled'    , 'int')
+            ->insert('visited'    , 'int')
+            ->insert('loggedin'   , 'int');
 	}
 
 	/**
@@ -84,12 +85,17 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	{
 		parent::_buildQueryWhere($query);
 
-		if($this->_state->group) {
-			$query->where('tbl.gid', '=', $this->_state->group);
+		if($this->_state->group) 
+		{
+			if($this->_state->group_tree) {
+		        $query->where('tbl.gid', '>=', $this->_state->group);
+			} else {
+			    $query->where('tbl.gid', '=', $this->_state->group);
+			}
 		}
 
+		// @TODO: Change usertype to group_name when mapping is fixed.
 	    if($this->_state->group_name) {
-            // @TODO: Change usertype to group_name when mapping is fixed.
             $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
         }
         
