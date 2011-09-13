@@ -23,25 +23,18 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     {
         $config = new KConfig($config);
 		$config->append(array(
-		    'deselect'  => true,
-		    'prompt'	=> '- Select -'
+			'model'		=> 'users',
+			'value'		=> 'id',
+		    'filter'	=> array(
+		    	'group'      => 18,
+		    	'group_tree' => true
+		    )
 		));
-
-		$list = KFactory::get('com://admin/users.model.users')
-		    ->set('sort', 'name')
-		    ->set('limit', 0)
-		    ->getList();
-
- 		if($config->deselect) {
-         	$options[] = $this->option(array('text' => $config->prompt, 'value' => -1));
-        }
-
-        foreach($list as $item) {
-			$options[] = $this->option(array('text' => $item->name, 'value' => $item->id));
-		}
-
-		$config->options = $options;
-
-		return $this->optionlist($config);
+		
+		//@TODO : Fix - Forcing config option because of name collisions
+		$config->text = 'name';
+		$config->sort = 'name';
+		
+		return parent::_listbox($config);
     }
 }
