@@ -86,7 +86,7 @@ class KIdentifierRegistry extends ArrayObject
         if(!parent::offsetExists($offset))
         {
             if($this->_cache) {
-                $result = unserialize(apc_fetch($this->_cache_prefix.$offset));
+                $result = unserialize(apc_fetch($this->_cache_prefix.'-'.$offset));
             } else {
                 $result = false;
             }
@@ -106,7 +106,7 @@ class KIdentifierRegistry extends ArrayObject
     public function offsetSet($offset, $value)
     {
         if($this->_cache) {
-            apc_store($this->_cache_prefix.$offset, serialize($value));
+            apc_store($this->_cache_prefix.'-'.$offset, serialize($value));
         }
         
         parent::offsetSet($offset, $value);
@@ -123,7 +123,7 @@ class KIdentifierRegistry extends ArrayObject
         if(false === $result = parent::offsetExists($offset)) 
         {
             if($this->_cache) {
-                $result = apc_exists($this->_cache_prefix.$offset);
+                $result = apc_exists($this->_cache_prefix.'-'.$offset);
             }  
         }
         
