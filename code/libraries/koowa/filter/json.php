@@ -10,9 +10,6 @@
 
 /**
  * Json filter
- * 
- * If the value being sanitized is a json string it will be decoded, otherwise
- * the value will be encoded upon sanitisation. 
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
