@@ -241,11 +241,10 @@ class KRequest
     {
         list($hash, $keys) = self::_parseIdentifier($identifier);
 
-        // find $var in the hashe
         foreach($keys as $key)
         {
-            if(array_key_exists($key, $GLOBALS['_'.$hash])) {
-                return true;;
+            if(isset($GLOBALS['_'.$hash]) && array_key_exists($key, $GLOBALS['_'.$hash])) {
+                return true;
             }
         }
 
