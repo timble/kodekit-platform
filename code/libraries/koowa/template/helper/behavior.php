@@ -218,7 +218,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'selector' => '.-koowa-form',
 		    'options'  => array(
 		        'scrollToErrorsOnChange' => true,
-		        'scrollToErrorsOnBlur'   => true,
+		        'scrollToErrorsOnBlur'   => true
 		    )
 		));
 
@@ -252,6 +252,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	/**
 	 * Render a input field that has autocomplete functionality
 	 *
+	 * @see    http://mootools.net/forge/p/meio_autocomplete
 	 * @return string	The html output
 	 */
 	public function autocomplete($config = array())
@@ -259,30 +260,51 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		
 		$config->append(array(
-			'value' => null,
-			'name'	=> null,
-			'model'	=> null,
-			'label'	=> false,
-			'placeholder' => false,
-			'text'	=> ''
-		))->append(array(
-		    'valueField' => $config->name.'-value'
+			'value'      => null,
+			'model'	     => null,
+			'validate'   => true
 		));
 		
-		
-		if(!is_string($config->model)) 
+		if(!is_a($config->model, 'KIdentifierInterface'))
 		{
-		    $data = array();
-			foreach($config->model as $item)
-			{
-				$data[] = array('value' => $item->id, 'text' => $item->text);
-				if($item->id == $config->value) { 
-				    $config->text = $item->text;
-				}
-			}
-		    
-		} 
-		else $data = str_replace('&amp;', '&', $config->model);
+		    $config->model = KIdentifier::identify($config->model);
+		}
+		
+		$config->append(array(
+		    'url'     => JRoute::_('&option=com_'.$config->model->package.'&view='.$config->model->name.'&format=json', true),
+		    'column'  => KInflector::singularize($config->model->name).'_id'
+		))->append(array(
+		    'attribs' => array(
+		        'name'  => $config->column,
+		        'type'  => 'text',
+		        'class' => 'inputbox value',
+		        'size'  => 60
+		    )
+		))->append(array(
+		    'options' => array(
+		        'valueField' => $config->attribs->name.'-value',
+		        'filter'     => array(
+		            'type' => 'contains',
+		            'path' => 'name'			        
+		        ),
+		        'urlOptions' => array(
+		            'queryVarname' => 'search'
+		        ),
+		        'requestOptions' => array(
+		            'method' => 'get'
+		        )
+		        
+		    )
+		))->append(array(
+		    'attribs' => array(
+		        'id' => $config->attribs->name,
+		        'data-value' => $config->options->valueField,
+		    )
+		));
+		
+		if($config->validate) {
+		    $config->attribs->class = $config->attribs->class.' ma-required';
+		}
 		
 		$html = '';
 		
@@ -290,31 +312,23 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		if(!isset(self::$_loaded['autocomplete']))
 		{
 		    $html .= '<script src="media://lib_koowa/js/autocomplete.js" />';
+		    $html .= '<script src="media://lib_koowa/js/patch.autocomplete.js" />';
 		    $html .= '<style src="media://lib_koowa/css/autocomplete.css" />';
 		}
 		
 		$html .= "
 		<script>
 			window.addEvent('domready', function(){				
-				var data = ".json_encode($data).";
-				
-				new Meio.Autocomplete.Select($('".$config->name."'), data, {
-					valueField: '".$config->valueField."',
-					filter: {
-						type: 'contains',
-						path: 'username.name'
-					},
-					urlOptions: {
-						queryVarName: 'search'
-					},
-					requestOptions: {
-						method: 'get'
-					}
-				});
+				new Meio.Autocomplete.Select($('".$config->attribs->id."'), ".json_encode($config->url).", ".$config->options.");
 			});
 		</script>";
-	    $html .= '<input type="text" id="'.$config->name.'" placeholder="'. $config->placeholder.'" class="inputbox value" value="'.$config->text.'" size="60" />';
-	    $html .= '<input type="hidden" name="'.$config->name.'" id="'.$config->valueField.'" value="'. $config->value.'" />';
+		$html .= '<input '.KHelperArray::toString($config->attribs).' />';
+	    $html .= '<input '.KHelperArray::toString(array(
+            'type'  => 'hidden',
+            'name'  => $config->attribs->name,
+            'id'    => $config->options->valueField,
+            'value' => $config->value
+	       )).' />';
 
 	    return $html;
 	}
