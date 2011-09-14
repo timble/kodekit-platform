@@ -76,14 +76,12 @@ license: MIT-style license
 	border-right-color: transparent;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(114, 125, 251)), to(rgb(74, 70, 250)));
 }
-.ma-container .ma-odd{
-}
-.ma-container .ma-even{
-	/*background-color: #efefef;*/
-}
-.ma-loading{
-	background-color: #fafba4;
-}
 .ma-selected{
-	background-color: #ccfda8;
+	/*background-color: #ccfda8;*/
 }
+
+/* @group Form.Validator compatibility */
+.ma-required.ma-focus ~ .validation-advice {
+    display: none!important;
+}
+/* @end */
