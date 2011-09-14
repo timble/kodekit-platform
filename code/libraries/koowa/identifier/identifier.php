@@ -128,15 +128,15 @@ class KIdentifier implements KIdentifierInterface
         if(false === $parts = parse_url($identifier)) {
             throw new KIdentifierException('Malformed identifier : '.$identifier);
         }
-
+  
+        // Set the type
+        $this->type = $parts['scheme'];
+        
         //Set the application
         if(isset($parts['host'])) {   
             $this->application = $parts['host'];
         }
-         
-        // Set the type
-        $this->_type = $parts['scheme'];
-        
+          
         // Set the path
         $this->_path = trim($parts['path'], '/'); 
         $this->_path = explode('.', $this->_path);
@@ -316,6 +316,15 @@ class KIdentifier implements KIdentifierInterface
                }
                
                $this->_basepath = self::$_applications[$value];
+            }
+            
+            //Set the type
+            if($property == 'type') 
+            {
+                //Check the type
+                if(!isset(self::$_adapters[$value])) {
+                    throw new KIdentifierException('Unknow type : '.$value);  
+                }
             }
             
             //Set the properties
