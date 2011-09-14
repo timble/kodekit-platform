@@ -152,6 +152,8 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         unset($data['format']);
 
 		unset($data['basepath']);
+		
+		unset($data['contents']);
 
 		$data['type'] = $this->isImage() ? 'image' : 'file';
 		$data['name'] = $this->name;
