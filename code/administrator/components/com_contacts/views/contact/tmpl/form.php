@@ -75,15 +75,7 @@ defined('KOOWA') or die('Restricted access') ?>
 						</label>
 					</td>
 					<td>
-					    <?= @helper('behavior.autocomplete', array(
-                           'value' => $contact->user_id, 
-                           'name'   => 'user',
-                           'target' => 'name',
-                           'model'  => @route('option=com_users&view=users&format=json', true),
-                           'label'  => 'User',
-                           'text'   => KFactory::get('com://admin/users.model.users')->id($contact->user_id)->getItem()->name,
-                           'placeholder' => 'Start typing a name'
-                       )) ?>
+                        <?= @helper('behavior.autocomplete', array('model' => 'com://admin/users.model.users')) ?>
 					</td>
 				</tr>
 				<tr>
