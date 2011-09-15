@@ -260,7 +260,6 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		
 		$config->append(array(
-			'value'      => null,
 			'model'	     => null,
 			'validate'   => true
 		));
@@ -274,6 +273,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		    'url'     => JRoute::_('&option=com_'.$config->model->package.'&view='.$config->model->name.'&format=json', true),
 		    'column'  => KInflector::singularize($config->model->name).'_id'
 		))->append(array(
+		    'value'   => $config->{$config->column} ? $config->{$config->column} : '',
 		    'attribs' => array(
 		        'name'  => $config->column,
 		        'type'  => 'text',
