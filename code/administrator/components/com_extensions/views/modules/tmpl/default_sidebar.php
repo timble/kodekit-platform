@@ -14,7 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
    	<h3><?= @text( 'Site' ); ?></h3>
    	<ul>
         <li <? if(!$state->position && $state->application == 'site') echo 'class="active"' ?>>
-            <a href="<?= @route('&type=&application=site') ?>">
+            <a href="<?= @route('position=&application=site') ?>">
                 <?= @text('All positions') ?>
             </a>
         </li>
@@ -29,7 +29,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <h3><?= @text( 'Administrator' ); ?></h3>
     <ul>
         <li <? if(!$state->position && $state->application == 'administrator') echo 'class="active"' ?>>
-            <a href="<?= @route('&position=&application=administrator') ?>">
+            <a href="<?= @route('position=&application=administrator') ?>">
                 <?= @text('All positions') ?>
             </a>
         </li>
