@@ -11,7 +11,6 @@ Files.Compact.App = new Class({
 		editor: null,
 		preview: 'files-preview',
 		container: {
-			parent_button: false,
 			cookie: false,
 			layout: 'compact',
 			batch_delete: false

@@ -330,7 +330,7 @@ ul#files-tree-html ul li a {
 	display: inline;
 }
 .files-pathway-separator:before, #files-new-folder:before {
-	content: " ► ";
+	content: " > ";
 }
 
 #files-pathway, #files-new-folder-input {

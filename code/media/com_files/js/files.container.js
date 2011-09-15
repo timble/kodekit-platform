@@ -4,7 +4,6 @@ Files.Container = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		onClickParent: $empty,
 		onClickFolder: $empty,
 		onClickFile: $empty,
 		onClickImage: $empty,
@@ -14,7 +13,6 @@ Files.Container = new Class({
 		cookie: 'com.files.view.files.switcher',
 		layout: false,
 		batch_delete: false,
-		parent_button: true,
 		types: null // null for all or array to filter for folder, file and image
 	},
 
@@ -158,25 +156,7 @@ Files.Container = new Class({
 		this.root = new Files.Container.Root();
 		this.root.element.injectInside(this.container);
 
-		if (this.options.parent_button) {
-			var style = this.parent_button ? this.parent_button.element.getStyle('display') : 'table-row';
-			this.renderParent(style);
-		}
-
 		this.renew();
-	},
-	renderParent: function(style) {
-		this.parent_button = new Files.Container.Parent();
-		this.renderObject(this.parent_button, 'first');
-
-		if (style) {
-			this.parent_button.element.setStyle('display', style);
-		}
-
-		this.parent_button.element.getElements('a').addEvent('click', function(e) {
-			e.stop();
-			this.fireEvent('clickParent', arguments);
-		}.bind(this));
 	},
 	renderObject: function(object, position) {
 		var position = position || 'alphabetical';
@@ -233,17 +213,13 @@ Files.Container = new Class({
 
 		return object.element;
 	},
-	reset: function(hide_parent) {
+	reset: function() {
 		this.nodes.each(function(node) {
 			if (node.element) {
 				node.element.dispose();
 			}
 			this.nodes.erase(node.path);
 		}.bind(this));
-
-		if (this.options.parent_button) {
-			this.parent_button.element.setStyle('display', hide_parent === true ? 'none' : 'table-row');
-		}
 	},
 	insert: function(object, position) {
 		if (!this.options.types || this.options.types.contains(object.type)) {
@@ -306,11 +282,6 @@ Files.Container = new Class({
 			return node.type === 'file' || node.type == 'image';
 		}).getKeys().sort();
 	}
-});
-
-Files.Container.Parent = new Class({
-	Implements: Files.Template,
-	template: 'parent'
 });
 
 Files.Container.Root = new Class({
