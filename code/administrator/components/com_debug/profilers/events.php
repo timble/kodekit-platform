@@ -52,15 +52,15 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KObjectInstanti
      *
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance($config = array())
+    public static function getInstance($config = array(), KFactoryInterface $factory = null)
     {
-        static $instance;
-        
-        if ($instance === NULL) {
+        if (!$factory->exists($config->identifier)) 
+        {
             $instance = new self($config);
+            $factory->set($config->identifier, $instance);
         }
         
-        return $instance;
+        return $factory->get($config->identifier);
     }
     
 	/**
