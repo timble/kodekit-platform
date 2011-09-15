@@ -45,7 +45,7 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInst
 		if (!isset($this->_item))
 		{
 			$this->_item = KFactory::get('com://admin/files.database.row.config');
-			$container = KFactory::get('com://admin/files.model.containers')->id((string)$this->_state->container)->getItem();
+			$container = KFactory::get('com://admin/files.model.containers')->slug((string)$this->_state->container)->getItem();
 
 			$this->_item->container = $container;
 			$this->_item->setData(json_decode($container->parameters, true));

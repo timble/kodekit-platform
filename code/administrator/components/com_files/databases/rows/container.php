@@ -20,13 +20,26 @@
 
 class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 {
-	protected function _initialize(KConfig $config)
+	public function save()
 	{
-		$config->append(array(
-			'identity_column' => 'files_container_id'
-		));
+		$is_new = $this->isNew();
+		
+		if ($is_new && $this->container) {
+			$container = KFactory::get('com://admin/files.model.containers')->slug($this->container)->getItem();
+			if ($container->isNew()) {
+				$this->setStatus(KDatabase::STATUS_FAILED);
+				$this->setStatusMessage(JText::_('Invalid container'));
+			}
 
-		parent::_initialize($config);
+			$this->path = rtrim($container->path_value.$this->_data['path'], '/');
+			
+			
+		} 
+		// TODO: make sure the folder exists
+				
+		$result = parent::save();
+		
+		return $result;
 	}
 
 	public function __get($column)

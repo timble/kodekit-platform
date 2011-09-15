@@ -19,5 +19,12 @@
  */
 class ComFilesModelContainers extends ComDefaultModelDefault
 {
+	protected function _buildQueryWhere(KDatabaseQuery $query)
+	{
+		parent::_buildQueryWhere($query);
 
+		if ($this->_state->search) {
+            $query->where('tbl.title', 'LIKE', '%'.$this->_state->search.'%');
+        }
+	}
 }

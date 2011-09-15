@@ -12,15 +12,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('initialize');?>
 
-<script src="media://com_files/js/files.app.js" />
-
 <script>
-Files.sitebase = '<?= trim(JURI::root(), '/'); ?>';
+Files.sitebase = '<?= $sitebase; ?>';
 Files.path = '<?= $path; ?>';
 Files.baseurl = Files.sitebase + '/' + Files.path;
 
-Files.container = '<?= $state->container->id; ?>';
-Files.container_title = '<?= $state->container->title; ?>';
+Files.container = <?= json_encode($state->container->toArray()); ?>;
 Files.token = '<?= JUtility::getToken();?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
@@ -82,6 +79,38 @@ window.addEvent('domready', function() {
 		};
 	});
 
+	$('files-new-container-input').addEvent('keydown', function(e){
+		if (e.key == 'enter' && this.get('value').length > 0) {
+			e.stop();
+			var title = this.get('value');
+			var path = (Files.app.active == '/' ? '' : Files.app.active);
+			path = path.replace('sites/default/', '');
+			
+			var element = this;
+			var request = new Request.JSON({
+				url: '?option=com_files&view=container&format=json',
+				method: 'post',
+				data: {
+					'_token': Files.token,
+					'path': path,
+					'title': title,
+					'container': Files.container.slug
+				},
+				onSuccess: function(response, responseText) {
+					element.set('value', '');
+					Files.app.containertree.addItem(response.item);
+					
+				},
+				onFailure: function(xhr) {
+					resp = JSON.decode(xhr.responseText, true);
+					error = resp && resp.error ? resp.error : 'An error occurred during request';
+					alert(error);
+				}
+			});
+			request.send();
+		}
+	});
+
 });
 </script>
 
@@ -93,6 +122,8 @@ window.addEvent('domready', function() {
 	<div id="sidebar">
 		<div id="files-tree"></div>
 		<?= @template('folders');?>
+		
+		<div id="files-containertree"></div>
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
@@ -103,7 +134,9 @@ window.addEvent('domready', function() {
 			<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>"  />
 			</span>
 			
-			<button id="files-batch-delete" style="float: right; margin-left: 30px;" disabled="disabled"><?= @text('Delete'); ?></button>
+			<button id="files-batch-delete" style="float: right; margin-left: 30px;"><?= @text('Delete'); ?></button>
+			
+			<input class="inputbox" type="text" id="files-new-container-input" style="float: right; margin-left: 0;" placeholder="<?= @text('New Container...'); ?>" />
 			
 			<select id="files-layout-switcher" style="float: right">
 				<option value="icons"><?= @text('Icons'); ?></option>

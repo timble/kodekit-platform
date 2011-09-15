@@ -24,11 +24,11 @@ class ComFilesDatabaseTableContainers extends KDatabaseTableDefault
 	{
 		$config->append(array(
 			'filters' => array(
-				'files_container_id' => 'identifier',
-				'path'               => 'com.files.filter.path',
+				'slug' 				 => 'cmd',
+				'path'               => 'com://admin/files.filter.path',
 				'parameters'         => 'json'
 			),
-			'identity_column' => 'files_container_id'
+			'behaviors' => array('sluggable')
 		));
 
 		parent::_initialize($config);

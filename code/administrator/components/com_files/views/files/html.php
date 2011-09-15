@@ -41,15 +41,11 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 		$config = KFactory::get('com://admin/files.model.configs')->getItem();
 
-		// prepare an extensions array for fancyupload
-		$extensions = $config->upload_extensions;
-
-		$this->assign('allowed_extensions', $extensions);
+		$this->assign('allowed_extensions', $config->upload_extensions);
 		$this->assign('maxsize'           , $config->upload_maxsize);
 		$this->assign('path'              , $state->container->relative_path);
-		$this->assign('sitebase'          , ltrim(JURI::root(true), '/'));
+		$this->assign('sitebase'          , trim(JURI::root(), '/'));
 		$this->assign('token'             , JUtility::getToken());
-		$this->assign('session'           , JFactory::getSession());
 
 		if (!$this->editor) {
 			$this->assign('editor', '');
