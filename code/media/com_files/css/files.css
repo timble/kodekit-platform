@@ -336,3 +336,71 @@ ul#files-tree-html ul li a {
 #files-pathway, #files-new-folder-input {
 font-size: 12px;
 }
+
+#files-paginator-container {
+	background-color: #F7F7F7;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
+	border-top: 1px solid #E1E1E1;
+	padding: 4px;
+}
+
+#files-paginator {
+	float: right;
+}
+
+#files-paginator div.limit {
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	margin: 0 10px;
+}
+
+#files-paginator div.page a,
+#files-paginator div.page span {
+	float: left;
+	margin: 0;
+	padding: 0 10px;
+	border-top: 1px solid #BBB;
+	border-bottom: 1px solid #BBB;
+	border-right: 0px none;
+	border-left: 0px none;
+	border-radius: 0;
+}
+
+#files-paginator div.prev a,
+#files-paginator div.prev span {
+	border-right: 0 none;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+#files-paginator div.next a,
+#files-paginator div.next span {
+	border-left: 0 none;
+	margin-left: 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+#files-paginator .active,
+#files-paginator div.page span {
+	color: #333;
+	font-weight: bold;
+	-webkit-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+	-moz-box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
+}
+
+#files-paginator div.off a,
+#files-paginator div.off span {
+	border-color: #D7D7D7;
+	color: #999;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	
+}
