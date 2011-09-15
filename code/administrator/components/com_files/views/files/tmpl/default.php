@@ -65,7 +65,6 @@ window.addEvent('domready', function() {
 		};
 	});
 	$('files-new-container-create').addEvent('click', function(e){
-		console.log('e');
 		var element = this;
 		var title = $('files-new-container-input').get('value');
 		if (title.length > 0) {
