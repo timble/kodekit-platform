@@ -8,20 +8,18 @@
  * @link        http://www.nooku.org
  */
 
-//Instantiate the factory singleton
-KFactory::getInstance();
+
 
 /**
- * KFactory class
+ * Factory Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
  * @package     Koowa_Factory
  * @static
  * @uses 		KIdentifier
- * @uses		KCommandContext
  */
-class KFactory
+class KFactory implements KFactoryInterface
 {
 	/**
 	 * The object container
@@ -170,9 +168,8 @@ class KFactory
 	/**
      * Set a mixin or an array of mixins for an identifier
      * 
-     * The mixins are mixed when the indentified object is first instantiated see {@linkk get} and 
-     * {$link tmp} Mixins are also added to existing singleton objects that already exist in the
-     * object store.
+     * The mixins are mixed when the indentified object is first instantiated see {@link get}
+     * Mixins are also added to objects that already exist in the object registry.
      *
      * @param  mixed        An identifier string, KIdentfier object or an array of identifiers 
      * @param  string|array A mixin identifier or a array of mixin identifiers
@@ -203,7 +200,7 @@ class KFactory
             }
         }
     }
-
+    
     /**
      * Perform the actual mixin of all registered mixins with an object 
      * 
@@ -244,7 +241,7 @@ class KFactory
                             
         // If the class has an instantiate method call it
         if(array_key_exists('KObjectInstantiatable', class_implements($identifier->classname))) {
-            $result = call_user_func(array($identifier->classname, 'getInstance'), $config);
+            $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
         } else {
             $result = new $identifier->classname($config);
         }
@@ -256,3 +253,6 @@ class KFactory
         return $result;
     }
 }
+
+//Instantiate the factory singleton
+KFactory::getInstance();
