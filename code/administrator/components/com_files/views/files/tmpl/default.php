@@ -98,14 +98,23 @@ window.addEvent('domready', function() {
 		}
 	});
 
-	$('files-new-folder-toolbar').addEvent('click', function(e) {
-		e.stop();
-		SqueezeBox.open($('files-new-folder-modal'), {
-			handler: 'adopt',
-			size: {x: 300, y: 200}
-		});
-	});
-
+    var createModal = function(container, button){
+        var modal = $(container);
+        document.body.grab(modal);
+        modal.setStyle('display', 'none');
+    	$(button).addEvent('click', function(e) {
+    		e.stop();
+    		var coordinates = this.getCoordinates();
+    		
+    		modal.setStyles({
+    		    'display': modal.getStyle('display') != 'block' ? 'block' : 'none',
+    		    'top': coordinates.bottom,
+    		    'left': coordinates.left
+    		});
+    	});
+    };
+    createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+    createModal('files-new-container-modal', 'files-new-container-toolbar');
 });
 </script>
 
@@ -146,11 +155,11 @@ window.addEvent('domready', function() {
 </div>
 
 <div style="display: block">
-	<div id="files-new-folder-modal">
+	<div id="files-new-folder-modal" class="modal">
 		<input class="inputbox" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
 	</div>
-	<div id="files-new-container-modal">
+	<div id="files-new-container-modal" class="modal">
 		<input class="inputbox" type="text" id="files-new-container-input"  />
 		<button id="files-new-container-create"><?= @text('Create'); ?></button>
 	</div>
