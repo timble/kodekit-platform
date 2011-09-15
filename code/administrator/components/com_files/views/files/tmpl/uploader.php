@@ -50,6 +50,12 @@ window.addEvent('domready', function() {
 
 	var uploader = element.pluploadQueue();
 
+	document.id('files-upload-multi_filelist').setStyle('display', 'none');
+	uploader.bind('QueueChanged', function(uploader) {
+		var style = uploader.files.length == 0 ? 'none' : 'block';
+		document.id('files-upload-multi_filelist').setStyle('display', style);
+	});
+
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
 		uploader.settings.multipart_params.parent = Files.app.getPath();
@@ -93,15 +99,21 @@ window.addEvent('domready', function() {
  */
 window.addEvent('domready', function() {
 	var toggleForm = function(type) {
+		var el = document.id('files-uploader-'+type);
+		var style = el.getStyle('display') == 'block' ? 'none' : 'block';
+
 		$$('.upload-form').setStyle('display', 'none');
-		document.id('files-uploader-'+type).setStyle('display', 'block');
+
+		if (style == 'block') {
+			el.setStyle('display', style);
+		}
+		
 	};
 	
 	$$('.upload-form-toggle').addEvent('click', function(e) {
 		e.stop();
 		toggleForm(this.get('data-type'));
 	});
-	toggleForm('computer');
 });
 
 /**
@@ -159,7 +171,7 @@ window.addEvent('domready', function() {
 
 	</div>
 	<div class="clr"></div>
-	<div id="files-uploader-web" class="upload-form">
+	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="<?= @route('view=file&format=json&container='.$state->container->id) ?>" method="post" name="remoteForm" id="remoteForm" >
 			<fieldset class="actions adminform">
 				<table class="admintable">
