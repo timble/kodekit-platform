@@ -171,8 +171,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
 		$data   = $context->caller->execute($action, $context);
 		
+		$data = null;
+		
 		//Create the redirect
-		$url  = clone KRequest::url();
+		$url = clone KRequest::url();
 	
 		if($this->getModel()->getState()->isUnique())
 		{
@@ -183,7 +185,14 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		        $url->query[$key] = $data->get($key);
 		    }
 		}
-		else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
+		else
+		{ 
+		    if ($data instanceof KDatabaseRowAsbtract) { 
+                $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn()); 
+            } else { 
+                $url = $this->getReferrer();
+            }
+		}
 		
 		$this->setRedirect($url);
 		
