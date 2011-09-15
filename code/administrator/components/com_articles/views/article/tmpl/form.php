@@ -101,7 +101,7 @@ defined('KOOWA') or die('Restricted access') ?>
                             <label for="created_by"><?= @text('Author') ?></label>
                         </td>
                         <td class="paramlist_value">
-                            <?= @helper('behavior.autocomplete', array('model' => 'com://admin/users.model.users', 'column' => 'created_by', 'value' =>  $article->id ? $article->created_by : $user->id)) ?>
+                            <?= @helper('com://admin/users.template.helper.autocomplete.users', array('column' => 'created_by', 'value' => $article->id ? $article->created_by : $user->id)) ?>
                         </td>
                     </tr>
                     <tr>

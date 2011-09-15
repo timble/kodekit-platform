@@ -75,7 +75,7 @@ defined('KOOWA') or die('Restricted access') ?>
 						</label>
 					</td>
 					<td>
-                        <?= @helper('behavior.autocomplete', array('model' => 'com://admin/users.model.users')) ?>
+                        <?= @helper('com://admin/users.template.helper.autocomplete.users') ?>
 					</td>
 				</tr>
 				<tr>
