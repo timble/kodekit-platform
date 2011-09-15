@@ -159,7 +159,7 @@ Files.Container = new Class({
 		this.root.element.injectInside(this.container);
 
 		if (this.options.parent_button) {
-			var style = this.parent_button ? this.parent_button.element.getStyle('display') : 'block';
+			var style = this.parent_button ? this.parent_button.element.getStyle('display') : 'table-row';
 			this.renderParent(style);
 		}
 
@@ -186,10 +186,10 @@ Files.Container = new Class({
 		object.element.store('row', object);
 
 		if (position == 'last') {
-			object.element.inject(this.root.element, 'bottom');
+			this.root.adopt(object.element, 'bottom');
 		}
 		else if (position == 'first') {
-			object.element.inject(this.root.element, 'top');
+			this.root.adopt(object.element);
 		}
 		else {
 			var index = this.nodes.filter(function(node){
@@ -205,11 +205,11 @@ Files.Container = new Class({
 						object.element.inject(target.element, 'before');
 					}
 					else {
-						object.element.inject(this.root.element, 'bottom');
+						this.root.adopt(object.element, 'bottom');
 					}
 				}
 				else {
-					object.element.inject(this.root.element, 'bottom');
+					this.root.adopt(object.element, 'bottom');
 				}
 
 			}
@@ -242,7 +242,7 @@ Files.Container = new Class({
 		}.bind(this));
 
 		if (this.options.parent_button) {
-			this.parent_button.element.setStyle('display', hide_parent === true ? 'none' : 'block');
+			this.parent_button.element.setStyle('display', hide_parent === true ? 'none' : 'table-row');
 		}
 	},
 	insert: function(object, position) {
@@ -319,7 +319,12 @@ Files.Container.Root = new Class({
 	initialize: function() {
 		this.element = this.render();
 	},
-	adopt: function(element) {
-		element.injectInside(this.element);
+	adopt: function(element, position) {
+		position = position || 'top'; 
+		var parent = this.element;
+		if (this.element.get('tag') == 'table') {
+			parent = this.element.getElement('tbody');
+		}
+		element.injectInside(parent, position);
 	}
 });
