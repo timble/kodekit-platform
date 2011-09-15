@@ -42,14 +42,6 @@ var path = (Files.sitebase ? '/' : '')+ (baseurl ? baseurl+'/'+path : path);
 </ul>
 </textarea>
 
-<textarea style="display: none"  id="compact_parent">
-<li class="files-node">
-	<a class="navigate" href="#">
-		..
-	</a>
-</li>
-</textarea>
-
 <textarea style="display: none"  id="compact_image">
 <li class="files-node files-image">
 	<a class="navigate" href="#">

@@ -27,19 +27,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </div>
 </textarea>
 
-<textarea style="display: none" id="details_parent">
-	<tr class="files-node">
-		<td class="description">
-			<a href="#" class="navigate">
-				<img src="media://com_files/images/folderup_16.png" width="16" height="16" border="0" alt=".." />
-				..
-			</a>
-		</td>
-		<td></td>
-		<td></td>
-	</tr>
-</textarea>
-
 <textarea style="display: none" id="details_folder">
 	<tr class="files-node files-folder">
 		<td>

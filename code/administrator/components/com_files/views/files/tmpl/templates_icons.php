@@ -17,24 +17,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 </div>
 </textarea>
-<textarea style="display: none" id="icons_parent">
-<div class="imgOutline files-node">
-	<div class="imgTotal">
-		<div align="center" class="imgBorder">
-			<a href="#" class="navigate">
-				<img src="media://com_files/images/folderup_32.png" width="32" height="32" border="0" alt=".." />
-			</a>
-		</div>
-	</div>
-	<div class="controls">
-	</div>
-	<div class="imginfoBorder ellipsis">
-		<a href="#" class="navigate">
-			..
-		</a>
-	</div>
-</div>
-</textarea>
 
 <textarea style="display: none" id="icons_controls">
 <div class="controls">
