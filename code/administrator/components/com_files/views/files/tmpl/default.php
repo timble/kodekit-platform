@@ -47,13 +47,13 @@ window.addEvent('domready', function() {
 	 * This is too dirty. Doesn't really work either after the second change event
 	 */
 	var switchLayoutEvt = function(layout) {
-		container_div = 'files-paginator-container';
+		grid_div = 'files-paginator-container';
 		if (layout == 'details') {
-			container_div += '-details';
+			grid_div += '-details';
 		} 
-		document.id(container_div).adopt(document.id('files-paginator'));
+		document.id(grid_div).adopt(document.id('files-paginator'));
 	};
-	Files.app.container.addEvent('switchLayout', switchLayoutEvt);
+	Files.app.grid.addEvent('switchLayout', switchLayoutEvt);
 	Files.app.addEvent('afterSelect', function() {
 		switchLayoutEvt(Files.Template.layout);
 	});
@@ -70,7 +70,7 @@ window.addEvent('domready', function() {
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
-				Files.app.container.insert(row);
+				Files.app.grid.insert(row);
 				Files.app.tree.selected.insert({
 					text: row.name,
 					id: row.path,
@@ -111,7 +111,7 @@ window.addEvent('domready', function() {
 			</select>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
-			<div id="files-container">
+			<div id="files-grid">
 	
 			</div>
 		</div>

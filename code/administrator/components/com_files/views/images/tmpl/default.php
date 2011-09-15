@@ -58,7 +58,7 @@ window.addEvent('domready', function() {
 
 	document.id('details').adopt(document.id('image-insert-form'));
 
-	Files.app.container.addEvent('clickImage', function(e) {
+	Files.app.grid.addEvent('clickImage', function(e) {
 		var target = document.id(e.target).getParent('.files-node');
 		var row = target.retrieve('row');
 		

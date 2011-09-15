@@ -72,7 +72,7 @@ window.addEvent('domready', function() {
 			var cls = Files[item.type.capitalize()];
 			var row = new cls(item);
 
-			Files.app.container.insert(row);
+			Files.app.grid.insert(row);
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
 			var error = json.error ? json.error : 'Unknown error';

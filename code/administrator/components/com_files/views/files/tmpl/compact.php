@@ -52,7 +52,7 @@ window.addEvent('domready', function() {
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
-				Files.app.container.insert(row);
+				Files.app.grid.insert(row);
 				Files.app.tree.selected.insert({
 					text: row.name,
 					id: row.path,
@@ -75,7 +75,7 @@ window.addEvent('domready', function() {
 	<?= @helper('tabs.startPanel', array('title' => 'Insert')); ?>
 		<div id="insert" class="-koowa-box-horizontal">
 			<div id="files-tree" class="-koowa-box-flex scroll" style="float: left; width: 200px"></div>
-			<div id="files-container" class="scroll" style="float: left"></div>
+			<div id="files-grid" class="scroll" style="float: left"></div>
 			<div id="details" class="-koowa-box-vertical" style="float: left">
 				<div id="files-preview" class="-koowa-box-flex"></div>
 			</div>
