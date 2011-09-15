@@ -10,7 +10,7 @@ Files.Compact.App = new Class({
 		types: ['file', 'image'],
 		editor: null,
 		preview: 'files-preview',
-		container: {
+		grid: {
 			cookie: false,
 			layout: 'compact',
 			batch_delete: false
@@ -25,8 +25,8 @@ Files.Compact.App = new Class({
 	},
 	setPaginator: function() {
 	},
-	setContainer: function() {
-		var opts = this.options.container;
+	setGrid: function() {
+		var opts = this.options.grid;
 		var that = this;
 		$extend(opts, {
 			'onClickParent': function(e) {
@@ -59,7 +59,7 @@ Files.Compact.App = new Class({
 				copy.render().inject(that.preview);
 			}
 		});
-		this.container = new Files.Container(this.options.container.element, opts);
+		this.grid = new Files.Grid(this.options.grid.element, opts);
 	},
 	navigate: function(path) {
 		if (path) {

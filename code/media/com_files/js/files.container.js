@@ -1,6 +1,6 @@
 
 
-Files.Container = new Class({
+Files.Grid = new Class({
 	Implements: [Events, Options],
 
 	options: {
@@ -21,7 +21,7 @@ Files.Container = new Class({
 
 		this.nodes = new Hash();
 		this.container = document.id(container);
-
+console.log(container);
 		if (this.options.switcher) {
 			this.options.switcher = document.id(this.options.switcher);
 		}
@@ -153,7 +153,7 @@ Files.Container = new Class({
 	},
 	render: function() {
 		this.container.empty();
-		this.root = new Files.Container.Root();
+		this.root = new Files.Grid.Root();
 		this.root.element.injectInside(this.container);
 
 		this.renew();
@@ -284,7 +284,7 @@ Files.Container = new Class({
 	}
 });
 
-Files.Container.Root = new Class({
+Files.Grid.Root = new Class({
 	Implements: Files.Template,
 	template: 'container',
 	initialize: function() {

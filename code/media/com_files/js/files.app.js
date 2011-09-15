@@ -12,8 +12,8 @@ Files.App = new Class({
 			adopt: 'files-tree-html',
 			theme: ''
 		},
-		container: {
-			element: 'files-container',
+		grid: {
+			element: 'files-grid',
 			batch_delete: '#files-batch-delete'
 		},
 		paginator: {
@@ -28,12 +28,12 @@ Files.App = new Class({
 		this.setOptions(options);
 		
 		if (this.options.types !== null) {
-			this.options.container.types = this.options.types;
+			this.options.grid.types = this.options.types;
 			Files.state.types = this.options.types; 
 		}
 
 		this.setPathway();
-		this.setContainer();
+		this.setGrid();
 		this.setTree();
 		this.setPaginator();
 		
@@ -94,13 +94,9 @@ Files.App = new Class({
 			that.paginator.setValues();
 		})
 	},
-	setContainer: function() {
-		var opts = this.options.container;
+	setGrid: function() {
+		var opts = this.options.grid;
 		$extend(opts, {
-			'onClickParent': function(e) {
-				var parent = this.tree.selected ? this.tree.selected.parent : null;
-				this.navigate('/'+ (parent && parent.id ? parent.id : ''));
-			}.bind(this),
 			'onClickFolder': function(e) {
 				var target = document.id(e.target);
 				var path = target.getParent('.files-node').retrieve('path');
@@ -129,17 +125,23 @@ Files.App = new Class({
 				}
 			}.bind(this)
 		});
-		this.container = new Files.Container(this.options.container.element, opts);
+		this.grid = new Files.Grid(this.options.grid.element, opts);
 	},
 	setTree: function() {
 		var opts = this.options.tree;
 		var that = this;
 		$extend(opts, {
 			onClick: function(node) {
-				this.navigate('/'+ (node && node.id ? node.id : ''));
+				if (node.data && node.data.type === 'container') {
+					window.location = Files.sitebase+'/administrator/index.php?option=com_files&view=files&container='+node.data.id;
+					return;
+				}
+				else if (node.id || node.data.url) {
+					this.navigate('/'+ (node && node.id ? node.id : ''));
+				}
 			}.bind(this),
 			root: {
-				text: '/',
+				text: Files.container_title,
 				data: {
 					url: '#/'
 				}
@@ -158,6 +160,28 @@ Files.App = new Class({
 				}
 			}
 		});
+		
+		var req = new Request.JSON({
+			url: 'index.php?option=com_files&view=containers&format=json&limit=0',
+			onSuccess: function(response) {
+				tree.root.insert({
+					text: '-----'
+				});
+				$each(response.items, function(item) {
+					if (item.id == Files.container) {
+						return;
+					}
+					tree.root.insert({
+						text: item.title,
+						data: {
+							id: item.id,
+							type: 'container'
+						}
+					});
+				});
+			}
+		});
+		req.get();
 	},
 	navigate: function(path) {
 		this.fireEvent('beforeNavigate', path);
@@ -172,13 +196,13 @@ Files.App = new Class({
 		var is_root = this.active === '/';
 
 		$$('.file-basepath').set('value', is_root ? '' : this.active);
-		this.container.reset(is_root);
+		this.grid.reset();
 
 		var that = this;
 		this.folder = new Files.Folder({'path': this.active});
 		this.folder.getChildren(function(resp) {
 			that.response = resp;
-			that.container.insertRows(resp.items);
+			that.grid.insertRows(resp.items);
 			
 			that.fireEvent('afterSelect', resp);
 
@@ -192,7 +216,7 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-		var nodes = this.container.nodes;
+		var nodes = this.grid.nodes;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
 			var url = 'index.php?option=com_files&view=thumbnails&format=json&folder='+this.active+'&container='+Files.container;
 			url += '&'+Hash.toQueryString({offset: Files.state.offset, limit: Files.state.limit});
