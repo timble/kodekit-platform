@@ -32,18 +32,18 @@ class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
              ->insert('search'    , 'string');
     }
     
-    public static function getInstance($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
+    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    { 
+       // Check if an instance with this identifier already exists or not
+        if (!$factory->exists($config->identifier))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
-            $instance = new $classname($config);
+            $instance  = new $classname($config);
+            $factory->set($config->identifier, $instance);
         }
         
-        return $instance;
+        return $factory->get($config->identifier);
     }
     
     public function getList()
