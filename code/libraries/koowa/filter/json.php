@@ -54,8 +54,15 @@ class KFilterJson extends KFilterAbstract
         // If instance of KConfig casting to string will make it encode itself to JSON
         if($value instanceof KConfig) {    
             $result = (string) $value; 
-        } else {
-            $result =  json_encode($value);
+        } 
+        else 
+        {
+            //Don't re-encode if the value is already in json format
+            if(is_string($value) && (json_decode($value) !== NULL)) {
+                $result = $value;
+            } else {
+                $result = json_encode($value);
+            }
         }
             
         return $result;
