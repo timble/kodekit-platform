@@ -21,7 +21,7 @@ Files.Grid = new Class({
 
 		this.nodes = new Hash();
 		this.container = document.id(container);
-console.log(container);
+
 		if (this.options.switcher) {
 			this.options.switcher = document.id(this.options.switcher);
 		}

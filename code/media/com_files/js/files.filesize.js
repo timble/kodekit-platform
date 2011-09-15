@@ -19,3 +19,21 @@ Files.Filesize = new Class({
 		return (i === 0 ? size : size.toFixed(2)) + ' ' + this.options.units[i];
 	}
 });
+
+Files.getUrl = function(dict) {
+	dict = dict || {};
+
+	dict.option = dict.option || 'com_files';
+	dict.view = dict.view || 'files';
+	dict.format = dict.format || 'json';
+	if (dict.container !== false && !dict.container) {
+		dict.container = Files.container.slug;
+	}
+	if (dict.format == 'html') {
+		delete dict.format;
+	}
+	
+	return '?'+new Hash(dict).filter(function(value, key) {
+		return typeof value !== 'function';
+	}).toQueryString();
+};

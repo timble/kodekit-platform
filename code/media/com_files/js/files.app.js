@@ -92,7 +92,7 @@ Files.App = new Class({
 				total: response.total
 			});
 			that.paginator.setValues();
-		})
+		});
 	},
 	setGrid: function() {
 		var opts = this.options.grid;
@@ -132,16 +132,12 @@ Files.App = new Class({
 		var that = this;
 		$extend(opts, {
 			onClick: function(node) {
-				if (node.data && node.data.type === 'container') {
-					window.location = Files.sitebase+'/administrator/index.php?option=com_files&view=files&container='+node.data.id;
-					return;
-				}
-				else if (node.id || node.data.url) {
+				if (node.id || node.data.url) {
 					this.navigate('/'+ (node && node.id ? node.id : ''));
 				}
 			}.bind(this),
 			root: {
-				text: Files.container_title,
+				text: Files.container.title,
 				data: {
 					url: '#/'
 				}
@@ -161,27 +157,43 @@ Files.App = new Class({
 			}
 		});
 		
-		var req = new Request.JSON({
-			url: 'index.php?option=com_files&view=containers&format=json&limit=0',
-			onSuccess: function(response) {
-				tree.root.insert({
-					text: '-----'
-				});
-				$each(response.items, function(item) {
-					if (item.id == Files.container) {
-						return;
+		var ContainerTree = new Class({
+			Extends: Files.Tree,
+			addItem: function(item) {
+				if (item.id == Files.container.id) {
+					return;
+				}
+
+				this.root.insert({
+					text: item.title,
+					data: {
+						id: item.slug,
+						type: 'container'
 					}
-					tree.root.insert({
-						text: item.title,
-						data: {
-							id: item.id,
-							type: 'container'
-						}
-					});
 				});
 			}
 		});
-		req.get();
+		this.containertree = new ContainerTree({
+			div: 'files-containertree',
+			theme: this.options.tree.theme,
+			mode: 'files',
+			root: {
+				text: 'Other Containers'
+			},
+			onClick: function(node) {
+				if (node.data && node.data.type === 'container') {
+					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
+					return;
+				}
+			}
+		});
+		
+		new Request.JSON({
+			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
+			onSuccess: function(response) {
+				$each(response.items, this.containertree.addItem.bind(this.containertree));
+			}.bind(this)
+		}).get();
 	},
 	navigate: function(path) {
 		this.fireEvent('beforeNavigate', path);
@@ -218,8 +230,12 @@ Files.App = new Class({
 	setThumbnails: function() {
 		var nodes = this.grid.nodes;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
-			var url = 'index.php?option=com_files&view=thumbnails&format=json&folder='+this.active+'&container='+Files.container;
-			url += '&'+Hash.toQueryString({offset: Files.state.offset, limit: Files.state.limit});
+			var url = Files.getUrl({
+				view: 'thumbnails',
+				offset: Files.state.offset, 
+				limit: Files.state.limit,
+				folder: this.active
+			});
 			new Request.JSON({
 				url: url,
 				method: 'get',

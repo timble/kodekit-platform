@@ -22,7 +22,7 @@ Files.File = new Class({
 	'delete': function(success, failure) {
 		var path = this.path;
 		var request = new Request.JSON({
-			url: '?option=com_files&view=files&format=json&path='+path+'&container='+Files.container,
+			url: Files.getUrl({path: path}),
 			method: 'post',
 			data: {
 				'action': 'delete',
@@ -77,19 +77,13 @@ Files.Folder = new Class({
 	getChildren: function(success, failure, extra_vars) {
 		var path = this.path;
 		var url = {
-			option: 'com_files',
 			view: 'nodes',
-			folder: path,
-			container: Files.container,
-			format: 'json'
+			folder: path
 		};
-		
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
-		var url = '?'+new Hash(url).filter(function(value, key) {
-			return typeof value !== 'function';
-		}).toQueryString();
+		var url = Files.getUrl(url);
 			
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
@@ -99,7 +93,7 @@ Files.Folder = new Class({
 	'add': function(success, failure) {
 		var path = this.path;
 		var request = new Request.JSON({
-			url: '?option=com_files&view=folder&format=json&container='+Files.container,
+			url: Files.getUrl({view: 'folder'}),
 			method: 'post',
 			data: {
 				'_token': Files.token,
@@ -127,7 +121,7 @@ Files.Folder = new Class({
 	'delete': function(success, failure) {
 		var path = this.path;
 		var request = new Request.JSON({
-			url: '?option=com_files&view=folders&format=json&path='+path+'&container='+Files.container,
+			url: Files.getUrl({view: 'folders', path: path}),
 			method: 'post',
 			data: {
 				'action': 'delete',
