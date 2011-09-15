@@ -42,21 +42,21 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
      *
      * @return KDispatcherDefault
      */
-    public static function getInstance($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
+    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    { 
+       // Check if an instance with this identifier already exists or not
+        if (!$factory->exists($config->identifier))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
-            $instance = new $classname($config);
-              
+            $instance  = new $classname($config);
+            $factory->set($config->identifier, $instance);
+            
             //Add the factory map to allow easy access to the singleton
             KIdentifier::map('dispatcher', $config->identifier);
         }
         
-        return $instance;
+        return $factory->get($config->identifier);
     }
     
     /**
