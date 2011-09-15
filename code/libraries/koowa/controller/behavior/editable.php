@@ -170,9 +170,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{
 		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
 		$data   = $context->caller->execute($action, $context);
-		
-		$data = null;
-		
+	
 		//Create the redirect
 		$url = clone KRequest::url();
 	
