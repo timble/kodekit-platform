@@ -20,6 +20,7 @@ Files.path = '<?= $path; ?>';
 Files.baseurl = Files.sitebase + '/' + Files.path;
 
 Files.container = '<?= $state->container->id; ?>';
+Files.container_title = '<?= $state->container->title; ?>';
 Files.token = '<?= JUtility::getToken();?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
@@ -40,6 +41,21 @@ window.addEvent('domready', function() {
 			theme: 'media://com_files/images/mootree.png'
 		},
 		types: <?= json_encode($state->types); ?>
+	});
+
+	/*
+	 * This is too dirty. Doesn't really work either after the second change event
+	 */
+	var switchLayoutEvt = function(layout) {
+		container_div = 'files-paginator-container';
+		if (layout == 'details') {
+			container_div += '-details';
+		} 
+		document.id(container_div).adopt(document.id('files-paginator'));
+	};
+	Files.app.container.addEvent('switchLayout', switchLayoutEvt);
+	Files.app.addEvent('afterSelect', function() {
+		switchLayoutEvt(Files.Template.layout);
 	});
 
 	$('files-new-folder-input').addEvent('keydown', function(e){
@@ -94,13 +110,12 @@ window.addEvent('domready', function() {
 				<option value="details"><?= @text('Details'); ?></option>
 			</select>
 		</div>
-		
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-container">
 	
 			</div>
 		</div>
-	
+
 		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
 	
 		<?= @template('uploader');?>

@@ -23,6 +23,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</thead>
 		<tbody>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td id="files-paginator-container-details" colspan="16"></td>
+			</tr>
+		</tfoot>
 	</table>
 </div>
 </textarea>
