@@ -36,9 +36,13 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 
-		KFactory::get('com://admin/files.model.configs')
+		$config = KFactory::get('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
+		if ($config->container->isNew()) {
+			// non-existent container
+			throw new KControllerException(JText::_('Invalid Container'));
+		}
 
 		return $request;
 	}
