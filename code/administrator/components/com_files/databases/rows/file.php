@@ -160,6 +160,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$data['extension'] = $this->extension;
 		$data['size']      = $this->size;
 		$data['icons']     = $this->icons;
+		$data['modified_date'] = $this->modified_date;
 
 		if ($this->isImage() == 'image')
 		{
@@ -187,6 +188,10 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($column == 'size' && !isset($this->_data['size'])) {
 			$this->_data['size'] = $this->getSize();
+		}
+		
+		if ($column == 'modified_date' && !isset($this->_data['modified_date'])) {
+			$this->_data['modified_date'] = $this->getModifiedDate();
 		}
 
 		if ($column == 'relative_folder') {
@@ -240,6 +245,11 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$path .= '/'.$this->path;
 
 		return $path;
+	}
+	
+	public function getModifiedDate()
+	{
+		return file_exists($this->fullpath) ? filemtime($this->fullpath) : null;
 	}
 
 	public function getSize()

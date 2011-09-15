@@ -19,6 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<th><?= @text('Name'); ?></th>
 				<th><?= @text('Dimensions'); ?></th>
 				<th><?= @text('Size'); ?></th>
+				<th><?= @text('Last Modified'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,10 +46,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</td>
 		<td></td>
 		<td></td>
+		<td></td>
 	</tr>
 </textarea>
 
 <textarea style="display: none" id="details_file">
+	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-file">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
@@ -63,10 +66,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<td align="center">
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
+		<td align="center">
+			[%=date.toUTCString()%]
+		</td>
 	</tr>
 </textarea>
 
 <textarea style="display: none" id="details_image">
+	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-image">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
@@ -82,6 +89,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</td>
 		<td align="center">
 			[%=new Files.Filesize(size).humanize()%]
+		</td>
+		<td align="center">
+			[%=date.toUTCString()%]
 		</td>
 	</tr>
 </textarea>
