@@ -32,10 +32,8 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 			}
 
 			$this->path = rtrim($container->path_value.$this->_data['path'], '/');
-			
-			
+			$this->parameters = json_encode($container->getParameters()->getData());
 		} 
-		// TODO: make sure the folder exists
 				
 		$result = parent::save();
 		

@@ -65,9 +65,9 @@ window.addEvent('domready', function() {
 		};
 	});
 	$('files-new-container-create').addEvent('click', function(e){
-		e.stop();
+		console.log('e');
 		var element = this;
-		var title = $('files-new-folder-input').get('value');
+		var title = $('files-new-container-input').get('value');
 		if (title.length > 0) {
 			var element = this;
 			var path = (Files.app.active == '/' ? '' : Files.app.active);
@@ -123,7 +123,6 @@ window.addEvent('domready', function() {
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path">
-		    
 			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
 			<button id="files-new-container-toolbar" style="float: left;"><?= @text('New Container'); ?></button>
 			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
@@ -134,15 +133,11 @@ window.addEvent('domready', function() {
 			</select>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
-			<div id="files-grid">
-	
-			</div>
+			<div id="files-grid"></div>
 		</div>
 
-		<div>
-			
-		    <span id="files-pathway"></span>
-		</div>
+	    <div id="files-pathway"></div>
+
 		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
 	
 		<?= @template('uploader');?>
@@ -150,7 +145,7 @@ window.addEvent('domready', function() {
 	<div style="clear: both"></div>
 </div>
 
-<div style="display: none">
+<div style="display: block">
 	<div id="files-new-folder-modal">
 		<input class="inputbox" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>

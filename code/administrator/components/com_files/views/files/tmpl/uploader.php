@@ -148,8 +148,6 @@ window.addEvent('domready', function() {
 });
 </script>
 
-
-
 <div id="files-upload" style="clear: both">
 	<div id="files-upload-controls">
 		<h3><?= @text('Upload') ?>:</h3>
