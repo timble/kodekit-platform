@@ -40,21 +40,6 @@ window.addEvent('domready', function() {
 		types: <?= json_encode($state->types); ?>
 	});
 
-	/*
-	 * This is too dirty. Doesn't really work either after the second change event
-	 */
-	var switchLayoutEvt = function(layout) {
-		grid_div = 'files-paginator-container';
-		if (layout == 'details') {
-			grid_div += '-details';
-		} 
-		document.id(grid_div).adopt(document.id('files-paginator'));
-	};
-	Files.app.grid.addEvent('switchLayout', switchLayoutEvt);
-	Files.app.addEvent('afterSelect', function() {
-		switchLayoutEvt(Files.Template.layout);
-	});
-
 	$('files-new-folder-input').addEvent('keydown', function(e){
 		if (e.key == 'enter' && this.get('value').length > 0) {
 			e.stop();
