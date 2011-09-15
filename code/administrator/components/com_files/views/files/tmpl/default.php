@@ -40,12 +40,13 @@ window.addEvent('domready', function() {
 		types: <?= json_encode($state->types); ?>
 	});
 
-	$('files-new-folder-input').addEvent('keydown', function(e){
-		if (e.key == 'enter' && this.get('value').length > 0) {
-			e.stop();
-			
+	$('files-new-folder-create').addEvent('click', function(e){
+		e.stop();
+		var element = this;
+		var value = $('files-new-folder-input').get('value');
+		if (value.length > 0) {
 			var element = this;
-			var folder = new Files.Folder({path: this.get('value')});
+			var folder = new Files.Folder({path: value});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
 
@@ -63,11 +64,12 @@ window.addEvent('domready', function() {
 			});
 		};
 	});
-
-	$('files-new-container-input').addEvent('keydown', function(e){
-		if (e.key == 'enter' && this.get('value').length > 0) {
-			e.stop();
-			var title = this.get('value');
+	$('files-new-container-create').addEvent('click', function(e){
+		e.stop();
+		var element = this;
+		var title = $('files-new-folder-input').get('value');
+		if (title.length > 0) {
+			var element = this;
 			var path = (Files.app.active == '/' ? '' : Files.app.active);
 			path = path.replace('sites/default/', '');
 			
@@ -96,6 +98,14 @@ window.addEvent('domready', function() {
 		}
 	});
 
+	$('files-new-folder-toolbar').addEvent('click', function(e) {
+		e.stop();
+		SqueezeBox.open($('files-new-folder-modal'), {
+			handler: 'adopt',
+			size: {x: 300, y: 200}
+		});
+	});
+
 });
 </script>
 
@@ -113,15 +123,10 @@ window.addEvent('domready', function() {
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path">
-		    <span id="files-pathway"></span>
 		    
-		    <span id="files-new-folder">
-			<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>"  />
-			</span>
-			
-			<button id="files-batch-delete" style="float: right; margin-left: 30px;"><?= @text('Delete'); ?></button>
-			
-			<input class="inputbox" type="text" id="files-new-container-input" style="float: right; margin-left: 0;" placeholder="<?= @text('New Container...'); ?>" />
+			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
+			<button id="files-new-container-toolbar" style="float: left;"><?= @text('New Container'); ?></button>
+			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
 			
 			<select id="files-layout-switcher" style="float: right">
 				<option value="icons"><?= @text('Icons'); ?></option>
@@ -134,9 +139,24 @@ window.addEvent('domready', function() {
 			</div>
 		</div>
 
+		<div>
+			
+		    <span id="files-pathway"></span>
+		</div>
 		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
 	
 		<?= @template('uploader');?>
 	</div>
 	<div style="clear: both"></div>
+</div>
+
+<div style="display: none">
+	<div id="files-new-folder-modal">
+		<input class="inputbox" type="text" id="files-new-folder-input"  />
+		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
+	</div>
+	<div id="files-new-container-modal">
+		<input class="inputbox" type="text" id="files-new-container-input"  />
+		<button id="files-new-container-create"><?= @text('Create'); ?></button>
+	</div>
 </div>
