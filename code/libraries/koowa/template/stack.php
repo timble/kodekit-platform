@@ -47,28 +47,24 @@ class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInst
      * Prevent creating clones of this class
      */
     final private function __clone() { }
-    
-    /**
+      
+ 	/**
      * Force creation of a singleton
      *
-     * @return void
+     * @return KTemplateStack
      */
-    public static function getInstance($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
+    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    { 
+       // Check if an instance with this identifier already exists or not
+        if (!$factory->exists($config->identifier))
         {
-            if(!$config instanceof KConfig) {
-                $config = new KConfig($config);
-            }
-            
             //Create the singleton
             $classname = $config->identifier->classname;
-            $instance = new $classname($config);
+            $instance  = new $classname($config);
+            $factory->set($config->identifier, $instance);
         }
         
-        return $instance;
+        return $factory->get($config->identifier);
     }
     
 	/**
