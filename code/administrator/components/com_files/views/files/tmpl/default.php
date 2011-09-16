@@ -124,15 +124,15 @@ window.addEvent('domready', function() {
 	
 	<div id="sidebar">
 		<div id="files-tree"></div>
-		<?= @template('folders');?>
 		
 		<div id="files-containertree"></div>
+		
+			<button id="files-new-container-toolbar"><?= @text('New Container'); ?></button>
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path">
 			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
-			<button id="files-new-container-toolbar" style="float: left;"><?= @text('New Container'); ?></button>
 			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
 			
 			<select id="files-layout-switcher" style="float: right">
