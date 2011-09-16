@@ -26,7 +26,7 @@ Files.getUrl = function(dict) {
 	dict.option = dict.option || 'com_files';
 	dict.view = dict.view || 'files';
 	dict.format = dict.format || 'json';
-	if (dict.container !== false && !dict.container) {
+	if (dict.container !== false && !dict.container && Files.container) {
 		dict.container = Files.container.slug;
 	}
 	if (dict.format == 'html') {

@@ -7,6 +7,8 @@ Files.App = new Class({
 	options: {
 		thumbnails: true,
 		types: null,
+		container: null,
+		active: null,
 		tree: {
 			div: 'files-tree',
 			theme: ''
@@ -26,27 +28,115 @@ Files.App = new Class({
 	initialize: function(options) {
 		this.setOptions(options);
 		
-		if (this.options.types !== null) {
-			this.options.grid.types = this.options.types;
-			Files.state.types = this.options.types; 
-		}
-
-		this.setPathway();
+		this.setContainerTree();
 		this.setGrid();
-		this.setTree();
+		this.setPathway();
 		this.setPaginator();
 		
-		this.setInitialFolder();
+		var hash = window.location.hash.substr(2);
+		if (window.location.hash.substr(1, 1) == '!' && hash) {
+			pieces = hash.split(':', 2);
+			this.options.container = pieces[0];
+			this.options.active = pieces[1] || '/';
+		}
 		
+		if (this.options.container) {
+			this.setContainer(this.options.container);
+		}
+
 		if (this.options.thumbnails) {
 			this.addEvent('afterSelect', function(resp) {
 				this.setThumbnails();
 			});
 		}
 	},
-	setInitialFolder: function() {
-		var hash = window.location.hash.substr(1);
-		this.navigate(hash ? hash : '/');
+	setHash: function() {
+		var hash = '!';
+		if (Files.container) {
+			hash += Files.container.slug+':';
+		}
+		if (this.active) {
+			hash += this.active;
+		}
+		window.location.hash = hash;
+	},
+	setContainer: function(container) {
+		new Request.JSON({
+			url: Files.getUrl({view: 'container', slug: container, container: false}),
+			method: 'get',
+			onSuccess: function(response) {
+				var item = response.item;
+				Files.container = item;
+				Files.path = item.relative_path;
+				Files.baseurl = Files.sitebase + '/' + Files.path;
+
+				this.active = '';
+				window.location.hash = '';
+				
+				if (Files.container.parameters.upload_extensions) {
+					this.uploader.settings.filters = [
+					     {title: 'All Files', extensions: Files.container.parameters.upload_extensions.join(',')}
+	    			];
+				}
+				if (Files.container.parameters.upload_maxsize) {
+					this.uploader.settings.max_file_size = Files.container.parameters.upload_maxsize;
+					document.id('upload-max-size').set('html', new Files.Filesize(Files.container.parameters.upload_maxsize).humanize());
+				}
+				
+				if (this.options.types !== null) {
+					this.options.grid.types = this.options.types;
+					Files.state.types = this.options.types; 
+				}
+
+				this.grid.reset();
+				
+				this.setTree();
+				
+				this.active = this.options.active || '/';
+				this.options.active = '';
+				this.navigate(this.active);
+			}.bind(this)
+		}).send();
+	},
+	setContainerTree: function() {
+		var ContainerTree = new Class({
+			Extends: Files.Tree,
+			addItem: function(item) {
+				/*if (item.id == Files.container.id) {
+					return;
+				}*/
+
+				this.root.insert({
+					text: item.title,
+					data: {
+						id: item.slug,
+						type: 'container'
+					}
+				});
+			}
+		});
+		this.containertree = new ContainerTree({
+			div: 'files-containertree',
+			theme: this.options.tree.theme,
+			mode: 'files',
+			root: {
+				text: 'Other Containers'
+			},
+			onClick: function(node) {
+				if (node.data && node.data.type === 'container') {
+					this.setContainer(node.data.id);return;
+					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
+					return;
+				}
+			}.bind(this)
+		});
+		
+		new Request.JSON({
+			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
+			onSuccess: function(response) {
+				$each(response.items, this.containertree.addItem.bind(this.containertree));
+			}.bind(this)
+		}).get();
 	},
 	setPathway: function() {
 		var opts = this.options.pathway;
@@ -69,7 +159,6 @@ Files.App = new Class({
 		var opts = this.options.paginator;
 		$extend(opts, {
 			'state' : Files.state,
-			'defaults' : Files.state_default,
 			'onClickPage': function(el) {
 				Files.state.limit = el.get('data-limit');
 				Files.state.offset = el.get('data-offset');
@@ -136,7 +225,7 @@ Files.App = new Class({
 				}
 			},
 			root: {
-				text: Files.container.title,
+				text: '/', //Files.container.title,
 				data: {
 					url: '#/'
 				}
@@ -148,44 +237,6 @@ Files.App = new Class({
 		this.addEvent('afterNavigate', function(path) {
 			that.tree.selectPath(path);
 		});
-		
-		var ContainerTree = new Class({
-			Extends: Files.Tree,
-			addItem: function(item) {
-				if (item.id == Files.container.id) {
-					return;
-				}
-
-				this.root.insert({
-					text: item.title,
-					data: {
-						id: item.slug,
-						type: 'container'
-					}
-				});
-			}
-		});
-		this.containertree = new ContainerTree({
-			div: 'files-containertree',
-			theme: this.options.tree.theme,
-			mode: 'files',
-			root: {
-				text: 'Other Containers'
-			},
-			onClick: function(node) {
-				if (node.data && node.data.type === 'container') {
-					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
-					return;
-				}
-			}
-		});
-		
-		new Request.JSON({
-			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
-			onSuccess: function(response) {
-				$each(response.items, this.containertree.addItem.bind(this.containertree));
-			}.bind(this)
-		}).get();
 	},
 	navigate: function(path) {
 		this.fireEvent('beforeNavigate', path);
@@ -199,7 +250,6 @@ Files.App = new Class({
 
 		var is_root = this.active === '/';
 
-		$$('.file-basepath').set('value', is_root ? '' : this.active);
 		this.grid.reset();
 
 		var that = this;
@@ -212,7 +262,8 @@ Files.App = new Class({
 
 		}, null, Files.state);
 
-		window.location.hash = '#'+this.active;
+		//window.location.hash = '#'+this.active;
+		this.setHash();
 	
 		this.fireEvent('afterNavigate', path);
 	},
