@@ -73,7 +73,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.toUTCString()%]
+			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
 		</td>
 	</tr>
 </textarea>
@@ -101,7 +101,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.toUTCString()%]
+			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
 		</td>
 	</tr>
 </textarea>
