@@ -9,7 +9,6 @@ Files.App = new Class({
 		types: null,
 		tree: {
 			div: 'files-tree',
-			adopt: 'files-tree-html',
 			theme: ''
 		},
 		grid: {
@@ -128,14 +127,14 @@ Files.App = new Class({
 		this.grid = new Files.Grid(this.options.grid.element, opts);
 	},
 	setTree: function() {
-		var opts = this.options.tree;
-		var that = this;
+		var opts = this.options.tree,
+			that = this;
 		$extend(opts, {
 			onClick: function(node) {
 				if (node.id || node.data.url) {
-					this.navigate('/'+ (node && node.id ? node.id : ''));
+					that.navigate('/'+ (node && node.id ? node.id : ''));
 				}
-			}.bind(this),
+			},
 			root: {
 				text: Files.container.title,
 				data: {
@@ -144,17 +143,10 @@ Files.App = new Class({
 			}
 		});
 		this.tree = new Files.Tree(opts);
-		var tree = this.tree;
+		this.tree.fromUrl(Files.getUrl({view: 'folders', 'tree': '1', 'limit': '0'}));
+		
 		this.addEvent('afterNavigate', function(path) {
-			if (path) {
-				var node = tree.get(path.substr(1));
-				if (node) {
-					tree.select(node, true);
-				}
-				else {
-					tree.select(tree.root, true);
-				}
-			}
+			that.tree.selectPath(path);
 		});
 		
 		var ContainerTree = new Class({

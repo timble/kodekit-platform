@@ -54,5 +54,53 @@ Files.Tree = new Class({
 		this.parent(id, parentNode);
 
 		this.onAdopt(id, parentNode);
+	},
+	fromUrl: function(url) {
+		var that = this,
+			root = this.root,
+			insertNode = function(item, parent) {
+				var node = parent.insert({
+					text: item.name,
+					id: item.path,
+					data: {
+						url: '#/'+item.path,
+						type: 'folder'
+					}
+				});
+				if (item.children) {
+					$each(item.children, function(item) {
+						insertNode(item, node);
+					});
+				}
+				
+				return node;
+			};
+		
+		new Request.JSON({
+			url: url,
+			method: 'get',
+			onSuccess: function(response) {
+				if (response.total) {
+					$each(response.items, function(item) {
+						insertNode(item, that.root);
+					});
+				}
+				if (Files.app && Files.app.active) {
+					that.selectPath(Files.app.active);
+				}
+				
+			}
+		}).send();
+	},
+	selectPath: function(path) {
+		if (path) {
+			var node = this.get(path.substr(1));
+			if (node) {
+				this.select(node, true);
+			}
+			else {
+				this.select(this.root, true);
+			}
+		}
 	}
 });
