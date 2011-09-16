@@ -39,7 +39,7 @@ window.addEvent('domready', function() {
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();
-		var element = $('files-new-container-input');
+		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
 			var element = this;
