@@ -4,6 +4,7 @@ Files.App = new Class({
 
 	_tmpl_cache: {},
 	active: null,
+	trees: {},
 	options: {
 		thumbnails: true,
 		types: null,
@@ -27,12 +28,7 @@ Files.App = new Class({
 
 	initialize: function(options) {
 		this.setOptions(options);
-		
-		this.setContainerTree();
-		this.setGrid();
-		this.setPathway();
-		this.setPaginator();
-		
+
 		var hash = window.location.hash.substr(2);
 		if (window.location.hash.substr(1, 1) == '!' && hash) {
 			pieces = hash.split(':', 2);
@@ -40,15 +36,19 @@ Files.App = new Class({
 			this.options.active = pieces[1] || '/';
 		}
 		
-		if (this.options.container) {
-			this.setContainer(this.options.container);
-		}
-
 		if (this.options.thumbnails) {
 			this.addEvent('afterSelect', function(resp) {
 				this.setThumbnails();
 			});
 		}
+		
+		this.setContainerTree();
+		this.setGrid();
+		this.setPathway();
+		this.setPaginator();
+		
+		
+
 	},
 	setHash: function() {
 		var hash = '!';
@@ -99,44 +99,43 @@ Files.App = new Class({
 		}).send();
 	},
 	setContainerTree: function() {
-		var ContainerTree = new Class({
-			Extends: Files.Tree,
-			addItem: function(item) {
-				/*if (item.id == Files.container.id) {
-					return;
-				}*/
-
-				this.root.insert({
+		Files.Tree.addItem = function(item) {
+			this.trees[item.slug] = new Files.Tree({
+				div: 'files-containertree',
+				theme: this.options.tree.theme,
+				mode: 'folders',
+				root: {
 					text: item.title,
 					data: {
 						id: item.slug,
 						type: 'container'
 					}
-				});
-			}
-		});
-		this.containertree = new ContainerTree({
-			div: 'files-containertree',
-			theme: this.options.tree.theme,
-			mode: 'files',
-			root: {
-				text: 'Other Containers'
-			},
-			onClick: function(node) {
-				if (node.data && node.data.type === 'container') {
-					this.setContainer(node.data.id);return;
-					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
-					return;
-				}
-			}.bind(this)
-		});
+				},
+				onClick: function(node) {
+					if (node.data && node.data.type === 'container' && !node.data.active) {
+						this.setContainer(node.data.id);
+						node.data.active = true;
+					}
+					else if (node.id || node.data.url) {
+						this.navigate('/'+ (node && node.id ? node.id : ''));
+					}
+				}.bind(this)
+			});
+		}.bind(this);
 		
 		new Request.JSON({
 			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
 			onSuccess: function(response) {
-				$each(response.items, this.containertree.addItem.bind(this.containertree));
+				$each(response.items, Files.Tree.addItem.bind(this));
+				if (this.options.container) {
+					this.setContainer(this.options.container);
+				}
 			}.bind(this)
 		}).get();
+		
+		this.addEvent('afterNavigate', function(path) {
+			this.tree.selectPath(path);
+		}.bind(this));
 	},
 	setPathway: function() {
 		var opts = this.options.pathway;
@@ -216,27 +215,20 @@ Files.App = new Class({
 		this.grid = new Files.Grid(this.options.grid.element, opts);
 	},
 	setTree: function() {
-		var opts = this.options.tree,
-			that = this;
-		$extend(opts, {
-			onClick: function(node) {
-				if (node.id || node.data.url) {
-					that.navigate('/'+ (node && node.id ? node.id : ''));
-				}
-			},
-			root: {
-				text: '/', //Files.container.title,
-				data: {
-					url: '#/'
-				}
-			}
-		});
-		this.tree = new Files.Tree(opts);
-		this.tree.fromUrl(Files.getUrl({view: 'folders', 'tree': '1', 'limit': '0'}));
+		this.tree = this.trees[Files.container.slug];
 		
-		this.addEvent('afterNavigate', function(path) {
-			that.tree.selectPath(path);
-		});
+		$each(this.trees, function(tree) {
+			if (tree == this.tree) {
+				return;
+			}
+			tree.root.data.active = false;
+			tree.root.clear();
+			tree.root.select(false);
+		}.bind(this));
+		
+		this.tree.fromUrl(Files.getUrl({view: 'folders', 'tree': '1', 'limit': '0'}));
+
+		/**/
 	},
 	navigate: function(path) {
 		this.fireEvent('beforeNavigate', path);
