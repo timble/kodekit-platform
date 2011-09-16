@@ -41,7 +41,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	public function save()
 	{
-		KLoader::loadIdentifier('joomla:user.helper');
+		jimport('joomla.user.helper');
 
 		// Load the old row if editing an existing user.
 		if(!$this->_new)
