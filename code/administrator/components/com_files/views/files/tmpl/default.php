@@ -39,8 +39,8 @@ window.addEvent('domready', function() {
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();
-		var element = this;
-		var value = $('files-new-folder-input').get('value');
+		var element = $('files-new-container-input');
+		var value = element.get('value');
 		if (value.length > 0) {
 			var element = this;
 			var folder = new Files.Folder({path: value});
@@ -67,9 +67,8 @@ window.addEvent('domready', function() {
 		if (title.length > 0) {
 			var element = this;
 			var path = (Files.app.active == '/' ? '' : Files.app.active);
-			path = path.replace('sites/default/', '');
 			
-			var element = this;
+			var element = $('files-new-container-input');
 			var request = new Request.JSON({
 				url: '?option=com_files&view=container&format=json',
 				method: 'post',
@@ -81,7 +80,7 @@ window.addEvent('domready', function() {
 				},
 				onSuccess: function(response, responseText) {
 					element.set('value', '');
-					Files.app.containertree.addItem(response.item);
+					Files.Tree.addItem(response.item);
 					
 				},
 				onFailure: function(xhr) {
