@@ -250,7 +250,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	}
 	
 	/**
-	 * Render a input field that has autocomplete functionality
+	 * Loads the autocomplete behavior and attaches it to a specified element
 	 *
 	 * @see    http://mootools.net/forge/p/meio_autocomplete
 	 * @return string	The html output
@@ -260,32 +260,23 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$config = new KConfig($config);
 		
 		$config->append(array(
-			'model'	     => null,
-			'validate'   => true
+			'identifier'    => null,
+			'element'       => null,
+			'filter_column' => 'name'
 		));
 		
-		if(!is_a($config->model, 'KIdentifierInterface'))
+		if(!is_a($config->identifier, 'KIdentifierInterface'))
 		{
-		    $config->model = KIdentifier::identify($config->model);
+		    $config->identifier = KIdentifier::identify($config->identifier);
 		}
 		
 		$config->append(array(
-		    'url'     => JRoute::_('&option=com_'.$config->model->package.'&view='.$config->model->name.'&format=json', true),
-		    'column'  => KInflector::singularize($config->model->name).'_id'
-		))->append(array(
-		    'value'   => $config->{$config->column} ? $config->{$config->column} : '',
-		    'attribs' => array(
-		        'name'  => $config->column,
-		        'type'  => 'text',
-		        'class' => 'inputbox value',
-		        'size'  => 60
-		    )
+		    'url'     => JRoute::_('&option=com_'.$config->identifier->package.'&view='.$config->identifier->name.'&format=json', true)
 		))->append(array(
 		    'options' => array(
-		        'valueField' => $config->attribs->name.'-value',
 		        'filter'     => array(
 		            'type' => 'contains',
-		            'path' => 'name'			        
+		            'path' => $config->filter_column			        
 		        ),
 		        'urlOptions' => array(
 		            'queryVarname' => 'search'
@@ -293,18 +284,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		        'requestOptions' => array(
 		            'method' => 'get'
 		        )
-		        
-		    )
-		))->append(array(
-		    'attribs' => array(
-		        'id' => $config->attribs->name,
-		        'data-value' => $config->options->valueField,
 		    )
 		));
-		
-		if($config->validate) {
-		    $config->attribs->class = $config->attribs->class.' ma-required';
-		}
 		
 		$html = '';
 		
@@ -319,16 +300,9 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$html .= "
 		<script>
 			window.addEvent('domready', function(){				
-				new Meio.Autocomplete.Select($('".$config->attribs->id."'), ".json_encode($config->url).", ".$config->options.");
+				new Meio.Autocomplete.Select($('".$config->element."'), ".json_encode($config->url).", ".$config->options.");
 			});
 		</script>";
-		$html .= '<input '.KHelperArray::toString($config->attribs).' />';
-	    $html .= '<input '.KHelperArray::toString(array(
-            'type'  => 'hidden',
-            'name'  => $config->attribs->name,
-            'id'    => $config->options->valueField,
-            'value' => $config->value
-	       )).' />';
 
 	    return $html;
 	}
