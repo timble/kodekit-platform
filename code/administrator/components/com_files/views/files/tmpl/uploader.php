@@ -31,17 +31,11 @@ window.addEvent('domready', function() {
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		max_file_size: <?= $maxsize ?>,
 		url: 'index.php?option=com_files&view=file&format=json&container=<?= $state->container->id; ?>',
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
-		<? if ($allowed_extensions): ?>
-		filters: [
-			{title: '<?= @text('All files'); ?>', extensions: "<?= implode(',', $allowed_extensions) ?>"}
-		],
-		<? endif; ?>
 		multipart_params: {
-			_token: '<?= JUtility::getToken(); ?>'
+			_token: Files.token
 		},
 		headers: {
 			'X-Requested-With': 'xmlhttprequest'
@@ -157,7 +151,7 @@ window.addEvent('domready', function() {
 		</ul>
 		<p id="upload-max">
 			<?= @text('Max'); ?>
-			<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $maxsize))?>
+			<span id="upload-max-size"></span>
 		</p>
 	</div>
 	<div class="clr"></div>

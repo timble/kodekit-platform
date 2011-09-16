@@ -82,4 +82,15 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 		return KFactory::get('com://admin/files.model.configs')
 			->container($this->id)->getItem();
 	}
+	
+	public function toArray()
+	{
+		$data = parent::toArray();
+		
+		$data['path'] = $this->path_value;
+		$data['parameters'] = $this->getParameters()->toArray();
+		$data['relative_path'] = $this->getRelativePath();
+		
+		return $data;
+	}
 }

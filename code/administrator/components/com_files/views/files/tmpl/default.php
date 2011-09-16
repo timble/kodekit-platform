@@ -14,10 +14,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
-Files.path = '<?= $path; ?>';
-Files.baseurl = Files.sitebase + '/' + Files.path;
-
-Files.container = <?= json_encode($state->container->toArray()); ?>;
 Files.token = '<?= JUtility::getToken();?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
@@ -37,7 +33,8 @@ window.addEvent('domready', function() {
 		tree: {
 			theme: 'media://com_files/images/mootree.png'
 		},
-		types: <?= json_encode($state->types); ?>
+		types: <?= json_encode($state->types); ?>,
+		container: <?= json_encode($state->container ? $state->container->slug : false); ?>
 	});
 
 	$('files-new-folder-create').addEvent('click', function(e){

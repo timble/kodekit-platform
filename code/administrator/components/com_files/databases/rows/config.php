@@ -84,4 +84,15 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 
 		return parent::__get($column);
 	}
+	
+	public function toArray()
+	{
+		$data = parent::toArray();
+		
+		foreach ($this->_comma_separated->toArray() as $column) {
+			$data[$column] = $this->$column;
+		}
+		
+		return $data;
+	}
 }

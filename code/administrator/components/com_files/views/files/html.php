@@ -30,22 +30,8 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 	public function display()
 	{
-		$state = $this->getModel()->getState();
-
-		$folders = KFactory::get('com://admin/files.controller.folder')
-			->container($state->container)
-			->tree(true)
-			->browse();
-
-		$this->assign('folders', $folders);
-
-		$config = KFactory::get('com://admin/files.model.configs')->getItem();
-
-		$this->assign('allowed_extensions', $config->upload_extensions);
-		$this->assign('maxsize'           , $config->upload_maxsize);
-		$this->assign('path'              , $state->container->relative_path);
-		$this->assign('sitebase'          , trim(JURI::root(), '/'));
-		$this->assign('token'             , JUtility::getToken());
+		$this->assign('sitebase', trim(JURI::root(), '/'));
+		$this->assign('token'   , JUtility::getToken());
 
 		if (!$this->editor) {
 			$this->assign('editor', '');

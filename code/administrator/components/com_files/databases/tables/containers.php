@@ -22,13 +22,15 @@ class ComFilesDatabaseTableContainers extends KDatabaseTableDefault
 {
 	protected function _initialize(KConfig $config)
 	{
+		$behavior = KFactory::get('koowa:database.behavior.sluggable', array('columns' => array('id', 'title')));
+
 		$config->append(array(
 			'filters' => array(
 				'slug' 				 => 'cmd',
 				'path'               => 'com://admin/files.filter.path',
 				'parameters'         => 'json'
 			),
-			'behaviors' => array('sluggable')
+			'behaviors' => array($behavior)
 		));
 
 		parent::_initialize($config);
