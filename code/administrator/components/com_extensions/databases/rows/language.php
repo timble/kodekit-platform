@@ -35,24 +35,20 @@ class ComExtensionsDatabaseRowLanguage extends KDatabaseRowAbstract
         'description'
     );
     
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'identity_column' => 'name'
-        ));
-
-        parent::_initialize($config);
-    }
-
 	public function __get($column)
 	{    
 	    if ($column == 'name' && empty($this->_data['name'])) {
 			$this->_data['name'] = basename($this->_data['path']);
 		}
 		
-	    if($column == 'title' && empty($this->_data['title'])) {
-            $this->_data['title'] = $this->manifest->name;
-        }
+	    if($column == 'title' && empty($this->_data['title'])) 
+	    {
+            if($this->manifest instanceof SimpleXMLElement) {
+                $this->_data['title'] = $this->manifest->name;
+            } else {
+                 $this->_data['title'] = '';
+            }
+	    }
 
 		if ($column == 'manifest' && empty($this->_data['manifest'])) 
 		{
@@ -61,7 +57,7 @@ class ComExtensionsDatabaseRowLanguage extends KDatabaseRowAbstract
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
             } else {
-                $this->_data['manifest'] = '';
+                $this->_data['manifest'] = null;
             }
 		}
 
