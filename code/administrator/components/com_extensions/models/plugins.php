@@ -25,8 +25,9 @@ class ComExtensionsModelPlugins extends ComDefaultModelDefault
 	
 		$this->_state
 		 	->insert('sort'   , 'cmd', 'folder')
-		 	->insert('enabled', 'int')
-		 	->insert('type'   , 'cmd');
+		 	->insert('enabled', 'boolean')
+		 	->insert('type'   , 'cmd')
+		 	->insert('hidden' , 'boolean');	
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -48,8 +49,12 @@ class ComExtensionsModelPlugins extends ComDefaultModelDefault
 			$query->where('tbl.folder', '=', $state->type);
 		}
 
-		if($state->enabled !== '' && $state->enabled !== null) {
-			$query->where('tbl.published', '=', $state->enabled);
+		if(is_bool($state->enabled)) {
+			$query->where('tbl.published', '=', (int) $state->enabled);
+		}
+		
+	    if(is_bool($state->hidden)) {
+			$query->where('tbl.iscore', '=', (int) $state->hidden);
 		}
 
 		parent::_buildQueryWhere($query);
