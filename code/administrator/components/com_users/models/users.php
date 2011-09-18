@@ -35,7 +35,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             ->insert('group'      , 'int')
             ->insert('group_name' , 'string')
             ->insert('group_tree' , 'boolean', false)
-            ->insert('enabled'    , 'int')
+            ->insert('enabled'    , 'boolean')
             ->insert('visited'    , 'int')
             ->insert('loggedin'   , 'int');
 	}
@@ -99,8 +99,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
         }
         
-        if(is_numeric($this->_state->enabled)) {
-        	$query->where('tbl.block', '=', $this->_state->enabled);
+        if(is_bool($this->_state->enabled)) {
+        	$query->where('tbl.block', '=', (int) $this->_state->enabled);
         }
         
         if(is_numeric($this->_state->loggedin)) {
