@@ -54,13 +54,12 @@ class ComSettingsModelSettings extends KModelAbstract
             foreach($components as $component)
             {
                 $path   = JPATH_ADMINISTRATOR.'/components/'.$component->option.'/config.xml';
-                $params = new JParameter( $component->params);
                     
                 $config = array(
                 	'name' => strtolower(substr($component->option, 4)),
                     'path' => file_exists($path) ? $path : '',
                     'id'   => $component->id,
-                    'data' => $params->toArray(),
+                    'data' => $component->params->toArray(),
                 );
                 
                 $row = KFactory::get('com://admin/settings.database.row.component', $config);
