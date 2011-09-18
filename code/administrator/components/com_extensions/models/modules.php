@@ -27,10 +27,11 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		$this->_state
 		 	->insert('application', 'cmd', 'site')
 		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
-		 	->insert('enabled'	  , 'int')
+		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
 		 	->insert('type' 	  , 'cmd')
-		 	->insert('installed'  , 'boolean', false);
+		 	->insert('installed'  , 'boolean', false)
+		 	->insert('hidden'     , 'boolean');
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuery $query)
@@ -59,8 +60,12 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			$query->where('tbl.module', '=', $state->type);
 		}
 
-		if($state->enabled !== '' && $state->enabled !== null) {
-			$query->where('tbl.published', '=', $state->enabled);
+		if(is_bool($state->enabled)) {
+			$query->where('tbl.published', '=', (int) $state->enabled);
+		}
+		
+	    if(is_bool($state->hidden)) {
+			$query->where('tbl.iscore', '=', (int) $state->hidden);
 		}
 		
 		if($state->application !== false)
@@ -112,32 +117,49 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
             
             if($state->installed)
             {
-            	$client	= JApplicationHelper::getClientInfo($state->application, true);
-            	if(!empty($client)) 
-			    {
-            	    $modules = array();
-            	    $path = $client->path.'/modules';
+                $modules = array();
+                
+                foreach((array) KConfig::toData($state->application) as $application)
+                {
+                    $client	= JApplicationHelper::getClientInfo($application, true);
+            	    if(!empty($client)) 
+			        {        
+            	        $path = $client->path.'/modules';
             	    
-			        foreach(new DirectoryIterator($path) as $folder)
-                    {
-                        if($folder->isDir())
+			            foreach(new DirectoryIterator($path) as $folder)
                         {
-                            if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
-                            { 
-                                $modules[] = array(
-                                    'id'          => $folder->getFilename(),
-                       				'type'        => $folder->getFilename(),
-                        			'application' => $client->name,
-                                    'title'		  => null
-	                                );
+                            if($folder->isDir())
+                            {
+                                if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
+                                { 
+                                    $modules[] = array(
+                                    	'id'          => $folder->getFilename(),
+                       					'type'        => $folder->getFilename(),
+                        				'application' => $client->name,
+                                    	'title'		  => null
+	                                    );
+                                }
                             }
-                        }
-                    }
-                    
-            	    $this->_list = $this->getTable()->getRowset()->addData($modules);
+                        }    
+			        }
+                }
+                
+                //Set the total
+			    $this->_total = count($modules);
+
+                //Apply limit and offset
+                if($this->_state->limit) {
+                    $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_total);
+                }
+                
+			    //Apply direction
+			    if(strtolower($state->direction) == 'desc') {
+	                $modules = array_reverse($modules);
 			    }
-            }
-            else $this->_list = parent::getList();
+                
+                $this->_list = $this->getTable()->getRowset()->addData($modules);
+                       
+            } else $this->_list = parent::getList();
         }
 
         return $this->_list;
