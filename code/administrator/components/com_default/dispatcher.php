@@ -77,11 +77,11 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
         //Redirect if no view information can be found in the request
         if(!KRequest::has('get.view')) 
         {
-            $url = clone(KRequest::url());
-            $url->query['option'] = 'com_'.$this->getIdentifier()->package;
-            $url->query['view']   = $this->getController()->getView()->getName();
-           
-            JFactory::getApplication()->redirect($url);
+            $package = $this->getIdentifier()->package;
+            $view    = $this->getController()->getView()->getName();
+            $route = JRoute::_('index.php?option=com_'.$package.'&view='.$view);
+            
+            JFactory::getApplication()->redirect($route);
         }
        
         return parent::_actionDispatch($context);
