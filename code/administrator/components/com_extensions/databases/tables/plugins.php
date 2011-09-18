@@ -32,7 +32,8 @@ class ComExtensionsDatabaseTablePlugins extends KDatabaseTableDefault
                 'enabled' 	=> 'published',
                 'locked_on' => 'checked_out_time',
                 'locked_by' => 'checked_out',
-                'type'		=> 'folder'
+                'type'		=> 'folder',
+                'hidden'    => 'iscore',
             ),
             'filters'    => array('params' => 'ini')
         ));
