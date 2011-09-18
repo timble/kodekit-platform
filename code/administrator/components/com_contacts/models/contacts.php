@@ -25,7 +25,7 @@ class ComContactsModelContacts extends KModelTable
 		parent::__construct($config);
 		
 		$this->_state
-			->insert('enabled', 'int')
+			->insert('enabled' , 'boolean')
 			->insert('category', 'int');
 	}
 
@@ -49,8 +49,8 @@ class ComContactsModelContacts extends KModelTable
 	{
 		$state = $this->_state;
 		
-		if (is_numeric($state->enabled)) {
-			$query->where('tbl.published', '=', $state->enabled);
+		if (is_bool($state->enabled)) {
+			$query->where('tbl.published', '=', (int) $state->enabled);
 		}
 
 		if (is_numeric($state->category) && !empty($state->category)) {
@@ -58,8 +58,7 @@ class ComContactsModelContacts extends KModelTable
 		}
 
 		if ($state->search) {
-			$search = '%'.$state->search.'%';
-			$query->where('tbl.name', 'LIKE', $search);
+			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
 		}
         
 		parent::_buildQueryWhere($query);
