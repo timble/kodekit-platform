@@ -78,57 +78,58 @@ class ComExtensionsModelLanguages extends KModelAbstract
 	{
 		if (!isset($this->_list))
 		{
-			$state = $this->_state;
+			$state     = $this->_state;
+			$languages = array();
 
-			//Get application information
-			$client	= JApplicationHelper::getClientInfo($state->application, true);
-			if(!empty($client)) 
-			{
-			    $default = JComponentHelper::getParams('com_extensions')->get('language_'.$client->name, 'en-GB');
+			foreach((array) KConfig::toData($state->application) as $application)
+            {
+                $client	= JApplicationHelper::getClientInfo($application, true);
+			    if(!empty($client)) 
+			    {
+			        $default = JComponentHelper::getParams('com_extensions')->get('language_'.$client->name, 'en-GB');
 			    
-			    //Find the languages
-			    $languages = array();
-                $path      = $client->path.'/language';
+			        //Find the languages
+                    $path  = $client->path.'/language';
 
-                foreach(new DirectoryIterator($path) as $folder)
-                {
-                    if($folder->isDir())
+                    foreach(new DirectoryIterator($path) as $folder)
                     {
-                       if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
-                       { 
-                           $languages[] = array(
-                        		'path'        => $folder->getRealPath(),
-                        		'application' => $client->name
-                            );
-                       }
+                        if($folder->isDir())
+                        {
+                           if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
+                           { 
+                               $languages[] = array(
+                        			'path'        => $folder->getRealPath(),
+                        			'application' => $client->name
+                                );
+                           }
+                        }
                     }
                 }
+            }
+             
+            //Set the total
+			$this->_total = count($languages);
                 
-                //Set the total
-			    $this->_total = count($languages);
+			//Apply limit and offset
+            if($state->limit) {
+                $languages = array_slice($languages, $state->offset, $state->limit ? $state->limit : $this->_total);
+            }
                 
-			    //Apply limit and offset
-                if($state->limit) {
-                    $languages = array_slice($languages, $state->offset, $state->limit ? $state->limit : $this->_total);
-                }
-                
-                //Apply direction
-			    if(strtolower($state->direction) == 'desc') {
-				    $languages = array_reverse($languages);
-			    }
+            //Apply direction
+			if(strtolower($state->direction) == 'desc') {
+		        $languages = array_reverse($languages);
+			}
 
-			    $rowset = KFactory::get('com://admin/extensions.database.rowset.languages');
-			    foreach ($languages as $language)
-			    {
-				    $row = $rowset->getRow()->setData($language);
-				    $row->default = ($row->name == $default);
+			$rowset = KFactory::get('com://admin/extensions.database.rowset.languages');
+			foreach ($languages as $language)
+			{
+	            $row = $rowset->getRow()->setData($language);
+				$row->default = ($row->name == $default);
 
-				    $rowset->insert($row);
-			    }
-
-			    $this->_list = $rowset;	    
-			} 
-			else  throw new KModelException('Invalid application');
+				$rowset->insert($row);
+			}
+			
+			$this->_list = $rowset;	    
 		}
 
 		return parent::getList();
