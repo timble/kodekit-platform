@@ -14,12 +14,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <h3><?= @text( 'Applications' ); ?></h3>
     <ul>
         <li <? if($state->application == 'site') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=site') ?>">
+        	<a href="<?= @route('application=site') ?>">
         	    <?= @text('Site') ?>
         	</a>
         </li>
         <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('&application=administrator') ?>">
+        	<a href="<?= @route('application=administrator') ?>">
         	    <?= @text('Administrator') ?>
         	</a>
         </li>
