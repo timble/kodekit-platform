@@ -1,63 +1,90 @@
-<?php // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
-<form action="index.php" method="post" name="adminForm">
-	<?php if ($this->ftp) : ?>
-		<?php echo $this->loadTemplate('ftp'); ?>
-	<?php endif; ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Installer
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access'); ?>
 
-	<table class="adminform">
-		<tbody>
-			<tr>
-				<td width="100%"><?php echo JText::_( 'DESCPLUGINS' ); ?></td>
-			</tr>
-		</tbody>
-	</table>
+<script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+<?= @helper('behavior.tooltip') ?>
 
-	<?php if (count($this->items)) : ?>
-	<table class="adminlist" cellspacing="1">
-		<thead>
-			<tr>
-				<th class="title" width="10px"><?php echo JText::_( 'Num' ); ?></th>
-				<th class="title" width="20px"></th>
-				<th class="title"><?php echo JText::_( 'Plugin' ); ?></th>
-				<th class="title" width="10%"><?php echo JText::_( 'Type' ); ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_( 'Version' ); ?></th>
-				<th class="title" width="15%"><?php echo JText::_( 'Date' ); ?></th>
-				<th class="title" width="25%"><?php echo JText::_( 'Author' ); ?></th>
-				<th class="title" width="5%"><?php echo JText::_( 'Compatibility' ); ?></th>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><?php echo $this->fields->groups; ?></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
-			</tr>
-		</tfoot>
-		<tbody>
-		<?php for ($i=0, $n=count($this->items), $rc=0; $i < $n; $i++, $rc = 1 - $rc) : ?>
-			<?php
-				$this->loadItem($i);
-				echo $this->loadTemplate('item');
-			?>
-		<?php endfor; ?>
-		</tbody>
-	</table>
-	<?php else : ?>
-		<?php echo JText::_( 'There are no custom plugins installed' ); ?>
-	<?php endif; ?>
+<?= @template('com://admin//installer.view.grid.sidebar'); ?>
 
-	<input type="hidden" name="task" value="manage" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="option" value="com_installer" />
-	<input type="hidden" name="type" value="plugins" />
-	<?php echo JHTML::_( 'form.token' ); ?>
-</form>
+<div class="-installer-grid">
+<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+   <table class="adminlist">
+    	<thead>
+    		<tr>
+    			<th class="title" width="20px">
+    			    <?= @helper('grid.checkall') ?>
+    			</th>
+    			<th class="title">
+    			    <?= @text('Plugin') ?>
+    			</th>
+    			<th class="title" width="7%" align="center">
+    			    <?= @text('Type') ?>
+    			</th>
+    			<th class="title" width="10%" align="center">
+    			    <?= @text('Version') ?>
+    			</th>
+    			<th class="title" width="15%">
+    			    <?= @text('Date') ?>
+    			</th>
+    			<th class="title" width="25%">
+    			    <?= @text('Author') ?>
+    			</th>
+    		</tr>
+    		<tr>
+    		    <td></td>
+    		    <td></td>
+    		    <td>
+    		        <?= @helper('listbox.types') ?>
+    		    </td>
+    		    <td></td>
+    		    <td></td>
+    		    <td></td>
+    		</tr>
+    	</thead>
+    	<tfoot>
+    		<tr>
+    			<td colspan="6">
+    			    <?= @helper('paginator.pagination', array('total' => $total)) ?>
+    			</td>
+    		</tr>
+    	</tfoot>
+    	<tbody>
+    	<? foreach($plugins as $plugin) : ?>
+    		<tr <? if($plugin->iscore) echo 'data-readonly' ?>>
+    			<td align="center">
+    			    <input type="checkbox" name="id[]" value="<?= $plugin->id ?>-0" class="-koowa-grid-checkbox" <? if($plugin->iscore) echo 'disabled title="'.@escape(@text('DESCPLUGINS')).'"' ?> />
+    			</td>
+    			<td>
+    				<?= $plugin->name ?>
+    			</td>
+    			<td align="center">
+    			    <?= $plugin->type ?>
+    			</td>
+    			<td align="center">
+    			    <?= $plugin->version ?>
+    			</td>
+    			<td>
+    			    <?= @helper('date.format', array('date' => $plugin->creationDate, 'format' => '%d %B %Y')) ?>
+    			</td>
+    			<td>
+    				<span class="hasTip" title="<?= @text('Author Information') ?>::<?= $plugin->authorEmail.'<br />'.$plugin->authorUrl ?>">
+    					<?= $plugin->author ?>
+    				</span>
+    			</td>
+    		</tr>
+    	<? endforeach ?>
+    	</tbody>
+    </table>
+    </form>
+    <?= @template('com://admin//installer.view.install.form'); ?>
+</div>

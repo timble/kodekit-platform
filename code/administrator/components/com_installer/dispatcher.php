@@ -10,31 +10,24 @@
  */
 
 /**
- * Plugins Model Class
+ * Component Dispatcher
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Installer
  */
-class ComInstallerModelPlugins extends ComExtensionsModelPlugins
+class ComInstallerDispatcher extends ComDefaultDispatcher
 {
     /**
-     * Initializes the config for the object
+     * Set the default controller
      *
-     * Customizing the table identifier to the com_extensions one
-     *
-     * @param   object  An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path    = array('database', 'table');
-        $identifier->package = 'extensions';
-        
         $config->append(array(
-            'table' => $identifier,
+            'controller' => 'components'
         ));
 
         parent::_initialize($config);

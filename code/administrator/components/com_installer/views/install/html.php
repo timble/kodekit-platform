@@ -10,31 +10,24 @@
  */
 
 /**
- * Plugins Model Class
+ * Install HTML View Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Installer
  */
-class ComInstallerModelPlugins extends ComExtensionsModelPlugins
+class ComInstallerViewInstallHtml extends ComInstallerViewHtml
 {
     /**
-     * Initializes the config for the object
+     * Set default layout to form
      *
-     * Customizing the table identifier to the com_extensions one
-     *
-     * @param   object  An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
     {
-        $identifier = clone $this->getIdentifier();
-        $identifier->path    = array('database', 'table');
-        $identifier->package = 'extensions';
-        
         $config->append(array(
-            'table' => $identifier,
+            'layout' => 'form'
         ));
 
         parent::_initialize($config);

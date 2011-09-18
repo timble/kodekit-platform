@@ -1,118 +1,52 @@
 <?php
 /**
- * @version		$Id: modules.php 14401 2010-01-26 14:10:00Z louis $
- * @package		Joomla
- * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Installer
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
-
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Import library dependencies
-require_once(dirname(__FILE__).DS.'extension.php');
 
 /**
- * Extension Manager Modules Model
+ * Modules Model Class
  *
- * @package		Joomla
- * @subpackage	Installer
- * @since		1.5
+ * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Installer
  */
-class InstallerModelModules extends InstallerModel
+class ComInstallerModelModules extends ComExtensionsModelModules
 {
-	/**
-	 * Extension Type
-	 * @var	string
-	 */
-	var $_type = 'module';
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
 
-	/**
-	 * Overridden constructor
-	 * @access	protected
-	 */
-	function __construct()
-	{
-		global $mainframe;
+        $filter = 'com://admin/installer.filter.application';
+        $this->_state
+            ->insert('application', $filter, array('site', 'administrator'))   
+            ->insert('installed', 'boolean', true);
+    }
+    
+    /**
+     * Initializes the config for the object
+     *
+     * Customizing the table identifier to the com_extensions one
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $identifier = clone $this->getIdentifier();
+        $identifier->path    = array('database', 'table');
+        $identifier->package = 'extensions';
+        
+        $config->append(array(
+            'table' => $identifier,
+        ));
 
-		// Call the parent constructor
-		parent::__construct();
-
-		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( 'com_installer.modules.string', 'filter', '', 'string' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( 'com_installer.modules.client', 'client', -1, 'int' ));
-	}
-
-	function _loadItems()
-	{
-		global $mainframe, $option;
-
-		$db = &JFactory::getDBO();
-
-		$and = null;
-		if ($this->_state->get('filter.client') < 0) {
-			if ($search = $this->_state->get('filter.string')) {
-				$and = ' AND title LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-			}
-		} else {
-			if ($search = $this->_state->get('filter.string'))
-			{
-				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
-				$and .= ' AND title LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-			}
-			else {
-				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
-			}
-		}
-
-		$query = 'SELECT id, module, client_id, title, iscore' .
-				' FROM #__modules' .
-				' WHERE module LIKE "mod_%" ' .
-				$and .
-				' GROUP BY module, client_id' .
-				' ORDER BY iscore, client_id, module';
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		$n = count($rows);
-		for ($i = 0; $i < $n; $i ++) {
-			$row = & $rows[$i];
-
-			// path to module directory
-			if ($row->client_id == "1") {
-				$moduleBaseDir = JPATH_ADMINISTRATOR.DS."modules";
-			} else {
-				$moduleBaseDir = JPATH_SITE.DS."modules";
-			}
-
-			// xml file for module
-			$xmlfile = $moduleBaseDir . DS . $row->module .DS. $row->module.".xml";
-
-			if (file_exists($xmlfile))
-			{
-				if ($data = JApplicationHelper::parseXMLInstallFile($xmlfile)) {
-					foreach($data as $key => $value) {
-						$row->$key = $value;
-					}
-				}
-			}
-		}
-		$this->setState('pagination.total', $n);
-		// if the offset is greater than the total, then can the offset
-		if($this->_state->get('pagination.offset') > $this->_state->get('pagination.total')) {
-			$this->setState('pagination.offset',0);
-		}
-
-		if($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
-		} else {
-			$this->_items = $rows;
-		}
-	}
+        parent::_initialize($config);
+    }
 }

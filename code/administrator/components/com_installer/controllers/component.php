@@ -10,20 +10,29 @@
  */
 
 /**
- * Templates Model Class
+ * Component Controller Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Installer
  */
-class ComInstallerModelTemplates extends ComExtensionsModelTemplates
+class ComInstallerControllerComponent extends ComInstallerControllerDefault
 {
-    public function __construct(KConfig $config)
+    /**
+     * Get the request information
+     *
+     * Resetting the option state
+     *
+     * @return KConfig	A KConfig object with request information
+     */
+    public function getRequest()
     {
-        parent::__construct($config);
-
-        $filter = 'com://admin/installer.filter.application';
-        $this->_state->insert('application', $filter, array('site', 'administrator'));            
+        $request = parent::getRequest();
+        
+        $request->option = null;
+        $request->parent = 0;
+    
+    	return $request;
     }
 }
