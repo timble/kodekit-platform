@@ -31,7 +31,7 @@ class ComPagesModelPages extends KModelTable
 		parent::__construct($config);
 
 		$this->_state
-			->insert('enabled'	 , 'int')
+			->insert('enabled'	 , 'boolean')
 			->insert('group_id'	 , 'int')
 			->insert('menu'      , 'int')
 			->insert('type'		 , 'cmd')
@@ -73,8 +73,8 @@ class ComPagesModelPages extends KModelTable
 			$query->where('menu.id','=', $state->menu);
 		}
 
-		if(is_numeric($state->enabled)) {
-			$query->where('tbl.published','=', $state->enabled);
+		if(is_bool($state->enabled)) {
+			$query->where('tbl.published','=', (int) $state->enabled);
 		}
 
 		//if(is_numeric($state->trashed)) {
