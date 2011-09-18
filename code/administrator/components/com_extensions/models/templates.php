@@ -87,58 +87,60 @@ class ComExtensionsModelTemplates extends KModelAbstract
     { 
         if(!isset($this->_list))
         {
-            $state = $this->_state;
-            
-            //Get application information
-			$client	= JApplicationHelper::getClientInfo($state->application, true);
-			if(!empty($client)) 
-			{
-                $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
+            $state     = $this->_state;
+            $templates = array();
+              
+            foreach((array) KConfig::toData($state->application) as $application)
+            {
+                //Get application information
+			    $client	= JApplicationHelper::getClientInfo($application, true);
+			    if(!empty($client)) 
+			    {
+                    $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
 			    
-			    //Find the templates
-			    $templates = array();
-                $path      = $client->path.'/templates';
+			        //Find the templates
+                    $path      = $client->path.'/templates';
 
-                foreach(new DirectoryIterator($path) as $folder)
-                {
-                    if($folder->isDir())
+                    foreach(new DirectoryIterator($path) as $folder)
                     {
-                        if(file_exists($folder->getRealPath().'/templateDetails.xml')) 
-                        { 
-                            $templates[] = array(
-                       			'path'        => $folder->getRealPath(),
-                        		'application' => $client->name
-                            );
+                        if($folder->isDir())
+                        {
+                            if(file_exists($folder->getRealPath().'/templateDetails.xml')) 
+                            {     
+                                $templates[] = array(
+                       				'path'        => $folder->getRealPath(),
+                        			'application' => $client->name
+                                );
+                            }
                         }
                     }
                 }
+            }
                 
-                //Set the total
-			    $this->_total = count($templates);
+            //Set the total
+			$this->_total = count($templates);
 
-                //Apply limit and offset
-                if($this->_state->limit) {
-                    $templates = array_slice($templates, $state->offset, $state->limit ? $state->limit : $this->_total);
-                }
+            //Apply limit and offset
+            if($this->_state->limit) {
+                $templates = array_slice($templates, $state->offset, $state->limit ? $state->limit : $this->_total);
+            }
                 
-			     //Apply direction
-			    if(strtolower($state->direction) == 'desc') {
-				    $templates = array_reverse($templates);
-			    }
-                
-                //Create the rowset
-                $rowset = KFactory::get('com://admin/extensions.database.rowset.templates');
-			    foreach ($templates as $template)
-			    {
-			        $row = $rowset->getRow()->setData($template);
-			        $row->default = ($row->name == $default);
-
-				    $rowset->insert($row);
-			     }
-
-			     $this->_list = $rowset;
+			//Apply direction
+			if(strtolower($state->direction) == 'desc') {
+	            $templates = array_reverse($templates);
 			}
-			else throw new KModelException('Invalid application');
+                
+            //Create the rowset
+            $rowset = KFactory::get('com://admin/extensions.database.rowset.templates');
+			foreach ($templates as $template)
+			{
+			    $row = $rowset->getRow()->setData($template);
+			    $row->default = ($row->name == $default);
+
+		        $rowset->insert($row);
+			}
+
+			$this->_list = $rowset;
         }
 
         return $this->_list;
