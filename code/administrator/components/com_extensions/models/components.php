@@ -24,15 +24,16 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->_state
-		 	->insert('enabled', 'int')
+		 	->insert('enabled', 'boolean')
 		 	->insert('parent' , 'int')
-		 	->insert('option' , 'cmd'); 	
+		 	->insert('option' , 'cmd')
+		 	->insert('hidden' , 'boolean');	
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		$state = $this->_state;
-
+	
 		if($state->search) {
 			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
 		}
@@ -40,15 +41,19 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		if($state->option) {
 			$query->where('tbl.option', '=', $state->option);
 		}
-		
+	
 	    if(is_integer($state->parent)) {
 			$query->where('tbl.parent', '=', $state->parent);
 		}
 
-		if($state->enabled !== '' && $state->enabled !== null) {
-			$query->where('tbl.enabled', '=', $state->enabled);
+		if(is_bool($state->enabled)) {
+			$query->where('tbl.enabled', '=', (int) $state->enabled);
 		}
-
+		
+	    if(is_bool($state->hidden)) {
+			$query->where('tbl.iscore', '=', (int) $state->hidden);
+		}
+	
 		parent::_buildQueryWhere($query);
 	}
 }
