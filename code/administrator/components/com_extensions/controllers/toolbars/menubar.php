@@ -29,7 +29,7 @@ class ComExtensionsControllerToolbarMenubar extends ComDefaultControllerToolbarM
     public function getCommands()
     {
         $option  = $this->getController()->getRequest()->option;
-        //@TODO figure out why option=com_installer&view=components sets $request->option to NULL
+       
         $active  = !$option || $option == 'com_installer';
         $view    = $active ? 'components' : KInflector::pluralize($this->getController()->getIdentifier()->name);
 
@@ -43,9 +43,11 @@ class ComExtensionsControllerToolbarMenubar extends ComDefaultControllerToolbarM
         //If the com_installer command is active, then following commands cannot be active
         if($commands['Install/Uninstall']->active)
         {
-            foreach($commands as $key => $command)
+            foreach($commands as $key => $command) 
             {
-                if($key != 'Install/Uninstall') $command->active = false;
+                if($key != 'Install/Uninstall') {
+                    $command->active = false;
+                }
             }
         }
 
