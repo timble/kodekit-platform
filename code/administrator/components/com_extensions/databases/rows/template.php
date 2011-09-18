@@ -35,23 +35,6 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
     );
 
     /**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options.
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'identity_column'   => 'name'
-        ));
-
-        parent::_initialize($config);
-    }
-
-    /**
      * Get a value by key
      *
      * @param   string  The key name.
@@ -63,9 +46,14 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
             $this->_data['name'] = basename($this->_data['path']);
         }
 
-        if($column == 'title' && empty($this->_data['title'])) {
-            $this->_data['title'] = $this->manifest->name;
-        }
+        if($column == 'title' && empty($this->_data['title'])) 
+	    {
+	        if($this->manifest instanceof SimpleXMLElement) {
+                $this->_data['title'] = $this->manifest->name;
+            } else {
+                 $this->_data['title'] = '';
+            }
+	    }
 
         if($column == 'manifest' && empty($this->_data['manifest']))
 		{
@@ -74,7 +62,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
             } else {
-                $this->_data['manifest'] = '';
+                $this->_data['manifest'] = null;
             }
         }
 
