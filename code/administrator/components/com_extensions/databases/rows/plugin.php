@@ -52,7 +52,7 @@ class ComExtensionsDatabaseRowPlugin extends KDatabaseRowDefault
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
             } else {
-                $this->_data['manifest'] = '';
+                $this->_data['manifest'] = null;
             }
         }
 
@@ -63,7 +63,7 @@ class ComExtensionsDatabaseRowPlugin extends KDatabaseRowDefault
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
 	        $file = JPATH_PLUGINS.'/'.$this->type.'/'.$this->name.'.xml';
-	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
+	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'plugin' );
         }
 	   
 		return parent::__get($column);
