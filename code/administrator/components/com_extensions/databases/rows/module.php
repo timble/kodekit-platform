@@ -46,9 +46,14 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 	 */
 	public function __get($column)
 	{  
-	    if($column == 'title' && !isset($this->_data['title'])) {
-            $this->_data['title'] = $this->manifest->name;
-        }
+	    if($column == 'title' && empty($this->_data['title'])) 
+	    {
+            if($this->manifest instanceof SimpleXMLElement) {
+                $this->_data['title'] = $this->manifest->name;
+            } else {
+                 $this->_data['title'] = null;
+            }
+	    }
         
 	    if($column == 'application' && empty($this->_data['application'])) 
 	    {
