@@ -24,8 +24,9 @@ class ComExtensionsDatabaseTableComponents extends KDatabaseTableDefault
         $config->identity_column = 'id';
 
         $config->append(array(
-            'name'    => 'components',
-            'filters' => array('params' => 'ini')
+            'name'       => 'components',
+            'column_map' => array('hidden' => 'iscore'),
+            'filters'    => array('params' => 'ini')
         ));
         
         parent::_initialize($config);
