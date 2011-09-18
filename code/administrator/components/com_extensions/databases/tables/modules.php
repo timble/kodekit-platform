@@ -31,7 +31,8 @@ class ComExtensionsDatabaseTableModules extends KDatabaseTableDefault
                 'enabled'      => 'published',
                 'locked_on'    => 'checked_out_time',
                 'locked_by'    => 'checked_out',
-                'type'	       => 'module'
+                'type'	       => 'module',
+                'hidden'       => 'iscore',
                 ),
             'filters' => array(
                 'content' => array('html', 'tidy'),
