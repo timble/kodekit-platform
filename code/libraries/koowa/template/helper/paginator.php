@@ -169,7 +169,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$class = $page->current ? 'class="active"' : '';
 
 		if($page->active && !$page->current) {
-			$html = '<a href="'.JRoute::_('index.php?'.$url->getQuery()).'" '.$class.'>'.JText::_($title).'</a>';
+			$html = '<a href="'.$url.'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
 		}
