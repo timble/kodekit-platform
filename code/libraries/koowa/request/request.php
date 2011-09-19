@@ -78,7 +78,12 @@ class KRequest
 
         if(self::type() == 'HTTP')
         {
-            $authorization = KRequest::get('server.HTTP_AUTHORIZATION', 'url');
+            if(strpos(PHP_SAPI, 'cgi') !== false) {
+                $authorization = KRequest::get('server.REDIRECT_HTTP_AUTHORIZATION', 'string');
+            } else {
+                $authorization = KRequest::get('server.HTTP_AUTHORIZATION', 'url');
+            }
+            
 	        if (strstr($authorization,"Basic"))
 	        {
 	            $parts = explode(':',base64_decode(substr($authorization, 6)));
@@ -427,7 +432,7 @@ class KRequest
         if(!isset(self::$_base))
         {
             // Get the base request path
-            if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo')  && !empty($_SERVER['REQUEST_URI'])) 
+            if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo')  && !empty($_SERVER['REQUEST_URI'])) 
             {    
                 // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
                 // We don't have user-supplied PATH_INFO in PHP_SELF
