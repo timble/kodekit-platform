@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>  
+<project name="Nooku Framework" basedir="../.." default="build">
+
+	<!-- Put username and password here, this file wont be stored on the svn -->
+	<property file="scripts/build/build.properties" />
+
+	<property name="svn.path" value="trunk" />
+	<echo message="svn.path = ${svn.path}" />
+	<echo message="If you need to use a branch, call 'phing -Dsvn.path=branches/99-toolbar'" />
+	
+	<echo message="SVN usernames and passwords will be optional once the incubator assembla space is public" />
+	<propertyprompt propertyName="svn.username" defaultValue="" promptText="SVN username" useExistingValue="true" />
+	<propertyprompt propertyName="svn.password" defaultValue="" promptText="SVN password" useExistingValue="true" />
+
+
+	<target name="__construct">
+		
+		<!-- Get the koowa plugin -->
+		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir=".tmp" nocache="true" force="true" />
+
+	</target>
+
+	<target name="build">
+		
+		<phingcall target="__construct" />
+
+		<!-- Get the installer and installer assets -->
+		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-incubator/trunk/code/administrator/components/com_koowa" todir=".tmp/administrator/components/com_koowa" nocache="true" force="true" />
+		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-incubator/trunk/code/media/com_koowa" todir=".tmp/media/com_koowa" nocache="true" force="true" />
+
+		<phingcall target="__destruct" />
+		
+		<!-- @TODO insert version, revision into the zip name -->
+		<zip destfile="packages/koowa.zip">
+			<fileset dir=".tmp" expandsymboliclinks="true" />
+		</zip>
+		
+		<delete dir=".tmp" includeemptydirs="true" />
+		
+	</target>
+	
+	<target name="debug">
+	
+		<delete dir=".tmp" includeemptydirs="true" />
+	
+		<phingcall target="__construct" />
+		
+		<!-- Get the installer and installer assets -->
+		<copy todir=".tmp/administrator/components/com_koowa">
+			<fileset dir="code/administrator/components/com_koowa" />
+		</copy>
+		<copy todir=".tmp/media/com_koowa">
+			<fileset dir="code/media/com_koowa" />
+		</copy>
+
+		<phingcall target="__destruct" />
+	
+	</target>
+	
+	<target name="__destruct">
+
+		<!-- Move the xml manifest to a place joomla can find it -->
+		<move file=".tmp/administrator/components/com_koowa/manifest.xml" tofile=".tmp/manifest.xml" overwrite="true" />
+
+		<!-- Copy the install dir -->
+		<copy todir=".tmp/install">
+			<fileset dir=".tmp/administrator/components/com_koowa/install/" />
+		</copy>
+		
+	</target>
+	
+</project>
