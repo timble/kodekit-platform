@@ -38,8 +38,11 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         }
         
         $this->_data = array();
-        foreach ($config as $key => $value) {
-            $this->__set($key, $value);
+        if (!is_null($config)) 
+        { 
+            foreach ($config as $key => $value) {
+                $this->__set($key, $value);
+            }
         }
     } 
     
