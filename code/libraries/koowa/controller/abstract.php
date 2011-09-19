@@ -270,7 +270,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
 	}
 	
 	/**
-     * Register one or more behaviors to the controller
+     * Add one or more behaviors to the controller
      *
      * @param   array   Array of one or more behaviors to add.
      * @return  KControllerAbstract
