@@ -32,7 +32,7 @@ $logo       = JURI::root(1).'/media/com_koowa/images/logo.png';
 $jversion   = JVersion::isCompatible('1.6.0') ? '1.6' : '1.5';
 
 //Run platform specific procedures
-require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/install.'.$jversion.'.php';
+require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/uninstall.'.$jversion.'.php';
 
 // Delete framework folders, like com_default, mod_default
 foreach ($manifest->framework->folder as $folder)
