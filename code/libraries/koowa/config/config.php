@@ -34,11 +34,11 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
     public function __construct( $config = array() )
     { 
         if ($config instanceof KConfig) {
-            $config = clone $config;
+            $config = $config->toArray();
         }
         
         $this->_data = array();
-        if (!is_null($config)) 
+        if (is_array($config)) 
         { 
             foreach ($config as $key => $value) {
                 $this->__set($key, $value);
