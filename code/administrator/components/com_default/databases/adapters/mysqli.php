@@ -46,7 +46,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
 	/**
      * Force creation of a singleton
      *
-     * @param 	array 	An optional array with configuration options
+     * @param 	object 	An optional KConfig object with configuration options
      * @param 	object	A KFactoryInterface object
      * @return KDatabaseTableInterface
      */
