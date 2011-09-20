@@ -83,7 +83,7 @@ abstract class KFilterAbstract implements KFilterInterface
      * @param 	object	A KFactoryInterface object
      * @return KFilterInterface
      */
-    public static function getInstance(KConfig $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))
