@@ -17,7 +17,7 @@
  * @category    Koowa
  * @package     Koowa_Config
  */
-class KConfig implements IteratorAggregate, ArrayAccess, Countable
+class KConfig implements KConfigInterface
 {
     /**
      * The data container
@@ -34,38 +34,19 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
     public function __construct( $config = array() )
     { 
         if ($config instanceof KConfig) {
-            $config = $config->toArray();
+            $data = $config->toArray();
+        } else {
+            $data = $config;
         }
         
         $this->_data = array();
-        if (is_array($config)) 
+        if (is_array($data)) 
         { 
-            foreach ($config as $key => $value) {
+            foreach ($data as $key => $value) {
                 $this->__set($key, $value);
             }
         }
     } 
-    
-    /**
-     * Deep clone of this instance to ensure that nested KConfigs
-     * are also cloned.
-     *
-     * @return void
-     */
-    public function __clone()
-    {
-        $array = array();
-        foreach ($this->_data as $key => $value) 
-        {
-            if ($value instanceof KConfig || $value instanceof stdClass) {
-                $array[$key] = clone $value;
-            } else {
-                $array[$key] = $value;
-            }
-        }
-        
-        $this->_data = $array;  
-    }
     
     /**
      * Retrieve a configuration item and return $default if there is no element set.
@@ -82,6 +63,60 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         }
         
         return $result;
+    }
+    
+/**
+     * Return the data 
+     *
+     * If the data being passed is an instance of KConfig the data will be transformed
+     * to an associative array.
+     *
+     * @return array|scalar
+     */
+    public static function unbox($data)
+    {
+        return ($data instanceof KConfig) ? $data->toArray() : $data;
+    }
+    
+    /**
+     * Append values 
+     * 
+     * This funciton only adds keys that don't exist and it filters out any duplicate values
+     *
+     * @param  mixed    A value of an or array of values to be appended
+     * @return KConfig
+     */
+    public function append($config)
+    {
+        $config = KConfig::unbox($config); 
+        
+        if(is_array($config))
+        {
+            if(!is_numeric(key($config))) 
+            {
+                foreach($config as $key => $value) 
+                {
+                    if(array_key_exists($key, $this->_data)) 
+                    {
+                        if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
+                            $this->_data[$key] = $this->_data[$key]->append($value);
+                        }
+                    } 
+                    else $this->__set($key, $value);
+                }
+            }
+            else 
+            {
+                foreach($config as $value) 
+                { 
+                    if (!in_array($value, $this->_data, true)) {
+                        $this->_data[] = $value; 
+                    }
+                 } 
+            }
+        }
+         
+        return $this;
     }
 
     /**
@@ -253,60 +288,27 @@ class KConfig implements IteratorAggregate, ArrayAccess, Countable
         return json_encode($this->toArray());
     }
     
-    /**
-     * Return the data 
+ 	/**
+     * Deep clone of this instance to ensure that nested KConfigs
+     * are also cloned.
      *
-     * If the data being passed is an instance of KConfig the data will be transformed
-     * to an associative array.
-     *
-     * @return array|scalar
+     * @return void
      */
-    public static function toData($data)
+    public function __clone()
     {
-        return ($data instanceof KConfig) ? $data->toArray() : $data;
-    }
-    
-    /**
-     * Append values 
-     * 
-     * This funciton only adds keys that don't exist and it filters out any duplicate values
-     *
-     * @param  mixed    A value of an or array of values to be appended
-     * @return KConfig
-     */
-    public function append($config)
-    {
-        $config = KConfig::toData($config); 
-        
-        if(is_array($config))
+        $array = array();
+        foreach ($this->_data as $key => $value) 
         {
-            if(!is_numeric(key($config))) 
-            {
-                foreach($config as $key => $value) 
-                {
-                    if(array_key_exists($key, $this->_data)) 
-                    {
-                        if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
-                            $this->_data[$key] = $this->_data[$key]->append($value);
-                        }
-                    } 
-                    else $this->__set($key, $value);
-                }
-            }
-            else 
-            {
-                foreach($config as $value) 
-                { 
-                    if (!in_array($value, $this->_data, true)) {
-                        $this->_data[] = $value; 
-                    }
-                 } 
+            if ($value instanceof KConfig || $value instanceof stdClass) {
+                $array[$key] = clone $value;
+            } else {
+                $array[$key] = $value;
             }
         }
-         
-        return $this;
+        
+        $this->_data = $array;  
     }
-
+    
     /**
      * Returns a string with the encapsulated data in JSON format
      *             
