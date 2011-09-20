@@ -501,7 +501,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
      */
     public function handleError($code, $message, $file = '', $line = 0, $context = array())
     {
-        if($file == 'tmpl://lib.koowa.template.stack') 
+        if($file == 'tmpl://koowa:template.stack') 
         {
             if(ini_get('display_errors')) {
                 echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>';
