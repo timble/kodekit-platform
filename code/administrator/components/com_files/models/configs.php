@@ -26,7 +26,7 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInst
 		$this->_state->insert('container', 'identifier', null);
 	}
   
-    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    public static function getInstance($config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))
