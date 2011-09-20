@@ -44,7 +44,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
      * @param 	object	A KFactoryInterface object
      * @return KDispatcherDefault
      */
-    public static function getInstance(KConfig $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))
