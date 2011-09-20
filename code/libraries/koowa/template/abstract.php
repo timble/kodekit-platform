@@ -401,7 +401,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
             $identifier->path = array('template', 'filter'); 
             $identifier->name = $filter; 
         } 
-        else $identifier = KFactory::identify($filter); 
+        else $identifier = KIdentifier::identify($filter); 
 
         if (!isset($this->_filters[$identifier->name])) { 
             $filter = KTemplateFilter::factory($identifier); 
