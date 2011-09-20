@@ -53,9 +53,9 @@ class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInst
      *
      * @return KTemplateStack
      */
-    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    public static function getInstance($config, KFactoryInterface $factory)
     { 
-       // Check if an instance with this identifier already exists or not
+        // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))
         {
             //Create the singleton
