@@ -471,7 +471,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 *
 	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
 	 *                  implements KIdentifierInterface or valid identifier string
-	 * @param	mixed	Parameters to be passed to the helper
 	 * @return 	KTemplateHelperInterface
 	 */
 	public function getHelper($helper)
