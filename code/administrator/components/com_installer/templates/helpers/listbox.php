@@ -30,7 +30,7 @@ class ComInstallerTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config->append(array(
             'name'      => 'application',
             'deselect'  => true,
-            'selected'  => !is_array(KConfig::toData($config->application)) ? $config->application : '',
+            'selected'  => !is_array(KConfig::unbox($config->application)) ? $config->application : '',
             'prompt'    => '- Select -'
         ));
         

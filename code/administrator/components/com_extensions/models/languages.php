@@ -81,7 +81,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 			$state     = $this->_state;
 			$languages = array();
 
-			foreach((array) KConfig::toData($state->application) as $application)
+			foreach((array) KConfig::unbox($state->application) as $application)
             {
                 $client	= JApplicationHelper::getClientInfo($application, true);
 			    if(!empty($client)) 

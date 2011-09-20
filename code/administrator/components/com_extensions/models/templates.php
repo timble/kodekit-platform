@@ -90,7 +90,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
             $state     = $this->_state;
             $templates = array();
               
-            foreach((array) KConfig::toData($state->application) as $application)
+            foreach((array) KConfig::unbox($state->application) as $application)
             {
                 //Get application information
 			    $client	= JApplicationHelper::getClientInfo($application, true);

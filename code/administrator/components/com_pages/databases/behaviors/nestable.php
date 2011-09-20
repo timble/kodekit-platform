@@ -73,7 +73,7 @@ class ComPagesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
   	protected function _afterAdapterSelect(KCommandContext $context)
   	{
   		//Get the data
-  		$rows = KConfig::toData($context->result);
+  		$rows = KConfig::unbox($context->result);
   		
   		if(is_array($rows))
   		{	
