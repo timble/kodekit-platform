@@ -20,7 +20,7 @@
 
 class ComPagesDatabaseRowPage extends ComPagesDatabaseRowNode implements KObjectInstantiatable
 {
-	public static function getInstance(KConfig $config, KFactoryInterface $factory)
+	public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
 	{
 		if($config->data['type']) {
 			$type = $config->data['type'] == 'menulink' ? 'Link' : ucfirst($config->data['type']);
