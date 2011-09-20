@@ -42,22 +42,14 @@ interface KFactoryInterface
 	 * @param object The object instance to store
 	 */
 	public static function set($identifier, $object);
-
-	/**
-	 * Remove the object instance using the identifier
-	 *
-	 * @param mixed  The class identifier
-	 * @return boolean Returns TRUE on success or FALSE on failure.
-	 */
-	public static function delete($identifier);
-
+	
 	/**
 	 * Check if the object instance exists based on the identifier
 	 *
 	 * @param mixed  The class identifier
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
-	public static function exists($identifier);
+	public static function has($identifier);
 	
 	/**
      * Set a mixin or an array of mixins for an identifier

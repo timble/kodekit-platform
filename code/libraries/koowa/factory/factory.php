@@ -125,32 +125,12 @@ class KFactory implements KFactoryInterface
 	}
 
 	/**
-	 * Remove the object instance using the identifier
-	 *
-	 * @param mixed  The class identifier
-	 * @return boolean Returns TRUE on success or FALSE on failure.
-	 */
-	public static function delete($identifier)
-	{
-		$objIdentifier = KIdentifier::identify($identifier);
-		$strIdentifier = (string) $objIdentifier;
-
-		if(self::$_registry->offsetExists($strIdentifier)) 
-		{
-			self::$_registry->offsetUnset($strIdentifier);
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Check if the object instance exists based on the identifier
 	 *
 	 * @param mixed  The class identifier
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
-	public static function exists($identifier)
+	public static function has($identifier)
 	{
 		try 
 		{
