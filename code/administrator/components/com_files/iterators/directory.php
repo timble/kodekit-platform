@@ -62,9 +62,9 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			'exclude' => array('.svn', '.git', 'CVS') // an array of values to exclude from results
 		));
 
-		$exclude = KConfig::toData($config->exclude);
-		$filter = KConfig::toData($config->filter);
-		$map = KConfig::toData($config->map);
+		$exclude = KConfig::unbox($config->exclude);
+		$filter = KConfig::unbox($config->filter);
+		$map = KConfig::unbox($config->map);
 		$recurse = $config->recurse;
 
 		$results = array();
