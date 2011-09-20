@@ -31,12 +31,14 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 	 * This factory will try to create an generic or default classname on the identifier information
 	 * if the actual class cannot be found using a predefined fallback sequence.
 	 * 
-	 * Fallback sequence : -> Named Module
-	 *                     -> Default Module
-	 *                     -> Framework Specific
+	 * Fallback sequence : -> Named Module Specific
+	 *                     -> Named Module Default  
+	 *                     -> Default Module Specific
+	 *                     -> Default Module Default
+	 *                     -> Framework Specific 
 	 *                     -> Framework Default
 	 *
-	 * @param mixed  		 Identifier or Identifier object - application::mod.module.[.path].name
+	 * @param mixed  		 Identifier or Identifier object - mod:[//application/]module.[.path].name
 	 * @return string|false  Return object on success, returns FALSE on failure
 	 */
 	public function findClass(KIdentifier $identifier)
@@ -55,20 +57,26 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 					
 			/*
 			 * Find the classname to fallback too and auto-load the class
-		     * 
-			 * Fallback sequence : -> Named Module
-			 *                     -> Default Module
+			 * 
+			 * Fallback sequence : -> Named Module Specific 
+			 *                     -> Named Module Default  
+			 *                     -> Default Module Specific 
+			 *                     -> Default Module Default
 			 *                     -> Framework Specific 
 			 *                     -> Framework Default
 			 */
-			if(class_exists('Mod'.ucfirst($identifier->package).ucfirst($identifier->name))) {
-				$classname = 'Mod'.ucfirst($identifier->package).ucfirst($identifier->name);
-			} elseif(class_exists('ModDefault'.ucfirst($identifier->name))) {
-				$classname = 'ModDefault'.ucfirst($identifier->name);
+			if(class_exists('Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name))) {
+				$classname = 'Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name);
+			} elseif(class_exists('Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default')) {
+				$classname = 'Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default';
+			} elseif(class_exists('ModDefault'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
+				$classname = 'ModDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
+			} elseif(class_exists('ModDefault'.ucfirst($classtype).$path.'Default')) {
+				$classname = 'ModDefault'.ucfirst($classtype).$path.'Default';
 			} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
 				$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
-			} elseif(class_exists('K'.ucfirst($classtype).'Default')) {
-				$classname = 'K'.ucfirst($classtype).'Default';
+			} elseif(class_exists('K'.ucfirst($classtype).$path.'Default')) {
+				$classname = 'K'.ucfirst($classtype).$path.'Default';
 			} else {
 				$classname = false;
 			}
@@ -81,7 +89,7 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 	/**
 	 * Get the path based on an identifier
 	 *
-	 * @param  object  	An Identifier object - application::mod.module.[.path].name
+	 * @param  object  	An Identifier object - mod:[//application/]module.[.path].name
 	 * @return string	Returns the path
 	 */
 	public function findPath(KIdentifier $identifier)
@@ -96,7 +104,7 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 			{
 				$path    = KInflector::pluralize(array_shift($parts)).
 				$path   .= count($parts) ? '/'.implode('/', $parts) : '';
-				$path   .= DS.strtolower($identifier->name);	
+				$path   .= '/'.strtolower($identifier->name);	
 			} 
 			else $path  = strtolower($identifier->name);	
 		}
