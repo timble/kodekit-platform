@@ -17,7 +17,7 @@
  * @package     Nooku_Modules
  * @subpackage  Default
  */
-class ModDefaultTemplate extends ComDefaultTemplateAbstract
+class ModDefaultTemplateDefault extends ComDefaultTemplateAbstract
 { 
 	
 }

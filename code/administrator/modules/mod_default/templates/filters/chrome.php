@@ -17,7 +17,7 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class ModDefaultChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
   	/**
      * Constructor.

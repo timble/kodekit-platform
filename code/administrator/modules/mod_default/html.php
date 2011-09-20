@@ -28,13 +28,9 @@ class ModDefaultHtml extends KViewHtml
      * @return  void
      */
     protected function _initialize(KConfig $config)
-    {     
-        $template = clone $this->getIdentifier();
-        $template->name = 'template';
-        
+    {      
         $config->append(array(
-            'template' 		   => $template,
-        	'template_filters' => array('mod://admin/default.chrome'),
+        	'template_filters' => array('chrome'),
             'data'			   => array(
                 'styles' => array() 
             )
