@@ -63,8 +63,8 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
         
         $this->_title   = $config->title;
         $this->_class   = $config->class;
-        $this->_styles  = KConfig::toData($config->styles);
-        $this->_attribs = KConfig::toData($config->attribs);
+        $this->_styles  = KConfig::unbox($config->styles);
+        $this->_attribs = KConfig::unbox($config->attribs);
     }
 	
 	/**
