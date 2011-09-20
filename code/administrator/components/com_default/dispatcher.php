@@ -40,9 +40,11 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
 	/**
      * Force creation of a singleton
      *
+     * @param 	array 	An optional array with configuration options
+     * @param 	object	A KFactoryInterface object
      * @return KDispatcherDefault
      */
-    public static function getInstance($config = array(), KFactoryInterface $factory = null)
+    public static function getInstance($config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))
