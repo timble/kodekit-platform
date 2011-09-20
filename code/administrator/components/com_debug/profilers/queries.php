@@ -41,7 +41,7 @@ class ComDebugProfilerQueries extends KEventListener implements KObjectInstantia
      * @param 	object	A KFactoryInterface object
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance(KConfig $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     {
         if (!$factory->exists($config->identifier)) 
         {
