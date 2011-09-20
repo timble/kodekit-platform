@@ -22,11 +22,11 @@ class KDatabaseTableDefault extends KDatabaseTableAbstract implements KObjectIns
 	/**
      * Force creation of a singleton
      *
-     * @param 	array 	An optional array with configuration options
+     * @param 	object 	An optional KConfig object with configuration options
      * @param 	object	A KFactoryInterface object
      * @return KDatabaseTableDefault
      */
-    public static function getInstance($config, KFactoryInterface $factory)
+    public static function getInstance(KConfig $config, KFactoryInterface $factory)
     {
         // Check if an instance with this identifier already exists or not
         if (!$factory->exists($config->identifier))

@@ -19,9 +19,9 @@ interface KObjectInstantiatable
     /**
      * Get the object identifier
      * 
-     * @param 	array 	An optional array with configuration options
+     * @param 	object 	An optional KConfig object with configuration options
      * @param 	object	A KFactoryInterface object
      * @return  object 
      */
-    public static function getInstance($config, KFactoryInterface $factory);
+    public static function getInstance(KConfig $config, KFactoryInterface $factory);
 }
