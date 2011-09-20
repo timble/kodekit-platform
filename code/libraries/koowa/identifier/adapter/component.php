@@ -61,7 +61,7 @@ class KIdentifierAdapterComponent extends KIdentifierAdapterAbstract
 			 * Fallback sequence : -> Named Component Specific 
 			 *                     -> Named Component Default  
 			 *                     -> Default Component Specific 
-			 *                     -> Default Component Defaukt
+			 *                     -> Default Component Default
 			 *                     -> Framework Specific 
 			 *                     -> Framework Default
 			 */
