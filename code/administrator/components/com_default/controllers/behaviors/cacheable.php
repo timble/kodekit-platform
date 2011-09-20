@@ -43,7 +43,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 		parent::__construct($config);
 
 		// Set the view identifier
-		$this->_modules = KConfig::toData($config->modules);
+		$this->_modules = KConfig::unbox($config->modules);
 	}
 
 	/**

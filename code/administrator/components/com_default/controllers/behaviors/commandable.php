@@ -44,7 +44,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 
 		// Set the view identifier
 		$this->_menubar = $config->menubar;
-		$this->_render  = KConfig::toData($config->render);
+		$this->_render  = KConfig::unbox($config->render);
 	}
 	
 	/**
