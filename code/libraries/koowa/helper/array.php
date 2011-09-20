@@ -145,7 +145,7 @@ class KHelperArray
         }
         
         if(is_object($array)) {
-            $array = (array) KConfig::toData($array);
+            $array = (array) KConfig::unbox($array);
         }
 
         if(is_array($array))

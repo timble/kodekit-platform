@@ -110,7 +110,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         if(!empty($config->filters)) 
         {
             foreach($config->filters as $column => $filter) {
-                $this->getColumn($column, true)->filter = KConfig::toData($filter);
+                $this->getColumn($column, true)->filter = KConfig::unbox($filter);
             }       
         }
     
@@ -259,7 +259,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function addBehavior($behaviors)
     {
-        $behaviors = (array) KConfig::toData($behaviors);
+        $behaviors = (array) KConfig::unbox($behaviors);
                 
         foreach($behaviors as $behavior)
         {
@@ -580,7 +580,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                             $data[$key] = $this->mapColumns($value, true);
                         }
                     }
-                    else $data = $this->mapColumns(KConfig::toData($data), true);   
+                    else $data = $this->mapColumns(KConfig::unbox($data), true);   
                 }
             }
             
@@ -610,7 +610,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $this->getCommandChain()->run('after.select', $context);
         }
     
-        return KConfig::toData($context->data);
+        return KConfig::unbox($context->data);
     }
     
     /**

@@ -85,7 +85,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         } 
         
         //Set the request
-		$this->setRequest((array) KConfig::toData($config->request));
+		$this->setRequest((array) KConfig::unbox($config->request));
     }
 
     /**
@@ -277,7 +277,7 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      */
     public function addBehavior($behaviors)
     { 
-        $behaviors = (array) KConfig::toData($behaviors);
+        $behaviors = (array) KConfig::unbox($behaviors);
          
         foreach($behaviors as $behavior)
         {

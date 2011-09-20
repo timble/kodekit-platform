@@ -121,7 +121,7 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
     	$changed = false;
         
         if(is_object($property)) {
-    		$property = (array) KConfig::toData($property);
+    		$property = (array) KConfig::unbox($property);
     	}
 
         if(is_array($property))

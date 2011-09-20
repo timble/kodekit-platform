@@ -52,7 +52,7 @@ class KFilterTidy extends KFilterAbstract
         parent::__construct($config);
           
         $this->_encdoing = $config->encoding;
-        $this->_config   = KConfig::toData($config->config);
+        $this->_config   = KConfig::unbox($config->config);
     }
     
  	/**

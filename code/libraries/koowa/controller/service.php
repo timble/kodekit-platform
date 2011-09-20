@@ -103,7 +103,7 @@ abstract class KControllerService extends KControllerResource
 								
 	    if(count($data)) 
 	    {
-	        $data->setData(KConfig::toData($context->data));
+	        $data->setData(KConfig::unbox($context->data));
 	        
 	        //Only set the reset content status if the action explicitly succeeded
 	        if($data->save() === true) {
@@ -129,7 +129,7 @@ abstract class KControllerService extends KControllerResource
 				
 		if($data->isNew())	
 		{	
-		    $data->setData(KConfig::toData($context->data));
+		    $data->setData(KConfig::unbox($context->data));
 		    
 		    //Only throw an error if the action explicitly failed.
 		    if($data->save() === false) 
@@ -159,7 +159,7 @@ abstract class KControllerService extends KControllerResource
 	  					
 		if(count($data)) 
 	    {
-            $data->setData(KConfig::toData($context->data));
+            $data->setData(KConfig::unbox($context->data));
 
             //Only throw an error if the action explicitly failed.
 	        if($data->delete() === false) 

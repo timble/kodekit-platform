@@ -303,7 +303,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			$this->getCommandChain()->run('after.select', $context);
 		}
 
-		return KConfig::toData($context->result);
+		return KConfig::unbox($context->result);
 	}
 	
 	/**
@@ -360,7 +360,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			$this->getCommandChain()->run('after.show', $context);
 		}
 
-		return KConfig::toData($context->result);
+		return KConfig::unbox($context->result);
 	}
 
 	/**
