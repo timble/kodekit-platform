@@ -1,21 +1,30 @@
 <?php
+/**
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Components
+ * @subpackage  Logs
+ * @copyright   Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
+/**
+ * Logs Toolbar
+ *
+ * @author      Israel Canasa <israel@timble.net>
+ * @category    Nooku
+ * @package     Nooku_Components
+ * @subpackage  Logs
+ */
 class ComLogsControllerToolbarLogs extends ComDefaultControllerToolbarDefault
 {
-    public function __construct(KConfig $config)
+    public function getCommands()
     {
-        parent::__construct($config);
+        $this->reset()
+             ->addDelete();
 
-		$this->addDelete();
-    }
-    
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'auto_defaults' => false
-        ));
-        
-        parent::_initialize($config);
+        return parent::getCommands();
     }
     
     protected function _commandDelete(KControllerToolbarCommand $command)
