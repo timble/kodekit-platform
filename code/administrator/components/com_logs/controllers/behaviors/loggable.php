@@ -10,7 +10,7 @@
  */
 
 /**
- * Revision Row
+ * Log Behavior
  *
  * @author      Israel Canasa <israel@timble.net>
  * @category	Nooku
@@ -20,30 +20,30 @@
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
-    protected $_title_column = '';
-    
+	protected $_actions;
+
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
         
-        $this->registerCallback($config->actions->toArray(), array($this, 'logAction'));
-        
-        $this->_title_column = $config->title_column;
+        $this->_actions = $config->actions->toArray();
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOW,
+            'priority'   => KCommand::PRIORITY_LOWEST,
             'actions' => array('after.edit', 'after.add', 'after.delete'),
-            'title_column' => 'title',
         ));
 
         parent::_initialize($config);
     }
     
-    public function logAction(KCommandContext $context)
+    public function execute($name, KCommandContext $context)
     {
+    	if(!in_array($name, $this->_actions))
+            return;
+
         $identifier = $context->caller->getIdentifier();
 				
 		$data = array(
@@ -76,11 +76,16 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 
 				$data['row_id'] = $row->id;
 				
-				KFactory::tmp('com://admin/logs.model.logs')
+				KFactory::get('com://admin/logs.model.logs')
 					->getItem()
 					->setData($data)
 					->save();
 			}
 		}
+    }
+    
+    public function getHandle()
+    {
+        return KMixinAbstract::getHandle();
     }
 }
