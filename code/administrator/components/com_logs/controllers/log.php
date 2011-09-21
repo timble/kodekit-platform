@@ -28,9 +28,9 @@ class ComLogsControllerLog extends ComDefaultControllerDefault
         
         parent::_initialize($config);
         
-        $config->view = 'admin::com.logs.view.logs.html';
-        $config->model = 'admin::com.logs.model.logs';
-        $config->toolbar = 'admin::com.logs.controller.toolbar.logs';
+        $config->view = 'com://admin/logs.view.logs.html';
+        $config->model = 'com://admin/logs.model.logs';
+        $config->toolbar = 'com://admin/logs.controller.toolbar.logs';
     }
     
     public function getToolbar()

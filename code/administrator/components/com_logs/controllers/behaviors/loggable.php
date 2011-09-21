@@ -59,7 +59,7 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 
 				$data['row_id'] = $row->id;
 				
-				KFactory::tmp('admin::com.logs.model.logs')
+				KFactory::tmp('com://admin/logs.model.logs')
 					->getItem()
 					->setData($data)
 					->save();

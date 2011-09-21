@@ -21,7 +21,7 @@
 			<? foreach($list as $date => $logs) : ?>
 			<? foreach($logs as $log) : ?>
 			<tr class="<?php echo 'row'.$m; ?>" style="line-height: 14px;">
-				<td><?= @helper('admin::com.logs.template.helper.message.build', array('row' => $log, 'truncate' => true)) ?></td>
+				<td><?= @helper('com://admin/logs.template.helper.message.build', array('row' => $log, 'truncate' => true)) ?></td>
 			</tr>
 			<? $i = $i + 1; $m = (1 - $m); ?>	
 			<? endforeach ?>

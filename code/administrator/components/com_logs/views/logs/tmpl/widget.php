@@ -14,7 +14,7 @@
 			<? foreach($logs as $log) : ?>
 			<div class="log">
 				<span class="icon icon-16-<?= $log->action ?>"></span>
-				<?= @helper('admin::com.logs.template.helper.message.build', array('row' => $log, 'truncate' => true)) ?>
+				<?= @helper('com://admin/logs.template.helper.message.build', array('row' => $log, 'truncate' => true)) ?>
 			</div>
 			<? endforeach ?>
 		<? endforeach ?>
