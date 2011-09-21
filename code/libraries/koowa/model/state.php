@@ -219,8 +219,27 @@ class KModelState extends KModelAbstract
      */
     public function isUnique()
     {
+        $unique = false;
+
+        //Get the unique states
         $states = $this->getData(true);
-        return !empty($states);
+
+        if(!empty($states))
+        {
+            $unique = true;
+
+            //If a state contains multiple values the state is not unique
+            foreach($states as $state)
+            {
+                if(is_array($state) && count($state) > 1)
+                {
+                    $unique = false;
+                    break;
+                }
+            }
+        }
+
+        return $unique; 
     }
     
     /**
@@ -264,12 +283,7 @@ class KModelState extends KModelAbstract
         }
                     
         if(is_array($state->value)) 
-        {
-            // If a state contains multiple values the state is not unique.
-            if(count($state->value) > 1) {
-                return false;
-            }
-                        
+        {        
             // The first element of the array can't be null or empty string.
             $first = array_slice($state->value, 0, 1);
             if(empty($first) && !is_numeric($first)) {
