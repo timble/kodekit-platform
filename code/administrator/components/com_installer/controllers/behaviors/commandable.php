@@ -127,7 +127,7 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
         if($this->isDispatched() && ($this->getView() instanceof KViewHtml))
         {
             //Render the sidebar
-            $document = KFactory::get('joomla:document');
+            $document = JFactory::getDocument();
             $config   = array('sidebar' => $this->getSidebar());
                 
             $sidebar = $this->getView()->getTemplate()->getHelper('sidebar')->render($config);

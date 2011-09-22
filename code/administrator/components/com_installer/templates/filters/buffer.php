@@ -44,7 +44,7 @@ class ComInstallerTemplateFilterBuffer extends KTemplateFilterAbstract implement
 				
 		        $attributes = array_merge($attributes, JUtility::parseAttributes($matches[1][$key])); 
 			    
-			    $document = KFactory::get('joomla:document');
+			    $document = JFactory::getDocument();
 			    if($attributes['render']) {
 			        $replace = $document->getBuffer($attributes['type'], $attributes['name']);
 			    } else {

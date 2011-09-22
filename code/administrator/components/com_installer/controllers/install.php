@@ -125,7 +125,7 @@ class ComInstallerControllerInstall extends ComDefaultControllerResource
 		}
 
 		// Set some model state values
-		KFactory::get('joomla:application')->enqueueMessage($msg);
+		JFactory::getApplication()->enqueueMessage($msg);
 		$this->name($installer->get('name'));
 		$this->message($installer->message);
 		$this->extension_message($installer->get('extension.message'));
