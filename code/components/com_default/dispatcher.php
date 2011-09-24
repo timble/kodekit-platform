@@ -53,7 +53,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $instance = new $classname($config);
               
             //Add the factory map to allow easy access to the singleton
-            KIdentifier::map('dispatcher', $config->identifier);
+            KIdentifier::setAlias('dispatcher', $config->identifier);
         }
         
         return $instance;
