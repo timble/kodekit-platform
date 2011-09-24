@@ -44,13 +44,13 @@ jimport( 'joomla.utilities.string' );
 JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
 JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
-KLoader::registerAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-KLoader::registerAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 		
 // Koowa : setup factory
-KIdentifier::registerAdapter(new KIdentifierAdapterKoowa());
-KIdentifier::registerAdapter(new KIdentifierAdapterComponent());
+KIdentifier::addAdapter(new KIdentifierAdapterKoowa());
+KIdentifier::addAdapter(new KIdentifierAdapterComponent());
 		
 //Koowa : register identifier application paths
-KIdentifier::registerApplication('site' , JPATH_SITE);
-KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+KIdentifier::setApplication('site' , JPATH_SITE);
+KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
