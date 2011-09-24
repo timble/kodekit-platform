@@ -29,7 +29,7 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInst
     public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->exists($config->identifier))
+        if (!$factory->has($config->identifier))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
