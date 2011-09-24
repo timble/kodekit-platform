@@ -53,20 +53,20 @@ jimport( 'joomla.plugin.helper' );
 JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
 JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
 		
-KLoader::registerAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-KLoader::registerAdapter(new KLoaderAdapterModule(JPATH_BASE));
-KLoader::registerAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-KLoader::registerAdapter(new KLoaderAdapterComponent(JPATH_BASE));
+KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
+KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
+KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
+KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 		
 // Koowa : setup factory
-KIdentifier::registerAdapter(new KIdentifierAdapterKoowa());
-KIdentifier::registerAdapter(new KIdentifierAdapterModule());
-KIdentifier::registerAdapter(new KIdentifierAdapterPlugin());
-KIdentifier::registerAdapter(new KIdentifierAdapterComponent());
+KIdentifier::addAdapter(new KIdentifierAdapterKoowa());
+KIdentifier::addAdapter(new KIdentifierAdapterModule());
+KIdentifier::addAdapter(new KIdentifierAdapterPlugin());
+KIdentifier::addAdapter(new KIdentifierAdapterComponent());
 		
 //Koowa : register identifier application paths
-KIdentifier::registerApplication('site' , JPATH_SITE);
-KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+KIdentifier::setApplication('site' , JPATH_SITE);
+KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
 
 //Koowa : setup factory mappings
-KIdentifier::map('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
+KIdentifier::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
