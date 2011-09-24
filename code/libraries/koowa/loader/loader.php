@@ -125,6 +125,18 @@ class KLoader
         return self::$_registry;
     }
     
+ 	/**
+     * Add a loader adapter
+     *
+     * @param object    A KLoaderAdapter
+     * @return void
+     */
+    public static function addAdapter(KLoaderAdapterInterface $adapter)
+    {
+        self::$_adapters[$adapter->getType()]     = $adapter;
+        self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
+    }
+    
 	/**
      * Get the registered adapters
      * 
@@ -251,17 +263,5 @@ class KLoader
         else $result = self::$_registry->offsetGet((string)$class);
         
         return $result;
-    }
-    
-    /**
-     * Add a loader adapter
-     *
-     * @param object    A KLoaderAdapter
-     * @return void
-     */
-    public static function registerAdapter(KLoaderAdapterInterface $adapter)
-    {
-        self::$_adapters[$adapter->getType()]     = $adapter;
-        self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
     }
 }
