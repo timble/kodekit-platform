@@ -43,7 +43,7 @@ class ComDebugProfilerQueries extends KEventListener implements KObjectInstantia
      */
     public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     {
-        if (!$factory->exists($config->identifier)) 
+        if (!$factory->has($config->identifier)) 
         {
             $instance = new self($config);
             $factory->set($config->identifier, $instance);
