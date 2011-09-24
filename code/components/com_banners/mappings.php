@@ -18,4 +18,4 @@
  * @subpackage  Weblinks
  */
 
-KIdentifier::map('com://site/banners.model.banners',    'com://admin/banners.model.banners');
+KIdentifier::setAlias('com://site/banners.model.banners',    'com://admin/banners.model.banners');
