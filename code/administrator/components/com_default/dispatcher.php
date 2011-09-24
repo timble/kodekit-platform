@@ -47,7 +47,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
     public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->exists($config->identifier))
+        if (!$factory->has($config->identifier))
         {
             //Create the singleton
             $classname = $config->identifier->classname;
@@ -55,7 +55,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KObjectInstanti
             $factory->set($config->identifier, $instance);
             
             //Add the factory map to allow easy access to the singleton
-            KIdentifier::map('dispatcher', $config->identifier);
+            KIdentifier::setAlias('dispatcher', $config->identifier);
         }
         
         return $factory->get($config->identifier);
