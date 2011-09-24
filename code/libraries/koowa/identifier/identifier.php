@@ -46,7 +46,7 @@ class KIdentifier implements KIdentifierInterface
 	 *
 	 * @var	array
 	 */
-	protected static $_identifier_map = array();
+	protected static $_aliases = array();
     
     /**
      * The identifier
@@ -181,8 +181,8 @@ class KIdentifier implements KIdentifierInterface
 		    } 
 		
 		    $alias = (string) $identifier;
-		    if(array_key_exists($alias, self::$_identifier_map)) {
-			    $identifier = self::$_identifier_map[$alias];
+		    if(array_key_exists($alias, self::$_aliases)) {
+			    $identifier = self::$_aliases[$alias];
 		    }
 		
 		    if(is_string($identifier)) {
@@ -194,19 +194,6 @@ class KIdentifier implements KIdentifierInterface
         else $identifier = self::$_registry->offsetGet((string)$identifier);
 		
 		return $identifier;
-	}
-	
-	/**
-	 * Creates an alias for an identifier
-	 *
-	 * @param mixed  The alias 
-	 * @param mixed  The class indentifier or identifier object
-	 */
-	public static function map($alias, $identifier)
-	{		
-		$identifier = self::identify($identifier);
-		
-		self::$_identifier_map[$alias] = $identifier;
 	}
 	
 	/**
@@ -244,19 +231,66 @@ class KIdentifier implements KIdentifierInterface
 	        $this->{'_'.$property} = $value;
 	    }
 	}
+
+	/**
+	 * Set an alias for an identifier
+	 *
+	 * @param string  The alias 
+	 * @param mixed   The class indentifier or identifier object
+	 */
+	public static function setAlias($alias, $identifier)
+	{		
+		$identifier = self::identify($identifier);
+		
+		self::$_aliases[$alias] = $identifier;
+	}
 	
 	/**
-     * Get the registered adapters
+	 * Get an alias for an identifier
+	 *
+	 * @param  string  The alias 
+	 * @return mixed   The class indentifier or identifier object, or NULL if no alias was found.
+	 */
+	public static function getAlias($alias)
+	{		
+		return isset(self::$_aliases[$alias])  ? self::$_aliases[$alias] : null;
+	}
+	
+	/**
+     * Get a list of aliasses
      * 
      * @return array
      */
-    public static function getAdapters()
+    public static function getAliases()
     {
-        return self::$_adapters;
+        return self::$_aliases;
     }
     
 	/**
-     * Get the registered application
+	 * Set an application path
+	 * 
+	 * @param string	The name of the application
+	 * @param string	The path of the application
+	 * @return void
+     */
+    public static function setApplication($application, $path)
+    {
+        self::$_applications[$application] = $path;
+    }
+    
+	/**
+	 * Get an application path
+	 * 
+	 * @param string	The name of the application
+	 * @return string	The path of the application
+     */
+    public static function getApplication($application)
+    {
+        return isset(self::$_applications[$application]) ? self::$_applications[$application] : null;
+    }
+    
+	/**
+     * Get a list of applications
      * 
      * @return array
      */
@@ -265,27 +299,25 @@ class KIdentifier implements KIdentifierInterface
         return self::$_applications;
     }
     
-    /**
-	 * Register an application path
-	 * 
-	 * @param string	The name of the application
-	 * @param string	The path of the application
-	 * return void
-     */
-    public static function registerApplication($application, $path)
-    {
-        self::$_applications[$application] = $path;
-    }
-    
 	/**
-     * Add a factory adapter
+     * Add a identifier adapter
      *
      * @param object    A KFactoryAdapter
      * @return void
      */
-    public static function registerAdapter(KIdentifierAdapterInterface $adapter)
+    public static function addAdapter(KIdentifierAdapterInterface $adapter)
     {
         self::$_adapters[$adapter->getType()] = $adapter;
+    }
+    
+	/**
+     * Get the registered adapters
+     * 
+     * @return array
+     */
+    public static function getAdapters()
+    {
+        return self::$_adapters;
     }
        
     /** 
