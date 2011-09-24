@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: mod_logged.php 2634 2011-09-01 03:05:24Z johanjanssens $
+ * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
@@ -10,15 +10,15 @@
  */
 
 /**
- * Status Module
+ * Status Module Html View Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-
-echo KFactory::get('mod://admin/status.html')
-    	->module($module)
-    	->attribs($attribs)
-    	->display();
+ 
+class ModStatusHtml extends ModDefaultHtml
+{
+    
+} 
