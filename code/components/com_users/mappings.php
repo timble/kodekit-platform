@@ -18,9 +18,9 @@
  * @subpackage  Users
  */
 
-KIdentifier::map('com://site/users.controller.default'   , 'com://admin/users.controller.default');
-KIdentifier::map('com://site/users.model.users'          , 'com://admin/users.model.users');
-KIdentifier::map('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
-KIdentifier::map('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
-KIdentifier::map('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
-KIdentifier::map('com://site/users.helper.password'      , 'com://admin/users.helper.password');
+KIdentifier::setAlias('com://site/users.controller.default'   , 'com://admin/users.controller.default');
+KIdentifier::setAlias('com://site/users.model.users'          , 'com://admin/users.model.users');
+KIdentifier::setAlias('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
+KIdentifier::setAlias('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
+KIdentifier::setAlias('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
+KIdentifier::setAlias('com://site/users.helper.password'      , 'com://admin/users.helper.password');
