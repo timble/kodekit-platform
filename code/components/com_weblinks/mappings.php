@@ -18,5 +18,5 @@
  * @subpackage  Weblinks
  */
 
-KIdentifier::map('com://site/weblinks.model.categories', 'com://admin/weblinks.model.categories');
-KIdentifier::map('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');
+KIdentifier::setAlias('com://site/weblinks.model.categories', 'com://admin/weblinks.model.categories');
+KIdentifier::setAlias('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');
