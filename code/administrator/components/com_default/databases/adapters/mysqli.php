@@ -52,7 +52,7 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
      */
     public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
     {
-        if (!$factory->exists($config->identifier)) 
+        if (!$factory->has($config->identifier)) 
         {
             $classname = $config->identifier->classname;
             $instance  = new $classname($config);
