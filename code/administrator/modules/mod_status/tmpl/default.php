@@ -28,7 +28,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
     <? $json = "{method:'post', url:'index.php?option=com_users&view=user&id=".JFactory::getUser()->id."', params:{action:'logout', _token:'".JUtility::getToken()."'}}"; ?>
     <li <?= $class ?>>
-    	<a href="#" onclick="new Koowa.Form('.$json.').submit();"><?= @text('Logout') ?></a>
+    	<a href="#" onclick="new Koowa.Form(<?= $json ?>).submit();"><?= @text('Logout') ?></a>
     </li>
 <? endif; ?>
 </ul>
