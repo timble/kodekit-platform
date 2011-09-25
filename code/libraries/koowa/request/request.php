@@ -596,10 +596,6 @@ class KRequest
             }
         }
 
-        if(!empty(self::url()->format) && self::url()->format != 'php') {
-            $format = self::url()->format;
-        }
-
         if(self::has('request.format')) {
             $format = self::get('request.format', 'word');
         }
