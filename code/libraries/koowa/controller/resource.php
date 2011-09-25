@@ -331,6 +331,11 @@ abstract class KControllerResource extends KControllerAbstract
 			if(isset($state->$method) || in_array($method, array('layout', 'view', 'format'))) 
 			{
 				$this->$method = $args[0];
+				
+				if($method == 'view') {
+                   $this->setView($args[0]);
+                }
+				
 				return $this;
 			}
         }
