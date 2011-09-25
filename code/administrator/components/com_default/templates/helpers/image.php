@@ -87,7 +87,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
 			'class' => 'inputbox'
 			)));  
 
-	    $root = JURI::root(true).'/'.str_replace(JPATH_ROOT, '', $config->directory);
+	    $root = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory);
 		
 		$html = "
 		<script>
@@ -157,7 +157,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
             'selected'  => $config->{$config->name}
  	    ));
  	    
- 	    $image = JURI::root(true).'/'.str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
+ 	    $image = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
  	    $path = $config->selected ? $image : 'media://system/images/blank.png';
   		$html = '<img '.KHelperArray::toString(array(
