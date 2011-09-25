@@ -26,37 +26,40 @@ class JRouterAdministrator extends JRouter
 	{
 		$vars = array();
 	    
-	    $path = trim($uri->getPath(), '/');
-		
-		//Remove basepath
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
-		
-		//Remove prefix
-		$path = trim(str_replace('index.php', '', $path), '/');
-		
-		//Remove suffix
-	    if(!empty($path))
-		{
-			if($suffix = pathinfo($path, PATHINFO_EXTENSION))
-			{
-				$path = str_replace('.'.$suffix, '', $path);
-				$vars['format'] = $suffix;
-			}
-		}
-		
-		//Get the segments
-	    $segments = explode('/', $path);
-	    if(isset($segments[0])) 
+	    if(JFactory::getApplication()->getCfg('sef_rewrite'))
 	    {
-	        $vars['option'] = 'com_'.$segments[0];
+		    $path = trim($uri->getPath(), '/');
+		
+		    //Remove basepath
+		    $path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+		
+		    //Remove prefix
+		    $path = trim(str_replace('index.php', '', $path), '/');
+		
+		    //Remove suffix
+	        if(!empty($path))
+		    {
+			    if($suffix = pathinfo($path, PATHINFO_EXTENSION))
+			    {
+				    $path = str_replace('.'.$suffix, '', $path);
+				    $vars['format'] = $suffix;
+			    }
+		    }
+		
+		    //Get the segments
+	        $segments = explode('/', $path);
+	        if(isset($segments[0])) 
+	        {
+	            $vars['option'] = 'com_'.$segments[0];
 	    
-	        if(isset($segments[1])) {
-	            $vars['view']   = $segments[1];
-	        } else {
-	            $vars['view']   = $segments[0];
+	            if(isset($segments[1])) {
+	                $vars['view']   = $segments[1];
+	            } else {
+	                $vars['view']   = $segments[0];
+	            }
 	        }
 	    }
-	    
+	     
 	    return $vars;
 	}
 
@@ -71,45 +74,48 @@ class JRouterAdministrator extends JRouter
 		//Create the URI object
 		$uri = $this->_createURI($url);
 		
-		$query = $uri->getQuery(true);
-	    $path  = $uri->getPath();
-	    
-	    $segments = array();
-	    if(isset($query['option'])) 
+		if(JFactory::getApplication()->getCfg('sef_rewrite'))
 	    {
-	        $segments[] = substr($query['option'], 4);
-	        unset($query['option']); 
-
-	        if(isset($query['view'])) 
+		    $query = $uri->getQuery(true);
+	        $path  = $uri->getPath();
+	    
+	        $segments = array();
+	        if(isset($query['option'])) 
 	        {
-	            if($query['view'] != $segments[0]) {
-	                $segments[] = $query['view'];
-	            }
-	            
-	            unset($query['view']);  
-	        }
-	    }
-	    
-	    $path = JURI::base(true).'/index.php/'.implode('/', $segments);
+	            $segments[] = substr($query['option'], 4);
+	            unset($query['option']); 
 
-	    //Remove index.php from path
-	    if(JFactory::getApplication()->getCfg('sef_rewrite')) {
-	    	$path = str_replace('index.php/', '', $path);
+	            if(isset($query['view'])) 
+	            {
+	                if($query['view'] != $segments[0]) {
+	                    $segments[] = $query['view'];
+	                }
+	            
+	                unset($query['view']);  
+	            }
+	        }
+	    
+	        $path = JURI::base(true).'/index.php/'.implode('/', $segments);
+
+	        //Remove index.php from path
+	        if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+	    	    $path = str_replace('index.php/', '', $path);
+	        }
+	    
+	        //Add format to path
+	        if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+		    {
+	            if($format = $uri->getVar('format', 'html'))
+			    {
+			    	$path .= '.'.$format;
+				    $uri->delVar('format');
+			    }
+		    }
+	    
+		    //Set query again in the URI
+		    $uri->setQuery($query);
+		    $uri->setPath($path);
 	    }
-	    
-	    //Add format to path
-	    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
-		{
-	        if($format = $uri->getVar('format', 'html'))
-			{
-				$path .= '.'.$format;
-				$uri->delVar('format');
-			}
-		}
-	    
-		//Set query again in the URI
-		$uri->setQuery($query);
-		$uri->setPath($path);
 		
 		return $uri;
 	}
