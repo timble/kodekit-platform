@@ -11,13 +11,13 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <section>
-	<h3><?= @text( 'SEO' ); ?></h3>
+	<h3><?= @text( 'Url' ); ?></h3>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Search Engine Friendly URLs' ); ?>::<?= @text('Search Engine Optimization Settings'); ?>">
-					<?= @text( 'Search Engine Friendly URLs' ); ?>
+				<span class="editlinktip hasTip" title="<?= @text( 'Humanly readable URLs' ); ?>::<?= @text('Humanly readable URLs'); ?>">
+					<?= @text( 'Humanly readable URLs' ); ?>
 				</span>
 			</td>
 			<td>

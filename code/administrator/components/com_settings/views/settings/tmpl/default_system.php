@@ -18,12 +18,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <?= @template('default_cache'); ?> 
     <?= @template('default_session'); ?>
     <?= @template('default_locale'); ?> 
+    <?= @template('default_url'); ?> 
 <?= @helper('tabs.endPanel') ?>
 	
 <?= @helper('tabs.startPanel', array('id' => 'site', 'title' => @text('Frontend'))) ?>
 	<h2><?= @text('Frontend') ?></h2>
 	<?= @template('default_site'); ?>
-	<?= @template('default_seo'); ?>
 <?= @helper('tabs.endPanel') ?>
 	
 <?= @helper('tabs.startPanel', array('id' => 'mail', 'title' => @text('Mail'))) ?>
