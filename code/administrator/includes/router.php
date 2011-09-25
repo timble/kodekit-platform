@@ -30,20 +30,20 @@ class JRouterAdministrator extends JRouter
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
 		
 		//Remove prefix
-		$path = str_replace('index.php', '', $path);
+		$path = trim(str_replace('index.php', '', $path), '/');
 		
 		//Get the segments
 	    $segments = explode('/', $path);
-	    
+	   
 	    $vars = array();
-	    if(isset($segments[1])) 
+	    if(isset($segments[0])) 
 	    {
-	        $vars['option'] = 'com_'.$segments[1];
+	        $vars['option'] = 'com_'.$segments[0];
 	    
-	        if(isset($segments[2])) {
-	            $vars['view']   = $segments[2];
-	        } else {
+	        if(isset($segments[1])) {
 	            $vars['view']   = $segments[1];
+	        } else {
+	            $vars['view']   = $segments[0];
 	        }
 	    }
 	    
@@ -81,6 +81,10 @@ class JRouterAdministrator extends JRouter
 	    }
 	    
 	    $path = JURI::base(true).'/index.php/'.implode('/', $segments);
+	        
+	    if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+	    	$path = str_replace('index.php/', '', $path);
+	    }
 	    
 		//Set query again in the URI
 		$uri->setQuery($query);
