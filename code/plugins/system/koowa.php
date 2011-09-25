@@ -83,6 +83,15 @@ class plgSystemKoowa extends JPlugin
 	        $this->_authenticateUser();
 	    }
 	    
+	}
+	
+	/**
+	 * On after route event handler
+	 * 
+	 * @return void
+	 */
+	public function onAfterRoute()
+	{      
 	    /*
 	     * Special handling for AJAX requests
 	     * 
@@ -101,8 +110,14 @@ class plgSystemKoowa extends JPlugin
         		$document = null;
         		JFactory::getDocument()->setType($format);
         		
+        		
         		JRequest::setVar('format', $format); //revert format to original
         	}
+        }
+        
+        //Set the request format
+        if(!KRequest::has('request.format')) {
+            KRequest::set('request.format', KRequest::format());
         }
 	}
 	
