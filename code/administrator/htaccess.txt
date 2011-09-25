@@ -53,7 +53,7 @@ RewriteRule ^(.*)$ index.php [F,L]
 
 #  Update Your Joomla! Directory (just / for root)
 
-RewriteBase /administrator
+RewriteBase /administrator/
 
 ########## Begin - Rewrite conditions
 #
