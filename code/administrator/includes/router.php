@@ -35,7 +35,7 @@ class JRouterAdministrator extends JRouter
 		$path = trim(str_replace('index.php', '', $path), '/');
 		
 		//Remove suffix
-	    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+	    if(!empty($path))
 		{
 			if($suffix = pathinfo($path, PATHINFO_EXTENSION))
 			{
