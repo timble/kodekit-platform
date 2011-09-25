@@ -24,7 +24,9 @@ class JRouterAdministrator extends JRouter
 	 */
 	public function parse($uri)
 	{
-		$path = trim($uri->getPath(), '/');
+		$vars = array();
+	    
+	    $path = trim($uri->getPath(), '/');
 		
 		//Remove basepath
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
@@ -32,10 +34,18 @@ class JRouterAdministrator extends JRouter
 		//Remove prefix
 		$path = trim(str_replace('index.php', '', $path), '/');
 		
+		//Remove suffix
+	    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+		{
+			if($suffix = pathinfo($path, PATHINFO_EXTENSION))
+			{
+				$path = str_replace('.'.$suffix, '', $path);
+				$vars['format'] = $suffix;
+			}
+		}
+		
 		//Get the segments
 	    $segments = explode('/', $path);
-	   
-	    $vars = array();
 	    if(isset($segments[0])) 
 	    {
 	        $vars['option'] = 'com_'.$segments[0];
@@ -81,10 +91,21 @@ class JRouterAdministrator extends JRouter
 	    }
 	    
 	    $path = JURI::base(true).'/index.php/'.implode('/', $segments);
-	        
+
+	    //Remove index.php from path
 	    if(JFactory::getApplication()->getCfg('sef_rewrite')) {
 	    	$path = str_replace('index.php/', '', $path);
 	    }
+	    
+	    //Add format to path
+	    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+		{
+	        if($format = $uri->getVar('format', 'html'))
+			{
+				$path .= '.'.$format;
+				$uri->delVar('format');
+			}
+		}
 	    
 		//Set query again in the URI
 		$uri->setQuery($query);
