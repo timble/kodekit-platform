@@ -62,6 +62,8 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 			 *                     -> Named Module Default  
 			 *                     -> Default Module Specific 
 			 *                     -> Default Module Default
+			 *                     -> Default Component Specific 
+			 *                     -> Default Component Default
 			 *                     -> Framework Specific 
 			 *                     -> Framework Default
 			 */
@@ -73,6 +75,10 @@ class KIdentifierAdapterModule extends KIdentifierAdapterAbstract
 				$classname = 'ModDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
 			} elseif(class_exists('ModDefault'.ucfirst($classtype).$path.'Default')) {
 				$classname = 'ModDefault'.ucfirst($classtype).$path.'Default';
+			} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
+				$classname = 'ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
+			} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.'Default')) {
+				$classname = 'ComDefault'.ucfirst($classtype).$path.'Default';
 			} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
 				$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
 			} elseif(class_exists('K'.ucfirst($classtype).$path.'Default')) {
