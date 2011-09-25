@@ -30,7 +30,7 @@ RewriteEngine On
 ## This attempts to block the most common type of exploit `attempts` to Joomla!
 #
 ## Deny access to extension xml files (uncomment out to activate)
-<Files ~ "\.xml$">
+#<Files ~ "\.xml$">
 #Order allow,deny
 #Deny from all
 #Satisfy all
@@ -51,11 +51,9 @@ RewriteRule ^(.*)$ index.php [F,L]
 #
 ########## End - Rewrite rules to block out some common exploits
 
-#  Uncomment following line if your webserver's URL
-#  is not directly related to physical file paths.
 #  Update Your Joomla! Directory (just / for root)
 
-#RewriteBase /
+RewriteBase /administrator
 
 ########## Begin - Rewrite conditions
 #
@@ -90,5 +88,10 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
     ExpiresByType image/icon "now plus 1 year"
     ExpiresByType text/ico "now plus 1 year"
     ExpiresByType application/ico "now plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header unset ETag
+	FileETag None
 </IfModule>
 ########## End - Optimal expiration time
