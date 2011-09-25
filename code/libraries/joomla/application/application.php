@@ -764,8 +764,8 @@ class JApplication extends JObject
 	    //Set the paths
 		$params = JComponentHelper::getParams('com_files');
 
-		define('JPATH_FILES'    , JPATH_SITES.'/'.$site);
-	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
+		define('JPATH_FILES'    , JPATH_SITES.DS.$site);
+	    define('JPATH_IMAGES'   , JPATH_SITES.DS.$site.DS.$params->get('image_path', 'images'));
 
 		//Force re-login of the user if the site changed
 		$user = JFactory::getUser();
