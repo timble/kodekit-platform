@@ -27,7 +27,12 @@ class plgSystemExpire extends JPlugin
      * @var array
      */
     protected $_cache = array();
-
+    
+    /**
+	 * On after render event handler
+	 * 
+	 * @return void
+	 */
     public function onAfterRender()
     {
         $response = JResponse::getBody();
@@ -50,24 +55,7 @@ class plgSystemExpire extends JPlugin
         JResponse::setBody($response);
     }
     
-    protected function _replaceInlineCSS($matches)
-    {
-        return preg_replace_callback('#url\(([^"]+)\)#iU', array($this, '_replaceInlineCSSMatch'), $matches[0]);
-    }
-    
-    protected function _replaceInlineCSSMatch($matches)
-    {
-        $match = trim($matches[1], '"\'');
-        if(strpos($match, '..') === 0) $match = KRequest::root().ltrim($match, '.');
-        return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);
-    }
-    
-    protected function _replace($matches)
-    {
-        return str_replace($matches[1], $this->_processResourceURL($matches[1]), $matches[0]);
-    }
-    
-    /**
+ 	/**
 	 * Adds 'modified' query variable to resource URI when possible, makes browsers caching useful and failsafe
 	 *
 	 * @return string
@@ -87,15 +75,35 @@ class plgSystemExpire extends JPlugin
     	     */
     	    $count = 1;
             $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
-
+            
             if(file_exists($src) && $modified = filemtime($src))
             {
                 $join  = strpos($url, '?') ? '&' : '?';
-                $this->_cache[$url] = $url.$join.'modified='.$modified;
+                $this->_cache[$url] = $url.$join.$modified;
             } 
             else $this->_cache[$url] = $url;
         }
 
         return $this->_cache[$url];
 	}
+    
+    protected function _replace($matches)
+    {
+        return str_replace($matches[1], $this->_processResourceURL($matches[1]), $matches[0]);
+    }
+    
+    protected function _replaceInlineCSS($matches)
+    {
+        return preg_replace_callback('#url\(([^"]+)\)#iU', array($this, '_replaceInlineCSSMatch'), $matches[0]);
+    }
+    
+    protected function _replaceInlineCSSMatch($matches)
+    {
+        $match = trim($matches[1], '"\'');
+        if(strpos($match, '..') === 0) {
+            $match = KRequest::root().ltrim($match, '.');
+        }
+        
+        return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);
+    }
 }
