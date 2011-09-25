@@ -1,11 +1,11 @@
 ##
-# @version $Id: htaccess.txt 14401 2010-01-26 14:10:00Z louis $
-# @package Joomla
-# @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-# Joomla! is Free Software
+# @version     $Id$
+# @category    Nooku
+# @package     Nooku_Server
+# @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+# @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+# @link        http://www.nooku.org
 ##
-
 
 #####################################################
 #  READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE
@@ -22,9 +22,7 @@
 ##  Can be commented out if causes errors, see notes above.
 Options +FollowSymLinks
 
-#
-#  mod_rewrite in use
-
+#  Use mod_rewrite
 RewriteEngine On
 
 ########## Begin - Rewrite rules to block out some common exploits
@@ -32,12 +30,13 @@ RewriteEngine On
 ## This attempts to block the most common type of exploit `attempts` to Joomla!
 #
 ## Deny access to extension xml files (uncomment out to activate)
-#<Files ~ "\.xml$">
+<Files ~ "\.xml$">
 #Order allow,deny
 #Deny from all
 #Satisfy all
 #</Files>
 ## End of deny access to extension xml files
+
 RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
 # Block out any script trying to base64_encode crap to send via URL
 RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
@@ -56,16 +55,40 @@ RewriteRule ^(.*)$ index.php [F,L]
 #  is not directly related to physical file paths.
 #  Update Your Joomla! Directory (just / for root)
 
-RewriteBase /administrator
+#RewriteBase /
 
-
-########## Begin - Joomla! core SEF Section
+########## Begin - Rewrite conditions
 #
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^/index.php
-RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.htm|\.feed|\.raw|/[^.]*)$  [NC]
+RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.json|\.feed|\.raw|/[^.]*)$  [NC]
 RewriteRule (.*) index.php
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #
-########## End - Joomla! core SEF Section
+########## End - Rewrite conditions
+
+########## Begin - Optimal default expiration time
+## Note: You need to enable the "System - Expire" plugin for this to work optimally
+## Based on: http://akeeba.assembla.com/code/master-htaccess/git/nodes/htaccess.txt 
+<IfModule mod_expires.c>
+    # Uncomment following line if you want to enable expires
+    #ExpiresActive On
+    
+    ExpiresByType text/css "now plus 1 year"
+    ExpiresByType application/javascript "now plus 1 year"
+    ExpiresByType application/x-javascript "now plus 1 year"
+    
+    ExpiresByType image/bmp "now plus 1 year"
+    ExpiresByType image/gif "now plus 1 year"
+    ExpiresByType image/jpeg "now plus 1 year"
+    ExpiresByType image/png "now plus 1 year"
+    ExpiresByType image/svg+xml "now plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon "now plus 1 year"
+    ExpiresByType image/x-icon "now plus 1 year"
+    ExpiresByType image/ico "now plus 1 year"
+    ExpiresByType image/icon "now plus 1 year"
+    ExpiresByType text/ico "now plus 1 year"
+    ExpiresByType application/ico "now plus 1 year"
+</IfModule>
+########## End - Optimal expiration time
