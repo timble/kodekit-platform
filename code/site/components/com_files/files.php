@@ -18,4 +18,4 @@
  * @subpackage  Files   
  */
 
-echo KFactory::get('com://site/files.dispatcher')->dispatch();
+echo KFactory::get('com://admin/files.dispatcher')->dispatch();
