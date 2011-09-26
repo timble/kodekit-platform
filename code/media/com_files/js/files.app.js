@@ -225,7 +225,7 @@ Files.App = new Class({
 				}
 			},
 			root: {
-				text: '/', //Files.container.title,
+				text: Files.container.title,
 				data: {
 					url: '#/'
 				}
