@@ -34,7 +34,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				'name'		=> 'type',
 				'value'		=> $module->type
 			)) ?>>
-				<a href="<?= @route('view=module&layout=form&type='.$module->type) ?>">
+				<a href="<?= @route('view=module&layout=form&type='.$module->type.'&application='.$state->application) ?>">
 					<?= @text(@escape($module->title)) ?>
 				</a>
 			</span>

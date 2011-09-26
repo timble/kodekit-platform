@@ -253,4 +253,5 @@ window.addEvent('domready', function() {
 <? endif ?>
 
 <input type="hidden" name="type" value="<?= $module->type ?>" />
+<input type="hidden" name="client_id" value="<?= $module->client_id ?>" />
 </form>
