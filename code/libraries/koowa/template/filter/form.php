@@ -82,14 +82,14 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
         {
             $text    = preg_replace('/(<form.*method="post".*>)/i', 
             	'\1'.PHP_EOL.'<input type="hidden" name="'.$this->_token_name.'" value="'.$this->_token_value.'" />', 
-                $text
+                $text	
             );
         }
         
         // GET : Add token to .-koowa-grid forms
         if(!empty($this->_token_value)) 
         {
-            $text    = preg_replace('/(<form.*method="get".*class=".*-koowa-grid.*".*)>/i', 
+            $text    = preg_replace('#(<\s*?form\s+?.*?class=(?:\'|")[^\'"]*?-koowa-grid.*?(?:\'|").*?)>#im', 
             	'\1 data-token-name="'.$this->_token_name.'" data-token-value="'.$this->_token_value.'">', 
                 $text
             );
