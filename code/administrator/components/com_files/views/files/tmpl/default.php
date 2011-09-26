@@ -42,11 +42,9 @@ window.addEvent('domready', function() {
 		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
-			var element = this;
 			var folder = new Files.Folder({path: value});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
-
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
