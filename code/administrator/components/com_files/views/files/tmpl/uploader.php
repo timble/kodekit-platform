@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		url: 'index.php?option=com_files&view=file&format=json&container=<?= $state->container->id; ?>',
+		url: Files.getUrl({view: 'file'}),
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
@@ -164,7 +164,7 @@ window.addEvent('domready', function() {
 	</div>
 	<div class="clr"></div>
 	<div id="files-uploader-web" class="upload-form" style="display: none">
-		<form action="<?= @route('view=file&format=json&container='.$state->container->id) ?>" method="post" name="remoteForm" id="remoteForm" >
+		<form action="" method="post" name="remoteForm" id="remoteForm" >
 			<fieldset class="actions adminform">
 				<table class="admintable">
 					<tr>
