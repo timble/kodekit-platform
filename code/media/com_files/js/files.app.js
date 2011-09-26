@@ -19,9 +19,6 @@ Files.App = new Class({
 		},
 		paginator: {
 			element: 'files-paginator'
-		},
-		pathway: {
-			element: 'files-pathway'
 		}
 	},
 
@@ -30,7 +27,6 @@ Files.App = new Class({
 		
 		//this.setContainerTree();
 		this.setGrid();
-		this.setPathway();
 		this.setPaginator();
 		
 		var hash = window.location.hash.substr(2);
@@ -137,23 +133,6 @@ Files.App = new Class({
 				$each(response.items, this.containertree.addItem.bind(this.containertree));
 			}.bind(this)
 		}).get();
-	},
-	setPathway: function() {
-		var opts = this.options.pathway;
-		var that = this;
-		$extend(opts, {
-			'onClickItem': function(el) {
-				var path = el.get('data-path');
-				that.navigate(path);
-			}
-		});
-		this.pathway = new Files.Pathway(opts.element, opts);
-		
-		this.addEvent('afterNavigate', function(path) {
-			if (path) {
-				this.pathway.setPath(path);
-			}
-		}.bind(this));
 	},
 	setPaginator: function() {
 		var opts = this.options.paginator;
