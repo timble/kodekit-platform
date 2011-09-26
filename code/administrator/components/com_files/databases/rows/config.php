@@ -29,10 +29,6 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		if (!empty($config->auto_load)) {
-			$this->load();
-		}
-
 		if (!empty($config->comma_separated)) {
 			$this->_comma_separated = $config->comma_separated;
 		}
@@ -41,7 +37,6 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'auto_load' => true,
 			'comma_separated' => array(
 				'upload_extensions',
 				'image_extensions',

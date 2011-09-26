@@ -80,7 +80,7 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 	public function getParameters()
 	{
 		return KFactory::get('com://admin/files.model.configs')
-			->container($this->id)->getItem();
+			->container($this->slug)->getItem();
 	}
 	
 	public function toArray()

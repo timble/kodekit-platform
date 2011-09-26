@@ -31,7 +31,7 @@ class ComFilesControllerFile extends ComFilesControllerNode
 		if (!$context->data->file)
 		{
 			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
-			$context->data->path = KRequest::get('files.file.name', 'koowa.filter.filename');
+			$context->data->path = KRequest::get('files.file.name', 'koowa:filter.filename');
 		}
 	}
 }

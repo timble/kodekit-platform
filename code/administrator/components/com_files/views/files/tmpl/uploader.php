@@ -52,6 +52,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
+		uploader.settings.url = Files.getUrl({view: 'file'});
 		uploader.settings.multipart_params.parent = Files.app.getPath();
 	});
 	
