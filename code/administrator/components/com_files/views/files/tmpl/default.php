@@ -106,8 +106,6 @@ window.addEvent('domready', function() {
 			<div id="files-grid"></div>
 		</div>
 
-	    <div id="files-pathway"></div>
-
 		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
 	
 		<?= @template('uploader');?>

@@ -82,8 +82,6 @@ window.addEvent('domready', function() {
 			<div style="clear: both"></div>
 		</div>
 	    <div class="path">
-		    <span id="files-pathway"></span>
-		    
 		    <span id="files-new-folder">
 			<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>"  />
 			</span>
