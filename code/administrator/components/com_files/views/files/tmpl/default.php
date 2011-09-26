@@ -34,7 +34,7 @@ window.addEvent('domready', function() {
 			theme: 'media://com_files/images/mootree.png'
 		},
 		types: <?= json_encode($state->types); ?>,
-		container: <?= json_encode($state->container ? $state->container->slug : false); ?>
+		container: <?= json_encode($state->container ? $state->container->slug : 'com_files_files'); ?>
 	});
 
 	$('files-new-folder-create').addEvent('click', function(e){
@@ -61,37 +61,6 @@ window.addEvent('domready', function() {
 			});
 		};
 	});
-	$('files-new-container-create').addEvent('click', function(e){
-		var element = this;
-		var title = $('files-new-container-input').get('value');
-		if (title.length > 0) {
-			var element = this;
-			var path = (Files.app.active == '/' ? '' : Files.app.active);
-			
-			var element = $('files-new-container-input');
-			var request = new Request.JSON({
-				url: '?option=com_files&view=container&format=json',
-				method: 'post',
-				data: {
-					'_token': Files.token,
-					'path': path,
-					'title': title,
-					'container': Files.container.slug
-				},
-				onSuccess: function(response, responseText) {
-					element.set('value', '');
-					Files.Tree.addItem(response.item);
-					
-				},
-				onFailure: function(xhr) {
-					resp = JSON.decode(xhr.responseText, true);
-					error = resp && resp.error ? resp.error : 'An error occurred during request';
-					alert(error);
-				}
-			});
-			request.send();
-		}
-	});
 
     var createModal = function(container, button){
         var modal = $(container);
@@ -109,7 +78,6 @@ window.addEvent('domready', function() {
     	});
     };
     createModal('files-new-folder-modal', 'files-new-folder-toolbar');
-    createModal('files-new-container-modal', 'files-new-container-toolbar');
 });
 </script>
 
@@ -122,8 +90,6 @@ window.addEvent('domready', function() {
 		<div id="files-tree"></div>
 		
 		<div id="files-containertree"></div>
-		
-			<button id="files-new-container-toolbar"><?= @text('New Container'); ?></button>
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
@@ -153,9 +119,5 @@ window.addEvent('domready', function() {
 	<div id="files-new-folder-modal" class="modal">
 		<input class="inputbox" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
-	</div>
-	<div id="files-new-container-modal" class="modal">
-		<input class="inputbox" type="text" id="files-new-container-input"  />
-		<button id="files-new-container-create"><?= @text('Create'); ?></button>
 	</div>
 </div>
