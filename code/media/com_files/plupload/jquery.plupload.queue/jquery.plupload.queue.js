@@ -51,7 +51,6 @@
 										'<button class="plupload_start">' + _('Start upload') + '</button>' +
 										'<button class="plupload_clear">' + _('Clear queue') + '</button>' +
 									'</div>' +
-									'<span class="plupload_upload_status"></span>' +
 								'</div>' +
 								'<div class="plupload_file_action"></div>' +
 								'<div class="plupload_file_status"><span class="plupload_total_status">0%</span></div>' +
