@@ -12,13 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('tabs.startPanel', array('id' => 'system', 'title' => @text('General'))) ?>
     <h2><?= @text('General') ?></h2>
-    <?= @template('default_path'); ?>
-    <?= @template('default_server'); ?>
-    <?= @template('default_debug'); ?> 
-    <?= @template('default_cache'); ?> 
-    <?= @template('default_session'); ?>
-    <?= @template('default_locale'); ?> 
-    <?= @template('default_url'); ?> 
+    <?= @template('default_general'); ?>
 <?= @helper('tabs.endPanel') ?>
 	
 <?= @helper('tabs.startPanel', array('id' => 'site', 'title' => @text('Frontend'))) ?>
