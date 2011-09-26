@@ -16,7 +16,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<thead>
 			<tr>
 				<th width="10"></th>
-				<th></th>
 				<th><?= @text('Name'); ?></th>
 				<th><?= @text('Dimensions'); ?></th>
 				<th><?= @text('Size'); ?></th>
@@ -34,12 +33,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
 		</td>
-		<td width="20" class="description">
-			<a href="#" class="navigate">
-				<img src="media://com_files/images/folder.png" width="20" height="20" border="0" />
-				
-			</a>
-		</td>
 		<td>
 			<a href="#" class="navigate">
 				[%=name%]
@@ -56,12 +49,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<tr class="files-node files-file">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
-		</td>
-		<td class="description">
-			<a href="#" class="navigate">
-				<img src="[%=Files.sitebase%]/[%=icons['32']%]" width="20" height="20" border="0" />
-				
-			</a>
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -83,11 +70,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<tr class="files-node files-image">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
-		</td>
-		<td class="description">
-			<a href="#" class="navigate">
-				<img src="[%=Files.sitebase%]/[%=icons['32']%]" width="20" height="20" border="0" />
-			</a>
 		</td>
 		<td>
 			<a href="#" class="navigate">
