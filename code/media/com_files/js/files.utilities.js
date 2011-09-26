@@ -28,11 +28,14 @@ Files.getUrl = function(dict) {
 	dict.format = dict.format || 'json';
 	if (dict.container !== false && !dict.container && Files.container) {
 		dict.container = Files.container.slug;
+	} else {
+		delete dict.container;
 	}
+	
 	if (dict.format == 'html') {
 		delete dict.format;
 	}
-	
+
 	return '?'+new Hash(dict).filter(function(value, key) {
 		return typeof value !== 'function';
 	}).toQueryString();
