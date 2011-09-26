@@ -4,6 +4,7 @@ Files.Tree = new Class({
 	Implements: [Options],
 	options: {
 		mode: 'folders',
+		title: '',
 		grid: true,
 		onClick: $empty,
 		onAdopt: $empty,
@@ -22,6 +23,17 @@ Files.Tree = new Class({
 		if (options.adopt) {
 			this.adopt(options.adopt);
 		}
+		
+		if (this.options.title) {
+			this.setTitle(this.options.title);
+		}
+	},
+	setTitle: function(title) {
+		if (!this.title_element) {
+			this.title_element = new Element('h3').inject(document.id(this.options.div), 'top');
+		}
+		this.title = title;
+		this.title_element.set('text', title);
 	},
 	/**
 	 * We need to duplicate this because in the latest Mootree noClick argument is removed.

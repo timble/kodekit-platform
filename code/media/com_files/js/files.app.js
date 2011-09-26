@@ -102,6 +102,7 @@ Files.App = new Class({
 		Files.Tree.addItem = function(item) {
 			this.trees[item.slug] = new Files.Tree({
 				div: 'files-containertree',
+				title: 'Connections',
 				theme: this.options.tree.theme,
 				mode: 'folders',
 				root: {
@@ -123,8 +124,9 @@ Files.App = new Class({
 			});
 		}.bind(this);
 		
+		// Top level
 		new Request.JSON({
-			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
+			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title', parent_id: '0'}),
 			onSuccess: function(response) {
 				$each(response.items, Files.Tree.addItem.bind(this));
 				if (this.options.container) {
