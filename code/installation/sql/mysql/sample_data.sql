@@ -247,9 +247,9 @@ INSERT INTO `#__newsfeeds` VALUES
 --
 
 INSERT INTO `#__sections` VALUES
-(1, 'News', '', 'news', 'articles.jpg', 'content', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 3, 0, 2, ''),
-(3, 'FAQs', '', 'faqs', 'key.jpg', 'content', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 5, 0, 23, ''),
-(4, 'About Joomla!', '', 'about-joomla', '', 'content', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 14, '');
+(1, 'News', '', 'news', 'articles.jpg', '', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 3, 0, 2, ''),
+(3, 'FAQs', '', 'faqs', 'key.jpg', '', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 5, 0, 23, ''),
+(4, 'About Joomla!', '', 'about-joomla', '', '', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 14, '');
 
 --
 -- Dumping data for table `#__weblinks`
