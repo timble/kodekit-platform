@@ -50,7 +50,11 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 			$checked = $config->selected == $group->id ? ' checked' : '';
 			
 			$html[] = '<div style="padding-left: '.($group->depth * 15).'px">';
-		    $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$group->id.'" value="'.$group->id.'"'.$checked.' '.$attribs.'/>';
+			
+			if($group->depth) {
+		        $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$group->id.'" value="'.$group->id.'"'.$checked.' '.$attribs.'/>';
+			}
+			
 		    $html[] = '<label for="'.$config->name.$group->id.'">'.$group->name.'</label>';
             $html[] = '</div>';
 		}
