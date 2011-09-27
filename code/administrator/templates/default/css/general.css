@@ -223,7 +223,7 @@ div.toolbar {
 	-moz-box-flex: 1;
 }
 
-table.toolbar { border-collapse: collapse; padding: 0; margin: 0 5px; }
+table.toolbar { border-collapse: collapse; padding: 0; margin: 0 5px; float: left; }
 
 table.toolbar td {
 	margin: 0 !important;
