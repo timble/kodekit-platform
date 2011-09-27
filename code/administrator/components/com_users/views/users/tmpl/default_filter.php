@@ -17,23 +17,23 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			    <?= @text('All') ?>
 			</a>
 		</li>
-		<li class="<?= $state->enabled === false ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=0' ) ?>">
+		<li class="<?= $state->enabled === false ? 'active' : '' ?>">
+			<a href="<?= @route('enabled=0') ?>">
 			    <?= @text('Enabled') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->enabled === true ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=1' ) ?>">
+		<li class="<?= $state->enabled === true ? 'active' : '' ?>">
+			<a href="<?= @route('enabled=1') ?>">
 			    <?= @text('Disabled') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->loggedin == '1' ? 'active' : ''; ?> separator-left">
-			<a href="<?= @route( $state->loggedin == '1'? 'loggedin=' : 'loggedin=1&visited=1' ) ?>">
+		<li class="<?= $state->loggedin ? 'active' : '' ?> separator-left">
+			<a href="<?= @route($state->loggedin ? 'loggedin=' : 'loggedin=1&visited=') ?>">
 			    <?= @text('Logged In Now') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->visited == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route( $state->visited == '0'? 'visited=' : 'visited=0' ) ?>">
+		<li class="<?= $state->visited === false ? 'active' : '' ?>">
+			<a href="<?= @route($state->visited === false ? 'visited=' : 'visited=0&loggedin=') ?>">
 			    <?= @text('Never Logged In') ?>
 			</a> 
 		</li>

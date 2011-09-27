@@ -36,8 +36,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             ->insert('group_name' , 'string')
             ->insert('group_tree' , 'boolean', false)
             ->insert('enabled'    , 'boolean')
-            ->insert('visited'    , 'int')
-            ->insert('loggedin'   , 'int');
+            ->insert('visited'    , 'boolean')
+            ->insert('loggedin'   , 'boolean');
 	}
 
 	/**
@@ -49,11 +49,12 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
 	    parent::_buildQueryColumns($query);
+	    $state = $this->_state;
 
-	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS logged_in');
+	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS loggedin');
 	    $query->select('IF(tbl.block = 1, 0, 1) AS enabled');
 	    
-	    if($this->_state->loggedin) {
+	    if($state->loggedin) {
 	        $query->select(array('session.client_id AS loggedin_client_id', 'session.time AS loggedin_on', 'session.session_id AS loggedin_session_id'));
 	    }
 	}
@@ -68,11 +69,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	{
 	    $state = $this->_state;
 	    
-	    if($state->loggedin) {
-			$query->join('RIGHT', 'session AS session', 'tbl.id = session.userid');
-        } else {
-            $query->join('LEFT', 'session AS session', 'tbl.id = session.userid');
-        }
+        $query->join($state->loggedin ? 'RIGHT' : 'LEFT', 'session AS session', 'tbl.id = session.userid');
 	}
 
 	/**
@@ -84,42 +81,31 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		parent::_buildQueryWhere($query);
-
-		if($this->_state->group) 
-		{
-			if($this->_state->group_tree) {
-		        $query->where('tbl.gid', '>=', $this->_state->group);
-			} else {
-			    $query->where('tbl.gid', '=', $this->_state->group);
-			}
+        $state = $this->_state;
+		
+		if($state->group)  {
+		    $query->where('tbl.gid', $state->group_tree ? '>=' : '=', $state->group);
 		}
 
-		// @TODO: Change usertype to group_name when mapping is fixed.
-	    if($this->_state->group_name) {
-            $query->where('LOWER(tbl.usertype)', '=', $this->_state->group_name);
+	    if($state->group_name) {
+            $query->where('LOWER(tbl.usertype)', '=', $state->group_name);
         }
         
-        if(is_bool($this->_state->enabled)) {
-        	$query->where('tbl.block', '=', (int) $this->_state->enabled);
+        if(is_bool($state->enabled)) {
+        	$query->where('tbl.block', '=', (int) $state->enabled);
         }
         
-        if(is_numeric($this->_state->loggedin)) {
-        	$query->where('session.session_id', '!=', 'null');
+        if($state->loggedin === false) {
+        	$query->where('loggedin', 'IS NULL');
         }
         
-        if(is_numeric($this->_state->visited))
-        {  
-            if(!$this->_state->visited) {
-        	    $query->where('lastvisitDate', '=', '0000-00-00 00:00:00');
-            } else {
-                $query->where('lastvisitDate', '!=', '0000-00-00 00:00:00');
-            }
+        if(is_bool($state->visited)) {  
+            $query->where('lastvisitDate', $state->visited ? '!=' : '=', '0000-00-00 00:00:00');
         }
 
-	    if($this->_state->search) 
-	    {
-            $query->where('name', 'LIKE', '%'.$this->_state->search.'%')
-                  ->where('email', 'LIKE', '%'.$this->_state->search.'%', 'OR');
+	    if($state->search) {
+            $query->where('tbl.name', 'LIKE', '%'.$state->search.'%')
+                  ->where('tbl.email', 'LIKE', '%'.$state->search.'%', 'OR');
         }
-	}
+    }
 }
