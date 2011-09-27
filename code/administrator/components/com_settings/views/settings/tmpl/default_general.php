@@ -49,7 +49,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</span>
 			</td>
 			<td>
-				<?= @helper('select.booleanlist' , array('name' => 'settings[system][gzip]'));?>
+				<?= @helper('select.booleanlist' , array('name' => 'settings[system][gzip]', 'selected' => $settings->gzip));?>
 			</td>
 		</tr>
 		<tr>
