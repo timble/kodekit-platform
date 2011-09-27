@@ -24,8 +24,7 @@ class ComInfoModelSystem extends KModelAbstract
     {
         if(!$this->_list)
         {
-            $nooku_version   = new JVersion();
-            $server_software = $_SERVER['SERVER_SOFTWARE'] ? $_SERVER['SERVER_SOFTWARE'] : JText::_('n/a');
+            $server_software = !empty($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : JText::_('n/a');
 
             $rows = array(
                 array(
@@ -54,7 +53,7 @@ class ComInfoModelSystem extends KModelAbstract
                 ),
                 array(
                     'setting' => JText::_('Nooku Server Version'),
-                    'value'   => $nooku_version->getLongVersion()
+                    'value'   => Koowa::getVersion()
                 ),
                 array(
                     'setting' => JText::_('User Agent'),
