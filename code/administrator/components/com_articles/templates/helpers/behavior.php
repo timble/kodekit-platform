@@ -29,14 +29,10 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 		    'attribs' => array('size' => 25, 'maxlenght' => 19),
 		    'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
  		));
- 		
-	    if(!is_numeric($config->date)) {
-            $config->date = strtotime($config->date);
+ 
+        if($config->date && $config->date != '0000-00-00 00:00:00') { 
+            $config->date = strftime($config->format, strtotime($config->date) /*+ $config->gmt_offset*/);
         }
-        
-        if($config->date) { 
-            $config->date = strftime($config->format, $config->date /*+ $config->gmt_offset*/);
-        } 
         
 	    $html = '';
 		// Load the necessary files if they haven't yet been loaded
