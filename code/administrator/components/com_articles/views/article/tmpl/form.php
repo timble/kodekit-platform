@@ -15,6 +15,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.validator') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://com_articles/css/article-form.css" />
 
 <script>
     var categories = <?= json_encode(KFactory::get('com://admin/articles.model.categories')->getList()) ?>;
