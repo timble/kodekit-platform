@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtentionsControllerToolbarTemplate extends ComDefaultControllerToolbarDefault
+class ComExtensionsControllerToolbarTemplate extends ComDefaultControllerToolbarDefault
 {
     public function getCommands()
     {
