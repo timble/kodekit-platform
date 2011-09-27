@@ -30,7 +30,7 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $option  = $this->_identifier->package;
+    	$option  = $this->getController()->getView()->getIdentifier()->package;
 		$view	 = KInflector::singularize($this->_identifier->name);
 		$section = $this->getController()->getModel()->get('section');
 		
