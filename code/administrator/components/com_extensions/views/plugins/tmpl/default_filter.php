@@ -19,12 +19,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</li>
 		<li class="<?= $state->enabled == '1' ? 'active' : ''; ?>">
 			<a href="<?= @route('enabled=1' ) ?>">
-			    <?= @text('Published') ?>
+			    <?= @text('Enabled') ?>
 			</a> 
 		</li>
 		<li class="<?= $state->enabled == '0' ? 'active' : ''; ?>">
 			<a href="<?= @route('enabled=0' ) ?>">
-			    <?= @text('Unpublished') ?>
+			    <?= @text('Disabled') ?>
 			</a> 
 		</li>
 	</ul>
