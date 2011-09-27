@@ -7,9 +7,6 @@
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 
-<?php  if($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 </head>
 
 <?php echo JHTML::_('behavior.keepalive'); ?>

@@ -9,10 +9,6 @@
 <link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" media="screen and (min-width:1025px)" />
 <link href="templates/tablet/css/960_fluid.css" rel="stylesheet" type="text/css" media="screen and (max-width: 1024px)" />
 
-<?php if($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
-
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/chromatable.js"></script>
 
 <?php if(JModuleHelper::isEnabled('menu')) : ?>
