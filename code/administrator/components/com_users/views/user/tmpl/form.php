@@ -146,7 +146,7 @@ if(Form && Form.Validator) {
 		</div>
 		<div class="panel">
 			<h3><?= @text('Group') ?></h3>
-			<?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->users_group_id, 'name' => 'users_group_id')) ?>
+			<?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->users_group_id, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
 		</div>
 	</div>
 </form>
