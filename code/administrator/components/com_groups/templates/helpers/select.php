@@ -28,6 +28,8 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 			'core' => null
 		));
 		
+		$attribs = KHelperArray::toString($config->attribs);
+		
 		$groups  = KFactory::get('com://admin/groups.model.groups')
             ->set('core', is_null($config->core) ? null : $config->core)
             ->set('limit', 0)
@@ -48,7 +50,7 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 			$checked = $config->selected == $group->id ? ' checked' : '';
 			
 			$html[] = '<div style="padding-left: '.($group->depth * 15).'px">';
-		    $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$group->id.'" value="'.$group->id.'"'.$checked.' />';
+		    $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$group->id.'" value="'.$group->id.'"'.$checked.' '.$attribs.'/>';
 		    $html[] = '<label for="'.$config->name.$group->id.'">'.$group->name.'</label>';
             $html[] = '</div>';
 		}
