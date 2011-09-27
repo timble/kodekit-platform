@@ -25,7 +25,7 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		
 		$this->_state
 		 	->insert('search'	 , 'string')
-			->insert('scope'	 ,'string', 'content')
+			->insert('scope'	 ,'string', '')
 			->insert('published' ,'int');
 
 	}
