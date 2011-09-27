@@ -57,8 +57,9 @@
 	border-right: 1px solid #555;
 }
 /* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
+#menu a:hover,
 #statusmenu a:hover {
-    cursor: pointer;
+    cursor: default;
 }
 #menu ul li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
 #menu ul li.node:hover > a { background-position: 95% 50%; }
