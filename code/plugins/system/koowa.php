@@ -62,18 +62,16 @@ class plgSystemKoowa extends JPlugin
 		//Set exception handler
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
-		// Require the library loader
-		JLoader::import('libraries.koowa.koowa', JPATH_ROOT);
-		JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
+		// Koowa : setup
+        require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
+        Koowa::getInstance();	
 		
 		 //Setup the loader
-		KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
         KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
         KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
         KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
 		
         // Koowa : setup factory
-        KIdentifier::addAdapter(new KIdentifierAdapterKoowa());
         KIdentifier::addAdapter(new KIdentifierAdapterModule());
         KIdentifier::addAdapter(new KIdentifierAdapterPlugin());
         KIdentifier::addAdapter(new KIdentifierAdapterComponent());
