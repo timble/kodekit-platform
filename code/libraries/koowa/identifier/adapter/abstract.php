@@ -26,6 +26,13 @@ abstract class KIdentifierAdapterAbstract extends KObject implements KIdentifier
 	protected $_type = '';
 	
 	/**
+	 * Loader object
+	 *
+	 * @var	object
+	 */
+	protected $_loader;
+	
+	/**
 	 * Constructor.
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
@@ -34,9 +41,29 @@ abstract class KIdentifierAdapterAbstract extends KObject implements KIdentifier
 	{ 
 		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+	
 		parent::__construct($config);
+		
+		//Set the loader
+		$this->_loader = $config->loader;
 	}
+	
+	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+         $config->append(array(
+            'loader'  => '',
+        ));
+        
+        parent::_initialize($config);
+    }
 	
 	/**
 	 * Get the type
