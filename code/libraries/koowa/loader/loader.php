@@ -52,10 +52,6 @@ class KLoader
         //Create the class registry 
         $this->_registry = new KLoaderRegistry();
         
-        if(isset($config['cache_prefix'])) {
-            $this->_registry->setCachePrefix($config['cache_prefix']);
-        }
-        
         //Add the koowa class loader
         $this->addAdapter(new KLoaderAdapterKoowa(
             array('basepath' => dirname(dirname(__FILE__)))
