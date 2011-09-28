@@ -24,10 +24,11 @@ class ComNewsfeedsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'model'		=> 'categories',
+			'identifier'  => 'com://admin/categories.model.categories',
 			'name' 		=> 'category',
 			'value'		=> 'id',
 			'text'		=> 'title',
+			'filter'    => array('section' => 'com_newsfeeds')
 		));
 
 		return parent::_listbox($config);
