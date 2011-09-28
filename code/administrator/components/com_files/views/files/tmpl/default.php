@@ -34,7 +34,7 @@ window.addEvent('domready', function() {
 			theme: 'media://com_files/images/mootree.png'
 		},
 		types: <?= json_encode($state->types); ?>,
-		container: <?= json_encode($state->container ? $state->container->slug : 'com_files_files'); ?>
+		container: <?= json_encode($state->container ? $state->container->slug : 'files-files'); ?>
 	});
 
 	$('files-new-folder-create').addEvent('click', function(e){
