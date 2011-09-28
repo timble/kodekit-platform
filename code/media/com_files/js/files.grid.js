@@ -1,4 +1,5 @@
 
+if(!Files) var Files = {};
 
 Files.Grid = new Class({
 	Implements: [Events, Options],
@@ -40,9 +41,17 @@ Files.Grid = new Class({
 		this.attachEvents();
 	},
 	attachEvents: function() {
-		this.createEvent('click:relay(.files-folder a.navigate)', 'clickFolder');
-		this.createEvent('click:relay(.files-file a.navigate)', 'clickFile');
-		this.createEvent('click:relay(.files-image a.navigate)', 'clickImage');
+
+		var that = this,
+			createEvent = function(selector, event_name) {
+				that.container.addEvent(selector, function(e) {
+					e.stop();
+					that.fireEvent(event_name, arguments);
+				});
+			};
+		createEvent('click:relay(.files-folder a.navigate)', 'clickFolder');
+		createEvent('click:relay(.files-file a.navigate)', 'clickFile');
+		createEvent('click:relay(.files-image a.navigate)', 'clickImage');
 
 		/*
 		 * Checkbox events
@@ -53,13 +62,15 @@ Files.Grid = new Class({
 			};
 			var row = e.target.getParent('.files-node').retrieve('row');
 			var checkbox = row.element.getElement('input[type=checkbox]');
-
+			
+			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
+			
 			var old = checkbox.getProperty('checked');
 
 			row.checked = !old;
 			checkbox.setProperty('checked', !old);
-			
-			this.fireEvent('checkNode', row);
+
+			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
 		};
 		this.container.addEvent('click:relay(div[class=controls])', fireCheck.bind(this));
 		
@@ -84,15 +95,15 @@ Files.Grid = new Class({
 				},
 				that = this;
 				
-			this.addEvent('checkNode', function(e) {
+			this.addEvent('afterCheckNode', function() {
 				var checked = this.container.getElements('input[type=checkbox]:checked');
 				this.options.batch_delete.setProperty('disabled', !checked.length);
 			}.bind(this));
 				
 			this.options.batch_delete.addEvent('click', function(e) {
 				e.stop();
-				that.addEvent('deleteNode', chain_call);
-				that.addEvent('deleteNodeFail', chain_call);
+				that.addEvent('afterDeleteNode', chain_call);
+				that.addEvent('afterDeleteNodeFail', chain_call);
 				
 				var checkboxes = this.container.getElements('input[type=checkbox].files-select');
 				checkboxes.each(function(el) {
@@ -104,59 +115,55 @@ Files.Grid = new Class({
 					});
 				});
 				chain.chain(function() {
-					that.removeEvent('deleteNode', chain_call);
-					that.removeEvent('deleteNodeFail', chain_call);
+					that.removeEvent('afterDeleteNode', chain_call);
+					that.removeEvent('afterDeleteNodeFail', chain_call);
 					chain.clearChain();
 				});
 				chain.callChain();
 			}.bind(this));
 		}
 
-
 		if (this.options.switcher) {
 			var that = this;
 			this.options.switcher.addEvent('change', function(e) {
 				e.stop();
+				
 				var value = this.get('value');
 				that.setLayout(value);
-				that.render();
-				Cookie.write(that.options.cookie, value);
-				
-				that.fireEvent('switchLayout', value);
 			});
 		}
-	},
-	createEvent: function(selector, event_name) {
-		this.container.addEvent(selector, function(e) {
-			e.stop();
-			this.fireEvent(event_name, arguments);
-		}.bind(this));
 	},
 	erase: function(node) {
 		if (typeof node === 'string') {
 			node = this.nodes.get(node);
 		}
 		if (node) {
+			this.fireEvent('beforeDeleteNode', {node: node});
 			var success = function() {
 				if (node.element) {
 					node.element.dispose();
 				}
 
-				this.fireEvent('deleteNode', [node]);
 				this.nodes.erase(node.path);
-			}.bind(this);
-			var failure = function() {
-				this.fireEvent('deleteNodeFail', [node]);
-			}.bind(this);
+				
+				this.fireEvent('afterDeleteNode', {node: node});
+			}.bind(this),
+				failure = function() {
+					this.fireEvent('afterDeleteNodeFail', {node: node});
+				}.bind(this);
 			node['delete'](success, failure);
 		}
 	},
 	render: function() {
+		this.fireEvent('beforeRender');
+		
 		this.container.empty();
 		this.root = new Files.Grid.Root();
 		this.root.element.injectInside(this.container);
 
 		this.renew();
+		
+		this.fireEvent('afterRender');
 	},
 	renderObject: function(object, position) {
 		var position = position || 'alphabetical';
@@ -164,6 +171,8 @@ Files.Grid = new Class({
 		object.element = object.render();
 		object.element.store('path', object.path);
 		object.element.store('row', object);
+		
+		this.fireEvent('beforeRenderObject', {object: object, position: position});
 
 		if (position == 'last') {
 			this.root.adopt(object.element, 'bottom');
@@ -211,37 +220,49 @@ Files.Grid = new Class({
 			}
 		}
 
+		this.fireEvent('afterRenderObject', {object: object, position: position});
+
 		return object.element;
 	},
 	reset: function() {
+		this.fireEvent('beforeReset');
+		
 		this.nodes.each(function(node) {
 			if (node.element) {
 				node.element.dispose();
 			}
 			this.nodes.erase(node.path);
 		}.bind(this));
+		
+		this.fireEvent('afterReset');
 	},
 	insert: function(object, position) {
+		this.fireEvent('beforeInsertNode', {object: object, position: position});
+		
 		if (!this.options.types || this.options.types.contains(object.type)) {
 			this.renderObject(object, position);
 			this.nodes.set(object.path, object);
 
-			this.fireEvent('insertNode', [object]);
+			this.fireEvent('afterInsertNode', {node: object, position: position});
 		}
 	},
 	/**
 	 * Insert multiple rows, possibly coming from a JSON request
 	 */
 	insertRows: function(rows) {
+		this.fireEvent('BeforeInsertRows', {rows: rows});
+		
 		$each(rows, function(row) {
 			var cls = Files[row.type.capitalize()];
 			var item = new cls(row);
 			this.insert(item, 'last');
 		}.bind(this));
 		
-		this.fireEvent('afterInsertRows', rows);
+		this.fireEvent('afterInsertRows', {rows: rows});
 	},
 	renew: function() {
+		this.fireEvent('beforeRenew');
+		
 		var folders = this.getFolders(),
 			files = this.getFiles();
 
@@ -262,13 +283,25 @@ Files.Grid = new Class({
 				node.element.getElement('input[type=checkbox]').setProperty('checked', node.checked);
 			}
 		}.bind(this));
+		
+		this.fireEvent('afterRenew');
 	},
 	setLayout: function(layout) {
 		if (layout) {
+			this.fireEvent('beforeSetLayout', {layout: layout});
+			
 			Files.Template.layout = layout;
 			if (this.options.switcher) {
 				this.options.switcher.set('value', layout);
 			}
+
+			if (this.options.cookie) {
+				Cookie.write(this.options.cookie, layout);
+			}
+			
+			this.fireEvent('afterSetLayout', {layout: layout});
+			
+			this.render();
 		}
 
 	},

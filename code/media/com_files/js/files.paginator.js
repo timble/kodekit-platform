@@ -46,6 +46,8 @@ Files.Paginator = new Class({
 
 	},
 	setValues: function() {
+		this.fireEvent('beforeSetValues');
+		
 		var state = this.state, els = this.elements;
 
 		this.setPageData(els.page_start, {offset: 0});
@@ -78,8 +80,12 @@ Files.Paginator = new Class({
 
 		els.page_current.set('text', state.page_current);
 		els.page_total.set('text', state.page_total);
+		
+		this.fireEvent('afterSetValues');
 	},
 	setPageData: function(page, data) {
+		this.fireEvent('beforeSetPageData', {page: page, data: data});
+		
 		var limit = data.limit || this.state.limit;
 		page.set('data-limit', limit);
 		page.set('data-offset', data.offset);
@@ -87,8 +93,12 @@ Files.Paginator = new Class({
 		var method = data.offset == this.state.offset ? 'addClass' : 'removeClass';
 		page.getParent().getParent()[method]('off');
 		page.set('data-enabled', (data.offset != this.state.offset)-0);
+		
+		this.fireEvent('afterSetPageData', {page: page, data: data});
 	},
 	setData: function(data) {
+		this.fireEvent('beforeSetData', {data: data});
+		
 		var state = this.state;
 		if (data.total == 0) {
 			state.limit = this.defaults.limit;
@@ -119,5 +129,7 @@ Files.Paginator = new Class({
 			}
             state.page_current = Math.floor(state.offset/state.limit)+1;
 		}
+		
+		this.fireEvent('afterSetData', {data: data});
 	}
 });

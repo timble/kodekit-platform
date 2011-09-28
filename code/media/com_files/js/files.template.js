@@ -1,13 +1,24 @@
+
+if(!Files) var Files = {};
+
 (function() {
 
 var cache = {};
 
 Files.Template = new Class({
+	Implements: [Events],
 	render: function() {
-		var layout = Files.Template.layout;
-		var tmpl = layout+'_'+this.template;
+		var layout = Files.Template.layout,
+			tmpl = layout+'_'+this.template;
+		
+		this.fireEvent('beforeRender', {layout: layout, template: tmpl});
+		
 		var rendered = new EJS({element: tmpl}).render(this);
-		return new Files.Template[layout.capitalize()](rendered);
+		var result = new Files.Template[layout.capitalize()](rendered);
+
+		this.fireEvent('afterRender', {layout: layout, template: tmpl, result: result});
+		
+		return result;
 	}
 });
 Files.Template.layout = 'icons';

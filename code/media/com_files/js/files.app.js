@@ -1,4 +1,6 @@
 
+if(!Files) var Files = {};
+
 Files.App = new Class({
 	Implements: [Events, Options],
 
@@ -47,6 +49,8 @@ Files.App = new Class({
 		}
 	},
 	setHash: function() {
+		this.fireEvent('beforeSetHash');
+		
 		var hash = '!';
 		if (Files.container) {
 			hash += Files.container.slug+':';
@@ -55,6 +59,8 @@ Files.App = new Class({
 			hash += this.active;
 		}
 		window.location.hash = hash;
+		
+		this.fireEvent('afterSetHash', {hash: hash});
 	},
 	setContainer: function(container) {
 		new Request.JSON({
@@ -62,6 +68,9 @@ Files.App = new Class({
 			method: 'get',
 			onSuccess: function(response) {
 				var item = response.item;
+				
+				this.fireEvent('beforeSetContainer', {container: item});
+				
 				Files.container = item;
 				Files.path = item.relative_path;
 				Files.baseurl = Files.sitebase + '/' + Files.path;
@@ -83,6 +92,8 @@ Files.App = new Class({
 					this.options.grid.types = this.options.types;
 					Files.state.types = this.options.types; 
 				}
+				
+				this.fireEvent('afterSetContainer', {container: item});
 
 				this.grid.reset();
 				
@@ -135,6 +146,8 @@ Files.App = new Class({
 		}).get();
 	},
 	setPaginator: function() {
+		this.fireEvent('beforeSetPaginator');
+		
 		var opts = this.options.paginator;
 		$extend(opts, {
 			'state' : Files.state,
@@ -160,8 +173,12 @@ Files.App = new Class({
 			});
 			that.paginator.setValues();
 		});
+		
+		this.fireEvent('afterSetPaginator');
 	},
 	setGrid: function() {
+		this.fireEvent('beforeSetGrid');
+		
 		var opts = this.options.grid;
 		$extend(opts, {
 			'onClickFolder': function(e) {
@@ -178,7 +195,8 @@ Files.App = new Class({
 					SqueezeBox.open(img, {handler: 'image'});
 				}
 			},
-			'onDeleteNode': function(node) {
+			'onAfterDeleteNode': function(context) {
+				var node = context.node;
 				if (node.type == 'folder') {
 					var item = this.tree.get(node.path);
 					if (item) {
@@ -186,15 +204,20 @@ Files.App = new Class({
 					}
 				}
 			}.bind(this),
-			'onSwitchLayout': function(layout) {
-				if (layout === 'icons' && this.options.thumbnails) {
+			'onAfterSetLayout': function(context) {
+				var layout = context.layout;
+				if (layout === 'icons' && this.grid && this.options.thumbnails) {
 					this.setThumbnails();
 				}
 			}.bind(this)
 		});
 		this.grid = new Files.Grid(this.options.grid.element, opts);
+		
+		this.fireEvent('afterSetGrid');
 	},
 	setTree: function() {
+		this.fireEvent('beforeSetTree');
+		
 		var opts = this.options.tree,
 			that = this;
 		$extend(opts, {
@@ -216,6 +239,8 @@ Files.App = new Class({
 		this.addEvent('afterNavigate', function(path) {
 			that.tree.selectPath(path);
 		});
+
+		this.fireEvent('afterSetTree');
 	},
 	navigate: function(path) {
 		this.fireEvent('beforeNavigate', path);
@@ -250,7 +275,8 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-		var nodes = this.grid.nodes;
+		var nodes = this.grid.nodes,
+			that = this;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
 			var url = Files.getUrl({
 				view: 'thumbnails',
@@ -263,6 +289,9 @@ Files.App = new Class({
 				method: 'get',
 				onSuccess: function(response, responseText) {
 					var thumbs = response.items;
+					
+					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
+					
 					nodes.each(function(node) {
 						if (node.type !== 'image') {
 							return;
@@ -272,8 +301,11 @@ Files.App = new Class({
 						var img = node.element.getElement('img.image-thumbnail');
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
 					});
+
+					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
 				}
 			}).send();
 		}
+		
 	}
 });

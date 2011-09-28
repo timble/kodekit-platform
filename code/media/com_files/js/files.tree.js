@@ -1,4 +1,6 @@
 
+if(!Files) var Files = {};
+
 Files.Tree = new Class({
 	Extends: MooTreeControl,
 	Implements: [Options],

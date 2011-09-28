@@ -1,5 +1,5 @@
 
-var Files = {};
+if(!Files) var Files = {};
 
 Files.Filesize = new Class({
 	Implements: Options,
