@@ -33,25 +33,18 @@ class KLoaderRegistry extends ArrayObject
     /**
      * Enable class caching
      * 
+     * @param  boolean	Enable or disable the cache. Default is TRUE.
      * @return boolean	TRUE if caching is enabled. FALSE otherwise.
      */
-	public function enableCache() 
+	public function enableCache($enabled = true) 
 	{
-	    if(extension_loaded('apc')) {
+	    if($enabled && extension_loaded('apc')) {
             $this->_cache = true;    
+        } else {
+            $this->_cache = false;
         }
         
         return $this->_cache;
-	}
-	
-	/**
-     * Disable class caching
-     * 
-     * @return void
-     */
-	public function disableCache()
-	{
-	    $this->_cache = false;
 	}
 	
 	/**
