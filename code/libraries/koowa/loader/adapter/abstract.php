@@ -43,11 +43,13 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 	/**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param  array  An optional array with configuration options.
      */
-    public function __construct( $basepath )
+    public function __construct( $config = array())
     {
-        $this->_basepath = $basepath; 
+        if(isset($config['basepath'])) {
+            $this->_basepath = $config['basepath'];
+        }
     }
     
 	/**
