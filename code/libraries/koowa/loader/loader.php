@@ -7,27 +7,10 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
-/**
- * Excpetion Classes
- */
-require_once Koowa::getPath().'/exception/interface.php';
-require_once Koowa::getPath().'/exception/exception.php';
-
-/**
- * Loader Classes
- */
-require_once Koowa::getPath().'/loader/adapter/interface.php';
-require_once Koowa::getPath().'/loader/adapter/exception.php';
-require_once Koowa::getPath().'/loader/adapter/abstract.php';
-require_once Koowa::getPath().'/loader/adapter/koowa.php';
-
-/**
- * Registry Classes
- */
-require_once Koowa::getPath().'/loader/registry.php';
-
-//Instantiate the loader singleton
-KLoader::getInstance();
+require_once dirname(__FILE__).'/adapter/interface.php';
+require_once dirname(__FILE__).'/adapter/abstract.php';
+require_once dirname(__FILE__).'/adapter/koowa.php';
+require_once dirname(__FILE__).'/registry.php';
 
 /**
  * KLoader class
@@ -35,7 +18,6 @@ KLoader::getInstance();
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Loader
- * @static
  */
 class KLoader
 {
@@ -44,35 +26,43 @@ class KLoader
      *
      * @var array
      */
-    protected static $_registry = null;
+    protected $_registry = null;
     
     /**
      * Adapter list
      *
      * @var array
      */
-    protected static $_adapters = null;
+    protected static $_adapters = array();
     
     /**
      * Prefix map
      *
      * @var array
      */
-    protected static $_prefix_map = null;
+    protected static $_prefix_map = array();
     
     /**
      * Constructor
      *
      * Prevent creating instances of this class by making the contructor private
      */
-    final private function __construct() 
+    final private function __construct($config = array()) 
     { 
-        //Created the adapter registry
-        self::$_adapters   = array();
-        self::$_prefix_map = array();
-        self::$_registry = new KLoaderRegistry();
+        //Create the class registry 
+        $this->_registry = new KLoaderRegistry();
         
-        self::register();
+        if(isset($config['cache_prefix'])) {
+            $this->_registry->setCachePrefix($config['cache_prefix']);
+        }
+        
+        //Add the koowa class loader
+        $this->addAdapter(new KLoaderAdapterKoowa(
+            array('basepath' => dirname(dirname(__FILE__)))
+        ));
+        
+        //Auto register the loader
+        $this->register();
     }
         
     /**
@@ -94,7 +84,7 @@ class KLoader
         static $instance;
         
         if ($instance === NULL) {
-            $instance = new self();
+            $instance = new self($config);
         }
         
         return $instance;
@@ -105,9 +95,9 @@ class KLoader
      *
      * @return void
      */
-    public static function register()
+    public function register()
     {
-        spl_autoload_register(array(__CLASS__, 'loadClass'));
+        spl_autoload_register(array($this, 'loadClass'));
 
         if (function_exists('__autoload')) {
             spl_autoload_register('__autoload');
@@ -120,9 +110,9 @@ class KLoader
      * 
      * @return object KLoaderRegistry
      */
-    public static function getRegistry()
+    public function getRegistry()
     {
-        return self::$_registry;
+        return $this->_registry;
     }
     
  	/**
@@ -154,7 +144,7 @@ class KLoader
      * @param string    The basepath
      * @return boolean  Returns TRUE on success throws exception on failure
      */
-    public static function loadClass($class, $basepath = null)
+    public function loadClass($class, $basepath = null)
     {
         $result = false;
          
@@ -185,7 +175,7 @@ class KLoader
      * @param string|object The identifier or identifier object
      * @return boolean      Returns TRUE on success throws exception on failure
      */
-    public static function loadIdentifier($identifier)
+    public function loadIdentifier($identifier)
     {
         $result = false;
          
@@ -207,7 +197,7 @@ class KLoader
      * @param string	The file path
      * @return boolean  Returns TRUE on success throws exception on failure
      */
-    public static function loadFile($path)
+    public function loadFile($path)
     {
         $result = false;
         
@@ -238,9 +228,9 @@ class KLoader
      * @param string    The basepath
      * @return string   Returns canonicalized absolute pathname
      */
-    public static function findPath($class, $basepath = null)
+    public function findPath($class, $basepath = null)
     {
-        if(!self::$_registry->offsetExists((string) $class)) 
+        if(!$this->_registry->offsetExists((string) $class)) 
         {
             $result = false;
                 
@@ -258,9 +248,9 @@ class KLoader
                 $result = $path !== false ? $path : $result;
             }
             
-            self::$_registry->offsetSet((string) $class, $result);
+            $this->_registry->offsetSet((string) $class, $result);
         }
-        else $result = self::$_registry->offsetGet((string)$class);
+        else $result = $this->_registry->offsetGet((string)$class);
         
         return $result;
     }
