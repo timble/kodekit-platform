@@ -36,7 +36,7 @@ if (!file_exists( JPATH_CONFIGURATION.'/configuration.php' ) || (filesize( JPATH
 // System includes
 require_once( JPATH_LIBRARIES.'/joomla/import.php');
 
-// Joomla : import libraries
+// Joomla : setup
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
@@ -49,24 +49,19 @@ jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.plugin.helper' );
 
-// Koowa : setup loader
-JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
-JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
-		
-KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-		
-// Koowa : setup factory
-KIdentifier::addAdapter(new KIdentifierAdapterKoowa());
+// Koowa : setup
+require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
+Koowa::getInstance();	
+
+KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
+KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
+KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
+
 KIdentifier::addAdapter(new KIdentifierAdapterModule());
 KIdentifier::addAdapter(new KIdentifierAdapterPlugin());
 KIdentifier::addAdapter(new KIdentifierAdapterComponent());
 		
-//Koowa : register identifier application paths
 KIdentifier::setApplication('site' , JPATH_SITE);
 KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
 
-//Koowa : setup factory mappings
 KIdentifier::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
