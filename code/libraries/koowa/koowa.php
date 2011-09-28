@@ -31,26 +31,86 @@ class Koowa
     
     /**
      * Path to Koowa libraries
+     * 
+     * @var string
      */
-    protected static $_path;
+    protected $_path;
+      
+ 	/**
+     * Constructor
+     *
+     * Prevent creating instances of this class by making the contructor private
+     * 
+     * @param  array  An optional array with configuration options.
+     */
+    final private function __construct($config = array()) 
+    { 
+        $this->_initialize($config);
+    }
+    
+     /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array  An optional array with configuration options.
+     * @return void
+     */
+    protected function _initialize($config = array())
+    {
+        //Initialize the path
+        $this->_path = dirname(__FILE__);
+        
+        //Setup the loader
+        require_once $this->_path.'/loader/loader.php';
+        $loader = KLoader::getInstance();
+        
+        //Setup the factory
+        $factory = KFactory::getInstance(); 
+        $factory->set('koowa:loader', $loader);
+    }
+    
+	/**
+     * Clone 
+     *
+     * Prevent creating clones of this class
+     */
+    final private function __clone() { }
+    
+	/**
+     * Singleton instance
+     * 
+     * @param  array  An optional array with configuration options.
+     * @return Koowa
+     */
+    final public static function getInstance($config = array())
+    {
+        static $instance;
+        
+        if ($instance === NULL) {
+            $instance = new self($config);
+        }
+        
+        return $instance;
+    }
 
     /**
      * Get the version of the Koowa library
+     * 
+     * @return string
      */
-    public static function getVersion()
+    public function getVersion()
     {
         return self::VERSION;
     }
 
     /**
      * Get path to Koowa libraries
+     * 
+     * @return string
      */
-    public static function getPath()
+    public function getPath()
     {
-        if(!isset(self::$_path)) {
-            self::$_path = dirname(__FILE__);
-        }
-
-        return self::$_path;
+        return $this->_path;
     }
 }
