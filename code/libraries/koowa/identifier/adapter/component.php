@@ -26,6 +26,23 @@ class KIdentifierAdapterComponent extends KIdentifierAdapterAbstract
 	protected $_type = 'com';
 	
 	/**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+         $config->append(array(
+            'loader'  => KFactory::get('koowa:loader'),
+        ));
+        
+        parent::_initialize($config);
+    }
+	
+	/**
 	 * Get the classname based on an identifier
 	 * 
 	 * This factory will try to create an generic or default classname on the identifier information
@@ -47,7 +64,7 @@ class KIdentifierAdapterComponent extends KIdentifierAdapterAbstract
         $classname = 'Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
         
       	//Manually load the class to set the basepath
-		if (!KLoader::loadClass($classname, $identifier->basepath))
+		if (!$this->_loader->loadClass($classname, $identifier->basepath))
 		{
 		    $classpath = $identifier->path;
 			$classtype = !empty($classpath) ? array_shift($classpath) : '';
