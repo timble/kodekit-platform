@@ -65,7 +65,7 @@ class KConfig implements KConfigInterface
         return $result;
     }
     
-/**
+	/**
      * Return the data 
      *
      * If the data being passed is an instance of KConfig the data will be transformed
