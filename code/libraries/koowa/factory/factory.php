@@ -233,6 +233,3 @@ class KFactory implements KFactoryInterface
         return $result;
     }
 }
-
-//Instantiate the factory singleton
-KFactory::getInstance();
