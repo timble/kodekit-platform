@@ -354,8 +354,14 @@ class KIdentifier implements KIdentifierInterface
             if($property == 'type') 
             {
                 //Check the type
-                if(!isset(self::$_adapters[$value])) {
-                    throw new KIdentifierException('Unknow type : '.$value);  
+                if(!isset(self::$_adapters[$value])) 
+                {
+                    //Auto-load the koowa adapter
+                    if($value == 'koowa') {
+                        $this->addAdapter(new KIdentifierAdapterKoowa());
+                    } else {
+                        throw new KIdentifierException('Unknow type : '.$value); 
+                    }
                 }
             }
             
