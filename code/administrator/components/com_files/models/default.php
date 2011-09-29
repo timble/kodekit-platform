@@ -29,6 +29,7 @@ class ComFilesModelDefault extends KModelAbstract
 			->insert('offset'   , 'int', 0)
 			->insert('search'	, 'filename')
 			->insert('direction', 'word', 'asc')
+            ->insert('sort'     , 'cmd')
 
 			->insert('container', 'identifier', null)
 			->insert('path'		, 'com://admin/files.filter.path', null, true) // unique
