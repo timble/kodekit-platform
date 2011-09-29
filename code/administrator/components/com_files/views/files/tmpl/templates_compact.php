@@ -11,15 +11,13 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="compact_details_image">
-[% var ratio= 150 / (width > height ? width : height);
-var path = (Files.sitebase ? '/' : '')+ (baseurl ? baseurl+'/'+path : path);
-%]
+[% var ratio= 150 / (width > height ? width : height); %]
 <ul>
 	<li class="info">
 		[%=width%] x  [%=height%] | [%=new Files.Filesize(size).humanize()%]
 	</li>
 	<li class="preview">
-		<img src="[%=path%]" width="[%=Math.min(ratio*width, width)%]"
+		<img src="" width="[%=Math.min(ratio*width, width)%]"
 			height="[%=Math.min(ratio*height, height)%]" alt="[%=name%]" border="0" />
 	</li>
 </ul>

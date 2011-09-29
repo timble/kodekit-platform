@@ -42,6 +42,15 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 
 		return $request;
 	}
+	
+	public function setRequest($request)
+	{
+		if (isset($request['e_name'])) {
+			$request['editor'] = $request['e_name'];
+		}
+		
+		parent::setRequest($request);
+	}
 
 	protected function _actionGet(KCommandContext $context)
     {
