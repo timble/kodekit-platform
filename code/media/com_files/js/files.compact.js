@@ -1,5 +1,5 @@
 
-var Files = Files || {};
+if (!Files) Files = {};
 Files.Compact = {};
 
 Files.Compact.App = new Class({
@@ -18,10 +18,10 @@ Files.Compact.App = new Class({
 	},
 
 	initialize: function(options) {
+		this.parent(options);
+		
 		this.editor = this.options.editor;
 		this.preview = document.id(this.options.preview);
-
-		this.parent(options);
 	},
 	setPaginator: function() {
 	},
@@ -45,6 +45,8 @@ Files.Compact.App = new Class({
 				that.preview.empty();
 
 				copy.render().inject(that.preview);
+
+				that.preview.getElement('img').set('src', copy.image);
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target).getParent('.files-node');
@@ -60,12 +62,5 @@ Files.Compact.App = new Class({
 			}
 		});
 		this.grid = new Files.Grid(this.options.grid.element, opts);
-	},
-	navigate: function(path) {
-		if (path) {
-			this.preview.empty();
-		}
-
-		this.parent(path);
 	}
 });

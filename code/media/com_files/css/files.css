@@ -326,17 +326,6 @@ ul#files-tree-html ul li a {
 	padding-left: 20px;
 }
 
-#files-pathway {
-	display: inline;
-}
-.files-pathway-separator:before, #files-new-folder:before {
-	content: " > ";
-}
-
-#files-pathway, #files-new-folder-input {
-font-size: 12px;
-}
-
 #files-paginator-container {
 	background-color: #F7F7F7;
 	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));

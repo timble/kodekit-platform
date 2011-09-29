@@ -12,6 +12,7 @@
 #insert .properties {
 	background-color: #F4F4F4;
 	border-top: 1px solid #E1E1E1;
+	width: 100%;
 }
 
 #insert .buttons {
@@ -102,4 +103,66 @@ li.files-node.active a:hover {
 	border-right: 1px solid #E1E1E1;
 	border-bottom: 1px solid #E1E1E1;
 	padding: 4px;
+}
+
+#files-grid ul {
+	margin: 0;
+	list-style-type: none;
+	-webkit-padding-start: 0px;
+}
+
+
+/* tabs */
+
+#files-compact dl.tabs {
+    float: left;
+    margin: 10px 0 0 0;
+    z-index: 50;
+}
+
+#files-compact dl.tabs dt {
+    float: left;
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    background: #f0f0f0;
+    color: #666;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: -1px;
+}
+
+#files-compact dl.tabs dt:hover {
+    background: #F6F6F6;
+    z-index: 100;
+    color: #333;
+}
+
+#files-compact dl.tabs dt:active,
+#files-compact dl.tabs dt.open,
+#files-compact dl.tabs dt.open:active {
+    background: #F9F9F9;
+    z-index: 100;
+    color: #333;
+    border-bottom-color: #F9F9F9;
+    -webkit-box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px;
+    -moz-box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px;
+    box-shadow: inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px; 
+}
+
+#files-compact dl.tabs dt:active {
+    background: #EEE;
+    border-bottom-color: #CCC;
+}
+
+#files-compact div.current {
+    clear: both;
+    border: 1px solid #CCC;
+    padding: 10px 10px;
+}
+
+#files-compact div.current dd {
+    padding: 0;
+    margin: 0;
 }
