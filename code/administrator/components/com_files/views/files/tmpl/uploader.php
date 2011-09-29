@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://com_files/plupload/plupload.html4.js" />
 <script src="media://com_files/plupload/plupload.flash.js" />
 
-<script src="media://com_files/plupload/jquery-1.6.2.min.js" />
+<script src="media://com_files/plupload/jquery-1.6.4.min.js" />
 <script src="media://com_files/plupload/jquery.plupload.queue/jquery.plupload.queue.js" />
 
 <script>
@@ -41,9 +41,9 @@ window.addEvent('domready', function() {
 			'X-Requested-With': 'xmlhttprequest'
 		}
 	});
-
+	
 	var uploader = element.pluploadQueue();
-
+	
 	document.id('files-upload-multi_filelist').setStyle('display', 'none');
 	uploader.bind('QueueChanged', function(uploader) {
 		var style = uploader.files.length == 0 ? 'none' : 'block';
@@ -88,7 +88,6 @@ window.addEvent('domready', function() {
 	Files.app.uploader = uploader;
 });
 
-
 /**
  * Switcher between uploaders
  */
@@ -101,6 +100,11 @@ window.addEvent('domready', function() {
 
 		if (style == 'block') {
 			el.setStyle('display', style);
+		}
+
+		// Plupload needs to be refreshed if it was hidden
+		if (type == 'computer') {
+			jQuery('#files-upload-multi').pluploadQueue().refresh();
 		}
 		
 	};
