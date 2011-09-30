@@ -121,7 +121,7 @@ window.addEvent('domready', function() {
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm');
 	var request = new Request.JSON({
-		url: form.getProperty('action'),
+		url: Files.getUrl({view: 'file'}),
 		data: form,
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
@@ -142,6 +142,7 @@ window.addEvent('domready', function() {
 	});
 	form.addEvent('submit', function(e) {
 		e.stop();
+		request.options.url = Files.getUrl({view: 'file'});
 		request.send();
 	});
 });

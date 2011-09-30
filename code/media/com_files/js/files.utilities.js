@@ -31,7 +31,7 @@ Files.getUrl = function(dict) {
 	} else {
 		delete dict.container;
 	}
-	
+
 	if (dict.format == 'html') {
 		delete dict.format;
 	}
