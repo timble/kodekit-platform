@@ -1,7 +1,7 @@
 <? /** $Id$ */ ?>
 <? defined('KOOWA') or die('Restricted access');
 
-$parts   = $uri->getQuery(true);
+$parts   = $url->getQuery(true);
 $package = substr($parts['option'], 4);
 $view    = $parts['view'];
 

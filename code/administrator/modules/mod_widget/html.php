@@ -24,10 +24,10 @@ class ModWidgetHtml extends ModDefaultHtml
     {
     	$this->setLayout($this->params->get('layout', 'overlay'));
     	
-    	//Create the uri object and force the tmpl to empty
-    	$uri = KFactory::get('koowa:http.url', array('uri' => 'index.php?'.$this->params->get('url')));
+    	//Create the url object and force the tmpl to empty
+    	$url = KFactory::get('koowa:http.url', array('url' => $this->params->get('url')));
     	
-    	$this->assign('uri', $uri);
+    	$this->assign('url', $url);
     	
     	return parent::display();
     }
