@@ -128,7 +128,7 @@ window.addEvent('domready', function() {
 				var el = json.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
-				Files.app.container.insert(row);
+				Files.app.grid.insert(row);
 				Files.app.fireEvent('uploadFile', [row]);
 				form.reset();
 			} else {
