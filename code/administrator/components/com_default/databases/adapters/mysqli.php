@@ -18,7 +18,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements KObjectInstantiatable
+class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements KServiceInstantiatable
 { 
     /**
 	 * The cache object
@@ -47,19 +47,19 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
      * Force creation of a singleton
      *
      * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceInterface object
      * @return KDatabaseTableInterface
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        if (!$factory->has($config->identifier)) 
+        if (!$container->has($config->service_identifier)) 
         {
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
     
     /**
