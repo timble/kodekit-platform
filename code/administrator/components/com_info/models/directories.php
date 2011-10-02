@@ -72,7 +72,7 @@ class ComInfoModelDirectories extends KModelAbstract
                 );
             }
 
-            $this->_list = KFactory::get('com://admin/info.database.rowset.configuration')
+            $this->_list = $this->getService('com://admin/info.database.rowset.configuration')
                 ->addData($rows, false);
         }
 
