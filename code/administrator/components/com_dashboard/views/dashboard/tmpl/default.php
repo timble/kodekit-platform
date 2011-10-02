@@ -18,7 +18,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?= @helper('accordion.startPane') ?>
     <? foreach ($modules as $module) : ?>
         <?= @helper('accordion.startPanel', array('title' => $module->title)) ?>
-        <?= KFactory::get('mod://admin/'.substr($module->type, 4).'.html')->module($module)->params($module->params)->display(); ?>
+        <?= @service('mod://admin/'.substr($module->type, 4).'.html')->module($module)->params($module->params)->display(); ?>
         <?= @helper('accordion.endPanel') ?>
     <? endforeach ?>
 <?= @helper('accordion.endPane') ?>
