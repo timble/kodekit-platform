@@ -73,7 +73,7 @@ class ComSettingsDatabaseRowComponent extends ComSettingsDatabaseRowAbstract
 	{
 	    if(!empty($this->_modified))
 	    {  
-	        $row = KFactory::get($this->_table)->select($this->_id, KDatabase::FETCH_ROW);
+	        $row = $this->getService($this->_table)->select($this->_id, KDatabase::FETCH_ROW);
 	        $row->params = $this->_data;
 	        
 	        return (bool) $row->save();
