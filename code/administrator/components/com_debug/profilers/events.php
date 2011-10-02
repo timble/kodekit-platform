@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugProfilerEvents extends KEventDispatcher implements KObjectInstantiatable
+class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstantiatable
 {
    /**
     * The start time
@@ -44,25 +44,25 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KObjectInstanti
         
         $this->_start = $config->start;
         
-        KFactory::get('com://admin/debug.profiler.queries', array('dispatcher' => $this));
+        $this->getService('com://admin/debug.profiler.queries', array('dispatcher' => $this));
     }
     
 	/**
      * Force creation of a singleton
      *
      * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceInterface object
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        if (!$factory->has($config->identifier)) 
+        if (!$container->has($config->service_identifier)) 
         {
             $instance = new self($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
     
 	/**
