@@ -22,7 +22,7 @@ class ComUsersControllerGroup extends ComDefaultControllerDefault
     protected function _actionGet(KCommandContext $context)
     {
         $view    = $this->getView();
-        $package = KInflector::pluralize($this->_identifier->name);
+        $package = KInflector::pluralize($this->getIdentifier()->name);
         
         if($view instanceof KViewTemplate) 
 	    {     
@@ -50,7 +50,7 @@ class ComUsersControllerGroup extends ComDefaultControllerDefault
     public function setModel($model)
     {
         $model = parent::setModel($model);
-        $model->package = KInflector::pluralize($this->_identifier->name);
+        $model->package = KInflector::pluralize($this->getIdentifier()->name);
         
         return $model; 
     }
