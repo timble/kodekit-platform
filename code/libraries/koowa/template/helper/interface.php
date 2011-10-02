@@ -17,7 +17,7 @@
  * @package     Koowa_Template
  * @subpackage	Helper
  */
-interface KTemplateHelperInterface  extends KObjectIdentifiable
+interface KTemplateHelperInterface
 {
  	/**
      * Get the template object
