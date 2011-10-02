@@ -79,7 +79,7 @@ class ComCacheModelItems extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_list = KFactory::get('com://admin/cache.database.rowset.items', array('data' => $data));
+		    $this->_list = $this->getService('com://admin/cache.database.rowset.items', array('data' => $data));
         }
         
         return $this->_list;
