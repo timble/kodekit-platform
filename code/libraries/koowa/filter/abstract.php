@@ -15,7 +15,7 @@
  * @category	Koowa
  * @package     Koowa_Filter
  */
-abstract class KFilterAbstract implements KFilterInterface
+abstract class KFilterAbstract extends KObject implements KFilterInterface
 {
 	/**
 	 * The filter chain
@@ -31,14 +31,7 @@ abstract class KFilterAbstract implements KFilterInterface
 	 * @var	boolean
 	 */
 	protected $_walk = true;
-	
-	/**
-     * The object identifier
-     *
-     * @var KIdentifierInterface
-     */
-    protected $_identifier;
-    
+	    
 	/**
 	 * Constructor
 	 *
@@ -64,37 +57,26 @@ abstract class KFilterAbstract implements KFilterInterface
     {
     	//do nothing
     }
-    
-	/**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
    
     /**
      * Force creation of a singleton
      *
      * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceInterface object
      * @return KFilterInterface
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->has($config->identifier))
+        if (!$container->has($config->service_identifier))
         {
             //Create the singleton
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
 	
 	/**
