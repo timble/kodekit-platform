@@ -26,4 +26,4 @@
 JLoader::register('JInstaller'      , JPATH_LIBRARIES.'/joomla/installer/installer.php');
 JLoader::register('JInstallerHelper', JPATH_LIBRARIES.'/joomla/installer/helper.php');
 
-echo KFactory::get('com://admin/installer.dispatcher')->dispatch();
+echo KService::get('com://admin/installer.dispatcher')->dispatch();
