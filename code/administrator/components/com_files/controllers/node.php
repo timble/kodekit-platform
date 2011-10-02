@@ -36,7 +36,7 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 
-		$config = KFactory::get('com://admin/files.model.configs')
+		$config = $this->getService('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
 
