@@ -83,7 +83,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
             'class'    => '',
             'styles'   => array(),
             'attribs'  => array(
-                'name'  => $this->_identifier->package . '_' . $this->_identifier->name,
+                'name'  => $this->getIdentifier()->package . '_' . $this->getIdentifier()->name,
             	'first' => null,
                 'last'  => null,
             )
@@ -100,7 +100,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 	 */
     public function write(&$text)
     {   
-		$name = $this->_identifier->package . '_' . $this->_identifier->name;
+		$name = $this->getIdentifier()->package . '_' . $this->getIdentifier()->name;
 		
 		//Create a module object
 		$module   	       = new KObject();
@@ -113,7 +113,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 		$module->title     = $this->_title;
 		$module->user      = 0;
 		
-		$text = KFactory::get('mod://admin/default.html')->module($module)->attribs($this->_attribs)->styles($this->_styles)->display();
+		$text = $this->getService('mod://admin/default.html')->module($module)->attribs($this->_attribs)->styles($this->_styles)->display();
         
         return $this;
     }    
