@@ -17,7 +17,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Command
- * @uses        KFactory
+ * @uses        KService
  * @uses        KEventDispatcher
  * @uses        KInflector
  */
@@ -56,7 +56,7 @@ class KCommandEvent extends KCommand
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'dispatcher'   => KFactory::get('koowa:event.dispatcher')
+            'dispatcher'   => $this->getService('koowa:event.dispatcher')
         ));
 
         parent::_initialize($config);
@@ -74,7 +74,7 @@ class KCommandEvent extends KCommand
         $type = '';
         
         if($context->caller)
-        {
+        {   
             $identifier = clone $context->caller->getIdentifier();
             
             if($identifier->path) {
