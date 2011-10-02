@@ -66,7 +66,7 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
         if(!$this->_toolbar instanceof KControllerToolbarAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_toolbar instanceof KIdentifier)) {
+		    if(!($this->_toolbar instanceof KServiceIdentifier)) {
 		        $this->setToolbar($this->_toolbar);
 			}
 		
@@ -74,7 +74,7 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_toolbar = KFactory::get($this->_toolbar, $config);
+			$this->_toolbar = $this->getService($this->_toolbar, $config);
 		}    
          
         return $this->_toolbar;
@@ -83,8 +83,8 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 	/**
 	 * Method to set a toolbar object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KControllerBehaviorException	If the identifier is not a view identifier
 	 * @return	KControllerToolbarAbstract 
 	 */
@@ -94,11 +94,11 @@ class KControllerBehaviorCommandable extends KControllerBehaviorAbstract
 		{
 			if(is_string($toolbar) && strpos($toolbar, '.') === false ) 
 		    {
-			    $identifier         = clone $this->_identifier;
+			    $identifier         = clone $this->getIdentifier();
                 $identifier->path   = array('controller', 'toolbar');
                 $identifier->name   = $toolbar;
 			}
-			else $identifier = KIdentifier::identify($toolbar);
+			else $identifier = $this->getIdentifier($toolbar);
 			
 			if($identifier->path[1] != 'toolbar') {
 				throw new KControllerBehaviorException('Identifier: '.$identifier.' is not a toolbar identifier');
