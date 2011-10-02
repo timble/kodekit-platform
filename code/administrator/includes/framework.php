@@ -49,17 +49,17 @@ jimport( 'joomla.plugin.helper' );
 
 // Koowa : setup
 require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
-Koowa::getInstance();		
+Koowa::getInstance();	
 
 KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
 KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
 KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
 
-KIdentifier::addAdapter(new KIdentifierAdapterModule());
-KIdentifier::addAdapter(new KIdentifierAdapterPlugin());
-KIdentifier::addAdapter(new KIdentifierAdapterComponent());
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.plugin'));
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
-KIdentifier::setApplication('site' , JPATH_SITE);
-KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+KServiceIdentifier::setApplication('site' , JPATH_SITE);
+KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
 
-KIdentifier::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
+KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
