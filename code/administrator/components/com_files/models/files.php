@@ -24,7 +24,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
     {
         if (!isset($this->_item))
         {
-            $this->_item	= KFactory::get('com://admin/files.database.row.file', array(
+            $this->_item	= $this->getService('com://admin/files.database.row.file', array(
                 'data' => array(
             		'container' => $this->_state->container,
                     'basepath' => $this->_state->basepath,
@@ -96,7 +96,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
                 );
             }
 
-            $this->_list = KFactory::get('com://admin/files.database.rowset.files', array(
+            $this->_list = $this->getService('com://admin/files.database.rowset.files', array(
                 'data' => $data
             ));
         }
