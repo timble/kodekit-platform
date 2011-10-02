@@ -168,7 +168,7 @@ abstract class KControllerBehaviorAbstract extends KMixinAbstract implements KCo
             }  
         }
      
-        return array_diff($methods, array('execute', 'getIdentifier', 'getPriority', 'getHandle'));
+        return array_diff($methods, array('execute', 'getIdentifier', 'getPriority', 'getHandle', 'getService', 'getIdentifier'));
     }
     
 	/**
