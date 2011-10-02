@@ -39,7 +39,7 @@ class ComArticlesModelCategories extends KModelAbstract
             $folders  = array(); 
             $children = array();
 
-            $categories = KFactory::get('com://admin/categories.model.categories')
+            $categories = $this->getService('com://admin/categories.model.categories')
                 ->published($this->_state->published)
                 ->section('com_content')
                 ->limit(0)
@@ -64,7 +64,7 @@ class ComArticlesModelCategories extends KModelAbstract
                 );
             }
 
-            $sections = KFactory::get('com://admin/articles.model.sections')
+            $sections = $this->getService('com://admin/articles.model.sections')
                 ->published($this->_state->published)
                 ->limit(0)
                 ->sort($this->_state->sort)
@@ -133,7 +133,7 @@ class ComArticlesModelCategories extends KModelAbstract
 				$folders[$key]['path'] = $path;	
 			}
 			
-            $folders = KFactory::get('com://admin/articles.database.rowset.folders', array('data' => $folders));
+            $folders = $this->getService('com://admin/articles.database.rowset.folders', array('data' => $folders));
             $this->_list = $folders;
         }
 
