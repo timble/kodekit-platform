@@ -46,7 +46,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         {
             if($this->category_id != 0)
             {
-                $this->_data['section_id'] = KFactory::get('com://admin/categories.model.categories')
+                $this->_data['section_id'] = $this->getService('com://admin/categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
 
@@ -84,7 +84,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         //Set the featured
         if(isset($modified['featured']))
         {
-            $featured     = KFactory::get('com://admin/articles.database.row.featured');
+            $featured     = $this->getService('com://admin/articles.database.row.featured');
             $featured->id = $this->id;
 
             if($this->featured)
@@ -108,7 +108,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
     {
         $result = parent::delete();
 
-        $featured     = KFactory::get('com://admin/articles.database.row.featured');
+        $featured     = $this->getService('com://admin/articles.database.row.featured');
         $featured->id = $this->id;
 
         if($featured->load()) {
