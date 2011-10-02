@@ -128,7 +128,7 @@ class KConfigState extends KConfig
                 $filter = $this->_data[$key]->filter;
 
                 if(!($filter instanceof KFilterInterface)) {
-                    $filter = KFilter::factory($filter);
+                    $filter = KService::get('koowa:filter.factory')->instantiate($filter);
                 }
 
                 $this->_data[$key]->value = $filter->sanitize($value);
