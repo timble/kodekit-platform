@@ -72,17 +72,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         parent::_initialize($config);
     }
     
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
 	/** 
 	 * Test the connected status of the rowset.
 	 *
@@ -359,14 +348,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      */
     public function getRow(array $options = array())
     { 
-        $identifier         = clone $this->_identifier;
+        $identifier         = clone $this->getIdentifier();
         $identifier->path   = array('database', 'row');
-        $identifier->name   = KInflector::singularize($this->_identifier->name);
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
             
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();
                
-        return KFactory::get($identifier, $options); 
+        return $this->getService($identifier, $options); 
     }
          
 	/**
