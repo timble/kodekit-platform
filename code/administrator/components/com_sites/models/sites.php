@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Sites   
  */
-class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
+class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatable
 {	
      public function __construct(KConfig $config)
      {
@@ -32,18 +32,18 @@ class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
              ->insert('search'    , 'string');
     }
     
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->has($config->identifier))
+        if (!$container->has($config->service_identifier))
         {
             //Create the singleton
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
     
     public function getList()
@@ -82,7 +82,7 @@ class ComSitesModelSites extends KModelAbstract implements KObjectInstantiatable
                 $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
                         
-            $this->_list = KFactory::get('com://admin/sites.database.rowset.sites', array('data' => $data));
+            $this->_list = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_list;
