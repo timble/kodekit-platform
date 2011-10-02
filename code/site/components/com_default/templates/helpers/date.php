@@ -15,8 +15,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
- * @subpackage  Default
- * @uses        KFactory
+ * @subpackage  DefaultKService
  */
 class ComDefaultTemplateHelperDate extends KTemplateHelperDate
 {
