@@ -19,10 +19,9 @@
  * @package     Koowa_Database
  * @subpackage  Table
  * @uses        KMixinClass
- * @uses        KFactory
  * @uses        KFilter
  */
-abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifiable
+abstract class KDatabaseTableAbstract extends KObject
 {
     /**
      * Real name of the table in the db schema
@@ -133,11 +132,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     protected function _initialize(KConfig $config)
     {
-        $package = $this->_identifier->package;
-        $name    = $this->_identifier->name;
+        $package = $this->getIdentifier()->package;
+        $name    = $this->getIdentifier()->name;
         
         $config->append(array(
-            'database'          => KFactory::get('koowa:database.adapter.mysqli'),
+            'database'          => $this->getService('koowa:database.adapter.mysqli'),
             'name'              => empty($package) ? $name : $package.'_'.$name,
             'column_map'        => null,
             'filters'           => array(),
@@ -151,17 +150,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         );
         
          parent::_initialize($config);
-    }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
     }
     
     /**
@@ -283,23 +271,28 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getBehavior($behavior, $config = array())
     {
-       if(!($behavior instanceof KIdentifier))
+       if(!($behavior instanceof KServiceIdentifier))
        {
             //Create the complete identifier if a partial identifier was passed
            if(is_string($behavior) && strpos($behavior, '.') === false )
            {
-               $identifier = clone $this->_identifier;
+               $identifier = clone $this->getIdentifier();
                $identifier->path = array('database', 'behavior');
                $identifier->name = $behavior;
            }
-           else $identifier = KIdentifier::identify($behavior);
+           else $identifier = $this->getIdentifier($behavior);
        }
        
-       if(!isset($this->getSchema()->behaviors[$identifier->name])) {
-           $behavior = KDatabaseBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
-       } else {
-           $behavior = $this->getSchema()->behaviors[$identifier->name];
-       }
+       if(!isset($this->getSchema()->behaviors[$identifier->name])) 
+       {
+           $behavior = $this->getService($identifier, array_merge($config, array('mixer' => $this)));
+           
+           //Check the behavior interface
+		   if(!($behavior instanceof KDatabaseBehaviorInterface)) {
+			   throw new KDatabaseTableException("Database behavior $identifier does not implement KDatabaseBehaviorInterface");
+		   }
+       } 
+       else $behavior = $this->getSchema()->behaviors[$identifier->name];
        
        return $behavior;
     }
@@ -482,15 +475,15 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getRow(array $options = array())
     {
-        $identifier         = clone $this->_identifier;
+        $identifier         = clone $this->getIdentifier();
         $identifier->path   = array('database', 'row');
-        $identifier->name   = KInflector::singularize($this->_identifier->name);
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
             
         //The row default options
         $options['table'] = $this; 
         $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
              
-        return KFactory::get($identifier, $options); 
+        return $this->getService($identifier, $options); 
     }
     
     /**
@@ -501,14 +494,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getRowset(array $options = array())
     {
-        $identifier         = clone $this->_identifier;
+        $identifier         = clone $this->getIdentifier();
         $identifier->path   = array('database', 'rowset');
             
         //The rowset default options
         $options['table'] = $this; 
         $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
     
-        return KFactory::get($identifier, $options);
+        return $this->getService($identifier, $options);
     }
     
     /**
