@@ -18,29 +18,29 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultEventDispatcher extends KEventDispatcher implements KObjectInstantiatable
+class ComDefaultEventDispatcher extends KEventDispatcher implements KServiceInstantiatable
 {
  	/**
      * Force creation of a singleton
      *
      * @param 	object	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceInterface object
      * @return ComDefaultEventDispatcher
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->has($config->identifier))
+        if (!$container->has($config->service_identifier))
         {
             //Create the singleton
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
             
             //Add the factory map to allow easy access to the singleton
-            KIdentifier::setAlias('koowa:event.dispatcher', $config->identifier);
+            $container->setAlias('koowa:event.dispatcher', $config->service_identifier);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
 }
