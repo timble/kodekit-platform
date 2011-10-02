@@ -9,8 +9,6 @@
  * @link        http://www.nooku.org
  */
 
-KLoader::loadIdentifier('com://admin/files.helper.phpthumb.phpthumb');
-
 /**
  * Thumbnail Database Row Class
  *
@@ -39,28 +37,32 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
 
 	public function save()
 	{
-		if ($source = $this->source) {
-			if (!is_file($source->fullpath) || !$source->isImage()) {
-				return false;
-			}
+		if ($source = $this->source) 
+		{
+			if (is_file($source->fullpath) && $source->isImage()) 
+			{
+				//Load the library
+			    $this->getService('koowa:loader')->loadIdentifier('com://admin/files.helper.phpthumb.phpthumb');
+			
+			    //Creat the thumb
+			    $image = PhpThumbFactory::create($source->fullpath)
+				    ->setOptions(array('jpegQuality' => 50))
+				    ->adaptiveResize($this->_thumbnail_size, $this->_thumbnail_size);
 
-			$image = PhpThumbFactory::create($source->fullpath)
-				->setOptions(array('jpegQuality' => 50))
-				->adaptiveResize($this->_thumbnail_size, $this->_thumbnail_size);
+			    ob_start();
+			        echo $image->getImageAsString();
+			    $str = ob_get_clean();
+			    $str = sprintf('data:%s;base64,%s', $source->mimetype, base64_encode($str));
 
-			ob_start();
-
-			echo $image->getImageAsString();
-
-			$str = ob_get_clean();
-			$str = sprintf('data:%s;base64,%s', $source->mimetype, base64_encode($str));
-
-			$this->setData(array(
-				'files_container_id' => $source->container->id,
-				'folder' => '/'.$source->relative_folder,
-				'filename' => $source->name,
-				'thumbnail' => $str
-			));
+		    	$this->setData(array(
+			    	'files_container_id' => $source->container->id,
+					'folder'			 => '/'.$source->relative_folder,
+					'filename'           => $source->name,
+					'thumbnail'          => $str
+			    ));
+			
+			} 
+			else return false;
 		}
 
 		return parent::save();
@@ -69,7 +71,6 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
     public function toArray()
     {
         $data = parent::toArray();
-
 		unset($data['_thumbnail_size']);
 
         return $data;
