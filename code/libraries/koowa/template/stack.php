@@ -20,7 +20,7 @@
   * @category   Koowa
   * @package    Koowa_Template
   */
-class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInstantiatable
+class KTemplateStack extends KObject implements KServiceInstantiatable
 { 
     /**
      * The object container
@@ -52,34 +52,23 @@ class KTemplateStack extends KObject implements KObjectIdentifiable, KObjectInst
      * Force creation of a singleton
      *
      * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceServiceInterface object
      * @return KTemplateStack
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
         // Check if an instance with this identifier already exists or not
-        if (!$factory->has($config->identifier))
+        if (!$container->has($config->service_identifier))
         {
             //Create the singleton
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
-    
-	/**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+   
     /**
      * Pushes an element at the end of the registry
      *
