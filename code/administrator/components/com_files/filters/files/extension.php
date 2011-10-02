@@ -33,7 +33,7 @@ class ComFilesFilterFileExtension extends KFilterFilename
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KFactory::get('com://admin/files.model.configs')->getItem();
+		$component_config = $this->getService('com://admin/files.model.configs')->getItem();
 
 		$allowed = array_map('strtolower', $component_config->upload_extensions);
 		$ignored = array_map('strtolower', $component_config->ignore_extensions);
