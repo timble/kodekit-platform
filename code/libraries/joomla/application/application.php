@@ -738,7 +738,7 @@ class JApplication extends JObject
     protected function _loadSite($site)
 	{
 	    // Check if the site exists
-	    if(! KFactory::get('com://admin/sites.model.sites')->getList()->find($site))
+	    if(! KService::get('com://admin/sites.model.sites')->getList()->find($site))
 	    {
             throw new KException('Site :'.$site.' not found', KHttpResponse::NOT_FOUND);
             return false;
