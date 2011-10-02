@@ -22,7 +22,7 @@ class ComFilesDatabaseTableContainers extends KDatabaseTableDefault
 {
 	protected function _initialize(KConfig $config)
 	{
-		$behavior = KFactory::get('koowa:database.behavior.sluggable', array('columns' => array('id', 'title')));
+		$behavior = $this->getService('koowa:database.behavior.sluggable', array('columns' => array('id', 'title')));
 
 		$config->append(array(
 			'filters' => array(
