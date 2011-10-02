@@ -70,7 +70,7 @@ class KMixinCommandchain extends KMixinAbstract
     {
         $config->append(array(
             'command_chain'     => new KCommandChain(),
-            'event'				=> KFactory::get('koowa:command.event'),
+            'event'				=> KService::get('koowa:command.event'),
             'dispatch_events'   => true,
             'event_priority'    => KCommand::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
