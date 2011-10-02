@@ -15,7 +15,6 @@
  * @category    Koowa
  * @package     Koowa_Loader
  * @subpackage  Adapter
- * @uses        KIdentifier
  */
 abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 {
