@@ -15,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Event
  */
-class KEventDispatcher extends KObject implements KObjectIdentifiable
+class KEventDispatcher extends KObject
 {
     /**
 	 * An associative array of event listeners queues 
@@ -45,17 +45,6 @@ class KEventDispatcher extends KObject implements KObjectIdentifiable
 	    
 	    $this->_listeners = array();
 	}
-	
- 	/**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
 	
  	/**
      * Dispatches an event by dispatching arguments to all listeners that handle
