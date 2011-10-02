@@ -17,7 +17,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObject implements KObjectHandlable
+class KObject implements KObjectHandlable, KObjectServiceable
 {
     /**
      * Class methods
@@ -32,13 +32,20 @@ class KObject implements KObjectHandlable
      * @var array
      */
     protected $_mixed_methods = array();
-    
-   /**
-     * The object identifier
+     
+    /**
+     * The service identifier
      *
-     * @var KIdentifierInterface
+     * @var KServiceIdentifier
      */
-    protected $_identifier;
+    private $__service_identifier;
+    
+    /**
+     * The service container
+     *
+     * @var KService
+     */
+    private $__service_container;
      
     /**
      * Constructor.
@@ -47,11 +54,17 @@ class KObject implements KObjectHandlable
      */
     public function __construct( KConfig $config = null) 
     { 
-        //Set the identifier before initialise is called
-        if($this instanceof KObjectIdentifiable) {
-            $this->_identifier = $config->identifier;
+        //Set the service container
+        if(isset($config->service_container)) {
+            $this->__service_container = $config->service_container;
         }
         
+        //Set the service identifier
+        if(isset($config->service_identifier)) {
+            $this->__service_identifier = $config->service_identifier;
+        }
+        
+        //Initialise the object
         if($config) {
             $this->_initialize($config);
         }
@@ -223,6 +236,38 @@ class KObject implements KObjectHandlable
         
         return $this->__methods;
     }
+    
+	/**
+	 * Get an instance of a class based on a class identifier only creating it
+	 * if it doesn't exist yet.
+	 *
+	 * @param	string|object	The class identifier or identifier object
+	 * @param	array  			An optional associative array of configuration settings.
+	 * @throws	KServiceServiceException
+	 * @return	object  		Return object on success, throws exception on failure
+	 * @see 	KObjectServiceable
+	 */
+	final public function getService($identifier, array $config = array())
+	{
+	    return $this->__service_container->get($identifier, $config);
+	}
+	
+	/**
+	 * Gets the service identifier.
+	 *
+	 * @return	KServiceIdentifier
+	 * @see 	KObjectServiceable
+	 */
+	final public function getIdentifier($identifier = null)
+	{
+		if(isset($identifier)) {
+		    $result = $this->__service_container->getIdentifier($identifier);
+		} else {
+		    $result = $this->__service_identifier; 
+		}
+	    
+	    return $result;
+	}
     
     /**
      * Search the mixin method map and call the method or trigger an error
