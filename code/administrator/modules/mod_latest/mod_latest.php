@@ -18,7 +18,7 @@
  * @subpackage  Articles
  */
 
-echo KFactory::get('mod://admin/latest.html')
+echo KService::get('mod://admin/latest.html')
     	->module($module)
     	->attribs($attribs)
     	->display();
