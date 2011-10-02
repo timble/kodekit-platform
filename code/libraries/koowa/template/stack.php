@@ -14,7 +14,7 @@
   * Implements a simple stack collection (LIFO) 
   * 
   * The stack is implemented as a signleton. After instantiation the object can
-  * be accessed using koowa.template.stack identifier.
+  * be accessed using koowa:template.stack identifier.
   * 
   * @author     Johan Janssens <johan@nooku.org>
   * @category   Koowa
