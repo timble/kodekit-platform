@@ -46,7 +46,7 @@ class ModDefaultHtml extends KViewHtml
 	 */
 	public function getName()
 	{
-		return $this->_identifier->package;
+		return $this->getIdentifier()->package;
 	}
 	
 	/**
