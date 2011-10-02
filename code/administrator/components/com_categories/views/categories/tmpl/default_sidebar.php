@@ -12,5 +12,5 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="sidebar">
     <h3><?= @text('Sections') ?></h3>
-    <?= @template('com://admin/articles.view.sections.list', array('state' => $state, 'sections' => KFactory::get('com://admin/articles.model.sections')->getList())); ?>
+    <?= @template('com://admin/articles.view.sections.list', array('state' => $state, 'sections' => @service('com://admin/articles.model.sections')->getList())); ?>
 </div>
