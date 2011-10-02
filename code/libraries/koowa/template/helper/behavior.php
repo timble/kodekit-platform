@@ -155,7 +155,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			self::$_loaded['overlay'] = true;
 		}
 
-		$url = KFactory::get('koowa:http.url', array('url' => $config->url));
+		$url = $this->getService('koowa:http.url', array('url' => $config->url));
 		$url->query['tmpl'] = '';
 
 		$attribs = KHelperArray::toString($config->attribs);
@@ -265,9 +265,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'filter_column' => 'name'
 		));
 		
-		if(!is_a($config->identifier, 'KIdentifierInterface'))
-		{
-		    $config->identifier = KIdentifier::identify($config->identifier);
+		if(!is_a($config->identifier, 'KServiceIdentifier')) {
+		    $config->identifier = $this->getIdentifier($config->identifier);
 		}
 		
 		$config->append(array(
