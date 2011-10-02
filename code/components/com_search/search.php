@@ -18,4 +18,4 @@
  * @subpackage  Search
  */
 
-echo KFactory::get('com://site/search.dispatcher')->dispatch();
+echo KService::get('com://site/search.dispatcher')->dispatch();
