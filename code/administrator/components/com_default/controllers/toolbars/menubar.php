@@ -51,7 +51,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
 	public function getCommands()
 	{
 	    $name     = $this->getController()->getIdentifier()->name;
-	    $package  = $this->_identifier->package;
+	    $package  = $this->getIdentifier()->package;
 	    $manifest = JPATH_ADMINISTRATOR.'/components/com_'.$package.'/manifest.xml';
 
 	    if(file_exists($manifest))
