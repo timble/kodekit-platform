@@ -72,7 +72,7 @@ abstract class ComSettingsDatabaseRowAbstract extends KDatabaseRowAbstract
      */
     public function getType()
     {
-        return $this->_identifier->name;
+        return $this->getIdentifier()->name;
     }
     
 	/**
