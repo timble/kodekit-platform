@@ -24,7 +24,7 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
     	// Save state data for later
         $state_data = $model->getState()->getData();
 
-        $nodes = KFactory::get('com://admin/files.model.nodes')->set($state_data)->getList();
+        $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getList();
 
         $needed  = array();
         foreach ($nodes as $row)
