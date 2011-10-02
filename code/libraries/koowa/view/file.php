@@ -78,11 +78,11 @@ class KViewFile extends KViewAbstract
      */
     protected function _initialize(KConfig $config)
     {
-        $count = count($this->_identifier->path);
+        $count = count($this->getIdentifier()->path);
 
         $config->append(array(
             'path'        => '',
-            'filename'    => $this->_identifier->path[$count-1].'.'.$this->_identifier->name,
+            'filename'    => $this->getIdentifier()->path[$count-1].'.'.$this->getIdentifier()->name,
             'disposition' => 'attachment'
         ));
         
