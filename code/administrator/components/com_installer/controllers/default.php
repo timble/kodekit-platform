@@ -80,7 +80,7 @@ class ComInstallerControllerDefault extends ComDefaultControllerDefault
 			$result = true;
 		}
 
-        $controller = KFactory::get('com://admin/installer.controller.install');
+        $controller = $this->getService('com://admin/installer.controller.install');
 		$controller->name($installer->get('name'));
 		$controller->message($installer->message);
 		$controller->extension_message($installer->get('extension.message'));
