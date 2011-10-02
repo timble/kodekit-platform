@@ -18,7 +18,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <style src="media://com_articles/css/article-form.css" />
 
 <script>
-    var categories = <?= json_encode(KFactory::get('com://admin/articles.model.categories')->getList()) ?>;
+    var categories = <?= json_encode(@service('com://admin/articles.model.categories')->getList()) ?>;
 
     <? if($article->category_id) : ?>
         window.addEvent('domready', function() {
@@ -125,7 +125,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </div>
         <div class="panel folders group">
             <h3><?= @text('Category') ?></h3>
-            <?= @template('form_categories', array('categories' =>  KFactory::get('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
         </div>
         <div class="panel">
             <h3><?= @text('Description') ?></h3>
