@@ -17,19 +17,8 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersHelperPassword extends KObject implements KObjectIdentifiable
+class ComUsersHelperPassword extends KObject
 {
-	/**
-	 * Gets the object identifier.
-	 *
-	 * @return	KIdentifier
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-
 	/**
 	 * Gets the encrypted password.
 	 *
