@@ -34,4 +34,4 @@ if (!JFactory::getUser()->authorize( 'com_plugins', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
-echo KFactory::get('com://admin/extensions.dispatcher')->dispatch();
+echo KService::get('com://admin/extensions.dispatcher')->dispatch();
