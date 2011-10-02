@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<?php if(KDEBUG) : ?>
-		<?php echo KFactory::get('com://admin/debug.controller.debug')->display(); ?>
+		<?php echo KService::get('com://admin/debug.controller.debug')->display(); ?>
 	<?php endif; ?>
 </body>
 </html>
