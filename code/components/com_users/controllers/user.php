@@ -93,7 +93,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         if($parameters->get('useractivation') == '1')
         {
-            $password = KFactory::get('com://site/users.helper.password');
+            $password = $this->getService('com://site/users.helper.password');
 
             $context->data->activation = $password->getHash($password->getRandom(32));
             $context->data->enabled = 0;
@@ -141,10 +141,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $message = html_entity_decode($message, ENT_QUOTES);
 
-        $super_administrators = KFactory::get('com://site/users.model.users')
-            ->set('group_name', 'super administrator')
-            ->set('limit', 0)
-            ->getList();
+        $super_administrators = $this->getService('com://site/users.model.users')
+                                     ->set('group_name', 'super administrator')
+                                     ->set('limit', 0)
+                                     ->getList();
 
         $from_email = $config->getValue('mailfrom');
         $from_name  = $config->getValue('fromname');
