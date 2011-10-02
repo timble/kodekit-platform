@@ -10,7 +10,7 @@
  */
 
 /**
- * Factory mappings
+ * Service aliases
  *
  * @author    	Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
  * @category 	Nooku
@@ -18,4 +18,4 @@
  * @subpackage  Weblinks
  */
 
-KIdentifier::setAlias('com://site/banners.model.banners',    'com://admin/banners.model.banners');
+KService::setAlias('com://site/banners.model.banners', 'com://admin/banners.model.banners');
