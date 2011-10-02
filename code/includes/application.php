@@ -448,7 +448,7 @@ class JSite extends JApplication
 		    if(!empty($segments))
 		    {
 		        // Check if the site exists
-	            if(KFactory::get('com://admin/sites.model.sites')->getList()->find($segments[0])) {
+	            if(KService::get('com://admin/sites.model.sites')->getList()->find($segments[0])) {
                     $site = array_shift($segments);
                 }
 		    }
