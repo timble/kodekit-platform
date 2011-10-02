@@ -22,4 +22,4 @@
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
-echo KFactory::get('com://admin/articles.dispatcher')->dispatch();
+echo KService::get('com://admin/articles.dispatcher')->dispatch();
