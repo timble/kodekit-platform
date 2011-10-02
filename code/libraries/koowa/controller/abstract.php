@@ -18,10 +18,8 @@
  * @package     Koowa_Controller
  * @uses        KMixinClass
  * @uses        KCommandChain
- * @uses        KObject
- * @uses        KFactory
  */
-abstract class KControllerAbstract extends KObject implements KObjectIdentifiable
+abstract class KControllerAbstract extends KObject
 {
     /**
      * Array of class methods to call for a given action.
@@ -109,23 +107,11 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
         
         parent::_initialize($config);
     }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+        
 	/**
      * Has the controller been dispatched
      * 
      * @return  boolean	Returns true if the controller has been dispatched
-     * @see     KObjectIdentifiable
      */
     public function isDispatched()
     {
@@ -303,23 +289,28 @@ abstract class KControllerAbstract extends KObject implements KObjectIdentifiabl
      */
     public function getBehavior($behavior, $config = array())
     {
-       if(!($behavior instanceof KIdentifier))
+       if(!($behavior instanceof KServiceIdentifier))
        {
             //Create the complete identifier if a partial identifier was passed
            if(is_string($behavior) && strpos($behavior, '.') === false )
            {
-               $identifier = clone $this->_identifier;
+               $identifier = clone $this->getIdentifier();
                $identifier->path = array('controller', 'behavior');
                $identifier->name = $behavior;
            }
-           else $identifier = KIdentifier::identify($behavior);
+           else $identifier = $this->getIdentifier($behavior);
        }
            
-       if(!isset($this->_behaviors[$identifier->name])) {
-           $behavior = KControllerBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
-       } else {
-           $behavior = $this->_behaviors[$identifier->name];
-       }
+       if(!isset($this->_behaviors[$identifier->name])) 
+       {
+           $behavior = $this->getService($identifier, array_merge($config, array('mixer' => $this)));
+           
+           //Check the behavior interface
+		   if(!($behavior instanceof KControllerBehaviorInterface)) {
+			   throw new KControllerBehaviorException("Controller behavior $identifier does not implement KControllerBehaviorInterface");
+		   }
+       } 
+       else $behavior = $this->_behaviors[$identifier->name];
        
        return $behavior;
     }
