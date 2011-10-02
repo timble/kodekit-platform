@@ -43,7 +43,7 @@ Koowa::getInstance();
 
 KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
 
-KIdentifier::addAdapter(new KIdentifierAdapterComponent());
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
-KIdentifier::setApplication('site' , JPATH_SITE);
-KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+KServiceIdentifier::setApplication('site' , JPATH_SITE);
+KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
