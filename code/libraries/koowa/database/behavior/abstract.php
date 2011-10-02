@@ -201,7 +201,7 @@ abstract class KDatabaseBehaviorAbstract extends KMixinAbstract implements KData
         $methods   = parent::getMixableMethods($mixer);
         $methods[] = 'is'.ucfirst($this->getIdentifier()->name);
             
-        return array_diff($methods, array('execute', 'save', 'delete', 'getIdentifier', 'getService'));
+        return array_diff($methods, array('execute', 'save', 'delete', 'getHandle', 'getPriority', 'getIdentifier', 'getService'));
     }
     
 	/**
