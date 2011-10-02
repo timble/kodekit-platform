@@ -23,4 +23,4 @@ if (!JFactory::getUser()->authorize( 'com_cache', 'manage' )) {
 }
 
 // Dispatch the controller
-echo KFactory::get('com://admin/cache.dispatcher')->dispatch();
+echo KService::get('com://admin/cache.dispatcher')->dispatch();
