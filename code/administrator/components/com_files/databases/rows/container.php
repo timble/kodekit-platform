@@ -24,9 +24,11 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 	{
 		$is_new = $this->isNew();
 		
-		if ($is_new && $this->container) {
-			$container = KFactory::get('com://admin/files.model.containers')->slug($this->container)->getItem();
-			if ($container->isNew()) {
+		if ($is_new && $this->container) 
+		{
+			$container = $this->getService('com://admin/files.model.containers')->slug($this->container)->getItem();
+			if ($container->isNew()) 
+			{
 				$this->setStatus(KDatabase::STATUS_FAILED);
 				$this->setStatusMessage(JText::_('Invalid container'));
 			}
@@ -79,7 +81,7 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 
 	public function getParameters()
 	{
-		return KFactory::get('com://admin/files.model.configs')
+		return $this->getService('com://admin/files.model.configs')
 			->container($this->slug)->getItem();
 	}
 	
