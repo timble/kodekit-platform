@@ -62,7 +62,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 						'application'  => $client->name
 				    );
 
-				    $row = KFactory::get('com://admin/extensions.database.row.language', array('data' => $data));				
+				    $row = $this->getService('com://admin/extensions.database.row.language', array('data' => $data));				
 				    $row->default = $row->language == $default;
 
 				    $this->_item = $row;
@@ -120,7 +120,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 		        $languages = array_reverse($languages);
 			}
 
-			$rowset = KFactory::get('com://admin/extensions.database.rowset.languages');
+			$rowset = $this->getService('com://admin/extensions.database.rowset.languages');
 			foreach ($languages as $language)
 			{
 	            $row = $rowset->getRow()->setData($language);
