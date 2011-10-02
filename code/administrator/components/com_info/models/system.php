@@ -33,11 +33,11 @@ class ComInfoModelSystem extends KModelAbstract
                 ),
                 array(
                     'setting' => JText::_('Database Version'),
-                    'value'   => mysqli_get_server_info(KFactory::get('koowa:database.adapter.mysqli')->getConnection())
+                    'value'   => mysqli_get_server_info($this->getService('koowa:database.adapter.mysqli')->getConnection())
                 ),
                 array(
                     'setting' => JText::_('Database Collation'),
-                    'value'   => KFactory::get('com://admin/extensions.database.table.plugins')->getSchema()->collation
+                    'value'   => $this->getService('com://admin/extensions.database.table.plugins')->getSchema()->collation
                 ),
                 array(
                     'setting' => JText::_('PHP Version'),
@@ -61,7 +61,7 @@ class ComInfoModelSystem extends KModelAbstract
                 )
             );
 
-            $this->_list = KFactory::get('com://admin/info.database.rowset.system')
+            $this->_list = $this->getService('com://admin/info.database.rowset.system')
                 ->addData($rows, false);
         }
 
