@@ -24,8 +24,8 @@ class ComFilesCommandValidatorFolder extends KCommand
 	{
 		$row = $context->caller;
 
-		$row->path = KFactory::get('com://admin/files.filter.folder.name')->sanitize($row->path);
+		$row->path = $this->getService('com://admin/files.filter.folder.name')->sanitize($row->path);
 
-		return KFilter::factory('com://admin/files.filter.folder.uploadable')->validate($context);
+		return $this->getService('com://admin/files.filter.folder.uploadable')->validate($context);
 	}
 }
