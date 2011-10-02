@@ -34,7 +34,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
         		$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
         	}
 
-			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
+			$this->getCommandChain()->enqueue($this->getService($config->validator));
         }
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
@@ -65,8 +65,9 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	public function saveThumbnail(KCommandContext $context = null)
 	{
 		$result = null;
-		if ($this->isImage()) {
-			$thumb = KFactory::get('com://admin/files.model.thumbnails')
+		if ($this->isImage()) 
+		{
+			$thumb = $this->getService('com://admin/files.model.thumbnails')
 				->source($this)
 				->getItem();
 
@@ -79,8 +80,9 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	public function deleteThumbnail(KCommandContext $context = null)
 	{
 		$result = null;
-		if ($this->isImage()) {
-			$thumb = KFactory::get('com://admin/files.model.thumbnails')
+		if ($this->isImage()) 
+		{
+			$thumb = $this->getService('com://admin/files.model.thumbnails')
 				->source($this)
 				->getItem();
 
@@ -259,7 +261,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function getMimeType()
 	{
-		return KFactory::get('com://admin/files.mixin.mimetype')->getMimetype($this->fullpath);
+		return $this->getService('com://admin/files.mixin.mimetype')->getMimetype($this->fullpath);
 	}
 
 	public function getExtension()
@@ -303,12 +305,14 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		if (!isset($default)) {
 			$default = $path.'/con_info.png';
 		}
+		
 		if (!isset($icons16)) {
 			$icons16 = ComFilesIteratorDirectory::getFiles(array(
             	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-16',
 				'filter' => array('png')
             ));
 		}
+		
 		if (!isset($icons32)) {
 			$icons32 = ComFilesIteratorDirectory::getFiles(array(
             	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-32',
