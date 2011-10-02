@@ -33,7 +33,7 @@ class KCommand extends KObject implements KCommandInterface
     /**
      * The command priority
      *
-     * @var KIdentifierInterface
+     * @var integer
      */
     protected $_priority;
     
