@@ -75,7 +75,7 @@ class ComSearchModelResults extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
             
-			$this->_list = KFactory::get('com://site/search.database.rowset.results', array('data' => $data));
+			$this->_list = $this->getService('com://site/search.database.rowset.results', array('data' => $data));
 		}
 		
 		return $this->_list;
