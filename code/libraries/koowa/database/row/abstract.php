@@ -117,18 +117,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         
         parent::_initialize($config);
     }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+	
 	/**
 	 * Test the connected status of the row.
 	 *
