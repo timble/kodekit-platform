@@ -37,9 +37,9 @@ class ComExtensionsTemplateHelperCombobox extends KTemplateHelperListbox
             'application' => 'site'
         ));
 
-        $positions  = KFactory::get('com://admin/extensions.model.modules')->application($config->application)->getList()->getColumn('position');
+        $positions  = $this->getService('com://admin/extensions.model.modules')->application($config->application)->getList()->getColumn('position');
         
-		$template   = KFactory::get('com://admin/extensions.model.templates')
+		$template   = $this->getService('com://admin/extensions.model.templates')
                           ->application($config->application)
                           ->default(1)
                           ->getItem();
