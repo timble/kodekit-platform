@@ -535,7 +535,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		
 		list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 		
- 	   	$column = new KDatabaseSchemaColumn;
+ 	   	$column = $this->getService('koowa:database.schema.column');
  	   	$column->name     = $info->Field;
  	   	$column->type     = $type;
  	   	$column->length   = ($length  ? $length  : null);
