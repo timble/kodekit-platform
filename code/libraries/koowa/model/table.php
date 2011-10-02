@@ -68,7 +68,7 @@ class KModelTable extends KModelAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'table' => $this->_identifier->name,
+            'table' => $this->getIdentifier()->name,
         ));
 
         parent::_initialize($config);
@@ -110,12 +110,12 @@ class KModelTable extends KModelAbstract
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
 		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIdentifier)) {
+		        if(!($this->_table instanceof KServiceIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
 		        
 		        try {
-		            $this->_table = KFactory::get($this->_table);
+		            $this->_table = $this->getService($this->_table);
                 } catch (KDatabaseTableException $e) {
                     $this->_table = false;
                 }
@@ -128,8 +128,8 @@ class KModelTable extends KModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param   mixed   An object that implements KObjectIdentifiable, an object that
-     *                  implements KIdentifierInterface or valid identifier string
+     * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KModelTable
      */
@@ -139,11 +139,11 @@ class KModelTable extends KModelAbstract
 		{
 			if(is_string($table) && strpos($table, '.') === false ) 
 		    {
-		        $identifier         = clone $this->_identifier;
+		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
-		    else  $identifier = KIdentifier::identify($table);
+		    else  $identifier = $this->getIdentifier($table);
 		    
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
