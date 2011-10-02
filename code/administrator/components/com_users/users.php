@@ -19,7 +19,7 @@
  */
 
 //if (!JFactory::getUser()->authorize( 'com_users', 'manage' )) {
-//	KFactory::get('koowa:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+//	KService::get('koowa:application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 //}
 
-echo KFactory::get('com://admin/users.dispatcher')->dispatch();
+echo KService::get('com://admin/users.dispatcher')->dispatch();
