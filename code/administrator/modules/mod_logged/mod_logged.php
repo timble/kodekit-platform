@@ -18,7 +18,7 @@
  * @subpackage  Banners
  */
 
-echo KFactory::get('mod://admin/logged.html')
+echo KService::get('mod://admin/logged.html')
     	->module($module)
     	->attribs($attribs)
     	->display();
