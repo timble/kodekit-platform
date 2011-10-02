@@ -18,7 +18,7 @@
  * @subpackage  Debug
  */
  
-class ComDebugProfilerQueries extends KEventListener implements KObjectInstantiatable
+class ComDebugProfilerQueries extends KEventListener implements KServiceInstantiatable
 {    
     /**
      * The start time
@@ -38,18 +38,18 @@ class ComDebugProfilerQueries extends KEventListener implements KObjectInstantia
      * Force creation of a singleton
      *
      * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KFactoryInterface object
+     * @param 	object	A KServiceInterface object
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        if (!$factory->has($config->identifier)) 
+        if (!$container->has($config->service_identifier)) 
         {
             $instance = new self($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
     
     /**
