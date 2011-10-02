@@ -66,6 +66,6 @@ class ComFilesDatabaseRowPath extends KDatabaseRowDefault
 
 	public function getParameters()
 	{
-		return KFactory::get('com://admin/files.model.configs')->identifier($this->identifier)->getItem();
+		return $this->getService('com://admin/files.model.configs')->identifier($this->identifier)->getItem();
 	}
 }
