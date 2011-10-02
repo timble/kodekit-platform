@@ -52,9 +52,9 @@ class ComSettingsDatabaseRowsetSettings extends KDatabaseRowsetAbstract
      public function setData( $data, $modified = true )
      { 
          //Set the data in the rows
-        if(isset($data[$this->_identifier->name])) 
+        if(isset($data[$this->getIdentifier()->name])) 
         { 
-            foreach($data[$this->_identifier->name] as $key => $data) {
+            foreach($data[$this->getIdentifier()->name] as $key => $data) {
                  $this->_object_set->offsetGet($key)->setData($data, $modified); 
              }   
         }
