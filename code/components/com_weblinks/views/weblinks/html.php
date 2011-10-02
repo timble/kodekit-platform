@@ -26,11 +26,11 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
-	    $category = KFactory::get('com://site/weblinks.model.categories')
-	                        ->id($this->getModel()->getState()->category)
-	                        ->getItem();
+	    $category = $this->getService('com://site/weblinks.model.categories')
+	                     ->id($this->getModel()->getState()->category)
+	                     ->getItem();
 	                        
-	    $categories = KFactory::get('com://site/weblinks.model.categories')->getList();
+	    $categories = $this->getService('com://site/weblinks.model.categories')->getList();
 		$params     = JFactory::getApplication()->getParams();
 
 		// Set up the category image
