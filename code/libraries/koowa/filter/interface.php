@@ -17,7 +17,7 @@
  * @category    Koowa
  * @package     Koowa_Filter
  */
-interface KFilterInterface extends KCommandInterface, KObjectIdentifiable, KObjectInstantiatable
+interface KFilterInterface extends KCommandInterface, KServiceInstantiatable
 {
     /**
      * Validate a value or data collection
