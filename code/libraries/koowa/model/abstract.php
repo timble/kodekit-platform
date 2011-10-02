@@ -16,7 +16,7 @@
  * @package     Koowa_Model
  * @uses		KObject
  */
-abstract class KModelAbstract extends KObject implements KObjectIdentifiable
+abstract class KModelAbstract extends KObject
 {
 	/**
 	 * A state object
@@ -79,23 +79,12 @@ abstract class KModelAbstract extends KObject implements KObjectIdentifiable
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'state' => KFactory::get('koowa:config.state'),
+            'state' => new KConfigState(),
        	));
 
        	parent::_initialize($config);
     }
 
-	/**
-	 * Get the object identifier
-	 *
-	 * @return	KIdentifier
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-	
 	/**
 	 * Test the connected status of the model.
 	 *
