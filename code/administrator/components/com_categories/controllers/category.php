@@ -54,7 +54,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
     
     public function getRequest()
 	{
-		$this->_request['section'] = 'com_'.$this->_identifier->package;
+		$this->_request['section'] = 'com_'.$this->getIdentifier()->package;
 	    return $this->_request;
 	}
 }
