@@ -46,7 +46,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue(KFactory::get($config->validator));
+			$this->getCommandChain()->enqueue($this->getService($config->validator));
 		}
 
 		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
@@ -122,6 +122,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		if (!file_exists($path)) {
 			return true; // already gone?
 		}
+		
 		$iter = new RecursiveDirectoryIterator($path);
 		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) {
 			if ($f->isDir()) {
@@ -170,7 +171,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 
 		if ($column == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = KFactory::get('com://admin/files.database.rowset.folders');
+			$this->_data['children'] = $this->getService('com://admin/files.database.rowset.folders');
 		}
 
 		return parent::__get($column);
@@ -238,16 +239,16 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 	{
 		if(!($this->_children instanceof KDatabaseRowsetInterface))
 		{
-			$identifier         = clone $this->_identifier;
+			$identifier         = clone $this->getIdentifier();
 			$identifier->path   = array('database', 'rowset');
-			$identifier->name   = KInflector::pluralize($this->_identifier->name);
+			$identifier->name   = KInflector::pluralize($this->getIdentifier()->name);
 
 			//The row default options
 			$options  = array(
 				'identity_column' => $this->getIdentityColumn()
 			);
 
-			$this->_children = KFactory::get($identifier, $options);
+			$this->_children = $this->getService($identifier, $options);
 		}
 
 		return $this->_children;
@@ -273,5 +274,4 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		$this->_parent = $node;
 		return $this;
 	}
-
 }
