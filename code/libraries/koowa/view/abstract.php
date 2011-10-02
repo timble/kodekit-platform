@@ -16,9 +16,8 @@
  * @package		Koowa_View
  * @uses		KMixinClass
  * @uses 		KTemplate
- * @uses 		KFactory
  */
-abstract class KViewAbstract extends KObject implements KObjectIdentifiable
+abstract class KViewAbstract extends KObject
 {
 	/**
 	 * Model identifier (com://APP/COMPONENT.model.NAME)
@@ -94,25 +93,14 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
     }
     
 	/**
-	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-
-	/**
 	 * Get the name
 	 *
 	 * @return 	string 	The name of the object
 	 */
 	public function getName()
 	{
-		$total = count($this->_identifier->path);
-		return $this->_identifier->path[$total - 1];
+		$total = count($this->getIdentifier()->path);
+		return $this->getIdentifier()->path[$total - 1];
 	}
 	
 	/**
@@ -122,7 +110,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	 */
 	public function getFormat()
 	{
-		return $this->_identifier->name;
+		return $this->getIdentifier()->name;
 	}
 
 	/**
@@ -145,11 +133,11 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 		if(!$this->_model instanceof KModelAbstract) 
 		{
 			//Make sure we have a model identifier
-		    if(!($this->_model instanceof KIdentifier)) {
+		    if(!($this->_model instanceof KServiceIdentifier)) {
 		        $this->setModel($this->_model);
 			}
 		  
-		    $this->_model = KFactory::get($this->_model);
+		    $this->_model = $this->getService($this->_model);
 		}
 
 		return $this->_model;
@@ -158,8 +146,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that 
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KViewException	If the identifier is not a table identifier
 	 * @return	KViewAbstract
 	 */
@@ -174,11 +162,11 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 				    $model = KInflector::pluralize($model);
 			    } 
 		        
-			    $identifier			= clone $this->_identifier;
+			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
-			else $identifier = KIdentifier::identify($model);
+			else $identifier = $this->getIdentifier($model);
 		    
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
@@ -264,7 +252,7 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 
 			// Check to see if there is component information in the route if not add it
 			if(!isset($parts['option'])) {
-				$result[] = 'option=com_'.$this->_identifier->package;
+				$result[] = 'option=com_'.$this->getIdentifier()->package;
 			}
 
 			// Add the layout information to the route only if it's not 'default'
@@ -277,8 +265,8 @@ abstract class KViewAbstract extends KObject implements KObjectIdentifiable
 			}
 			
 			// Add the format information to the URL only if it's not 'html'
-			if(!isset($parts['format']) && $this->_identifier->name != 'html') {
-				$result[] = 'format='.$this->_identifier->name;
+			if(!isset($parts['format']) && $this->getIdentifier()->name != 'html') {
+				$result[] = 'format='.$this->getIdentifier()->name;
 			}
 
 			// Reconstruct the route
