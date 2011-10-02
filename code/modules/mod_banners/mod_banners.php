@@ -18,9 +18,9 @@
  * @subpackage  Banners
  */
 
-KLoader::loadIdentifier('com://site/banners.mappings');
+KLoader::loadIdentifier('com://site/banners.aliases');
 
-echo KFactory::get('mod://site/banners.html')
+echo KService::get('mod://site/banners.html')
     	->module($module)
     	->attribs($attribs)
     	->display();
