@@ -109,10 +109,11 @@ class ComFilesMixinMimetype extends KMixinAbstract
 			return 'application/x-empty';
 		}
 
-		$mimemagics = KFactory::get('com://admin/files.database.rowset.mimemagics')->getData();
+		$mimemagics = $this->getService('com://admin/files.database.rowset.mimemagics')->getData();
 
 		$fp = @fopen($path, 'rb');
-		foreach ($mimemagics as $mime) {
+		foreach ($mimemagics as $mime) 
+		{
 			@fseek($fp, $mime[0]);
 			$lookup = @fread($fp, $mime[1]);
 			if ($lookup === $mime[2]) {
