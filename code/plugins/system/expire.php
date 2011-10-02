@@ -65,7 +65,7 @@ class plgSystemExpire extends JPlugin
 	    if(!isset($this->_cache[$url]))
 	    {
     	    // Remote resources cannot be processed
-    	    if(KFactory::get('koowa:filter.url')->validate($url)) {
+    	    if(KService::get('koowa:filter.url')->validate($url)) {
     	        return $this->_cache[$url] = $url;
     	    }
     	    
