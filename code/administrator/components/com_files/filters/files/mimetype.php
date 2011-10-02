@@ -33,7 +33,7 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KFactory::get('com://admin/files.database.row.config');
+		$component_config = $this->getService('com://admin/files.database.row.config');
 
 		$allowed_mimetypes = array_map('strtolower', $component_config->upload_mime);
 		$illegal_mimetypes = array_map('strtolower', $component_config->upload_mime_illegal);
@@ -67,7 +67,7 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 			}
 			else 
 			{
-				$mime = KFactory::get('com://admin/files.database.row.file')->setData(array('path' => $row->file))->mimetype;
+				$mime = $this->getService('com://admin/files.database.row.file')->setData(array('path' => $row->file))->mimetype;
 
 				if ($config->check_mime && $mime) 
 				{
