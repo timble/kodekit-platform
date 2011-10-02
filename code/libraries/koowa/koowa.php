@@ -47,7 +47,7 @@ class Koowa
     { 
         $this->_initialize($config);
     }
-    
+ 
      /**
      * Initializes the default configuration for the object
      *
@@ -66,8 +66,8 @@ class Koowa
         $loader = KLoader::getInstance();
         
         //Setup the factory
-        $factory = KFactory::getInstance(); 
-        $factory->set('koowa:loader', $loader);
+        $service = KService::getInstance(); 
+        $service->set('koowa:loader', $loader);
     }
     
 	/**
