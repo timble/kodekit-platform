@@ -34,7 +34,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	/**
 	 * The command priority
 	 *
-	 * @var KIdentifierInterface
+	 * @var integer
 	 */
 	protected $_priority;
 	
