@@ -27,9 +27,9 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::get('com://site/users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id || $user->block)
         {
@@ -37,7 +37,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::get('com://site/users.helper.password');
+        $helper = $this->getService('com://site/users.helper.password');
         $token  = $helper->getHash($helper->getRandom());
         $salt   = $helper->getSalt($token);
 
@@ -72,9 +72,9 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::get('com://site/users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id || $user->block)
         {
@@ -90,7 +90,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::get('com://site/users.helper.password');
+        $helper = $this->getService('com://site/users.helper.password');
 
         if($parts[0] != $helper->getCrypted($token, $parts[1]))
         {
@@ -127,13 +127,13 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
 
-        KFactory::get('com://site/users.model.users')
-            ->set('id', $user->id)
-            ->getItem()
-            ->set('password', $password)
-           	->set('password_verify', $password_verify)
-            ->set('activation', '')
-            ->save();
+        $this->getService('com://site/users.model.users')
+             ->set('id', $user->id)
+             ->getItem()
+             ->set('password', $password)
+           	 ->set('password_verify', $password_verify)
+             ->set('activation', '')
+             ->save();
 
         $user->password         = $password;
         $user->activation       = '';
