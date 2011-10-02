@@ -68,8 +68,11 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach($config as $key => $value) {
-            $this->{'_'.$key} = $value;
+        foreach($config as $key => $value) 
+        {
+            if(isset($this->{'_'.$key})) { 
+                $this->{'_'.$key} = $value;
+            }
         }
     }
 
@@ -165,7 +168,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
         
         //Create the filter
-        $filter = KFactory::get('koowa:filter.slug', $config);
+        $filter = $this->getService('koowa:filter.slug', $config);
         return $filter;
     }
     
