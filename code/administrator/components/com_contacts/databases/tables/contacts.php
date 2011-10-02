@@ -24,7 +24,7 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
 	{
 		$config->identity_column = 'id';
 		
-		$sluggable = KDatabaseBehavior::factory('sluggable', array('columns' => array('name')));
+		$sluggable = $this->getBehavior('sluggable', array('columns' => array('name')));
 
         $config->append(array(
             'name'      => 'contact_details',
