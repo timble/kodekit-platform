@@ -30,8 +30,8 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 
 	public function display()
     {
-		$category = KFactory::get('com://site/weblinks.model.categories')->getItem();
-		$items = KFactory::get('com://site/weblinks.model.weblinks')->catid(KRequest::get('get.id', 'int'))->getList();
+		$category = $this->getService('com://site/weblinks.model.categories')->getItem();
+		$items = $this->getService('com://site/weblinks.model.weblinks')->catid(KRequest::get('get.id', 'int'))->getList();
 
 		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
 		$xml .= '<rss version="2.0">'.PHP_EOL;
