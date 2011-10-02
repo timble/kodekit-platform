@@ -29,7 +29,7 @@ class ModBannersHtml extends ModDefaultHtml
         $this->assign('moduleclass_sfx', $this->module->params->get('moduleclass_sfx'));
         
         // Module parameters
-        $model = KFactory::get('com://site/banners.model.banners')
+        $model = $this->getService('com://site/banners.model.banners')
                     ->enabled(1)
                     ->category($this->module->params->get('catid'))
                     ->sort($this->module->params->get('ordering', 0))
