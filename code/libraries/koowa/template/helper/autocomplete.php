@@ -35,8 +35,8 @@ class KTemplateHelperAutocomplete extends KTemplateHelperBehavior
 			'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.identifier.'.KInflector::pluralize($config->model)
 		));
 		
-		if(!is_a($config->identifier, 'KIdentifierInterface')) {
-		    $config->identifier = KIdentifier::identify($config->identifier);
+		if(!is_a($config->identifier, 'KServiceIdentifier')) {
+		    $config->identifier = $this->getIdentifier($config->identifier);
 		}
 		
 		$config->append(array(
