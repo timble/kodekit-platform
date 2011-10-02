@@ -79,7 +79,7 @@ class ComArticlesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
             
             $identifier = implode('.', $parts).'.'.$name;
             
-            $rowset = KFactory::get($identifier)
+            $rowset = $this->getService($identifier)
                         ->set($column, $id)
                         ->limit(0)
                         ->getList();
