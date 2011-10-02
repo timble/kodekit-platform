@@ -22,4 +22,4 @@ if (!JFactory::getUser()->authorize( 'com_newsfeeds', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('com://admin/newsfeeds.dispatcher')->dispatch();
+echo KService::get('com://admin/newsfeeds.dispatcher')->dispatch();
