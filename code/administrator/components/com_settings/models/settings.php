@@ -43,13 +43,13 @@ class ComSettingsModelSettings extends KModelAbstract
     {
         if (!isset($this->_list))
         {
-            $rowset = KFactory::get('com://admin/settings.database.rowset.settings');
+            $rowset = $this->getService('com://admin/settings.database.rowset.settings');
             
             //Insert the system configuration settings
-            $rowset->insert(KFactory::get('com://admin/settings.database.row.system'));
+            $rowset->insert($this->getService('com://admin/settings.database.row.system'));
                         
             //Insert the component configuration settings
-            $components = KFactory::get('com://admin/extensions.model.components')->enabled(1)->parent(0)->getList();
+            $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->parent(0)->getList();
             
             foreach($components as $component)
             {
@@ -62,7 +62,7 @@ class ComSettingsModelSettings extends KModelAbstract
                     'data' => $component->params->toArray(),
                 );
                 
-                $row = KFactory::get('com://admin/settings.database.row.component', $config);
+                $row = $this->getService('com://admin/settings.database.row.component', $config);
                 
                 $rowset->insert($row);
             }
