@@ -16,7 +16,7 @@
  * @package     Koowa_View
  * @uses        KMixinClass
  * @uses        KTemplate
- * @uses        KFactory
+ * @uses        KService
  */
 abstract class KViewTemplate extends KViewAbstract
 { 
@@ -114,7 +114,7 @@ abstract class KViewTemplate extends KViewAbstract
     protected function _initialize(KConfig $config)
     {
         //Clone the identifier
-        $identifier = clone $this->_identifier;
+        $identifier = clone $this->getIdentifier();
         
         $config->append(array(
             'data'			   => array(),
@@ -260,10 +260,10 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(is_string($layout) && strpos($layout, '.') === false ) 
 		{
-            $identifier = clone $this->_identifier; 
+            $identifier = clone $this->getIdentifier(); 
             $identifier->name = $layout;
 	    }
-		else $identifier = KIdentifier::identify($layout);
+		else $identifier = $this->getIdentifier($layout);
         
         $this->_layout = $identifier;
         return $this;
@@ -282,14 +282,14 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Get the identifier for the template with the same name
      *
-     * @return  KIdentifierInterface
+     * @return  KTemplate
      */
     public function getTemplate()
     {
         if(!$this->_template instanceof KTemplateAbstract)
         { 
             //Make sure we have a template identifier
-            if(!($this->_template instanceof KIdentifier)) {
+            if(!($this->_template instanceof KServiceIdentifier)) {
                 $this->setTemplate($this->_template);
             }
               
@@ -297,7 +297,7 @@ abstract class KViewTemplate extends KViewAbstract
             	'view' => $this
             );
             
-            $this->_template = KFactory::get($this->_template, $options);
+            $this->_template = $this->getService($this->_template, $options);
         }
         
         return $this->_template;
@@ -306,8 +306,8 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements KObjectIdentifiable, an object that 
-     *                  implements KIdentifierInterface or valid identifier string
+     * @param   mixed   An object that implements KObjectServiceable, an object that 
+     *                  implements KServiceIdentifierInterface or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KViewAbstract
      */
@@ -317,11 +317,11 @@ abstract class KViewTemplate extends KViewAbstract
         {
             if(is_string($template) && strpos($template, '.') === false ) 
 		    {
-			    $identifier = clone $this->_identifier; 
+			    $identifier = clone $this->getIdentifier(); 
                 $identifier->path = array('template');
                 $identifier->name = $template;
 			}
-			else $identifier = KIdentifier::identify($template);
+			else $identifier = $this->getIdentifier($template);
             
             if($identifier->path[0] != 'template') {
                 throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
