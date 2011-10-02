@@ -17,7 +17,6 @@
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KFactory
  */
 class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 {
