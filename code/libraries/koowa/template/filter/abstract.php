@@ -21,7 +21,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     /**
      * The behavior priority
      *
-     * @var KIdentifierInterface
+     * @var integer
      */
     protected $_priority;
     
@@ -60,18 +60,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
 
         parent::_initialize($config);
     }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+        
     /**
      * Get the priority of a behavior
      *
