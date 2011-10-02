@@ -17,7 +17,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-class KDatabaseQuery extends KObject
+class KDatabaseQuery
 {
 	/**
 	 * Count operation
@@ -110,13 +110,14 @@ class KDatabaseQuery extends KObject
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
 	 */
-	public function __construct( KConfig $config = null)
+	public function __construct( KConfig $config )
 	{
         //If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-
-		parent::__construct($config);
-
+		
+	    //Initialise the object
+        $this->_initialize($config);
+       
 		//set the model adapter
 		$this->_adapter = $config->adapter;
 	}
@@ -130,10 +131,8 @@ class KDatabaseQuery extends KObject
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'adapter' => KFactory::get('koowa:database.adapter.mysqli')
+            'adapter' => ''
         ));
-
-        parent::_initialize($config);
     }
 
     /**
@@ -145,7 +144,18 @@ class KDatabaseQuery extends KObject
     {
         return $this->_adapter;
     }
-
+    
+	/**
+     * Set the database adapter for this particular KDatabaseQuery object.
+     *
+     * @param object A KDatabaseAdapterInterface object
+     * @return KDatabaseQuery
+     */
+    public function setAdapter(KDatabaseAdapterInterface $adapter)
+    {
+        $this->_adapter = $adapter;
+        return $this;
+    }
 
     /**
      * Built a select query
