@@ -33,7 +33,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </p>
     <p id="form-login-site">
      	<label for="modlgn_site"><?php echo JText::_('Site'); ?></label><br />
-        <?= KTemplateHelper::factory('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
+        <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
   	</p>
     <? if($error = JError::getError(true)) : ?>
         <p id="login-error-message"><?= $error->get('message') ?></p>
