@@ -86,16 +86,16 @@ class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
 	{
 		if(!($this->_children instanceof KDatabaseRowsetInterface))
         {
-            $identifier         = clone $this->_identifier;
+            $identifier         = clone $this->getIdentifier();
             $identifier->path   = array('database', 'rowset');
-            $identifier->name   = KInflector::pluralize($this->_identifier->name);
+            $identifier->name   = KInflector::pluralize($this->getIdentifier()->name);
             
             //The row default options
             $options  = array(
                 'identity_column' => $this->getIdentityColumn()
             );
                
-            $this->_children = KFactory::get($identifier, $options); 
+            $this->_children = $this->getService($identifier, $options); 
         }
         
 	    return $this->_children;
