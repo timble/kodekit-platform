@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInstantiatable
+class ComFilesModelConfigs extends ComDefaultModelDefault implements KServiceInstantiatable
 {
 	public function __construct(KConfig $config)
 	{
@@ -26,26 +26,26 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KObjectInst
 		$this->_state->insert('container', 'identifier', null);
 	}
   
-    public static function getInstance(KConfigInterface $config, KFactoryInterface $factory)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
        // Check if an instance with this identifier already exists or not
-        if (!$factory->has($config->identifier))
+        if (!$container->has($config->service_identifier))
         {
             //Create the singleton
-            $classname = $config->identifier->classname;
+            $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $factory->set($config->identifier, $instance);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $factory->get($config->identifier);
+        return $container->get($config->service_identifier);
     }
 
 	public function getItem()
 	{
 		if (!isset($this->_item))
 		{
-			$this->_item = KFactory::get('com://admin/files.database.row.config');
-			$container = KFactory::get('com://admin/files.model.containers')->slug((string)$this->_state->container)->getItem();
+			$this->_item = $this->getService('com://admin/files.database.row.config');
+			$container = $this->getService('com://admin/files.model.containers')->slug((string)$this->_state->container)->getItem();
 
 			$this->_item->setData(json_decode($container->parameters, true));
 			$this->_item->container = $container;
