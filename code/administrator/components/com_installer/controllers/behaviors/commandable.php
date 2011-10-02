@@ -68,7 +68,7 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
         if(!$this->_sidebar instanceof KControllerToolbarAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_sidebar instanceof KIdentifier)) {
+		    if(!($this->_sidebar instanceof KServiceIdentifier)) {
 		        $this->setSidebar($this->_sidebar);
 			}
 		
@@ -76,7 +76,7 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_sidebar = KFactory::get($this->_sidebar, $config);
+			$this->_sidebar = $this->getService($this->_sidebar, $config);
 		}    
          
         return $this->_sidebar;
@@ -85,8 +85,8 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
 	/**
 	 * Method to set a sidebar object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KControllerBehaviorException	If the identifier is not a view identifier
 	 * @return	KControllerToolbarAbstract 
 	 */
@@ -96,11 +96,11 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
 		{
 			if(is_string($sidebar) && strpos($sidebar, '.') === false ) 
 		    {
-			    $identifier         = clone $this->_identifier;
+			    $identifier         = clone $this->getIdentifier();
                 $identifier->path   = array('controller', 'toolbar');
                 $identifier->name   = $sidebar;
 			}
-			else $identifier = KFactory::identify($sidebar);
+			else $identifier = $this->getIdentifier($sidebar);
 			
 			if($identifier->path[1] != 'toolbar') {
 				throw new KControllerBehaviorException('Identifier: '.$identifier.' is not a toolbar identifier');
@@ -134,7 +134,7 @@ class ComInstallerControllerBehaviorCommandable  extends ComDefaultControllerBeh
             $document->setBuffer($sidebar, 'modules', 'sidebar');
 
             //Render installer area
-            $controller = KFactory::get('com://admin/installer.controller.install');
+            $controller = $this->getService('com://admin/installer.controller.install');
             $controller->getModel()->set($this->getRequest());
             $view = $controller->display();
             $document->setBuffer($view, 'modules', 'install');
