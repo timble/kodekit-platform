@@ -18,7 +18,7 @@
  * @subpackage  Modules
  */
 
-echo KFactory::get('mod://admin/feed.html')
+echo KService::get('mod://admin/feed.html')
     	->module($module)
     	->attribs($attribs)
     	->display();
