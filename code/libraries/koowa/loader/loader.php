@@ -71,9 +71,8 @@ class KLoader
     /**
      * Singleton instance
      * 
-     * @param   array   Options containing 'table', 'name'
-     *
-     * @return void
+     * @param  array  An optional array with configuration options.
+     * @return KLoader
      */
     public static function getInstance($config = array())
     {
@@ -175,7 +174,7 @@ class KLoader
     {
         $result = false;
          
-        $identifier = KIdentifier::identify($identifier);
+        $identifier = KService::getIdentifier($identifier);
         
         //Get the path
         $path = $identifier->filepath;
