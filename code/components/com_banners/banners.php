@@ -17,7 +17,6 @@
  * @package     Nooku_Server
  * @subpackage  Banners    
  */
+KLoader::loadIdentifier('com://site/banners.aliases');
 
-KLoader::loadIdentifier('com://site/banners.mappings');
-
-echo KFactory::get('com://site/banners.dispatcher')->dispatch();
+echo KService::get('com://site/banners.dispatcher')->dispatch();
