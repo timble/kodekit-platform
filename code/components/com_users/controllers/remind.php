@@ -23,15 +23,15 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
     {
         $email = KRequest::get('post.email', 'email');
 
-        if(!KFactory::get('koowa:filter.email')->validate($email))
+        if(!$this->getService('koowa:filter.email')->validate($email))
         {
             $this->setRedirect(KRequest::referrer(), JText::_('INVALID_EMAIL_ADDRESS'), 'error');
             return false;
         }
 
-        $user = KFactory::get('com://site/users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id)
         {
