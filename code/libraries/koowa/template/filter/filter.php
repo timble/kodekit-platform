@@ -23,33 +23,4 @@ class KTemplateFilter
 	 */
 	const MODE_READ  = 1;
 	const MODE_WRITE = 2; 
-	
-	/**
-	 * Factory method for KTemplateFilterInterface classes.
-	 *
-	 * @param	mixed 	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
-	 * @param 	object 	An optional KConfig object with configuration options
-	 * @return KTemplateFilter
-	 */
-	public static function factory($filter, $config = array())
-	{		
-	    //Create the behavior
-	    if(!($filter instanceof KTemplateFilterInterface))
-		{   
-		    if(is_string($filter) && strpos($filter, '.') === false ) {
-		       $filter = 'com:default.template.filter.'.trim($filter);
-		    }    
-			
-		    $filter = KFactory::get($filter, $config);
-		    
-		    if(!($filter instanceof KTemplateFilterInterface)) 
-		    {
-			    $identifier = $filter->getIdentifier();
-			    throw new KDatabaseBehaviorException("Template filter $identifier does not implement KTemplateFilterInterface");
-		    }
-		}
-	    
-		return $filter;
-	}
 }
