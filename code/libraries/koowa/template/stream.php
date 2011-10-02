@@ -76,7 +76,7 @@ class KTemplateStream
         $identifier = str_replace('tmpl://', '', $path);
         
         //Get the template object from the template stack and parse it
-        $template = KFactory::get($identifier)->top();
+        $template = KService::get($identifier)->top();
         
         //Get the template path
         $this->_path = $template->getPath();
