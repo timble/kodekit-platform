@@ -53,7 +53,6 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
         
         $rowset = $this->getService($identifier)
                     ->category($this->id)
-                    ->limit(0)
                     ->getList();
 
         if($rowset->count()) {
