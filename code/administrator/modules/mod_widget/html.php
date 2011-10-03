@@ -25,7 +25,7 @@ class ModWidgetHtml extends ModDefaultHtml
     	$this->setLayout($this->params->get('layout', 'overlay'));
     	
     	//Create the url object and force the tmpl to empty
-    	$url = KFactory::get('koowa:http.url', array('url' => $this->params->get('url')));
+    	$url = KService::get('koowa:http.url', array('url' => $this->params->get('url')));
     	
     	$this->assign('url', $url);
     	
