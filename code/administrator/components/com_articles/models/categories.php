@@ -42,7 +42,6 @@ class ComArticlesModelCategories extends KModelAbstract
             $categories = $this->getService('com://admin/categories.model.categories')
                 ->published($this->_state->published)
                 ->section('com_content')
-                ->limit(0)
                 ->sort($this->_state->sort)
                 ->direction($this->_state->direction)
                 ->getList();
@@ -66,7 +65,6 @@ class ComArticlesModelCategories extends KModelAbstract
 
             $sections = $this->getService('com://admin/articles.model.sections')
                 ->published($this->_state->published)
-                ->limit(0)
                 ->sort($this->_state->sort)
                 ->direction($this->_state->direction)
                 ->getList();
