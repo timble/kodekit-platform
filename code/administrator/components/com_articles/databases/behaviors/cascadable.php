@@ -81,7 +81,6 @@ class ComArticlesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
             
             $rowset = $this->getService($identifier)
                         ->set($column, $id)
-                        ->limit(0)
                         ->getList();
 
             if($rowset->count()) {
