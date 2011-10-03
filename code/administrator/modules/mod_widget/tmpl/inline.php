@@ -10,7 +10,4 @@ unset($parts['view']);
 
 $action =  KInflector::isSingular($view) ? 'read' : 'browse';
 
-echo KFactory::tmp('admin::com.'.$package.'.controller.'.KInflector::singularize($view))
-	->setRequest($parts)
-	->$action();
-		
+echo @service('admin::com.'.$package.'.controller.'.KInflector::singularize($view))->setRequest($parts)->$action();
