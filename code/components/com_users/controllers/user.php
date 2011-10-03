@@ -143,7 +143,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $super_administrators = $this->getService('com://site/users.model.users')
                                      ->set('group_name', 'super administrator')
-                                     ->set('limit', 0)
                                      ->getList();
 
         $from_email = $config->getValue('mailfrom');
