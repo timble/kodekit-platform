@@ -46,7 +46,6 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $list = $this->getService('com://admin/articles.model.sections')
             ->set('scope', 'content')
             ->set('sort', 'title')
-            ->set('limit', 0)
             ->getList();
 
         if($config->deselect) {
@@ -85,7 +84,6 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             $list = $this->getService('com://admin/categories.model.categories')
                 ->set('section', $config->section > 0 ? $config->section : 'com_content')
                 ->set('sort', 'title')
-                ->set('limit', 0)
                 ->getList();
 
             foreach($list as $item) {
