@@ -159,6 +159,7 @@ div#content-box.form form.-koowa-form,
 div#content-box.form form[name="adminForm"] {
 	padding: 14px 0;
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 form.-koowa-grid,
@@ -571,6 +572,7 @@ table.toolbar td a.disabled:active {
 	box-sizing: border-box;
 	background-color: #F9F9F9;
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 #sidebar h3 {
