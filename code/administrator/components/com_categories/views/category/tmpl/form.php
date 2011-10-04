@@ -55,7 +55,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         </td>
                         <td>
                             <input type="hidden" name="old_parent" value="<?= $category->section_id ?>" />
-                            <?= @helper('listbox.sections', array('name' => 'section_id', 'selected' => $category->section_id, 'attribs' => array('id' => 'section_id', 'class' => 'required'))) ?>
+                            <?= @helper('listbox.sections', array(
+                            	'name' => 'section_id', 
+                            	'selected' => $category->section_id, 
+                            	'attribs' => array('id' => 'section_id', 'class' => 'required'),
+                            	'deselect' => false,
+                            	'uncategorised' => false
+                            )) ?>
                         </td>
                     </tr>
                 <? else : ?>
