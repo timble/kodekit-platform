@@ -28,7 +28,7 @@ var $get = function(key, defaultValue) {
 window.addEvent('domready', function() {
     $$('.submitable').addEvent('click', function(e){
         e = new Event(e);
-        new Koowa.Form(Json.decode(e.target.getProperty('rel'))).submit();
+        new Koowa.Form(JSON.decode(e.target.getProperty('rel'))).submit();
     });
 
     $$('.-koowa-grid').each(function(grid){
@@ -471,7 +471,7 @@ Koowa.Overlay = new Class({
     
     initialize: function(element, options) {
         if(typeof options == 'string') {
-            var options = Json.evaluate(options);
+            var options = JSON.evaluate(options);
         }
         
         this.element = $(element); 
