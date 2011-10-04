@@ -31,8 +31,10 @@ var ChromaTable = new Class({
 
 	initialize: function(table, options){
 
+        if(table.retrieve('chromatable')) return;
+
 		this.setOptions(options);
-		this.table = table;
+		this.table = table.store('chromatable', true);
 
 		var $uniqueID = this.table.getProperty('id') + 'wrapper', outer = new Element('div', {'class': 'scrolling_outer'}), inner = new Element('div', {id: $uniqueID, 'class': 'scrolling_inner'});
 
