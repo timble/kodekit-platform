@@ -161,7 +161,13 @@ class MenusViewItem extends JView
 		$n = count($components);
 		for($i = 0; $i < $n; $i++)
 		{
-		    $option = $components[$i]->option == 'com_articles' ? 'com_content' : $components[$i]->option;
+		    $option = $components[$i]->option;
+		    if ($option == 'com_articles') {
+		    	$option = 'com_content';
+		    }
+		    else if ($option == 'com_contacts') {
+		    	$option = 'com_contact';	
+		    }
 			$path   = JPATH_SITE.DS.'components'.DS.$option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
 

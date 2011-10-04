@@ -20,7 +20,7 @@ function ContactBuildRoute(&$query)
 
 	// Get the menu items for this component.
 	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_contact');
+		$component	= &JComponentHelper::getComponent('com_contacts');
 		$menu		= &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
