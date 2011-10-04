@@ -72,9 +72,9 @@ class JCacheStorageEaccelerator extends JCacheStorage
 				//Set the size
 				$data = array();
 				$data['name']  = $key['name'];
-				$data['hash']  = $parts[4];
-				$data['group'] = $parts[3];
-				$data['site']  = $parts[2];
+				$data['hash']  = array_pop($parts);
+				$data['site']  = count($parts) > 1 ? array_pop($parts) : '';
+				$data['group'] = array_pop($parts);
 				$data['size']  = $key['size'];
 				$data['hits']  = '';
 			    $data['created_on']  = '';
@@ -159,7 +159,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
         		/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 				$key['name'] = ltrim($key['name'], ':');
 
-        		if (strpos($key['name'],  $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {
+        		if (strpos($key['name'],  $secret.'-cache-'.$group.'-'.$this->_site) === 0 xor $mode != 'group') {
 					eaccelerator_rm($key['name']);
         		}
         	}

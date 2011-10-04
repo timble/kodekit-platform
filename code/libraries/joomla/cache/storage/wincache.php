@@ -56,9 +56,9 @@ class JCacheStorageWincache extends JCacheStorage
 			{
 			    $data = array();
 				$data['name']  = $key['key_name'];
-				$data['hash']  = $parts[4];
-				$data['group'] = $parts[3];
-				$data['site']  = $parts[2];
+				$data['hash']  = array_pop($parts);
+				$data['site']  = count($parts) > 1 ? array_pop($parts) : '';
+				$data['group'] = array_pop($parts);
 				$data['size']  = isset($key['value_size']) ? $key['value_size'] : $key['size'] = '';
 				$data['hits']  = $key['hitcount'];
 			    $data['created_on']  = $key['age_seconds'];
@@ -132,7 +132,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key) 
 		{
-			if (strpos($key['key_name'],  $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {
+			if (strpos($key['key_name'],  $secret.'-cache-'.$group.'-'.$this->_site) === 0 xor $mode != 'group') {
 				wincache_ucache_delete ($key['key_name']);
 			}
 		}
