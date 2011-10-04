@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComDefaultTemplateHelperDate extends KTemplateHelperDate
+class ComCacheTemplateHelperDate extends KTemplateHelperDate
 {
     /**
      * Returns human readable date.
