@@ -40,7 +40,8 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'      => 'section',
             'deselect'  => true,
             'selected'  => -1,
-            'prompt'	=> '- Select -'
+            'prompt'	=> '- Select -',
+        	'uncategorised' => true
         ));
 
         $list = $this->getService('com://admin/articles.model.sections')
@@ -52,7 +53,9 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }
 
-        $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
+        if($config->uncategorised) {
+        	$options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));	
+        }
 
         foreach($list as $item) {
             $options[] = $this->option(array('text' => $item->title, 'value' => $item->id));
