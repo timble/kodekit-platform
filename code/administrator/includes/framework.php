@@ -48,8 +48,16 @@ jimport( 'joomla.utilities.string' );
 jimport( 'joomla.plugin.helper' );
 
 // Koowa : setup
+require_once JPATH_CONFIGURATION.'/configuration.php';
+$config = new JConfig();
+
 require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
-Koowa::getInstance();	
+Koowa::getInstance(array(
+	'cache_prefix'  => md5($config->secret).'-cache-koowa',
+	'cache_enabled' => $config->caching
+));	
+
+unset($config);
 
 KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
 KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
