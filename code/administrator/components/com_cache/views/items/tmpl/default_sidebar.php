@@ -14,7 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <h3><?= @text( 'Groups' ); ?></h3>
     <ul>
         <li <? if(!$state->group) echo 'class="active"' ?>>
-            <a href="<?= @route('&group=') ?>">
+            <a href="<?= @route('group=') ?>">
                 <?= @text('All groups') ?>
             </a>
         </li>
