@@ -23,9 +23,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 <div class="grid_8">
 	<div class="panel title group">
 		<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $weblink->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
-        <label for="alias">
-            <?= @text( 'Alias' ); ?>:
-            <input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $weblink->slug; ?>" />
+        <label for="slug">
+            <?= @text( 'Slug' ); ?>:
+            <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
         </label>
     </div>
 	<div class="panel">
