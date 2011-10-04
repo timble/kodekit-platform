@@ -208,6 +208,6 @@ class JCacheStorage extends JObject
 	function _getCacheId($id, $group)
 	{
 		$name = md5($this->_hash.$this->_site.$this->_application.$this->_language.$id);
-		return $this->_hash.'-cache-'.$this->_site.'-'.$group.'-'.$name;
+		return $this->_hash.'-cache-'.$group.'-'.$this->_site.'-'.$name;
 	}
 }
