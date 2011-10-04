@@ -31,9 +31,9 @@ window.addEvent('domready', function(){
         <div class="panel title group">
 			<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
 		
-			<label for="alias">
-				<?= @text( 'Alias' ) ?>
-				<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Alias') ?>" />
+			<label for="slug">
+				<?= @text( 'Slug' ) ?>
+				<input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Slug') ?>" />
 			</label>
 		</div>
 		
