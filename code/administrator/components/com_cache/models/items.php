@@ -27,7 +27,7 @@ class ComCacheModelItems extends KModelAbstract
 		    ->insert('name'  , 'cmd')
 		    ->insert('hash'  , 'cmd')
 		    ->insert('group' , 'url')
-		    ->insert('site'  , 'cmd', 'default')
+		    ->insert('site'  , 'cmd')
 		 	->insert('limit' , 'int')
             ->insert('offset', 'int')
             ->insert('sort'     , 'cmd')
