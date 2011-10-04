@@ -266,7 +266,7 @@ Koowa.Controller = new Class({
 	            options[key] = element.dataset[key];
 	        }
 	    } else {
-	        for (i = 0, length = element.attributes.length; i < length; i++){
+	        for (var i = 0, length = element.attributes.length; i < length; i++){
 	            var key = element.attributes[i].name;
 	            if(key.substring && key.substring(0, 5) == 'data-') {
 	                var name = key.substring(5, key.length).camelCase();
