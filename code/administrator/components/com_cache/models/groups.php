@@ -25,7 +25,7 @@ class ComCacheModelGroups extends KModelAbstract
 		
 		$this->_state
 		    ->insert('name'     , 'cmd')
-		    ->insert('site'     , 'cmd', 'default')
+		    ->insert('site'     , 'cmd')
 		 	->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
             ->insert('sort'     , 'cmd')
