@@ -29,7 +29,7 @@ class HTML_trash
 	function showListContent( $option, &$contents, &$pageNav, &$lists )
 	{
 		?>
-		<form action="index.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&task=viewContent') ?>" method="post" name="adminForm">
 
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
@@ -140,7 +140,7 @@ class HTML_trash
 			}
 		}
 		</script>
-		<form action="index.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&task=viewMenu') ?>" method="post" name="adminForm">
 
 		<div id="tablecell">
 			<table class="adminlist" width="90%">
@@ -217,7 +217,6 @@ class HTML_trash
 			</table>
 		</div>
 
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="viewMenu" />
 		<input type="hidden" name="return" value="viewMenu" />
 		<input type="hidden" name="boxchecked" value="0" />
