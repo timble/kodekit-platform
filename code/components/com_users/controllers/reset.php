@@ -86,7 +86,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
 
         if(!isset($parts[1]))
         {
-            $this->setRedirect(KReuqest::referrer(), JText::_('INVALID_TOKEN'), 'error');
+            $this->setRedirect(KRequest::referrer(), JText::_('INVALID_TOKEN'), 'error');
             return false;
         }
 
