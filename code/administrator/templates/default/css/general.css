@@ -760,6 +760,12 @@ table.adminlist tfoot tr td {
 	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
 }
+.-koowa-grid table.adminlist thead th:not(.void):active {
+    background-color: #e5e5e5;
+    background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#e0e0e0), to(#e5e5e5));
+    background-image: -moz-linear-gradient(0% 35% 270deg,#e0e0e0, #e5e5e5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#E5E5E5');
+}
 
 table.adminlist thead td {
 	background-color: #F7F7F7;
