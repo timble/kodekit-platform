@@ -69,7 +69,9 @@ var ChromaTable = new Class({
 			}.pass(tr, checkbox));
 			tr.addEvents({
 				dblclick: function(event){
-					window.location.href = this.getElement('a').get('href');
+				    if(event.target.match('a') || event.target.match('td') || event.target == this) {
+					    window.location.href = this.getElement('a').get('href');
+				    }
 				},
 				contextmenu: function(event){
 					var modal = this.getElement('a.modal');
