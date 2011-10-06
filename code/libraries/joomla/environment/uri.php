@@ -150,7 +150,7 @@ class JURI extends JObject
 					 * To build the entire URI we need to prepend the protocol, and the http host
 					 * to the URI string.
 					 */
-					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+					$theURI = 'http' . $https . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . $_SERVER['REQUEST_URI'];
 
 				/*
 				 * Since we do not have REQUEST_URI to work with, we will assume we are
