@@ -765,21 +765,21 @@ table.adminlist thead th img { vertical-align: middle; }
 
 table.adminlist tbody th { font-weight: bold; }
 
-table.adminlist tbody tr					{ background-color: #fff;  text-align: left; }
-table.adminlist tbody tr:nth-child(even) 	{ background: #f9f9f9; border-top: 1px solid #fff; }
+table.adminlist tbody tr					{ background-color: #fff;  text-align: left; border-top: 1px solid #FFF; }
+table.adminlist tbody tr:nth-child(even) 	{ background: #f9f9f9; }
 
 table.adminlist tbody tr:nth-child(even):hover td,
 table.adminlist tbody tr:nth-child(odd):hover td  { background-color: #EAF3FA; }
 
-table.adminlist tbody tr td 	   { height: 25px;}
-table.adminlist tbody tr:nth-child(even) td { background: #f9f9f9; border-top: 1px solid #FFF; }
+table.adminlist tbody tr td 	   { height: 25px; border-top: 1px solid #FFF; }
+table.adminlist tbody tr:nth-child(even) td { background: #f9f9f9; }
 
 table.adminlist tbody tr.selected td,
 table.adminlist tbody tr.selected:hover td {
-	background-color: #EEE;
-	-webkit-transition: background 150ms ease-in-out;
-	-moz-transition: background 150ms ease-in-out;
-	transition: background 150ms ease-in-out;
+	background-color: #CDE7FD;
+	-webkit-transition: all 150ms ease-in-out;
+	-moz-transition: all 150ms ease-in-out;
+	transition: all 150ms ease-in-out;
 }
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
