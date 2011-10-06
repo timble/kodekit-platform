@@ -95,6 +95,12 @@ class plgSystemKoowa extends JPlugin
 	        $this->_authenticateUser();
 	    }
 	    
+	    /*
+	     * Dispatch the default dispatcher 
+	     *
+	     * If we are running in CLI mode bypass the default Joomla executition chain and dispatch the default
+	     * dispatcher.
+	     */
 	    if (PHP_SAPI === 'cli') 
 	    {
 	    	$options = getopt('a::u::p::h::', array('url::', 'help::'));
