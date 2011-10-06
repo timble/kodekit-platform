@@ -21,7 +21,7 @@ window.addEvent('domready', function() {
 		cache       = {},
 		setList     = function(data){
 		    var options = [];
-		    Hash.each(data, function(module){
+		    Hash.each(data.item, function(module){
 		    	options.include(new Element('option', {
 		    		selected: <?= json_encode($module->ordering) ?> == module.ordering,
 		    		value: module.ordering,
