@@ -23,6 +23,18 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
+		// Command line fixes for Joomla
+		if (PHP_SAPI === 'cli') 
+		{
+			if (!isset($_SERVER['HTTP_HOST'])) {
+				$_SERVER['HTTP_HOST'] = '';
+			}
+			
+			if (!isset($_SERVER['REQUEST_METHOD'])) {
+				$_SERVER['REQUEST_METHOD'] = '';
+			}
+		}
+		
 		//Suhosin compatibility
 		if(in_array('suhosin', get_loaded_extensions()))
 		{
@@ -83,6 +95,17 @@ class plgSystemKoowa extends JPlugin
 	        $this->_authenticateUser();
 	    }
 	    
+	    if (PHP_SAPI === 'cli') 
+	    {
+	    	$options = getopt('a::u::p::h::', array('url::', 'help::'));
+	    	
+	    	if (!empty($options['url']) || !empty($options['help']) || !empty($options['h'])) 
+	    	{
+	    		// Thanks Joomla. We will take it from here.
+	    		echo KService::get('com:default.dispatcher.cli')->dispatch();
+	    		exit(0);	
+	    	}
+	    }
 	}
 	
 	/**
