@@ -95,8 +95,29 @@ var ChromaTable = new Class({
             
             elements.include(cloned);
             
+            //Make sure table headers are aligned to table cells
+            var tbody = this.table.getElement('tbody'), row = tbody.getElement('tr');
+            if(row) {
+                var cells = row.getElements('td'), values = [];
+                cells.each(function(td){
+                    td.get('colspan').toInt().times(function(){
+                        values.push(td.getStyle('text-align'));
+                    });
+                });
+                thead.getElements('tr').each(function(tr){
+                    var i = 0;
+                    tr.getChildren().each(function(child){
+                        child.setStyle('text-align', values[i]);
+                        child.get('colspan').toInt().times(function(){
+                            i++;
+                        });
+                    });
+                });
+            }
+            
+            
             //Do sortable magic
-            var sortables = thead.getElements('th.-koowa-sortable'), tbody = this.table.getElement('tbody'), rows;
+            var sortables = thead.getElements('th.-koowa-sortable'), rows;
             tbody.getChildren().each(function(tr, i){
                 tr.set('data-index', i);
             });
@@ -215,7 +236,10 @@ var ChromaTable = new Class({
 		if(thead) {
 		    thead.setStyle('width', this.getComputedWidth(this.table.getElement('thead')));
 			this.table.getElement('thead').getElements('td, th').each(function(td, i){
-				thead.getElement('thead').getElements('td, th')[i].setStyle('width', this.getComputedWidth(td));
+				thead.getElement('thead').getElements('td, th')[i].setStyles({
+				    width: this.getComputedWidth(td),
+				    //textAlign: td.getStyle('text-align')
+				});
 			}, this);
 		}
 		
