@@ -736,14 +736,15 @@ table.adminlist thead th {
 	border-bottom: 1px solid #E1E1E1;
 	border-left: 1px solid #E1E1E1;
 	position: relative;
+	-webkit-user-select: none;
 }
 
 table.adminlist thead th .-koowa-grid-arrow {
     position: absolute;
-    right: 0;
+    right: 5px;
     top: 0;
     bottom: 0;
-    width: 20px;
+    width: 7px;
     background-position: center;
     background-repeat: no-repeat;
 }
