@@ -28,7 +28,7 @@ window.addEvent('domready', function() {
 
 <?= @template('default_sidebar'); ?>
 
-<form id="articles-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form id="articles-form" action="" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>
     <table class="adminlist">
         <thead>

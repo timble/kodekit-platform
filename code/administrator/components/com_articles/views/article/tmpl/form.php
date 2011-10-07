@@ -28,7 +28,7 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 </script>
 
-<form action="<?= @route('id='.$article->id) ?>" method="post" id="article-form" class="-koowa-form">
+<form action="" method="post" id="article-form" class="-koowa-form">
     <div id="main" class="grid_8">
         <div class="panel title clearfix">
             <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
