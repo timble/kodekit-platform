@@ -526,25 +526,16 @@ class plgEditorTinymce extends JPlugin
 					myField.value += myValue;
 				}
 			}
-		
-			function isBrowserIE() {
-				return navigator.appName==\"Microsoft Internet Explorer\";
-			}
 
 			function jInsertEditorText( text, editor ) {
-				insertAtCursor( document.getElementById(editor), text );
-				if (isBrowserIE()) {
-					if (window.parent.tinyMCE) {
-						window.parent.tinyMCE.selectedInstance.selection.moveToBookmark(window.parent.global_ie_bookmark);
-					}
-				}
-				tinyMCE.execInstanceCommand(editor, 'mceInsertContent',false,text);
+			    document.id(editor).insertAtCursor(text);
+			    tinyMCE.execInstanceCommand(editor, 'mceInsertContent',false,text);
 			}
 
 			var global_ie_bookmark = false;
 
 			function IeCursorFix() {
-				if (isBrowserIE()) {
+				if (navigator.appName==\"Microsoft Internet Explorer\") {
 					tinyMCE.execCommand('mceInsertContent', false, '');
 					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
 				}
