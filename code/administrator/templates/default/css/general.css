@@ -748,6 +748,7 @@ table.adminlist thead th .-koowa-grid-arrow {
     background-position: center;
     background-repeat: no-repeat;
 }
+.-koowa-asc a.-koowa-asc, .-koowa-desc a.-koowa-desc { padding-right: 0; }
 
 body table.adminlist thead tr th:first-child {
 	border-left-width: 0;
