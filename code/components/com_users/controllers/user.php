@@ -97,10 +97,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
             $context->data->activation = $password->getHash($password->getRandom(32));
             $context->data->enabled = 0;
-
-            $this->_redirect_message = JText::_('REG_COMPLETE_ACTIVATE');
         }
-        else $this->_redirect_message = JText::_('REG_COMPLETE');
 
         return parent::_actionAdd($context);
     }
