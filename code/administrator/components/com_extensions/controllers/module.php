@@ -30,7 +30,9 @@ class ComExtensionsControllerModule extends ComDefaultControllerDefault
 	public function purgeCache(KCommandContext $context)
 	{
 		$cache = JFactory::getCache();
-		foreach($context->result as $row)
+		
+		$result = $context->result instanceof KDatabaseRowInterface ? array($context->result) : $context->result;
+		foreach($result as $row)
 		{
 			// Clean cache for all 3 front-end user groups (guest, reg, special)
 			$cache->remove($row->id . '0', $row->module);
