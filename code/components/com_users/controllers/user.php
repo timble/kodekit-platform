@@ -98,25 +98,33 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             $context->data->activation = $password->getHash($password->getRandom(32));
             $context->data->enabled = 0;
 
-            $message = JText::_('REG_COMPLETE_ACTIVATE');
+            $this->_redirect_message = JText::_('REG_COMPLETE_ACTIVATE');
         }
-        else $message = JText::_('REG_COMPLETE');
+        else $this->_redirect_message = JText::_('REG_COMPLETE');
 
         return parent::_actionAdd($context);
     }
 
     public function redirect(KCommandContext $context)
     {
-        $item = $context->caller->getModel()->getItem();
-
-        if($item->getStatus() == 'failed') {
+        $item   = $context->caller->getModel()->getItem();
+        $status = $item->getStatus();
+        
+        if($status == 'failed') {
             $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
         } else {
             if(!($url = KRequest::get('post.return', 'url'))) {
-                $url = 'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
+                $default = JSite::getMenu()->getDefault();
+                $url     = JRoute::_($default->link.'&Itemid='.$default->id);
+            }
+                        
+            if($status == 'created') {
+                $message = JComponentHelper::getParams('com_users')->get('useractivation') ? 'REG_COMPLETE_ACTIVATE' : 'REG_COMPLETE';
+            } else {
+                $message = 'Your settings have been saved';
             }
 
-            $this->setRedirect($url, JText::_('Modifications have been saved.'), 'message');
+            $this->setRedirect($url, JText::_($message), 'message');
         }
     }
 
