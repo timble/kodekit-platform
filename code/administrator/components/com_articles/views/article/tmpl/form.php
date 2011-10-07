@@ -18,14 +18,6 @@ defined('KOOWA') or die('Restricted access') ?>
 <style src="media://com_articles/css/article-form.css" />
 
 <script>
-    var categories = <?= json_encode(@service('com://admin/articles.model.categories')->getList()) ?>;
-
-    <? if($article->category_id) : ?>
-        window.addEvent('domready', function() {
-            document.id('article-form-categories').set('value', <?= $article->category_id ?>);
-        });
-    <? endif ?>
-
     if(Form && Form.Validator) {
         Form.Validator.add('validate-unsigned', {
             errorMsg: Form.Validator.getMsg("required"),
