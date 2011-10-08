@@ -39,7 +39,10 @@
     padding:4px;
 }
 
+.-koowa-asc .-koowa-grid-arrow  { background-image: url(../images/sort_asc.png); }
+.-koowa-desc .-koowa-grid-arrow { background-image: url(../images/sort_desc.png); }
 a.-koowa-asc  { background: url(../images/sort_asc.png) no-repeat right; padding-right: 10px;}
 a.-koowa-desc { background: url(../images/sort_desc.png) no-repeat right; padding-right: 10px;}
+.-koowa-asc a.-koowa-asc, .-koowa-desc a.-koowa-desc { background-image: none; }
 
 .submitable { cursor: pointer; }

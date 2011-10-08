@@ -17,7 +17,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-interface KDatabaseRowInterface extends KObjectIdentifiable
+interface KDatabaseRowInterface
 {
 	/**
      * Returns the status of this row.

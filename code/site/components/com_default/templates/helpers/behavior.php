@@ -17,7 +17,6 @@
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KFactory
  */
 class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 {
@@ -51,7 +50,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
     public function keepalive($config = array())
     {
         //Get the config session lifetime
-        $lifetime = KFactory::get('lib.joomla.session')->getExpire() * 1000;
+        $lifetime = JFactory::getSession()->getExpire() * 1000;
 
         //Refresh time is 1 minute less than the liftime
         $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;

@@ -9,7 +9,7 @@
  */
 
 //Instantiate the request singleton
-KRequest::instantiate();
+KRequest::getInstance();
 
 /**
  * Request class
@@ -19,7 +19,7 @@ KRequest::instantiate();
  * @package     Koowa_Request
  * @uses        KFilter
  * @uses        KInflector
- * @uses        KFactory
+ * @uses        KService
  * @static
  */
 class KRequest
@@ -130,7 +130,7 @@ class KRequest
      *
      * @return void
      */
-    public static function instantiate($config = array())
+    public static function getInstance($config = array())
     {
         static $instance;
 
@@ -187,7 +187,7 @@ class KRequest
         }
 
         if(!($filter instanceof KFilterInterface)) {
-            $filter = KFilter::factory($filter);
+            $filter = KService::get('koowa:filter.factory')->instantiate($filter);
         }
 
         return $filter->sanitize($result);
@@ -202,14 +202,14 @@ class KRequest
     public static function set($identifier, $value)
     {
         list($hash, $keys) = self::_parseIdentifier($identifier);
-
+        
         // Add to _REQUEST hash if original hash is get, post, or cookies
         if(in_array($hash, array('GET', 'POST', 'COOKIE'))) {
             self::set('request.'.implode('.', $keys), $value);
         }
-
+        
         // Store cookies persistently
-        if($hash == 'COOKIE')
+        if($hash == 'COOKIE' && strpos(KRequest::protocol(), 'http') !== false)
         {
             // rewrite the $keys as foo[bar][bar]
             $ckeys = $keys; // get a copy
@@ -217,7 +217,7 @@ class KRequest
             foreach($ckeys as $ckey) {
                 $name .= '['.$ckey.']';
             }
-
+ 
             if(!setcookie($name, $value)) {
                 throw new KRequestException("Couldn't set cookie, headers already sent.");
             }
@@ -232,7 +232,7 @@ class KRequest
         if(!isset($GLOBALS['_'.$hash])) { 
            $GLOBALS['_'.$hash] = array(); 
         } 
-
+        
         $GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
     }
 
@@ -358,11 +358,11 @@ class KRequest
         {
             if($referrer = KRequest::get('server.HTTP_REFERER', 'url'))
             {
-                self::$_referrer = KFactory::get('lib.koowa.http.url', array('url' => $referrer));
+                self::$_referrer = KService::get('koowa:http.url', array('url' => $referrer));
 
                 if($isInternal)
                 {
-                    if(!KFactory::get('lib.koowa.filter.internalurl')->validate((string)self::$_referrer)) {
+                    if(!KService::get('koowa:filter.internalurl')->validate((string)self::$_referrer)) {
                         return null;
                     }
                 }
@@ -381,41 +381,47 @@ class KRequest
     {
         if(!isset(self::$_url))
         {
-            /*
-             * Since we are assigning the URI from the server variables, we first need
-             * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
-             * are present, we will assume we are running on apache.
-             */
-            if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI']))
-            {
-                /*
-                 * To build the entire URI we need to prepend the protocol, and the http host
-                 * to the URI string.
-                 */
-                $url = self::protocol().'://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $url = self::protocol().'://';
+            
+            if (PHP_SAPI !== 'cli') 
+        	{
+        		/*
+            	 * Since we are assigning the URI from the server variables, we first need
+             	 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
+             	 * are present, we will assume we are running on apache.
+             	 */
+        	    if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI']))
+                {
+                	/*
+                 	 * To build the entire URI we need to prepend the protocol, and the http host
+                 	 * to the URI string.
+                 	 */
+                    $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-                /*
-                 * Since we do not have REQUEST_URI to work with, we will assume we are
-                 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
-                 * QUERY_STRING environment variables.
-                 */
-            }
-            else
-            {
-                // IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable
-                $url = self::protocol().'://'. $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-
-                // If the query string exists append it to the URI string
-                if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
-                    $url .= '?' . $_SERVER['QUERY_STRING'];
+                	/*
+                 	 * Since we do not have REQUEST_URI to work with, we will assume we are
+                 	 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
+                 	 * QUERY_STRING environment variables.
+                 	 */
                 }
-            }
+                else
+                {
+                    // IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable
+                    $url .= $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
+                    // If the query string exists append it to the URI string
+                    if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+                        $url .= '?' . $_SERVER['QUERY_STRING'];
+                    }
+                }
+        	}
+        	else $url .= 'koowa';
+            
             // Sanitize the url since we can't trust the server var
-            $url = KFactory::get('lib.koowa.filter.url')->sanitize($url);
+            $url = KService::get('koowa:filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = KFactory::tmp('lib.koowa.http.url', array('url' => $url));
+            self::$_url = KService::get('koowa:http.url', array('url' => $url));
 
         }
 
@@ -443,9 +449,9 @@ class KRequest
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = KFactory::get('lib.koowa.filter.url')->sanitize($path);
+            $path = KService::get('koowa:filter.url')->sanitize($path);
 
-            self::$_base = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
+            self::$_base = KService::get('koowa:http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -464,7 +470,7 @@ class KRequest
         if(!is_null($path))
         {
             if(!$path instanceof KhttpUrl) {
-                $path = KFactory::tmp('lib.koowa.http.url', array('url' => $path));
+                $path = KService::get('koowa:http.url', array('url' => $path));
             }
 
             self::$_root = $path;
@@ -479,21 +485,24 @@ class KRequest
 
     /**
      * Returns the current request protocol, based on $_SERVER['https']. In CLI
-     * mode, NULL will be returned.
+     * mode, 'cli' will be returned.
      *
      * @return  string
      */
     public static function protocol()
     {
-        if (PHP_SAPI === 'cli') {
-            return NULL;
-        }
-
-        if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-            return 'https';
-        } else {
-            return 'http';
-        }
+        $protocol = 'cli';
+        
+        if (PHP_SAPI !== 'cli') 
+        {
+            $protocol = 'http';
+            
+            if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
+                $protocol = 'https';
+            }
+        } 
+     
+        return $protocol;
     }
 
     /**
@@ -594,10 +603,6 @@ class KRequest
             if($format == '*') {
                 $format = null;
             }
-        }
-
-        if(!empty(self::url()->format) && self::url()->format != 'php') {
-            $format = self::url()->format;
         }
 
         if(self::has('request.format')) {

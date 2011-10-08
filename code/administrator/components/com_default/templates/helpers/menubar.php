@@ -99,7 +99,7 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
         }
         
         //Explode the class array
-        $command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
+        $command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
         
         if ($command->disabled) {
 			$html = '<span '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</span>';	

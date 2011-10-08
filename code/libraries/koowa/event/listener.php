@@ -15,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Event
  */
-class KEventListener extends KObject implements KObjectIdentifiable
+class KEventListener extends KObject
 {
  	/**
      * List of event handlers
@@ -58,7 +58,7 @@ class KEventListener extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'dispatcher'   => KFactory::get('lib.koowa.event.dispatcher'),
+        	'dispatcher'   => $this->getService('koowa:event.dispatcher'),
     	    'auto_connect' => true,
     		'priority'     => KCommand::PRIORITY_NORMAL 
         ));
@@ -66,17 +66,6 @@ class KEventListener extends KObject implements KObjectIdentifiable
         parent::_initialize($config);
     }
    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
     /**
      * Get the event handlers of the listener
      * 

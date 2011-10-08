@@ -54,7 +54,7 @@ class KMixinCommandchain extends KMixinAbstract
         
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) {
-            $this->_command_chain->enqueue(KFactory::get('lib.koowa.command.event'), $config->event_priority);
+            $this->_command_chain->enqueue($config->event, $config->event_priority);
         }
     }
     
@@ -70,6 +70,7 @@ class KMixinCommandchain extends KMixinAbstract
     {
         $config->append(array(
             'command_chain'     => new KCommandChain(),
+            'event'				=> KService::get('koowa:command.event'),
             'dispatch_events'   => true,
             'event_priority'    => KCommand::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
@@ -115,5 +116,15 @@ class KMixinCommandchain extends KMixinAbstract
     {
         $this->_command_chain = $chain;
         return $this->_mixer;
+    }
+    
+	/**
+     * Preform a deep clone of the object.
+     *
+     * @retun void
+     */
+    public function __clone()
+    {
+        $this->_command_chain = clone $this->_command_chain;    
     }
 }

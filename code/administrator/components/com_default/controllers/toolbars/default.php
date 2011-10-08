@@ -73,8 +73,8 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
           
         //Get the query options
         $query  = http_build_query($states);
-        $option = $this->_identifier->package;
-        $view   = $this->_identifier->name;
+        $option = $this->getIdentifier()->package;
+        $view   = $this->getIdentifier()->name;
         
         $command->append(array(
             'attribs' => array(
@@ -91,7 +91,7 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
      */
     protected function _commandModal(KControllerToolbarCommand $command)
     { 
-        $option = $this->_identifier->package;
+        $option = $this->getIdentifier()->package;
         
         $command->append(array(
             'width'   => '640',

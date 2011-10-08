@@ -26,14 +26,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 	 * @var	string
 	 */
 	protected $_identity_column;
-	
-	/**
-     * Row object or identifier (APP::com.COMPONENT.row.NAME)
-     *
-     * @var string|object
-     */
-    protected $_row;
-    
+	    
 	/**
      * Constructor
      *
@@ -45,9 +38,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 		if(!isset($config)) $config = new KConfig();
     	
     	parent::__construct($config);
-    	
-    	 $this->_row = $config->row;
-  			
+    		
     	// Set the table indentifier
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
@@ -73,7 +64,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'row'               => null,
             'data'              => null,
             'new'               => true,
             'identity_column'   => null 
@@ -82,18 +72,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         parent::_initialize($config);
     }
     
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
-	/**
+	/** 
 	 * Test the connected status of the rowset.
 	 *
 	 * @return	boolean	Returns TRUE by default.
@@ -175,14 +154,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * @return  KDatabaseRowsetAbstract
      */
      public function setData( $data, $modified = true )
-     {
-         //Get the data
-        if($data instanceof KDatabaseRowInterface) {
-            $data = $data->toArray();
-        } else {
-            $data = (array) $data;
-        }
-        
+     { 
         //Prevent changing the identity column
         if(isset($this->_identity_column)) {
             unset($data[$this->_identity_column]);
@@ -218,14 +190,47 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         //Set the data in the row object and insert the row
         foreach($data as $k => $row)
         {
-            $instance = $this->getRow()
-                            ->setData($row, $new)
-                            ->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
+            $options = array(
+            	'data'   => $row,
+                'status' => $new ? NULL : KDatabase::STATUS_LOADED,
+                'new'    => $new,   
+            );
             
-            $this->insert($instance);
+            $this->insert($this->getRow($options));
         }
         
         return $this;
+    }
+    
+	/**
+     * Retrieve an array of column values
+     *
+     * @param   string  The column name.
+     * @return  array   An array of all the column values
+     */
+    public function getColumn($column)
+    {
+        $result = array();
+        foreach($this as $key => $row) {
+            $result[$key] = $row->$column;        
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set the value of all the columns
+     *
+     * @param   string  The column name.
+     * @param   mixed   The value for the property.
+     * @return  void
+     */
+    public function setColumn($column, $value)
+    {
+        //Set the data
+        foreach($this as $row) {
+            $row->$column = $value;
+        }
     }
    
     /**
@@ -338,58 +343,21 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 	/**
      * Get an instance of a row object for this rowset
      *
+     * @param	array An optional associative array of configuration settings.
      * @return  KDatabaseRowInterface
      */
-    public function getRow()
+    public function getRow(array $options = array())
     { 
-        if(!($this->_row instanceof KDatabaseRowInterface))
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->path   = array('database', 'row');
-            $identifier->name   = KInflector::singularize($this->_identifier->name);
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'row');
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
             
-            //The row default options
-            $options  = array(
-                'identity_column' => $this->getIdentityColumn()
-            );
+        //The row default options
+        $options['identity_column'] = $this->getIdentityColumn();
                
-            $this->_row = KFactory::tmp($identifier, $options); 
-        }
-        
-        return clone $this->_row;
+        return $this->getService($identifier, $options); 
     }
          
- 	/**
-     * Retrieve an array of column values
-     *
-     * @param   string  The column name.
-     * @return  array   An array of all the column values
-     */
-    public function getColumn($column)
-    {
-        $result = array();
-        foreach($this as $key => $row) {
-            $result[$key] = $row->$column;        
-        }
-
-        return $result;
-    }
-
-    /**
-     * Set the value of all the columns
-     *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
-     * @return  void
-     */
-    public function setColumn($column, $value)
-    {
-        //Set the data
-        foreach($this as $row) {
-            $row->$column = $value;
-        }
-    }
-   
 	/**
      * Return an associative array of the data.
      *

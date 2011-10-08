@@ -10,7 +10,7 @@
  */
 
 /**
- * Template Select Helper
+ * Template Paginator Helper
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @category	Koowa
@@ -19,6 +19,50 @@
  */
 class KTemplateHelperPaginator extends KTemplateHelperSelect
 {
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
+	 */
+	protected function _initialize(KConfig $config)
+	{
+	    if($config->total != 0)
+        {
+            $config->limit  = (int) max($config->limit, 1);
+            $config->offset = (int) max($config->offset, 0);
+            
+            if($config->limit > $config->total) {
+                $config->offset = 0;
+            }
+            
+            if(!$config->limit) 
+            {
+                $config->offset = 0;
+                $config->limit  = $config->total;
+            }
+            
+            $config->count  = (int) ceil($config->total / $config->limit);
+
+            if($config->offset > $config->total) {
+                $config->offset = ($config->count-1) * $config->limit;
+            }
+
+            $config->current = (int) floor($config->offset / $config->limit) + 1;
+        }
+        else 
+        {
+            $config->limit   = 0;
+            $config->offset  = 0;
+            $confgi->count   = 0;
+            $config->current = 0;
+        }
+
+       	parent::_initialize($config);
+    }
+
 	/**
 	 * Render item pagination
 	 * 
@@ -36,25 +80,16 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			'limit'	  => 0,
 			'attribs' => array('onchange' => 'this.form.submit();')
 		));
-		
+	
+		$this->_initialize($config);
+        
 		$html = '';
 		$html .= '<style src="media://lib_koowa/css/koowa.css" />';
-	
-		// Paginator object
-		$paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
-				array('total'  => $config->total,
-					  'offset' => $config->offset,
-					  'limit'  => $config->limit,
-					  'display' => $config->display)
-		);
-
-		// Get the paginator data
-		$list = $paginator->getList();
 
 		$html .= '<div class="-koowa-pagination">';
 		$html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
-		$html .=  $this->_pages($list);
-		$html .= '<div class="count"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
+		$html .=  $this->_pages($this->_items($config));
+		$html .= '<div class="count"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
 		$html .= '</div>';
 
 		return $html;
@@ -77,7 +112,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$html = '';
 		
 		$selected = '';
-		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 => 'all' ) as $value => $text)
+		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100) as $value => $text)
 		{
 			if($value == $config->limit) {
 				$selected = $value;
@@ -134,11 +169,94 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$class = $page->current ? 'class="active"' : '';
 
 		if($page->active && !$page->current) {
-			$html = '<a href="'.JRoute::_('index.php?'.$url->getQuery()).'" '.$class.'>'.JText::_($title).'</a>';
+			$html = '<a href="'.$url.'" '.$class.'>'.JText::_($title).'</a>';
 		} else {
 			$html = '<span '.$class.'>'.JText::_($title).'</span>';
 		}
 
 		return $html;
 	}
+	
+ 	/**
+     * Get a list of pages
+     *
+     * @return  array   Returns and array of pages information
+     */
+    protected function _items(KConfig $config)
+    {
+        $elements  = array();
+        $prototype = new KObject();
+        $current   = ($config->current - 1) * $config->limit;
+
+        // First
+        $page    = 1;
+        $offset  = 0;
+        $active  = $offset != $config->offset;
+        $props   = array('page' => 1, 'offset' => $offset, 'limit' => $config->limit, 'current' => false, 'active' => $active );
+        $element = clone $prototype;
+        $elements['first'] = $element->set($props);
+
+        // Previous
+        $offset  = max(0, ($config->current - 2) * $config->limit);
+        $active  = $offset != $config->offset;
+        $props   = array('page' => $config->current - 1, 'offset' => $offset, 'limit' => $config->limit, 'current' => false, 'active' => $active);
+        $element = clone $prototype;
+        $elements['previous'] = $element->set($props);
+
+        // Pages
+        $elements['pages'] = array();
+        foreach($this->_offsets($config) as $page => $offset)
+        {
+            $current = $offset == $config->offset;
+            $props = array('page' => $page, 'offset' => $offset, 'limit' => $config->limit, 'current' => $current, 'active' => !$current);
+            $element    = clone $prototype;
+            $elements['pages'][] = $element->set($props);
+        }
+
+        // Next
+        $offset  = min(($config->count-1) * $config->limit, ($config->current) * $config->limit);
+        $active  = $offset != $config->offset;
+        $props   = array('page' => $config->current + 1, 'offset' => $offset, 'limit' => $config->limit, 'current' => false, 'active' => $active);
+        $element = clone $prototype;
+        $elements['next'] = $element->set($props);
+
+        // Last
+        $offset  = ($config->count - 1) * $config->limit;
+        $active  = $offset != $config->offset;
+        $props   = array('page' => $config->count, 'offset' => $offset, 'limit' => $config->limit, 'current' => false, 'active' => $active);
+        $element = clone $prototype;
+        $elements['last'] = $element->set($props);
+
+        return $elements;
+    }
+    
+    /**
+     * Get the offset for each page, optionally with a range
+     *
+     * @return  array   Page number => offset
+     */
+    protected function _offsets(KConfig $config)
+    {
+        if($display = $config->display)
+        {
+            $start  = (int) max($config->current - $display, 1);
+            $start  = min($config->count, $start);
+            $stop   = (int) min($config->current + $display, $config->count);
+        }
+        else // show all pages
+        {
+            $start = 1;
+            $stop = $config->count;
+        }
+
+        $result = array();
+        if($start > 0)
+        {
+            foreach(range($start, $stop) as $pagenumber) {
+                $result[$pagenumber] =  ($pagenumber-1) * $config->limit;
+            }
+        }
+
+        return $result;
+    }
 }

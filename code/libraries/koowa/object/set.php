@@ -303,6 +303,8 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      */
     public function __clone()
     { 
+        parent::__clone();
+        
         $this->_object_set = clone $this->_object_set;
     }
 }

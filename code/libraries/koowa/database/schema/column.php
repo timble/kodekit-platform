@@ -130,7 +130,7 @@ class KDatabaseSchemaColumn extends KObject
             }
             
             if(!($this->_filter instanceof KFilterInterface)) {
-                $this->_filter = KFilter::factory($this->_filter);
+                $this->_filter = $this->getService('koowa:filter.factory')->instantiate($this->_filter);
             }
         
             return $this->_filter;

@@ -16,12 +16,11 @@
  * @package     Koowa_Dispatcher
  * @uses		KMixinClass
  * @uses        KObject
- * @uses        KFactory
  */
 abstract class KDispatcherAbstract extends KControllerAbstract
 {
 	/**
-	 * Controller object or identifier (APP::com.COMPONENT.controller.NAME)
+	 * Controller object or identifier (com://APP/COMPONENT.controller.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -57,7 +56,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller'			=> $this->_identifier->package,
+        	'controller'			=> $this->getIdentifier()->package,
     		'request'				=> KRequest::get('get', 'string'),
         ))->append(array(
             'request' 				=> array('format' => KRequest::format() ? KRequest::format() : 'html')
@@ -76,7 +75,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		if(!($this->_controller instanceof KControllerAbstract))
 		{  
 		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof KIdentifier)) {
+		    if(!($this->_controller instanceof KServiceIdentifier)) {
 		        $this->setController($this->_controller);
 			}
 		    
@@ -85,7 +84,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			    'dispatched'   => true	
         	);
         	
-			$this->_controller = KFactory::tmp($this->_controller, $config);
+			$this->_controller = $this->getService($this->_controller, $config);
 		}
 	
 		return $this->_controller;
@@ -94,8 +93,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KDispatcherException	If the identifier is not a controller identifier
 	 * @return	KDispatcherAbstract
 	 */
@@ -110,11 +109,11 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 				    $controller = KInflector::singularize($controller);
 			    } 
 			    
-			    $identifier			= clone $this->_identifier;
+			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('controller');
 			    $identifier->name	= $controller;
 			}
-		    else $identifier = KFactory::identify($controller);
+		    else $identifier = $this->getIdentifier($controller);
 
 			if($identifier->path[0] != 'controller') {
 				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
@@ -161,14 +160,13 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		{
 			if($redirect = $this->getController()->getRedirect())
 			{
-			    KFactory::get('lib.joomla.application')
+			    JFactory::getApplication()
 					->redirect($redirect['url'], $redirect['message'], $redirect['type']);
 			}
 		}
 
 		if(KRequest::type() == 'AJAX')
 		{
-			$view = KRequest::get('get.view', 'cmd');
 			$context->result = $this->getController()->execute('display', $context);
 			return $context->result;
 		}

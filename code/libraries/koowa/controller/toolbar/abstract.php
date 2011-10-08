@@ -16,9 +16,8 @@
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  * @uses        KInflector
- * @uses        KFactory
  */
-abstract class KControllerToolbarAbstract extends KObject implements KObjectIdentifiable
+abstract class KControllerToolbarAbstract extends KObject
 {
     /**
      * The toolbar title
@@ -89,22 +88,10 @@ abstract class KControllerToolbarAbstract extends KObject implements KObjectIden
         parent::_initialize($config);
     }
     
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
 	/**
      * Get the controller object
      * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
+     * @return  KController
      */
     public function getController()
     {
@@ -118,7 +105,7 @@ abstract class KControllerToolbarAbstract extends KObject implements KObjectIden
      */
     public function getName()
     {
-        return $this->_identifier->name;
+        return $this->getIdentifier()->name;
     }
     
     /**

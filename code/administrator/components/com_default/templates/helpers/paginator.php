@@ -38,22 +38,13 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
             'limit'   => 0,
         ));
         
-        // Paginator object
-        $paginator = KFactory::tmp('lib.koowa.model.paginator')->setData(
-                array('total'  => $config->total,
-                      'offset' => $config->offset,
-                      'limit'  => $config->limit,
-                      'display' => $config->display)
-        );
-                
-        // Get the paginator data
-        $list = $paginator->getList();
+        $this->_initialize($config);
         
         $html  = '<div class="container">';
         $html  = '<div class="pagination">';
-        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config->toArray()).'</div>';
-        $html .=  $this->_pages($list);
-        $html .= '<div class="limit"> '.JText::_('Page').' '.$paginator->current.' '.JText::_('of').' '.$paginator->count.'</div>';
+        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        $html .=  $this->_pages($this->_items($config));
+        $html .= '<div class="limit"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
         $html .= '</div>';
         $html .= '</div>';
         
@@ -106,7 +97,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
         $class = $page->current ? 'class="active"' : '';
 
         if($page->active && !$page->current) {
-            $html = '<a href="'.JRoute::_('index.php?'.$url->getQuery()).'" '.$class.'>'.JText::_($title).'</a>';
+            $html = '<a href="'.$url.'" '.$class.'>'.JText::_($title).'</a>';
         } else {
             $html = '<span '.$class.'>'.JText::_($title).'</span>';
         }

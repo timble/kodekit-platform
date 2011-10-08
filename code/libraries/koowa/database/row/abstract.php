@@ -74,7 +74,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
 		}
-           
+		
         // Reset the row
         $this->reset();
         
@@ -83,7 +83,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         
         // Set the row data
         if(isset($config->data))  {
-            $this->setData($config->data->toArray(), $this->_new);
+            $this->setData((array) KConfig::unbox($config->data), $this->_new);
         }
         
         //Set the status
@@ -117,18 +117,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         
         parent::_initialize($config);
     }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+	
 	/**
 	 * Test the connected status of the row.
 	 *
@@ -280,7 +269,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_data     = array();
         $this->_modified = array();
         
-        $this->setStatus(NULL);
         return true;
     }
     

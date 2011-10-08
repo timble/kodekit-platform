@@ -17,7 +17,7 @@
  * @package     Koowa_Template
  * @subpackage	Filter 
  */
-interface KTemplateFilterInterface  extends KCommandInterface, KObjectIdentifiable
+interface KTemplateFilterInterface  extends KCommandInterface
 {
   	/**
      * Get the template object

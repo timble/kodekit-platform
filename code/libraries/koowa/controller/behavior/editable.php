@@ -27,10 +27,13 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
-        
-        $this->registerCallback('before.read' , array($this, 'setReferrer'));
-        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-		$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+
+        if (strpos(KRequest::protocol(), 'http') !== false) 
+        {
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+	        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+			$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));	
+        }
 	
 		$this->registerCallback('after.read'  , array($this, 'lockResource'));
 		$this->registerCallback('after.save'  , array($this, 'unlockResource'));
@@ -49,7 +52,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{
 	    $identifier = $this->getMixer()->getIdentifier();
 	    
-	    $referrer = KFactory::tmp('lib.koowa.http.url', 
+	    $referrer = $this->getService('koowa:http.url', 
 	        array('url' => KRequest::get('cookie.referrer_'.md5(KRequest::referrer()), 'url'))
 	    );
 	    
@@ -77,7 +80,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		        $view   = KInflector::pluralize($identifier->name);
 		        $url    = 'index.php?option='.$option.'&view='.$view;
 		    
-		        $referrer = KFactory::tmp('lib.koowa.http.url',array('url' => $url));
+		        $referrer = $this->getService('koowa:http.url',array('url' => $url));
 		    }
 	        
 			KRequest::set('cookie.referrer_'.md5(KRequest::url()), (string) $referrer);
@@ -170,9 +173,9 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{
 		$action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
 		$data   = $context->caller->execute($action, $context);
-		
+	
 		//Create the redirect
-		$url  = clone KRequest::url();
+		$url = clone KRequest::url();
 	
 		if($this->getModel()->getState()->isUnique())
 		{
@@ -183,7 +186,14 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		        $url->query[$key] = $data->get($key);
 		    }
 		}
-		else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
+		else
+		{ 
+		    if ($data instanceof KDatabaseRowAbstract) { 
+                $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn()); 
+            } else { 
+                $url = $this->getReferrer();
+            }
+		}
 		
 		$this->setRedirect($url);
 		

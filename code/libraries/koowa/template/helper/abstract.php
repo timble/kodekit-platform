@@ -40,18 +40,7 @@ abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelpe
 		// Set the view indentifier
     	$this->_template = $config->template;
 	}
-	
-	/**
-	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-	
+
     /**
      * Get the template object
      *

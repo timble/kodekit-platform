@@ -10,9 +10,6 @@
 
 /**
  * Json filter
- * 
- * If the value being sanitized is a json string it will be decoded, otherwise
- * the value will be encoded upon sanitisation. 
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
@@ -47,31 +44,27 @@ class KFilterJson extends KFilterAbstract
     /**
      * Sanitize a value
      * 
-     * If the value passed for sanitisation is a json encoding string it will be decoded, 
-     * otherwise the value will be encoded.
+     * The value passed will be encoded to JSON format.
      *
      * @param   scalar  Value to be sanitized
      * @return  string
      */
     protected function _sanitize($value)
     {
-        $result = null;
-         
-        //Try to decode the string
-        if(is_string($value)) {
-            $result = json_decode($value);
-        }
-        
-        //Encode the data if it could not be decode
-        if(is_null($result)) 
+        // If instance of KConfig casting to string will make it encode itself to JSON
+        if($value instanceof KConfig) {    
+            $result = (string) $value; 
+        } 
+        else 
         {
-            if($value instanceof KConfig) {
-                $value = KConfig::toData($value); 
-            }     
-            
-            $result =  json_encode($value);
+            //Don't re-encode if the value is already in json format
+            if(is_string($value) && (json_decode($value) !== NULL)) {
+                $result = $value;
+            } else {
+                $result = json_encode($value);
+            }
         }
-        
+            
         return $result;
     }
 }

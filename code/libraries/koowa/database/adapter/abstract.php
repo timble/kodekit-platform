@@ -18,7 +18,7 @@
  * @subpackage  Adapter
  * @uses 		KPatternCommandChain
  */
-abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdapterInterface, KObjectIdentifiable
+abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdapterInterface
 {
 	/**
 	 * Active state of the connection
@@ -142,17 +142,6 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         parent::_initialize($config);
     }
     
-	/**
-	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-
 	/**
 	 * Get a database query object
 	 *
@@ -303,7 +292,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			$this->getCommandChain()->run('after.select', $context);
 		}
 
-		return KConfig::toData($context->result);
+		return KConfig::unbox($context->result);
 	}
 	
 	/**
@@ -360,7 +349,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 			$this->getCommandChain()->run('after.show', $context);
 		}
 
-		return KConfig::toData($context->result);
+		return KConfig::unbox($context->result);
 	}
 
 	/**

@@ -125,7 +125,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$query['direction'] = $direction;
 		$url->setQuery($query);
 
-		$html  = '<a href="'.JRoute::_('index.php?'.$url->getQuery()).'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
+		$html  = '<a href="'.$url.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
 		$html .= '</a>';
 

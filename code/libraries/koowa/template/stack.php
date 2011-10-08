@@ -14,13 +14,13 @@
   * Implements a simple stack collection (LIFO) 
   * 
   * The stack is implemented as a signleton. After instantiation the object can
-  * be accessed using lib.koowa.template.stack identifier.
+  * be accessed using koowa:template.stack identifier.
   * 
   * @author     Johan Janssens <johan@nooku.org>
   * @category   Koowa
   * @package    Koowa_Template
   */
-class KTemplateStack extends KObject implements KObjectIdentifiable
+class KTemplateStack extends KObject implements KServiceInstantiatable
 { 
     /**
      * The object container
@@ -40,46 +40,28 @@ class KTemplateStack extends KObject implements KObjectIdentifiable
         
         $this->_object_stack = array();
     }
-    
-    /**
-     * Clone 
-     *
-     * Prevent creating clones of this class
-     */
-    final private function __clone() { }
-    
-    /**
+      
+ 	/**
      * Force creation of a singleton
      *
-     * @return void
+     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object	A KServiceServiceInterface object
+     * @return KTemplateStack
      */
-    public static function instantiate($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    { 
+        // Check if an instance with this identifier already exists or not
+        if (!$container->has($config->service_identifier))
         {
-            if(!$config instanceof KConfig) {
-                $config = new KConfig($config);
-            }
-            
-            $instance = new self($config);
+            //Create the singleton
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $container->set($config->service_identifier, $instance);
         }
         
-        return $instance;
+        return $container->get($config->service_identifier);
     }
-    
-	/**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
-    }
-    
+   
     /**
      * Pushes an element at the end of the registry
      *

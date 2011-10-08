@@ -76,11 +76,42 @@ class ComDefaultControllerDefault extends KControllerService
         if(isset($row))
         {
             if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
-                KFactory::get('lib.joomla.application')->enqueueMessage($row->lockMessage(), 'notice');
+                JFactory::getApplication()->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 
         return $row;
+    }
+    
+	/**
+     * Browse action
+     * 
+     * Use the application default limit if no limit exists in the model and limit the
+     * limit to a maximum of 100.
+     *
+     * @param   KCommandContext A command context object
+     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     */
+    protected function _actionBrowse(KCommandContext $context)
+    {
+        if($this->isDispatched()) 
+        {
+            $limit = $this->getModel()->get('limit');
+            
+            //If limit is empty use default
+            if(empty($limit)) {
+                $limit = JFactory::getApplication()->getCfg('list_limit');
+            }
+
+            //Limit cannot be larger then 100
+            if($limit > 100) {
+                $limit = 100;
+            }
+            
+            $this->limit = $limit; 
+        }
+         
+        return parent::_actionBrowse($context);
     }
     
     /**
@@ -96,7 +127,7 @@ class ComDefaultControllerDefault extends KControllerService
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
-            KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
+            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package); 
         }
          
         return parent::_actionGet($context);

@@ -21,7 +21,7 @@
 class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 {
 	/**
-	 * Table object or identifier (APP::com.COMPONENT.table.NAME)
+	 * Table object or identifier (com://APP/COMPONENT.table.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -58,7 +58,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'table'	=> $this->_identifier->name
+			'table'	=> $this->getIdentifier()->name
 		));
 
 		parent::_initialize($config);
@@ -79,12 +79,12 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
             if(!($this->_table instanceof KDatabaseTableAbstract))
 		    {   		        
 		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KIdentifier)) {
+		        if(!($this->_table instanceof KServiceIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
 		        
 		        try {
-		            $this->_table = KFactory::get($this->_table);
+		            $this->_table = $this->getService($this->_table);
                 } catch (KDatabaseTableException $e) {
                     $this->_table = false;
                 }
@@ -97,8 +97,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Method to set a table object attached to the rowset
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
 	 * @return	KDatabaseRowsetAbstract
 	 */
@@ -108,11 +108,11 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 		{
 			if(is_string($table) && strpos($table, '.') === false ) 
 		    {
-		        $identifier         = clone $this->_identifier;
+		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
-		    else  $identifier = KFactory::identify($table);
+		    else  $identifier = $this->getIdentifier($table);
 		    
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
@@ -139,19 +139,20 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Get an empty row
 	 *
+	 * @param	array An optional associative array of configuration settings.
 	 * @return	object	A KDatabaseRow object.
 	 */
-	public function getRow() 
+	public function getRow(array $options = array()) 
 	{
 		$result = null;
 		
 	    if($this->isConnected()) {
-		    $result = $this->getTable()->getRow();
+		    $result = $this->getTable()->getRow($options);
 		}
 	    
 	    return $result;
 	}
-
+	
 	/**
 	 * Forward the call to each row
 	 * 

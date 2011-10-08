@@ -135,7 +135,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$config->append(array(
 			'url'  		=> '',
 			'options'  	=> array(),
-			'attribs'	=> array()
+			'attribs'	=> array(),
 		));
 
 		$html = '';
@@ -145,22 +145,32 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			$html .= '<script src="media://lib_koowa/js/koowa.js" />';
 			$html .= '<style src="media://lib_koowa/css/koowa.css" />';
 
-			//Don't pass an empty array as options
-			$options = $config->options->toArray() ? ', '.$config->options : '';
-			$html .= "
-			<script>
-				window.addEvent('domready', function(){ $$('.-koowa-overlay').each(function(overlay){ new Koowa.Overlay(overlay".$options."); }); });
-			</script>";
-
 			self::$_loaded['overlay'] = true;
 		}
 
-		$url = KFactory::tmp('lib.koowa.http.url', array('url' => $config->url));
-		$url->query['tmpl'] = '';
+		$url = $this->getService('koowa:http.url', array('url' => $config->url));
+		if(!isset($url->query['tmpl'])) {
+		    $url->query['tmpl'] = '';
+		}
 
 		$attribs = KHelperArray::toString($config->attribs);
 
-		$html .= '<div href="'.$url.'" class="-koowa-overlay" id="'.$url->fragment.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
+        $id = 'overlay'.rand();
+        if($url->fragment)
+        {
+            //Allows multiple identical ids, legacy should be considered replaced with #$url->fragment instead
+            $config->append(array(
+                'options' => array(
+                    'selector' => '[id='.$url->fragment.']'
+                )
+            ));
+        }
+		
+		//Don't pass an empty array as options
+		$options = $config->options->toArray() ? ', '.$config->options : '';
+		$html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'".$options.");});</script>";
+
+		$html .= '<div data-url="'.$url.'" class="-koowa-overlay" id="'.$id.'" '.$attribs.'><div class="-koowa-overlay-status">'.JText::_('Loading...').'</div></div>';
 		return $html;
 	}
 
@@ -218,7 +228,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			'selector' => '.-koowa-form',
 		    'options'  => array(
 		        'scrollToErrorsOnChange' => true,
-		        'scrollToErrorsOnBlur'   => true,
+		        'scrollToErrorsOnBlur'   => true
 		    )
 		));
 
@@ -231,6 +241,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		    } else {
 		        $html .= '<script src="media://lib_koowa/js/validator-1.2.js" />';
 		    }
+		    $html .= '<script src="media://lib_koowa/js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -240,12 +251,69 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$html .= "<script>
 		window.addEvent('domready', function(){
 		    $$('$config->selector').each(function(form){
-		        new Form.Validator.Inline(form".$options.");
+		        new Koowa.Validator(form".$options.");
 		        form.addEvent('validate', form.validate.bind(form));
 		    });
 		});
 		</script>";
 
 		return $html;
+	}
+	
+	/**
+	 * Loads the autocomplete behavior and attaches it to a specified element
+	 *
+	 * @see    http://mootools.net/forge/p/meio_autocomplete
+	 * @return string	The html output
+	 */
+	public function autocomplete($config = array())
+	{
+		$config = new KConfig($config);
+		
+		$config->append(array(
+			'identifier'    => null,
+			'element'       => null,
+			'filter_column' => 'name'
+		));
+		
+		if(!is_a($config->identifier, 'KServiceIdentifier')) {
+		    $config->identifier = $this->getIdentifier($config->identifier);
+		}
+		
+		$config->append(array(
+		    'url'     => JRoute::_('&option=com_'.$config->identifier->package.'&view='.$config->identifier->name.'&format=json', false)
+		))->append(array(
+		    'options' => array(
+		        'filter'     => array(
+		            'type' => 'contains',
+		            'path' => $config->filter_column			        
+		        ),
+		        'urlOptions' => array(
+		            'queryVarName' => 'search'
+		        ),
+		        'requestOptions' => array(
+		            'method' => 'get'
+		        )
+		    )
+		));
+		
+		$html = '';
+		
+		// Load the necessary files if they haven't yet been loaded
+		if(!isset(self::$_loaded['autocomplete']))
+		{
+		    $html .= '<script src="media://lib_koowa/js/autocomplete.js" />';
+		    $html .= '<script src="media://lib_koowa/js/patch.autocomplete.js" />';
+		    $html .= '<style src="media://lib_koowa/css/autocomplete.css" />';
+		}
+		
+		$html .= "
+		<script>
+			window.addEvent('domready', function(){				
+				new Koowa.Autocomplete($('".$config->element."'), ".json_encode($config->url).", ".$config->options.");
+			});
+		</script>";
+
+	    return $html;
 	}
 }

@@ -18,7 +18,7 @@
  * @subpackage  Rowset
  * @uses 		KMixinClass
  */
-interface KDatabaseRowsetInterface extends KObjectIdentifiable
+interface KDatabaseRowsetInterface
 {	
 	/**
      * Returns all data as an array.

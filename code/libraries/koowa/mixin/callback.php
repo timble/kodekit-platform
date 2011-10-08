@@ -34,7 +34,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	/**
 	 * The command priority
 	 *
-	 * @var KIdentifierInterface
+	 * @var integer
 	 */
 	protected $_priority;
 	
@@ -148,7 +148,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	public function registerCallback($commands, $callback, $params = array())
 	{
 		$commands = (array) $commands;
-		$params  = (array) KConfig::toData($params); 
+		$params  = (array) KConfig::unbox($params); 
 		
 		foreach($commands as $command)
 		{

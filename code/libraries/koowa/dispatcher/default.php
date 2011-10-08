@@ -21,25 +21,5 @@
 
 class KDispatcherDefault extends KDispatcherAbstract 
 { 
-    /**
-     * Force creation of a singleton
-     *
-     * @return KDispatcherDefault
-     */
-    public static function instantiate($config = array())
-    {
-        static $instance;
-        
-        if ($instance === NULL) 
-        {
-            //Create the singleton
-            $classname = $config->identifier->classname;
-            $instance = new $classname($config);
-            
-            //Add the factory map to allow easy access to the singleton
-            KFactory::map('dispatcher', $config->identifier);
-        }
-        
-        return $instance;
-    }
+    
 }

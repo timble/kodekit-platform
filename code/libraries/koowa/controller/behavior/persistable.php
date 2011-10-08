@@ -55,6 +55,9 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$context->action;
 		
+		//Prevent unused state information from being persisted
+		KRequest::set('session.'.$identifier, null);
+		
 		//Set the state in the session
 		KRequest::set('session.'.$identifier, $state);
 	}

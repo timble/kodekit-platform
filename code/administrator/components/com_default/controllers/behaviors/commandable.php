@@ -20,11 +20,18 @@
 class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorCommandable
 {  
 	/**
-	 * Menubar object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Menubar object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
 	protected $_menubar;
+	
+	/**
+	 * Array of parts to render
+	 *
+	 * @var array
+	 */
+	protected $_render;
 	
 	/**
 	 * Constructor
@@ -37,6 +44,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 
 		// Set the view identifier
 		$this->_menubar = $config->menubar;
+		$this->_render  = KConfig::unbox($config->render);
 	}
 	
 	/**
@@ -51,6 +59,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
     {
     	$config->append(array(
     		'menubar' => 'menubar',
+    	    'render'  => array('toolbar', 'menubar', 'title')
         ));
  
         parent::_initialize($config);
@@ -67,7 +76,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
         if(!$this->_menubar instanceof KControllerToolbarAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_menubar instanceof KIdentifier)) {
+		    if(!($this->_menubar instanceof KServiceIdentifier)) {
 		        $this->setMenubar($this->_menubar);
 			}
 		
@@ -75,7 +84,7 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 			    'controller' => $this->getMixer()
 			);
 			
-			$this->_menubar = KFactory::tmp($this->_menubar, $config);
+			$this->_menubar = $this->getService($this->_menubar, $config);
 		}    
          
         return $this->_menubar;
@@ -84,8 +93,8 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 	/**
 	 * Method to set a menubar object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KControllerBehaviorException	If the identifier is not a view identifier
 	 * @return	KControllerToolbarAbstract 
 	 */
@@ -95,11 +104,11 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
 		{
 			if(is_string($menubar) && strpos($menubar, '.') === false ) 
 		    {
-			    $identifier         = clone $this->_identifier;
+			    $identifier         = clone $this->getIdentifier();
                 $identifier->path   = array('controller', 'toolbar');
                 $identifier->name   = $menubar;
 			}
-			else $identifier = KFactory::identify($menubar);
+			else $identifier = $this->getIdentifier($menubar);
 			
 			if($identifier->path[1] != 'toolbar') {
 				throw new KControllerBehaviorException('Identifier: '.$identifier.' is not a toolbar identifier');
@@ -123,21 +132,35 @@ class ComDefaultControllerBehaviorCommandable  extends KControllerBehaviorComman
         if($this->isDispatched() && ($this->getView() instanceof KViewHtml))
         {
             //Render the toolbar
-	        $document = KFactory::get('lib.joomla.document');
-            $config   = array('toolbar' => $this->getToolbar());
-	            
-	        $toolbar = $this->getView()->getTemplate()->getHelper('toolbar')->render($config);
+	        $document = JFactory::getDocument();
+	        
+            if(in_array('toolbar', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this->getToolbar());
+	            $toolbar = $this->getView()->getTemplate()->getHelper('toolbar')->render($config);      
+            } 
+            else $toolbar = false;
+            
             $document->setBuffer($toolbar, 'modules', 'toolbar');
-                
-            $title = $this->getView()->getTemplate()->getHelper('toolbar')->title($config);
+
+            //Render the title
+            if(in_array('title', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this->getToolbar());
+                $title = $this->getView()->getTemplate()->getHelper('toolbar')->title($config);
+            } 
+            else $title = false;
+            
             $document->setBuffer($title, 'modules', 'title');
 	      
-        
             //Render the menubar
-            $document = KFactory::get('lib.joomla.document');
-            $config   = array('menubar' => $this->getMenubar());
-                
-            $menubar = $this->getView()->getTemplate()->getHelper('menubar')->render($config);
+            if(in_array('menubar', $this->_render)) 
+            {
+                $config = array('menubar' => $this->getMenubar());
+                $menubar = $this->getView()->getTemplate()->getHelper('menubar')->render($config);
+            } 
+            else $menubar = false;
+            
             $document->setBuffer($menubar, 'modules', 'submenu');
         }
     }

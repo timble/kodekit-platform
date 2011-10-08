@@ -17,7 +17,6 @@
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KFactory
  */
 class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 {
@@ -107,7 +106,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         //Create the id
         $id = 'toolbar-'.$command->id;
        
-		$command->attribs->class = implode(" ", KConfig::toData($command->attribs->class));
+		$command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
 			
         $html  = '<td class="button" id="'.$id.'">';
         $html .= '	<a '.KHelperArray::toString($command->attribs).'>';

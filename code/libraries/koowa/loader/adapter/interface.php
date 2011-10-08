@@ -19,12 +19,11 @@
 interface KLoaderAdapterInterface
 {
 	/**
-	 * Get the path based on a class name or an identifier
+	 * Get the type
 	 *
-	 * @param string  The class name
-	 * @return boolean Return TRUE on success, FALSE on failure
+	 * @return string	Returns the type
 	 */
-	public function path($class);
+	public function getType();
 	
 	/**
 	 * Get the class prefix
@@ -39,4 +38,12 @@ interface KLoaderAdapterInterface
 	 * @return string	Returns the base path
 	 */
 	public function getBasepath();
+
+    /**
+     * Get the path based on a class name
+     *
+     * @param  string           The class name 
+     * @return string|false     Returns the path on success FALSE on failure
+     */
+    public function findPath($classname, $basepath = null); 
 }

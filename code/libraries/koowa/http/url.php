@@ -27,7 +27,7 @@
  *     // Create a url object;
  *    
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = KFactory::get('lib.koowa.http.url', array('url' => $url) );
+ *     $url = KService::get('koowa:http.url', array('url' => $url) );
  * 
  *     // the $ur properties are ...
  *     // 
@@ -104,7 +104,7 @@ class KHttpUrl extends KObject
     const FRAGMENT = 256;
     
     const AUTH     = 6;
-    const BASE     = 63;
+    const BASE     = 127;
     const FULL     = 511;
     
     /**

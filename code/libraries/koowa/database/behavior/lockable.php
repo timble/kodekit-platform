@@ -77,7 +77,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 		//Prevent lock take over, only an saved and unlocked row and be locked
 		if(!$this->isNew() && !$this->locked())
 		{
-			$this->locked_by = (int) KFactory::get('lib.joomla.user')->get('id');
+			$this->locked_by = (int) JFactory::getUser()->get('id');
 			$this->locked_on = gmdate('Y-m-d H:i:s');
 			$this->save();
 		}
@@ -94,7 +94,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 */
 	public function unlock()
 	{
-		$userid = KFactory::get('lib.joomla.user')->get('id');
+		$userid = JFactory::getUser()->get('id');
 
 		//Only an saved row can be unlocked by the user who locked it
 		if(!$this->isNew() && $this->locked_by != 0 && $this->locked_by == $userid)
@@ -126,7 +126,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
                 //Check if the lock has gone stale
                 if($current - $locked < $this->_lifetime) 
 			    {
-                    $userid = KFactory::get('lib.joomla.user')->get('id');
+                    $userid = JFactory::getUser()->get('id');
 			        if($this->locked_by != 0 && $this->locked_by != $userid) {
 			            $result= true;
                     }
@@ -148,8 +148,8 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 
 		if($this->locked())
 		{
-	        $user = KFactory::tmp('lib.joomla.user', array($this->locked_by));	    
-			$date = KTemplateHelper::factory('date')->humanize(array('date' => $this->locked_on));
+	        $user = JFactory::getUser($this->locked_by);	    
+			$date = $this->getService('com:default.template.helper.date')->humanize(array('date' => $this->locked_on));
 
 			$message = JText::sprintf('Locked by %s %s', $user->get('name'), $date);
 		}

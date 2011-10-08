@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherDefault
+class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstantiatable
 { 
  	/**
      * Initializes the options for the object
@@ -37,6 +37,30 @@ class ComDefaultDispatcher extends KDispatcherDefault
         }
     }
     
+	/**
+     * Force creation of a singleton
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object	A KServiceInterface object
+     * @return KDispatcherDefault
+     */
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    { 
+       // Check if an instance with this identifier already exists or not
+        if (!$container->has($config->service_identifier))
+        {
+            //Create the singleton
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $container->set($config->service_identifier, $instance);
+            
+            //Add the factory map to allow easy access to the singleton
+            $container->setAlias('dispatcher', $config->service_identifier);
+        }
+        
+        return $container->get($config->service_identifier);
+    }
+      
     /**
      * Dispatch the controller and redirect
      * 
@@ -58,7 +82,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
             $url = clone(KRequest::url());
             $url->query['view'] = $this->getController()->getView()->getName();
            
-            KFactory::get('lib.joomla.application')->redirect($url);
+            JFactory::getApplication()->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -76,7 +100,7 @@ class ComDefaultDispatcher extends KDispatcherDefault
     {
         $view  = $this->getController()->getView();
     
-        $document = KFactory::get('lib.joomla.document');
+        $document = JFactory::getDocument();
         $document->setMimeEncoding($view->mimetype);
         
         return parent::_actionRender($context);

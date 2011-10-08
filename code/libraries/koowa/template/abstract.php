@@ -15,7 +15,7 @@
   * @category	Koowa
   * @package	Koowa_Template
   */
-abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
+abstract class KTemplateAbstract extends KObject
 { 
 	/** 
 	 * The template path
@@ -46,7 +46,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
    	protected $_filters = array();
    	
    	/**
-	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
 	 */
@@ -120,7 +120,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
                 if($error['type'] === E_ERROR || $error['type'] === E_PARSE || $error['type'] === E_COMPILE_ERROR) 
                 {  
                     while(@ob_get_clean());
-                    $this->sandboxError($error['type'], $error['message'], $error['file'], $error['line']);
+                    $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
                 }
             }
 	    }
@@ -137,7 +137,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'stack'				=> KFactory::get('lib.koowa.template.stack'),
+    		'stack'				=> $this->getService('koowa:template.stack'),
     		'view'				=> null,
             'command_chain' 	=> new KCommandChain(),
     		'dispatch_events'   => false,
@@ -148,17 +148,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
     }
     
 	/**
-	 * Get the object identifier
-	 * 
-	 * @return	KIdentifier	
-	 * @see 	KObjectIdentifiable
-	 */
-	public function getIdentifier()
-	{
-		return $this->_identifier;
-	}
-	
-	/**
 	 * Get the template path
 	 * 
 	 * @return	string
@@ -166,6 +155,16 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function getPath()
 	{
 		return $this->_path;
+	}
+	
+	/**
+	 * Get the template data
+	 * 
+	 * @return	mixed
+	 */
+	public function getData()
+	{
+		return $this->_data;
 	}
 	
 	/**
@@ -188,11 +187,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof KIdentifier)) {
+		    if(!($this->_view instanceof KServiceIdentifier)) {
 		        $this->setView($this->_view);
             }
 		    
-		    $this->_view = KFactory::tmp($this->_view, $config);
+		    $this->_view = $this->getService($this->_view, $config);
 		}
 		
 		return $this->_view;
@@ -201,8 +200,8 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a view identifier
 	 * @return	KControllerAbstract
 	 */
@@ -212,11 +211,11 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		{
 			if(is_string($view) && strpos($view, '.') === false ) 
 		    {
-			    $identifier			= clone $this->_identifier;
+			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('view', $view);
 			    $identifier->name	= KRequest::format() ? KRequest::format() : 'html';
 			}
-			else $identifier = KFactory::identify($view);
+			else $identifier = $this->getIdentifier($view);
 		    
 			if($identifier->path[0] != 'view') {
 				throw new KTemplateException('Identifier: '.$identifier.' is not a view identifier');
@@ -234,7 +233,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	 * Load a template by identifier
 	 * 
 	 * This functions only accepts full identifiers of the format
-	 * - application::com.component.view.[.path].name
+	 * -  com:[//application/]component.view.[.path].name
 	 *
 	 * @param   string 	The template identifier
 	 * @param	array	An associative array of data to be extracted in local template scope
@@ -244,16 +243,10 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	public function loadIdentifier($template, $data = array(), $process = true)
 	{
 	    //Identify the template
-	    $identifier = KFactory::identify($template);
-        
-        if($identifier->filepath) {
-	       $path = dirname($identifier->filepath);
-        } else {
-	       $path = dirname(KLoader::path($identifier));
-	    }
-	 
+	    $identifier = $this->getIdentifier($template);
+         
 	    // Find the template 
-		$file = $this->findFile($path.'/'.$identifier->name.'.php');
+		$file = $this->findFile(dirname($identifier->filepath).'/'.$identifier->name.'.php');
 	    
 		if ($file === false) {
 			throw new KTemplateException('Template "'.$identifier->name.'" not found');
@@ -347,53 +340,70 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	}
 	
 	/**
-	 * Adds one or multiple filters for template transformation
+     * Check if a filter exists
+     *
+     * @param 	string	The name of the filter
+     * @return  boolean	TRUE if the filter exists, FALSE otherwise
+     */
+	public function hasFilter($filter)
+	{ 
+	    return isset($this->_filters[$filter]); 
+	}
+	
+	/**
+	 * Adds one or more filters for template transformation
 	 * 
 	 * @param array 	Array of one or more behaviors to add.
 	 * @return KTemplate
 	 */
 	public function addFilter($filters)
  	{
- 		$filters =  (array) KConfig::toData($filters);
+ 		$filters =  (array) KConfig::unbox($filters);
  	    
  	    foreach($filters as $filter)
 		{
-			if(!($filter instanceof KTemplateFilterInterface)) 
-			{
-				$identifier = (string) $filter;
-				$filter     = KTemplateFilter::factory($filter);
+			if(!($filter instanceof KTemplateFilterInterface)) {
+				$filter = $this->getFilter($filter);
 			}
-			else $identifier = (string) $filter->getIdentifier();
-				
+			
 			//Enqueue the filter in the command chain
 			$this->getCommandChain()->enqueue($filter);
 			
 			//Store the filter
-			$this->_filters[$identifier] = $filter;
+			$this->_filters[$filter->getIdentifier()->name] = $filter; 
 		}
 		
 		return $this;
  	}
  	
  	/**
-	 * Get the filters for the template
-	 *
-	 * @return array	An asscociate array of filters. The keys are the filter identifiers.
-	 */
- 	public function getFilters()
- 	{
- 		return $this->_filters;
- 	}
- 	
-	/**
 	 * Get a filter by identifier
 	 *
-	 * @return array	An asscociate array of filters keys are the filter identifiers
+	 * @return KTemplateFilterInterface
 	 */
- 	public function getFilter($identifier)
- 	{
- 		return isset($this->_filters[$identifier]) ? $this->_filters[$identifier] : null;
- 	}
+ 	 public function getFilter($filter)     
+ 	 { 
+         //Create the complete identifier if a partial identifier was passed 
+        if(is_string($filter) && strpos($filter, '.') === false ) 
+        { 
+            $identifier = clone $this->getIdentifier(); 
+            $identifier->path = array('template', 'filter'); 
+            $identifier->name = $filter; 
+        } 
+        else $identifier = KService::getIdentifier($filter); 
+
+        if (!isset($this->_filters[$identifier->name])) 
+        { 
+            $filter = KService::get($identifier);
+
+            if(!($filter instanceof KTemplateFilterInterface)) {
+			    throw new KTemplateException("Template filter $identifier does not implement KTemplateFilterInterface");
+		    }
+        } 
+        else $filter = $this->_filters[$identifier->name]; 
+
+        return $filter;
+ 	 } 
  	
 	/**
 	 * Searches for the file
@@ -456,9 +466,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	/**
 	 * Get a template helper
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
-	 * @param	mixed	Parameters to be passed to the helper
+	 * @param	mixed	KServiceIdentifierInterface
 	 * @return 	KTemplateHelperInterface
 	 */
 	public function getHelper($helper)
@@ -470,13 +478,41 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
             $identifier->path = array('template','helper');
             $identifier->name = $helper;
 		}
-		else $identifier = KFactory::identify($helper);
+		else $identifier = $this->getIdentifier($helper);
 	 
 		//Create the template helper
-		$helper = KTemplateHelper::factory($identifier, array('template' => $this));
+		$helper = $this->getService($identifier, array('template' => $this));
+		
+	    //Check the helper interface
+        if(!($helper instanceof KTemplateHelperInterface)) {
+            throw new KTemplateHelperException("Template helper $identifier does not implement KTemplateHelperInterface");
+        }
 		
 		return $helper;
 	}
+	
+	/**
+     * Handle template errors
+     * 
+     * @return bool
+     */
+    public function handleError($code, $message, $file = '', $line = 0, $context = array())
+    {
+        if($file == 'tmpl://koowa:template.stack') 
+        {
+            if(ini_get('display_errors')) {
+                echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>';
+            }
+            
+            if(ini_get('log_errors')) {
+                error_log(sprintf('PHP %s:  %s in %s on line %d', self::$_errors[$code], $message, $this->_path, $line));
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
 	
 	/**
 	 * Process the template using a simple sandbox
@@ -490,7 +526,7 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 	private function __sandbox()
 	{	
 	    //Set the error handler
-        set_error_handler(array($this, 'sandboxError'), E_WARNING | E_NOTICE);
+        set_error_handler(array($this, 'handleError'), E_WARNING | E_NOTICE);
 	    
 	    //Set the template in the template stack
        	$this->getStack()->push(clone $this);
@@ -511,29 +547,6 @@ abstract class KTemplateAbstract extends KObject implements KObjectIdentifiable
 		return $this;
 	}
 	
- 	/**
-     * Handle sandbox errors
-     * 
-     * @return bool
-     */
-    public function sandboxError($code, $message, $file = '', $line = 0, $context = array())
-    {
-        if($file == 'tmpl://lib.koowa.template.stack') 
-        {
-            if(ini_get('display_errors')) {
-                echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>';
-            }
-            
-            if(ini_get('log_errors')) {
-                error_log(sprintf('PHP %s:  %s in %s on line %d', self::$_errors[$code], $message, $this->_path, $line));
-            }
-            
-            return true;
-        }
-        
-        return false;
-    }
-
 	/**
 	 * Renders the template and returns the result
  	 *

@@ -41,6 +41,6 @@ class KFilterBoolean extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
-		return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+		return $value !== '' ? (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN) : NULL;
 	}
 }

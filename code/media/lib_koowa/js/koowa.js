@@ -10,7 +10,7 @@
 
 /**
  * Koowa global namespace
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Media
@@ -19,34 +19,28 @@
 if(!Koowa) var Koowa = {};
 Koowa.version = 0.7;
 
-/* Section: Functions */
-var $get = function(key, defaultValue) {
-    return location.search.get(key, defaultValue);
-}
 
 /* Section: onDomReady */
 window.addEvent('domready', function() {
-    $$('.submitable').addEvent('click', function(e){
-        e = new Event(e);
-        new Koowa.Form(JSON.decode(e.target.getProperty('rel'))).submit();
+    $$('.submitable').addEvent('click', function(event){
+        event = new Event(event);
+        new Koowa.Form(JSON.decode(event.target.getProperty('rel'))).submit();
     });
 
     $$('.-koowa-grid').each(function(grid){
         new Koowa.Grid(grid);
         
-        var toolbar = grid.get('data-toolbar') ? grid.get('data-toolbar') : '.toolbar';
+        var toolbar = grid.get('data-toolbar') || '.toolbar';
         new Koowa.Controller.Grid({form: grid, toolbar: document.getElement(toolbar)});
     });
 
     $$('.-koowa-form').each(function(form){
-        var toolbar = form.get('data-toolbar') ? form.get('data-toolbar') : '.toolbar';
+        var toolbar = form.get('data-toolbar') || '.toolbar';
         new Koowa.Controller.Form({form: form, toolbar: document.getElement(toolbar)});
     });
 });
 
 /* Section: Classes */
-(function(){
-var $ = document.id;
 
 /**
  * Creates a 'virtual form'
@@ -59,7 +53,7 @@ Koowa.Form = new Class({
     initialize: function(config) {
         this.config = config;
         if(this.config.element) {
-            this.form = $(document[this.config.element]);
+            this.form = document.id(document[this.config.element]);
         } 
         else {
             this.form = new Element('form', {
@@ -67,7 +61,7 @@ Koowa.Form = new Class({
                 method: this.config.method,
                 action: this.config.url
             });
-            this.form.injectInside($(document.body));
+            this.form.injectInside(document.id(document.body));
         }
     },
     
@@ -100,18 +94,28 @@ Koowa.Grid = new Class({
 
     initialize: function(element){
         
-        this.element    = $(element);
+        this.element    = document.id(element);
         this.form       = this.element.match('form') ? this.element : this.element.getParent('form');
         this.toggles    = this.element.getElements('.-koowa-grid-checkall');
-        this.checkboxes = this.element.getElements('.-koowa-grid-checkbox');
+        this.checkboxes = this.element.getElements('.-koowa-grid-checkbox').filter(function(checkbox) {
+        	return !checkbox.disabled;
+        });
+        
+        if(!this.checkboxes.length) {
+        	this.toggles.set('disabled', 'disabled');
+        }
         
         var self = this;
         this.toggles.addEvent('change', function(event){
-            if(event) self.checkAll(this.get('checked'));
+            if(event) {
+                self.checkAll(this.get('checked'));
+            }
         });
         
         this.checkboxes.addEvent('change', function(event){
-            if(event) self.uncheckAll();
+            if(event) {
+                self.uncheckAll();
+            }
         });
     },
     
@@ -130,7 +134,7 @@ Koowa.Grid = new Class({
     uncheckAll: function(){
 
         var total = this.checkboxes.filter(function(checkbox){
-        	return checkbox.get('checked') !== false ;
+            return checkbox.get('checked') !== false ;
         }).length;
 
         this.toggles.set('checked', this.checkboxes.length === total);
@@ -144,9 +148,8 @@ Koowa.Grid = new Class({
  * @return  array   The items' ids
  */
 Koowa.Grid.getAllSelected = function() {
-        var result = new Array;
-        var inputs = $$('input[class^=-koowa-grid-checkbox]');
-        for (var i=0; i < inputs.length; i++) {
+        var result = [], inputs = $$('input[class^=-koowa-grid-checkbox]'), i;
+        for (i=0; i < inputs.length; i++) {
            if (inputs[i].checked) {
               result.include(inputs[i]);
            }
@@ -154,7 +157,7 @@ Koowa.Grid.getAllSelected = function() {
         return result;
 };
 Koowa.Grid.getIdQuery = function() {
-        var result = new Array();
+        var result = [];
         $each(this.getAllSelected(), function(selected){
             result.include(selected.name+'='+selected.value);
         });
@@ -173,62 +176,72 @@ Koowa.Controller = new Class({
 
     Implements: [Options, Events],
     
-	form: null,
-	toolbar: null,
-	buttons: null,
+    form: null,
+    toolbar: null,
+    buttons: null,
 
-	options: {
-		toolbar: false,
-		url: window.location.href
-	},
-	
-	initialize: function(options){
-		
-		this.setOptions(options);
-		
-		this.form = this.options.form;
-		this.toolbar = this.options.toolbar || this.form;
+    options: {
+        toolbar: false,
+        ajaxify: false,
+        url: window.location.href
+    },
+    
+    initialize: function(options){
+        
+        this.setOptions(options);
+        
+        this.form = this.options.form;
+        this.toolbar = this.options.toolbar;
+        if(this.form.action) this.options.url = this.form.action;
 
         //Set options that is coming from data attributes on the form element
         this.setOptions(this.getOptions(this.form));
 
-		this.form.store('controller', this);
-		
-		//Allows executing actions on the form element itself using fireEvent
-		this.form.addEvent('execute', this.execute.bind(this));
-		
-		//Attach toolbar buttons actions
-		this.buttons = this.toolbar.getElements('.toolbar').filter(function(button){
-		    return button.get('data-action');
-		});
-		var token_name = this.form.get('data-token-name'), token_value = this.form.get('data-token-value');
-		this.buttons.each(function(button){
-			var data = button.get('data-data'), options = this.getOptions(button), action = button.get('data-action');
-		    data = data ? JSON.decode(data) : {};
+        this.form.store('controller', this);
+        
+        //Allows executing actions on the form element itself using fireEvent
+        this.form.addEvent('execute', this.execute.bind(this));
+        
+        //Attach toolbar buttons actions
+        if(this.toolbar) {
+        this.buttons = this.toolbar.getElements('.toolbar').filter(function(button){
+            return button.get('data-action');
+        });
+        var token_name = this.form.get('data-token-name'), token_value = this.form.get('data-token-value');
+        this.buttons.each(function(button){
+            var data = button.get('data-data'), options = this.getOptions(button), action = button.get('data-action');
+            data = data ? JSON.decode(data) : {};
 
-		    //Set token data
-		    if(token_name) data[token_name] = token_value;
-		    
-		    button.addEvent('click', function(){
-		        if(!button.hasClass('disabled')) {
-		            this.setOptions(options);
-		            this.fireEvent('execute', [action, data, button.get('data-novalidate') == 'novalidate']);
-		        }
-		    }.bind(this));
-		    
-		}, this);
+            //Set token data
+            if(token_name) {
+                data[token_name] = token_value;
+            }
+            
+            button.addEvent('click', function(){
+                if(!button.hasClass('disabled')) {
+                    this.setOptions(options);
+                    this.fireEvent('execute', [action, data, button.get('data-novalidate') === 'novalidate']);
+                }
+            }.bind(this));
+            
+        }, this);
+        }
     },
     
     execute: function(action, data, novalidate){
-    	var method = '_action'+action.capitalize();
-    	
-		this.options.action = action;
-		if(this.fireEvent('before.'+action, [data, novalidate])) {
-		    this[method] ? this[method].call(this, data) : this._action_default.call(this, action, data, novalidate);
-		    this.fireEvent('after.'+action, [data, novalidate])
-		}
-    	
-    	return this;
+        var method = '_action'+action.capitalize();
+        
+        this.options.action = action;
+        if(this.fireEvent('before.'+action, [data, novalidate])) {
+            if(this[method]) {
+                this[method].call(this, data, novalidate);
+            } else {
+                this._action_default.call(this, action, data, novalidate);
+            }
+            this.fireEvent('after.'+action, [data, novalidate]);
+        }
+        
+        return this;
     },
     
     addEvent: function(type, fn, internal){
@@ -238,44 +251,49 @@ Koowa.Controller = new Class({
     },
     
     fireEvent: function(type, args, delay){
-		var events = this.form.retrieve('events');
-		if (!events || !events[type]) return this;
-		var result = events[type].keys.map(function(fn){
-			return fn.create({'bind': this, 'delay': delay, 'arguments': args})() !== false;
-		}, this).every(function(v){ return v;});
-		return result;
-	},
-	
-	checkValidity: function(){
-	    var buttons = this.buttons.filter(function(button){
-	        return button.get('data-novalidate') != 'novalidate';
-	    }, this);
-	    
-	    /* We use a class for this state instead of a data attribute because not all browsers supports attribute selectors */
-	    if(this.fireEvent('validate')) {
-	        buttons.removeClass('disabled');
-	    } else {
-	        buttons.addClass('disabled');
-	    }
-	},
-	
-	getOptions: function(element){
-	    var options = {};
-	    if(element.datasets) {
-	        for(key in element.dataset){
-	            options[key] = element.dataset[key];
-	        }
-	    } else {
-	        for (var i = 0, length = element.attributes.length; i < length; i++){
-	            var key = element.attributes[i].name;
-	            if(key.substring && key.substring(0, 5) == 'data-') {
-	                var name = key.substring(5, key.length).camelCase();
-    	            options[name] = element.attributes[i].value;
-    	        }
-	        }
-	    }
-	    return options;
-	}
+        var events = this.form.retrieve('events'), result;
+        if (!events || !events[type]) {
+            return this;
+        }
+        result = events[type].keys.map(function(fn){
+            return fn.create({'bind': this, 'delay': delay, 'arguments': args})() !== false;
+        }, this).every(function(v){ return v;});
+        return result;
+    },
+    
+    checkValidity: function(){
+        if(this.buttons) {
+        var buttons = this.buttons.filter(function(button){
+            return button.get('data-novalidate') !== 'novalidate';
+        }, this);
+        
+        /* We use a class for this state instead of a data attribute because not all browsers supports attribute selectors */
+        if(this.fireEvent('validate')) {
+            buttons.removeClass('disabled');
+        } else {
+            buttons.addClass('disabled');
+        }
+        }
+    },
+    
+    getOptions: function(element){
+        var options = {}, i = 0, total, key, name;
+        if(element.dataset) {
+            for(key in element.dataset){
+                options[key] = element.dataset[key];
+            }
+        } else {
+            total = element.attributes.length;
+            for (var i = 0; i < total; i++){
+                key = element.attributes[i].name;
+                if(key.substring && key.substring(0, 5) === 'data-') {
+                    name = key.substring(5, key.length).camelCase();
+                    options[name] = element.attributes[i].value;
+                }
+            }
+        }
+        return options;
+    }
 });
 
 /**
@@ -299,7 +317,7 @@ Koowa.Controller.Grid = new Class({
         this.addEvent('validate', this.validate);
         
         //Perform grid validation and set the right classes on toolbar buttons
-        if(this.options.inputs) {
+        if(this.options.inputs && this.buttons) {
             //This is to allow CSS3 transitions without those animating onload without user interaction
             this.buttons.addClass('beforeload');
             this.checkValidity();
@@ -308,8 +326,61 @@ Koowa.Controller.Grid = new Class({
             this.form.getElements(this.options.inputs).addEvent('change', this.checkValidity.bind(this));
         }
         
+        //Make the table headers "clickable"
+		var thead = this.form.getElements('thead').filter(function(thead){
+			return thead.getSiblings().length;
+		}).each(function(thead){
+			var elements = thead.getElements('tr > *').each(function(element){
+				
+				var link = element.getElement('a');
+				if(link) {
+					element.addEvent('click', function(event){
+						//Don't do anything if the event target is the same as the element
+						if(event.target != element) return;
+					
+						//Run this check on click, so that progressive enhancements isn't bulldozed
+						if(link.get('href')) {
+							window.location.href = link.get('href');
+						} else {
+							link.fireEvent('click', event);
+						}
+					});
+					element.adopt(new Element('span', {'class':'-koowa-grid-arrow'}));
+					if(link.hasClass('-koowa-asc'))  element.addClass('-koowa-asc');
+					if(link.hasClass('-koowa-desc')) element.addClass('-koowa-desc');
+					
+					return;
+				}
+
+				//Making the <td> or <th> element that's the parent of a checkall checkbox toggle the checkbox when clicked
+				var checkall = element.getElement('.-koowa-grid-checkall');
+				if(checkall) {
+					element.addEvent('click', function(event){
+						//Don't do anything if the event target is the same as the element
+						if(event.target != element) return;
+
+						//Checkall uses change for other purposes
+						checkall.set('checked', checkall.match('[checked]') ? false : true).fireEvent('change', event);
+					});
+
+					return;
+				}
+				
+				element.addClass('void');
+			});
+		});
+        
         //<select> elements in headers and footers are for filters, so they need to submit the form on change
-        this.form.getElements('thead select, tfoot select').addEvent('change', this.form.submit.bind(this.form));
+        var selects = this.form.getElements('thead select, tfoot select');
+        if(this.options.ajaxify) {
+            selects.addEvent('change', function(event){
+                event.stop();
+                this.options.transport(this.form.action, this.form.toQueryString(), 'get');
+            }.bind(this));
+        } else {
+            selects.addEvent('change', this.form.submit.bind(this.form));
+        }
+        
         
         //Pick up actions that are in the grid itself
         var token_name = this.form.get('data-token-name'),
@@ -318,32 +389,77 @@ Koowa.Controller.Grid = new Class({
         this.form.getElements('tbody tr').each(function(tr){
         
             //skip rows that are readonly
-            if(tr.get('data-readonly') == 1) {
-            	return;
+            if(tr.get('data-readonly') == true) {
+                return;
             }
         
-            var checkbox = tr.getElement('.-koowa-grid-checkbox');
-            if(!checkbox) return;
-            var id = {name: checkbox.get('name'), value: checkbox.get('value')},
-                //Attributes with hyphens don't work with the MT 1.2 selector engine, it's fixed in 1.3 so this is a workaround
-                actions = tr.getElements('*').filter(function(action){
-                    return action.get('data-action');
-                });
+            var checkbox = tr.getElement('.-koowa-grid-checkbox'), id, actions;
+            if(!checkbox) {
+                return;
+            }
+
+            tr.addEvents({
+                click: function(event){
+                	if(event.target.hasClass('toggle-state') || event.target.match('[type=checkbox]')) return;
+                	var checkbox = this.getElement('input[type=checkbox]'), checked = checkbox.getProperty('checked');
+                	if(checked) {
+                		this.removeClass('selected');
+                		checkbox.setProperty('checked', false);
+                	} else {
+                		this.addClass('selected');
+                		checkbox.setProperty('checked', true);
+                	}
+                	checkbox.fireEvent('change', event);
+                },
+            	dblclick: function(event){
+            	    if(event.target.match('a') || event.target.match('td') || event.target == this) {
+            		    window.location.href = this.getElement('a').get('href');
+            	    }
+            	},
+            	contextmenu: function(event){
+            		var modal = this.getElement('a.modal');
+            		if(modal) {
+            			event.preventDefault();	
+            			modal.fireEvent('click');
+            		}
+            	}
+            });
+            
+            checkbox.addEvent('change', function(tr){
+            	this.getProperty('checked') ? tr.addClass('selected') : tr.removeClass('selected');
+            	var selected = tr.hasClass('selected') + tr.getSiblings('.selected').length, parent = tr.getParent();
+            	if(selected > 1) {
+            		parent.addClass('selected-multiple').removeClass('selected-single')
+            	} else {
+            		parent.removeClass('selected-multiple').addClass('selected-single');
+            	}
+            }.pass(tr, checkbox)).fireEvent('change');
+
+
+            id = {name: checkbox.get('name'), value: checkbox.get('value')};
+            //Attributes with hyphens don't work with the MT 1.2 selector engine, it's fixed in 1.3 so this is a workaround
+            actions = tr.getElements('*').filter(function(action){
+                return action.get('data-action');
+            });
             
             actions.each(function(action){
                 var data = action.get('data-data'), 
                     options = this.getOptions(action),
-                    actionName = action.get('data-action');
-                    data = data ? JSON.decode(data) : {},
-                    eventType = action.get('data-event-type');
+                    actionName = action.get('data-action'),
+                    eventType = action.get('data-event-type'),
+                    onchange;
+
+                data = data ? JSON.decode(data) : {};
 
                 //Set token data
-                if(token_name) data[token_name] = token_value;
+                if(token_name) {
+                    data[token_name] = token_value;
+                }
 
                 if(!eventType) {
-                    var onchange = ['[type="radio"]', '[type="checkbox"]', 'select'].filter(function(test){
-                            return action.match(test);
-                        });
+                    onchange = ['[type="radio"]', '[type="checkbox"]', 'select'].filter(function(test){
+                        return action.match(test);
+                    });
                         
                     eventType = onchange.length ? 'change' : 'click';
                 }
@@ -365,21 +481,24 @@ Koowa.Controller.Grid = new Class({
     },
     
     validate: function(){
-        if(!Koowa.Grid.getIdQuery()) return false;
+        return Koowa.Grid.getIdQuery() || false;
     },
     
     _action_default: function(action, data, novalidate){
-        if(!novalidate && !this.fireEvent('validate')) return false;
+        if(!novalidate && !this.fireEvent('validate')) {
+            return false;
+        }
     
         var idQuery = Koowa.Grid.getIdQuery(),
+            append = this.options.url.match(/\?/) ? '&' : '?',
             options = {
                 method:'post',
-                url: this.options.url+(idQuery ? '&'+idQuery : ''),
+                url: this.options.url+(idQuery ? append+idQuery : ''),
                 params: $merge({
                     action: action
                 }, data)
             };
-    	new Koowa.Form(options).submit();
+        new Koowa.Form(options).submit();
     }
 
 });
@@ -395,8 +514,10 @@ Koowa.Controller.Form = new Class({
     Extends: Koowa.Controller,
     
     _action_default: function(action, data, novalidate){
-        if(!novalidate && !this.fireEvent('validate')) return false;
-    
+        if(!novalidate && !this.fireEvent('validate')) {
+            return false;
+        }
+
         this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: action}));
         this.form.submit();
     }
@@ -412,14 +533,14 @@ Koowa.Controller.Form = new Class({
 Koowa.Query = new Class({
     
     toString: function() {
-        var result = [];
+        var result = [], key, subkey;
         
-        for (var key in this) {
+        for (key in this) {
             // make sure it's not a function
             if (!(this[key] instanceof Function)) {
                 // we only go one level deep for now
                 if(this[key] instanceof Object) {
-                    for (var subkey in this[key]) {
+                    for (subkey in this[key]) {
                         result.push(key + '[' + subkey + ']' + '=' + this[key][subkey]);
                     }
                 } else {
@@ -440,48 +561,89 @@ Koowa.Query = new Class({
  * @subpackage  Javascript
  */
 Koowa.Overlay = new Class({
-	Extends: Request,
+    Extends: Request,
     element : null,
     
     options: {
-        method      : 'get',
-        evalScripts : true,
-        evalStyles  : true,
+        selector: 'body',
+        ajaxify: true,
+        method: 'get',
+        evalScripts: true,
+        evalStyles: true,
         
         onComplete: function() {
-            var element = new Element('div', {html: this.response.text});
-            element.getElement('[id='+this.element.id+']').replaces(this.element);
+            var element = new Element('div', {html: this.response.text}), 
+                body = element.getElement(this.options.selector) || element,
+                self = this,
+                scripts, 
+                styles;
+
+            this.element.empty().grab(body);
+            
             if (this.options.evalScripts) {
                 scripts = element.getElementsBySelector('script[type=text/javascript]');
                 scripts.each(function(script) {
+                    if(document.getElement('script[src$='+script.src.replace(location.origin, '')+']')) return;
                     new Asset.javascript(script.src, {id: script.id });
-                    script.remove();
-                }.bind(this))
+                }.bind(this));
             }
-            
+
             if (this.options.evalStyles) {
-                styles  = element.getElementsBySelector('link[type=text/css]');
+                styles = element.getElementsBySelector('link[type=text/css]');
                 styles.each(function(style) {
                     new Asset.css(style.href, {id: style.id });
-                    style.remove();
-                }.bind(this))
+                }.bind(this));
             }
+
+            if (this.options.ajaxify) {
+                this.element.getElements('a[href]').each(function(link){
+                    //Avoid links with data-noasync attributes
+                    if(link.getAttribute('data-noasync') !== null) return;
+                    link.addEvent('click', function(event){
+                        event.stop();
+                        self.get(this.href, {tmpl:''});
+                    });
+                });
+                
+                /* @TODO
+                this.element.getElements('.submitable').addEvent('click', function(event){
+                    event = new Event(event);
+                    new Koowa.Form(JSON.decode(event.target.getProperty('rel'))).submit();
+                });
+                */
+
+                this.element.getElements('.-koowa-grid').each(function(grid){
+                    new Koowa.Grid(grid);
+                    
+                    new Koowa.Controller.Grid({form: grid, ajaxify: true, transport: function(url, data, method){
+                        data += '&tmpl=';
+                        this.send({url: url, data: data, method: method});
+                    }.bind(this)});
+                }, this);
+            
+                this.element.getElements('.-koowa-form').each(function(form){
+                    new Koowa.Controller.Form({form: form, ajaxify: true, transport: function(url, data, method){
+                        data += '&tmpl=';
+                        this.send({url: url, data: data, method: method});
+                    }.bind(this)});
+                }, this);
+        }
         }
     },
     
     initialize: function(element, options) {
-        if(typeof options == 'string') {
-            var options = JSON.evaluate(options);
+        if(typeof options === 'string') {
+            options = JSON.evaluate(options);
         }
         
-        this.element = $(element); 
-        this.options.url = element.getAttribute('href'); 
+        this.element = document.id(element); 
+
+        this.options.url = this.element.getAttribute('data-url'); 
         this.parent(options);
         
         this.send();
     }
 });
-})();
 
 
 /**
@@ -492,12 +654,14 @@ Koowa.Overlay = new Class({
  */
 String.extend({
     get : function(key, defaultValue) {
-        if(key == "") return;
+        if(!key) {
+            return;
+        }
     
-        var uri   = this.parseUri();
-        if($defined(uri['query'])) {
-            var query = uri['query'].parseQueryString();
-            if($defined(query[key])) {
+        var uri   = this.parseUri(), query;
+        if(typeof uri.query !== 'undefined') {
+            query = uri.query.parseQueryString();
+            if(typeof query[key] !== 'undefined') {
                 return query[key];
             }
         }

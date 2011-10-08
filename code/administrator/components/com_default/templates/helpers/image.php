@@ -16,7 +16,6 @@
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KFactory
  * @uses        KConfig
  */
 class ComDefaultTemplateHelperImage extends KTemplateHelperListbox

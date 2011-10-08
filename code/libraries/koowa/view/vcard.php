@@ -19,7 +19,6 @@
  * @see         http://www.imc.org/pdi/
  * @see         http://en.wikipedia.org/wiki/VCard
  * @uses        KFilter
- * @uses        KFactory
  */
 class KViewVcard extends KViewFile
 {
@@ -55,7 +54,7 @@ class KViewVcard extends KViewFile
     public function display()
     {
         //Set the filename
-        $filename = KFactory::tmp('lib.koowa.filter.filename')->sanitize($this->_properties['FN']);
+        $filename = $this->getService('koowa:filter.filename')->sanitize($this->_properties['FN']);
         $this->filename = $filename.'.vcf';
         
         //Render the vcard  

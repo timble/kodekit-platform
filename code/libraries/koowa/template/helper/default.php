@@ -16,7 +16,6 @@
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
- * @uses   		KFactory
  */
 class KTemplateHelperDefault extends KTemplateHelperAbstract
 {

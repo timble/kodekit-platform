@@ -16,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage 	Behavior
  */
-interface KControllerBehaviorInterface extends KCommandInterface, KObjectIdentifiable
+interface KControllerBehaviorInterface extends KCommandInterface, KObjectServiceable
 {
 	
 }

@@ -31,7 +31,7 @@ class ComDefaultControllerResource extends KControllerResource
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
-            KFactory::get('lib.joomla.language')->load('com_'.$this->getIdentifier()->package); 
+            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package); 
         }
         
         return parent::_actionGet($context);

@@ -205,7 +205,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	public function getDatabase()
 	{
 	    if(!isset($this->_database)) {
-	        $database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
+	        $this->_database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
 	    } 
 	    
 	    return $this->_database;
@@ -245,6 +245,58 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 
 		return $this->_table_schema[$table];
 	}
+	
+    /**
+     * Lock a table.
+     * 
+     * @param  string  Base name of the table.
+     * @param  string  Real name of the table.
+     * @return boolean True on success, false otherwise.
+     */
+    public function lockTable($base, $name)
+    {
+        $query = 'LOCK TABLES '.$this->quoteName($this->getTablePrefix().$base).' WRITE';
+        
+        if($base != $name) {
+            $query .= ', '.$this->quoteName($this->getTablePrefix().$name).' READ';
+        }
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $base;
+        $context->query = $query;
+        
+        if($this->getCommandChain()->run('before.locktable', $context) !== false) 
+        {
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);    
+            $this->getCommandChain()->run('after.locktable', $context);
+        }
+
+        return $context->result;
+    }
+    
+    /**
+     * Unlock a table.
+     * 
+     * @return boolean True on success, false otherwise.
+     */
+    public function unlockTable()
+    {
+        $query = 'UNLOCK TABLES';
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $base;
+        $context->query = $query;
+        
+        if($this->getCommandChain()->run('before.unlocktable', $context) !== false) 
+        {
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);    
+            $this->getCommandChain()->run('after.unlocktable', $context);
+        }
+
+        return $context->result;
+    }
 			
 	/**
 	 * Fetch the first field of the first row
@@ -483,7 +535,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		
 		list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 		
- 	   	$column = new KDatabaseSchemaColumn;
+ 	   	$column = $this->getService('koowa:database.schema.column');
  	   	$column->name     = $info->Field;
  	   	$column->type     = $type;
  	   	$column->length   = ($length  ? $length  : null);

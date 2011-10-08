@@ -19,10 +19,9 @@
  * @package     Koowa_Database
  * @subpackage  Table
  * @uses        KMixinClass
- * @uses        KFactory
  * @uses        KFilter
  */
-abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifiable
+abstract class KDatabaseTableAbstract extends KObject
 {
     /**
      * Real name of the table in the db schema
@@ -60,20 +59,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     protected $_database = false;
     
     /**
-     * Row object or identifier (APP::com.COMPONENT.row.NAME)
-     *
-     * @var string|object
-     */
-    protected $_row;
-
-    /**
-     * Rowet object or identifier (APP::com.COMPONENT.rowset.NAME)
-     *
-     * @var string|object
-     */
-    protected $_rowset;
-
-    /**
      * Default values for this table
      *
      * @var array
@@ -95,8 +80,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $this->_name        = $config->name;
         $this->_base        = $config->base;
         $this->_database    = $config->database;
-        $this->_row         = $config->row;
-        $this->_rowset      = $config->rowset;
         
         //Check if the table exists
         if(!$info = $this->getSchema()) {
@@ -126,7 +109,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         if(!empty($config->filters)) 
         {
             foreach($config->filters as $column => $filter) {
-                $this->getColumn($column, true)->filter = KConfig::toData($filter);
+                $this->getColumn($column, true)->filter = KConfig::unbox($filter);
             }       
         }
     
@@ -149,13 +132,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     protected function _initialize(KConfig $config)
     {
-        $package = $this->_identifier->package;
-        $name    = $this->_identifier->name;
+        $package = $this->getIdentifier()->package;
+        $name    = $this->getIdentifier()->name;
         
         $config->append(array(
-            'database'          => KFactory::get('lib.koowa.database.adapter.mysqli'),
-            'row'               => null,
-            'rowset'            => null,
+            'database'          => $this->getService('koowa:database.adapter.mysqli'),
             'name'              => empty($package) ? $name : $package.'_'.$name,
             'column_map'        => null,
             'filters'           => array(),
@@ -169,17 +150,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         );
         
          parent::_initialize($config);
-    }
-    
-    /**
-     * Get the object identifier
-     * 
-     * @return  KIdentifier 
-     * @see     KObjectIdentifiable
-     */
-    public function getIdentifier()
-    {
-        return $this->_identifier;
     }
     
     /**
@@ -277,7 +247,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function addBehavior($behaviors)
     {
-        $behaviors = (array) KConfig::toData($behaviors);
+        $behaviors = (array) KConfig::unbox($behaviors);
                 
         foreach($behaviors as $behavior)
         {
@@ -301,23 +271,28 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function getBehavior($behavior, $config = array())
     {
-       if(!($behavior instanceof KIdentifier))
+       if(!($behavior instanceof KServiceIdentifier))
        {
             //Create the complete identifier if a partial identifier was passed
            if(is_string($behavior) && strpos($behavior, '.') === false )
            {
-               $identifier = clone $this->_identifier;
+               $identifier = clone $this->getIdentifier();
                $identifier->path = array('database', 'behavior');
                $identifier->name = $behavior;
            }
-           else $identifier = KFactory::identify($behavior);
+           else $identifier = $this->getIdentifier($behavior);
        }
        
-       if(!isset($this->getSchema()->behaviors[$identifier->name])) {
-           $behavior = KDatabaseBehavior::factory($identifier, array_merge($config, array('mixer' => $this)));
-       } else {
-           $behavior = $this->getSchema()->behaviors[$identifier->name];
-       }
+       if(!isset($this->getSchema()->behaviors[$identifier->name])) 
+       {
+           $behavior = $this->getService($identifier, array_merge($config, array('mixer' => $this)));
+           
+           //Check the behavior interface
+		   if(!($behavior instanceof KDatabaseBehaviorInterface)) {
+			   throw new KDatabaseTableException("Database behavior $identifier does not implement KDatabaseBehaviorInterface");
+		   }
+       } 
+       else $behavior = $this->getSchema()->behaviors[$identifier->name];
        
        return $behavior;
     }
@@ -495,52 +470,40 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     /**
      * Get an instance of a row object for this table
      *
+     * @param	array An optional associative array of configuration settings.
      * @return  KDatabaseRowInterface
      */
-    public function getRow()
+    public function getRow(array $options = array())
     {
-        if(!($this->_row instanceof KDatabaseRowInterface))
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->path   = array('database', 'row');
-            $identifier->name   = KInflector::singularize($this->_identifier->name);
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'row');
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
             
-            //The row default options
-            $options  = array(
-                'table'             => $this, 
-                'identity_column'   => $this->mapColumns($this->getIdentityColumn(), true)
-            );
-            
-            $this->_row = KFactory::tmp($identifier, $options); 
-        }
-        
-        return clone $this->_row;
+        //The row default options
+        $options['table'] = $this; 
+        $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
+             
+        return $this->getService($identifier, $options); 
     }
     
     /**
      * Get an instance of a rowset object for this table
      *
+     * @param	array An optional associative array of configuration settings.
      * @return  KDatabaseRowInterface
      */
-    public function getRowset()
+    public function getRowset(array $options = array())
     {
-        if(!($this->_rowset instanceof KDatabaseRowsetInterface))
-        {
-            $identifier         = clone $this->_identifier;
-            $identifier->path   = array('database', 'rowset');
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'rowset');
             
-            //The row default options
-            $options  = array(
-                'table'             => $this, 
-                'identity_column'   => $this->mapColumns($this->getIdentityColumn(), true)
-            );
-        
-            $this->_rowset = KFactory::tmp($identifier, $options);  
-        }
-        
-        return clone $this->_rowset;
+        //The rowset default options
+        $options['table'] = $this; 
+        $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
+    
+        return $this->getService($identifier, $options);
     }
-
+    
     /**
      * Table select method
      *
@@ -557,7 +520,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
     public function select( $query = null, $mode = KDatabase::FETCH_ROWSET)
     {
        //Create query object
-        if(is_string($query) || (is_array($query) && is_numeric(key($query))))
+        if(is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key    = $this->getIdentityColumn();
             $values = (array) $query;
@@ -610,7 +573,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
                             $data[$key] = $this->mapColumns($value, true);
                         }
                     }
-                    else $data = $this->mapColumns(KConfig::toData($data), true);   
+                    else $data = $this->mapColumns(KConfig::unbox($data), true);   
                 }
             }
             
@@ -640,7 +603,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             $this->getCommandChain()->run('after.select', $context);
         }
     
-        return KConfig::toData($context->data);
+        return KConfig::unbox($context->data);
     }
     
     /**
@@ -651,6 +614,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
      */
     public function count($query = null)
     {
+        //Count using the identity column
+        if (is_scalar($query)) 
+    	{
+    		$key   = $this->getIdentityColumn();
+    		$query = array($key => $query);
+    	}
+    	
         //Create query object
         if(is_array($query) && !is_numeric(key($query)))
         {
@@ -738,7 +708,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
         $context->table     = $this->getBase();
         $context->query     = null;
         $context->affected  = false;
-     
+
         if($this->getCommandChain()->run('before.update', $context) !== false) 
         {
             //Create where statement
@@ -754,10 +724,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
             //Get the data and apply the column mappings
             $data = $this->mapColumns($data);
-         
+                     	  			
             //Execute the update query
             $context->affected = $this->_database->update($context->table, $data, $query);
-            
+	
             if($context->affected !== false) 
             {
                 if(((integer) $context->affected) > 0)
@@ -822,6 +792,66 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 
         return $context->affected;
     }
+    
+ 	/**
+     * Lock the table.
+     * 
+     * return boolean True on success, false otherwise.
+     */
+    public function lock()
+    {
+        $result = null;
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $this->getBase();
+        
+        if($this->getCommandChain()->run('before.lock', $context) !== false) 
+        {
+            if($this->isConnected()) 
+            {
+                try {
+                    $context->result = $this->_database->lockTable($this->getBase(), $this->getName());
+                } catch(KDatabaseException $e) {
+                    throw new KDatabaseTableException($e->getMessage());
+                }
+            }
+            
+            $this->getCommandChain()->run('after.lock', $context);
+        }
+        
+        return $context->result;
+    }
+    
+    /**
+     * Unlock the table.
+     * 
+     * return boolean True on success, false otherwise.
+     */
+    public function unlock()
+    {
+        $result = null;
+        
+        // Create commandchain context.
+        $context = $this->getCommandContext();
+        $context->table = $this->getBase();
+        
+        if($this->getCommandChain()->run('before.unlock', $context) !== false) 
+        {
+            if($this->isConnected()) 
+            {
+                try {
+                    $context->result = $this->_database->unlockTable();
+                } catch(KDatabaseException $e) {
+                    throw new KDatabaseTableException($e->getMessage());
+                }
+            }
+            
+            $this->getCommandChain()->run('after.unlock', $context);
+        }
+        
+        return $context->result;
+    }
 
     /**
      * Table filter method
@@ -847,7 +877,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
             
         return $data;
     }
-    
+     
 	/**
 	 * Search the behaviors to see if this table behaves as.
 	 *
@@ -875,5 +905,5 @@ abstract class KDatabaseTableAbstract extends KObject implements KObjectIdentifi
 		}
 
 		return parent::__call($method, $arguments);
-	}
+	}	
 }
