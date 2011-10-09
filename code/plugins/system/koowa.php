@@ -23,6 +23,18 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
+		// Command line fixes for Joomla
+		if (PHP_SAPI === 'cli') 
+		{
+			if (!isset($_SERVER['HTTP_HOST'])) {
+				$_SERVER['HTTP_HOST'] = '';
+			}
+			
+			if (!isset($_SERVER['REQUEST_METHOD'])) {
+				$_SERVER['REQUEST_METHOD'] = '';
+			}
+		}
+		
 		//Suhosin compatibility
 		if(in_array('suhosin', get_loaded_extensions()))
 		{
@@ -52,13 +64,13 @@ class plgSystemKoowa extends JPlugin
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
 		//Load the koowa plugins
-		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('lib.koowa.event.dispatcher'));
+		JPluginHelper::importPlugin('koowa', null, true, KService::get('com://admin/default.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
-		if(!KFactory::get('lib.joomla.user')->guest) 
+		if(!JFactory::getUser()->guest) 
 		{
-		   if($offset = KFactory::get('lib.joomla.user')->getParam('timezone')) {
-		        KFactory::get('lib.joomla.config')->setValue('config.offset', $offset);
+		   if($offset = JFactory::getUser()->getParam('timezone')) {
+		        JFactory::getConfig()->setValue('config.offset', $offset);
 		   }
 		}
 		
@@ -79,10 +91,36 @@ class plgSystemKoowa extends JPlugin
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 1) && KFactory::get('lib.joomla.user')->get('guest')) {
+	    if($this->params->get('auth_basic', 1) && JFactory::getUser()->get('guest')) {
 	        $this->_authenticateUser();
 	    }
 	    
+	    /*
+	     * Dispatch the default dispatcher 
+	     *
+	     * If we are running in CLI mode bypass the default Joomla executition chain and dispatch the default
+	     * dispatcher.
+	     */
+	    if (PHP_SAPI === 'cli') 
+	    {
+	    	$options = getopt('a::u::p::h::', array('url::', 'help::'));
+	    	
+	    	if (!empty($options['url']) || !empty($options['help']) || !empty($options['h'])) 
+	    	{
+	    		// Thanks Joomla. We will take it from here.
+	    		echo KService::get('com:default.dispatcher.cli')->dispatch();
+	    		exit(0);	
+	    	}
+	    }
+	}
+	
+	/**
+	 * On after route event handler
+	 * 
+	 * @return void
+	 */
+	public function onAfterRoute()
+	{      
 	    /*
 	     * Special handling for AJAX requests
 	     * 
@@ -101,8 +139,14 @@ class plgSystemKoowa extends JPlugin
         		$document = null;
         		JFactory::getDocument()->setType($format);
         		
+        		
         		JRequest::setVar('format', $format); //revert format to original
         	}
+        }
+        
+        //Set the request format
+        if(!KRequest::has('request.format')) {
+            KRequest::set('request.format', KRequest::format());
         }
 	}
 	
@@ -142,7 +186,7 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-		if(KFactory::get('lib.joomla.config')->getValue('config.debug')) {
+		if(JFactory::getConfig()->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
 			$error->set('message', KHttpResponse::getMessage($error->code));
@@ -170,15 +214,12 @@ class plgSystemKoowa extends JPlugin
 	            'password' => KRequest::get('server.PHP_AUTH_PW'  , 'url'),
 	        );
 	        
-	        if(KFactory::get('lib.joomla.application')->login($credentials) !== true) 
+	        if(JFactory::getApplication()->login($credentials) !== true) 
 	        {  
 	            throw new KException('Login failed', KHttpResponse::UNAUTHORIZED);
         	    return false;      
 	        }
-	        
-	        //Reset the user object in the factory
-	        KFactory::set('lib.joomla.user', JFactory::getUser());
-	         
+	           
 	        //Force the token
 	        KRequest::set('request._token', JUtility::getToken());
 	        
