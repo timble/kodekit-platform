@@ -17,5 +17,4 @@
  * @package    	Nooku_Components
  * @subpackage 	Logs
  */
-
-echo KFactory::get('admin::com.logs.dispatcher')->dispatch();
+echo KService::get('com://admin/logs.dispatcher')->dispatch();

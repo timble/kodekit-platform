@@ -1,41 +1,54 @@
 <?php
-/** $Id$ */
+/**
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Logs
+ * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+/**
+ * Log Behavior
+ *
+ * @author      Israel Canasa <israel@timble.net>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Logs
+ */
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
-    protected $_title_column = '';
     protected $_actions;
-    
+    protected $_title_column;
+
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
         
-        $this->_title_column = $config->title_column;
-        
         $this->_actions = $config->actions->toArray();
-        if (empty($this->_actions)) {
-            $this->_actions = array('after.edit', 'after.add', 'after.delete');
-        }
+        $this->_title_column = $config->title_column;
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOW,
-            'actions' => array(),
+            'priority'   => KCommand::PRIORITY_LOWEST,
+            'actions' => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => 'title',
         ));
 
         parent::_initialize($config);
     }
     
-    public function execute($name, KCommandContext $context) 
+    public function execute($name, KCommandContext $context)
     {
         if(!in_array($name, $this->_actions))
             return;
-        
-        $identifier = $context->caller->getIdentifier();
 
+        $identifier = $context->caller->getIdentifier();
+                
         $data = array(
             'action' => $context->action,
             'application' => $identifier->application,
@@ -47,15 +60,17 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
         $rowset = array();
         if ($context->result instanceof KDatabaseRowAbstract) {
             $rowset[] =  $context->result;
-        } else {
-            $rowset = KConfig::toData($context->result);
+        } elseif($context->result instanceof KDatabaseRowsetAbstract) {
+            $rowset = $context->result;
+        }else{
+            return false;      
         }
 
         foreach ($rowset as $row)
         {
             //Only log if the row status is valid.
             $status = $row->getStatus();
-
+            
             if(!empty($status))
             {
                 if ($row->{$this->_title_column}) {
@@ -66,14 +81,12 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 
                 $data['row_id'] = $row->id;
 
-                KFactory::tmp('admin::com.logs.model.logs')
+                $this->getService('com://admin/logs.model.logs')
                     ->getItem()
                     ->setData($data)
                     ->save();
             }
         }
-        
-        return true;
     }
     
     public function getHandle()

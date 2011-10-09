@@ -18,4 +18,4 @@
  * @subpackage 	Versions
  */
 
-echo KFactory::get('admin::com.versions.dispatcher')->dispatch();
+echo KService::get('com://admin/versions.dispatcher')->dispatch();

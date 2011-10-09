@@ -1,10 +1,8 @@
 <?php
 /** $Id$ */
 
-class ComLogsModelLogs extends KModelTable
+class ComLogsModelLogs extends ComDefaultModelDefault
 {
-	protected $_column;
-
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
@@ -15,18 +13,28 @@ class ComLogsModelLogs extends KModelTable
 			->insert('package', 'cmd')
 			->insert('name', 'cmd')
 			->insert('action', 'cmd')
-			->insert('user', 'cmd');
+			->insert('user', 'cmd')
+			->insert('distinct', 'boolean', false)
+			->insert('column', 'cmd');
 
-		$this->_state
-			->remove('sort')->insert('sort', 'cmd', 'created_on')
-			->remove('direction')->insert('direction', 'word', 'desc');
+		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
+		// Force ordering by created_on
+		$this->_state->sort = 'created_on';
 	}
 
 	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
-		parent::_buildQueryColumns($query);
-
-		$query->select('users.name AS created_by_name');
+		if($this->_state->distinct && !empty($this->_state->column)) 
+		{
+			$query->distinct()
+				->select($this->_state->column)
+				->select($this->_state->column . ' AS logs_log_id');
+		}
+		else
+		{
+			parent::_buildQueryColumns($query);
+			$query->select('users.name AS created_by_name');
+		}
 	}
 
 	protected function _buildQueryJoins(KDatabaseQuery $query)
@@ -46,7 +54,7 @@ class ComLogsModelLogs extends KModelTable
 			$query->where('tbl.type', '=', $this->_state->type);
 		}
 
-		if ($this->_state->package) {
+		if ($this->_state->package && !($this->_state->distinct && !empty($this->_state->column))) {
 			$query->where('tbl.package', '=', $this->_state->package);
 		}
 
@@ -61,5 +69,15 @@ class ComLogsModelLogs extends KModelTable
 		if ($this->_state->user) {
 			$query->where('tbl.created_by', '=', $this->_state->user);
 		}
+	}
+
+	protected function _buildQueryOrder(KDatabaseQuery $query)
+	{
+		if($this->_state->distinct && !empty($this->_state->column)) 
+		{
+			$query->order('package', 'asc');
+		}
+		else parent::_buildQueryOrder($query);
+
 	}
 }

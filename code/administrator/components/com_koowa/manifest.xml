@@ -45,6 +45,7 @@
         <file>/plugins/system/koowa.php</file>
         <file>/plugins/system/koowa.xml</file>
 
+		<folder src="/media/com_default">/media/com_default</folder>
         <folder src="/site/components/com_default">/components/com_default</folder>
         <folder src="/site/modules/mod_default">/modules/mod_default</folder>
         <folder>/administrator/components/com_default</folder>
