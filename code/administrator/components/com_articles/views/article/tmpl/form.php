@@ -15,16 +15,9 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.validator') ?>
 
 <script src="media://lib_koowa/js/koowa.js" />
+<style src="media://com_articles/css/article-form.css" />
 
 <script>
-    var categories = <?= json_encode(KFactory::tmp('admin::com.articles.model.categories')->getList()) ?>;
-
-    <? if($article->category_id) : ?>
-        window.addEvent('domready', function() {
-            document.id('article-form-categories').set('value', <?= $article->category_id ?>);
-        });
-    <? endif ?>
-
     if(Form && Form.Validator) {
         Form.Validator.add('validate-unsigned', {
             errorMsg: Form.Validator.getMsg("required"),
@@ -35,7 +28,7 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 </script>
 
-<form action="<?= @route('id='.$article->id) ?>" method="post" id="article-form" class="-koowa-form">
+<form action="" method="post" id="article-form" class="-koowa-form">
     <div id="main" class="grid_8">
         <div class="panel title clearfix">
             <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
@@ -101,8 +94,7 @@ defined('KOOWA') or die('Restricted access') ?>
                             <label for="created_by"><?= @text('Author') ?></label>
                         </td>
                         <td class="paramlist_value">
-                            <?= @helper('admin::com.users.template.helper.listbox.users',
-                                array('selected' => $article->id ? $article->created_by : $user->id, 'deselect' => false, 'name' => 'created_by')) ?>
+                            <?= @helper('com://admin/users.template.helper.autocomplete.users', array('column' => 'created_by', 'value' => $article->id ? $article->created_by : $user->id)) ?>
                         </td>
                     </tr>
                     <tr>
@@ -125,7 +117,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </div>
         <div class="panel folders group">
             <h3><?= @text('Category') ?></h3>
-            <?= @template('form_categories', array('categories' =>  KFactory::tmp('admin::com.articles.model.categories')->getList(), 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
         </div>
         <div class="panel">
             <h3><?= @text('Description') ?></h3>
