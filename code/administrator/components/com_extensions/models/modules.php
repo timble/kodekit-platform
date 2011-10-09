@@ -93,7 +93,8 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		{
 			$this->_item = parent::getItem();
 
-			if($this->_item->isNew() && $this->_state->type) {
+			if($this->_item->isNew() && $this->_state->type) 
+			{
 			    $client	                = JApplicationHelper::getClientInfo($this->_state->application, true);
 			    $this->_item->client_id = $client->id;
 				$this->_item->type      = $this->_state->type;
