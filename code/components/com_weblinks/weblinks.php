@@ -17,7 +17,6 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
+KLoader::loadIdentifier('com://site/weblinks.aliases');
 
-KLoader::load('site::com.weblinks.mappings');
-
-echo KFactory::get('site::com.weblinks.dispatcher')->dispatch();
+echo KService::get('com://site/weblinks.dispatcher')->dispatch();

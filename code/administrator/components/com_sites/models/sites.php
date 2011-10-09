@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Sites   
  */
-class ComSitesModelSites extends KModelAbstract
+class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatable
 {	
      public function __construct(KConfig $config)
      {
@@ -30,8 +30,21 @@ class ComSitesModelSites extends KModelAbstract
              ->insert('sort'      , 'cmd')
              ->insert('direction' , 'word', 'asc')
              ->insert('search'    , 'string');
-        }
+    }
     
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    { 
+       // Check if an instance with this identifier already exists or not
+        if (!$container->has($config->service_identifier))
+        {
+            //Create the singleton
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $container->set($config->service_identifier, $instance);
+        }
+        
+        return $container->get($config->service_identifier);
+    }
     
     public function getList()
     { 
@@ -69,7 +82,7 @@ class ComSitesModelSites extends KModelAbstract
                 $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
                         
-            $this->_list = KFactory::tmp('admin::com.sites.database.rowset.sites', array('data' => $data));
+            $this->_list = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_list;
@@ -82,10 +95,5 @@ class ComSitesModelSites extends KModelAbstract
         }
         
         return $this->_total;
-    }
-    
-    public function getColumn($column)
-    {   
-        return $this->getList();
     }
 }

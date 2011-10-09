@@ -29,7 +29,7 @@ class ComSearchModelResults extends KModelAbstract
 		parent::__construct($config);
 		
 		$this->_state
-		    ->insert('term'     , 'site::com.search.filter.term')
+		    ->insert('term'     , 'com://site/search.filter.term')
 		    ->insert('match'    , 'cmd', 'all')
 		    ->insert('ordering' , 'cmd', 'newest')
 		    ->insert('areas'    , 'cmd', null)
@@ -75,7 +75,7 @@ class ComSearchModelResults extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
             
-			$this->_list = KFactory::tmp('site::com.search.database.rowset.results', array('data' => $data));
+			$this->_list = $this->getService('com://site/search.database.rowset.results', array('data' => $data));
 		}
 		
 		return $this->_list;

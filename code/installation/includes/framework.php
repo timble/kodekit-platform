@@ -24,13 +24,8 @@ if (file_exists( JPATH_CONFIGURATION.'/configuration.php' ) && (filesize( JPATH_
 	exit();
 }
 
-// System includes
+// Joomla : setup
 require_once( JPATH_LIBRARIES.'/joomla/import.php');
-
-// Installation file includes
-define( 'JPATH_INCLUDES', dirname(__FILE__) );
-
-// Joomla! library imports
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
@@ -40,19 +35,15 @@ jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
 
-// Koowa : setup loader
-JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
-JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
+define( 'JPATH_INCLUDES', dirname(__FILE__) );
+
+// Koowa : setup
+require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
+Koowa::getInstance();
+
+KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
+
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
-KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
-KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-		
-// Koowa : setup factory
-KFactory::addAdapter(new KFactoryAdapterKoowa());
-KFactory::addAdapter(new KFactoryAdapterJoomla());
-KFactory::addAdapter(new KFactoryAdapterComponent());
-		
-//Koowa : register identifier application paths
-KIdentifier::registerApplication('site' , JPATH_SITE);
-KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+KServiceIdentifier::setApplication('site' , JPATH_SITE);
+KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);

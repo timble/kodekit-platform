@@ -65,9 +65,9 @@ class JCacheStorageApc extends JCacheStorage
 			{
 			    $data = array();
 				$data['name']  = $key['info'];
-				$data['hash']  = $parts[4];
-				$data['group'] = $parts[3];
-				$data['site']  = $parts[2];
+				$data['hash']  = array_pop($parts);
+				$data['site']  = count($parts) > 3 ? array_pop($parts) : '';
+				$data['group'] = array_pop($parts);
 				$data['size'] = $key['mem_size'];
 				$data['hits'] = $key['num_hits'];
 			    $data['created_on']  = $key['creation_time'];
@@ -148,7 +148,7 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key) 
 		{
-			if (strpos($key['info'], $secret.'-cache-'.$this->_site.'-'.$group.'-') === 0 xor $mode != 'group') {
+			if (strpos($key['info'], $secret.'-cache-'.$group.'-'.$this->_site) === 0 xor $mode != 'group') {
 				apc_delete($key['info']);
 			}
 		}

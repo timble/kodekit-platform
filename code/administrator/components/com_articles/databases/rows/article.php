@@ -46,7 +46,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         {
             if($this->category_id != 0)
             {
-                $this->_data['section_id'] = KFactory::tmp('admin::com.categories.model.categories')
+                $this->_data['section_id'] = $this->getService('com://admin/categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
 
@@ -78,22 +78,13 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
             return false;
         }
 
-        //Validate the text
-        if(empty($this->introtext) && empty($this->fulltext))
-        {
-            $this->_status          = KDatabase::STATUS_FAILED;
-            $this->_status_message  = JText::_('Article must have some text');
-
-            return false;
-        }
-
         $modified = $this->_modified;
         $result   = parent::save();
 
         //Set the featured
         if(isset($modified['featured']))
         {
-            $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
+            $featured     = $this->getService('com://admin/articles.database.row.featured');
             $featured->id = $this->id;
 
             if($this->featured)
@@ -117,7 +108,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
     {
         $result = parent::delete();
 
-        $featured     = KFactory::tmp('admin::com.articles.database.row.featured');
+        $featured     = $this->getService('com://admin/articles.database.row.featured');
         $featured->id = $this->id;
 
         if($featured->load()) {

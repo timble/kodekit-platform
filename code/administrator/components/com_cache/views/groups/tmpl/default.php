@@ -1,5 +1,14 @@
-<? /** $Id: default.php 537 2011-03-08 20:59:09Z johanjanssens $ */ ?>
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php
+/**
+ * @version     $Id: default.php 1990 2011-06-26 16:26:47Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Cache
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die( 'Restricted access' ); ?>
  
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />

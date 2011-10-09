@@ -13,7 +13,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <form action="<?= JRoute::_('index.php?option=com_search'); ?>" method="get">
 
-<div class="search<?= $moduleclass_sfx;?>">
+<div class="search<?= $moduleclass_sfx; ?>">
 <? $output = '<input name="term" id="mod_search_term" maxlength="' . $maxlength . '" alt="' . $button_text . '" class="inputbox' . $moduleclass_sfx . '" type="text" size="' . $width . '" value="' . $text . '"  onblur="if(this.value==\'\') this.value=\'' . $text . '\';" onfocus="if(this.value==\'' . $text . '\') this.value=\'\';" />';
 			
     if($button) :

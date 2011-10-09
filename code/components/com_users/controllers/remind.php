@@ -23,15 +23,15 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
     {
         $email = KRequest::get('post.email', 'email');
 
-        if(!KFactory::tmp('lib.koowa.filter.email')->validate($email))
+        if(!$this->getService('koowa:filter.email')->validate($email))
         {
             $this->setRedirect(KRequest::referrer(), JText::_('INVALID_EMAIL_ADDRESS'), 'error');
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id)
         {
@@ -39,7 +39,7 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
 			return false;
         }
 
-        $config     = KFactory::get('lib.joomla.config');
+        $config     = JFactory::getConfig();
         $site_url   = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url        = $site_url.JRoute::_('index.php?option=com_users&view=login');
 

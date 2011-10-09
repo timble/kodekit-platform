@@ -59,7 +59,7 @@ class  plgSystemCache extends JPlugin
 	*/
 	function onAfterInitialise()
 	{
-		global $mainframe, $_PROFILER;
+		global $mainframe;
 		$user = &JFactory::getUser();
 
 		if($mainframe->isAdmin() || JDEBUG) {
@@ -84,13 +84,6 @@ class  plgSystemCache extends JPlugin
 			JResponse::setBody($data);
 
 			echo JResponse::toString($mainframe->getCfg('gzip'));
-
-			if(JDEBUG)
-			{
-				$_PROFILER->mark('afterCache');
-				echo implode( '', $_PROFILER->getBuffer());
-			}
-
 			$mainframe->close();
 		}
 	}

@@ -163,9 +163,9 @@ class JCacheStorageMemcache extends JCacheStorage
 				{
 					$data = array();
 				    $data['name']  = $key->name;
-				    $data['hash']  = $parts[4];
-				    $data['group'] = $parts[3];
-				    $data['site']  = $parts[2];
+				    $data['hash']  = array_pop($parts);
+				    $data['site']  = count($parts) > 1 ? array_pop($parts) : '';
+				    $data['group'] = array_pop($parts);
 				    $data['size']  = $key->size;
 				    $data['hits']  = $key->hits;
 			        $data['created_on']  = '';
@@ -307,7 +307,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$secret = $this->_hash;
 		foreach ($index as $key=>$value) 
 		{
-			if (strpos($value->name,  $secret.'-cache-'.$this->_site.'-'.$group.'-')===0 xor $mode != 'group') 
+			if (strpos($value->name,  $secret.'-cache-'.$group.'-'.$this->_site)===0 xor $mode != 'group') 
 			{
 				$this->_db->delete($value->name,0);
 				unset ($index[$key]);

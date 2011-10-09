@@ -474,16 +474,7 @@ class JToolBarHelper
 	*/
 	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
 	{
-		$user =& JFactory::getUser();
-		if ($user->get('gid') != 25) {
-			return;
-		}
-
-		$component	= urlencode( $component );
-		$path		= urlencode( $path );
-		$bar = & JToolBar::getInstance('toolbar');
-		// Add a configuration button
-		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&amp;controller=component&amp;component='.$component.'&amp;path='.$path, $width, $height );
+		
 	}
 }
 

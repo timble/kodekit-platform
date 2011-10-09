@@ -24,7 +24,7 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
     {
         if($this->featured_order) 
         {
-            KFactory::tmp('admin::com.articles.database.row.featured')
+            $this->getService('com://admin/articles.database.row.featured')
                ->set('id', $this->id)
                ->load()
                ->order($this->order);

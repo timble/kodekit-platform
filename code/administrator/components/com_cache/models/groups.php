@@ -25,7 +25,7 @@ class ComCacheModelGroups extends KModelAbstract
 		
 		$this->_state
 		    ->insert('name'     , 'cmd')
-		    ->insert('site'     , 'cmd', 'default')
+		    ->insert('site'     , 'cmd')
 		 	->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
             ->insert('sort'     , 'cmd')
@@ -62,7 +62,7 @@ class ComCacheModelGroups extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		      
-		    $this->_list = KFactory::tmp('admin::com.cache.database.rowset.groups', array('data' => $data));
+		    $this->_list = $this->getService('com://admin/cache.database.rowset.groups', array('data' => $data));
         }
         
         return $this->_list;
@@ -76,33 +76,11 @@ class ComCacheModelGroups extends KModelAbstract
         
         return $this->_total;
     }
-   
-    public function getColumn($column)
-    {   
-        if (!isset($this->_column[$column])) 
-        {   
-            $result = array();
-            $data   = $this->_getData();
-		    
-	        foreach($data as $key => $value) 
-		    {
-	            $value = (object) $value;
-	            
-		        if(isset ($value->{$column})) {
-			        $result[$key] = $data[$key];
-		        }
-		    }
-		    
-		    $this->_column[$column] = KFactory::tmp('admin::com.cache.database.rowset.groups', array('data' => $data));
-        }
-            
-        return $this->_column[$column];
-    }
     
     protected function _getData()
     {
         $data = array();
-        $keys = KFactory::tmp('admin::com.cache.model.keys')->site($this->_state->site)->getList();
+        $keys = $this->getService('com://admin/cache.model.items')->site($this->_state->site)->getList();
        
         foreach($keys as $key) 
         {

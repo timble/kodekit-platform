@@ -62,17 +62,16 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         {
             if (isset($this->order))
             {
-                unset($this->old_parent);
-                //default action               
+                unset($this->old_parent);        
                 $this->order($this->order);
             } 
             elseif (isset($this->old_parent)) 
             {
                 $max = $this->getMaxOrdering();
-                if ($this->ordering <= 0){
+                
+                if ($this->ordering <= 0) {
                     $this->ordering = $max + 1;
-                } elseif ($this->ordering <= $max ){
-                    //make space for new entry
+                } elseif ($this->ordering <= $max ) {
                     $this->reorder($this->ordering);
                 }                
             }
@@ -89,8 +88,6 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         $this->_table = $context->caller;
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
         {
-            //section has changed,
-            //tidy up the old section
             $this->_parent = $this->old_parent;
             $this->reorder();
         }
@@ -114,7 +111,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 $table = $context->caller;
                 $parent_column = $table->mapColumns($parent_column);
 
-                $query->join[]=array('type' => 'LEFT',
+                $query->join[] = array('type' => 'LEFT',
                     'table' => '(SELECT '.$parent_column.' , COUNT(ordering) order_total FROM #__'.$table->getBase().' ' 
                             .'GROUP BY '.$parent_column.') AS orderable',
                     'condition' => array('orderable.'.$parent_column.' = tbl.'.$parent_column ));
@@ -122,7 +119,5 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 $query->select('orderable.order_total');
             }
         }
-    }
-    
-    
+    }  
 }

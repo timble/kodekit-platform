@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <install type="module" version="1.5.0">
-	<name>Banner</name>
-	<author>Joomla! Project</author>
-	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5.0</version>
+	<name>Banners</name>
+	<author>Nooku Project</author>
+  	<creationDate>March 2011</creationDate>
+  	<copyright>Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+  	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+  	<authorEmail>info@nooku.org</authorEmail>
+  	<authorUrl>www.nooku.org</authorUrl>
+  	<version>0.7.0</version>
 	<description>DESCBANNER</description>
 	<files>
 		<filename module="mod_banners">mod_banners.php</filename>

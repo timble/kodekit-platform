@@ -39,7 +39,7 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
             'password' => KRequest::get('post.password', 'raw')
         );
 
-        $result = KFactory::get('lib.joomla.application')->login($credentials, $options);
+        $result = JFactory::getApplication()->login($credentials, $options);
 
         if(!JError::isError($result))
         {
@@ -63,8 +63,10 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
 	{
 		$view = parent::getView();
 
-		if ($view) {
-			$return = KFilter::factory('base64')->sanitize($this->_request->return);
+		if ($view) 
+		{
+			$filter = new KFilterBase64();
+		    $return = $filter->sanitize($this->_request->return);
 			$view->assign('return', $return);
 		}
 

@@ -17,16 +17,15 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
-	<input type="hidden" name="scope" value="<?= $section->id? $section->scope : $state->scope; ?>" />
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 
 	<div class="grid_8">
 		<div class="panel title clearfix">
 			<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 
-			<label for="alias">
-				<?= @text( 'Alias' ); ?>
-				<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Alias' ); ?>" />
+			<label for="slug">
+				<?= @text( 'Slug' ); ?>
+				<input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Slug' ); ?>" />
 			</label>
 		</div>
 		<?= @editor( array('name' => 'description',

@@ -18,9 +18,9 @@
  * @subpackage  Cache
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_cache', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_cache', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Dispatch the controller
-echo KFactory::get('admin::com.cache.dispatcher')->dispatch();
+echo KService::get('com://admin/cache.dispatcher')->dispatch();

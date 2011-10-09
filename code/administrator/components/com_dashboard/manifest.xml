@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<install type="component" version="1.5.0">
+	<name>Dashboard</name>
+	<author>Nooku Project</author>
+	<creationDate>May 2011</creationDate>
+	<copyright>Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>0.7.0</version>
+	<description>The dashboard component for Nooku Server</description>
+</install>

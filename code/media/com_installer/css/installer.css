@@ -1,0 +1,205 @@
+.-installer-grid {
+    position: relative;
+    margin-bottom: 100px;
+    width: 100%;
+
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: stretch;
+    -webkit-box-flex: 1;
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: stretch;
+    -moz-box-flex: 1;
+    display: box;
+    box-orient: horizontal;
+    box-align: stretch;
+    box-flex: 1;
+}
+
+.-installer-form {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 hsl(0, 0%, 88%);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 hsl(0, 0%, 88%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 hsl(0, 0%, 88%);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#f7f7f7), to(#f2f2f2));
+    background-image: -moz-linear-gradient(90deg, #eaeaea 0%, #bfbfbf 100%);
+    height: 100px;
+}
+
+.-installer-form ul {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+.-installer-form ul li {
+    display: inline;
+    font-size: 12px;
+}
+.-installer-form ul li:first-child {
+    padding-right: 5px;
+}
+
+.-installer-form input {
+    font-size: 13px;
+}
+
+.-installer-form ul li a {
+    font-weight: bold;
+    padding: 5px 5px 10px;
+    display: inline-block;
+    position: relative;
+}
+.-installer-form ul li a.active {
+    color: #3c3c3c;
+}
+.-installer-form ul li a:hover,
+.-installer-form ul li a:active,
+.-installer-form ul li a.active {
+    text-decoration: none;
+}
+.-installer-form ul li a.active::after,
+.-installer-form ul li a.active::before {
+    content: '.';
+    color: transparent;
+    border-color: transparent transparent hsl(0, 0%, 99%) transparent;
+    border-style: solid;
+    border-width: 8px;
+    height: 0;
+    width: 0;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    margin-left: -8px;
+    z-index: 1;
+}
+.-installer-form ul li a.active::before {
+    bottom: 0;
+    border-bottom-color: #E6E6E6;
+}
+
+.install-by {
+    display: none;
+    padding: 10px;
+    height: 28px;
+    background-color: hsl(0, 0%, 99%);
+    border-radius: 5px;
+    margin: 0 10px;
+    border: 1px solid #E6E6E6;
+    position: relative;
+    z-index: 0;
+}
+.install-by input[type=text] {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    border-radius: 2px;
+    padding: 10px;
+}
+
+:target.install-by {
+    display: block;
+}
+
+.install-input-file {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+}
+
+.install-by-file-notice {
+    color: hsl(0, 0%, 39%);
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 29px;
+    text-align: center;
+    width: 100%;
+}
+
+#install_package {
+    text-align: center;
+}
+
+.install-by.selected .install-by-file-notice,
+.install-by.selected .install-input-file {
+    display: none;
+}
+
+.install-by .install-submit,
+.install-by .install-reset {
+    display: none;
+    box-sizing: border-box;
+    height: 28px;
+    border-radius: 2px;
+    border: 1px solid #9b9b9b;
+    
+    
+    border: 1px solid hsl(0, 0%, 67%);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    color: hsl(0, 0%, 44%);
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    margin: 0 5px;
+    outline: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-shadow: 0 1px 0 hsla(0, 100%, 100%, 1);
+    
+    color: hsl(0, 0%, 20%);
+    cursor: pointer;
+    background: white;
+    background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
+    background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#F0F0F0');
+    border: 1px solid hsl(0, 0%, 73%);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    
+    font-size: 12px;
+}
+.install-by .install-submit {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    color: white;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+    border-color: rgba(43, 116, 191, 0.48);
+    background-clip: border-box;
+    background-origin: border-box;
+}
+/*.install-by .install-reset:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3), 0 1px 1px rgba(255, 255, 255, .8) inset;
+}
+.install-by .install-submit:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .6), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+}*/
+.install-by .install-reset:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 35%, from(#FFF), to(#F0F0F0));
+    background-image: -moz-linear-gradient(0% 65% 90deg,#FFF, #F0F0F0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F0F0', endColorstr='#FFF');
+    box-shadow: none;
+}
+.install-by .install-submit:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    text-shadow: none;
+}
+
+.install-by.selected .install-submit,
+.install-by.selected .install-reset {
+    display: inline-block;
+}

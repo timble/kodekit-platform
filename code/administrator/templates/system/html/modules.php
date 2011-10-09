@@ -43,19 +43,14 @@ function modChrome_xhtml($module, &$params, &$attribs)
 function modChrome_sliders($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
-	// Initialize variables
-	$user = &JFactory::getUser();
+	
     // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
-	$sliders = &JPane::getInstance('sliders', array('allowAllClose' => true));
-
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
+	$sliders = JPane::getInstance('sliders', array('allowAllClose' => true));
 
 	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-		$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
-		echo $module->content;
-		$sliders->endPanel();
-	}
+	$sliders->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	echo $module->content;
+	$sliders->endPanel();
 }
 
 /*
@@ -64,17 +59,10 @@ function modChrome_sliders($module, &$params, &$attribs)
 function modChrome_tabs($module, &$params, &$attribs)
 {
 	jimport('joomla.html.pane');
-	// Initialize variables
-	$user	=& JFactory::getUser();
-	$tabs	=& JPane::getInstance('tabs');
-
-	$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
-
-	// special handling for components module
-	if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-			$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
-			echo $module->content;
-			$tabs->endPanel();
-	}
+	
+	$tabs = JPane::getInstance('tabs');
+	
+	$tabs->startPanel( JText::_( $module->title ), 'module' . $module->id );
+	echo $module->content;
+	$tabs->endPanel();
 }
-?>

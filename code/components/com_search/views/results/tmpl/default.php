@@ -17,9 +17,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 </div>
 <? endif; ?>
 
-<?= @template( 'default_form' );?>
+<?= @template('com://site/search.view.results.default_form');?>
 
 <?if (count($results)) :?>
-    <?= @template( 'default_results' );?>
+    <?= @template('com://site/search.view.results.default_results');?>
 <? endif;?>
 

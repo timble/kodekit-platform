@@ -61,9 +61,9 @@ class JSite extends JApplication
 			} 
 			else 
 			{
-				$params =  JComponentHelper::getParams('com_languages');
+				$params =  JComponentHelper::getParams('com_extensions');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, 'en-GB');
+				$options['language'] = $params->get('language_'.$client->name, 'en-GB');
 			}
 
 		}
@@ -90,15 +90,18 @@ class JSite extends JApplication
 	    if(!isset($uri)) {
 		    $uri = clone(JURI::getInstance());
 		}
- 		
- 		// get the route based on the path
- 		$route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
-
- 		//Redirect to the default menu item if the route is empty
-		if(empty($route) && $this->getRouter()->getMode() == JROUTER_MODE_SEF) 
+		
+		if(KRequest::type() != 'AJAX')
 		{
-		   $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
-		   $this->redirect($route, '', '', true);
+ 		    // get the route based on the path
+ 		    $route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
+
+ 		    //Redirect to the default menu item if the route is empty
+		    if(empty($route) && $this->getRouter()->getMode() == JROUTER_MODE_SEF) 
+		    {
+		       $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
+		       $this->redirect($route, '', '', true);
+		    }
 		}
 		
 		parent::route($uri);
@@ -328,7 +331,7 @@ class JSite extends JApplication
 			return $template;
 		}
 
-		$template = JComponentHelper::getParams('com_templates')->get('site');
+		$template = JComponentHelper::getParams('com_extensions')->get('template_site');
 
 		// Allows for overriding the active template from the request
 		$template = JRequest::getCmd('template', $template);
@@ -445,7 +448,7 @@ class JSite extends JApplication
 		    if(!empty($segments))
 		    {
 		        // Check if the site exists
-	            if(KFactory::get('admin::com.sites.model.sites')->getList()->find($segments[0])) {
+	            if(KService::get('com://admin/sites.model.sites')->getList()->find($segments[0])) {
                     $site = array_shift($segments);
                 }
 		    }

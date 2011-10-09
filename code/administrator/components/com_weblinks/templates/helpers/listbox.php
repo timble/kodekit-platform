@@ -23,10 +23,11 @@ class ComWeblinksTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'model'		=> 'categories',
+			'identifier'  => 'com://admin/categories.model.categories',
 			'name' 		=> 'category',
 			'value'		=> 'id',
 			'text'		=> 'title',
+			'filter'    => array('section' => 'com_weblinks')
 		));
 
 		return parent::_listbox($config);

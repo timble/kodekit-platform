@@ -21,14 +21,14 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 {  
     public function canLogout()
     {
-        $userid = KFactory::get('lib.joomla.user')->id;
+        $userid = JFactory::getUser()->id;
         
         //Allow logging out ourselves
         if($this->getModel()->getState()->id === $userid) {
              return true;
         }
         
-        if(KFactory::get('lib.joomla.user')->get('gid') > 24) {
+        if(JFactory::getUser()->get('gid') > 24) {
             return true;
         }
         

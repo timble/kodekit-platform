@@ -35,10 +35,19 @@ class JDocumentRendererModules extends JDocumentRenderer
 	function render( $position, $params = array(), $content = null )
 	{
 		$renderer =&  $this->_doc->loadRenderer('module');
-
+		
 		$contents = '';
-		foreach (JModuleHelper::getModules($position) as $mod)  {
+		$count    = 0;
+		
+		foreach (JModuleHelper::getModules($position) as $mod)  
+		{
 			$contents .= $renderer->render($mod, $params, $content);
+			$count++;
+			
+			//Check if we reached the max count and break the loop
+			if(isset($params['max-count']) && ($params['max-count'] == $count)) {
+			    break;
+			}
 		}
 		return $contents;
 	}

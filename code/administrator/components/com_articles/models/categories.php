@@ -39,17 +39,16 @@ class ComArticlesModelCategories extends KModelAbstract
             $folders  = array(); 
             $children = array();
 
-            $categories = KFactory::tmp('admin::com.categories.model.categories')
+            $categories = $this->getService('com://admin/categories.model.categories')
                 ->published($this->_state->published)
                 ->section('com_content')
-                ->limit(0)
                 ->sort($this->_state->sort)
                 ->direction($this->_state->direction)
                 ->getList();
 
             foreach($categories as $category)
             {
-                $children[$category->section][] = array(
+                $children[$category->section_id][] = array(
                     'id'	      => $category->id,
                     'title'	      => $category->title,
                     'slug'		  => $category->slug,
@@ -58,16 +57,14 @@ class ComArticlesModelCategories extends KModelAbstract
                  	'locked_by'	  => $category->locked_by,
                     'locked_on'   => $category->locked_on,    
                     'access'	  => $category->access,
-                    'parent_id'   => $category->section,
+                    'parent_id'   => $category->section_id,
                     'path'		  => '',
                     'type'		  => 'category'
                 );
             }
 
-            $sections = KFactory::tmp('admin::com.articles.model.sections')
+            $sections = $this->getService('com://admin/articles.model.sections')
                 ->published($this->_state->published)
-                ->scope('content')
-                ->limit(0)
                 ->sort($this->_state->sort)
                 ->direction($this->_state->direction)
                 ->getList();
@@ -134,7 +131,7 @@ class ComArticlesModelCategories extends KModelAbstract
 				$folders[$key]['path'] = $path;	
 			}
 			
-            $folders = KFactory::tmp('admin::com.articles.database.rowset.folders', array('data' => $folders));
+            $folders = $this->getService('com://admin/articles.database.rowset.folders', array('data' => $folders));
             $this->_list = $folders;
         }
 

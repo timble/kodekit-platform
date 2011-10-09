@@ -18,8 +18,8 @@
  * @subpackage  Banners    
  */
 
-if (!KFactory::get('lib.joomla.user')->authorize( 'com_banners', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+if (!JFactory::getUser()->authorize( 'com_banners', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-echo KFactory::get('admin::com.banners.dispatcher')->dispatch();
+echo KService::get('com://admin/banners.dispatcher')->dispatch();

@@ -21,7 +21,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <? if ($return = $parameters->get('login')): ?>
     <input type="hidden" name="return" value="<?=base64_encode($return)?>" />
     <? endif ?>
-
     <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>">
         <tr>
             <td colspan="2">

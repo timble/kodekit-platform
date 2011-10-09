@@ -24,8 +24,8 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		parent::__construct($config);
 
 		$this->_state
-		    ->insert('category'  , 'int')
-		    ->insert('enabled' , 'int');
+		    ->insert('category' , 'int')
+		    ->insert('enabled'  , 'boolean');
 	}
 	
 	protected function _buildQueryColumns(KDatabaseQuery $query)
@@ -56,12 +56,12 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 			$query->where('tbl.scope', 'LIKE',  $state->scope);
 		}
 		
-		if(is_numeric($state->enabled)) {
-			$query->where('tbl.published', '=', $state->enabled);
+		if(is_bool($state->enabled)) {
+			$query->where('tbl.published', '=', (int) $state->enabled);
 		}
 		
-	    if ($state->category) {
-				$query->where('tbl.catid', '=', $this->_state->category);
+	    if($state->category) {
+			$query->where('tbl.catid', '=', $this->_state->category);
 		}
 	      
 		parent::_buildQueryWhere($query);

@@ -10,4 +10,11 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>0.7.0</version>
 	<description>This component provides weblinks management</description>
+	
+	<administration>
+		<submenu>
+			<menu view="weblinks">Weblinks</menu>
+			<menu view="categories">Categories</menu>
+		</submenu>
+	</administration>
 </install>

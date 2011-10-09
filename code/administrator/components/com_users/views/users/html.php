@@ -21,7 +21,7 @@ class ComUsersViewUsersHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$this->assign('groups', KFactory::get('admin::com.users.model.groups')->getTree());
+		$this->assign('groups', $this->getService('com://admin/groups.model.groups')->getList());
 
 		return parent::display();
 	}

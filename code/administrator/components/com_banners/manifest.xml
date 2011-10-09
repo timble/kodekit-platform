@@ -10,4 +10,12 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>0.7.0</version>
 	<description>This component provides banner management</description>
+	
+	<administration>
+		<submenu>
+			<menu view="banners">Banners</menu>
+			<menu view="categories">Categories</menu>
+		</submenu>
+	</administration>
+	
 </install>

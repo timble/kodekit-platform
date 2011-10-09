@@ -36,42 +36,6 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
 
-    public function getAuthors()
-    {
-        $query = $this->getTable()->getDatabase()->getQuery();
-        $query->select(array('user.id', 'user.name'))
-            ->distinct()
-            ->order('user.name');
-
-        $this->_buildQueryFrom($query);
-        $this->_buildQueryJoins($query);
-        $this->_buildQueryWhere($query);
-
-        return $this->getTable()->select($query, KDatabase::FETCH_ROWSET);
-    }
-
-    public function getCategories()
-    {
-        $categories[0][]  = array('0', JText::_('Uncategorised'));
-
-        $list = KFactory::tmp('admin::com.categories.model.categories')
-            ->set('section', 'com_content')
-            ->set('limit', 0)
-            ->set('sort', 'title')
-            ->getList();
-
-        foreach($list as $item)
-        {
-            if(!isset($categories[$item->section])) {
-                $categories[$item->section][] = array(-1, '- '.JText::_('Select').' -');
-            }
-
-            $categories[$item->section][] = array($item->id, $item->title);
-        }
-
-        return $categories;
-    }
-
     protected function _buildQueryColumns(KDatabaseQuery $query)
     {
         parent::_buildQueryColumns($query);
@@ -79,6 +43,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $query->select('section.title AS section_title')
             ->select('category.title AS category_title')
             ->select('user.name AS created_by_name')
+            ->select('user.id   AS created_by_id')
             ->select('IF(frontpage.content_id, 1, 0) AS featured')
             ->select('frontpage.ordering AS featured_ordering')
             ->select('group.name AS group_name');

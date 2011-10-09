@@ -28,4 +28,33 @@ class ComCacheDatabaseRowsetGroups extends KDatabaseRowsetAbstract
 
         parent::_initialize($config);
     }
+    
+	/**
+	 * Get a value by key
+	 *
+	 * @param   string  The key name.
+	 * @return  string  The corresponding value.
+	 */
+	public function __get($column)
+	{
+	    $result = null;
+	    
+	    if($column == 'count') 
+		{
+            $result = 0;
+		    foreach($this as $row) {
+		        $result += $row->count;
+            }
+        }
+
+	    if($column == 'size' && empty($this->_data['size'])) 
+		{
+		    $result = 0;
+		    foreach($this as $row) {
+		        $result += $row->size;
+            }
+        }
+	   
+		return $result;
+	}
 }

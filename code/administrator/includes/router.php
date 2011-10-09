@@ -1,36 +1,66 @@
 <?php
 /**
-* @version		$Id: router.php 14401 2010-01-26 14:10:00Z louis $
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
-
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
 /**
  * Class to create and parse routes
  *
- * @package 	Joomla
- * @since		1.5
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @category    Nooku
+ * @package     Nooku_Server
  */
 class JRouterAdministrator extends JRouter
 {
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @access public
+	 * @return array
 	 */
-	function parse($uri)
+	public function parse($uri)
 	{
-		return array();
+		$vars = array();
+	    
+	    if(JFactory::getApplication()->getCfg('sef_rewrite'))
+	    {
+		    $path = trim($uri->getPath(), '/');
+		
+		    //Remove basepath
+		    $path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+		
+		    //Remove prefix
+		    $path = trim(str_replace('index.php', '', $path), '/');
+		
+		    //Remove suffix
+	        if(!empty($path))
+		    {
+			    if($suffix = pathinfo($path, PATHINFO_EXTENSION))
+			    {
+				    $path = str_replace('.'.$suffix, '', $path);
+				    $vars['format'] = $suffix;
+			    }
+		    }
+		
+		    //Get the segments
+	        $segments = explode('/', $path);
+	        if(isset($segments[0])) 
+	        {
+	            $vars['option'] = 'com_'.$segments[0];
+	    
+	            if(isset($segments[1])) {
+	                $vars['view']   = $segments[1];
+	            } else {
+	                $vars['view']   = $segments[0];
+	            }
+	        }
+	    }
+	     
+	    return $vars;
 	}
 
 	/**
@@ -38,13 +68,55 @@ class JRouterAdministrator extends JRouter
 	 *
 	 * @param	string	$string	The internal URL
 	 * @return	string	The absolute search engine friendly URL
-	 * @since	1.5
 	 */
-	function &build($url)
+	public function build($url)
 	{
 		//Create the URI object
-		$uri =& $this->_createURI($url);
+		$uri = $this->_createURI($url);
+		
+		if(JFactory::getApplication()->getCfg('sef_rewrite'))
+	    {
+		    $query = $uri->getQuery(true);
+	        $path  = $uri->getPath();
+	    
+	        $segments = array();
+	        if(isset($query['option'])) 
+	        {
+	            $segments[] = substr($query['option'], 4);
+	            unset($query['option']); 
 
+	            if(isset($query['view'])) 
+	            {
+	                if($query['view'] != $segments[0]) {
+	                    $segments[] = $query['view'];
+	                }
+	            
+	                unset($query['view']);  
+	            }
+	        }
+	    
+	        $path = JURI::base(true).'/index.php/'.implode('/', $segments);
+
+	        //Remove index.php from path
+	        if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+	    	    $path = str_replace('index.php/', '', $path);
+	        }
+	    
+	        //Add format to path
+	        if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+		    {
+	            if($format = $uri->getVar('format', 'html'))
+			    {
+			    	$path .= '.'.$format;
+				    $uri->delVar('format');
+			    }
+		    }
+	    
+		    //Set query again in the URI
+		    $uri->setQuery($query);
+		    $uri->setPath($path);
+	    }
+		
 		return $uri;
 	}
 }

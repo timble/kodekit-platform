@@ -21,14 +21,14 @@
 class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
 {
     /**
-     * Nodes object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
     protected $_children = null;
  	
     /**
-     * Node object or identifier (APP::com.COMPONENT.rowset.NAME)
+     * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
      *
      * @var string|object
      */
@@ -86,16 +86,16 @@ class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
 	{
 		if(!($this->_children instanceof KDatabaseRowsetInterface))
         {
-            $identifier         = clone $this->_identifier;
+            $identifier         = clone $this->getIdentifier();
             $identifier->path   = array('database', 'rowset');
-            $identifier->name   = KInflector::pluralize($this->_identifier->name);
+            $identifier->name   = KInflector::pluralize($this->getIdentifier()->name);
             
             //The row default options
             $options  = array(
                 'identity_column' => $this->getIdentityColumn()
             );
                
-            $this->_children = KFactory::tmp($identifier, $options); 
+            $this->_children = $this->getService($identifier, $options); 
         }
         
 	    return $this->_children;

@@ -33,10 +33,8 @@ if (!file_exists( JPATH_CONFIGURATION.'/configuration.php' ) || (filesize( JPATH
 	}
 }
 
-// System includes
+// Joomla : setup
 require_once( JPATH_LIBRARIES.'/joomla/import.php');
-
-// Joomla : import libraries
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
@@ -49,26 +47,27 @@ jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.plugin.helper' );
 
-// Koowa : setup loader
-JLoader::import('libraries.koowa.koowa'        , JPATH_ROOT);
-JLoader::import('libraries.koowa.loader.loader', JPATH_ROOT);
-		
-KLoader::addAdapter(new KLoaderAdapterKoowa(Koowa::getPath()));
-KLoader::addAdapter(new KLoaderAdapterJoomla(JPATH_LIBRARIES));
-KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-		
-// Koowa : setup factory
-KFactory::addAdapter(new KFactoryAdapterKoowa());
-KFactory::addAdapter(new KFactoryAdapterJoomla());
-KFactory::addAdapter(new KFactoryAdapterModule());
-KFactory::addAdapter(new KFactoryAdapterPlugin());
-KFactory::addAdapter(new KFactoryAdapterComponent());
-		
-//Koowa : register identifier application paths
-KIdentifier::registerApplication('site' , JPATH_SITE);
-KIdentifier::registerApplication('admin', JPATH_ADMINISTRATOR);
+// Koowa : setup
+require_once JPATH_CONFIGURATION.'/configuration.php';
+$config = new JConfig();
 
-//Koowa : setup factory mappings
-KFactory::map('lib.koowa.database.adapter.mysqli', 'admin::com.default.database.adapter.mysqli');
+require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
+Koowa::getInstance(array(
+	'cache_prefix'  => md5($config->secret).'-cache-koowa',
+	'cache_enabled' => $config->caching
+));	
+
+unset($config);
+
+KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
+KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
+KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
+
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.plugin'));
+KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
+		
+KServiceIdentifier::setApplication('site' , JPATH_SITE);
+KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+
+KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');

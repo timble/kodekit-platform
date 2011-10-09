@@ -18,7 +18,7 @@
  * @subpackage  Search
  */
  
-class ComSearchDatabaseRowGroup extends KDatabaseRowAbstract
+class ComSearchDatabaseRowResult extends KDatabaseRowAbstract
 {	
    
 }

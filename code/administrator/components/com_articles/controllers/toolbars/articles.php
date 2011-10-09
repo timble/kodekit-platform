@@ -30,12 +30,7 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addUnpublish()
                  ->addSeparator()
                  ->addArchive()
-                 ->addUnarchive()
-                 ->addSeparator()
-                 ->addModal(array(
-                    'label' => 'Preferences',
-                 	'href' => 'index.php?option=com_config&controller=component&component=com_articles')
-                 );
+                 ->addUnarchive();
         }    
         else 
         {

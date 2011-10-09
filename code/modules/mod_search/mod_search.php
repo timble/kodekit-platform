@@ -18,8 +18,7 @@
  * @subpackage  Search
  */
 
-echo KFactory::tmp('site::mod.search.view', array(
-	'params' => $params, 
-	'module' => $module, 
-	'attribs' => $attribs)
-)->display();
+echo KService::get('mod://site/search.html')
+    	->module($module)
+    	->attribs($attribs)
+    	->display();

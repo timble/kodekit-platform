@@ -66,9 +66,9 @@ class JAdministrator extends JApplication
 			}
 			else
 			{
-				$params = JComponentHelper::getParams('com_languages');
+				$params = JComponentHelper::getParams('com_extensions');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, 'en-GB');
+				$options['language'] = $params->get('language_'.$client->name, 'en-GB');
 			}
 		}
 
@@ -98,6 +98,8 @@ class JAdministrator extends JApplication
 			$uri->setScheme('https');
 			$this->redirect($uri->toString());
 		}
+		
+		parent::route($uri);
 	}
 
 	/**
@@ -139,7 +141,7 @@ class JAdministrator extends JApplication
 	    if(JFactory::getUser()->get('guest')) {
 	        $option = 'com_users';
 	    } else {
-	        $option = strtolower(JRequest::getCmd('option', 'com_cpanel'));
+	        $option = strtolower(JRequest::getCmd('option', 'com_dashboard'));
 	    }
 	 
         JRequest::setVar('option', $option);
@@ -222,7 +224,7 @@ class JAdministrator extends JApplication
 	 */
 	function getTemplate()
 	{
-		$template = JComponentHelper::getParams('com_templates')->get('administrator');
+		$template = JComponentHelper::getParams('com_extensions')->get('template_administrator');
 		
 		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
 			$template = 'default';

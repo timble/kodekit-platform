@@ -23,10 +23,11 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'model'		=> 'categories',
-			'name' 		=> 'category',
-			'value'		=> 'id',
-			'text'		=> 'title',
+			'identifier'  => 'com://admin/categories.model.categories',
+			'name' 		  => 'category',
+			'value'		  => 'id',
+			'text'		  => 'title',
+		    'filter'      => array('section' => 'com_banner')
 		));
 
 		return parent::_listbox($config);
@@ -73,7 +74,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         
         if (in_array('swf', $config->filetypes->toArray()))
         {
-            KFactory::get('lib.joomla.document')->addScriptDeclaration("
+            JFactory::getDocument()->addScriptDeclaration("
             window.addEvent('domready', function(){
                 var select = $('$name'), image = $('$name-preview'), flash = $('$name-flash'), x = $('$name-width'), y = $('$name-height'),
                     loadFlash = function() {
@@ -99,7 +100,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             });
             ");
         } else {
-            KFactory::get('lib.joomla.document')->addScriptDeclaration("
+            JFactory::getDocument()->addScriptDeclaration("
             window.addEvent('domready', function(){
                 $('".$config->name."').addEvent('change', function(){
                     var value = this.value ? ('".$root."/' + this.value) : '".KRequest::root()."/media/system/images/blank.png';
@@ -186,7 +187,7 @@ class ComBannersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         .'<div id="'.$config->name.'-flash"></div>'
         ;
         
-        KFactory::get('lib.joomla.document')->addScriptDeclaration("
+        JFactory::getDocument()->addScriptDeclaration("
             window.addEvent('domready', function(){
                 $('".$config->name."').fireEvent('change');
             });

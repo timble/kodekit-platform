@@ -738,7 +738,7 @@ class JApplication extends JObject
     protected function _loadSite($site)
 	{
 	    // Check if the site exists
-	    if(! KFactory::get('admin::com.sites.model.sites')->getList()->find($site))
+	    if(! KService::get('com://admin/sites.model.sites')->getList()->find($site))
 	    {
             throw new KException('Site :'.$site.' not found', KHttpResponse::NOT_FOUND);
             return false;
@@ -757,13 +757,6 @@ class JApplication extends JObject
 		//Set the site debug mode
 		define( 'JDEBUG', $this->getCfg('debug') );
 
-		//Instanciate the site profiler
-		if ($this->getCfg('debug'))
-		{
-			jimport( 'joomla.error.profiler' );
-			$GLOBALS['_PROFILER'] =& JProfiler::getInstance( 'Application' );
-		}
-
 		//Force re-creation of the database connection
 		$db =& JFactory::getDBO();
 		$db = null;
@@ -775,11 +768,11 @@ class JApplication extends JObject
 	    define('JPATH_IMAGES'   , JPATH_SITES.'/'.$site.'/'.$params->get('image_path', 'images'));
 
 		//Force re-login of the user if the site changed
-		$user = KFactory::get('lib.joomla.user');
+		$user = JFactory::getUser();
 
 		if(!$user->get('guest') && (JFactory::getSession()->get('site') != $site))
 		{
-		    $session = KFactory::get('lib.joomla.session');
+		    $session = JFactory::getSession();
 
 		    // Fork the session to prevent session fixation issues if it's active
 			$session->fork();

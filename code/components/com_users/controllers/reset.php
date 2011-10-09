@@ -27,9 +27,9 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id || $user->block)
         {
@@ -37,14 +37,14 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::tmp('site::com.users.helper.password');
+        $helper = $this->getService('com://site/users.helper.password');
         $token  = $helper->getHash($helper->getRandom());
         $salt   = $helper->getSalt($token);
 
         $user->activation = md5($token.$salt).':'.$salt;
         $user->save();
 
-        $configuration = KFactory::get('lib.joomla.config');
+        $configuration = JFactory::getConfig();
         $site_name     = $configuration->getValue('sitename');
         $site_url      = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
@@ -72,9 +72,9 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user = KFactory::tmp('site::com.users.model.users')
-            ->set('email', $email)
-            ->getItem();
+        $user = $this->getService('com://site/users.model.users')
+                     ->set('email', $email)
+                     ->getItem();
 
         if(!$user->id || $user->block)
         {
@@ -90,7 +90,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $helper = KFactory::tmp('site::com.users.helper.password');
+        $helper = $this->getService('com://site/users.helper.password');
 
         if($parts[0] != $helper->getCrypted($token, $parts[1]))
         {
@@ -121,19 +121,19 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        $user     = KFactory::tmp('lib.joomla.user', array(KRequest::get('session.com.users.id', 'int')));
+        $user = JFactory::getUser(KRequest::get('session.com.users.id', 'int'));
 
         JPluginHelper::importPlugin('user');
         $dispatcher = JDispatcher::getInstance();
         $dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
 
-        KFactory::tmp('site::com.users.model.users')
-            ->set('id', $user->id)
-            ->getItem()
-            ->set('password', $password)
-           	->set('password_verify', $password_verify)
-            ->set('activation', '')
-            ->save();
+        $this->getService('com://site/users.model.users')
+             ->set('id', $user->id)
+             ->getItem()
+             ->set('password', $password)
+           	 ->set('password_verify', $password_verify)
+             ->set('activation', '')
+             ->save();
 
         $user->password         = $password;
         $user->activation       = '';

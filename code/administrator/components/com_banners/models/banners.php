@@ -24,7 +24,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         parent::__construct($config);
         
         $this->_state
-            ->insert('enabled',     'int')
+            ->insert('enabled',     'boolean')
             ->insert('category',    'int')
             ->insert('sticky',    	'int')
             ->insert('tags',        'string');
@@ -59,8 +59,8 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         
         $state = $this->_state;
         
-        if (is_numeric($state->enabled)) {
-            $query->where('tbl.showbanner', '=', $state->enabled);
+        if (is_bool($state->enabled)) {
+            $query->where('tbl.showbanner', '=', (int) $state->enabled);
         }
         
         if ($state->category) {
@@ -75,11 +75,13 @@ class ComBannersModelBanners extends ComDefaultModelDefault
             $query->where('LOWER(tbl.name)', 'LIKE', '%'.strtolower($state->search).'%');
         }
         
-        if (!empty($state->tags)) {
+        if (!empty($state->tags)) 
+        {
             $where = array();
             foreach ($state->tags as $tag) {
                 $where[] = 'UPPER(tags) REGEXP \'[[:<:]]'.strtoupper(trim($tag)).'[[:>:]]\'';
             }
+            
             $query->where('( '.implode(' OR ', $where).' )');
         }
     }

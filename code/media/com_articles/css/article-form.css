@@ -1,0 +1,105 @@
+#article-form {
+	padding: 0 !important;
+	overflow-y: hidden !important;
+	
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#main {
+	float: none !important;
+	
+	padding-top: 14px;
+	padding-bottom: 14px;
+	
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-align: stretch;
+	
+	display: box;
+	box-orient: vertical;
+	box-align: stretch;
+	
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+#panels {
+	float: none !important;
+	display: block !important;
+	margin: 0 !important;
+	
+	border-left: 1px solid #E1E1E1;
+	padding: 14px;
+	background-color: #F9F9F9;
+	overflow-y: scroll;
+}
+
+#panels .panel {
+	background-color: #FFF;
+}
+
+/* @group Editor Canvas (Flexi Box Model) */
+/* Stretch editor to full height of the canvas without JS */
+#editor-xtd-buttons,
+#editor-toggle-buttons {
+	float: none !important;
+}
+
+#text_parent,
+#text_tbl,
+#text_tbl tbody,
+#text_tbl tbody tr td.mceIframeContainer,
+.CodeMirror-wrapping { 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-flex: 1;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-flex: 1;
+	
+	display: box;
+	box-orient: vertical;
+	box-flex: 1;
+}
+.editor-container {
+	overflow: auto;
+}
+.editor-toolbar {
+	height: 18px;
+}
+.CodeMirror-wrapping {
+	
+}
+.editor-wrap .CodeMirror-wrapping iframe {
+	float: none;
+	overflow: hidden;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+#text_tbl tbody tr 	{ 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	
+	display: box;
+	box-orient: vertical;
+}
+#text_tbl tbody tr:nth-of-type(2),
+#text_tbl tbody tr td.mceIframeContainer #text_ifr { 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+/* @end group */

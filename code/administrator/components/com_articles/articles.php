@@ -18,8 +18,8 @@
  * @subpackage  Articles
  */
 
-/*if (!KFactory::get('lib.joomla.user')->authorize( 'com_content', 'manage' )) {
-	KFactory::get('lib.joomla.application')->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
+/*if (!JFactory::getUser()->authorize( 'com_content', 'manage' )) {
+	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 
-echo KFactory::get('admin::com.articles.dispatcher')->dispatch();
+echo KService::get('com://admin/articles.dispatcher')->dispatch();

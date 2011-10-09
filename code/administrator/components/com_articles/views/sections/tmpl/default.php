@@ -14,7 +14,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 
 <form action="<?= @route() ?>" method="get" class="-koowa-grid">	
-	<input type="hidden" name="scope" value="<?= $state->scope;?>" />
 	<?= @template('default_filter'); ?>
 	<table class="adminlist">
 		<thead>

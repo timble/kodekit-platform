@@ -17,6 +17,6 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-KLoader::load('site::com.users.mappings');
+KLoader::loadIdentifier('com://site/users.aliases');
 
-echo KFactory::get('site::com.users.dispatcher')->dispatch();
+echo KService::get('com://site/users.dispatcher')->dispatch();

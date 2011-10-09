@@ -49,11 +49,10 @@ class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
                 $package = $name;
         }
                  
-        $identifier = 'admin::com.'.$package.'.model.'.$name;
+        $identifier = 'com://admin/'.$package.'.model.'.$name;
         
-        $rowset = KFactory::tmp($identifier)
+        $rowset = $this->getService($identifier)
                     ->category($this->id)
-                    ->limit(0)
                     ->getList();
 
         if($rowset->count()) {

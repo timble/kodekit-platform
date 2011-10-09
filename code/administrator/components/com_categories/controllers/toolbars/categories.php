@@ -30,14 +30,10 @@ class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolb
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $option  = $this->_identifier->package;
-		$view	 = KInflector::singularize($this->_identifier->name);
+        $option  = $this->getIdentifier()->package;
+		$view	 = KInflector::singularize($this->getIdentifier()->name);
 		$section = $this->getController()->getModel()->get('section');
 		
-        $command->append(array(
-            'attribs' => array(
-                'href'     => JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&section='.$section )
-            )
-        ));
+        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&section='.$section ); 
     }
 }

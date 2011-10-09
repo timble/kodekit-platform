@@ -1,49 +1,82 @@
-<?php // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
-<form action="index.php" method="post" name="adminForm">
-	<?php if ($this->showMessage) : ?>
-		<?php echo $this->loadTemplate('message'); ?>
-	<?php endif; ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Installer
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access'); ?>
 
-	<?php if ($this->ftp) : ?>
-		<?php echo $this->loadTemplate('ftp'); ?>
-	<?php endif; ?>
+<!--<script src="media://lib_koowa/js/koowa.js" />-->
+<!--<style src="media://lib_koowa/css/koowa.css" />-->
+<?= @helper('behavior.tooltip') ?>
 
-	<?php if (count($this->items)) : ?>
-	<table class="adminlist" cellspacing="1">
-		<thead>
-			<tr>
-				<th class="title" width="10px"><?php echo JText::_( 'Num' ); ?></th>
-				<th class="title" width="20px"></th>
-				<th class="title" nowrap="nowrap"><?php echo JText::_( 'Currently Installed' ); ?></th>
-				<th class="title" width="5%" align="center"><?php echo JText::_( 'Enabled' ); ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_( 'Version' ); ?></th>
-				<th class="title" width="15%"><?php echo JText::_( 'Date' ); ?></th>
-				<th class="title" width="25%"><?php echo JText::_( 'Author' ); ?></th>
-				<th class="title" width="5%"><?php echo JText::_( 'Compatibility' ); ?></th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
-			</tr>
-		</tfoot>
-		<tbody>
-		<?php for ($i=0, $n=count($this->items), $rc=0; $i < $n; $i++, $rc = 1 - $rc) : ?>
-			<?php
-				$this->loadItem($i);
-				echo $this->loadTemplate('item');
-			?>
-		<?php endfor; ?>
-		</tbody>
-	</table>
-	<?php else : ?>
-		<?php echo JText::_( 'There are no custom components installed' ); ?>
-	<?php endif; ?>
+<?= @template('com://admin//installer.view.grid.sidebar'); ?>
 
-	<input type="hidden" name="task" value="manage" />
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="option" value="com_installer" />
-	<input type="hidden" name="type" value="components" />
-	<?php echo JHTML::_( 'form.token' ); ?>
-</form>
+<div class="-installer-grid">
+<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+    <table class="adminlist">
+    	<thead>
+    		<tr>
+    			<th class="title" width="20px"></th>
+    			<th class="title" nowrap="nowrap">
+    			    <?= @text('Currently Installed') ?>
+    			</th>
+    			<th class="title" width="5%" align="center">
+    			    <?= @text('Enabled') ?>
+    			</th>
+    			<th class="title" width="10%" align="center">
+    			    <?= @text('Version') ?>
+    			</th>
+    			<th class="title" width="15%">
+    			    <?= @text('Date') ?>
+    			</th>
+    			<th class="title" width="25%">
+    			    <?= @text('Author') ?>
+    			</th>
+    		</tr>
+    	</thead>
+    	<tfoot>
+    	    <tr>
+    		    <td colspan="6">
+    		        <?= @helper('paginator.pagination', array('total' => $total)) ?>
+    		    </td>
+    		</tr>
+    	</tfoot>
+    	<tbody>
+    	<? foreach($components as $component): ?>
+    		<tr>
+    			<td align="center">
+    				<input type="radio" name="id[]" value="<?= $component->id ?>" class="-koowa-grid-checkbox" />
+    			</td>
+    			<td>
+    				<?= $component->name ?>
+    			</td>
+    			<td align="center">
+    			<? if (!$component->option) : ?>
+    				<strong>X</strong>
+    			<? else : ?>
+    				<?= @helper( 'grid.enable' , array('row' => $component)) ?>
+    			<? endif ?>
+    			</td>
+    			<td align="center">
+    			    <?= $component->version ?>
+    			</td>
+    			<td>
+    			    <?= @helper('date.format', array('date' => $component->creationDate, 'format' => '%d %B %Y')) ?>
+    			</td>
+    			<td>
+    				<span class="hasTip" title="<?= @text('Author Information') ?>::<?= $component->authorEmail.'<br />'.$component->authorUrl ?>">
+    					<?= $component->author ?>
+    				</span>
+    			</td>
+    		</tr>
+    	<? endforeach ?>
+    	</tbody>
+    </table>
+    </form>
+    <?= @template('com://admin//installer.view.install.form'); ?>
+</div>

@@ -19,6 +19,17 @@
  */
 class ComUsersControllerLogin extends ComDefaultControllerResource
 {
+	protected function _initialize(KConfig $config)
+	{
+		/*
+		 *  Force the layout (Since this controller can be rendered through redirection from
+		 *  URLs like option=com_articles&view=articles&layout=default this is necessary)
+		 */
+		$config->request->layout = 'form'; 
+		
+		parent::_initialize($config);	
+	}
+	
     protected function _actionGet(KCommandContext $context)
     {
         //Force the application template

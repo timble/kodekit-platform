@@ -48,9 +48,10 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
-.com_admin #content-box,
-.com_config #content-box {
+.com_dashboard #content-box,
+.com_settings #content-box {
 	overflow-y: scroll; /* Fix, force scrollbar */
+	-webkit-overflow-scrolling: touch;
 }
 
 .com_articles .panel.folders {
@@ -88,4 +89,8 @@ div.message {
 	margin: 0;
 	resize: vertical;
 	width: 100%
+}
+
+.com_dashboard #content-box {
+	padding: 20px;
 }

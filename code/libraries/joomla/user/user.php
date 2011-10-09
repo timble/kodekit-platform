@@ -185,15 +185,36 @@ class JUser extends JObject
 		if(!is_numeric($id))
 		{
 			jimport('joomla.user.helper');
-			if (!$id = JUserHelper::getUserId($id)) {
+			if (!$id = JUserHelper::getUserId($id)) 
+			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
 				$retval = false;
 				return $retval;
 			}
 		}
 
-		if (empty($instances[$id])) {
+		if (empty($instances[$id])) 
+		{
 			$user = new JUser($id);
+            
+            // Legacy: Return gid and usertype of parent core group.
+            if($user->gid > 30) 
+            {
+                $group = KService::get('com://admin/groups.model.groups')
+                    ->set('id', $user->gid)
+                    ->getItem();
+
+                foreach($group->getParents('DESC') as $parent) 
+                {
+                    if($parent->id < 30) {
+                        $user->gid      = $parent->id;
+                        $user->usertype = $parent->name;
+                        
+                        break;
+                    }
+                }
+            }
+            
 			$instances[$id] = $user;
 		}
 

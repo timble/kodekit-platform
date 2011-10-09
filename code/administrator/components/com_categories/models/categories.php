@@ -28,7 +28,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         // Set the state
         $this->_state
             ->insert('section'   , 'string')
-            //as 'section' is ambiguous, we need an alias
             ->insert('parent'    , 'string')
             ->insert('published' , 'int')
             ->insert('distinct'  , 'string');
@@ -104,12 +103,12 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
     protected function _buildQueryGroup(KDatabaseQuery $query)
     {
         $state = $this->_state;
-        if( $state->distinct ) {
+        if( $state->distinct ) 
+        {
             $query->distinct();
             $query->group($state->distinct);
-        } else {
-            $query->group('tbl.id');
-        }
+        } 
+        else $query->group('tbl.id');
     }
 
     protected function _buildQueryOrder(KDatabaseQuery $query)
