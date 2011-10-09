@@ -25,7 +25,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->_state
-		 	->insert('application', 'cmd', 'site')
+		 	->insert('application', 'cmd')
 		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
 		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
@@ -68,7 +68,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			$query->where('tbl.iscore', '=', (int) $state->hidden);
 		}
 		
-		if($state->application !== false)
+		if($state->application)
 		{
 		    $client	= JApplicationHelper::getClientInfo($state->application, true);
 	    	$query->where('tbl.client_id', '=', $client->id);
