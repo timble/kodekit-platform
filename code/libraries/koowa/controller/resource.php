@@ -40,14 +40,14 @@ abstract class KControllerResource extends KControllerAbstract
 	protected $_redirect_type = 'message';
 	
 	/**
-	 * View object or identifier (APP::com.COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
 	 */
 	protected $_view;
 	
 	/**
-	 * Model object or identifier (APP::com.COMPONENT.model.NAME)
+	 * Model object or identifier (com://APP/COMPONENT.model.NAME)
 	 *
 	 * @var	string|object
 	 */
@@ -88,8 +88,8 @@ abstract class KControllerResource extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    	    'model'	     => $this->_identifier->name,
-        	'view'	     => $this->_identifier->name,
+    	    'model'	     => $this->getIdentifier()->name,
+        	'view'	     => $this->getIdentifier()->name,
     	    'behaviors'  => array('executable', 'commandable'),
     	    'readonly'   => true, 
     		'request' 	 => array('format' => 'html')
@@ -119,7 +119,7 @@ abstract class KControllerResource extends KControllerAbstract
 	    if(!$this->_view instanceof KViewAbstract)
 		{	   
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof KIdentifier)) {
+		    if(!($this->_view instanceof KServiceIdentifier)) {
 		        $this->setView($this->_view);
 			}
 			
@@ -128,7 +128,7 @@ abstract class KControllerResource extends KControllerAbstract
 			    'model'  => $this->getModel(),
         	);
         	
-			$this->_view = KFactory::tmp($this->_view, $config);
+			$this->_view = $this->getService($this->_view, $config);
 			
 			//Set the layout
 			if(isset($this->_request->layout)) {
@@ -137,7 +137,7 @@ abstract class KControllerResource extends KControllerAbstract
 			
 			//Make sure the view exists
 		    if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
-		        throw new KControllerException('View :'.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
+		        throw new KControllerException('View : '.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
 		    }
 		}
 		
@@ -147,10 +147,10 @@ abstract class KControllerResource extends KControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a view identifier
-	 * @return	object	A KViewAbstract object or a KIdentifier object
+	 * @return	object	A KViewAbstract object or a KServiceIdentifier object
 	 */
 	public function setView($view)
 	{
@@ -158,11 +158,11 @@ abstract class KControllerResource extends KControllerAbstract
 		{
 			if(is_string($view) && strpos($view, '.') === false ) 
 		    {
-			    $identifier			= clone $this->_identifier;
+			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('view', $view);
 			    $identifier->name	= $this->getRequest()->format;
 			}
-			else $identifier = KFactory::identify($view);
+			else $identifier = $this->getIdentifier($view);
 		    
 			if($identifier->path[0] != 'view') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a view identifier');
@@ -186,7 +186,7 @@ abstract class KControllerResource extends KControllerAbstract
 		if(!$this->_model instanceof KModelAbstract) 
 		{
 			//Make sure we have a model identifier
-		    if(!($this->_model instanceof KIdentifier)) {
+		    if(!($this->_model instanceof KServiceIdentifier)) {
 		        $this->setModel($this->_model);
 			}
 		    
@@ -195,7 +195,7 @@ abstract class KControllerResource extends KControllerAbstract
 				'state' => $this->getRequest()
             );
 		    
-		    $this->_model = KFactory::tmp($this->_model)->set($this->getRequest());
+		    $this->_model = $this->getService($this->_model)->set($this->getRequest());
 		}
 
 		return $this->_model;
@@ -204,10 +204,10 @@ abstract class KControllerResource extends KControllerAbstract
 	/**
 	 * Method to set a model object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectIdentifiable, an object that
-	 *                  implements KIdentifierInterface or valid identifier string
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
 	 * @throws	KControllerException	If the identifier is not a model identifier
-	 * @return	object	A KModelAbstract object or a KIdentifier object
+	 * @return	object	A KModelAbstract object or a KServiceIdentifier object
 	 */
 	public function setModel($model)
 	{
@@ -220,11 +220,11 @@ abstract class KControllerResource extends KControllerAbstract
 				    $model = KInflector::pluralize($model);
 			    } 
 		        
-			    $identifier			= clone $this->_identifier;
+			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('model');
 			    $identifier->name	= $model;
 			}
-			else $identifier = KFactory::identify($model);
+			else $identifier = $this->getIdentifier($model);
 		    
 			if($identifier->path[0] != 'model') {
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
@@ -332,7 +332,7 @@ abstract class KControllerResource extends KControllerAbstract
 			{
 				$this->$method = $args[0];
 				
-			    if($method == 'view') {
+				if($method == 'view') {
                    $this->_view = $args[0];
                 }
 				
