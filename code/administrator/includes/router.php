@@ -26,7 +26,7 @@ class JRouterAdministrator extends JRouter
 	{
 		$vars = array();
 	    
-	    if(JFactory::getApplication()->getCfg('sef_rewrite'))
+	    if(JFactory::getApplication()->getCfg('sef'))
 	    {
 		    $path = trim($uri->getPath(), '/');
 		
@@ -74,7 +74,7 @@ class JRouterAdministrator extends JRouter
 		//Create the URI object
 		$uri = $this->_createURI($url);
 		
-		if(JFactory::getApplication()->getCfg('sef_rewrite'))
+		if(JFactory::getApplication()->getCfg('sef'))
 	    {
 		    $query = $uri->getQuery(true);
 	        $path  = $uri->getPath();
