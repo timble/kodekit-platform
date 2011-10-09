@@ -47,19 +47,25 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
                     </td>
                 </tr>
-                <? $section = $category->id ? $category->section : $state->section ?>
+                <? $section = $category->id ? $category->section_id : $state->section ?>
                 <? if(substr($section, 0, 3) != 'com' || $section =='com_content') : ?>
                     <tr>
                         <td class="key">
                             <label for="section"><?= @text('Section') ?>:</label>
                         </td>
                         <td>
-                            <input type="hidden" name="old_parent" value="<?= $category->section ?>" />
-                            <?= @helper('listbox.sections', array('name' => 'section', 'selected' => $category->section, 'attribs' => array('id' => 'section', 'class' => 'required'))) ?>
+                            <input type="hidden" name="old_parent" value="<?= $category->section_id ?>" />
+                            <?= @helper('listbox.sections', array(
+                            	'name' => 'section_id', 
+                            	'selected' => $category->section_id, 
+                            	'attribs' => array('id' => 'section_id', 'class' => 'required'),
+                            	'deselect' => false,
+                            	'uncategorised' => false
+                            )) ?>
                         </td>
                     </tr>
                 <? else : ?>
-                    <input type="hidden" name="section" value="<?= $section ?>" />
+                    <input type="hidden" name="section_id" value="<?= $section ?>" />
                 <? endif ?>
                 <tr>
                     <td valign="top" class="key">
