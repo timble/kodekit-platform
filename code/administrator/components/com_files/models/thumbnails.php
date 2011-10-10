@@ -36,7 +36,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		$item = parent::getItem();
 
 		if ($item) {
-			$item->source = $this->_source;
+			$item->source = $this->_state->source;
 		}
 
 		return $item;
@@ -51,12 +51,6 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 				->where('tbl.folder', '=', '/'.$source->relative_folder)
 				->where('tbl.filename', '=', $source->name)
 				;
-
-			/*
-			 * This is here so that parent method won't try to use the source row object when creating the query
-			 */
-			$this->_source = $source;
-			$this->_state->source = null;
 		}
 		else if ($this->_state->folder) {
 			$query->where('tbl.folder', '=', $this->_state->folder);
@@ -65,7 +59,21 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			$query->where('tbl.filename', 'IN', $this->_state->files);
 		}
 
-		parent::_buildQueryWhere($query);
+     	$states = $this->_state->getData(true);
+
+		/*
+		 * This is here so that parent method won't try to use the source row object when creating the query
+		 */        
+        if(!empty($states))
+        {
+            $states = $this->getTable()->mapColumns($states);
+            foreach($states as $key => $value)
+            {
+                if($key != 'source' && isset($value)) {
+                    $query->where('tbl.'.$key, 'IN', $value);
+                }
+            }
+        }
 
 	}
 }
