@@ -45,19 +45,22 @@ class JRouterAdministrator extends JRouter
 				    $vars['format'] = $suffix;
 			    }
 		    }
-		
-		    //Get the segments
-	        $segments = explode('/', $path);
-	        if(isset($segments[0])) 
-	        {
-	            $vars['option'] = 'com_'.$segments[0];
+		    
+		    if(!empty($path))
+		    {
+		        //Get the segments
+	            $segments = explode('/', $path);
+	            if(isset($segments[0])) 
+	            {
+	                $vars['option'] = 'com_'.$segments[0];
 	    
-	            if(isset($segments[1])) {
-	                $vars['view']   = $segments[1];
-	            } else {
-	                $vars['view']   = $segments[0];
+	                if(isset($segments[1])) {
+	                    $vars['view']   = $segments[1];
+	                } else {
+	                    $vars['view']   = $segments[0];
+	                }
 	            }
-	        }
+		    }
 	    }
 	     
 	    return $vars;
