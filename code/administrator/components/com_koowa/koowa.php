@@ -28,4 +28,4 @@ if(!defined('KOOWA')) {
 //KLoader::load('admin::com.koowa.defines');
 
 // Create the controller dispatcher
-echo KFactory::get('admin::com.koowa.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'dashboard'));
+echo KService::get('com://admin/koowa.dispatcher')->dispatch();

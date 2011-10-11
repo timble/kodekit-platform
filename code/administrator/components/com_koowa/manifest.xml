@@ -15,8 +15,9 @@
 
         <files folder="administrator/components/com_koowa">
 
-            <file>README.php</file>
+            <file>dispatcher.php</file>
             <file>koowa.php</file>
+            <file>README.php</file>
 
             <folder>controllers</folder>
             <folder>helpers</folder>
