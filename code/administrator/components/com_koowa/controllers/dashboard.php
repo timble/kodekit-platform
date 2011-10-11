@@ -100,7 +100,7 @@ class ComKoowaControllerDashboard extends ComDefaultControllerDefault
 
 
         // Prepare curl
-        $curl = KFactory::get('admin::com.koowa.helper.curl');
+        $curl = $this->getService('com://admin/koowa.helper.curl');
         $curl->addSession($this->__channel, array(CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true));
 
         // Download tarball package and save it to the /tmp/ folder
