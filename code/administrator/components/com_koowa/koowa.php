@@ -24,8 +24,5 @@ if(!defined('KOOWA')) {
     return;
 }
 
-// Require the defines
-//KLoader::load('admin::com.koowa.defines');
-
 // Create the controller dispatcher
 echo KService::get('com://admin/koowa.dispatcher')->dispatch();
