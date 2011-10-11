@@ -107,13 +107,21 @@ class KViewJson extends KViewAbstract
 
 		$url   = clone KRequest::url();
 		$state = $model->getState();
+		
+	    $vars = array();
+	    foreach($state->toArray(false) as $var) 
+	    {
+	        if(!$var->unique) {
+	            $vars[] = $var->name;
+	        }  
+	    }
 
 		$data = array(
 			'version'  => '1.0',
 			'href'     => (string) $url->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', array_keys($state->toArray())).'}',
+				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
 			'offset'   => (int) $model->offset,
 			'limit'    => (int) $model->limit,
@@ -139,11 +147,37 @@ class KViewJson extends KViewAbstract
 	 */
 	protected function _getItem()
 	{
-		$item = $this->getModel()->getItem();
-
+		$model = $this->getModel();
+		
+		$url   = clone KRequest::url();
+		$state = $model->getState();
+		
+	    $vars = array();
+	    foreach($state->toArray(false) as $var) 
+	    {
+	        if($var->unique) 
+	        {
+	            $vars[] = $var->name;
+	            $vars   = array_merge($vars, $var->required);
+	        }  
+	    }
+		
 		$data = array(
-			'item' => $item ? $item->toArray() : null
+			'version' => '1.0',
+		    'href'    => (string) $url->setQuery($state->getData(true)),
+	        'url'     => array(
+				'type'     => 'application/json',
+				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+	        ),
+	        'item'	  => array()
 		);
+
+		if($item = $model->getItem())
+		{
+		    $data = array_merge($data, array(
+				'item' => $item->toArray()
+			 ));
+		};
 
 		return $data;
 	}
