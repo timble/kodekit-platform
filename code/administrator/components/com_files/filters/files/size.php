@@ -33,7 +33,7 @@ class ComFilesFilterFileSize extends KFilterAbstract
 
 	protected function _initialize(KConfig $config)
 	{
-		$component_config = KService::get('com://admin/files.database.row.config');
+		$component_config = $this->getService('com://admin/files.database.row.config');
 
 		$config->append(array(
 			'maximum_size' => $component_config->upload_maxsize

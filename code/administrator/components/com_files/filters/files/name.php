@@ -34,6 +34,6 @@ class ComFilesFilterFileName extends KFilterAbstract
 
 	protected function _sanitize($value)
 	{
-		return KService::get('com://admin/files.filter.file')->sanitize($value);
+		return $this->getService('com://admin/files.filter.file')->sanitize($value);
 	}
 }
