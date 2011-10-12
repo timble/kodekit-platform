@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$section->id) ?>" method="post" id="section-form" class="-koowa-form">
+<form action="" method="post" id="section-form" class="-koowa-form">
 	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
 
 	<div class="grid_8">

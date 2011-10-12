@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$category->id) ?>" method="post" class="-koowa-form" id="category-form">
+<form action="" method="post" class="-koowa-form" id="category-form">
     <div class="grid_8">
         <div class="panel title group">
             <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title ?>" placeholder="<?= @text('Title') ?>" />

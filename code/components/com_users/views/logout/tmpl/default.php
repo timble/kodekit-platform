@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </div>
 <? endif ?>
 
-<form action="<?= @route() ?>" method="post" name="login" id="login">
+<form action="" method="post" name="login" id="login">
     <input type="hidden" name="action" value="logout" />
 
     <? if($parameters->get('show_logout_title')) : ?>

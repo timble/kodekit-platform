@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </div>
 <? endif ?>
 
-<form action="<?= @route() ?>" method="post" id="com-form-login">
+<form action="" method="post" id="com-form-login">
     <input type="hidden" name="action" value="login" />
     <? if ($return = $parameters->get('login')): ?>
     <input type="hidden" name="return" value="<?=base64_encode($return)?>" />

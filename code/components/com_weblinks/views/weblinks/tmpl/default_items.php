@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="<?= @route(); ?>" method="get" name="adminForm">
+<form action="" method="get" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <? if($params->def('show_headings', 1)) : ?>
 <tr>

@@ -17,7 +17,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?= @template('com://admin//installer.view.grid.sidebar'); ?>
 
 <div class="-installer-grid">
-<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
    <table class="adminlist">
    		<thead>
    			<tr>

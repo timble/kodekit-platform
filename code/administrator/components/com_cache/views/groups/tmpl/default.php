@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route() ?>" method="get" class="-koowa-grid">	
+<form action="" method="get" class="-koowa-grid">	
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>

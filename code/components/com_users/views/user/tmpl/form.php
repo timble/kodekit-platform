@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     });
 </script>
 
-<form action="<?= @route('id='.$user->id) ?>" method="post" name="userform" autocomplete="off" class="form-validate">
+<form action="" method="post" name="userform" autocomplete="off" class="form-validate">
     <input type="hidden" name="action" value="save" />
 
     <? if($parameters->def('show_page_title', 1)) : ?>

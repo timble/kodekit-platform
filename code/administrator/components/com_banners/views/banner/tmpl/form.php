@@ -26,7 +26,7 @@ window.addEvent('domready', function(){
 });
 </script>
 
-<form action="<?= @route('id='.$banner->id) ?>" method="post" id="banner-form" class="-koowa-form">
+<form action="" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
 			<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />

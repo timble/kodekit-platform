@@ -15,7 +15,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <? if(isset($message)) echo $message ?>
 
-<form action="<?= @route() ?>" method="post" enctype="multipart/form-data" class="-installer-form">
+<form action="" method="post" enctype="multipart/form-data" class="-installer-form">
     <ul>
         <li><?= @text('Install by:') ?></li>
         <li class="install-by-upload"><a href="#install_package"><?= @text('File') ?></a></li>

@@ -30,7 +30,7 @@ if(Form && Form.Validator) {
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$user->id) ?>" method="post" class="-koowa-form">
+<form action="" method="post" class="-koowa-form">
 	<div class="grid_8">
 		<div class="panel">
 			<h3><?= @text('User Details') ?></h3>

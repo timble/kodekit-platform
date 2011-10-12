@@ -20,7 +20,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         $this->display('message');
 <? endif; ?>
 
-<form action="<?= @route() ?>" method="post" id="josForm" name="josForm" class="form-validate">
+<form action="" method="post" id="josForm" name="josForm" class="form-validate">
     <input type="hidden" name="action" value="save" />
 
     <? if($parameters->def('show_page_title', 1)) : ?>

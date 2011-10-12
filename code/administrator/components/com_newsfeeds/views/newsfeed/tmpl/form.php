@@ -26,7 +26,7 @@ if(Form && Form.Validator) {
 }
 </script>
 
-<form action="<?= @route('id='.$newsfeed->id) ?>" method="post" class="-koowa-form">
+<form action="" method="post" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
         	<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= $newsfeed->name; ?>" placeholder="<?= @text( 'Title' ); ?>" />

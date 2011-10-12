@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<form id="searchForm" action="<?= @route() ?>" method="get" name="searchForm">
+<form id="searchForm" action="" method="get" name="searchForm">
 	<table class="contentpaneopen<?= @escape($params->get('pageclass_sfx')); ?>">
 		<tr>
 			<td nowrap="nowrap">
