@@ -19,8 +19,9 @@
  */
 class ComFilesViewThumbnailsJson extends ComFilesViewJson
 {
-    protected function _getList(KModelAbstract $model)
+    protected function _getList()
     {
+    	$model = $this->getModel();
     	// Save state data for later
         $state_data = $model->getState()->getData();
 
@@ -70,12 +71,11 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
         	$results[$key] = $item;
         }
         ksort($results);
-
-        $output = new stdclass;
-        $output->total  = count($list);
-        $output->limit  = $state_data['limit'];
-        $output->offset = $state_data['offset'];
-        $output->items  = $results;
+        
+        
+    	$output = parent::_getList();
+        $output['items'] = $results;
+        $output['total'] = count($list);
 
         return $output;
     }
