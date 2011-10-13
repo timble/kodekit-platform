@@ -35,6 +35,16 @@ class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
 		return $result;
 	}
+	
+	public function canGet()
+	{
+		return $this->_authorize();
+	}
+	
+	public function canPost()
+	{
+		return $this->_authorize();
+	}
 
     public function canAdd()
     {
