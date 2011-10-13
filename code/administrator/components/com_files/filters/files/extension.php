@@ -35,12 +35,8 @@ class ComFilesFilterFileExtension extends KFilterFilename
 	{
 		$component_config = $this->getService('com://admin/files.model.configs')->getItem();
 
-		$allowed = array_map('strtolower', $component_config->upload_extensions);
-		$ignored = array_map('strtolower', $component_config->ignore_extensions);
-
 		$config->append(array(
-			'allowed' => $allowed,
-			'ignored' => $ignored
+			'allowed' => array_map('strtolower', $component_config->upload_extensions)
 		));
 
 		parent::_initialize($config);
@@ -51,7 +47,7 @@ class ComFilesFilterFileExtension extends KFilterFilename
 		$config = $this->_config;
 		$value = $context->caller->extension;
 
-		if (empty($value) || (!in_array($value, $config->ignored->toArray()) && !in_array($value, $config->allowed->toArray()))) {
+		if (empty($value) || !in_array($value, $config->allowed->toArray())) {
 			$context->setError(JText::_('WARNFILETYPE'));
 			return false;
 		}

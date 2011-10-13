@@ -35,17 +35,9 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 	{
 		$component_config = $this->getService('com://admin/files.database.row.config');
 
-		$allowed_mimetypes = array_map('strtolower', $component_config->upload_mime);
-		$illegal_mimetypes = array_map('strtolower', $component_config->upload_mime_illegal);
-		$ignored_extensions = array_map('strtolower', $component_config->ignore_extensions);
-
 		$config->append(array(
-			'restrict' => $component_config->restrict_uploads,
-			'authorized' => JFactory::getUser()->authorize('login', 'administrator'),
 			'check_mime' => $component_config->check_mime,
-			'allowed_mimetypes' => $allowed_mimetypes,
-			'illegal_mimetypes' => $illegal_mimetypes,
-			'ignored_extensions' => $ignored_extensions
+			'allowed_mimetypes' => array_map('strtolower', $component_config->upload_mime)
 		));
 
 		parent::_initialize($config);
@@ -56,7 +48,7 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 		$config = $this->_config;
 		$row = $context->caller;
 
-		if (is_uploaded_file($row->file) && $config->restrict && !in_array($row->extension, $config->ignored_extensions->toArray())) 
+		if (is_uploaded_file($row->file)) 
 		{
 			if ($row->isImage()) 
 			{
@@ -69,15 +61,9 @@ class ComFilesFilterFileMimetype extends KFilterFilename
 			{
 				$mime = $this->getService('com://admin/files.database.row.file')->setData(array('path' => $row->file))->mimetype;
 
-				if ($config->check_mime && $mime) 
+				if ($config->check_mime && $mime && !in_array($mime, $config->allowed_mimetypes->toArray())) 
 				{
-					if (in_array($mime, $config->illegal_mimetypes->toArray()) || !in_array($mime, $config->allowed_mimetypes->toArray())) {
-						$context->setError(JText::_('WARNINVALIDMIME'));
-						return false;
-					}
-				}
-				elseif (!$config->authorized) {
-					$context->setError(JText::_('WARNNOTADMIN'));
+					$context->setError(JText::_('WARNINVALIDMIME'));
 					return false;
 				}
 			}
