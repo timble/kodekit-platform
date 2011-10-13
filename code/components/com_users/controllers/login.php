@@ -65,8 +65,7 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
 
 		if ($view) 
 		{
-			$filter = new KFilterBase64();
-		    $return = $filter->sanitize($this->_request->return);
+		    $return = $this->getService('koowa:filter.base64')->sanitize($this->_request->return);
 			$view->assign('return', $return);
 		}
 
