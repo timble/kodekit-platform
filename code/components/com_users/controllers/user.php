@@ -26,7 +26,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $this->registerCallback('before.edit', array($this, 'sanitizeData'))
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
              ->registerCallback('after.add'  , array($this, 'notify'))
-             ->registerCallback('after.save'  , array($this, 'redirect'))
+             ->registerCallback('after.save' , array($this, 'redirect'))
              ->registerCallback('after.read' , array($this, 'activate'));
 
 		// Force view to singular since we don't have a users view
@@ -37,8 +37,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
     	$row = $context->result;
     	$activation = $context->caller->getModel()->get('activation');
-    	if (!empty($activation)) {
-    		if ($row->id && $row->activation === $activation) {
+    	
+    	if (!empty($activation)) 
+    	{
+    		if ($row->id && $row->activation === $activation) 
+    		{
 	    		$row->activation = '';
 	    		$row->enabled = 1;
 
@@ -109,15 +112,15 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $item = $context->caller->getModel()->getItem();
 
-        if($item->getStatus() == 'failed') {
-            $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
-        } else {
+        if($item->getStatus() != 'failed')
+        {
             if(!($url = KRequest::get('post.return', 'url'))) {
                 $url = 'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
             }
 
             $this->setRedirect($url, JText::_('Modifications have been saved.'), 'message');
         }
+        else $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
     }
 
     public function notify(KCommandContext $context)
