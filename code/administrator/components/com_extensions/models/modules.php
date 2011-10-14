@@ -68,7 +68,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			$query->where('tbl.iscore', '=', (int) $state->hidden);
 		}
 		
-		if($state->application)
+		if($state->application && is_scalar($state->application))
 		{
 		    $client	= JApplicationHelper::getClientInfo($state->application, true);
 	    	$query->where('tbl.client_id', '=', $client->id);
@@ -121,6 +121,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
             if($state->installed)
             {
                 $modules = array();
+               	$ids = parent::getList()->getColumn('type'); 
                 
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
@@ -134,9 +135,9 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
                             if($folder->isDir())
                             {
                                 if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
-                                { 
+                                {
                                     $modules[] = array(
-                                    	'id'          => $folder->getFilename(),
+                                    	'id'          => array_search($folder->getFilename(), $ids),
                        					'type'        => $folder->getFilename(),
                         				'application' => $client->name,
                                     	'title'		  => null
