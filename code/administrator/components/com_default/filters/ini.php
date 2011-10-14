@@ -61,24 +61,28 @@ class ComDefaultFilterIni extends KFilterAbstract
     {
         $result  = null;
         
-        $handler = JRegistryFormat::getInstance('INI');
+        if(!($value instanceof JRegistry))
+        {
+            $handler = JRegistryFormat::getInstance('INI');
 
-        if($value instanceof KConfig) {
-            $value = $value->toArray(); 
-        }    
+            if($value instanceof KConfig) {
+                $value = $value->toArray(); 
+            }    
 
-        if(is_string($value)) {
-            $result = $handler->stringToObject($value);
-        }
+            if(is_string($value)) {
+                $result = $handler->stringToObject($value);
+            }
         
-        if(is_array($value)) {
-            $value = (object) $value;
-        }
+            if(is_array($value)) {
+                $value = (object) $value;
+            }
 
-        if(is_null($result)) {
-             $result = $handler->objectToString($value, null);
+            if(is_null($result)) {
+                 $result = $handler->objectToString($value, null);
+            } 
         }
-
+        else $result = $value->toString('INI');
+        
         return $result;
     }
 }
