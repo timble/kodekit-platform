@@ -139,23 +139,40 @@ class plgSystemKoowa extends JPlugin
 	         KRequest::set('request._token', JUtility::getToken());
 	     }
 	     
-	    /*
+	     /*
 	     * Dispatch the default dispatcher 
 	     *
 	     * If we are running in CLI mode bypass the default Joomla executition chain and dispatch the default
 	     * dispatcher.
 	     */
-	     if (PHP_SAPI === 'cli') 
-	     {
-	         $options = getopt('a::u::p::h::', array('url::', 'help::'));
+	    if (PHP_SAPI === 'cli') 
+	    {
+	    	$url = null;
+	    	foreach ($_SERVER['argv'] as $arg) 
+	    	{
+	    		if (strpos($arg, '--url') === 0) 
+	    		{
+	    			$url = str_replace('--url=', '', $arg);
+	    			if (strpos($url, '?') === false) {
+	    				$url = '?'.$url;
+	    			}
+	    			break; 
+	    		}
+	    	}
 	    	
-	         if (!empty($options['url']) || !empty($options['help']) || !empty($options['h'])) 
-	         {
-	             // Thanks Joomla. We will take it from here.
-	             echo KService::get('com:default.dispatcher.cli')->dispatch();
-	             exit(0);	
-	         }
-	     }
+	    	if (!empty($url)) 
+	    	{
+	    		$component = 'default';
+	    		$url = KService::get('koowa:http.url', array('url' => $url));
+    			if (!empty($url->query['option'])) {
+    				$component = substr($url->query['option'], 4);
+    			}
+
+	    		// Thanks Joomla. We will take it from here.
+	    		echo KService::get('com:'.$component.'.dispatcher.cli')->dispatch();
+	    		exit(0);	
+	    	}
+	    }
 	}
 	
 	/**
