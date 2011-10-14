@@ -86,7 +86,7 @@ class ComInstallerControllerInstall extends ComDefaultControllerResource
         {
             $package = $this->_getPackageFromUpload();
         }
-        elseif(KRequest::has('post.url') && KRequest::get('post.url', 'url') != 'http://')
+        elseif(KRequest::has('post.url') && KRequest::get('post.url', 'url') && KRequest::get('post.url', 'url') != 'http://')
         {
             $package = $this->_getPackageFromUrl();
         }
