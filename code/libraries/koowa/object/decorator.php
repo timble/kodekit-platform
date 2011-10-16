@@ -33,15 +33,16 @@ class KObjectDecorator extends KObject
 	protected $_object;
 
 	/**
-	 * Constructor
-	 *
-	 * @param	object	The object to decorate
-	 * @return	void
-	 */
-	public function __construct($object)
-	{
-		$this->_object = $object;
-	}
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct( KConfig $config = null) 
+    { 
+        parent::__construct($config);
+        
+        $this->_object = $config->object;
+    }
 
 	/**
 	 * Get the decorated object
