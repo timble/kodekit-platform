@@ -27,7 +27,7 @@ class Koowa
      * 
      * @var string
      */
-    const VERSION = '0.7.0-alpha-3';
+    const VERSION = '0.7.0-alpha-4';
     
     /**
      * Path to Koowa libraries
@@ -45,31 +45,18 @@ class Koowa
      */
     final private function __construct($config = array()) 
     { 
-        $this->_initialize($config);
-    }
- 
-     /**
-     * Initializes the default configuration for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   array  An optional array with configuration options.
-     * @return void
-     */
-    protected function _initialize($config = array())
-    {
         //Initialize the path
         $this->_path = dirname(__FILE__);
         
         //Setup the loader
         require_once $this->_path.'/loader/loader.php';
-        $loader = KLoader::getInstance();
+        $loader = KLoader::getInstance($config);
         
         //Setup the factory
-        $service = KService::getInstance(); 
+        $service = KService::getInstance($config); 
         $service->set('koowa:loader', $loader);
     }
-    
+  
 	/**
      * Clone 
      *

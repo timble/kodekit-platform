@@ -40,9 +40,12 @@ class KEventListener extends KObject
 	{
 		parent::__construct($config);
 	
-		 $this->_priority = $config->priority;
-		
-		if($config->auto_connect) {
+		if($config->auto_connect) 
+		{
+		    if(!($config->dispatcher instanceof KEventDispatcher)) {
+		        $config->dispatcher = $this->getService($config->dispathcer);
+		    }
+		    
 		    $this->connect($config->dispatcher);
 		}
 	}
@@ -57,15 +60,15 @@ class KEventListener extends KObject
      */
     protected function _initialize(KConfig $config)
     {
-    	$config->append(array(
-        	'dispatcher'   => $this->getService('koowa:event.dispatcher'),
+        $config->append(array(
+        	'dispatcher'   => 'koowa:event.dispatcher',
     	    'auto_connect' => true,
     		'priority'     => KCommand::PRIORITY_NORMAL 
         ));
 
         parent::_initialize($config);
     }
-   
+       
     /**
      * Get the event handlers of the listener
      * 

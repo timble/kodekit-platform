@@ -70,7 +70,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 
         foreach($config as $key => $value) 
         {
-            if(isset($this->{'_'.$key})) { 
+            if(property_exists($this, '_'.$key)) { 
                 $this->{'_'.$key} = $value;
             }
         }

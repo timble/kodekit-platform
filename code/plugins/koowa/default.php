@@ -118,6 +118,6 @@ function __construct($dispatcher, $config = array())
             $extension = 'plg_'.$this->_type.'_'.$this->_name;
         }
 
-        return KFactory::get('joomla:language')->load( strtolower($extension), $basePath);
+        return JFactory::getLanguage()->load( strtolower($extension), $basePath);
     }
 }

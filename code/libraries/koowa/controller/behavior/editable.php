@@ -27,10 +27,13 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
-        
-        $this->registerCallback('before.read' , array($this, 'setReferrer'));
-        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
-		$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
+
+        if (strpos(KRequest::protocol(), 'http') !== false) 
+        {
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+	        $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
+			$this->registerCallback('after.cancel', array($this, 'unsetReferrer'));	
+        }
 	
 		$this->registerCallback('after.read'  , array($this, 'lockResource'));
 		$this->registerCallback('after.save'  , array($this, 'unlockResource'));
@@ -185,7 +188,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		}
 		else
 		{ 
-		    if ($data instanceof KDatabaseRowAsbtract) { 
+		    if ($data instanceof KDatabaseRowAbstract) { 
                 $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn()); 
             } else { 
                 $url = $this->getReferrer();

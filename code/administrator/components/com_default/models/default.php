@@ -20,16 +20,5 @@
  */
 class ComDefaultModelDefault extends KModelDefault
 {
-/**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
 
-        // Set the static states
-        $this->_state->limit = JFactory::getApplication()->getCfg('list_limit');
-    }
 }

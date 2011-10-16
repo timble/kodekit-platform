@@ -40,7 +40,7 @@ class KTemplateHelperAutocomplete extends KTemplateHelperBehavior
 		}
 		
 		$config->append(array(
-		    'url'     => JRoute::_('&option=com_'.$config->identifier->package.'&view='.$config->identifier->name.'&format=json', true),
+		    'url'     => JRoute::_('&option=com_'.$config->identifier->package.'&view='.$config->identifier->name.'&format=json', false),
 		    'column'  => KInflector::singularize($config->identifier->name).'_id'
 		))->append(array(
 		    'value'   => $config->{$config->column} ? $config->{$config->column} : '',

@@ -260,7 +260,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         {
             $result = clone $this;
             
-            foreach ($result as $i => $row) 
+            foreach ($this as $i => $row) 
             { 
                 foreach($needle as $key => $value)
                 {

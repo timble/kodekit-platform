@@ -540,7 +540,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 */
 	public function replaceTablePrefix( $sql, $replace = null, $needle = '#__' )
 	{
-		$replace = $replace ? $replace : $this->getTablePrefix();
+		$replace = isset($replace) ? $replace : $this->getTablePrefix();
 		$sql = trim( $sql );
 		
 		$pattern = "($needle(?=[a-z0-9]))";

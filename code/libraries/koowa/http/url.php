@@ -104,7 +104,7 @@ class KHttpUrl extends KObject
     const FRAGMENT = 256;
     
     const AUTH     = 6;
-    const BASE     = 63;
+    const BASE     = 127;
     const FULL     = 511;
     
     /**

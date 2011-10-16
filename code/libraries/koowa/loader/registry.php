@@ -28,7 +28,7 @@ class KLoaderRegistry extends ArrayObject
  	 * 
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'koowa.loader.registry';
+    protected $_cache_prefix = 'koowa-cache-loader';
     
     /**
      * Enable class caching

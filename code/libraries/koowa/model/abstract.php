@@ -137,9 +137,9 @@ abstract class KModelAbstract extends KObject
         
         if($changed)
         {
-            unset($this->_list);
-            unset($this->_item);
-            unset($this->_total);
+            $this->_list  = null;
+            $this->_item  = null;
+            $this->_total = null;
         }
 
         return $this;
@@ -186,9 +186,9 @@ abstract class KModelAbstract extends KObject
      */
     public function reset($default = true)
     {
-        unset($this->_list);
-        unset($this->_item);
-        unset($this->_total);
+        $this->_list  = null;
+        $this->_item  = null;
+        $this->_total = null;
         
         $this->_state->reset($default);
 
@@ -253,6 +253,29 @@ abstract class KModelAbstract extends KObject
 
         return $data;
     }
+    
+	/**
+     * Get a model state by name
+     *
+     * @param   string  The key name.
+     * @return  string  The corresponding value.
+     */
+    public function __get($key)
+    {
+        return $this->get($key);
+    }
+
+    /**
+     * Set a model state by name
+     *
+     * @param   string  The key name.
+     * @param   mixed   The value for the key
+     * @return  void
+     */
+    public function __set($key, $value)
+    {
+        $this->set($key, $value);
+    }
       
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by
@@ -282,6 +305,8 @@ abstract class KModelAbstract extends KObject
      */
     public function __clone()
     {
+        parent::__clone();
+        
         $this->_state = clone $this->_state;
     }
 }

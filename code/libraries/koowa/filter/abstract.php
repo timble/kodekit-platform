@@ -39,25 +39,12 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 */
 	public function __construct(KConfig $config) 
 	{
-		 $this->_chain = new KFilterChain();
-		 $this->addFilter($this);
+		parent::__construct($config); 
 		 
-		$this->_initialize($config);
+	    $this->_chain = new KFilterChain();
+		$this->addFilter($this);
 	}
 	
- 	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options.
-     * @return 	void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	//do nothing
-    }
-   
     /**
      * Force creation of a singleton
      *

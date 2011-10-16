@@ -279,6 +279,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
      */
     public function __clone()
     { 
+        parent::__clone();
+        
         $this->_object_list   = clone $this->_object_list;
         $this->_priority_list = clone $this->_priority_list;
     }

@@ -238,13 +238,23 @@ class KConfigState extends KConfig
     }
     
 	/**
-     * Return an associative array of the data.
+     * Return an associative array of the states.
      *
+     * @param bool 	If TRUE return only as associative array of the state values. Default is TRUE.
      * @return array
      */
-    public function toArray()
+    public function toArray($values = true)
     {
-        return $this->getData();
+        if($values) 
+        {
+            $result = array();
+            foreach($this->_data as $state) {
+                $result[$state->name] = $state->value;
+            }
+        } 
+        else $result = $this->_data; 
+        
+        return $result;
     }
     
 	/**

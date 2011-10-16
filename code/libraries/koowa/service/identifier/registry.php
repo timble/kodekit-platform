@@ -28,7 +28,7 @@ class KServiceIdentifierRegistry extends ArrayObject
  	 * 
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'koowa.service.identifier.registry';
+    protected $_cache_prefix = 'koowa-cache-identifier';
     
 	/**
      * Enable class caching

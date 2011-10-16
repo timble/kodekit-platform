@@ -281,7 +281,7 @@ class KConfig implements KConfigInterface
  	/**
      * Returns a string with the encapsulated data in JSON format
      *             
-     * @return string   returns the data encoded to JSON
+     * @return string  Returns the data encoded to JSON
      */
     public function toJson()
     {

@@ -74,11 +74,13 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'total'   => 0,
-			'display' => 4,
-			'offset'  => 0,
-			'limit'	  => 0,
-			'attribs' => array('onchange' => 'this.form.submit();')
+			'total'      => 0,
+			'display'    => 4,
+			'offset'     => 0,
+			'limit'	     => 0,
+			'attribs'    => array('onchange' => 'this.form.submit();'),
+		    'show_limit' => true,
+		    'show_count' => true
 		));
 	
 		$this->_initialize($config);
@@ -87,9 +89,13 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$html .= '<style src="media://lib_koowa/css/koowa.css" />';
 
 		$html .= '<div class="-koowa-pagination">';
-		$html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+		if($config->show_limit) {
+		    $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+		}
 		$html .=  $this->_pages($this->_items($config));
-		$html .= '<div class="count"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+		if($config->show_count) {
+		    $html .= '<div class="count"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+		}
 		$html .= '</div>';
 
 		return $html;
@@ -112,7 +118,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$html = '';
 		
 		$selected = '';
-		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 0 => 'all' ) as $value => $text)
+		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100) as $value => $text)
 		{
 			if($value == $config->limit) {
 				$selected = $value;

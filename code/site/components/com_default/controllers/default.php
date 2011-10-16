@@ -38,6 +38,37 @@ class ComDefaultControllerDefault extends KControllerService
     }
     
 	/**
+     * Browse action
+     * 
+     * Use the application default limit if no limit exists in the model and limit the
+     * limit to a maximum of 100.
+     *
+     * @param   KCommandContext A command context object
+     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     */
+    protected function _actionBrowse(KCommandContext $context)
+    {
+        if($this->isDispatched()) 
+        {
+            $limit = $this->getModel()->get('limit');
+            
+            //If limit is empty use default
+            if(empty($limit)) {
+                $limit = JFactory::getApplication()->getCfg('list_limit');
+            }
+
+            //Limit cannot be larger then 100
+            if($limit > 100) {
+                $limit = 100;
+            }
+            
+            $this->limit = $limit; 
+        }
+         
+        return parent::_actionBrowse($context);
+    }
+    
+	/**
      * Set a request property
      * 
      *  This function translates 'limitstart' to 'offset' for compatibility with Joomla

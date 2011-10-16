@@ -189,8 +189,9 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	  
 	        if($result !== false) 
 	        {
-	            if(((integer) $result) > 0) {   
-	                $this->_modified = $this->getTable()->filter($this->_modified, true);
+	            // Filter out any extra columns.
+	            if(((integer) $result) > 0) {       
+                    $this->_modified = array();
 	            } 
             }
 	    }

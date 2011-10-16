@@ -83,7 +83,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         
         // Set the row data
         if(isset($config->data))  {
-            $this->setData($config->data->toArray(), $this->_new);
+            $this->setData((array) KConfig::unbox($config->data), $this->_new);
         }
         
         //Set the status

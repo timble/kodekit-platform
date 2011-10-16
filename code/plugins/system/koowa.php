@@ -23,7 +23,19 @@ class plgSystemKoowa extends JPlugin
 {
 	public function __construct($subject, $config = array())
 	{
-		// Check if Koowa is active
+	    // Command line fixes for Joomla
+		if (PHP_SAPI === 'cli') 
+		{
+			if (!isset($_SERVER['HTTP_HOST'])) {
+				$_SERVER['HTTP_HOST'] = '';
+			}
+			
+			if (!isset($_SERVER['REQUEST_METHOD'])) {
+				$_SERVER['REQUEST_METHOD'] = '';
+			}
+		}
+	    
+	    // Check if Koowa is active
 		if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
 		{
     		JError::raiseWarning(0, JText::_("Koowa plugin requires MySQLi Database Driver. Please change your database configuration settings to 'mysqli'"));
@@ -64,30 +76,29 @@ class plgSystemKoowa extends JPlugin
 		
 		// Koowa : setup
         require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
-        Koowa::getInstance();	
-		
-		 //Setup the loader
-        KLoader::addAdapter(new KLoaderAdapterModule(JPATH_BASE));
-        KLoader::addAdapter(new KLoaderAdapterPlugin(JPATH_ROOT));
-        KLoader::addAdapter(new KLoaderAdapterComponent(JPATH_BASE));
-		
-        // Koowa : setup factory
-        KIdentifier::addAdapter(new KIdentifierAdapterModule());
-        KIdentifier::addAdapter(new KIdentifierAdapterPlugin());
-        KIdentifier::addAdapter(new KIdentifierAdapterComponent());
-		
-        //Koowa : register identifier application paths
-        KIdentifier::setApplication('site' , JPATH_SITE);
-        KIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+        Koowa::getInstance(array(
+			'cache_prefix'  => md5(JFactory::getApplication()->getCfg('secret')).'-cache-koowa',
+			'cache_enabled' => JFactory::getApplication()->getCfg('caching')
+        ));	
 
-        //Koowa : setup factory mappings
-        KIdentifier::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
+        KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
+        KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
+        KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
+
+        KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
+        KServiceIdentifier::addLocator(KService::get('koowa:service.locator.plugin'));
+        KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
+		
+        KServiceIdentifier::setApplication('site' , JPATH_SITE);
+        KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+
+        KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
 		
 	    //Setup the request
         KRequest::root(str_replace('/'.JFactory::getApplication()->getName(), '', KRequest::base()));
 			 
 		//Load the koowa plugins
-		JPluginHelper::importPlugin('koowa', null, true, KFactory::get('com://admin/default.event.dispatcher'));
+		JPluginHelper::importPlugin('koowa', null, true, KService::get('com://admin/default.event.dispatcher'));
 		
 	    //Bugfix : Set offset accoording to user's timezone
 		if(!JFactory::getUser()->guest) 
@@ -124,11 +135,44 @@ class plgSystemKoowa extends JPlugin
 	     * In case another plugin have logged in after we initialized we need to reset the token and user object
 	     * One plugin that could cause that, are the Remember Me plugin
 	     */
-	     if(KFactory::get('joomla:user')->get('guest') && !JFactory::getUser()->guest)
-	     { 
-	         //Force the token
+	     if(!JFactory::getUser()->guest) {
 	         KRequest::set('request._token', JUtility::getToken());
 	     }
+	     
+	     /*
+	     * Dispatch the default dispatcher 
+	     *
+	     * If we are running in CLI mode bypass the default Joomla executition chain and dispatch the default
+	     * dispatcher.
+	     */
+	    if (PHP_SAPI === 'cli') 
+	    {
+	    	$url = null;
+	    	foreach ($_SERVER['argv'] as $arg) 
+	    	{
+	    		if (strpos($arg, '--url') === 0) 
+	    		{
+	    			$url = str_replace('--url=', '', $arg);
+	    			if (strpos($url, '?') === false) {
+	    				$url = '?'.$url;
+	    			}
+	    			break; 
+	    		}
+	    	}
+	    	
+	    	if (!empty($url)) 
+	    	{
+	    		$component = 'default';
+	    		$url = KService::get('koowa:http.url', array('url' => $url));
+    			if (!empty($url->query['option'])) {
+    				$component = substr($url->query['option'], 4);
+    			}
+
+	    		// Thanks Joomla. We will take it from here.
+	    		echo KService::get('com:'.$component.'.dispatcher.cli')->dispatch();
+	    		exit(0);	
+	    	}
+	    }
 	}
 	
 	/**
@@ -206,7 +250,7 @@ class plgSystemKoowa extends JPlugin
 	    if(JFactory::getConfig()->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
-			$error->set('message', KHttpResponse::getMessage($error->code));
+			$error->set('message', KHttpResponse::getMessage($error->get('code')));
 		}
 		
 	    if($this->_exception->getCode() == KHttpResponse::UNAUTHORIZED) {

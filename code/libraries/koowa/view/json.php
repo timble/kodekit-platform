@@ -20,52 +20,52 @@
  */
 class KViewJson extends KViewAbstract
 {
- 	/**
-     * The padding for JSONP
-     *
-     * @var string
-     */
-    protected $_padding;
+	 /**
+	 * The padding for JSONP
+	 *
+	 * @var string
+	 */
+	protected $_padding;
 
- 	/**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
+	 /**
+	 * Constructor
+	 *
+	 * @param   object  An optional KConfig object with configuration options
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
 
-        //Padding can explicitly be turned off by setting to FALSE
-        if(empty($config->padding) && $config->padding !== false)
-        {
-            $state = $this->getModel()->getState();
+		//Padding can explicitly be turned off by setting to FALSE
+		if(empty($config->padding) && $config->padding !== false)
+		{
+			$state = $this->getModel()->getState();
 
-            if(isset($state->callback) && (strlen($state->callback) > 0)) {
-                $config->padding = $state->callback;
-            }
-        }
+			if(isset($state->callback) && (strlen($state->callback) > 0)) {
+				$config->padding = $state->callback;
+			}
+		}
 
-        $this->_padding = $config->padding;
-    }
+		$this->_padding = $config->padding;
+	}
 
 	/**
-     * Initializes the config for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @return  void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
+	 * Initializes the config for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options
+	 * @return  void
+	 */
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
 			'mimetype'	  => 'application/json',
-    	    'padding'	  => ''
-       	));
+			'padding'	  => ''
+		   ));
 
-    	parent::_initialize($config);
-    }
+		parent::_initialize($config);
+	}
 
 	/**
 	 * Return the views output
@@ -75,40 +75,110 @@ class KViewJson extends KViewAbstract
 	 *
 	 * If the model contains a callback state, the callback value will be used to apply
 	 * padding to the JSON output.
- 	 *
+	  *
 	 *  @return string 	The output of the view
 	 */
-    public function display()
-    {
-        if(empty($this->output))
-        {
-            $model = $this->getModel();
+	public function display()
+	{
+		if(empty($this->output)) {
+			$this->output = KInflector::isPlural($this->getName()) ? $this->_getList() : $this->_getItem();
+		}
 
-            if(KInflector::isPlural($this->getName())) 
-            {
-                if($list = $model->getList())  {   
-                    $data = array_values($list->toArray());
-                }    
-            } 
-            else 
-            {
-                if($item = $model->getItem()) {
-                    $data = $item->toArray();
-                }
-            }
+		if (!is_string($this->output)) {
+			$this->output = json_encode($this->output);
+		}
 
-            $this->output = $data;
-        }
+		//Handle JSONP
+		if(!empty($this->_padding)) {
+			$this->output = $this->_padding.'('.$this->output.');';
+		}
 
-        if (!is_string($this->output)) {
-        	$this->output = json_encode($this->output);
-        }
+		return parent::display();
+	}
 
-        //Handle JSONP
-        if(!empty($this->_padding)) {
-            $this->output     = $this->_padding.'('.$this->output.');';
-        }
+	/**
+	 * Get the list data
+	 *
+	 * @return array 	The array with data to be encoded to json
+	 */
+	protected function _getList()
+	{
+		$model = $this->getModel();
 
-        return parent::display();
-    }
+		$url   = clone KRequest::url();
+		$state = $model->getState();
+		
+	    $vars = array();
+	    foreach($state->toArray(false) as $var) 
+	    {
+	        if(!$var->unique) {
+	            $vars[] = $var->name;
+	        }  
+	    }
+
+		$data = array(
+			'version'  => '1.0',
+			'href'     => (string) $url->setQuery($state->toArray()),
+			'url'      => array(
+				'type'     => 'application/json',
+				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+			),
+			'offset'   => (int) $model->offset,
+			'limit'    => (int) $model->limit,
+			'total'	   => 0,
+			'items'    => array(),
+		);
+
+		if($list = $model->getList())
+		{
+			$data = array_merge($data, array(
+				'total'    => $model->getTotal(),
+				'items'    => array_values($list->toArray())
+			 ));
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Get the item data
+	 *
+	 *  @return array 	The array with data to be encoded to json
+	 */
+	protected function _getItem()
+	{
+		$model = $this->getModel();
+		
+		$url   = clone KRequest::url();
+		$state = $model->getState();
+		
+	    $vars = array();
+	    foreach($state->toArray(false) as $var) 
+	    {
+	        if($var->unique) 
+	        {
+	            $vars[] = $var->name;
+	            $vars   = array_merge($vars, $var->required);
+	        }  
+	    }
+		
+		$data = array(
+			'version' => '1.0',
+		    'href'    => (string) $url->setQuery($state->getData(true)),
+	        'url'     => array(
+				'type'     => 'application/json',
+				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+	        ),
+	        'item'	  => array()
+		);
+
+		if($item = $model->getItem())
+		{
+		    $data = array_merge($data, array(
+				'item' => $item->toArray()
+			 ));
+		};
+
+		return $data;
+	}
 }

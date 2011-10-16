@@ -520,7 +520,7 @@ abstract class KDatabaseTableAbstract extends KObject
     public function select( $query = null, $mode = KDatabase::FETCH_ROWSET)
     {
        //Create query object
-        if(is_string($query) || (is_array($query) && is_numeric(key($query))))
+        if(is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key    = $this->getIdentityColumn();
             $values = (array) $query;
@@ -614,6 +614,13 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function count($query = null)
     {
+        //Count using the identity column
+        if (is_scalar($query)) 
+    	{
+    		$key   = $this->getIdentityColumn();
+    		$query = array($key => $query);
+    	}
+    	
         //Create query object
         if(is_array($query) && !is_numeric(key($query)))
         {
@@ -701,7 +708,7 @@ abstract class KDatabaseTableAbstract extends KObject
         $context->table     = $this->getBase();
         $context->query     = null;
         $context->affected  = false;
-     
+
         if($this->getCommandChain()->run('before.update', $context) !== false) 
         {
             //Create where statement
@@ -717,10 +724,10 @@ abstract class KDatabaseTableAbstract extends KObject
             
             //Get the data and apply the column mappings
             $data = $this->mapColumns($data);
-         
+                     	  			
             //Execute the update query
             $context->affected = $this->_database->update($context->table, $data, $query);
-            
+	
             if($context->affected !== false) 
             {
                 if(((integer) $context->affected) > 0)
@@ -898,5 +905,5 @@ abstract class KDatabaseTableAbstract extends KObject
 		}
 
 		return parent::__call($method, $arguments);
-	}
+	}	
 }

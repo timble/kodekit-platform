@@ -117,4 +117,14 @@ class KMixinCommandchain extends KMixinAbstract
         $this->_command_chain = $chain;
         return $this->_mixer;
     }
+    
+	/**
+     * Preform a deep clone of the object.
+     *
+     * @retun void
+     */
+    public function __clone()
+    {
+        $this->_command_chain = clone $this->_command_chain;    
+    }
 }

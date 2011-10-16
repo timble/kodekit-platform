@@ -76,7 +76,21 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
      * @return KTemplateFilterForm
      */
     public function write(&$text)
-    {   
+    {  
+    	// All: Add the action if left empty
+    	if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER)) 
+    	{
+    		$view   = $this->getTemplate()->getView();
+    		$state  = $view->getModel()->getState();
+    		$action = $view->createRoute(http_build_query($state->getData($state->isUnique())));
+    		
+    		foreach ($matches as $match) 
+    		{
+    			$str  = str_replace('action=""', 'action="'.$action.'"', $match[0]);
+    			$text = str_replace($match[0], $str, $text);
+    		}
+    	}
+    	
         // POST : Add token 
         if(!empty($this->_token_value)) 
         {

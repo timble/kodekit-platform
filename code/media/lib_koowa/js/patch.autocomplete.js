@@ -14,6 +14,8 @@ license: @TODO
 ...
 */
 
+if(!Koowa) var Koowa = {};
+
 (function($){
 
     // Support Form.Validator if present
@@ -38,7 +40,6 @@ license: @TODO
     
         Form.Validator.add('ma-required', {
         	errorMsg: function(){
-        	    console.log(arguments, this);
         	    return Form.Validator.getMsg('required');
         	},
         	test: function(element){
@@ -47,5 +48,19 @@ license: @TODO
         	}
         });
     }
+    
+    Koowa.Autocomplete = new Class({
+    
+        Extends: Meio.Autocomplete.Select,
+        
+        options: {
+            requestOptions: {
+                formatResponse: function(response){
+                    return response.items || response;
+                }
+            }
+        }
+    
+    });
 
 })(document.id);

@@ -268,6 +268,18 @@ class KObject implements KObjectHandlable, KObjectServiceable
 	    
 	    return $result;
 	}
+	
+	/**
+     * Preform a deep clone of the object.
+     *
+     * @retun void
+     */
+    public function __clone()
+    {
+        foreach($this->_mixed_methods as $method => $object) {
+            $this->_mixed_methods[$method] = clone $object;
+        }
+    }
     
     /**
      * Search the mixin method map and call the method or trigger an error

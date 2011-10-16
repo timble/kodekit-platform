@@ -62,6 +62,14 @@ class KService implements KServiceInterface
 	{ 
 	    //Create the identifier registry 
         self::$_identifiers = new KServiceIdentifierRegistry();
+        
+	    if(isset($config['cache_prefix'])) {
+            self::$_identifiers->setCachePrefix($config['cache_prefix']);
+        }
+        
+	    if(isset($config['cache_enabled'])) {
+            self::$_identifiers->enableCache($config['cache_enabled']);
+        }
 	    
         //Create the service container
 	    self::$_services    = new KServiceContainer();

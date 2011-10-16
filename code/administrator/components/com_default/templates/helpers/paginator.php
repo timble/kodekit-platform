@@ -32,19 +32,25 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
     {
         $config = new KConfig($config);
         $config->append(array(
-            'total'   => 0,
-            'display' => 4,
-            'offset'  => 0,
-            'limit'   => 0,
+            'total'      => 0,
+            'display'    => 4,
+            'offset'     => 0,
+            'limit'      => 0,
+            'show_limit' => true,
+		    'show_count' => true
         ));
         
         $this->_initialize($config);
         
         $html  = '<div class="container">';
         $html  = '<div class="pagination">';
-        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        if($config->show_limit) {
+            $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        }
         $html .=  $this->_pages($this->_items($config));
-        $html .= '<div class="limit"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+        if($config->show_count) {
+            $html .= '<div class="limit"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+        }
         $html .= '</div>';
         $html .= '</div>';
         
