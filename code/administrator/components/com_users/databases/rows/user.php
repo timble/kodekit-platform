@@ -362,6 +362,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         unset($data['password']);
         unset($data['activation']);
         
+        $data['params'] = $this->params->toArray();
         return $data;
     }
 }
