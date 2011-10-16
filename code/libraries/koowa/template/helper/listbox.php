@@ -40,7 +40,6 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		$config = new KConfig($config);
 		$config->append(array(
 			'name'		  => '',
-			'filter' 	  => array(),
 			'attribs'	  => array(),
 			'model'		  => KInflector::pluralize($this->getIdentifier()->package),
 		    'prompt'      => '- Select -', 
@@ -54,10 +53,10 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 			'column'    => $config->value,
 			'deselect'  => true,
 		))->append(array(
-		    'sort'	    => $config->text,
+		    'filter' 	=> array('sort' => $config->text),
 		));
 		
-		$list = $this->getService($config->identifier)->set($config->filter)->sort($config->sort)->getList();
+		$list = $this->getService($config->identifier)->set($config->filter)->getList();
 		
 		//Get the list of items
  	    $items = $list->getColumn($config->value);
