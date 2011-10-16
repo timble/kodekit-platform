@@ -42,7 +42,7 @@ class ComFilesModelDefault extends KModelAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-            'state'      => $this->getService('com://admin/files.model.state.node'),
+            'state'      => new ComFilesConfigStateNode()
        	));
 
        	parent::_initialize($config);

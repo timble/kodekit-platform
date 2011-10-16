@@ -40,9 +40,7 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 			'comma_separated' => array(
 				'upload_extensions',
 				'image_extensions',
-				'ignore_extensions',
-				'upload_mime',
-				'upload_mime_illegal'
+				'upload_mime'
 			)
 		));
 

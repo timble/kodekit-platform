@@ -29,9 +29,9 @@ window.addEvent('domready', prettyPrint);
   	<tbody>
   		<?foreach ($queries as $key => $query) : ?>
   		<tr>  
-  			<td class="-koowa-sortable"><?= $key + 1; ?></td>
+  			<td class="-koowa-sortable" align="right" width="10"><?= $key + 1; ?></td>
 			<td class="-koowa-sortable"><?= $query->operation; ?></td>
-            <td class="-koowa-sortable" data-comparable="<?= $query->time*1000 ?>"><?= sprintf('%.3f', $query->time*1000).' msec' ?></td>
+            <td class="-koowa-sortable" style="white-space: nowrap" data-comparable="<?= $query->time*1000 ?>"><?= sprintf('%.3f', $query->time*1000).' msec' ?></td>
             <td><pre class="prettyprint lang-sql"><?= preg_replace('/(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)/', "\n".'\\0', $query->query); ?></pre></td>
         </tr>
          <? endforeach; ?>

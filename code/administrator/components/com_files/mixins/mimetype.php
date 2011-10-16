@@ -18,8 +18,14 @@
  * @subpackage  Files
  */
 
-class ComFilesMixinMimetype extends KMixinAbstract
+class ComFilesMixinMimetype extends KObject
 {
+	/**
+	 * Used as a way to continue on the chain when the method is not available.
+	 * 
+	 */
+	const NOT_AVAILABLE = -1;
+	
 	/**
 	 * Adapters to use for mimetype detection
 	 *
@@ -27,7 +33,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 	 */
 	protected $_adapters = array();
 
-	public function __construct($config = array())
+	public function __construct(KConfig $config = null)
 	{
 		parent::__construct($config);
 
@@ -39,7 +45,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 	protected function _initialize(KConfig $config)
 	{
 		if (empty($config->adapters)) {
-			$config->adapters = array('finfo', 'mime_content_type', 'mimemagic');
+			$config->adapters = array('finfo');
 		}
 		elseif (is_string($config->adapters)) {
 			$config->adapters = array($config->adapters);
@@ -53,12 +59,10 @@ class ComFilesMixinMimetype extends KMixinAbstract
 		$mimetype = false;
 		foreach ($this->_adapters as $i => $adapter)
 		{
-			try {
-				$function = '_detect'.ucfirst($adapter);
-				$mimetype = $this->$function($path);
-			}
-			catch (ComFilesMixinMimetypeException $e) {
-				continue;
+			$function = '_detect'.ucfirst($adapter);
+			$mimetype = $this->$function($path);
+			if (!empty($mimetype) && $mimetype !== ComFilesMixinMimetype::NOT_AVAILABLE) {
+				break;
 			}
 		}
 
@@ -78,7 +82,7 @@ class ComFilesMixinMimetype extends KMixinAbstract
 	protected function _detectFinfo($path)
 	{
 		if (!class_exists('finfo')) {
-			throw new ComFilesMixinMimetypeException('Fileinfo extension is not found');
+			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
 
 		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
@@ -94,34 +98,9 @@ class ComFilesMixinMimetype extends KMixinAbstract
 	protected function _detectMime_content_type($path)
 	{
 		if (!function_exists('mime_content_type')) {
-			throw new ComFilesMixinMimetypeException('mime_content_type function is not found');
+			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
 
 		return mime_content_type($path);
-	}
-
-	protected function _detectMimemagic($path)
-	{
-		$mimetype = false;
-
-		// special case: 0 byte file
-		if(strlen(file_get_contents($path)) === 0) {
-			return 'application/x-empty';
-		}
-
-		$mimemagics = $this->getService('com://admin/files.database.rowset.mimemagics')->getData();
-
-		$fp = @fopen($path, 'rb');
-		foreach ($mimemagics as $mime) 
-		{
-			@fseek($fp, $mime[0]);
-			$lookup = @fread($fp, $mime[1]);
-			if ($lookup === $mime[2]) {
-				$mimetype = $mime[3];
-				break;
-			}
-		}
-
-		return $mimetype;
 	}
 }

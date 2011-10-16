@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: node.php 999 2011-10-02 22:02:41Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesModelStateNode extends KConfigState
+class ComFilesConfigStateNode extends KConfigState
 {
     public function __get($name)
     {

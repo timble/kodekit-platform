@@ -37,8 +37,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = $this->getService('com://admin/files.model.folders')->set($state->getData())
-					->limit(0)->offset(0)->getList();
+				$folders = $this->getService('com://admin/files.model.folders')->set($state->getData())->getList();
 					
 				foreach ($folders as $folder) 
 				{
@@ -59,8 +58,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$files = $this->getService('com://admin/files.model.files')->set($state->getData())
-					->limit(0)->offset(0)->getList();
+				$files = $this->getService('com://admin/files.model.files')->set($state->getData())->getList();
 
 				foreach ($files as $file) 
 				{

@@ -25,7 +25,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * @var KDatabaseTableDefault
      */
-    protected $_table;
+    protected $_table = null;
 
     /**
      * Constructor
@@ -36,8 +36,11 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach($config as $key => $value) {
-            $this->{'_'.$key} = $value;
+        foreach($config as $key => $value) 
+        {
+            if(property_exists($this, '_'.$key)) { 
+                $this->{'_'.$key} = $value;
+            }
         }
     }
 
@@ -52,7 +55,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'table' => KFactory::get('com://admin/versions.database.table.revisions')
+        	'table' => $this->getService('com://admin/versions.database.table.revisions')
         ));
 
         parent::_initialize($config);
@@ -76,7 +79,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 		    foreach($query->where as $condition) {
 				$where[$condition['property']] = $condition['value'];
 			}
-			    
+
 			if(isset($where['tbl.deleted']) && $where['tbl.deleted'] == 1)
 			{
       			$table = $context->caller;
@@ -90,13 +93,13 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
       			    $rowset = $table->getRowset();
 
                     foreach($revisions as $row) 
-                    {  
+                    {
                         $options = array(
-            				'data'   => $row,
+            				'data'   => $row->data,
                 			'status' => KDatabase::STATUS_DELETED,
                     		'new'    => false,   
                         );
-                              
+                        
                         $rowset->insert($rowset->getRow($options));
                     }
 
@@ -137,14 +140,15 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-    	if($this->getTable()->count($this->id))
+    	$table = clone $this->getTable();
+    	if($table->count($this->id))
     	{
     	    if ($this->_countRevisions() == 0) {
             	$this->_insertRevision(KDatabase::STATUS_CREATED);
         	}
     	}
     	else
-    	{ 
+    	{
     	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
     		    //Restore the row
@@ -188,7 +192,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableDelete(KCommandContext $context)
     {
-   		if ($this->getTable()->count($this->id))
+    	$table = clone $this->getTable();
+   		if ($table->count($this->id))
    		{
    			if($this->_countRevisions() == 0) {
            		 $this->_insertRevision(KDatabase::STATUS_CREATED);

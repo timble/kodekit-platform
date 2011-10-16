@@ -10,50 +10,35 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<table>
+<table class="adminlist">
 	<thead>
     	<tr>
-    		<th><?= @text('#') ?></th>
-    		<th><?= @text('Extension') ?></th>
-    		<th><?= @text('Size') ?></th>
-    		<th><?= @text('File'); ?></th>
+    		<th class="-koowa-sortable"><?= @text('#') ?></th>
+    		<th class="-koowa-sortable"><?= @text('Extension') ?></th>
+    		<th class="-koowa-sortable"><?= @text('Size') ?></th>
+    		<th class="-koowa-sortable"><?= @text('File'); ?></th>
     	</tr>
   	</thead>
   	<tbody>
-  		<? $i = 1; ?>
-  		<? foreach ( $languages as $extension => $files) : ?>
-  		    <? foreach ( $files as $file => $status ) : ?>
-  			<tr>  
-  				<td><?= $i; ?></td>
-  				<td><?= $extension; ?></td>
-				<td><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
-            	<td><?= str_replace(JPATH_ROOT, '', $file); ?></td>
-            	<td></td>
-        	</tr>
-            <? endforeach; ?>
-            <? $i++; ?>
-        <? endforeach; ?>
-  	</tbody>
-</table>
-
-<table>
-	<thead>
-    	<tr>
-    		<th><?= @text('#') ?></th>
-    		<th><?= @text('Extension') ?></th>
-    		<th><?= @text('Size') ?></th>
-    		<th><?= @text('File'); ?></th>
-    	</tr>
-  	</thead>
-  	<tbody>
-  		<? $i = 1; ?>
+  	    <? $i = 1; ?>
+  	    	<? foreach ( $languages as $extension => $files) : ?>
+  	    	    <? foreach ( $files as $file => $status ) : ?>
+  	    		<tr>  
+  	    			<td class="-koowa-sortable" align="right"><?= $i; ?></td>
+  	    			<td class="-koowa-sortable"><?= @text('language') ?></td>
+  	    		<td class="-koowa-sortable"><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
+  	        	<td class="-koowa-sortable"><?= str_replace(JPATH_ROOT, '', $file); ?></td>
+  	    	</tr>
+  	        <? endforeach; ?>
+  	        <? $i++; ?>
+  	    <? endforeach; ?>
+  	
   		<? foreach ( $includes as $file ) : ?>
   			<tr>  
-  				<td><?= $i; ?></td>
-  				<td><?= @text('PHP') ?></td>
-				<td><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
-            	<td><?= str_replace(JPATH_ROOT, '', $file); ?></td>
-            	<td></td>
+  				<td class="-koowa-sortable" align="right" width="10"><?= $i; ?></td>
+  				<td class="-koowa-sortable"><?= @text('PHP') ?></td>
+				<td class="-koowa-sortable"><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
+            	<td class="-koowa-sortable"><?= str_replace(JPATH_ROOT, '', $file); ?></td>
         	</tr>
             <? $i++; ?>
         <? endforeach; ?>

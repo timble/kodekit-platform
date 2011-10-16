@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		url: Files.getUrl({view: 'file'}),
+		url: Files.getUrl({view: 'file', plupload: 1}),
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
@@ -52,7 +52,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
-		uploader.settings.url = Files.getUrl({view: 'file'});
+		uploader.settings.url = Files.getUrl({view: 'file', 'plupload': 1});
 		uploader.settings.multipart_params.parent = Files.app.getPath();
 	});
 	
@@ -60,19 +60,34 @@ window.addEvent('domready', function() {
 		jQuery('li.plupload_delete a,div.plupload_buttons', element).show();
 	});
 
+	// Keeps track of failed uploads and error messages so we can later display them in the queue
+	var failed = {};
 	uploader.bind('FileUploaded', function(uploader, file, response) {
 		var json = JSON.decode(response.response, true) || {};
 		if (json.status) {
 			var item = json.item;
 			var cls = Files[item.type.capitalize()];
 			var row = new cls(item);
-
 			Files.app.grid.insert(row);
+			if (row.type == 'image') {
+				row.element.getElement('img').set('src', row.image);
+			}	
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
 			var error = json.error ? json.error : 'Unknown error';
-			alert(error);
+
+			failed[file.id] = error;
 		}
+	});
+
+	uploader.bind('StateChanged', function(uploader) {
+		$each(failed, function(error, id) {
+			icon = jQuery('#' + id).attr('class', 'plupload_failed').find('a').css('display', 'block');
+			if (error) {
+				icon.attr('title', error);	
+			}
+		});
+		
 	});
 
 	$$('.plupload_clear').addEvent('click', function(e) {
@@ -129,6 +144,9 @@ window.addEvent('domready', function() {
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.grid.insert(row);
+				if (row.type == 'image') {
+					row.element.getElement('img').set('src', row.image);
+				}
 				Files.app.fireEvent('uploadFile', [row]);
 				form.reset();
 			} else {

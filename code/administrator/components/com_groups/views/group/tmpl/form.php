@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$group->id) ?>" method="post" class="-koowa-form" id="group-form">
+<form action="" method="post" class="-koowa-form" id="group-form">
     <div class="grid_8">
         <div class="panel title group">
             <input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= $group->name ?>" placeholder="<?= @text('Name') ?>" />

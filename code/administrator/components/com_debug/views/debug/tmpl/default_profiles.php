@@ -13,19 +13,19 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <table class="adminlist">
 	<thead>
     	<tr>
-    		<th><?= @text('Identifier') ?></th>
-    		<th><?= @text('Event'); ?></th>
-    		<th><?= @text('Time'); ?></th>
-    		<th><?= @text('Memory'); ?></th>
+    		<th class="-koowa-sortable"><?= @text('Identifier') ?></th>
+    		<th class="-koowa-sortable"><?= @text('Event'); ?></th>
+    		<th class="-koowa-sortable"><?= @text('Time'); ?></th>
+    		<th class="-koowa-sortable"><?= @text('Memory'); ?></th>
     	</tr>
   	</thead>
   	<tbody>
   		<? foreach ( $events as $event ) : ?>
   		<tr>  
-			<td><?= $event['caller'] ?></div>
-            <td><?= $event['message'] ?></td>
-            <td><?= sprintf('%.3f', $event['time']).' seconds' ?></td>
-            <td><?= $event['memory'] ?></td>
+			<td class="-koowa-sortable"><?= $event['caller'] ?></div>
+            <td class="-koowa-sortable"><?= $event['message'] ?></td>
+            <td class="-koowa-sortable" data-comparable="<?= $event['time'] ?>"><?= sprintf('%.3f', $event['time']).' seconds' ?></td>
+            <td class="-koowa-sortable"><?= $event['memory'] ?></td>
         </tr>
          <? endforeach; ?>
   	</tbody>

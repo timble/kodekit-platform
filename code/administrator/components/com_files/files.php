@@ -18,4 +18,23 @@
  * @subpackage  Files
  */
 
-echo KService::get('com://admin/files.dispatcher')->dispatch();
+try {
+	echo KService::get('com://admin/files.dispatcher')->dispatch();
+}
+catch (KControllerException $e){
+	if (KRequest::get('get.format', 'cmd') == 'json') {
+		$obj = new stdClass;
+		$obj->status = false;
+		$obj->error = $e->getMessage();
+		$obj->code = $e->getCode();
+		
+		$code = KRequest::get('get.plupload', 'int') ? 200 : $e->getCode();
+		
+		JResponse::setHeader('status', $code.' '.str_replace("\n", ' ', $e->getMessage()));
+		
+		echo json_encode($obj);
+	}
+	else {
+		throw $e;
+	}
+}

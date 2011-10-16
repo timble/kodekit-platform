@@ -43,9 +43,9 @@ class ComFilesCommandValidatorFile extends KCommand
 	        	$row->path = $path;
 			}
 		}
+		
+		$row->path = $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.name')->sanitize($row->path);
 
-		$row->path = $this->getService('com://admin/files.filter.file.name')->sanitize($row->path);
-
-		return $this->getService('com://admin/files.filter.file.uploadable')->validate($context);
+		return $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.uploadable')->validate($context);
 	}
 }

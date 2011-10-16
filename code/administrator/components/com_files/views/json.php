@@ -20,47 +20,16 @@
 
 class ComFilesViewJson extends KViewJson
 {
-    public function display()
-    {
-    	$model = $this->getModel();
+    protected function _getItem()
+    {	
+        $row = $this->getModel()->getItem();
 
-        if(KInflector::isPlural($this->getName())) {
-            $data = $this->_getList($model);
-        } else {
-            $data = $this->_getItem($model);
-        }
-
-        $this->output = $data;
-
-        return parent::display();
-    }
-
-    protected function _getList(KModelAbstract $model)
-    {
-        $list  = array_values($model->getList()->toArray());
-        $state = $model->getState();
-        $total = $model->getTotal();
-
-        $output = new stdclass;
-        $output->total  = $total;
-        $output->limit  = $state->limit;
-        $output->offset = $state->offset;
-        $output->items  = $list;
-
-        return $output;
-    }
-
-    protected function _getItem(KModelAbstract $model)
-    {
-        $row = $model->getItem();
-
-        $output = new stdclass;
-        $output->status = $row->getStatus() !== KDatabase::STATUS_FAILED && $row->path;
-
-        if ($output->status !== false){
-            $output->item = $row->toArray();
-        } else {
-            $output->error = $row->getStatusMessage();
+        $output = parent::_getItem();
+        
+        $status = $row->getStatus() !== KDatabase::STATUS_FAILED;
+		$output['status'] = $status;
+        if ($status === false){
+            $output['error'] = $row->getStatusMessage();
         }
 
         return $output;

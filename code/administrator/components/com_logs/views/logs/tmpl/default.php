@@ -3,57 +3,29 @@
 
 <style src="media://com_logs/css/logs-default.css" />
 
+<!-- Start Sidebar -->
+<div id="sidebar">
+	<?=@template('packages')?>
+</div>
+<!-- End Sidebar -->
+
 <div id="list" class="-koowa-box-flex">
-	<form action="<?= @route()?>" method="get" class="-koowa-box-flex">
+
+	<!-- Start Filter -->
+	<?=@template('filters')?>
+	<!-- End Filter -->
+
+	<!-- Start Logs List -->
+	<form action="<?= @route()?>" method="get" class="-koowa-grid">
 		<table class="adminlist" style="clear: both;">
 			<thead>
 				<tr>
-					<th width="5">
+					<th style="text-align:left;width:10px">
 						<?= @helper('grid.checkall') ?>
 					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Applicaton', 'column' => 'application')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Type', 'column' => 'type')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Package', 'column' => 'package')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Action', 'column' => 'action')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Created by', 'column' => 'created_by')) ?>
-					</th>
-					<th>
-						<?= @helper('grid.sort', array('title' => 'Created on', 'column' => 'created_on')) ?>
-					</th>
-				</tr>
-				<tr class="filters">
-					<td>
-						<?= @text('Filters') ?>	
-					</td>
-					<td>
-						<?= @helper('listbox.applications',  array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-					</td>
-					<td>
-						<?= @helper('listbox.types',  array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-					</td>
-					<td>
-						<?= @helper('listbox.packages',  array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-					</td>
-					<td>
-						<?= @helper('listbox.names',  array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-					</td>
-					<td>
-						<?= @helper('listbox.actions',  array('attribs' => array('onchange' => 'this.form.submit();'))) ?>
-					</td>
-					<td colspan="2">
-					</td>
+					<th class="-logs-when"><?=@text('When')?></th>
+					<th class="-logs-message"><?=@text('Log Message')?></th>
+					<th class="-logs-item"><?=@text('Related Item')?></th>
 				</tr>
 			</thead>
 			
@@ -62,7 +34,7 @@
 					<?= @template('default_logs'); ?>
 				<? else : ?>
 				<tr>
-					<td colspan="8" align="center">
+					<td colspan="20" align="center">
 						<?= @text('No items found'); ?>
 					</td>
 				</tr>
@@ -78,4 +50,5 @@
 			</tfoot>
 		</table>
 	</form>
+	<!-- End Logs List -->
 </div>

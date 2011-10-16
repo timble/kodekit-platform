@@ -30,9 +30,8 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 		
 		$attribs = KHelperArray::toString($config->attribs);
 		
-		$groups  = KFactory::get('com://admin/groups.model.groups')
+		$groups  = $this->getService('com://admin/groups.model.groups')
             ->set('core', is_null($config->core) ? null : $config->core)
-            ->set('limit', 0)
 		    ->getList();
 		
 		if($config->exclude instanceof KDatabaseRowInterface && $config->exclude->id) 
@@ -47,16 +46,16 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 		
 		foreach($groups as $group) 
 		{
-			$checked = $config->selected == $group->id ? ' checked' : '';
-			
-			$html[] = '<div style="padding-left: '.($group->depth * 15).'px">';
+			$checked = $config->selected == $group->id ? ' checked' : '';			
 			
 			if($group->depth) {
+		        $html[] = '<div style="padding-left: '.($group->depth * 15).'px" class="clearfix">';
 		        $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$group->id.'" value="'.$group->id.'"'.$checked.' '.$attribs.'/>';
+			    $html[] = '<label for="'.$config->name.$group->id.'">'.$group->name.'</label>';
+			    $html[] = '</div>';
+			} else {
+				$html[] = '<h4>'.$group->name.'</h4>';
 			}
-			
-		    $html[] = '<label for="'.$config->name.$group->id.'">'.$group->name.'</label>';
-            $html[] = '</div>';
 		}
 		
 		return implode(PHP_EOL, $html);

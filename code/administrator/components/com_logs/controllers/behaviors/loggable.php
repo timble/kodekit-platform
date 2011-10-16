@@ -20,13 +20,15 @@
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
-	protected $_actions;
+    protected $_actions;
+    protected $_title_column;
 
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
         
         $this->_actions = $config->actions->toArray();
+        $this->_title_column = $config->title_column;
     }
     
     protected function _initialize(KConfig $config)
@@ -34,6 +36,7 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOWEST,
             'actions' => array('after.edit', 'after.add', 'after.delete'),
+            'title_column' => 'title',
         ));
 
         parent::_initialize($config);
@@ -41,12 +44,12 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
     
     public function execute($name, KCommandContext $context)
     {
-    	if(!in_array($name, $this->_actions))
+        if(!in_array($name, $this->_actions))
             return;
 
         $identifier = $context->caller->getIdentifier();
-				
-		$data = array(
+                
+        $data = array(
             'action' => $context->action,
             'application' => $identifier->application,
             'type' => $identifier->type,
@@ -54,34 +57,36 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
             'name' => $identifier->name,
         );
 
-		$rowset = array();
-		if ($context->result instanceof KDatabaseRowAbstract) {
-			$rowset[] =  $context->result;
-		} else {
-			$rowset = KConfig::toData($context->result);
-		}
+        $rowset = array();
+        if ($context->result instanceof KDatabaseRowAbstract) {
+            $rowset[] =  $context->result;
+        } elseif($context->result instanceof KDatabaseRowsetAbstract) {
+            $rowset = $context->result;
+        }else{
+            return false;      
+        }
 
-		foreach ($rowset as $row)
-		{
-			//Only log if the row status is valid.
-			$status = $row->getStatus();
-			
-			if(!empty($status))
-			{
-				if ($row->{$this->_title_column}) {
-					$data['title'] = $row->{$this->_title_column};
-				} else {
-					$data['title'] = '#'.$row->id;
-				}
+        foreach ($rowset as $row)
+        {
+            //Only log if the row status is valid.
+            $status = $row->getStatus();
+            
+            if(!empty($status))
+            {
+                if ($row->{$this->_title_column}) {
+                    $data['title'] = $row->{$this->_title_column};
+                } else {
+                    $data['title'] = '#'.$row->id;
+                }
 
-				$data['row_id'] = $row->id;
-				
-				KFactory::get('com://admin/logs.model.logs')
-					->getItem()
-					->setData($data)
-					->save();
-			}
-		}
+                $data['row_id'] = $row->id;
+
+                $this->getService('com://admin/logs.model.logs')
+                    ->getItem()
+                    ->setData($data)
+                    ->save();
+            }
+        }
     }
     
     public function getHandle()
