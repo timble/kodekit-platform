@@ -54,7 +54,8 @@ div.message {
 	-webkit-overflow-scrolling: touch;
 }
 
-.com_articles .panel.folders {
+.com_articles .panel.folders,
+.com_users .panel.groups {
 	padding-bottom: 14px;
 }
 
@@ -62,7 +63,8 @@ div.message {
 	margin-bottom: 10px;
 }
 
-.com_articles .panel.folders span {
+.com_articles .panel.folders span,
+.com_users .panel.groups span {
 	padding: 12px 10px 4px 14px;
 	font-weight: bold;
 	clear: left;
@@ -76,7 +78,7 @@ div.message {
 }
 
 .com_articles .panel.folders input {
-	margin: 8px 5px 0 24px;
+	margin: 9px 5px 0 24px;
 	display: list-item;
 	float: left;
 	clear: left;
@@ -89,6 +91,23 @@ div.message {
 	margin: 0;
 	resize: vertical;
 	width: 100%
+}
+
+.com_users .panel.groups h4 {
+	margin: 14px 0 0 14px;
+}
+
+.com_users .panel.groups input,
+.com_users .panel.groups label {
+	margin-top: 8px;
+	float: left;
+}
+
+.com_users .panel.groups input {
+	margin: 9px 5px 0 0;
+	display: list-item;
+	float: left;
+	clear: left;
 }
 
 .com_dashboard #content-box {

@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <?= @template('default_sidebar'); ?>
 <? endif; ?>
 
-<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 

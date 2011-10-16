@@ -44,4 +44,5 @@ window.addEvent('domready', function(){
             document.body.setStyles({WebkitTransform: 'scaleX(-1)', MozTransform: 'scaleX(-1)', transform: 'scaleX(-1)'});
         }
 	});
+	$$('td.divider').getPrevious().addClass('last');
 });

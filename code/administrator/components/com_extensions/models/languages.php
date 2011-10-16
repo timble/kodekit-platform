@@ -18,8 +18,6 @@
  * @subpackage  Extensions
  */
 
-jimport('joomla.filesystem.folder');
-
 class ComExtensionsModelLanguages extends KModelAbstract
 {
 	public function __construct(KConfig $config)

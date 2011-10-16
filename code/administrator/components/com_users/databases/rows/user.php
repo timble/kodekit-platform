@@ -152,7 +152,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         }
 
 		// Don't allow users below super administrator to edit a super administrator.
-		if(!$this->_new && $old_row->users_group_id == 25 && $user->gid != 25) {
+		if(!$this->_new && isset($this->_modified['users_group_id']) && $old_row->users_group_id == 25 && $user->gid != 25) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't edit a super administrator account."));
 
@@ -169,7 +169,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Don't allow users below super administrator to create a super administrator.
-		if($this->users_group_id == 25 && $user->gid != 25)
+		if(isset($this->_modified['users_group_id']) && $this->users_group_id == 25 && $user->gid != 25)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
@@ -362,6 +362,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         unset($data['password']);
         unset($data['activation']);
         
+        $data['params'] = $this->params->toArray();
         return $data;
     }
 }

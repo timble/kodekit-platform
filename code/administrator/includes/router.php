@@ -26,7 +26,7 @@ class JRouterAdministrator extends JRouter
 	{
 		$vars = array();
 	    
-	    if(JFactory::getApplication()->getCfg('sef_rewrite'))
+	    if(JFactory::getApplication()->getCfg('sef'))
 	    {
 		    $path = trim($uri->getPath(), '/');
 		
@@ -45,19 +45,22 @@ class JRouterAdministrator extends JRouter
 				    $vars['format'] = $suffix;
 			    }
 		    }
-		
-		    //Get the segments
-	        $segments = explode('/', $path);
-	        if(isset($segments[0])) 
-	        {
-	            $vars['option'] = 'com_'.$segments[0];
+		    
+		    if(!empty($path))
+		    {
+		        //Get the segments
+	            $segments = explode('/', $path);
+	            if(isset($segments[0])) 
+	            {
+	                $vars['option'] = 'com_'.$segments[0];
 	    
-	            if(isset($segments[1])) {
-	                $vars['view']   = $segments[1];
-	            } else {
-	                $vars['view']   = $segments[0];
+	                if(isset($segments[1])) {
+	                    $vars['view']   = $segments[1];
+	                } else {
+	                    $vars['view']   = $segments[0];
+	                }
 	            }
-	        }
+		    }
 	    }
 	     
 	    return $vars;
@@ -74,7 +77,7 @@ class JRouterAdministrator extends JRouter
 		//Create the URI object
 		$uri = $this->_createURI($url);
 		
-		if(JFactory::getApplication()->getCfg('sef_rewrite'))
+		if(JFactory::getApplication()->getCfg('sef'))
 	    {
 		    $query = $uri->getQuery(true);
 	        $path  = $uri->getPath();
@@ -107,8 +110,11 @@ class JRouterAdministrator extends JRouter
 		    {
 	            if($format = $uri->getVar('format', 'html'))
 			    {
-			    	$path .= '.'.$format;
-				    $uri->delVar('format');
+			    	if($format != 'html') 
+			    	{
+			            $path .= '.'.$format;
+				        $uri->delVar('format');
+			    	}
 			    }
 		    }
 	    

@@ -17,7 +17,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?= @template('com://admin//installer.view.grid.sidebar'); ?>
 
 <div class="-installer-grid">
-<form action="<?= @route() ?>" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
     <table class="adminlist">
     	<thead>
     		<tr>
@@ -62,10 +62,10 @@ defined('KOOWA') or die('Restricted access'); ?>
     	<? foreach($modules as $module) : ?>
     		<tr <? if($module->iscore) echo 'data-readonly' ?>>
     			<td align="center">
-    			    <input type="checkbox" name="id[]" value="<?= $module->id ?>-<?= $module->application == 'administrator' ? '1' : '0' ?>" class="-koowa-grid-checkbox" <? if($module->iscore) echo 'disabled title="'.@escape(@text('DESCMODULES')).'"' ?> />
+    			    <input type="checkbox" name="id[]" value="<?= $module->id ?>" class="-koowa-grid-checkbox" <? if($module->iscore) echo 'disabled title="'.@escape(@text('DESCMODULES')).'"' ?> />
     			</td>
     			<td>
-    				<?= $module->id ?>
+    				<?= $module->type ?>
     			</td>
     			<td align="center">
     			    <?= @text(KInflector::humanize($module->application)) ?>

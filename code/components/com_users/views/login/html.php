@@ -33,8 +33,9 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $menu   = JSite::getMenu();
-        $active = $menu->getActive();
+        $menu    = JSite::getMenu();
+        $default = $menu->getDefault();
+        $active  = $menu->getActive();
         $parameters = $active ? $menu->getParams($active->id) : $parameters = $menu->getParams(null);
 
         $parameters->def('show_page_title', 1);
@@ -48,7 +49,7 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
         }
 
         $parameters->def('pageclass_sfx', '');
-        $parameters->def('login', 'index.php');
+        $parameters->def('login', JRoute::_($default->link.'&Itemid='.$default->id));
         $parameters->def('description_login', 1);
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
         $parameters->def('image_login', 'key.jpg');

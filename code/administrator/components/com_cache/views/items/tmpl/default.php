@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('default_sidebar'); ?>
 
-<form action="<?= @route() ?>" method="get" class="-koowa-grid">	
+<form action="" method="get" class="-koowa-grid">	
 <table class="adminlist" cellspacing="1">
 	<thead>
 		<tr>

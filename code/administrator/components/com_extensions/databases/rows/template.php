@@ -103,7 +103,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
      */
 	public function save()
 	{
-		if(isset($this->_modified['default']) && $this->default)
+	    if(isset($this->_modified['default']) && $this->default)
 		{
 			//Update the params
 		    $params = JComponentHelper::getParams('com_extensions');
@@ -112,7 +112,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 		    //Save the params
 			$result = $this->getService('com://admin/extensions.database.table.components')
                            ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW)
-                           ->set('params', $params->toString())
+                           ->set('params', $params)
 			               ->save();
 		}
 	
@@ -123,7 +123,7 @@ class ComExtensionsDatabaseRowTemplate extends KDatabaseRowAbstract
 			    return false;
 			}
 		}
-
+	
 		return true;
 	}
 

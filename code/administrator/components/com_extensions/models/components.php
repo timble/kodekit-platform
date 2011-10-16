@@ -26,7 +26,7 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		$this->_state
 		 	->insert('enabled', 'boolean')
 		 	->insert('parent' , 'int')
-		 	->insert('option' , 'cmd')
+		 	->insert('component' , 'cmd')
 		 	->insert('hidden' , 'boolean');	
 	}
 	
@@ -38,8 +38,8 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
 		}
 		
-		if($state->option) {
-			$query->where('tbl.option', '=', $state->option);
+		if($state->component) {
+			$query->where('tbl.option', '=', $state->component);
 		}
 	
 	    if(is_integer($state->parent)) {

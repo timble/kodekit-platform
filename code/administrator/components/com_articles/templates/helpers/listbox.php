@@ -45,10 +45,9 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         ));
 
         $list = $this->getService('com://admin/articles.model.sections')
-            ->set('scope', 'content')
             ->set('sort', 'title')
             ->getList();
-
+            
         if($config->deselect) {
             $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
         }

@@ -77,9 +77,9 @@ class ComExtensionsDatabaseRowLanguage extends KDatabaseRowAbstract
 		    $params->set('language_'.$this->application, $this->name);
  
 		    //Save the params   
-			$result = $this->getService('com://admin/extensions.database.table.components', array('name' => 'components'))
+			$result = $this->getService('com://admin/extensions.model.components', array('name' => 'components'))
                         ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW) 
-                        ->set('params', $params->toString())       
+                        ->set('params', $params)       
 			            ->save();
 
 			return $result;

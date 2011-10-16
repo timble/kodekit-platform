@@ -17,7 +17,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<form action="<?= @route('id='.$contact->id);?>" method="post" id="contact-form" class="-koowa-form">
+<form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
 
 	<div style="width:60%; float: left" id="mainform">

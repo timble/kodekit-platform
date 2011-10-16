@@ -14,7 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <?= @('Confirm your Account') ?>
 </div>
 
-<form action="<?= @route() ?>" method="post" class="josForm form-validate">
+<form action="" method="post" class="josForm form-validate">
     <input type="hidden" name="action" value="confirm" />
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">

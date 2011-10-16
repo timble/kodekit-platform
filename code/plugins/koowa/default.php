@@ -96,10 +96,13 @@ abstract class PlgKoowaDefault extends KEventListener
 			$this->_type = $config['type'];
 		}
 		
-		//Force the identifier to NULL for now
-		$config['identifier'] = null;
+		//Inject the identifier
+		$config['service_identifier'] = KService::getIdentifier('plg:koowa.'.$this->_name);
 		
-		//Set the dispatcher
+		//Inject the service container
+		$config['service_container'] = KService::getInstance();
+		
+		//Inject the dispatcher
 		$config['dispatcher'] = $dispatcher;
 
 		parent::__construct(new KConfig($config));

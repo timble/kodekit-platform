@@ -25,7 +25,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->_state
-		 	->insert('application', 'cmd', 'site')
+		 	->insert('application', 'cmd')
 		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
 		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
@@ -68,7 +68,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			$query->where('tbl.iscore', '=', (int) $state->hidden);
 		}
 		
-		if($state->application !== false)
+		if($state->application && is_scalar($state->application))
 		{
 		    $client	= JApplicationHelper::getClientInfo($state->application, true);
 	    	$query->where('tbl.client_id', '=', $client->id);
@@ -93,7 +93,8 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		{
 			$this->_item = parent::getItem();
 
-			if($this->_item->isNew() && $this->_state->type) {
+			if($this->_item->isNew() && $this->_state->type) 
+			{
 			    $client	                = JApplicationHelper::getClientInfo($this->_state->application, true);
 			    $this->_item->client_id = $client->id;
 				$this->_item->type      = $this->_state->type;
@@ -120,6 +121,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
             if($state->installed)
             {
                 $modules = array();
+               	$ids = parent::getList()->getColumn('type'); 
                 
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
@@ -133,9 +135,9 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
                             if($folder->isDir())
                             {
                                 if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
-                                { 
+                                {
                                     $modules[] = array(
-                                    	'id'          => $folder->getFilename(),
+                                    	'id'          => array_search($folder->getFilename(), $ids),
                        					'type'        => $folder->getFilename(),
                         				'application' => $client->name,
                                     	'title'		  => null
