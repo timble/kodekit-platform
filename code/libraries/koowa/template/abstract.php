@@ -444,32 +444,33 @@ abstract class KTemplateAbstract extends KObject
 	 * identifier is passed a full identifier will be created using the template identifier.
 	 *
 	 * @param	string	Name of the helper, dot separated including the helper function to call
-	 * @param	mixed	Parameters to be passed to the helper
+	 * @param	array	An optional associative array of configuration settings
 	 * @return 	string	Helper output
 	 */
-	public function renderHelper($identifier, $params = array())
+	public function renderHelper($identifier, $config = array())
 	{
 		//Get the function to call based on the $identifier
 		$parts    = explode('.', $identifier);
 		$function = array_pop($parts);
 		
-		$helper = $this->getHelper(implode('.', $parts));
+		$helper = $this->getHelper(implode('.', $parts), $config);
 		
 		//Call the helper function
 		if (!is_callable( array( $helper, $function ) )) {
 			throw new KTemplateHelperException( get_class($helper).'::'.$function.' not supported.' );
 		}	
 		
-		return $helper->$function($params);
+		return $helper->$function($config);
 	}
 	
 	/**
 	 * Get a template helper
 	 *
 	 * @param	mixed	KServiceIdentifierInterface
+	 * @param	array	An optional associative array of configuration settings
 	 * @return 	KTemplateHelperInterface
 	 */
-	public function getHelper($helper)
+	public function getHelper($helper, $config = array())
 	{	
 		//Create the complete identifier if a partial identifier was passed
 		if(is_string($helper) && strpos($helper, '.') === false ) 
@@ -481,7 +482,7 @@ abstract class KTemplateAbstract extends KObject
 		else $identifier = $this->getIdentifier($helper);
 	 
 		//Create the template helper
-		$helper = $this->getService($identifier, array('template' => $this));
+		$helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
 		
 	    //Check the helper interface
         if(!($helper instanceof KTemplateHelperInterface)) {
