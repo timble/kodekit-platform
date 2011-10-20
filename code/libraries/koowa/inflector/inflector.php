@@ -92,6 +92,12 @@ class KInflector
 			'/(.*)ss$/i'            => '\1ss',       
 			'/(.*)s$/i' 			=> '\1',
 		),
+		
+		'verbalization' => array(
+			'/y$/i' 				=> 'ied',
+			'/(e)$/i' 				=> '$1d',
+			'/$/' 					=> 'ed',
+		),
 
 		'countable' => array(
 			'aircraft',
@@ -108,15 +114,18 @@ class KInflector
 			'species',
 			'swine',
 		)
+		
+		
 	);
 
    	/**
- 	 * Cache of pluralized and singularized nouns.
+ 	 * Cache of pluralized, singularized and verbalized nouns.
 	 *
 	 * @var array
      */
 	protected static $_cache = array(
 		'singularized' => array(),
+		'pluralized'   => array(),
 		'pluralized'   => array()
 	);
 
@@ -198,6 +207,32 @@ class KInflector
 			$singular = preg_replace($regexp, $replacement, $word, -1, $matches);
 			if ($matches > 0) {
 				$_cache['singularized'][$word] = $singular;
+				return $singular;
+			}
+		}
+
+ 	   return $word;
+	}
+	
+	/**
+	 * Present English verb conjugated to preterite participle.
+	 *
+	 * @param 	string Word to verbalize.
+	 * @return 	string Present verb
+	 */
+	public static function verbalize($word)
+	{
+		//Get the cached noun of it exists
+ 	   	if(isset(self::$_cache['verbalized'][$word])) {
+			return self::$_cache['verbalized'][$word];
+ 	   	}
+ 
+		foreach (self::$_rules['verbalization'] as $regexp => $replacement)
+		{
+			$matches = null;
+			$singular = preg_replace($regexp, $replacement, $word, -1, $matches);
+			if ($matches > 0) {
+				$_cache['verbalized'][$word] = $singular;
 				return $singular;
 			}
 		}
