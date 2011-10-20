@@ -32,7 +32,9 @@ class ComLogsModelLogs extends ComDefaultModelDefault
 			->insert('action'      , 'cmd')
 			->insert('user'        , 'cmd')
 			->insert('distinct'    , 'boolean', false)
-			->insert('column'      , 'cmd');
+			->insert('column'      , 'cmd')
+			->insert('start_date'  , 'date')
+			->insert('days_back'   , 'int');
 
 		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
 		
@@ -82,6 +84,15 @@ class ComLogsModelLogs extends ComDefaultModelDefault
 
 		if ($this->_state->action) {
 			$query->where('tbl.action', 'IN', $this->_state->action);
+		}
+
+		if ($this->_state->start_date && $this->_state->days_back) 
+		{
+			$start_date = $this->getService('koowa:date', array('date' => $this->_state->start_date));
+			$days_back = clone $start_date;
+
+			$query->where('tbl.created_on', '<', $start_date->getDate());
+			$query->where('tbl.created_on', '>', $days_back->addDays(-(int)$this->_state->days_back)->getDate());
 		}
 
 		if ($this->_state->user) {
