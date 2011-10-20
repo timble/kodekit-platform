@@ -19,20 +19,5 @@
  */
 class ComCacheControllerToolbarMenubar extends ComDefaultControllerToolbarMenubar
 {
-    public function getCommands()
-    { 
-         $name = $this->getController()->getIdentifier()->name;
-        
-        $this->addCommand('Groups', array(
-        	'href' => JRoute::_('index.php?option=com_cache&view=groups'),
-        	'active' => ($name == 'group')
-        ));
-        
-        $this->addCommand('Keys', array(
-        	'href' => JRoute::_('index.php?option=com_cache&view=keys'),
-            'active' => ($name == 'item')
-        ));
-         
-        return parent::getCommands();
-    }
+  
 }
