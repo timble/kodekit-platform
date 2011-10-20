@@ -258,7 +258,8 @@ abstract class KControllerAbstract extends KObject
 	/**
      * Add one or more behaviors to the controller
      *
-     * @param   array   Array of one or more behaviors to add.
+     * @param   array Array of one or more behaviors to add
+     * @param	array An optional associative array of configuration settings
      * @return  KControllerAbstract
      */
     public function addBehavior($behaviors)
