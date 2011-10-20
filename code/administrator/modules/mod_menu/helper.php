@@ -179,6 +179,8 @@ class modMenuHelper
 			
 			if ($canConfig) {
 				$menu->addChild(new JMenuNode(JText::_('Settings'), 'index.php?option=com_settings', 'class:config'));
+				$menu->addSeparator();
+				$menu->addChild(new JMenuNode(JText::_('Activity Logs'), 'index.php?option=com_logs&view=logs', 'class:config'));
 				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system', 'class:info'));
 				$menu->addSeparator();
 			}
