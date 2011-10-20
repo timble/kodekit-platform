@@ -266,7 +266,8 @@ abstract class KDatabaseTableAbstract extends KObject
 	/**
      * Get a behavior by identifier
      *
-     * @param  
+     * @param   array Array of one or more behaviors to add
+     * @param	array An optional associative array of configuration settings
      * @return KControllerBehaviorAbstract
      */
     public function getBehavior($behavior, $config = array())
