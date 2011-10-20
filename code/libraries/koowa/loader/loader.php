@@ -204,8 +204,11 @@ class KLoader
     {
         $result = false;
         
-        //Don't re-include files and stat the file if it exists
-        if (!in_array($path, get_included_files()) && file_exists($path))
+        /*
+         * Don't re-include files and stat the file if it exists
+         * realpath is needed to resolve symbolic links
+         */
+        if (!in_array(realpath($path), get_included_files()) && file_exists($path))
         {
             $mask = E_ALL ^ E_WARNING;
             if (defined('E_DEPRECATED')) {
