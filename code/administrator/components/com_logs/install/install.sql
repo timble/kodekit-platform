@@ -1,7 +1,7 @@
 -- $Id: install.sql 1244 2010-09-08 22:51:47Z johanjanssens $
 
 CREATE TABLE IF NOT EXISTS `#__logs_logs` (
-	`logs_log_id` SERIAL,
+	`logs_log_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`application` VARCHAR(10) NOT NULL DEFAULT '',
 	`type` VARCHAR(3) NOT NULL DEFAULT '',
 	`package` VARCHAR(50) NOT NULL DEFAULT '',
