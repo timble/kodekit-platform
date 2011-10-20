@@ -1,5 +1,22 @@
 <?php
-/** $Id$ */
+/**
+ * @version		$Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Logs
+ * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+/**
+ * Logs Model Class
+ *
+ * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @category	Nooku
+ * @package    	Nooku_Components
+ * @subpackage 	Logs
+ */
 
 class ComLogsModelLogs extends ComDefaultModelDefault
 {
@@ -8,16 +25,17 @@ class ComLogsModelLogs extends ComDefaultModelDefault
 		parent::__construct($config);
 
 		$this->_state
-			->insert('application', 'cmd')
-			->insert('type', 'cmd')
-			->insert('package', 'cmd')
-			->insert('name', 'cmd')
-			->insert('action', 'cmd')
-			->insert('user', 'cmd')
-			->insert('distinct', 'boolean', false)
-			->insert('column', 'cmd');
+			->insert('application' , 'cmd')
+			->insert('type'        , 'cmd')
+			->insert('package'     , 'cmd')
+			->insert('name'        , 'cmd')
+			->insert('action'      , 'cmd')
+			->insert('user'        , 'cmd')
+			->insert('distinct'    , 'boolean', false)
+			->insert('column'      , 'cmd');
 
 		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
+		
 		// Force ordering by created_on
 		$this->_state->sort = 'created_on';
 	}
@@ -73,11 +91,10 @@ class ComLogsModelLogs extends ComDefaultModelDefault
 
 	protected function _buildQueryOrder(KDatabaseQuery $query)
 	{
-		if($this->_state->distinct && !empty($this->_state->column)) 
-		{
+		if($this->_state->distinct && !empty($this->_state->column)) {
 			$query->order('package', 'asc');
+		} else { 
+		    parent::_buildQueryOrder($query);
 		}
-		else parent::_buildQueryOrder($query);
-
 	}
 }

@@ -10,9 +10,9 @@
  */
 
 /**
- * Revision Row
+ * Component Loader
  *
- * @author      Israel Canasa <raeldc@gmail.com>
+ * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Logs

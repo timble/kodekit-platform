@@ -1,4 +1,15 @@
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php
+/**
+ * @version     $Id: form.php 3040 2011-10-10 00:38:18Z johanjanssens $
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Logs
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+defined('KOOWA') or die('Restricted access') ?>
 
 <style src="media://com_logs/css/logs-widget.css" />
 

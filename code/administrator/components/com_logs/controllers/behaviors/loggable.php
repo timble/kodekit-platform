@@ -10,9 +10,9 @@
  */
 
 /**
- * Log Behavior
+ * Loggable Controller Behavior Class
  *
- * @author      Israel Canasa <israel@timble.net>
+ * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Logs
@@ -20,22 +20,33 @@
 
 class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
+    /**
+     * List of actions to log
+     * 
+     * @var array
+     */
     protected $_actions;
+    
+    /**
+     * The name of the column to use as the title column in the log entry
+     * 
+     * @var string
+     */
     protected $_title_column;
 
     public function __construct(KConfig $config)
     { 
         parent::__construct($config);
         
-        $this->_actions = $config->actions->toArray();
+        $this->_actions      = KConfig::unbox($config->actions);
         $this->_title_column = $config->title_column;
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOWEST,
-            'actions' => array('after.edit', 'after.add', 'after.delete'),
+            'priority'     => KCommand::PRIORITY_LOWEST,
+            'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => 'title',
         ));
 
@@ -44,47 +55,48 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
     
     public function execute($name, KCommandContext $context)
     {
-        if(!in_array($name, $this->_actions))
-            return;
-
-        $identifier = $context->caller->getIdentifier();
-                
-        $data = array(
-            'action' => $context->action,
-            'application' => $identifier->application,
-            'type' => $identifier->type,
-            'package' => $identifier->package,
-            'name' => $identifier->name,
-        );
-
-        $rowset = array();
-        if ($context->result instanceof KDatabaseRowAbstract) {
-            $rowset[] =  $context->result;
-        } elseif($context->result instanceof KDatabaseRowsetAbstract) {
-            $rowset = $context->result;
-        }else{
-            return false;      
-        }
-
-        foreach ($rowset as $row)
+        if(in_array($name, $this->_actions))
         {
-            //Only log if the row status is valid.
-            $status = $row->getStatus();
+            $data = $context->result;
             
-            if(!empty($status))
+            if($data instanceof KDatabaseRowAbstract || $data instanceof KDatabaseRowsetAbstract )
             {
-                if ($row->{$this->_title_column}) {
-                    $data['title'] = $row->{$this->_title_column};
+                 $identifier = $context->caller->getIdentifier();
+                 
+                 $log = array(
+                    'action'	  => $context->action,
+            		'application' => $identifier->application,
+            		'type'        => $identifier->type,
+            		'package'     => $identifier->package,
+            		'name'        => $identifier->name,
+                );
+                
+                $rowset = array(); 
+                
+                if ($data instanceof KDatabaseRowAbstract) {
+                    $rowset[] = $data;
                 } else {
-                    $data['title'] = '#'.$row->id;
+                    $rowset = $data;
                 }
+            
+                foreach ($rowset as $row)
+                {
+                    //Only log if the row status is valid.
+                    $status = $row->getStatus();
+                    
+                    if(!empty($status))
+                    {
+                        if ($row->{$this->_title_column}) {
+                            $log['title'] = $row->{$this->_title_column};
+                        } else {
+                            $log['title'] = '#'.$row->id;
+                        }
 
-                $data['row_id'] = $row->id;
+                        $log['row'] = $row->id;
 
-                $this->getService('com://admin/logs.model.logs')
-                    ->getItem()
-                    ->setData($data)
-                    ->save();
+                        $this->getService('com://admin/logs.database.row.log', array('data' => $log))->save();
+                    }
+                }
             }
         }
     }
