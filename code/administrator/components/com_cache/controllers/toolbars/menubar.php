@@ -30,7 +30,7 @@ class ComCacheControllerToolbarMenubar extends ComDefaultControllerToolbarMenuba
         
         $this->addCommand('Keys', array(
         	'href' => JRoute::_('index.php?option=com_cache&view=keys'),
-            'active' => ($name == 'key')
+            'active' => ($name == 'item')
         ));
          
         return parent::getCommands();
