@@ -270,7 +270,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 						break;
 						
 					case KDatabase::FETCH_FIELD       : 
-						$context->result = $this->_fetchField($result); 
+						$context->result = $this->_fetchField($result, $key); 
 						break;
 						
 					case KDatabase::FETCH_FIELD_LIST  : 
@@ -618,18 +618,19 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Fetch the first field of the first row
      *
      * @param   mysqli_result   The result object. A result set identifier returned by the select() function
+     * @param   integer         The index to use
      * @return The value returned in the query or null if the query failed.
      */
-    abstract protected function _fetchField($result);
+    abstract protected function _fetchField($result, $key = 0);
 
     /**
      * Fetch an array of single field results
      *
      * @param   mysqli_result   The result object. A result set identifier returned by the select() function
-     * @param   string          The column name of the index to use
+     * @param   integer         The index to use
      * @return  array           A sequential array of returned rows.
      */
-    abstract protected function _fetchFieldList($result);
+    abstract protected function _fetchFieldList($result, $key = 0);
 
     /**
      * Fetch the first row of a result set as an associative array
