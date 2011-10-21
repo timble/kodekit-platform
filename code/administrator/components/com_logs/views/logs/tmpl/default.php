@@ -55,17 +55,8 @@ defined('KOOWA') or die('Restricted access') ?>
 			        <?= @date(array('date' => $log->created_on, 'format' => '%l:%M%p'))?>
 				</td>
 
-				<td class="-logs-message">
-					<span class="logs-createdby">
-					    <a href="<? @route('option=com_users&view=user&id='.$log->created_by) ?>"><?= $log->created_by_name?></a>
-					</span> 
-					<span class="logs-action"><?= KInflector::verbalize($log->action); ?></span> 
-					<span class="logs-package"><?= $log->name ?></span> 
-                    <?php if ($log->action != 'delete'): ?>
-						<a href="<?=@route('option=com_'.$log->package.'&view='.$log->name.'&id='.$log->row)?>"><?=$log->title?></a>
-		            <?php else: ?>
-						<span class="logs-deleted"><?= $log->title ?></span>
-		            <?php endif ?>
+				<td class="logs-message">
+					<?= @helper('log.message', array('row' => $log))?>
 				</td>
 			</tr>
         <? endforeach; ?>
