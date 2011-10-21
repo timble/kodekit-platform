@@ -19,6 +19,19 @@
  */
 class ComUsersControllerUser extends ComDefaultControllerDefault
 {
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+        	'behaviors' => array(
+                 $this->getService('com://admin/logs.controller.behavior.loggable', array(
+               		'title_column' => 'name',
+               		'actions'      => array('after.login', 'after.logout')        
+             ))),
+        ));
+    
+        parent::_initialize($config);
+    }
+    
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
@@ -44,37 +57,43 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $credentials['password'] = KRequest::get('post.password', 'raw');
 
         $result = JFactory::getApplication()->login($credentials);
-
+       
         if(JError::isError($result))
         {
             $this->_redirect_type    = 'error';
             $this->_redirect_message =  $result->getError();
+            return false;
         }
-
-        $this->_redirect = KRequest::referrer();
+        else 
+        {
+            $user = JFactory::getUser();
+            $row  = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
+            return $row;  
+        } 
     }
 
     protected function _actionLogout(KCommandContext $context)
     {
-        $users = $this->getModel()->getList();
+        $rowset = clone $this->getModel()->getList();
         					
-	    if(count($users)) 
+	    if(count($rowset)) 
 	    {
-	        foreach($users as $user)
+	        foreach($rowset as $user)
 	        {
 	            $clients = array(0, 1); //Force logout from site and administrator
 	            $result = JFactory::getApplication()
 	                            ->logout($user->id, array('clientid' => $clients));
-
+	                          
                 if(JError::isError($result))
                 {
                     $this->_redirect_type    = 'error';
                     $this->_redirect_message =  $result->getError();
                 }
+                else $user->setStatus('logged out');
 	        }
 		} 
         
-        $this->_redirect = KRequest::referrer();
+        return $rowset;
     }
 
     public function notify(KCommandContext $context)
