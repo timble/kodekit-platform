@@ -31,6 +31,7 @@ class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
             'name'               => 'newsfeeds',
             'behaviors'          => array('lockable', $orderable, $sluggable),
             'column_map'         => array(
+                'title'	    => 'name',
                 'enabled'   => 'published',
                 'locked_on' => 'checked_out_time',
                 'locked_by' => 'checked_out',
