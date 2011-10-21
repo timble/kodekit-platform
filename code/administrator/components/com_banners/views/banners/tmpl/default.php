@@ -23,7 +23,7 @@ defined('KOOWA') or die('Restricted access'); ?>
             <tr>
                 <th width="10"></th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'name')); ?>
+                    <?= @helper('grid.sort', array('column' => 'title')); ?>
                 </th>
                 <th width="5%">
                     <?= @helper('grid.sort', array('column' => 'showbanner', 'title' => 'published')); ?>
@@ -72,7 +72,7 @@ defined('KOOWA') or die('Restricted access'); ?>
                 </td>
                 <td align="left">
                 	<a href="<?= @route('view=banner&id='.$banner->id); ?>">
-                        <?=$banner->name?>
+                        <?=$banner->title; ?>
                     </a>
                 </td>
                 <td align="center">
