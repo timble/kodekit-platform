@@ -66,8 +66,7 @@ class KLoaderAdapterModule extends KLoaderAdapterAbstract
 			    } 
 			    else $parts[0] = KInflector::pluralize($parts[0]);
 					
-				$path = implode('/', $parts);
-				$path = $path.'/'.$file;
+				$path = implode('/', $parts).'/'.$file;
 			} 
 			else $path = $file;
 				
