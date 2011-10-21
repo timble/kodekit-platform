@@ -61,16 +61,6 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
             
             if($data instanceof KDatabaseRowAbstract || $data instanceof KDatabaseRowsetAbstract )
             {
-                 $identifier = $context->caller->getIdentifier();
-                 
-                 $log = array(
-                    'action'	  => $context->action,
-            		'application' => $identifier->application,
-            		'type'        => $identifier->type,
-            		'package'     => $identifier->package,
-            		'name'        => $identifier->name,
-                );
-                
                 $rowset = array(); 
                 
                 if ($data instanceof KDatabaseRowAbstract) {
@@ -86,6 +76,17 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
                     
                     if(!empty($status))
                     {
+                         $identifier = $context->caller->getIdentifier();
+                 
+                         $log = array(
+                            'action'	  => $context->action,
+            				'application' => $identifier->application,
+            				'type'        => $identifier->type,
+            				'package'     => $identifier->package,
+            				'name'        => $identifier->name,
+                    		'status'      => $status
+                        );
+                
                         if ($row->{$this->_title_column}) {
                             $log['title'] = $row->{$this->_title_column};
                         } else {
