@@ -29,7 +29,7 @@ window.addEvent('domready', function(){
 <form action="" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
-			<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= @escape($banner->name) ?>" placeholder="<?= @text('Name') ?>" />
+			<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= @escape($banner->title) ?>" placeholder="<?= @text('Name') ?>" />
 		
 			<label for="slug">
 				<?= @text( 'Slug' ) ?>
