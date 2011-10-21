@@ -1,3 +1,7 @@
+#sidebar h3 {
+	background: #eaeaea;
+}
+
 td.logs-timeago,
 table.adminlist tbody tr:nth-child(even) td.logs-timeago {
 	height: auto;
@@ -22,4 +26,30 @@ table.adminlist thead th.-logs-item {
 
 .logs-deleted {
 	text-decoration: line-through;
+}
+
+.logs-filter{
+	margin: 20px 0 0 0;
+}
+
+.logs-filter h4 {
+	padding: 5px 0 10px 0;
+	margin: 0;
+	clear: both;
+}
+
+#sidebar fieldset{
+	margin: 10px 0 0 0;
+	padding: 0 10px;
+	border: none;
+}
+
+.logs-calendar > * {
+	float:left;
+}
+
+.logs-buttons {
+	margin: 10px 0 0 0;
+	text-align: left;
+	letter-spacing: 10px;
 }
