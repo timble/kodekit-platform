@@ -30,6 +30,7 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
             'name'      => 'contact_details',
             'behaviors' => array('orderable', 'lockable', $sluggable),
             'column_map'=> array(
+                'title'     => 'name',
                 'enabled' 	=> 'published',
 				'locked_on' => 'checked_out_time',
 				'locked_by'	=> 'checked_out',
