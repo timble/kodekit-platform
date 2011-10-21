@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__logs_logs` (
 	`action` VARCHAR(50) NOT NULL DEFAULT '',
 	`row` BIGINT NOT NULL DEFAULT '0',
 	`title` VARCHAR(255) NOT NULL DEFAULT '',
+	`status` varchar(100) NOT NULL,
 	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY(`logs_log_id`)
