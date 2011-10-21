@@ -31,6 +31,7 @@ class ComBannersDatabaseTableBanners extends KDatabaseTableDefault
             'name'               => 'banner',
             'behaviors'		     => array('creatable', 'lockable', $sluggable, $orderable, 'hittable'),
             'column_map'         => array(
+                'title'		 => 'name',
                 'enabled'    => 'showBanner',
                 'created_on' => 'date',
                 'locked_on'  => 'checked_out_time',
