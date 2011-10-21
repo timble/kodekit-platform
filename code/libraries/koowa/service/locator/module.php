@@ -108,9 +108,15 @@ class KServiceLocatorModule extends KServiceLocatorAbstract
 		{
 			if(count($parts)) 
 			{
-				$path    = KInflector::pluralize(array_shift($parts)).
-				$path   .= count($parts) ? '/'.implode('/', $parts) : '';
-				$path   .= '/'.strtolower($identifier->name);	
+				if($parts[0] != 'view') 
+			    {
+			        foreach($parts as $key => $value) {
+					    $parts[$key] = KInflector::pluralize($value);
+				    }
+			    } 
+			    else $parts[0] = KInflector::pluralize($parts[0]);
+			    
+				$path = implode('/', $parts).'/'.strtolower($identifier->name);	
 			} 
 			else $path  = strtolower($identifier->name);	
 		}
