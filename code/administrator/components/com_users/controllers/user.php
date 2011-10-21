@@ -57,25 +57,27 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $credentials['password'] = KRequest::get('post.password', 'raw');
 
         $result = JFactory::getApplication()->login($credentials);
-       
+         
         if(JError::isError($result))
         {
             $this->_redirect_type    = 'error';
             $this->_redirect_message =  $result->getError();
-            return false;
+            $result = false;
         }
         else 
         {
-            $user = JFactory::getUser();
-            $row  = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
-            return $row;  
+            $user  = JFactory::getUser();
+            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
         } 
+        
+        $this->_redirect = KRequest::referrer();
+        return $result;
     }
 
     protected function _actionLogout(KCommandContext $context)
     {
         $rowset = clone $this->getModel()->getList();
-        					
+        
 	    if(count($rowset)) 
 	    {
 	        foreach($rowset as $user)
@@ -92,7 +94,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
                 else $user->setStatus('logged out');
 	        }
 		} 
-        
+		
+		$this->_redirect = KRequest::referrer();
         return $rowset;
     }
 
