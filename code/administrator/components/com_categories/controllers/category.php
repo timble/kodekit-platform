@@ -19,6 +19,15 @@
  */
 abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefault
 { 
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+        	'behaviors' => array('com://admin/logs.controller.behavior.loggable'),
+        ));
+    
+        parent::_initialize($config);
+    }
+    
     protected function _actionGet(KCommandContext $context)
     {
         $view = $this->getView();
