@@ -48,6 +48,9 @@ class Koowa
         //Initialize the path
         $this->_path = dirname(__FILE__);
         
+        //Load the legacy functions
+        require_once $this->_path.'/legacy.php';
+        
         //Setup the loader
         require_once $this->_path.'/loader/loader.php';
         $loader = KLoader::getInstance($config);
