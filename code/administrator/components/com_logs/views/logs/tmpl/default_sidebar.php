@@ -12,7 +12,24 @@
 defined('KOOWA') or die('Restricted access') ?>
 
 <div id="sidebar">
-	<h3><?=@text( 'Time Filter' )?></h3>
+	
+	<h3><?=@text( 'Components' )?></h3>
+	<ul>
+		<li class="<?= empty($state->package) ? 'active' : ''; ?>">
+			<a href="<?= @route('package=') ?>">
+		    <?= @text('All components')?>
+			</a>
+		</li>
+	    <?php foreach ($packages as $package): ?>
+		    <?php if ($package->id == $state->package): ?>
+				<li class="active">
+		    <?php else: ?> <li> <?php endif ?>
+				<a href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
+			</li>	
+	    <?php endforeach ?>
+	</ul>
+	
+	<h3><?=@text( 'Filter' )?></h3>
 
 	<form action="" method="get">
 	<div class="-logs-time-filter">
@@ -30,15 +47,4 @@ defined('KOOWA') or die('Restricted access') ?>
 		</div>
 	</div>
 	</form>
-
-	<h3><?=@text( 'Components' )?></h3>
-	<ul>
-	    <?php foreach ($packages as $package): ?>
-		    <?php if ($package->id == $state->package): ?>
-				<li class="active">
-		    <?php else: ?> <li> <?php endif ?>
-				<a href="<?=@route('view=logs&package='.$package->id)?>"><?=ucfirst($package->package)?></a>
-			</li>	
-	    <?php endforeach ?>
-	</ul>
 </div>
