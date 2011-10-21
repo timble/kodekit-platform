@@ -22,7 +22,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             <tr>
                 <th width="10"></th>
     			<th>
-    			    <?= @helper('grid.sort', array('column' => 'name')) ?>
+    			    <?= @helper('grid.sort', array('column' => 'title')) ?>
     			</th>
     			<th width="7%">
     			    <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
@@ -65,7 +65,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <td>
                     	<a href="<?= @route('view=newsfeed&id='.$newsfeed->id) ?>">
-                    	    <?= @escape($newsfeed->name) ?>
+                    	    <?= @escape($newsfeed->title) ?>
                     	</a>
                     </td>
                     <td align="center">
