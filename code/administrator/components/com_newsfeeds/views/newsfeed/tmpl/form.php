@@ -29,7 +29,7 @@ if(Form && Form.Validator) {
 <form action="" method="post" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
-        	<input class="inputbox required" type="text" name="name" id="title" size="40" maxlength="255" value="<?= $newsfeed->name; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+        	<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $newsfeed->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
             <label for="slug">
                 <?= @text( 'Slug' ); ?>:
                 <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $newsfeed->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
