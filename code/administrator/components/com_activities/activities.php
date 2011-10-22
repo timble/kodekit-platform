@@ -17,4 +17,4 @@
  * @package    	Nooku_Components
  * @subpackage 	Logs
  */
-echo KService::get('com://admin/logs.dispatcher')->dispatch();
+echo KService::get('com://admin/activities.dispatcher')->dispatch();

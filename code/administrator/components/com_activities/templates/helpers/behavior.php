@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Logs
  */
-class ComLogsTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
+class ComActivitiesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 {
 	public function calendar($config = array())
 	{

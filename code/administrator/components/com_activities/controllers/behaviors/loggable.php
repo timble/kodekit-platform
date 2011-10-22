@@ -18,7 +18,7 @@
  * @subpackage 	Logs
  */
 
-class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
+class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
     /**
      * List of actions to log
@@ -95,7 +95,7 @@ class ComLogsControllerBehaviorLoggable extends KControllerBehaviorAbstract
 
                         $log['row'] = $row->id;
 
-                        $this->getService('com://admin/logs.database.row.log', array('data' => $log))->save();
+                        $this->getService('com://admin/activities.database.row.log', array('data' => $log))->save();
                     }
                 }
             }

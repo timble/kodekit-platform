@@ -18,7 +18,7 @@
  * @subpackage 	Logs
  */
 
-class ComLogsDatabaseTableLogs extends KDatabaseTableDefault
+class ComActivitiesDatabaseTableLogs extends KDatabaseTableDefault
 {
     protected function _initialize(KConfig $config)
     {

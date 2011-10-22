@@ -26,7 +26,7 @@ foreach ($logs as $log) {
 			<? foreach($logs as $log) : ?>
 			<div class="activity">
 				<span class="icon icon-16-<?= $log->action ?>"></span>
-				<?= @helper('com://admin/logs.template.helper.message.build', array('row' => $log)) ?>
+				<?= @helper('com://admin/activities.template.helper.message.build', array('row' => $log)) ?>
 				<span class="info">
 					<small><?= $log->package.' - '.$log->name ?> | <?= date("H:i", strtotime($log->created_on)) ?></small>
 				</span>

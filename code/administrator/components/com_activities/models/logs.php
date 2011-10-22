@@ -18,7 +18,7 @@
  * @subpackage 	Logs
  */
 
-class ComLogsModelLogs extends ComDefaultModelDefault
+class ComActivitiesModelLogs extends ComDefaultModelDefault
 {
 	public function __construct(KConfig $config)
 	{

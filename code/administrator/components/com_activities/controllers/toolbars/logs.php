@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Logs
  */
-class ComLogsControllerToolbarLogs extends ComDefaultControllerToolbarDefault
+class ComActivitiesControllerToolbarLogs extends ComDefaultControllerToolbarDefault
 {
     public function getCommands()
     {
