@@ -18,7 +18,7 @@
  * @subpackage 	Logs
  */
 
-class ComActivitiesTemplateHelperLog extends KTemplateHelperDefault implements KServiceInstantiatable
+class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault implements KServiceInstantiatable
 {
 	/**
      * Check for overrides of the helper
