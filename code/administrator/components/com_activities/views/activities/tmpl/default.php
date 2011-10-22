@@ -36,8 +36,8 @@ defined('KOOWA') or die('Restricted access') ?>
 		</tfoot>
 		<tbody>
 		<? $date = $old_date = '';   ?>
-		<? foreach ($logs as $log) : ?>	
-	        <? $date = @date(array('date' => $log->created_on, 'format' => '%d %b %Y'))?>
+		<? foreach ($activities as $activity) : ?>	
+	        <? $date = @date(array('date' => $activity->created_on, 'format' => '%d %b %Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr>
@@ -48,15 +48,15 @@ defined('KOOWA') or die('Restricted access') ?>
 	        <? endif; ?>
 			<tr>
 				<td>
-			        <?= @helper('grid.checkbox',array('row' => $log)); ?>
+			        <?= @helper('grid.checkbox',array('row' => $activity)); ?>
 				</td>
 
 				<td align="left" class="logs-when">
-			        <?= @date(array('date' => $log->created_on, 'format' => '%l:%M%p'))?>
+			        <?= @date(array('date' => $activity->created_on, 'format' => '%l:%M%p'))?>
 				</td>
 
 				<td class="logs-message">
-					<?= @helper('log.message', array('row' => $log))?>
+					<?= @helper('activity.message', array('row' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

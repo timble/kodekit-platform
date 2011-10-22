@@ -14,21 +14,21 @@ defined('KOOWA') or die('Restricted access') ?>
 <style src="media://com_logs/css/logs-list.css" />
 
 <?
-foreach ($logs as $log) {
-	$list[substr($log->created_on, 0, 10)][] = $log;
+foreach ($activities as $activity) {
+	$list[substr($activity->created_on, 0, 10)][] = $activity;
 }
 ?>
 
 <div id="logs-list">
-	<? foreach($list as $date => $logs) : ?>
+	<? foreach($list as $date => $activities) : ?>
 		<h4><?= @helper('date.humanize', array('date' => $date)) ?></h4>
 		<div class="activities">
-			<? foreach($logs as $log) : ?>
+			<? foreach($activities as $activity) : ?>
 			<div class="activity">
-				<span class="icon icon-16-<?= $log->action ?>"></span>
-				<?= @helper('com://admin/activities.template.helper.message.build', array('row' => $log)) ?>
+				<span class="icon icon-16-<?= $activity->action ?>"></span>
+				<?= @helper('com://admin/activities.template.helper.message.build', array('row' => $activity)) ?>
 				<span class="info">
-					<small><?= $log->package.' - '.$log->name ?> | <?= date("H:i", strtotime($log->created_on)) ?></small>
+					<small><?= $activity->package.' - '.$activity->name ?> | <?= date("H:i", strtotime($activity->created_on)) ?></small>
 				</span>
 			</div>
 			<? endforeach ?>

@@ -13,14 +13,14 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <style src="media://com_logs/css/logs-widget.css" />
 
-<? if(count($logs)) : ?>
+<? if(count($activities)) : ?>
 	<form action="<?= @route()?>" method="get" class="-koowa-grid">
 		<table class="adminlist" style="clear: both;">
 			<tbody>
 				<?
 				$timeago = '';
-				foreach ($logs as $log) : 
-					$timeago_text = @timeago($log->created_on);
+				foreach ($activities as $activity) : 
+					$timeago_text = @timeago($activity->created_on);
 					$show_timeago = ($timeago != $timeago_text);
 					$timeago = $timeago_text;
 
@@ -35,19 +35,19 @@ defined('KOOWA') or die('Restricted access') ?>
 
 					<tr>
 						<td class="-logs-message">
-							On <strong><?=@date($log->created_on)?></strong>,
+							On <strong><?=@date($activity->created_on)?></strong>,
 
-							<span class="-logs-createdby"><?=$log->created_by_name?></span> 
+							<span class="-logs-createdby"><?=$activity->created_by_name?></span> 
 
 							performed 
 							
-							<span class="-logs-action"><?=ucfirst($log->action)?></span> 
+							<span class="-logs-action"><?=ucfirst($activity->action)?></span> 
 
 							in 
 
-							<span class="-logs-package"><?=ucfirst($log->package)?></span> 
+							<span class="-logs-package"><?=ucfirst($activity->package)?></span> 
 
-							<?=@text('Component')?>&rsquo;s <?=ucfirst($log->name)?> - <a href="<?=@route('index.php?option=com_'.$log->package.'&view='.$log->name.'&id='.$log->row_id)?>" target="new"><?=$log->title?></a>.
+							<?=@text('Component')?>&rsquo;s <?=ucfirst($activity->name)?> - <a href="<?=@route('index.php?option=com_'.$activity->package.'&view='.$activity->name.'&id='.$activity->row_id)?>" target="new"><?=$activity->title?></a>.
 						</td>
 					</tr>
 				<? endforeach; ?>
