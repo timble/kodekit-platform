@@ -23,7 +23,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $config->append(array(
         	'behaviors' => array(
-                 $this->getService('com://admin/logs.controller.behavior.loggable', array(
+                 $this->getService('com://admin/activities.controller.behavior.loggable', array(
                		'title_column' => 'name',
                		'actions'      => array('after.login', 'after.logout')        
              ))),

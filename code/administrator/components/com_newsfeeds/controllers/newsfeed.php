@@ -22,7 +22,7 @@ class ComNewsfeedsControllerNewsfeed extends ComDefaultControllerDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('com://admin/logs.controller.behavior.loggable'),
+        	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
         ));
     
         parent::_initialize($config);
