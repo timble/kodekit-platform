@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Logs
  */
-class ComActivitiesControllerToolbarLogs extends ComDefaultControllerToolbarDefault
+class ComActivitiesControllerToolbarActivities extends ComDefaultControllerToolbarDefault
 {
     public function getCommands()
     {
@@ -31,7 +31,7 @@ class ComActivitiesControllerToolbarLogs extends ComDefaultControllerToolbarDefa
     {
         $command->append(array(
             'attribs' => array(
-                'data-url' => 'index.php?option=com_logs&view=logs',
+                'data-url' => 'index.php?option=com_activities&view=activities',
                 'data-action' => 'delete'
             )
         ));
