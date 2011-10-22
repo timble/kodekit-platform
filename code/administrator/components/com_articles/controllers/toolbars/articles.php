@@ -35,8 +35,8 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
         else 
         {
             $this->reset()
-                 ->addDelete()
-                 ->addRestore(); 
+                 ->addRestore()
+                 ->addDelete(array('label' => 'Delete forever'));
         }
         
         return parent::getCommands();
