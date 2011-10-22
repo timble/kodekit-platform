@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<style src="media://com_logs/css/logs-default.css" />
+<style src="media://com_activities/css/activities-default.css" />
 
 <?= @template('default_sidebar')?>
 
@@ -23,8 +23,8 @@ defined('KOOWA') or die('Restricted access') ?>
 				<th width="10" align="center">
                     <?= @helper('grid.checkall') ?>
                 </th>
-				<th class="logs-time"><?=@text('Time')?></th>
-				<th class="logs-message"><?=@text('Message')?></th>
+				<th class="activities-time"><?=@text('Time')?></th>
+				<th class="activities-message"><?=@text('Message')?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -41,7 +41,7 @@ defined('KOOWA') or die('Restricted access') ?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
 	        <tr>
-				<td class="logs-timeago" colspan="3">
+				<td class="activities-timeago" colspan="3">
 			        <?= $date; ?>
 				</td>
 			</tr>
@@ -51,11 +51,11 @@ defined('KOOWA') or die('Restricted access') ?>
 			        <?= @helper('grid.checkbox',array('row' => $activity)); ?>
 				</td>
 
-				<td align="left" class="logs-when">
+				<td align="left" class="activities-when">
 			        <?= @date(array('date' => $activity->created_on, 'format' => '%l:%M%p'))?>
 				</td>
 
-				<td class="logs-message">
+				<td class="activities-message">
 					<?= @helper('activity.message', array('row' => $activity))?>
 				</td>
 			</tr>

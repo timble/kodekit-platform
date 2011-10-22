@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<style src="media://com_logs/css/logs-widget.css" />
+<style src="media://com_activities/css/activities-widget.css" />
 
 <? if(count($activities)) : ?>
 	<form action="<?= @route()?>" method="get" class="-koowa-grid">
@@ -27,25 +27,25 @@ defined('KOOWA') or die('Restricted access') ?>
 				?>
 					<?php if ($show_timeago): ?>
 						<tr>
-							<td class="-logs-timeago" colspan="4">
+							<td class="activities-timeago" colspan="4">
 								<?=($show_timeago) ? $timeago_text: ''?>
 							</td>
 						</tr>
 					<?php endif ?>
 
 					<tr>
-						<td class="-logs-message">
+						<td class="activities-message">
 							On <strong><?=@date($activity->created_on)?></strong>,
 
-							<span class="-logs-createdby"><?=$activity->created_by_name?></span> 
+							<span class="activities-createdby"><?=$activity->created_by_name?></span> 
 
 							performed 
 							
-							<span class="-logs-action"><?=ucfirst($activity->action)?></span> 
+							<span class="activities-action"><?=ucfirst($activity->action)?></span> 
 
 							in 
 
-							<span class="-logs-package"><?=ucfirst($activity->package)?></span> 
+							<span class="activities-package"><?=ucfirst($activity->package)?></span> 
 
 							<?=@text('Component')?>&rsquo;s <?=ucfirst($activity->name)?> - <a href="<?=@route('index.php?option=com_'.$activity->package.'&view='.$activity->name.'&id='.$activity->row_id)?>" target="new"><?=$activity->title?></a>.
 						</td>
@@ -56,7 +56,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			<tfoot>
 				<tr>
 					<td colspan="20">
-						<a href="<?=@route('index.php?option=com_logs&view=logs&layout=default')?>">View All</a>
+						<a href="<?=@route('index.php?option=com_activities&view=logs&layout=default')?>">View All</a>
 					</td>
 				</tr>
 			</tfoot>

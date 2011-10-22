@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<style src="media://com_logs/css/logs-list.css" />
+<style src="media://com_activities/css/activities-list.css" />
 
 <?
 foreach ($activities as $activity) {
@@ -19,7 +19,7 @@ foreach ($activities as $activity) {
 }
 ?>
 
-<div id="logs-list">
+<div id="activities-list">
 	<? foreach($list as $date => $activities) : ?>
 		<h4><?= @helper('date.humanize', array('date' => $date)) ?></h4>
 		<div class="activities">

@@ -2,8 +2,8 @@
 	background: #eaeaea;
 }
 
-td.logs-timeago,
-table.adminlist tbody tr:nth-child(even) td.logs-timeago {
+td.activities-timeago,
+table.adminlist tbody tr:nth-child(even) td.activities-timeago {
 	height: auto;
 	text-align: left;	
 	font-weight: bold;
@@ -11,28 +11,28 @@ table.adminlist tbody tr:nth-child(even) td.logs-timeago {
 	border-bottom: 1px solid #dddddd;
 }
 
-.logs-time {
+.activities-time {
 	font-weight: bold;
 }
 
-.logs-action {
+.activities-action {
 	font-weight: bold;
 }
 
-.logs-item,
-table.adminlist thead th.-logs-item {
+.activities-item,
+table.adminlist thead th.-activities-item {
 	text-align: left;
 }
 
-.logs-deleted {
+.activities-deleted {
 	text-decoration: line-through;
 }
 
-.logs-filter{
+.activities-filter{
 	margin: 20px 0 0 0;
 }
 
-.logs-filter h4 {
+.activities-filter h4 {
 	padding: 5px 0 10px 0;
 	margin: 0;
 	clear: both;
@@ -44,11 +44,11 @@ table.adminlist thead th.-logs-item {
 	border: none;
 }
 
-.logs-calendar > * {
+.activities-calendar > * {
 	float:left;
 }
 
-.logs-buttons {
+.activities-buttons {
 	margin: 10px 0 0 0;
 	text-align: left;
 	letter-spacing: 10px;

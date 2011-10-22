@@ -11,14 +11,14 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<style src="media://com_logs/css/logs-widget.css" />
+<style src="media://com_activities/css/activities-widget.css" />
 
 <? if(count($activities)) : ?>
 	<? foreach ($activities as $activity) :
 		$list[substr($activity->created_on, 0, 10)][] = $activity;
 	endforeach; ?>
 
-	<div id="logs-logs-widget">
+	<div id="activities-activities-widget">
 		<table class="logs" style="clear: both;">
 			<thead>
 				<tr>	

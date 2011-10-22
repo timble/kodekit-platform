@@ -31,21 +31,21 @@ defined('KOOWA') or die('Restricted access') ?>
 	    <?php endforeach ?>
 	</ul>
 	
-	<div class="logs-filter">
+	<div class="activities-filter">
 		<h3><?=@text( 'Time Filter' )?></h3>
 
-		<form action="" method="get" name="logs-time-filter">
+		<form action="" method="get" name="activities-time-filter">
 			<fieldset>
 				<h4><?=@text( 'Start Date' )?></h4>
-				<div class="logs-calendar">
+				<div class="activities-calendar">
 					<?= @helper('behavior.calendar', array('date' => $state->start_date, 'name' => 'start_date')); ?>
 				</div>
 
 				<h4><?=@text( 'Days Back' )?></h4>
-				<div class="logs-days-back">
+				<div class="activities-days-back">
 					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : 14?>" />
 				</div>
-				<div class="logs-buttons">
+				<div class="activities-buttons">
 					<input type="reset" name="cancelfilter" value="<?=@text('Reset')?>" />
 					<input type="submit" name="submitfilter" value="<?=@text('Filter')?>" />
 				</div>
@@ -53,10 +53,10 @@ defined('KOOWA') or die('Restricted access') ?>
 		</form>
 	</div>
 
-	<div class="logs-filter">
+	<div class="activities-filter">
 		<h3><?=@text( 'Users' )?></h3>
 
-		<form action="" method="get" name="logs-user-filter">
+		<form action="" method="get" name="activities-user-filter">
 			<fieldset>
 				<div>
 					<?= @helper('com://admin/users.template.helper.autocomplete.users', 
@@ -67,7 +67,7 @@ defined('KOOWA') or die('Restricted access') ?>
 								'attribs' => array('size' => 30)
 							)) ?>
 				</div>
-				<div class="logs-buttons">
+				<div class="activities-buttons">
 					<input type="submit" name="submitfilter" value="<?=@text('Filter')?>" />
 				</div>
 			</fieldset>
