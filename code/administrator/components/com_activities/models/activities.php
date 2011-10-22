@@ -48,7 +48,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 		{
 			$query->distinct()
 				->select($this->_state->column)
-				->select($this->_state->column . ' AS logs_log_id');
+				->select($this->_state->column . ' AS activities_activity_id');
 		}
 		else
 		{
