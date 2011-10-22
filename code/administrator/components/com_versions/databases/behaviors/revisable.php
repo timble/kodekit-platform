@@ -151,14 +151,14 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	{
     	    if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
+    		    //Set the status
+    		    $this->setStatus('restored');
+    		    
     		    //Restore the row
-    			$this->getTable()->getRow()->setData($this->getData())->save();
-
-    			//Set the row status to updated
-    			$this->setStatus(KDatabase::STATUS_UPDATED);
-
+    			$table->getRow()->setData($this->getData())->save();
+    			
     			//Delete the revision
-    			$this->_deleteRevisions(KDatabase::STATUS_DELETED);
+    			$context->affected = $this->_deleteRevisions(KDatabase::STATUS_DELETED);
     			
     			return false;
     		}
@@ -175,7 +175,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableUpdate(KCommandContext $context)
     {
-    	// Only insert new revision if the database was updated
+        // Only insert new revision if the database was updated
         if ((bool) $context->affected) {
             $this->_insertRevision(KDatabase::STATUS_UPDATED);
         }
@@ -221,6 +221,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     protected function _afterTableDelete(KCommandContext $context)
     {
     	$this->_insertRevision(KDatabase::STATUS_DELETED);
+    	
+    	$this->setStatus('trashed');
     }
     
     /**
