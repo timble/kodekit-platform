@@ -18,7 +18,7 @@
  * @subpackage 	Logs
  */
 
-class ComActivitiesViewLogsHtml extends ComDefaultViewHtml
+class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
