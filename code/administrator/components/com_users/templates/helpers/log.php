@@ -18,7 +18,7 @@
  * @subpackage 	Users
  */
 
-class ComUsersTemplateHelperLog extends ComLogsTemplateHelperLog
+class ComUsersTemplateHelperActivity extends ComActivitiesTemplateHelperActivity
 {
     public function message($config = array())
 	{
