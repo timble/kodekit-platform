@@ -95,7 +95,7 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
 
                         $log['row'] = $row->id;
 
-                        $this->getService('com://admin/activities.database.row.log', array('data' => $log))->save();
+                        $this->getService('com://admin/activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
             }
