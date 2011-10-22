@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Nooku
  * @package     Nooku_Components
- * @subpackage  Logs
+ * @subpackage  Activities
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
@@ -15,7 +15,7 @@
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @category	Nooku
  * @package    	Nooku_Components
- * @subpackage 	Logs
+ * @subpackage 	Activities
  */
 
 class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault implements KServiceInstantiatable
@@ -25,7 +25,7 @@ class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault impleme
      *
      * @param 	object 	An optional KConfig object with configuration options
      * @param 	object	A KServiceInterface object
-     * @return ComLogsTemplateHelperLog
+     * @return ComActivitiesTemplateHelperActivity
      */
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {

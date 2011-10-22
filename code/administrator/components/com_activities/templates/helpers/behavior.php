@@ -15,7 +15,7 @@
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Logs
+ * @subpackage  Activities
  */
 class ComActivitiesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 {
