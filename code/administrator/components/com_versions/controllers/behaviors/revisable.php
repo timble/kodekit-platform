@@ -19,52 +19,8 @@
  */
 class ComVersionsControllerBehaviorRevisable extends KControllerBehaviorAbstract
 {
-	/**
-     * Initializes the default configuration for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options.
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-    		'priority'	=> KCommand::PRIORITY_LOW,
-        ));
- 
-        parent::_initialize($config);
-    }
-	
-	/**
-	 * Add toolbar commands
-	 * .
-	 * @param	KCommandContext	A command context object
-	 */
-    protected function _afterBrowse(KCommandContext $context)
-    {    
-        if($this->isCommandable())
-        {
-            $state = $this->getModel()->getState();
-            
-            if($state->trashed == true) 
-            {    
-                $this->getToolbar()->reset();
-                 
-                if($this->canEdit()) 
-                {
-                    $this->getToolbar()->addRestore(array(
-                    	'attribs' => array('data-action' => 'edit')
-                    ));
-                }
-            
-                if($this->canDelete()) 
-                {
-                    $this->getToolbar()->addDelete(array(
-                		'label' => 'Delete forever'
-                     ));
-                }
-            }
-        }
-    }
+	protected function _beforeGet(KCommandContext $context)
+	{
+	    $this->addToolbar('com://admin/versions.controller.toolbar.revisable');
+	}
 }
