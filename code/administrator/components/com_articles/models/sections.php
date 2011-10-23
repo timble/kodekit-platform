@@ -25,8 +25,8 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		
 		$this->_state
 		 	->insert('search'	 , 'string')
-			->insert('scope'	 ,'string', '')
-			->insert('published' ,'int');
+			->insert('scope'	 , 'string', '')
+			->insert('published' , 'boolean');
 
 	}
 	
@@ -66,8 +66,8 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 			$query->where('tbl.scope', 'LIKE',  $state->scope);
 		}
 		
-		if(is_numeric($state->published)) {
-			$query->where('tbl.published', '=', $state->published);
+		if($state->published) {
+			$query->where('tbl.published', '=', (int) $state->published);
 		}
 	      
 		parent::_buildQueryWhere($query);
