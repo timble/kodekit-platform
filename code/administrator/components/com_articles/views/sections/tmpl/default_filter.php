@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= $state->published === null ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->published) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('published=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
