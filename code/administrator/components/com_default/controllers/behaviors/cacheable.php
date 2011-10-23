@@ -97,9 +97,9 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
             }  
  
             //Dequeue the commandable behavior from the chain
-            if($commandable = $this->getBehavior('commandable')) {
-                $this->getCommandChain()->dequeue($commandable);
-            }
+            //if($commandable = $this->getBehavior('commandable')) {
+            //    $this->getCommandChain()->dequeue($commandable);
+            //}
            
             $this->_output = $context->result;
 	    }
