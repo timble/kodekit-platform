@@ -17,16 +17,16 @@
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
-class ComCategoriesControllerToolbarCategories extends ComDefaultControllerToolbarDefault
+class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
-        $this->addSeparator()    
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
+        $this->addSeparator()     
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
-	    
-        return parent::getCommands();
-    }
+    }  
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
