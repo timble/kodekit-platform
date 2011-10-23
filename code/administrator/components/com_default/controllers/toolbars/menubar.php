@@ -17,8 +17,26 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
+class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 {
+	/**
+	 * Render the menubar
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onAfterControllerGet(KEvent $event)
+    {   
+        if($this->getController()->isDispatched() && ($this->getController()->getView() instanceof KViewHtml))
+        {
+	        $document = JFactory::getDocument();
+            
+            $config = array('menubar' => $this);
+            $menubar = $this->getController()->getView()->getTemplate()->getHelper('menubar')->render($config);
+        
+            $document->setBuffer($menubar, 'modules', 'submenu');
+        }
+    }
+ 	
  	/**
      * Add a command
      * 
