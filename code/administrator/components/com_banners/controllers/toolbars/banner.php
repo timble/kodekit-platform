@@ -10,21 +10,21 @@
  */
 
 /**
- * Banners Toolbar Class
+ * Banner Toolbar Class
  *
  * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Banners    
  */
-class ComBannersControllerToolbarBanners extends ComDefaultControllerToolbarDefault
+class ComBannersControllerToolbarBanner extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
-        $this->addSeparator()
-              ->addEnable()
-              ->addDisable();
-         
-        return parent::getCommands();
-    }
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
+        $this->addSeparator()     
+			 ->addEnable(array('label' => 'publish'))
+			 ->addDisable(array('label' => 'unpublish'));
+    }  
 }
