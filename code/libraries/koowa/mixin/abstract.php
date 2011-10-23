@@ -55,7 +55,7 @@ abstract class KMixinAbstract implements KMixinInterface
         }
             
         //Set the mixer
-        $this->_mixer = $config->mixer;
+        $this->setMixer($config->mixer);
     }
     
     /**
