@@ -12,28 +12,28 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_numeric($state->enabled) && !$state->never_visited && !$state->logged_in ? 'active' : ''; ?> separator-right">
-			<a href="<?= @route('enabled=' ) ?>">
+		<li class="<?= is_null($state->enabled) && is_null($state->visited) && is_null($state->loggedin) ? 'active' : ''; ?> separator-right">
+			<a href="<?= @route('enabled=&loggedin=&visited=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
 		</li>
-		<li class="<?= $state->enabled == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=0' ) ?>">
+		<li class="<?= $state->enabled === true ? 'active' : ''; ?>">
+			<a href="<?= @route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
 			    <?= @text('Enabled') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->enabled == '1' ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=1' ) ?>">
+		<li class="<?= $state->enabled === false ? 'active' : ''; ?>">
+			<a href="<?= @route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
 			    <?= @text('Disabled') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->logged_in == '1' ? 'active' : ''; ?> separator-left">
-			<a href="<?= @route( $state->logged_in == '1'? 'logged_in=' : 'logged_in=1' ) ?>">
+		<li class="<?= $state->loggedin === true ? 'active' : ''; ?> separator-left">
+			<a href="<?= @route( $state->loggedin === true ? 'loggedin=' : 'loggedin=1&visited=' ) ?>">
 			    <?= @text('Logged in') ?>
 			</a> 
 		</li>
-		<li class="<?= $state->never_visited == '1' ? 'active' : ''; ?>">
-			<a href="<?= @route( $state->never_visited == '1'? 'never_visited=' : 'never_visited=1' ) ?>">
+		<li class="<?= $state->visited === false ? 'active' : ''; ?>">
+			<a href="<?= @route( $state->visited === false? 'visited=' : 'visited=0&loggedin=' ) ?>">
 			    <?= @text('Never visited') ?>
 			</a> 
 		</li>
