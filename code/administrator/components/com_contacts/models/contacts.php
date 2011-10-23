@@ -49,7 +49,7 @@ class ComContactsModelContacts extends KModelTable
 	{
 		$state = $this->_state;
 		
-		if ($state->published) {
+		if (is_bool($state->published)) {
 			$query->where('tbl.published', '=', (int) $state->published);
 		}
 
