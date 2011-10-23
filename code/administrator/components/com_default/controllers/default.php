@@ -52,7 +52,8 @@ class ComDefaultControllerDefault extends KControllerService
          */  
         
         $config->append(array(
-    		'persistable'  => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+    		'persistable' => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+            'toolbars'    => array('menubar', $this->getIdentifier()->name)
             //'behaviors'  =>  array('cacheable')
         ));
 
