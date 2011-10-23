@@ -26,7 +26,6 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->_state
             ->insert('section'   , 'int')
             ->insert('category'  , 'int')
-            ->insert('published' , 'int')
             ->insert('state'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
