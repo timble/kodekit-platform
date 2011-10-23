@@ -17,7 +17,7 @@
  * @subpackage 	Toolbar
  * @uses        KInflector
  */
-abstract class KControllerToolbarAbstract extends KObject
+abstract class KControllerToolbarAbstract extends KEventListener implements KControllerToolbarInterface
 {
     /**
      * The toolbar title
@@ -80,7 +80,7 @@ abstract class KControllerToolbarAbstract extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'title'         => KInflector::humanize($this->getName()),
+            'title'         => KInflector::humanize(KInflector::pluralize($this->getName())),
             'icon'          => $this->getName(),
             'controller'    => null,
         ));
@@ -112,7 +112,7 @@ abstract class KControllerToolbarAbstract extends KObject
      * Set the toolbar's title
      *
      * @param   string  Title
-     * @return  KToolbarInterface
+     * @return  KControllerToolbarAbstract
      */
     public function setTitle($title)
     {
@@ -134,7 +134,7 @@ abstract class KControllerToolbarAbstract extends KObject
      * Set the toolbar's icon
      *
      * @param   string  Icon
-     * @return  KControllerToolbarInterface
+     * @return  KControllerToolbarAbstract
      */
     public function setIcon($icon)
     {
@@ -155,7 +155,7 @@ abstract class KControllerToolbarAbstract extends KObject
     /**
      * Add a separator
      *
-     * @return  KControllerToolbarInterface
+     * @return  KControllerToolbarAbstract
      */
     public function addSeparator()
     {
@@ -168,7 +168,7 @@ abstract class KControllerToolbarAbstract extends KObject
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  KControllerToolbarInterface
+     * @return  KControllerToolbarAbstract
      */
     public function addCommand($name, $config = array())
     {
@@ -211,7 +211,7 @@ abstract class KControllerToolbarAbstract extends KObject
     /**
      * Reset the commands array
      *
-     * @return  KConttrollerToolbarInterface
+     * @return  KConttrollerToolbarAbstract
      */
     public function reset()
     {
