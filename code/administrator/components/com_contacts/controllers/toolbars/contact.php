@@ -10,21 +10,21 @@
  */
 
 /**
- * Contacts Menubar Class
+ * Contact Toolbar Class
  *
  * @author      Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts   
  */
-class ComContactsControllerToolbarContacts extends ComDefaultControllerToolbarDefault
+class ComContactsControllerToolbarContact extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
-        $this->addSeparator()
-              ->addEnable()
-              ->addDisable();
-         
-        return parent::getCommands();
-    }   
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
+        $this->addSeparator()     
+			 ->addEnable(array('label' => 'publish'))
+			 ->addDisable(array('label' => 'unpublish'));
+    }  
 }
