@@ -25,7 +25,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 
 		$this->_state
 		    ->insert('category' , 'int')
-		    ->insert('enabled'  , 'boolean');
+		    ->insert('published', 'boolean');
 	}
 	
 	protected function _buildQueryColumns(KDatabaseQuery $query)
@@ -56,8 +56,8 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 			$query->where('tbl.scope', 'LIKE',  $state->scope);
 		}
 		
-		if(is_bool($state->enabled)) {
-			$query->where('tbl.published', '=', (int) $state->enabled);
+		if(is_bool($state->published)) {
+			$query->where('tbl.published', '=', (int) $state->published);
 		}
 		
 	    if($state->category) {
