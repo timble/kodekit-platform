@@ -29,7 +29,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         $this->_state
             ->insert('section'   , 'string')
             ->insert('parent'    , 'string')
-            ->insert('published' , 'int')
+            ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string');
 
     }
@@ -93,8 +93,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->where('tbl.section', 'IN', $state->parent);
         }
 
-        if (is_numeric($state->published)) {
-            $query->where('tbl.published', '=', $state->published);
+        if ($state->published) {
+            $query->where('tbl.published', '=', (int) $state->published);
         }
 
         parent::_buildQueryWhere($query);
