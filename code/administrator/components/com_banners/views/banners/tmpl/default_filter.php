@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_bool($state->published) && !is_numeric($state->sticky) ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->published) && is_null($state->sticky) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('published=&sticky=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
