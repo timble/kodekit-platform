@@ -24,8 +24,8 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->_state
-            ->insert('published', 'booleab')
-            ->insert('category', 'int');
+            ->insert('published', 'boolean')
+            ->insert('category' , 'int');
     }
 
     protected function _buildQueryColumns(KDatabaseQuery $query)
@@ -49,7 +49,7 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
 
         $state = $this->_state;
 
-        if ($state->published) {
+        if (is_bool($state->published)) {
             $query->where('tbl.published', '=', (int) $state->published);
         }
 
