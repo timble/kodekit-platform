@@ -10,22 +10,22 @@
  */
 
 /**
- * Modules Toolbar Class
+ * Module Toolbar Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Modules
  */
-class ComExtensionsControllerToolbarModules extends ComDefaultControllerToolbarDefault
+class ComExtensionsControllerToolbarModule extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
+    public function onAfterControllerBrowse(KEvent $event)
     {
+        parent::onAfterControllerBrowse($event);
+        
         $this->addSeparator()
 			 ->addEnable()
-			 ->addDisable();
-        
-        return parent::getCommands();
+			 ->addDisable();    	 
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)

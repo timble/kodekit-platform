@@ -10,20 +10,20 @@
  */
 
 /**
- * Templates Toolbar Class
+ * Language Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsControllerToolbarTemplates extends ComDefaultControllerToolbarDefault
+class ComExtensionsControllerToolbarLanguage extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
+    public function onAfterControllerBrowse(KEvent $event)
+    { 
         $this->addDefault();
         
-        return parent::getCommands();
+        parent::onAfterControllerBrowse($event);
     }
      
     protected function _commandDefault(KControllerToolbarCommand $command)
