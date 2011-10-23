@@ -56,10 +56,10 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	    foreach($state->toArray(false) as $var) 
 	    {
 	        if(!$var->unique) {
-	            $vars[] = $var->name;
+	            $vars[$var->name] = $var->value;
 	        }  
 	    }
-		
+	    
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$context->action;
 		
