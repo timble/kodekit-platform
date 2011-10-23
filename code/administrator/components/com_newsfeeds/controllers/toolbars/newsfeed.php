@@ -10,21 +10,21 @@
  */
 
 /**
- * Newsfeeds Toolbar Class
+ * Newsfeed Toolbar Class
  *
  * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Newsfeeds
  */
-class ComNewsfeedsControllerToolbarNewsfeeds extends ComDefaultControllerToolbarDefault
+class ComNewsfeedsControllerToolbarNewsfeed extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
-        $this->addSeparator()
-			 ->addEnable()
-			 ->addDisable();
-	
-	    return parent::getCommands();
-    }
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
+        $this->addSeparator()     
+			 ->addEnable(array('label' => 'publish'))
+			 ->addDisable(array('label' => 'unpublish'));
+    } 
 }
