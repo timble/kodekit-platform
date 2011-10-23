@@ -10,22 +10,21 @@
  */
 
 /**
- * Sections Toolbar Class
+ * Section Toolbar Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesControllerToolbarSections extends ComDefaultControllerToolbarDefault
+class ComArticlesControllerToolbarSection extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
         $this->addSeparator()     
 			 ->addEnable(array('label' => 'publish'))
 			 ->addDisable(array('label' => 'unpublish'));
-			 
-        return parent::getCommands();
-    }
-    
+    }   
 }

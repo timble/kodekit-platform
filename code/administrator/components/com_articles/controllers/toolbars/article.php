@@ -10,32 +10,29 @@
  */
 
 /**
- * Articles Toolbar Class
+ * Article Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDefault
+class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
-    {
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        parent::onAfterControllerBrowse($event);
+        
         $state = $this->getController()->getModel()->getState();
         
-        if($state->trashed != true) 
-        {
-            $this->addSeparator()
-                 ->addPublish()
-                 ->addUnpublish()
-                 ->addSeparator()
-                 ->addArchive()
-                 ->addUnarchive();
-        }    
-        
-        return parent::getCommands();
+        $this->addSeparator()
+             ->addPublish()
+             ->addUnpublish()
+             ->addSeparator()
+             ->addArchive()
+             ->addUnarchive();
     }
-  
+    
     protected function _commandPublish(KControllerToolbarCommand $command)
     {
         $command->append(array(
