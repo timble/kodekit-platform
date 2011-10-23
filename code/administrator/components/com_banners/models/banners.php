@@ -59,7 +59,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         
         $state = $this->_state;
         
-        if ($state->published) {
+        if (is_bool($state->published)) {
             $query->where('tbl.showbanner', '=', (int) $state->published);
         }
         
