@@ -43,7 +43,7 @@ class KEventListener extends KObject
 		if($config->auto_connect) 
 		{
 		    if(!($config->dispatcher instanceof KEventDispatcher)) {
-		        $config->dispatcher = $this->getService($config->dispathcer);
+		        $config->dispatcher = $this->getService($config->dispatcher);
 		    }
 		    
 		    $this->connect($config->dispatcher);
