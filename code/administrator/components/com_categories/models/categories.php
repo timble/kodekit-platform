@@ -93,7 +93,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->where('tbl.section', 'IN', $state->parent);
         }
 
-        if ($state->published) {
+        if (is_bool($state->published)) {
             $query->where('tbl.published', '=', (int) $state->published);
         }
 
