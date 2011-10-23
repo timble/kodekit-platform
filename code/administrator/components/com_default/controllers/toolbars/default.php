@@ -19,6 +19,127 @@
  */
 class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 {
+	/**
+	 * Array of parts to render
+	 *
+	 * @var array
+	 */
+	protected $_render;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+
+		$this->_render  = KConfig::unbox($config->render);
+	}
+	
+	/**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    	    'render'  => array('toolbar', 'title')
+        ));
+ 
+        parent::_initialize($config);
+    }
+	
+	/**
+	 * Add default toolbar commands and set the toolbar title
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onAfterControllerRead(KEvent $event)
+    { 
+        $name = ucfirst($this->getController()->getIdentifier()->name);
+            
+        if($this->getController()->getModel()->getState()->isUnique()) 
+        {        
+            $saveable = $this->getController()->canEdit();
+            $title    = 'Edit '.$name;
+        } 
+        else 
+        {
+            $saveable = $this->getController()->canAdd();
+            $title    = 'New '.$name;  
+        }
+            
+        if($saveable)
+        {
+            $this->setTitle($title)
+                 ->addCommand('save')
+                 ->addCommand('apply');
+        }
+                   
+        $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));       
+    }
+      
+    /**
+	 * Add default toolbar commands
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onAfterControllerBrowse(KEvent $event)
+    {    
+        if($this->getController()->canAdd()) 
+        {
+            $identifier = $this->getController()->getIdentifier();
+            $config     = array('attribs' => array(
+                    		'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
+                          ));
+                    
+            $this->addCommand('new', $config);
+        }
+            
+        if($this->getController()->canDelete()) {
+            $this->addCommand('delete');    
+        }
+    }
+    
+ 	/**
+	 * Render the toolbar
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onAfterControllerGet(KEvent $event)
+    {   
+        if($this->getController()->isDispatched() && ($this->getController()->getView() instanceof KViewHtml))
+        {
+            //Render the toolbar
+	        $document = JFactory::getDocument();
+	       
+            if(in_array('toolbar', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this);
+	            $toolbar = $this->getController()->getView()->getTemplate()->getHelper('toolbar')->render($config);      
+            } 
+            else $toolbar = false;
+            
+            $document->setBuffer($toolbar, 'modules', 'toolbar');
+
+            //Render the title
+            if(in_array('title', $this->_render)) 
+            {
+                $config   = array('toolbar' => $this);
+                $title = $this->getController()->getView()->getTemplate()->getHelper('toolbar')->title($config);
+            } 
+            else $title = false;
+             
+            $document->setBuffer($title, 'modules', 'title');
+        }
+    }
+    
     /**
      * Enable toolbar command
      * 
