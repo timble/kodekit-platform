@@ -12,23 +12,23 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_numeric($state->state) && !$state->featured && !$state->deleted ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->state) && !$state->featured && !$state->deleted ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('state=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
 		</li>
-		<li class="<?= $state->state == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route('state=0' ) ?>">
+		<li class="<?= $state->state === 0 ? 'active' : ''; ?>">
+			<a href="<?= @route($state->state === 0 ? 'state=' : 'state=0' ) ?>">
 			    <?= 'Draft' ?>
 			</a>
 		</li>
-		<li class="<?= $state->state == '1' ? 'active' : ''; ?>">
-			<a href="<?= @route('state=1' ) ?>">
+		<li class="<?= $state->state === 1 ? 'active' : ''; ?>">
+			<a href="<?= @route($state->state === 1 ? 'state=' : 'state=1' ) ?>">
 			    <?= 'Published' ?>
 			</a>
 		</li>
-		<li class="<?= $state->state == '-1' ? 'active' : ''; ?>">
-			<a href="<?= @route('state=-1' ) ?>">
+		<li class="<?= $state->state === -1 ? 'active' : ''; ?>">
+			<a href="<?= @route($state->state === -1 ? 'state=' : 'state=-1' ) ?>">
 			    <?= 'Archived' ?>
 			</a>
 		</li>
@@ -38,7 +38,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</a>
 		</li>
 		<? if($articles->isRevisable()) : ?>
-		<li class="<?= $state->trashed ? 'active' : '' ?>">
+		<li class="<?= $state->trashed ? 'active' : '' ?>  separator-left"">
 			<a href="<?= @route( $state->trashed ? 'trashed=' : 'trashed=1' ) ?>">
 			    <?= 'Trashed' ?>
 			</a>
