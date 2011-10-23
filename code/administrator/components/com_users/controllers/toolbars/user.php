@@ -10,17 +10,19 @@
  */
 
 /**
- * Users Toolbar Class
+ * User Toolbar Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category	Nooku
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersControllerToolbarUsers extends ComDefaultControllerToolbarDefault
+class ComUsersControllerToolbarUser extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
+    public function onAfterControllerBrowse(KEvent $event)
     {
+        parent::onAfterControllerBrowse($event);
+        
         $this->addSeparator()
 			 ->addEnable()
 			 ->addDisable()
@@ -29,7 +31,5 @@ class ComUsersControllerToolbarUsers extends ComDefaultControllerToolbarDefault
 		if($this->getController()->canLogout()) {	 
 			 $this->addLogout();
 		}
-			
-	    return parent::getCommands();
     }
 }
