@@ -13,7 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div id="filter" class="group">
 	<ul>
 		<li class="<?= !is_numeric($state->state) && !$state->featured && !$state->deleted ? 'active' : ''; ?> separator-right">
-			<a href="<?= @route('state=&featured=&deleted=' ) ?>">
+			<a href="<?= @route('state=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
 		</li>
@@ -37,10 +37,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			    <?= 'Featured' ?>
 			</a>
 		</li>
-		<li class="<?= $state->deleted ? 'active' : '' ?>">
-			<a href="<?= @route( $state->deleted ? 'deleted=' : 'deleted=1' ) ?>">
+		<? if($articles->isRevisable()) : ?>
+		<li class="<?= $state->trashed ? 'active' : '' ?>">
+			<a href="<?= @route( $state->trashed ? 'trashed=' : 'trashed=1' ) ?>">
 			    <?= 'Trashed' ?>
 			</a>
 		</li>
+		<? endif; ?>
 	</ul>
 </div>
