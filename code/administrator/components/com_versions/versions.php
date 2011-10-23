@@ -10,9 +10,9 @@
  */
 
 /**
- * Revision Row
+ * Component Loader
  *
- * @author      Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Versions
