@@ -24,7 +24,7 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->_state
-            ->insert('published', 'int')
+            ->insert('published', 'booleab')
             ->insert('category', 'int');
     }
 
@@ -49,8 +49,8 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
 
         $state = $this->_state;
 
-        if (is_numeric($state->published)) {
-            $query->where('tbl.published', '=', $state->published);
+        if ($state->published) {
+            $query->where('tbl.published', '=', (int) $state->published);
         }
 
         if ($state->category) {
