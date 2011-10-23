@@ -10,21 +10,21 @@
  */
 
 /**
- * Settings Controller Toolbar Class
+ * Setting Controller Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Settings
  */
-class ComSettingsControllerToolbarSettings extends ComDefaultControllerToolbarDefault
+class ComSettingsControllerToolbarSetting extends ComDefaultControllerToolbarDefault
 {  
-    public function getCommands()
+    public function onAfterControllerBrowse(KEvent $event)
     {
+        parent::onAfterControllerBrowse($event);
+        
         $this->addSave()
 			 ->addApply()
 			 ->addCancel(array('attribs' => array('data-novalidate' => 'novalidate')));
-			 
-        return parent::getCommands();
     }
 }
