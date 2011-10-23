@@ -22,7 +22,10 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'behaviors' => array($this->getService('com://admin/activities.controller.behavior.loggable')),
+    		'behaviors' => array(
+    	        'com://admin/activities.controller.behavior.loggable',
+    	        'com://admin/versions.controller.behavior.revisable'
+    	    )
     	));
     
     	parent::_initialize($config);
