@@ -25,8 +25,8 @@ class ComContactsModelContacts extends KModelTable
 		parent::__construct($config);
 		
 		$this->_state
-			->insert('enabled' , 'boolean')
-			->insert('category', 'int');
+			->insert('published' , 'boolean')
+			->insert('category'  , 'int');
 	}
 
 	protected function _buildQueryColumns(KDatabaseQuery $query)
@@ -49,8 +49,8 @@ class ComContactsModelContacts extends KModelTable
 	{
 		$state = $this->_state;
 		
-		if (is_bool($state->enabled)) {
-			$query->where('tbl.published', '=', (int) $state->enabled);
+		if ($state->published) {
+			$query->where('tbl.published', '=', (int) $state->published);
 		}
 
 		if (is_numeric($state->category) && !empty($state->category)) {
