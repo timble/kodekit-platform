@@ -23,7 +23,7 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
     {
         $state = $this->getController()->getModel()->getState();
         
-        if($state->deleted != true) 
+        if($state->trashed != true) 
         {
             $this->addSeparator()
                  ->addPublish()
@@ -32,25 +32,10 @@ class ComArticlesControllerToolbarArticles extends ComDefaultControllerToolbarDe
                  ->addArchive()
                  ->addUnarchive();
         }    
-        else 
-        {
-            $this->reset()
-                 ->addRestore()
-                 ->addDelete(array('label' => 'Delete forever'));
-        }
         
         return parent::getCommands();
     }
-    
-    protected function _commandRestore(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs' => array(
-                'data-action' => 'edit',
-            )
-        ));
-    }
-    
+  
     protected function _commandPublish(KControllerToolbarCommand $command)
     {
         $command->append(array(
