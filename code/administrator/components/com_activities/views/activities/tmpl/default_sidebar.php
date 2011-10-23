@@ -34,7 +34,7 @@ defined('KOOWA') or die('Restricted access') ?>
 	<div class="activities-filter">
 		<h3><?=@text( 'Time Filter' )?></h3>
 
-		<form action="" method="get" name="activities-time-filter">
+		<form action="" method="get" name="activities-filter">
 			<fieldset>
 				<h4><?=@text( 'Start Date' )?></h4>
 				<div class="activities-calendar">
@@ -43,32 +43,23 @@ defined('KOOWA') or die('Restricted access') ?>
 
 				<h4><?=@text( 'Days Back' )?></h4>
 				<div class="activities-days-back">
-					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : 14?>" />
+					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : '14' ?>" />
 				</div>
-				<div class="activities-buttons">
-					<input type="reset" name="cancelfilter" value="<?=@text('Reset')?>" />
-					<input type="submit" name="submitfilter" value="<?=@text('Filter')?>" />
-				</div>
-			</fieldset>
-		</form>
-	</div>
-
-	<div class="activities-filter">
-		<h3><?=@text( 'Users' )?></h3>
-
-		<form action="" method="get" name="activities-user-filter">
-			<fieldset>
+				
+				<h4><?=@text( 'User' )?></h4>
 				<div>
 					<?= @helper('com://admin/users.template.helper.autocomplete.users', 
 							array(
 								'column' => 'user', 
-								'value' => $state->actor, 
+								'value' => $state->user, 
 								'validate' => false,
 								'attribs' => array('size' => 30)
 							)) ?>
 				</div>
+				
 				<div class="activities-buttons">
-					<input type="submit" name="submitfilter" value="<?=@text('Filter')?>" />
+					<input type="submit" name="submitfilter" class="btn" value="<?=@text('Filter')?>" />
+					<input type="reset" name="cancelfilter" class="btn" value="<?=@text('Reset')?>" />
 				</div>
 			</fieldset>
 		</form>
