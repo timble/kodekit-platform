@@ -24,7 +24,7 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         parent::__construct($config);
         
         $this->_state
-            ->insert('enabled',     'boolean')
+            ->insert('published',   'boolean')
             ->insert('category',    'int')
             ->insert('sticky',    	'int')
             ->insert('tags',        'string');
@@ -59,8 +59,8 @@ class ComBannersModelBanners extends ComDefaultModelDefault
         
         $state = $this->_state;
         
-        if (is_bool($state->enabled)) {
-            $query->where('tbl.showbanner', '=', (int) $state->enabled);
+        if ($state->published) {
+            $query->where('tbl.showbanner', '=', (int) $state->published);
         }
         
         if ($state->category) {
