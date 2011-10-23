@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= is_null($state->state) && !$state->featured && !$state->deleted ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->state) && is_null($state->featured) && is_null($state->deleted) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('state=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
