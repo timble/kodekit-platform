@@ -91,7 +91,7 @@ window.addEvent('domready', function() {
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
-	    <div class="path">
+	    <div class="path" style="height: 24px;">
 			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
 			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
 			
