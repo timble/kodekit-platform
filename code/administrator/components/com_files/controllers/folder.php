@@ -20,5 +20,16 @@
 
 class ComFilesControllerFolder extends ComFilesControllerNode
 {
+    protected function _initialize(KConfig $config)
+    {
+    	$loggable = $this->getService('com://admin/activities.controller.behavior.loggable', array(
+    		'title_column' => 'name'
+    	)); 
+    	$config->append(array(
+    		'behaviors' => array($loggable)
+    	));
+    
+    	parent::_initialize($config);
+    }	
     
 }
