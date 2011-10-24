@@ -34,11 +34,16 @@ defined('KOOWA') or die('Restricted access') ?>
 	<div class="activities-filter">
 		<h3><?=@text( 'Time Filter' )?></h3>
 
-		<form action="" method="get" name="activities-filter">
+		<form action="" method="get" id="activities-filter">
 			<fieldset>
 				<h4><?=@text( 'Start Date' )?></h4>
 				<div class="activities-calendar">
-					<?= @helper('behavior.calendar', array('date' => $state->start_date, 'name' => 'start_date')); ?>
+					<?= @helper('behavior.calendar', 
+							array(
+								'date' => $state->start_date, 
+								'name' => 'start_date', 
+								'format' => '%Y-%m-%d'
+							)); ?>
 				</div>
 
 				<h4><?=@text( 'Days Back' )?></h4>
