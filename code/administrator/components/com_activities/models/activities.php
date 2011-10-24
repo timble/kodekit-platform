@@ -34,7 +34,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 			->insert('distinct'    , 'boolean', false)
 			->insert('column'      , 'cmd')
 			->insert('start_date'  , 'date')
-			->insert('days_back'   , 'int');
+			->insert('days_back'   , 'int', 14);
 
 		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
 		
@@ -86,7 +86,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 			$query->where('tbl.action', 'IN', $this->_state->action);
 		}
 
-		if ($this->_state->start_date && $this->_state->days_back) 
+		if ($this->_state->start_date) 
 		{
 			$start_date = $this->getService('koowa:date', array('date' => $this->_state->start_date));
 			$days_back = clone $start_date;
