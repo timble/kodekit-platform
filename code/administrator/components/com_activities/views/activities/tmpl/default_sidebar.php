@@ -13,8 +13,19 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @helper('behavior.validator') ?>
 
+<script inline>
+window.addEvent('domready', function(){
+	/* Reset the filter values to blank */
+	$('activities-filter').addEvent('reset', function(e){
+		e.target.getElements('input[type=text]').each(function(el){
+			el.value = '';
+		});
+		e.target.submit();
+	});
+});
+</script>
+
 <div id="sidebar">
-	
 	<h3><?=@text( 'Components' )?></h3>
 	<ul>
 		<li class="<?= empty($state->package) ? 'active' : ''; ?>">
@@ -48,7 +59,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 				<h4><?=@text( 'Days Back' )?></h4>
 				<div class="activities-days-back">
-					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : '14' ?>" />
+					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : '' ?>" />
 				</div>
 				
 				<h4><?=@text( 'User' )?></h4>
