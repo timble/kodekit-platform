@@ -43,7 +43,7 @@ window.addEvent('domready', function(){
 	</ul>
 	
 	<div class="activities-filter">
-		<h3><?=@text( 'Time Filter' )?></h3>
+		<h3><?=@text( 'Filters' )?></h3>
 
 		<form action="" method="get" id="activities-filter">
 			<fieldset>
