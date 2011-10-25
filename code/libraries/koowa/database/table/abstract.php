@@ -114,12 +114,10 @@ abstract class KDatabaseTableAbstract extends KObject
         }
     
         // Mixin a command chain
-         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
-           
-        // Set the table behaviors
-        if(!empty($config->behaviors)) {
-            $this->addBehavior($config->behaviors);
-        } 
+        $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+         
+        // Mixin the behavior interface
+        $this->mixin(new KMixinBehavior($config->append(array('mixer' => $this))));
     }
 
     /**
@@ -227,86 +225,6 @@ abstract class KDatabaseTableAbstract extends KObject
 
         return $keys;
     }
-    
-	/**
-     * Check if a behavior exists
-     *
-     * @param 	string	The name of the behavior
-     * @return  boolean	TRUE if the behavior exists, FALSE otherwise
-     */
-	public function hasBehavior($behavior)
-	{ 
-	    return isset($this->getSchema()->behaviors[$behavior]); 
-	}
-    
-	/**
-     * Register one or more behaviors to the table
-     *
-     * @param   array   Array of one or more behaviors to add.
-     * @return  KDatabaseTableAbstract
-     */
-    public function addBehavior($behaviors)
-    {
-        $behaviors = (array) KConfig::unbox($behaviors);
-                
-        foreach($behaviors as $behavior)
-        {
-            if (!($behavior instanceof KDatabaseBehaviorInterface)) { 
-                $behavior   = $this->getBehavior($behavior); 
-            } 
-              
-		    //Add the behavior
-            $this->getSchema()->behaviors[$behavior->getIdentifier()->name] = $behavior;
-            $this->getCommandChain()->enqueue($behavior);
-        }
-        
-        return $this;
-    }
-    
-	/**
-     * Get a behavior by identifier
-     *
-     * @param   array Array of one or more behaviors to add
-     * @param	array An optional associative array of configuration settings
-     * @return KControllerBehaviorAbstract
-     */
-    public function getBehavior($behavior, $config = array())
-    {
-       if(!($behavior instanceof KServiceIdentifier))
-       {
-            //Create the complete identifier if a partial identifier was passed
-           if(is_string($behavior) && strpos($behavior, '.') === false )
-           {
-               $identifier = clone $this->getIdentifier();
-               $identifier->path = array('database', 'behavior');
-               $identifier->name = $behavior;
-           }
-           else $identifier = $this->getIdentifier($behavior);
-       }
-       
-       if(!isset($this->getSchema()->behaviors[$identifier->name])) 
-       {
-           $behavior = $this->getService($identifier, array_merge($config, array('mixer' => $this)));
-           
-           //Check the behavior interface
-		   if(!($behavior instanceof KDatabaseBehaviorInterface)) {
-			   throw new KDatabaseTableException("Database behavior $identifier does not implement KDatabaseBehaviorInterface");
-		   }
-       } 
-       else $behavior = $this->getSchema()->behaviors[$identifier->name];
-       
-       return $behavior;
-    }
-       
-	/**
-     * Gets the behaviors of the table
-     *
-     * @return array    An asscociate array of table behaviors, keys are the behavior names
-     */
-    public function getBehaviors()
-    {
-        return $this->getSchema()->behaviors;
-    }	
     
     /**
      * Gets the schema of the table
@@ -560,6 +478,7 @@ abstract class KDatabaseTableAbstract extends KObject
         
         if($this->getCommandChain()->run('before.select', $context) !== false) 
         {                   
+         
             //Fetch the data based on the fecthmode
             if($context->query)
             {
