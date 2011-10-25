@@ -106,7 +106,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$this->_options = $config->options;
 		
 		// Mixin a command chain
-        $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
+        $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
 	}
 
 	/**
