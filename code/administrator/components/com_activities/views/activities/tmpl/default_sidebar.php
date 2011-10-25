@@ -17,8 +17,10 @@ defined('KOOWA') or die('Restricted access') ?>
 window.addEvent('domready', function(){
 	/* Reset the filter values to blank */
 	$('activities-filter').addEvent('reset', function(e){
-		e.target.getElements('input[type=text]').each(function(el){
-			el.value = '';
+		e.target.getElements('input').each(function(el){
+			if(['days_back','start_date', 'user'].contains(el.name)){
+				el.value = '';	
+			}
 		});
 		e.target.submit();
 	});
