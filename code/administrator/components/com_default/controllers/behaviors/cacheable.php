@@ -69,7 +69,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void	
 	 */
-	protected function _beforeGet(KCommandContext $context)
+	protected function _beforeControllerGet(KCommandContext $context)
 	{ 
 	    $view   = $this->getView();
 	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
@@ -111,7 +111,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterGet(KCommandContext $context)
+	protected function _afterControllerGet(KCommandContext $context)
 	{
 	    if(empty($this->_output))
 	    {
@@ -146,7 +146,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterRead(KCommandContext $context)
+	protected function _afterControllerRead(KCommandContext $context)
 	{ 
 	    if(!empty($this->_output)) {
 	        $context->result = $this->_output;
@@ -162,7 +162,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-    protected function _beforeBrowse(KCommandContext $context)
+    protected function _beforeControllerBrowse(KCommandContext $context)
 	{
 	    if(!empty($this->_output)) 
 	    {
@@ -177,7 +177,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterAdd(KCommandContext $context)
+	protected function _afterControllerAdd(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
@@ -194,7 +194,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterDelete(KCommandContext $context)
+	protected function _afterControllerDelete(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
@@ -211,7 +211,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterEdit(KCommandContext $context)
+	protected function _afterControllerEdit(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
