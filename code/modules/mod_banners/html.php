@@ -30,7 +30,7 @@ class ModBannersHtml extends ModDefaultHtml
         
         // Module parameters
         $model = $this->getService('com://site/banners.model.banners')
-                    ->enabled(1)
+                    ->published(1)
                     ->category($this->module->params->get('catid'))
                     ->sort($this->module->params->get('ordering', 0))
                     ->limit($this->module->params->get('count', 1));
