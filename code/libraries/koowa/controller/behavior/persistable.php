@@ -28,7 +28,7 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _beforeBrowse(KCommandContext $context)
+	protected function _beforeControllerBrowse(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
 		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
@@ -47,7 +47,7 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _afterBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(KCommandContext $context)
 	{
 		$model  = $this->getModel();
 		$state  = $model->getState();
