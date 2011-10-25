@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: toolbar.php 4313 2011-10-23 21:49:58Z johanjanssens $
+ * @version     $Id$
  * @category	Koowa
  * @package     Koowa_Mixin
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
