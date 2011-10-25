@@ -17,4 +17,4 @@
  * @package     Koowa_Database
  * @subpackage  Behavior
  */
-class KDatabaseBehaviorException extends KDatabaseException {}
+class KDatabaseBehaviorException extends KBehaviorException {}
