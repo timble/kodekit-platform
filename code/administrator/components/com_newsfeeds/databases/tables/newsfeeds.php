@@ -22,14 +22,14 @@ class ComNewsfeedsDatabaseTableNewsfeeds extends KDatabaseTableDefault
 {
     public function _initialize(KConfig $config)
     {
-         $sluggable = $this->getBehavior('sluggable', array('columns' => array('name')));
-        $orderable = $this->getBehavior('com://admin/categories.database.behavior.orderable', array('parent_column' => 'catid'));
-
          $config->append(array(
             'identity_column'    => 'id',
             'base'               => 'newsfeeds',
             'name'               => 'newsfeeds',
-            'behaviors'          => array('lockable', $orderable, $sluggable),
+            'behaviors'          => array(
+            	'lockable',
+                'sluggable'  => array('columns' => array('name')),
+        		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'catid'),),
             'column_map'         => array(
                 'title'	    => 'name',
                 'enabled'   => 'published',
