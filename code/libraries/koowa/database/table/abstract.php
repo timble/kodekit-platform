@@ -117,7 +117,10 @@ abstract class KDatabaseTableAbstract extends KObject
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
          
         // Mixin the behavior interface
-        $this->mixin(new KMixinBehavior($config->append(array('mixer' => $this))));
+        $this->mixin(new KMixinBehavior($config->append(array(
+        	'mixer'      => $this,
+            'auto_mixin' => false
+        ))));
     }
 
     /**
