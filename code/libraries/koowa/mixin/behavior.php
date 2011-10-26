@@ -28,6 +28,13 @@ class KMixinBehavior extends KMixinAbstract
 	protected $_behaviors = array();
 	
 	/**
+	 * Auto mixin behaviors
+	 * 
+	 * @var boolean
+	 */
+	protected $_auto_mixin;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
@@ -35,6 +42,9 @@ class KMixinBehavior extends KMixinAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
+		
+		//Set the auto mixin state
+		$this->_auto_mixin = $config->auto_mixin;
 		
 	    //Add the toolbars
         if(!empty($config->behaviors)) 
@@ -65,7 +75,8 @@ class KMixinBehavior extends KMixinAbstract
     	parent::_initialize($config);
     	
         $config->append(array(
-    		'behaviors' => array(),
+    		'behaviors'  => array(),
+            'auto_mixin' => true
         ));
     }
     
@@ -98,6 +109,11 @@ class KMixinBehavior extends KMixinAbstract
             
         //Enqueue the behavior
         $this->getCommandChain()->enqueue($behavior);
+        
+        //Mixin the behavior
+        if($this->_auto_mixin) {
+            $this->mixin($behavior);
+        }
         
         return $this;
     }
