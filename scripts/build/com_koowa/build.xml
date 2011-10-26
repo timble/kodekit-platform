@@ -9,8 +9,25 @@
 	
 	<target name="build">
 
-		<!-- Get the koowa plugin -->
-		<svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir="tmp" nocache="true" force="true" />
+        
+        <delete dir="tmp" includeemptydirs="true" quiet="true" />
+
+        <!-- Cleanup existing temporary files to avoid broken packages -->
+        <if>
+         <equals arg1="${project.cleanup}" arg2="yes" />
+         <then>
+             <delete dir="tmp" includeemptydirs="true" />
+             
+             <!-- Get the koowa plugin -->
+             <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir="tmp" nocache="true" force="true" />
+         </then>
+         <else>
+             <delete dir="tmp/administrator/components/com_koowa" includeemptydirs="true" />
+             <delete dir="tmp/media/com_koowa" includeemptydirs="true" />
+         </else>
+        </if>
+
+		
 
 		<!-- Get the com_koowa code, locally if available, if not then from the repo -->
 		<property name="project.location" value="remote" />
@@ -18,6 +35,7 @@
 		<if>
 		 <equals arg1="${project.location}" arg2="local" />
 		 <then>
+		     <echo message="Using local checkout of com_koowa" />
 		     <copy todir="tmp/administrator/components/com_koowa">
 		     	<fileset dir="../../../code/administrator/components/com_koowa" />
 		     </copy>
@@ -26,6 +44,7 @@
 		     </copy>
 		 </then>
 		 <else>
+		     <echo message="No local checkout of com_koowa found, attempting to export from remote svn" />
 		     <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-components/trunk/code/administrator/components/com_koowa" todir="tmp/administrator/components/com_koowa" nocache="true" force="true" />
 		     <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-components/trunk/code/media/com_koowa" todir="tmp/media/com_koowa" nocache="true" force="true" />
 		 </else>
@@ -37,6 +56,7 @@
 			<fileset dir="tmp/administrator/components/com_koowa/install/" />
 		</copy>
 		
+		<delete file="koowa${file.extension}" quiet="true" />
 		<tar destfile="koowa${file.extension}" basedir="tmp" compression="${file.compression}" />
 		<if>
 		 <equals arg1="${project.cleanup}" arg2="yes" />
