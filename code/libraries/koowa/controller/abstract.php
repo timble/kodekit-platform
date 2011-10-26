@@ -33,7 +33,7 @@ abstract class KControllerAbstract extends KObject
      *
      * @var array
      */
-    protected $_actions;
+    protected $_actions = array();
     
     /**
      * Has the controller been dispatched
@@ -68,7 +68,10 @@ abstract class KControllerAbstract extends KObject
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
         
         // Mixin the behavior interface
-        $this->mixin(new KMixinBehavior($config->append(array('mixer' => $this))));
+        $this->mixin(new KMixinBehavior($config->append(array(
+        	'mixer'      => $this,
+            'auto_mixin' => true
+        ))));
         
         //Set the request
 		$this->setRequest((array) KConfig::unbox($config->request));
@@ -135,15 +138,7 @@ abstract class KControllerAbstract extends KObject
             $method = '_action'.ucfirst($command);
             
             if(!method_exists($this, $method)) 
-            {
-                //Lazy mix behaviors
-                if(!isset($this->_mixed_methods[$method]))
-		        {
-			        foreach($this->getBehaviors() as $behavior) {
-				        $this->mixin($behavior);
-			        }
-		        }
-		       
+            {             
                 if(isset($this->_mixed_methods[$command])) {      
                     $context->result = $this->_mixed_methods[$command]->execute('action.'.$command, $context);
                 } else {
@@ -172,14 +167,37 @@ abstract class KControllerAbstract extends KObject
         return $context->result;
     }
     
+	/**
+     * Mixin an object 
+     *
+     * @param   object  An object that implements KMinxInterface
+     * @return  KObject
+     */
+    public function mixin(KMixinInterface $object)
+    {
+        if($object instanceof KControllerBehaviorAbstract) 
+        {
+            foreach($object->getMethods() as $method)
+            {
+                if(substr($method, 0, 7) == '_action') {
+                    $this->_actions[] = strtolower(substr($method, 7));
+                }  
+            }
+            
+            $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
+        }
+        
+        return parent::mixin($object);   
+    }
+    
     /**
      * Gets the available actions in the controller.
      *
      * @return  array Array[i] of action names.
      */
-    public function getActions($reload = false)
+    public function getActions()
     {
-        if(!$this->_actions || $reload)
+        if(!$this->_actions)
         {
             $this->_actions = array();
                
@@ -188,19 +206,6 @@ abstract class KControllerAbstract extends KObject
                 if(substr($method, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($method, 7));
                 }  
-            }
-            
-            if($this->inherits('KMixinBehavior'))
-            {
-                foreach($this->getBehaviors() as $behavior) 
-                {
-                    foreach($behavior->getMethods() as $method)
-                    {
-                        if(substr($method, 0, 7) == '_action') {
-                            $this->_actions[] = strtolower(substr($method, 7));
-                        }  
-                    }
-                }
             }
             
             $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
@@ -252,7 +257,7 @@ abstract class KControllerAbstract extends KObject
         }    
         
         //Force reload of the actions
-        $this->getActions(true);
+        $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
     
         return $this;
     }
@@ -296,7 +301,7 @@ abstract class KControllerAbstract extends KObject
      * @see execute()
      */
     public function __call($method, $args)
-    {
+    {  
         //Handle action alias method
         if(in_array($method, $this->getActions())) 
         {
@@ -311,7 +316,7 @@ abstract class KControllerAbstract extends KObject
                 $context->result = false;
             } 
             else $context = $data;
-            
+           
             //Execute the action
             return $this->execute($method, $context);
         }
@@ -321,17 +326,7 @@ abstract class KControllerAbstract extends KObject
 
 		if($parts[0] == 'is' && isset($parts[1]))
 		{
-		    //Lazy mix behaviors
-		    $behavior = strtolower($parts[1]);
-		    
-            if(!isset($this->_mixed_methods[$method]))             
-            { 
-                if($this->hasBehavior($behavior)) 
-                {
-                    $this->mixin($this->getBehavior($behavior));
-                    return true;
-		        }
-		  
+            if(!isset($this->_mixed_methods[$method])) { 
 			    return false;
             }
             
