@@ -33,24 +33,16 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
 	{
 		$this->setMixer($context->caller);
 		
+		$parts  = explode('.', $name);
+		if($parts[0] == 'action') 
+		{
+		    $method = '_action'.ucfirst($parts[1]);
+		
+		    if(method_exists($this, $method)) {
+			    return $this->$method($context);
+		    }
+		}
+		
 		return parent::execute($name, $context);
 	}
-	
-	/**
-     * Get an object handle
-     * 
-     * Reload the controller actions when the behavior is being enqueued into the
-     * command chain. 
-     * 
-     * @return string A string that is unique, or NULL
-     * @see execute()
-     */
-    public function getHandle()
-    {
-        if($handle = parent::getHandle()) {
-             $this->_mixer->getActions(true);
-        }
-       
-        return $handle;
-    }
 }
