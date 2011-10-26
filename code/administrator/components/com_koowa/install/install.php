@@ -22,11 +22,12 @@ if(!function_exists('com_install'))
      */
     function com_install()
     {
-        return;
+        return JFactory::getApplication()->get('com_install') !== false;
     }
 }
 
-if (extension_loaded('suhosin'))
+$errors = array();
+if(extension_loaded('suhosin'))
 {
     //Attempt setting the whitelist value
     @ini_set('suhosin.executor.include.whitelist', 'tmpl://, file://');
@@ -42,7 +43,8 @@ if (extension_loaded('suhosin'))
 if (!class_exists('mysqli'))
 {
     $this->parent->abort(JText::_("We're sorry but your server isn't configured with the MySQLi database driver. Please contact your host and ask them to enable MySQLi for your server."));
-    return false;
+    JFactory::getApplication()->set('com_install', false);
+    return;
 }
 
 // Check if mysqli is active, if not, then enable it
@@ -72,6 +74,11 @@ $jversion   = JVersion::isCompatible('1.6.0') ? '1.6' : '1.5';
 
 //Run platform specific procedures
 require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/install.'.$jversion.'.php';
+
+//Fail the app if errors happened
+if($errors) {
+    //require '';
+}
 
 // Copy over the folders for the fw, com_default, mod_default
 foreach ($manifest->framework->folder as $folder)
