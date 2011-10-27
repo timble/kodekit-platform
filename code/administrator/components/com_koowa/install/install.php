@@ -47,21 +47,6 @@ if (!class_exists('mysqli'))
     return;
 }
 
-// Check if mysqli is active, if not, then enable it
-if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
-{
-    $path = JPATH_CONFIGURATION.DS.'configuration.php';
-    if(JFile::exists($path))
-    {
-        JPath::setPermissions($path, '0777');
-        $search     = JFile::read($path);
-        $replaced   = str_replace('var $dbtype = \'mysql\';', 'var $dbtype = \'mysqli\';', $search);
-        JFile::write($path, $replaced);
-        JPath::setPermissions($path, '0644');
-    }
-    JError::raiseNotice(0, JText::_("Database configuration setting changed to 'mysqli'."));
-}
-
 // Define variables
 $database   = JFactory::getDBO();
 $type       = 'com';
@@ -78,6 +63,21 @@ require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/install.'
 //Fail the app if errors happened
 if($errors) {
     //require '';
+}
+
+// Check if mysqli is active, if not, then enable it
+if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
+{
+    $path = JPATH_CONFIGURATION.DS.'configuration.php';
+    if(JFile::exists($path))
+    {
+        JPath::setPermissions($path, '0777');
+        $search     = JFile::read($path);
+        $replaced   = str_replace('var $dbtype = \'mysql\';', 'var $dbtype = \'mysqli\';', $search);
+        JFile::write($path, $replaced);
+        JPath::setPermissions($path, '0644');
+    }
+    JError::raiseNotice(0, JText::_("Database configuration setting changed to 'mysqli'."));
 }
 
 // Copy over the folders for the fw, com_default, mod_default
