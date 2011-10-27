@@ -110,33 +110,3 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
 
 <img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
 <h1><?php echo JText::_('Installed successfully!') ?></h1>
-<table>
-    <tbody valign="top">
-        <tr>
-            <td>
-                
-                
-            </td>
-            <td width="100%">
-                <table class="adminlist">
-                    <thead>
-                        <tr>
-                            <th><?php echo JText::_('Task') ?></th>
-                            <th width="30%"><?php echo JText::_('Status') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tasks">
-                        <tr class="row1">
-                            <td class="key hasTip" title="<?php echo JText::_('MySQL server Version') ?>::<?php echo sprintf($versiontext, 'MySQL v5.0.41', $database->getVersion()) ?>"><?php echo JText::_('MySQL server Version') ?></td>
-                            <td>
-                                <?php echo version_compare($database->getVersion(), '5.0.41', '>=')
-                                ? '<strong>'.JText::_('OK').'</strong> - '.$database->getVersion()
-                                : sprintf($versiontext, 'MySQL server v5.0.41', $database->getVersion()) ?>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </tbody>
-</table>

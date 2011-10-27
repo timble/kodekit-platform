@@ -35,6 +35,11 @@ if(version_compare(phpversion(), '5.2', '<'))
     $errors[] = sprintf(JText::_("Nooku Framework requires PHP 5.2 or later. Your server is running PHP %s."), phpversion());
 }
 
+if(version_compare($database->getVersion(), '5.0.41', '<'))
+{
+    $errors[] = sprintf(JText::_("Nooku Framework requires MySQL 5.0.41 or later. Your server is running MySQL %s."), $database->getVersion());
+}
+
 //If there were errors, backup the temporary files before the installation aborts, allowing the user to more easily attempt an reinstall
 if($errors)
 {
