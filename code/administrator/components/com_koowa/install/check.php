@@ -30,6 +30,10 @@ if(!class_exists('mysqli'))
     $errors[] = JText::_("We're sorry but your server isn't configured with the MySQLi database driver. Please contact your host and ask them to enable MySQLi for your server.");
 }
 
+if(version_compare(phpversion(), '5.2', '<'))
+{
+    $errors[] = sprintf(JText::_("Nooku Framework requires PHP 5.2 or later. Your server is running PHP %s."), phpversion());
+}
 
 //If there were errors, backup the temporary files before the installation aborts, allowing the user to more easily attempt an reinstall
 if($errors)

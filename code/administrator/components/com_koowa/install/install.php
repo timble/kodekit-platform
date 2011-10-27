@@ -124,14 +124,6 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
                         </tr>
                     </thead>
                     <tbody id="tasks">
-                        <tr class="row0">
-                            <td class="key hasTip" title="<?php echo JText::_('PHP Version') ?>::<?php echo sprintf($versiontext, 'PHP v5.2', phpversion()) ?>"><?php echo JText::_('PHP Version') ?></td>
-                            <td>
-                                <?php echo version_compare(phpversion(), '5.2', '>=')
-                                    ? '<strong>'.JText::_('OK').'</strong> - '.phpversion()
-                                    : sprintf($versiontext, 'PHP v5.2', phpversion()) ?>
-                            </td>
-                        </tr>
                         <tr class="row1">
                             <td class="key hasTip" title="<?php echo JText::_('MySQL server Version') ?>::<?php echo sprintf($versiontext, 'MySQL v5.0.41', $database->getVersion()) ?>"><?php echo JText::_('MySQL server Version') ?></td>
                             <td>
