@@ -26,30 +26,8 @@ if(!function_exists('com_install'))
     }
 }
 
-$errors = array();
-if(extension_loaded('suhosin'))
-{
-    //Attempt setting the whitelist value
-    @ini_set('suhosin.executor.include.whitelist', 'tmpl://, file://');
-
-    //Checking if the whitelist is ok
-    if(!@ini_get('suhosin.executor.include.whitelist') || strpos(@ini_get('suhosin.executor.include.whitelist'), 'tmpl://') === false)
-    {
-        $this->parent->abort(sprintf(JText::_('The install failed because your server has Suhosin loaded, but it\'s not configured correctly. Please follow <a href="%s" target="_blank">this</a> tutorial before you reinstall.'), 'https://nooku.assembla.com/wiki/show/nooku-framework/Known_Issues'));
-        return false;
-    }
-}
-
-if (!class_exists('mysqli'))
-{
-    $this->parent->abort(JText::_("We're sorry but your server isn't configured with the MySQLi database driver. Please contact your host and ask them to enable MySQLi for your server."));
-    JFactory::getApplication()->set('com_install', false);
-    return;
-}
-
 // Define variables
 $database   = JFactory::getDBO();
-$type       = 'com';
 $manifest   = simplexml_load_file($this->parent->getPath('manifest'));
 $package    = (string) $manifest->name;
 $source     = $this->parent->getPath('source'); // The install package dir
@@ -57,13 +35,15 @@ $version    = (string) $manifest->version;
 $logo       = JURI::root(1).'/media/com_koowa/images/logo.png';
 $jversion   = JVersion::isCompatible('1.6.0') ? '1.6' : '1.5';
 
-//Run platform specific procedures
-require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/install.'.$jversion.'.php';
-
-//Fail the app if errors happened
-if($errors) {
-    //require '';
+//Run checks to see if the server meets system requirements, pause installation if it don't
+require JPATH_ADMINISTRATOR.'/components/com_'.$package.'/install/check.php';
+//Don't run rest of the script if something failed
+if(JFactory::getApplication()->get('com_install') === false) {
+    return;
 }
+
+//Run platform specific procedures
+require JPATH_ADMINISTRATOR.'/components/com_'.$package.'/install/install.'.$jversion.'.php';
 
 // Check if mysqli is active, if not, then enable it
 if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
