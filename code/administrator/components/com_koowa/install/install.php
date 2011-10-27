@@ -108,12 +108,14 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
     <div id="install" class="<?php echo $class ?>"><h2 class="working"><?php echo JText::_('Please wait, checking for additional files to install'); ?></h2></div>
 <?php endif ?>
 
+<img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
+<h1><?php echo JText::_('Installed successfully!') ?></h1>
 <table>
     <tbody valign="top">
         <tr>
             <td>
                 
-                <img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
+                
             </td>
             <td width="100%">
                 <table class="adminlist">
@@ -131,10 +133,6 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
                                 ? '<strong>'.JText::_('OK').'</strong> - '.$database->getVersion()
                                 : sprintf($versiontext, 'MySQL server v5.0.41', $database->getVersion()) ?>
                             </td>
-                        </tr>
-                        <tr class="row0">
-                            <td class="key"><?php echo JText::_('Nooku Framework') ?></td>
-                            <td><strong><?php echo JText::_('Installed') ?></strong> - <?php echo $version ?></td>
                         </tr>
                     </tbody>
                 </table>
