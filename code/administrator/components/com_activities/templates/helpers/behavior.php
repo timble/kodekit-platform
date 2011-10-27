@@ -30,9 +30,10 @@ class ComActivitiesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavi
 		    'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
  		));
  
-        if($config->date && $config->date != '0000-00-00 00:00:00') { 
+        if($config->date && $config->date != '0000-00-00 00:00:00' && $config->date != '0000-00-00') { 
             $config->date = strftime($config->format, strtotime($config->date) /*+ $config->gmt_offset*/);
         }
+        else $config->date = '';
         
 	    $html = '';
 		// Load the necessary files if they haven't yet been loaded
