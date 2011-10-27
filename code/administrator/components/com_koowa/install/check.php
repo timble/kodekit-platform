@@ -40,6 +40,12 @@ if(version_compare($database->getVersion(), '5.0.41', '<'))
     $errors[] = sprintf(JText::_("Nooku Framework requires MySQL 5.0.41 or later. Your server is running MySQL %s."), $database->getVersion());
 }
 
+//Some hosts that specialize on Joomla are known to lock permissions to the libraries folder
+if(!is_writable(JPATH_LIBRARIES))
+{
+    $errors[] = sprintf(JText::_("The <em title=\"%s\">libraries</em> folder needs to be writable in order for Nooku Framework to install."), JPATH_LIBRARIES);
+}
+
 //If there were errors, backup the temporary files before the installation aborts, allowing the user to more easily attempt an reinstall
 if($errors)
 {
