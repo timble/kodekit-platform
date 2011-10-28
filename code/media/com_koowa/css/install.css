@@ -43,12 +43,13 @@
 .-koowa-install-success ul {
     display: inline-block;
     text-align: left;
-    padding: 0;
+    padding: 5px;
 }
 .-koowa-install-success ul li {
     display: block;
     margin: 0;
-    padding: 2.5px;
+    padding: 2px 3px;
+    border-bottom: 1px solid hsla(132, 0%, 43%, 0.1);
 }
 
 #install {
