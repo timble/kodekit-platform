@@ -75,7 +75,7 @@ class ComKoowaControllerPackage extends ComDefaultControllerDefault
             $data['package_version'] = (string) '<strong>' . JText::_('OK') . '</strong> - ' .$xml->version . @$xml->version['status'];
 
             ob_start();
-            echo $this->getService('com://admin/koowa/view.packages.html')
+            echo $this->getService('com://admin/koowa.view.packages.html')
                 ->set('i', KRequest::get('get.i', 'int', 0))
                 ->set('package', $xml->name . ' ' . $xml->version . @$xml->version['status'])
                 ->setLayout('installing')
@@ -85,7 +85,7 @@ class ComKoowaControllerPackage extends ComDefaultControllerDefault
         else
         {
             ob_start();
-            echo $this->getService('com://admin/koowa/view.packages.html')
+            echo $this->getService('com://admin/koowa.view.packages.html')
                 ->setLayout('default')
                 ->display();
             $data['html'] = ob_get_clean();
@@ -98,7 +98,7 @@ class ComKoowaControllerPackage extends ComDefaultControllerDefault
             {
                 $data['packages'][] = $package;
                 ob_start();
-                echo $this->getService('com://admin/koowa/view.packages.html')
+                echo $this->getService('com://admin/koowa.view.packages.html')
                     ->set('i', ++$i)
                     ->set('package', $package)
                     ->setLayout('unpacking')
