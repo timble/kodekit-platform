@@ -8,6 +8,14 @@
  * @link		http://www.nooku.org
  */
 
+.-koowa-install-success {
+    margin: 10px auto;
+    background-color: #ffffff;
+    max-width: 500px;
+    box-shadow: black 0 0 20px;
+    outline: white 14px solid;
+}
+
 #install {
 	min-height: 50px;
 	padding-top: 15px;
