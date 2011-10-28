@@ -12,7 +12,8 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <div class="-koowa-box-flex">
-    <?= @template('default_icons'); ?>
+	<h3><?= @text('Recent Activity')?></h3>
+    <?= @overlay(array('url' => @route('option=com_activities&view=activities'))); ?>
 </div>
 <div style="width:550px;">
 <?= @helper('accordion.startPane') ?>
