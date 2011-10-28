@@ -30,14 +30,6 @@ defined('KOOWA') or die('Restricted access') ?>
 			    <?= @text('Administrator') ?>
 			</a>
 		</li>
-		
-		<? foreach ($actions as $action):?>
-		<li class="<?= ($state->action == $action->action) ? 'active' : ''; ?>">
-			<a href="<?= @route($state->action == $action->action ? 'action=' : 'action='.$action->action) ?>">
-			    <?= ucfirst($action->action) ?>
-			</a>
-		</li>
-		<? endforeach ?>
 
 		<li class="<?= ($state->direction == 'desc') ? 'active' : ''; ?> separator-left">
 			<a href="<?= @route($state->direction == 'desc' ? 'direction=' : 'direction=desc' ) ?>">
