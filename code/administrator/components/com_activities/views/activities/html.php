@@ -31,12 +31,6 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 				->column('package')
 				->getList()
 			);
-
-			$this->assign('actions', $model
-				->distinct(true)
-				->column('action')
-				->getList()
-			);
 		} 
 		
 		return parent::display();
