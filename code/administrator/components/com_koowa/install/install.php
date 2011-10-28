@@ -96,7 +96,7 @@ if(JFolder::exists($source.'/packages'))
 $config = JFactory::getConfig();
 $class = $config->getValue('debug', null) ? 'debug' : null; ?>
 
-<link rel="stylesheet" href="<?php echo JURI::root(1) ?>/media/com_koowa/css/install.css" />
+<link rel="stylesheet" href="<?php echo JURI::root(1) ?>/media/com_koowa/css/install.css?cache=<?php echo rand() ?>" />
 
 <?php if($packages) : ?>
     <script type="text/javascript">
@@ -108,5 +108,7 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
     <div id="install" class="<?php echo $class ?>"><h2 class="working"><?php echo JText::_('Please wait, checking for additional files to install'); ?></h2></div>
 <?php endif ?>
 
-<img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
-<h1><?php echo JText::_('Installed successfully!') ?></h1>
+<div class="-koowa-install-success">
+    <img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
+    <h1><?php echo JText::_('Installed successfully!') ?></h1>
+</div>
