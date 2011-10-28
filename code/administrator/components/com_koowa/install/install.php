@@ -60,11 +60,15 @@ if(JFactory::getApplication()->getCfg('dbtype') != 'mysqli')
     JError::raiseNotice(0, JText::_("Database configuration setting changed to 'mysqli'."));
 }
 
+// Recording changes that will be reported to the end user
+$reports = array();
+
 // Copy over the folders for the fw, com_default, mod_default
 foreach ($manifest->framework->folder as $folder)
 {
     $from   = isset($folder['src']) ? $folder['src'] : $folder;
     JFolder::copy($source.$from, JPATH_ROOT.$folder, false, true);
+    $reports[] = array('href' => $folder, 'type' => 'folder');
 }
 
 foreach ($manifest->framework->file as $file)
@@ -73,9 +77,8 @@ foreach ($manifest->framework->file as $file)
     if(!JFolder::exists($folder)) JFolder::create($folder);
     
     JFile::copy($source.$file, JPATH_ROOT.$file);
+    $reports[] = array('href' => $file, 'type' => 'file');
 }
-
-$versiontext = '<em>'.JText::_('You need at least %s to run Nooku Framework. You have: %s').'</em>';
 
 // Preload the logo
 $document = JFactory::getDocument();
@@ -111,4 +114,14 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
 <div class="-koowa-install-success">
     <img src="<?php echo $logo ?>" alt="<?php echo JText::_('Nooku Framework Logo') ?>" width="190" height="80" />
     <h1><?php echo JText::_('Installed successfully!') ?></h1>
+    <?php if($reports) : ?>
+        <h2><?php echo JText::_('The following files and folders were added:') ?></h2>
+        <ul>
+        <?php foreach ($reports as $report) : ?>
+            <li class="<?php echo $report['type'] ?>" title="<?php echo JPATH_ROOT.'/'.$report['href'] ?>">
+                <?php echo $report['href'] ?>
+            </li>
+        <?php endforeach ?>
+        </ul>
+    <?php endif ?>
 </div>
