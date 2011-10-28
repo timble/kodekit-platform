@@ -118,7 +118,7 @@ $class = $config->getValue('debug', null) ? 'debug' : null; ?>
         <h2><?php echo JText::_('The following files and folders were added:') ?></h2>
         <ul>
         <?php foreach ($reports as $report) : ?>
-            <li class="<?php echo $report['type'] ?>" title="<?php echo JPATH_ROOT.'/'.$report['href'] ?>">
+            <li class="<?php echo $report['type'] ?>" title="<?php echo JPATH_ROOT.$report['href'] ?>">
                 <?php echo $report['href'] ?>
             </li>
         <?php endforeach ?>
