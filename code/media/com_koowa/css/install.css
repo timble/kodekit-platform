@@ -14,18 +14,41 @@
     max-width: 500px;
     box-shadow: black 0 0 20px;
     outline: white 14px solid;
-    text-align: center;
     padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+.-koowa-install-success h1,
+.-koowa-install-success h2 {
+    color: #595959;
+    font: bold 20px Helvetica, Arial, sans-serif;
 }
 .-koowa-install-success h1 {
-    width: 100%;
     margin-top: 20px;
-    font-family: Helvetica, Arial, sans-serif;
-    border-top: #469857 1px solid;
-    border-bottom: #469857 1px solid;
-    color: #469857;
-    font-size: 20px;
+    border-top: 3px double hsla(132, 0%, 43%, 0.1);
+    border-bottom: 3px double hsla(132, 0%, 43%, 0.1);
+    padding: 2px 0px 0;
+    text-transform: uppercase;
+}
+.-koowa-install-success h2 {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    margin-top: 20px;
+}
+.-koowa-install-success img {
+    display: block;
+    margin: 0 155px;
+}
+.-koowa-install-success ul {
+    display: inline-block;
+    text-align: left;
+    padding: 0;
+}
+.-koowa-install-success ul li {
+    display: block;
+    margin: 0;
+    padding: 2.5px;
 }
 
 #install {
