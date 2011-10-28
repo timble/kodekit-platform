@@ -20,7 +20,12 @@
 }
 .-koowa-install-success h1 {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    border-top: #469857 1px solid;
+    border-bottom: #469857 1px solid;
+    color: #469857;
+    font-size: 20px;
 }
 
 #install {
