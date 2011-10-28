@@ -9,11 +9,18 @@
  */
 
 .-koowa-install-success {
-    margin: 10px auto;
+    margin: 40px auto;
     background-color: #ffffff;
     max-width: 500px;
     box-shadow: black 0 0 20px;
     outline: white 14px solid;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.-koowa-install-success h1 {
+    width: 100%;
+    margin-top: 10px;
 }
 
 #install {
