@@ -31,6 +31,9 @@ class plgSystemDebug extends JPlugin
 	        
 	        //Replace the event dispatcher
 	        KService::set('koowa:event.dispatcher', $profiler);
+	        
+	        //Add the query profiler
+	        KService::get('com://admin/debug.profiler.queries', array('dispatcher' => $profiler));
 		}
 		
 		parent::__construct($subject, $config);
