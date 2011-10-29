@@ -37,9 +37,19 @@ class KMixinToolbar extends KMixinAbstract
 		parent::__construct($config);
 		
 	    //Add the toolbars
-        if(!empty($config->toolbars)) {
-            $this->addToolbar($config->toolbars);
-        } 
+        if(!empty($config->toolbars)) 
+        {
+            $toolbars = (array) KConfig::unbox($config->toolbars);
+            
+            foreach($toolbars as $key => $value) 
+            {
+                if(is_numeric($key)) {
+                    $this->addToolbar($value);
+                } else {
+                    $this->addToolbar($key, $value);
+                }
+            }
+        }
 	}
 	
 	/**
@@ -76,19 +86,14 @@ class KMixinToolbar extends KMixinAbstract
      * @param   array 	Array of one or more toolbars to add
      * @return  KObject	The mixer object
      */
-    public function addToolbar($toolbars)
+    public function addToolbar($toolbar)
     { 
-        $toolbars = (array) KConfig::unbox($toolbars);
-         
-        foreach($toolbars as $toolbar)
-        {
-            if (!($toolbar instanceof KControllerToolbarInterface)) { 
-                $toolbar = $this->getToolbar($toolbar);
-            }
-		       
-            //Add the toolbars
-            $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
+        if (!($toolbar instanceof KControllerToolbarInterface)) { 
+            $toolbar = $this->getToolbar($toolbar);
         }
+		       
+        //Add the toolbars
+        $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
         
         return $this;
     }
