@@ -94,7 +94,8 @@ class KMixinBehavior extends KMixinAbstract
 	/**
      * Add one or more behaviors to the controller
      *
-     * @param   array Array of one or more behaviors to add
+     * @param   mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
      * @param	array An optional associative array of configuration settings
      * @return  KObject	The mixer object
      */
@@ -121,6 +122,9 @@ class KMixinBehavior extends KMixinAbstract
 	/**
      * Get a behavior by identifier
      *
+     * @param   mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
+     * @param	array An optional associative array of configuration settings
      * @return KControllerBehaviorAbstract
      */
     public function getBehavior($behavior, $config = array())
