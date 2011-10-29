@@ -40,11 +40,11 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
             $toolbar->reset();
                  
             if($this->getController()->canEdit()) {
-                $toolbar->addRestore();
+                $toolbar->addCommand($this->getCommand('restore'));
             }
             
             if($this->getController()->canDelete()) {
-                $toolbar->addDelete();
+                $toolbar->addCommand($this->getCommand('delete'));
             }
         } 
     }
