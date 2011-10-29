@@ -19,7 +19,7 @@
  */
 class ComVersionsControllerBehaviorRevisable extends KControllerBehaviorAbstract
 {
-	protected function _beforeGet(KCommandContext $context)
+	protected function _beforeControllerGet(KCommandContext $context)
 	{
 	    $this->addToolbar('com://admin/versions.controller.toolbar.revisable');
 	}
