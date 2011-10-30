@@ -242,14 +242,14 @@ class KService implements KServiceInterface
 			    $identifier = $identifier->getIdentifier();
 		    }   
 		}
+		
+	    $alias = (string) $identifier;
+	    if(array_key_exists($alias, self::$_aliases)) {
+	        $identifier = self::$_aliases[$alias];
+		}
 	    
 	    if(!self::$_identifiers->offsetExists((string) $identifier)) 
         {  
-		    $alias = (string) $identifier;
-		    if(array_key_exists($alias, self::$_aliases)) {
-			    $identifier = self::$_aliases[$alias];
-		    }
-		
 		    if(is_string($identifier)) {
 		        $identifier = new KServiceIdentifier($identifier);
 		    }
