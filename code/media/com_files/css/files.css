@@ -395,7 +395,7 @@ ul#files-tree-html ul li a {
 }
 
 /* @group Style for the custom modal stuff */
-#files-canvas .modal {
+.files-modal {
     position: absolute;
     padding: 10px;
     background: white;
