@@ -36,6 +36,10 @@ class KMixinEvent extends KMixinAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
+        
+        if(is_null($config->event_dispatcher)) {
+			throw new KMixinException('event_dispatcher [KEventDispatcher] option is required');
+		}
             
         //Create a event dispatcher object
         $this->_event_dispatcher = $config->event_dispatcher;
@@ -52,7 +56,7 @@ class KMixinEvent extends KMixinAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'event_dispatcher' => new KEventDispatcher(),
+            'event_dispatcher' => null,
         ));
         
         parent::_initialize($config);
