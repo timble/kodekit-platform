@@ -47,7 +47,7 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 					'params'	=> '',	
 					'title'		=> '',
 					'class'		=> '',
-					'prepend'   => true
+				    'content'   => 'prepend'
 				);
 				
 		        $attributes = array_merge($attributes, $this->_parseAttributes($matches[1][$key])); 
@@ -64,6 +64,7 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 				$module->user      = 0;
 				$module->module    = 'mod_dynamic';
 				
+				//Store the module for rendering
 			    JFactory::getDocument()->modules[$attributes['position']][] = $module;
 			}
 		}
@@ -94,10 +95,20 @@ class JDocumentRendererModules extends JDocumentRenderer
 		{
 		    foreach($this->_doc->modules[$position] as $module) 
 		    { 
-		        if($module->attribs['prepend']) {
-		            array_push($modules, $module);   
-		        } else {
-		            array_unshift($modules, $module);
+		        switch($module->attribs['content'])
+		        {
+		            case 'append'  :  
+		                array_unshift($modules, $module); 
+		                break;
+		                 
+		            case 'replace' :
+		                 unset($modules);
+		                $modules[] = $module;
+		                break;
+		                
+		            case 'prepend' :    
+		            default        :
+		                array_push($modules, $module); 
 		        }
 		    }
 		}
