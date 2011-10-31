@@ -10,6 +10,10 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<module position="submenu" content="replace">
+	<?= @helper('menubar.render', array('menubar' => $menubar))?>
+</module>
+
 <form class="-koowa-grid -koowa-box-scroll">
     <?
     ob_start();
