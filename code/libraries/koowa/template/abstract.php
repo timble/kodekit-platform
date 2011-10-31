@@ -244,9 +244,9 @@ abstract class KTemplateAbstract extends KObject
 	{
 	    //Identify the template
 	    $identifier = $this->getIdentifier($template);
-         
+	    
 	    // Find the template 
-		$file = $this->findFile(dirname($identifier->filepath).'/'.$identifier->name.'.php');
+		$file = $this->findFile($identifier->filepath);
 	    
 		if ($file === false) {
 			throw new KTemplateException('Template "'.$identifier->name.'" not found');
