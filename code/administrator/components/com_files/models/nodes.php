@@ -37,35 +37,35 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = $this->getService('com://admin/files.model.folders')->set($state->getData())->getList();
+				$folders_model = $this->getService('com://admin/files.model.folders')->set($state->getData()); 
+				$folders = $folders_model->getList();
 					
 				foreach ($folders as $folder) 
 				{
 					if (!$limit_left) {
 						break;
 					}
-					if ($offset_left) {
-						$offset_left--;
-						continue;
-					}
 					$list->insert($folder);
 					$limit_left--;
 				}
 
-				$total += count($folders);
+				$total += $folders_model->getTotal();
+				$offset_left -= $total;
 			}
-
 
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$files = $this->getService('com://admin/files.model.files')->set($state->getData())->getList();
+				$data = $state->getData();
+				$data['offset'] = 0;
+				$files_model = $this->getService('com://admin/files.model.files')->set($data); 
+				$files = $files_model->getList();
 
 				foreach ($files as $file) 
 				{
 					if (!$limit_left) {
 						break;
 					}
-					if ($offset_left) {
+					if ($offset_left > 0) {
 						$offset_left--;
 						continue;
 					}
@@ -73,7 +73,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 					$limit_left--;
 				}
 
-				$total += count($files);
+				$total += $files_model->getTotal();
 			}
 
 			$this->_total = $total;
