@@ -6,11 +6,13 @@ Files.App = new Class({
 
 	_tmpl_cache: {},
 	active: null,
+	title: '',
 	options: {
 		thumbnails: true,
 		types: null,
 		container: null,
 		active: null,
+		title: 'files-title',
 		tree: {
 			div: 'files-tree',
 			theme: ''
@@ -36,6 +38,10 @@ Files.App = new Class({
 			pieces = hash.split(':', 2);
 			this.options.container = pieces[0];
 			this.options.active = pieces[1] || '/';
+		}
+		
+		if (this.options.title) {
+			this.options.title = document.id(this.options.title);
 		}
 		
 		if (this.options.container) {
@@ -307,5 +313,16 @@ Files.App = new Class({
 			}).send();
 		}
 		
+	},
+	setTitle: function(title) {
+		this.fireEvent('beforeSetTitle', {title: title});
+		
+		this.title = title;
+		
+		if (this.options.title) {
+			this.options.title.set('html', title);
+		}
+		
+		this.fireEvent('afterSetTitle', {title: title});
 	}
 });

@@ -10,7 +10,7 @@ Files.Grid = new Class({
 		onClickImage: $empty,
 		onDeleteNode: $empty,
 		onSwitchLayout: $empty,
-		switcher: 'files-layout-switcher',
+		switcher: false,
 		cookie: 'com.files.view.files.switcher',
 		layout: false,
 		batch_delete: false,
