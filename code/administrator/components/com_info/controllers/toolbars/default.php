@@ -21,8 +21,10 @@ class ComInfoControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
     protected function _initialize(KConfig $config)
     { 
-        parent::_initialize($config);
+        $config->append(array(
+            'title'  => 'System Info',
+        ));
         
-        $config->render = array();
+        parent::_initialize($config);
     }
 }

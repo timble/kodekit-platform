@@ -20,5 +20,10 @@
 
 class ComInfoControllerDefault extends ComDefaultControllerResource
 {
-   
+    protected function  _initialize(KConfig $config) 
+  	{        
+		$config->toolbars = array($this->getIdentifier()->name);
+	
+      	parent::_initialize($config);
+  	}
 }
