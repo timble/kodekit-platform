@@ -59,6 +59,10 @@ abstract class KControllerToolbarAbstract extends KEventListener implements KCon
         
         parent::__construct($config);
         
+        if(is_null($config->controller)) {
+			throw new KMixinException('controller [KController] option is required');
+		}
+        
         // Set the controller
         $this->_controller = $config->controller;
 
@@ -238,7 +242,7 @@ abstract class KControllerToolbarAbstract extends KEventListener implements KCon
         $this->_commands = array();
         return $this;
     }
-    
+   
  	/**
      * Add a command by it's name
 	 *
