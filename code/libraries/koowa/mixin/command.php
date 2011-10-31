@@ -38,6 +38,10 @@ class KMixinCommand extends KMixinAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
+        
+        if(is_null($config->command_chain)) {
+			throw new KMixinException('command_chain [KCommandChain] option is required');
+		}
             
         //Create a command chain object 
         $this->_command_chain = $config->command_chain;
@@ -53,8 +57,18 @@ class KMixinCommand extends KMixinAbstract
         }
         
         //Enqueue the event command with a lowest priority to make sure it runs last
-        if($config->dispatch_events) {
-            $this->_command_chain->enqueue($config->event, $config->event_priority);
+        if($config->dispatch_events) 
+        { 
+             $this->_mixer->mixin(new KMixinEvent(new KConfig(array(
+                'mixer'             => $this->_mixer, 
+                'event_dispatcher'  => $config->event_dispatcher
+            ))));
+            
+            $event = $this->_command_chain->getService('koowa:command.event', array(
+            	'event_dispatcher' => $config->event_dispatcher
+            ));
+            
+            $this->_command_chain->enqueue($event, $config->event_priority);
         }
     }
     
@@ -69,8 +83,8 @@ class KMixinCommand extends KMixinAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain'     => new KCommandChain(),
-            'event'				=> KService::get('koowa:command.event'),
+            'command_chain'     => null,
+            'event_dispatcher'  => null,
             'dispatch_events'   => true,
             'event_priority'    => KCommand::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
