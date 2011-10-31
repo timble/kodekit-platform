@@ -119,7 +119,10 @@ class KMixinToolbar extends KMixinAbstract
             
        if(!isset($this->_toolbars[$identifier->name])) 
        {
-           $toolbar = $this->getService($identifier, array_merge($config, array('controller' => $this->getMixer())));
+           $config['controller']       = $this->getMixer();
+           $config['event_dispatcher'] = $this->getEventDispatcher();
+           
+           $toolbar = $this->getService($identifier, $config);
            
            //Check the toolbar interface
 		   if(!($toolbar instanceof KControllerToolbarInterface)) {
