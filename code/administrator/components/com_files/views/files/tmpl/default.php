@@ -60,7 +60,7 @@ window.addEvent('domready', function() {
 		};
 	});
 
-    var createModal = function(container, button){
+    Files.createModal = function(container, button){
         var modal = $(container);
         document.body.grab(modal);
         modal.setStyle('display', 'none');
@@ -75,7 +75,8 @@ window.addEvent('domready', function() {
     		});
     	});
     };
-    createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+
+    Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
 });
 </script>
 
@@ -112,7 +113,7 @@ window.addEvent('domready', function() {
 </div>
 
 <div style="display: block">
-	<div id="files-new-folder-modal" class="modal">
+	<div id="files-new-folder-modal" class="files-modal">
 		<input class="inputbox" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
 	</div>
