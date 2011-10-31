@@ -112,15 +112,15 @@ abstract class KDatabaseTableAbstract extends KObject
                 $this->getColumn($column, true)->filter = KConfig::unbox($filter);
             }       
         }
-    
-        // Mixin a command chain
-        $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+        
+        //Set the mixer in the config
+        $config->mixer = $this;
+        
+        // Mixin the command interface
+        $this->mixin(new KMixinCommand($config));
          
         // Mixin the behavior interface
-        $this->mixin(new KMixinBehavior($config->append(array(
-        	'mixer'      => $this,
-            'auto_mixin' => false
-        ))));
+        $this->mixin(new KMixinBehavior($config));
     }
 
     /**
@@ -143,8 +143,9 @@ abstract class KDatabaseTableAbstract extends KObject
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => new KCommandChain(),
+            'command_chain'     => $this->getService('koowa:command.chain'),
             'dispatch_events'   => false,
+            'event_dispatcher'  => null,
             'enable_callbacks'  => false,
         ))->append(
             array('base'        => $config->name)
