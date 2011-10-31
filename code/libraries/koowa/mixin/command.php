@@ -64,6 +64,7 @@ class KMixinCommand extends KMixinAbstract
                 'event_dispatcher'  => $config->event_dispatcher
             ))));
             
+            //@TODO : Add KCommandChain::getCommand()     
             $event = $this->_command_chain->getService('koowa:command.event', array(
             	'event_dispatcher' => $config->event_dispatcher
             ));
