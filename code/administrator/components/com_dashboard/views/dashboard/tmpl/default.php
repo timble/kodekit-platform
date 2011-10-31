@@ -11,6 +11,14 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
+<module position="title" content="replace">
+	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
+</module>
+
+<module position="toolbar" content="replace">
+	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</module>
+
 <div class="-koowa-box-flex">
 	<h3><?= @text('Recent Activity')?></h3>
     <?= @overlay(array('url' => @route('option=com_activities&view=activities'))); ?>
