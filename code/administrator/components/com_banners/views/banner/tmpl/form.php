@@ -26,6 +26,8 @@ window.addEvent('domready', function(){
 });
 </script>
 
+<?= @template('com://admin/default.view.form.toolbar'); ?>
+
 <form action="" method="post" id="banner-form" class="-koowa-form">
     <div class="grid_8">
         <div class="panel title group">
