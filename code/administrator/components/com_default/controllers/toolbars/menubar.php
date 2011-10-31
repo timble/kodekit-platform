@@ -73,10 +73,18 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 	            foreach($xml->administration->submenu->children() as $menu)
 	            {
 	                $view = (string)$menu['view'];
+	                  
+	                if(!isset($menu['href'])) {
+	                   $menu['href'] = 'index.php?option=com_'.$package.'&view='.$view;
+	                }
+	               
+	                if(!isset($menu['active'])) {
+	                    $menu['active'] = ($name == KInflector::singularize($view));
+	                }
 	                
 	                $this->addCommand(JText::_((string)$menu), array(
-	            		'href'   => JRoute::_('index.php?option=com_'.$package.'&view='.$view),
-	            		'active' => ($name == KInflector::singularize($view))
+	            		'href'   => JRoute::_($menu['href']),
+	            		'active' => (string) $menu['active']
 	                ));
 	            }
 	        }
