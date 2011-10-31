@@ -10,7 +10,7 @@
  */
 
 /**
- * Default Menubar
+ * Default Menubar 
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
