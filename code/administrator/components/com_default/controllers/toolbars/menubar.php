@@ -20,21 +20,13 @@
 class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 {
 	/**
-	 * Render the menubar
+	 * Push the menubar into the view
 	 * .
 	 * @param	KEvent	A event object
 	 */
-    public function onAfterControllerGet(KEvent $event)
+    public function onBeforeControllerGet(KEvent $event)
     {   
-        if($this->getController()->isDispatched() && ($this->getController()->getView() instanceof KViewHtml))
-        {
-	        $document = JFactory::getDocument();
-            
-            $config = array('menubar' => $this);
-            $menubar = $this->getController()->getView()->getTemplate()->getHelper('menubar')->render($config);
-        
-            $document->setBuffer($menubar, 'modules', 'submenu');
-        }
+        $event->caller->getView()->menubar = $this;
     }
  	
  	/**
