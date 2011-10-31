@@ -19,7 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
-Files.token = '<?= JUtility::getToken();?>';
+Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 

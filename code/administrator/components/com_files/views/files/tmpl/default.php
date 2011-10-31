@@ -14,7 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
-Files.token = '<?= JUtility::getToken();?>';
+Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 
@@ -29,13 +29,14 @@ Files.state = {
 Files.state.setDefaults();
 
 window.addEvent('domready', function() {
-	Files.app = new Files.App({
+	var options = {
 		tree: {
 			theme: 'media://com_files/images/mootree.png'
 		},
 		types: <?= json_encode($state->types); ?>,
 		container: <?= json_encode($state->container ? $state->container->slug : 'files-files'); ?>
-	});
+	};
+	Files.app = new Files.App(options);
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();
@@ -77,6 +78,27 @@ window.addEvent('domready', function() {
     };
 
     Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+
+    Files.app.addEvent('afterNavigate', function(path) {
+        if (path) {
+	        var folder = path.split('/');
+	        folder = folder[folder.length-1] || Files.container.title;
+	        this.setTitle(folder);
+        }
+    });
+
+    var switchers = $$('.files-layout-switcher'); 
+    switchers.filter(function(el) { 
+        return el.get('data-layout') == Files.Template.layout
+    }).setProperty('disabled', true);
+
+    switchers.addEvent('click', function(e) {
+    	e.stop();
+    	Files.app.grid.setLayout(this.get('data-layout'));
+    	switchers.setProperty('disabled', false);
+    	this.setProperty('disabled', true);
+    });
+    
 });
 </script>
 
@@ -95,11 +117,11 @@ window.addEvent('domready', function() {
 	    <div class="path" style="height: 24px;">
 			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
 			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
-			
-			<select id="files-layout-switcher" style="float: right">
-				<option value="icons"><?= @text('Icons'); ?></option>
-				<option value="details"><?= @text('Details'); ?></option>
-			</select>
+			<h3 id="files-title" style="display: inline; "></h3>
+			<span style="float: right">
+				<button class="files-layout-switcher" data-layout="icons">Icons</button>
+				<button class="files-layout-switcher" data-layout="details">Details</button>
+			</span>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-grid"></div>
