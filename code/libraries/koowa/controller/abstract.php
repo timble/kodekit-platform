@@ -61,18 +61,18 @@ abstract class KControllerAbstract extends KObject
         
         parent::__construct($config);
         
-         //Set the dispatched state
+        //Set the dispatched state
         $this->_dispatched = $config->dispatched;
         
-        // Mixin the command chain
-        $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+        //Set the mixer in the config
+        $config->mixer = $this;
         
+        // Mixin the command interface
+        $this->mixin(new KMixinCommand($config));
+         
         // Mixin the behavior interface
-        $this->mixin(new KMixinBehavior($config->append(array(
-        	'mixer'      => $this,
-            'auto_mixin' => true
-        ))));
-        
+        $this->mixin(new KMixinBehavior($config));
+        	
         //Set the request
 		$this->setRequest((array) KConfig::unbox($config->request));
     }
@@ -88,8 +88,9 @@ abstract class KControllerAbstract extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain'     =>  new KCommandChain(),
+            'command_chain'     => $this->getService('koowa:command.chain'),
             'dispatch_events'   => true,
+            'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
             'enable_callbacks'  => true,
             'dispatched'		=> false,
             'request'		    => null,
