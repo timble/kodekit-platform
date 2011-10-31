@@ -143,7 +143,9 @@ class KMixinBehavior extends KMixinAbstract
            
        if(!isset($this->_behaviors[$identifier->name])) 
        {
-           $behavior = $this->getService($identifier, array_merge($config, array('mixer' => $this->getMixer())));
+           $config['mixer'] = $this->getMixer();
+           
+           $behavior = $this->getService($identifier, $config);
            
            //Check the behavior interface
 		   if(!($behavior instanceof KBehaviorInterface)) {
