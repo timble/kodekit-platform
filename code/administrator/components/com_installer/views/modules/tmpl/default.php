@@ -14,6 +14,8 @@ defined('KOOWA') or die('Restricted access'); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 <?= @helper('behavior.tooltip') ?>
 
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
+
 <?= @template('com://admin//installer.view.grid.sidebar'); ?>
 
 <div class="-installer-grid">
