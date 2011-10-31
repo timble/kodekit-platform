@@ -108,36 +108,13 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     }
     
  	/**
-	 * Render the toolbar
+	 * Push the toolbar into the view
 	 * .
 	 * @param	KEvent	A event object
 	 */
-    public function onAfterControllerGet(KEvent $event)
+    public function onBeforeControllerGet(KEvent $event)
     {   
-        if($this->getController()->isDispatched() && ($this->getController()->getView() instanceof KViewHtml))
-        {
-            //Render the toolbar
-	        $document = JFactory::getDocument();
-	       
-            if(in_array('toolbar', $this->_render)) 
-            {
-                $config   = array('toolbar' => $this);
-	            $toolbar = $this->getController()->getView()->getTemplate()->getHelper('toolbar')->render($config);      
-            } 
-            else $toolbar = false;
-            
-            $document->setBuffer($toolbar, 'modules', 'toolbar');
-
-            //Render the title
-            if(in_array('title', $this->_render)) 
-            {
-                $config   = array('toolbar' => $this);
-                $title = $this->getController()->getView()->getTemplate()->getHelper('toolbar')->title($config);
-            } 
-            else $title = false;
-             
-            $document->setBuffer($title, 'modules', 'title');
-        }
+        $event->caller->getView()->toolbar = $this;
     }
     
     /**
