@@ -23,8 +23,6 @@ class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDef
     {    
         parent::onAfterControllerBrowse($event);
         
-        $state = $this->getController()->getModel()->getState();
-        
         $this->addSeparator()
              ->addPublish()
              ->addUnpublish()
