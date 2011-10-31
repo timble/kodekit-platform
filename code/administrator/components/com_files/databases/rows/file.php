@@ -26,7 +26,10 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		$this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+		$this->mixin(new KMixinCommand($config->append(array(
+			'mixer'         => $this,
+		    'command_chain' => $this->getService('koowa:command.chain')
+		))));
 
         if ($config->validator !== false)
         {
