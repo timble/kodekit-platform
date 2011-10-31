@@ -54,6 +54,16 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
  
         parent::_initialize($config);
     }
+    
+	/**
+	 * Push the toolbar into the view
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onBeforeControllerGet(KEvent $event)
+    {   
+        $event->caller->getView()->toolbar = $this;
+    }
 	
 	/**
 	 * Add default toolbar commands and set the toolbar title
@@ -106,17 +116,7 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
             $this->addCommand('delete');    
         }
     }
-    
- 	/**
-	 * Push the toolbar into the view
-	 * .
-	 * @param	KEvent	A event object
-	 */
-    public function onBeforeControllerGet(KEvent $event)
-    {   
-        $event->caller->getView()->toolbar = $this;
-    }
-    
+       
     /**
      * Enable toolbar command
      * 
