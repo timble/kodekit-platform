@@ -28,8 +28,7 @@ class ComDefaultControllerResource extends KControllerResource
     protected function  _initialize(KConfig $config) 
   	{        
 		$config->append(array(
-		    'toolbars'       => array('menubar', $this->getIdentifier()->name)
-			//'behaviors'	 =>  array('cacheable')
+		    'toolbars'   => array('menubar', $this->getIdentifier()->name),
 		));
 	
       	parent::_initialize($config);
