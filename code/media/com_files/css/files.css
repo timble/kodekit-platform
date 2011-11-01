@@ -403,3 +403,55 @@ ul#files-tree-html ul li a {
     box-shadow: 0px 3px 5px hsla(0, 0%, 0%, 0.6), 0px 0px 1px black;
     margin-top: 5px;
 }
+/* @end */
+
+/* @group Switcher */
+#files-canvas button.files-layout-switcher {
+    background: none no-repeat center;
+    overflow: hidden;
+    color: transparent;
+    display: inline-block;
+
+    border: 1px solid rgba(0, 0, 0, 0.6);
+
+    -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+    -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+    box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+    -webkit-border-radius: 3px;
+    
+}
+#files .layout li, #files .layout a, #layout ul li, #layout ul a {
+        width: 33px;
+        height: 18px;
+}
+#files-canvas button[data-layout=icons].files-layout-switcher {
+        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        -webkit-border-top-right-radius: 0;
+        -webkit-border-bottom-right-radius: 0;
+        
+}
+#files-canvas button[data-layout=details].files-layout-switcher {
+        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        -webkit-border-bottom-left-radius: 0;
+        -webkit-border-top-left-radius: 0;
+        margin-left: -4px;
+}
+#files-canvas button.files-layout-switcher.active, #files-canvas button.files-layout-switcher:active {
+        -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px,
+                                hsla(0, 0%, 0%, 0.8) 0px 1px 3px inset,
+                                rgba(0, 0, 0, 0.2) 0px -5px 12px inset;
+        
+}
+#files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active {
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+}
+#files.table .layout .table, #files .layout .table:active, #layout #list.active, #layout #list:active {
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+}
+#files.grid .layout .grid:active, #layout #thumbs.active:active {
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
+}
+#files.table .layout .table:active, #layout #list.active:active {
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
+}
+/* @end */
