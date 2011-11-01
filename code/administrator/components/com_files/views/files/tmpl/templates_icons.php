@@ -12,6 +12,27 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_files/css/files-layout-icons.css" />
 
+<textarea style="display: none" id="file_preview">
+	[%var date = new Date();date.setTime(modified_date*1000);%]
+	<ul>
+		<li>
+			<a href="[%=Files.baseurl+'/'+path%]" target="_blank"><?= @text('View'); ?></a>
+		</li>
+		<li class="preview">
+			<img src="[%=(Files.sitebase ? Files.sitebase+'/' : '')+icons['32']%]" width="32" height="32" alt="[%=name%]" border="0" />
+		</li>
+		<li class="info">
+			[%=name%]
+		</li>
+		<li>
+			[%=new Files.Filesize(size).humanize()%]
+		</li>
+		<li>
+			[%=date%]
+		</li>
+	</ul>
+</textarea>
+
 <textarea style="display: none" id="icons_container">
 <div>
 

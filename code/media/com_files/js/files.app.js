@@ -188,18 +188,31 @@ Files.App = new Class({
 		var opts = this.options.grid;
 		$extend(opts, {
 			'onClickFolder': function(e) {
-				var target = document.id(e.target);
-				var path = target.getParent('.files-node').retrieve('path');
+				var target = document.id(e.target),
+					path = target.getParent('.files-node').retrieve('path');
 				if (path) {
 					this.navigate('/'+path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
-				var target = document.id(e.target);
-				var img = target.getParent('.files-node').retrieve('row').image;
+				var target = document.id(e.target),
+					img = target.getParent('.files-node').retrieve('row').image;
+				
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
 				}
+			},
+			'onClickFile': function(e) {
+				var target = document.id(e.target),
+					row = target.getParent('.files-node').retrieve('row'),
+					copy = $extend({}, row);
+				
+				copy.template = 'file_preview';
+
+				SqueezeBox.open(copy.render(false), {
+					handler: 'adopt',
+					size: {x: 300, y: 200}
+				});
 			},
 			'onAfterDeleteNode': function(context) {
 				var node = context.node;
