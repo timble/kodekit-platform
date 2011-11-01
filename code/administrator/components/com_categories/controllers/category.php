@@ -24,8 +24,11 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
         $config->append(array(
         	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
         ));
-    
+        
         parent::_initialize($config);
+        
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com://admin/categories.controller.toolbar.category');
     }
     
     protected function _actionGet(KCommandContext $context)
@@ -44,12 +47,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
  
 	        $view->setLayout($layout);
 	    }
-
-	    //Set the toolbar
-	    if($this->isCommandable()) {
-	        $this->setToolbar('com://admin/'.$this->getIdentifier()->package.'.controller.toolbar.'.$view->getName());
-	    }
-	    
+	        
         return parent::_actionGet($context);
     }
     
