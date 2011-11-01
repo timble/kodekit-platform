@@ -31,7 +31,7 @@ class ComUsersTemplateHelperActivity extends ComActivitiesTemplateHelperActivity
 		
 		if($row->action == 'login' || $row->action == 'logout') 
 		{    
-		    $item = $this->getTemplate()->getView()->createRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
+		    $item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
 		    
 		    $message   = '<a href="'.$item.'">'.$row->title.'</a>'; 
 		    $message  .= ' <span class="action">'.$row->status.'</span>';
