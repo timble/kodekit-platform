@@ -31,7 +31,8 @@ class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefaul
     {
         $command->append(array(
             'attribs' => array(
-                'data-novalidate'   => 'novalidate'
+                'data-novalidate' =>'novalidate',
+                'data-action'     => 'purge'
             )
         ));
     }
