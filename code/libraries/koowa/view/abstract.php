@@ -211,74 +211,52 @@ abstract class KViewAbstract extends KObject
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
 	 * - index.php?option=com_mycomp&view=myview&foo=bar
-	 * 
-	 * If the route starts '&' the information will be appended to the current URL.
 	 *
 	 * In templates, use @route()
 	 *
 	 * @param	string	The query string used to create the route
 	 * @return 	string 	The route
 	 */
-	public function createRoute( $route = '')
+	public function getRoute( $route = '')
 	{
 		$route = trim($route);
 
-		// Special cases
-		if($route == 'index.php' || $route == 'index.php?') 
-		{
-			$result = $route;
-		} 
-		else if (substr($route, 0, 1) == '&') 
-		{
-			$url   = clone KRequest::url();
-			$vars  = array();
-			parse_str($route, $vars);
-			
-			$url->setQuery(array_merge($url->getQuery(true), $vars));
-			
-			$result = 'index.php?'.$url->getQuery();
-		}
-		else 
-		{
-			// Strip 'index.php?'
-			if(substr($route, 0, 10) == 'index.php?') {
-				$route = substr($route, 10);
-			}
-
-			// Parse route
-			$parts = array();
-			parse_str($route, $parts);
-			$result = array();
-
-			// Check to see if there is component information in the route if not add it
-			if(!isset($parts['option'])) {
-				$result[] = 'option=com_'.$this->getIdentifier()->package;
-			}
-
-			// Add the layout information to the route only if it's not 'default'
-			if(!isset($parts['view']))
-			{
-				$result[] = 'view='.$this->getName();
-				if(!isset($parts['layout']) && $this->_layout != $this->_layout_default) {
-					$result[] = 'layout='.$this->getLayout();
-				}
-			}
-			
-			// Add the format information to the URL only if it's not 'html'
-			if(!isset($parts['format']) && $this->getIdentifier()->name != 'html') {
-				$result[] = 'format='.$this->getIdentifier()->name;
-			}
-
-			// Reconstruct the route
-			if(!empty($route)) {
-				$result[] = $route;
-			}
-
-			$result = 'index.php?'.implode('&', $result);
-			
+		//Strip 'index.php?'
+		if(substr($route, 0, 10) == 'index.php?') {
+			$route = substr($route, 10);
 		}
 
-		return JRoute::_($result);
+		//Parse route
+		$parts = array();
+		parse_str($route, $parts);
+		
+		//Check to see if there is component information in the route if not add it
+		if(!isset($parts['option'])) {
+			$parts['option'] = 'com_'.$this->getIdentifier()->package;
+		}
+
+		//Add the layout information to the route only if it's not 'default'
+		if(!isset($parts['view']))
+		{
+			$parts['view'] = $this->getName();
+			if(!isset($parts['layout']) && $this->_layout != $this->_layout_default) {
+				$parts['layout'] = $this->getLayout();
+			}
+		}
+			
+		//Add the format information to the URL only if it's not 'html'
+		if(!isset($parts['format']) && $this->getIdentifier()->name != 'html') {
+			$parts['format'] = $this->getIdentifier()->name;
+		}
+		
+		 //Add the model state only for links to the same view
+		if($parts['view'] == $this->getName())
+		{
+		    $state = $this->getModel()->getState()->toArray();
+		    $parts = array_merge($state, $parts);
+		}
+	
+		return JRoute::_( 'index.php?'. http_build_query($parts));
 	}
 	
 	/**	
