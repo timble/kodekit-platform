@@ -28,7 +28,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</li>
 		<li>
-			[%=date%]
+			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
 		</li>
 	</ul>
 </textarea>
