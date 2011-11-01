@@ -40,6 +40,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </ul>
 </textarea>
 
+<textarea style="display: none"  id="compact_folder">
+<li class="files-node files-folder">
+	<a class="navigate" href="#">
+		[%= name %]
+	</a>
+</li>
+</textarea>
+
 <textarea style="display: none"  id="compact_image">
 <li class="files-node files-image">
 	<a class="navigate" href="#">

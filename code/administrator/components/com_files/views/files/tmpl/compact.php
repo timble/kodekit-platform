@@ -48,7 +48,7 @@ window.addEvent('domready', function() {
 		options = $extend(options, config);
 	}
 	
-	Files.app = new Files.App(options);
+	Files.app = new Files.Compact.App(options);
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();
