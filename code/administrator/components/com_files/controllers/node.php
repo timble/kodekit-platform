@@ -35,6 +35,10 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	public function getRequest()
 	{
 		$request = parent::getRequest();
+		
+		if ($this->isDispatched()) {
+			unset($request->config);
+		}
 
 		$config = $this->getService('com://admin/files.model.configs')
 			->set($request)

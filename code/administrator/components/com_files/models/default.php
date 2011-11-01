@@ -36,6 +36,7 @@ class ComFilesModelDefault extends KModelAbstract
 			->insert('folder'	, 'com://admin/files.filter.path', '')
 			->insert('types'	, 'cmd', '')
 			->insert('editor'   , 'cmd', '') // used in modal windows
+			->insert('config'   , 'json', '') // used to pass options to the JS application in HMVC
 			;
 	}
 
