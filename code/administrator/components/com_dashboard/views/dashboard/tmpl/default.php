@@ -19,9 +19,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </module>
 
-<div class="-koowa-box-flex">
+<div class="-koowa-box-flex panel" style="margin-right: 20px;">
 	<h3><?= @text('Recent Activity')?></h3>
-    <?= @overlay(array('url' => @route('option=com_activities&view=activities'))); ?>
+    <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 </div>
 <div style="width:550px;">
 <?= @helper('accordion.startPane') ?>
