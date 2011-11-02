@@ -96,25 +96,6 @@
 	float: left;
 }
 
-#upload-flash #upload-progress .progress {
-	background: url(../images/progress.gif) no-repeat;
-	background-position: +50% 0;
-	margin-right: 0.5em;
-	vertical-align: middle;
-}
-
-#upload-flash #upload-progress .current-progress,
-#upload-flash #upload-progress .current-title,
-#upload-flash #upload-progress .current-text,
-#upload-flash #upload-progress .progress-text {
-	display: none !important;
-}
-
-#upload-flash #upload-progress .overall-progress {
-	margin: 10px;
-	text-align: center;
-	float: right;
-}
 
 p.overall-title,
 p.current-title,
