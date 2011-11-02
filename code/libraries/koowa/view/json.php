@@ -131,9 +131,34 @@ class KViewJson extends KViewAbstract
 
 		if($list = $model->getList())
 		{
-			$data = array_merge($data, array(
+		    $vars = array();
+	        foreach($state->toArray(false) as $var) 
+	        {
+	            if($var->unique) 
+	            {
+	                $vars[] = $var->name;
+	                $vars   = array_merge($vars, $var->required);
+	            }      
+	        }
+		    
+		    $items = array();
+			foreach($list as $item) 
+			{
+			    $id = $item->getIdentityColumn();
+			  
+			    $items[] = array(
+		    		'href'    => (string) $url->setQuery(array($id => $item->{$id})),
+	        		'url'     => array(
+						'type'     => 'application/json',
+						'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+	                ),
+			    	'data' => $item->toArray()
+			    );
+			}
+		    
+		    $data = array_merge($data, array(
 				'total'    => $model->getTotal(),
-				'items'    => array_values($list->toArray())
+				'items'    => $items
 			 ));
 		}
 
