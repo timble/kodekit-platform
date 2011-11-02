@@ -418,11 +418,10 @@ ul#files-tree-html ul li a {
     -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
     box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
     -webkit-border-radius: 3px;
-    
-}
-#files .layout li, #files .layout a, #layout ul li, #layout ul a {
-        width: 33px;
-        height: 18px;
+    width: 34px;
+    height: 24px;
+    padding: 0;
+    min-width: initial;
 }
 #files-canvas button[data-layout=icons].files-layout-switcher {
         background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
@@ -445,13 +444,13 @@ ul#files-tree-html ul li a {
 #files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active {
         background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
 }
-#files.table .layout .table, #files .layout .table:active, #layout #list.active, #layout #list:active {
+#files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active {
         background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
 }
-#files.grid .layout .grid:active, #layout #thumbs.active:active {
+#files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active:active {
         background-image: url(../images/grid_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
 }
-#files.table .layout .table:active, #layout #list.active:active {
+#files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active:active {
         background-image: url(../images/list_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
 }
 /* @end */
