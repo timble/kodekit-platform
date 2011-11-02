@@ -93,13 +93,11 @@ window.addEvent('domready', function() {
     var switchers = $$('.files-layout-switcher'); 
     switchers.filter(function(el) { 
         return el.get('data-layout') == Files.Template.layout
-    }).setProperty('disabled', true).addClass('active');
+    }).addClass('active');
 
     switchers.addEvent('click', function(e) {
     	e.stop();
     	Files.app.grid.setLayout(this.get('data-layout'));
-    	switchers.setProperty('disabled', false);
-    	this.setProperty('disabled', true);
     	switchers.removeClass('active');
     	this.addClass('active');
     });
