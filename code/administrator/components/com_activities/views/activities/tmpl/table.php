@@ -32,7 +32,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			<? foreach($list as $date => $activities) : ?>
 			<? foreach($activities as $activity) : ?>
 			<tr class="<?php echo 'row'.$m; ?>" style="line-height: 14px;">
-				<td><?= @helper('com://admin/activities.template.helper.message.build', array('row' => $activity, 'truncate' => true)) ?></td>
+				<td><?= @helper('com://admin/activities.template.helper.activity.message', array('row' => $activity, 'truncate' => true)) ?></td>
 			</tr>
 			<? $i = $i + 1; $m = (1 - $m); ?>	
 			<? endforeach ?>

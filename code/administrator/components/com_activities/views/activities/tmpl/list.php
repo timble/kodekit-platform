@@ -20,13 +20,16 @@ foreach ($activities as $activity) {
 ?>
 
 <div id="activities-list">
+	<div style="margin-bottom: 15px;">
+		<?= @template('default_filter') ?>
+	</div>
 	<? foreach($list as $date => $activities) : ?>
 		<h4><?= @helper('date.humanize', array('date' => $date)) ?></h4>
 		<div class="activities">
 			<? foreach($activities as $activity) : ?>
 			<div class="activity">
 				<span class="icon icon-16-<?= $activity->action ?>"></span>
-				<?= @helper('com://admin/activities.template.helper.message.build', array('row' => $activity)) ?>
+				<?= @helper('com://admin/activities.template.helper.activity.message', array('row' => $activity)) ?>
 				<span class="info">
 					<small><?= $activity->package.' - '.$activity->name ?> | <?= date("H:i", strtotime($activity->created_on)) ?></small>
 				</span>
