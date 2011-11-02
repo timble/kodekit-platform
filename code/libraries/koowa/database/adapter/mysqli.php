@@ -302,13 +302,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Fetch the first field of the first row
 	 *
 	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
+	 * @param   integer         The index to use
 	 * @return The value returned in the query or null if the query failed.
 	 */
-	protected function _fetchField($result)
+	protected function _fetchField($result, $key = 0)
 	{
 		$return = null;
 		if($row = $result->fetch_row( )) {
-			$return = $row[0];
+			$return = $row[(int)$key];
 		}
 		
 		$result->free();
@@ -321,15 +322,15 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * 
 	 *
 	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
-	 * @param 	string 			The column name of the index to use
+	 * @param   integer         The index to use
 	 * @return 	array 			A sequential array of returned rows.
 	 */
-	protected function _fetchFieldList($result)
+	protected function _fetchFieldList($result, $key = 0)
 	{
 		$array = array();
 		
 		while ($row = $result->fetch_row( )) {
-			$array[] = $row[0];
+			$array[] = $row[(int)$key];
 		}
 		
 		$result->free();

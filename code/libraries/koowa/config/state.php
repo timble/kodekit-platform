@@ -178,7 +178,7 @@ class KConfigState extends KConfig
                         //Check related states to see if they are set
                         foreach($state->required as $required)
                         {
-                            if(!$this->_validate($this->_state[$required]))
+                            if(!$this->_validate($this->_data[$required]))
                             {
                                 $result = false;
                                 break;
