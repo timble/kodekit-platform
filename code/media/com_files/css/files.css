@@ -12,12 +12,6 @@
 
 /* --- End --- */
 
-#treeview {
-	overflow: auto;
-	/*height: 390px;*/
-	border: 0;
-}
-
 #files-container {
 	min-height: 218px;
 }
@@ -34,17 +28,6 @@
 	margin: 0;
 	padding: 0;
 	background-color: #FFF;
-}
-
-#files-canvas input#folderpath {
-	width: 65%;
-	background-color: #F7F7F7;
-	border: 0 none;
-	font-size: 12px;
-}
-
-#files-canvas iframe#folderframe {
-	height: 100%;
 }
 
 #files-canvas button {
