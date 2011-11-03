@@ -300,30 +300,10 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function getIcons()
 	{
-		static $path = 'media/com_files/images', $default, $icons16, $icons32;
+		static $path = 'media/com_files/images', $default;
 
-		if (!isset($default)) {
-			$default = $path.'/con_info.png';
-		}
-		
-		if (!isset($icons16)) {
-			$icons16 = ComFilesIteratorDirectory::getFiles(array(
-            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-16',
-				'filter' => array('png')
-            ));
-		}
-		
-		if (!isset($icons32)) {
-			$icons32 = ComFilesIteratorDirectory::getFiles(array(
-            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-32',
-				'filter' => array('png')
-            ));
-		}
-
-		$icons = array();
-
-		$icons['16'] = in_array($this->extension.'.png', $icons16) ? $path.'/mime-icon-16/'.$this->extension.'.png' : $default;
-		$icons['32'] = in_array($this->extension.'.png', $icons32) ? $path.'/mime-icon-32/'.$this->extension.'.png' : $default;
+		$icons['16'] = $path.'/document-16.png';
+		$icons['32'] = $path.'/document-32.png';
 
 		return $icons;
 	}
