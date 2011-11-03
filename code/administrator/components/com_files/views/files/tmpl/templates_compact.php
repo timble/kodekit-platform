@@ -28,7 +28,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<li class="info">
 		[%=name%] | [%=new Files.Filesize(size).humanize()%]
 	</li>
-	<li class="preview">
+	<li class="preview extension-[%=extension%]">
 		<img src="[%=(Files.sitebase ? '/'+Files.sitebase+'/' : '')+icons['32']%]" width="32" height="32" alt="[%=name%]" border="0" />
 	</li>
 </ul>

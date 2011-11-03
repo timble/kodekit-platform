@@ -18,8 +18,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<li>
 			<a href="[%=Files.baseurl+'/'+path%]" target="_blank"><?= @text('View'); ?></a>
 		</li>
-		<li class="preview">
-			<img src="[%=(Files.sitebase ? Files.sitebase+'/' : '')+icons['32']%]" width="32" height="32" alt="[%=name%]" border="0" />
+		<li class="preview extension-[%=extension%]">
+			<img src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
 		</li>
 		<li class="info">
 			[%=name%]
@@ -54,7 +54,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
 			<a href="#" class="navigate">
-				<img src="media://com_files/images/folder.png" width="80" height="80" border="0" />
+				<img src="media://com_files/images/folder-64.png" width="64" height="64" border="0" />
 			</a>
 		</div>
 	</div>
@@ -66,8 +66,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="imgOutline files-node files-file">
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
-		 	<a class="navigate" href="#" style="display: block; width: 100%; height: 100%">
-				<img src="[%=Files.sitebase ? Files.sitebase : ''%]/[%=icons['32']%]" border="0" />
+		 	<a class="navigate extension-label" data-extension="[%=extension%]" href="#" style="display: block; width: 100%; height: 100%;">
+				<img src="media://com_files/images/document-64.png" border="0" width="64" />
 			</a>
 		</div>
 		[%= new EJS({element: 'icons_controls'}).render(this) %]
