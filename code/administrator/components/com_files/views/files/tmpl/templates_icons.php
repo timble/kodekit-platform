@@ -66,7 +66,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
 		 	<a class="navigate extension-label" href="#" 
-		 		data-filetype="[%=Files.getFileType(extension)%]" 
+		 		data-filetype="[%=filetype%]" 
 		 		data-extension="[%=extension%]" 
 		 		style="display: block; width: 100%; height: 100%;">
 				<img src="media://com_files/images/document-64.png" border="0" width="64" />
@@ -83,7 +83,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
 			<a class="img-preview navigate" href="#" title="[%=name%]" style="display: block; width: 100%; height: 100%"
-		 		data-filetype="[%=Files.getFileType(extension)%]" 
+		 		data-filetype="[%=filetype%]" 
 		 		data-extension="[%=extension%]">
 				<div class="image">
 					<img src="media://com_files/images/spinner.gif"
