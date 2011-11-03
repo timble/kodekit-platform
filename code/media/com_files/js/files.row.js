@@ -20,7 +20,20 @@ Files.File = new Class({
 
 	type: 'file',
 	template: 'file',
+	initialize: function(object, options) {
+		this.parent(object, options);
 
+		this.filetype = Files.getFileType(this.extension);
+	},
+	getModifiedDate: function(formatted) {
+		var date = new Date();
+		date.setTime(this.modified_date*1000);
+		if (formatted) {
+			return date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes();
+		} else {
+			return date;
+		}
+	},
 	'delete': function(success, failure) {
 		this.fireEvent('beforeDeleteRow');
 		
