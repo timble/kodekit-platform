@@ -45,7 +45,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="details_file">
-	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-file">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
@@ -60,13 +59,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
+			[%=getModifiedDate(true)%]
 		</td>
 	</tr>
 </textarea>
 
 <textarea style="display: none" id="details_image">
-	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-image">
 		<td>
 			<input type="checkbox" class="files-select" value="[%=path%]" />
@@ -83,7 +81,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
+			[%=getModifiedDate(true)%]
 		</td>
 	</tr>
 </textarea>

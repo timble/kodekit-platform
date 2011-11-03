@@ -13,7 +13,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://com_files/css/files-layout-icons.css" />
 
 <textarea style="display: none" id="file_preview">
-	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<ul>
 		<li>
 			<a href="[%=Files.baseurl+'/'+path%]" target="_blank"><?= @text('View'); ?></a>
@@ -28,7 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</li>
 		<li>
-			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
+			[%=getModifiedDate(true)%]
 		</li>
 	</ul>
 </textarea>
@@ -66,7 +65,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="imgOutline files-node files-file">
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
-		 	<a class="navigate extension-label" data-extension="[%=extension%]" href="#" style="display: block; width: 100%; height: 100%;">
+		 	<a class="navigate extension-label" href="#" 
+		 		data-filetype="[%=Files.getFileType(extension)%]" 
+		 		data-extension="[%=extension%]" 
+		 		style="display: block; width: 100%; height: 100%;">
 				<img src="media://com_files/images/document-64.png" border="0" width="64" />
 			</a>
 		</div>
@@ -80,7 +82,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="imgOutline files-node files-image">
 	<div class="imgTotal">
 		<div align="center" class="imgBorder">
-			<a class="img-preview navigate" href="#" title="[%=name%]" style="display: block; width: 100%; height: 100%">
+			<a class="img-preview navigate" href="#" title="[%=name%]" style="display: block; width: 100%; height: 100%"
+		 		data-filetype="[%=Files.getFileType(extension)%]" 
+		 		data-extension="[%=extension%]">
 				<div class="image">
 					<img src="media://com_files/images/spinner.gif"
 						alt="[%=name%]" border="0"

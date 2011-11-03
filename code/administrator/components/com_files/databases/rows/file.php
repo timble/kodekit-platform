@@ -161,7 +161,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$data['name'] = $this->name;
 		$data['extension'] = $this->extension;
 		$data['size']      = $this->size;
-		$data['icons']     = $this->icons;
 		$data['modified_date'] = $this->modified_date;
 
 		if ($this->isImage() == 'image')
@@ -204,10 +203,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($column == 'mimetype' && !isset($this->_data['mimetype'])) {
 			$this->_data['mimetype'] = $this->getMimeType();
-		}
-
-		if ($column == 'icons' && !isset($this->_data['icons'])) {
-			return $this->getIcons();
 		}
 
 		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
@@ -296,15 +291,5 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			default:
 				return array('width' => $width, 'height' => $height);
 		}
-	}
-
-	public function getIcons()
-	{
-		static $path = 'media/com_files/images', $default;
-
-		$icons['16'] = $path.'/document-16.png';
-		$icons['32'] = $path.'/document-32.png';
-
-		return $icons;
 	}
 }
