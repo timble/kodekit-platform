@@ -376,7 +376,7 @@ ul#files-tree-html ul li a {
     color: transparent;
     display: inline-block;
 
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.5);
 
     -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
     -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
@@ -386,15 +386,19 @@ ul#files-tree-html ul li a {
     height: 24px;
     padding: 0;
     min-width: initial;
+    background-color: white;
+    background-color: hsla(0, 0%, 100%, 0);
+    -webkit-bakground-clip: border-box;
+    bakground-origin: border-box;
 }
 #files-canvas button[data-layout=icons].files-layout-switcher {
-        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.3)));
         -webkit-border-top-right-radius: 0;
         -webkit-border-bottom-right-radius: 0;
         
 }
 #files-canvas button[data-layout=details].files-layout-switcher {
-        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
         -webkit-border-bottom-left-radius: 0;
         -webkit-border-top-left-radius: 0;
         margin-left: -4px;
@@ -403,18 +407,22 @@ ul#files-tree-html ul li a {
         -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px,
                                 hsla(0, 0%, 0%, 0.8) 0px 1px 3px inset,
                                 rgba(0, 0, 0, 0.2) 0px -5px 12px inset;
-        
+        border: 1px solid rgba(0, 0, 0, 0.6);
 }
 #files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active {
-        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
 }
 #files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active {
-        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(#fbfcfb), to(#9d9e9d));
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
 }
 #files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active:active {
-        background-image: url(../images/grid_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
+        background-color: hsl(0, 0%, 60%);
+        background-color: hsla(0, 0%, 0%, 0.4);
 }
 #files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active:active {
-        background-image: url(../images/list_active.png), -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(120, 0%, 79%)), to(hsl(120, 0%, 42%)));
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
+        background-color: hsl(0, 0%, 60%);
+        background-color: hsla(0, 0%, 0%, 0.4);
 }
 /* @end */
