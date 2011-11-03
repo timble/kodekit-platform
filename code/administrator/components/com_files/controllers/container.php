@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: node.php 1204 2011-11-03 20:01:52Z ercanozkaya $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -10,13 +10,13 @@
  */
 
 /**
- * Thumbnail Controller Class
+ * Container Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesControllerThumbnail extends ComFilesControllerNode
+class ComFilesControllerContainer extends ComDefaultControllerDefault
 {
 }

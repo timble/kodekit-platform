@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesControllerNode extends ComDefaultControllerDefault
+class ComFilesControllerDefault extends ComDefaultControllerDefault
 {
 	protected function _initialize(KConfig $config)
 	{
@@ -46,7 +46,7 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 		if ($this->isDispatched()) {
 			unset($request->config);
 		}
-
+ 
 		$config = $this->getService('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
@@ -66,4 +66,13 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
         $result = $this->getView()->display();
 	    return $result;
     }
+    
+ 	public function __set($property, $value)
+    {
+        if ($property === 'container' && is_string($value)) {
+            $value = $this->getService('com://admin/files.model.containers')->slug($value)->getItem();
+        }
+        
+    	parent::__set($property, $value);
+  	}
 }

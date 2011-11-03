@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesControllerFile extends ComFilesControllerNode
+class ComFilesControllerFile extends ComFilesControllerDefault
 {
 	public function __construct(KConfig $config)
 	{
