@@ -78,16 +78,9 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			$this->_total = $total;
 
-			//$list = array_slice($list, $state->offset, $state->limit ? $state->limit : $this->_total);
-
 			$this->_list = $list;
 		}
 
 		return parent::getList();
-	}
-
-	public function getColumn($column)
-	{
-		return $this->getList();
 	}
 }

@@ -24,9 +24,9 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$config->append(array(
 			'persistable' => false,
-			'request'     => array(
-				//'container' => 'com_files.files'
-			)
+		    'request' => array(
+		        'container' => 'files-files'
+		    )
 		));
 
 		parent::_initialize($config);
@@ -36,6 +36,13 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 		
+		// e_name still needs to work for compatibility reasons with Joomla com_content.
+		// here we map it to "editor" state
+		if ($request->e_name) {
+		    $request->editor = $request->e_name;
+		}
+
+		// "config" state is only used in HMVC requests and passed to the JS application
 		if ($this->isDispatched()) {
 			unset($request->config);
 		}
@@ -43,17 +50,10 @@ class ComFilesControllerNode extends ComDefaultControllerDefault
 		$config = $this->getService('com://admin/files.model.configs')
 			->set($request)
 			->getItem();
+			
+		$request->container = $config->container;
 
 		return $request;
-	}
-	
-	public function setRequest($request)
-	{
-		if (isset($request['e_name'])) {
-			$request['editor'] = $request['e_name'];
-		}
-		
-		parent::setRequest($request);
 	}
 
 	protected function _actionGet(KCommandContext $context)

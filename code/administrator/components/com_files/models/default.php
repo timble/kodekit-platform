@@ -31,7 +31,7 @@ class ComFilesModelDefault extends KModelAbstract
 			->insert('direction', 'word', 'asc')
             ->insert('sort'     , 'cmd')
 
-			->insert('container', 'identifier', null)
+			->insert('container', 'com://admin/files.filter.container', null)
 			->insert('path'		, 'com://admin/files.filter.path', null, true) // unique
 			->insert('folder'	, 'com://admin/files.filter.path', '')
 			->insert('types'	, 'cmd', '')
@@ -39,13 +39,4 @@ class ComFilesModelDefault extends KModelAbstract
 			->insert('config'   , 'json', '') // used to pass options to the JS application in HMVC
 			;
 	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-            'state'      => new ComFilesConfigStateNode()
-       	));
-
-       	parent::_initialize($config);
-    }
 }

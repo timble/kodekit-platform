@@ -33,7 +33,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 		{
 			$this->_item = $this->getService('com://admin/files.database.row.folder', array(
 				'data' => array(
-					'basepath' => $this->_state->basepath,
+					'basepath' => $this->_state->container->path,
 					'path' => $this->_state->path
 				)));
 		}
@@ -46,16 +46,20 @@ class ComFilesModelFolders extends ComFilesModelDefault
 		if (!isset($this->_list))
 		{
 			$state = $this->_state;
+            
+            if ($state->container->isNew() || !$state->container->path) {
+                throw new KModelException('Invalid container');
+            }
 
-			$state->basepath = rtrim(str_replace('\\', '/', $state->basepath), '\\');
-			$path = $state->basepath;
+			$basepath = rtrim(str_replace('\\', '/', $state->container->path), '\\');
+			$path = $basepath;
 
 			if (!empty($state->folder) && $state->folder != '/') {
 				$path .= '/'.ltrim($state->folder, '/');
 			}
 
-			if (!$state->basepath || !is_dir($path)) {
-				throw new KModelException('Basepath is not a valid folder');
+			if (!is_dir($path)) {
+				throw new KModelException('Invalid folder');
 			}
 
 			if (!empty($state->path)) {
@@ -91,7 +95,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 				}
 
 				$results[] = array(
-					'basepath' => $state->basepath,
+					'basepath' => $state->container->path,
 					'path' => $folder,
 					'hierarchy' => $hier
 				);
@@ -109,7 +113,7 @@ class ComFilesModelFolders extends ComFilesModelDefault
 	public function iteratorMap($folder)
 	{
 		$path = str_replace('\\', '/', $folder->getPathname());
-		$path = str_replace($this->_state->basepath.'/', '', $path);
+		$path = str_replace($this->_state->container->path.'/', '', $path);
 
 		return $path;
 	}
@@ -119,10 +123,5 @@ class ComFilesModelFolders extends ComFilesModelDefault
 		if ($this->_state->search && stripos($folder->getBasename(), $this->_state->search) === false) {
 			return false;
 		}
-	}
-
-	public function getColumn($column)
-	{
-		return $this->getList();
 	}
 }

@@ -217,7 +217,6 @@ window.addEvent('domready', function() {
 						</td>
 					</tr>
 					<tr>
-						<input type="hidden" class="file-basepath" name="parent" />
 						<input type="hidden" name="action" value="save" />
 					</tr>
 				</table>

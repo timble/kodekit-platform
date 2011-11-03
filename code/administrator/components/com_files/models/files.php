@@ -27,7 +27,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
             $this->_item	= $this->getService('com://admin/files.database.row.file', array(
                 'data' => array(
             		'container' => $this->_state->container,
-                    'basepath' => $this->_state->basepath,
+                    'basepath' => $this->_state->container->path,
                     'path' => $this->_state->path
                 )));
         }
@@ -40,11 +40,12 @@ class ComFilesModelFiles extends ComFilesModelDefault
         if (!isset($this->_list))
         {
             $state = $this->_state;
-            if (!$state->basepath) {
-                throw new KModelException('Basepath is not a valid folder');
+            
+            if ($state->container->isNew() || !$state->container->path) {
+                throw new KModelException('Invalid container');
             }
 
-            $basepath = $state->basepath;
+            $basepath = $state->container->path;
             $path = $basepath;
 
             if (!empty($state->folder) && $state->folder != '/') {
@@ -52,7 +53,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
             }
 
             if (!is_dir($path)) {
-                throw new KModelException('Basepath is not a valid folder');
+                throw new KModelException('Invalid folder');
             }
 
             $name = $state->path ? $state->path : null;
@@ -107,7 +108,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
 	public function iteratorMap($file)
 	{
 		$path = str_replace('\\', '/', $file->getPathname());
-		$path = str_replace($this->_state->basepath.'/', '', $path);
+		$path = str_replace($this->_state->container->path.'/', '', $path);
 
 		return $path;
 	}
@@ -123,9 +124,4 @@ class ComFilesModelFiles extends ComFilesModelDefault
 		}
 		if ($this->_state->search && stripos($file->getFilename(), $this->_state->search) === false) return false;
 	}
-
-    public function getColumn($column)
-    {
-        return $this->getList();
-    }
 }
