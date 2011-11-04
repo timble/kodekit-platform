@@ -60,20 +60,21 @@ Files.Grid = new Class({
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var row = e.target.getParent('.files-node').retrieve('row');
+			var box = e.target.match('.files-node') ? e.target : e.target.getParent('.files-node');
+			var row = box.retrieve('row');
 			var checkbox = row.element.getElement('input[type=checkbox]');
 			
 			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
 			
 			var old = checkbox.getProperty('checked');
-
+            !old ? box.addClass('selected') : box.removeClass('selected');
 			row.checked = !old;
 			checkbox.setProperty('checked', !old);
 
 			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
 		};
-		this.container.addEvent('click:relay(div[class=controls])', fireCheck.bind(this));
-		
+		this.container.addEvent('click:relay(div.files-node)', fireCheck.bind(this));
+
 		/*
 		 * Delete events
 		 */
