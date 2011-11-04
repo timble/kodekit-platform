@@ -1,12 +1,117 @@
+/* @group Flexbox styling from Nooku Server, @TODO suggest to move koowa.css from Nooku Server to Nooku Framework */
+/* @group Flexible Box Model, powered by CSS3 */
+.-koowa-box { 
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+.-koowa-box-horizontal 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-align: stretch;
+}	
+.-koowa-box-horizontal> * 	{ 
+	display: block;
+	-webkit-box-flex: 0; 
+	-moz-box-flex: 0; 
+}
+
+.-koowa-box-vertical 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-align: stretch;
+}
+.-koowa-box-vertical> * 	{ 
+	display: block;
+	-webkit-box-flex: 0;
+	-moz-box-flex: 0;
+}
+
+.-koowa-box-spacer 	{ 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+.-koowa-box-reverse { 
+	-webkit-box-direction: reverse;
+	-moz-box-direction: reverse;
+}
+
+.-koowa-box-flex0 	{ 
+	-webkit-box-flex: 0;
+	-moz-box-flex: 0;
+}
+.-koowa-box-flex1,
+.-koowa-box-flex 	{ 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+.-koowa-box-flex2 	{
+	-webkit-box-flex: 2;
+	-moz-box-flex: 2;
+}
+
+.-koowa-box-group1 { 
+	-webkit-box-flex-group: 1; 
+	-moz-box-flex-group: 1; 
+}
+.-koowa-box-group2 { 
+	-webkit-box-flex-group: 2;
+	-moz-box-flex-group: 2; 
+}
+
+.-koowa-box-start 	{ 
+	-webkit-box-pack: start;
+	-moz-box-pack: start;
+}
+.-koowa-box-end 	{ 
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+}
+.-koowa-box-center 	{
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+}
+
+.-koowa-box-ordinal-group2 { 
+	-webkit-box-ordinal-group: 2;
+	-moz-box-ordinal-group: 2;
+}
+.-koowa-box-ordinal-group3 { 
+	-webkit-box-ordinal-group: 3;
+	-moz-box-ordinal-group: 3;
+}
+/* @end group */
+
+.-koowa-box-scroll { overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+/* @end */
+
 /* Joomla Specific Styling */
+#submenu-box {
+    display: none;
+}
+#element-box {
+    margin-top: 0;
+}
 #element-box #sidebar {
-	float: left;
-	width: 20%;
+	/*float: left;
+	width: 20%;*/
+	width: 200px;
+	background-color: hsl(0, 0%, 97%);
+	border: 1px solid hsl(0, 0%, 88%);
+	border-right: none;
 }
 
 #element-box #files-canvas {
-	float: right;
-	width: 79%;
+	/*float: right;
+	width: 79%;*/
 	border: 1px solid #CCC;
 }
 
@@ -276,6 +381,11 @@ ul#files-tree-html li a#current	 {
 	font-weight: bold;
 }
 
+#files-app .mooTree_node {
+    font-family: inherit;
+    font-size: 11px;
+}
+
 #files-app .mooTree_text {
     padding-top: 3px;
     height: 15px;
@@ -390,59 +500,85 @@ ul#files-tree-html ul li a {
 /* @end */
 
 /* @group Switcher */
+.path {
+    position: relative;
+}
+.files-layout-controls,
+.files-toolbar-controls {
+    position: absolute;
+    top: 10px;
+    height: 24px;
+}
+.files-layout-controls {
+    right: 10px;
+    width: 67px;
+}
+.files-toolbar-controls {
+    left: 10px;
+}
+#files-title {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
+}
+#files-canvas .files-toolbar-controls button,
 #files-canvas button.files-layout-switcher {
-    background: none no-repeat center;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
     overflow: hidden;
-    color: transparent;
     display: inline-block;
 
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.3);
 
-    -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
-    -moz-box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
-    box-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.8) 0 1px;
+    -moz-box-shadow: rgba(255, 255, 255, 0.8) 0 1px;
+    box-shadow: rgba(255, 255, 255, 0.8) 0 1px;
     -webkit-border-radius: 3px;
-    width: 34px;
     height: 24px;
-    padding: 0;
+    padding: 2px 12px;
     min-width: initial;
     background-color: white;
-    background-color: hsla(0, 0%, 100%, 0);
+    background-color: hsla(0, 0%, 0%, 0);
     -webkit-bakground-clip: border-box;
     bakground-origin: border-box;
+    margin: 0;
+}
+#files-canvas button.files-layout-switcher {
+    color: transparent;
+    background: none no-repeat center;
+    width: 34px;
 }
 #files-canvas button[data-layout=icons].files-layout-switcher {
-        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.3)));
+        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         -webkit-border-top-right-radius: 0;
         -webkit-border-bottom-right-radius: 0;
+        border-right-color: hsla(0, 0%, 0%, 0.15);
         
 }
 #files-canvas button[data-layout=details].files-layout-switcher {
-        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
+        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         -webkit-border-bottom-left-radius: 0;
         -webkit-border-top-left-radius: 0;
+        border-left-color: hsla(0, 0%, 0%, 0.15);
         margin-left: -4px;
 }
+#files-canvas .files-toolbar-controls button:active,
 #files-canvas button.files-layout-switcher.active, #files-canvas button.files-layout-switcher:active {
-        -webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px,
-                                hsla(0, 0%, 0%, 0.8) 0px 1px 3px inset,
-                                rgba(0, 0, 0, 0.2) 0px -5px 12px inset;
-        border: 1px solid rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: rgba(255, 255, 255, 0.8) 0 1px,
+                                hsla(0, 0%, 0%, 0.3) 0px 1px 3px inset,
+                                rgba(0, 0, 0, 0.1) 0px -5px 12px inset;
+        background-image: -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+}
+#files-canvas button.files-layout-switcher.active:active {
+    background-color: hsla(0, 0%, 0%, 0.1);
 }
 #files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active {
-        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        
 }
 #files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active {
-        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
-}
-#files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active:active {
-        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
-        background-color: hsl(0, 0%, 60%);
-        background-color: hsla(0, 0%, 0%, 0.4);
-}
-#files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active:active {
-        background-image: url(../images/list_active.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.5)), to(hsla(0, 0%, 30%, 0.5)));
-        background-color: hsl(0, 0%, 60%);
-        background-color: hsla(0, 0%, 0%, 0.4);
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        
 }
 /* @end */
