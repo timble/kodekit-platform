@@ -10,12 +10,18 @@ Files.App = new Class({
 	cookie: null,
 	options: {
 		persistent: true,
-		state_cookie: 'com.files.view.files.state',
 		thumbnails: true,
 		types: null,
 		container: null,
 		active: null,
 		title: 'files-title',
+		state: {
+			data: {
+				limit: 0,
+				offset: 0
+			},
+			defaults: {}
+		},
 		tree: {
 			div: 'files-tree',
 			theme: ''
@@ -37,6 +43,7 @@ Files.App = new Class({
 		}
 		
 		//this.setContainerTree();
+		this.setState();
 		this.setGrid();
 		this.setPaginator();
 		
@@ -60,6 +67,14 @@ Files.App = new Class({
 				this.setThumbnails();
 			});
 		}
+	},
+	setState: function() {
+		this.fireEvent('beforeSetState');
+		
+		var opts = this.options.state;
+		this.state = new Files.State(opts);
+	
+		this.fireEvent('afterSetState');
 	},
 	setHash: function() {
 		this.fireEvent('beforeSetHash');
@@ -103,7 +118,7 @@ Files.App = new Class({
 				
 				if (this.options.types !== null) {
 					this.options.grid.types = this.options.types;
-					Files.state.types = this.options.types; 
+					this.state.set('types', this.options.types); 
 				}
 				
 				this.fireEvent('afterSetContainer', {container: item});
@@ -167,24 +182,26 @@ Files.App = new Class({
 			var cookie = JSON.decode(Cookie.read(key), true);
 			
 			if (cookie && cookie.limit) {
-				Files.state.limit = cookie.limit;
+				this.state.set('limit', cookie.limit);
 			}
 			if (cookie && cookie.offset) {
-				Files.state.offset = cookie.offset;
+				this.state.set('offset', cookie.offset);
 			}
 		}
 		
-		var opts = this.options.paginator;
+		var opts = this.options.paginator,
+			state = this.state;
+		
 		$extend(opts, {
-			'state' : Files.state,
+			'state' : state,
 			'onClickPage': function(el) {
-				Files.state.limit = el.get('data-limit');
-				Files.state.offset = el.get('data-offset');
+				this.state.set('limit', el.get('data-limit'));
+				this.state.set('offset', el.get('data-offset'));
 				this.navigate();
 			}.bind(this),
 			'onChangeLimit': function(limit) {
-				Files.state.limit = limit;
-				Files.state.offset = 0;
+				this.state.set('limit', limit);
+				this.state.set('offset', 0);
 				if (key) {
 					Cookie.write(key, JSON.encode({'limit': limit}));
 				}
@@ -299,7 +316,7 @@ Files.App = new Class({
 		if (path) {
 			if (this.active) {
 				// Reset offset if we are changing folders
-				Files.state.offset = 0;
+				this.state.set('offset', 0);
 			}
 			this.active = path;
 		}
@@ -316,9 +333,8 @@ Files.App = new Class({
 			
 			that.fireEvent('afterSelect', resp);
 
-		}, null, Files.state);
+		}, null, this.state.getData());
 
-		//window.location.hash = '#'+this.active;
 		this.setHash();
 	
 		this.fireEvent('afterNavigate', path);
@@ -332,8 +348,8 @@ Files.App = new Class({
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
 			var url = Files.getUrl({
 				view: 'thumbnails',
-				offset: Files.state.offset, 
-				limit: Files.state.limit,
+				offset: this.state.get('offset'), 
+				limit: this.state.get('limit'),
 				folder: this.active
 			});
 			new Request.JSON({

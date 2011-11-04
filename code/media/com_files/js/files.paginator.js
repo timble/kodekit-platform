@@ -1,21 +1,20 @@
 
 Files.Paginator = new Class({
 	Implements: [Options, Events],
-	state: {
+	state: null,
+	values: {
 		total: 0,
 		limit: 0,
 		offset: 0,
 		page_total: 0,
 		page_current: 0
 	},
-	defaults: {limit: 0, offset: 0},
 	initialize: function(element, options) {
 		if (options.state) {
-			this.setData(options.state);
+			this.state = options.state;
+			this.setData(this.state.getData());
 		}
-		if (options.defaults) {
-			this.defaults = options.defaults;
-		}
+		
 		this.setOptions(options);
 
 		var element = document.id(element);
@@ -50,29 +49,29 @@ Files.Paginator = new Class({
 	setValues: function() {
 		this.fireEvent('beforeSetValues');
 		
-		var state = this.state, els = this.elements;
+		var values = this.values, els = this.elements;
 
 		this.setPageData(els.page_start, {offset: 0});
 
-		this.setPageData(els.page_end, {offset: (state.page_total-1)*state.limit});
+		this.setPageData(els.page_end, {offset: (values.page_total-1)*values.limit});
 
-		this.setPageData(els.page_prev, {offset: Math.max(0, (state.page_current-2)*state.limit)});
+		this.setPageData(els.page_prev, {offset: Math.max(0, (values.page_current-2)*values.limit)});
 
-		var offset = Math.min(((state.page_total-1)*state.limit),(state.page_current*state.limit));
+		var offset = Math.min(((values.page_total-1)*values.limit),(values.page_current*values.limit));
 		this.setPageData(els.page_next, {offset: offset});
 
 		els.page_container.empty();
 		var i = 1;
-		while (i <= state.page_total) {
+		while (i <= values.page_total) {
 
-			if (i == state.page_current) {
+			if (i == values.page_current) {
 				var el = new Element('span', {text: i});
 			} else {
 				var el = new Element('a', {
 					href: '#',
 					text: i,
-					'data-limit': state.limit,
-					'data-offset': (i-1)*state.limit
+					'data-limit': values.limit,
+					'data-offset': (i-1)*values.limit
 				});
 			}
 			els.pages[i] = el;
@@ -80,58 +79,59 @@ Files.Paginator = new Class({
 			i++;
 		}
 
-		els.page_current.set('text', state.page_current);
-		els.page_total.set('text', state.page_total);
+		els.page_current.set('text', values.page_current);
+		els.page_total.set('text', values.page_total);
 		
-		els.limit_box.set('value', state.limit);
+		els.limit_box.set('value', values.limit);
 		
 		this.fireEvent('afterSetValues');
 	},
 	setPageData: function(page, data) {
 		this.fireEvent('beforeSetPageData', {page: page, data: data});
 		
-		var limit = data.limit || this.state.limit;
+		var limit = data.limit || this.values.limit;
 		page.set('data-limit', limit);
 		page.set('data-offset', data.offset);
 
-		var method = data.offset == this.state.offset ? 'addClass' : 'removeClass';
+		var method = data.offset == this.values.offset ? 'addClass' : 'removeClass';
 		page.getParent().getParent()[method]('off');
-		page.set('data-enabled', (data.offset != this.state.offset)-0);
+		page.set('data-enabled', (data.offset != this.values.offset)-0);
 		
 		this.fireEvent('afterSetPageData', {page: page, data: data});
 	},
 	setData: function(data) {
 		this.fireEvent('beforeSetData', {data: data});
 		
-		var state = this.state;
+		var values = this.values;
 		if (data.total == 0) {
-			state.limit = Files.state.limit;
-			state.offset = Files.state.offset;
-			state.total = 0;
-			state.page_total = state.page_current = 1;
+			values.limit = this.state.get('limit');
+			values.offset = this.state.get('offset');
+			values.total = 0;
+			values.page_total = 1;
+			values.page_current = 1;
 		} else {
 			$each(data, function(value, key) {
-				state[key] = value;
+				values[key] = value;
 			});
 
-			state.limit = Math.max(state.limit, 1);
-			state.offset = Math.max(state.offset, 0);
+			values.limit = Math.max(values.limit, 1);
+			values.offset = Math.max(values.offset, 0);
 
-			if (state.limit > state.total) {
-				state.offset = 0;
+			if (values.limit > values.total) {
+				values.offset = 0;
 			}
 
-			if (!state.limit) {
-				state.offset = 0;
-				state.limit = state.total;
+			if (!values.limit) {
+				values.offset = 0;
+				values.limit = values.total;
 			}
 
-			state.page_total = Math.ceil(state.total/state.limit);
+			values.page_total = Math.ceil(values.total/values.limit);
 
-			if (state.offset > state.total) {
-				state.offset = (state.page_total-1)*state.limit;
+			if (values.offset > values.total) {
+				values.offset = (values.page_total-1)*values.limit;
 			}
-            state.page_current = Math.floor(state.offset/state.limit)+1;
+			values.page_current = Math.floor(values.offset/values.limit)+1;
 		}
 		
 		this.fireEvent('afterSetData', {data: data});

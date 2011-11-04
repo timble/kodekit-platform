@@ -29,6 +29,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script src="media://system/js/mootree.js" />
 
 <script src="media://com_files/js/files.utilities.js" />
+<script src="media://com_files/js/files.state.js" />
 <script src="media://com_files/js/files.template.js" />
 <script src="media://com_files/js/files.grid.js" />
 <script src="media://com_files/js/files.tree.js" />

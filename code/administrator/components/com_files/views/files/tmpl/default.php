@@ -18,25 +18,21 @@ Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 
-Files.state = {
-	limit: 0,
-	offset: 0,
-	setDefaults: function() {
-		this.limit = <?= $state->limit; ?>;
-		this.offset = <?= $state->offset; ?>;
-	}
-};
-Files.state.setDefaults();
-
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
 		options = {
+			state: {
+				defaults: {
+					limit: <?= (int) $state->limit; ?>,
+					offset: <?= (int) $state->offset; ?>
+				}
+			},
 			tree: {
 				theme: 'media://com_files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
-			container: <?= json_encode($state->container ? $state->container->slug : null); ?>,
-			thumbnails: <?= json_encode($state->container ? $state->container->getParameters()->thumbnails : true); ?>
+			container: <?= json_encode($container ? $container->slug : null); ?>,
+			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
 	
@@ -133,7 +129,7 @@ window.addEvent('domready', function() {
 			<div id="files-grid"></div>
 		</div>
 
-		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
+		<?= @helper('paginator.pagination') ?>
 	
 		<?= @template('uploader');?>
 	</div>
