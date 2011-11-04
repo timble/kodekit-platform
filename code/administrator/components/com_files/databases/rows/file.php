@@ -65,7 +65,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	public function saveThumbnail(KCommandContext $context = null)
 	{
 		$result = null;
-		if ($this->isImage()) 
+		if ($this->isImage() && $this->container->getParameters()->thumbnails) 
 		{
 			$thumb = $this->getService('com://admin/files.model.thumbnails')
 				->source($this)

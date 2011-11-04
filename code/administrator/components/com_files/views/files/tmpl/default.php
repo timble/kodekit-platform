@@ -35,7 +35,8 @@ window.addEvent('domready', function() {
 				theme: 'media://com_files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
-			container: <?= json_encode($state->container ? $state->container->slug : null); ?>
+			container: <?= json_encode($state->container ? $state->container->slug : null); ?>,
+			thumbnails: <?= json_encode($state->container ? $state->container->getParameters()->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
 	
