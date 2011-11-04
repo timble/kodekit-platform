@@ -39,13 +39,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="icons_controls">
+<div class="files-icons-controls">
 <div class="controls" style="display:none">
 	<input type="checkbox" class="files-select" value="[%=path%]" />
 </div>
 <div class="ellipsis">
 	[%=name%]
 </div>
-
+</div>
 </textarea>
 
 <textarea style="display: none" id="icons_folder">
@@ -72,9 +73,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<a class="img-preview navigate" href="#" title="[%=name%]"
 	 		data-filetype="[%=filetype%]" 
 	 		data-extension="[%=extension%]">
-			<img title="media://com_files/images/spinner.gif" src="media://com_files/images/spinner.gif"
-					alt="[%=name%]" border="0"
-					class="image-thumbnail" />
+			<img src="media://com_files/images/spinner.gif"
+				alt="[%=name%]" border="0"
+				class="image-thumbnail" />
 		</a>
 	</div>
 	[%= new EJS({element: 'icons_controls'}).render(this) %]

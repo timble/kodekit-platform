@@ -69,7 +69,7 @@ Files.Grid = new Class({
 
 			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
 		};
-		this.container.addEvent('click:relay(div.files-node)', fireCheck.bind(this));
+		this.container.addEvent('click:relay(div.files-icons-controls)', fireCheck.bind(this));
 
 		/*
 		 * Delete events
