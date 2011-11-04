@@ -9,15 +9,64 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+#files-grid {
+    padding: 10px;
+}
+
 div.imgOutline {
 	float: left;
 	border: 1px;
 
-	border-right: 1px solid #f0f0f0;
-	border-bottom: 1px solid #ccc;
-	width:90px; }
+	width: 200px;
+	padding: 11px;
+	margin: 5px;
+	border: 1px solid hsl(0, 0%, 90%);
+	border-radius: 3px;
+}
 
-div.imgTotal { }
+div.imgTotal {
+    width: 200px;
+    height: 150px;
+    margin: 0 0 8px 0;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%)
+}
+div.imgTotal a.navigate {
+    width: 200px;
+    height: 150px;
+    display: block;
+    background: no-repeat center center;
+    position: relative;
+    overflow: hidden;
+}
+div.imgTotal a.navigate::after {
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, .20) inset;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
+    content: '';
+    height: 150px;
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 200px;
+}
+.files-folder div.imgTotal a.navigate {
+    background-image: url(../images/folder-64.png);
+}
+.files-file div.imgTotal a.navigate {
+    background-image: url(../images/document-64.png);
+}
+.files-image div.imgTotal a.navigate {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: url(../images/checker.png) repeat left top white;
+}
 
 div.imgBorder {
 	height: 72px;
