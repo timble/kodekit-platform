@@ -51,11 +51,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="icons_folder">
 <div class="imgOutline files-node files-folder">
 	<div class="imgTotal">
-		<div align="center" class="imgBorder">
-			<a href="#" class="navigate">
-				<img src="media://com_files/images/folder-64.png" width="64" height="64" border="0" />
-			</a>
-		</div>
+			<a href="#" class="navigate"></a>
 	</div>
 	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
@@ -64,34 +60,22 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="icons_file">
 <div class="imgOutline files-node files-file">
 	<div class="imgTotal">
-		<div align="center" class="imgBorder">
-		 	<a class="navigate extension-label" href="#" 
-		 		data-filetype="[%=filetype%]" 
-		 		data-extension="[%=extension%]" 
-		 		style="display: block; width: 100%; height: 100%;">
-				<img src="media://com_files/images/document-64.png" border="0" width="64" />
-			</a>
-		</div>
-		[%= new EJS({element: 'icons_controls'}).render(this) %]
+	 	<a class="navigate extension-label" href="#" data-filetype="[%=filetype%]" data-extension="[%=extension%]"></a>
 	</div>
-
+	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
 </textarea>
 
 <textarea style="display: none" id="icons_image">
 <div class="imgOutline files-node files-image">
 	<div class="imgTotal">
-		<div align="center" class="imgBorder">
-			<a class="img-preview navigate" href="#" title="[%=name%]" style="display: block; width: 100%; height: 100%"
-		 		data-filetype="[%=filetype%]" 
-		 		data-extension="[%=extension%]">
-				<div class="image">
-					<img src="media://com_files/images/spinner.gif"
-						alt="[%=name%]" border="0"
-						class="image-thumbnail" />
-				</div>
-			</a>
-		</div>
+		<a class="img-preview navigate" href="#" title="[%=name%]"
+	 		data-filetype="[%=filetype%]" 
+	 		data-extension="[%=extension%]">
+			<img title="media://com_files/images/spinner.gif" src="media://com_files/images/spinner.gif"
+					alt="[%=name%]" border="0"
+					class="image-thumbnail" />
+		</a>
 	</div>
 	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
