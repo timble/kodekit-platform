@@ -118,13 +118,15 @@ window.addEvent('domready', function() {
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path" style="height: 24px;">
-			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
-			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
-			<h3 id="files-title" style="display: inline; "></h3>
-			<span style="float: right">
+	        <div class="files-toolbar-controls">
+			    <button id="files-new-folder-toolbar"><?= @text('New Folder'); ?></button>
+			    <button id="files-batch-delete"><?= @text('Delete'); ?></button>
+			</div>
+			<h3 id="files-title"></h3>
+			<div class="files-layout-controls">
 				<button class="files-layout-switcher" data-layout="icons">Icons</button>
 				<button class="files-layout-switcher" data-layout="details">Details</button>
-			</span>
+			</div>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-grid"></div>
