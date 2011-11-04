@@ -29,7 +29,7 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'thumbnail_size' => 60
+            'thumbnail_size' => array('x' => 200, 'y' => 150)
         ));
 
         parent::_initialize($config);
@@ -47,7 +47,7 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
 			    //Creat the thumb
 			    $image = PhpThumbFactory::create($source->fullpath)
 				    ->setOptions(array('jpegQuality' => 50))
-				    ->adaptiveResize($this->_thumbnail_size, $this->_thumbnail_size);
+				    ->adaptiveResize($this->_thumbnail_size['x'], $this->_thumbnail_size['y']);
 
 			    ob_start();
 			        echo $image->getImageAsString();
