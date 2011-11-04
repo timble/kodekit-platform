@@ -23,19 +23,15 @@ Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 
-Files.state = {
-	limit: 0,
-	offset: 0,
-	setDefaults: function() {
-		this.limit = <?= $state->limit; ?>;
-		this.offset = <?= $state->offset; ?>;
-	}
-};
-Files.state.setDefaults();
-
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
 		options = {
+			state: {
+				defaults: {
+					limit: <?= (int) $state->limit; ?>,
+					offset: <?= (int) $state->offset; ?>
+				}
+			},			
 			editor: <?= json_encode($state->editor); ?>,
 			tree: {
 				theme: 'media://com_files/images/mootree.png'
