@@ -14,6 +14,7 @@
 }
 
 div.imgOutline {
+    cursor: pointer;
 	float: left;
 	border: 1px;
 
@@ -23,12 +24,26 @@ div.imgOutline {
 	border: 1px solid hsl(0, 0%, 90%);
 	border-radius: 3px;
 }
+div.imgOutline.selected {
+    color: white;
+    border-color: hsl(210, 63%, 66%);
+    border-color: hsla(0, 0%, 0%, .1);
+    background-color: hsl(210, 63%, 65%);
+    background-clip: border-box;
+    background-origin: border-box;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+    background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+    box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+}
 
 div.imgTotal {
     width: 200px;
     height: 150px;
     margin: 0 0 8px 0;
     overflow: hidden;
+    background-color: white;
     background-repeat: no-repeat;
     background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
@@ -36,6 +51,14 @@ div.imgTotal {
     background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%)
 }
+div.imgOutline.selected div.imgTotal {
+    background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%)
+}
+
 div.imgTotal a.navigate {
     width: 200px;
     height: 150px;
