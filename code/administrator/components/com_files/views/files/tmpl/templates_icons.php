@@ -39,10 +39,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="icons_controls">
-<div class="controls">
+<div class="controls" style="display:none">
 	<input type="checkbox" class="files-select" value="[%=path%]" />
 </div>
-<div class="imginfoBorder ellipsis">
+<div class="ellipsis">
 	[%=name%]
 </div>
 
