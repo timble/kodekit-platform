@@ -11,7 +11,6 @@ Files.Grid = new Class({
 		onDeleteNode: $empty,
 		onSwitchLayout: $empty,
 		switcher: false,
-		cookie: 'com.files.view.files.switcher',
 		layout: false,
 		batch_delete: false,
 		types: null // null for all or array to filter for folder, file and image
@@ -31,10 +30,7 @@ Files.Grid = new Class({
 			this.options.batch_delete = document.getElement(this.options.batch_delete);
 		}
 
-		if (this.options.cookie) {
-			this.setLayout(Cookie.read(this.options.cookie));
-		}
-		else if (this.options.layout) {
+		if (this.options.layout) {
 			this.setLayout(this.options.layout);
 		}
 		this.render();
@@ -294,10 +290,6 @@ Files.Grid = new Class({
 			Files.Template.layout = layout;
 			if (this.options.switcher) {
 				this.options.switcher.set('value', layout);
-			}
-
-			if (this.options.cookie) {
-				Cookie.write(this.options.cookie, layout);
 			}
 			
 			this.fireEvent('afterSetLayout', {layout: layout});

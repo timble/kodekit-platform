@@ -32,6 +32,8 @@ Files.Paginator = new Class({
 			pages: {},
 			limit_box: element.getElement('select')
 		};
+		this.setValues();
+		
 		this.element.addEvent('click:relay(a)', function(e) {
 			e.stop();
 			if (e.target.get('data-enabled') == '0') {
@@ -81,6 +83,8 @@ Files.Paginator = new Class({
 		els.page_current.set('text', state.page_current);
 		els.page_total.set('text', state.page_total);
 		
+		els.limit_box.set('value', state.limit);
+		
 		this.fireEvent('afterSetValues');
 	},
 	setPageData: function(page, data) {
@@ -101,8 +105,8 @@ Files.Paginator = new Class({
 		
 		var state = this.state;
 		if (data.total == 0) {
-			state.limit = this.defaults.limit;
-			state.offset = this.defaults.offset;
+			state.limit = Files.state.limit;
+			state.offset = Files.state.offset;
 			state.total = 0;
 			state.page_total = state.page_current = 1;
 		} else {

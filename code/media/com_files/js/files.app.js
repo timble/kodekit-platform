@@ -7,7 +7,10 @@ Files.App = new Class({
 	_tmpl_cache: {},
 	active: null,
 	title: '',
+	cookie: null,
 	options: {
+		persistent: true,
+		state_cookie: 'com.files.view.files.state',
 		thumbnails: true,
 		types: null,
 		container: null,
@@ -28,6 +31,10 @@ Files.App = new Class({
 
 	initialize: function(options) {
 		this.setOptions(options);
+		
+		if (this.options.persistent && this.options.container) {
+			this.cookie = 'com.files.container.'+this.options.container;
+		}
 		
 		//this.setContainerTree();
 		this.setGrid();
@@ -154,6 +161,19 @@ Files.App = new Class({
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
 		
+		var key = this.cookie ? this.cookie+'.paginator.state' : null;
+
+		if (key) {
+			var cookie = JSON.decode(Cookie.read(key), true);
+			
+			if (cookie && cookie.limit) {
+				Files.state.limit = cookie.limit;
+			}
+			if (cookie && cookie.offset) {
+				Files.state.offset = cookie.offset;
+			}
+		}
+		
 		var opts = this.options.paginator;
 		$extend(opts, {
 			'state' : Files.state,
@@ -165,10 +185,14 @@ Files.App = new Class({
 			'onChangeLimit': function(limit) {
 				Files.state.limit = limit;
 				Files.state.offset = 0;
+				if (key) {
+					Cookie.write(key, JSON.encode({'limit': limit}));
+				}
 				this.navigate();
 			}.bind(this)
 		});
 		this.paginator = new Files.Paginator(opts.element, opts);
+
 		
 		var that = this;
 		that.addEvent('afterSelect', function(response) {
@@ -186,6 +210,12 @@ Files.App = new Class({
 		this.fireEvent('beforeSetGrid');
 		
 		var opts = this.options.grid;
+
+		var key = this.cookie ? this.cookie+'.grid.layout' : null;
+		if (key) {
+			opts.layout = Cookie.read(key);
+		}
+		
 		$extend(opts, {
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
@@ -228,6 +258,9 @@ Files.App = new Class({
 				if (layout === 'icons' && this.grid && this.options.thumbnails) {
 					this.setThumbnails();
 				}
+				if (key) {
+					Cookie.write(key, layout);
+				}
 			}.bind(this)
 		});
 		this.grid = new Files.Grid(this.options.grid.element, opts);
@@ -265,8 +298,8 @@ Files.App = new Class({
 		this.fireEvent('beforeNavigate', path);
 		if (path) {
 			if (this.active) {
-				// Reset states if we are changing folders
-				Files.state.setDefaults();
+				// Reset offset if we are changing folders
+				Files.state.offset = 0;
 			}
 			this.active = path;
 		}
