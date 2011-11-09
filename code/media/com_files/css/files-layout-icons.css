@@ -18,11 +18,14 @@ div.imgOutline {
 	float: left;
 	border: 1px;
 
-	width: 200px;
 	padding: 11px;
 	margin: 5px;
 	border: 1px solid hsl(0, 0%, 90%);
 	border-radius: 3px;
+}
+div.imgOutline .ellipsis {
+    max-width: 200px;
+    width: 100%;
 }
 div.imgOutline.selected {
     color: white;
@@ -39,14 +42,14 @@ div.imgOutline.selected {
 }
 
 div.imgTotal {
-    width: 200px;
-    height: 150px;
     margin: 0 0 8px 0;
     overflow: hidden;
+    width: 200px;
+    height: 150px;
     background-color: white;
     background-repeat: no-repeat;
     background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
-    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 100%);
     background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%)
@@ -60,23 +63,26 @@ div.imgOutline.selected div.imgTotal {
 }
 
 div.imgTotal a.navigate {
-    width: 200px;
-    height: 150px;
     display: block;
     background: no-repeat center center;
     position: relative;
     overflow: hidden;
+    width: inherit;
+    height: inherit;
 }
 div.imgTotal a.navigate::after {
     -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
     -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, .20) inset;
     box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
     content: '';
-    height: 150px;
+    height: inherit;
     display: block;
     position: absolute;
     top: 0;
-    width: 200px;
+    width: inherit;
+}
+div.imgTotal a.navigate img {
+    max-width: 100%;
 }
 .files-folder div.imgTotal a.navigate {
     background-image: url(../images/folder-64.png);
