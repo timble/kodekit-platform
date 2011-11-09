@@ -43,7 +43,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="controls" style="display:none">
 	<input type="checkbox" class="files-select" value="[%=path%]" />
 </div>
-<div class="ellipsis">
+<div class="ellipsis" style="width:[%= Cookie.read('size.thumbs')%]px">
 	[%=name%]
 </div>
 </div>
@@ -51,7 +51,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="icons_folder">
 <div class="imgOutline files-node files-folder">
-	<div class="imgTotal">
+	<div class="imgTotal" style="width:[%= Cookie.read('size.thumbs')%]px; height: [%= (Cookie.read('size.thumbs')||200).toInt()*0.75%]px">
 			<a href="#" class="navigate"></a>
 	</div>
 	[%= new EJS({element: 'icons_controls'}).render(this) %]
@@ -60,7 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="icons_file">
 <div class="imgOutline files-node files-file">
-	<div class="imgTotal">
+	<div class="imgTotal" style="width:[%= Cookie.read('size.thumbs')%]px; height: [%= (Cookie.read('size.thumbs')||200).toInt()*0.75%]px">
 	 	<a class="navigate extension-label" href="#" 
 	 		data-filetype="[%=filetype%]" 
 	 		data-extension="[%=extension%]"></a>
@@ -72,7 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="icons_image">
 <div class="imgOutline files-node files-image">
 
-	<div class="imgTotal">
+	<div class="imgTotal" style="width:[%= Cookie.read('size.thumbs')%]px; height: [%= (Cookie.read('size.thumbs')||200).toInt()*0.75%]px">
 		<a class="img-preview navigate" href="#" title="[%=name%]"
 	 		data-filetype="[%=filetype%]" 
 	 		data-extension="[%=extension%]">
