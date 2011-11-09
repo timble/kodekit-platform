@@ -582,3 +582,17 @@ ul#files-tree-html ul li a {
         
 }
 /* @end */
+/* @group Thumbnails resizer for the grid view range control */
+.files-layout-grid-resizer-container {
+    position: relative;
+    bottom: 0;
+    overflow: visible;
+    height: 0;
+}
+.files-layout-grid-resizer-wrap {
+    display: table-cell;
+    vertical-align: middle;
+    height: 32px;
+    padding-left: 10px;
+}
+/* @end */
