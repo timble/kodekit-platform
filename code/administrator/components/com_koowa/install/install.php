@@ -33,7 +33,7 @@ $package    = (string) $manifest->name;
 $source     = $this->parent->getPath('source'); // The install package dir
 $version    = (string) $manifest->version;
 $logo       = JURI::root(1).'/media/com_koowa/images/logo.png';
-$jversion   = JVersion::isCompatible('1.6.0') ? '1.6' : '1.5';
+$jversion   = JVersion::isCompatible('1.6.0') ? 'joomla' : 'legacy';
 
 //Run checks to see if the server meets system requirements, pause installation if it don't
 require JPATH_ADMINISTRATOR.'/components/com_'.$package.'/install/check.php';
