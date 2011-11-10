@@ -5,13 +5,11 @@
 	<property file="build.properties" />
 
 	<echo message="svn.path = ${svn.path}" />
-	<echo message="If you need to use a branch, call 'phing -Dsvn.path=branches/99-toolbar'" />
+	<echo message="If you need to use a branch, call 'phing -Dsvn.path=branches/development'" />
 	
 	<target name="build">
 
         
-        <delete dir="tmp" includeemptydirs="true" quiet="true" />
-
         <!-- Cleanup existing temporary files to avoid broken packages -->
         <if>
          <equals arg1="${project.cleanup}" arg2="yes" />
@@ -24,6 +22,17 @@
          <else>
              <delete dir="tmp/administrator/components/com_koowa" includeemptydirs="true" />
              <delete dir="tmp/media/com_koowa" includeemptydirs="true" />
+             
+             <!-- Do a new checkout but only if there isn't one already -->
+             <property name="svn.refresh" value="1" />
+             <available file="./tmp/libraries" type="dir" property="svn.refresh" value="0" />
+             <if>
+              <equals arg1="${svn.refresh}" arg2="1" />
+              <then>
+                  <!-- Get the koowa plugin -->
+                  <svnexport username="${svn.username}" password="${svn.password}" repositoryurl="http://svn2.assembla.com/svn/nooku-framework/${svn.path}/code/" todir="tmp" nocache="true" force="true" />
+              </then>
+             </if>
          </else>
         </if>
 
