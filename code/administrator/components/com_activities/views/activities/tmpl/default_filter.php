@@ -25,7 +25,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			</a>
 		</li>
 
-		<li class="<?= ($state->application == 'admin') ? 'active' : ''; ?> <?= count($actions) ? 'separator-right': ''?>">
+		<li class="<?= ($state->application == 'admin') ? 'active' : ''; ?>">
 			<a href="<?= @route($state->application == 'admin' ? 'application=' : 'application=admin' ) ?>">
 			    <?= @text('Administrator') ?>
 			</a>
@@ -39,27 +39,6 @@ defined('KOOWA') or die('Restricted access') ?>
 		<li class="<?= ($state->direction == 'asc') ? 'active' : ''; ?>">
 			<a href="<?= @route($state->direction == 'asc' ? 'direction=' : 'direction=asc' ) ?>">
 			    <?= @text('Oldest First') ?>
-			</a>
-		</li>
-		
-		<li class="<?= ($state->action == 'add') ? 'active' : ''; ?> separator-left">
-			<a href="<?= @route($state->action == 'add' ? 'action=' : 'action=add' ) ?>">
-			    <?= @text('Add') ?>
-			</a>
-		</li>
-		<li class="<?= ($state->action == 'edit') ? 'active' : ''; ?>">
-			<a href="<?= @route($state->action == 'edit' ? 'action=' : 'action=edit' ) ?>">
-			    <?= @text('Edit') ?>
-			</a>
-		</li>
-		<li class="<?= ($state->action == 'delete') ? 'active' : ''; ?>">
-			<a href="<?= @route($state->action == 'delete' ? 'action=' : 'action=delete' ) ?>">
-			    <?= @text('Delete') ?>
-			</a>
-		</li>
-		<li class="<?= ($state->action == 'login') ? 'active' : ''; ?>">
-			<a href="<?= @route($state->action == 'login' ? 'action=' : 'action=login' ) ?>">
-			    <?= @text('Login') ?>
 			</a>
 		</li>
 	</ul>
