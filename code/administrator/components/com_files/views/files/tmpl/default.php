@@ -89,7 +89,7 @@ window.addEvent('domready', function() {
 
     var switchers = $$('.files-layout-switcher'); 
     switchers.filter(function(el) { 
-        return el.get('data-layout') == Files.Template.layout
+        return el.get('data-layout') == Files.Template.layout;
     }).addClass('active');
 
     switchers.addEvent('click', function(e) {
