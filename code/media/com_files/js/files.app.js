@@ -226,11 +226,19 @@ Files.App = new Class({
 	setGrid: function() {
 		this.fireEvent('beforeSetGrid');
 		
-		var opts = this.options.grid;
+		var opts = this.options.grid,
+			key = this.cookie+'.grid.layout';
 
-		var key = this.cookie ? this.cookie+'.grid.layout' : null;
-		if (key) {
+		if (this.cookie) {
 			opts.layout = Cookie.read(key);
+			var size_key = this.cookie+'.grid.icon.size',
+				size = Cookie.read(size_key);
+			if (size) {
+				opts.icon_size = size;
+			}
+			opts.onAfterSetIconSize = function(context) {
+				Cookie.write(size_key, context.size); 
+			};
 		}
 		
 		$extend(opts, {

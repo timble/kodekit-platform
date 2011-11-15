@@ -103,19 +103,8 @@ window.addEvent('domready', function() {
         .set('value', Cookie.read('size.thumbs') || 200)
         .addEvent('change', function(event){
             Cookie.write('size.thumbs', this.value);
-            document.getElements('#files-app .imgTotal').setStyles({
-                width: this.value + 'px',
-                height: (this.value * 0.75) + 'px'
-            });
-            document.getElements('#files-app .imgOutline .ellipsis').setStyle('width', this.value + 'px');
-        })
-        .addEvent('contextmenu', function(event){
-            event.stop();
-            var width = document.id('files-canvas').getSize().x - 10, average = (width/(this.value.toInt()+34)).toInt(), value = (width / average);
-            console.log(width/(this.value.toInt()+34), average, value);
-            this.value = value-35;
-            this.fireEvent('change');
-        });
+            Files.app.grid.setIconSize(this.value);
+            return;
 });
 </script>
 

@@ -13,6 +13,7 @@ Files.Grid = new Class({
 		switcher: false,
 		layout: false,
 		batch_delete: false,
+		icon_size: 200,
 		types: null // null for all or array to filter for folder, file and image
 	},
 
@@ -129,6 +130,13 @@ Files.Grid = new Class({
 				that.setLayout(value);
 			});
 		}
+		
+		if (this.options.icon_size) {
+			var size = this.options.icon_size;
+			this.addEvent('beforeRenderObject', function(context) {
+				context.object.icon_size = size;
+			});
+		}
 	},
 	erase: function(node) {
 		if (typeof node === 'string') {
@@ -165,11 +173,12 @@ Files.Grid = new Class({
 	renderObject: function(object, position) {
 		var position = position || 'alphabetical';
 
+		this.fireEvent('beforeRenderObject', {object: object, position: position});
+		
 		object.element = object.render();
 		object.element.store('path', object.path);
 		object.element.store('row', object);
 		
-		this.fireEvent('beforeRenderObject', {object: object, position: position});
 
 		if (position == 'last') {
 			this.root.adopt(object.element, 'bottom');
@@ -247,7 +256,7 @@ Files.Grid = new Class({
 	 * Insert multiple rows, possibly coming from a JSON request
 	 */
 	insertRows: function(rows) {
-		this.fireEvent('BeforeInsertRows', {rows: rows});
+		this.fireEvent('beforeInsertRows', {rows: rows});
 		
 		$each(rows, function(row) {
 			var cls = Files[row.type.capitalize()];
@@ -307,6 +316,34 @@ Files.Grid = new Class({
 		return this.nodes.filter(function(node) {
 			return node.type === 'file' || node.type == 'image';
 		}).getKeys().sort();
+	},
+	setIconSize: function(size) {
+		this.fireEvent('beforeSetIconSize', {size: size});
+		
+		this.container.getElements('.imgTotal').setStyles({
+            width: size + 'px',
+            height: (size * 0.75) + 'px'
+        });
+        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
+
+        var grid_size = this.container.getSize().x,
+        	item_size = this.container.getElement('.imgOutline').getSize().x + 10,
+        	count = parseInt(grid_size/item_size),
+			empty = grid_size - (count*item_size)
+        	;
+    	if (empty < count*10) {
+        	count--;
+        	empty = grid_size - (count*(item_size));
+    	}
+    	var margin = empty/(2*count);
+    	if (margin < 5) {
+        	margin = 5;
+    	}
+    	this.container.getElements('.imgOutline')
+    		.setStyle('margin-left', margin)
+    		.setStyle('margin-right', margin);
+    	
+    	this.fireEvent('afterSetIconSize', {size: size});
 	}
 });
 
