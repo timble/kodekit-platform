@@ -94,17 +94,21 @@ window.addEvent('domready', function() {
 
     switchers.addEvent('click', function(e) {
     	e.stop();
-    	Files.app.grid.setLayout(this.get('data-layout'));
+    	var layout = this.get('data-layout');
+    	Files.app.grid.setLayout(layout);
+    	document.id('files-thumbs-size').setStyle('display', layout == 'icons' ? 'inline' : 'none');
     	switchers.removeClass('active');
     	this.addClass('active');
     });
+    if (Files.Template.layout != 'icons') {
+    	document.id('files-thumbs-size').setStyle('display', 'none');
+    }
     
     document.id('files-thumbs-size')
         .set('value', Cookie.read('size.thumbs') || 200)
         .addEvent('change', function(event){
             Cookie.write('size.thumbs', this.value);
             Files.app.grid.setIconSize(this.value);
-            return;
         });
 });
 </script>
