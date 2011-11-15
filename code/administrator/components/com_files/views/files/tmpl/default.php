@@ -105,6 +105,7 @@ window.addEvent('domready', function() {
             Cookie.write('size.thumbs', this.value);
             Files.app.grid.setIconSize(this.value);
             return;
+        });
 });
 </script>
 
