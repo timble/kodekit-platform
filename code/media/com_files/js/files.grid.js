@@ -320,6 +320,8 @@ Files.Grid = new Class({
 	setIconSize: function(size) {
 		this.fireEvent('beforeSetIconSize', {size: size});
 		
+		this.options.icon_size = size;
+		
 		this.container.getElements('.imgTotal').setStyles({
             width: size + 'px',
             height: (size * 0.75) + 'px'

@@ -28,7 +28,8 @@ Files.App = new Class({
 		},
 		grid: {
 			element: 'files-grid',
-			batch_delete: '#files-batch-delete'
+			batch_delete: '#files-batch-delete',
+			icon_size_slider: 'files-thumbs-size'
 		},
 		paginator: {
 			element: 'files-paginator'
@@ -242,6 +243,16 @@ Files.App = new Class({
 		}
 		
 		$extend(opts, {
+			'onAfterInsertRows': function() {
+				if (Files.Template.layout == 'icons') {
+					this.setIconSize(this.options.icon_size);
+				}
+				
+				if (opts.icon_size_slider) {
+					document.id(opts.icon_size_slider).set('value', this.options.icon_size);
+				}
+				
+		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
 					path = target.getParent('.files-node').retrieve('path');
