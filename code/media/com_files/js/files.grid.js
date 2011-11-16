@@ -54,6 +54,9 @@ Files.Grid = new Class({
 		 * Checkbox events
 		 */
 		var fireCheck = function(e) {
+		    if(e.target.match('a.navigate')) {
+		        return;
+		    }
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
@@ -69,8 +72,8 @@ Files.Grid = new Class({
 			checkbox.setProperty('checked', !old);
 
 			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
-		};
-		this.container.addEvent('click:relay(div.files-icons-controls)', fireCheck.bind(this));
+		}; 
+		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
 
 		/*
 		 * Delete events
