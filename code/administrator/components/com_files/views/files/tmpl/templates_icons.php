@@ -69,11 +69,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </div>
 </textarea>
 
-<textarea style="display: none" id="icons_image">
-<div class="imgOutline files-node files-image">
+<script inline type="text/plain" id="icons_image">
+<div class="imgOutline [%= Files.app.options.thumbnails ? 'thumbnails' : 'nothumbnails' %] files-node files-image">
 
 	<div class="imgTotal" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
-		<a class="img-preview navigate" href="#" title="[%=name%]"
+		<a class=" navigate" href="#" title="[%=name%]"
 	 		data-filetype="[%=filetype%]" 
 	 		data-extension="[%=extension%]">
 		[% if (Files.app.options.thumbnails) { %]	 		
@@ -85,4 +85,4 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	</div>
 	[%= new EJS({element: 'icons_controls'}).render(this) %]
 </div>
-</textarea>
+</script>
