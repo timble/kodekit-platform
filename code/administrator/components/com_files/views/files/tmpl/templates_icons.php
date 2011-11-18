@@ -76,10 +76,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<a class=" navigate" href="#" title="[%=name%]"
 	 		data-filetype="[%=filetype%]" 
 	 		data-extension="[%=extension%]">
-		[% if (Files.app.options.thumbnails) { %]	 		
-			<img src="media://com_files/images/spinner.gif"
-				alt="[%=name%]" border="0"
-				class="image-thumbnail" />
+		[% if (Files.app.options.thumbnails) { %]
+		    <div class="spinner"></div>
+			<img src="media://com_files/images/blank.png" alt="[%=name%]" border="0" class="image-thumbnail" />
 		[% } %]
 		</a>
 	</div>
