@@ -72,7 +72,7 @@ div.imgTotal a.navigate {
 }
 div.imgTotal a.navigate::after {
     -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
-    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, .20) inset;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
     box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
     content: '';
     height: inherit;
@@ -81,16 +81,22 @@ div.imgTotal a.navigate::after {
     top: 0;
     width: inherit;
 }
+div.imgOutline.selected div.imgTotal a.navigate::after {
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+}
 div.imgTotal a.navigate img {
     max-width: 100%;
 }
 .files-folder div.imgTotal a.navigate {
     background-image: url(../images/folder-64.png);
 }
-.files-file div.imgTotal a.navigate {
+.files-file div.imgTotal a.navigate,
+.files-image.nothumbnails div.imgTotal a.navigate {
     background-image: url(../images/document-64.png);
 }
-.files-image div.imgTotal a.navigate {
+.files-image.thumbnails div.imgTotal a.navigate {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
