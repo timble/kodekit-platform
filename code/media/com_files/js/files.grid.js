@@ -61,17 +61,7 @@ Files.Grid = new Class({
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
 			var box = e.target.match('.files-node') ? e.target : e.target.getParent('.files-node');
-			var row = box.retrieve('row');
-			var checkbox = row.element.getElement('input[type=checkbox]');
-			
-			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
-			
-			var old = checkbox.getProperty('checked');
-            !old ? box.addClass('selected') : box.removeClass('selected');
-			row.checked = !old;
-			checkbox.setProperty('checked', !old);
-
-			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
+			that.checkNode(box.retrieve('row'));
 		}; 
 		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
 
@@ -140,6 +130,28 @@ Files.Grid = new Class({
 				context.object.icon_size = size;
 			});
 		}
+	},
+	/** 
+	 * fire_events is used when switching layouts so that client events to 
+	 * catch the user interactions don't get messed up 
+	 */
+	checkNode: function(row, fire_events) {
+		var box = row.element,
+			checkbox = box.getElement('input[type=checkbox]')
+			;
+		if (fire_events !== false) {
+			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
+		}
+		
+		var old = checkbox.getProperty('checked');
+        !old ? box.addClass('selected') : box.removeClass('selected');
+		row.checked = !old;
+		checkbox.setProperty('checked', !old);
+
+		if (fire_events !== false) {
+			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
+		}
+		
 	},
 	erase: function(node) {
 		if (typeof node === 'string') {
@@ -273,25 +285,22 @@ Files.Grid = new Class({
 		this.fireEvent('beforeRenew');
 		
 		var folders = this.getFolders(),
-			files = this.getFiles();
+			files = this.getFiles(),
+			that = this,
+			renew = function(node) {
+				var node = that.nodes.get(node);
 
-		folders.each(function(folder) {
-			var node = this.nodes.get(folder);
-			if (node.element) {
-				node.element.dispose();
-			}
-			this.renderObject(node, 'last');
-		}.bind(this));
-		files.each(function(file) {
-			var node = this.nodes.get(file);
-			if (node.element) {
-				node.element.dispose();
-			}
-			this.renderObject(node, 'last');
-			if (node.checked) {
-				node.element.getElement('input[type=checkbox]').setProperty('checked', node.checked);
-			}
-		}.bind(this));
+				if (node.element) {
+					node.element.dispose();
+				}
+				that.renderObject(node, 'last');
+				
+				if (node.checked) {
+					that.checkNode(node, false);
+				}
+			};
+		folders.each(renew);
+		files.each(renew);
 		
 		this.fireEvent('afterRenew');
 	},

@@ -379,7 +379,7 @@ Files.App = new Class({
 			      radius: 10, // The radius of the inner circle
 			      color: '#666', // #rgb or #rrggbb
 			      speed: 1, // Rounds per second
-			      trail: 60, // Afterglow percentage
+			      trail: 60 // Afterglow percentage
 			    };
 			    node.spinner = new Spinner(opts).spin(target);
 	            node.element.getElement('img').setStyle('display', 'none');
