@@ -365,6 +365,26 @@ Files.App = new Class({
 		var nodes = this.grid.nodes,
 			that = this;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
+		    nodes.each(function(node) {
+				if (node.type !== 'image') {
+					return;
+				}
+				var name = node.name;
+
+				var target = node.element.getElement('.spinner');
+			    var opts = {
+			      lines: 12, // The number of lines to draw
+			      length: 7, // The length of each line
+			      width: 4, // The line thickness
+			      radius: 10, // The radius of the inner circle
+			      color: '#666', // #rgb or #rrggbb
+			      speed: 1, // Rounds per second
+			      trail: 60, // Afterglow percentage
+			    };
+			    node.spinner = new Spinner(opts).spin(target);
+	            node.element.getElement('img').setStyle('display', 'none');
+			});
+		
 			var url = Files.getUrl({
 				view: 'thumbnails',
 				offset: this.state.get('offset'), 
@@ -385,8 +405,11 @@ Files.App = new Class({
 						}
 						var name = node.name;
 
-						var img = node.element.getElement('img.image-thumbnail');
+                        node.spinner.stop();
+
+						var img = node.element.getElement('img.image-thumbnail').setStyle('display', '');
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
+						
 					});
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
