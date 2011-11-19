@@ -423,7 +423,7 @@ abstract class KDatabaseTableAbstract extends KObject
         //The rowset default options
         $options['table'] = $this; 
         $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
-    
+        
         return $this->getService($identifier, $options);
     }
     
@@ -482,7 +482,6 @@ abstract class KDatabaseTableAbstract extends KObject
         
         if($this->getCommandChain()->run('before.select', $context) !== false) 
         {                   
-         
             //Fetch the data based on the fecthmode
             if($context->query)
             {
@@ -505,19 +504,32 @@ abstract class KDatabaseTableAbstract extends KObject
             {
                 case KDatabase::FETCH_ROW    : 
                 {
-                    $context->data = $this->getRow();
-                    if(isset($data) && !empty($data)) {
-                       $context->data->setData($data, false)->setStatus(KDatabase::STATUS_LOADED);
+                    $options = array();
+                    if(isset($data) && !empty($data)) 
+                    {
+                        $options = array(
+                    		'data'   => $data,
+                        	'new'    => false,
+                            'status' => KDatabase::STATUS_LOADED
+                        );
                     }
+
+                    $context->data = $this->getRow($options);
                     break;
                 }
                 
                 case KDatabase::FETCH_ROWSET : 
                 {
-                    $context->data = $this->getRowset();
-                    if(isset($data) && !empty($data)) {
-                        $context->data->addData($data, false);
+                    $options = array();
+                    if(isset($data) && !empty($data)) 
+                    {
+                        $options = array(
+                    		'data'   => $data,
+                        	'new'    => false,
+                        );
                     }
+                    
+                    $context->data = $this->getRowset($options);
                     break;
                 }
                 
