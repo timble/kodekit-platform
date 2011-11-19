@@ -581,7 +581,7 @@ Koowa.Overlay = new Class({
             this.element.empty().grab(body);
             
             if (this.options.evalScripts) {
-                scripts = element.getElementsBySelector('script[type=text/javascript]');
+            	scripts = element.getElements('script[type=text/javascript]');
                 scripts.each(function(script) {
                     if(document.getElement('script[src$='+script.src.replace(location.origin, '')+']')) return;
                     new Asset.javascript(script.src, {id: script.id });
@@ -589,7 +589,7 @@ Koowa.Overlay = new Class({
             }
 
             if (this.options.evalStyles) {
-                styles = element.getElementsBySelector('link[type=text/css]');
+            	styles = element.getElements('link[type=text/css]');
                 styles.each(function(style) {
                     new Asset.css(style.href, {id: style.id });
                 }.bind(this));
