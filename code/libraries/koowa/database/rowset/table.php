@@ -135,6 +135,23 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 	    return (bool) $this->getTable();
 	}
+	
+	/**
+     * Add rows to the rowset
+     *
+     * @param  array    An associative array of row data to be inserted. 
+     * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @return  KDatabaseRowsetAbstract
+     * @see __construct
+     */
+    public function addData(array $data, $new = true)
+    {   
+        if($this->isConnected()) {
+		    parent::addData($data, $new);
+		}
+        
+        return $this;
+    }
 
 	/**
 	 * Get an empty row
