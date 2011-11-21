@@ -89,7 +89,29 @@ window.addEvent('domready', function() {
 
     var switchers = $$('.files-layout-switcher'),
     	slider = document.id('files-thumbs-size');
-	 
+	
+	if(slider.type != 'range') {
+	    slider.getParent('.files-layout-grid-resizer-container').addClass('fallback');
+		var newSlider = new Element('div', {
+		    'id': slider.id,
+			'class': 'slider'
+		}).grab(new Element('div', {'class': 'knob'}))
+		  .replaces(slider);
+			
+		// Create the new slider instance
+	    var slider = new Slider(newSlider, newSlider.getElement('.knob'), {
+	        range: [80, 200],
+	        initialStep: slider.value,
+	        onChange: function(value){
+	        	Files.app.grid.setIconSize(value);
+	        }
+	    });
+	} else {
+	    slider.addEvent('change', function(event){
+	        Files.app.grid.setIconSize(this.value);
+	    });
+	}
+	
     switchers.filter(function(el) { 
         return el.get('data-layout') == Files.Template.layout;
     }).addClass('active');
@@ -105,10 +127,6 @@ window.addEvent('domready', function() {
     if (Files.Template.layout != 'icons') {
     	slider.setStyle('display', 'none');
     }
-    
-    slider.addEvent('change', function(event){
-        Files.app.grid.setIconSize(this.value);
-    });
 });
 </script>
 
