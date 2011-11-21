@@ -43,7 +43,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="controls" style="display:none">
 	<input type="checkbox" class="files-select" value="[%=path%]" />
 </div>
-<div class="ellipsis" style="width:[%= icon_size%]px">
+<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
 	[%=name%]
 </div>
 </div>
