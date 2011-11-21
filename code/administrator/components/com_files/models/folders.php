@@ -31,10 +31,27 @@ class ComFilesModelFolders extends ComFilesModelDefault
 	{
 		if (!isset($this->_item))
 		{
+		    $state = $this->_state;
+
+            if ($state->container->isNew() || !$state->container->path) {
+                throw new KModelException('Invalid container');
+            }
+
+            $path = $state->container->path;
+
+            if (!empty($state->folder) && $state->folder != '/') {
+                $path .= '/'.ltrim($state->folder, '/');
+            }
+
+            if (!is_dir($path)) {
+                throw new KModelException('Invalid folder');
+            }
+            
 			$this->_item = $this->getService('com://admin/files.database.row.folder', array(
 				'data' => array(
-					'basepath' => $this->_state->container->path,
-					'path' => $this->_state->path
+            		'container' => $this->_state->container,
+                    'basepath' => $path,
+                    'path' => $this->_state->path
 				)));
 		}
 

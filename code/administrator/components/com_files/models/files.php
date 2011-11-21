@@ -24,10 +24,26 @@ class ComFilesModelFiles extends ComFilesModelDefault
     {
         if (!isset($this->_item))
         {
+            $state = $this->_state;
+
+            if ($state->container->isNew() || !$state->container->path) {
+                throw new KModelException('Invalid container');
+            }
+
+            $path = $state->container->path;
+
+            if (!empty($state->folder) && $state->folder != '/') {
+                $path .= '/'.ltrim($state->folder, '/');
+            }
+
+            if (!is_dir($path)) {
+                throw new KModelException('Invalid folder');
+            }
+            
             $this->_item	= $this->getService('com://admin/files.database.row.file', array(
                 'data' => array(
             		'container' => $this->_state->container,
-                    'basepath' => $this->_state->container->path,
+                    'basepath' => $path,
                     'path' => $this->_state->path
                 )));
         }
@@ -40,7 +56,7 @@ class ComFilesModelFiles extends ComFilesModelDefault
         if (!isset($this->_list))
         {
             $state = $this->_state;
-            
+
             if ($state->container->isNew() || !$state->container->path) {
                 throw new KModelException('Invalid container');
             }
