@@ -33,6 +33,9 @@ Files.App = new Class({
 		},
 		paginator: {
 			element: 'files-paginator'
+		},
+		history: {
+			enabled: true
 		}
 	},
 
@@ -45,14 +48,16 @@ Files.App = new Class({
 		
 		//this.setContainerTree();
 		this.setState();
+		this.setHistory();
 		this.setGrid();
 		this.setPaginator();
 		
-		var hash = window.location.hash.substr(2);
-		if (window.location.hash.substr(1, 1) == '!' && hash) {
-			pieces = hash.split(':', 2);
-			this.options.container = pieces[0];
-			this.options.active = pieces[1] || '/';
+		var url = this.getUrl();
+		if (url.getData('container')) {
+			this.options.container = url.getData('container'); 
+		}
+		if (url.getData('folder')) {
+			this.options.active = url.getData('folder'); 
 		}
 		
 		if (this.options.title) {
@@ -77,20 +82,79 @@ Files.App = new Class({
 	
 		this.fireEvent('afterSetState');
 	},
-	setHash: function() {
-		this.fireEvent('beforeSetHash');
+	setHistory: function() {
+		this.fireEvent('beforeSetHistory');
 		
-		var hash = '!';
-		if (Files.container) {
-			hash += Files.container.slug+':';
+		if (this.options.history.enabled) {
+			var that = this;
+			this.history = History;
+			window.addEvent('popstate', function(e) {
+				if (e) { e.stop(); }
+				
+				var state = History.getState(),
+					old_state = that.state.getData(),
+					new_state = state.data.state,
+					state_changed = false;
+				
+				$each(old_state, function(value, key) {
+					if (state_changed === true) {
+						return;
+					} 
+					if (value !== new_state[key]) {
+						state_changed = true;
+					}
+				});
+
+				if (Files.container && (state_changed || that.active !== state.data.folder)) {
+					that.state.set(state.data.state);
+					that.navigate(state.data.folder, 'stateless');
+				}
+			});
+			this.addEvent('afterNavigate', function(path, type) {
+				if (type !== 'stateless' && that.history) {
+					var obj = {
+						folder: that.active,
+						container: Files.container ? Files.container.slug : null,
+						state: that.state.getData()
+					};
+					var method = type === 'initial' ? 'replaceState' : 'pushState';
+					that.history[method](obj, null, that.getUrl().setData(obj, true).toString());
+				}
+			});
 		}
-		if (this.active) {
-			hash += this.active;
-		}
-		window.location.hash = hash;
 		
-		this.fireEvent('afterSetHash', {hash: hash});
+		this.fireEvent('afterSetHistory');
 	},
+	/**
+	 * type can be stateless for no state or initial to use replaceState
+	 */
+	navigate: function(path, type) {
+		this.fireEvent('beforeNavigate', [path, type]);
+		if (path) {
+			if (this.active) {
+				// Reset offset if we are changing folders
+				this.state.set('offset', 0);
+			}
+			this.active = path;
+		}
+
+		var is_root = this.active === '/';
+
+		this.grid.reset();
+
+		var that = this;
+		this.folder = new Files.Folder({'path': this.active});
+		this.folder.getChildren(function(resp) {
+			that.response = resp;
+			that.grid.insertRows(resp.items);
+			
+			that.fireEvent('afterSelect', resp);
+
+		}, null, this.state.getData());
+	
+		this.fireEvent('afterNavigate', [path, type]);
+	},
+	
 	setContainer: function(container) {
 		new Request.JSON({
 			url: Files.getUrl({view: 'container', slug: container, container: false}),
@@ -105,7 +169,6 @@ Files.App = new Class({
 				Files.baseurl = Files.sitebase + '/' + Files.path;
 
 				this.active = '';
-				window.location.hash = '';
 				
 				if (Files.container.parameters.upload_extensions) {
 					this.uploader.settings.filters = [
@@ -127,10 +190,10 @@ Files.App = new Class({
 				this.grid.reset();
 				
 				this.setTree();
-				
+
 				this.active = this.options.active || '/';
 				this.options.active = '';
-				this.navigate(this.active);
+				this.navigate(this.active, 'initial');
 			}.bind(this)
 		}).send();
 	},
@@ -198,14 +261,17 @@ Files.App = new Class({
 			'onClickPage': function(el) {
 				this.state.set('limit', el.get('data-limit'));
 				this.state.set('offset', el.get('data-offset'));
+				
 				this.navigate();
 			}.bind(this),
 			'onChangeLimit': function(limit) {
 				this.state.set('limit', limit);
 				this.state.set('offset', 0);
+				
 				if (key) {
 					Cookie.write(key, JSON.encode({'limit': limit}));
 				}
+				
 				this.navigate();
 			}.bind(this)
 		});
@@ -330,33 +396,8 @@ Files.App = new Class({
 
 		this.fireEvent('afterSetTree');
 	},
-	navigate: function(path) {
-		this.fireEvent('beforeNavigate', path);
-		if (path) {
-			if (this.active) {
-				// Reset offset if we are changing folders
-				this.state.set('offset', 0);
-			}
-			this.active = path;
-		}
-
-		var is_root = this.active === '/';
-
-		this.grid.reset();
-
-		var that = this;
-		this.folder = new Files.Folder({'path': this.active});
-		this.folder.getChildren(function(resp) {
-			that.response = resp;
-			that.grid.insertRows(resp.items);
-			
-			that.fireEvent('afterSelect', resp);
-
-		}, null, this.state.getData());
-
-		this.setHash();
-	
-		this.fireEvent('afterNavigate', path);
+	getUrl: function() {
+		return new URI(window.location.href);
 	},
 	getPath: function() {
 		return this.active;

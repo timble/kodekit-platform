@@ -332,31 +332,34 @@ Files.Grid = new Class({
 	setIconSize: function(size) {
 		this.fireEvent('beforeSetIconSize', {size: size});
 		
-		this.options.icon_size = size;
-		
-		this.container.getElements('.imgTotal').setStyles({
-            width: size + 'px',
-            height: (size * 0.75) + 'px'
-        });
-        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
+		if (this.nodes.getKeys().length) {
+			this.options.icon_size = size;
+			
+			this.container.getElements('.imgTotal').setStyles({
+	            width: size + 'px',
+	            height: (size * 0.75) + 'px'
+	        });
+	        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
 
-        var grid_size = this.container.getSize().x,
-        	item_size = this.container.getElement('.imgOutline').getSize().x + 10,
-        	count = parseInt(grid_size/item_size),
-			empty = grid_size - (count*item_size)
-        	;
-    	if (empty < count*10) {
-        	count--;
-        	empty = grid_size - (count*(item_size));
-    	}
-    	var margin = empty/(2*count);
-    	if (margin < 5) {
-        	margin = 5;
-    	}
-    	this.container.getElements('.imgOutline')
-    		.setStyle('margin-left', margin)
-    		.setStyle('margin-right', margin);
-    	
+	        var grid_size = this.container.getSize().x,
+	        	item_size = this.container.getElement('.imgOutline').getSize().x + 10,
+	        	count = parseInt(grid_size/item_size),
+				empty = grid_size - (count*item_size)
+	        	;
+	    	if (empty < count*10) {
+	        	count--;
+	        	empty = grid_size - (count*(item_size));
+	    	}
+	    	var margin = empty/(2*count);
+	    	if (margin < 5) {
+	        	margin = 5;
+	    	}
+	    	this.container.getElements('.imgOutline')
+	    		.setStyle('margin-left', margin)
+	    		.setStyle('margin-right', margin);
+	    	
+		}
+		
     	this.fireEvent('afterSetIconSize', {size: size});
 	}
 });

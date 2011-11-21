@@ -21,7 +21,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <? if (version_compare(JVERSION, '1.7.0', '<')): ?>
 <script src="media://com_files/js/delegation.js" />
+<script src="media://com_files/js/uri.js" />
 <? endif; ?>
+<script src="media://com_files/js/history/history.js" />
+<script src="media://com_files/js/history/history.adapter.mootools.js" />
+<script src="media://com_files/js/history/history.html4.js" />
 
 <script src="media://com_files/js/ejs/ejs.js" />
 
