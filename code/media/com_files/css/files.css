@@ -584,6 +584,7 @@ ul#files-tree-html ul li a {
         background-image: url(../images/list_active.png);
         background-image: url(../images/list_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: url(../images/list_active.png), -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: url(../images/list_active.png), linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         
 }
 /* @end */
@@ -621,7 +622,7 @@ ul#files-tree-html ul li a {
 	height: 11px;
 	-moz-border-radius: 10px;
 	background: black;
-	background: -moz-linear-gradient(top, hsl(0, 0%, 100%), hsl(0, 0%, 100%) 20%, hsl(0, 0%, 90%) 50%, hsl(0, 0%, 90%) 50%, hsl(0, 0%, 70%));
+	background: -moz-linear-gradient(top, hsl(0, 0%, 100%), hsl(0, 0%, 100%) 30%, hsl(0, 0%, 95%) 50%, hsl(0, 0%, 90%) 50%, hsl(0, 0%, 90%));
 	box-shadow: black 0 0 1px, black 0 0 1px, white 0 0 1px inset;
 	top: -4px;
 }
