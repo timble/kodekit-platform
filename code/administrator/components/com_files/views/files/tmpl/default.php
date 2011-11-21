@@ -91,21 +91,22 @@ window.addEvent('domready', function() {
     	slider = document.id('files-thumbs-size');
 	
 	if(slider.type != 'range') {
-	    slider.getParent('.files-layout-grid-resizer-container').addClass('fallback');
-		var newSlider = new Element('div', {
-		    'id': slider.id,
-			'class': 'slider'
-		}).grab(new Element('div', {'class': 'knob'}))
-		  .replaces(slider);
+	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
+		    newSlider = new Element('div', {
+    		    'id': slider.id,
+    			'class': 'slider'
+    		}).grab(new Element('div', {'class': 'knob'}))
+    		  .replaces(slider);
 			
 		// Create the new slider instance
-	    var slider = new Slider(newSlider, newSlider.getElement('.knob'), {
+	    new Slider(newSlider, newSlider.getElement('.knob'), {
 	        range: [80, 200],
 	        initialStep: slider.value,
 	        onChange: function(value){
 	        	Files.app.grid.setIconSize(value);
 	        }
 	    });
+	    var slider = container;
 	} else {
 	    slider.addEvent('change', function(event){
 	        Files.app.grid.setIconSize(this.value);
@@ -120,7 +121,7 @@ window.addEvent('domready', function() {
     	e.stop();
     	var layout = this.get('data-layout');
     	Files.app.grid.setLayout(layout);
-    	slider.setStyle('display', layout == 'icons' ? 'inline' : 'none');
+    	slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
     	switchers.removeClass('active');
     	this.addClass('active');
     });
