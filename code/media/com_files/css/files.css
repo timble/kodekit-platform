@@ -594,10 +594,35 @@ ul#files-tree-html ul li a {
     overflow: visible;
     height: 0;
 }
-.files-layout-grid-resizer-wrap {
+:not(.fallback) > .files-layout-grid-resizer-wrap {
     display: table-cell;
     vertical-align: middle;
     height: 32px;
     padding-left: 10px;
+}
+.fallback > .files-layout-grid-resizer-wrap {
+    overflow: visible;
+    height: 0;
+}
+.files-layout-grid-resizer-container .slider {
+	background: -moz-linear-gradient(top, hsla(0, 0%, 0%, .6), hsla(0, 0%, 70%, .4));
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	height: 4px;
+	width: 129px;
+	top: 13px;
+	padding: 0 4px;
+	left: 13px;
+	position: relative;
+	width: 131px;
+}
+.files-layout-grid-resizer-container .knob {
+	width: 11px;
+	height: 11px;
+	-moz-border-radius: 10px;
+	background: black;
+	background: -moz-linear-gradient(top, hsl(0, 0%, 100%), hsl(0, 0%, 100%) 20%, hsl(0, 0%, 90%) 50%, hsl(0, 0%, 90%) 50%, hsl(0, 0%, 70%));
+	box-shadow: black 0 0 1px, black 0 0 1px, white 0 0 1px inset;
+	top: -4px;
 }
 /* @end */
