@@ -42,6 +42,7 @@ div.imgOutline.selected {
 }
 
 div.imgTotal {
+    position: relative;
     margin: 0 0 8px 0;
     overflow: hidden;
     width: 200px;
