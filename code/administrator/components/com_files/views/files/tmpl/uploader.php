@@ -125,9 +125,22 @@ window.addEvent('domready', function() {
 	};
 	
 	$$('.upload-form-toggle').addEvent('click', function(e) {
-		e.stop();
-		toggleForm(this.get('data-type'));
+	    var hash = this.get('href').split('#')[1];
+	    if(window.location.hash === '#'+hash) {
+	        window.location.hash = '';
+	        e.preventDefault();
+	    }
+		toggleForm(hash);
+		$$('.upload-form-toggle').removeClass('active');
+		this.addClass('active');
 	});
+	
+	if(window.location.hash.match(/#computer/) || window.location.hash.match(/#web/))
+	{
+	    var hash = window.location.hash.replace('#', '');
+	    toggleForm(hash);
+	    document.getElement('.upload-form-toggle.target-'+hash).addClass('active');
+	}
 });
 
 /**
@@ -168,15 +181,15 @@ window.addEvent('domready', function() {
 
 <div id="files-upload" style="clear: both">
 	<div id="files-upload-controls">
-		<h3><?= @text('Upload') ?>:</h3>
 		<ul class="upload-buttons">
-			<li><button class="upload-form-toggle" data-type="computer"><?= @text('Computer'); ?></button></li>
-			<li><button class="upload-form-toggle" data-type="web"><?= @text('Web'); ?></button></li>
+		    <li><?= @text('Upload from:') ?></li>
+			<li><a class="upload-form-toggle target-computer" href="#computer"><?= @text('Computer'); ?></a></li>
+			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
+			<li id="upload-max">
+			    <?= @text('Max'); ?>
+			    <span id="upload-max-size"></span>
+			</li>
 		</ul>
-		<p id="upload-max">
-			<?= @text('Max'); ?>
-			<span id="upload-max-size"></span>
-		</p>
 	</div>
 	<div class="clr"></div>
 	<div id="files-uploader-computer" class="upload-form" style="display: none">
