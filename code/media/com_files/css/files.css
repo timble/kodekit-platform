@@ -218,7 +218,7 @@ ul.upload-buttons {
 
 #files-upload-controls .upload-buttons li a {
     font-weight: bold;
-    padding: 5px 5px 10px;
+    padding: 5px 10px 10px;
     display: inline-block;
     position: relative;
 }
@@ -279,7 +279,7 @@ ul.upload-buttons {
     position: relative;
     
 }
-#files-upload-multi {
+#files-upload-multi, #files-uploader-web fieldset {
     padding: 0;
     background-color: hsl(0, 0%, 99%);
     border-radius: 5px;
@@ -291,6 +291,8 @@ ul.upload-buttons {
 #files-upload-multi .plupload_container {
     padding: 0px;
 }
+
+
 
 #upload-max {
 	font-size: 11px!important;
