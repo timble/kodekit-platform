@@ -169,7 +169,10 @@
  */
 #files-upload  { 
 	background-color: #F7F7F7;
-	border-top: 1px solid #E1E1E1;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 hsl(0, 0%, 88%);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(hsl(0, 0%, 97%)), to(hsl(0, 0%, 95%)));
+	background-image: -moz-linear-gradient(90deg, hsl(0, 0%, 92%) 0%, hsl(0, 0%, 75%) 100%);
+	background-image: linear-gradient(90deg, hsl(0, 0%, 92%) 0%, hsl(0, 0%, 75%) 100%);
 }
 
 #files-upload h3 {
@@ -195,13 +198,31 @@ ul.upload-buttons {
 	float: left;
 }
 
-ul.upload-buttons li {
+.plupload_container ul.upload-buttons li {
 	float:left;
 	clear:right;
 	margin-left: 10px;
 }
 
-.upload-buttons li a {
+#files-upload-controls .upload-buttons {
+    margin: 10px 0 0 20px;
+}
+
+#files-upload-controls .upload-buttons li {
+    display: inline;
+    font-size: 12px;
+}
+#files-upload-controls .upload-buttons li:first-child {
+    padding-right: 5px;
+}
+
+#files-upload-controls .upload-buttons li a {
+    font-weight: bold;
+    padding: 5px 5px 10px;
+    display: inline-block;
+    position: relative;
+}
+.plupload_container .upload-buttons li a {
 	min-width: 50px;
 	line-height: 18px;
 	display: block;
@@ -217,20 +238,20 @@ ul.upload-buttons li {
 	border-radius: 4px;
 	border: 1px solid #BBB;
 }
-.upload-buttons li a:hover, .upload-buttons li button.hover {
+.plupload_container .upload-buttons li a:hover, .upload-buttons li button.hover {
 	border-color: #999;
 	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	text-decoration: none;
 }
 
-.upload-buttons li a:active {
+.plupload_container .upload-buttons li a:active {
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 }
 
 #upload-max {
-	float: left;
+	font-size: 11px!important;
 	padding-top: 6px;
-	margin-left: 10px;
+	margin-left: 30px;
 	color: #444;
 }
 
