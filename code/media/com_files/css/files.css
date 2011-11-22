@@ -292,7 +292,39 @@ ul.upload-buttons {
     padding: 0px;
 }
 
+#files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
+    background: none;
+}
+#files-upload-multi .plupload_filelist_header {
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top: none;
+    background-image: -webkit-gradient(linear, 0% 00%, 0% 100%, from(white), to(whiteSmoke));
+    background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+    box-shadow: hsl(0, 0%, 97%) 0 -1px 0 inset;
+    border-bottom: 1px solid hsl(0, 0%, 90%);
+}
 
+#files-upload-multi .plupload_filelist_footer {
+ -moz-border-radius-bottomleft: 4px;
+ -moz-border-radius-bottomright: 4px;
+ border-bottom-left-radius: 4px;
+ border-bottom-right-radius: 4px;
+ border-bottom: none;
+ border-top: none;
+ box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
+}
+#files-upload-multi .plupload_scroll .plupload_filelist {
+  background: none;
+}
+#files-upload-multi .plupload_filelist li {
+    background: none;
+}
+#files-upload-multi .plupload_filelist .plupload_file_name {
+    width: 500px;
+}
 
 #upload-max {
 	font-size: 11px!important;
