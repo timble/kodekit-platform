@@ -570,7 +570,7 @@ Koowa.Overlay = new Class({
         method: 'get',
         evalScripts: true,
         evalStyles: true,
-        
+
         onComplete: function() {
             var element = new Element('div', {html: this.response.text}), 
                 body = element.getElement(this.options.selector) || element,
@@ -579,13 +579,34 @@ Koowa.Overlay = new Class({
                 styles;
 
             this.element.empty().grab(body);
-            
+
             if (this.options.evalScripts) {
             	scripts = element.getElements('script[type=text/javascript]');
-                scripts.each(function(script) {
-                    if(document.getElement('script[src$='+script.src.replace(location.origin, '')+']')) return;
-                    new Asset.javascript(script.src, {id: script.id });
-                }.bind(this));
+                scripts = scripts.filter(function(script) {
+                    if(!script.src) return false;
+                    if(document.head.getElement('script[src$='+script.src.replace(location.origin, '')+']')) return false;
+                    return true;
+                });
+                if(scripts.length) {
+                    var self = this, script = scripts.shift(), loadScript = function(script){
+                        new Asset.javascript(script.src, {id: script.id, onload: function(){
+                            if(scripts.length) {
+                                script = scripts.shift();
+                                loadScript(script);
+                            } else {
+                                //Remove existing domready events as they've fired by now anyway
+                                delete window.retrieve('events').domready;
+
+                                if(self._tmp_scripts) {
+                                    $exec(self._tmp_scripts);
+                                }
+
+                                window.fireEvent('domready');
+                            }
+                        }});
+                    };
+                    loadScript(script);
+                };
             }
 
             if (this.options.evalStyles) {
@@ -642,7 +663,18 @@ Koowa.Overlay = new Class({
         this.parent(options);
         
         this.send();
-    }
+    },
+    
+    processScripts: function(text){
+        if(this.options.evalScripts) {
+            var scripts, text = text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function(){
+    			scripts += arguments[1] + '\n';
+    			return '';
+    		});
+    		this._tmp_scripts = scripts;
+        }
+        return this.parent(text);
+	},
 });
 
 
