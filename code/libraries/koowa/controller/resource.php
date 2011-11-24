@@ -72,8 +72,8 @@ abstract class KControllerResource extends KControllerAbstract
 		$this->registerActionAlias('display', 'get');
 		
 		//Made the executable behavior read-only
-		if($config->readonly) {
-		    $this->getBehavior('executable')->setReadOnly(true);
+		if($this->isExecutable()) {
+		    $this->getBehavior('executable')->setReadOnly($config->readonly);
 		}
 	}
 
@@ -124,9 +124,10 @@ abstract class KControllerResource extends KControllerAbstract
 			}
 			
 			//Create the view
-			$config = array(
-			    'model'  => $this->getModel(),
-        	);
+			$config = array('model' => $this->getModel());
+			if($this->isExecutable()) {
+			    $config['auto_assign'] = !$this->getBehavior('executable')->isReadOnly();
+			}
         	
 			$this->_view = $this->getService($this->_view, $config);
 			
@@ -227,6 +228,7 @@ abstract class KControllerResource extends KControllerAbstract
 			else $identifier = $this->getIdentifier($model);
 		    
 			if($identifier->path[0] != 'model') {
+				
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
 			}
 
