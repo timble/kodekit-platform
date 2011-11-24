@@ -68,7 +68,7 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 
 		$matches = array();
 		// <script src="" />
-		if(preg_match_all('#<script(?!\s+inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
+		if(preg_match_all('#<script(?!\s+data\-inline\s*)\s+src="([^"]+)"(.*)/>#siU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{
@@ -81,7 +81,7 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 
 		$matches = array();
 		// <script></script>
-		if(preg_match_all('#<script(?!\s+inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
+		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
 		{
 			foreach($matches[2] as $key => $match)
 			{
@@ -91,9 +91,6 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 
 			$text = str_replace($matches[0], '', $text);
 		}
-
-		// get rid of inline and inline="true" in script tags
-		$text = preg_replace('#<script\s*(?:inline="true"|inline)\s*#siU', '<script', $text);
 
 		return $scripts;
 	}
