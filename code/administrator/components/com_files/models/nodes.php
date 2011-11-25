@@ -20,6 +20,44 @@
 
 class ComFilesModelNodes extends ComFilesModelDefault
 {
+    public function getRow(array $options = array())
+    {
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'row');
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
+             
+        return $this->getService($identifier, $options); 
+    }
+    
+    public function getRowset(array $options = array())
+    {
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'rowset');
+        
+        return $this->getService($identifier, $options);
+    }
+	
+    protected function _getPath()
+    {
+        $state = $this->_state;
+
+        if ($state->container->isNew() || !$state->container->path) {
+            throw new KModelException('Invalid container');
+        }
+
+        $path = $state->container->path;
+
+        if (!empty($state->folder) && $state->folder != '/') {
+            $path .= '/'.ltrim($state->folder, '/');
+        }
+
+        if (!is_dir($path)) {
+            throw new KModelException('Invalid folder');
+        }
+        
+        return $path;
+    }
+    
 	public function getList()
 	{
 		if (!isset($this->_list))

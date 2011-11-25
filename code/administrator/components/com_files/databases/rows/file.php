@@ -37,7 +37,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			$this->getCommandChain()->enqueue($this->getService($config->validator));
         }
 
-		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
 		$this->registerCallback(array('after.save'), array($this, 'saveThumbnail'));
 		$this->registerCallback(array('after.delete'), array($this, 'deleteThumbnail'));
 	}
@@ -52,15 +51,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
         parent::_initialize($config);
     }
-
-	public function setPath(KCommandContext $context)
-	{
-		if ($this->parent)
-		{
-			$this->path = $this->parent.'/'.$this->path;
-			$this->parent = '';
-		}
-	}
 
 	public function saveThumbnail(KCommandContext $context = null)
 	{
@@ -226,20 +216,12 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			$path .= '/'.$value;
 			$this->_data['path'] = $path;
 		}
-		else if ($column == 'parent') {
-			$this->_data['parent'] = trim($value, '\\/');
-		}
 		else parent::__set($column, $value);
 	}
 
 	public function getFullpath()
 	{
-		$path = rtrim($this->basepath, '/');
-		if ($this->parent) {
-			$path .= '/'.$this->parent;
-		}
-
-		$path .= '/'.$this->path;
+		$path = rtrim($this->basepath, '/').'/'.$this->path;
 
 		return $path;
 	}

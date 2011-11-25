@@ -52,8 +52,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
-		uploader.settings.url = Files.getUrl({view: 'file', 'plupload': 1});
-		uploader.settings.multipart_params.parent = Files.app.getPath();
+		uploader.settings.url = Files.getUrl({view: 'file', 'plupload': 1, folder: Files.app.getPath()});
 	});
 	
 	uploader.bind('UploadComplete', function(uploader) {
@@ -70,7 +69,10 @@ window.addEvent('domready', function() {
 			var row = new cls(item);
 			Files.app.grid.insert(row);
 			if (row.type == 'image') {
-				row.element.getElement('img').set('src', row.image);
+				var image = row.element.getElement('img'); 
+				if (image) {
+					image.set('src', row.image);
+				}
 			}	
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
@@ -150,7 +152,7 @@ window.addEvent('domready', function() {
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm');
 	var request = new Request.JSON({
-		url: Files.getUrl({view: 'file'}),
+		url: Files.getUrl({view: 'file', folder: Files.app.getPath()}),
 		data: form,
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
@@ -174,7 +176,7 @@ window.addEvent('domready', function() {
 	});
 	form.addEvent('submit', function(e) {
 		e.stop();
-		request.options.url = Files.getUrl({view: 'file'});
+		request.options.url = Files.getUrl({view: 'file', folder: Files.app.getPath()});
 		request.send();
 	});
 });

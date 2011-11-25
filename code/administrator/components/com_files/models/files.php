@@ -18,34 +18,19 @@
  * @subpackage  Files
  */
 
-class ComFilesModelFiles extends ComFilesModelDefault
-{
+class ComFilesModelFiles extends ComFilesModelNodes
+{   
     public function getItem()
     {
         if (!isset($this->_item))
         {
-            $state = $this->_state;
-
-            if ($state->container->isNew() || !$state->container->path) {
-                throw new KModelException('Invalid container');
-            }
-
-            $path = $state->container->path;
-
-            if (!empty($state->folder) && $state->folder != '/') {
-                $path .= '/'.ltrim($state->folder, '/');
-            }
-
-            if (!is_dir($path)) {
-                throw new KModelException('Invalid folder');
-            }
-            
-            $this->_item	= $this->getService('com://admin/files.database.row.file', array(
+            $this->_item = $this->getRow(array(
                 'data' => array(
             		'container' => $this->_state->container,
-                    'basepath' => $path,
+                    'basepath' => $this->_getPath(),
                     'path' => $this->_state->path
-                )));
+                )
+            ));
         }
 
         return parent::getItem();
@@ -57,45 +42,25 @@ class ComFilesModelFiles extends ComFilesModelDefault
         {
             $state = $this->_state;
 
-            if ($state->container->isNew() || !$state->container->path) {
-                throw new KModelException('Invalid container');
-            }
-
-            $basepath = $state->container->path;
-            $path = $basepath;
-
-            if (!empty($state->folder) && $state->folder != '/') {
-                $path .= '/'.ltrim($state->folder, '/');
-            }
-
-            if (!is_dir($path)) {
-                throw new KModelException('Invalid folder');
-            }
-
-            $name = $state->path ? $state->path : null;
-            if (is_string($name))
-            {
-                $files[] = $name;
-            }
-            else if (is_array($name))
-            {
-                $files = array();
-                foreach ($name as $n) {
-                    $files[] = $n;
-                }
-            }
-            else
-            {
-            	$files = ComFilesIteratorDirectory::getFiles(array(
-            		'path' => $path,
-            		'exclude' => array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'),
-            		'filter' => array($this, 'iteratorFilter'),
-            		'map' => array($this, 'iteratorMap')
-            	));
-
-            }
-
+            $files = ComFilesIteratorDirectory::getFiles(array(
+        		'path' => $this->_getPath(),
+        		'exclude' => array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'),
+        		'filter' => array($this, 'iteratorFilter'),
+        		'map' => array($this, 'iteratorMap')
+        	));
             $this->_total = count($files);
+        
+    		$path = $state->path;
+    	    if (!empty($path)) 
+    	    {
+    	        $f = array();
+    	        foreach ((array) $path as $file) {
+                    if (in_array($path, $files)) {
+                        $f[] = $path;
+                    }
+                }
+                $files = $f;
+    	    }
 
             $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
 
@@ -108,12 +73,12 @@ class ComFilesModelFiles extends ComFilesModelDefault
             {
                 $data[] = array(
                 	'container' => $state->container,
-                    'basepath' => $basepath,
+                    'basepath' => $state->container->path,
                     'path' => $file
                 );
             }
 
-            $this->_list = $this->getService('com://admin/files.database.rowset.files', array(
+            $this->_list = $this->getRowset(array(
                 'data' => $data
             ));
         }

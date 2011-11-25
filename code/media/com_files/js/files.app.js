@@ -100,7 +100,7 @@ Files.App = new Class({
 					if (state_changed === true) {
 						return;
 					} 
-					if (value !== new_state[key]) {
+					if (new_state && value !== new_state[key]) {
 						state_changed = true;
 					}
 				});

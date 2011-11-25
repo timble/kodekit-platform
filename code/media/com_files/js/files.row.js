@@ -96,11 +96,11 @@ Files.Folder = new Class({
 	template: 'folder',
 
 	getChildren: function(success, failure, extra_vars) {
-		var path = this.path;
-		var url = {
-			view: 'nodes',
-			folder: path
-		};
+		var path = this.path,
+			url = {
+				view: 'nodes',
+				folder: path
+			};
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
@@ -116,11 +116,10 @@ Files.Folder = new Class({
 		
 		var that = this;
 			request = new Request.JSON({
-				url: Files.getUrl({view: 'folder'}),
+				url: Files.getUrl({view: 'folder', folder: Files.app.getPath()}),
 				method: 'post',
 				data: {
 					'_token': Files.token,
-					'parent': Files.app.getPath(),
 					'path': that.path
 				},
 				onSuccess: function(response, responseText) {

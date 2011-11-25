@@ -48,16 +48,6 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 			$this->getCommandChain()->enqueue($this->getService($config->validator));
 		}
-
-		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
-	}
-
-	public function setPath(KCommandContext $context)
-	{
-		if ($this->parent) {
-			$this->path = $this->parent.'/'.$this->path;
-			$this->parent = '';
-		}
 	}
 
 	protected function _initialize(KConfig $config)
@@ -177,16 +167,6 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return parent::__get($column);
 	}
 
-	public function __set($column, $value)
-	{
-		if ($column == 'parent') {
-			$this->_data['parent'] = trim($value, '\\/');
-		}
-		else {
-			parent::__set($column, $value);
-		}
-	}
-
 	public function getData($modified = false)
 	{
 		$result = parent::getData($modified);
@@ -200,11 +180,7 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 	public function getFullpath()
 	{
-		$path = rtrim($this->basepath, '/');
-		if ($this->parent) {
-			$path .= '/'.$this->parent;
-		}
-		$path .= '/'.$this->path;
+		$path = rtrim($this->basepath, '/').'/'.$this->path;
 
 		return $path;
 	}
