@@ -28,8 +28,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<li class="info">
 		[%=name%] | [%=new Files.Filesize(size).humanize()%]
 	</li>
-	<li class="preview">
-		<img src="[%=(Files.sitebase ? '/'+Files.sitebase+'/' : '')+icons['32']%]" width="32" height="32" alt="[%=name%]" border="0" />
+	<li class="preview extension-[%=extension%]">
+		<img src="media://com_files/images/document-64.png" width="32" height="32" alt="[%=name%]" border="0" />
 	</li>
 </ul>
 </textarea>
@@ -38,6 +38,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <ul>
 
 </ul>
+</textarea>
+
+<textarea style="display: none"  id="compact_folder">
+<li class="files-node files-folder">
+	<a class="navigate" href="#">
+		[%= name %]
+	</a>
+</li>
 </textarea>
 
 <textarea style="display: none"  id="compact_image">

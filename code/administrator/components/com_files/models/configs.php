@@ -23,7 +23,7 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KServiceIns
 	{
 		parent::__construct($config);
 
-		$this->_state->insert('container', 'identifier', null);
+		$this->_state->insert('container', 'com://admin/files.filter.container', null);
 	}
   
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
@@ -45,8 +45,12 @@ class ComFilesModelConfigs extends ComDefaultModelDefault implements KServiceIns
 		if (!isset($this->_item))
 		{
 			$this->_item = $this->getService('com://admin/files.database.row.config');
-			$container = $this->getService('com://admin/files.model.containers')->slug((string)$this->_state->container)->getItem();
-
+			
+			$container = $this->_state->container;
+			if (!is_object($container)) {
+			    $container = $this->getService('com://admin/files.model.containers')->slug($container)->getItem();    
+			}
+			
 			$this->_item->setData(json_decode($container->parameters, true));
 			$this->_item->container = $container;
 		}

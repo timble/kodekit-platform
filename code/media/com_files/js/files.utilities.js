@@ -40,3 +40,22 @@ Files.getUrl = function(dict) {
 		return typeof value !== 'function';
 	}).toQueryString();
 };
+
+Files.FileTypes = {};
+Files.FileTypes.map = {
+	'audio': ['aif','aiff','alac','amr','flac','ogg','m3u','m4a','mid','mp3','mpa','wav','wma'],
+	'video': ['3gp','avi','flv','mkv','mov','mp4','mpg','mpeg','rm','swf','vob','wmv'],
+	'image': ['bmp','gif','jpg','jpeg','png','psd','tif','tiff'],
+	'document': ['doc','docx','rtf','txt','xls','xlsx','pdf','ppt','pptx','pps','xml'],
+	'archive': ['7z','gz','rar','tar','zip']
+};
+	
+Files.getFileType = function(extension) {
+	var type = 'document';
+	$each(Files.FileTypes.map, function(value, key) {
+		if (value.contains(extension)) {
+			type = key; 
+		}
+	});
+	return type;
+};

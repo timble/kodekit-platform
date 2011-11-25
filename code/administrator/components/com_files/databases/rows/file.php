@@ -68,7 +68,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	public function saveThumbnail(KCommandContext $context = null)
 	{
 		$result = null;
-		if ($this->isImage()) 
+		if ($this->isImage() && $this->container->getParameters()->thumbnails) 
 		{
 			$thumb = $this->getService('com://admin/files.model.thumbnails')
 				->source($this)
@@ -170,7 +170,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$data['name'] = $this->name;
 		$data['extension'] = $this->extension;
 		$data['size']      = $this->size;
-		$data['icons']     = $this->icons;
 		$data['modified_date'] = $this->modified_date;
 
 		if ($this->isImage() == 'image')
@@ -213,10 +212,6 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($column == 'mimetype' && !isset($this->_data['mimetype'])) {
 			$this->_data['mimetype'] = $this->getMimeType();
-		}
-
-		if ($column == 'icons' && !isset($this->_data['icons'])) {
-			return $this->getIcons();
 		}
 
 		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
@@ -305,35 +300,5 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 			default:
 				return array('width' => $width, 'height' => $height);
 		}
-	}
-
-	public function getIcons()
-	{
-		static $path = 'media/com_files/images', $default, $icons16, $icons32;
-
-		if (!isset($default)) {
-			$default = $path.'/con_info.png';
-		}
-		
-		if (!isset($icons16)) {
-			$icons16 = ComFilesIteratorDirectory::getFiles(array(
-            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-16',
-				'filter' => array('png')
-            ));
-		}
-		
-		if (!isset($icons32)) {
-			$icons32 = ComFilesIteratorDirectory::getFiles(array(
-            	'path' => JPATH_ROOT.'/'.$path.'/mime-icon-32',
-				'filter' => array('png')
-            ));
-		}
-
-		$icons = array();
-
-		$icons['16'] = in_array($this->extension.'.png', $icons16) ? $path.'/mime-icon-16/'.$this->extension.'.png' : $default;
-		$icons['32'] = in_array($this->extension.'.png', $icons32) ? $path.'/mime-icon-32/'.$this->extension.'.png' : $default;
-
-		return $icons;
 	}
 }

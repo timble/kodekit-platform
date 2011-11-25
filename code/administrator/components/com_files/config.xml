@@ -15,5 +15,9 @@
 			<option value="1">YES</option>
 		</param>
 		<param name="upload_mime" type="text" size="50" default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip" label="LEGAL MIME TYPES LABEL" description="LEGAL MIME TYPES DESC" />
+		<param name="thumbnails" type="radio" default="1" label="Create image thumbnails" description="">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
 	</params>
 </config>

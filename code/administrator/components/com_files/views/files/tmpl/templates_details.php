@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<table width="100%" cellspacing="0" class="adminlist">
 		<thead>
 			<tr>
-				<th width="10"></th>
+				<th width="10" colspan="2"></th>
 				<th><?= @text('Name'); ?></th>
 				<th><?= @text('Dimensions'); ?></th>
 				<th><?= @text('Size'); ?></th>
@@ -30,8 +30,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="details_folder">
 	<tr class="files-node files-folder">
-		<td>
+		<td width="10">
 			<input type="checkbox" class="files-select" value="[%=path%]" />
+		</td>
+		<td width="10">
+		    <img src="media://com_files/images/folder-16.png" width="16" height="16" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -45,10 +48,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="details_file">
-	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-file">
-		<td>
+		<td width="10">
 			<input type="checkbox" class="files-select" value="[%=path%]" />
+		</td>
+		<td width="10">
+		    <img src="media://com_files/images/document-16.png" width="16" height="16" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -60,16 +65,18 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
+			[%=getModifiedDate(true)%]
 		</td>
 	</tr>
 </textarea>
 
 <textarea style="display: none" id="details_image">
-	[%var date = new Date();date.setTime(modified_date*1000);%]
 	<tr class="files-node files-image">
-		<td>
+		<td width="10">
 			<input type="checkbox" class="files-select" value="[%=path%]" />
+		</td>
+		<td width="10">
+		    <img src="media://com_files/images/image-16.png" width="16" height="16" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -83,7 +90,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			[%=new Files.Filesize(size).humanize()%]
 		</td>
 		<td align="center">
-			[%=date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes()%]
+			[%=getModifiedDate(true)%]
 		</td>
 	</tr>
 </textarea>

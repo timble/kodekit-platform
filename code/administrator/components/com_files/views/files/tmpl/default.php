@@ -14,28 +14,29 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
-Files.token = '<?= JUtility::getToken();?>';
+Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 
-Files.state = {
-	limit: 0,
-	offset: 0,
-	setDefaults: function() {
-		this.limit = <?= $state->limit; ?>;
-		this.offset = <?= $state->offset; ?>;
-	}
-};
-Files.state.setDefaults();
-
 window.addEvent('domready', function() {
-	Files.app = new Files.App({
-		tree: {
-			theme: 'media://com_files/images/mootree.png'
-		},
-		types: <?= json_encode($state->types); ?>,
-		container: <?= json_encode($state->container ? $state->container->slug : 'files-files'); ?>
-	});
+	var config = <?= json_encode($state->config); ?>,
+		options = {
+			state: {
+				defaults: {
+					limit: <?= (int) $state->limit; ?>,
+					offset: <?= (int) $state->offset; ?>
+				}
+			},
+			tree: {
+				theme: 'media://com_files/images/mootree.png'
+			},
+			types: <?= json_encode($state->types); ?>,
+			container: <?= json_encode($container ? $container->slug : null); ?>,
+			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
+		};
+	options = $extend(options, config);
+	
+	Files.app = new Files.App(options);
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();
@@ -60,7 +61,7 @@ window.addEvent('domready', function() {
 		};
 	});
 
-    var createModal = function(container, button){
+    Files.createModal = function(container, button){
         var modal = $(container);
         document.body.grab(modal);
         modal.setStyle('display', 'none');
@@ -75,7 +76,58 @@ window.addEvent('domready', function() {
     		});
     	});
     };
-    createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+
+    Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+
+    Files.app.addEvent('afterNavigate', function(path) {
+        if (path) {
+	        var folder = path.split('/');
+	        folder = folder[folder.length-1] || Files.container.title;
+	        this.setTitle(folder);
+        }
+    });
+
+    var switchers = $$('.files-layout-switcher'),
+    	slider = document.id('files-thumbs-size');
+	
+	if(slider.type != 'range') {
+	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
+		    newSlider = new Element('div', {
+    		    'id': slider.id,
+    			'class': 'slider'
+    		}).grab(new Element('div', {'class': 'knob'}))
+    		  .replaces(slider);
+			
+		// Create the new slider instance
+	    new Slider(newSlider, newSlider.getElement('.knob'), {
+	        range: [80, 200],
+	        initialStep: slider.value,
+	        onChange: function(value){
+	        	Files.app.grid.setIconSize(value);
+	        }
+	    });
+	    var slider = container;
+	} else {
+	    slider.addEvent('change', function(event){
+	        Files.app.grid.setIconSize(this.value);
+	    });
+	}
+	
+    switchers.filter(function(el) { 
+        return el.get('data-layout') == Files.Template.layout;
+    }).addClass('active');
+
+    switchers.addEvent('click', function(e) {
+    	e.stop();
+    	var layout = this.get('data-layout');
+    	Files.app.grid.setLayout(layout);
+    	slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
+    	switchers.removeClass('active');
+    	this.addClass('active');
+    });
+    if (Files.Template.layout != 'icons') {
+    	slider.setStyle('display', 'none');
+    }
 });
 </script>
 
@@ -92,20 +144,26 @@ window.addEvent('domready', function() {
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
-	    <div class="path">
-			<button id="files-new-folder-toolbar" style="float: left;"><?= @text('New Folder'); ?></button>
-			<button id="files-batch-delete" style="float: left;"><?= @text('Delete'); ?></button>
-			
-			<select id="files-layout-switcher" style="float: right">
-				<option value="icons"><?= @text('Icons'); ?></option>
-				<option value="details"><?= @text('Details'); ?></option>
-			</select>
+	    <div class="path" style="height: 24px;">
+	        <div class="files-toolbar-controls">
+			    <button id="files-new-folder-toolbar"><?= @text('New Folder'); ?></button>
+			    <button id="files-batch-delete"><?= @text('Delete'); ?></button>
+			</div>
+			<h3 id="files-title"></h3>
+			<div class="files-layout-controls">
+				<button class="files-layout-switcher" data-layout="icons">Icons</button>
+				<button class="files-layout-switcher" data-layout="details">Details</button>
+			</div>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-grid"></div>
 		</div>
-
-		<?= @helper('paginator.pagination', array('limit' => $state->limit)) ?>
+        <div class="files-layout-grid-resizer-container">
+            <div class="files-layout-grid-resizer-wrap">
+                <input id="files-thumbs-size" type="range" min="80" max="200" step="0.1" />
+            </div>
+        </div>
+		<?= @helper('paginator.pagination') ?>
 	
 		<?= @template('uploader');?>
 	</div>
@@ -113,7 +171,7 @@ window.addEvent('domready', function() {
 </div>
 
 <div style="display: block">
-	<div id="files-new-folder-modal" class="modal">
+	<div id="files-new-folder-modal" class="files-modal">
 		<input class="inputbox" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
 	</div>

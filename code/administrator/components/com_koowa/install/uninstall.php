@@ -29,7 +29,7 @@ $manifest   = simplexml_load_file($this->parent->getPath('manifest'));
 $package    = (string) $manifest->name;
 $version    = (string) $manifest->version;
 $logo       = JURI::root(1).'/media/com_koowa/images/logo.png';
-$jversion   = JVersion::isCompatible('1.6.0') ? '1.6' : '1.5';
+$jversion   = JVersion::isCompatible('1.6.0') ? 'joomla' : 'legacy';
 
 //Run platform specific procedures
 require JPATH_ROOT.'/administrator/components/com_'.$package.'/install/uninstall.'.$jversion.'.php';

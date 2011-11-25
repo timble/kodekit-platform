@@ -38,17 +38,14 @@ class ComFilesMixinMimetype extends KObject
 		parent::__construct($config);
 
 		if (isset($config->adapters)) {
-			$this->_adapters = $config->adapters;
+			$this->_adapters = KConfig::unbox($config->adapters);
 		}
 	}
 
 	protected function _initialize(KConfig $config)
 	{
 		if (empty($config->adapters)) {
-			$config->adapters = array('finfo');
-		}
-		elseif (is_string($config->adapters)) {
-			$config->adapters = array($config->adapters);
+			$config->adapters = array('image', 'finfo');
 		}
 
 		parent::_initialize($config);
@@ -60,8 +57,10 @@ class ComFilesMixinMimetype extends KObject
 		foreach ($this->_adapters as $i => $adapter)
 		{
 			$function = '_detect'.ucfirst($adapter);
-			$mimetype = $this->$function($path);
-			if (!empty($mimetype) && $mimetype !== ComFilesMixinMimetype::NOT_AVAILABLE) {
+			$return = $this->$function($path);
+			
+			if (!empty($return) && $return !== ComFilesMixinMimetype::NOT_AVAILABLE) {
+				$mimetype = $return;
 				break;
 			}
 		}
@@ -77,6 +76,15 @@ class ComFilesMixinMimetype extends KObject
 		}
 
 		return $mimetype;
+	}
+	
+	protected function _detectImage($path)
+	{
+		if ($info = getimagesize($path)) {
+			return $info['mime'];
+		}
+		
+		return ComFilesMixinMimetype::NOT_AVAILABLE;
 	}
 
 	protected function _detectFinfo($path)

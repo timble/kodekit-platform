@@ -6,36 +6,62 @@ Files.App = new Class({
 
 	_tmpl_cache: {},
 	active: null,
+	title: '',
+	cookie: null,
 	options: {
+		persistent: true,
 		thumbnails: true,
 		types: null,
 		container: null,
 		active: null,
+		title: 'files-title',
+		state: {
+			data: {
+				limit: 0,
+				offset: 0
+			},
+			defaults: {}
+		},
 		tree: {
 			div: 'files-tree',
 			theme: ''
 		},
 		grid: {
 			element: 'files-grid',
-			batch_delete: '#files-batch-delete'
+			batch_delete: '#files-batch-delete',
+			icon_size_slider: 'files-thumbs-size'
 		},
 		paginator: {
 			element: 'files-paginator'
+		},
+		history: {
+			enabled: true
 		}
 	},
 
 	initialize: function(options) {
 		this.setOptions(options);
 		
+		if (this.options.persistent && this.options.container) {
+			this.cookie = 'com.files.container.'+this.options.container;
+		}
+		
 		//this.setContainerTree();
+		this.setState();
+		this.setHistory();
 		this.setGrid();
 		this.setPaginator();
 		
-		var hash = window.location.hash.substr(2);
-		if (window.location.hash.substr(1, 1) == '!' && hash) {
-			pieces = hash.split(':', 2);
-			this.options.container = pieces[0];
-			this.options.active = pieces[1] || '/';
+		var url = this.getUrl();
+		if (url.getData('container')) {
+			this.options.container = url.getData('container'); 
+		}
+		if (url.getData('folder')) {
+			this.options.active = url.getData('folder'); 
+		}
+		
+		if (this.options.title) {
+			this.options.title = document.id(this.options.title);
 		}
 		
 		if (this.options.container) {
@@ -48,20 +74,87 @@ Files.App = new Class({
 			});
 		}
 	},
-	setHash: function() {
-		this.fireEvent('beforeSetHash');
+	setState: function() {
+		this.fireEvent('beforeSetState');
 		
-		var hash = '!';
-		if (Files.container) {
-			hash += Files.container.slug+':';
-		}
-		if (this.active) {
-			hash += this.active;
-		}
-		window.location.hash = hash;
-		
-		this.fireEvent('afterSetHash', {hash: hash});
+		var opts = this.options.state;
+		this.state = new Files.State(opts);
+	
+		this.fireEvent('afterSetState');
 	},
+	setHistory: function() {
+		this.fireEvent('beforeSetHistory');
+		
+		if (this.options.history.enabled) {
+			var that = this;
+			this.history = History;
+			window.addEvent('popstate', function(e) {
+				if (e) { e.stop(); }
+				
+				var state = History.getState(),
+					old_state = that.state.getData(),
+					new_state = state.data.state,
+					state_changed = false;
+				
+				$each(old_state, function(value, key) {
+					if (state_changed === true) {
+						return;
+					} 
+					if (value !== new_state[key]) {
+						state_changed = true;
+					}
+				});
+
+				if (Files.container && (state_changed || that.active !== state.data.folder)) {
+					that.state.set(state.data.state);
+					that.navigate(state.data.folder, 'stateless');
+				}
+			});
+			this.addEvent('afterNavigate', function(path, type) {
+				if (type !== 'stateless' && that.history) {
+					var obj = {
+						folder: that.active,
+						container: Files.container ? Files.container.slug : null,
+						state: that.state.getData()
+					};
+					var method = type === 'initial' ? 'replaceState' : 'pushState';
+					that.history[method](obj, null, that.getUrl().setData(obj, true).toString());
+				}
+			});
+		}
+		
+		this.fireEvent('afterSetHistory');
+	},
+	/**
+	 * type can be stateless for no state or initial to use replaceState
+	 */
+	navigate: function(path, type) {
+		this.fireEvent('beforeNavigate', [path, type]);
+		if (path) {
+			if (this.active) {
+				// Reset offset if we are changing folders
+				this.state.set('offset', 0);
+			}
+			this.active = path;
+		}
+
+		var is_root = this.active === '/';
+
+		this.grid.reset();
+
+		var that = this;
+		this.folder = new Files.Folder({'path': this.active});
+		this.folder.getChildren(function(resp) {
+			that.response = resp;
+			that.grid.insertRows(resp.items);
+			
+			that.fireEvent('afterSelect', resp);
+
+		}, null, this.state.getData());
+	
+		this.fireEvent('afterNavigate', [path, type]);
+	},
+	
 	setContainer: function(container) {
 		new Request.JSON({
 			url: Files.getUrl({view: 'container', slug: container, container: false}),
@@ -76,7 +169,6 @@ Files.App = new Class({
 				Files.baseurl = Files.sitebase + '/' + Files.path;
 
 				this.active = '';
-				window.location.hash = '';
 				
 				if (Files.container.parameters.upload_extensions) {
 					this.uploader.settings.filters = [
@@ -90,7 +182,7 @@ Files.App = new Class({
 				
 				if (this.options.types !== null) {
 					this.options.grid.types = this.options.types;
-					Files.state.types = this.options.types; 
+					this.state.set('types', this.options.types); 
 				}
 				
 				this.fireEvent('afterSetContainer', {container: item});
@@ -98,10 +190,10 @@ Files.App = new Class({
 				this.grid.reset();
 				
 				this.setTree();
-				
+
 				this.active = this.options.active || '/';
 				this.options.active = '';
-				this.navigate(this.active);
+				this.navigate(this.active, 'initial');
 			}.bind(this)
 		}).send();
 	},
@@ -148,21 +240,43 @@ Files.App = new Class({
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
 		
-		var opts = this.options.paginator;
+		var key = this.cookie ? this.cookie+'.paginator.state' : null;
+
+		if (key) {
+			var cookie = JSON.decode(Cookie.read(key), true);
+			
+			if (cookie && cookie.limit) {
+				this.state.set('limit', cookie.limit);
+			}
+			if (cookie && cookie.offset) {
+				this.state.set('offset', cookie.offset);
+			}
+		}
+		
+		var opts = this.options.paginator,
+			state = this.state;
+		
 		$extend(opts, {
-			'state' : Files.state,
+			'state' : state,
 			'onClickPage': function(el) {
-				Files.state.limit = el.get('data-limit');
-				Files.state.offset = el.get('data-offset');
+				this.state.set('limit', el.get('data-limit'));
+				this.state.set('offset', el.get('data-offset'));
+				
 				this.navigate();
 			}.bind(this),
 			'onChangeLimit': function(limit) {
-				Files.state.limit = limit;
-				Files.state.offset = 0;
+				this.state.set('limit', limit);
+				this.state.set('offset', 0);
+				
+				if (key) {
+					Cookie.write(key, JSON.encode({'limit': limit}));
+				}
+				
 				this.navigate();
 			}.bind(this)
 		});
 		this.paginator = new Files.Paginator(opts.element, opts);
+
 		
 		var that = this;
 		that.addEvent('afterSelect', function(response) {
@@ -179,21 +293,58 @@ Files.App = new Class({
 	setGrid: function() {
 		this.fireEvent('beforeSetGrid');
 		
-		var opts = this.options.grid;
+		var opts = this.options.grid,
+			key = this.cookie+'.grid.layout';
+
+		if (this.cookie) {
+			opts.layout = Cookie.read(key);
+			var size_key = this.cookie+'.grid.icon.size',
+				size = Cookie.read(size_key);
+			if (size) {
+				opts.icon_size = size;
+			}
+			opts.onAfterSetIconSize = function(context) {
+				Cookie.write(size_key, context.size); 
+			};
+		}
+		
 		$extend(opts, {
+			'onAfterInsertRows': function() {
+				if (Files.Template.layout == 'icons') {
+					this.setIconSize(this.options.icon_size);
+				}
+				
+				if (opts.icon_size_slider) {
+					document.id(opts.icon_size_slider).set('value', this.options.icon_size);
+				}
+				
+		    },
 			'onClickFolder': function(e) {
-				var target = document.id(e.target);
-				var path = target.getParent('.files-node').retrieve('path');
+				var target = document.id(e.target),
+					path = target.getParent('.files-node').retrieve('path');
 				if (path) {
 					this.navigate('/'+path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
-				var target = document.id(e.target);
-				var img = target.getParent('.files-node').retrieve('row').image;
+				var target = document.id(e.target),
+					img = target.getParent('.files-node').retrieve('row').image;
+				
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
 				}
+			},
+			'onClickFile': function(e) {
+				var target = document.id(e.target),
+					row = target.getParent('.files-node').retrieve('row'),
+					copy = $extend({}, row);
+				
+				copy.template = 'file_preview';
+
+				SqueezeBox.open(copy.render(false), {
+					handler: 'adopt',
+					size: {x: 300, y: 200}
+				});
 			},
 			'onAfterDeleteNode': function(context) {
 				var node = context.node;
@@ -208,6 +359,9 @@ Files.App = new Class({
 				var layout = context.layout;
 				if (layout === 'icons' && this.grid && this.options.thumbnails) {
 					this.setThumbnails();
+				}
+				if (key) {
+					Cookie.write(key, layout);
 				}
 			}.bind(this)
 		});
@@ -242,34 +396,8 @@ Files.App = new Class({
 
 		this.fireEvent('afterSetTree');
 	},
-	navigate: function(path) {
-		this.fireEvent('beforeNavigate', path);
-		if (path) {
-			if (this.active) {
-				// Reset states if we are changing folders
-				Files.state.setDefaults();
-			}
-			this.active = path;
-		}
-
-		var is_root = this.active === '/';
-
-		this.grid.reset();
-
-		var that = this;
-		this.folder = new Files.Folder({'path': this.active});
-		this.folder.getChildren(function(resp) {
-			that.response = resp;
-			that.grid.insertRows(resp.items);
-			
-			that.fireEvent('afterSelect', resp);
-
-		}, null, Files.state);
-
-		//window.location.hash = '#'+this.active;
-		this.setHash();
-	
-		this.fireEvent('afterNavigate', path);
+	getUrl: function() {
+		return new URI(window.location.href);
 	},
 	getPath: function() {
 		return this.active;
@@ -278,10 +406,30 @@ Files.App = new Class({
 		var nodes = this.grid.nodes,
 			that = this;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
+		    nodes.each(function(node) {
+				if (node.type !== 'image') {
+					return;
+				}
+				var name = node.name;
+
+				var target = node.element.getElement('.spinner');
+			    var opts = {
+			      lines: 12, // The number of lines to draw
+			      length: 7, // The length of each line
+			      width: 4, // The line thickness
+			      radius: 10, // The radius of the inner circle
+			      color: '#666', // #rgb or #rrggbb
+			      speed: 1, // Rounds per second
+			      trail: 60 // Afterglow percentage
+			    };
+			    node.spinner = new Spinner(opts).spin(target);
+	            node.element.getElement('img').setStyle('display', 'none');
+			});
+		
 			var url = Files.getUrl({
 				view: 'thumbnails',
-				offset: Files.state.offset, 
-				limit: Files.state.limit,
+				offset: this.state.get('offset'), 
+				limit: this.state.get('limit'),
 				folder: this.active
 			});
 			new Request.JSON({
@@ -298,8 +446,11 @@ Files.App = new Class({
 						}
 						var name = node.name;
 
-						var img = node.element.getElement('img.image-thumbnail');
+                        node.spinner.stop();
+
+						var img = node.element.getElement('img.image-thumbnail').setStyle('display', '');
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
+						
 					});
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
@@ -307,5 +458,16 @@ Files.App = new Class({
 			}).send();
 		}
 		
+	},
+	setTitle: function(title) {
+		this.fireEvent('beforeSetTitle', {title: title});
+		
+		this.title = title;
+		
+		if (this.options.title) {
+			this.options.title.set('html', title);
+		}
+		
+		this.fireEvent('afterSetTitle', {title: title});
 	}
 });

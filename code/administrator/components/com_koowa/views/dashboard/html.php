@@ -22,7 +22,7 @@ class ComKoowaViewDashboardHtml extends ComDefaultViewHtml
         //Updater functionality is currently not supported. Abort.
         return '';
         
-        $this->getService('com://admin/koowa/toolbar.'.$this->getName())->reset()->setTitle('Nooku Framework');
+        $this->getService('com://admin/koowa.toolbar.'.$this->getName())->reset()->setTitle('Nooku Framework');
 
         $this->assign('manifest', simplexml_load_file(JPATH_COMPONENT_ADMINISTRATOR.'/manifest.xml'));
 

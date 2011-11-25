@@ -67,11 +67,6 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 		return parent::__get($column);
 	}
 
-	public function __toString()
-	{
-		return (string) $this->path;
-	}
-
 	public function getRelativePath()
 	{
 		$path = $this->path;

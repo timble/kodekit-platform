@@ -19,29 +19,29 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
-Files.token = '<?= JUtility::getToken();?>';
+Files.token = '<?= $token; ?>';
 
 Files.blank_image = 'media://com_files/images/blank.png';
 
-Files.state = {
-	limit: 0,
-	offset: 0,
-	setDefaults: function() {
-		this.limit = <?= $state->limit; ?>;
-		this.offset = <?= $state->offset; ?>;
-	}
-};
-Files.state.setDefaults();
-
 window.addEvent('domready', function() {
-	Files.app = new Files.Compact.App({
-		editor: <?= json_encode($state->editor); ?>,
-		tree: {
-			theme: 'media://com_files/images/mootree.png'
-		},
-		types: <?= json_encode($state->types); ?>,
-		container: <?= json_encode($state->container ? $state->container->slug : 'files-files'); ?>
-	});
+	var config = <?= json_encode($state->config); ?>,
+		options = {
+			state: {
+				defaults: {
+					limit: <?= (int) $state->limit; ?>,
+					offset: <?= (int) $state->offset; ?>
+				}
+			},			
+			editor: <?= json_encode($state->editor); ?>,
+			tree: {
+				theme: 'media://com_files/images/mootree.png'
+			},
+			types: <?= json_encode($state->types); ?>,
+			container: <?= json_encode($state->container ? $state->container->slug : null); ?>
+		};
+	options = $extend(options, config);
+	
+	Files.app = new Files.Compact.App(options);
 
 	$('files-new-folder-create').addEvent('click', function(e){
 		e.stop();

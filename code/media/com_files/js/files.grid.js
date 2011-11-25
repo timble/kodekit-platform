@@ -10,10 +10,10 @@ Files.Grid = new Class({
 		onClickImage: $empty,
 		onDeleteNode: $empty,
 		onSwitchLayout: $empty,
-		switcher: 'files-layout-switcher',
-		cookie: 'com.files.view.files.switcher',
+		switcher: false,
 		layout: false,
 		batch_delete: false,
+		icon_size: 200,
 		types: null // null for all or array to filter for folder, file and image
 	},
 
@@ -31,10 +31,7 @@ Files.Grid = new Class({
 			this.options.batch_delete = document.getElement(this.options.batch_delete);
 		}
 
-		if (this.options.cookie) {
-			this.setLayout(Cookie.read(this.options.cookie));
-		}
-		else if (this.options.layout) {
+		if (this.options.layout) {
 			this.setLayout(this.options.layout);
 		}
 		this.render();
@@ -57,23 +54,17 @@ Files.Grid = new Class({
 		 * Checkbox events
 		 */
 		var fireCheck = function(e) {
+		    if(e.target.match('a.navigate')) {
+		        return;
+		    }
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var row = e.target.getParent('.files-node').retrieve('row');
-			var checkbox = row.element.getElement('input[type=checkbox]');
-			
-			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
-			
-			var old = checkbox.getProperty('checked');
+			var box = e.target.match('.files-node') ? e.target : e.target.getParent('.files-node');
+			that.checkNode(box.retrieve('row'));
+		}; 
+		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
 
-			row.checked = !old;
-			checkbox.setProperty('checked', !old);
-
-			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
-		};
-		this.container.addEvent('click:relay(div[class=controls])', fireCheck.bind(this));
-		
 		/*
 		 * Delete events
 		 */
@@ -132,6 +123,35 @@ Files.Grid = new Class({
 				that.setLayout(value);
 			});
 		}
+		
+		if (this.options.icon_size) {
+			var size = this.options.icon_size;
+			this.addEvent('beforeRenderObject', function(context) {
+				context.object.icon_size = size;
+			});
+		}
+	},
+	/** 
+	 * fire_events is used when switching layouts so that client events to 
+	 * catch the user interactions don't get messed up 
+	 */
+	checkNode: function(row, fire_events) {
+		var box = row.element,
+			checkbox = box.getElement('input[type=checkbox]')
+			;
+		if (fire_events !== false) {
+			this.fireEvent('beforeCheckNode', {row: row, checkbox: checkbox});
+		}
+		
+		var old = checkbox.getProperty('checked');
+        !old ? box.addClass('selected') : box.removeClass('selected');
+		row.checked = !old;
+		checkbox.setProperty('checked', !old);
+
+		if (fire_events !== false) {
+			this.fireEvent('afterCheckNode', {row: row, checkbox: checkbox});
+		}
+		
 	},
 	erase: function(node) {
 		if (typeof node === 'string') {
@@ -168,11 +188,12 @@ Files.Grid = new Class({
 	renderObject: function(object, position) {
 		var position = position || 'alphabetical';
 
+		this.fireEvent('beforeRenderObject', {object: object, position: position});
+		
 		object.element = object.render();
 		object.element.store('path', object.path);
 		object.element.store('row', object);
 		
-		this.fireEvent('beforeRenderObject', {object: object, position: position});
 
 		if (position == 'last') {
 			this.root.adopt(object.element, 'bottom');
@@ -250,7 +271,7 @@ Files.Grid = new Class({
 	 * Insert multiple rows, possibly coming from a JSON request
 	 */
 	insertRows: function(rows) {
-		this.fireEvent('BeforeInsertRows', {rows: rows});
+		this.fireEvent('beforeInsertRows', {rows: rows});
 		
 		$each(rows, function(row) {
 			var cls = Files[row.type.capitalize()];
@@ -264,25 +285,22 @@ Files.Grid = new Class({
 		this.fireEvent('beforeRenew');
 		
 		var folders = this.getFolders(),
-			files = this.getFiles();
+			files = this.getFiles(),
+			that = this,
+			renew = function(node) {
+				var node = that.nodes.get(node);
 
-		folders.each(function(folder) {
-			var node = this.nodes.get(folder);
-			if (node.element) {
-				node.element.dispose();
-			}
-			this.renderObject(node, 'last');
-		}.bind(this));
-		files.each(function(file) {
-			var node = this.nodes.get(file);
-			if (node.element) {
-				node.element.dispose();
-			}
-			this.renderObject(node, 'last');
-			if (node.checked) {
-				node.element.getElement('input[type=checkbox]').setProperty('checked', node.checked);
-			}
-		}.bind(this));
+				if (node.element) {
+					node.element.dispose();
+				}
+				that.renderObject(node, 'last');
+				
+				if (node.checked) {
+					that.checkNode(node, false);
+				}
+			};
+		folders.each(renew);
+		files.each(renew);
 		
 		this.fireEvent('afterRenew');
 	},
@@ -293,10 +311,6 @@ Files.Grid = new Class({
 			Files.Template.layout = layout;
 			if (this.options.switcher) {
 				this.options.switcher.set('value', layout);
-			}
-
-			if (this.options.cookie) {
-				Cookie.write(this.options.cookie, layout);
 			}
 			
 			this.fireEvent('afterSetLayout', {layout: layout});
@@ -314,6 +328,39 @@ Files.Grid = new Class({
 		return this.nodes.filter(function(node) {
 			return node.type === 'file' || node.type == 'image';
 		}).getKeys().sort();
+	},
+	setIconSize: function(size) {
+		this.fireEvent('beforeSetIconSize', {size: size});
+		
+		if (this.nodes.getKeys().length) {
+			this.options.icon_size = size;
+			
+			this.container.getElements('.imgTotal').setStyles({
+	            width: size + 'px',
+	            height: (size * 0.75) + 'px'
+	        });
+	        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
+
+	        var grid_size = this.container.getSize().x,
+	        	item_size = this.container.getElement('.imgOutline').getSize().x + 10,
+	        	count = parseInt(grid_size/item_size),
+				empty = grid_size - (count*item_size)
+	        	;
+	    	if (empty < count*10) {
+	        	count--;
+	        	empty = grid_size - (count*(item_size));
+	    	}
+	    	var margin = empty/(2*count);
+	    	if (margin < 5) {
+	        	margin = 5;
+	    	}
+	    	this.container.getElements('.imgOutline')
+	    		.setStyle('margin-left', margin)
+	    		.setStyle('margin-right', margin);
+	    	
+		}
+		
+    	this.fireEvent('afterSetIconSize', {size: size});
 	}
 });
 

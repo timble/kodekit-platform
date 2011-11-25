@@ -7,14 +7,20 @@ var cache = {};
 
 Files.Template = new Class({
 	Implements: [Events],
-	render: function() {
+	render: function(prefix) {
 		var layout = Files.Template.layout,
-			tmpl = layout+'_'+this.template;
+			tmpl = this.template;
+		
+		if (prefix !== false) {
+			tmpl = layout+'_'+tmpl;
+		} else {
+			layout = 'default';
+		}
 		
 		this.fireEvent('beforeRender', {layout: layout, template: tmpl});
 		
-		var rendered = new EJS({element: tmpl}).render(this);
-		var result = new Files.Template[layout.capitalize()](rendered);
+		var rendered = new EJS({element: tmpl}).render(this),
+			result = new Files.Template[layout.capitalize()](rendered);
 
 		this.fireEvent('afterRender', {layout: layout, template: tmpl, result: result});
 		
@@ -34,6 +40,12 @@ Files.Template.Details = new Class({
 			return new Element('div', {html: str}).getElement('tr');
 		}
 
+	}
+});
+
+Files.Template.Default = new Class({
+	initialize: function(html) {
+		return new Element('div', {html: html}).getFirst();
 	}
 });
 

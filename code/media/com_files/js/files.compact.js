@@ -14,6 +14,9 @@ Files.Compact.App = new Class({
 			cookie: false,
 			layout: 'compact',
 			batch_delete: false
+		},
+		history: {
+			enabled: false
 		}
 	},
 

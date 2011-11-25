@@ -47,18 +47,6 @@ class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 		parent::_initialize($config);
 	}
 
-	public function load()
-	{
-		$params = JComponentHelper::getComponent('com_files')->params;
-
-		$registry = new JRegistry();
-		$registry->loadIni($params);
-
-		$this->setData($registry->toArray());
-		
-		return $this;
-	}
-
 	public function __get($column)
 	{
 		if (in_array($column, $this->_comma_separated->toArray())) 

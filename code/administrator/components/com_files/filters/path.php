@@ -20,10 +20,11 @@
 
 class ComFilesFilterPath extends KFilterAbstract
 {
-     protected static $pattern = '#^[a-z0-9_\.-\s/:~]*$#i';
+     // TODO: find a pattern that won't create problems with utf-8 chars in file names
+     protected static $pattern = '#^[a-z0-9_\.-\s/:~]*$#iu';
 
      protected static $safepath_pattern = array('#(\.){2,}#', '#^\.#');
-
+    
     /**
      * Validate a value
      *
@@ -46,9 +47,9 @@ class ComFilesFilterPath extends KFilterAbstract
     protected function _sanitize($value)
     {
         $value = trim(str_replace('\\', '/', $value));
-        preg_match(self::$pattern, $value, $matches);
-        $match = isset($matches[0]) ? $matches[0] : '';
+        /*preg_match(self::$pattern, $value, $matches);
+        $match = isset($matches[0]) ? $matches[0] : '';*/
 
-		return preg_replace(self::$safepath_pattern, '', $match);
+		return preg_replace(self::$safepath_pattern, '', $value);
     }
 }
