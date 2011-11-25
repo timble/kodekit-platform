@@ -112,7 +112,7 @@ class KConfigState extends KConfig
         return $this;
     }
     
-    /**
+     /**
      * Set the state data
      * 
      * This function will only filter values if we have a value. If the value

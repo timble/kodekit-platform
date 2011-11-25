@@ -322,7 +322,7 @@ class KHttpUrl extends KObject
     {
         if(!empty($url)) 
         {
-            $segments = parse_url(urldecode($url));
+            $segments = parse_url($url);
             
             foreach ($segments as $key => $value) {
                 $this->$key = $value;

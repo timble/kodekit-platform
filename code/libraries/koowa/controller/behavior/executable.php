@@ -142,7 +142,7 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
      */
     public function isReadOnly()
     {
-        return $this->readonly;
+        return $this->_readonly;
     }
     
 	/**
