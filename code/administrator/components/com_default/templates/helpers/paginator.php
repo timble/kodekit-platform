@@ -42,8 +42,8 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
         
         $this->_initialize($config);
         
-        $html  = '<div class="container">';
-        $html  = '<div class="pagination">';
+        $html   = '<div class="container">';
+        $html  .= '<div class="pagination">';
         if($config->show_limit) {
             $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
         }
