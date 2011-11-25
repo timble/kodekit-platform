@@ -24,7 +24,8 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
     	$config->append(array(
     		'behaviors' => array(
     	        'com://admin/activities.controller.behavior.loggable',
-    	        'com://admin/versions.controller.behavior.revisable'
+    	        'com://admin/versions.controller.behavior.revisable',
+    	        //'cacheable'
     	    )
     	));
     
