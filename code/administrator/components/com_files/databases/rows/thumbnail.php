@@ -19,11 +19,13 @@
  */
 class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
 {
+    protected $_thumbnail_size;
+    
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
-        $this->_thumbnail_size = $config->thumbnail_size;
+		$this->setThumbnailSize(KConfig::unbox($config->thumbnail_size));
 	}
 
     protected function _initialize(KConfig $config)
@@ -74,5 +76,18 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
 		unset($data['_thumbnail_size']);
 
         return $data;
+    }
+    
+    public function getThumbnailSize()
+    {
+        return $this->_thumbnail_size;
+    }
+    
+    /**
+     * @param array $size An array with x and y properties
+     */
+    public function setThumbnailSize(array $size)
+    {
+        $this->_thumbnail_size = $size;
     }
 }
