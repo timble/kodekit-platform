@@ -37,13 +37,13 @@ window.addEvent('domready', function() {
 	options = $extend(options, config);
 	
 	Files.app = new Files.App(options);
-
-	$('files-new-folder-create').addEvent('click', function(e){
+	
+	$('files-new-folder-modal').getElement('form').addEvent('submit', function(e){
 		e.stop();
 		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
-			var folder = new Files.Folder({path: value});
+			var folder = new Files.Folder({path: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
 				var el = response.item;
@@ -57,6 +57,8 @@ window.addEvent('domready', function() {
 						url: '#'+row.path
 					}
 				});
+
+				element.getParent('.files-modal').setStyle('display', 'none');
 			});
 		};
 	});
@@ -74,6 +76,10 @@ window.addEvent('domready', function() {
     		    'top': coordinates.bottom,
     		    'left': coordinates.left
     		});
+    		var focus = modal.getElement('input.focus');
+    		if (focus) {
+        		focus.focus();
+    		}
     	});
     };
 
@@ -169,9 +175,11 @@ window.addEvent('domready', function() {
 	<div style="clear: both"></div>
 </div>
 
-<div style="display: block">
-	<div id="files-new-folder-modal" class="files-modal">
-		<input class="inputbox" type="text" id="files-new-folder-input"  />
+<div>
+	<div id="files-new-folder-modal" class="files-modal" style="display: none">
+	<form>
+		<input class="inputbox focus" type="text" id="files-new-folder-input"  />
 		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
+	</form>
 	</div>
 </div>

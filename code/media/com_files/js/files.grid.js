@@ -93,10 +93,16 @@ Files.Grid = new Class({
 				
 			this.options.batch_delete.addEvent('click', function(e) {
 				e.stop();
+				
+				var checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select');
+
+				if (!checkboxes.length || !confirm('There are '+checkboxes.length+' files and folders to be deleted. Are you sure?')) {
+					return false;
+				}
+				
 				that.addEvent('afterDeleteNode', chain_call);
 				that.addEvent('afterDeleteNodeFail', chain_call);
 				
-				var checkboxes = this.container.getElements('input[type=checkbox].files-select');
 				checkboxes.each(function(el) {
 					if (!el.checked) {
 						return;
@@ -263,6 +269,10 @@ Files.Grid = new Class({
 		if (!this.options.types || this.options.types.contains(object.type)) {
 			this.renderObject(object, position);
 			this.nodes.set(object.path, object);
+			
+			if (this.options.icon_size) {
+				this.setIconSize(this.options.icon_size);
+			}
 
 			this.fireEvent('afterInsertNode', {node: object, position: position});
 		}
@@ -332,9 +342,9 @@ Files.Grid = new Class({
 	setIconSize: function(size) {
 		this.fireEvent('beforeSetIconSize', {size: size});
 		
-		if (this.nodes.getKeys().length) {
-			this.options.icon_size = size;
-			
+		this.options.icon_size = size;
+		
+		if (this.nodes.getKeys().length) {	
 			this.container.getElements('.imgTotal').setStyles({
 	            width: size + 'px',
 	            height: (size * 0.75) + 'px'

@@ -151,6 +151,11 @@ window.addEvent('domready', function() {
  */
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm');
+	document.id('remote-url').addEvent('blur', function(e) {
+		if (this.value) {
+			document.id('remote-name').set('value', new URI(this.value).get('file'));
+		}
+	});
 	var request = new Request.JSON({
 		url: Files.getUrl({view: 'file', folder: Files.app.getPath()}),
 		data: form,
@@ -218,7 +223,7 @@ window.addEvent('domready', function() {
 
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="remote-name"><?= @text('File name (optional)'); ?></label>
+							<label for="remote-name"><?= @text('File name'); ?></label>
 						</td>
 						<td>
 							<input type="text" id="remote-name" name="path" />
