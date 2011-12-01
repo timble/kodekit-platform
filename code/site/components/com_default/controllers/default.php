@@ -19,6 +19,42 @@
  */
 class ComDefaultControllerDefault extends KControllerService
 {
+	/**
+	 * The limit information
+	 *
+	 * @var	array
+	 */
+	protected $_limit;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param 	object 	An optional KConfig object with configuration options.
+	 */
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+
+		$this->_limit = $config->limit;
+	}
+	
+	/**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'limit' => array('max' => 100, 'default' => JFactory::getApplication()->getCfg('list_limit'))
+        ));
+
+        parent::_initialize($config);
+    }
+    
     /**
      * Display action
      * 
@@ -41,7 +77,7 @@ class ComDefaultControllerDefault extends KControllerService
      * Browse action
      * 
      * Use the application default limit if no limit exists in the model and limit the
-     * limit to a maximum of 100.
+     * limit to a maximum.
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
@@ -54,12 +90,12 @@ class ComDefaultControllerDefault extends KControllerService
             
             //If limit is empty use default
             if(empty($limit)) {
-                $limit = JFactory::getApplication()->getCfg('list_limit');
+                $limit = $this->_limit->default;
             }
 
-            //Limit cannot be larger then 100
-            if($limit > 100) {
-                $limit = 100;
+            //Force the maximum limit
+            if($limit > $this->_limit->max) {
+                $limit = $this->_limit->max;
             }
             
             $this->limit = $limit; 
