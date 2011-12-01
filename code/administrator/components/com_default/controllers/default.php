@@ -21,6 +21,13 @@
 class ComDefaultControllerDefault extends KControllerService
 {    
 	/**
+	 * The limit information
+	 *
+	 * @var	array
+	 */
+	protected $_limit;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options.
@@ -29,6 +36,8 @@ class ComDefaultControllerDefault extends KControllerService
 	{
 		parent::__construct($config);
 
+		$this->_limit = $config->limit;
+		
 		if($config->persistable && $this->isDispatched()) {
 			$this->addBehavior('persistable');
 		}
@@ -52,8 +61,8 @@ class ComDefaultControllerDefault extends KControllerService
          */  
         
         $config->append(array(
-    		'persistable'  => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
-            //'behaviors'  =>  array('cacheable')
+    		'persistable'    => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+            'limit'          => array('max' => 100, 'default' => JFactory::getApplication()->getCfg('list_limit'))
         ));
 
         parent::_initialize($config);
@@ -87,7 +96,7 @@ class ComDefaultControllerDefault extends KControllerService
      * Browse action
      * 
      * Use the application default limit if no limit exists in the model and limit the
-     * limit to a maximum of 100.
+     * limit to a maximum.
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
@@ -100,12 +109,12 @@ class ComDefaultControllerDefault extends KControllerService
             
             //If limit is empty use default
             if(empty($limit)) {
-                $limit = JFactory::getApplication()->getCfg('list_limit');
+                $limit = $this->_limit->default;
             }
 
-            //Limit cannot be larger then 100
-            if($limit > 100) {
-                $limit = 100;
+            //Force the maximum limit
+            if($limit > $this->_limit->max) {
+                $limit = $this->_limit->max;
             }
             
             $this->limit = $limit; 
