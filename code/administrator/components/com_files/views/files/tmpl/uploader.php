@@ -25,7 +25,9 @@ jQuery.noConflict();
 
 window.addEvent('domready', function() { 
 	var element = jQuery('#files-upload-multi');
-	 
+	
+	plupload.addI18n({'Add files': 'Select files from your computer'});
+	
 	element.pluploadQueue({
 		runtimes: 'html5,flash,html4',
 		browse_button: 'pickfiles',
@@ -42,13 +44,25 @@ window.addEvent('domready', function() {
 		}
 	});
 	
-	var uploader = element.pluploadQueue();
+	var uploader = element.pluploadQueue(),
+	    //We only want to run this once
+	    exposePlupload = function(uploader) {
+		    document.id('files-upload').addClass('uploader-files-queued').removeClass('uploader-files-empty');
+		    if(document.id('files-upload-multi_browse')) {
+		        document.id('files-upload-multi_browse').set('text', 'Add files');
+		    }
+		    //Scrollfix
+		    if(document.id('files-upload').scrollIntoView) document.id('files-upload').scrollIntoView(true);
+	    	uploader.unbind('QueueChanged', exposePlupload);
+	    };
 	
-	document.id('files-upload-multi_filelist').setStyle('display', 'none');
-	uploader.bind('QueueChanged', function(uploader) {
-		var style = uploader.files.length == 0 ? 'none' : 'block';
-		document.id('files-upload-multi_filelist').setStyle('display', style);
-	});
+	if(uploader.features.dragdrop) {
+	    document.id('files-upload').addClass('uploader-droppable');
+	} else {
+	    document.id('files-upload').addClass('uploader-nodroppable');
+	}
+
+	uploader.bind('QueueChanged', exposePlupload);
 
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
@@ -121,9 +135,18 @@ window.addEvent('domready', function() {
 
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
-			jQuery('#files-upload-multi').pluploadQueue().refresh();
+			var uploader = jQuery('#files-upload-multi').pluploadQueue();
+			uploader.refresh();
+			if(!uploader.files.length) {
+			    document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
+			    if(document.id('files-upload-multi_browse')) {
+			        document.id('files-upload-multi_browse').set('text', 'Select files from your computer');
+			    }
+			}
 		}
 		
+		//Scrollfix
+		if(el.scrollIntoView) el.scrollIntoView(true);
 	};
 	
 	$$('.upload-form-toggle').addEvent('click', function(e) {
@@ -150,10 +173,13 @@ window.addEvent('domready', function() {
  * Remote file form
  */
 window.addEvent('domready', function() {
-	var form = document.id('remoteForm');
+	var form = document.id('remoteForm'), submit = form.getElement('.remote-submit'), filename = document.id('remote-name');
 	document.id('remote-url').addEvent('blur', function(e) {
 		if (this.value) {
-			document.id('remote-name').set('value', new URI(this.value).get('file'));
+		    submit.removeProperty('disabled').addClass('valid');
+			if(!filename.get('value')) filename.set('value', new URI(this.value).get('file'));
+		} else {
+		    submit.setProperty('disabled', 'disabled').removeClass('valid');
 		}
 	});
 	var request = new Request.JSON({
@@ -184,10 +210,13 @@ window.addEvent('domready', function() {
 		request.options.url = Files.getUrl({view: 'file', folder: Files.app.getPath()});
 		request.send();
 	});
+	
+	//Width fix
+	form.getElement('.remote-wrap').setStyle('margin-right', submit.getSize().x);
 });
 </script>
 
-<div id="files-upload" style="clear: both">
+<div id="files-upload" style="clear: both" class="uploader-files-empty">
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
 		    <li><?= @text('Upload from:') ?></li>
@@ -210,37 +239,12 @@ window.addEvent('domready', function() {
 	<div class="clr"></div>
 	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="" method="post" name="remoteForm" id="remoteForm" >
-			<fieldset class="actions adminform">
-				<table class="admintable">
-					<tr>
-						<td width="100" align="right" class="key">
-							<label for="remote-url"><?= @text('Remote URL'); ?></label>
-						</td>
-						<td>
-							<input type="text" id="remote-url" name="file" size="50" />
-						</td>
-					</tr>
-
-					<tr>
-						<td width="100" align="right" class="key">
-							<label for="remote-name"><?= @text('File name'); ?></label>
-						</td>
-						<td>
-							<input type="text" id="remote-name" name="path" />
-						</td>
-					</tr>
-
-					<tr>
-						<td width="100" align="right" class="key">
-						</td>
-						<td>
-							<input type="submit" value="<?= @text('Transfer File'); ?>"/>
-						</td>
-					</tr>
-					<tr>
-						<input type="hidden" name="action" value="save" />
-					</tr>
-				</table>
+		    <div class="remote-wrap">
+    		    <input type="text" placeholder="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
+    		    <input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="path" />
+    		</div>
+            <input type="submit" class="remote-submit" value="<?= @text('Transfer File'); ?>" disabled />
+            <input type="hidden" name="action" value="save" />
 			</fieldset>
 		</form>
 	</div>
