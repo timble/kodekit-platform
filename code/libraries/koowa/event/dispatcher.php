@@ -148,7 +148,7 @@ class KEventDispatcher extends KObject
     {
         $result = false;
         if(isset($this->_listeners[$name])) {
-             $result = (boolean) count($this->_listereners[$name]);
+             $result = (boolean) count($this->_listeners[$name]); 
         }
         
         return $result;
