@@ -35,8 +35,9 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
         	}
         }
 
-		$model->reset();
-		$model->set('files', $needed);
+		$model->reset()
+		    ->set($state_data)
+		    ->set('files', $needed);
 		$list  = array_values($model->getList()->toArray());
 
     	$found = array();
@@ -59,8 +60,9 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
         	}
         	if (count($new))
         	{
-				$model->reset();
-				$model->set('files', $new);
+				$model->reset()
+				    ->set($state_data)
+				    ->set('files', $new);
 				$list  = array_merge($list, array_values($model->getList()->toArray()));
         	}
         }
