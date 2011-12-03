@@ -101,6 +101,9 @@ class KFilterSlug extends KFilterAbstract
 		//remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$value = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array($this->_separator,''), $value);
 		
+		//remove repeated occurences of the separator
+		$value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);		
+		
 		//limit length
 		if (strlen($value) > $this->_length) {
 			$value = substr($value, 0, $this->_length);
