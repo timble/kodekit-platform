@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__files_containers` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__files_containers` (`slug`, `title`, `path`, `parameters`) VALUES
+INSERT IGNORE INTO `#__files_containers` (`slug`, `title`, `path`, `parameters`) VALUES
 ('files-files', 'Images', 'images', '{"upload_extensions":"bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls","upload_maxsize":"10485760","allowed_mimetypes":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,application\\/x-shockwave-flash,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip","illegal_mimetypes":"text\\/html","restrict_uploads":1,"check_mime":1,"allowed_media_usergroup":3,"thumbnails":true}');
 
 CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
