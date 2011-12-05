@@ -1,4 +1,4 @@
-CREATE TABLE `#__files_containers` (
+CREATE TABLE IF NOT EXISTS `#__files_containers` (
   `files_container_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
