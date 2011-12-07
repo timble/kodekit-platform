@@ -47,7 +47,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 							<span class="activities-package"><?=ucfirst($activity->package)?></span> 
 
-							<?=@text('Component')?>&rsquo;s <?=ucfirst($activity->name)?> - <a href="<?=@route('index.php?option=com_'.$activity->package.'&view='.$activity->name.'&id='.$activity->row_id)?>" target="new"><?=$activity->title?></a>.
+							<?=@text('Component')?>&rsquo;s <?=ucfirst($activity->name)?> - <a href="<?=@route('option=com_'.$activity->package.'&view='.$activity->name.'&id='.$activity->row_id)?>" target="new"><?=$activity->title?></a>.
 						</td>
 					</tr>
 				<? endforeach; ?>
@@ -56,7 +56,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			<tfoot>
 				<tr>
 					<td colspan="20">
-						<a href="<?=@route('index.php?option=com_activities&view=logs&layout=default')?>">View All</a>
+						<a href="<?=@route('option=com_activities&view=logs&layout=default')?>">View All</a>
 					</td>
 				</tr>
 			</tfoot>
