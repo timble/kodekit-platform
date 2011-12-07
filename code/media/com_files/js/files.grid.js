@@ -344,7 +344,7 @@ Files.Grid = new Class({
 		
 		this.options.icon_size = size;
 		
-		if (this.nodes.getKeys().length) {	
+		if (this.nodes.getKeys().length && Files.Template.layout == 'icons') {	
 			this.container.getElements('.imgTotal').setStyles({
 	            width: size + 'px',
 	            height: (size * 0.75) + 'px'
