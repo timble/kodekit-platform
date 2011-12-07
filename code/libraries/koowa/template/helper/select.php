@@ -88,14 +88,14 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 					foreach ($config->selected as $selected)
 					{
 						$sel = is_object( $selected ) ? $selected->value : $selected;
-						if ($value == $sel)
+						if ((string) $value === (string) $sel)
 						{
 							$extra .= 'selected="selected"';
 							break;
 						}
 					}
 				} 
-				else $extra .= ((string) $value == $config->selected ? ' selected="selected"' : '');
+				else $extra .= ((string) $value == (string) $config->selected ? ' selected="selected"' : '');
 			}
 				
 			$html[] = '<option value="'. $value .'" '. $extra .'>' . $text . '</option>';
