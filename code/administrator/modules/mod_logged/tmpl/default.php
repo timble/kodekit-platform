@@ -33,7 +33,7 @@ defined('KOOWA') or die('Restricted access'); ?>
    <tr>
 		<td>
 			<? if (JFactory::getUser()->authorize( 'com_users', 'manage' )) : ?>
-		    	<a href="<?=  @route('index.php?option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
+		    	<a href="<?=  @route('option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
 		    		<?= $user->username; ?>
 		    	</a>
 		       <? else : ?>
