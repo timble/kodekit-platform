@@ -57,16 +57,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
     <ul>
         <li>
-            <a href="<?= @route('index.php?option=com_users&view=reset') ?>">
+            <a href="<?= @route('option=com_users&view=reset') ?>">
             <?= @text('FORGOT_YOUR_PASSWORD') ?></a>
         </li>
         <li>
-            <a href="<?= @route('index.php?option=com_users&view=remind') ?>">
+            <a href="<?= @route('option=com_users&view=remind') ?>">
             <?= @text('FORGOT_YOUR_USERNAME') ?></a>
         </li>
         <? if($parameters->get('registration')) : ?>
         <li>
-            <a href="<?= @route('index.php?option=com_user&view=register') ?>">
+            <a href="<?= @route('option=com_user&view=register') ?>">
                 <?= @text('REGISTER') ?></a>
         </li>
         <? endif ?>
