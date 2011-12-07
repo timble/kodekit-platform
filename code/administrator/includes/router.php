@@ -110,11 +110,11 @@ class JRouterAdministrator extends JRouter
 		    {
 	            if($format = $uri->getVar('format', 'html'))
 			    {
-			    	if($format != 'html') 
-			    	{
+			    	if($format != 'html') {
 			            $path .= '.'.$format;
-				        unset($query['format']);
 			    	}
+			    	
+			    	unset($query['format']);
 			    }
 		    }
 	    
