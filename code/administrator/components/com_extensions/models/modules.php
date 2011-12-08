@@ -117,12 +117,12 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
         if(!isset($this->_list))
         {
             $state = $this->_state;
-            
+           
             if($state->installed)
             {
                 $modules = array();
                	$ids = parent::getList()->getColumn('type'); 
-                
+
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
                     $client	= JApplicationHelper::getClientInfo($application, true);
@@ -137,7 +137,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
                                 if(file_exists($folder->getRealPath().'/'.$folder->getFilename().'.xml')) 
                                 {
                                     $modules[] = array(
-                                    	'id'          => array_search($folder->getFilename(), $ids),
+                                    	'id'          => $folder->getFilename(),
                        					'type'        => $folder->getFilename(),
                         				'application' => $client->name,
                                     	'title'		  => null

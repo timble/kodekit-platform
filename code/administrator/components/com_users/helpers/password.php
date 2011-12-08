@@ -42,14 +42,6 @@ class ComUsersHelperPassword extends KObject
 		$salt		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$password	= '';
 
-		$stat = @stat(__FILE__);
-
-		if(empty($stat) || !is_array($stat)) {
-			$stat = array(php_uname());
-		}
-
-		mt_srand(crc32(microtime().implode('|', $stat)));
-
 		for($i = 0; $i < $length; $i ++) {
 			$password .= $salt[mt_rand(0, strlen($salt) -1)];
 		}

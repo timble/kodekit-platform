@@ -44,7 +44,7 @@ class ComExtensionsTemplateHelperListbox extends KTemplateHelperListbox
  	{
  	    $config = new KConfig($config);
 		$config->append(array(
-			'model' 	=> 'modules',
+			'model' 	=> 'positions',
 			'name'		=> 'position',
 		));
 
