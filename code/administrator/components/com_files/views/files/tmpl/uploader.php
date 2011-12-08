@@ -33,7 +33,7 @@ window.addEvent('domready', function() {
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		url: Files.app.createRoute({view: 'file', plupload: 1}),
+		url: '', // this is added on the go in BeforeUpload event
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
