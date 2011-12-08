@@ -39,7 +39,7 @@ Files.File = new Class({
 		
 		var that = this,
 			request = new Request.JSON({
-				url: Files.getUrl({path: that.path}),
+				url: Files.app.createRoute({path: that.path}),
 				method: 'post',
 				data: {
 					'action': 'delete',
@@ -104,7 +104,7 @@ Files.Folder = new Class({
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
-		var url = Files.getUrl(url);
+		var url = Files.app.createRoute(url);
 			
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
@@ -116,7 +116,7 @@ Files.Folder = new Class({
 		
 		var that = this;
 			request = new Request.JSON({
-				url: Files.getUrl({view: 'folder', folder: Files.app.getPath()}),
+				url: Files.app.createRoute({view: 'folder', folder: Files.app.getPath()}),
 				method: 'post',
 				data: {
 					'_token': Files.token,
@@ -149,7 +149,7 @@ Files.Folder = new Class({
 	'delete': function(success, failure) {
 		var that = this;
 			request = new Request.JSON({
-				url: Files.getUrl({view: 'folders', path: that.path}),
+				url: Files.app.createRoute({view: 'folders', path: that.path}),
 				method: 'post',
 				data: {
 					'action': 'delete',

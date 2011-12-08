@@ -36,6 +36,13 @@ Files.App = new Class({
 		},
 		history: {
 			enabled: true
+		},
+		router: {
+			defaults: {
+				option: 'com_files',
+				view: 'files',
+				format: 'json'
+			}
 		}
 	},
 
@@ -157,7 +164,7 @@ Files.App = new Class({
 	
 	setContainer: function(container) {
 		new Request.JSON({
-			url: Files.getUrl({view: 'container', slug: container, container: false}),
+			url: this.createRoute({view: 'container', slug: container, container: false}),
 			method: 'get',
 			onSuccess: function(response) {
 				var item = response.item;
@@ -224,14 +231,14 @@ Files.App = new Class({
 			onClick: function(node) {
 				if (node.data && node.data.type === 'container') {
 					this.setContainer(node.data.id);return;
-					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
+					window.location =  window.location.pathname+this.createRoute({format: 'html', container: node.data.id});
 					return;
 				}
 			}.bind(this)
 		});
 		
 		new Request.JSON({
-			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
+			url: this.createRoute({view: 'containers', limit: 0, sort: 'title'}),
 			onSuccess: function(response) {
 				$each(response.items, this.containertree.addItem.bind(this.containertree));
 			}.bind(this)
@@ -388,7 +395,7 @@ Files.App = new Class({
 			}
 		});
 		this.tree = new Files.Tree(opts);
-		this.tree.fromUrl(Files.getUrl({view: 'folders', 'tree': '1', 'limit': '0'}));
+		this.tree.fromUrl(this.createRoute({view: 'folders', 'tree': '1', 'limit': '0'}));
 		
 		this.addEvent('afterNavigate', function(path) {
 			that.tree.selectPath(path);
@@ -426,7 +433,7 @@ Files.App = new Class({
 	            node.element.getElement('img').setStyle('display', 'none');
 			});
 		
-			var url = Files.getUrl({
+			var url = that.createRoute({
 				view: 'thumbnails',
 				offset: this.state.get('offset'), 
 				limit: this.state.get('limit'),
@@ -469,5 +476,22 @@ Files.App = new Class({
 		}
 		
 		this.fireEvent('afterSetTitle', {title: title});
+	},
+	createRoute: function(query) {
+		query = $merge(this.options.router.defaults, query || {});
+
+		if (query.container !== false && !query.container && Files.container) {
+			query.container = Files.container.slug;
+		} else {
+			delete query.container;
+		}
+
+		if (query.format == 'html') {
+			delete query.format;
+		}
+
+		return '?'+new Hash(query).filter(function(value, key) {
+			return typeof value !== 'function';
+		}).toQueryString();		
 	}
 });

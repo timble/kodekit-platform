@@ -33,7 +33,7 @@ window.addEvent('domready', function() {
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		url: Files.getUrl({view: 'file', plupload: 1}),
+		url: Files.app.createRoute({view: 'file', plupload: 1}),
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
@@ -66,7 +66,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('BeforeUpload', function(uploader) {
 		// set directory in the request
-		uploader.settings.url = Files.getUrl({view: 'file', 'plupload': 1, folder: Files.app.getPath()});
+		uploader.settings.url = Files.app.createRoute({view: 'file', 'plupload': 1, folder: Files.app.getPath()});
 	});
 	
 	uploader.bind('UploadComplete', function(uploader) {
@@ -183,7 +183,7 @@ window.addEvent('domready', function() {
 		}
 	});
 	var request = new Request.JSON({
-		url: Files.getUrl({view: 'file', folder: Files.app.getPath()}),
+		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
 		data: form,
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
@@ -207,7 +207,7 @@ window.addEvent('domready', function() {
 	});
 	form.addEvent('submit', function(e) {
 		e.stop();
-		request.options.url = Files.getUrl({view: 'file', folder: Files.app.getPath()});
+		request.options.url = Files.app.createRoute({view: 'file', folder: Files.app.getPath()});
 		request.send();
 	});
 	

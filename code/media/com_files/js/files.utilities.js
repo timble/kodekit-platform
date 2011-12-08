@@ -20,27 +20,6 @@ Files.Filesize = new Class({
 	}
 });
 
-Files.getUrl = function(dict) {
-	dict = dict || {};
-
-	dict.option = dict.option || 'com_files';
-	dict.view = dict.view || 'files';
-	dict.format = dict.format || 'json';
-	if (dict.container !== false && !dict.container && Files.container) {
-		dict.container = Files.container.slug;
-	} else {
-		delete dict.container;
-	}
-
-	if (dict.format == 'html') {
-		delete dict.format;
-	}
-
-	return '?'+new Hash(dict).filter(function(value, key) {
-		return typeof value !== 'function';
-	}).toQueryString();
-};
-
 Files.FileTypes = {};
 Files.FileTypes.map = {
 	'audio': ['aif','aiff','alac','amr','flac','ogg','m3u','m4a','mid','mp3','mpa','wav','wma'],
