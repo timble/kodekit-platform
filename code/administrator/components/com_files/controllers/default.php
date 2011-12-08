@@ -58,6 +58,10 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 
 	protected function _actionGet(KCommandContext $context)
     {
+    	if ($this->getIdentifier()->name != 'image') {
+    		return parent::_actionGet($context);
+    	}
+    	
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
             JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package);
