@@ -153,7 +153,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function unserialize($data)
     {
-        $this->data = unserialize($data);
+        $this->_data = unserialize($data); 
     }
     
     /**
