@@ -19,56 +19,11 @@
  */
 class ComUsersControllerLogin extends ComDefaultControllerResource
 {
-    protected function _actionLogin(KCommandContext $context)
-    {
-        if($return = KRequest::get('post.return', 'base64'))
-        {
-            $return = base64_decode($return);
-
-            if(!JURI::isInternal($return)) {
-                $return = '';
-            }
-        }
-
-        $options = array(
-            'return'   => $return
-        );
-
-        $credentials = array(
-            'username' => KRequest::get('post.username', 'string'),
-            'password' => KRequest::get('post.password', 'raw')
-        );
-
-        $result = JFactory::getApplication()->login($credentials, $options);
-
-        if(!JError::isError($result))
-        {
-            if(!$return) {
-                $return = 'index.php?option=com_users&view=user';
-            }
-
-            $this->_redirect = $return;
-        }
-        else
-        {
-            if(!$return) {
-                $return	= 'index.php?option=com_users&view=login';
-            }
-
-            $this->setRedirect($return, $result->getError(), 'error');
-        }
+    protected function _actionGet(KCommandContext $context)
+    {  
+        //Set the status
+        $context->status = KHttpResponse::UNAUTHORIZED;
+           
+        return parent::_actionGet($context);
     }
-
-	public function getView()
-	{
-		$view = parent::getView();
-
-		if ($view) 
-		{
-		    $return = $this->getService('koowa:filter.base64')->sanitize($this->_request->return);
-			$view->assign('return', $return);
-		}
-
-		return $view;
-	}
 }
