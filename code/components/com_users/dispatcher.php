@@ -28,6 +28,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
                 $config->request = array('view' => 'login');
             }
         } 
+        
+        return parent::_initialize($config);
     }
     
     protected function _actionDispatch(KCommandContext $context)
