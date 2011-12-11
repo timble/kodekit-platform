@@ -18,25 +18,25 @@
  * @subpackage	Users
  */
 class ComUsersControllerUser extends ComDefaultControllerDefault
-{
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-        	'behaviors' => array(
-                 $this->getService('com://admin/activities.controller.behavior.loggable', array(
-               		'title_column' => 'name',
-               		'actions'      => array('after.login', 'after.logout')        
-             ))),
-        ));
-    
-        parent::_initialize($config);
-    }
-    
+{ 
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
         $this->registerCallback('after.add', array($this, 'notify'));
+    }
+    
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+        	'behaviors' => array(
+        		'com://admin/activities.controller.behavior.loggable' => array(
+               		'title_column' => 'name',
+               		'actions'      => array('after.login', 'after.logout')        
+             )),
+        ));
+    
+        parent::_initialize($config);
     }
 
     protected function _actionDelete(KCommandContext $context)
@@ -53,8 +53,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionLogin(KCommandContext $context)
     {
-        $credentials['username'] = KRequest::get('post.username', 'string');
-        $credentials['password'] = KRequest::get('post.password', 'raw');
+        $credentials = array(
+            'username' => KRequest::get('post.username', 'string'),
+            'password' => KRequest::get('post.password', 'raw')
+        );
 
         $result = JFactory::getApplication()->login($credentials);
          
