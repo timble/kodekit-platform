@@ -13,6 +13,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <? 
 $html = str_replace( '{CLICKURL}', @route('view=banner&id='.$banner->id), $banner->custombannercode );
-$html = str_replace( '{NAME}', $banner->name, $html );
+$html = str_replace( '{NAME}', $banner->title, $html );
       
 echo $html;
