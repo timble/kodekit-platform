@@ -131,16 +131,21 @@ class JSite extends JApplication
 		$router     = $this->getRouter();
 		$params     = $this->getParams();
 		
-		if(!$this->getMenu()->authorize(JRequest::getInt( 'Itemid'), $user->get('aid')))
+		$option = strtolower(JRequest::getCmd('option'));
+		
+		if(!($this->getCfg('offline') && JFactory::getUser()->get('guest'))) 
 		{
-			if (!$user->get('aid')) {
-				$option = 'com_users';
-			} else {
-			    JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			}
-		}
-		else $option = strtolower(JRequest::getCmd('option'));
-
+		    if(!$this->getMenu()->authorize(JRequest::getInt( 'Itemid'), $user->get('aid')))
+		    {
+			    if (!$user->get('aid')) {
+				    $option = 'com_users';
+			    } else {
+			        JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			    }
+		    }
+		} 
+		else $option = 'com_users';
+		
 		switch($document->getType())
 		{
 			case 'html':
@@ -194,7 +199,7 @@ class JSite extends JApplication
 				$template	= $this->getTemplate();
 				$file 		= JRequest::getCmd('tmpl', 'index');
 
-				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
+				if ($this->getCfg('offline') && JFactory::getUser()->get('guest')) {
 					$file = 'login';
 				}
 				
