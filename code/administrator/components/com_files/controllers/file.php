@@ -28,12 +28,12 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 	
     protected function _initialize(KConfig $config)
     {
-    	$loggable = $this->getService('com://admin/activities.controller.behavior.loggable', array(
-    		'title_column' => 'name'
-    	)); 
     	$config->append(array(
-    		'behaviors' => array($loggable)
-    	));
+    		'behaviors' => array(
+    			'com://admin/activities.controller.behavior.loggable' =>  array(
+    				'title_column' => 'name'
+    	    )),
+        ));
     
     	parent::_initialize($config);
     }	
