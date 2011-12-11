@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Dispatcher
+ * Banners Dispatcher Class
  *   
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
