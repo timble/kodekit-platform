@@ -26,22 +26,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Site Offline' ); ?>::<?= @text( 'TIPSETYOURSITEISOFFLINE' ); ?>">
-				<?= @text( 'Site Offline' ); ?>
+				<span class="editlinktip hasTip" title="<?= @text( 'Require login' ); ?>::<?= @text( 'TIPSETYOURSITEREQUIRESLOGIN' ); ?>">
+				<?= @text( 'Require login' ); ?>
 				</span>
 			</td>
 			<td>
 			    <?= @helper('select.booleanlist' , array('name' => 'settings[system][offline]', 'selected' => $settings->offline));?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Offline Message' ); ?>::<?= @text( 'TIPIFYOURSITEISOFFLINE' ); ?>">
-					<?= @text( 'Offline Message' ); ?>
-				</span>
-			</td>
-			<td>
-				<textarea class="text_area" cols="60" rows="2" style="width:400px; height:40px" name="settings[system][offline_message]"><?= $settings->offline_message; ?></textarea>
 			</td>
 		</tr>
 	</tbody>
