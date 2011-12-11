@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Cache Dispatcher Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category	Nooku
