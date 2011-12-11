@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Dispatcher
+ * Installer Dispatcher Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category    Nooku
