@@ -134,19 +134,16 @@ class JAdministrator extends JApplication
             }
         }
         
-        $document->setTitle( 
-            htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' )
-        );
-	    
 	    if(JFactory::getUser()->get('guest')) {
 	        $option = 'com_users';
 	    } else {
 	        $option = strtolower(JRequest::getCmd('option', 'com_dashboard'));
 	    }
+	    
+	    $document->setTitle(htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
 	 
         JRequest::setVar('option', $option);
         $contents = JComponentHelper::renderComponent($option);   
-	   
         $document->setBuffer($contents, 'component');
 	}
 
