@@ -27,9 +27,6 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
         //Set the status
         $context->status = KHttpResponse::UNAUTHORIZED;
            
-        //Set the authentciation header
-        //$context->headers = array('WWW-Authenticate', 'Basic Realm="'.KRequest::base().'"');
-
         return parent::_actionGet($context);
     }
 }
