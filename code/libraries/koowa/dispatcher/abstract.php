@@ -56,10 +56,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller'			=> $this->getIdentifier()->package,
-    		'request'				=> KRequest::get('get', 'string'),
-        ))->append(array(
-            'request' 				=> array('format' => KRequest::format() ? KRequest::format() : 'html')
+        	'controller' => $this->getIdentifier()->package,
+    		'request'	 => KRequest::get('get', 'string'),
+        ))->append(array (
+            'request' 	 => array('format' => KRequest::format() ? KRequest::format() : 'html')
         ));
 
         parent::_initialize($config);
