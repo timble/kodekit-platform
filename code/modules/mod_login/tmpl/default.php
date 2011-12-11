@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if($type == 'logout') : ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=logout') ?>" method="post" name="login" id="form-login">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=user&id='.JFactory::getUser()->id) ?>" method="post" name="login" id="form-login">
 <?php if ($params->get('greeting')) : ?>
 	<div>
 	<?php if ($params->get('name')) : {
@@ -16,11 +16,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 
 	<input type="hidden" name="action" value="logout" />
-	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	<input type="hidden" name="_token" value="<?php echo JUtility::getToken() ?>" />
 </form>
 <?php else : ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=login', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=user', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">
@@ -54,7 +53,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php echo $params->get('posttext'); ?>
 
 	<input type="hidden" name="action" value="login" />
-	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	<input type="hidden" name="_token" value="<?php echo JUtility::getToken() ?>" />
 </form>
 <?php endif; ?>
