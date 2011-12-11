@@ -21,14 +21,11 @@ class ComUsersDispatcher extends ComDefaultDispatcher
 {
     protected function _initialize(KConfig $config)
     {  
+        //Force the view to prevent a redirect
         if(JFactory::getUser()->guest) 
         {  
-            if(KRequest::method() == KHttpRequest::GET) 
-            {
-                //Force the view to prevent a redirect
-                KRequest::set('get.view', 'login');
-                
-                $config->controller = 'login';
+            if(KRequest::method() == KHttpRequest::GET) {
+                $config->request = array('view' => 'login');
             }
         } 
         
