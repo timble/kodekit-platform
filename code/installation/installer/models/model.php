@@ -736,7 +736,6 @@ class JInstallationModel extends JModel
 		$configuration[] = '{';
 		$configuration[] = "\t".'/* Site Settings */';
 		$configuration[] = "\t".'var $offline = \'0\';';
-		$configuration[] = "\t".'var $offline_message = \''.$vars['offline'].'\';';
 		$configuration[] = "\t".'var $sitename = \''.$vars['siteName'].'\';';
 		$configuration[] = "\t".'var $editor = \'tinymce\';';
 		$configuration[] = "\t".'var $list_limit = \'20\';';
