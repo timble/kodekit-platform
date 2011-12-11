@@ -44,6 +44,11 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
         return true;
     }
+    
+    public function canBrowse()
+    {
+        return false;
+    }
 
     public function canEdit()
     {
@@ -55,5 +60,21 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
         $result = !JFactory::getUser()->guest;
         return $result;
+    }
+    
+    public function canLogout()
+    {
+        $userid = JFactory::getUser()->id;
+        
+        //Allow logging out ourselves
+        if($this->getModel()->getState()->id === $userid) {
+             return true;
+        }
+        
+        if(JFactory::getUser()->get('gid') > 24) {
+            return true;
+        }
+        
+        return false;
     }
 }
