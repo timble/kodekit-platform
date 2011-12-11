@@ -225,7 +225,7 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		static $modules;
 
@@ -237,6 +237,7 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$aid	= $user->get('aid', 0);
+		$Itemid = JRequest::getInt('Itemid', null);
 
 		$modules	= array();
 
@@ -273,6 +274,4 @@ class JModuleHelper
 
 		return $modules;
 	}
-
 }
-
