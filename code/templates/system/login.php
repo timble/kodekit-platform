@@ -28,24 +28,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<h1>
 			<?php echo $mainframe->getCfg('sitename'); ?>
 		</h1>
-	<p>
-		<?php echo $mainframe->getCfg('offline_message'); ?>
-	</p>
-	<form action="<?php echo JRoute::_('index.php?option=com_users&view=user') ?>" method="post" name="login" id="form-login">
-	<fieldset class="input">
-		<p id="form-login-username">
-			<label for="username"><?php echo JText::_('Username') ?></label><br />
-			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('Username') ?>" size="18" />
-		</p>
-		<p id="form-login-password">
-			<label for="password"><?php echo JText::_('Password') ?></label><br />
-			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="password" />
-		</p>
-		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
-	</fieldset>
-	<input type="hidden" name="action" value="login" />
-	<input type="hidden" name="_token" value="<?php echo JUtility::getToken() ?>" />
-	</form>
+		<jdoc:include type="component" />
 	</div>
 </body>
 </html>
