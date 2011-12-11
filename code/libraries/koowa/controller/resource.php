@@ -96,11 +96,6 @@ abstract class KControllerResource extends KControllerAbstract
         ));
         
         parent::_initialize($config);
-        
-        //Force the view to the information found in the request
-        if(isset($config->request->view)) {
-            $config->view = $config->request->view;
-        }
     }
     
 	/**
