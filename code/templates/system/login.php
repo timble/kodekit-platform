@@ -31,7 +31,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<p>
 		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
-	<form action="<?php echo JRoute::_('index.php?option=com_users&view=login') ?>" method="post" name="login" id="form-login">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&view=user') ?>" method="post" name="login" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('Username') ?></label><br />
@@ -44,7 +44,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>
 	<input type="hidden" name="action" value="login" />
-	<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
 	<input type="hidden" name="_token" value="<?php echo JUtility::getToken() ?>" />
 	</form>
 	</div>
