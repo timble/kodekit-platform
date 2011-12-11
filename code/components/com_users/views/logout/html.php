@@ -22,10 +22,11 @@ class ComUsersViewLogoutHtml extends ComDefaultViewHtml
     public function display()
     {
         $title = JText::_('Logout');
-
+        
         JFactory::getApplication()->getPathway()->addItem($title);
         JFactory::getDocument()->setTitle($title);
         
+        $this->user       = JFactory::getUser();
         $this->parameters = $this->getParameters();
 
         return parent::display();
@@ -48,11 +49,8 @@ class ComUsersViewLogoutHtml extends ComDefaultViewHtml
         }
 
         $parameters->def('pageclass_sfx', '');
-        $parameters->def('logout', 'index.php');
         $parameters->def('description_logout', 1);
         $parameters->def('description_logout_text', JText::_('LOGOUT_DESCRIPTION'));
-        $parameters->def('image_logout', 'key.jpg');
-        $parameters->def('image_logout_align', 'right');
 
         return $parameters;
     }
