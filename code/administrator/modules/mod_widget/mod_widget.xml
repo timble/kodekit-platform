@@ -7,7 +7,7 @@
 	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>0.7.0</version>
+	<version>12.1</version>
 	<description>Module that allows you to render a widget by URL</description>
 	<files>
 		<filename module="mod_widget">mod_widget.php</filename>
