@@ -8,6 +8,6 @@
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>0.7.0</version>
+	<version>12.1</version>
 	<description>This component provides file management</description>
 </install>
