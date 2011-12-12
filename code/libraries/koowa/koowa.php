@@ -27,7 +27,7 @@ class Koowa
      * 
      * @var string
      */
-    const VERSION = '0.7.0-alpha-4';
+    const VERSION = '12.1-beta';
     
     /**
      * Path to Koowa libraries
