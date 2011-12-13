@@ -82,8 +82,4 @@ window.addEvent('domready', function(){
 			</fieldset>
 		</form>
 	</div>
-
-	<h3><?=@text( 'Status' )?></h3>
-	<div>
-	</div>
 </div>
