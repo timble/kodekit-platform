@@ -39,7 +39,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="icons_folder">
-<div class="imgOutline files-node files-folder loading">
+<div class="imgOutline files-node files-folder">
 	<div class="imgTotal" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
 			<a href="#" class="navigate"></a>
 	</div>
@@ -55,7 +55,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="icons_file">
-<div class="imgOutline files-node files-file loading">
+<div class="imgOutline files-node files-file">
 	<div class="imgTotal" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
 	 	<a class="navigate extension-label" href="#" 
 	 		data-filetype="[%=filetype%]" 
