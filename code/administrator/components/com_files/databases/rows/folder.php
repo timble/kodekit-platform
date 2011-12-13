@@ -135,10 +135,20 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		$data = parent::toArray();
 
 		unset($data['basepath']);
+        unset($data['container']);
 
 		$data['type'] = 'folder';
 		$data['name'] = $this->name;
+
 		
+		
+		if (!empty($this->container->path)) {
+			$path = str_replace($this->container->path, '', $this->basepath);
+			if ($path) {
+				$data['path'] = $path.'/'.$data['path'];				
+			}
+		}
+
 		if ($this->hasChildren()) {
 			$data['children'] = $this->getChildren()->toArray();
 		}
