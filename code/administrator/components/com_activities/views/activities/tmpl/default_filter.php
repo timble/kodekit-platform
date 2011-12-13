@@ -13,8 +13,8 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= is_null($state->action) && is_null($state->application) && is_null($state->direction) ? 'active' : ''; ?>">
-			<a href="<?= @route('application=&action=&direction=' ) ?>">
+		<li class="<?= is_null($state->action) && is_null($state->application) ? 'active' : ''; ?>">
+			<a href="<?= @route('application=&action=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
 		</li>

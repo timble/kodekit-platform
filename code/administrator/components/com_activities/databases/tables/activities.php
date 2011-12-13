@@ -23,7 +23,7 @@ class ComActivitiesDatabaseTableActivities extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('creatable')
+            'behaviors' => array('creatable', 'identifiable')
         ));
 
         parent::_initialize($config);

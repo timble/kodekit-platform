@@ -16,7 +16,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <script inline>
 window.addEvent('domready', function(){
 	/* Reset the filter values to blank */
-	$('activities-filter').addEvent('reset', function(e){
+	document.id('activities-filter').addEvent('reset', function(e){
 		e.target.getElements('input').each(function(el){
 			if(['days_back','start_date', 'user'].contains(el.name)){
 				el.value = '';	
@@ -81,5 +81,9 @@ window.addEvent('domready', function(){
 				</div>
 			</fieldset>
 		</form>
+	</div>
+
+	<h3><?=@text( 'Status' )?></h3>
+	<div>
 	</div>
 </div>
