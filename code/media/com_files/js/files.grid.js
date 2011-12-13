@@ -96,25 +96,30 @@ Files.Grid = new Class({
 				
 				var file_count = 0,
 					folder_count = 0,
-					types = [];
 					checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select')
 					.filter(function(el) {
 						if (el.checked) {
-							if (el.getParent('.files-node').hasClass('files-folder') && !types.contains('folders')) {
-								types.push('folders');
-							} else if (!types.contains('files')) {
-								types.push('files');	
+							if (el.getParent('.files-node').hasClass('files-folder')) {
+								folder_count++;
+							} else {
+								file_count++;
 							}
 							return true;
 						}
 					});
 				
-				var str = types.join(' and ');
-				if (checkboxes.length === 1) {
-					str = str.substring(0, str.length-1);
+				var str = [];
+				if (folder_count) {
+					str.push(folder_count+' folder'+(folder_count > 1 ? 's' : ''));
 				}
+
+				if (file_count) {
+					str.push(file_count+' file'+(file_count > 1 ? 's' : ''));
+				}
+
+				str = str.join(' and ');
 				
-				if (!checkboxes.length || !confirm('There '+(checkboxes.length > 1 ? 'are' : 'is')+' '+checkboxes.length+' '+str+' to be deleted. Are you sure?')) {
+				if (!checkboxes.length || !confirm('There '+(checkboxes.length > 1 ? 'are' : 'is')+' '+str+' to be deleted. Are you sure?')) {
 					return false;
 				}
 				
