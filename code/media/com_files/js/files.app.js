@@ -464,6 +464,10 @@ Files.App = new Class({
 						});
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
 						node.element.addClass('loaded').removeClass('loading');
+
+						if(window.sessionStorage) {
+						    sessionStorage[node.image.toString()] = img.get('src');
+						}
 					});
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});

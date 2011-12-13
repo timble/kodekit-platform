@@ -85,6 +85,13 @@ Files.Image = new Class({
 		this.baseurl = Files.baseurl;
 
 		this.image = this.baseurl+'/'+this.path;
+		
+		this.client_cache = false;
+		if(window.sessionStorage) {
+		    if(sessionStorage[this.image.toString()]) {
+		        this.client_cache = sessionStorage[this.image.toString()];
+		    }
+		}
 	}
 });
 
