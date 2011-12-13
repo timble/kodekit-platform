@@ -43,6 +43,21 @@ Files.App = new Class({
 				view: 'files',
 				format: 'json'
 			}
+		},
+		
+		onAfterSetGrid: function(){
+		    var target = document.id('files-grid');
+		    var opts = {
+		      lines: 12, // The number of lines to draw
+		      length: 7, // The length of each line
+		      width: 4, // The line thickness
+		      radius: 10, // The radius of the inner circle
+		      color: '#666', // #rgb or #rrggbb
+		      speed: 1, // Rounds per second
+		      trail: 60 // Afterglow percentage
+		    };
+		    this.spinner = new Spinner(opts);
+		    this.spinner.spin(target);
 		}
 	},
 
@@ -410,6 +425,9 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
+
+	    this.spinner.stop();
+	
 		var nodes = this.grid.nodes,
 			that = this;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
@@ -418,19 +436,6 @@ Files.App = new Class({
 					return;
 				}
 				var name = node.name;
-
-				var target = node.element.getElement('.spinner');
-			    var opts = {
-			      lines: 12, // The number of lines to draw
-			      length: 7, // The length of each line
-			      width: 4, // The line thickness
-			      radius: 10, // The radius of the inner circle
-			      color: '#666', // #rgb or #rrggbb
-			      speed: 1, // Rounds per second
-			      trail: 60 // Afterglow percentage
-			    };
-			    node.spinner = new Spinner(opts).spin(target);
-	            node.element.getElement('img').setStyle('display', 'none');
 			});
 		
 			var url = that.createRoute({
@@ -452,12 +457,13 @@ Files.App = new Class({
 							return;
 						}
 						var name = node.name;
-
-                        node.spinner.stop();
-
-						var img = node.element.getElement('img.image-thumbnail').setStyle('display', '');
+                        
+						var img = node.element.getElement('img.image-thumbnail');
+						img.addEvent('load', function(){
+						    this.addClass('loaded');
+						});
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
-						
+						node.element.addClass('loaded').removeClass('loading');
 					});
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
