@@ -32,13 +32,14 @@ class ComFilesModelFolders extends ComFilesModelNodes
 		if (!isset($this->_item))
 		{
 		    $state = $this->_state;
-            
+		    
 			$this->_item = $this->getRow(array(
 				'data' => array(
             		'container' => $this->_state->container,
                     'basepath' => $this->_getPath(),
                     'path' => $this->_state->path
 				)));
+
 		}
 
 		return parent::getItem();

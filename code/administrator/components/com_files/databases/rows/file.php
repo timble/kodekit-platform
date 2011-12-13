@@ -130,7 +130,7 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 	public function isNew()
 	{
-		return (empty($this->path) || !file_exists($this->fullpath)) ? true : false;
+		return (empty($this->path) || !file_exists($this->fullpath));
 	}
 
     public function toArray()

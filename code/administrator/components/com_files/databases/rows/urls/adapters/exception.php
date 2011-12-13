@@ -17,4 +17,4 @@
  * @package     Nooku_Server
  * @subpackage  Files
  */
-class ComFilesDatabaseRowUrlAdapterException extends KException {}
+class ComFilesDatabaseRowUrlAdapterException extends ComFilesDatabaseRowUrlException {}

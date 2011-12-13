@@ -180,7 +180,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$response = file_get_contents($url);
+		$response = @file_get_contents($url);
 
 		return $response;
 	}

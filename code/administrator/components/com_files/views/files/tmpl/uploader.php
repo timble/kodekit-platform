@@ -144,29 +144,16 @@ window.addEvent('domready', function() {
 			    }
 			}
 		}
-		
-		//Scrollfix
-		if(el.scrollIntoView) el.scrollIntoView(true);
 	};
 	
 	$$('.upload-form-toggle').addEvent('click', function(e) {
+		e.preventDefault();
+		
 	    var hash = this.get('href').split('#')[1];
 	    $$('.upload-form-toggle').removeClass('active');
-	    if(window.location.hash === '#'+hash) {
-	        window.location.hash = '';
-	        e.preventDefault();
-	    } else {
-	        this.addClass('active');
-	    }
+	    this.addClass('active');
 		toggleForm(hash);
 	});
-	
-	if(window.location.hash.match(/#computer/) || window.location.hash.match(/#web/))
-	{
-	    var hash = window.location.hash.replace('#', '');
-	    toggleForm(hash);
-	    document.getElement('.upload-form-toggle.target-'+hash).addClass('active');
-	}
 });
 
 /**

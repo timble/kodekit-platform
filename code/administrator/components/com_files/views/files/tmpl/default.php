@@ -45,6 +45,9 @@ window.addEvent('domready', function() {
 		if (value.length > 0) {
 			var folder = new Files.Folder({path: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
+				if (response.status === false) {
+					return alert(response.error);
+				}
 				element.set('value', '');
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
