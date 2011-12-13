@@ -9,6 +9,11 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+#files-grid {
+    min-height: 120px;
+    overflow: hidden;
+}
+
 #files-grid > div {
     padding: 10px;
 }
@@ -22,6 +27,21 @@ div.imgOutline {
 	margin: 5px;
 	border: 1px solid hsl(0, 0%, 90%);
 	border-radius: 3px;
+	-webkit-transition: opacity 150ms ease-out;
+}
+#files-grid .loading {
+    opacity: 0.6;
+}
+
+#files-grid .loaded {
+    opacity: 1;
+}
+div.imgOutline img {
+    opacity: 0;
+    -webkit-transition: opacity 150ms ease-out;
+}
+div.imgOutline img.loaded {
+    opacity: 1;
 }
 div.imgOutline .ellipsis {
     max-width: 200px;
@@ -56,14 +76,14 @@ div.imgTotal {
     background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 100%);
     background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
-    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%)
+    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
 }
 div.imgOutline.selected div.imgTotal {
     background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
     background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
     background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
     background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
-    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%)
+    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
 }
 
 div.imgTotal a.navigate {
