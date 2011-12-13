@@ -94,9 +94,27 @@ Files.Grid = new Class({
 			this.options.batch_delete.addEvent('click', function(e) {
 				e.stop();
 				
-				var checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select');
-
-				if (!checkboxes.length || !confirm('There are '+checkboxes.length+' files and folders to be deleted. Are you sure?')) {
+				var file_count = 0,
+					folder_count = 0,
+					types = [];
+					checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select')
+					.filter(function(el) {
+						if (el.checked) {
+							if (el.getParent('.files-node').hasClass('files-folder') && !types.contains('folders')) {
+								types.push('folders');
+							} else if (!types.contains('files')) {
+								types.push('files');	
+							}
+							return true;
+						}
+					});
+				
+				var str = types.join(' and ');
+				if (checkboxes.length === 1) {
+					str = str.substring(0, str.length-1);
+				}
+				
+				if (!checkboxes.length || !confirm('There '+(checkboxes.length > 1 ? 'are' : 'is')+' '+checkboxes.length+' '+str+' to be deleted. Are you sure?')) {
 					return false;
 				}
 				
