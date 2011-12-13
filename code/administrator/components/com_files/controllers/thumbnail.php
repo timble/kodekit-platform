@@ -54,12 +54,5 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         }
 
         return $list;
-       
-        $results = array();
-        foreach ($list as $item) {
-        	$key = $item['filename'];
-        	$results[$key] = $item;
-        }
-        ksort($results);
-	}
+    }
 }
