@@ -88,6 +88,8 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		$context = $this->getCommandContext();
 		$context->result = false;
 
+		$is_new = $this->isNew();
+
 		if ($this->getCommandChain()->run('before.save', $context) !== false)
 		{
 			if (!empty($this->contents)) {
@@ -104,6 +106,8 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
+		} else {
+			$this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 		}
 
 		return $context->result;
@@ -123,6 +127,8 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		if ($context->result === false) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
+		} else {
+			$this->setStatus(KDatabase::STATUS_DELETED);
 		}
 
 		return $context->result;
