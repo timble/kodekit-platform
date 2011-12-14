@@ -19,7 +19,12 @@
  */
 class ComFilesFilterFile extends KFilterAbstract
 {
-     protected static $_pattern = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+    protected static $_pattern = array('#(\.){2,}#', '#^\.#');
+
+    protected static $_special_chars = array(
+        "?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", "'", "\"", 
+        "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}"
+    );
 
     /**
      * Validate a value
@@ -29,7 +34,8 @@ class ComFilesFilterFile extends KFilterAbstract
      */
     protected function _validate($value)
     {
-        return (is_string($value) && preg_replace(self::$_pattern, '', $value) == $value);
+        $sanitized = $this->sanitize($value);
+        return (is_string($value) && $sanitized == $value);
     }
 
     /**
@@ -40,6 +46,10 @@ class ComFilesFilterFile extends KFilterAbstract
      */
     protected function _sanitize($value)
     {
-		return preg_replace(self::$_pattern, '', $value);
+		$value = preg_replace(self::$_pattern, '', $value);
+        $value = str_replace(self::$_special_chars, '', $value);
+        $value = str_replace('/', '', $value);
+
+        return $value;
     }
 }

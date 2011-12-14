@@ -20,10 +20,12 @@
 
 class ComFilesFilterPath extends KFilterAbstract
 {
-     // TODO: find a pattern that won't create problems with utf-8 chars in file names
-     protected static $pattern = '#^[a-z0-9_\.-\s/:~]*$#iu';
+    protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 
-     protected static $safepath_pattern = array('#(\.){2,}#', '#^\.#');
+    protected static $_special_chars = array(
+        "?", "[", "]", "\\", "=", "<", ">", ":", ";", "'", "\"", 
+        "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}"
+    );
     
     /**
      * Validate a value
@@ -34,8 +36,8 @@ class ComFilesFilterPath extends KFilterAbstract
     protected function _validate($value)
     {
         $value = trim(str_replace('\\', '/', $value));
-
-        return (is_string($value) && (preg_match(self::$pattern, $value)) == 1);
+        $sanitized = $this->sanitize($value);
+        return (is_string($value) && $sanitized == $value);
     }
 
     /**
@@ -47,9 +49,9 @@ class ComFilesFilterPath extends KFilterAbstract
     protected function _sanitize($value)
     {
         $value = trim(str_replace('\\', '/', $value));
-        /*preg_match(self::$pattern, $value, $matches);
-        $match = isset($matches[0]) ? $matches[0] : '';*/
+        $value = preg_replace(self::$_safepath_pattern, '', $value);
+        $value = str_replace(self::$_special_chars, '', $value);
 
-		return preg_replace(self::$safepath_pattern, '', $value);
+		return $value;
     }
 }
