@@ -425,8 +425,9 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-
-	    this.spinner.stop();
+		if (this.spinner) {
+			this.spinner.stop();	
+		}
 	
 		var nodes = this.grid.nodes,
 			that = this;
