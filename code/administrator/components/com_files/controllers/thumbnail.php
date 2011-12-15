@@ -1,5 +1,22 @@
 <?php
+/**
+ * @version     $Id: file.php 1205 2011-11-03 20:30:41Z ercanozkaya $
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
+/**
+ * Thumbnail Controller Class
+ *
+ * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ */
 class ComFilesControllerThumbnail extends ComFilesControllerDefault
 {
     protected function _actionBrowse(KCommandContext $context)
