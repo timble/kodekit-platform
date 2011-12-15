@@ -50,6 +50,9 @@ class ComFilesFilterFile extends KFilterAbstract
         $value = str_replace(self::$_special_chars, '', $value);
         $value = str_replace('/', '', $value);
 
+        // TODO: allow utf-8
+        $value = preg_replace('#[^a-zA-Z0-9_ \.\_\- ]#', '', $value);
+
         return $value;
     }
 }
