@@ -64,6 +64,7 @@ Files.Grid = new Class({
 			that.checkNode(box.retrieve('row'));
 		}; 
 		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
+this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this));
 
 		/*
 		 * Delete events

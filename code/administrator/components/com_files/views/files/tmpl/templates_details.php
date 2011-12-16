@@ -10,12 +10,33 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<script>
+window.addEvent('domready', function() {
+	document.id('files-list-check-all').addEvent('click', function(e) {
+		var value = this.checked,
+			grid = Files.app.grid,
+			nodes = grid.nodes;
+
+		$each(nodes, function(node) {
+			if (value && !node.checked) {
+				grid.checkNode(node);	
+			} else if (!value && node.checked) {
+				grid.checkNode(node);
+			}
+			
+		});
+
+	});
+})
+</script>
+
 <textarea style="display: none" id="details_container">
 <div class="manager">
 	<table width="100%" cellspacing="0" class="adminlist">
 		<thead>
 			<tr>
-				<th width="10" colspan="2"></th>
+				<th width="10" ><input type="checkbox" id="files-list-check-all" /></th>
+				<th></th>
 				<th><?= @text('Name'); ?></th>
 				<th><?= @text('Dimensions'); ?></th>
 				<th><?= @text('Size'); ?></th>
