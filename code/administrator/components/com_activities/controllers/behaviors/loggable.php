@@ -86,6 +86,10 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
             				'name'        => $identifier->name,
                     		'status'      => $status
                         );
+
+                        if (!empty($row->created_by)) {
+                            $log['created_by'] = $row->created_by;
+                        }
                 
                         if ($row->{$this->_title_column}) {
                             $log['title'] = $row->{$this->_title_column};
