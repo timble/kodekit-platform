@@ -191,7 +191,7 @@ window.addEvent('domready', function() {
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.grid.insert(row);
-				if (row.type == 'image') {
+				if (row.type == 'image' && Files.Template.layout == 'icons') {
 					row.element.getElement('img').set('src', row.image);
 				}
 				Files.app.fireEvent('uploadFile', [row]);
