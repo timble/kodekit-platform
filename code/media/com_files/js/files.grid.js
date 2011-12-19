@@ -10,7 +10,7 @@ Files.Grid = new Class({
 		onClickImage: $empty,
 		onDeleteNode: $empty,
 		onSwitchLayout: $empty,
-		switcher: false,
+		switcher: '.files-layout-controls',
 		layout: false,
 		batch_delete: false,
 		icon_size: 200,
@@ -24,7 +24,7 @@ Files.Grid = new Class({
 		this.container = document.id(container);
 
 		if (this.options.switcher) {
-			this.options.switcher = document.id(this.options.switcher);
+			this.options.switcher = document.getElement(this.options.switcher);
 		}
 
 		if (this.options.batch_delete) {
@@ -60,11 +60,11 @@ Files.Grid = new Class({
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var box = e.target.match('.files-node') ? e.target : e.target.getParent('.files-node');
+			var box = e.target.getParent('.files-node-shadow');
 			that.checkNode(box.retrieve('row'));
 		}; 
 		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
-this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this));
+        this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this));
 
 		/*
 		 * Delete events
@@ -167,6 +167,7 @@ this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this))
 	 */
 	checkNode: function(row, fire_events) {
 		var box = row.element,
+		    node = row.element.getElement('.files-node'),
 			checkbox = box.getElement('input[type=checkbox]')
 			;
 		if (fire_events !== false) {
@@ -174,7 +175,7 @@ this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this))
 		}
 		
 		var old = checkbox.getProperty('checked');
-        !old ? box.addClass('selected') : box.removeClass('selected');
+        !old ? node.addClass('selected') : node.removeClass('selected');
 		row.checked = !old;
 		checkbox.setProperty('checked', !old);
 
@@ -374,24 +375,6 @@ this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this))
 	            height: (size * 0.75) + 'px'
 	        });
 	        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
-
-	        var grid_size = this.container.getSize().x,
-	        	item_size = this.container.getElement('.imgOutline').getSize().x + 10,
-	        	count = parseInt(grid_size/item_size),
-				empty = grid_size - (count*item_size)
-	        	;
-	    	if (empty < count*10) {
-	        	count--;
-	        	empty = grid_size - (count*(item_size));
-	    	}
-	    	var margin = empty/(2*count);
-	    	if (margin < 5) {
-	        	margin = 5;
-	    	}
-	    	this.container.getElements('.imgOutline')
-	    		.setStyle('margin-left', margin)
-	    		.setStyle('margin-right', margin);
-	    	
 		}
 		
     	this.fireEvent('afterSetIconSize', {size: size});

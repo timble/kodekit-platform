@@ -29,6 +29,7 @@ Files.App = new Class({
 		grid: {
 			element: 'files-grid',
 			batch_delete: '#files-batch-delete',
+			icon_size: 200,
 			icon_size_slider: 'files-thumbs-size'
 		},
 		paginator: {
@@ -58,6 +59,12 @@ Files.App = new Class({
 		    };
 		    this.spinner = new Spinner(opts);
 		    this.spinner.spin(target);
+		    
+		    var delay;
+		    window.addEvent('resize', function(){
+		        clearTimeout(delay);
+		        delay = this.setDimensions.delay(200, this);
+		    }.bind(this));
 		}
 	},
 
@@ -315,7 +322,8 @@ Files.App = new Class({
 	setGrid: function() {
 		this.fireEvent('beforeSetGrid');
 		
-		var opts = this.options.grid,
+		var that = this,
+		    opts = this.options.grid,
 			key = this.cookie+'.grid.layout';
 
 		if (this.cookie) {
@@ -326,7 +334,7 @@ Files.App = new Class({
 				opts.icon_size = size;
 			}
 			opts.onAfterSetIconSize = function(context) {
-				Cookie.write(size_key, context.size); 
+				Cookie.write(size_key, context.size);
 			};
 		}
 		
@@ -343,14 +351,14 @@ Files.App = new Class({
 		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
-					path = target.getParent('.files-node').retrieve('path');
+					path = target.getParent('.files-node-shadow').retrieve('path');
 				if (path) {
 					this.navigate('/'+path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
 				var target = document.id(e.target),
-					img = target.getParent('.files-node').retrieve('row').image;
+					img = target.getParent('.files-node-shadow').retrieve('row').image;
 				
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
@@ -358,7 +366,7 @@ Files.App = new Class({
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target),
-					row = target.getParent('.files-node').retrieve('row'),
+					row = target.getParent('.files-node-shadow').retrieve('row'),
 					copy = $extend({}, row);
 				
 				copy.template = 'file_preview';
@@ -428,17 +436,12 @@ Files.App = new Class({
 		if (this.spinner) {
 			this.spinner.stop();	
 		}
+		
+		this.setDimensions(true);
 	
 		var nodes = this.grid.nodes,
 			that = this;
 		if (Files.Template.layout === 'icons' && nodes.getLength()) {
-		    nodes.each(function(node) {
-				if (node.type !== 'image') {
-					return;
-				}
-				var name = node.name;
-			});
-		
 			var url = that.createRoute({
 				view: 'thumbnails',
 				offset: this.state.get('offset'), 
@@ -453,6 +456,8 @@ Files.App = new Class({
 					
 					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
 					
+                    
+					
 					nodes.each(function(node) {
 						if (node.type !== 'image') {
 							return;
@@ -464,7 +469,7 @@ Files.App = new Class({
 						    this.addClass('loaded');
 						});
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
-						node.element.addClass('loaded').removeClass('loading');
+						node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
 
 						if(window.sessionStorage) {
 						    sessionStorage[node.image.toString()] = img.get('src');
@@ -477,6 +482,28 @@ Files.App = new Class({
 		}
 		
 	},
+	setDimensions: function(force){
+
+	    if(!this._cached_grid_width) this._cached_grid_width = 0;
+	    
+        //Only fire if the cache have changed
+        if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
+            var width = this.grid.root.element.getSize().x,
+                factor = width/(this.grid.options.icon_size.toInt()+40),
+                limit = Math.floor(factor),
+                resize = width / limit,
+                thumbs = [[]],
+                labels = [[]],
+                index = 0,
+                pointer = 0;
+
+            this.grid.root.element.getElements('.files-node-shadow').each(function(element, i, elements){
+                element.setStyle('width', (100/limit)+'%');
+            }, this);
+
+            this._cached_grid_width = this.grid.root.element.getSize().x;
+        }
+    },
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});
 		
