@@ -113,12 +113,14 @@ window.addEvent('domready', function() {
 	        initialStep: slider.value,
 	        onChange: function(value){
 	        	Files.app.grid.setIconSize(value);
+	        	Files.app.setDimensions.call(Files.app, true);
 	        }
 	    });
 	    var slider = container;
 	} else {
 	    slider.addEvent('change', function(event){
 	        Files.app.grid.setIconSize(this.value);
+	        Files.app.setDimensions.call(Files.app, true);
 	    });
 	}
 	
