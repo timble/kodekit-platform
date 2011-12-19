@@ -12,8 +12,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <script>
 window.addEvent('domready', function() {
-	document.id('files-list-check-all').addEvent('click', function(e) {
-		var value = this.checked,
+	document.id('files-canvas').addEvent('click:relay(input.-check-all)', function(e) {
+		var value = e.target.checked,
 			grid = Files.app.grid,
 			nodes = grid.nodes;
 
@@ -35,7 +35,7 @@ window.addEvent('domready', function() {
 	<table width="100%" cellspacing="0" class="adminlist">
 		<thead>
 			<tr>
-				<th width="10" ><input type="checkbox" id="files-list-check-all" /></th>
+				<th width="10" ><input type="checkbox" class="-check-all" /></th>
 				<th></th>
 				<th><?= @text('Name'); ?></th>
 				<th><?= @text('Dimensions'); ?></th>
