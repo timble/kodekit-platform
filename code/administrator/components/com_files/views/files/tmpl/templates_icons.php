@@ -73,7 +73,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </textarea>
 
 <textarea style="display: none" id="icons_image">
-<div class="imgOutline [%= Files.app.options.thumbnails ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%= client_cache ? 'load' : 'loading' %]loading">
+<div class="imgOutline [%= Files.app.options.thumbnails ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%= client_cache ? 'load' : 'loading' %]">
 
 	<div class="imgTotal" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
 		<a class=" navigate" href="#" title="[%=name%]"
