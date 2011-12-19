@@ -117,12 +117,10 @@ window.addEvent('domready', function() {
 	});
 
 	Files.app.uploader = uploader;
-});
-
-/**
- * Switcher between uploaders
- */
-window.addEvent('domready', function() {
+    
+    /**
+     * Switcher between uploaders
+     */
 	var toggleForm = function(type) {
 		var el = document.id('files-uploader-'+type);
 		var style = el.getStyle('display') == 'block' ? 'none' : 'block';
@@ -141,6 +139,7 @@ window.addEvent('domready', function() {
 			    document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
 			    if(document.id('files-upload-multi_browse')) {
 			        document.id('files-upload-multi_browse').set('text', 'Select files from your computer');
+			        uploader.bind('QueueChanged', exposePlupload);
 			    }
 			}
 		}
