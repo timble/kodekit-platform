@@ -68,6 +68,9 @@ Files.App = new Class({
 		    this.grid.addEvent('onAfterRenew', function(){
 		        this.setDimensions(true);
 		    }.bind(this));
+		    this.addEvent('onUploadFile', function(){
+		        this.setDimensions(true);
+		    }.bind(this));
 		}
 	},
 
