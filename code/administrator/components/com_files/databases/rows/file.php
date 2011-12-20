@@ -120,7 +120,12 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 
 		if ($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
-        	$context->result = unlink($this->fullpath);
+			if (file_exists($this->fullpath)) {
+				$context->result = unlink($this->fullpath);
+			} else {
+				$context->result = false;
+				$context->setError(JText::_('File not found'));
+			}
 			$this->getCommandChain()->run('after.delete', $context);
         }
 
@@ -152,6 +157,13 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		unset($data['basepath']);
 		
 		unset($data['contents']);
+		
+		if (!empty($this->container->path)) {
+			$path = ltrim(str_replace($this->container->path, '', $this->basepath), '/');
+			if ($path) {
+				$data['path'] = $path.'/'.$data['path'];				
+			}
+		}
 
 		$data['type'] = $this->isImage() ? 'image' : 'file';
 		$data['name'] = $this->name;

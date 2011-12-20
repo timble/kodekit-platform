@@ -85,7 +85,8 @@ window.addEvent('domready', function() {
 			if (row.type == 'image' && Files.Template.layout == 'icons') {
 				var image = row.element.getElement('img'); 
 				if (image) {
-					image.set('src', row.image);
+					image.set('src', row.image).addClass('loaded').removeClass('loading');
+					row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
 				}
 			}	
 			Files.app.fireEvent('uploadFile', [row]);
@@ -181,7 +182,9 @@ window.addEvent('domready', function() {
 				var row = new cls(el);
 				Files.app.grid.insert(row);
 				if (row.type == 'image' && Files.Template.layout == 'icons') {
-					row.element.getElement('img').set('src', row.image);
+					row.element.getElement('img').set('src', row.image)
+						.addClass('loaded').removeClass('loading');
+					row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
 				}
 				Files.app.fireEvent('uploadFile', [row]);
 				form.reset();
