@@ -65,6 +65,9 @@ Files.App = new Class({
 		        clearTimeout(delay);
 		        delay = this.setDimensions.delay(200, this);
 		    }.bind(this));
+		    this.grid.addEvent('onAfterRenew', function(){
+		        this.setDimensions(true);
+		    }.bind(this));
 		}
 	},
 
