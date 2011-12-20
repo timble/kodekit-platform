@@ -118,8 +118,15 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
                 parse_str(str_replace('&amp;', '&', $query), $query);
                 
                 $input = '';
-                foreach($query as $name => $value) {
-                    $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+                foreach($query as $name => $value)
+                {
+                    if(is_array($value))
+                    {
+                        foreach($value as $k => $v) {
+                            $input .= PHP_EOL.'<input type="hidden" name="'.$name.'['.$k.']" value="'.$v.'" />';
+                        }
+                    }
+                    else $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$value.'" />';
                 }
                 
                 $text = str_replace($matches[0][$key], $matches[0][$key].$input, $text);
