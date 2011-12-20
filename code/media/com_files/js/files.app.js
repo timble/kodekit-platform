@@ -354,14 +354,16 @@ Files.App = new Class({
 		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
-					path = target.getParent('.files-node-shadow').retrieve('path');
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					path = node.retrieve('path');
 				if (path) {
 					this.navigate('/'+path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
 				var target = document.id(e.target),
-					img = target.getParent('.files-node-shadow').retrieve('row').image;
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					img = node.retrieve('row').image;
 				
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
@@ -369,7 +371,8 @@ Files.App = new Class({
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target),
-					row = target.getParent('.files-node-shadow').retrieve('row'),
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					row = node.retrieve('row'),
 					copy = $extend({}, row);
 				
 				copy.template = 'file_preview';

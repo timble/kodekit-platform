@@ -60,7 +60,7 @@ Files.Grid = new Class({
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var box = e.target.getParent('.files-node-shadow');
+			var box = e.target.getParent('.files-node-shadow') || (e.target.match('.files-node') ? e.target : e.target.getParent('.files-node'));
 			that.checkNode(box.retrieve('row'));
 		}; 
 		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
@@ -167,7 +167,7 @@ Files.Grid = new Class({
 	 */
 	checkNode: function(row, fire_events) {
 		var box = row.element,
-		    node = row.element.getElement('.files-node'),
+		    node = row.element.match('.files-node') ? row.element : row.element.getElement('.files-node'),
 			checkbox = box.getElement('input[type=checkbox]')
 			;
 		if (fire_events !== false) {
@@ -294,10 +294,6 @@ Files.Grid = new Class({
 		if (!this.options.types || this.options.types.contains(object.type)) {
 			this.renderObject(object, position);
 			this.nodes.set(object.path, object);
-			
-			if (this.options.icon_size) {
-				this.setIconSize(this.options.icon_size);
-			}
 
 			this.fireEvent('afterInsertNode', {node: object, position: position});
 		}
@@ -313,7 +309,11 @@ Files.Grid = new Class({
 			var item = new cls(row);
 			this.insert(item, 'last');
 		}.bind(this));
-		
+
+		if (this.options.icon_size) {
+			this.setIconSize(this.options.icon_size);
+		}
+
 		this.fireEvent('afterInsertRows', {rows: rows});
 	},
 	renew: function() {
@@ -366,7 +366,7 @@ Files.Grid = new Class({
 	},
 	setIconSize: function(size) {
 		this.fireEvent('beforeSetIconSize', {size: size});
-		
+
 		this.options.icon_size = size;
 		
 		if (this.nodes.getKeys().length && Files.Template.layout == 'icons') {	
