@@ -74,7 +74,8 @@ Files.Grid = new Class({
 				e.stop();
 			}
 
-			var path = e.target.getParent('.files-node').retrieve('path');
+			var box = e.target.getParent('.files-node-shadow') || (e.target.match('.files-node') ? e.target : e.target.getParent('.files-node')),
+			    path = box.retrieve('path');
 			this.erase(path);
 		}.bind(this);
 
