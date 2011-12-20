@@ -57,7 +57,7 @@ Files.App = new Class({
 		      speed: 1, // Rounds per second
 		      trail: 60 // Afterglow percentage
 		    };
-		    this.spinner = new Spinner(opts);
+		    this.spinner = new Koowa.Spinner(opts);
 		    this.spinner.spin(target);
 		    
 		    var delay;
