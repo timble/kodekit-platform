@@ -62,7 +62,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </li>
         <? if($parameters->get('registration')) : ?>
         <li>
-            <a href="<?= @route('view=register') ?>">
+            <a href="<?= @route('view=user&layout=register') ?>">
                 <?= @text('REGISTER') ?></a>
         </li>
         <? endif ?>
