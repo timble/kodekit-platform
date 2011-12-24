@@ -22,11 +22,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
     protected function _initialize(KConfig $config)
     {  
         //Force the view to prevent a redirect
-        if(JFactory::getUser()->guest) 
-        {  
-            if(KRequest::method() == KHttpRequest::GET) {
-                $config->request = array('view' => 'login');
-            }
+        if(JFactory::getUser()->guest && KRequest::method() == KHttpRequest::GET) {  
+            $config->request = array('view' => 'login');
         } 
         
         parent::_initialize($config);
@@ -38,10 +35,10 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         {  
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'login') {
-                JFactory::getApplication()->redirect('index.php');
+                JFactory::getApplication()->redirect('index.php', 'You are already logged in!');
             }
-        } 
-               
+        }
+       
         return parent::_actionDispatch($context);
 	}
 }
