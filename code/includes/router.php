@@ -90,13 +90,19 @@ class JRouterSite extends JRouter
 		{
 			$app =& JFactory::getApplication();
 
-			if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
+			if($format = $uri->getVar('format', 'html'))
 			{
-				if($format = $uri->getVar('format', 'html'))
-				{
-					$route .= '.'.$format;
-					$uri->delVar('format');
-				}
+			    if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
+			    {
+			        $route .= '.'.$format;
+			    	$uri->delVar('format');
+			    }
+			    else 
+			    {
+			        if($format == 'html') {
+			            $uri->delVar('format');
+			        }   
+			    }
 			}
 
 			if($app->getCfg('sef_rewrite'))
