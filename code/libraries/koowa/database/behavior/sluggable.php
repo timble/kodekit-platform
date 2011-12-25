@@ -189,7 +189,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
                 $slugs[] = $filter->sanitize($this->$column);
             }
 
-            $this->slug = implode($this->_separator, $slugs);
+            $this->slug = implode($this->_separator, array_filter($slugs));
             
             //Canonicalize the slug
             $this->_canonicalizeSlug();
