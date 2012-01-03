@@ -25,10 +25,20 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 
 		$this->_state
 			->insert('container', 'com://admin/files.filter.container', null)
-			->insert('folder', 'com://admin/files.filter.path', null)
+			->insert('folder', 'com://admin/files.filter.path')
+			->insert('filename', 'com://admin/files.filter.path', null, true, array('container'))
 			->insert('files', 'com://admin/files.filter.path', null)
 			->insert('source', 'raw', null, true)
 			;
+	}
+	
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+			'state' => new ComFilesConfigState()
+		));
+		
+		parent::_initialize($config);
 	}
 
 	public function getItem()
@@ -42,6 +52,24 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		return $item;
 	}
 
+	protected function _buildQueryColumns(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryColumns($query);
+    	
+    	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
+    		$query->select('c.slug AS container');
+    	}
+    }
+	
+	protected function _buildQueryJoins(KDatabaseQuery $query)
+    {
+    	parent::_buildQueryJoins($query);
+    	
+    	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
+    		$query->join('LEFT', 'files_containers AS c', 'c.files_container_id = tbl.files_container_id');
+    	}
+    }
+
 	protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         $state = $this->_state;
@@ -49,35 +77,25 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			$source = $state->source;
 
 			$query->where('tbl.files_container_id', '=', $source->container->id)
-				->where('tbl.folder', '=', '/'.$source->relative_folder)
-				->where('tbl.filename', '=', $source->name)
-				;
+				->where('tbl.filename', '=', $source->name);
+
+			if ($source->folder) {
+				$query->where('tbl.folder', '=', $source->folder);
+			}
 		}
 		else {
 		    if ($state->container) {
 		        $query->where('tbl.files_container_id', '=', $state->container->id);
 		    }
 		    
-		    if ($state->folder) {
-		        $query->where('tbl.folder', '=', '/'.ltrim($state->folder, '/'));
+		    if ($state->folder !== false) {
+		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));	
+		    }
+
+		    if ($state->filename) {
+		        $query->where('tbl.filename', '=', $state->filename);
 		    }
 		}
-
-     	$states = $state->getData(true);
-
-		/*
-		 * This is here so that parent method won't try to use the source row object when creating the query
-		 */        
-        if(!empty($states))
-        {
-            $states = $this->getTable()->mapColumns($states);
-            foreach($states as $key => $value)
-            {
-                if($key != 'source' && isset($value)) {
-                    $query->where('tbl.'.$key, 'IN', $value);
-                }
-            }
-        }
 
 	}
 }

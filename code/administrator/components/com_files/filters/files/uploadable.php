@@ -27,7 +27,6 @@ class ComFilesFilterFileUploadable extends KFilterAbstract
 		parent::__construct($config);
 
 		$this->addFilter($this->getService('com://admin/files.filter.file.name'), KCommand::PRIORITY_HIGH);
-		$this->addFilter($this->getService('com://admin/files.filter.file.exists'), KCommand::PRIORITY_HIGH);
 
 		$this->addFilter($this->getService('com://admin/files.filter.file.extension'));
 		$this->addFilter($this->getService('com://admin/files.filter.file.mimetype'));

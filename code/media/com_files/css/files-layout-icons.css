@@ -51,6 +51,7 @@ div.imgOutline .ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    height: 17px;
 }
 div.imgOutline.selected {
     color: white;

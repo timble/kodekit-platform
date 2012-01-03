@@ -11,10 +11,12 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="compact_details_image">
-[% var ratio= 150 / (width > height ? width : height); %]
+[% var width = metadata.image.width,
+	height = metadata.image.height, 
+	ratio= 150 / (width > height ? width : height); %]
 <ul>
 	<li class="info">
-		[%=width%] x  [%=height%] | [%=new Files.Filesize(size).humanize()%]
+		[%=width%] x  [%=height%] | [%=size.humanize()%]
 	</li>
 	<li class="preview">
 		<img src="" width="[%=Math.min(ratio*width, width)%]"
@@ -26,9 +28,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="compact_details_file">
 <ul>
 	<li class="info">
-		[%=name%] | [%=new Files.Filesize(size).humanize()%]
+		[%=name%] | [%=size.humanize()%]
 	</li>
-	<li class="preview extension-[%=extension%]">
+	<li class="preview extension-[%=metadata.extension%]">
 		<img src="media://com_files/images/document-64.png" width="32" height="32" alt="[%=name%]" border="0" />
 	</li>
 </ul>

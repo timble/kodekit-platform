@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
+class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 {
 	/**
 	 * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
@@ -34,33 +34,6 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 	 */
 	protected $_parent   = null;
 
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
-
-		if ($config->validator !== false)
-		{
-			if ($config->validator === true) {
-				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
-			}
-
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
-		}
-	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-			'dispatch_events'   => false,
-			'enable_callbacks'  => true,
-			'validator' 		=> true
-		));
-
-		parent::_initialize($config);
-	}
-
 	public function save()
 	{
 		$context = $this->getCommandContext();
@@ -68,10 +41,10 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false) {
-
+		if ($this->getCommandChain()->run('before.save', $context) !== false) 
+		{
 			if ($this->isNew()) {
-				$context->result = mkdir($this->fullpath, 0755, true);
+				$context->result = $this->_adapter->create();
 			}
 
 			$this->getCommandChain()->run('after.save', $context);
@@ -87,98 +60,24 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return $context->result;
 	}
 
-	public function delete()
+	public function __get($column)
 	{
-		$context = $this->getCommandContext();
-		$context->result = false;
-
-		if ($this->getCommandChain()->run('before.delete', $context) !== false) {
-			$context->result = !$this->isNew() ? $this->_deleteFolder($this->fullpath) : false;
-
-			$this->getCommandChain()->run('after.delete', $context);
+		if ($column == 'children' && !isset($this->_data['children'])) {
+			$this->_data['children'] = $this->getService('com://admin/files.database.rowset.folders');
 		}
 
-		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus(KDatabase::STATUS_DELETED);
-		}
-
-		return $context->result;
-	}
-
-	/**
-	 *
-	 * Method to recursively delete a folder
-	 * @param string $path
-	 */
-	protected function _deleteFolder($path)
-	{
-		if (!file_exists($path)) {
-			return true; // already gone?
-		}
-		
-		$iter = new RecursiveDirectoryIterator($path);
-		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) {
-			if ($f->isDir()) {
-				rmdir($f->getPathname());
-			} else {
-				unlink($f->getPathname());
-			}
-		}
-
-		return rmdir($path);
-	}
-
-	public function isNew()
-	{
-		return $this->path ? !is_dir($this->fullpath) : true;
+		return parent::__get($column);
 	}
 
 	public function toArray()
 	{
 		$data = parent::toArray();
 
-		unset($data['basepath']);
-        unset($data['container']);
-
-		$data['type'] = 'folder';
-		$data['name'] = $this->name;
-
-		if (!empty($this->container->path)) {
-			$path = ltrim(str_replace($this->container->path, '', $this->basepath), '/');
-			if ($path) {
-				$data['path'] = $path.'/'.$data['path'];				
-			}
-		}
-
 		if ($this->hasChildren()) {
 			$data['children'] = $this->getChildren()->toArray();
 		}
 
 		return $data;
-	}
-
-	public function __get($column)
-	{
-		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
-			return $this->getFullpath();
-		}
-
-		if ($column == 'name' && !isset($this->_data['name'])) {
-			return basename($this->getFullpath());
-		}
-
-		if ($column == 'basepath' && !isset($this->_data['basepath'])) {
-			$this->_data['basepath'] = $this->getBasepath();
-		}
-
-		if ($column == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = $this->getService('com://admin/files.database.rowset.folders');
-		}
-
-		return parent::__get($column);
 	}
 
 	public function getData($modified = false)
@@ -190,18 +89,6 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 
 		return $result;
-	}
-
-	public function getFullpath()
-	{
-		$path = rtrim($this->basepath, '/').'/'.$this->path;
-
-		return $path;
-	}
-
-	public function getBasepath()
-	{
-		return $this->basepath;
 	}
 
 	public function insertChild(KDatabaseRowInterface $node)

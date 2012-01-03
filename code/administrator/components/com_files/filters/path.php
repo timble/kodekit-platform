@@ -50,10 +50,10 @@ class ComFilesFilterPath extends KFilterAbstract
     {
         $value = trim(str_replace('\\', '/', $value));
         $value = preg_replace(self::$_safepath_pattern, '', $value);
+        
+        return $value;
+        
         $value = str_replace(self::$_special_chars, '', $value);
-
-        // TODO: allow utf-8
-        $value = preg_replace('#[^a-zA-Z0-9_ \/\.\_\- ]#', '', $value);
 
 		return $value;
     }

@@ -23,7 +23,7 @@ class ComFilesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'identity_column' => 'path'
+            'identity_column' => 'name'
         ));
 
         parent::_initialize($config);

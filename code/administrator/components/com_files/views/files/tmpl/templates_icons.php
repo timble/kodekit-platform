@@ -15,16 +15,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="file_preview">
 	<ul>
 		<li>
-			<a href="[%=Files.baseurl+'/'+path%]" target="_blank"><?= @text('View'); ?></a>
+			<a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>
 		</li>
-		<li class="preview extension-[%=extension%]">
+		<li class="preview extension-[%=metadata.extension%]">
 			<img src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
 		</li>
 		<li class="info">
 			[%=name%]
 		</li>
 		<li>
-			[%=new Files.Filesize(size).humanize()%]
+			[%=size.humanize()%]
 		</li>
 		<li>
 			[%=getModifiedDate(true)%]
@@ -46,7 +46,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     	</div>
     	<div class="files-icons-controls">
     	<div class="controls" style="display:none">
-    		<input type="checkbox" class="files-select" value="[%=path%]" />
+    		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
     		[%=name%]
@@ -62,11 +62,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     	 	<a class="navigate extension-label" href="#" 
     	 		data-filetype="[%=filetype%]" 
-    	 		data-extension="[%=extension%]"></a>
+    	 		data-extension="[%=metadata.extension%]"></a>
     	</div>
     	<div class="files-icons-controls">
     	<div class="controls" style="display:none">
-    		<input type="checkbox" class="files-select" value="[%=path%]" />
+    		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
     		[%=name%]
@@ -83,16 +83,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     		<a class=" navigate" href="#" title="[%=name%]"
     	 		data-filetype="[%=filetype%]" 
-    	 		data-extension="[%=extension%]">
+    	 		data-extension="[%=metadata.extension%]">
     		[% if (Files.app.options.thumbnails) { %]
     		    <div class="spinner"></div>
-    			<img src="[%= client_cache || 'media://com_files/images/blank.png' %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" />
+    			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" />
     		[% } %]
     		</a>
     	</div>
     	<div class="files-icons-controls">
     	<div class="controls" style="display:none">
-    		<input type="checkbox" class="files-select" value="[%=path%]" />
+    		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
     		[%=name%]

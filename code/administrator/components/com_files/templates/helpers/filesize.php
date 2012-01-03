@@ -24,7 +24,7 @@ class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'sizes' => array('Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb')
+			'sizes' => array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB')
 		));
 		$bytes = $config->size;
 		$result = '';

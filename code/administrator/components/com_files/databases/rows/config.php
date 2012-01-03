@@ -20,60 +20,8 @@
 
 class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
 {
-	/**
-	 * An array of fields to convert to array in __get
-	 */
-	protected $_comma_separated = array();
-
-	public function __construct($config = array())
+	public function __toString()
 	{
-		parent::__construct($config);
-
-		if (!empty($config->comma_separated)) {
-			$this->_comma_separated = $config->comma_separated;
-		}
-	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-			'comma_separated' => array(
-				'upload_extensions',
-				'image_extensions',
-				'upload_mime'
-			)
-		));
-
-		parent::_initialize($config);
-	}
-
-	public function __get($column)
-	{
-		if (in_array($column, $this->_comma_separated->toArray())) 
-		{
-			if (isset($this->_data[$column]) && is_string($this->_data[$column])) 
-			{
-				$values = array();
-				if (!empty($this->_data[$column])) {
-					$values = explode(',', $this->_data[$column]);
-				}
-				
-				$this->_data[$column] = $values;
-			}
-			else return array();
-		}
-
-		return parent::__get($column);
-	}
-	
-	public function toArray()
-	{
-		$data = parent::toArray();
-		
-		foreach ($this->_comma_separated->toArray() as $column) {
-			$data[$column] = $this->$column;
-		}
-		
-		return $data;
+		return json_encode($this->getData());
 	}
 }

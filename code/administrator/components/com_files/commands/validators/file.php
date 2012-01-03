@@ -24,7 +24,7 @@ class ComFilesCommandValidatorFile extends KCommand
 	{
 		$row = $context->caller;
 
-		if (!is_uploaded_file($row->file))
+		if (is_string($row->file) && !is_uploaded_file($row->file))
 		{
 			// remote file
 			try {
@@ -37,7 +37,7 @@ class ComFilesCommandValidatorFile extends KCommand
 				throw new KControllerException($e->getMessage(), $e->getCode());
 			}
 
-			if (empty($row->path))
+			if (empty($row->name))
 			{
 				$uri = $this->getService('koowa:http.url', array('url' => $row->file));
 	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
@@ -45,12 +45,10 @@ class ComFilesCommandValidatorFile extends KCommand
 	        		$path = basename($path);
 	        	}
 
-	        	$row->path = $path;
+	        	$row->name = $path;
 			}
 		}
 		
-		$row->path = $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.name')->sanitize($row->path);
-
 		return $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.uploadable')->validate($context);
 	}
 }

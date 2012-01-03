@@ -10,6 +10,8 @@
  
 if(!Files) var Files = {};
 
+Files.blank_image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9MICA0xMTLhM9QAAAADUExURf///6fEG8gAAAABdFJOUwBA5thmAAAACXBIWXMAAAsSAAALEgHS3X78AAAACklEQVQIHWNgAAAAAgABz8g15QAAAABJRU5ErkJggg==';
+
 Files.App = new Class({
 	Implements: [Events, Options],
 
@@ -25,13 +27,10 @@ Files.App = new Class({
 		active: null,
 		title: 'files-title',
 		state: {
-			data: {
-				limit: 0,
-				offset: 0
-			},
 			defaults: {}
 		},
 		tree: {
+			enabled: true,
 			div: 'files-tree',
 			theme: ''
 		},
@@ -80,6 +79,11 @@ Files.App = new Class({
 		    this.addEvent('onUploadFile', function(){
 		        this.setDimensions(true);
 		    }.bind(this));
+		},
+		onAfterNavigate: function(path) {
+			if (path !== undefined) {
+				this.setTitle(this.folder.name || this.container.title);
+	        }
 		}
 	},
 
@@ -90,7 +94,6 @@ Files.App = new Class({
 			this.cookie = 'com.files.container.'+this.options.container;
 		}
 		
-		//this.setContainerTree();
 		this.setState();
 		this.setHistory();
 		this.setGrid();
@@ -120,10 +123,10 @@ Files.App = new Class({
 	},
 	setState: function() {
 		this.fireEvent('beforeSetState');
-		
+
 		var opts = this.options.state;
 		this.state = new Files.State(opts);
-	
+
 		this.fireEvent('afterSetState');
 	},
 	setHistory: function() {
@@ -137,20 +140,24 @@ Files.App = new Class({
 				
 				var state = History.getState(),
 					old_state = that.state.getData(),
-					new_state = state.data.state,
+					new_state = state.data,
 					state_changed = false;
 				
 				$each(old_state, function(value, key) {
 					if (state_changed === true) {
 						return;
 					} 
-					if (new_state && value !== new_state[key]) {
+					if (new_state && new_state[key] && value !== new_state[key]) {
 						state_changed = true;
 					}
 				});
 
-				if (Files.container && (state_changed || that.active !== state.data.folder)) {
-					that.state.set(state.data.state);
+				if (that.container && (state_changed || that.active !== state.data.folder)) {
+					var set_state = $extend({}, state.data);
+					['option', 'view', 'layout', 'folder', 'container'].each(function(key) {
+						delete set_state[key];
+					});
+					that.state.set(set_state);
 					that.navigate(state.data.folder, 'stateless');
 				}
 			});
@@ -158,9 +165,9 @@ Files.App = new Class({
 				if (type !== 'stateless' && that.history) {
 					var obj = {
 						folder: that.active,
-						container: Files.container ? Files.container.slug : null,
-						state: that.state.getData()
+						container: that.container ? that.container.slug : null
 					};
+					obj = $extend(obj, that.state.getData());
 					var method = type === 'initial' ? 'replaceState' : 'pushState';
 					that.history[method](obj, null, that.getUrl().setData(obj, true).toString());
 				}
@@ -170,29 +177,35 @@ Files.App = new Class({
 		this.fireEvent('afterSetHistory');
 	},
 	/**
-	 * type can be stateless for no state or initial to use replaceState
+	 * type can be 'stateless' for no state or 'initial' to use replaceState
 	 */
 	navigate: function(path, type) {
 		this.fireEvent('beforeNavigate', [path, type]);
-		if (path) {
+		if (path !== undefined) {
 			if (this.active) {
 				// Reset offset if we are changing folders
 				this.state.set('offset', 0);
 			}
-			this.active = path;
+			this.active = path == '/' ? '' : path;
 		}
 
-		var is_root = this.active === '/';
-
 		this.grid.reset();
+		
+		var parts = this.active.split('/'),
+			name = parts[parts.length ? parts.length-1 : 0],
+			folder = parts.slice(0, parts.length-1).join('/');
 
 		var that = this;
-		this.folder = new Files.Folder({'path': this.active});
+		this.folder = new Files.Folder({'folder': folder, 'name': name});
 		this.folder.getChildren(function(resp) {
-			that.response = resp;
-			that.grid.insertRows(resp.items);
-			
-			that.fireEvent('afterSelect', resp);
+			if (resp.status !== false) {
+				that.response = resp;
+				that.grid.insertRows(resp.items);
+				
+				that.fireEvent('afterSelect', resp);
+			} else {
+				alert(resp.error);
+			}
 
 		}, null, this.state.getData());
 	
@@ -208,20 +221,22 @@ Files.App = new Class({
 				
 				this.fireEvent('beforeSetContainer', {container: item});
 				
-				Files.container = item;
-				Files.path = item.relative_path;
-				Files.baseurl = Files.sitebase + '/' + Files.path;
+				this.container = item;
+				this.baseurl = Files.sitebase + '/' + item.relative_path;
 
 				this.active = '';
 				
-				if (Files.container.parameters.upload_extensions) {
+				if (this.container.parameters.allowed_extensions) {
 					this.uploader.settings.filters = [
-					     {title: 'All Files', extensions: Files.container.parameters.upload_extensions.join(',')}
+					     {title: 'All Files', extensions: this.container.parameters.allowed_extensions.join(',')}
 	    			];
 				}
-				if (Files.container.parameters.upload_maxsize) {
-					this.uploader.settings.max_file_size = Files.container.parameters.upload_maxsize;
-					document.id('upload-max-size').set('html', new Files.Filesize(Files.container.parameters.upload_maxsize).humanize());
+				if (this.container.parameters.maximum_size) {
+					this.uploader.settings.max_file_size = this.container.parameters.maximum_size;
+					var max_size = document.id('upload-max-size');
+					if (max_size) {
+						max_size.set('html', new Files.Filesize(this.container.parameters.maximum_size).humanize());
+					}
 				}
 				
 				if (this.options.types !== null) {
@@ -230,72 +245,17 @@ Files.App = new Class({
 				}
 				
 				this.fireEvent('afterSetContainer', {container: item});
-
-				this.grid.reset();
 				
 				this.setTree();
 
-				this.active = this.options.active || '/';
+				this.active = this.options.active || '';
 				this.options.active = '';
 				this.navigate(this.active, 'initial');
 			}.bind(this)
 		}).send();
 	},
-	setContainerTree: function() {
-		var ContainerTree = new Class({
-			Extends: Files.Tree,
-			addItem: function(item) {
-				/*if (item.id == Files.container.id) {
-					return;
-				}*/
-
-				this.root.insert({
-					text: item.title,
-					data: {
-						id: item.slug,
-						type: 'container'
-					}
-				});
-			}
-		});
-		this.containertree = new ContainerTree({
-			div: 'files-containertree',
-			theme: this.options.tree.theme,
-			mode: 'files',
-			root: {
-				text: 'Other Containers'
-			},
-			onClick: function(node) {
-				if (node.data && node.data.type === 'container') {
-					this.setContainer(node.data.id);return;
-					window.location =  window.location.pathname+this.createRoute({format: 'html', container: node.data.id});
-					return;
-				}
-			}.bind(this)
-		});
-		
-		new Request.JSON({
-			url: this.createRoute({view: 'containers', limit: 0, sort: 'title'}),
-			onSuccess: function(response) {
-				$each(response.items, this.containertree.addItem.bind(this.containertree));
-			}.bind(this)
-		}).get();
-	},
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
-		
-		var key = this.cookie ? this.cookie+'.paginator.state' : null;
-
-		if (key) {
-			var cookie = JSON.decode(Cookie.read(key), true);
-			
-			if (cookie && cookie.limit) {
-				this.state.set('limit', cookie.limit);
-			}
-			if (cookie && cookie.offset) {
-				this.state.set('offset', cookie.offset);
-			}
-		}
 		
 		var opts = this.options.paginator,
 			state = this.state;
@@ -311,10 +271,6 @@ Files.App = new Class({
 			'onChangeLimit': function(limit) {
 				this.state.set('limit', limit);
 				this.state.set('offset', 0);
-				
-				if (key) {
-					Cookie.write(key, JSON.encode({'limit': limit}));
-				}
 				
 				this.navigate();
 			}.bind(this)
@@ -355,7 +311,7 @@ Files.App = new Class({
 		
 		$extend(opts, {
 			'onAfterInsertRows': function() {
-				if (Files.Template.layout == 'icons') {
+				if (this.layout == 'icons') {
 					this.setIconSize(this.options.icon_size);
 				}
 				
@@ -367,9 +323,9 @@ Files.App = new Class({
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
 				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
-					path = node.retrieve('path');
+					path = node.retrieve('row').path;
 				if (path) {
-					this.navigate('/'+path);
+					this.navigate(path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
@@ -389,20 +345,11 @@ Files.App = new Class({
 				
 				copy.template = 'file_preview';
 
-				SqueezeBox.open(copy.render(false), {
+				SqueezeBox.open(copy.render(), {
 					handler: 'adopt',
 					size: {x: 300, y: 200}
 				});
 			},
-			'onAfterDeleteNode': function(context) {
-				var node = context.node;
-				if (node.type == 'folder') {
-					var item = this.tree.get(node.path);
-					if (item) {
-						item.remove();
-					}
-				}
-			}.bind(this),
 			'onAfterSetLayout': function(context) {
 				var layout = context.layout;
 				if (layout === 'icons' && this.grid && this.options.thumbnails) {
@@ -420,27 +367,41 @@ Files.App = new Class({
 	setTree: function() {
 		this.fireEvent('beforeSetTree');
 		
-		var opts = this.options.tree,
-			that = this;
-		$extend(opts, {
-			onClick: function(node) {
-				if (node.id || node.data.url) {
-					that.navigate('/'+ (node && node.id ? node.id : ''));
+		if (this.options.tree.enabled) {
+			var opts = this.options.tree,
+				that = this;
+			$extend(opts, {
+				onClick: function(node) {
+					if (node.id || node.data.url) {
+						that.navigate(node && node.id ? node.id : '');
+					}
+				},
+				root: {
+					text: this.container.title,
+					data: {
+						url: '#'
+					}
 				}
-			},
-			root: {
-				text: Files.container.title,
-				data: {
-					url: '#/'
-				}
+			});
+			this.tree = new Files.Tree(opts);
+			this.tree.fromUrl(this.createRoute({view: 'folders', 'tree': '1', 'limit': '0'}));
+			
+			this.addEvent('afterNavigate', function(path) {
+				that.tree.selectPath(path);
+			});
+
+			if (this.grid) {
+				this.grid.addEvent('afterDeleteNode', function(context) {
+					var node = context.node;
+					if (node.type == 'folder') {
+						var item = that.tree.get(node.path);
+						if (item) {
+							item.remove();
+						}
+					}
+				});
 			}
-		});
-		this.tree = new Files.Tree(opts);
-		this.tree.fromUrl(this.createRoute({view: 'folders', 'tree': '1', 'limit': '0'}));
-		
-		this.addEvent('afterNavigate', function(path) {
-			that.tree.selectPath(path);
-		});
+		}
 
 		this.fireEvent('afterSetTree');
 	},
@@ -456,10 +417,9 @@ Files.App = new Class({
 		}
 		
 		this.setDimensions(true);
-	
 		var nodes = this.grid.nodes,
 			that = this;
-		if (Files.Template.layout === 'icons' && nodes.getLength()) {
+		if (this.grid.layout === 'icons' && nodes.getLength()) {
 			var url = that.createRoute({
 				view: 'thumbnails',
 				offset: this.state.get('offset'), 
@@ -474,10 +434,8 @@ Files.App = new Class({
 					
 					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
 					
-                    
-					
 					nodes.each(function(node) {
-						if (node.type !== 'image') {
+						if (node.filetype !== 'image') {
 							return;
 						}
 						var name = node.name;
@@ -536,8 +494,8 @@ Files.App = new Class({
 	createRoute: function(query) {
 		query = $merge(this.options.router.defaults, query || {});
 
-		if (query.container !== false && !query.container && Files.container) {
-			query.container = Files.container.slug;
+		if (query.container !== false && !query.container && this.container) {
+			query.container = this.container.slug;
 		} else {
 			delete query.container;
 		}

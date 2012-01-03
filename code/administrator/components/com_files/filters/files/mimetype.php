@@ -18,54 +18,31 @@
  * @subpackage  Files   
  */
 
-class ComFilesFilterFileMimetype extends KFilterFilename
+class ComFilesFilterFileMimetype extends KFilterAbstract
 {
 	protected $_walk = false;
 
-	protected $_config;
-
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->_config = $config;
-	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$component_config = $this->getService('com://admin/files.database.row.config');
-
-		$config->append(array(
-			'check_mime' => $component_config->check_mime,
-			'allowed_mimetypes' => array_map('strtolower', $component_config->upload_mime)
-		));
-
-		parent::_initialize($config);
-	}
-
 	protected function _validate($context)
 	{
-		$config = $this->_config;
 		$row = $context->caller;
+		$mimetypes = KConfig::unbox($row->container->parameters->allowed_mimetypes);
 
-		if (is_uploaded_file($row->file)) 
+		if (is_array($mimetypes)) 
 		{
-			if ($row->isImage()) 
-			{
-				if (getimagesize($row->file) === false) {
-					$context->setError(JText::_('WARNINVALIDIMG'));
-					return false;
+			$mimetype = $row->mimetype;
+			
+			if (empty($mimetype)) {
+				if (is_uploaded_file($row->file) && $row->isImage()) {
+					$info = getimagesize($row->file);
+					$mimetype = $info ? $info['mime'] : false; 
+				} elseif ($row->file instanceof SplFileInfo) {
+					$mimetype = $this->getService('com://admin/files.mixin.mimetype')->getMimetype($row->file->getPathname());
 				}
 			}
-			else 
-			{
-				$mime = $this->getService('com://admin/files.database.row.file')->setData(array('path' => $row->file))->mimetype;
 
-				if ($config->check_mime && $mime && !in_array($mime, $config->allowed_mimetypes->toArray())) 
-				{
-					$context->setError(JText::_('WARNINVALIDMIME'));
-					return false;
-				}
+			if ($mimetype && !in_array($mimetype, $mimetypes)) {
+				$context->setError(JText::_('Invalid Mimetype'));
+				return false;
 			}
 		}
 	}

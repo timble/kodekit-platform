@@ -13,7 +13,7 @@ if(!Files) var Files = {};
 Files.Filesize = new Class({
 	Implements: Options,
 	options: {
-		units: ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb']
+		units: ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
 	},
 	initialize: function(size, options) {
 		this.setOptions(options);
@@ -25,7 +25,8 @@ Files.Filesize = new Class({
 			size /= 1024;
 			i++;
 		}
-		return (i === 0 ? size : size.toFixed(2)) + ' ' + this.options.units[i];
+
+		return (i === 0 || size % 1 === 0 ? size : size.toFixed(2)) + ' ' + this.options.units[i];
 	}
 });
 

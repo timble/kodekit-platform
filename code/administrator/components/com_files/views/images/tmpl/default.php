@@ -62,8 +62,15 @@ window.addEvent('domready', function() {
 		var target = document.id(e.target).getParent('.files-node');
 		var row = target.retrieve('row');
 		
-		document.id('image-url').set('value', Files.path.replace(/sites\/[^\/]+\//, '')+'/'+row.path);
+		document.id('image-url').set('value', row.image.replace(/sites\/[^\/]+\//, ''));
 	});
+
+	if (window.parent.tinyMCE) {
+		var text = window.parent.tinyMCE.activeEditor.selection.getContent({format:'text'});
+			if (text) {
+			document.id('image-alt').set('value', text);
+		}
+	}
 });
 </script>
 

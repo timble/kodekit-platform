@@ -54,6 +54,11 @@ class ComFilesMixinMimetype extends KObject
 	public function getMimetype($path)
 	{
 		$mimetype = false;
+		
+		if (!file_exists($path)) {
+			return $mimetype;
+		}
+		
 		foreach ($this->_adapters as $i => $adapter)
 		{
 			$function = '_detect'.ucfirst($adapter);
@@ -93,7 +98,7 @@ class ComFilesMixinMimetype extends KObject
 		if (!class_exists('finfo')) {
 			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
-
+		
 		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
 		$mimetype = $finfo->file($path);
 

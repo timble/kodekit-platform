@@ -20,37 +20,22 @@
 
 class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 {
-	public function save()
-	{
-		$is_new = $this->isNew();
-		
-		if ($is_new && $this->container) 
-		{
-			$container = $this->getService('com://admin/files.model.containers')->slug($this->container)->getItem();
-			if ($container->isNew()) 
-			{
-				$this->setStatus(KDatabase::STATUS_FAILED);
-				$this->setStatusMessage(JText::_('Invalid container'));
-			}
-
-			$this->path = rtrim($container->path_value.$this->_data['path'], '/');
-			$obj = $container->getParameters()->getData();
-			unset($obj->container);
-			$this->parameters = json_encode($obj);
-		} 
-				
-		$result = parent::save();
-		
-		return $result;
-	}
-
+	public $adapter = 'local';
+	/**
+	 * A reference to the container configuration
+	 * 
+	 * @var ComFilesDatabaseRowConfig
+	 * 
+	 */
+	protected $_parameters;
+	
 	public function __get($column)
 	{
 		if ($column == 'path' && !empty($this->_data['path']))
 		{
 			$result = $this->_data['path'];
 			// Prepend with site root if it is a relative path
-			if (!preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
+			if ($this->adapter === 'local' && !preg_match('#^(?:[a-z]\:|~*/)#i', $result)) {
 				$result = JPATH_FILES.'/'.$result;
 			}
 
@@ -62,6 +47,9 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 		}
 		else if ($column == 'path_value') {
 			return $this->_data['path'];
+		}
+		else if ($column == 'parameters' && !is_object($this->_data['parameters'])) {
+			return $this->getParameters();
 		}
 
 		return parent::__get($column);
@@ -76,18 +64,38 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 
 	public function getParameters()
 	{
-		return $this->getService('com://admin/files.model.configs')
-			->container($this->slug)->getItem();
+		if (empty($this->_parameters)) {
+			$this->_parameters = $this->getService('com://admin/files.database.row.config')
+				->setData(json_decode($this->_data['parameters'], true));	
+		}
+
+		return $this->_parameters;
 	}
 	
 	public function toArray()
 	{
 		$data = parent::toArray();
-		
+
 		$data['path'] = $this->path_value;
-		$data['parameters'] = $this->getParameters()->toArray();
+		$data['parameters'] = $this->parameters->toArray();
 		$data['relative_path'] = $this->getRelativePath();
 		
 		return $data;
+	}
+	
+	public function getData($modified = false)
+	{
+		$data = parent::getData($modified);
+		
+		if (isset($data['parameters'])) {
+			$data['parameters'] = $this->parameters->getData();	
+		}
+		
+		return $data;
+	}
+	
+	public function getAdapter($type, array $config = array())
+	{
+		return $this->getService('com://admin/files.adapter.'.$this->adapter.'.'.$type, $config);
 	}
 }

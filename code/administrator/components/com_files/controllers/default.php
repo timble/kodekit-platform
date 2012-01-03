@@ -36,8 +36,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	{
 		$request = parent::getRequest();
 		
-		// e_name still needs to work for compatibility reasons with Joomla com_content.
-		// here we map it to "editor" state
+		// "e_name" is needed to be compatible with com_content of Joomla
 		if ($request->e_name) {
 		    $request->editor = $request->e_name;
 		}
@@ -46,37 +45,28 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 		if ($this->isDispatched()) {
 			unset($request->config);
 		}
- 
-		$config = $this->getService('com://admin/files.model.configs')
-			->set($request)
-			->getItem();
-			
-		$request->container = $config->container;
 
 		return $request;
 	}
 
+	/**
+	 * Overridden method to be able to use it with both resource and service controllers
+	 */
 	protected function _actionGet(KCommandContext $context)
     {
-    	if ($this->getIdentifier()->name != 'image') {
-    		return parent::_actionGet($context);
+    	if ($this->getIdentifier()->name == 'image'
+    		|| ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html')) 
+    	{
+	        //Load the language file for HMVC requests who are not routed through the dispatcher
+	        if(!$this->isDispatched()) {
+	            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package);
+	        }
+	
+	        $result = $this->getView()->display();
+		    return $result;
     	}
     	
-        //Load the language file for HMVC requests who are not routed through the dispatcher
-        if(!$this->isDispatched()) {
-            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package);
-        }
-
-        $result = $this->getView()->display();
-	    return $result;
+    	return parent::_actionGet($context);
+    	
     }
-    
- 	public function __set($property, $value)
-    {
-        if ($property === 'container' && is_string($value)) {
-            $value = $this->getService('com://admin/files.model.containers')->slug($value)->getItem();
-        }
-        
-    	parent::__set($property, $value);
-  	}
 }

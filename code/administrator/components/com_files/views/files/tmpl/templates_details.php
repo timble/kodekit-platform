@@ -52,7 +52,7 @@ window.addEvent('domready', function() {
 <textarea style="display: none" id="details_folder">
 	<tr class="files-node files-folder">
 		<td width="10">
-			<input type="checkbox" class="files-select" value="[%=path%]" />
+			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td width="10">
 		    <img src="media://com_files/images/folder-16.png" width="16" height="16" alt="[%=name%]" border="0" />
@@ -71,7 +71,7 @@ window.addEvent('domready', function() {
 <textarea style="display: none" id="details_file">
 	<tr class="files-node files-file">
 		<td width="10">
-			<input type="checkbox" class="files-select" value="[%=path%]" />
+			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td width="10">
 		    <img src="media://com_files/images/document-16.png" width="16" height="16" alt="[%=name%]" border="0" />
@@ -83,7 +83,7 @@ window.addEvent('domready', function() {
 		</td>
 		<td></td>
 		<td align="center">
-			[%=new Files.Filesize(size).humanize()%]
+			[%=size.humanize()%]
 		</td>
 		<td align="center">
 			[%=getModifiedDate(true)%]
@@ -94,7 +94,7 @@ window.addEvent('domready', function() {
 <textarea style="display: none" id="details_image">
 	<tr class="files-node files-image">
 		<td width="10">
-			<input type="checkbox" class="files-select" value="[%=path%]" />
+			<input type="checkbox" class="files-select" value="" />
 		</td>
 		<td width="10">
 		    <img src="media://com_files/images/image-16.png" width="16" height="16" alt="[%=name%]" border="0" />
@@ -105,10 +105,10 @@ window.addEvent('domready', function() {
 			</a>
 		</td>
 		<td align="center">
-			[%=width%] x [%=height%]
+			[%=metadata.image.width%] x [%=metadata.image.height%]
 		</td>
 		<td align="center">
-			[%=new Files.Filesize(size).humanize()%]
+			[%=size.humanize()%]
 		</td>
 		<td align="center">
 			[%=getModifiedDate(true)%]

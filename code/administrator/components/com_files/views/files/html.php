@@ -22,9 +22,8 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 {
 	protected function _initialize(KConfig $config)
 	{
-		$config->append(array(
-			'auto_assign' => false
-		));
+		$config->auto_assign = false;
+		
 		parent::_initialize($config);
 	}
 
@@ -33,10 +32,6 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		$this->assign('sitebase', trim(JURI::root(), '/'));
 		$this->assign('token'   , JUtility::getToken());
 		$this->assign('container', $this->getModel()->getState()->container);
-
-		if (!$this->editor) {
-			$this->assign('editor', '');
-		}
 
 		return parent::display();
 	}

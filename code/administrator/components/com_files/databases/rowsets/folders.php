@@ -56,32 +56,33 @@ class ComFilesDatabaseRowsetFolders extends ComFilesDatabaseRowsetNodes
     {
     	foreach($list as $k => $row)
 		{
+			$hierarchy = !empty($row['hierarchy']) ? $row['hierarchy'] : false;
+			unset($row['hierarchy']);
+
 		    //Create a row prototype and clone it this is faster then instanciating a new row
 			$instance = $this->getRow()
 							->setData($row)
 							->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
 
-        	if(isset($row['hierarchy']) && !empty($row['hierarchy']))
+        	if($hierarchy)
         	{
         		$nodes   = $this;
 				$node    = null;
-				$parents = $row['hierarchy'];
+				$parents = $hierarchy;
 
-				$current_path = array();
 				foreach($parents as $parent)
        			{
-       				$current_path[] = $parent;
        				if($node) {
 						$nodes = $node->getChildren();
 					}
 
-       				$node = $nodes->find(implode('/', $current_path));
-
+       				$node = $nodes->find($parent);
 				}
 
 				$node->insertChild($instance);
+        	} else {
+        		$this->insert($instance);	
         	}
-        	else $this->insert($instance);
 		}
 
 		return $this;

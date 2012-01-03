@@ -46,7 +46,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     		// Plupload do not pass the error to our application if the status code is not 200
     		$code = KRequest::get('get.plupload', 'int') ? 200 : $e->getCode();
     		
-    		JResponse::setHeader('status', $code.' '.str_replace("\n", ' ', $e->getMessage()));
+    		JResponse::setHeader('status', $code.' '.str_replace("\n", ' ', $e->getMessage()), true);
     		
     		echo json_encode($obj);
     		JFactory::getApplication()->close();
@@ -61,12 +61,13 @@ class ComFilesDispatcher extends ComDefaultDispatcher
 	 */
 	public function _actionForward(KCommandContext $context)
 	{
-		if(KRequest::type() == 'FLASH' || KRequest::format() == 'json') {
-			$context->result = $this->getController()->execute('display', $context);
-		} else {
-			parent::_actionForward($context);
+		if ($context->result->getStatus() != KDatabase::STATUS_DELETED) {
+			if(KRequest::type() == 'FLASH' || KRequest::format() == 'json') {
+				$context->result = $this->getController()->execute('display', $context);
+			} else {
+				parent::_actionForward($context);
+			}	
 		}
-
 		return $context->result;
 
 	}

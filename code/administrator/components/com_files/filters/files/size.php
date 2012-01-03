@@ -22,37 +22,22 @@ class ComFilesFilterFileSize extends KFilterAbstract
 {
 	protected $_walk = false;
 
-	protected $_config;
-
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->_config = $config;
-	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$component_config = $this->getService('com://admin/files.database.row.config');
-
-		$config->append(array(
-			'maximum_size' => $component_config->upload_maxsize
-		));
-
-		parent::_initialize($config);
-	}
-
 	protected function _validate($context)
 	{
-		$config = $this->_config;
+		$row = $context->caller;
+		$max = $row->container->parameters->maximum_size;
 
-		if ($config->maximum_size)
+		if ($max)
 		{
-			$row = $context->caller;
-			$size = $row->contents ? strlen($row->contents) : filesize($row->file);
+			$size = $row->contents ? strlen($row->contents) : false;
+			if (!$size && is_uploaded_file($row->file)) {
+				$size = filesize($row->file);
+			} elseif ($row->file instanceof SplFileInfo && $row->file->isFile()) {
+				$size = $row->file->getSize();
+			}
 
-			if ($size > $config->maximum_size) {
-				$context->setError(JText::_('WARNFILETOOLARGE'));
+			if ($size && $size > $max) {
+				$context->setError(JText::_('File is too big'));
 				return false;
 			}
 		}

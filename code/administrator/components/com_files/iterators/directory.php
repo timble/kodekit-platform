@@ -89,7 +89,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 
 			if ($filter) {
 				if (is_callable($filter)) {
-					$ignore = call_user_func($filter, $file) === false;
+					$ignore = call_user_func($filter, rawurldecode($file->getPathname())) === false;
 				} else if (is_array($filter)) {
 					$ignore = !in_array($file->getExtension(), $filter);
 				} else if (is_string($filter)) {
@@ -101,7 +101,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			}
 
 			if (is_callable($map)) {
-				$result = call_user_func($map, $file);
+				$result = call_user_func($map, rawurldecode($file->getPathname()));
 			}
 			else {
 				$result = $config->fullpath ? $file->getPathname() : $file->getFilename();

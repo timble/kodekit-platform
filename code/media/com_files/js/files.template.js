@@ -16,16 +16,15 @@ var cache = {};
 
 Files.Template = new Class({
 	Implements: [Events],
-	render: function(prefix) {
-		var layout = Files.Template.layout,
-			tmpl = this.template;
+	render: function(layout) {
+		var tmpl = this.template;
 		
-		if (prefix !== false) {
+		layout = layout || 'default';
+		
+		if (layout !== 'default') {
 			tmpl = layout+'_'+tmpl;
-		} else {
-			layout = 'default';
 		}
-		
+
 		this.fireEvent('beforeRender', {layout: layout, template: tmpl});
 		
 		var rendered = new EJS({element: tmpl}).render(this),
@@ -36,7 +35,6 @@ Files.Template = new Class({
 		return result;
 	}
 });
-Files.Template.layout = 'icons';
 
 Files.Template.Details = new Class({
 	initialize: function(html) {
@@ -48,7 +46,6 @@ Files.Template.Details = new Class({
 			var str = '<table><tbody>'+html+'</tbody></table>';
 			return new Element('div', {html: str}).getElement('tr');
 		}
-
 	}
 });
 

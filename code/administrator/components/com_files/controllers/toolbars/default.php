@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: executable.php 1333 2011-12-22 18:36:21Z ercanozkaya $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
@@ -10,30 +10,17 @@
  */
 
 /**
- * File Exist Filter Class
+ * Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Files   
+ * @subpackage  Files
  */
-
-class ComFilesFilterFileExists extends KFilterAbstract
+class ComFilesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-	protected $_walk = false;
-
-	protected function _validate($context)
+	public function getCommands()
 	{
-		$row = $context->caller;
-
-		if (!$row->isNew()) {
-			$context->setError(JText::_('Error. File already exists'));
-			return false;
-		}
-	}
-
-	protected function _sanitize($context)
-	{
-		return false;
+		return array();
 	}
 }

@@ -19,8 +19,15 @@ Files.Row = new Class({
 			this[key] = value;
 		}.bind(this));
 
-		this.path = object.path;
-		this.identifier = object.path;
+		if (!this.path) {
+			this.path = (object.folder ? object.folder+'/' : '') + object.name;
+		}
+		this.identifier = this.path;
+		
+		this.filepath = (object.folder ? this.encode(object.folder)+'/' : '') + this.encode(object.name);
+	},
+	encode: function(string) {
+		return encodeURIComponent(encodeURIComponent(string)).replace(/%2520/g, ' ');
 	}
 });
 
@@ -32,11 +39,13 @@ Files.File = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.filetype = Files.getFileType(this.extension);
+		this.baseurl = Files.app.baseurl;
+		this.size = new Files.Filesize(this.metadata.size);
+		this.filetype = Files.getFileType(this.metadata.extension);
 	},
 	getModifiedDate: function(formatted) {
 		var date = new Date();
-		date.setTime(this.modified_date*1000);
+		date.setTime(this.metadata.modified_date*1000);
 		if (formatted) {
 			return date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes();
 		} else {
@@ -48,7 +57,7 @@ Files.File = new Class({
 		
 		var that = this,
 			request = new Request.JSON({
-				url: Files.app.createRoute({path: that.path}),
+				url: Files.app.createRoute({view: 'file', folder: that.folder, name: that.name}),
 				method: 'post',
 				data: {
 					'action': 'delete',
@@ -91,9 +100,7 @@ Files.Image = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.baseurl = Files.baseurl;
-
-		this.image = this.baseurl+'/'+this.path;
+		this.image = this.baseurl+'/'+this.filepath;
 		
 		this.client_cache = false;
 		if(window.sessionStorage) {
@@ -101,7 +108,32 @@ Files.Image = new Class({
 		        this.client_cache = sessionStorage[this.image.toString()];
 		    }
 		}
-	}
+	},
+	getThumbnail: function(success, failure) {
+		var that = this,
+			request = new Request.JSON({
+				url: Files.app.createRoute({view: 'thumbnail', filename: that.name, folder: that.folder}),
+				method: 'get',
+				onSuccess: function(response, responseText) {
+					if (typeof success == 'function') {
+						success(response);
+					}
+				},
+				onFailure: function(xhr) {
+					response = xhr.responseText;
+					
+					if (typeof failure == 'function') {
+						failure(xhr);
+					}
+					else {
+						response = JSON.decode(xhr.responseText, true);
+						error = response && response.error ? response.error : 'An error occurred during request';
+						alert(error);
+					}
+				}
+			});
+		request.send();
+	},
 });
 
 
@@ -132,11 +164,11 @@ Files.Folder = new Class({
 		
 		var that = this;
 			request = new Request.JSON({
-				url: Files.app.createRoute({view: 'folder', folder: Files.app.getPath()}),
+				url: Files.app.createRoute({view: 'folder', name: that.name, folder: Files.app.getPath()}),
 				method: 'post',
 				data: {
-					'_token': Files.token,
-					'path': that.path
+					'action': 'add',
+					'_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
 					if (typeof success == 'function') {
@@ -163,9 +195,9 @@ Files.Folder = new Class({
 		request.send();
 	},
 	'delete': function(success, failure) {
-		var that = this;
+		var that = this,
 			request = new Request.JSON({
-				url: Files.app.createRoute({view: 'folders', path: that.path}),
+				url: Files.app.createRoute({view: 'folder', folder: Files.app.getPath(), name: that.name}),
 				method: 'post',
 				data: {
 					'action': 'delete',

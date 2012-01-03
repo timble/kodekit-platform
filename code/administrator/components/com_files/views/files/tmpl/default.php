@@ -16,15 +16,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 Files.sitebase = '<?= $sitebase; ?>';
 Files.token = '<?= $token; ?>';
 
-Files.blank_image = 'media://com_files/images/blank.png';
-
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
 		options = {
 			state: {
 				defaults: {
 					limit: <?= (int) $state->limit; ?>,
-					offset: <?= (int) $state->offset; ?>
+					offset: <?= (int) $state->offset; ?>,
+					types: <?= json_encode($state->types); ?>
 				}
 			},
 			tree: {
@@ -32,7 +31,7 @@ window.addEvent('domready', function() {
 			},
 			types: <?= json_encode($state->types); ?>,
 			container: <?= json_encode($container ? $container->slug : null); ?>,
-			thumbnails: <?= json_encode($container ? $container->getParameters()->thumbnails : true); ?>
+			thumbnails: <?= json_encode($container ? $container->parameters->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
 	
@@ -43,7 +42,7 @@ window.addEvent('domready', function() {
 		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
-			var folder = new Files.Folder({path: value, folder: Files.app.getPath()});
+			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
 				if (response.status === false) {
 					return alert(response.error);
@@ -57,9 +56,12 @@ window.addEvent('domready', function() {
 					text: row.name,
 					id: row.path,
 					data: {
-						url: '#'+row.path
+						path: row.path,
+						url: '#'+row.path,
+						type: 'folder'
 					}
 				});
+				Files.app.tree.selected.toggle(false, true);
 
 				element.getParent('.files-modal').setStyle('display', 'none');
 			});
@@ -87,14 +89,6 @@ window.addEvent('domready', function() {
     };
 
     Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
-
-    Files.app.addEvent('afterNavigate', function(path) {
-        if (path) {
-	        var folder = path.split('/');
-	        folder = folder[folder.length-1] || Files.container.title;
-	        this.setTitle(folder);
-        }
-    });
 
     var switchers = $$('.files-layout-switcher'),
     	slider = document.id('files-thumbs-size');
@@ -125,7 +119,7 @@ window.addEvent('domready', function() {
 	}
 	
     switchers.filter(function(el) { 
-        return el.get('data-layout') == Files.Template.layout;
+        return el.get('data-layout') == Files.app.grid.layout;
     }).addClass('active');
 
     switchers.addEvent('click', function(e) {
@@ -136,7 +130,7 @@ window.addEvent('domready', function() {
     	switchers.removeClass('active');
     	this.addClass('active');
     });
-    if (Files.Template.layout != 'icons') {
+    if (Files.app.grid.layout != 'icons') {
     	slider.setStyle('display', 'none');
     }
 });
@@ -149,8 +143,6 @@ window.addEvent('domready', function() {
 	
 	<div id="sidebar">
 		<div id="files-tree"></div>
-		
-		<div id="files-containertree"></div>
 	</div>
 	
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
