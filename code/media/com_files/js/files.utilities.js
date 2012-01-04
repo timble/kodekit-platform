@@ -41,6 +41,7 @@ Files.FileTypes.map = {
 	
 Files.getFileType = function(extension) {
 	var type = 'document';
+	extension = extension.toLowerCase();
 	$each(Files.FileTypes.map, function(value, key) {
 		if (value.contains(extension)) {
 			type = key; 

@@ -24,7 +24,17 @@ Files.Row = new Class({
 		}
 		this.identifier = this.path;
 		
-		this.filepath = (object.folder ? this.encode(object.folder)+'/' : '') + this.encode(object.name);
+		this.filepath = (object.folder ? this.encodePath(object.folder)+'/' : '') + this.encode(object.name);
+	},
+	encodePath: function(path) {
+		var parts = path.split('/'),
+			encoder = this.encode;
+
+		parts = parts.map(function(part) {
+			return encoder(part);
+		});
+		
+		return parts.join('/');
 	},
 	encode: function(string) {
 		return encodeURIComponent(encodeURIComponent(string)).replace(/%2520/g, ' ');
