@@ -101,7 +101,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 
 	public function isImage()
 	{
-		return in_array($this->extension, self::$image_extensions);
+		return in_array(strtolower($this->extension), self::$image_extensions);
 	}
 
 	public function getImageSize($column)

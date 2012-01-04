@@ -32,7 +32,7 @@ class ComFilesModelFolders extends ComFilesModelNodes
 		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-			
+	
 			$folders = $state->container->getAdapter('iterator')->getFolders(array(
 				'path' => $this->_getPath(),
 				'recurse' => !!$state->tree,
@@ -63,7 +63,7 @@ class ComFilesModelFolders extends ComFilesModelNodes
 
 				$results[] = array(
 					'container' => $state->container,
-					'folder' => $state->folder,
+					'folder' => $hierarchy ? implode('/', $hierarchy) : $state->folder,
 					'name' => basename($folder),
 					'hierarchy' => $hierarchy
 				);
