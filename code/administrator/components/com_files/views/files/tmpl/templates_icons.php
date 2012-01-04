@@ -13,23 +13,25 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://com_files/css/files-layout-icons.css" />
 
 <textarea style="display: none" id="file_preview">
-	<ul>
-		<li>
-			<a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>
-		</li>
-		<li class="preview extension-[%=metadata.extension%]">
-			<img src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
-		</li>
-		<li class="info">
-			[%=name%]
-		</li>
-		<li>
-			[%=size.humanize()%]
-		</li>
-		<li>
-			[%=getModifiedDate(true)%]
-		</li>
-	</ul>
+    <div>
+        <div class="preview extension-[%=metadata.extension%]">
+            <img src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
+        </div>
+    	<ul>
+    		<li>
+    			<a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>
+    		</li>
+    		<li class="info">
+    			[%=name%]
+    		</li>
+    		<li>
+    			[%=size.humanize()%]
+    		</li>
+    		<li>
+    			[%=getModifiedDate(true)%]
+    		</li>
+    	</ul>
+    </div>
 </textarea>
 
 <textarea style="display: none" id="icons_container">
