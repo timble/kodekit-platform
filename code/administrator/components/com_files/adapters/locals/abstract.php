@@ -37,6 +37,8 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 
 		$this->_pathinfo = new SplFileInfo($path);
 		$this->_handle = new SplFileInfo($this->_encoded);
+		
+		unset($this->_metadata);
 
 		return $this;
 	}
