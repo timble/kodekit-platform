@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesCommandValidatorFolder extends KCommand
+class ComFilesCommandValidatorFolder extends ComFilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave($context)
 	{

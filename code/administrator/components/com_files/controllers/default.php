@@ -48,6 +48,58 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 
 		return $request;
 	}
+	
+	protected function _actionCopy(KCommandContext $context)
+	{
+		$data = $this->getModel()->getItem();
+				
+		if(!$data->isNew())	
+		{	
+		    $data->setData(KConfig::unbox($context->data));
+		    
+		    //Only throw an error if the action explicitly failed.
+		    if($data->copy() === false) 
+		    {    
+			    $error = $data->getStatusMessage();
+		        $context->setError(new KControllerException(
+		           $error ? $error : 'Copy Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		        ));
+		       
+		    } 
+		    else {
+		    	$context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;	
+		    }
+		} 
+		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+	
+		return $data;
+	}	
+	
+	protected function _actionMove(KCommandContext $context)
+	{
+		$data = $this->getModel()->getItem();
+				
+		if(!$data->isNew())	
+		{	
+		    $data->setData(KConfig::unbox($context->data));
+		    
+		    //Only throw an error if the action explicitly failed.
+		    if($data->move() === false) 
+		    {    
+			    $error = $data->getStatusMessage();
+		        $context->setError(new KControllerException(
+		           $error ? $error : 'Move Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
+		        ));
+		       
+		    } 
+		    else {
+		    	$context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;	
+		    }
+		} 
+		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+	
+		return $data;
+	}
 
 	/**
 	 * Overridden method to be able to use it with both resource and service controllers

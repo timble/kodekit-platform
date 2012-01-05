@@ -18,4 +18,17 @@
  * @subpackage  Files
  */
 
-echo KService::get('com://admin/files.dispatcher')->dispatch();
+//echo KService::get('com://admin/files.dispatcher')->dispatch();
+try {
+$result = KService::get('com://admin/files.controller.folder')
+	->container('files-files')
+	->folder('test4')
+	->name('7')
+	->copy(array('destination_name' => '6', 'overwrite' => 1))
+	->toArray();
+	
+var_dump($result);
+} 
+catch (KControllerException $e) {
+	var_dump($e);
+}

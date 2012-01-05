@@ -13,6 +13,7 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 		}
 
 		if (is_dir($encoded)) {
+			$result = true; // needed for empty directories
 			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($iterator as $f) {
 				if ($f->isDir()) {
@@ -23,13 +24,12 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 				} else {
 					$result = copy($f, $encoded.'/'.$iterator->getSubPathName());
 				}
-				
 				if ($result === false) {
 					break;
 				}
 			}
 		}
-		
+
 		if ($result && $this->delete()) {
 			$this->setPath($target);
 		} else {
@@ -50,6 +50,7 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 		}
 
 		if (is_dir($encoded)) {
+			$result = true; // needed for empty directories
 			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($iterator as $f) {
 				if ($f->isDir()) {
@@ -66,7 +67,7 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 				}
 			}
 		}
-		
+	
 		if ($result) {
 			$this->setPath($target);
 		}

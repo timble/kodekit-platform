@@ -18,9 +18,9 @@
  * @subpackage  Files
  */
 
-class ComFilesCommandValidatorFile extends KCommand
+class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 {
-	protected function _databaseBeforeSave($context)
+	protected function _databaseBeforeSave(KCommandContext $context)
 	{
 		$row = $context->caller;
 

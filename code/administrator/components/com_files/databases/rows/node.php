@@ -35,6 +35,70 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 	{
 		return empty($this->name) || !$this->_adapter->exists();
 	}
+	
+	public function copy()
+	{
+		$context = $this->getCommandContext();
+		$context->result = false;
+
+		if ($this->getCommandChain()->run('before.copy', $context) !== false)
+		{
+			$context->result = $this->_adapter->copy($this->destination_fullpath);
+
+			$this->getCommandChain()->run('after.copy', $context);
+        }
+
+		if ($context->result === false)
+		{
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage($context->getError());
+		} 
+		else 
+		{
+			if ($this->destination_folder) {
+				$this->folder = $this->destination_folder; 
+			}
+			if ($this->destination_name) {
+				$this->name = $this->destination_name;
+			}
+			
+			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
+		}
+
+		return $context->result;
+	}	
+	
+	public function move()
+	{
+		$context = $this->getCommandContext();
+		$context->result = false;
+
+		if ($this->getCommandChain()->run('before.move', $context) !== false)
+		{
+			$context->result = $this->_adapter->move($this->destination_fullpath);
+
+			$this->getCommandChain()->run('after.move', $context);
+        }
+
+		if ($context->result === false)
+		{
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage($context->getError());
+		} 
+		else 
+		{
+			if ($this->destination_folder) {
+				$this->folder = $this->destination_folder; 
+			}
+			if ($this->destination_name) {
+				$this->name = $this->destination_name;
+			}
+			
+			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
+		}
+
+		return $context->result;
+	}	
 
 	public function delete()
 	{
@@ -66,6 +130,16 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		
 		if ($column == 'path') {
 			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
+		}
+		
+		if ($column == 'destination_path') {
+			$folder = !empty($this->destination_folder) ? $this->destination_folder.'/' : (!empty($this->folder) ? $this->folder.'/' : '');
+			$name = !empty($this->destination_name) ? $this->destination_name : $this->name;
+			return trim($folder.$name, '/\\');
+		}
+		
+		if ($column == 'destination_fullpath') {
+			return $this->container->path.'/'.$this->destination_path;
 		}
 		
 		if ($column == 'adapter') {
