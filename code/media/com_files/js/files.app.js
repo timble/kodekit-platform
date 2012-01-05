@@ -218,7 +218,7 @@ Files.App = new Class({
 			method: 'get',
 			onSuccess: function(response) {
 				var item = response.item;
-				
+
 				this.fireEvent('beforeSetContainer', {container: item});
 				
 				this.container = item;
@@ -238,6 +238,15 @@ Files.App = new Class({
 						max_size.set('html', new Files.Filesize(this.container.parameters.maximum_size).humanize());
 					}
 				}
+				
+				if (this.container.parameters.thumbnails === false) {
+					this.options.thumbnails = false;
+					if (this.spinner) {
+						this.spinner.stop();
+					}
+					console.log(this.options.thumbnails, this.spinner);
+				}
+				
 				
 				if (this.options.types !== null) {
 					this.options.grid.types = this.options.types;
