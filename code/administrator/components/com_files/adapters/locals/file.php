@@ -32,6 +32,51 @@ class ComFilesAdapterLocalFile extends ComFilesAdapterLocalAbstract
 		
 		return $result;
 	}
+	
+	public function move($target)
+	{
+		$result = false;
+		$encoded = $this->encodePath($target);
+		$dir = dirname($encoded);
+		
+		if (!is_dir($dir)) {
+			$result = mkdir($dir, 0755, true);
+		}
+
+		if (is_dir($dir) && is_writable($dir)) {
+			$result = rename($this->_encoded, $encoded);
+		}
+		
+		if ($result) {
+			$this->setPath($target);
+			clearstatcache();
+		}
+		
+		return (bool) $result;		
+	}
+	
+	public function copy($target)
+	{
+		$result = false;
+		$encoded = $this->encodePath($target);
+		$dir = dirname($encoded);
+		
+		if (!is_dir($dir)) {
+			$result = mkdir($dir, 0755, true);
+		}
+
+		if (is_dir($dir) && is_writable($dir)) {
+			$result = copy($this->_encoded, $encoded);
+		}
+		
+		if ($result) {
+			$this->setPath($target);
+			clearstatcache();
+		}
+		
+		return (bool) $result;		
+	}
+	
 
 	public function create()
 	{
