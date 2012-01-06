@@ -6,7 +6,7 @@
 </div>
 
 <div class="-koowa-box-flex">
-	<form action="index.php?option=com_menus&amp;menutype=<?php echo htmlspecialchars($this->menutype); ?>" method="post" name="adminForm">
+	<form action="index.php?option=com_menus&amp;menutype=<?php echo htmlspecialchars($this->menutype); ?>" method="post" name="adminForm" class="-koowa-grid">
 	<table class="adminlist">
 		<thead>
 			<tr>
