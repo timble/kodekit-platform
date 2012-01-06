@@ -174,21 +174,19 @@ window.addEvent('domready', function() {
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm'), submit = form.getElement('.remote-submit'), filename = document.id('remote-name'),
 	    url = '', valid = '', size = '',
-    	input = document.id('remote-url'), validate = new Request({
-    		/* emulation false enables us to use other methods than GET and POST */
-    		emulation: false,
-    		method: 'head',
+    	input = document.id('remote-url'), validate = new Request.JSON({
+    		_url: '', //This is just to cache the url being proxied
     	    onRequest: function(){
     	        valid = '';
     	        size = '';
 
     	        submit.set('value', submit.retrieve('value'));
     	    },
-    	    onSuccess: function(){
+    	    onSuccess: function(response){
     	        valid = true;
     	        submit.addClass('valid');
-
-    	        var length = this.getHeader('content-length').toInt(10);
+    	        console.log(response);
+    	        var length = response['content-length'].toInt(10);
     	        if(length) {
 	    	        size = new Files.Filesize(length).humanize();
 	    	        submit.set('value', submit.retrieve('value')+' ('+size+')');
@@ -203,9 +201,8 @@ window.addEvent('domready', function() {
     	    }
     	}), oninput = function(){
     	    url = input.value;
-    	    //@TODO make validator use a com_files controller to perform the HEAD request to check if exists,
-    	    //		few domains have CORS enabled (http://enable-cors.org/)
-    	    if(url && url !== validate.options.url) validate.setOptions({url: url}).send();
+    	    
+    	    if(url && url !== validate.options._url) validate.setOptions({_url:url, url: Files.app.createRoute({view: 'proxy', url: url})}).send();
     	}, checking;
 	input
 	    .addEvent('focus', function(){
