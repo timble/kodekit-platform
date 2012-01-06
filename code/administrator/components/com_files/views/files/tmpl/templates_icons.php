@@ -26,6 +26,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     		    <span class="label">size</span>
     			[%=size.humanize()%]
     		</li>
+    		<!--<li>
+    		    <span class="label">where</span>
+    			[%path%]
+    		</li>-->
     		<li>
     		    <span class="label">modified</span>
     			[%=getModifiedDate(true)%]
