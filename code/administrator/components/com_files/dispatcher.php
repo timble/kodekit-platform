@@ -46,7 +46,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     		// Plupload do not pass the error to our application if the status code is not 200
     		$code = KRequest::get('get.plupload', 'int') ? 200 : $e->getCode();
     		
-    		JResponse::setHeader('status', $code.' '.str_replace("\n", ' ', $e->getMessage()), true);
+    		header($code.' '.str_replace("\n", ' ', $e->getMessage()), true, $code);
     		
     		echo json_encode($obj);
     		JFactory::getApplication()->close();
