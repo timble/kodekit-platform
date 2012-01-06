@@ -172,15 +172,45 @@ window.addEvent('domready', function() {
  * Remote file form
  */
 window.addEvent('domready', function() {
-	var form = document.id('remoteForm'), submit = form.getElement('.remote-submit'), filename = document.id('remote-name');
-	document.id('remote-url').addEvent('blur', function(e) {
-		if (this.value) {
-		    submit.removeProperty('disabled').addClass('valid');
-			if(!filename.get('value')) filename.set('value', new URI(this.value).get('file'));
-		} else {
-		    submit.setProperty('disabled', 'disabled').removeClass('valid');
-		}
-	});
+	var form = document.id('remoteForm'), submit = form.getElement('.remote-submit'), filename = document.id('remote-name'),
+	    url = '', valid = '',
+    	input = document.id('remote-url'), validate = new Request({
+    		/* emulation false enables us to use other methods than GET and POST */
+    		emulation: false,
+    		method: 'head',
+    	    onRequest: function(){
+    	        valid = '';
+    	    },
+    	    onSuccess: function(){
+    	        valid = true;
+    	        submit.addClass('valid');
+    	    },
+    	    onFailure: function(xhr){
+    	    	if(xhr.status === 404) {
+    	        	valid = false;
+    	        	submit.removeClass('valid');
+    	        }
+    	    }
+    	}), oninput = function(){
+    	    url = input.value;
+    	    //@TODO make validator use a com_files controller to perform the HEAD request to check if exists,
+    	    //		few domains have CORS enabled (http://enable-cors.org/)
+    	    if(url && url !== validate.options.url) validate.setOptions({url: url}).send();
+    	}, checking;
+	input
+	    .addEvent('focus', function(){
+	        checking = oninput.periodical(100);
+	    })
+    	.addEvent('blur', function(e) {
+    	    clearTimeout(checking);
+    		if (this.value) {
+    		    submit.removeProperty('disabled');
+    			if(!filename.get('value')) filename.set('value', new URI(this.value).get('file'));
+    			if(valid !== false) submit.addClass('valid');
+    		} else {
+    		    submit.setProperty('disabled', 'disabled').removeClass('valid');
+    		}
+    	});
 	var request = new Request.JSON({
 		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
 		data: {
