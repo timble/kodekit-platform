@@ -57,14 +57,11 @@ window.addEvent('domready', function() {
 		<td width="10">
 		    <img src="media://com_files/images/folder-16.png" width="16" height="16" alt="[%=name%]" border="0" />
 		</td>
-		<td>
+		<td colspan="4">
 			<a href="#" class="navigate">
 				[%=name%]
 			</a>
 		</td>
-		<td></td>
-		<td></td>
-		<td></td>
 	</tr>
 </textarea>
 
