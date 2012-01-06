@@ -24,7 +24,7 @@
 	//@TODO move into MVC structure?
 	public function _actionGet(KCommandContext $context)
 	{
-		$data = array('url' => KRequest::get('get.url', 'url'), 'status' => 0,  'content-length' => false);
+		$data = array('url' => KRequest::get('get.url', 'url'), 'content-length' => false);
 
 		if (!function_exists('curl_init')) {
 			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
@@ -49,11 +49,12 @@
 
 		$info = curl_getinfo($ch);
 		if (isset($info['http_code']) && $info['http_code'] != 200) {
-			$data['status'] = false;
+			$context->setError(new KControllerException($data['url'].' Not Found', KHttpResponse::NOT_FOUND));
 		}
 		if (isset($info['download_content_length'])) {
 			$data['content-length'] = $info['download_content_length'];
 		}
+
 
 		curl_close($ch);
 

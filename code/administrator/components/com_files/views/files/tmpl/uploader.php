@@ -183,9 +183,10 @@ window.addEvent('domready', function() {
     	        submit.set('value', submit.retrieve('value'));
     	    },
     	    onSuccess: function(response){
+    	    	if(response.error) return this.fireEvent('failure', this.xhr);
     	        valid = true;
     	        submit.addClass('valid');
-    	        console.log(response);
+
     	        var length = response['content-length'].toInt(10);
     	        if(length) {
 	    	        size = new Files.Filesize(length).humanize();
@@ -193,16 +194,14 @@ window.addEvent('domready', function() {
 	    	    }
 
     	    },
-    	    onFailure: function(xhr){
-    	    	if(xhr.status === 404) {
-    	        	valid = false;
-    	        	submit.removeClass('valid');
-    	        }
+    	    onFailure: function(){
+    	        valid = false;
+    	        submit.removeClass('valid');
     	    }
     	}), oninput = function(){
     	    url = input.value;
     	    
-    	    if(url && url !== validate.options._url) validate.setOptions({_url:url, url: Files.app.createRoute({view: 'proxy', url: url})}).send();
+    	    if(url && url !== validate.options._url) validate.setOptions({_url:url, url: Files.app.createRoute({view: 'proxy', url: url})}).get();
     	}, checking;
 	input
 	    .addEvent('focus', function(){
