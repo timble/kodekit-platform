@@ -173,17 +173,27 @@ window.addEvent('domready', function() {
  */
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm'), submit = form.getElement('.remote-submit'), filename = document.id('remote-name'),
-	    url = '', valid = '',
+	    url = '', valid = '', size = '',
     	input = document.id('remote-url'), validate = new Request({
     		/* emulation false enables us to use other methods than GET and POST */
     		emulation: false,
     		method: 'head',
     	    onRequest: function(){
     	        valid = '';
+    	        size = '';
+
+    	        submit.set('value', submit.retrieve('value'));
     	    },
     	    onSuccess: function(){
     	        valid = true;
     	        submit.addClass('valid');
+
+    	        var length = this.getHeader('content-length').toInt(10);
+    	        if(length) {
+	    	        size = new Files.Filesize(length).humanize();
+	    	        submit.set('value', submit.retrieve('value')+' ('+size+')');
+	    	    }
+
     	    },
     	    onFailure: function(xhr){
     	    	if(xhr.status === 404) {
@@ -211,6 +221,10 @@ window.addEvent('domready', function() {
     		    submit.setProperty('disabled', 'disabled').removeClass('valid');
     		}
     	});
+
+    //Default button value is important
+    submit.store('value', submit.value);
+
 	var request = new Request.JSON({
 		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
 		data: {
