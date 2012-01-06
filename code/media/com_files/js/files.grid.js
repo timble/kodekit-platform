@@ -95,7 +95,16 @@ Files.Grid = new Class({
 			this.erase(box.retrieve('row').path);
 		}.bind(this);
 
-		this.container.addEvent('click:relay(.delete-node)', deleteEvt);		
+		this.container.addEvent('click:relay(.delete-node)', deleteEvt);
+		
+		that.addEvent('afterDeleteNodeFail', function(context) {
+			var xhr = context.xhr,
+				response = JSON.decode(xhr.responseText, true);
+			
+			if (response && response.error) {
+				alert(response.error);
+			}
+		});
 		
 		if (this.options.batch_delete) {
 			var chain = new Chain(),
@@ -216,8 +225,8 @@ Files.Grid = new Class({
 				
 				this.fireEvent('afterDeleteNode', {node: node});
 			}.bind(this),
-				failure = function() {
-					this.fireEvent('afterDeleteNodeFail', {node: node});
+				failure = function(xhr) {
+					this.fireEvent('afterDeleteNodeFail', {node: node, xhr: xhr});
 				}.bind(this);
 			node['delete'](success, failure);
 		}
