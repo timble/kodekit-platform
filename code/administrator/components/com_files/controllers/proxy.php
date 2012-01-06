@@ -21,13 +21,16 @@
  */
  class ComFilesControllerProxy extends ComFilesControllerDefault
 {
-	//@TODO move into MVC structure?
 	public function _actionGet(KCommandContext $context)
 	{
-		$data = array('url' => KRequest::get('get.url', 'url'), 'content-length' => false);
+		$data = array(
+			'url' => $this->_request->url, 
+			'content-length' => false
+		);
 
 		if (!function_exists('curl_init')) {
-			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
+			$context->setError(new KControllerException('Curl library does not exist', KHttpResponse::SERVICE_UNAVAILABLE));
+			return;
 		}
 
 		$ch = curl_init();
@@ -37,19 +40,20 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_MAXREDIRS,		 10);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 		 120);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 		 20);
 		//CURLOPT_NOBODY changes the request from GET to HEAD
 		curl_setopt($ch, CURLOPT_NOBODY, 		 true);
 
 		$response = curl_exec($ch);
 
 		if (curl_errno($ch)) {
-			throw new ComFilesDatabaseRowUrlException('Curl Error: '.curl_error($ch));
+			$context->setError(new KControllerException('Curl Error: '.curl_error($ch), KHttpResponse::SERVICE_UNAVAILABLE));
+			return;
 		}
 
 		$info = curl_getinfo($ch);
 		if (isset($info['http_code']) && $info['http_code'] != 200) {
-			$context->setError(new KControllerException($data['url'].' Not Found', KHttpResponse::NOT_FOUND));
+			$context->setError(new KControllerException($data['url'].' Not Found', $info['http_code']));
 		}
 		if (isset($info['download_content_length'])) {
 			$data['content-length'] = $info['download_content_length'];
