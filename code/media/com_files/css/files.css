@@ -476,6 +476,9 @@ ul#files-tree-html li a span.icon {
 	float: left;
 	margin-right: 4px;
 }
+#files-app .mooTree_selected .mooTree_img {
+	/*background-position-y: 18px!important;*/
+}
 
 ul#files-tree-html li a:hover	{
 	border-top-color: #c5dbf0;
@@ -937,4 +940,25 @@ ul#files-tree-html ul li a {
     position: relative;
 }
 
+/* @end */
+
+/* @group Modal */
+.sbox-content-adopt .preview, .sbox-content-adopt .details, .sbox-content-adopt ul {
+	display: block;
+	float: left;
+}
+.sbox-content-adopt ul {
+    clear: left;
+	list-style: none;
+	padding: 0;
+}
+.sbox-content-adopt .label {
+    display: inline-block;
+    text-align: right;
+    width: 60px;
+    text-transform: capitalize;
+}
+.sbox-content-adopt .label::after {
+    content: ':';
+}
 /* @end */
