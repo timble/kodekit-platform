@@ -477,6 +477,7 @@ ul#files-tree-html li a span.icon {
 	margin-right: 4px;
 }
 #files-app .mooTree_selected .mooTree_img {
+	/* @TODO new mootree icon brewing */
 	/*background-position-y: 18px!important;*/
 }
 
@@ -943,22 +944,32 @@ ul#files-tree-html ul li a {
 /* @end */
 
 /* @group Modal */
-.sbox-content-adopt .preview, .sbox-content-adopt .details, .sbox-content-adopt ul {
+.files-preview .preview, .files-preview .details, .files-preview ul {
 	display: block;
 	float: left;
 }
-.sbox-content-adopt ul {
+.files-preview ul {
     clear: left;
 	list-style: none;
 	padding: 0;
+	margin-bottom: 0;
 }
-.sbox-content-adopt .label {
+.files-preview h3, .files-preview a {
+	margin: 11px 0;
+	display: block;
+}
+.files-preview .label {
     display: inline-block;
     text-align: right;
     width: 60px;
     text-transform: capitalize;
 }
-.sbox-content-adopt .label::after {
+.files-preview .label::after {
     content: ':';
+}
+.files-preview {
+	display: inline-block;
+	overflow: hidden;
+	padding: 10px;
 }
 /* @end */
