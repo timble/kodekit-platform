@@ -19,8 +19,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </div>
         <div class="details">
             <a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>
-            <h3 class="name">[%=name%]</h3>
+            <h3 class="name" title="[%=name%]">[%=name%]</h3>
         </div>
+        <!--<h4 class="preview-section">general</h4>-->
     	<ul>
     		<li>
     		    <span class="label">size</span>
