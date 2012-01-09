@@ -350,14 +350,17 @@ Files.App = new Class({
 				var target = document.id(e.target),
 				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
 					row = node.retrieve('row'),
-					copy = $extend({}, row);
-				
-				copy.template = 'file_preview';
+					copy = $extend({}, row),
+					trash = new Element('div', {style: 'display: none'}).inject(document.body);
 
-				SqueezeBox.open(copy.render(), {
+				copy.template = 'file_preview';
+				var template = copy.render().inject(trash), size = template.measure(function(){return this.getDimensions()});
+
+				SqueezeBox.open(template, {
 					handler: 'adopt',
-					size: {x: 300, y: 200}
+					size: {x: size.x, y: size.y}
 				});
+				trash.dispose();
 			},
 			'onAfterSetLayout': function(context) {
 				var layout = context.layout;
