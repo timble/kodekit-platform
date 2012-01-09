@@ -43,14 +43,13 @@ window.addEvent('domready', function() {
 		e.stop();
 
 		var handleClose = function(){
-			console.log('SqueezeBox:onClose', arguments, this, this.options.onClose);
 			$('files-upload').setStyle('display', 'none').inject(document.body);
 			SqueezeBox.removeEvent('close', handleClose);
 		};
 		SqueezeBox.addEvent('close', handleClose);
 		SqueezeBox.open($('files-upload').setStyle('display', 'block'), {
 			handler: 'adopt',
-			size: {x: 600, y: 351}
+			size: {x: 700, y: 351}
 		});
 	});
 
