@@ -36,7 +36,24 @@ window.addEvent('domready', function() {
 	options = $extend(options, config);
 	
 	Files.app = new Files.App(options);
-	
+
+	//@TODO hide the uploader in a modal, make it pretty
+	$('files-upload').setStyle('display', 'none').inject(document.body);
+	$('files-show-uploader').addEvent('click', function(e){
+		e.stop();
+
+		var handleClose = function(){
+			console.log('SqueezeBox:onClose', arguments, this, this.options.onClose);
+			$('files-upload').setStyle('display', 'none').inject(document.body);
+			SqueezeBox.removeEvent('close', handleClose);
+		};
+		SqueezeBox.addEvent('close', handleClose);
+		SqueezeBox.open($('files-upload').setStyle('display', 'block'), {
+			handler: 'adopt',
+			size: {x: 600, y: 200}
+		});
+	});
+
 	$('files-new-folder-modal').getElement('form').addEvent('submit', function(e){
 		e.stop();
 		var element = $('files-new-folder-input');
