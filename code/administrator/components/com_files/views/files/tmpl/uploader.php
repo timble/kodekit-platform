@@ -52,8 +52,6 @@ window.addEvent('domready', function() {
 			if(document.id('files-upload-multi_browse')) {
 				document.id('files-upload-multi_browse').set('text', 'Add files');
 			}
-			//Scrollfix
-			if(document.id('files-upload').scrollIntoView) document.id('files-upload').scrollIntoView(true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
 
@@ -153,9 +151,6 @@ window.addEvent('domready', function() {
 				}
 			}
 		}
-
-		//Scrollfix
-		if(el.scrollIntoView) el.scrollIntoView(true);
 	};
 
 	$$('.upload-form-toggle').addEvent('click', function(e) {
