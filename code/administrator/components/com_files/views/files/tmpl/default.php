@@ -50,7 +50,7 @@ window.addEvent('domready', function() {
 		SqueezeBox.addEvent('close', handleClose);
 		SqueezeBox.open($('files-upload').setStyle('display', 'block'), {
 			handler: 'adopt',
-			size: {x: 600, y: 200}
+			size: {x: 600, y: 351}
 		});
 	});
 
