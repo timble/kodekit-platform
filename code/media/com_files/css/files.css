@@ -954,6 +954,12 @@ ul#files-tree-html ul li a {
 	padding: 0;
 	margin-bottom: 0;
 }
+.files-preview .name {
+	max-width: 400px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: pre;
+}
 .files-preview h3, .files-preview a {
 	margin: 11px 0;
 	display: block;
