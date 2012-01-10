@@ -261,7 +261,7 @@ window.addEvent('domready', function() {
 	});
 
 	//Width fix
-	form.getElement('.remote-wrap').setStyle('margin-right', submit.getSize().x);
+	form.getElement('.remote-wrap').setStyle('margin-right', submit.measure(function(){return this.getSize().x}));
 });
 </script>
 
@@ -292,7 +292,7 @@ window.addEvent('domready', function() {
 				<input type="text" placeholder="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
 				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
 			</div>
-			<input type="submit" class="remote-submit valid" value="<?= @text('Transfer File'); ?>" />
+			<input type="submit" class="remote-submit" disabled="disabled" value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="action" value="save" />
 			</fieldset>
 		</form>
