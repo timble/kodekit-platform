@@ -188,7 +188,7 @@ window.addEvent('domready', function() {
 				var length = response['content-length'].toInt(10);
 				if(length && length < Files.app.container.parameters.maximum_size) {
 					var size = new Files.Filesize(length).humanize();
-					submit.addClass('valid').set('value', submit_default+' ('+size+')');
+					submit.addClass('valid').set('value', submit_default+' ('+size+')').removeProperty('disabled');
 					setRemoteWrapMargin();
 				} else {
 					submit.setProperty('disabled', 'disabled').removeClass('valid');
@@ -252,6 +252,7 @@ window.addEvent('domready', function() {
 				}
 				Files.app.fireEvent('uploadFile', [row]);
 				form.reset();
+				SqueezeBox.close();
 			} else {
 				var error = json.error ? json.error : 'Unknown error';
 				alert('An error occurred: ' + error);
