@@ -146,7 +146,8 @@
 }
 
 #files-canvas button,
-#files-upload button {
+#files-upload button,
+#files-new-folder-modal button {
 	min-width: 50px;
 	line-height: 18px;
 	text-align: center;
@@ -162,14 +163,16 @@
 	border: 1px solid #BBB;
 }
 #files-canvas button:hover,
-#files-upload button:hover {
+#files-upload button:hover,
+#files-new-folder-modal button:hover {
 	border-color: #999;
 	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	text-decoration: none;
 }
 
 #files-canvas button:active,
-#files-upload button:active {
+#files-upload button:active,
+#files-new-folder-modal button:active {
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 }
 
