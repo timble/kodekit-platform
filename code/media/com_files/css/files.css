@@ -188,6 +188,7 @@
 	background-image: linear-gradient(90deg, hsl(0, 0%, 92%) 0%, hsl(0, 0%, 75%) 100%);
 	border-radius: 4px;
 	-moz-border-radius: 4px;
+	overflow: hidden;
 }
 
 #files-upload h3 {
