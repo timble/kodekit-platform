@@ -152,9 +152,7 @@ window.addEvent('domready', function() {
 			}
 		}
 
-		//@TODO the modal will always do an annoying fade in and out using this method, you can only toggle size Fx, not opacity Fx
-		SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})});
-
+		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
 	};
 
 	$$('.upload-form-toggle').addEvent('click', function(e) {
