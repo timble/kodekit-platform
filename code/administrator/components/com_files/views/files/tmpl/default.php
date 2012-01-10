@@ -90,13 +90,18 @@ window.addEvent('domready', function() {
         modal.setStyle('display', 'none');
     	$(button).addEvent('click', function(e) {
     		e.stop();
-    		var coordinates = this.getCoordinates();
-    		
-    		modal.setStyles({
-    		    'display': modal.getStyle('display') != 'block' ? 'block' : 'none',
-    		    'top': coordinates.bottom,
-    		    'left': coordinates.left
-    		});
+
+    		var handleClose = function(){
+				modal.setStyle('display', 'none').inject(document.body);
+				SqueezeBox.removeEvent('close', handleClose);
+			}, sizes = modal.measure(function(){return this.getSize();});
+			SqueezeBox.addEvent('close', handleClose);
+			SqueezeBox.open(modal.setStyle('display', 'block'), {
+				handler: 'adopt',
+				size: {x: sizes.x, y: sizes.y}
+			});
+
+			//@TODO fix this using onOpen event in SqueezeBox
     		var focus = modal.getElement('input.focus');
     		if (focus) {
         		focus.focus();
