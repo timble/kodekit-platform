@@ -206,6 +206,7 @@ window.addEvent('domready', function() {
 			}
 		});
  
+ 	var default_filename;
 	input.addEvent('blur', function(e) {
 		if (this.value) {
 			if (Files.app.container.parameters.maximum_size) {
@@ -215,8 +216,9 @@ window.addEvent('domready', function() {
 				submit.removeProperty('disabled').addClass('valid');
 			}
 			
-			if(!filename.get('value')) {
-				filename.set('value', new URI(this.value).get('file'));
+			if(!filename.get('value') || filename.get('value') == default_filename) {
+				default_filename = new URI(this.value).get('file');
+				filename.set('value', default_filename);
 			}
 		} else {
 			submit.setProperty('disabled', 'disabled').removeClass('valid');
