@@ -312,6 +312,11 @@ ul.upload-buttons {
 #files-upload-multi .plupload_container {
     padding: 0px;
 }
+/* blur focus fix */
+#files-uploader-web input:focus {
+	z-index: 1;
+	position: relative;
+}
 
 #files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
     background: none;
