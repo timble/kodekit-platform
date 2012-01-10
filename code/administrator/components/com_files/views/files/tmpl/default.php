@@ -79,7 +79,7 @@ window.addEvent('domready', function() {
 				});
 				Files.app.tree.selected.toggle(false, true);
 
-				element.getParent('.files-modal').setStyle('display', 'none');
+				SqueezeBox.close();
 			});
 		};
 	});
