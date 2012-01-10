@@ -131,14 +131,8 @@ window.addEvent('domready', function() {
 	 * Switcher between uploaders
 	 */
 	var toggleForm = function(type) {
-		var el = document.id('files-uploader-'+type);
-		var style = el.getStyle('display') == 'block' ? 'none' : 'block';
-
 		$$('.upload-form').setStyle('display', 'none');
-
-		if (style == 'block') {
-			el.setStyle('display', style);
-		}
+		document.id('files-uploader-'+type).setStyle('display', 'block');
 
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
