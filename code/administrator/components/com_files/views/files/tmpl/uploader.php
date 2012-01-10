@@ -251,6 +251,8 @@ window.addEvent('domready', function() {
 					}
 				}
 				Files.app.fireEvent('uploadFile', [row]);
+				submit.setProperty('disabled', 'disabled').removeClass('valid').set('value', submit_default);
+				setRemoteWrapMargin();
 				form.reset();
 				SqueezeBox.close();
 			} else {
