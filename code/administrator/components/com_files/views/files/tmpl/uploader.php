@@ -284,7 +284,7 @@ window.addEvent('domready', function() {
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
 			<li><?= @text('Upload from:') ?></li>
-			<li><a class="upload-form-toggle target-computer" href="#computer"><?= @text('Computer'); ?></a></li>
+			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= @text('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
 			<li id="upload-max">
 				<?= @text('Max'); ?>
@@ -293,7 +293,7 @@ window.addEvent('domready', function() {
 		</ul>
 	</div>
 	<div class="clr"></div>
-	<div id="files-uploader-computer" class="upload-form" style="display: none">
+	<div id="files-uploader-computer" class="upload-form">
 
 		<div style="clear: both"></div>
 
