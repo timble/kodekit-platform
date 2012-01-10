@@ -169,10 +169,18 @@ window.addEvent('domready', function() {
 window.addEvent('domready', function() {
 	var form = document.id('remoteForm'), filename = document.id('remote-name'),
 		submit = form.getElement('.remote-submit'), submit_default = submit.get('value'),
-		input = document.id('remote-url'), 
+		setRemoteWrapMargin = function(){
+			form.getElement('.remote-wrap').setStyle('margin-right', submit.measure(function(){return this.getSize().x}));
+		},
+		input = document.id('remote-url'),
+		current_url,
 		validate = new Request.JSON({
 			onRequest: function(){
-				submit.set('value', submit_default);
+				if(current_url != this.options.url) {
+					submit.set('value', submit_default);
+					setRemoteWrapMargin();
+					current_url = this.options.url;
+				}
 			},
 			onSuccess: function(response){
 				if(response.error) return this.fireEvent('failure', this.xhr);
@@ -181,6 +189,7 @@ window.addEvent('domready', function() {
 				if(length && length < Files.app.container.parameters.maximum_size) {
 					var size = new Files.Filesize(length).humanize();
 					submit.addClass('valid').set('value', submit_default+' ('+size+')');
+					setRemoteWrapMargin();
 				} else {
 					submit.setProperty('disabled', 'disabled').removeClass('valid');
 				}
@@ -261,7 +270,7 @@ window.addEvent('domready', function() {
 	});
 
 	//Width fix
-	form.getElement('.remote-wrap').setStyle('margin-right', submit.measure(function(){return this.getSize().x}));
+	setRemoteWrapMargin();
 });
 </script>
 
