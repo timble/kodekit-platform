@@ -221,7 +221,8 @@ window.addEvent('domready', function() {
 				filename.set('value', default_filename);
 			}
 		} else {
-			submit.setProperty('disabled', 'disabled').removeClass('valid');
+			submit.set('value', submit_default).setProperty('disabled', 'disabled').removeClass('valid');
+			setRemoteWrapMargin();
 		}
 	});
 
