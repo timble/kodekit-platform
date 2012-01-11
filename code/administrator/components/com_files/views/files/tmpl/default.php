@@ -64,6 +64,7 @@ window.addEvent('domready', function() {
 					return alert(response.error);
 				}
 				element.set('value', '');
+				$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
@@ -93,6 +94,7 @@ window.addEvent('domready', function() {
 
     		var handleClose = function(){
 				modal.setStyle('display', 'none').inject(document.body);
+
 				SqueezeBox.removeEvent('close', handleClose);
 			}, sizes = modal.measure(function(){return this.getSize();});
 			SqueezeBox.addEvent('close', handleClose);
