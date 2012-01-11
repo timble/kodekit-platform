@@ -315,7 +315,8 @@ ul.upload-buttons {
     padding: 0px;
 }
 /* blur focus fix */
-#files-uploader-web input:focus {
+#files-uploader-web input:focus,
+.files-modal input:focus {
 	z-index: 1;
 	position: relative;
 }
