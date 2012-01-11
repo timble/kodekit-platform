@@ -107,6 +107,20 @@ window.addEvent('domready', function() {
         		focus.focus();
     		}
     	});
+
+    	var validate = function(){
+    		if(this.value.trim()) {
+    			$('files-new-folder-create').addClass('valid').removeProperty('disabled');
+    		} else {
+    			$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
+    		}
+    	};
+    	$('files-new-folder-input').addEvent('change', validate);
+    	if(window.addEventListener) {
+    		$('files-new-folder-input').addEventListener('input', validate);
+    	} else {
+    		$('files-new-folder-input').addEvent('keyup', validate);
+    	}
     };
 
     Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
@@ -198,7 +212,7 @@ window.addEvent('domready', function() {
 	<div id="files-new-folder-modal" class="files-modal" style="display: none">
 	<form>
 		<input class="inputbox focus" type="text" id="files-new-folder-input" size="60" placeholder="<?= @text('Enter a folder name') ?>" />
-		<button id="files-new-folder-create"><?= @text('Create'); ?></button>
+		<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
 	</form>
 	</div>
 </div>
