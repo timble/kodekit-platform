@@ -3,16 +3,16 @@
 
 (function(){
 
-    var hash = 'install_package';
+    var hash = 'tab_package';
     
     if(window.localStorage) {
 
         if(!localStorage['installer.type']) {
             localStorage['installer.type'] = location.hash 
-                                           ? location.hash.replace(/^\#/, '')
+                                           ? location.hash.replace(/^\#/, '').replace('tab_', 'install_')
                                            : hash;
         } else {
-            if(localStorage['installer.type'].match(/^install_/)) {
+            if(localStorage['installer.type'].match(/^tab_/)) {
                 hash = localStorage['installer.type'];
             }
         }
@@ -20,7 +20,7 @@
         window.addEventListener('hashchange', function(){
             if(location.hash) {
                 var hash = location.hash.replace(/^\#/, '');
-                if(hash.match(/^install_/)) {
+                if(hash.match(/^tab_/)) {
                     localStorage['installer.type'] = hash;
                 }
             }
@@ -34,11 +34,15 @@
     window.addEvent('domready', function(){
         var buttons = $$('.-installer-form ul a');
     
-        buttons.addEvent('click', function(){
+        buttons.addEvent('click', function(event){
+            if(event) event.preventDefault();
+
             buttons.removeClass('active');
             this.addClass('active');
             
-            var hash = this.hash.replace(/^\#/, '');
+            var hash = this.hash.replace(/^\#/, '').replace('tab_', 'install_');
+            $$('.install-by').setStyle('display', 'none');
+            $(hash).setStyle('display', 'block');
             switch (hash) {
                 case 'install_directory':
                     var input = document.id(hash).getElement('input[type=text]');
@@ -66,10 +70,13 @@
                     }, 1);
                     break;
             }
+            hash = hash.replace('install_', 'tab_');
+            window.location.hash = hash;
+            if(window.localStorage) localStorage['installer.type'] = hash;
         });
         
         buttons.each(function(button){
-            if(button.hash == location.hash) button.fireEvent('click');
+            if(button.hash == location.hash.replace('tab_', 'install_')) button.fireEvent('click', new Event);
         });
         
         var package = document.id('install_package');
