@@ -163,16 +163,14 @@
 	border: 1px solid #BBB;
 }
 #files-canvas button:hover,
-#files-upload button:hover,
-.files-modal button:hover {
+#files-upload button:hover {
 	border-color: #999;
 	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 	text-decoration: none;
 }
 
 #files-canvas button:active,
-#files-upload button:active,
-.files-modal button:active {
+#files-upload button:active {
 	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
 }
 
