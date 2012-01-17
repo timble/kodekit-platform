@@ -194,7 +194,7 @@ window.addEvent('domready', function() {
 			},
 			onFailure: function(xhr){
 				var response = JSON.decode(xhr.responseText, true);
-				if (response.code && parseInt(response.code/100) == 4) {
+				if (response.code && parseInt(response.code/100, 10) == 4) {
 					submit.setProperty('disabled', 'disabled').removeClass('valid');
 				}		
 				else {
