@@ -39,8 +39,9 @@ JCombobox.prototype = {
 
 	populate: function(element)
 	{
-		var list = document.getElementById('combobox-'+element.id).getElementsByTagName('LI');
-		var select = new Element("select");
+		var list = document.id('combobox-'+element.id).getElementsByTagName('LI'),
+		    select = new Element("select"),
+		    parent = element.getParent();
 		select.setAttribute('id','combobox-'+element.id+'-select');
 		for ( var i=0; i < list.length; i++) {
 			// Do population bit here
@@ -55,7 +56,8 @@ JCombobox.prototype = {
 		select.inputbox = element.id;
 		select.onchange = function(){ var input = document.getElementById(this.inputbox); input.value = this.options[this.selectedIndex].value; }
 		element.parentNode.insertBefore(select, element);
-		document.id(element.parentNode).setStyle('position', 'relative');
+		var container = new Element('div', {styles: {position: 'relative'}}).inject(element, 'after');
+		container.grab(select).grab(element);
 
 		var coords = select.getPosition(select.getOffsetParent());
 		var widthOffset = 20;
@@ -71,7 +73,6 @@ JCombobox.prototype = {
 		}
 		if (this.is_safari) {
 			coords.y = coords.y - 2;
-			coords.x = coords.x + 2;
 			widthOffset = 18;
 			heightOffset = 0;
 		}
