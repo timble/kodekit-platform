@@ -9,6 +9,7 @@ class ComFilesAdapterLocalFile extends ComFilesAdapterLocalAbstract
 		if ($this->_handle && empty($this->_metadata)) {
 			$this->_metadata = array(
 				'extension' => pathinfo($this->_handle->getFilename(), PATHINFO_EXTENSION),
+				'shortname' => pathinfo($this->_handle->getFilename(), PATHINFO_FILENAME),
 				'mimetype' => $this->getService('com://admin/files.mixin.mimetype')->getMimetype($this->_encoded)
 			);	
 			try {
