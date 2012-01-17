@@ -40,7 +40,7 @@ JCombobox.prototype = {
 	populate: function(element)
 	{
 		var list = document.getElementById('combobox-'+element.id).getElementsByTagName('LI');
-		var select = document.createElement("select");
+		var select = new Element("select");
 		select.setAttribute('id','combobox-'+element.id+'-select');
 		for ( var i=0; i < list.length; i++) {
 			// Do population bit here
@@ -55,8 +55,9 @@ JCombobox.prototype = {
 		select.inputbox = element.id;
 		select.onchange = function(){ var input = document.getElementById(this.inputbox); input.value = this.options[this.selectedIndex].value; }
 		element.parentNode.insertBefore(select, element);
+		document.id(element.parentNode).setStyle('position', 'relative');
 
-		var coords = this.getCoords(select);
+		var coords = select.getPosition(select.getOffsetParent());
 		var widthOffset = 20;
 		var heightOffset = 4;
 		if (this.is_ie) {
@@ -96,16 +97,6 @@ JCombobox.prototype = {
 			iframe.style.height = element.offsetHeight + 'px';
 			element.parentNode.insertBefore(iframe, element);
 		}
-	},
-
-	getCoords: function(el) {
-		var coords = { x: 0, y: 0 };
-		while (el) {
-			coords.x += el.offsetLeft;
-			coords.y += el.offsetTop;
-			el = el.offsetParent;
-		}
-		return coords;
 	}
 }
 
