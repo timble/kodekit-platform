@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS `#__files_containers` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
-(1, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"]}');
+INSERT IGNORE INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
+(NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"]}');
 
 CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
   `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
