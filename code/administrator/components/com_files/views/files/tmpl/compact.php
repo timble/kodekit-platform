@@ -46,7 +46,7 @@ window.addEvent('domready', function() {
 		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
-			var folder = new Files.Folder({path: value});
+			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
 				var el = response.item;
@@ -57,7 +57,7 @@ window.addEvent('domready', function() {
 					text: row.name,
 					id: row.path,
 					data: {
-						path: path,
+						path: row.path,
 						url: '#'+row.path,
 						type: 'folder'
 					}
