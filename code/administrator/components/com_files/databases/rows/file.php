@@ -57,9 +57,13 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 
 	public function __get($column)
 	{
-		if (in_array($column, array('size', 'extension', 'shortname', 'modified_date', 'mimetype'))) {
+		if (in_array($column, array('size', 'extension', 'modified_date', 'mimetype'))) {
 			$metadata = $this->_adapter->getMetadata();
 			return $metadata ? $metadata[$column] : false;
+		}
+		
+		if ($column == 'filename') {
+			return pathinfo($this->name, PATHINFO_FILENAME);
 		}
 		
 		if ($column == 'metadata') {
