@@ -27,7 +27,7 @@ class ComFilesFilterFolderName extends KFilterAbstract
 		$value = $this->_sanitize($context->caller->path);
 
 		if ($value == '') {
-			$context->setError(JText::_('WARNFILENAME'));
+			$context->setError(JText::_('Invalid folder name'));
 			return false;
 		}
 	}
