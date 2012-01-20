@@ -191,8 +191,12 @@ window.addEvent('domready', function() {
 			</div>
 			<h3 id="files-title"></h3>
 			<div class="files-layout-controls">
-				<button class="files-layout-switcher" data-layout="icons" title="Show files as icons.">Icons</button>
-				<button class="files-layout-switcher" data-layout="details" title="Show files in a list.">Details</button>
+				<button class="files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
+					<?= @text('Icons'); ?>
+				</button>
+				<button class="files-layout-switcher" data-layout="details" title="<?= @text('Show files in a list'); ?>">
+					<?= @text('Details'); ?>
+				</button>
 			</div>
 		</div>
 		<div class="view -koowa-box-scroll -koowa-box-flex">
