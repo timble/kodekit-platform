@@ -20,6 +20,18 @@
 
 class ComFilesCommandValidatorNode extends KCommand
 {
+	protected function _databaseBeforeSave(KCommandContext $context)
+	{
+		$row = $context->caller;
+
+		if (!$row->isNew() && !$row->overwrite) {
+			$context->setError(JText::_('Resource already exists and overwrite switch is not present.'));
+			return false;
+		}
+		
+		return true;
+	}
+	
 	protected function _databaseBeforeCopy(KCommandContext $context)
 	{
 		$row = $context->caller;

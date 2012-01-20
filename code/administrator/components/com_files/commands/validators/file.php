@@ -49,6 +49,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 			}
 		}
 		
-		return $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.uploadable')->validate($context);
+		return parent::_databaseBeforeSave($context) && $this->getService('com://admin/files.filter.file.uploadable')->validate($context);
+		
 	}
 }
