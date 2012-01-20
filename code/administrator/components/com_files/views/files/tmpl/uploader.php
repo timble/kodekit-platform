@@ -287,7 +287,7 @@ window.addEvent('domready', function() {
 			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= @text('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
 			<li id="upload-max">
-				<?= @text('Max'); ?>
+				<?= @text('Each file should be smaller than'); ?>
 				<span id="upload-max-size"></span>
 			</li>
 		</ul>
