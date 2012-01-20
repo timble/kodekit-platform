@@ -320,6 +320,9 @@ ul.upload-buttons {
 	z-index: 1;
 	position: relative;
 }
+#files-uploader-web input.success::-webkit-input-placeholder {
+	color: currentcolor;
+}
 
 #files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
     background: none;
