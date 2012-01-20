@@ -204,6 +204,9 @@ window.addEvent('domready', function() {
 		});
  
  	var default_filename;
+ 	input.addEvent('focus', function(){
+ 		this.set('placeholder', this.get('title')).removeClass('success');
+ 	});
 	input.addEvent('blur', function(e) {
 		if (this.value) {
 			if (Files.app.container.parameters.maximum_size) {
@@ -251,7 +254,7 @@ window.addEvent('domready', function() {
 				submit.setProperty('disabled', 'disabled').removeClass('valid').set('value', submit_default);
 				setRemoteWrapMargin();
 				form.reset();
-				SqueezeBox.close();
+				input.set('placeholder', 'Uploaded successfully!').addClass('success');
 			} else {
 				var error = json.error ? json.error : 'Unknown error';
 				alert('An error occurred: ' + error);
@@ -301,7 +304,7 @@ window.addEvent('domready', function() {
 	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="" method="post" name="remoteForm" id="remoteForm" >
 			<div class="remote-wrap">
-				<input type="text" placeholder="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
+				<input type="text" placeholder="<?= @text('Remote URL') ?>" title="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
 				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
 			</div>
 			<input type="submit" class="remote-submit" disabled="disabled" value="<?= @text('Transfer File'); ?>" />
