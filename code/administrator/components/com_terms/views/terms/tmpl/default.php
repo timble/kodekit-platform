@@ -4,13 +4,14 @@
 <style src="media://com_default/css/admin.css" />
 <style src="media://com_terms/css/admin.css" />
 
+<form action="" method="post" class="-koowa-grid">
 <div style="margin-bottom: 25px">
 	<div style="float: left">
-		<?= @template('admin::com.default.view.list.search_form'); ?>
+		<?= @helper( 'grid.search'); ?>
 	</div>
 </div>
 
-<form action="<?= @route()?>" method="post" class="-koowa-grid">
+
 <table class="adminlist" style="clear: both;">
 <thead>
 	<tr>

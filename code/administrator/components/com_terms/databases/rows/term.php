@@ -47,7 +47,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 			//Add a relation
 			if($this->row && $this->table)
 			{
-				$relation = KFactory::tmp('admin::com.terms.database.row.relation');
+				$relation = $this->getService('com://admin/terms.database.row.relation');
 				$relation->terms_term_id = $this->id;
 				$relation->row		   = $this->row;
 				$relation->table		 = $this->table;
@@ -72,7 +72,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 	public function delete()
 	{
 		//Delete the term
-		$relation = KFactory::tmp('admin::com.terms.database.row.relation');
+		$relation = $this->getService('com://admin/terms.database.row.relation');
 		$relation->terms_term_id = $this->id;
 
 		if($relation->count() <= 1) {
@@ -82,7 +82,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 		//Delete the relation
 		if($this->row && $this->table)
  		{
-			$relation = KFactory::tmp('admin::com.terms.database.row.relation', array('new' => false));
+			$relation = $this->getService('com://admin/terms.database.row.relation', array('new' => false));
 			$relation->terms_term_id = $this->id;
 	   		$relation->row		   = $this->row;
 			$relation->table		 = $this->table;

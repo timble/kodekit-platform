@@ -24,7 +24,7 @@ if(!defined('KOOWA')) {
 }
 
 // Factory mappings
-KFactory::map('site::com.terms.controller.term', 'admin::com.terms.controller.terms');
+KService::setAlias('com://site/terms.controller.terms', 'com://admin/terms.controller.terms');
 
 // Create the controller dispatcher
-KFactory::get('admin::com.terms.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'terms'));
+KService::get('com://admin/terms.dispatcher')->dispatch();

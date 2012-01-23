@@ -6,7 +6,7 @@
 <style src="media://com_default/css/form.css" />
 <style src="media://com_terms/css/admin.css" />
 
-<form action="<?= @route('&id='.$term->id)?>" method="post" class="-koowa-form" id="<?= @id(); ?>">
+<form action="" method="post" class="-koowa-form">
 	<div style="width:100%; float: left" id="mainform">
 		<fieldset>
 			<legend><?= @text('Details'); ?></legend>
