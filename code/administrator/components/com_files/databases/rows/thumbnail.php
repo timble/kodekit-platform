@@ -39,12 +39,14 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
     
     public function generateThumbnail()
     {
+		@ini_set('memory_limit', '256M');
+		
     	$source = $this->source;
     	if ($source && !$source->isNew()) 
 		{
 			//Load the library
 		    $this->getService('koowa:loader')->loadIdentifier('com://admin/files.helper.phpthumb.phpthumb');
-		
+	
 		    //Create the thumb
 		    $image = PhpThumbFactory::create($source->fullpath)
 			    ->setOptions(array('jpegQuality' => 50))
