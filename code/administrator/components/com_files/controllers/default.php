@@ -119,8 +119,6 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	 */
 	protected function _actionGet(KCommandContext $context)
 	{
-		// Set limit for every request
-		parent::_actionBrowse($context);
 		if ($this->getIdentifier()->name == 'image'
 			|| ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html'))
 		{

@@ -30,6 +30,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			->insert('files', 'com://admin/files.filter.path', null)
 			->insert('source', 'raw', null, true)
 			;
+		
 	}
 	
 	protected function _initialize(KConfig $config)
@@ -82,6 +83,9 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			if ($source->folder) {
 				$query->where('tbl.folder', '=', $source->folder);
 			}
+		}
+		elseif (!empty($state->files)) {
+			$query->where('tbl.filename', 'IN', $state->files);
 		}
 		else {
 		    if ($state->container) {
