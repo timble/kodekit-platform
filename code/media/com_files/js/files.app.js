@@ -244,7 +244,6 @@ Files.App = new Class({
 					if (this.spinner) {
 						this.spinner.stop();
 					}
-					console.log(this.options.thumbnails, this.spinner);
 				}
 				
 				
