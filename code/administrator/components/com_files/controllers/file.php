@@ -31,7 +31,10 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 		if (empty($context->data->file) && KRequest::has('files.file.tmp_name'))
 		{
 			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
-			$context->data->name = KRequest::get('files.file.name', 'raw');
+			if (empty($context->data->name)) {
+				$context->data->name = KRequest::get('files.file.name', 'raw');	
+			}
+			
 		}
 	}
 }
