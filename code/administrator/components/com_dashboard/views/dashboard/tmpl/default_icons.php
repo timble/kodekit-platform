@@ -12,7 +12,7 @@
 defined('KOOWA') or die('Restricted access'); 
 ?>
 
-<div id="cpanel">
+<div id="cpanel" class="group">
 <?= @helper('image.icon', array(
 		'link'  => 'option=com_articles&view=article',
 		'text'  => 'Add New Article',
