@@ -68,6 +68,7 @@ class KInflector
 			'/(vert|ind)ices$/i'    => '\1ex',
 			'/^(ox)en/i' 			=> '\1',
 			'/(alias|status)es$/i' 	=> '\1',
+			'/(alias|status)$/i'    => '\1',
             '/(tomato|hero|buffalo)es$/i'  => '\1',
 			'/([octop|vir])i$/i' 	=> '\1us',
             '/(gen)era$/i'          => '\1us',
@@ -89,7 +90,7 @@ class KInflector
 			'/([ti]|addend)a$/i' 	=> '\1um',
             '/(alumn|formul)ae$/i'  => '$1a',
 			'/(n)ews$/i' 			=> '\1ews',
-			'/(.*)ss$/i'            => '\1ss',       
+			'/(.*)ss$/i'            => '\1ss',    
 			'/(.*)s$/i' 			=> '\1',
 		),
 
