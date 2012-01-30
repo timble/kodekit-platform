@@ -148,7 +148,10 @@ class KInflector
 	 */
 	public static function pluralize($word)
 	{
-		//Get the cached noun of it exists
+		//Make sure we have the singular
+	    $word = self::singularize($word); 
+	    
+	    //Get the cached noun of it exists
  	   	if(isset(self::$_cache['pluralized'][$word])) {
 			return self::$_cache['pluralized'][$word];
  	   	}
