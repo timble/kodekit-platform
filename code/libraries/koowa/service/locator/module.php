@@ -43,18 +43,19 @@ class KServiceLocatorModule extends KServiceLocatorAbstract
 	 */
 	public function findClass(KServiceIdentifier $identifier)
 	{		
-		$path = KInflector::camelize(implode('_', $identifier->path));
+	    $path = KInflector::camelize(implode('_', $identifier->path));
 		$classname = 'Mod'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
-				
+			
 		//Don't allow the auto-loader to load module classes if they don't exists yet
 		if (!$this->getService('koowa:loader')->loadClass($classname, $identifier->basepath))
 		{
 			$classpath = $identifier->path;
-			$classtype = !empty($classpath) ? array_shift($classpath) : $identifier->name;
-				
+			$classtype = !empty($classpath) ? array_shift($classpath) : 'view';
+			
 			//Create the fallback path and make an exception for views
-			$path = ($classtype != 'view') ? KInflector::camelize(implode('_', $classpath)) : '';
-					
+			$com_path = ($classtype != 'view') ? ucfirst($classtype).KInflector::camelize(implode('_', $classpath)) : ucfirst($classtype);
+			$mod_path = ($classtype != 'view') ? ucfirst($classtype).KInflector::camelize(implode('_', $classpath)) : '';
+				
 			/*
 			 * Find the classname to fallback too and auto-load the class
 			 * 
@@ -67,22 +68,22 @@ class KServiceLocatorModule extends KServiceLocatorAbstract
 			 *                     -> Framework Specific 
 			 *                     -> Framework Default
 			 */
-			if(class_exists('Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name))) {
-				$classname = 'Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.ucfirst($identifier->name);
-			} elseif(class_exists('Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default')) {
-				$classname = 'Mod'.ucfirst($identifier->package).ucfirst($classtype).$path.'Default';
-			} elseif(class_exists('ModDefault'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
-				$classname = 'ModDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
-			} elseif(class_exists('ModDefault'.ucfirst($classtype).$path.'Default')) {
-				$classname = 'ModDefault'.ucfirst($classtype).$path.'Default';
-			} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
-				$classname = 'ComDefault'.ucfirst($classtype).$path.ucfirst($identifier->name);
-			} elseif(class_exists('ComDefault'.ucfirst($classtype).$path.'Default')) {
-				$classname = 'ComDefault'.ucfirst($classtype).$path.'Default';
-			} elseif(class_exists( 'K'.ucfirst($classtype).$path.ucfirst($identifier->name))) {
-				$classname = 'K'.ucfirst($classtype).$path.ucfirst($identifier->name);
-			} elseif(class_exists('K'.ucfirst($classtype).$path.'Default')) {
-				$classname = 'K'.ucfirst($classtype).$path.'Default';
+			if(class_exists('Mod'.ucfirst($identifier->package).$mod_path.ucfirst($identifier->name))) {
+				$classname = 'Mod'.ucfirst($identifier->package).$mod_path.ucfirst($identifier->name);
+			} elseif(class_exists('Mod'.ucfirst($identifier->package).$mod_path.'Default')) {
+				$classname = 'Mod'.ucfirst($identifier->package).$mod_path.'Default';
+			} elseif(class_exists('ModDefault'.$mod_path.ucfirst($identifier->name))) {
+				$classname = 'ModDefault'.$mod_path.ucfirst($identifier->name);
+			} elseif(class_exists('ModDefault'.$mod_path.'Default')) {
+				$classname = 'ModDefault'.$mod_path.'Default';
+			} elseif(class_exists('ComDefault'.$com_path.ucfirst($identifier->name))) {
+				$classname = 'ComDefault'.$com_path.ucfirst($identifier->name);
+			} elseif(class_exists('ComDefault'.$com_path.'Default')) {
+				$classname = 'ComDefault'.$com_path.'Default';
+			} elseif(class_exists( 'K'.$com_path.ucfirst($identifier->name))) {
+				$classname = 'K'.$com_path.ucfirst($identifier->name);
+			} elseif(class_exists('K'.$com_path.'Default')) {
+				$classname = 'K'.$com_path.'Default';
 			} else {
 				$classname = false;
 			}
