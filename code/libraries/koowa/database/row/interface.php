@@ -88,6 +88,14 @@ interface KDatabaseRowInterface
      * @return array    An array of column names that have been modified
      */
     public function getModified();
+    
+    /**
+     * Check if a column has been modified
+     * 
+     * @param   string  The column name.
+     * @return  boolean
+     */
+    public function isModified($column);
 
     /**
      * Checks if the row is new or not
