@@ -22,7 +22,7 @@ interface KObjectServiceable
 	 *
 	 * @param	string|object	The class identifier or identifier object
 	 * @param	array  			An optional associative array of configuration settings.
-	 * @throws	KServiceServiceException
+	 * @throws	KObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public function getService($identifier, array $config = array());
