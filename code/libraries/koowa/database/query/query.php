@@ -102,6 +102,13 @@ class KDatabaseQuery
 	 * @var		object
 	 */
 	protected $_adapter;
+	
+	/**
+	 * Table prefix
+	 *
+	 * @var		object
+	 */
+	protected $_prefix;
 
 	/**
 	 * Object constructor
@@ -131,7 +138,7 @@ class KDatabaseQuery
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-            'adapter' => ''
+            'adapter' => '',
         ));
     }
 
@@ -144,7 +151,7 @@ class KDatabaseQuery
     {
         return $this->_adapter;
     }
-    
+        
 	/**
      * Set the database adapter for this particular KDatabaseQuery object.
      *
@@ -156,7 +163,7 @@ class KDatabaseQuery
         $this->_adapter = $adapter;
         return $this;
     }
-
+    
     /**
      * Built a select query
      *
@@ -165,7 +172,7 @@ class KDatabaseQuery
      */
     public function select( $columns = '*')
     {
-        settype($columns, 'array'); //force to an array
+        settype($columns, 'array'); 
 
         $this->columns = array_unique( array_merge( $this->columns, $columns ) );
         return $this;
@@ -202,12 +209,20 @@ class KDatabaseQuery
      */
     public function from( $tables )
     {
-        settype($tables, 'array'); //force to an array
+        settype($tables, 'array');
+        
+        //The table needle
+        $needle = $this->_adapter->getTableNeedle();
 
         //Prepent the table prefix
-        array_walk($tables, array($this, '_prefix'));
+        foreach($tables as &$table)
+        {
+            if(strpos($table, $needle) !== 0) {
+                $table = $needle.$table;
+            }
+        }
 
-        $this->from = array_unique( array_merge( $this->from, $tables ) );
+        $this->from = array_unique(array_merge($this->from, $tables));
         return $this;
     }
 
@@ -221,9 +236,14 @@ class KDatabaseQuery
      */
     public function join($type, $table, $condition)
     {
-        settype($condition, 'array'); //force to an array
+        settype($condition, 'array'); 
 
-        $this->_prefix($table); //add a prefix to the table
+        //The table needle
+        $needle = $this->_adapter->getTableNeedle();
+        
+        if(strpos($table, $needle) !== 0) {
+            $table = $needle.$table;
+        }
     
         $this->join[] = array(
             'type'      => strtoupper($type),
@@ -334,18 +354,6 @@ class KDatabaseQuery
         $this->offset = (int) $offset;
         
         return $this;
-    }
-
-    /**
-     * Callback for array_walk to prefix elements of array with given prefix
-     *
-     * @param string The data to be prefixed
-     */
-    protected function _prefix(&$data)
-    {
-        // Prepend the table modifier
-        $prefix = $this->_adapter->getTablePrefix();
-        $data = $prefix.$data;
     }
 
     /**

@@ -61,6 +61,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 * @var string
 	 */
 	protected $_table_prefix = '';
+	
+	/**
+	 * The table needle
+	 *
+	 * @var string
+	 */
+	protected $_table_needle = '';
 
 	/**
 	 * Quote for named objects
@@ -102,6 +109,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		// Set the table prefix
 		$this->_table_prefix = $config->table_prefix;
 		
+		// Set the table prefix
+		$this->_table_needle = $config->table_needle;
+		
 		// Set the connection options
 		$this->_options = $config->options;
 		
@@ -133,6 +143,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     		'options'			=> array(),
     		'charset'			=> 'UTF-8',
        	 	'table_prefix'  	=> 'jos_',
+    	    'table_needle'		=> '#__',
     		'command_chain' 	=>  new KCommandChain(),
     		'dispatch_events'   => true,
     		'enable_callbacks' 	=> false,
@@ -382,7 +393,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 					$keys[] = '`'.$key.'`';
 				}
 
-				$context->query = 'INSERT INTO '.$this->quoteName('#__'.$context->table )
+				$context->query = 'INSERT INTO '.$this->quoteName($this->getTableNeedle().$context->table )
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
 				 
 				//Execute the query
@@ -428,7 +439,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 				}
 				
 				//Create query statement
-				$context->query = 'UPDATE '.$this->quoteName('#__'.$context->table)
+				$context->query = 'UPDATE '.$this->quoteName($this->getTableNeedle().$context->table)
 			  		.' SET '.implode(', ', $vals)
 			  		.' '.$context->where
 				;
@@ -464,7 +475,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		if($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
 			//Create query statement
-			$context->query = 'DELETE FROM '.$this->quoteName('#__'.$context->table)
+			$context->query = 'DELETE FROM '.$this->quoteName($this->getTableNeedle().$context->table)
 				  .' '.$context->where
 			;
 
@@ -493,7 +504,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	public function execute($sql, $mode = KDatabase::RESULT_STORE )
 	{	
 		//Replace the database table prefix
-		$sql = $this->replaceTablePrefix( $sql );
+		$sql = $this->replaceTableNeedle( $sql );
 		
 		$result = $this->_connection->query($sql, $mode);
 		
@@ -512,6 +523,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 *
 	 * @param string The table prefix
 	 * @return KDatabaseAdapterAbstract
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function setTablePrefix($prefix)
 	{
@@ -523,25 +535,35 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 * Get the table prefix
 	 *
 	 * @return string The table prefix
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function getTablePrefix()
 	{
 		return $this->_table_prefix;
 	}
+	
+	/**
+	 * Get the table needle
+	 *
+	 * @return string The table needle
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
+	 */
+	public function getTableNeedle()
+	{
+		return $this->_table_needle;
+	}
 
 	/**
-	 * This function replaces a string identifier <var>$prefix</var> with the
-	 * string held is the <var>_table_prefix</var> class variable.
+	 * This function replaces the table needles in a query string with the actual table prefix.
 	 *
-	 * @param 	string 	The SQL query string
-	 * @param 	string 	The table prefix to use as a replacement
-	 * @param 	string 	The needle to search for in the query string
+	 * @param  string 	The SQL query string
 	 * @return string	The SQL query string
 	 */
-	public function replaceTablePrefix( $sql, $replace = null, $needle = '#__' )
+	public function replaceTableNeedle( $sql, $replace = null)
 	{
-		$replace = isset($replace) ? $replace : $this->getTablePrefix();
-		$sql = trim( $sql );
+		$needle  = $this->getTableNeedle();
+	    $replace = isset($replace) ? $replace : $this->getTablePrefix();
+		$sql     = trim( $sql );
 		
 		$pattern = "($needle(?=[a-z0-9]))";
     	$sql = preg_replace($pattern, $replace, $sql);
