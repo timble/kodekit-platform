@@ -561,15 +561,35 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 */
 	public function replaceTableNeedle( $sql, $replace = null)
 	{
-		$needle  = $this->getTableNeedle();
-	    $replace = isset($replace) ? $replace : $this->getTablePrefix();
-		$sql     = trim( $sql );
-		
-		$pattern = "($needle(?=[a-z0-9]))";
-    	$sql = preg_replace($pattern, $replace, $sql);
-    	
-		return $sql;
-	}
+	    $needle  = $this->getTableNeedle(); 
+        $replace = isset($replace) ? $replace : $this->getTablePrefix();
+        $result  = '';
+        
+        while($sql)
+        {
+            // Find the opening quote. If no more left, quit the loop.
+            if(!preg_match('/[^\\\\](\'|")/', $sql, $matches, PREG_OFFSET_CAPTURE)) {
+                $result .= str_replace($needle, $replace, $sql);
+                break;
+            }
+            
+            $char   = $matches[1][0];
+            $offset = $matches[1][1] + 1;
+            
+            $result .= str_replace($needle, $replace, substr($sql, 0, $offset));
+            $sql     = substr($sql, $offset);
+            
+            // Find the closing quote.
+            preg_match('/[^\\\\]('.$char.')/', $sql, $matches, PREG_OFFSET_CAPTURE);
+            
+            $offset  = $matches[1][1] + 1;
+            $result .= substr($sql, 0, $offset);
+            $sql     = substr($sql, $offset);
+        }
+        
+        return $result;
+    }
+	
 
     /**
      * Safely quotes a value for an SQL statement.
