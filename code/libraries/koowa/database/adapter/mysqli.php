@@ -585,7 +585,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Given a raw column specification, parse into datatype, length, and decimal scope.
 	 *
 	 * @param string The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)" or ENUM('yes','no','maybe')
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)" or "float(6,2) UNSIGNED" or ENUM('yes','no','maybe')
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
@@ -596,36 +596,30 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	$length  = null;
  	   	$scope   = null;
 
+ 	    // find the type first
+	    $type = strtok($spec, '( ');
+ 	   	
  	   	// find the parens, if any
- 	   	$pos = strpos($spec, '(');
- 	   	if ($pos === false)
- 	   	{
- 	     	// no parens, so no size or scope
- 	      	$type = $spec;
- 	   	}
- 	   	else
- 	   	{
- 	   		// find the type first.
- 	      	$type = substr($spec, 0, $pos);
- 	      	
- 	      	// there were parens, so there's at least a length
- 	       	// remove parens to get the size.
- 	      	$length = trim(substr($spec, $pos), '()');
- 	      	
- 	   		if($type != 'enum' && $type != 'set')
- 	     	{
- 	     		// A comma in the size indicates a scope.
- 	      		$pos = strpos($length, ',');
- 	      		if ($pos !== false) {
- 	        		$scope = substr($length, $pos + 1);
- 	           		$length  = substr($length, 0, $pos);
- 	       		}
- 	     		
- 	     		
- 	     	}
- 	     	else $length = explode(',', str_replace("'", "", $length));
- 	   	}
-	 	
- 	  	return array($type, $length, $scope);
+	    if (false !== ($pos = strpos($spec, '(')))
+	    {
+		    // there were parens, so there's at least a length
+		    // remove parens to get the size.
+		    $length = trim(substr(strtok($spec, ' '), $pos), '()');
+
+		    if($type != 'enum' && $type != 'set')
+		    {
+			    // A comma in the size indicates a scope.
+			    $pos = strpos($length, ',');
+			    if ($pos !== false) 
+			    {
+				    $scope  = substr($length, $pos + 1);
+				    $length = substr($length, 0, $pos);
+			    }
+
+            }
+		    else $length = explode(',', str_replace("'", "", $length));
+	    }
+
+	    return array($type, $length, $scope);
  	}
 }
