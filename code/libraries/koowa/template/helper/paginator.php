@@ -56,7 +56,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
         {
             $config->limit   = 0;
             $config->offset  = 0;
-            $confgi->count   = 0;
+            $config->count   = 0;
             $config->current = 0;
         }
 
