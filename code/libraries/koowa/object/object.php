@@ -243,28 +243,37 @@ class KObject implements KObjectHandlable, KObjectServiceable
 	 *
 	 * @param	string|object	The class identifier or identifier object
 	 * @param	array  			An optional associative array of configuration settings.
-	 * @throws	KServiceServiceException
+	 * @throws	KObjectException if the service container has not been defined.
 	 * @return	object  		Return object on success, throws exception on failure
 	 * @see 	KObjectServiceable
 	 */
 	final public function getService($identifier, array $config = array())
 	{
+	    if(!isset($this->__service_container)) {
+	        throw new KObjectException("Failed to call ".get_class($this)."::getService(). No service_container object defined.");
+	    }
+	    
 	    return $this->__service_container->get($identifier, $config);
 	}
 	
 	/**
 	 * Gets the service identifier.
-	 *
+	 * 
+	 * @throws	KObjectException if the service container has not been defined.
 	 * @return	KServiceIdentifier
 	 * @see 	KObjectServiceable
 	 */
 	final public function getIdentifier($identifier = null)
 	{
-		if(isset($identifier)) {
+		if(isset($identifier)) 
+		{
+		    if(!isset($this->__service_container)) {
+	            throw new KObjectException("Failed to call ".get_class($this)."::getIdentifier(). No service_container object defined.");
+	        }
+		    
 		    $result = $this->__service_container->getIdentifier($identifier);
-		} else {
-		    $result = $this->__service_identifier; 
-		}
+		} 
+		else  $result = $this->__service_identifier; 
 	    
 	    return $result;
 	}
