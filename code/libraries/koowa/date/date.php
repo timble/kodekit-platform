@@ -203,7 +203,7 @@ class KDate extends KObject
         switch ($format)
         {
             case DATE_FORMAT_ISO:
-                return $this->format( '%Y-%m-%d %T' );
+                return $this->format( '%Y-%m-%d %H:%M:%S' );
                 break;
 
             case DATE_FORMAT_ISO_BASIC:
