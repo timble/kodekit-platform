@@ -93,21 +93,27 @@ window.addEvent('domready', function() {
     		e.stop();
 
     		var handleClose = function(){
-				modal.setStyle('display', 'none').inject(document.body);
+					modal.setStyle('display', 'none').inject(document.body);
 
-				SqueezeBox.removeEvent('close', handleClose);
-			}, sizes = modal.measure(function(){return this.getSize();});
+					SqueezeBox.removeEvent('close', handleClose);
+				},
+				handleOpen = function(){
+					var focus = modal.getElement('input.focus');
+		    		if (focus) {
+		        		focus.focus();
+		    		}
+
+					SqueezeBox.removeEvent('open', handleOpen);
+				},
+				sizes = modal.measure(function(){return this.getSize();});
+
 			SqueezeBox.addEvent('close', handleClose);
+			SqueezeBox.addEvent('open', handleOpen);
 			SqueezeBox.open(modal.setStyle('display', 'block'), {
 				handler: 'adopt',
 				size: {x: sizes.x, y: sizes.y}
 			});
 
-			//@TODO fix this using onOpen event in SqueezeBox
-    		var focus = modal.getElement('input.focus');
-    		if (focus) {
-        		focus.focus();
-    		}
     	});
 
     	var validate = function(){
