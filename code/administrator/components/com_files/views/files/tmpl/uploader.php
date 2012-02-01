@@ -227,7 +227,8 @@ window.addEvent('domready', function() {
 	});
 
 	var validateInput = function(){
-    		if(this.value.trim()) {
+			var value = this.value.trim(), host = new URI(value).get('host');
+    		if(value && host && value.match(host)) {
     			submit.addClass('valid').removeProperty('disabled');
     		} else {
     			submit.removeClass('valid').setProperty('disabled', 'disabled');
