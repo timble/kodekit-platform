@@ -87,8 +87,8 @@ window.addEvent('domready', function() {
 
     Files.createModal = function(container, button){
         var modal = $(container);
-        document.body.grab(modal);
         modal.setStyle('display', 'none');
+        document.body.grab(modal);
     	$(button).addEvent('click', function(e) {
     		e.stop();
 
