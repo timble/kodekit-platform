@@ -226,6 +226,20 @@ window.addEvent('domready', function() {
 		}
 	});
 
+	var validateInput = function(){
+    		if(this.value.trim()) {
+    			submit.addClass('valid').removeProperty('disabled');
+    		} else {
+    			submit.removeClass('valid').setProperty('disabled', 'disabled');
+    		}
+    	};
+    	input.addEvent('change', validateInput);
+    	if(window.addEventListener) {
+    		input.addEventListener('input', validateInput);
+    	} else {
+    		input.addEvent('keyup', validateInput);
+    	}
+
 	var request = new Request.JSON({
 		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
 		data: {
