@@ -373,22 +373,27 @@ class KService implements KServiceInterface
     {           
         $result = null;
         
-        if(array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
+        //Load the class manually using the basepath
+        if(self::get('koowa:loader')->loadClass($identifier->classname, $identifier->basepath))
         {
-            //Create the configuration object
-            $config = new KConfig(array_merge(self::getConfig($identifier), $config));
+            if(array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
+            {
+                //Create the configuration object
+                $config = new KConfig(array_merge(self::getConfig($identifier), $config));
        
-            //Set the service container and identifier
-            $config->service_container  = self::getInstance();
-            $config->service_identifier = $identifier;
-                        
-            // If the class has an instantiate method call it
-            if(array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
-                $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
-            } else {
-                $result = new $identifier->classname($config);
-            }       
-        }
+                //Set the service container and identifier
+                $config->service_container  = self::getInstance();
+                $config->service_identifier = $identifier;
+            
+                // If the class has an instantiate method call it
+                if(array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
+                    $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
+                } else {
+                    $result = new $identifier->classname($config);
+                }
+                  
+            }
+        } 
         
         //Thrown an error if no object was instantiated
         if(!is_object($result)) {
