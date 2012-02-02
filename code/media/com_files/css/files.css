@@ -493,8 +493,7 @@ ul#files-tree-html li a span.icon {
 	margin-right: 4px;
 }
 #files-app .mooTree_selected .mooTree_img {
-	/* @TODO new mootree icon brewing */
-	/*background-position-y: 18px!important;*/
+	background-position-y: 18px!important;
 }
 
 ul#files-tree-html li a:hover	{
