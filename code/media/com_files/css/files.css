@@ -125,6 +125,12 @@
 	border: 1px solid #CCC;
 }
 
+/* This clearing css is normally present in the backend, but not in frontend templates */
+.clr {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+}
 /* --- End --- */
 
 #files-container {
