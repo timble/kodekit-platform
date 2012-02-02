@@ -236,19 +236,20 @@ class KLoader
      */
     public function findPath($class, $basepath = null)
     {
-        $result = false;
-                 
-        $word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class);
-        $parts = explode(' ', $word);
-         
-        if(isset(self::$_prefix_map[$parts[0]])) 
+        static $base;
+        
+        //Switch the base
+        $base = $basepath ? $basepath : $base;
+        
+        if(!$this->_registry->offsetExists($base.'-'.(string) $class)) 
         {
-            if(!$basepath) {
-                $basepath = self::$_adapters[self::$_prefix_map[$parts[0]]]->getBasepath();
-            }
-            
-            if(!$this->_registry->offsetExists($basepath.'-'.(string) $class)) 
-            {
+            $result = false;
+                 
+            $word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class);
+            $parts = explode(' ', $word);
+         
+            if(isset(self::$_prefix_map[$parts[0]])) 
+            {    
                 $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->findPath( $class, $basepath);
             
                 if ($result !== false) 
@@ -258,10 +259,10 @@ class KLoader
                    $result = $path !== false ? $path : $result;
                 }
             
-                $this->_registry->offsetSet($basepath.'-'.(string) $class, $result);
+                $this->_registry->offsetSet($base.'-'.(string) $class, $result);
             }
-            else $result = $this->_registry->offsetGet($basepath.'-'.(string)$class);
-        }
+            
+        } else $result = $this->_registry->offsetGet($base.'-'.(string)$class);
         
         return $result;
     }
