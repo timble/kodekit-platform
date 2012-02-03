@@ -143,11 +143,11 @@ window.addEvent('domready', function() {
     			'class': 'slider'
     		}).grab(new Element('div', {'class': 'knob'}))
     		  .replaces(slider);
-			
+
 		// Create the new slider instance
 	    new Slider(newSlider, newSlider.getElement('.knob'), {
 	        range: [80, 200],
-	        initialStep: slider.value,
+	        initialStep: Cookie.read(Files.app.cookie+'.grid.icon.size') || Files.app.options.grid.icon_size,
 	        onChange: function(value){
 	        	Files.app.grid.setIconSize(value);
 	        	Files.app.setDimensions.call(Files.app, true);
