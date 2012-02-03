@@ -263,6 +263,8 @@ window.addEvent('domready', function() {
 								row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
 							}
 						});
+						/* This is for the thumb margins to recalculate */
+						window.fireEvent('resize');
 					}
 				}
 				Files.app.fireEvent('uploadFile', [row]);
