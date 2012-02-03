@@ -7,6 +7,12 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
+
+/* tmpl=component rarely includes a default font, so we get ugly Times New Roman if we don't do the following */
+body {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
 #files-compact > * {
 	 background-color: #F9F9F9
 }
