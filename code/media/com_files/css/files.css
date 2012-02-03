@@ -13,6 +13,8 @@
 .-koowa-box { 
 	display: -webkit-box;
 	display: -moz-box;
+	/* Gecko needs this */
+	width: 100%;
 }
 
 .-koowa-box-horizontal 		{ 
