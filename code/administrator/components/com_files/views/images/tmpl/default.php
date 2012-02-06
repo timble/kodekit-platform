@@ -59,15 +59,16 @@ window.addEvent('domready', function() {
 	document.id('details').adopt(document.id('image-insert-form'));
 
 	Files.app.grid.addEvent('clickImage', function(e) {
-		var target = document.id(e.target).getParent('.files-node');
-		var row = target.retrieve('row');
-		
-		document.id('image-url').set('value', row.image.replace(/sites\/[^\/]+\//, ''));
-	});
+		var target = document.id(e.target).getParent('.files-node'),
+			row = target.retrieve('row'),
+    		url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+			
+		document.id('image-url').set('value', url);
+	});    
 
 	if (window.parent.tinyMCE) {
 		var text = window.parent.tinyMCE.activeEditor.selection.getContent({format:'text'});
-			if (text) {
+		if (text) {
 			document.id('image-alt').set('value', text);
 		}
 	}
