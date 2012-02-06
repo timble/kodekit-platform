@@ -33,7 +33,7 @@ class ComFilesTemplateHelperModal extends KTemplateHelperAbstract
 		
 		$input = '<input name="%1$s" id="%1$s" value="%2$s" %3$s size="40" />';
 		
-		$link = '<a class="modal-button"
+		$link = '<a class="modal"
 					rel="{\'ajaxOptions\': {\'method\': \'get\'}, \'handler\': \'iframe\', \'size\': {\'x\': 700}}"
 					href="%s">'
 				.$config->link_text
