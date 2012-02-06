@@ -52,7 +52,7 @@ window.addEvent('domready', function() {
 			if(document.id('files-upload-multi_browse')) {
 				document.id('files-upload-multi_browse').set('text', 'Add files');
 			}
-			SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
+			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
 
