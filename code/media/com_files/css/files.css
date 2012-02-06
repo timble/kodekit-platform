@@ -580,6 +580,17 @@ ul#files-tree-html ul li a {
 	margin-top: 0.2em;
 	font-size: 1em;
 }
+/* To avoid ugly white borders due to background images expecting a white background */
+#files-paginator .button2-right div,
+#files-paginator .button2-left div,
+#files-paginator .button2-right,
+#files-paginator .button2-left,
+#files-paginator a {
+	border-radius: 5px;
+}
+#files-paginator .button2-right div {
+	border-radius: 5px;
+}
 
 /* @group Style for the custom modal stuff */
 .files-modal {
