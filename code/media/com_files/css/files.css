@@ -958,6 +958,9 @@ ul#files-tree-html ul li a {
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
 }
+#files-uploader-web input.remote-submit:focus {
+	position: absolute;
+}
 .remote-submit.valid {
     cursor: pointer;
     opacity: 1;
