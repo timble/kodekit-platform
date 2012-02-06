@@ -83,4 +83,13 @@ if (SqueezeBox.open === undefined) {
 	});
 }
 
+/* Joomla! 1.5 fix */
+if(!SqueezeBox.handlers.clone) {
+	SqueezeBox.handlers.adopt = function(a){return a;}
+}
+window.addEvent('domready', function(){
+	if(!SqueezeBox.fx.win) {
+		SqueezeBox.fx.win = SqueezeBox.fx.window;
+	}
+});
 </script>
