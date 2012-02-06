@@ -573,49 +573,12 @@ ul#files-tree-html ul li a {
 	float: left;
 	height: 22px;
 	line-height: 22px;
-	margin: 0 10px;
+	margin: 0 5px;
 }
-
-#files-paginator div.page a,
-#files-paginator div.page span {
-	float: left;
-	margin: 0;
-	padding: 0 10px;
-	border-top: 1px solid #BBB;
-	border-bottom: 1px solid #BBB;
-	border-right: 0px none;
-	border-left: 0px none;
-	border-radius: 0;
-}
-
-#files-paginator div.prev a,
-#files-paginator div.prev span {
-	border-right: 0 none;
-	-moz-border-radius: 3px 0 0 3px;
-	border-radius: 3px 0 0 3px;
-}
-
-#files-paginator div.next a,
-#files-paginator div.next span {
-	border-left: 0 none;
-	margin-left: 0;
-	-moz-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
-}
-
-#files-paginator .active,
-#files-paginator div.page span {
-	color: #333;
-	font-weight: bold;
-	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px;
-}
-
-#files-paginator div.off a,
-#files-paginator div.off span {
-	border-color: #D7D7D7;
-	color: #999;
-	box-shadow: none;
-	
+#files-paginator div.limit select {
+	height: 1.8em;
+	margin-top: 0.2em;
+	font-size: 1em;
 }
 
 /* @group Style for the custom modal stuff */
