@@ -49,7 +49,7 @@ if (SqueezeBox.open === undefined) {
 		open: function(subject, options) {
 			this.initialize();
 
-			if (this.element != null) this.trash();
+			if (this.element != null) this.close();
 			this.element = document.id(subject) || false;
 
 			this.setOptions($merge(this.presets, options || {}));
@@ -73,12 +73,6 @@ if (SqueezeBox.open === undefined) {
 				}
 				return false;
 			}, this);
-		},
-		trash: function() {
-			this.element = this.asset = null;
-			this.content.empty();
-			this.options = {};
-			this.removeEvents().setOptions(this.presets).callChain();
 		}
 	});
 }
