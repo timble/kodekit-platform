@@ -26,21 +26,20 @@ class ComFilesTemplateHelperModal extends KTemplateHelperAbstract
 			'name' => '',
 			'visible' => true,
 			'link' => '',
-			'link_text' => JText::_('Select')
+			'link_text' => JText::_('Select'),
+			'link_selector' => 'modal'
 		))->append(array(
 			'value' => $config->name
 		));
 		
 		$input = '<input name="%1$s" id="%1$s" value="%2$s" %3$s size="40" />';
 		
-		$link = '<a class="modal"
+		$link = '<a class="%s"
 					rel="{\'ajaxOptions\': {\'method\': \'get\'}, \'handler\': \'iframe\', \'size\': {\'x\': 700}}"
-					href="%s">'
-				.$config->link_text
-				.'</a>';
+					href="%s">%s</a>';
 				
 		$html = sprintf($input, $config->name, $config->value, $config->visible ? 'type="text" readonly' : 'type="hidden"');
-		$html .= sprintf($link, $config->link);
+		$html .= sprintf($link, $config->link_selector, $config->link, $config->link_text);
 		
 		return $html;
 	}
