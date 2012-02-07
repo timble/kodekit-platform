@@ -22,10 +22,10 @@ class ModWidgetHtml extends ModDefaultHtml
 {
     public function display()
     {
-    	$this->setLayout($this->params->get('layout', 'overlay'));
+    	$this->setLayout($this->module->params->get('layout', 'overlay'));
     	
     	//Create the url object and force the tmpl to empty
-    	$url = $this->getService('koowa:http.url', array('url' => $this->params->get('url')));
+    	$url = $this->getService('koowa:http.url', array('url' => $this->module->params->get('url')));
     	
     	$this->assign('url', $url);
     	
