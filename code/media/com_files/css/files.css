@@ -907,6 +907,7 @@ ul#files-tree-html ul li a {
 /* @group Uploader - Web */
 
 #remote-url, #remote-name {
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     display: inline-block;
     float: left;
