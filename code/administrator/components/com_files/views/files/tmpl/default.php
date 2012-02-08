@@ -138,23 +138,8 @@ window.addEvent('domready', function() {
     	slider = document.id('files-thumbs-size');
 	
 	if(slider.type != 'range') {
-	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
-		    newSlider = new Element('div', {
-    		    'id': slider.id,
-    			'class': 'slider'
-    		}).grab(new Element('div', {'class': 'knob'}))
-    		  .replaces(slider);
-
-		// Create the new slider instance
-	    new Slider(newSlider, newSlider.getElement('.knob'), {
-	        range: [80, 200],
-	        initialStep: Cookie.read(Files.app.cookie+'.grid.icon.size') || Files.app.options.grid.icon_size,
-	        onChange: function(value){
-	        	Files.app.grid.setIconSize(value);
-	        	Files.app.setDimensions.call(Files.app, true);
-	        }
-	    });
-	    var slider = container;
+        document.getElement('.files-layout-grid-resizer-container').setStyle('display', 'none');
+	    var slider = false;
 	} else {
 	    slider.addEvent('change', function(event){
 	        Files.app.grid.setIconSize(this.value);
@@ -170,12 +155,12 @@ window.addEvent('domready', function() {
     	e.stop();
     	var layout = this.get('data-layout');
     	Files.app.grid.setLayout(layout);
-    	slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
+    	if(slider) slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
     	switchers.removeClass('active');
     	this.addClass('active');
     });
     if (Files.app.grid.layout != 'icons') {
-    	slider.setStyle('display', 'none');
+    	if(slider) slider.setStyle('display', 'none');
     }
 });
 </script>
