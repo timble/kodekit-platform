@@ -87,12 +87,6 @@ window.addEvent('domready', function() {
 			var row = new cls(item);
 			Files.app.grid.insert(row);
 			if (row.type == 'image' && Files.app.grid.layout == 'icons') {
-				row.element.getElement('div.imgTotal').setStyles({
-					'width': Files.app.grid.options.icon_size,
-					'height': Files.app.grid.options.icon_size*0.75
-				});
-				row.element.getElement('.ellipsis').setStyle('width', Files.app.grid.options.icon_size);
-
 				var image = row.element.getElement('img');
 				if (image) {
 					row.getThumbnail(function(response) {
@@ -102,7 +96,7 @@ window.addEvent('domready', function() {
 						}
 					});
 
-					/* This is for the thumb margins to recalculate */
+					/* @TODO Test if this is necessary: This is for the thumb margins to recalculate */
 					window.fireEvent('resize');
 				}
 			}
@@ -264,12 +258,6 @@ window.addEvent('domready', function() {
 				var row = new cls(el);
 				Files.app.grid.insert(row);
 				if (row.type == 'image' && Files.app.grid.layout == 'icons') {
-					row.element.getElement('div.imgTotal').setStyles({
-						'width': Files.app.grid.options.icon_size,
-						'height': Files.app.grid.options.icon_size*0.75
-					});
-					row.element.getElement('.ellipsis').setStyle('width', Files.app.grid.options.icon_size);
-
 					var image = row.element.getElement('img');
 					if (image) {
 						row.getThumbnail(function(response) {
@@ -278,7 +266,7 @@ window.addEvent('domready', function() {
 								row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
 							}
 						});
-						/* This is for the thumb margins to recalculate */
+						/* @TODO Test if this is necessary: This is for the thumb margins to recalculate */
 						window.fireEvent('resize');
 					}
 				}
