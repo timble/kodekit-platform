@@ -21,14 +21,14 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 {  
     public function canLogout()
     {
-        $userid = JFactory::getUser()->id;
+        $user = JFactory::getUser();
         
         //Allow logging out ourselves
-        if($this->getModel()->getState()->id == $userid) {
+        if($this->getModel()->id == $user->get('id')) {
              return true;
         }
         
-        if(JFactory::getUser()->get('gid') > 24) {
+        if($user->get('gid') > 24) {
             return true;
         }
         

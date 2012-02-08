@@ -26,7 +26,7 @@
 //-->
 </script>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm" class="-koowa-grid">
 
 	<table class="adminlist">
 	<thead>

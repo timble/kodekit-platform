@@ -41,19 +41,17 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	public function save()
 	{
-		jimport('joomla.user.helper');
-
 		// Load the old row if editing an existing user.
-		if(!$this->_new)
+		if(!$this->isNew())
 		{
 			$old_row = $this->getService('com://admin/users.database.table.users')
 				->select($this->id, KDatabase::FETCH_ROW);
 		}
 
 		$user = JFactory::getUser();
-
+		
 		// Validate received data.
-		if(($this->_new || isset($this->_modified['name'])) && trim($this->name) == '')
+		if(($this->isNew() || $this->isModified('name')) && trim($this->name) == '')
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a name!'));
@@ -61,7 +59,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		if(($this->_new || isset($this->_modified['username'])) &&  trim($this->username) == '')
+		if(($this->isNew() || $this->isModified('username')) &&  trim($this->username) == '')
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a username!'));
@@ -69,7 +67,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		if(($this->_new || isset($this->_modified['username'])) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
+		if(($this->isNew() || $this->isModified('username')) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a valid username. No spaces, at least 2 characters '.
@@ -78,8 +76,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-	   if(isset($this->_modified['username']))
-        {
+	   if($this->isModified('username'))
+       {
             $query = $this->getTable()->getDatabase()->getQuery()
                         ->where('username', '=', $this->username)
                         ->where('id', '<>', (int) $this->id);
@@ -95,7 +93,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
             }
         }
 
-		if(($this->_new || isset($this->_modified['email'])) && (trim($this->email) == '') || !($this->getService('koowa:filter.email')->validate($this->email)))
+		if(($this->isNew() || $this->isModified('email')) && (trim($this->email) == '') || !($this->getService('koowa:filter.email')->validate($this->email)))
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a valid e-mail address.'));
@@ -103,7 +101,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		if(isset($this->_modified['email']))
+		if($this->isModified('email'))
 		{
 			$query = $this->getTable()->getDatabase()->getQuery()
 				        ->where('email', '=', $this->email)
@@ -125,8 +123,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		 * This removes the possibilitiy that a user can get locked out of her account
 		 * if someone else uses that username as the email field.
 		 */
-		if (KService::get('koowa:filter.email')->validate($this->username) === true
-				&& $this->username !== $this->email) {
+		if ($this->getService('koowa:filter.email')->validate($this->username) === true && $this->username !== $this->email)
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Your e-mail and username should match if you want to use an e-mail address as your username.'));
 
@@ -134,7 +132,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Don't allow users to block themselves.
-		if(isset($this->_modified['enabled']) && !$this->_new && $user->id == $this->id && !$this->enabled)
+		if($this->isModified('enabled') && !$this->isNew() && $user->id == $this->id && !$this->enabled)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't block yourself!"));
@@ -143,7 +141,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 	    // Don't allow to save a user without a group.
-        if(($this->_new || isset($this->_modified['users_group_id'])) && !$this->users_group_id)
+        if(($this->isNew() || $this->isModified('users_group_id')) && !$this->users_group_id)
         {
             $this->setStatus(KDatabase::STATUS_FAILED);
             $this->setStatusMessage(JText::_("You can't create a user without a user group."));
@@ -152,7 +150,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         }
 
 		// Don't allow users below super administrator to edit a super administrator.
-		if(!$this->_new && isset($this->_modified['users_group_id']) && $old_row->users_group_id == 25 && $user->gid != 25) {
+		if(!$this->isNew() && $this->isModified('users_group_id') && $old_row->users_group_id == 25 && $user->gid != 25)
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't edit a super administrator account."));
 
@@ -160,7 +159,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Don't allow users below super administrator to create an administrators.
-		if(isset($this->_modified['users_group_id']) && $this->users_group_id == 24 && !($user->gid == 25 || ($user->id == $this->id && $user->gid == 24))) {
+		if($this->isModified('users_group_id') && $this->users_group_id == 24 && !($user->gid == 25 || ($user->id == $this->id && $user->gid == 24)))
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
 				."Only super administrators have this ability."));
@@ -169,7 +169,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Don't allow users below super administrator to create a super administrator.
-		if(isset($this->_modified['users_group_id']) && $this->users_group_id == 25 && $user->gid != 25)
+		if($this->isModified('users_group_id') && $this->users_group_id == 25 && $user->gid != 25)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
@@ -181,11 +181,11 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Don't allow users to change the user level of the last active super administrator.
 		if(isset($this->_modifid['users_group_id']) && $old_row->users_group_id != 25)
 		{
-			$query	= $this->getTable()->getDatabase()->getQuery()
+			$query = $this->getTable()->getDatabase()->getQuery()
 				        ->where('users_group_id', '=', 25)
 				        ->where('enabled', '=', 1);
 
-			$total	= $this->getService('com://admin/users.database.table.users')->count($query);
+			$total = $this->getService('com://admin/users.database.table.users')->count($query);
 
 			if($total <= 1)
 			{
@@ -198,7 +198,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Check if passwords match.
-		if(isset($this->_modified['password']) && $this->password != $this->password_verify) {
+		if($this->isModified('password') && $this->password != $this->password_verify)
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("Passwords don't match!"));
 
@@ -206,13 +207,13 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Generate a random password if empty and the record is new.
-		if($this->_new && !$this->password)
+		if($this->isNew() && !$this->password)
 		{
 			$this->password	        = $this->getService('com://admin/users.helper.password')->getRandom();
 			$this->password_verify	= $this->password;
 		}
 
-		if(isset($this->_modified['password']) && $this->password)
+		if($this->isModified('password') && $this->password)
 		{
 			// Encrypt password.
 			$salt     = $this->getService('com://admin/users.helper.password')->getRandom(32);
@@ -227,7 +228,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			unset($this->_modified['password']);
 		}
 
-		if($this->_new) {
+		if($this->isNew()) {
 			$this->registered_on = gmdate('Y-m-d H:i:s', time());
 		}
 
@@ -239,36 +240,39 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			                    ->select($query, KDatabase::FETCH_FIELD);
 
 		// Set parameters.
-		if(isset($this->_modified['params']))
+		if($this->isModified('params'))
 		{
 			$params	= new JParameter('');
 			$params->bind($this->_data['params']);
 
 			$this->params = $params->toString();
 
-			if(!$this->_new && $this->_data['params'] == $old_row->params->toString()) {
+			if(!$this->isNew() && $this->_data['params'] == $old_row->params->toString()) {
 				unset($this->_modified['params']);
 			}
 		}
 
 		// Need to reverse the value of 'enabled', because the mapped column is 'block'.
-		if($this->_new || isset($this->_modified['enabled'])) {
+		if($this->isNew() || $this->isModified('enabled')) {
 			$this->enabled = $this->enabled ? 0 : 1;
 		}
+		
+		// Get modified columns for further use.
+		$modified = $this->getModified();
 
 		if(!parent::save()) {
 			return false;
 		}
 
 		// Syncronize ACL.
-		if($this->_status == KDatabase::STATUS_CREATED)
+		if($this->getStatus() == KDatabase::STATUS_CREATED)
 		{
             $aro = $this->getService('com://admin/groups.database.row.aro')
-                         ->setData(array(
-                    		'section_value' => 'users',
-                    		'value' => $this->id,
-                    		'name' => $this->name
-                    ));
+                ->setData(array(
+            		'section_value' => 'users',
+            		'value' => $this->id,
+            		'name' => $this->name
+                ));
             $aro->save();
             
             $this->getService('com://admin/groups.database.row.arosgroup')
@@ -279,17 +283,18 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 		else
 		{
-            if(isset($this->_modified['name']) || isset($this->_modified['users_group_id'])) 
+            if(array_search('name', $modified) !== false || array_search('users_group_id', $modified) !== false) 
             {
                 $aro = $this->getService('com://admin/groups.database.table.aros')
-                            ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
+                    ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
 
-                if(isset($this->_modified['name'])) {
+                if(array_search('name', $modified) !== false)
+                {
                     $aro->name = $this->name;
                     $aro->save();
                 }
 
-                if(isset($this->_modified['users_group_id'])) 
+                if(array_search('users_group_id', $modified) !== false) 
                 {
                     $this->getService('com://admin/groups.database.table.arosgroups')
                         ->select(array('aro_id' => $aro->id), KDatabase::FETCH_ROW)

@@ -24,6 +24,14 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         parent::__construct($config);
 
         $this->registerCallback('after.add', array($this, 'notify'));
+        
+        //Lock the referrer to prevent it from being overridden for read requests
+        if ($this->isDispatched() && KRequest::type() == 'HTTP') 
+        {
+		    if($this->isEditable()) {
+		        $this->registerCallback('after.logout' , array($this, 'lockReferrer'));
+		    }
+        }
     }
     
     protected function _initialize(KConfig $config)
