@@ -52,7 +52,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	 */
 	public function lockReferrer()
 	{
-	    KRequest::set('cookie.referrer_locked', (boolean) true);
+	    KRequest::set('cookie.referrer_locked', true);
 	}
 	
 	/**
@@ -198,26 +198,23 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 		$data   = $context->caller->execute($action, $context);
 	
 		//Create the redirect
-		$url = clone KRequest::url();
-	
-		if($this->getModel()->getState()->isUnique())
-		{
-	        $url    = clone KRequest::url();
-	        $states = $this->getModel()->getState()->getData(true);
+		$url = $this->getReferrer();
 		
-		    foreach($states as $key => $value) {
-		        $url->query[$key] = $data->get($key);
-		    }
-		}
-		else
+		if ($data instanceof KDatabaseRowAbstract) 
 		{ 
-		    if ($data instanceof KDatabaseRowAbstract) { 
-                $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn()); 
-            } else { 
-                $url = $this->getReferrer();
-            }
-		}
+            $url = clone KRequest::url();
+		    
+		    if($this->getModel()->getState()->isUnique())
+		    {
+	            $states = $this->getModel()->getState()->getData(true);
 		
+		        foreach($states as $key => $value) {
+		            $url->query[$key] = $data->get($key);
+		        }
+		    }
+		    else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn()); 
+        } 
+        
 		$this->setRedirect($url);
 		
 		return $data;
