@@ -67,15 +67,18 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _uuid($hex = false) 
     {
+        $pr_bits = false;
+        
         $fp = @fopen ( '/dev/urandom', 'rb' );
         if ($fp !== false) 
         {
-            $pr_bits .= @fread ( $fp, 16 );
+            $pr_bits = @fread ( $fp, 16 );
             @fclose ( $fp );
         } 
-        else 
+        
+         // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
+        if(empty($pr_bits)) 
         {
-            // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
             $pr_bits = "";
             for($cnt = 0; $cnt < 16; $cnt ++) {
                 $pr_bits .= chr ( mt_rand ( 0, 255 ) );
