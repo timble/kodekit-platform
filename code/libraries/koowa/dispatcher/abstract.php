@@ -154,7 +154,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 *
 	 * @return mixed
 	 */
-	public function _actionForward(KCommandContext $context)
+	protected function _actionForward(KCommandContext $context)
 	{
 		if (KRequest::type() == 'HTTP')
 		{
