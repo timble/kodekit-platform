@@ -24,7 +24,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config = new KConfig($config);
 		$config->append(array(
 			'model'		=> 'users',
-			'value'		=> 'id',
+			'name'		=> 'id',
 		    'filter'	=> array(
 		    	'group'      => 18,
 		    	'group_tree' => true
@@ -35,6 +35,6 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		$config->text = 'name';
 		$config->sort = 'name';
 		
-		return parent::_listbox($config);
+		return parent::_render($config);
     }
 }
