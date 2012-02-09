@@ -35,6 +35,38 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 	 * @return	string	Html
 	 * @see __call()
 	 */
+    protected function _render($config = array())
+ 	{
+ 	    $config = new KConfig($config);
+ 	    $config->append(array(
+ 	        'autocomplete' => false
+ 	    ));
+ 	    
+ 	    if($config->autocomplete) {
+ 	        $result = $this->_autocomplete($config);
+ 	    } else {
+ 	        $result = $this->_listbox($config);
+ 	    }
+ 	    
+ 	    return $result;
+ 	}
+	
+	/**
+	 * Generates an HTML optionlist based on the distinct data from a model column.
+	 * 
+	 * The column used will be defined by the name -> value => column options in
+	 * cascading order. 
+	 * 
+	 * If no 'model' name is specified the model identifier will be created using 
+	 * the helper identifier. The model name will be the pluralised package name. 
+	 * 
+	 * If no 'value' option is specified the 'name' option will be used instead. 
+	 * If no 'text'  option is specified the 'value' option will be used instead.
+	 * 
+	 * @param 	array 	An optional array with configuration options
+	 * @return	string	Html
+	 * @see __call()
+	 */
 	protected function _listbox($config = array())
  	{
 		$config = new KConfig($config);
@@ -42,6 +74,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 			'name'		  => '',
 			'attribs'	  => array(),
 			'model'		  => KInflector::pluralize($this->getIdentifier()->package),
+			'deselect'    => true,
 		    'prompt'      => '- Select -', 
 		    'unique'	  => true
 		))->append(array(
@@ -50,8 +83,6 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		    'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
-			'column'    => $config->value,
-			'deselect'  => true,
 		))->append(array(
 		    'filter' 	=> array('sort' => $config->text),
 		));
@@ -83,6 +114,39 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
  	}
  	
 	/**
+	 * Renders a listbox with autocomplete behavior
+	 *
+	 * @see    KTemplateHelperBehavior::autocomplete
+	 * @return string	The html output
+	 */
+	protected function _autocomplete($config = array())
+ 	{		
+		$config = new KConfig($config);
+		$config->append(array(
+		    'name'		 => '',
+			'attribs'	 => array(),
+			'model'		 => KInflector::pluralize($this->getIdentifier()->package),
+			'validate'   => true,
+		))->append(array(
+		    'value'		 => $config->name,
+		    'selected'   => $config->{$config->name},
+			'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+		))->append(array(
+			'text'		=> $config->value,
+		))->append(array(
+		    'filter' 	=> array(),
+		));
+		
+        //For the autocomplete behavior
+    	$config->element = $config->value;
+    	$config->path    = $config->text;
+
+		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
+	
+	    return $html;
+ 	}
+ 	
+	/**
      * Search the mixin method map and call the method or trigger an error
      * 
      * This function check to see if the method exists in the mixing map if not
@@ -104,7 +168,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
             $config = $arguments[0];
             $config['name']  = KInflector::singularize(strtolower($method));
             
-            return $this->_listbox($config);
+            return $this->_render($config);
         }
         
         return parent::__call($method, $arguments);

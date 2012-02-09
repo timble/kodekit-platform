@@ -269,34 +269,45 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	public function autocomplete($config = array())
 	{
 		$config = new KConfig($config);
-		
 		$config->append(array(
 			'identifier'    => null,
 			'element'       => null,
-			'filter_column' => 'name'
-		));
-		
-		if(!is_a($config->identifier, 'KServiceIdentifier')) {
-		    $config->identifier = $this->getIdentifier($config->identifier);
-		}
-		
-		$config->append(array(
-		    'url'     => JRoute::_('&option=com_'.$config->identifier->package.'&view='.$config->identifier->name.'&format=json', false)
+			'path'          => 'name',
+			'filter'		=> array(),
+		    'validate'		=> true,
+		    'selected'		=> null	
 		))->append(array(
-		    'options' => array(
-		        'filter'     => array(
-		            'type' => 'contains',
-		            'path' => $config->filter_column			        
-		        ),
-		        'urlOptions' => array(
-		            'queryVarName' => 'search'
-		        ),
-		        'requestOptions' => array(
-		            'method' => 'get'
+		    'value_element' => $config->element.'-value',
+		    'attribs' => array(
+		        'id'    => $config->element,
+		        'type'  => 'text',
+		        'class' => 'inputbox value',
+		        'size'	=> 60
+		    ),
+		))->append(array(
+			'options' => array( 
+		        'valueField'     => $config->value_element,
+		        'filter'         => array('path' => $config->path),
+				'requestOptions' => array('method' => 'get'),
+		        'urlOptions'	 => array(
+		    		'queryVarName' => 'search',
+		        	'extraParams'  => KConfig::unbox($config->filter)
 		        )
 		    )
 		));
 		
+		if($config->validate) 
+		{
+		    $config->attribs['data-value']  = $config->element.'-value';
+		    $config->attribs['data-value'] .= ' ma-required';
+		}
+		
+		if(!isset($config->url)) 
+		{
+		    $identifier = $this->getIdentifier($config->identifier);
+		    $config->url = JRoute::_('index.php?option=com_'.$identifier->package.'&view='.$identifier->name.'&format=json', false);
+		}
+		    
 		$html = '';
 		
 		// Load the necessary files if they haven't yet been loaded
@@ -310,9 +321,17 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		$html .= "
 		<script>
 			window.addEvent('domready', function(){				
-				new Koowa.Autocomplete($('".$config->element."'), ".json_encode($config->url).", ".$config->options.");
+				new Koowa.Autocomplete($('".$config->element."'), ".json_encode($config->url).", ".json_encode(KConfig::unbox($config->options)).");
 			});
 		</script>";
+		
+		$html .= '<input '.KHelperArray::toString($config->attribs).' />';
+	    $html .= '<input '.KHelperArray::toString(array(
+            'type'  => 'hidden',
+            'name'  => $config->value,
+            'id'    => $config->element.'-value',
+            'value' => $config->selected
+	       )).' />';
 
 	    return $html;
 	}
