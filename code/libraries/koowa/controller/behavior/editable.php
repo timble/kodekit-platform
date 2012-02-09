@@ -232,5 +232,9 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	{
 		//Create the redirect
 		$this->setRedirect($this->getReferrer());
+	    
+	    $data = $context->caller->execute('read', $context);
+	    
+		return $data;
 	}
 }
