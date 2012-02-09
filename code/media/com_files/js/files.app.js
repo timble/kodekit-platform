@@ -239,7 +239,7 @@ Files.App = new Class({
 					}
 				}
 				
-				if (this.container.parameters.thumbnails === false) {
+				if (this.container.parameters.thumbnails !== true) {
 					this.options.thumbnails = false;
 					if (this.spinner) {
 						this.spinner.stop();
