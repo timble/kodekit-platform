@@ -225,7 +225,6 @@ Files.Folder = new Class({
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
-					console.log(xhr, xhr.responseText);
 					response = xhr.responseText;
 					
 					if (typeof failure == 'function') {
