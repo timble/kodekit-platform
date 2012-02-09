@@ -91,7 +91,7 @@ Files.File = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -137,7 +137,7 @@ Files.Image = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 				}
@@ -195,7 +195,7 @@ Files.Folder = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -233,7 +233,7 @@ Files.Folder = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -258,7 +258,7 @@ Files.Folder.Request = new Request.JSON({
 		}
 		else {
 			resp = JSON.decode(xhr.responseText, true);
-			error = resp && resp.error ? resp.error : 'An error occurred during request';
+			error = resp && resp.error ? resp.error : Files._('An error occurred during request');
 			alert(error);
 		}
 	}

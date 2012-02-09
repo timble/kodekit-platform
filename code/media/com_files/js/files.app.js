@@ -228,7 +228,7 @@ Files.App = new Class({
 				
 				if (this.container.parameters.allowed_extensions) {
 					this.uploader.settings.filters = [
-					     {title: 'All Files', extensions: this.container.parameters.allowed_extensions.join(',')}
+					     {title: Files._('All Files'), extensions: this.container.parameters.allowed_extensions.join(',')}
 	    			];
 				}
 				if (this.container.parameters.maximum_size) {
@@ -353,7 +353,7 @@ Files.App = new Class({
 					trash = new Element('div', {style: 'display: none'}).inject(document.body);
 
 				copy.template = 'file_preview';
-				var template = copy.render().inject(trash), size = template.measure(function(){return this.getDimensions()});
+				var template = copy.render().inject(trash), size = template.measure(function(){return this.getDimensions();});
 
 				SqueezeBox.open(template, {
 					handler: 'adopt',

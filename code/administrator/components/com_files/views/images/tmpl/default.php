@@ -92,7 +92,7 @@ window.addEvent('domready', function() {
 		<tr>
 			<td><label for="image-align"><?= @text('Align') ?></label></td>
 			<td>
-				<select size="1" id="image-align" title="Positioning of this image">
+				<select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
 					<option value="" selected="selected"><?= @text('Not Set') ?></option>
 					<option value="left"><?= @text('Left') ?></option>
 					<option value="right"><?= @text('Right') ?></option>

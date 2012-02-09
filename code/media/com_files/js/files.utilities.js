@@ -10,6 +10,12 @@
  
 if(!Files) var Files = {};
 
+if (!Files._) {
+	Files._ = function(string) {
+		return string;
+	};
+}
+
 Files.Filesize = new Class({
 	Implements: Options,
 	options: {
@@ -26,7 +32,7 @@ Files.Filesize = new Class({
 			i++;
 		}
 
-		return (i === 0 || size % 1 === 0 ? size : size.toFixed(2)) + ' ' + this.options.units[i];
+		return (i === 0 || size % 1 === 0 ? size : size.toFixed(2)) + ' ' + Files._(this.options.units[i]);
 	}
 });
 

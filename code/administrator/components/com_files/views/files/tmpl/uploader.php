@@ -26,7 +26,7 @@ jQuery.noConflict();
 window.addEvent('domready', function() {
 	var element = jQuery('#files-upload-multi');
 
-	plupload.addI18n({'Add files': 'Select files from your computer'});
+	plupload.addI18n({'Add files': Files._('Select files from your computer')});
 
 	element.pluploadQueue({
 		runtimes: 'html5,flash,html4',
@@ -274,14 +274,14 @@ window.addEvent('domready', function() {
 				submit.removeClass('valid').set('value', submit_default);
 				setRemoteWrapMargin();
 				form.reset();
-				input.set('placeholder', 'Uploaded successfully!').addClass('success');
+				input.set('placeholder', Files._('Uploaded successfully!')).addClass('success');
 			} else {
-				var error = json.error ? json.error : 'Unknown error';
-				alert('An error occurred: ' + error);
+				var error = json.error ? json.error : Files._('Unknown error');
+				alert(Files._('An error occurred: ') + error);
 			}
 		},
 		onFailure: function(xhr) {
-			alert('An error occurred with status code: '+xhr.status);
+			alert(Files._('An error occurred with status code: ')+xhr.status);
 		}
 	});
 	form.addEvent('submit', function(e) {

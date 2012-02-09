@@ -93,7 +93,7 @@ window.addEvent('domready', function() {
 			<div style="clear: both"></div>
 		</div>
 	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.startPanel', array('title' => 'Upload')); ?>
+	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
 
 		<?= @template('com://admin/files.view.files.uploader'); ?>
 
