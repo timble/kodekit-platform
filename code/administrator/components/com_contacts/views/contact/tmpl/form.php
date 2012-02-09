@@ -75,7 +75,7 @@ defined('KOOWA') or die('Restricted access') ?>
 						</label>
 					</td>
 					<td>
-                        <?= @helper('com://admin/users.template.helper.autocomplete.users') ?>
+                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id')) ?>
 					</td>
 				</tr>
 				<tr>
