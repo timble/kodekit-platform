@@ -8,7 +8,7 @@
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
-	<version>12.1</version>
+	<version>12.2</version>
 	<description>This module shows the status of the logged in user.</description>
 	<files>
 		<filename module="mod_status">mod_status.php</filename>

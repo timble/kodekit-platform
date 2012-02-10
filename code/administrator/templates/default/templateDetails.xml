@@ -8,7 +8,7 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
-	<version>12.1</version>
+	<version>12.2</version>
 	<description>Administration template for Nooku Server</description>
 	<files>
 		<filename>index.php</filename>
