@@ -61,7 +61,8 @@ class ComDefaultControllerDefault extends KControllerService
          */  
         
         $config->append(array(
-    		'persistable'    => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+    		'persistable' => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+            'toolbars'    => array('menubar', $this->getIdentifier()->name),
             'limit'          => array('max' => 100, 'default' => JFactory::getApplication()->getCfg('list_limit'))
         ));
 

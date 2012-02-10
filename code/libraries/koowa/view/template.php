@@ -47,20 +47,13 @@ abstract class KViewTemplate extends KViewAbstract
      * @var boolean
      */
     protected $_data;
-    
+     
     /**
-     * The view scripts
-     *
-     * @var array
+     * The uniform resource locator
+     * 
+     * @var object
      */
-    protected $_scripts = array();
-    
-    /**
-     * The view styles
-     *
-     * @var array
-     */
-    protected $_styles = array();
+    protected $_mediaurl;
 
     /**
      * Constructor
@@ -70,6 +63,13 @@ abstract class KViewTemplate extends KViewAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
+        
+        //set the media url
+        if(!$config->media_url instanceof KHttpUrl) {
+            $this->_mediaurl = KService::get('koowa:http.url', array('url' => $config->media_url));
+        } else {
+            $this->_mediaurl = $config->media_url;
+        }
         
         // set the auto assign state
         $this->_auto_assign = $config->auto_assign;
@@ -88,18 +88,9 @@ abstract class KViewTemplate extends KViewAbstract
             $this->getTemplate()->addFilter($config->template_filters);
         }
          
-        // Set base and media urls for use by the view
-        $this->assign('baseurl' , $config->base_url)
-             ->assign('mediaurl', $config->media_url);
-        
         //Add alias filter for media:// namespace
         $this->getTemplate()->getFilter('alias')->append(
-            array('media://' => $config->media_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
-        );
-        
-        //Add alias filter for base:// namespace
-        $this->getTemplate()->getFilter('alias')->append(
-            array('base://' => $config->base_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+            array('media://' => (string) $this->_mediaurl.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
     }
 
@@ -122,8 +113,7 @@ abstract class KViewTemplate extends KViewAbstract
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link', 'template'),
             'auto_assign'      => true,
-            'base_url'         => KRequest::base(),
-            'media_url'        => KRequest::root().'/media',
+            'media_url'        => '/media',
         ));
         
         parent::_initialize($config);
@@ -237,7 +227,7 @@ abstract class KViewTemplate extends KViewAbstract
                         
         return parent::display();
     }
-
+    
      /**
      * Sets the _escape() callback.
      *
@@ -334,6 +324,16 @@ abstract class KViewTemplate extends KViewAbstract
             
         return $this;
     }
+    
+	/**
+	 * Get the view media url
+	 * 
+	 * @return 	object	A KHttpUrl object
+	 */
+	public function getMediaUrl()
+	{
+	    return $this->_mediaurl;
+	}
     
     /**
      * Execute and return the views output

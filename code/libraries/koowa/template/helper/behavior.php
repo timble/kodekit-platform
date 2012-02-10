@@ -187,7 +187,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	    $config = new KConfig($config);
 		$config->append(array(
 			'refresh'  => 15 * 60000, //15min
-		    'url'	   => KRequest::url()
+		    'url'	   => $this->getTemplate()->getView()->getRoute()
 		));
 
 		$refresh = (int) $config->refresh;

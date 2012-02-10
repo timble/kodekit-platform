@@ -115,8 +115,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		// Set the connection options
 		$this->_options = $config->options;
 		
-		// Mixin a command chain
-        $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
+		 //Set the mixer in the config
+        $config->mixer = $this;
+		
+		// Mixin the command interface
+        $this->mixin(new KMixinCommand($config));
 	}
 
 	/**
@@ -144,8 +147,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     		'charset'			=> 'UTF-8',
        	 	'table_prefix'  	=> 'jos_',
     	    'table_needle'		=> '#__',
-    		'command_chain' 	=>  new KCommandChain(),
+    		'command_chain'     => $this->getService('koowa:command.chain'),
     		'dispatch_events'   => true,
+    		'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
     		'enable_callbacks' 	=> false,
     		'connection'		=> null,
         ));

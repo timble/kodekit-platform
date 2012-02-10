@@ -93,6 +93,12 @@ class KInflector
 			'/(.*)ss$/i'            => '\1ss',    
 			'/(.*)s$/i' 			=> '\1',
 		),
+		
+		'verbalization' => array(
+			'/y$/i' 				=> 'ied',
+			'/(e)$/i' 				=> '$1d',
+			'/$/' 					=> 'ed',
+		),
 
 		'countable' => array(
 			'aircraft',
@@ -109,16 +115,19 @@ class KInflector
 			'species',
 			'swine',
 		)
+		
+		
 	);
 
    	/**
- 	 * Cache of pluralized and singularized nouns.
+ 	 * Cache of pluralized, singularized and verbalized nouns.
 	 *
 	 * @var array
      */
 	protected static $_cache = array(
 		'singularized' => array(),
-		'pluralized'   => array()
+		'pluralized'   => array(),
+		'verbalized'   => array()
 	);
 
 	/**
@@ -134,11 +143,18 @@ class KInflector
 	 *
 	 * @param	string	Singular word
 	 * @param 	string	Plural word
+	 * @param 	string	Verbal word
 	 */
-	public static function addWord($singular, $plural)
+	public static function addWord($singular, $plural, $verbal = null)
 	{
 		self::$_cache['pluralized'][$singular]	= $plural;
 		self::$_cache['singularized'][$plural] 	= $singular;
+		
+		if(isset($verbal)) 
+		{
+		    self::$_cache['verbalized'][$singular] = $verbal;
+		    self::$_cache['verbalized'][$plura]    = $verbal;
+		}
 	}
 
    	/**
@@ -159,7 +175,7 @@ class KInflector
 
 		//Create the plural noun
 		if (in_array($word, self::$_rules['countable'])) {
-			$_cache['pluralized'][$word] = $word;
+			self::$_cache['pluralized'][$word] = $word;
 			return $word;
 		}
 
@@ -168,7 +184,7 @@ class KInflector
 			$matches = null;
 			$plural = preg_replace($regexp, $replacement, $word, -1, $matches);
 			if ($matches > 0) {
-				$_cache['pluralized'][$word] = $plural;
+				self::$_cache['pluralized'][$word] = $plural;
 				return $plural;
 			}
 		}
@@ -191,7 +207,7 @@ class KInflector
 
 		//Create the singular noun
 		if (in_array($word, self::$_rules['countable'])) {
-			$_cache['singularized'][$word] = $word;
+			self::$_cache['singularized'][$word] = $word;
 			return $word;
 		}
 
@@ -201,8 +217,35 @@ class KInflector
 			$matches = null;
 			$singular = preg_replace($regexp, $replacement, $word, -1, $matches);
 			if ($matches > 0) {
-				$_cache['singularized'][$word] = $singular;
+				self::$_cache['singularized'][$word] = $singular;
 				return $singular;
+			}
+		}
+
+ 	   return $word;
+	}
+	
+	/**
+	 * Present English verb conjugated to preterite participle.
+	 *
+	 * @param 	string Word to verbalize.
+	 * @return 	string Present verb
+	 */
+	public static function verbalize($word)
+	{
+		//Get the cached noun of it exists
+ 	   	if(isset(self::$_cache['verbalized'][$word])) {
+			return self::$_cache['verbalized'][$word];
+ 	   	}
+ 
+		foreach (self::$_rules['verbalization'] as $regexp => $replacement)
+		{
+			$matches = null;
+			$verbal = preg_replace($regexp, $replacement, $word, -1, $matches);
+			if ($matches > 0) 
+			{
+				self::$_cache['verbalized'][$word] = $verbal;
+				return $verbal;
 			}
 		}
 

@@ -82,7 +82,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     	{
     		$view   = $this->getTemplate()->getView();
     		$state  = $view->getModel()->getState();
-    		$action = $view->createRoute(http_build_query($state->getData($state->isUnique())));
+    		$action = $view->getRoute(http_build_query($state->getData($state->isUnique())));
     		
     		foreach ($matches as $match) 
     		{

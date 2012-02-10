@@ -20,13 +20,6 @@
 class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 {
 	/**
-	 * List of modules to cache
-	 *
-	 * @var	array
-	 */
-	protected $_modules;
-	
-	/**
 	 * The cached state of the resource
 	 * 
 	 * @var boolean
@@ -34,47 +27,17 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	protected $_output = ''; 
 	
 	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		// Set the view identifier
-		$this->_modules = KConfig::unbox($config->modules);
-	}
-
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @return void
-     */
-	protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'modules'	=> array('toolbar', 'title', 'submenu')
-	  	));
-	  	
-    	parent::_initialize($config);
-   	}
-	
-	/**
 	 * Fetch the unrendered view data from the cache
 	 *
 	 * @param   KCommandContext	A command context object
 	 * @return 	void	
 	 */
-	protected function _beforeGet(KCommandContext $context)
+	protected function _beforeControllerGet(KCommandContext $context)
 	{ 
 	    $view   = $this->getView();
 	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
         $key    = $this->_getKey();
-        
+            
         if($data = $cache->get($key))
         {
             $data = unserialize($data);
@@ -88,19 +51,6 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
             } 
             else $context->result = $data['component'];
             
-            //Render the modules
-            if(isset($data['modules']))
-            {
-                foreach($data['modules'] as $name => $content) {
-                    JFactory::getDocument()->setBuffer($content, 'modules', $name);
-                }
-            }  
- 
-            //Dequeue the commandable behavior from the chain
-            if($commandable = $this->getBehavior('commandable')) {
-                $this->getCommandChain()->dequeue($commandable);
-            }
-           
             $this->_output = $context->result;
 	    }
 	}
@@ -111,27 +61,22 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterGet(KCommandContext $context)
+	protected function _afterControllerGet(KCommandContext $context)
 	{
 	    if(empty($this->_output))
 	    {
 	        $view   = $this->getView();
 	        $cache  = JFactory::getCache($this->_getGroup(), 'output');
 	        $key    = $this->_getKey();
-
+	  
 	        $data  = array();
 	   
 	        //Store the unrendered view output
-	        if($view instanceof KViewTemplate) 
-	        {
+	        if($view instanceof KViewTemplate) {
 	            $data['component'] = (string) $view->getTemplate();
-	        
-	            $buffer = JFactory::getDocument()->getBuffer();
-	            if(isset($buffer['modules'])) {       
-	                $data['modules'] = array_intersect_key($buffer['modules'], array_flip($this->_modules));
-	            }
-	        } 
-	        else $data['component'] = $context->result;
+	        } else {
+	            $data['component'] = $context->result;
+	        }
 	        
 	        $cache->store(serialize($data), $key);
 	    }
@@ -146,7 +91,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterRead(KCommandContext $context)
+	protected function _afterControllerRead(KCommandContext $context)
 	{ 
 	    if(!empty($this->_output)) {
 	        $context->result = $this->_output;
@@ -162,7 +107,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-    protected function _beforeBrowse(KCommandContext $context)
+    protected function _beforeControllerBrowse(KCommandContext $context)
 	{
 	    if(!empty($this->_output)) 
 	    {
@@ -177,7 +122,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterAdd(KCommandContext $context)
+	protected function _afterControllerAdd(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
@@ -194,7 +139,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterDelete(KCommandContext $context)
+	protected function _afterControllerDelete(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
@@ -211,7 +156,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterEdit(KCommandContext $context)
+	protected function _afterControllerEdit(KCommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    

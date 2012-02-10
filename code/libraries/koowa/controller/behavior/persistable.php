@@ -28,7 +28,7 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _beforeBrowse(KCommandContext $context)
+	protected function _beforeControllerBrowse(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
 		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
@@ -47,11 +47,19 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 * @param 	KCommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _afterBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(KCommandContext $context)
 	{
 		$model  = $this->getModel();
-		$state  = $model->get();
-
+		$state  = $model->getState();
+		
+	    $vars = array();
+	    foreach($state->toArray(false) as $var) 
+	    {
+	        if(!$var->unique) {
+	            $vars[$var->name] = $var->value;
+	        }  
+	    }
+	    
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$context->action;
 		
@@ -59,6 +67,6 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 		KRequest::set('session.'.$identifier, null);
 		
 		//Set the state in the session
-		KRequest::set('session.'.$identifier, $state);
+		KRequest::set('session.'.$identifier, $vars);
 	}
 }

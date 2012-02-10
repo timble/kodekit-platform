@@ -42,7 +42,11 @@ class KCommandEvent extends KCommand
         
         parent::__construct($config);
         
-        $this->_dispatcher = $config->dispatcher;
+         if(is_null($config->event_dispatcher)) {
+			throw new KMixinException('event_dispatcher [KEventDispatcher] option is required');
+		}
+        
+        $this->_event_dispatcher = $config->event_dispatcher;
     }
     
     /**
@@ -56,7 +60,7 @@ class KCommandEvent extends KCommand
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'dispatcher'   => $this->getService('koowa:event.dispatcher')
+            'event_dispatcher'   => null
         ));
 
         parent::_initialize($config);
@@ -87,7 +91,7 @@ class KCommandEvent extends KCommand
         $parts = explode('.', $name);   
         $event = 'on'.ucfirst(array_shift($parts)).ucfirst($type).KInflector::implode($parts);
        
-        $this->_dispatcher->dispatchEvent($event, clone($context));
+        $this->_event_dispatcher->dispatchEvent($event, clone($context));
         
         return true;
     }

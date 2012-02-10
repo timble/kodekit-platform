@@ -10,15 +10,25 @@
  */
 
 /**
- * Default Menubar
+ * Default Menubar 
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
+class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 {
+	/**
+	 * Push the menubar into the view
+	 * .
+	 * @param	KEvent	A event object
+	 */
+    public function onBeforeControllerGet(KEvent $event)
+    {   
+        $event->caller->getView()->menubar = $this;
+    }
+ 	
  	/**
      * Add a command
      * 
@@ -63,10 +73,18 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarDefault
 	            foreach($xml->administration->submenu->children() as $menu)
 	            {
 	                $view = (string)$menu['view'];
+	                  
+	                if(!isset($menu['href'])) {
+	                   $menu['href'] = 'index.php?option=com_'.$package.'&view='.$view;
+	                }
+	               
+	                if(!isset($menu['active'])) {
+	                    $menu['active'] = ($name == KInflector::singularize($view));
+	                }
 	                
 	                $this->addCommand(JText::_((string)$menu), array(
-	            		'href'   => JRoute::_('index.php?option=com_'.$package.'&view='.$view),
-	            		'active' => ($name == KInflector::singularize($view))
+	            		'href'   => JRoute::_($menu['href']),
+	            		'active' => (string) $menu['active']
 	                ));
 	            }
 	        }

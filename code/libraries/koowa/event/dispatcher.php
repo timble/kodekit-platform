@@ -20,7 +20,7 @@ class KEventDispatcher extends KObject
     /**
 	 * An associative array of event listeners queues 
 	 * 
-	 * The keys are holding the event namse and the value is 
+	 * The keys are holding the event name and the value is 
 	 * an KObjectQueue object.
 	 *
 	 * @var array

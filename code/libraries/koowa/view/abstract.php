@@ -27,6 +27,20 @@ abstract class KViewAbstract extends KObject
 	protected $_model;
 	
 	/**
+     * Layout name
+     *
+     * @var string
+     */
+    protected $_layout;
+    
+    /**
+     * The uniform resource locator
+     * 
+     * @var object
+     */
+    protected $_baseurl;
+	
+	/**
 	 * The output of the view
 	 *
 	 * @var string
@@ -41,13 +55,6 @@ abstract class KViewAbstract extends KObject
 	public $mimetype = '';
 	
 	/**
-     * Layout name
-     *
-     * @var     string
-     */
-    protected $_layout;
-
-	/**
 	 * Constructor
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
@@ -59,16 +66,17 @@ abstract class KViewAbstract extends KObject
 		
 		parent::__construct($config);
 		
-		//Set the output if defined in the config
-		$this->output = $config->output;
+	    //set the base url
+        if(!$config->base_url instanceof KHttpUrl) {
+            $this->_baseurl = KService::get('koowa:http.url', array('url' => $config->base_url));
+        } else {
+            $this->_baseurl = $config->base_url;
+        }
 		
-		//Set the mimetype of defined in the config
+		$this->output   = $config->output;
 		$this->mimetype = $config->mimetype;
-
-		// set the model
-		$this->setModel($config->model);
 		
-		// set the layout
+		$this->setModel($config->model);
         $this->setLayout($config->layout);
 	}
 
@@ -87,6 +95,7 @@ abstract class KViewAbstract extends KObject
 	    	'output'	=> '',
     		'mimetype'	=> '',
             'layout'    => 'default',
+            'base_url'   => '',
 	  	));
 	  
         parent::_initialize($config);
@@ -203,84 +212,77 @@ abstract class KViewAbstract extends KObject
     }
 
 	/**
-	 * Create a route based on a full or partial query string 
+	 * Get a route based on a full or partial query string 
 	 * 
-	 * index.php, option, view and layout can be ommitted. The following variations 
+	 * option, view and layout can be ommitted. The following variations 
 	 * will all result in the same route
 	 *
 	 * - foo=bar
 	 * - option=com_mycomp&view=myview&foo=bar
-	 * - index.php?option=com_mycomp&view=myview&foo=bar
-	 * 
-	 * If the route starts '&' the information will be appended to the current URL.
 	 *
 	 * In templates, use @route()
 	 *
 	 * @param	string	The query string used to create the route
+	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
 	 * @return 	string 	The route
 	 */
-	public function createRoute( $route = '')
+	public function getRoute( $route = '', $fqr = true)
 	{
-		$route = trim($route);
-
-		// Special cases
-		if($route == 'index.php' || $route == 'index.php?') 
-		{
-			$result = $route;
-		} 
-		else if (substr($route, 0, 1) == '&') 
-		{
-			$url   = clone KRequest::url();
-			$vars  = array();
-			parse_str($route, $vars);
-			
-			$url->setQuery(array_merge($url->getQuery(true), $vars));
-			
-			$result = 'index.php?'.$url->getQuery();
-		}
-		else 
-		{
-			// Strip 'index.php?'
-			if(substr($route, 0, 10) == 'index.php?') {
-				$route = substr($route, 10);
-			}
-
-			// Parse route
-			$parts = array();
-			parse_str($route, $parts);
-			$result = array();
-
-			// Check to see if there is component information in the route if not add it
-			if(!isset($parts['option'])) {
-				$result[] = 'option=com_'.$this->getIdentifier()->package;
-			}
-
-			// Add the layout information to the route only if it's not 'default'
-			if(!isset($parts['view']))
-			{
-				$result[] = 'view='.$this->getName();
-				if(!isset($parts['layout']) && $this->_layout != $this->_layout_default) {
-					$result[] = 'layout='.$this->getLayout();
-				}
-			}
-			
-			// Add the format information to the URL only if it's not 'html'
-			if(!isset($parts['format']) && $this->getIdentifier()->name != 'html') {
-				$result[] = 'format='.$this->getIdentifier()->name;
-			}
-
-			// Reconstruct the route
-			if(!empty($route)) {
-				$result[] = $route;
-			}
-
-			$result = 'index.php?'.implode('&', $result);
-			
+		//Parse route
+		$parts = array();
+		parse_str(trim($route), $parts);
+		
+		//Check to see if there is component information in the route if not add it
+		if(!isset($parts['option'])) {
+			$parts['option'] = 'com_'.$this->getIdentifier()->package;
 		}
 
-		return JRoute::_($result);
+		//Add the view information to the route if it's not set
+		if(!isset($parts['view'])) 
+		{
+			$parts['view'] = $this->getName();
+			
+		    //Add the layout information to the route if it's not set
+	        if(!isset($parts['layout'])) {
+			    $result[] = 'layout='.$this->getLayout();
+		    }
+		}
+		
+		//Add the format information to the route only if it's not 'html'
+		if(!isset($parts['format'])) {
+			$parts['format'] = $this->getIdentifier()->name;
+		}
+		
+		 //Add the model state only for routes to the same view
+		if($parts['view'] == $this->getName())
+		{
+		    $state = $this->getModel()->getState()->toArray();
+		    $parts = array_merge($state, $parts);
+		}
+		
+		//Create the route 
+		$route = KService::get('koowa:http.url', array('url' => JRoute::_('index.php?'.http_build_query($parts))));
+		
+		//Add the host and the schema
+		if($fqr)
+		{
+		    $route->scheme = $this->getBaseUrl()->scheme;
+		    $route->host   = $this->getBaseUrl()->host;
+		}
+		
+		return $route;
 	}
 	
+	/**
+	 * Get the view base url
+	 * 
+	 * @return 	object	A KHttpUrl object
+	 */
+	public function getBaseUrl()
+	{
+	    return $this->_baseurl;
+	}
+		
 	/**	
 	 * Returns the views output
  	 *

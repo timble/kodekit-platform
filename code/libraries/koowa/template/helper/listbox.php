@@ -166,7 +166,9 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
         if(!in_array($method, $this->getMethods())) 
         {
             $config = $arguments[0];
-            $config['name']  = KInflector::singularize(strtolower($method));
+            if(!isset($config['name'])) {
+                $config['name']  = KInflector::singularize(strtolower($method));
+            }
             
             return $this->_render($config);
         }

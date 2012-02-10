@@ -95,7 +95,7 @@ class KViewJson extends KViewAbstract
 
 		return parent::display();
 	}
-
+	
 	/**
 	 * Get the list data
 	 *
@@ -103,10 +103,21 @@ class KViewJson extends KViewAbstract
 	 */
 	protected function _getList()
 	{
-		$model = $this->getModel();
+		//Get the model
+	    $model = $this->getModel();
 
-		$url   = clone KRequest::url();
+	    //Get the route
+		$route = $this->getRoute();
+		
+		//Get the model state
 		$state = $model->getState();
+		
+		//Get the paginator
+		$paginator = new KConfigPaginator(array(
+          	'offset' => (int) $model->offset,
+           	'limit'  => (int) $model->limit,
+		    'total'  => (int) $model->getTotal(),
+        ));    
 		
 	    $vars = array();
 	    foreach($state->toArray(false) as $var) 
@@ -118,22 +129,62 @@ class KViewJson extends KViewAbstract
 
 		$data = array(
 			'version'  => '1.0',
-			'href'     => (string) $url->setQuery($state->toArray()),
+			'href'     => (string) $route->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
-			'offset'   => (int) $model->offset,
-			'limit'    => (int) $model->limit,
+			'offset'   => (int) $paginator->offset,
+			'limit'    => (int) $paginator->limit,
 			'total'	   => 0,
 			'items'    => array(),
+			'queries'  => array()
 		);
 
 		if($list = $model->getList())
 		{
-			$data = array_merge($data, array(
-				'total'    => $model->getTotal(),
-				'items'    => array_values($list->toArray())
+		    $vars = array();
+	        foreach($state->toArray(false) as $var) 
+	        {
+	            if($var->unique) 
+	            {
+	                $vars[] = $var->name;
+	                $vars   = array_merge($vars, $var->required);
+	            }      
+	        }
+		    
+		    $items = array();
+			foreach($list as $item) 
+			{
+			    $id = $item->getIdentityColumn();
+			  
+			    $items[] = array(
+		    		'href'    => (string) $route->setQuery(array($id => $item->{$id})),
+	        		'url'     => array(
+						'type'     => 'application/json',
+						'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+	                ),
+			    	'data' => $item->toArray()
+			    );
+			}
+			
+			$queries = array();
+            foreach(array('first', 'prev', 'next', 'last') as $offset) 
+            {
+                $page = $paginator->pages->{$offset}; 
+                if($page->active) 
+                {  
+                    $queries[] = array(
+		   				'rel' => $page->rel, 
+		   				'href' => (string) $this->getRoute('limit='.$page->limit.'&offset='.$page->offset)
+                    );
+                }
+            }
+            
+            $data = array_merge($data, array(
+				'total'    => $paginator->total,
+				'items'    => $items,
+		        'queries'  => $queries
 			 ));
 		}
 
@@ -147,9 +198,13 @@ class KViewJson extends KViewAbstract
 	 */
 	protected function _getItem()
 	{
-		$model = $this->getModel();
+		//Get the model
+	    $model = $this->getModel();
+
+	    //Get the route
+		$route = $this->getRoute();
 		
-		$url   = clone KRequest::url();
+		//Get the model state
 		$state = $model->getState();
 		
 	    $vars = array();
@@ -164,10 +219,10 @@ class KViewJson extends KViewAbstract
 		
 		$data = array(
 			'version' => '1.0',
-		    'href'    => (string) $url->setQuery($state->getData(true)),
+		    'href'    => (string) $route->setQuery($state->getData(true)),
 	        'url'     => array(
 				'type'     => 'application/json',
-				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 	        ),
 	        'item'	  => array()
 		);

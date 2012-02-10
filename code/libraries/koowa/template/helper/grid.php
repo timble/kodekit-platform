@@ -118,14 +118,9 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$url = clone KRequest::url();
+		$route = $this->getTemplate()->getView()->getRoute('sort='.$config->column.'&direction='.$direction);
 
-		$query 				= $url->getQuery(1);
-		$query['sort'] 		= $config->column;
-		$query['direction'] = $direction;
-		$url->setQuery($query);
-
-		$html  = '<a href="'.$url.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
+		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
 		$html .= '</a>';
 

@@ -31,7 +31,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
         '@overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
         '@text('        => 'JText::_(',
         '@template('    => '$this->loadIdentifier(',
-        '@route('       => '$this->getView()->createRoute(',
+        '@route('       => '$this->getView()->getRoute(',
         '@escape('      => '$this->getView()->escape(',
     );
     
