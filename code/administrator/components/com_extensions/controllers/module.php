@@ -18,7 +18,7 @@
  * @subpackage  Extensions
  */
 
-class ComExtensionsControllerModule extends ComDefaultControllerDefault
+class ComExtensionsControllerModule extends ComExtensionsControllerDefault
 {
 	public function __construct(KConfig $config)
 	{

@@ -19,12 +19,19 @@
  */
 class ComExtensionsControllerToolbarTemplate extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
+    public function onAfterControllerRead(KEvent $event)
     {
+        parent::onAfterControllerRead($event);
+        
         $this->addSeparator()
              ->addPreview();
-
-        return parent::getCommands();
+    }
+    
+    public function onAfterControllerBrowse(KEvent $event)
+    { 
+        $this->addDefault();
+        
+         parent::onAfterControllerBrowse($event);
     }
    
     protected function _commandPreview(KControllerToolbarCommand $command)

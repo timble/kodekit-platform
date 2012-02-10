@@ -19,6 +19,15 @@
  */
 class ComArticlesControllerCategory extends ComCategoriesControllerCategory
 { 
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		//'behaviors' => array('cacheable')
+    	));
+    
+    	parent::_initialize($config);
+    }
+    
     public function getRequest()
 	{
 		$this->_request['section'] = 'com_content';

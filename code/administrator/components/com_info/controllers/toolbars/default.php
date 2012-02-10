@@ -1,30 +1,30 @@
-<?php
+<?php 
 /**
- * @version     $Id: sections.php 592 2011-03-16 00:30:35Z johanjanssens $
- * @category	Nooku
+ * @version     $Id$
+ * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Cache
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @subpackage  Articles
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Cache Dispatcher Class
+ * Article Toolbar Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
+ * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Cache
+ * @subpackage  Articles
  */
- 
-class ComCacheDispatcher extends ComDefaultDispatcher
+class ComInfoControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
     protected function _initialize(KConfig $config)
-    {
+    { 
         $config->append(array(
-        	'controller' => 'items',
+            'title'  => 'System Info',
         ));
+        
         parent::_initialize($config);
     }
 }

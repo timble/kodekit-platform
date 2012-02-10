@@ -26,12 +26,11 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->_state
             ->insert('section'   , 'int')
             ->insert('category'  , 'int')
-            ->insert('published' , 'int')
             ->insert('state'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
-            ->insert('deleted'   , 'int');
+            ->insert('trashed'   , 'int');
 
         $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -98,8 +97,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         if(is_numeric($state->access)) {
             $query->where('tbl.access', '=', $state->access);
         }
-
-        if($this->getTable()->isRevisable() && $state->deleted) {
+        
+        if($this->getTable()->isRevisable() && $state->trashed) {
             $query->where('tbl.deleted', '=', 1);
         }
     }

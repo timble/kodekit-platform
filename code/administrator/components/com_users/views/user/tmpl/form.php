@@ -10,6 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+
 <?= @helper('behavior.validator') ?>
 <? /* @TODO move this into a separate JS file */ ?>
 <script>
@@ -27,8 +30,7 @@ if(Form && Form.Validator) {
 }
 </script>
 
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form">
 	<div class="grid_8">

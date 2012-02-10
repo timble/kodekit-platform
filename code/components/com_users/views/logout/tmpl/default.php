@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </div>
 <? endif ?>
 
-<form action="" method="post" name="login" id="login">
+<form action="<?= @route('view=user&id='.$user->id) ?>" method="post" name="login" id="login">
     <input type="hidden" name="action" value="logout" />
 
     <? if($parameters->get('show_logout_title')) : ?>
@@ -28,10 +28,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <tr>
             <td valign="top">
                 <div>
-                    <? if($parameters->get('image_logout')) : ?>
-                        <? $image = 'images/stories/'.$parameters->get('image_logout') ?>
-                        <img src="<?= $image ?>" align="<?= $parameters->get('image_logout_align') ?>" hspace="10" alt="" />
-                    <? endif ?>
                     <? if($parameters->get('description_logout')) : ?>
                         <?= @escape($parameters->get('description_logout_text')) ?>
                     <? endif ?>

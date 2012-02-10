@@ -13,6 +13,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 <script src="media://lib_koowa/js/koowa.js" />
 
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
+
 <?= @template('default_sidebar') ?>
 
 <form action="" method="get" class="-koowa-grid">
@@ -22,7 +24,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             <tr>
                 <th width="10"></th>
     			<th>
-    			    <?= @helper('grid.sort', array('column' => 'name')) ?>
+    			    <?= @helper('grid.sort', array('column' => 'title')) ?>
     			</th>
     			<th width="7%">
     			    <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
@@ -65,7 +67,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </td>
                     <td>
                     	<a href="<?= @route('view=newsfeed&id='.$newsfeed->id) ?>">
-                    	    <?= @escape($newsfeed->name) ?>
+                    	    <?= @escape($newsfeed->title) ?>
                     	</a>
                     </td>
                     <td align="center">

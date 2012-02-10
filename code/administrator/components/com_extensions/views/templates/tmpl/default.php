@@ -15,6 +15,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip') ?>
 
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
+
 <?= @template('default_sidebar'); ?>
 
 <form action="" method="get" class="-koowa-grid">

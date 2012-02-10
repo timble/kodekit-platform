@@ -22,7 +22,7 @@ class ComSearchDispatcher extends KDispatcherDefault
     protected function _initialize(KConfig $config)
     {  
         //Force the view to prevent a redirect
-        KRequest::set('get.view', 'results');
+        $config->request = array('view' => 'results');
          
         parent::_initialize($config);
     }

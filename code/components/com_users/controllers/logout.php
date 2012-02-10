@@ -19,14 +19,5 @@
  */
 class ComUsersControllerLogout extends ComDefaultControllerResource
 {
-    protected function _actionLogout(KCommandContext $context)
-    {
-		$result = JFactory::getApplication()->logout();
-
-		if(!JError::isError($result)) {
-		    $this->_redirect = 'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
-		} else {
-		    $this->setRedirect(KRequest::referrer(), $result->getError(), 'error');
-		}
-    }
+   
 }

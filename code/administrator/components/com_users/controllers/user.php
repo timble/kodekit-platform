@@ -18,7 +18,7 @@
  * @subpackage	Users
  */
 class ComUsersControllerUser extends ComDefaultControllerDefault
-{
+{ 
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
@@ -32,6 +32,19 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 		        $this->registerCallback('after.logout' , array($this, 'lockReferrer'));
 		    }
         }
+    }
+    
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+        	'behaviors' => array(
+        		'com://admin/activities.controller.behavior.loggable' => array(
+               		'title_column' => 'name',
+               		'actions'      => array('after.login', 'after.logout')        
+             )),
+        ));
+    
+        parent::_initialize($config);
     }
 
     protected function _actionDelete(KCommandContext $context)
@@ -48,41 +61,52 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionLogin(KCommandContext $context)
     {
-        $credentials['username'] = KRequest::get('post.username', 'string');
-        $credentials['password'] = KRequest::get('post.password', 'raw');
+        $credentials = array(
+            'username' => KRequest::get('post.username', 'string'),
+            'password' => KRequest::get('post.password', 'raw')
+        );
 
         $result = JFactory::getApplication()->login($credentials);
-
+         
         if(JError::isError($result))
         {
             $this->_redirect_type    = 'error';
             $this->_redirect_message =  $result->getError();
+            $result = false;
         }
-
+        else 
+        {
+            $user  = JFactory::getUser();
+            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
+        } 
+        
         $this->_redirect = KRequest::referrer();
+        return $result;
     }
 
     protected function _actionLogout(KCommandContext $context)
     {
-        $users = $this->getModel()->getList();
-        					
-	    if(count($users)) 
+        $rowset = clone $this->getModel()->getList();
+        
+	    if(count($rowset)) 
 	    {
-	        foreach($users as $user)
+	        foreach($rowset as $user)
 	        {
 	            $clients = array(0, 1); //Force logout from site and administrator
 	            $result = JFactory::getApplication()
 	                            ->logout($user->id, array('clientid' => $clients));
-
+	                          
                 if(JError::isError($result))
                 {
                     $this->_redirect_type    = 'error';
                     $this->_redirect_message =  $result->getError();
                 }
+                else $user->setStatus('logged out');
 	        }
 		} 
-	
-        $this->_redirect = KRequest::referrer();
+		
+		$this->_redirect = KRequest::referrer();
+        return $rowset;
     }
 
     public function notify(KCommandContext $context)

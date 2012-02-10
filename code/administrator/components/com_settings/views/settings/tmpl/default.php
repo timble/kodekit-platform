@@ -12,6 +12,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip'); ?>
 
+<?= @template('com://admin/default.view.form.toolbar'); ?>
+
 <style src="media://com_settings/css/settings-default.css" />
 
 <form action="" method="post" class="-koowa-form -koowa-box" >

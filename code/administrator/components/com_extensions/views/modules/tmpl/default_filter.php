@@ -12,18 +12,18 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_bool($state->enabled) ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->enabled) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('enabled=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
 		</li>
 		<li class="<?= $state->enabled === true ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=1' ) ?>">
+			<a href="<?= @route($state->enabled === true ? 'enabled=' : 'enabled=1' ) ?>">
 			    <?= @text('Enabled') ?>
 			</a> 
 		</li>
 		<li class="<?= $state->enabled === false ? 'active' : ''; ?>">
-			<a href="<?= @route('enabled=0' ) ?>">
+			<a href="<?= @route($state->enabled === false ? 'enabled=' : 'enabled=0' ) ?>">
 			    <?= @text('Disabled') ?>
 			</a> 
 		</li>

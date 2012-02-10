@@ -11,4 +11,14 @@
   	<version>12.1</version>
    	<description>This component provides extension installation management</description>
    	
+   	<administration>
+		<submenu>
+			<menu view="components" active="true">Install/Uninstall</menu>
+			<menu href="index.php?option=com_extensions&amp;view=modules">Modules</menu>
+			<menu href="index.php?option=com_extensions&amp;view=plugins">Plugins</menu>
+			<menu href="index.php?option=com_extensions&amp;view=templates">Templates</menu>
+			<menu href="index.php?option=com_extensions&amp;view=languages">Languages</menu>
+		</submenu>
+	</administration>
+   	
 </install>

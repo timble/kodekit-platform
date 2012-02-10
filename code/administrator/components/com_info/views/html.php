@@ -22,14 +22,18 @@ class ComInfoViewHtml extends ComDefaultViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-         	'layout'      => 'default'
+         	'layout'      => 'default',
+         	'auto_assign' => false
         ));
 
         parent::_initialize($config);
     }
     
-	public function getName()
+    public function display()
 	{
-		return 'items';
+	   //Get the view name
+	   $this->assign('items', 	$this->getModel()->getList());
+	   
+	   return parent::display();
 	}
 }

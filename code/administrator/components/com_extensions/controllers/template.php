@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsControllerTemplate extends ComDefaultControllerDefault
+class ComExtensionsControllerTemplate extends ComExtensionsControllerDefault
 {
     protected function _actionRead(KCommandContext $context)
     {

@@ -19,17 +19,6 @@
  */
 class ComUsersControllerLogin extends ComDefaultControllerResource
 {
-	protected function _initialize(KConfig $config)
-	{
-		/*
-		 *  Force the layout (Since this controller can be rendered through redirection from
-		 *  URLs like option=com_articles&view=articles&layout=default this is necessary)
-		 */
-		$config->request->layout = 'form'; 
-		
-		parent::_initialize($config);	
-	}
-	
     protected function _actionGet(KCommandContext $context)
     {
         //Force the application template
@@ -38,9 +27,6 @@ class ComUsersControllerLogin extends ComDefaultControllerResource
         //Set the status
         $context->status = KHttpResponse::UNAUTHORIZED;
            
-        //Set the authentciation header
-        //$context->headers = array('WWW-Authenticate', 'Basic Realm="'.KRequest::base().'"');
-
         return parent::_actionGet($context);
     }
 }

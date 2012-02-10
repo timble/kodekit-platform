@@ -10,17 +10,17 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<script src="media://lib_koowa/js/koowa.js" />
+<?= @helper('behavior.keepalive'); ?>
+
 <? if($parameters->get('show_page_title', 1)) : ?>
     <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
         <?= @escape($parameters->get('page_title')) ?>
     </div>
 <? endif ?>
 
-<form action="" method="post" id="com-form-login">
+<form action="<?= @route('view=user') ?>" method="post" id="com-form-login">
     <input type="hidden" name="action" value="login" />
-    <? if ($return = $parameters->get('login')): ?>
-    <input type="hidden" name="return" value="<?=base64_encode($return)?>" />
-    <? endif ?>
     <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>">
         <tr>
             <td colspan="2">
@@ -30,10 +30,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     </div>
                 <? endif ?>
                 <div>
-                    <? if($parameters->get('image_login')) : ?>
-                        <? $image = 'images/stories/'.$parameters->get('image_login') ?>
-                         <img src="<?= $image ?>" align="<?= $parameters->get('image_login_align') ?>" hspace="10" alt="" />
-                    <? endif ?>
                     <? if($parameters->get('description_login')) : ?>
                         <?= $parameters->get('description_login_text' ) ?>
                         <br /><br />
@@ -57,16 +53,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
     <ul>
         <li>
-            <a href="<?= @route('index.php?option=com_users&view=reset') ?>">
+            <a href="<?= @route('view=reset') ?>">
             <?= @text('FORGOT_YOUR_PASSWORD') ?></a>
         </li>
         <li>
-            <a href="<?= @route('index.php?option=com_users&view=remind') ?>">
+            <a href="<?= @route('view=remind') ?>">
             <?= @text('FORGOT_YOUR_USERNAME') ?></a>
         </li>
         <? if($parameters->get('registration')) : ?>
         <li>
-            <a href="<?= @route('index.php?option=com_user&view=register') ?>">
+            <a href="<?= @route('view=user&layout=register') ?>">
                 <?= @text('REGISTER') ?></a>
         </li>
         <? endif ?>

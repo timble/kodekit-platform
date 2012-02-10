@@ -10,6 +10,12 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<module position="title" content="replace">
+	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
+</module>
+
+<?= @template('com://admin//info.view.grid.sidebar'); ?>
+
 <form class="-koowa-grid -koowa-box-scroll">
     <?
     ob_start();

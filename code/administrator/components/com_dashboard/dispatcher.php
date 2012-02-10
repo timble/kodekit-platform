@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Dashboard Dispatcher Class
  *   
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku

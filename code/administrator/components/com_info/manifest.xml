@@ -10,15 +10,4 @@
   	<authorUrl>www.nooku.org</authorUrl>
   	<version>12.1</version>
    	<description>This component provides system and PHP information</description>
-   	
-   	<administration>
-		<submenu>
-			<menu view="system">System Information</menu>
-			<menu view="configuration">Configuration File</menu>
-			<menu view="directories">Directory Permissions</menu>
-			<menu view="phpinformation">PHP Information</menu>
-			<menu view="phpsettings">PHP Settings</menu>
-		</submenu>
-	</administration>
-	
 </install>

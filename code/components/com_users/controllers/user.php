@@ -28,9 +28,19 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
              ->registerCallback('after.add'  , array($this, 'notify'))
              ->registerCallback('after.save' , array($this, 'redirect'))
              ->registerCallback('after.read' , array($this, 'activate'));
-
-		// Force view to singular since we don't have a users view
-		$this->_view = 'user';
+    }
+    
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+        	'behaviors' => array(
+        		'com://admin/activities.controller.behavior.loggable' => array(
+               		'title_column' => 'name',
+               		'actions'      => array('after.login', 'after.logout')        
+             )),
+        ));
+    
+        parent::_initialize($config);
     }
 
     public function activate(KCommandContext $context)
@@ -106,6 +116,56 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         else $message = JText::_('REG_COMPLETE');
 
         return parent::_actionAdd($context);
+    }
+    
+    protected function _actionLogin(KCommandContext $context)
+    {
+        $credentials = array(
+            'username' => KRequest::get('post.username', 'string'),
+            'password' => KRequest::get('post.password', 'raw')
+        );
+
+        $result = JFactory::getApplication()->login($credentials);
+
+        if(JError::isError($result))
+        {
+            $this->_redirect_type    = 'error';
+            $this->_redirect_message =  $result->getError();
+            $result = false;
+        }
+        else
+        {
+            $user   = JFactory::getUser();
+            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
+        }
+        
+        $this->_redirect = KRequest::referrer();
+        return $result;
+    }
+    
+    protected function _actionLogout(KCommandContext $context)
+    {
+		$rowset = clone $this->getModel()->getList();
+        
+	    if(count($rowset)) 
+	    {
+	        foreach($rowset as $user)
+	        {
+	            $clients = array(0); //Force logout from site only
+	            $result = JFactory::getApplication()
+	                            ->logout($user->id, array('clientid' => $clients));
+	                          
+                if(JError::isError($result))
+                {
+                    $this->_redirect_type    = 'error';
+                    $this->_redirect_message =  $result->getError();
+                }
+                else $user->setStatus('logged out');
+	        }
+		} 
+		
+		$this->_redirect = KRequest::referrer();
+        return $rowset;
     }
 
     public function redirect(KCommandContext $context)

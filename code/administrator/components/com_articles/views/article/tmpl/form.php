@@ -28,6 +28,8 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 </script>
 
+<?= @template('com://admin/default.view.form.toolbar'); ?>
+
 <form action="" method="post" id="article-form" class="-koowa-form">
     <div id="main" class="grid_8">
         <div class="panel title clearfix">

@@ -106,15 +106,18 @@ class JRouterAdministrator extends JRouter
 	        }
 	    
 	        //Add format to path
-	        if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
-		    {
-	            if($format = $uri->getVar('format', 'html'))
+	        if($format = $uri->getVar('format', 'html'))
+			{
+			    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+		        {
+			        $path .= '.'.$format;
+			        unset($query['format']);
+			    }
+			    else 
 			    {
-			    	if($format != 'html') 
-			    	{
-			            $path .= '.'.$format;
-				        $uri->delVar('format');
-			    	}
+			        if($format == 'html') {
+			            unset($query['format']);
+			        } 
 			    }
 		    }
 	    

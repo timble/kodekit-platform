@@ -12,20 +12,20 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= !is_numeric($state->published) ? 'active' : '' ?> separator-right">
-			<a href="<?= @route('published=') ?>">
+		<li class="<?= is_null($state->published) ? 'active' : ''; ?> separator-right">
+			<a href="<?= @route('published=' ) ?>">
 			    <?= @text('All') ?>
 			</a>
 		</li>
-		<li class="<?= $state->published == '1' ? 'active' : ''; ?>">
-			<a href="<?= @route('published=1' ) ?>">
+		<li class="<?= $state->published === true ? 'active' : ''; ?>">
+			<a href="<?= @route($state->published === true ? 'published=' : 'published=1') ?>">
 			    <?= @text('Published') ?>
-			</a>
+			</a> 
 		</li>
-		<li class="<?= $state->published == '0' ? 'active' : ''; ?>">
-			<a href="<?= @route('published=0' ) ?>">
+		<li class="<?= $state->published === false ? 'active' : ''; ?>">
+			<a href="<?= @route($state->published === false ? 'published=' : 'published=0' ) ?>">
 			    <?= @text('Unpublished') ?>
-			</a>
+			</a> 
 		</li>
 	</ul>
 </div>

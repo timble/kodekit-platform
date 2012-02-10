@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Dispatcher
+ * Info Dispatcher Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category    Nooku

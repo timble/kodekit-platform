@@ -17,6 +17,8 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
+<?= @template('com://admin/default.view.form.toolbar'); ?>
+
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
 
@@ -28,11 +30,11 @@ defined('KOOWA') or die('Restricted access') ?>
 				<tr>
 					<td class="key">
 						<label for="name">
-							<?= @text( 'Name' ); ?>:
+							<?= @text( 'Title' ); ?>:
 						</label>
 					</td>
 					<td >
-						<input class="inputbox" type="text" name="name" id="name" size="60" maxlength="255" value="<?= $contact->name; ?>" />
+						<input class="inputbox" type="text" name="title" id="name" size="60" maxlength="255" value="<?= $contact->title; ?>" />
 					</td>
 				</tr>
 				<tr>
@@ -61,7 +63,7 @@ defined('KOOWA') or die('Restricted access') ?>
 					</td>
 					<td>
 						<?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-                            'name' => 'category',
+                            'name' => 'catid',
                             'text' => 'title',
                             'filter' => array('section' => 'com_contact_details'),
                             'selected' => $contact->category,

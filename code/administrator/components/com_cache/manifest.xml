@@ -10,4 +10,11 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>12.1</version>
 	<description>Cache Manager</description>
+	
+	<administration>
+		<submenu>
+			<menu view="items">Items</menu>
+			<menu view="groups">Groups</menu>
+		</submenu>
+	</administration>
 </install>

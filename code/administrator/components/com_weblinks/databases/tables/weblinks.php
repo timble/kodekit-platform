@@ -22,12 +22,14 @@ class ComWeblinksDatabaseTableWeblinks extends KDatabaseTableDefault
     public function  _initialize(KConfig $config) 
     {
         $config->identity_column = 'id';
-        $orderable = $this->getBehavior('com://admin/categories.database.behavior.orderable', array('parent_column' => 'catid'));
         
         $config->append(array(
         	'name'         => 'weblinks',
             'base'         => 'weblinks',
-            'behaviors'    =>  array('lockable', $orderable, 'sluggable'),
+            'behaviors'    =>  array(
+            	'lockable', 'sluggable',
+        		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'catid'),
+            ),
         	'column_map'   =>  array(
             	'enabled'   => 'published',
              	'locked_on' => 'checked_out_time',

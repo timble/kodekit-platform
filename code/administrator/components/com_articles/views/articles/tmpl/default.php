@@ -26,6 +26,8 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
+
 <?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="" method="get" class="-koowa-grid">

@@ -26,6 +26,7 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
         JFactory::getApplication()->getPathway()->addItem($title);
         JFactory::getDocument()->setTitle($title);
         
+        $this->user       = JFactory::getUser();
         $this->parameters = $this->getParameters();
 
         return parent::display();
@@ -49,11 +50,8 @@ class ComUsersViewLoginHtml extends ComDefaultViewHtml
         }
 
         $parameters->def('pageclass_sfx', '');
-        $parameters->def('login', JRoute::_($default->link.'&Itemid='.$default->id));
         $parameters->def('description_login', 1);
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
-        $parameters->def('image_login', 'key.jpg');
-        $parameters->def('image_login_align', 'right');
         $parameters->def('registration', JComponentHelper::getParams('com_users')->get('allowUserRegistration'));
 
         return $parameters;

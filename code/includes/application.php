@@ -124,13 +124,28 @@ class JSite extends JApplication
 	 *
 	 * @access public
 	 */
-	function dispatch($component)
+	function dispatch()
 	{
-		$document	=& JFactory::getDocument();
-		$user		=& JFactory::getUser();
-		$router     =& $this->getRouter();
-		$params     =& $this->getParams();
-
+		$document	= JFactory::getDocument();
+		$user		= JFactory::getUser();
+		$router     = $this->getRouter();
+		$params     = $this->getParams();
+		
+		$option = strtolower(JRequest::getCmd('option'));
+		
+		if(!($this->getCfg('offline') && JFactory::getUser()->get('guest'))) 
+		{
+		    if(!$this->getMenu()->authorize(JRequest::getInt( 'Itemid'), $user->get('aid')))
+		    {
+			    if (!$user->get('aid')) {
+				    $option = 'com_users';
+			    } else {
+			        JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			    }
+		    }
+		} 
+		else $option = 'com_users';
+		
 		switch($document->getType())
 		{
 			case 'html':
@@ -142,6 +157,7 @@ class JSite extends JApplication
 				if($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(JURI::current());
 				}
+				
 			} break;
 
 			case 'feed':
@@ -151,12 +167,12 @@ class JSite extends JApplication
 
 			default: break;
 		}
-
-
+		
 		$document->setTitle( $params->get('page_title') );
 		$document->setDescription( $params->get('page_description') );
 
-		$contents = JComponentHelper::renderComponent($component);
+		JRequest::setVar('option', $option);
+		$contents = JComponentHelper::renderComponent($option);
 		$document->setBuffer( $contents, 'component');
 	}
 
@@ -167,13 +183,10 @@ class JSite extends JApplication
 	 */
 	function render()
 	{
-		$document =& JFactory::getDocument();
-		$user     =& JFactory::getUser();
+		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
-		// get the format to render
-		$format = $document->getType();
-
-		switch($format)
+		switch($document->getType())
 		{
 			case 'feed' :
 			{
@@ -186,17 +199,20 @@ class JSite extends JApplication
 				$template	= $this->getTemplate();
 				$file 		= JRequest::getCmd('tmpl', 'index');
 
-				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
-					$file = 'offline';
+				if ($this->getCfg('offline') && JFactory::getUser()->get('guest')) {
+					$file = 'login';
 				}
+				
 				if (!is_dir( JPATH_THEMES.DS.$template ) && !$this->getCfg('offline')) {
 					$file = 'component';
 				}
+				
 				$params = array(
 					'template' 	=> $template,
 					'file'		=> $file.'.php',
 					'directory'	=> JPATH_THEMES
 				);
+				
 			} break;
  		}
 
@@ -210,53 +226,6 @@ class JSite extends JApplication
 		$data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
 
 		JResponse::setBody($data);
-	}
-
-    /**
- 	 * Login authentication function
-	 *
-	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @param	array 	Array( 'remember' => boolean )
-	 * @access public
-	 * @see JApplication::login
-	 */
-	function login($credentials, $options = array())
-	{
-		 //Set the application login entry point
-		 if(!array_key_exists('entry_url', $options)) {
-			 $options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
-		 }
-
-		return parent::login($credentials, $options);
-	}
-
-	/**
-	 * Check if the user can access the application
-	 *
-	 * @access public
-	 */
-	function authorize($itemid)
-	{
-		$menus	=& JSite::getMenu();
-		$user	=& JFactory::getUser();
-		$aid	= $user->get('aid');
-
-		if(!$menus->authorize($itemid, $aid))
-		{
-			if (!$aid )
-			{
-				// Redirect to login
-				$uri		= JFactory::getURI();
-				$return		= $uri->toString();
-
-				$url  = 'index.php?option=com_user&view=login';
-				$url .= '&return='.base64_encode($return);;
-
-				//$url	= JRoute::_($url, false);
-				$this->redirect(JRoute::_($url), JText::_('You must login first') );
-			}
-			else JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-		}
 	}
 
 	/**
