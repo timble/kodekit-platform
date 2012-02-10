@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+<!-- $Id: manifest.xml 1481 2012-02-10 01:46:24Z johanjanssens $ -->
 <install type="component" version="1.5.0">
-	<name>Terms</name>
+	<name>Versions</name>
 	<author>Nooku</author>
 	<creationDate>July 2009</creationDate>
 	<copyright>(C) 2009 - 2012 Nooku. All rights reserved.</copyright>
@@ -9,19 +9,19 @@
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>12.2</version>
-	<description>A tagging component</description>
+	<description>A versioning component</description>
 
 	<!-- Application/site -->
-	<files folder="site/components/com_terms">
-		<file>terms.php</file>
+	<files folder="site/components/com_versions">
+		<file>versions.php</file>
 	</files>
 	
 	<!-- Application/administrator -->
 	<administration>
-		<menu>Terms</menu>
+		<menu>Versions</menu>
 
-		<files folder="administrator/components/com_terms">
-			<file>terms.php</file>
+		<files folder="administrator/components/com_versions">
+			<file>versions.php</file>
             <folder>controllers</folder>
 			<folder>install</folder>
 			<folder>models</folder>

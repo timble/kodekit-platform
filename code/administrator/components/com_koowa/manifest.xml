@@ -7,7 +7,7 @@
     <license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
     <authorEmail>info@nooku.org</authorEmail>
     <authorUrl>www.nooku.org</authorUrl>
-    <version>12.1</version>
+    <version>12.2</version>
     <description>This is an install and update component for the framework and any core and/or third party Nooku extensions.</description>
 
     <!-- Application/administrator -->

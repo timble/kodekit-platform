@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
-	<identifier>com:activities</identifier>
 	<name>Activities</name>
-	<author>Joomlatools</author>
-	<authorEmail>support@joomlatools.eu</authorEmail>
-	<authorUrl>http://www.joomlatools.eu</authorUrl>
-	<copyright>Copyright (c) 2003-2011 Joomlatools</copyright>
-	<license>This extension is released under the GNU/GPL License</license>
-	<creationDate>2011-10-03</creationDate>
-	<version>1.0.0</version>
-	<description></description>
+	<author>Nooku Project</author>
+	<creationDate>June 2011</creationDate>
+	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>12.2</version>
+	<description>This component provides user activity logging</description>
 
 	<install>
 		<sql>
