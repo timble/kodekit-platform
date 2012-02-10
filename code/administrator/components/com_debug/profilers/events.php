@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstantiatable
+class ComDebugProfilerEvents extends KEventDispatcher
 {
    /**
     * The start time
@@ -31,7 +31,7 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstant
      *
      * @var array
      */
-    protected $_events;
+    protected static $_events;
  	
  	/**
      * Constructor.
@@ -43,26 +43,6 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstant
         parent::__construct($config);
         
         $this->_start = $config->start;
-        
-        $this->getService('com://admin/debug.profiler.queries', array('dispatcher' => $this));
-    }
-    
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
-     * @return ComDebugProfilerEvents
-     */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
-    {
-        if (!$container->has($config->service_identifier)) 
-        {
-            $instance = new self($config);
-            $container->set($config->service_identifier, $instance);
-        }
-        
-        return $container->get($config->service_identifier);
     }
     
 	/**
@@ -89,7 +69,7 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstant
      */
     public function getEvents() 
     {
-        return $this->_events;    
+        return self::$_events;    
     }
     
 	/**
@@ -128,7 +108,7 @@ class ComDebugProfilerEvents extends KEventDispatcher implements KServiceInstant
      */
     public function dispatchEvent($name, $event = array())
     {
-        $this->_events[] = array(
+        self::$_events[] = array(
         	'message' => $name,
             'time'    => $this->getElapsedTime(),
             'memory'  => $this->getMemory(),

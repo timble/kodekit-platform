@@ -12,8 +12,8 @@
 /**
  * Revisions Model
  *
- * @author      Torkil Johnsen <torkil@bedre.no>
- * @author      Johan Janssens <johan@nooku.org>
+ * @author      Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Versions

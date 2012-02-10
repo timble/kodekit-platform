@@ -25,6 +25,18 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 
 		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
 	}
+	
+    protected function _initialize(KConfig $config)
+    {
+    	$config->append(array(
+    		'behaviors' => array(
+    			'com://admin/activities.controller.behavior.loggable' =>  array(
+    				'title_column' => 'name'
+    	    )),
+        ));
+    
+    	parent::_initialize($config);
+    }	
 
 	public function addFile(KCommandContext $context)
 	{

@@ -165,6 +165,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <div id="files-app" class="-koowa-box -koowa-box-flex">
 	<?= @template('templates_icons'); ?>

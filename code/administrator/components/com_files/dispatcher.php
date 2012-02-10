@@ -10,7 +10,7 @@
  */
 
 /**
- * Dispatcher Class
+ * Files Dispatcher Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
@@ -36,7 +36,8 @@ class ComFilesDispatcher extends ComDefaultDispatcher
         }
     }
     
-    protected function _handleException(Exception $e) {
+    protected function _handleException(Exception $e) 
+    {
     	if (KRequest::get('get.format', 'cmd') == 'json') {
     		$obj = new stdClass;
     		$obj->status = false;
@@ -51,10 +52,9 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     		echo json_encode($obj);
     		JFactory::getApplication()->close();
     	}
-    	else {
-    		throw $e;
-    	}
+    	else throw $e;
     }
+    
 	/**
 	 * Overloaded to comply with FancyUpload.
 	 * It doesn't let us pass AJAX headers so this is needed.
@@ -69,6 +69,5 @@ class ComFilesDispatcher extends ComDefaultDispatcher
 			}	
 		}
 		return $context->result;
-
 	}
 }
