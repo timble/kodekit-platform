@@ -2,7 +2,7 @@
 /**
  * @version		$Id: dashboard.php 176 2010-10-27 03:39:39Z johanjanssens $
  * @category	Nooku
- * @package	 Nooku_Components
+ * @package	 	Nooku_Components
  * @subpackage  Terms
  * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
