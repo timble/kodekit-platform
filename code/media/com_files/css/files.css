@@ -1,0 +1,993 @@
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/* @group Flexbox styling from Nooku Server, @TODO suggest to move koowa.css from Nooku Server to Nooku Framework */
+/* @group Flexible Box Model, powered by CSS3 */
+.-koowa-box { 
+	display: -webkit-box;
+	display: -moz-box;
+	/* Gecko needs this */
+	width: 100%;
+}
+
+.-koowa-box-horizontal 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-align: stretch;
+}	
+.-koowa-box-horizontal> * 	{ 
+	display: block;
+	-webkit-box-flex: 0; 
+	-moz-box-flex: 0; 
+}
+
+.-koowa-box-vertical 		{ 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: stretch;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-align: stretch;
+}
+.-koowa-box-vertical> * 	{ 
+	display: block;
+	-webkit-box-flex: 0;
+	-moz-box-flex: 0;
+}
+
+.-koowa-box-spacer 	{ 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+.-koowa-box-reverse { 
+	-webkit-box-direction: reverse;
+	-moz-box-direction: reverse;
+}
+
+.-koowa-box-flex0 	{ 
+	-webkit-box-flex: 0;
+	-moz-box-flex: 0;
+}
+.-koowa-box-flex1,
+.-koowa-box-flex 	{ 
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+.-koowa-box-flex2 	{
+	-webkit-box-flex: 2;
+	-moz-box-flex: 2;
+}
+
+.-koowa-box-group1 { 
+	-webkit-box-flex-group: 1; 
+	-moz-box-flex-group: 1; 
+}
+.-koowa-box-group2 { 
+	-webkit-box-flex-group: 2;
+	-moz-box-flex-group: 2; 
+}
+
+.-koowa-box-start 	{ 
+	-webkit-box-pack: start;
+	-moz-box-pack: start;
+}
+.-koowa-box-end 	{ 
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+}
+.-koowa-box-center 	{
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+}
+
+.-koowa-box-ordinal-group2 { 
+	-webkit-box-ordinal-group: 2;
+	-moz-box-ordinal-group: 2;
+}
+.-koowa-box-ordinal-group3 { 
+	-webkit-box-ordinal-group: 3;
+	-moz-box-ordinal-group: 3;
+}
+/* @end group */
+
+.-koowa-box-scroll { overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+/* @end */
+
+/* Joomla Specific Styling */
+#submenu-box {
+    display: none;
+}
+#element-box {
+    margin-top: 0;
+}
+#element-box #sidebar {
+	/*float: left;
+	width: 20%;*/
+	width: 200px;
+	background-color: hsl(0, 0%, 97%);
+	border: 1px solid hsl(0, 0%, 88%);
+	border-right: none;
+}
+
+#element-box #files-canvas {
+	/*float: right;
+	width: 79%;*/
+	border: 1px solid #CCC;
+}
+
+/* This clearing css is normally present in the backend, but not in frontend templates */
+.clr {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+}
+/* --- End --- */
+
+#files-container {
+	min-height: 218px;
+}
+
+#files-canvas .path {
+	padding: 10px;
+	background-color: #F7F7F7;
+	border-bottom: 1px solid #E1E1E1;
+	font-size: 12px;
+}
+
+#files-canvas .view {
+	display: block;
+	margin: 0;
+	padding: 0;
+	background-color: #FFF;
+}
+
+#files-canvas button,
+#files-upload button,
+.files-modal button {
+	min-width: 50px;
+	line-height: 18px;
+	text-align: center;
+	padding: 2px 12px;
+	color: #333;
+	font-weight: bold;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9', endColorstr='#E3E3E3');
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #BBB;
+}
+#files-canvas button:hover,
+#files-upload button:hover {
+	border-color: #999;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	text-decoration: none;
+}
+
+#files-canvas button:active,
+#files-upload button:active {
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+}
+
+#uploads .upload {
+	padding: 4px;
+}
+
+/**
+ * Upload Widget CSS
+ */
+#files-upload  { 
+	background-color: #F7F7F7;
+	box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+	background-image: -webkit-gradient(linear, left bottom, left top, from(hsl(0, 0%, 97%)), to(hsl(0, 0%, 95%)));
+	background-image: -moz-linear-gradient(top, hsl(0, 0%, 97%), hsl(0, 0%, 95%));
+	background-image: linear-gradient(top, hsl(0, 0%, 97%), hsl(0, 0%, 95%));
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	overflow: hidden;
+}
+
+#files-upload h3 {
+	padding: 15px 0 0 15px;
+	margin: 0;
+	display: block;
+	float: left;
+}
+
+
+p.overall-title,
+p.current-title,
+p.current-text {
+	margin: 0;
+	padding: 0;
+	font-weight:bold;
+}
+p.overall-title { margin: 10px 0 0 25px; float: right; }
+
+ul.upload-buttons {
+	padding: 0;
+	list-style: none;
+	float: left;
+}
+
+.plupload_container ul.upload-buttons li {
+	float:left;
+	clear:right;
+	margin-left: 10px;
+}
+
+#files-upload-controls .upload-buttons {
+    margin: 10px 0 0 20px;
+}
+
+#files-upload-controls .upload-buttons li {
+    display: inline;
+    font-size: 12px;
+}
+#files-upload-controls .upload-buttons li:first-child {
+    padding-right: 5px;
+}
+
+#files-upload-controls .upload-buttons li a {
+    font-weight: bold;
+    padding: 5px 10px 10px;
+    display: inline-block;
+    position: relative;
+}
+#files-upload-controls .upload-buttons li a.active {
+    color: #3c3c3c;
+}
+#files-upload-controls .upload-buttons li a:hover,
+#files-upload-controls .upload-buttons li a:active,
+#files-upload-controls .upload-buttons li a.active {
+    text-decoration: none;
+}
+#files-upload-controls .upload-buttons li a.active::after,
+#files-upload-controls .upload-buttons li a.active::before {
+    content: '.';
+    color: transparent;
+    border-color: transparent transparent hsl(0, 0%, 99%) transparent;
+    border-style: solid;
+    border-width: 8px;
+    height: 0;
+    width: 0;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    margin-left: -8px;
+    z-index: 1;
+}
+.uploader-files-queued #files-upload-controls .upload-buttons li a.active.target-computer::after {
+    border-bottom-color: white;
+}
+#files-upload-controls .upload-buttons li a.active::before {
+    bottom: 0;
+    border-bottom-color: #E6E6E6;
+}
+.plupload_container .upload-buttons li a {
+	min-width: 50px;
+	line-height: 18px;
+	display: block;
+	text-align: center;
+	padding: 2px 12px;
+	color: #333;
+	font-weight: bold;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9', endColorstr='#E3E3E3');
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #BBB;
+}
+.plupload_container .upload-buttons li a:hover, .upload-buttons li button.hover {
+	border-color: #999;
+	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+	text-decoration: none;
+}
+
+.plupload_container .upload-buttons li a:active {
+	box-shadow: inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+}
+.upload-form {
+    padding-bottom: 10px;
+    position: relative;
+    
+}
+#files-upload-multi, #files-uploader-web form {
+    padding: 0;
+    background-color: hsl(0, 0%, 99%);
+    border-radius: 5px;
+    margin: 0 10px;
+    border: 1px solid hsl(0, 0%, 90%);
+    
+    z-index: 0;
+}
+#files-uploader-web form {
+    padding: 2px;
+}
+#files-upload-multi .plupload_container {
+    padding: 0px;
+}
+/* blur focus fix */
+#files-uploader-web input:focus,
+.files-modal input:focus {
+	z-index: 1;
+	position: relative;
+}
+#files-uploader-web input.success::-webkit-input-placeholder {
+	color: currentcolor;
+}
+
+#files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
+    background: none;
+}
+#files-upload-multi .plupload_filelist_header {
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top: none;
+    background-image: -webkit-gradient(linear, 0% 00%, 0% 100%, from(white), to(whiteSmoke));
+    background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+    box-shadow: hsl(0, 0%, 97%) 0 -1px 0 inset;
+    border-bottom: 1px solid hsl(0, 0%, 90%);
+}
+
+#files-upload-multi .plupload_filelist_footer {
+ -moz-border-radius-bottomleft: 4px;
+ -moz-border-radius-bottomright: 4px;
+ border-bottom-left-radius: 4px;
+ border-bottom-right-radius: 4px;
+ border-bottom: none;
+ border-top: none;
+ box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
+}
+.uploader-files-empty #files-upload-multi .plupload_filelist_footer {
+    border: 0 hidden transparent;
+    box-shadow: none;
+}
+#files-upload-multi .plupload_scroll .plupload_filelist {
+  background: none;
+}
+#files-upload-multi .plupload_filelist li {
+    background: none;
+}
+#files-upload-multi .plupload_filelist .plupload_file_name {
+    width: 471px;
+}
+
+#upload-max {
+	font-size: 11px!important;
+	padding-top: 6px;
+	margin-left: 30px;
+	color: #444;
+}
+
+#upload-progress {
+	float: right;
+	margin: 8px 20px 0 0;
+}
+
+#upload-queue {
+	list-style: none;
+	clear:both;
+	padding:0;
+	margin: 0;
+	background-color: #FFF;
+	width: 100%;
+}
+
+#upload-queue tr.validation-error {
+	background-color: #E6C0C0;
+	color: #c00;
+	border-top: 1px solid #E1E1E1;
+	border-bottom: 1px solid #E1E1E1;
+	padding: 4px;
+}
+
+#upload-queue tr.file {
+	overflow: auto;
+	padding: 4px;
+	border-bottom: 1px solid #E1E1E1;
+	height: 20px;
+}
+
+#upload-queue tr.file:nth-child(2) {
+	border-top: 1px solid #E1E1E1;
+}
+
+#upload-queue tr.file:nth-child(odd) {
+	background-color: #F9F9F9;
+}
+
+#upload-queue tr.file.file-uploading {
+	background-color: #D9DDE9;
+}
+
+#upload-queue tr.file.file-success {
+	background-color: #C3D2E5;
+}
+
+#upload-queue tr.file.file-failed {
+	background-color: #E6C0C0;
+}
+
+#upload-queue tr.file .file-name {
+	
+	font-weight: bold;
+}
+
+#upload-queue tr.file .file-remove {
+	width: 75px;
+	text-align: center;
+}
+
+#upload-queue tr.file .file-size {
+	width: 75px;
+	text-align: right;
+}
+
+#upload-queue tr.file .file-info {
+	
+}
+
+li a#upload-browse,
+li a#upload-clear,
+li a#upload-start {
+	display:block;
+	padding: 3px;
+	border: 1px solid #ccc;
+	background-color: #efefef;
+}
+
+div#files-noimages {
+	width: 100%;
+	text-align:center;
+	font-weight:bold;
+	color:#CCCCCC;
+}
+
+div#upload-queue-wrapper {
+	background-color: #CCC;
+	border-radius: 5px;
+}
+
+/**
+ * Folder tree
+ */
+ul#files-tree-html,
+ul#files-tree-html ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul#files-tree-html li {
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 10px;
+	white-space: nowrap;
+	overflow: hidden; text-overflow: ellipsis;
+	border-top: 1px solid #FFF;
+	margin: 0;
+	padding: 0;
+}
+
+ul#files-tree-html li a {
+	display: block;
+	padding: 4px 5px 4px 0px;
+}
+
+
+ul#files-tree-html li a span.icon {
+	background: url('../images/mootree.png') -198px 0px no-repeat;
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: left;
+	margin-right: 4px;
+}
+#files-app .mooTree_selected .mooTree_img {
+	background-position-y: 18px!important;
+}
+
+ul#files-tree-html li a:hover	{
+	border-top-color: #c5dbf0;
+	background-color: #cee1f4;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
+}
+
+ul#files-tree-html li a#current	 {
+	background-color: #ffc;
+	font-weight: bold;
+}
+
+#files-app .mooTree_node {
+    font-family: inherit;
+    font-size: 11px;
+}
+
+#files-app .mooTree_text {
+    padding-top: 3px;
+    height: 15px;
+    cursor: pointer;
+    text-indent: 5px;
+}
+
+#files-app .mooTree_node {
+    white-space: nowrap;
+    padding: 2px 5px 2px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-top: 1px solid transparent;
+}
+
+#files-app .mooTree_selected, 
+#files-app .mooTree_selected:hover,
+ul#files-tree-html li a#current,
+ul#files-tree-html li a#current:hover {
+	color: white;
+	border-top-color: hsl(210, 63%, 66%);
+	background-color: hsl(210, 63%, 65%);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+	box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+	text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+}
+
+
+ul#files-tree-html ul li a {
+	padding-left: 20px;
+}
+
+#files-paginator-container {
+	background-color: #F7F7F7;
+	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
+	border-top: 1px solid #E1E1E1;
+	padding: 4px;
+}
+
+#files-paginator {
+	float: right;
+}
+
+#files-paginator div.limit {
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	margin: 0 5px;
+}
+#files-paginator div.limit select {
+	height: 1.8em;
+	margin-top: 0.2em;
+	font-size: 1em;
+}
+/* To avoid ugly white borders due to background images expecting a white background */
+#files-paginator .button2-right div,
+#files-paginator .button2-left div,
+#files-paginator .button2-right,
+#files-paginator .button2-left,
+#files-paginator a {
+	border-radius: 5px;
+}
+#files-paginator .button2-right div {
+	border-radius: 5px;
+}
+
+/* @group Style for the custom modal stuff */
+.files-modal {
+    padding: 5px;
+}
+.files-modal input,
+.files-modal button {
+	float: left;
+}
+.files-modal input {
+	margin: 0;
+    padding: 5px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-right: none 0px transparent;
+}
+.files-modal button {
+    margin: 0;
+    border-radius: 0px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+    background-clip: border-box;
+    color: white;
+    box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    border: 1px solid hsla(210, 0%, 46%, 0.48);
+    opacity: 0.5;
+}
+.files-modal button.valid {
+    cursor: pointer;
+    opacity: 1;
+    background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+}
+.files-modal button.valid:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    text-shadow: none;
+}
+/* @end */
+
+/* @group Switcher */
+.path {
+    position: relative;
+}
+.files-layout-controls,
+.files-toolbar-controls {
+    position: absolute;
+    top: 10px;
+    height: 24px;
+}
+.files-layout-controls {
+    right: 10px;
+    width: 67px;
+}
+.files-toolbar-controls {
+    left: 10px;
+}
+#files-title {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
+}
+#files-canvas .files-toolbar-controls button,
+#files-canvas button.files-layout-switcher {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+    background-image: -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+    overflow: hidden;
+    display: inline-block;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+
+    box-shadow: rgba(255, 255, 255, 0.8) 0 1px;
+    border-radius: 3px;
+    height: 24px;
+    padding: 2px 12px;
+    min-width: initial;
+    background-color: white;
+    background-color: hsla(0, 0%, 0%, 0);
+    -webkit-bakground-clip: border-box;
+    -moz-bakground-clip: border-box;
+    bakground-clip: border-box;
+    bakground-origin: border-box;
+    margin: 0;
+}
+#files-canvas button.files-layout-switcher {
+    display: inline-block;
+    color: transparent;
+    background: none no-repeat center;
+    width: 32px;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+#files-canvas button[data-layout=icons].files-layout-switcher {
+        background-image: url(../images/grid.png);
+        background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        background-image: url(../images/grid.png), -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: url(../images/grid.png), linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        -moz-border-radius-topright: 0;
+        -moz-border-radius-bottomright: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-color: hsla(0, 0%, 0%, 0.15);
+}
+#files-canvas button[data-layout=details].files-layout-switcher {
+        background-image: url(../images/list.png);
+        background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        background-image: url(../images/list.png), -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: url(../images/list.png), linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        -moz-border-radius-topleft: 0;
+        -moz-border-radius-bottomleft: 0;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-left-color: hsla(0, 0%, 0%, 0.15);
+        margin-left: -4px;
+}
+#files-canvas .files-toolbar-controls button:active,
+#files-canvas button.files-layout-switcher.active, #files-canvas button.files-layout-switcher:active {
+        box-shadow: hsla(0, 0%, 100%, 0.8) 0 1px,
+                    hsla(0, 0%, 0%, 0.3) 0px 1px 3px inset,
+                    rgba(0, 0, 0, 0.1) 0px -5px 12px inset;
+        background-image: -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        background-image: -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+}
+#files-canvas button.files-layout-switcher.active:active {
+    background-color: hsla(0, 0%, 0%, 0.1);
+}
+#files-canvas button[data-layout=icons].files-layout-switcher:active, #files-canvas button[data-layout=icons].files-layout-switcher.active {
+        background-image: url(../images/grid_active.png);
+        background-image: url(../images/grid_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        background-image: url(../images/grid_active.png), -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: url(../images/grid_active.png), linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        
+}
+#files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active {
+        background-image: url(../images/list_active.png);
+        background-image: url(../images/list_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
+        background-image: url(../images/list_active.png), -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        background-image: url(../images/list_active.png), linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        
+}
+/* @end */
+/* @group Thumbnails resizer for the grid view range control */
+.files-layout-grid-resizer-container {
+    position: relative;
+    bottom: 0;
+    overflow: visible;
+    height: 0;
+}
+:not(.fallback) > .files-layout-grid-resizer-wrap {
+    display: table-cell;
+    vertical-align: middle;
+    height: 32px;
+    padding-left: 10px;
+}
+/* @end */
+
+/* @group Uploader - Computer */
+
+.uploader-files-queued .plupload_filelist_footer {
+    height: auto;
+    padding-bottom: 54px;
+    position: relative;
+}
+.uploader-files-queued .plupload_filelist_footer .plupload_buttons {
+    position: absolute;
+    box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 10px;
+}
+.uploader-files-queued .plupload_start, .uploader-files-queued .plupload_clear {
+    float: right;
+    clear: none;
+}
+#files-upload.uploader-files-queued .plupload_start, 
+#files-upload.uploader-files-queued .plupload_clear, 
+#files-upload.uploader-files-queued .plupload_add {
+    box-sizing: border-box;
+    height: 28px;
+    border-radius: 2px;
+    border: 1px solid #9b9b9b;
+    
+    
+    border: 1px solid hsl(0, 0%, 67%);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 1px 1px rgba(255, 255, 255, .8) inset;
+    color: hsl(0, 0%, 44%);
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    margin: 0 5px;
+    outline: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-shadow: 0 1px 0 hsla(0, 100%, 100%, 1);
+    
+    color: hsl(0, 0%, 20%);
+    cursor: pointer;
+    background: white;
+    background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
+    background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#F0F0F0');
+    border: 1px solid hsl(0, 0%, 73%);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    
+    font-size: 12px;
+}
+#files-upload.uploader-files-queued .plupload_start {
+    color: white;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+    background-clip: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    border-color: rgba(43, 116, 191, 0.48);
+    background-clip: border-box;
+    background-origin: border-box;
+}
+#files-upload.uploader-files-queued .plupload_start.plupload_disabled {
+    cursor: default;
+    background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    border: 1px solid hsla(210, 0%, 46%, 0.48);
+    opacity: 0.5;
+}
+#files-upload.uploader-files-queued .plupload_start:active, 
+#files-upload.uploader-files-queued .plupload_clear:active, 
+#files-upload.uploader-files-queued .plupload_add:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 35%, from(#FFF), to(#F0F0F0));
+    background-image: -moz-linear-gradient(0% 65% 90deg,#FFF, #F0F0F0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F0F0', endColorstr='#FFF');
+    box-shadow: none;
+}
+#files-upload.uploader-files-queued .plupload_start:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    text-shadow: none;
+}
+
+.uploader-files-empty .plupload_filelist_header,
+.uploader-files-empty .plupload_start, 
+.uploader-files-empty .plupload_clear,
+.uploader-files-empty .plupload_filelist,
+.uploader-files-empty .plupload_file_action,
+.uploader-files-empty .plupload_file_status,
+.uploader-files-empty .plupload_file_size,
+.uploader-files-empty .plupload_progress {
+    display: none;
+}
+#files-upload.uploader-files-empty .plupload_add {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute!important;
+    
+    color: hsl(0, 0%, 39%);
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 29px;
+    text-align: center;
+    border: 0px none transparent;
+    box-shadow: none;
+    background: none;
+}
+
+/* @end */
+
+/* @group Uploader - Web */
+
+#remote-url, #remote-name {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 5px;
+    border-style: none;
+}
+#remote-url {
+    width: 75%;
+}
+#remote-name {
+    
+    width: 25%;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: inherit;
+}
+.remote-wrap {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border: 1px solid hsl(0, 0%, 90%);
+    border-right-width: 0;
+}
+.remote-wrap::after {
+    content: '.';
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.remote-submit {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    bottom: 2px;
+    margin: 0;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+    background-clip: border-box;
+    color: white;
+    box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    border: 1px solid hsla(210, 0%, 46%, 0.48);
+    opacity: 0.5;
+}
+#files-uploader-web input.remote-submit:focus {
+	position: absolute;
+}
+.remote-submit.valid {
+    cursor: pointer;
+    opacity: 1;
+    background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+}
+.remote-submit.valid:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    text-shadow: none;
+}
+#files-uploader-web form {
+    position: relative;
+}
+
+/* @end */
+
+/* @group Modal */
+.files-preview .preview, .files-preview .details, .files-preview ul {
+	display: block;
+	float: left;
+}
+.files-preview ul {
+    clear: left;
+	list-style: none;
+	padding: 0;
+	margin-bottom: 0;
+}
+.files-preview .name {
+	max-width: 400px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: pre;
+}
+.files-preview h3, .files-preview a {
+	margin: 11px 0;
+	display: block;
+}
+.files-preview .label {
+    display: inline-block;
+    text-align: right;
+    width: 60px;
+    text-transform: capitalize;
+}
+.files-preview .label::after {
+    content: ':';
+}
+.files-preview {
+	display: inline-block;
+	overflow: hidden;
+	padding: 10px;
+}
+/* @end */
