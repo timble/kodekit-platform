@@ -3,7 +3,7 @@
  * @version     $Id: abstract.php 1815 2010-03-27 21:42:55Z johan $
  * @category    Koowa
  * @package     Koowa_View
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
