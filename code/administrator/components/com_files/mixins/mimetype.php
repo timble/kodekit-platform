@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -54,6 +54,11 @@ class ComFilesMixinMimetype extends KObject
 	public function getMimetype($path)
 	{
 		$mimetype = false;
+		
+		if (!file_exists($path)) {
+			return $mimetype;
+		}
+		
 		foreach ($this->_adapters as $i => $adapter)
 		{
 			$function = '_detect'.ucfirst($adapter);
@@ -80,7 +85,8 @@ class ComFilesMixinMimetype extends KObject
 	
 	protected function _detectImage($path)
 	{
-		if ($info = getimagesize($path)) {
+		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ComFilesDatabaseRowFile::$image_extensions) 
+			&& $info = getimagesize($path)) {
 			return $info['mime'];
 		}
 		
@@ -92,7 +98,7 @@ class ComFilesMixinMimetype extends KObject
 		if (!class_exists('finfo')) {
 			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
-
+		
 		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
 		$mimetype = $finfo->file($path);
 

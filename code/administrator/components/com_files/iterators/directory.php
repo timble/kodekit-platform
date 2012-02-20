@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -89,7 +89,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 
 			if ($filter) {
 				if (is_callable($filter)) {
-					$ignore = call_user_func($filter, $file) === false;
+					$ignore = call_user_func($filter, rawurldecode($file->getPathname())) === false;
 				} else if (is_array($filter)) {
 					$ignore = !in_array($file->getExtension(), $filter);
 				} else if (is_string($filter)) {
@@ -101,7 +101,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			}
 
 			if (is_callable($map)) {
-				$result = call_user_func($map, $file);
+				$result = call_user_func($map, rawurldecode($file->getPathname()));
 			}
 			else {
 				$result = $config->fullpath ? $file->getPathname() : $file->getFilename();

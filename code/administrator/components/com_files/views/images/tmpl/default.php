@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -59,11 +59,19 @@ window.addEvent('domready', function() {
 	document.id('details').adopt(document.id('image-insert-form'));
 
 	Files.app.grid.addEvent('clickImage', function(e) {
-		var target = document.id(e.target).getParent('.files-node');
-		var row = target.retrieve('row');
-		
-		document.id('image-url').set('value', Files.path.replace(/sites\/[^\/]+\//, '')+'/'+row.path);
-	});
+		var target = document.id(e.target).getParent('.files-node'),
+			row = target.retrieve('row'),
+    		url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+			
+		document.id('image-url').set('value', url);
+	});    
+
+	if (window.parent.tinyMCE) {
+		var text = window.parent.tinyMCE.activeEditor.selection.getContent({format:'text'});
+		if (text) {
+			document.id('image-alt').set('value', text);
+		}
+	}
 });
 </script>
 
@@ -84,7 +92,7 @@ window.addEvent('domready', function() {
 		<tr>
 			<td><label for="image-align"><?= @text('Align') ?></label></td>
 			<td>
-				<select size="1" id="image-align" title="Positioning of this image">
+				<select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
 					<option value="" selected="selected"><?= @text('Not Set') ?></option>
 					<option value="left"><?= @text('Left') ?></option>
 					<option value="right"><?= @text('Right') ?></option>

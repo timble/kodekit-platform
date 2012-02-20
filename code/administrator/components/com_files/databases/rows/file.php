@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
+class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
@@ -26,42 +26,115 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		$this->mixin(new KMixinCommand($config->append(array(
-			'mixer'         => $this,
-		    'command_chain' => $this->getService('koowa:command.chain')
-		))));
-
-        if ($config->validator !== false)
-        {
-        	if ($config->validator === true) {
-        		$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
-        	}
-
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
-        }
-
-		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
 		$this->registerCallback(array('after.save'), array($this, 'saveThumbnail'));
 		$this->registerCallback(array('after.delete'), array($this, 'deleteThumbnail'));
 	}
+	
+	public function save()
+	{
+		$context = $this->getCommandContext();
+		$context->result = false;
 
-    protected function _initialize(KConfig $config)
+		$is_new = $this->isNew();
+
+		if ($this->getCommandChain()->run('before.save', $context) !== false)
+		{
+			$context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
+
+			$this->getCommandChain()->run('after.save', $context);
+        }
+
+		if ($context->result === false)
+		{
+			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatusMessage($context->getError());
+		} else {
+			$this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+		}
+
+		return $context->result;
+	}
+
+	public function __get($column)
+	{
+		if (in_array($column, array('size', 'extension', 'modified_date', 'mimetype'))) {
+			$metadata = $this->_adapter->getMetadata();
+			return $metadata ? $metadata[$column] : false;
+		}
+		
+		if ($column == 'filename') {
+			return pathinfo($this->name, PATHINFO_FILENAME);
+		}
+		
+		if ($column == 'metadata') {
+			$metadata = $this->_adapter->getMetadata();
+			if ($this->isImage() && !empty($metadata))
+			{
+				$image = array(
+					'thumbnail' => $this->thumbnail,
+					'width' => $this->width,
+					'height' => $this->height
+				);
+				$metadata['image'] = $image;
+			}
+			return $metadata;
+		}
+
+		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
+			return $this->getImageSize($column);
+		}
+
+		return parent::__get($column);
+	}
+
+    public function toArray()
     {
-        $config->append(array(
-            'dispatch_events'   => false,
-            'enable_callbacks'  => true,
-        	'validator' 		=> true
-        ));
+        $data = parent::toArray();
+        
+        unset($data['file']);
+		unset($data['contents']);
+		
+		$data['metadata'] = $this->metadata;
 
-        parent::_initialize($config);
+		if ($this->isImage()) {
+			$data['type'] = 'image';
+		}
+
+        return $data;
     }
 
-	public function setPath(KCommandContext $context)
+	public function isImage()
 	{
-		if ($this->parent)
+		return in_array(strtolower($this->extension), self::$image_extensions);
+	}
+
+	public function getImageSize($column)
+	{
+		$size = $this->_adapter->getImageSize();
+		
+		if ($size === false) {
+			return false;
+		}
+
+		list($width, $height) = $size;
+
+		switch ($column)
 		{
-			$this->path = $this->parent.'/'.$this->path;
-			$this->parent = '';
+			case 'width':
+				return $width;
+			case 'height':
+				return $height;
+			case 'thumbnail':
+				if ($width < 200 && $height < 200) {
+					// go down to default case
+				}
+				else {
+					$higher = $width > $height ? $width : $height;
+					$ratio = 200 / $higher;
+					return array_map('round', array('width' => $ratio*$width, 'height' => $ratio*$height));
+				}
+			default:
+				return array('width' => $width, 'height' => $height);
 		}
 	}
 
@@ -94,211 +167,5 @@ class ComFilesDatabaseRowFile extends KDatabaseRowAbstract
 		}
 
 		return $result;
-	}
-
-	public function save()
-	{
-		$context = $this->getCommandContext();
-		$context->result = false;
-		
-		$is_new = $this->isNew();
-
-		if ($this->getCommandChain()->run('before.save', $context) !== false)
-		{
-			if (!empty($this->contents)) {
-				$context->result = file_put_contents($this->fullpath, $this->contents);
-			}
-			else if (!empty($this->file)) {
-				$context->result = move_uploaded_file($this->file, $this->fullpath);
-			}
-
-			$this->getCommandChain()->run('after.save', $context);
-        }
-
-		if ($context->result === false)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
-		}
-
-		return $context->result;
-	}
-
-	public function delete()
-	{
-		$context = $this->getCommandContext();
-		$context->result = false;
-
-		if ($this->getCommandChain()->run('before.delete', $context) !== false)
-		{
-        	$context->result = unlink($this->fullpath);
-			$this->getCommandChain()->run('after.delete', $context);
-        }
-
-		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus(KDatabase::STATUS_DELETED);
-		}
-
-		return $context->result;
-	}
-
-	public function isNew()
-	{
-		return (empty($this->path) || !file_exists($this->fullpath)) ? true : false;
-	}
-
-    public function toArray()
-    {
-        $data = parent::toArray();
-        
-        unset($data['file']);
-        unset($data['container']);
-        unset($data['_token']);
-        unset($data['option']);
-        unset($data['format']);
-
-		unset($data['basepath']);
-		
-		unset($data['contents']);
-
-		$data['type'] = $this->isImage() ? 'image' : 'file';
-		$data['name'] = $this->name;
-		$data['extension'] = $this->extension;
-		$data['size']      = $this->size;
-		$data['modified_date'] = $this->modified_date;
-
-		if ($this->isImage() == 'image')
-		{
-			$data['thumbnail'] = $this->thumbnail;
-			$data['width']     = $this->width;
-			$data['height']    = $this->height;
-		}
-
-        return $data;
-    }
-
-	public function __get($column)
-	{
-		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
-			return $this->getFullpath();
-		}
-
-		if ($column == 'extension' && !isset($this->_data['extension'])) {
-			return $this->getExtension();
-		}
-
-		if ($column == 'name') {
-			return basename($this->_data['path']);
-		}
-
-		if ($column == 'size' && !isset($this->_data['size'])) {
-			$this->_data['size'] = $this->getSize();
-		}
-		
-		if ($column == 'modified_date' && !isset($this->_data['modified_date'])) {
-			$this->_data['modified_date'] = $this->getModifiedDate();
-		}
-
-		if ($column == 'relative_folder') {
-			$path = $this->fullpath;
-			$result = dirname(str_replace($this->basepath.'/', '', $path));
-			return $result === '.' ? '' : $result;
-		}
-
-		if ($column == 'mimetype' && !isset($this->_data['mimetype'])) {
-			$this->_data['mimetype'] = $this->getMimeType();
-		}
-
-		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
-			return $this->getImageSize($column);
-		}
-
-		return parent::__get($column);
-	}
-
-	public function __set($column, $value)
-	{
-		if (in_array($column, array('path', 'basepath', 'name')))
-		{
-			unset($this->size);
-			unset($this->mimetype);
-		}
-
-		if ($column == 'name')
-		{
-			$path = dirname($this->_data['path']);
-			$path .= '/'.$value;
-			$this->_data['path'] = $path;
-		}
-		else if ($column == 'parent') {
-			$this->_data['parent'] = trim($value, '\\/');
-		}
-		else parent::__set($column, $value);
-	}
-
-	public function getFullpath()
-	{
-		$path = rtrim($this->basepath, '/');
-		if ($this->parent) {
-			$path .= '/'.$this->parent;
-		}
-
-		$path .= '/'.$this->path;
-
-		return $path;
-	}
-	
-	public function getModifiedDate()
-	{
-		return file_exists($this->fullpath) ? filemtime($this->fullpath) : null;
-	}
-
-	public function getSize()
-	{
-		return file_exists($this->fullpath) ? filesize($this->fullpath) : (!empty($this->contents) ? strlen($this->contents) : false);
-	}
-
-	public function getMimeType()
-	{
-		return $this->getService('com://admin/files.mixin.mimetype')->getMimetype($this->fullpath);
-	}
-
-	public function getExtension()
-	{
-		return strtolower(pathinfo($this->fullpath, PATHINFO_EXTENSION));
-	}
-
-	public function isImage()
-	{
-		return in_array($this->extension, self::$image_extensions);
-	}
-
-	public function getImageSize($column)
-	{
-		list($width, $height) = getimagesize($this->fullpath);
-
-		switch ($column)
-		{
-			case 'width':
-				return $width;
-			case 'height':
-				return $height;
-			case 'thumbnail':
-				if ($width < 60 && $height < 60) {
-					// go down to default case
-				}
-				else {
-					$higher = $width > $height ? $width : $height;
-					$ratio = 60 / $higher;
-					return array_map('round', array('width' => $ratio*$width, 'height' => $ratio*$height));
-				}
-			default:
-				return array('width' => $width, 'height' => $height);
-		}
 	}
 }

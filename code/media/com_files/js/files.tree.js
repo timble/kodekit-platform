@@ -1,4 +1,13 @@
-
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+ 
 if(!Files) var Files = {};
 
 Files.Tree = new Class({
@@ -73,11 +82,15 @@ Files.Tree = new Class({
 		var that = this,
 			root = this.root,
 			insertNode = function(item, parent) {
+				var path = parent.data.path ? parent.data.path+'/' : '';
+				path += item.name;
+
 				var node = parent.insert({
 					text: item.name,
-					id: item.path,
+					id: path,
 					data: {
-						url: '#/'+item.path,
+						path: path,
+						url: '#'+item.path,
 						type: 'folder'
 					}
 				});
@@ -107,8 +120,8 @@ Files.Tree = new Class({
 		}).send();
 	},
 	selectPath: function(path) {
-		if (path) {
-			var node = this.get(path.substr(1));
+		if (path !== undefined) {
+			var node = this.get(path);
 			if (node) {
 				this.select(node, true);
 			}

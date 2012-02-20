@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesModelFolders extends ComFilesModelDefault
+class ComFilesModelFolders extends ComFilesModelNodes
 {
 	public function __construct(KConfig $config)
 	{
@@ -27,73 +27,23 @@ class ComFilesModelFolders extends ComFilesModelDefault
 		$this->_state->insert('tree', 'boolean', false);
 	}
 
-	public function getItem()
-	{
-		if (!isset($this->_item))
-		{
-		    $state = $this->_state;
-
-            if ($state->container->isNew() || !$state->container->path) {
-                throw new KModelException('Invalid container');
-            }
-
-            $path = $state->container->path;
-
-            if (!empty($state->folder) && $state->folder != '/') {
-                $path .= '/'.ltrim($state->folder, '/');
-            }
-
-            if (!is_dir($path)) {
-                throw new KModelException('Invalid folder');
-            }
-            
-			$this->_item = $this->getService('com://admin/files.database.row.folder', array(
-				'data' => array(
-            		'container' => $this->_state->container,
-                    'basepath' => $path,
-                    'path' => $this->_state->path
-				)));
-		}
-
-		return parent::getItem();
-	}
-
 	public function getList()
 	{
 		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-            
-            if ($state->container->isNew() || !$state->container->path) {
-                throw new KModelException('Invalid container');
-            }
-
-			$basepath = rtrim(str_replace('\\', '/', $state->container->path), '\\');
-			$path = $basepath;
-
-			if (!empty($state->folder) && $state->folder != '/') {
-				$path .= '/'.ltrim($state->folder, '/');
-			}
-
-			if (!is_dir($path)) {
-				throw new KModelException('Invalid folder');
-			}
-
-			if (!empty($state->path)) {
-				$folders = array();
-				foreach ((array) $state->path as $path) {
-					$folders[] = $path;
-				}
-			} else {
-				$folders = ComFilesIteratorDirectory::getFolders(array(
-					'path' => $path,
-					'recurse' => !!$state->tree,
-					'filter' => array($this, 'iteratorFilter'),
-					'map' => array($this, 'iteratorMap')
-				));
-			}
-
+	
+			$folders = $state->container->getAdapter('iterator')->getFolders(array(
+				'path' => $this->_getPath(),
+				'recurse' => !!$state->tree,
+				'filter' => array($this, 'iteratorFilter'),
+				'map' => array($this, 'iteratorMap')
+			));
+        	if ($folders === false) {
+        		throw new KModelException('Invalid folder');
+        	}
 			$this->_total = count($folders);
+
 			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
 
 			if (strtolower($this->_state->direction) == 'desc') {
@@ -103,41 +53,46 @@ class ComFilesModelFolders extends ComFilesModelDefault
 			$results = array();
 			foreach ($folders as $folder)
 			{
-				$hier = array();
+				$hierarchy = array();
 				if ($state->tree) {
-					$hier = explode('/', dirname($folder));
-					if (count($hier) === 1 && $hier[0] === '.') {
-						$hier = array();
+					$hierarchy = explode('/', dirname($folder));
+					if (count($hierarchy) === 1 && $hierarchy[0] === '.') {
+						$hierarchy = array();
 					}
 				}
 
 				$results[] = array(
-					'basepath' => $state->container->path,
-					'path' => $folder,
-					'hierarchy' => $hier
+					'container' => $state->container,
+					'folder' => $hierarchy ? implode('/', $hierarchy) : $state->folder,
+					'name' => basename($folder),
+					'hierarchy' => $hierarchy
 				);
 			}
 
-			$rowset = $this->getService('com://admin/files.database.rowset.folders');
-			$rowset->addData($results);
-
-			$this->_list = $rowset;
+			$this->_list = $this->getRowset()->addData($results);
 		}
 
 		return parent::getList();
 	}
 
-	public function iteratorMap($folder)
+	public function iteratorMap($path)
 	{
-		$path = str_replace('\\', '/', $folder->getPathname());
+		$path = str_replace('\\', '/', $path);
 		$path = str_replace($this->_state->container->path.'/', '', $path);
 
 		return $path;
 	}
 
-	public function iteratorFilter($folder)
+	public function iteratorFilter($path)
 	{
-		if ($this->_state->search && stripos($folder->getBasename(), $this->_state->search) === false) {
+		$filename = basename($path);
+		if ($this->_state->name) {
+			if (!in_array($filename, (array) $this->_state->name)) {
+				return false;
+			}
+		}
+		
+		if ($this->_state->search && stripos($filename, $this->_state->search) === false) {
 			return false;
 		}
 	}

@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -21,57 +21,13 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
 {
     protected function _getList()
     {
-    	$model = $this->getModel();
-    	// Save state data for later
-        $state_data = $model->getState()->getData();
-
-        $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getList();
-
-        $needed  = array();
-        foreach ($nodes as $row)
-        {
-        	if ($row->isImage()) {
-        		$needed[] = $row->name;	
-        	}
-        }
-
-		$model->reset();
-		$model->set('files', $needed);
-		$list  = array_values($model->getList()->toArray());
-
-    	$found = array();
-        foreach ($list as $row) {
-        	$found[] = $row['filename'];
-        }
-
-        if ($found !== $needed) 
-        {
-        	$new = array();
-        	foreach ($nodes as $row) 
-        	{
-        		if ($row->isImage() && !in_array($row->name, $found)) 
-        		{
-	        		$result = $row->saveThumbnail(null);
-	        		if ($result) {
-	        			$new[] = $row->name;
-	        		}
-        		}
-        	}
-        	if (count($new))
-        	{
-				$model->reset();
-				$model->set('files', $new);
-				$list  = array_merge($list, array_values($model->getList()->toArray()));
-        	}
-        }
-       
+        $list = $this->getModel()->getList();
         $results = array();
         foreach ($list as $item) {
-        	$key = $item['filename'];
-        	$results[$key] = $item;
+        	$key = $item->filename;
+        	$results[$key] = $item->toArray();
         }
         ksort($results);
-        
         
     	$output = parent::_getList();
         $output['items'] = $results;

@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -18,21 +18,26 @@
  * @subpackage  Files
  */
 
-class ComFilesCommandValidatorFile extends KCommand
+class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 {
-	protected function _databaseBeforeSave($context)
+	protected function _databaseBeforeSave(KCommandContext $context)
 	{
 		$row = $context->caller;
 
-		if (!is_uploaded_file($row->file))
+		if (is_string($row->file) && !is_uploaded_file($row->file))
 		{
 			// remote file
-			$file = $this->getService('com://admin/files.database.row.url');
-			$file->setData(array('file' => $row->file));
-			$file->load();
-			$row->contents = $file->contents;
+			try {
+				$file = $this->getService('com://admin/files.database.row.url');
+				$file->setData(array('file' => $row->file));
+				$file->load();
+				$row->contents = $file->contents;
+				
+			} catch (ComFilesDatabaseRowUrlException $e) {
+				throw new KControllerException($e->getMessage(), $e->getCode());
+			}
 
-			if (empty($row->path))
+			if (empty($row->name))
 			{
 				$uri = $this->getService('koowa:http.url', array('url' => $row->file));
 	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
@@ -40,12 +45,11 @@ class ComFilesCommandValidatorFile extends KCommand
 	        		$path = basename($path);
 	        	}
 
-	        	$row->path = $path;
+	        	$row->name = $path;
 			}
 		}
 		
-		$row->path = $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.name')->sanitize($row->path);
-
-		return $this->getService('koowa:filter.factory')->instantiate('com://admin/files.filter.file.uploadable')->validate($context);
+		return parent::_databaseBeforeSave($context) && $this->getService('com://admin/files.filter.file.uploadable')->validate($context);
+		
 	}
 }

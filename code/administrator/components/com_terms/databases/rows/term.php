@@ -2,9 +2,9 @@
 /**
  * @version		$Id: dashboard.php 176 2010-10-27 03:39:39Z johanjanssens $
  * @category	Nooku
- * @package	 Nooku_Components
+ * @package	 	Nooku_Components
  * @subpackage  Terms
- * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
@@ -47,7 +47,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 			//Add a relation
 			if($this->row && $this->table)
 			{
-				$relation = KFactory::tmp('admin::com.terms.database.row.relation');
+				$relation = $this->getService('com://admin/terms.database.row.relation');
 				$relation->terms_term_id = $this->id;
 				$relation->row		   = $this->row;
 				$relation->table		 = $this->table;
@@ -72,7 +72,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 	public function delete()
 	{
 		//Delete the term
-		$relation = KFactory::tmp('admin::com.terms.database.row.relation');
+		$relation = $this->getService('com://admin/terms.database.row.relation');
 		$relation->terms_term_id = $this->id;
 
 		if($relation->count() <= 1) {
@@ -82,7 +82,7 @@ class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
 		//Delete the relation
 		if($this->row && $this->table)
  		{
-			$relation = KFactory::tmp('admin::com.terms.database.row.relation', array('new' => false));
+			$relation = $this->getService('com://admin/terms.database.row.relation', array('new' => false));
 			$relation->terms_term_id = $this->id;
 	   		$relation->row		   = $this->row;
 			$relation->table		 = $this->table;

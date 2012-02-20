@@ -1,16 +1,27 @@
-<? /** $Id$ */ ?>
-<? defined('KOOWA') or die('Restricted access'); ?>
+<?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Components
+ * @subpackage  Terms
+ * @copyright   Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_default/css/admin.css" />
 <style src="media://com_terms/css/admin.css" />
 
+<form action="" method="post" class="-koowa-grid">
 <div style="margin-bottom: 25px">
 	<div style="float: left">
-		<?= @template('admin::com.default.view.list.search_form'); ?>
+		<?= @helper( 'grid.search'); ?>
 	</div>
 </div>
 
-<form action="<?= @route()?>" method="post" class="-koowa-grid">
+
 <table class="adminlist" style="clear: both;">
 <thead>
 	<tr>

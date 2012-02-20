@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -49,7 +49,7 @@ if (SqueezeBox.open === undefined) {
 		open: function(subject, options) {
 			this.initialize();
 
-			if (this.element != null) this.trash();
+			if (this.element != null) this.close();
 			this.element = document.id(subject) || false;
 
 			this.setOptions($merge(this.presets, options || {}));
@@ -73,14 +73,17 @@ if (SqueezeBox.open === undefined) {
 				}
 				return false;
 			}, this);
-		},
-		trash: function() {
-			this.element = this.asset = null;
-			this.content.empty();
-			this.options = {};
-			this.removeEvents().setOptions(this.presets).callChain();
 		}
 	});
 }
 
+/* Joomla! 1.5 fix */
+if(!SqueezeBox.handlers.clone) {
+	SqueezeBox.handlers.adopt = function(a){return a;}
+}
+window.addEvent('domready', function(){
+	if(!SqueezeBox.fx.win) {
+		SqueezeBox.fx.win = SqueezeBox.fx.window;
+	}
+});
 </script>

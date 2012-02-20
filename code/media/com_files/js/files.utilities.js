@@ -1,10 +1,25 @@
-
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+ 
 if(!Files) var Files = {};
+
+if (!Files._) {
+	Files._ = function(string) {
+		return string;
+	};
+}
 
 Files.Filesize = new Class({
 	Implements: Options,
 	options: {
-		units: ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb']
+		units: ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
 	},
 	initialize: function(size, options) {
 		this.setOptions(options);
@@ -16,30 +31,10 @@ Files.Filesize = new Class({
 			size /= 1024;
 			i++;
 		}
-		return (i === 0 ? size : size.toFixed(2)) + ' ' + this.options.units[i];
+
+		return (i === 0 || size % 1 === 0 ? size : size.toFixed(2)) + ' ' + Files._(this.options.units[i]);
 	}
 });
-
-Files.getUrl = function(dict) {
-	dict = dict || {};
-
-	dict.option = dict.option || 'com_files';
-	dict.view = dict.view || 'files';
-	dict.format = dict.format || 'json';
-	if (dict.container !== false && !dict.container && Files.container) {
-		dict.container = Files.container.slug;
-	} else {
-		delete dict.container;
-	}
-
-	if (dict.format == 'html') {
-		delete dict.format;
-	}
-
-	return '?'+new Hash(dict).filter(function(value, key) {
-		return typeof value !== 'function';
-	}).toQueryString();
-};
 
 Files.FileTypes = {};
 Files.FileTypes.map = {
@@ -52,6 +47,7 @@ Files.FileTypes.map = {
 	
 Files.getFileType = function(extension) {
 	var type = 'document';
+	extension = extension.toLowerCase();
 	$each(Files.FileTypes.map, function(value, key) {
 		if (value.contains(extension)) {
 			type = key; 

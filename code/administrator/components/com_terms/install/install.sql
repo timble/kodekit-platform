@@ -1,6 +1,6 @@
 -- $Id$
 
-CREATE TABLE IF NOT EXISTS `jos_terms_terms` (
+CREATE TABLE IF NOT EXISTS `#__terms_terms` (
 	`terms_term_id` bigint(20) unsigned NOT NULL auto_increment,
 	`title` VARCHAR( 255 ) NOT NULL,
 	`slug` VARCHAR( 255 ) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `jos_terms_terms` (
 	UNIQUE KEY ( `title` )
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT = 'Terms table for taxonomy ';
 
-CREATE TABLE IF NOT EXISTS `jos_terms_relations` (
+CREATE TABLE IF NOT EXISTS `#__terms_relations` (
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row` BIGINT(20) UNSIGNED NOT NULL,	
   	`table` VARCHAR( 255 ) NOT NULL,

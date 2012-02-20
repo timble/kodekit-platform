@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Terms
- * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
@@ -24,7 +24,7 @@ if(!defined('KOOWA')) {
 }
 
 // Factory mappings
-KFactory::map('site::com.terms.controller.term', 'admin::com.terms.controller.terms');
+KService::setAlias('com://site/terms.controller.terms', 'com://admin/terms.controller.terms');
 
 // Create the controller dispatcher
-KFactory::get('admin::com.terms.dispatcher')->dispatch(KRequest::get('get.view', 'cmd', 'terms'));
+KService::get('com://admin/terms.dispatcher')->dispatch();

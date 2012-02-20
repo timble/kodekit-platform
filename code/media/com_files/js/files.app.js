@@ -1,5 +1,16 @@
-
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+ 
 if(!Files) var Files = {};
+
+Files.blank_image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9MICA0xMTLhM9QAAAADUExURf///6fEG8gAAAABdFJOUwBA5thmAAAACXBIWXMAAAsSAAALEgHS3X78AAAACklEQVQIHWNgAAAAAgABz8g15QAAAABJRU5ErkJggg==';
 
 Files.App = new Class({
 	Implements: [Events, Options],
@@ -16,19 +27,17 @@ Files.App = new Class({
 		active: null,
 		title: 'files-title',
 		state: {
-			data: {
-				limit: 0,
-				offset: 0
-			},
 			defaults: {}
 		},
 		tree: {
+			enabled: true,
 			div: 'files-tree',
 			theme: ''
 		},
 		grid: {
 			element: 'files-grid',
 			batch_delete: '#files-batch-delete',
+			icon_size: 200,
 			icon_size_slider: 'files-thumbs-size'
 		},
 		paginator: {
@@ -36,6 +45,45 @@ Files.App = new Class({
 		},
 		history: {
 			enabled: true
+		},
+		router: {
+			defaults: {
+				option: 'com_files',
+				view: 'files',
+				format: 'json'
+			}
+		},
+		
+		onAfterSetGrid: function(){
+		    var target = document.id('files-grid');
+		    var opts = {
+		      lines: 12, // The number of lines to draw
+		      length: 7, // The length of each line
+		      width: 4, // The line thickness
+		      radius: 10, // The radius of the inner circle
+		      color: '#666', // #rgb or #rrggbb
+		      speed: 1, // Rounds per second
+		      trail: 60 // Afterglow percentage
+		    };
+		    this.spinner = new Koowa.Spinner(opts);
+		    this.spinner.spin(target);
+		    
+		    var delay;
+		    window.addEvent('resize', function(){
+		        clearTimeout(delay);
+		        delay = this.setDimensions.delay(200, this);
+		    }.bind(this));
+		    this.grid.addEvent('onAfterRenew', function(){
+		        this.setDimensions(true);
+		    }.bind(this));
+		    this.addEvent('onUploadFile', function(){
+		        this.setDimensions(true);
+		    }.bind(this));
+		},
+		onAfterNavigate: function(path) {
+			if (path !== undefined) {
+				this.setTitle(this.folder.name || this.container.title);
+	        }
 		}
 	},
 
@@ -46,7 +94,6 @@ Files.App = new Class({
 			this.cookie = 'com.files.container.'+this.options.container;
 		}
 		
-		//this.setContainerTree();
 		this.setState();
 		this.setHistory();
 		this.setGrid();
@@ -76,10 +123,10 @@ Files.App = new Class({
 	},
 	setState: function() {
 		this.fireEvent('beforeSetState');
-		
+
 		var opts = this.options.state;
 		this.state = new Files.State(opts);
-	
+
 		this.fireEvent('afterSetState');
 	},
 	setHistory: function() {
@@ -93,20 +140,24 @@ Files.App = new Class({
 				
 				var state = History.getState(),
 					old_state = that.state.getData(),
-					new_state = state.data.state,
+					new_state = state.data,
 					state_changed = false;
 				
 				$each(old_state, function(value, key) {
 					if (state_changed === true) {
 						return;
 					} 
-					if (value !== new_state[key]) {
+					if (new_state && new_state[key] && value !== new_state[key]) {
 						state_changed = true;
 					}
 				});
 
-				if (Files.container && (state_changed || that.active !== state.data.folder)) {
-					that.state.set(state.data.state);
+				if (that.container && (state_changed || that.active !== state.data.folder)) {
+					var set_state = $extend({}, state.data);
+					['option', 'view', 'layout', 'folder', 'container'].each(function(key) {
+						delete set_state[key];
+					});
+					that.state.set(set_state);
 					that.navigate(state.data.folder, 'stateless');
 				}
 			});
@@ -114,9 +165,9 @@ Files.App = new Class({
 				if (type !== 'stateless' && that.history) {
 					var obj = {
 						folder: that.active,
-						container: Files.container ? Files.container.slug : null,
-						state: that.state.getData()
+						container: that.container ? that.container.slug : null
 					};
+					obj = $extend(obj, that.state.getData());
 					var method = type === 'initial' ? 'replaceState' : 'pushState';
 					that.history[method](obj, null, that.getUrl().setData(obj, true).toString());
 				}
@@ -126,29 +177,35 @@ Files.App = new Class({
 		this.fireEvent('afterSetHistory');
 	},
 	/**
-	 * type can be stateless for no state or initial to use replaceState
+	 * type can be 'stateless' for no state or 'initial' to use replaceState
 	 */
 	navigate: function(path, type) {
 		this.fireEvent('beforeNavigate', [path, type]);
-		if (path) {
+		if (path !== undefined) {
 			if (this.active) {
 				// Reset offset if we are changing folders
 				this.state.set('offset', 0);
 			}
-			this.active = path;
+			this.active = path == '/' ? '' : path;
 		}
 
-		var is_root = this.active === '/';
-
 		this.grid.reset();
+		
+		var parts = this.active.split('/'),
+			name = parts[parts.length ? parts.length-1 : 0],
+			folder = parts.slice(0, parts.length-1).join('/');
 
 		var that = this;
-		this.folder = new Files.Folder({'path': this.active});
+		this.folder = new Files.Folder({'folder': folder, 'name': name});
 		this.folder.getChildren(function(resp) {
-			that.response = resp;
-			that.grid.insertRows(resp.items);
-			
-			that.fireEvent('afterSelect', resp);
+			if (resp.status !== false) {
+				that.response = resp;
+				that.grid.insertRows(resp.items);
+				
+				that.fireEvent('afterSelect', resp);
+			} else {
+				alert(resp.error);
+			}
 
 		}, null, this.state.getData());
 	
@@ -157,28 +214,38 @@ Files.App = new Class({
 	
 	setContainer: function(container) {
 		new Request.JSON({
-			url: Files.getUrl({view: 'container', slug: container, container: false}),
+			url: this.createRoute({view: 'container', slug: container, container: false}),
 			method: 'get',
 			onSuccess: function(response) {
 				var item = response.item;
-				
+
 				this.fireEvent('beforeSetContainer', {container: item});
 				
-				Files.container = item;
-				Files.path = item.relative_path;
-				Files.baseurl = Files.sitebase + '/' + Files.path;
+				this.container = item;
+				this.baseurl = Files.sitebase + '/' + item.relative_path;
 
 				this.active = '';
 				
-				if (Files.container.parameters.upload_extensions) {
+				if (this.container.parameters.allowed_extensions) {
 					this.uploader.settings.filters = [
-					     {title: 'All Files', extensions: Files.container.parameters.upload_extensions.join(',')}
+					     {title: Files._('All Files'), extensions: this.container.parameters.allowed_extensions.join(',')}
 	    			];
 				}
-				if (Files.container.parameters.upload_maxsize) {
-					this.uploader.settings.max_file_size = Files.container.parameters.upload_maxsize;
-					document.id('upload-max-size').set('html', new Files.Filesize(Files.container.parameters.upload_maxsize).humanize());
+				if (this.container.parameters.maximum_size) {
+					this.uploader.settings.max_file_size = this.container.parameters.maximum_size;
+					var max_size = document.id('upload-max-size');
+					if (max_size) {
+						max_size.set('html', new Files.Filesize(this.container.parameters.maximum_size).humanize());
+					}
 				}
+				
+				if (this.container.parameters.thumbnails !== true) {
+					this.options.thumbnails = false;
+					if (this.spinner) {
+						this.spinner.stop();
+					}
+				}
+				
 				
 				if (this.options.types !== null) {
 					this.options.grid.types = this.options.types;
@@ -186,72 +253,17 @@ Files.App = new Class({
 				}
 				
 				this.fireEvent('afterSetContainer', {container: item});
-
-				this.grid.reset();
 				
 				this.setTree();
 
-				this.active = this.options.active || '/';
+				this.active = this.options.active || '';
 				this.options.active = '';
 				this.navigate(this.active, 'initial');
 			}.bind(this)
 		}).send();
 	},
-	setContainerTree: function() {
-		var ContainerTree = new Class({
-			Extends: Files.Tree,
-			addItem: function(item) {
-				/*if (item.id == Files.container.id) {
-					return;
-				}*/
-
-				this.root.insert({
-					text: item.title,
-					data: {
-						id: item.slug,
-						type: 'container'
-					}
-				});
-			}
-		});
-		this.containertree = new ContainerTree({
-			div: 'files-containertree',
-			theme: this.options.tree.theme,
-			mode: 'files',
-			root: {
-				text: 'Other Containers'
-			},
-			onClick: function(node) {
-				if (node.data && node.data.type === 'container') {
-					this.setContainer(node.data.id);return;
-					window.location =  window.location.pathname+Files.getUrl({format: 'html', container: node.data.id});
-					return;
-				}
-			}.bind(this)
-		});
-		
-		new Request.JSON({
-			url: Files.getUrl({view: 'containers', limit: 0, sort: 'title'}),
-			onSuccess: function(response) {
-				$each(response.items, this.containertree.addItem.bind(this.containertree));
-			}.bind(this)
-		}).get();
-	},
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
-		
-		var key = this.cookie ? this.cookie+'.paginator.state' : null;
-
-		if (key) {
-			var cookie = JSON.decode(Cookie.read(key), true);
-			
-			if (cookie && cookie.limit) {
-				this.state.set('limit', cookie.limit);
-			}
-			if (cookie && cookie.offset) {
-				this.state.set('offset', cookie.offset);
-			}
-		}
 		
 		var opts = this.options.paginator,
 			state = this.state;
@@ -267,10 +279,6 @@ Files.App = new Class({
 			'onChangeLimit': function(limit) {
 				this.state.set('limit', limit);
 				this.state.set('offset', 0);
-				
-				if (key) {
-					Cookie.write(key, JSON.encode({'limit': limit}));
-				}
 				
 				this.navigate();
 			}.bind(this)
@@ -293,7 +301,8 @@ Files.App = new Class({
 	setGrid: function() {
 		this.fireEvent('beforeSetGrid');
 		
-		var opts = this.options.grid,
+		var that = this,
+		    opts = this.options.grid,
 			key = this.cookie+'.grid.layout';
 
 		if (this.cookie) {
@@ -304,13 +313,13 @@ Files.App = new Class({
 				opts.icon_size = size;
 			}
 			opts.onAfterSetIconSize = function(context) {
-				Cookie.write(size_key, context.size); 
+				Cookie.write(size_key, context.size);
 			};
 		}
 		
 		$extend(opts, {
 			'onAfterInsertRows': function() {
-				if (Files.Template.layout == 'icons') {
+				if (this.layout == 'icons') {
 					this.setIconSize(this.options.icon_size);
 				}
 				
@@ -321,14 +330,16 @@ Files.App = new Class({
 		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
-					path = target.getParent('.files-node').retrieve('path');
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					path = node.retrieve('row').path;
 				if (path) {
-					this.navigate('/'+path);
+					this.navigate(path);
 				}
 			}.bind(this),
 			'onClickImage': function(e) {
 				var target = document.id(e.target),
-					img = target.getParent('.files-node').retrieve('row').image;
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					img = node.retrieve('row').image;
 				
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
@@ -336,25 +347,20 @@ Files.App = new Class({
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target),
-					row = target.getParent('.files-node').retrieve('row'),
-					copy = $extend({}, row);
-				
-				copy.template = 'file_preview';
+				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+					row = node.retrieve('row'),
+					copy = $extend({}, row),
+					trash = new Element('div', {style: 'display: none'}).inject(document.body);
 
-				SqueezeBox.open(copy.render(false), {
+				copy.template = 'file_preview';
+				var template = copy.render().inject(trash), size = template.measure(function(){return this.getDimensions();});
+
+				SqueezeBox.open(template, {
 					handler: 'adopt',
-					size: {x: 300, y: 200}
+					size: {x: size.x, y: size.y}
 				});
+				trash.dispose();
 			},
-			'onAfterDeleteNode': function(context) {
-				var node = context.node;
-				if (node.type == 'folder') {
-					var item = this.tree.get(node.path);
-					if (item) {
-						item.remove();
-					}
-				}
-			}.bind(this),
 			'onAfterSetLayout': function(context) {
 				var layout = context.layout;
 				if (layout === 'icons' && this.grid && this.options.thumbnails) {
@@ -372,27 +378,41 @@ Files.App = new Class({
 	setTree: function() {
 		this.fireEvent('beforeSetTree');
 		
-		var opts = this.options.tree,
-			that = this;
-		$extend(opts, {
-			onClick: function(node) {
-				if (node.id || node.data.url) {
-					that.navigate('/'+ (node && node.id ? node.id : ''));
+		if (this.options.tree.enabled) {
+			var opts = this.options.tree,
+				that = this;
+			$extend(opts, {
+				onClick: function(node) {
+					if (node.id || node.data.url) {
+						that.navigate(node && node.id ? node.id : '');
+					}
+				},
+				root: {
+					text: this.container.title,
+					data: {
+						url: '#'
+					}
 				}
-			},
-			root: {
-				text: Files.container.title,
-				data: {
-					url: '#/'
-				}
+			});
+			this.tree = new Files.Tree(opts);
+			this.tree.fromUrl(this.createRoute({view: 'folders', 'tree': '1', 'limit': '0'}));
+			
+			this.addEvent('afterNavigate', function(path) {
+				that.tree.selectPath(path);
+			});
+
+			if (this.grid) {
+				this.grid.addEvent('afterDeleteNode', function(context) {
+					var node = context.node;
+					if (node.type == 'folder') {
+						var item = that.tree.get(node.path);
+						if (item) {
+							item.remove();
+						}
+					}
+				});
 			}
-		});
-		this.tree = new Files.Tree(opts);
-		this.tree.fromUrl(Files.getUrl({view: 'folders', 'tree': '1', 'limit': '0'}));
-		
-		this.addEvent('afterNavigate', function(path) {
-			that.tree.selectPath(path);
-		});
+		}
 
 		this.fireEvent('afterSetTree');
 	},
@@ -403,30 +423,15 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
+		if (this.spinner) {
+			this.spinner.stop();	
+		}
+		
+		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
-		if (Files.Template.layout === 'icons' && nodes.getLength()) {
-		    nodes.each(function(node) {
-				if (node.type !== 'image') {
-					return;
-				}
-				var name = node.name;
-
-				var target = node.element.getElement('.spinner');
-			    var opts = {
-			      lines: 12, // The number of lines to draw
-			      length: 7, // The length of each line
-			      width: 4, // The line thickness
-			      radius: 10, // The radius of the inner circle
-			      color: '#666', // #rgb or #rrggbb
-			      speed: 1, // Rounds per second
-			      trail: 60 // Afterglow percentage
-			    };
-			    node.spinner = new Spinner(opts).spin(target);
-	            node.element.getElement('img').setStyle('display', 'none');
-			});
-		
-			var url = Files.getUrl({
+		if (this.grid.layout === 'icons' && nodes.getLength()) {
+			var url = that.createRoute({
 				view: 'thumbnails',
 				offset: this.state.get('offset'), 
 				limit: this.state.get('limit'),
@@ -441,16 +446,21 @@ Files.App = new Class({
 					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
 					
 					nodes.each(function(node) {
-						if (node.type !== 'image') {
+						if (node.filetype !== 'image') {
 							return;
 						}
 						var name = node.name;
-
-                        node.spinner.stop();
-
-						var img = node.element.getElement('img.image-thumbnail').setStyle('display', '');
+                        
+						var img = node.element.getElement('img.image-thumbnail');
+						img.addEvent('load', function(){
+						    this.addClass('loaded');
+						});
 						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
-						
+						node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
+
+						if(window.sessionStorage) {
+						    sessionStorage[node.image.toString()] = img.get('src');
+						}
 					});
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
@@ -459,6 +469,28 @@ Files.App = new Class({
 		}
 		
 	},
+	setDimensions: function(force){
+
+	    if(!this._cached_grid_width) this._cached_grid_width = 0;
+	    
+        //Only fire if the cache have changed
+        if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
+            var width = this.grid.root.element.getSize().x,
+                factor = width/(this.grid.options.icon_size.toInt()+40),
+                limit = Math.floor(factor),
+                resize = width / limit,
+                thumbs = [[]],
+                labels = [[]],
+                index = 0,
+                pointer = 0;
+
+            this.grid.root.element.getElements('.files-node-shadow').each(function(element, i, elements){
+                element.setStyle('width', (100/limit)+'%');
+            }, this);
+
+            this._cached_grid_width = this.grid.root.element.getSize().x;
+        }
+    },
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});
 		
@@ -469,5 +501,22 @@ Files.App = new Class({
 		}
 		
 		this.fireEvent('afterSetTitle', {title: title});
+	},
+	createRoute: function(query) {
+		query = $merge(this.options.router.defaults, query || {});
+
+		if (query.container !== false && !query.container && this.container) {
+			query.container = this.container.slug;
+		} else {
+			delete query.container;
+		}
+
+		if (query.format == 'html') {
+			delete query.format;
+		}
+
+		return '?'+new Hash(query).filter(function(value, key) {
+			return typeof value !== 'function';
+		}).toQueryString();		
 	}
 });

@@ -1,4 +1,13 @@
-
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+ 
 if(!Files) var Files = {};
 
 (function() {
@@ -7,16 +16,15 @@ var cache = {};
 
 Files.Template = new Class({
 	Implements: [Events],
-	render: function(prefix) {
-		var layout = Files.Template.layout,
-			tmpl = this.template;
+	render: function(layout) {
+		var tmpl = this.template;
 		
-		if (prefix !== false) {
+		layout = layout || 'default';
+		
+		if (layout !== 'default') {
 			tmpl = layout+'_'+tmpl;
-		} else {
-			layout = 'default';
 		}
-		
+
 		this.fireEvent('beforeRender', {layout: layout, template: tmpl});
 		
 		var rendered = new EJS({element: tmpl}).render(this),
@@ -27,7 +35,6 @@ Files.Template = new Class({
 		return result;
 	}
 });
-Files.Template.layout = 'icons';
 
 Files.Template.Details = new Class({
 	initialize: function(html) {
@@ -39,7 +46,6 @@ Files.Template.Details = new Class({
 			var str = '<table><tbody>'+html+'</tbody></table>';
 			return new Element('div', {html: str}).getElement('tr');
 		}
-
 	}
 });
 

@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -24,7 +24,7 @@ class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'sizes' => array('Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb')
+			'sizes' => array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB')
 		));
 		$bytes = $config->size;
 		$result = '';

@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Terms
- * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
@@ -26,15 +26,15 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 	 */
 	public function getTags()
 	{
-		$tags = KFactory::tmp('admin::com.terms.model.terms')
+		$tags = $this->getService('com://admin/terms.model.terms')
 					->row($this->id)
 					->table($this->getTable()->getName())
 					->getList();
 
 		return $tags;
 	}
-	
-	/**
+        
+        /**
 	 * Modify the select query
 	 * 
 	 * If the query's where information includes a tag propery, auto-join the terms tables
@@ -47,12 +47,12 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 		if(!is_null($query)) 
 		{
 			foreach($query->where as $key => $where) 
-			{
-				if($where['property'] == 'tbl.tag') 
-				{
-					$table = $context->caller;
-				
-					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value'], '');
+			{	
+                            if($where['property'] == 'tbl.tag') 
+                                {
+                                        $table = $context->caller;
+                                        
+					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value']);
 					$query->where('terms_relations.table','=', $table->getName());
 					$query->join('LEFT', 'terms_relations AS terms_relations', 'terms_relations.row       = tbl.'.$table->getIdentityColumn());
 					$query->join('LEFT', 'terms_terms     AS terms_terms',     'terms_terms.terms_term_id = terms_relations.terms_term_id');

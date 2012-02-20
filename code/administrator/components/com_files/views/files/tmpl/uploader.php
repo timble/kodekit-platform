@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -23,39 +23,56 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script>
 jQuery.noConflict();
 
-window.addEvent('domready', function() { 
+window.addEvent('domready', function() {
 	var element = jQuery('#files-upload-multi');
-	 
+
+	plupload.addI18n({'Add files': Files._('Select files from your computer')});
+
 	element.pluploadQueue({
 		runtimes: 'html5,flash,html4',
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
-		url: Files.getUrl({view: 'file', plupload: 1}),
+		url: '', // this is added on the go in BeforeUpload event
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
+			action: 'add',
 			_token: Files.token
 		},
 		headers: {
 			'X-Requested-With': 'xmlhttprequest'
 		}
 	});
-	
-	var uploader = element.pluploadQueue();
-	
-	document.id('files-upload-multi_filelist').setStyle('display', 'none');
-	uploader.bind('QueueChanged', function(uploader) {
-		var style = uploader.files.length == 0 ? 'none' : 'block';
-		document.id('files-upload-multi_filelist').setStyle('display', style);
+
+	var uploader = element.pluploadQueue(),
+		//We only want to run this once
+		exposePlupload = function(uploader) {
+			document.id('files-upload').addClass('uploader-files-queued').removeClass('uploader-files-empty');
+			if(document.id('files-upload-multi_browse')) {
+				document.id('files-upload-multi_browse').set('text', 'Add files');
+			}
+			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
+			uploader.unbind('QueueChanged', exposePlupload);
+		};
+
+	if(uploader.features.dragdrop) {
+		document.id('files-upload').addClass('uploader-droppable');
+	} else {
+		document.id('files-upload').addClass('uploader-nodroppable');
+	}
+
+	uploader.bind('QueueChanged', exposePlupload);
+
+	uploader.bind('BeforeUpload', function(uploader, file) {
+		// set directory in the request
+		uploader.settings.url = Files.app.createRoute({
+			view: 'file',
+			plupload: 1,
+			folder: Files.app.getPath()
+		});
 	});
 
-	uploader.bind('BeforeUpload', function(uploader) {
-		// set directory in the request
-		uploader.settings.url = Files.getUrl({view: 'file', 'plupload': 1});
-		uploader.settings.multipart_params.parent = Files.app.getPath();
-	});
-	
 	uploader.bind('UploadComplete', function(uploader) {
 		jQuery('li.plupload_delete a,div.plupload_buttons', element).show();
 	});
@@ -69,9 +86,20 @@ window.addEvent('domready', function() {
 			var cls = Files[item.type.capitalize()];
 			var row = new cls(item);
 			Files.app.grid.insert(row);
-			if (row.type == 'image') {
-				row.element.getElement('img').set('src', row.image);
-			}	
+			if (row.type == 'image' && Files.app.grid.layout == 'icons') {
+				var image = row.element.getElement('img');
+				if (image) {
+					row.getThumbnail(function(response) {
+						if (response.item.thumbnail) {
+							image.set('src', response.item.thumbnail).addClass('loaded').removeClass('loading');
+							row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
+						}
+					});
+
+					/* @TODO Test if this is necessary: This is for the thumb margins to recalculate */
+					window.fireEvent('resize');
+				}
+			}
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
 			var error = json.error ? json.error : 'Unknown error';
@@ -84,10 +112,10 @@ window.addEvent('domready', function() {
 		$each(failed, function(error, id) {
 			icon = jQuery('#' + id).attr('class', 'plupload_failed').find('a').css('display', 'block');
 			if (error) {
-				icon.attr('title', error);	
+				icon.attr('title', error);
 			}
 		});
-		
+
 	});
 
 	$$('.plupload_clear').addEvent('click', function(e) {
@@ -101,139 +129,206 @@ window.addEvent('domready', function() {
 	});
 
 	Files.app.uploader = uploader;
-});
 
-/**
- * Switcher between uploaders
- */
-window.addEvent('domready', function() {
+	/**
+	 * Switcher between uploaders
+	 */
 	var toggleForm = function(type) {
-		var el = document.id('files-uploader-'+type);
-		var style = el.getStyle('display') == 'block' ? 'none' : 'block';
-
 		$$('.upload-form').setStyle('display', 'none');
-
-		if (style == 'block') {
-			el.setStyle('display', style);
-		}
+		document.id('files-uploader-'+type).setStyle('display', 'block');
 
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
-			jQuery('#files-upload-multi').pluploadQueue().refresh();
+			var uploader = jQuery('#files-upload-multi').pluploadQueue();
+			uploader.refresh();
+			if(!uploader.files.length) {
+				document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
+				if(document.id('files-upload-multi_browse')) {
+					document.id('files-upload-multi_browse').set('text', 'Select files from your computer');
+					uploader.bind('QueueChanged', exposePlupload);
+				}
+			}
 		}
-		
+
+		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
 	};
-	
+
 	$$('.upload-form-toggle').addEvent('click', function(e) {
-	    var hash = this.get('href').split('#')[1];
-	    $$('.upload-form-toggle').removeClass('active');
-	    if(window.location.hash === '#'+hash) {
-	        window.location.hash = '';
-	        e.preventDefault();
-	    } else {
-	        this.addClass('active');
-	    }
+		var hash = this.get('href').split('#')[1];
+		$$('.upload-form-toggle').removeClass('active');
+		e.preventDefault();
+		this.addClass('active');
+
 		toggleForm(hash);
 	});
-	
-	if(window.location.hash.match(/#computer/) || window.location.hash.match(/#web/))
-	{
-	    var hash = window.location.hash.replace('#', '');
-	    toggleForm(hash);
-	    document.getElement('.upload-form-toggle.target-'+hash).addClass('active');
-	}
 });
 
 /**
  * Remote file form
  */
 window.addEvent('domready', function() {
-	var form = document.id('remoteForm');
+	var form = document.id('remoteForm'), filename = document.id('remote-name'),
+		submit = form.getElement('.remote-submit'), submit_default = submit.get('value'),
+		setRemoteWrapMargin = function(){
+			form.getElement('.remote-wrap').setStyle('margin-right', submit.measure(function(){return this.getSize().x}));
+		},
+		input = document.id('remote-url'),
+		current_url,
+		validate = new Request.JSON({
+			onRequest: function(){
+				if(current_url != this.options.url) {
+					submit.set('value', submit_default);
+					setRemoteWrapMargin();
+					current_url = this.options.url;
+				}
+			},
+			onSuccess: function(response){
+				if(response.error) return this.fireEvent('failure', this.xhr);
+
+				var length = response['content-length'].toInt(10);
+				if(length && length < Files.app.container.parameters.maximum_size) {
+					var size = new Files.Filesize(length).humanize();
+					submit.addClass('valid').set('value', submit_default+' ('+size+')');
+					setRemoteWrapMargin();
+				} else {
+					submit.removeClass('valid');
+				}
+
+			},
+			onFailure: function(xhr){
+				var response = JSON.decode(xhr.responseText, true);
+				if (response.code && parseInt(response.code/100, 10) == 4) {
+					submit.removeClass('valid');
+				}		
+				else {
+					submit.addClass('valid');
+				}
+			}
+		});
+ 
+ 	var default_filename;
+ 	input.addEvent('focus', function(){
+ 		this.set('placeholder', this.get('title')).removeClass('success');
+ 	});
+	input.addEvent('blur', function(e) {
+		if (this.value) {
+			if (Files.app.container.parameters.maximum_size) {
+				validate.setOptions({url: Files.app.createRoute({view: 'proxy', url: this.value})}).get();
+			}
+			else {
+				submit.addClass('valid');
+			}
+			
+			if(!filename.get('value') || filename.get('value') == default_filename) {
+				default_filename = new URI(this.value).get('file');
+				filename.set('value', default_filename);
+			}
+		} else {
+			submit.set('value', submit_default).removeClass('valid');
+			setRemoteWrapMargin();
+		}
+	});
+
+	var validateInput = function(){
+			var value = this.value.trim(), host = new URI(value).get('host');
+    		if(value && host && value.match(host)) {
+    			submit.addClass('valid').removeProperty('disabled');
+    		} else {
+    			submit.removeClass('valid').setProperty('disabled', 'disabled');
+    		}
+    	};
+    	input.addEvent('change', validateInput);
+    	if(window.addEventListener) {
+    		input.addEventListener('input', validateInput);
+    	} else {
+    		input.addEvent('keyup', validateInput);
+    	}
+
 	var request = new Request.JSON({
-		url: Files.getUrl({view: 'file'}),
-		data: form,
+		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
+		data: {
+			action: 'add',
+			_token: Files.token,
+			file: ''
+		},
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
 				var el = json.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
 				Files.app.grid.insert(row);
-				if (row.type == 'image') {
-					row.element.getElement('img').set('src', row.image);
+				if (row.type == 'image' && Files.app.grid.layout == 'icons') {
+					var image = row.element.getElement('img');
+					if (image) {
+						row.getThumbnail(function(response) {
+							if (response.item.thumbnail) {
+								image.set('src', response.item.thumbnail).addClass('loaded').removeClass('loading');
+								row.element.getElement('.files-node').addClass('loaded').removeClass('loading');
+							}
+						});
+						/* @TODO Test if this is necessary: This is for the thumb margins to recalculate */
+						window.fireEvent('resize');
+					}
 				}
 				Files.app.fireEvent('uploadFile', [row]);
+				submit.removeClass('valid').set('value', submit_default);
+				setRemoteWrapMargin();
 				form.reset();
+				input.set('placeholder', Files._('Uploaded successfully!')).addClass('success');
 			} else {
-				var error = json.error ? json.error : 'Unknown error';
-				alert('An error occurred: ' + error);
+				var error = json.error ? json.error : Files._('Unknown error');
+				alert(Files._('An error occurred: ') + error);
 			}
 		},
 		onFailure: function(xhr) {
-			alert('An error occurred with status code: '+xhr.status);
+			alert(Files._('An error occurred with status code: ')+xhr.status);
 		}
 	});
 	form.addEvent('submit', function(e) {
 		e.stop();
-		request.options.url = Files.getUrl({view: 'file'});
+		request.options.data.file = document.id('remote-url').get('value');
+		request.options.url = Files.app.createRoute({
+			view: 'file',
+			folder: Files.app.getPath(),
+			name: document.id('remote-name').get('value')
+		});
 		request.send();
 	});
+
+	//Width fix
+	setRemoteWrapMargin();
 });
 </script>
 
-<div id="files-upload" style="clear: both">
+<div id="files-upload" style="clear: both" class="uploader-files-empty">
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
-		    <li><?= @text('Upload from:') ?></li>
-			<li><a class="upload-form-toggle target-computer" href="#computer"><?= @text('Computer'); ?></a></li>
+			<li><?= @text('Upload from:') ?></li>
+			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= @text('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
 			<li id="upload-max">
-			    <?= @text('Max'); ?>
-			    <span id="upload-max-size"></span>
+				<?= @text('Each file should be smaller than'); ?>
+				<span id="upload-max-size"></span>
 			</li>
 		</ul>
 	</div>
 	<div class="clr"></div>
-	<div id="files-uploader-computer" class="upload-form" style="display: none">
-		
+	<div id="files-uploader-computer" class="upload-form">
+
 		<div style="clear: both"></div>
-		
+
 		<div id="files-upload-multi"></div>
 
 	</div>
 	<div class="clr"></div>
 	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="" method="post" name="remoteForm" id="remoteForm" >
-			<fieldset class="actions adminform">
-				<table class="admintable">
-					<tr>
-						<td width="100" align="right" class="key">
-							<label for="remote-url"><?= @text('Remote URL'); ?></label>
-						</td>
-						<td>
-							<input type="text" id="remote-url" name="file" size="50" />
-						</td>
-					</tr>
-
-					<tr>
-						<td width="100" align="right" class="key">
-							<label for="remote-name"><?= @text('File name (optional)'); ?></label>
-						</td>
-						<td>
-							<input type="text" id="remote-name" name="path" />
-						</td>
-					</tr>
-
-					<tr>
-						<td width="100" align="right" class="key">
-						</td>
-						<td>
-							<input type="submit" value="<?= @text('Transfer File'); ?>"/>
-						</td>
-					</tr>
-					<tr>
-						<input type="hidden" name="action" value="save" />
-					</tr>
-				</table>
+			<div class="remote-wrap">
+				<input type="text" placeholder="<?= @text('Remote URL') ?>" title="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
+				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
+			</div>
+			<input type="submit" class="remote-submit" value="<?= @text('Transfer File'); ?>" />
+			<input type="hidden" name="action" value="save" />
 			</fieldset>
 		</form>
 	</div>

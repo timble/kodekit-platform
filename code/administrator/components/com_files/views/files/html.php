@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -22,9 +22,8 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 {
 	protected function _initialize(KConfig $config)
 	{
-		$config->append(array(
-			'auto_assign' => false
-		));
+		$config->auto_assign = false;
+		
 		parent::_initialize($config);
 	}
 
@@ -33,10 +32,6 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		$this->assign('sitebase', trim(JURI::root(), '/'));
 		$this->assign('token'   , JUtility::getToken());
 		$this->assign('container', $this->getModel()->getState()->container);
-
-		if (!$this->editor) {
-			$this->assign('editor', '');
-		}
 
 		return parent::display();
 	}

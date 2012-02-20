@@ -4,7 +4,7 @@
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Activities
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -18,19 +18,6 @@ defined('KOOWA') or die('Restricted access') ?>
 			    <?= @text('All') ?>
 			</a>
 		</li>
-		
-		<li class="<?= ($state->application == 'site') ? 'active' : ''; ?> separator-left">
-			<a href="<?= @route($state->application == 'site' ? 'application=' : 'application=site') ?>">
-			    <?= @text('Site') ?>
-			</a>
-		</li>
-
-		<li class="<?= ($state->application == 'admin') ? 'active' : ''; ?>">
-			<a href="<?= @route($state->application == 'admin' ? 'application=' : 'application=admin' ) ?>">
-			    <?= @text('Administrator') ?>
-			</a>
-		</li>
-
 		<li class="<?= ($state->direction == 'desc') ? 'active' : ''; ?> separator-left">
 			<a href="<?= @route($state->direction == 'desc' ? 'direction=' : 'direction=desc' ) ?>">
 			    <?= @text('Latest First') ?>

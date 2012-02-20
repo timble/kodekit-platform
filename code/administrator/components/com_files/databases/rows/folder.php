@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -18,7 +18,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
+class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 {
 	/**
 	 * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
@@ -34,57 +34,17 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 	 */
 	protected $_parent   = null;
 
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->mixin(new KMixinCommand($config->append(array(
-			'mixer'         => $this,
-		    'command_chain' => $this->getService('koowa:command.chain')
-		))));
-
-		if ($config->validator !== false)
-		{
-			if ($config->validator === true) {
-				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
-			}
-
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
-		}
-
-		$this->registerCallback(array('after.save', 'after.delete'), array($this, 'setPath'));
-	}
-
-	public function setPath(KCommandContext $context)
-	{
-		if ($this->parent) {
-			$this->path = $this->parent.'/'.$this->path;
-			$this->parent = '';
-		}
-	}
-
-	protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-			'dispatch_events'   => false,
-			'enable_callbacks'  => true,
-			'validator' 		=> true
-		));
-
-		parent::_initialize($config);
-	}
-
 	public function save()
 	{
 		$context = $this->getCommandContext();
 		$context->result = false;
-		
+
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false) {
-
-			if ($is_new) {
-				$context->result = mkdir($this->fullpath, 0755, true);
+		if ($this->getCommandChain()->run('before.save', $context) !== false) 
+		{
+			if ($this->isNew()) {
+				$context->result = $this->_adapter->create();
 			}
 
 			$this->getCommandChain()->run('after.save', $context);
@@ -100,85 +60,8 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return $context->result;
 	}
 
-	public function delete()
-	{
-		$context = $this->getCommandContext();
-		$context->result = false;
-
-		if ($this->getCommandChain()->run('before.delete', $context) !== false) {
-			$context->result = !$this->isNew() ? $this->_deleteFolder($this->fullpath) : false;
-
-			$this->getCommandChain()->run('after.delete', $context);
-		}
-
-		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus(KDatabase::STATUS_DELETED);
-		}
-
-		return $context->result;
-	}
-
-	/**
-	 *
-	 * Method to recursively delete a folder
-	 * @param string $path
-	 */
-	protected function _deleteFolder($path)
-	{
-		if (!file_exists($path)) {
-			return true; // already gone?
-		}
-		
-		$iter = new RecursiveDirectoryIterator($path);
-		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) {
-			if ($f->isDir()) {
-				rmdir($f->getPathname());
-			} else {
-				unlink($f->getPathname());
-			}
-		}
-
-		return rmdir($path);
-	}
-
-	public function isNew()
-	{
-		return $this->path ? !is_dir($this->fullpath) : true;
-	}
-
-	public function toArray()
-	{
-		$data = parent::toArray();
-
-		unset($data['basepath']);
-
-		$data['type'] = 'folder';
-		$data['name'] = $this->name;
-		
-		if ($this->hasChildren()) {
-			$data['children'] = $this->getChildren()->toArray();
-		}
-
-		return $data;
-	}
-
 	public function __get($column)
 	{
-		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
-			return $this->getFullpath();
-		}
-
-		if ($column == 'name' && !isset($this->_data['name'])) {
-			return basename($this->getFullpath());
-		}
-
-		if ($column == 'basepath' && !isset($this->_data['basepath'])) {
-			$this->_data['basepath'] = $this->getBasepath();
-		}
-
 		if ($column == 'children' && !isset($this->_data['children'])) {
 			$this->_data['children'] = $this->getService('com://admin/files.database.rowset.folders');
 		}
@@ -186,14 +69,15 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		return parent::__get($column);
 	}
 
-	public function __set($column, $value)
+	public function toArray()
 	{
-		if ($column == 'parent') {
-			$this->_data['parent'] = trim($value, '\\/');
+		$data = parent::toArray();
+
+		if ($this->hasChildren()) {
+			$data['children'] = $this->getChildren()->toArray();
 		}
-		else {
-			parent::__set($column, $value);
-		}
+
+		return $data;
 	}
 
 	public function getData($modified = false)
@@ -205,22 +89,6 @@ class ComFilesDatabaseRowFolder extends KDatabaseRowAbstract
 		}
 
 		return $result;
-	}
-
-	public function getFullpath()
-	{
-		$path = rtrim($this->basepath, '/');
-		if ($this->parent) {
-			$path .= '/'.$this->parent;
-		}
-		$path .= '/'.$this->path;
-
-		return $path;
-	}
-
-	public function getBasepath()
-	{
-		return $this->basepath;
 	}
 
 	public function insertChild(KDatabaseRowInterface $node)

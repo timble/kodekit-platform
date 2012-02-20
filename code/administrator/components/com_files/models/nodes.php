@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -20,6 +20,52 @@
 
 class ComFilesModelNodes extends ComFilesModelDefault
 {
+    public function getItem()
+    {
+        if (!isset($this->_item))
+        {
+            $this->_item = $this->getRow(array(
+                'data' => array(
+            		'container' => $this->_state->container,
+                    'folder' => $this->_state->folder,
+                    'name' => $this->_state->name
+                )
+            ));
+        }
+
+        return parent::getItem();
+    }
+    
+    public function getRow(array $options = array())
+    {
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'row');
+        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
+             
+        return $this->getService($identifier, $options); 
+    }
+    
+    public function getRowset(array $options = array())
+    {
+        $identifier         = clone $this->getIdentifier();
+        $identifier->path   = array('database', 'rowset');
+        
+        return $this->getService($identifier, $options);
+    }
+	
+    protected function _getPath()
+    {
+        $state = $this->_state;
+
+        $path = $state->container->path;
+
+        if (!empty($state->folder) && $state->folder != '/') {
+            $path .= '/'.ltrim($state->folder, '/');
+        }
+        
+        return $path;
+    }
+    
 	public function getList()
 	{
 		if (!isset($this->_list))
@@ -56,7 +102,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
 				$data = $state->getData();
-				$data['offset'] = 0;
+				$data['offset'] = $offset_left === -1 ? 0 : $offset_left;
 				$files_model = $this->getService('com://admin/files.model.files')->set($data); 
 				$files = $files_model->getList();
 
@@ -64,10 +110,6 @@ class ComFilesModelNodes extends ComFilesModelDefault
 				{
 					if (!$limit_left) {
 						break;
-					}
-					if ($offset_left > 0) {
-						$offset_left--;
-						continue;
 					}
 					$list->insert($file);
 					$limit_left--;

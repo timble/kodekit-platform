@@ -5,6 +5,9 @@
  * @license New BSD License <http://creativecommons.org/licenses/BSD/>
  */
 
+/**
+ * Ercan: https://github.com/balupton/history.js/issues/48 applied. 
+ */
 (function(window,undefined){
 	"use strict";
 
@@ -1056,7 +1059,7 @@
 
 			// Unescape hash
 			while ( true ) {
-				tmp = window.unescape(result);
+				tmp = window.decodeURI(result);
 				if ( tmp === result ) {
 					break;
 				}
@@ -1171,7 +1174,7 @@
 			var result = History.normalizeHash(hash);
 
 			// Escape hash
-			result = window.escape(result);
+			result = window.encodeURI(result);
 
 			// IE6 Escape Bug
 			if ( !History.bugs.hashEscape ) {

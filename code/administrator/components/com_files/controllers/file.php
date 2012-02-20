@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -23,7 +23,7 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 	{
 		parent::__construct($config);
 
-		$this->registerCallback('before.add', array($this, 'beforeAdd'));
+		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
 	}
 	
     protected function _initialize(KConfig $config)
@@ -38,12 +38,15 @@ class ComFilesControllerFile extends ComFilesControllerDefault
     	parent::_initialize($config);
     }	
 
-	public function beforeAdd(KCommandContext $context)
+	public function addFile(KCommandContext $context)
 	{
-		if (!$context->data->file)
+		if (empty($context->data->file) && KRequest::has('files.file.tmp_name'))
 		{
 			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
-			$context->data->path = KRequest::get('files.file.name', 'koowa:filter.filename');
+			if (empty($context->data->name)) {
+				$context->data->name = KRequest::get('files.file.name', 'raw');	
+			}
+			
 		}
 	}
 }

@@ -1,4 +1,13 @@
-
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+ 
 if(!Files) var Files = {};
 
 Files.Row = new Class({
@@ -10,8 +19,25 @@ Files.Row = new Class({
 			this[key] = value;
 		}.bind(this));
 
-		this.path = object.path;
-		this.identifier = object.path;
+		if (!this.path) {
+			this.path = (object.folder ? object.folder+'/' : '') + object.name;
+		}
+		this.identifier = this.path;
+		
+		this.filepath = (object.folder ? this.encodePath(object.folder)+'/' : '') + this.encode(object.name);
+	},
+	encodePath: function(path) {
+		var parts = path.split('/'),
+			encoder = this.encode;
+
+		parts = parts.map(function(part) {
+			return encoder(part);
+		});
+		
+		return parts.join('/');
+	},
+	encode: function(string) {
+		return encodeURIComponent(encodeURIComponent(string)).replace(/%2520/g, ' ');
 	}
 });
 
@@ -23,11 +49,13 @@ Files.File = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.filetype = Files.getFileType(this.extension);
+		this.baseurl = Files.app.baseurl;
+		this.size = new Files.Filesize(this.metadata.size);
+		this.filetype = Files.getFileType(this.metadata.extension);
 	},
 	getModifiedDate: function(formatted) {
 		var date = new Date();
-		date.setTime(this.modified_date*1000);
+		date.setTime(this.metadata.modified_date*1000);
 		if (formatted) {
 			return date.getUTCDate()+'/'+date.getUTCMonth()+'/'+date.getUTCFullYear()+' '+date.getUTCHours()+':'+date.getUTCMinutes();
 		} else {
@@ -39,7 +67,7 @@ Files.File = new Class({
 		
 		var that = this,
 			request = new Request.JSON({
-				url: Files.getUrl({path: that.path}),
+				url: Files.app.createRoute({view: 'file', folder: that.folder, name: that.name}),
 				method: 'post',
 				data: {
 					'action': 'delete',
@@ -63,7 +91,7 @@ Files.File = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -82,9 +110,39 @@ Files.Image = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.baseurl = Files.baseurl;
-
-		this.image = this.baseurl+'/'+this.path;
+		this.image = this.baseurl+'/'+this.filepath;
+		
+		this.client_cache = false;
+		if(window.sessionStorage) {
+		    if(sessionStorage[this.image.toString()]) {
+		        this.client_cache = sessionStorage[this.image.toString()];
+		    }
+		}
+	},
+	getThumbnail: function(success, failure) {
+		var that = this,
+			request = new Request.JSON({
+				url: Files.app.createRoute({view: 'thumbnail', filename: that.name, folder: that.folder}),
+				method: 'get',
+				onSuccess: function(response, responseText) {
+					if (typeof success == 'function') {
+						success(response);
+					}
+				},
+				onFailure: function(xhr) {
+					response = xhr.responseText;
+					
+					if (typeof failure == 'function') {
+						failure(xhr);
+					}
+					else {
+						response = JSON.decode(xhr.responseText, true);
+						error = response && response.error ? response.error : Files._('An error occurred during request');
+						alert(error);
+					}
+				}
+			});
+		request.send();
 	}
 });
 
@@ -96,15 +154,15 @@ Files.Folder = new Class({
 	template: 'folder',
 
 	getChildren: function(success, failure, extra_vars) {
-		var path = this.path;
-		var url = {
-			view: 'nodes',
-			folder: path
-		};
+		var path = this.path,
+			url = {
+				view: 'nodes',
+				folder: path
+			};
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
-		var url = Files.getUrl(url);
+		var url = Files.app.createRoute(url);
 			
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
@@ -116,12 +174,11 @@ Files.Folder = new Class({
 		
 		var that = this;
 			request = new Request.JSON({
-				url: Files.getUrl({view: 'folder'}),
+				url: Files.app.createRoute({view: 'folder', name: that.name, folder: Files.app.getPath()}),
 				method: 'post',
 				data: {
-					'_token': Files.token,
-					'parent': Files.app.getPath(),
-					'path': that.path
+					'action': 'add',
+					'_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
 					if (typeof success == 'function') {
@@ -138,7 +195,7 @@ Files.Folder = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -148,9 +205,9 @@ Files.Folder = new Class({
 		request.send();
 	},
 	'delete': function(success, failure) {
-		var that = this;
+		var that = this,
 			request = new Request.JSON({
-				url: Files.getUrl({view: 'folders', path: that.path}),
+				url: Files.app.createRoute({view: 'folder', folder: Files.app.getPath(), name: that.name}),
 				method: 'post',
 				data: {
 					'action': 'delete',
@@ -168,7 +225,6 @@ Files.Folder = new Class({
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
-					
 					response = xhr.responseText;
 					
 					if (typeof failure == 'function') {
@@ -176,7 +232,7 @@ Files.Folder = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : 'An error occurred during request';
+						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
 					
@@ -201,7 +257,7 @@ Files.Folder.Request = new Request.JSON({
 		}
 		else {
 			resp = JSON.decode(xhr.responseText, true);
-			error = resp && resp.error ? resp.error : 'An error occurred during request';
+			error = resp && resp.error ? resp.error : Files._('An error occurred during request');
 			alert(error);
 		}
 	}

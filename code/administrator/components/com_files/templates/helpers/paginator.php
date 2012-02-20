@@ -1,4 +1,14 @@
 <?php
+/**
+ * @version     $Id$
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
 class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 {
     /**
@@ -17,7 +27,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 
         $html  = '<div class="container" id="files-paginator-container">';
         $html .= '<div class="pagination" id="files-paginator">';
-        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config->toArray()).'</div>';
+        $html .= '<div class="limit">'.$this->limit($config->toArray()).'</div>';
         $html .=  $this->_pages();
         $html .= '<div class="limit"> '.JText::_('Page').' <span class="page-current">1</span>';
         $html .= ' '.JText::_('of').' <span class="page-total">1</span></div>';

@@ -4,7 +4,7 @@
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -20,8 +20,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
 Files.token = '<?= $token; ?>';
-
-Files.blank_image = 'media://com_files/images/blank.png';
 
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
@@ -48,7 +46,7 @@ window.addEvent('domready', function() {
 		var element = $('files-new-folder-input');
 		var value = element.get('value');
 		if (value.length > 0) {
-			var folder = new Files.Folder({path: value});
+			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
 				var el = response.item;
@@ -59,7 +57,9 @@ window.addEvent('domready', function() {
 					text: row.name,
 					id: row.path,
 					data: {
-						url: '#'+row.path
+						path: row.path,
+						url: '#'+row.path,
+						type: 'folder'
 					}
 				});
 				Files.app.tree.selected.toggle(false, true);
@@ -93,7 +93,7 @@ window.addEvent('domready', function() {
 			<div style="clear: both"></div>
 		</div>
 	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.startPanel', array('title' => 'Upload')); ?>
+	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
 
 		<?= @template('com://admin/files.view.files.uploader'); ?>
 
