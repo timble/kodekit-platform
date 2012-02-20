@@ -102,7 +102,7 @@ class KMixinBehavior extends KMixinAbstract
     public function addBehavior($behavior, $config = array())
     {  
         if (!($behavior instanceof KBehaviorInterface)) { 
-           $behavior = $this->getBehavior($behavior);
+           $behavior = $this->getBehavior($behavior, $config);
         }
                 
         //Add the behaviors
