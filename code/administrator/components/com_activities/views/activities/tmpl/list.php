@@ -14,6 +14,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <style src="media://com_activities/css/activities-list.css" />
 
 <?
+$list = array();
 foreach ($activities as $activity) {
 	$list[substr($activity->created_on, 0, 10)][] = $activity;
 }
