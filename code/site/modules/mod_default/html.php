@@ -30,6 +30,7 @@ class ModDefaultHtml extends KViewHtml
     protected function _initialize(KConfig $config)
     {      
         $config->append(array(
+        	'media_url'        => KRequest::root() . '/media',
         	'template_filters' => array('chrome'),
             'data'			   => array(
                 'styles' => array() 
