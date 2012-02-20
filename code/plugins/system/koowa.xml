@@ -7,7 +7,7 @@
     <license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
     <authorEmail>info@nooku.org</authorEmail>
     <authorUrl>www.nooku.org</authorUrl>
-    <version>0.7.0</version>
+    <version>12.1</version>
     <description>Rapid Extension Development framework. Please check if you have PHP 5.2+ before publishing this plugin.</description>  
     
     <!--  Files -->

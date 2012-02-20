@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -255,10 +255,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function lockTable($base, $name)
     {
-        $query = 'LOCK TABLES '.$this->quoteName($this->getTablePrefix().$base).' WRITE';
+        $query = 'LOCK TABLES '.$this->quoteName($this->getTableNeedle().$base).' WRITE';
         
         if($base != $name) {
-            $query .= ', '.$this->quoteName($this->getTablePrefix().$name).' READ';
+            $query .= ', '.$this->quoteName($this->getTableNeedle().$name).' READ';
         }
         
         // Create commandchain context.
@@ -441,7 +441,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableInfo($table)
 	{
 		$result = null;
-	    $sql    = $this->quoteValue($this->getTablePrefix().$table);
+	    $sql    = $this->quoteValue($this->getTableNeedle().$table);
 	    
 		if($info  = $this->show( 'SHOW TABLE STATUS LIKE '.$sql, KDatabase::FETCH_OBJECT ))
 		{
@@ -461,7 +461,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableColumns($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteName($this->getTablePrefix().$table);
+	    $sql    = $this->quoteName($this->getTableNeedle().$table);
 	    
 	    if($columns = $this->show( 'SHOW FULL COLUMNS FROM '.$sql, KDatabase::FETCH_OBJECT_LIST))
 		{
@@ -489,7 +489,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableIndexes($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteName($this->getTablePrefix().$table);
+	    $sql    = $this->quoteName($this->getTableNeedle().$table);
 	  
 	    if($indexes = $this->show('SHOW INDEX FROM '.$sql , KDatabase::FETCH_OBJECT_LIST))
 		{
@@ -585,7 +585,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Given a raw column specification, parse into datatype, length, and decimal scope.
 	 *
 	 * @param string The column specification; for example,
- 	 * "VARCHAR(255)" or "NUMERIC(10,2)" or ENUM('yes','no','maybe')
+ 	 * "VARCHAR(255)" or "NUMERIC(10,2)" or "float(6,2) UNSIGNED" or ENUM('yes','no','maybe')
  	 *
  	 * @return array A sequential array of the column type, size, and scope.
  	 */
@@ -596,36 +596,30 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	$length  = null;
  	   	$scope   = null;
 
+ 	    // find the type first
+	    $type = strtok($spec, '( ');
+ 	   	
  	   	// find the parens, if any
- 	   	$pos = strpos($spec, '(');
- 	   	if ($pos === false)
- 	   	{
- 	     	// no parens, so no size or scope
- 	      	$type = $spec;
- 	   	}
- 	   	else
- 	   	{
- 	   		// find the type first.
- 	      	$type = substr($spec, 0, $pos);
- 	      	
- 	      	// there were parens, so there's at least a length
- 	       	// remove parens to get the size.
- 	      	$length = trim(substr($spec, $pos), '()');
- 	      	
- 	   		if($type != 'enum' && $type != 'set')
- 	     	{
- 	     		// A comma in the size indicates a scope.
- 	      		$pos = strpos($length, ',');
- 	      		if ($pos !== false) {
- 	        		$scope = substr($length, $pos + 1);
- 	           		$length  = substr($length, 0, $pos);
- 	       		}
- 	     		
- 	     		
- 	     	}
- 	     	else $length = explode(',', str_replace("'", "", $length));
- 	   	}
-	 	
- 	  	return array($type, $length, $scope);
+	    if (false !== ($pos = strpos($spec, '(')))
+	    {
+		    // there were parens, so there's at least a length
+		    // remove parens to get the size.
+		    $length = trim(substr(strtok($spec, ' '), $pos), '()');
+
+		    if($type != 'enum' && $type != 'set')
+		    {
+			    // A comma in the size indicates a scope.
+			    $pos = strpos($length, ',');
+			    if ($pos !== false) 
+			    {
+				    $scope  = substr($length, $pos + 1);
+				    $length = substr($length, 0, $pos);
+			    }
+
+            }
+		    else $length = explode(',', str_replace("'", "", $length));
+	    }
+
+	    return array($type, $length, $scope);
  	}
 }

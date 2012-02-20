@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -182,6 +182,7 @@ interface KDatabaseAdapterInterface
 	 *
 	 * @param string The table prefix
 	 * @return KDatabaseAdapterAbstract
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function setTablePrefix($prefix);
 
@@ -189,19 +190,25 @@ interface KDatabaseAdapterInterface
 	 * Get the table prefix
 	 *
 	 * @return string The table prefix
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function getTablePrefix();
+	
+	/**
+	 * Get the table needle
+	 *
+	 * @return string The table needle
+	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
+	 */
+	public function getTableNeedle();
 
 	/**
-	 * This function replaces a string identifier <var>$prefix</var> with the
-	 * string held is the <var>_table_prefix</var> class variable.
+	 * This function replaces the table needles in a query string with the actual table prefix.
 	 *
-	 * @param 	string 	The SQL query string
-	 * @param 	string 	The table prefix to use as a replacement
-	 * @param 	string 	The needle to search for in the query string
+	 * @param  string 	The SQL query string
 	 * @return string	The SQL query string
 	 */
-	public function replaceTablePrefix( $sql, $replace = null, $needle = '#__' );
+	public function replaceTableNeedle( $sql );
 
     /**
      * Safely quotes a value for an SQL statement.

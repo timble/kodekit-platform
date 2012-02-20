@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -88,14 +88,14 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 					foreach ($config->selected as $selected)
 					{
 						$sel = is_object( $selected ) ? $selected->value : $selected;
-						if ($value == $sel)
+						if ((string) $value == (string) $sel)
 						{
 							$extra .= 'selected="selected"';
 							break;
 						}
 					}
 				} 
-				else $extra .= ((string) $value == $config->selected ? ' selected="selected"' : '');
+				else $extra .= ((string) $value == (string) $config->selected ? ' selected="selected"' : '');
 			}
 				
 			$html[] = '<option value="'. $value .'" '. $extra .'>' . $text . '</option>';

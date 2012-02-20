@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category	Koowa
  * @package     Koowa_View
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -95,7 +95,7 @@ class KViewJson extends KViewAbstract
 
 		return parent::display();
 	}
-
+	
 	/**
 	 * Get the list data
 	 *
@@ -103,10 +103,21 @@ class KViewJson extends KViewAbstract
 	 */
 	protected function _getList()
 	{
-		$model = $this->getModel();
+		//Get the model
+	    $model = $this->getModel();
 
-		$url   = clone KRequest::url();
+	    //Get the route
+		$route = $this->getRoute();
+		
+		//Get the model state
 		$state = $model->getState();
+		
+		//Get the paginator
+		$paginator = new KConfigPaginator(array(
+          	'offset' => (int) $model->offset,
+           	'limit'  => (int) $model->limit,
+		    'total'  => (int) $model->getTotal(),
+        ));    
 		
 	    $vars = array();
 	    foreach($state->toArray(false) as $var) 
@@ -118,15 +129,16 @@ class KViewJson extends KViewAbstract
 
 		$data = array(
 			'version'  => '1.0',
-			'href'     => (string) $url->setQuery($state->toArray()),
+			'href'     => (string) $route->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
-			'offset'   => (int) $model->offset,
-			'limit'    => (int) $model->limit,
+			'offset'   => (int) $paginator->offset,
+			'limit'    => (int) $paginator->limit,
 			'total'	   => 0,
 			'items'    => array(),
+			'queries'  => array()
 		);
 
 		if($list = $model->getList())
@@ -147,18 +159,32 @@ class KViewJson extends KViewAbstract
 			    $id = $item->getIdentityColumn();
 			  
 			    $items[] = array(
-		    		'href'    => (string) $url->setQuery(array($id => $item->{$id})),
+		    		'href'    => (string) $route->setQuery(array($id => $item->{$id})),
 	        		'url'     => array(
 						'type'     => 'application/json',
-						'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+						'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 	                ),
 			    	'data' => $item->toArray()
 			    );
 			}
-		    
-		    $data = array_merge($data, array(
-				'total'    => $model->getTotal(),
-				'items'    => $items
+			
+			$queries = array();
+            foreach(array('first', 'prev', 'next', 'last') as $offset) 
+            {
+                $page = $paginator->pages->{$offset}; 
+                if($page->active) 
+                {  
+                    $queries[] = array(
+		   				'rel' => $page->rel, 
+		   				'href' => (string) $this->getRoute('limit='.$page->limit.'&offset='.$page->offset)
+                    );
+                }
+            }
+            
+            $data = array_merge($data, array(
+				'total'    => $paginator->total,
+				'items'    => $items,
+		        'queries'  => $queries
 			 ));
 		}
 
@@ -172,9 +198,13 @@ class KViewJson extends KViewAbstract
 	 */
 	protected function _getItem()
 	{
-		$model = $this->getModel();
+		//Get the model
+	    $model = $this->getModel();
+
+	    //Get the route
+		$route = $this->getRoute();
 		
-		$url   = clone KRequest::url();
+		//Get the model state
 		$state = $model->getState();
 		
 	    $vars = array();
@@ -189,10 +219,10 @@ class KViewJson extends KViewAbstract
 		
 		$data = array(
 			'version' => '1.0',
-		    'href'    => (string) $url->setQuery($state->getData(true)),
+		    'href'    => (string) $route->setQuery($state->getData(true)),
 	        'url'     => array(
 				'type'     => 'application/json',
-				'template' => (string) $url->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 	        ),
 	        'item'	  => array()
 		);

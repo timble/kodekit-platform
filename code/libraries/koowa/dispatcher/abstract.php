@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Dispatcher
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -56,10 +56,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller'			=> $this->getIdentifier()->package,
-    		'request'				=> KRequest::get('get', 'string'),
-        ))->append(array(
-            'request' 				=> array('format' => KRequest::format() ? KRequest::format() : 'html')
+        	'controller' => $this->getIdentifier()->package,
+    		'request'	 => KRequest::get('get', 'string'),
+        ))->append(array (
+            'request' 	 => array('format' => KRequest::format() ? KRequest::format() : 'html')
         ));
 
         parent::_initialize($config);
@@ -154,7 +154,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 *
 	 * @return mixed
 	 */
-	public function _actionForward(KCommandContext $context)
+	protected function _actionForward(KCommandContext $context)
 	{
 		if (KRequest::type() == 'HTTP')
 		{

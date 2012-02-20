@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package		Koowa_Inflector
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -68,6 +68,7 @@ class KInflector
 			'/(vert|ind)ices$/i'    => '\1ex',
 			'/^(ox)en/i' 			=> '\1',
 			'/(alias|status)es$/i' 	=> '\1',
+			'/(alias|status)$/i'    => '\1',
             '/(tomato|hero|buffalo)es$/i'  => '\1',
 			'/([octop|vir])i$/i' 	=> '\1us',
             '/(gen)era$/i'          => '\1us',
@@ -89,7 +90,7 @@ class KInflector
 			'/([ti]|addend)a$/i' 	=> '\1um',
             '/(alumn|formul)ae$/i'  => '$1a',
 			'/(n)ews$/i' 			=> '\1ews',
-			'/(.*)ss$/i'            => '\1ss',       
+			'/(.*)ss$/i'            => '\1ss',    
 			'/(.*)s$/i' 			=> '\1',
 		),
 		
@@ -164,7 +165,10 @@ class KInflector
 	 */
 	public static function pluralize($word)
 	{
-		//Get the cached noun of it exists
+		//Make sure we have the singular
+	    $word = self::singularize($word); 
+	    
+	    //Get the cached noun of it exists
  	   	if(isset(self::$_cache['pluralized'][$word])) {
 			return self::$_cache['pluralized'][$word];
  	   	}

@@ -4,13 +4,13 @@
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Default Dispatcher
+ * Default Dispatcher Class
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
@@ -77,12 +77,9 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
     protected function _actionDispatch(KCommandContext $context)
     {
         //Redirect if no view information can be found in the request
-        if(!KRequest::has('get.view')) 
+        if(!$this->getRequest()->view) 
         {
-            $package = $this->getIdentifier()->package;
-            $view    = $this->getController()->getView()->getName();
-            $route = JRoute::_('index.php?option=com_'.$package.'&view='.$view, false);
-            
+            $route    = $this->getController()->getView()->getRoute();   
             JFactory::getApplication()->redirect($route);
         }
        

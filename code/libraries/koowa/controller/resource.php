@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package     Koowa_Controller
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -92,20 +92,16 @@ abstract class KControllerResource extends KControllerAbstract
      */
     protected function _initialize(KConfig $config)
     {
-    	$config->append(array(
+        $config->append(array(
     	    'model'	     => $this->getIdentifier()->name,
-        	'view'	     => $this->getIdentifier()->name,
     	    'behaviors'  => array('executable'),
     	    'readonly'   => true, 
     		'request' 	 => array('format' => 'html'),
+        ))->append(array(
+            'view' 		=> $config->request->view ? $config->request->view : $this->getIdentifier()->name
         ));
         
         parent::_initialize($config);
-        
-        //Force the view to the information found in the request
-        if(isset($config->request->view)) {
-            $config->view = $config->request->view;
-        }
     }
     
 	/**
@@ -129,7 +125,12 @@ abstract class KControllerResource extends KControllerAbstract
 			}
 			
 			//Create the view
-			$config = array('model' => $this->getModel());
+			$config = array(
+				'model'     => $this->getModel(),
+			    'media_url' => KRequest::root().'/media',
+			    'base_url'	=> KRequest::url()->get(KHttpUrl::BASE),
+			);
+			
 			if($this->isExecutable()) {
 			    $config['auto_assign'] = !$this->getBehavior('executable')->isReadOnly();
 			}

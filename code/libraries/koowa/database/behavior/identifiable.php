@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package		Koowa_Database
  * @subpackage 	Behavior
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
@@ -18,13 +18,6 @@
  */
 class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 {
-	/**
-	 * File handle
-	 *
-	 * @var resource
-	 */
-	protected $_urand;
-	
 	/**
 	 * Get the methods that are available for mixin based
 	 * 
@@ -41,9 +34,6 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 		if(isset($mixer->uuid)) {
 			$methods = parent::getMixableMethods($mixer);
 		}
-		
-		//Lazy load the random number
-        $this->_urand = @fopen ( '/dev/urandom', 'rb' );
     
 		return $methods;
 	}
@@ -78,25 +68,20 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
     protected function _uuid($hex = false) 
     {
         $pr_bits = false;
-        if (is_resource ( $this->_urand )) {
-            $pr_bits .= @fread ( $this->_urand, 16 );
-        }
         
-        if (! $pr_bits) 
+        $fp = @fopen ( '/dev/urandom', 'rb' );
+        if ($fp !== false) 
         {
-            $fp = @fopen ( '/dev/urandom', 'rb' );
-            if ($fp !== false) 
-            {
-                $pr_bits .= @fread ( $fp, 16 );
-                @fclose ( $fp );
-            } 
-            else 
-            {
-                // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
-                $pr_bits = "";
-                for($cnt = 0; $cnt < 16; $cnt ++) {
-                    $pr_bits .= chr ( mt_rand ( 0, 255 ) );
-                }
+            $pr_bits = @fread ( $fp, 16 );
+            @fclose ( $fp );
+        } 
+        
+         // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
+        if(empty($pr_bits)) 
+        {
+            $pr_bits = "";
+            for($cnt = 0; $cnt < 16; $cnt ++) {
+                $pr_bits .= chr ( mt_rand ( 0, 255 ) );
             }
         }
         

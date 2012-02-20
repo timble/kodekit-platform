@@ -3,7 +3,7 @@
 * @version		$Id$
 * @category		Koowa
 * @package      Koowa_Filter
-* @copyright    Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 * @link 		http://www.nooku.org
 */
@@ -100,6 +100,9 @@ class KFilterSlug extends KFilterAbstract
 		
 		//remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$value = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array($this->_separator,''), $value);
+		
+		//remove repeated occurences of the separator
+		$value = preg_replace('/['.preg_quote($this->_separator, '/').']+/', $this->_separator, $value);		
 		
 		//limit length
 		if (strlen($value) > $this->_length) {

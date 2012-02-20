@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -88,6 +88,14 @@ interface KDatabaseRowInterface
      * @return array    An array of column names that have been modified
      */
     public function getModified();
+    
+    /**
+     * Check if a column has been modified
+     * 
+     * @param   string  The column name.
+     * @return  boolean
+     */
+    public function isModified($column);
 
     /**
      * Checks if the row is new or not

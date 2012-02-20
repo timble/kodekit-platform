@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category    Koowa
  * @package     Koowa_Service
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
@@ -22,7 +22,7 @@ interface KObjectServiceable
 	 *
 	 * @param	string|object	The class identifier or identifier object
 	 * @param	array  			An optional associative array of configuration settings.
-	 * @throws	KServiceServiceException
+	 * @throws	KObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public function getService($identifier, array $config = array());

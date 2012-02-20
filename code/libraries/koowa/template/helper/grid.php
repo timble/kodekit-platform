@@ -4,7 +4,7 @@
  * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -118,14 +118,9 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$url = clone KRequest::url();
+		$route = $this->getTemplate()->getView()->getRoute('sort='.$config->column.'&direction='.$direction);
 
-		$query 				= $url->getQuery(1);
-		$query['sort'] 		= $config->column;
-		$query['direction'] = $direction;
-		$url->setQuery($query);
-
-		$html  = '<a href="'.$url.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
+		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
 		$html .= '</a>';
 

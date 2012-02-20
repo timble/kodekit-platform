@@ -3,7 +3,7 @@
  * @version		$Id$
  * @category	Koowa
  * @package     Koowa_View
- * @copyright	Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
@@ -69,5 +69,19 @@ class KViewHtml extends KViewTemplate
 		}
 		
 		return parent::display();
+	}
+	
+	/**
+	 * Get a route based on a full or partial query string. 
+	 * 
+	 * This function force the route to be not fully qualified. 
+	 *
+	 * @param	string	The query string used to create the route
+	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
+	 * @return 	string 	The route
+	 */
+	public function getRoute( $route = '', $fqr = true)
+	{
+		return parent::getRoute($route, false);
 	}
 }
