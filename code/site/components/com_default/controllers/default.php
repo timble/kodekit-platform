@@ -98,7 +98,7 @@ class ComDefaultControllerDefault extends KControllerService
                 $limit = $this->_limit->max;
             }
             
-            $this->_limit = $limit; 
+            $this->limit = $limit; 
         }
          
         return parent::_actionBrowse($context);
