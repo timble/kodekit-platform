@@ -1,0 +1,15 @@
+/* ref: http://github.com/marijnh/CodeMirror/blob/master/css/docs.css */
+.CodeMirror-line-numbers {
+	width: 2.2em;
+	text-align: right;
+	margin: .4em;
+	padding: 0;
+	font-family: monospace;
+	font-size: 10pt;
+	background-color: #fbfbfb;
+	color: #a3a3a3;
+}
+
+.CodeMirror-line-numbers .active {
+	color: #4b4b4b;
+}
