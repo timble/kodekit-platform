@@ -71,7 +71,8 @@ window.addEvent('domready', function(){
 								'autocomplete' => true,
 								'selected'     => $state->user,
 								'validate'     => false,
-								'attribs'      => array('size' => 30)
+								'attribs'      => array('size' => 30),
+								'name'			=> 'search'
 							)) ?>
 				</div>
 
