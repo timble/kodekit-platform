@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0" method="upgrade">
+	<identifier>com:activities</identifier>
 	<name>Activities</name>
 	<author>Nooku Project</author>
 	<creationDate>June 2011</creationDate>
