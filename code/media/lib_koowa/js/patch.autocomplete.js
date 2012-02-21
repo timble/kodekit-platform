@@ -56,7 +56,17 @@ if(!Koowa) var Koowa = {};
         options: {
             requestOptions: {
                 formatResponse: function(response){
-                    return response.items || response;
+                	var data = response.items || response;
+                	
+                	if(data.length && data[0] && data[0].data) {
+                		var list = [];
+                		data.each(function(data){
+                			list.include(data.data);
+                		});
+                		return list;
+                	}
+                	
+                	return data;
                 }
             }
         }
