@@ -648,7 +648,7 @@ Koowa.Overlay = new Class({
                         this.send({url: url, data: data, method: method});
                     }.bind(this)});
                 }, this);
-        }
+            }
         }
     },
     
@@ -674,7 +674,7 @@ Koowa.Overlay = new Class({
     		this._tmp_scripts = scripts;
         }
         return this.parent(text);
-	},
+	}
 });
 
 
