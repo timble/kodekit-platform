@@ -14,12 +14,12 @@ license: @TODO
 ...
 */
 
-if(!Koowa) var Koowa = {};
+if(!this.Koowa) this.Koowa = {};
 
 (function($){
 
     // Support Form.Validator if present
-    if(Form && Form.Validator) {
+	if(this.Form && Form.Validator) {
         var dataReady = Meio.Autocomplete.prototype.dataReady, hide = Meio.Element.List.prototype.hide;
         
         Meio.Autocomplete.prototype.dataReady = function(){
