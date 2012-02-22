@@ -750,8 +750,22 @@ class JApplication extends JObject
 
 		//Set the site error reporting
 		$error_reporting = $this->getCfg('error_reporting');
-		if ($error_reporting >= 0) {
-			error_reporting( $error_reporting );
+		if ($error_reporting > 0) 
+		{
+		    //Development mode
+		    if($error_reporting == 1) 
+		    {
+		        error_reporting( E_ALL | E_STRICT |ÊE_DEPRECATED );
+		        ini_set( 'display_errors', 1 );
+		        
+		    }
+		    
+		    //Production mode
+		    if($error_reporting == 2) 
+		    {
+		        error_reporting( E_ERROR | E_WARNING | E_PARSE );
+		        ini_set( 'display_errors', 0 );
+		    }
 		}
 
 		//Set the site debug mode
