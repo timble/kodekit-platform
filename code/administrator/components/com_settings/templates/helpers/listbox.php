@@ -190,10 +190,9 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'attribs'	=> array()
         ));
 
-        $options[] 	= $this->option(array('text' => 'System Default', 'value' => -1));
-		$options[] 	= $this->option(array('text' => 'None', 'value' => 0));
-		$options[] 	= $this->option(array('text' => 'Simple', 'value' =>  E_ERROR | E_WARNING | E_PARSE));
-		$options[] 	= $this->option(array('text' => 'Maximum', 'value' => E_ALL));
+        $options[] 	= $this->option(array('text' => 'Server Defaults', 'value' => 0));
+		$options[] 	= $this->option(array('text' => 'Development', 'value' => 1));
+		$options[] 	= $this->option(array('text' => 'Production' , 'value' => 2));
 
 		$list = $this->optionlist(array(
 			'options'   => $options,
