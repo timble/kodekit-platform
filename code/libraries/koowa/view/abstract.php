@@ -244,7 +244,7 @@ abstract class KViewAbstract extends KObject
 			
 		    //Add the layout information to the route if it's not set
 	        if(!isset($parts['layout'])) {
-			    $result[] = 'layout='.$this->getLayout();
+			    $parts['layout'] = $this->getLayout();
 		    }
 		}
 		
