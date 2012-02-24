@@ -57,6 +57,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
 			'theme_advanced_source_editor_height'	=> '550',
+			'height' 								=> '550',
 			'width'									=> '100%',
 			//'theme_advanced_source_editor_width'	=> $html_width,
 			'theme_advanced_statusbar_location'		=> 'bottom',
