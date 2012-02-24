@@ -12,6 +12,8 @@
 <script src="media://com_editors/tinymce/themes/advanced/js/quicktags.js" />
 <script src="media://com_editors/tinymce/themes/advanced/js/editor.js" />
 <script src="media://com_editors/js/Editor.js" />
+
+<? if(in_array('codemirror', $editors)) : ?>
 <script src="media://com_editors/codemirror/js/codemirror.js" />
 
 <script>	
@@ -30,6 +32,7 @@ var quicktagsL10n =
 
 try { convertEntities(quicktagsL10n);} catch(e) { };
 </script>
+<? endif ?>
 		
 <script>
 var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options) ?>;
@@ -44,6 +47,7 @@ settings.setup =  function(ed) {
 tinyMCE.init(settings);
 </script>
 
+<? if(in_array('codemirror', $editors)) : ?>
 <script>
 edCanvas = document.getElementById("<?= $name ?>");
 </script>
@@ -58,3 +62,4 @@ CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
 	path: 'media://com_editors/codemirror/js/'
 });
 </script>
+<? endif ?>
