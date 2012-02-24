@@ -9,7 +9,7 @@
 
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 {
-    protected $_settings;
+    protected $_settings, $_editors;
     
     public function __construct(KConfig $config)
     {
@@ -17,6 +17,10 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
         
         if ($config->settings) {
             $this->_settings = $config->settings;
+        }
+
+        if ($config->editors) {
+            $this->_editors = $config->editors;
         }
     }
 
@@ -77,6 +81,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			//@TODO this is because KControllerResource sets this and we have no controller yet
 			'media_url' => KRequest::root().'/media',
 
+			'editors'   => array('tinymce', 'codemirror'),
+
 			'settings' => $settings
 		));
 		
@@ -95,6 +101,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->assign('options' , $options);
 		$this->assign('settings', KConfig::unbox($this->_settings));
+		$this->assign('editors', KConfig::unbox($this->_editors));
 
 		return parent::display();
 	}
