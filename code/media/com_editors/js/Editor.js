@@ -145,7 +145,7 @@ var Editors = new Hash, Editor = new Class({
 							.adopt(this.createQuicktags()),
 						this.editor
 					]),
-				new Element('div', {'class': 'editor-toolbar'})
+				new Element('div', {'class': 'editor-toolbar', 'style': (this.options.codemirror ? '' : 'display:none')})
 					.adopt([
 						new Element('div', {'class': 'editor-switch'})
 							.adopt([
@@ -254,7 +254,7 @@ var Editors = new Hash, Editor = new Class({
 			}.bind(this));
 		}
 		
-		if ( this.getUserSetting( 'editor' ) == 'html' ) {
+		if ( this.getUserSetting( 'editor' ) == 'html' && this.options.codemirror ) {
 			//if(height = this.getUserSetting('height')) $('text').setStyle('height', height - 15 + 'px');
 			this.tinyMCE.onInit.add(function(ed) {
 				this.go(this.editor.getProperty('id'), 'html');
@@ -377,9 +377,13 @@ var Editors = new Hash, Editor = new Class({
 	},
 	
 	setText: function(text){
-		var editor = this.options.cookie.get('editor') || 'tinymce';
-		if(editor == 'tinymce') return tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
-		this.editor.codemirror.replaceSelection(text);
+		if(this.options.codemirror) {
+			var editor = this.options.cookie.get('editor') || 'tinymce';
+			if(editor == 'tinymce') return tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
+			this.editor.codemirror.replaceSelection(text);
+		} else {
+			tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
+		}
 	},
 	
 	mode : '',
@@ -506,7 +510,7 @@ var Editors = new Hash, Editor = new Class({
 			} else {
 				ta.value = ed.getContent();
 			}
-			if(!this.editor.codemirror) {
+			if(!this.editor.codemirror && this.options.codemirror) {
 				this.editor.codemirror = CodeMirror.fromTextArea(ta.id, {
 					lineNumbers: true,
 					reindentOnLoad: true,
@@ -514,7 +518,7 @@ var Editors = new Hash, Editor = new Class({
 				});
 			}
 			
-			if ( ed && !ed.isHidden() ) {
+			if ( ed && !ed.isHidden() && this.options.codemirror) {
 				var updateNumbers = function(){
 				     //this.updateNumbers();
 				     
