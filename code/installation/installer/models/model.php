@@ -789,7 +789,8 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'var $tmp_path = \''.$vars['tmp_path'].'\';';
 		$configuration[] = "\t".'/* Session Setting */';
 		$configuration[] = "\t".'var $lifetime = \'15\';';
-		$configuration[] = "\t".'var $session_handler = \'database\';';
+		$configuration[] = "\t".'var $session_handler   = \'database\';';
+		$configuration[] = "\t".'var $session_autostart = \'false\';';
 		$configuration[] = '}';		 
 		
 		$buffer = implode(PHP_EOL, $configuration);
