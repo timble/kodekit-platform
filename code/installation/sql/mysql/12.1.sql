@@ -1,3 +1,4 @@
+# com_activities
 CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`application` VARCHAR(10) NOT NULL DEFAULT '',
