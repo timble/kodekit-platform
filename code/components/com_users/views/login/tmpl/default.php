@@ -21,6 +21,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route('view=user') ?>" method="post" id="com-form-login">
     <input type="hidden" name="action" value="login" />
+    <? if (($return = base64_decode(KRequest::get('get.return', 'base64'))) || ($return = $parameters->get('login'))) : ?>
+        <input type="hidden" name="return" value="<?= base64_encode($return) ?>" />
+    <? endif ?>
+    
     <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>">
         <tr>
             <td colspan="2">
