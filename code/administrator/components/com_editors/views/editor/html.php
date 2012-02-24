@@ -4,7 +4,7 @@
  * @TODO clean up docs
  *
  * Usage example:
- * <?= KService::get('com://admin/editors.view.editor.html')->display() ?>
+ * <?= @service('com://admin/editors.view.editor.html')->name('text')->data($article->text)->display() ?>
  */
 
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
@@ -73,6 +73,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		
 		$config->append(array(
 			'layout'   => 'default',
+			//@TODO this is because KControllerResource sets this and we have no controller yet
+			'media_url' => KRequest::root().'/media',
 
 			'settings' => $settings
 		));
