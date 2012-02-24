@@ -272,6 +272,15 @@ var Editors = new Hash, Editor = new Class({
 		
 		// Fire an onEditorInit to allow adding buttons and like
 		$(editor).fireEvent('onEditorInit', this);
+
+		//Optional form validation support
+		if(this.editor.form && window.Form && Form.Validator) {
+			this.editor.form.addEvent('validate', function(){
+				if(!Editors.get(editor).getText().trim().length) {
+					return false;
+				}
+			});
+		}
 	},
 	
 	/*get tinyMCE() {
@@ -383,6 +392,16 @@ var Editors = new Hash, Editor = new Class({
 			this.editor.codemirror.replaceSelection(text);
 		} else {
 			tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
+		}
+	},
+
+	getText: function(text){
+		if(this.options.codemirror) {
+			var editor = this.options.cookie.get('editor') || 'tinymce';
+			if(editor == 'tinymce') return this.tinyMCE.getContent();
+			else return this.editor.codemirror.getCode();
+		} else {
+			return this.tinyMCE.getContent();
 		}
 	},
 	
