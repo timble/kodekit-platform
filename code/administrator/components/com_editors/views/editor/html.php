@@ -3,8 +3,8 @@
 /**
  * @TODO clean up docs
  *
- * Usage example:
- * <?= @service('com://admin/editors.view.editor.html')->name('text')->data($article->text)->display() ?>
+ * Usage example for how to load just TinyMCE:
+ * <?= @service('com://admin/editors.view.editor.html', array('editors' => false))->name('text')->data($article->text)->display() ?>
  */
 
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
@@ -19,7 +19,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
             $this->_settings = $config->settings;
         }
 
-        if ($config->editors) {
+        if (isset($config->editors)) {
             $this->_editors = $config->editors;
         }
     }
@@ -80,8 +80,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'layout'   => 'default',
 			//@TODO this is because KControllerResource sets this and we have no controller yet
 			'media_url' => KRequest::root().'/media',
-
-			'editors'   => array('tinymce', 'codemirror'),
+			//Multiple editors
+			'editors'   => true,
 
 			'settings' => $settings
 		));
@@ -96,12 +96,13 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
 			),
+			'codemirror' => (bool) $this->_editors,
 			'toggle' => $this->toggle
 		);
 		
 		$this->assign('options' , $options);
 		$this->assign('settings', KConfig::unbox($this->_settings));
-		$this->assign('editors', KConfig::unbox($this->_editors));
+		$this->assign('editors', $this->_editors);
 
 		return parent::display();
 	}
