@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @TODO clean up docs
+ *
+ * Usage example:
+ * <?= KService::get('com://admin/editors.view.editor.html')->display() ?>
+ */
+
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 {
     protected $_settings;
