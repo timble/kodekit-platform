@@ -1,6 +1,8 @@
 <? /* Image and article buttons needs this in order to work */ ?>
 <?= @helper('behavior.modal') ?>
 
+<style src="media://com_editors/css/default.css" />
+
 <? if ($options['toggle']) : ?>
     <style src="media://com_koowa/css/form.css" />
     <script src="media://com_koowa/js/Fx.Toggle.js" />
