@@ -19,7 +19,14 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
             $this->_settings = $config->settings;
         }
     }
-    
+
+    /**
+     * Initializes the configuration for the object
+     * 
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   array   Configuration settings
+     */
     protected function _initialize(KConfig $config)
     {
         $language = JFactory::getLanguage();
@@ -64,7 +71,11 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'theme_advanced_buttons4'				=> ''
 		);
 		
-		$config->append(array('settings' => $settings));
+		$config->append(array(
+			'layout'   => 'default',
+
+			'settings' => $settings
+		));
 		
 		parent::_initialize($config);
     }
