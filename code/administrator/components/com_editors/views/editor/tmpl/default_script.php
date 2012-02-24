@@ -13,7 +13,7 @@
 <script src="media://com_editors/tinymce/themes/advanced/js/editor.js" />
 <script src="media://com_editors/js/Editor.js" />
 
-<? if(in_array('codemirror', $editors)) : ?>
+<? if($editors) : ?>
 <script src="media://com_editors/codemirror/js/codemirror.js" />
 
 <script>	
@@ -47,7 +47,7 @@ settings.setup =  function(ed) {
 tinyMCE.init(settings);
 </script>
 
-<? if(in_array('codemirror', $editors)) : ?>
+<? if($editors) : ?>
 <script>
 edCanvas = document.getElementById("<?= $name ?>");
 </script>
