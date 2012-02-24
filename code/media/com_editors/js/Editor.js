@@ -207,7 +207,7 @@ var Editors = new Hash, Editor = new Class({
 			}
 		}.bind(this));
 		
-		this.tinyMCE.addButton('article', {
+		/*this.tinyMCE.addButton('article', {
 			title : 'Article',
 			image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/article.png',
 			cmd : 'Article'
@@ -215,7 +215,7 @@ var Editors = new Hash, Editor = new Class({
 		
 		this.tinyMCE.addCommand('Article', function() {
 			SqueezeBox.open('?option=com_articles&view=articles&layout=link&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 800, y: 600}});
-		}.bind(this));
+		}.bind(this));*/
 
 		this.tinyMCE.addButton('advanced', {
 			title : 'Kitchen Sink',
