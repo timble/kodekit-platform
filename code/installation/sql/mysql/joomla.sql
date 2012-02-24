@@ -460,7 +460,7 @@ CREATE TABLE `#__session` (
   KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
   KEY `time` (`time`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
+) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
 
