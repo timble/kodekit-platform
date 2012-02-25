@@ -142,7 +142,7 @@ class JUtility
 				$session->set('registry',	new JRegistry('session'));
 				$session->set('user',		new JUser());
 
-				if (!$storage->insert( $session->getId(), $this->getClientId())) {
+				if (!$storage->insert( $session->getId(), JFactory::getApplication()->getClientId())) {
 					jexit( $storage->getError());
 				}
 			}
