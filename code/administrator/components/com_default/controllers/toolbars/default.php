@@ -20,42 +20,6 @@
 class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 {
 	/**
-	 * Array of parts to render
-	 *
-	 * @var array
-	 */
-	protected $_render;
-	
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->_render  = KConfig::unbox($config->render);
-	}
-	
-	/**
-     * Initializes the default configuration for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options.
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-    	    'render'  => array('toolbar', 'title')
-        ));
- 
-        parent::_initialize($config);
-    }
-    
-	/**
 	 * Push the toolbar into the view
 	 * .
 	 * @param	KEvent	A event object
