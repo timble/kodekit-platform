@@ -30,10 +30,10 @@ Fx.Toggle = new Class({
 		updateOnChange: true,
 		onInit: Class.empty,
 		onClose: function(){
-			this.preview.getElement('strong').set('html', this.getValue());
+			this.preview.getElement('.toggle-preview').set('html', this.getValue());
 		},
 		onOK: function(){
-			this.preview.getElement('strong').set('html', this.getValue());
+			this.preview.getElement('.toggle-preview').set('html', this.getValue());
 		},
 		onEdit: Class.empty,
 	},
@@ -69,14 +69,14 @@ Fx.Toggle = new Class({
 	},
 	
 	createPreview: function(){
-		return new Element('span', {'class': 'preview toggle-closed'}).injectBefore(this.wrap).adopt(
+		return new Element('div', {'class': 'preview toggle-closed'}).injectBefore(this.wrap).adopt(
 			this.createPreviewPane(),
 			this.createPreviewButton()
 		);
 	},
 	
 	createPreviewPane: function(){
-		return new Element('strong').set('html', this.getValue());
+		return new Element('div', {'class': 'toggle-preview'}).set('html', this.getValue());
 	},
 	
 	createPreviewButton: function(){
@@ -101,10 +101,10 @@ Fx.Toggle = new Class({
 		this.controls = this.createControls();
 		
 		if(this.options.updateOnChange) this.target.addEvent('change', function(){
-			this.preview.getElement('strong').set('html', this.getValue());
+			this.preview.getElement('.toggle-preview').set('html', this.getValue());
 		}.bind(this));
 		
-		return new Element('fieldset', {'class': 'toggle-closed'}).injectBefore(this.wrap).adopt([this.wrap, this.controls]);
+		return new Element('div', {'class': 'toggle-closed'}).injectBefore(this.wrap).adopt([this.wrap, this.controls]);
 		
 	},
 

@@ -1,11 +1,5 @@
 /* @group Togglers */
-fieldset[class*=toggle-] {
-	min-width: 212px;
-	overflow: hidden;
-	/*-webkit-transition: all 10s ease-in;*/
-}
-
-fieldset.toggle-closed {
+.toggle-closed:not(.preview) {
 	display: none;
 /*	height: 0;
 	
@@ -31,20 +25,20 @@ fieldset.toggle-closed {
 	-webkit-transition: opacity 300ms ease-out;
 }*/
 
-fieldset.toggle-open {
+.toggle-open {
 	
 }
 
-fieldset.toggle-open a {
+.toggle-open a {
 	position: relative;
 }
 
-fieldset.toggle-open input, fieldset.toggle-open select, fieldset.toggle-open a {
+.toggle-open input, .toggle-open select, .toggle-open a {
 	display: inline-block;
 	float: none;
 }
 
-.toggle-select fieldset[class*=toggle-]:not(.toggle-closed) {
+.toggle-select div[class*=toggle-]:not(.toggle-closed) {
 	display: inline-block;
 	min-width: inherit;
 }
