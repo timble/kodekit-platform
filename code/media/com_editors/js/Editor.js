@@ -385,13 +385,23 @@ var Editors = new Hash, Editor = new Class({
 		return this.options.cookie.set(key, value);
 	},
 	
-	setText: function(text){
+	insertText: function(text){
 		if(this.options.codemirror) {
 			var editor = this.options.cookie.get('editor') || 'tinymce';
 			if(editor == 'tinymce') return tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
 			this.editor.codemirror.replaceSelection(text);
 		} else {
 			tinyMCE.execInstanceCommand(this.identifier, 'mceInsertContent',false,text);
+		}
+	},
+
+	setText: function(text){
+		if(this.options.codemirror) {
+			var editor = this.options.cookie.get('editor') || 'tinymce';
+			if(editor == 'tinymce') return tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
+			this.editor.codemirror.setCode(text);
+		} else {
+			tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
 		}
 	},
 
@@ -660,11 +670,11 @@ var Editors = new Hash, Editor = new Class({
 	},
 	
 	initializeToggle: function(){
-		var editor = this;
+		var editor = this, defaultText = this.editor.get('text');
 		this.toggler = new Fx.Toggle(this.editor, {wrap: this.wrap, onOK: function(){
-			console.warn(editor);
-			this.preview.getElement('strong').set('html', editor.getText());
-			console.log(editor.getText());
+			this.preview.getElement('.toggle-preview').set('html', editor.getText());
+		}, onClose: function(){
+			editor.setText(defaultText);
 		}});
 	},
 	
