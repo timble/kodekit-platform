@@ -400,8 +400,7 @@ var Editors = new Hash, Editor = new Class({
 
 	setText: function(text){
 		if(this.options.codemirror) {
-			var editor = this.options.cookie.get('editor') || 'tinymce';
-			if(editor == 'tinymce') return tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
+			tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
 			this.editor.codemirror.setCode(text);
 		} else {
 			tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
@@ -410,7 +409,7 @@ var Editors = new Hash, Editor = new Class({
 
 	getText: function(text){
 		if(this.options.codemirror) {
-			var editor = this.options.cookie.get('editor') || 'tinymce';
+			var editor = this.getUserSetting('editor');
 			if(editor == 'tinymce') return this.tinyMCE.getContent();
 			else return this.editor.codemirror.getCode();
 		} else {
