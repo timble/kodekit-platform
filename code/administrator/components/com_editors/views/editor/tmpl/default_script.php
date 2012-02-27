@@ -3,9 +3,11 @@
 
 <style src="media://com_editors/css/default.css" />
 
+<?= @helper('behavior.validator') ?>
+
 <? if ($options['toggle']) : ?>
-    <style src="media://com_koowa/css/form.css" />
-    <script src="media://com_koowa/js/Fx.Toggle.js" />
+    <style src="media://com_editors/css/form.css" />
+    <script src="media://com_editors/js/Fx.Toggle.js" />
 <? endif ?>
 
 <script src="media://com_editors/tinymce/tiny_mce<?= KDEBUG ? '_src.js' : '.js' ?>" />
@@ -35,6 +37,20 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 <? endif ?>
 		
 <script>
+// Support Form.Validator if present
+if(this.Form && Form.Validator) {
+	console.log('test');
+    Form.Validator.add('validate-editor', {
+    	errorMsg: function(){
+    	    return Form.Validator.getMsg('required');
+    	},
+    	test: function(element){
+    		alert('test');
+    		return Editors.get(element.id).getText().trim().length;
+    	}
+    });
+}
+
 var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options) ?>;
 
 settings.setup =  function(ed) {
