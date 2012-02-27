@@ -38,19 +38,11 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 		
 <script>
 (function(){
-// Support Form.Validator if present
-if(this.Form && Form.Validator) {
-    Form.Validator.add('validate-editor', {
-    	errorMsg: function(){
-    	    return Form.Validator.getMsg('required');
-    	},
-    	test: function(element){
-    		return !!Editors.get(element.id).getText().trim().length;
-    	}
-    });
-}
-
 var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options) ?>;
+
+options.onDirty = function(){
+	console.log('editor is dirty!');
+};
 
 settings.setup =  function(ed) {
 	ed.onBeforeRenderUI.add(function(ed) {
