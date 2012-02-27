@@ -15,34 +15,33 @@
  * Koowa plugins can handle a number of events that are dynamically generated. The following 
  * is a list of available events. This list is not meant to be exclusive.
  * 
- * onControllerBefore[Action]
- * onControllerAfter[Action]
+ * onBeforeController[Action]
+ * onAfterController[Action]
  * where [Action] is Browse, Read, Edit, Add, Delete or any custom controller action
  * 
- * onDatabaseBefore[Action]
- * onDatabaseAfter[Action]
+ * onBeforeDatabase[Action]
+ * onAfterDatabase[Action]
  * where [Action] is Select, Insert, Update or Delete
  * 
  * You can create your own Koowa plugins very easily :
  * 
  * <code>
  * <?php
- *  class plgKoowaFoo extends plgKoowaDefault
+ * class PlgKoowaFoo extends PlgKoowaDefault
  * {
- * 		public function onControllerBeforeBrowse(KCommandcontext $context)
+ * 		public function onBeforeControllerBrowse(KEvent $event)
  * 		{
  * 			//The caller is a reference to the object that is triggering this event
- * 			$caller = $context->caller;
+ * 			$caller = $event->caller;
  * 
  * 			//The result is the actual result of the event, if this is an after event 
  * 			//the result will contain the result of the action.
- * 			$result = $context->result;
+ * 			$result = $event->result;
  * 
- * 			//The context object can also contain a number of custom properties
- *          print_r($context);
+ * 			//The event object can also contain a number of custom properties
+ *          print_r($event);
  * 		}	
- * }	
-}
+ * }
  * </code>
  *
  * @author		Johan Janssens <johan@nooku.org>
