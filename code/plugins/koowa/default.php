@@ -51,32 +51,32 @@
  * @subpackage  Koowa
  */
 abstract class PlgKoowaDefault extends KEventListener
-{   
-   /**
+{
+	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
 	 * @var	A JRegistry object
 	 */
 	protected $_params	= null;
 
-    /**
-     * The name of the plugin
-     *
-     * @var     string
-     */
-    protected $_name = null;
+	/**
+	 * The name of the plugin
+	 *
+	 * @var		string
+	 */
+	protected $_name = null;
 
-    /**
-     * The plugin type
-     *
-     * @var     string
-     */
-    protected $_type = null;
-    
-    /**
-     * Constructor
-     */
-function __construct($dispatcher, $config = array())
+	/**
+	 * The plugin type
+	 *
+	 * @var		string
+	 */
+	protected $_type = null;
+	
+	/**
+	 * Constructor
+	 */
+	function __construct($dispatcher, $config = array())
 	{
 		if (isset($config['params']))
 		{
@@ -96,28 +96,31 @@ function __construct($dispatcher, $config = array())
 			$this->_type = $config['type'];
 		}
 		
-		//Force the identifier to NULL for now
-		$config['identifier'] = null;
+		//Inject the identifier
+		$config['service_identifier'] = KService::getIdentifier('plg:koowa.'.$this->_name);
 		
-		//Set the dispatcher
+		//Inject the service container
+		$config['service_container'] = KService::getInstance();
+		
+		//Inject the dispatcher
 		$config['dispatcher'] = $dispatcher;
 
 		parent::__construct(new KConfig($config));
 	}
-    
-    /**
-     * Loads the plugin language file
-     *
-     * @param   string  $extension  The extension for which a language file should be loaded
-     * @param   string  $basePath   The basepath to use
-     * @return  boolean True, if the file has successfully loaded.
-     */
-    public function loadLanguage($extension = '', $basePath = JPATH_BASE)
-    {
-        if(empty($extension)) {
-            $extension = 'plg_'.$this->_type.'_'.$this->_name;
-        }
+	
+	/**
+	 * Loads the plugin language file
+	 *
+	 * @param	string 	$extension 	The extension for which a language file should be loaded
+	 * @param	string 	$basePath  	The basepath to use
+	 * @return	boolean	True, if the file has successfully loaded.
+	 */
+	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	{
+		if(empty($extension)) {
+			$extension = 'plg_'.$this->_type.'_'.$this->_name;
+		}
 
-        return JFactory::getLanguage()->load( strtolower($extension), $basePath);
-    }
+		return JFactory::getLanguage()->load( strtolower($extension), $basePath);
+	}
 }
