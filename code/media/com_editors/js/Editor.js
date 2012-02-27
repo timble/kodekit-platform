@@ -660,7 +660,12 @@ var Editors = new Hash, Editor = new Class({
 	},
 	
 	initializeToggle: function(){
-		this.toggler = new Fx.Toggle(this.editor, {wrap: this.wrap});
+		var editor = this;
+		this.toggler = new Fx.Toggle(this.editor, {wrap: this.wrap, onOK: function(){
+			console.warn(editor);
+			this.preview.getElement('strong').set('html', editor.getText());
+			console.log(editor.getText());
+		}});
 	},
 	
 	toggle: function(){
