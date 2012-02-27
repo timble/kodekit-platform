@@ -675,6 +675,8 @@ var Editors = new Hash, Editor = new Class({
 		var editor = this, defaultText = this.editor.get('text');
 		this.toggler = new Fx.Toggle(this.editor, {wrap: this.wrap, onOK: function(){
 			this.preview.getElement('.toggle-preview').set('html', editor.getText());
+			//Set the text for tinyMCE as well if CodeMirror is active
+			editor.setText(editor.getText());
 		}, onClose: function(){
 			editor.setText(defaultText);
 		}});
