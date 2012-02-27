@@ -99,6 +99,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'codemirror' => (bool) $this->_editors,
 			'toggle' => $this->toggle
 		);
+
+		$this->_settings->editor_selector = 'editable-'.$this->name;
 		
 		$this->assign('options' , $options);
 		$this->assign('settings', KConfig::unbox($this->_settings));

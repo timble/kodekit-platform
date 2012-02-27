@@ -37,6 +37,7 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 <? endif ?>
 		
 <script>
+(function(){
 // Support Form.Validator if present
 if(this.Form && Form.Validator) {
     Form.Validator.add('validate-editor', {
@@ -59,6 +60,7 @@ settings.setup =  function(ed) {
 }
 
 tinyMCE.init(settings);
+})();
 </script>
 
 <? if($editors) : ?>
