@@ -117,13 +117,13 @@ var Editors = new Hash, Editor = new Class({
 	},
 	
 	initialize: function(editor, options){
-	
+
 		//If return editor instance if found
 		if(Editors.has(editor)) return Editors.get(editor);
 		
 		//Stores the id so the getters works
 		this.identifier = editor;
-		
+
 		//Function to be called when getting tinyMCE using this.tinyMCE
 		this.__defineGetter__('tinyMCE', function(){
 			return tinyMCE.get(this.identifier);
@@ -141,7 +141,7 @@ var Editors = new Hash, Editor = new Class({
 				new Element('div', {'class': 'editor-container'})
 					.adopt([
 						//@TODO remove the id in the future
-						new Element('div', {'id': 'quicktags', 'class': 'quicktags'})
+						new Element('div', {'class': 'quicktags'})
 							.adopt(this.createQuicktags()),
 						this.editor
 					]),
@@ -263,7 +263,7 @@ var Editors = new Hash, Editor = new Class({
 			if ( typeof tinyMCE != 'object' ) {
 				this.go(this.editor.getProperty('id'), 'html');
 			} else {
-				$('quicktags').hide();
+				this.wrap.getElement('.quicktags').hide();
 			}
 		}
 		
@@ -481,7 +481,7 @@ var Editors = new Hash, Editor = new Class({
 	go : function(mode) {
 		mode = mode || this.mode || '';
 
-		var ed, qt = $('quicktags'), H = $('edButtonHTML'), P = $('edButtonPreview'), ta = this.editor;
+		var ed, qt = this.wrap.getElement('.quicktags'), H = $('edButtonHTML'), P = $('edButtonPreview'), ta = this.editor;
 
 		try { ed = tinyMCE.get(this.editor.getProperty('id')); }
 		catch(e) { ed = false; }
