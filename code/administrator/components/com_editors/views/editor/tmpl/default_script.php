@@ -39,14 +39,12 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 <script>
 // Support Form.Validator if present
 if(this.Form && Form.Validator) {
-	console.log('test');
     Form.Validator.add('validate-editor', {
     	errorMsg: function(){
     	    return Form.Validator.getMsg('required');
     	},
     	test: function(element){
-    		alert('test');
-    		return Editors.get(element.id).getText().trim().length;
+    		return !!Editors.get(element.id).getText().trim().length;
     	}
     });
 }
