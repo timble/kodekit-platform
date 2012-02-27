@@ -1,0 +1,60 @@
+/* @group Togglers */
+fieldset[class*=toggle-] {
+	min-width: 212px;
+	overflow: hidden;
+	/*-webkit-transition: all 10s ease-in;*/
+}
+
+fieldset.toggle-closed {
+	display: none;
+/*	height: 0;
+	
+	border-color: transparent;
+	border-width: 0;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-bottom: 0;
+	padding-top: 0;*/
+}
+
+.preview .toggle {
+	margin-left: 0.2em;
+	opacity: 1;
+	-webkit-transition: opacity 300ms ease-in;
+}
+
+.preview.toggle-open {
+	display: none;
+}
+/*.preview.toggle-open .toggle {
+	opacity: 0;
+	-webkit-transition: opacity 300ms ease-out;
+}*/
+
+fieldset.toggle-open {
+	
+}
+
+fieldset.toggle-open a {
+	position: relative;
+}
+
+fieldset.toggle-open input, fieldset.toggle-open select, fieldset.toggle-open a {
+	display: inline-block;
+	float: none;
+}
+
+.toggle-select fieldset[class*=toggle-]:not(.toggle-closed) {
+	display: inline-block;
+	min-width: inherit;
+}
+.toggle-select .toggle-controls {
+	display: inline-block;
+}
+
+
+:invalid {
+	border-color: red;
+	color: red;
+}
+/* @end */
