@@ -274,13 +274,16 @@ var Editors = new Hash, Editor = new Class({
 		$(editor).fireEvent('onEditorInit', this);
 
 		//Optional form validation support
+		/*
 		if(this.editor.form && window.Form && Form.Validator) {
 			this.editor.form.addEvent('validate', function(){
 				if(!Editors.get(editor).getText().trim().length) {
+					this.editor.form.fireEvent();
 					return false;
 				}
 			});
 		}
+		//*/
 	},
 	
 	/*get tinyMCE() {
