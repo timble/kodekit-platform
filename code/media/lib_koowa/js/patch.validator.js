@@ -20,6 +20,9 @@ if(!Koowa) var Koowa = {};
         Extends: Form.Validator.Inline,
         
         options: {
+        	//Needed to make the TinyMCE editor validation function properly
+        	ignoreHidden: false,
+        	
             onShowAdvice: function(input, advice) {
                 advice.addEvent('click', function(){
                     input.focus();
