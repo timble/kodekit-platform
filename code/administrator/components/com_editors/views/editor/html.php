@@ -9,14 +9,14 @@
 
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 {
-    protected $_settings;
+    protected $_editor_settings;
     
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
         
-        if ($config->settings) {
-            $this->_settings = $config->settings;
+        if ($config->editor_settings) {
+            $this->_editor_settings = $config->editor_settings;
         }
 
         if (isset($config->codemirror)) {
@@ -83,7 +83,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			//Load CodeMirror in addition to TinyMCE
 			'codemirror'   => true,
 
-			'settings' => $settings
+			'editor_settings' => $settings
 		));
 		
 		parent::_initialize($config);
@@ -100,12 +100,26 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'toggle' => $this->toggle
 		);
 
-		$this->_settings->editor_selector = 'editable-'.$this->name;
+		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->name));
 		
 		$this->assign('options' , $options);
-		$this->assign('settings', KConfig::unbox($this->_settings));
+		$this->assign('settings', $this->getEditorSettings());
 		$this->assign('editors', $this->codemirror);
 
 		return parent::display();
+	}
+	
+    public function getEditorSettings()
+	{
+	    return KConfig::unbox($this->_editor_settings);
+	}
+	
+	public function setEditorSettings(array $settings = array())
+	{
+	    foreach($settings as $key => $value) {
+	        $this->_editor_settings->$key = $value;
+	    }
+	    
+	    return $this;
 	}
 }
