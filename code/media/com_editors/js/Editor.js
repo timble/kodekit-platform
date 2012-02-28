@@ -692,6 +692,52 @@ var Editors = new Hash, Editor = new Class({
 });
 
 
+/* @TODO legacy being converted */
+var edButtons = new Array(),
+    edLinks = new Array(),
+    edOpenTags = new Array(),
+    now = new Date(),
+    datetime;
+
+function edAddTag(button) {
+    if (edButtons[button].tagEnd != '') {
+        edOpenTags[edOpenTags.length] = button;
+        document.getElementById(edButtons[button].id).value = '/' + document.getElementById(edButtons[button].id).value;
+    }
+}
+
+function edRemoveTag(button) {
+    for (var i = 0; i < edOpenTags.length; i++) {
+        if (edOpenTags[i] == button) {
+            edOpenTags.splice(i, 1);
+            document.getElementById(edButtons[button].id).value = document.getElementById(edButtons[button].id).value.replace('/', '');
+        }
+    }
+}
+
+function edCheckOpenTags(button) {
+    var tag = 0,
+        i;
+    for (i = 0; i < edOpenTags.length; i++) {
+        if (edOpenTags[i] == button) {
+            tag++;
+        }
+    }
+    if (tag > 0) {
+        return true; // tag found
+    }
+    else {
+        return false; // tag not found
+    }
+}
+function edCloseAllTags() {
+    var count = edOpenTags.length,
+        o;
+    for (o = 0; o < count; o++) {
+        edInsertTag(edCanvas, edOpenTags[edOpenTags.length - 1]);
+    }
+}
+
 
 /*
 ---
