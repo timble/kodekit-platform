@@ -256,14 +256,14 @@
 }
 
 /* Extra */
-#edButtonPreview, #edButtonHTML {
+.editor-toolbar a {
 background-color: #F1F1F1;
 border-color: #DFDFDF;
 border-top-color: #CCC;
 color: #999;
 }
 
-#edButtonPreview, #edButtonHTML {
+.editor-toolbar a {
 border-style: solid;
 border-width: 1px;
 border-radius: 0 0 3px 3px;
@@ -273,7 +273,7 @@ padding: 4px;
 z-index: 0;
 }
 
-.editor-toolbar .active, #edButtonPreview.active, #edButtonHTML.active {
+.editor-toolbar .active {
 background-color: #DFDFDF;
 border-color: #CCC;
 color: #333;
