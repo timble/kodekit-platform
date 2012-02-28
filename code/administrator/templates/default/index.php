@@ -6,8 +6,7 @@
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-<link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" media="screen and (min-width:1025px)" />
-<link href="templates/tablet/css/960_fluid.css" rel="stylesheet" type="text/css" media="screen and (max-width: 1024px)" />
+<link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/chromatable.js"></script>
 
