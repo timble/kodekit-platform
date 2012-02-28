@@ -9,7 +9,6 @@
 <? endif ?>
 
 <script src="media://com_editors/tinymce/tiny_mce<?= KDEBUG ? '_src.js' : '.js' ?>" />
-<script src="media://com_editors/tinymce/themes/advanced/js/quicktags.js" />
 <script src="media://com_editors/tinymce/themes/advanced/js/editor.js" />
 <script src="media://com_editors/js/Editor.js" />
 
@@ -58,10 +57,6 @@ tinyMCE.init(settings);
 </script>
 
 <? if($editors) : ?>
-<script>
-edCanvas = document.getElementById("<?= $name ?>");
-</script>
-
 <script>
 CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
 	stylesheet: [
