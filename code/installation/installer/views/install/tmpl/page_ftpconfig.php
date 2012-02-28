@@ -84,10 +84,10 @@
 		<div class="container_16 clearfix">
 			<div class="grid_16">
 				<h2><?php echo JText::_('FTP Configuration') ?>:</h2>
-				<div class="grid_6 install-text">
+				<div class="grid_6 alpha install-text">
 					<?php echo JText::_('tipFtpConfSteps') ?>
 				</div>
-				<div class="grid_10 install-body">
+				<div class="grid_10 omega install-body">
 					<fieldset>
 						<h3 class="title-smenu" title="<?php echo JText::_('Basic') ?>"><?php echo JText::_('Basic Settings') ?></h3>
 						<div class="section-smenu">
