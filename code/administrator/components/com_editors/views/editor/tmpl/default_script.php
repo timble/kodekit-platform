@@ -3,8 +3,6 @@
 
 <style src="media://com_editors/css/default.css" />
 
-<?= @helper('behavior.validator') ?>
-
 <? if ($options['toggle']) : ?>
     <style src="media://com_editors/css/form.css" />
     <script src="media://com_editors/js/Fx.Toggle.js" />
