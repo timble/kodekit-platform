@@ -38,7 +38,7 @@ defined('KOOWA') or die('Restricted access') ?>
             <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
         </div>
 
-        <?= @editor(array(
+        <?/*= @editor(array(
                 'name' => 'text',
                 'text' => $article->text,
                 'width' => '100%',
@@ -47,7 +47,8 @@ defined('KOOWA') or die('Restricted access') ?>
                 'rows' => '20',
                 'buttons' => true,
                 'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
-        ?>
+        //*/?>
+        <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display() ?>
     </div>
     <div id="panels" class="grid_4">
         <div class="panel">
