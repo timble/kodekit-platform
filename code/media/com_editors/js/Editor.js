@@ -150,9 +150,7 @@ var Editors = new Hash, Editor = new Class({
 						new Element('div', {'class': 'editor-switch'})
 							.adopt([
 								new Element('a', {
-									'id': 'edButtonHTML',
-									'class': 'hide-if-no-js',
-									'name': 'edButtonHTML',
+									'class': 'editor-mode-html',
 									'events': {
 										'click': function(){
 											this.go('html');
@@ -160,9 +158,7 @@ var Editors = new Hash, Editor = new Class({
 									}
 								}).set('text', this.options.lang.html),
 								new Element('a', {
-									'id': 'edButtonPreview',
-									'class': 'active hide-if-no-js',
-									'name': 'edButtonPreview',
+									'class': 'active editor-mode-tinymce',
 									'events': {
 										'click': function(){
 											this.go('tinymce');
@@ -481,7 +477,7 @@ var Editors = new Hash, Editor = new Class({
 	go : function(mode) {
 		mode = mode || this.mode || '';
 
-		var ed, qt = this.wrap.getElement('.quicktags'), H = $('edButtonHTML'), P = $('edButtonPreview'), ta = this.editor;
+		var ed, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce'), ta = this.editor;
 
 		try { ed = tinyMCE.get(this.editor.getProperty('id')); }
 		catch(e) { ed = false; }
@@ -494,8 +490,8 @@ var Editors = new Hash, Editor = new Class({
 			this.setUserSetting( 'editor', 'tinymce' );
 			this.options.cookie.set('mode', 'html');
 
-			P.className = 'active';
-			H.className = '';
+			P.addClass('active');
+			H.removeClass('active');
 			edCloseAllTags(); // :-(
 
 
@@ -526,8 +522,8 @@ var Editors = new Hash, Editor = new Class({
 			this.setUserSetting( 'editor', 'html' );
 			ta.style.color = '#000';
 			this.options.cookie.set('mode', 'tinymce');
-			H.className = 'active';
-			P.className = '';
+			H.addClass('active');
+			P.removeClass('active');
 
 			
 			
