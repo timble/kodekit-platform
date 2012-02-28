@@ -9,7 +9,7 @@
 
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 {
-    protected $_settings, $_editors;
+    protected $_settings;
     
     public function __construct(KConfig $config)
     {
@@ -19,8 +19,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
             $this->_settings = $config->settings;
         }
 
-        if (isset($config->editors)) {
-            $this->_editors = $config->editors;
+        if (isset($config->codemirror)) {
+            $this->codemirror = $config->codemirror;
         }
     }
 
@@ -80,8 +80,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'layout'   => 'default',
 			//@TODO this is because KControllerResource sets this and we have no controller yet
 			'media_url' => KRequest::root().'/media',
-			//Multiple editors
-			'editors'   => true,
+			//Load CodeMirror in addition to TinyMCE
+			'codemirror'   => true,
 
 			'settings' => $settings
 		));
@@ -96,7 +96,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
 			),
-			'codemirror' => (bool) $this->_editors,
+			'codemirror' => $this->codemirror,
 			'toggle' => $this->toggle
 		);
 
@@ -104,7 +104,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->assign('options' , $options);
 		$this->assign('settings', KConfig::unbox($this->_settings));
-		$this->assign('editors', $this->_editors);
+		$this->assign('editors', $this->codemirror);
 
 		return parent::display();
 	}
