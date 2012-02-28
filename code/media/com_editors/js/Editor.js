@@ -342,6 +342,22 @@ var Editors = new Hash, Editor = new Class({
 	        this.set('text', myValue);
 	    }
 	},
+
+	edAddTag: function(button) {
+	    if (this.options.buttons[button].tagEnd != '') {
+	        edOpenTags[edOpenTags.length] = button;
+	        document.getElementById(this.options.buttons[button].id).value = '/' + document.getElementById(this.options.buttons[button].id).value;
+	    }
+	},
+
+	edRemoveTag: function(button) {
+	    for (var i = 0; i < edOpenTags.length; i++) {
+	        if (edOpenTags[i] == button) {
+	            edOpenTags.splice(i, 1);
+	            document.getElementById(this.options.buttons[button].id).value = document.getElementById(this.options.buttons[button].id).value.replace('/', '');
+	        }
+	    }
+	},
 	
 	edInsertTag: function(i) {
 	    var codemirror = this.editor.codemirror,
@@ -350,12 +366,12 @@ var Editors = new Hash, Editor = new Class({
 	    if (selection) {
 	        codemirror.replaceSelection(this.options.buttons[i].tagStart + selection + this.options.buttons[i].tagEnd);
 	    } else {
-	        if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
+	        if (!edCheckOpenTags(i) || this.options.buttons[i].tagEnd == '') {
 	            codemirror.replaceSelection(this.options.buttons[i].tagStart + selection);
-	            edAddTag(i);
+	            this.edAddTag(i);
 	        } else {
 	            codemirror.replaceSelection(this.options.buttons[i].tagEnd + selection);
-	            edRemoveTag(i);
+	            this.edRemoveTag(i);
 	        }
 	    }
 	},
@@ -693,27 +709,10 @@ var Editors = new Hash, Editor = new Class({
 
 
 /* @TODO legacy being converted */
-var edButtons = new Array(),
-    edLinks = new Array(),
+var edLinks = new Array(),
     edOpenTags = new Array(),
     now = new Date(),
     datetime;
-
-function edAddTag(button) {
-    if (edButtons[button].tagEnd != '') {
-        edOpenTags[edOpenTags.length] = button;
-        document.getElementById(edButtons[button].id).value = '/' + document.getElementById(edButtons[button].id).value;
-    }
-}
-
-function edRemoveTag(button) {
-    for (var i = 0; i < edOpenTags.length; i++) {
-        if (edOpenTags[i] == button) {
-            edOpenTags.splice(i, 1);
-            document.getElementById(edButtons[button].id).value = document.getElementById(edButtons[button].id).value.replace('/', '');
-        }
-    }
-}
 
 function edCheckOpenTags(button) {
     var tag = 0,
