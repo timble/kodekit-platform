@@ -40,14 +40,18 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 (function(){
 var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options) ?>;
 
-options.onDirty = function(){
-	console.log('editor is dirty!');
-};
-
 settings.setup =  function(ed) {
 	ed.onBeforeRenderUI.add(function(ed) {
 		//options.tinyMCE = ed;
-		new Editor(ed.id, options);
+		var editor = new Editor(ed.id, options), dirty = false;
+		ed.onChange.add(function(ed){
+			if(!dirty && ed.isDirty()) {
+				editor.fireEvent('isDirty');
+			} else if(dirty && !ed.isDirty()) {
+				editor.fireEvent('isNotDirty');
+			}
+			dirty = ed.isDirty();
+		});
 	});
 }
 
