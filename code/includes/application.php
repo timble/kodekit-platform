@@ -391,45 +391,51 @@ class JSite extends JApplication
 	 * Load the site
 	 * 
 	 * This function tries to find the site based on the url, root folder or
-	 * request. If not it falls back on the default.
+	 * request. If not found it falls back on the default.
 	 * 
 	 * @param	string	$site 	The name of the site to load
 	 * @return	void
 	 * @throws  KException 	If the site could not be found
 	 * @since	Nooku Server 0.7
 	 */
-    protected function _loadSite($default)
+    protected function _loadSite($site = null)
 	{
-	    // Check URL host
-	    $uri = clone(JURI::getInstance());
+	    if(!$site)
+	    {
+	        // Check URL host
+	        $uri = clone(JURI::getInstance());
 	   
-	    $host = $uri->getHost();
-	    if(KService::get('com://admin/sites.model.sites')->getList()->find($host)) {
-	        return parent::_loadSite($host);
-	    } 
+	        $host = $uri->getHost();
+	        if(KService::get('com://admin/sites.model.sites')->getList()->find($host)) {
+	            return parent::_loadSite($host);
+	        } 
 	    
-	    // Check folder
-	    $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
-	    $path = trim(str_replace('index.php', '', $path), '/');
+	        // Check folder
+	        $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
+	        $path = trim(str_replace('index.php', '', $path), '/');
 	        
-	    if(!empty($path)) 
-	    {
-	        $folder = array_shift(explode('/', $path));
+	        if(!empty($path)) 
+	        {
+	            $folder = array_shift(explode('/', $path));
 	            
-	        if(KService::get('com://admin/sites.model.sites')->getList()->find($folder)) {
-	            return parent::_loadSite($folder);
+	            if(KService::get('com://admin/sites.model.sites')->getList()->find($folder)) {
+	                return parent::_loadSite($folder);
+	            }
 	        }
-	    }
 	    
-	    // Check request
-	    $method = strtolower(KRequest::method());
+	        // Check request
+	        $method = strtolower(KRequest::method());
 	     
-	    if(KRequest::has($method.'.site')) 
-	    {
-	        $request = KRequest::get($method.'.site', 'cmd');
-	        return parent::_loadSite($site); ;
+	        if(KRequest::has($method.'.site')) 
+	        {
+	            $request = KRequest::get($method.'.site', 'cmd');
+	            return parent::_loadSite($request);
+	        }
+	        
+	        //Revert to default
+	        return parent::_loadSite('default');
 	    }
 	    
-	    parent::_loadSite($default);
+	    parent::_loadSite($site);
 	}
 }
