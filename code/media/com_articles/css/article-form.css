@@ -52,10 +52,10 @@
 	float: none !important;
 }
 
-#text_parent,
-#text_tbl,
-#text_tbl tbody,
-#text_tbl tbody tr td.mceIframeContainer,
+.mceEditor,
+.mceLayout,
+.mceLayout tbody,
+.mceLayout tbody tr td.mceIframeContainer,
 .CodeMirror-wrapping { 
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -86,7 +86,7 @@
 	box-flex: 1;
 }
 
-#text_tbl tbody tr 	{ 
+.mceLayout tbody tr 	{ 
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	
@@ -96,8 +96,8 @@
 	display: box;
 	box-orient: vertical;
 }
-#text_tbl tbody tr:nth-of-type(2),
-#text_tbl tbody tr td.mceIframeContainer #text_ifr { 
+.mceLayout tbody tr:nth-of-type(2),
+.mceLayout tbody tr td.mceIframeContainer iframe { 
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
 	box-flex: 1;
