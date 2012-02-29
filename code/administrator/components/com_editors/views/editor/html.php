@@ -109,7 +109,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->assign('options' , $options);
 		$this->assign('settings', $this->getEditorSettings());
-		$this->assign('editors', $this->codemirror);
+		$this->assign('codemirror', $this->codemirror);
 
 		return parent::display();
 	}

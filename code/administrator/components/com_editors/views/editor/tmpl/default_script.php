@@ -12,7 +12,7 @@
 <script src="media://com_editors/tinymce/themes/advanced/js/editor.js" />
 <script src="media://com_editors/js/Editor.js" />
 
-<? if($editors) : ?>
+<? if($codemirror) : ?>
 <script src="media://com_editors/codemirror/js/codemirror.js" />
 
 <script>	
@@ -31,6 +31,17 @@ var quicktagsL10n =
 
 try { convertEntities(quicktagsL10n);} catch(e) { };
 </script>
+
+<script>
+CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
+	stylesheet: [
+	  	'media://com_editors/codemirror/css/xmlcolors.css', 
+	  	'media://com_editors/codemirror/css/jscolors.css', 
+	  	'media://com_editors/codemirror/css/csscolors.css'
+	],
+	path: 'media://com_editors/codemirror/js/'
+});
+</script>
 <? endif ?>
 		
 <script>
@@ -39,7 +50,6 @@ var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options
 
 settings.setup =  function(ed) {
 	ed.onBeforeRenderUI.add(function(ed) {
-		//options.tinyMCE = ed;
 		var editor = new Editor(ed.id, options), dirty = false;
 		ed.onChange.add(function(ed){
 			if(!dirty && ed.isDirty()) {
@@ -55,16 +65,3 @@ settings.setup =  function(ed) {
 tinyMCE.init(settings);
 })();
 </script>
-
-<? if($editors) : ?>
-<script>
-CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
-	stylesheet: [
-	  	'media://com_editors/codemirror/css/xmlcolors.css', 
-	  	'media://com_editors/codemirror/css/jscolors.css', 
-	  	'media://com_editors/codemirror/css/csscolors.css'
-	],
-	path: 'media://com_editors/codemirror/js/'
-});
-</script>
-<? endif ?>
