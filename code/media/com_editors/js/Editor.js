@@ -516,7 +516,7 @@ var Editors = new Hash, Editor = new Class({
 
 			ta.style.color = '#FFF';
 			//ta.value = this.wpautop(ta.value);
-			if(this.editor.codemirror) ta.value = this.wpautop(this.editor.codemirror.getCode());
+			if(this.editor.codemirror) ta.value = this.editor.codemirror.getCode();
 
 			try {
 				if ( ed )
