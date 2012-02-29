@@ -2,4 +2,4 @@
 
 <?= @template('default_script') ?>
 
-<textarea id="<?= $name ?>" name="<?= $name ?>" cols="75" rows"25" class="editable-<?= $name ?> validate-editor"><?= $data ?></textarea>
+<textarea id="<?= $id ?>" name="<?= $name ?>" cols="75" rows"25" class="editable-<?= $name ?> validate-editor"><?= $data ?></textarea>
