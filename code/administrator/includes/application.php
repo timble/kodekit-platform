@@ -279,9 +279,9 @@ class JAdministrator extends JApplication
 	        } 
 	        
 	        //Use session or revert to default
-	        parent::_loadSite(JFactory::getSession()->get('site', 'default'));
+	        return parent::_loadSite(JFactory::getSession()->get('site', 'default'));
 	    }
 
-	    parent::_loadSite($site);
+	    return parent::_loadSite($site);
 	}
 }
