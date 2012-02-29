@@ -299,8 +299,8 @@ var Editors = new Hash, Editor = new Class({
 				title: 'Close all open tags',
 				events: {
 					click: function(){
-						//edCloseAllTags();
-					}
+						this.edCloseAllTags();
+					}.bind(this)
 				}
 			}));
 
@@ -345,15 +345,15 @@ var Editors = new Hash, Editor = new Class({
 
 	edAddTag: function(button) {
 	    if (this.options.buttons[button].tagEnd != '') {
-	        edOpenTags[edOpenTags.length] = button;
+	        this.edOpenTags[this.edOpenTags.length] = button;
 	        document.getElementById(this.options.buttons[button].id).value = '/' + document.getElementById(this.options.buttons[button].id).value;
 	    }
 	},
 
 	edRemoveTag: function(button) {
-	    for (var i = 0; i < edOpenTags.length; i++) {
-	        if (edOpenTags[i] == button) {
-	            edOpenTags.splice(i, 1);
+	    for (var i = 0; i < this.edOpenTags.length; i++) {
+	        if (this.edOpenTags[i] == button) {
+	            this.edOpenTags.splice(i, 1);
 	            document.getElementById(this.options.buttons[button].id).value = document.getElementById(this.options.buttons[button].id).value.replace('/', '');
 	        }
 	    }
@@ -366,7 +366,7 @@ var Editors = new Hash, Editor = new Class({
 	    if (selection) {
 	        codemirror.replaceSelection(this.options.buttons[i].tagStart + selection + this.options.buttons[i].tagEnd);
 	    } else {
-	        if (!edCheckOpenTags(i) || this.options.buttons[i].tagEnd == '') {
+	        if (!this.edCheckOpenTags(i) || this.options.buttons[i].tagEnd == '') {
 	            codemirror.replaceSelection(this.options.buttons[i].tagStart + selection);
 	            this.edAddTag(i);
 	        } else {
@@ -380,7 +380,7 @@ var Editors = new Hash, Editor = new Class({
 	    if (!defaultValue) {
 	        defaultValue = 'http://';
 	    }
-	    if (!edCheckOpenTags(i)) {
+	    if (!this.edCheckOpenTags(i)) {
 	        var URL = prompt(quicktagsL10n.enterURL, defaultValue);
 	        if (URL) {
 	            this.options.buttons[i].tagStart = '<a href="' + URL + '">';
@@ -389,6 +389,32 @@ var Editors = new Hash, Editor = new Class({
 	    }
 	    else {
 	        this.edInsertTag(i);
+	    }
+	},
+
+	edOpenTags: [],
+
+	edCloseAllTags: function() {
+	    var count = this.edOpenTags.length,
+	        o;
+	    for (o = 0; o < count; o++) {
+	        this.edInsertTag(this.edOpenTags[this.edOpenTags.length - 1]);
+	    }
+	},
+
+	edCheckOpenTags: function(button) {
+	    var tag = 0,
+	        i;
+	    for (i = 0; i < this.edOpenTags.length; i++) {
+	        if (this.edOpenTags[i] == button) {
+	            tag++;
+	        }
+	    }
+	    if (tag > 0) {
+	        return true; // tag found
+	    }
+	    else {
+	        return false; // tag not found
 	    }
 	},
 	
@@ -515,7 +541,6 @@ var Editors = new Hash, Editor = new Class({
 			qt.hide();
 
 			ta.style.color = '#FFF';
-			//ta.value = this.wpautop(ta.value);
 			if(this.editor.codemirror) ta.value = this.editor.codemirror.getCode();
 
 			try {
@@ -642,35 +667,6 @@ var Editors = new Hash, Editor = new Class({
 	}
 });
 
-
-/* @TODO legacy being converted */
-var edLinks = new Array(),
-    edOpenTags = new Array(),
-    now = new Date(),
-    datetime;
-
-function edCheckOpenTags(button) {
-    var tag = 0,
-        i;
-    for (i = 0; i < edOpenTags.length; i++) {
-        if (edOpenTags[i] == button) {
-            tag++;
-        }
-    }
-    if (tag > 0) {
-        return true; // tag found
-    }
-    else {
-        return false; // tag not found
-    }
-}
-function edCloseAllTags() {
-    var count = edOpenTags.length,
-        o;
-    for (o = 0; o < count; o++) {
-        edInsertTag(edCanvas, edOpenTags[edOpenTags.length - 1]);
-    }
-}
 
 
 /*
