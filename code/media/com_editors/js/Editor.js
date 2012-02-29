@@ -534,7 +534,7 @@ var Editors = new Hash, Editor = new Class({
 
 			P.addClass('active');
 			H.removeClass('active');
-			edCloseAllTags(); // :-(
+			this.edCloseAllTags();
 
 
 			//@TODO destroy codemirror instance here, or hide it
