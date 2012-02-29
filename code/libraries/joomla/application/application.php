@@ -120,9 +120,8 @@ class JApplication extends JObject
 		//create the site
 		if(isset($config['multisite']) && $config['multisite'] == true)
 		{
-	        //Set the session default name
 		    if(!isset($config['site'])) {
-			    $config['site'] = 'default';
+			    $config['site'] = null;
 		    }
 
 		    $this->_loadSite($config['site']);
