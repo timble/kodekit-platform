@@ -111,7 +111,9 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
                         }
 
                         $log['row'] = $row->id;
-
+                        
+                        $log['ip'] = KRequest::get('server.REMOTE_ADDR', 'raw');
+                        
                         $this->getService('com://admin/activities.database.row.activity', array('data' => $log))->save();
                     }
                 }

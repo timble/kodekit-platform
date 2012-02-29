@@ -34,7 +34,8 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 			->insert('distinct'    , 'boolean', false)
 			->insert('column'      , 'cmd')
 			->insert('start_date'  , 'date')
-			->insert('days_back'   , 'int', 14);
+			->insert('days_back'   , 'int', 14)
+			->insert('ip'		   , 'ip');
 
 		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
 
@@ -98,6 +99,10 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 
 		if ($this->_state->user) {
 			$query->where('tbl.created_by', '=', $this->_state->user);
+		}
+		
+		if ($ip = $this->_state->ip) {
+			$query->where('tbl.ip', 'IN', $ip); 
 		}
 	}
 
