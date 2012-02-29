@@ -37,7 +37,8 @@ CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
 	stylesheet: [
 	  	'media://com_editors/codemirror/css/xmlcolors.css', 
 	  	'media://com_editors/codemirror/css/jscolors.css', 
-	  	'media://com_editors/codemirror/css/csscolors.css'
+	  	'media://com_editors/codemirror/css/csscolors.css',
+	  	'media://com_editors/css/codemirror.css'
 	],
 	path: 'media://com_editors/codemirror/js/'
 });
