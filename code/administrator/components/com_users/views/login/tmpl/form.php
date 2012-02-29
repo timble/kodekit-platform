@@ -31,10 +31,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <label for="password"><?= @text('Password') ?></label><br />
         <input name="password" type="password" id="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
     </p>
+    <? if(JFactory::getApplication()->getSite() == 'default') : ?>
     <p id="form-login-site">
      	<label for="modlgn_site"><?php echo JText::_('Site'); ?></label><br />
         <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
   	</p>
+  	<? endif ?>
     <? if($error = JError::getError(true)) : ?>
         <p id="login-error-message"><?= $error->get('message') ?></p>
     <? endif ?>
