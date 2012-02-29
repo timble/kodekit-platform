@@ -649,6 +649,9 @@ var Editors = new Hash, Editor = new Class({
 			this.preview.getElement('.toggle-preview').set('html', editor.getText());
 			//Set the text for tinyMCE as well if CodeMirror is active
 			editor.setText(editor.getText());
+
+			//Make this configurable later
+			editor.editor.form.submit();
 		}, onClose: function(){
 			editor.setText(defaultText);
 		}});
