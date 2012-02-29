@@ -436,6 +436,6 @@ class JSite extends JApplication
 	        return parent::_loadSite('default');
 	    }
 	    
-	    parent::_loadSite($site);
+	    return parent::_loadSite($site);
 	}
 }
