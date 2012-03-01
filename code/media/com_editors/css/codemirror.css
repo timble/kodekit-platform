@@ -35,24 +35,6 @@
 }
 
 /* @end */
-/* @group scroll */
-
-html {
-    overflow: auto;
-    height: 100%;
-    -webkit-font-smoothing: antialiased;
-}
-body {
-	bottom: 0px;
-	left: 0px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	position: absolute;
-	right: 10px;
-	top: 0px;
-}
-
-/* @end */
 
 /* Removing ugly margin */
 .editbox {
