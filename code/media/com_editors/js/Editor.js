@@ -115,6 +115,10 @@ var Editors = new Hash, Editor = new Class({
 		    "open": -1
 		}]
 	},
+
+	//Used for checking isDirty state
+	startContent: '',
+
 	
 	initialize: function(editor, options, settings){
 
@@ -147,11 +151,15 @@ var Editors = new Hash, Editor = new Class({
 					ed.onChange.add(function(ed){
 						if(!dirty && ed.isDirty()) {
 							editor.fireEvent('isDirty');
-						} else if(dirty && !ed.isDirty()) {
+						} else if(dirty && ed.getContent() === self.startContent) {
 							editor.fireEvent('isNotDirty');
+							ed.isNotDirty = 1;
 						}
 						dirty = ed.isDirty();
 					});
+				});
+				ed.onInit.add(function(ed){
+					self.startContent = ed.getContent();
 				});
 			}
 
