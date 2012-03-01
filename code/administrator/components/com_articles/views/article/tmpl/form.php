@@ -31,11 +31,9 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
-    <div id="main" class="grid_8">
-        <div class="panel title clearfix">
+    <div id="main">
+        <div class="title clearfix">
             <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
-            <label for="slug"><?= @text('Slug') ?></label>
-            <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
         </div>
 
         <?/*= @editor(array(
@@ -84,6 +82,14 @@ defined('KOOWA') or die('Restricted access') ?>
                     </td>
                     <td class="paramlist_value">
                         <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="paramlist_key">
+                        <label for="slug"><?= @text('Slug') ?></label>
+                    </td>
+                    <td>
+                       <input class="inputbox" type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
                     </td>
                 </tr>
             </table>

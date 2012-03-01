@@ -10,9 +10,6 @@
 #main {
 	float: none !important;
 	
-	padding-top: 14px;
-	padding-bottom: 14px;
-	
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-box-align: stretch;
