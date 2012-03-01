@@ -100,13 +100,13 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'toggle' => $this->toggle
 		);
 
-		
+
 		//@TODO cleanup
 		if(!$this->id) $this->id = $this->name;
 
 
-		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->name));
-		
+		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
+
 		$this->assign('options' , $options);
 		$this->assign('settings', $this->getEditorSettings());
 		$this->assign('codemirror', $this->codemirror);
