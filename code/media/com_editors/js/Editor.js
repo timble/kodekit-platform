@@ -147,19 +147,21 @@ var Editors = new Hash, Editor = new Class({
 			var self = this;
 			settings.setup =  function(ed) {
 				ed.onBeforeRenderUI.add(function(ed) {
-					var editor = self.create.call(self, ed.id, options), dirty = false;
-					ed.onChange.add(function(ed){
+					var editor = self.create.call(self, ed.id, options), dirty = false, isDirty = function(ed){
 						if(!dirty && ed.isDirty()) {
 							editor.fireEvent('isDirty');
-						} else if(dirty && ed.getContent() === self.startContent) {
+							dirty = true;
+						} else if(dirty && ed.getContent({format : 'raw', no_events : 1}).length === self.startContent.length && ed.getContent({format : 'raw', no_events : 1}) === self.startContent) {
 							editor.fireEvent('isNotDirty');
-							ed.isNotDirty = 1;
+							dirty = false;
 						}
-						dirty = ed.isDirty();
-					});
+					};
+					ed.onChange.add(isDirty);
+					ed.onKeyUp.add(isDirty);
 				});
+				//TinyMCE often performs formatting on the content on init, so need to make sure that's set as the default value
 				ed.onInit.add(function(ed){
-					self.startContent = ed.getContent();
+					self.startContent = ed.getContent({format : 'raw', no_events : 1});
 				});
 			}
 
