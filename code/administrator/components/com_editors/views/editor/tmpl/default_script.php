@@ -45,24 +45,4 @@ CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
 </script>
 <? endif ?>
 		
-<script>
-(function(){
-var settings = <?= json_encode($settings) ?>, options = <?= json_encode($options) ?>;
-
-settings.setup =  function(ed) {
-	ed.onBeforeRenderUI.add(function(ed) {
-		var editor = new Editor(ed.id, options), dirty = false;
-		ed.onChange.add(function(ed){
-			if(!dirty && ed.isDirty()) {
-				editor.fireEvent('isDirty');
-			} else if(dirty && !ed.isDirty()) {
-				editor.fireEvent('isNotDirty');
-			}
-			dirty = ed.isDirty();
-		});
-	});
-}
-
-tinyMCE.init(settings);
-})();
-</script>
+<script>new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);</script>
