@@ -150,10 +150,10 @@ var Editors = new Hash, Editor = new Class({
 					var editor = self.create.call(self, ed.id, options), dirty = false, isDirty = function(ed){
 						var startContent = self.startContent, edContent = ed.getContent({format : 'raw', no_events : 1});
 
-						if(!dirty && ed.isDirty() && !(startContent == '<p><br _mce_bogus="1"></p>' && !ed.getContent())) {
+						if(!dirty && ed.isDirty() && ed.getContent()) {
 							editor.fireEvent('isDirty');
 							dirty = true;
-						} else if(dirty && ( (edContent === startContent) || (startContent == '<p><br _mce_bogus="1"></p>' && !ed.getContent()) )) {
+						} else if(dirty && (edContent === startContent || !ed.getContent())) {
 							editor.fireEvent('isNotDirty');
 							dirty = false;
 						}
