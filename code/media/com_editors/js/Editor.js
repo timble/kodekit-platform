@@ -116,11 +116,11 @@ var Editors = new Hash, Editor = new Class({
 		}]
 	},
 	
-	initialize: function(editor, options){
+	initialize: function(editor, options, settings){
 
 		//If return editor instance if found
 		if(Editors.has(editor)) return Editors.get(editor);
-		
+
 		//Stores the id so the getters works
 		this.identifier = editor;
 
@@ -132,8 +132,37 @@ var Editors = new Hash, Editor = new Class({
 		//Sets the options
 		this.setOptions(options);
 
-		//Stores an editor reference, and prevents from setting up the html multiple times
-		this.editor = $(editor);
+		//@TODO cleanup
+		this.settings = settings;
+
+		window.addEvent('domready', function(){
+
+			//Stores an editor reference, and prevents from setting up the html multiple times
+			this.editor = $(editor);
+
+			var self = this;
+			settings.setup =  function(ed) {
+				ed.onBeforeRenderUI.add(function(ed) {
+					var editor = self.create.call(self, ed.id, options), dirty = false;
+					ed.onChange.add(function(ed){
+						if(!dirty && ed.isDirty()) {
+							editor.fireEvent('isDirty');
+						} else if(dirty && !ed.isDirty()) {
+							editor.fireEvent('isNotDirty');
+						}
+						dirty = ed.isDirty();
+					});
+				});
+			}
+
+			tinyMCE.init(settings);
+		}.bind(this));
+
+		// Store this Editor instance in the Editors hash
+		Editors.set(editor, this);
+	},
+
+	create: function(editor, options){
 
 		this.wrap = new Element('div', {'class': 'editor-wrap'})
 			.injectBefore(this.editor)
@@ -283,6 +312,8 @@ var Editors = new Hash, Editor = new Class({
 			});
 		}
 		//*/
+
+		return this;
 	},
 	
 	/*get tinyMCE() {
