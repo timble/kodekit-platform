@@ -213,42 +213,45 @@ var Editors = new Hash, Editor = new Class({
 			SqueezeBox.open('?option=com_articles&view=articles&layout=link&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 800, y: 600}});
 		}.bind(this));*/
 
-		this.tinyMCE.addButton('advanced', {
-			title : 'Kitchen Sink',
-			image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
-			cmd : 'Advanced'
-		});	
-		
-		this.tinyMCE.addCommand('Advanced', function(cookie) {
-			var cm = this.controlManager, tbId = this.getParam('wordpress_adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = this.getContentAreaContainer().firstChild;
+		if(this.tinyMCE.settings.theme_advanced_buttons2) {
+			this.tinyMCE.addButton('advanced', {
+				title : 'Kitchen Sink',
+				image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
+				cmd : 'Advanced'
+			});	
+			
+			this.tinyMCE.addCommand('Advanced', function(cookie) {
+				var cm = this.controlManager, tbId = this.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = this.getContentAreaContainer().firstChild;
 
-			if ( 'undefined' == id )
-				return;
+				if ( 'undefined' == id )
+					return;
 
-			if ( tinymce.DOM.isHidden(id) ) {
-				cm.setActive('advanced', 1);
-				tinymce.DOM.show(id);	
-				tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight - 28);
-				cookie.set('advanced', 1);
+				if ( tinymce.DOM.isHidden(id) ) {
+					cm.setActive('advanced', 1);
+					tinymce.DOM.show(id);	
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight - 28);
+					cookie.set('advanced', 1);
+				} else {
+					cm.setActive('advanced', 0);
+					tinymce.DOM.hide(id);
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
+					cookie.set('advanced', 0);
+				}
+			}.pass(this.options.cookie, this.tinyMCE));
+			
+			if(this.options.cookie.get('advanced')) {
+				this.tinyMCE.onInit.add(function(ed) {
+					ed.controlManager.setActive('advanced', 1);
+				}.bind(this));
 			} else {
-				cm.setActive('advanced', 0);
-				tinymce.DOM.hide(id);
-				tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
-				cookie.set('advanced', 0);
+				this.tinyMCE.onInit.add(function(ed) {
+					var cm = ed.controlManager, tbId = ed.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = ed.getContentAreaContainer().firstChild;
+					tinymce.DOM.hide(id);
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
+				}.bind(this));
 			}
-		}.pass(this.options.cookie, this.tinyMCE));
-		
-		if(this.options.cookie.get('advanced')) {
-			this.tinyMCE.onInit.add(function(ed) {
-				ed.controlManager.setActive('advanced', 1);
-			}.bind(this));
-		} else {
-			this.tinyMCE.onInit.add(function(ed) {
-				var cm = ed.controlManager, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = ed.getContentAreaContainer().firstChild;
-				tinymce.DOM.hide(id);
-				tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
-			}.bind(this));
 		}
+
 		
 		if ( this.getUserSetting( 'editor' ) == 'html' && this.options.codemirror ) {
 			//if(height = this.getUserSetting('height')) $('text').setStyle('height', height - 15 + 'px');
