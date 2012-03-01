@@ -616,7 +616,6 @@ var Editors = new Hash, Editor = new Class({
 	addButtons: function(buttons){
 		var names = [];
 		buttons.each(function(button){
-			//console.debug(button);
 			names.include(button.name);
 			this.addButton(button.name, {
 				title: button.text,
@@ -625,9 +624,6 @@ var Editors = new Hash, Editor = new Class({
 				image : this.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
 			});
 		}, this.tinyMCE);
-		var test = this.tinyMCE.theme.settings.theme_advanced_buttons2;
-		test += ',readmore';
-		//console.log('Editor.addButtons', this, arguments, test);
 	},
 	
 	initializeToggle: function(){
@@ -641,7 +637,20 @@ var Editors = new Hash, Editor = new Class({
 			editor.editor.form.submit();
 		}, onClose: function(){
 			editor.setText(defaultText);
+		}, onIsDirty: function(){
+			this.controls.getElement('.toggle-ok').removeProperty('disabled');
+		}, onIsNotDirty: function(){
+			this.controls.getElement('.toggle-ok').setProperty('disabled', 'disabled');
 		}});
+
+		this.toggler.controls.getElement('.toggle-ok').setProperty('disabled', 'disabled');
+
+		this.addEvent('onIsDirty', function(){
+			this.toggler.fireEvent('onIsDirty');
+		}.bind(this));
+		this.addEvent('onIsNotDirty', function(){
+			this.toggler.fireEvent('onIsNotDirty');
+		}.bind(this));
 	},
 	
 	toggle: function(){
