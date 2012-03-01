@@ -5,8 +5,7 @@
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
-<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-<link href="templates/<?php echo  $this->template ?>/css/960_fluid.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/chromatable.js"></script>
 

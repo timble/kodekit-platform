@@ -1,42 +1,56 @@
-/* @group Flexible Box Model, powered by CSS3 */
-.-koowa-box { 
-	display: -webkit-box;
-	display: -moz-box;
+#flexbox {
+	.box() { 
+		display: -webkit-box;
+		display: -moz-box;
+		display: box;
+	}
+	
+	.box-orient(@orient: horizontal) {
+		-webkit-box-orient: @orient;
+		-moz-box-orient: @orient;
+		box-orient: @orient;
+	}
+	
+	.box-align(@align: stretch) {
+		-webkit-box-align: @align;
+		-moz-box-align: @align;
+		box-align: @align;
+	}
+	
+	.box-flex(@flex: 0) {
+		-webkit-box-flex: @flex;
+		-moz-box-flex: @flex;
+		box-flex: @flex;
+	}
 }
 
-.-koowa-box-horizontal 		{ 
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-align: stretch;
-	
-	display: -moz-box;
-	-moz-box-orient: horizontal;
-	-moz-box-align: stretch;
+/* @group Flexible Box Model, powered by CSS3 */
+.-koowa-box { 
+	#flexbox .box();
+}
+
+.-koowa-box-horizontal { 
+	#flexbox > .box();
+	#flexbox > .box-orient(horizontal);
+	#flexbox > .box-align(stretch);
 }	
 .-koowa-box-horizontal> * 	{ 
 	display: block;
-	-webkit-box-flex: 0; 
-	-moz-box-flex: 0; 
+	#flexbox > .box-flex(0);
 }
 
 .-koowa-box-vertical 		{ 
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-align: stretch;
-	
-	display: -moz-box;
-	-moz-box-orient: vertical;
-	-moz-box-align: stretch;
+	#flexbox > .box();
+	#flexbox > .box-orient(vertical);
+	#flexbox > .box-align(stretch);
 }
 .-koowa-box-vertical> * 	{ 
 	display: block;
-	-webkit-box-flex: 0;
-	-moz-box-flex: 0;
+	#flexbox > .box-flex(0);
 }
 
 .-koowa-box-spacer 	{ 
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
+	#flexbox > .box-flex(1);
 }
 .-koowa-box-reverse { 
 	-webkit-box-direction: reverse;
@@ -44,17 +58,14 @@
 }
 
 .-koowa-box-flex0 	{ 
-	-webkit-box-flex: 0;
-	-moz-box-flex: 0;
+	#flexbox > .box-flex(0);
 }
 .-koowa-box-flex1,
 .-koowa-box-flex 	{ 
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
+	#flexbox > .box-flex(1);
 }
 .-koowa-box-flex2 	{
-	-webkit-box-flex: 2;
-	-moz-box-flex: 2;
+	#flexbox > .box-flex(2);
 }
 
 .-koowa-box-group1 { 

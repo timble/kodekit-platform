@@ -1,0 +1,154 @@
+@navbarBackgroundHover: #4F6EF6;
+
+.navbarBackgroundHover(){
+	
+}
+
+/* ---- Basic menu styles ------------------- */
+
+#header-box {
+	// Reset
+	ul#menu, #menu li, ul#statusmenu, #statusmenu li { margin: 0; padding: 0; list-style: none; }
+	
+	li    { float:left; position:relative; display: inline; }
+	li a  { display:block; white-space: nowrap; }
+	li li { clear: both; }
+	li ul { visibility: hidden; position:absolute; }
+	
+	li li ul {  top: 0; left: 0; }
+	
+	li:hover ul				{ visibility: visible; }
+	li:hover ul li ul			{ visibility: hidden;  }
+	li:hover li:hover ul		{ visibility: visible;  left: 100%; }
+	
+	ul#menu {
+		#flexbox > .box();
+		#flexbox > .box-flex(1);
+		position:relative; z-index: 100;
+	}
+}
+
+
+/* ---- Menu layout -------------------------- */
+
+#header-box > ul {
+	li {
+		a {
+			padding: 0.60em 1.5em 0.45em;
+			color: #666;
+			line-height: 1.6em; vertical-align: middle;
+			font-size: 12px; font-weight: bold; text-decoration: none;
+			background-repeat: no-repeat;
+			background-image: none !important;
+			border-right: 1px solid #555;
+		}
+		
+		/* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
+		a:hover { cursor: default; }
+		
+		ul { 
+			.box-shadow(rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .3) 0 0 1px);
+			.border-radius(0 0 4px 4px);
+			background-color: #FFF;
+			padding: 4px 0;
+			
+			li.separator { background: #DDE1E6; height: 1px; margin: 4px 0 !important; }
+			
+			li.node { background: transparent url(../images/arrow-right.png) no-repeat 95% 50%; }
+			li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
+			li.node:hover > a { background-position: 95% 50%; }
+			
+			li {
+			    border: 0;
+			    display: block;
+			    float: none;
+			    width: 100%;
+			    
+			    a {
+			    	padding-left: 15px;
+			    	padding-right: 30px;
+			    	line-height: 1em;
+			    }
+			}
+		}
+	}
+	
+	li:not(.disabled) a { color: #FFF; }
+	
+	/* 1 level - hover */
+	> li:hover:not(.disabled) { 
+		#gradient > .vertical(@navbarBackgroundHover, darken(@navbarBackgroundHover, 15%));
+		
+		/* 2 level - normal */
+		ul { 
+			li { border-top: 1px solid #FFF; }
+			li a { color: #333; background-color: transparent; border: 0 none; padding-top: 0.75em; padding-bottom: 0.75em; }
+			
+			/* 2 level - hover */
+			li:hover:not(.separator) { 
+				#gradient > .vertical(@navbarBackgroundHover, darken(@navbarBackgroundHover, 15%));
+				border-top: 1px solid darken(@navbarBackgroundHover, 10%);
+				
+				a { color: #FFF; }
+				
+				/* 3 level - normal */
+				ul { 
+					margin-top: -5px;
+					z-index: 1;
+					.border-radius(0 5px 5px 5px); 
+						
+					li a { color: #333; background-color: transparent; border: 0 none; }
+						
+					/* 3 level - hover */
+					li:hover a { color: #FFF; }
+				}				
+			}
+		}		
+	}
+}
+
+/* statusmenu */
+#statusmenu {
+	#flexbox > .box();
+}
+
+/* submenu styling */
+#submenu {
+	#flexbox > .box();
+	
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 15px;
+	
+	li {
+		padding: 0;
+		margin: 5px 2px 0 2px;
+	}
+	
+	li a,
+	span.nolink {
+		cursor: pointer;
+		padding: 8px 15px;
+		font-weight: bold;
+		color: #FFF;
+		display: block;
+		background: #385DBC;
+		.border-radius(5px 5px 0 0);
+	}
+	
+	span.nolink {
+		color: #284388;
+		cursor: default;
+	}
+	
+	a.active,
+	span.nolink.active {
+		color: #444;
+		background: #f9f9f9;
+	}
+	
+	a.active:hover,
+	span.nolink.active:hover {
+		text-decoration: none !important;
+	}
+}

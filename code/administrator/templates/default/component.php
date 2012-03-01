@@ -4,9 +4,7 @@
 <head>
 <jdoc:include type="head" />
 
-<link href="templates/<?php echo  $this->template ?>/css/general.css" rel="stylesheet" type="text/css" />
-<link href="templates/<?php echo  $this->template ?>/css/component.css" rel="stylesheet" type="text/css" />
-<link href="templates/<?php echo  $this->template ?>/css/koowa.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 
 <?php if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
      <link href="templates/desktop/css/template.css" rel="stylesheet" type="text/css" />
