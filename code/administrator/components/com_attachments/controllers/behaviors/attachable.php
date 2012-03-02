@@ -167,23 +167,23 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		return true;
 	}
 	
-	protected function _beforeAdd(KCommandContext $context) {
+	protected function _beforeControllerAdd(KCommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _beforeEdit(KCommandContext $context) {
+	protected function _beforeControllerEdit(KCommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _afterAdd(KCommandContext $context) {
+	protected function _afterControllerAdd(KCommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterEdit(KCommandContext $context) {
+	protected function _afterControllerEdit(KCommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterDelete(KCommandContext $context) {
+	protected function _afterControllerDelete(KCommandContext $context) {
 		// TODO
 	} 
 }
