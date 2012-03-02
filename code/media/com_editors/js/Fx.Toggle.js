@@ -91,6 +91,7 @@ Fx.Toggle = new Class({
 					if(this.options.animate) {
 						this.slideIn();
 					}
+					this.fireEvent('onEdit');
 				}.bindWithEvent(this)
 			}
 		}).set('html', this.options.lang.edit);

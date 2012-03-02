@@ -167,7 +167,16 @@ var Editors = new Hash, Editor = new Class({
 				});
 			}
 
-			tinyMCE.init(settings);
+			//Hide the editor if we're gonna use Fx.Toggle
+			if(this.options.toggle) {
+				//@TODO why is this: Dirty dirty dirty
+				Editors.set(editor, true);
+
+				this.initializeToggle(settings);
+			} else {
+				tinyMCE.init(settings);
+			}
+			
 		}.bind(this));
 
 		// Store this Editor instance in the Editors hash
@@ -209,14 +218,6 @@ var Editors = new Hash, Editor = new Class({
 							])
 					])
 			]);
-
-		//Hide the editor if we're gonna use Fx.Toggle
-		if(this.options.toggle) {
-			//Dirty dirty dirty
-			Editors.set(editor, true);
-
-			this.initializeToggle();
-		}
 		
 		this.tinyMCE.addButton('image', {
 			title : 'Image',
@@ -327,12 +328,6 @@ var Editors = new Hash, Editor = new Class({
 
 		return this;
 	},
-	
-	/*get tinyMCE() {
-		console.log(this);
-		console.log(this.identifier);
-		return true;
-	},*/
 	
 	createQuicktags: function() {
 		var buttons = this.options.buttons
@@ -628,22 +623,31 @@ var Editors = new Hash, Editor = new Class({
 		}, this.tinyMCE);
 	},
 	
-	initializeToggle: function(){
-		var editor = this, defaultText = this.editor.get('text');
-		this.toggler = new Fx.Toggle(this.editor, {wrap: this.wrap, onOK: function(){
-			this.preview.getElement('.toggle-preview').set('html', editor.getText());
-			//Set the text for tinyMCE as well if CodeMirror is active
-			editor.setText(editor.getText());
+	initializeToggle: function(settings){
+		var self = editor = this, defaultText = this.editor.get('text'), initialized = false;
+		this.toggler = new Fx.Toggle(this.editor, {
+			wrap: this.wrap,
+			onEdit: function(){
+				if(!initialized) {
+					tinyMCE.init(settings);
+					initialized = true;
+				}
+			},
+			onOK: function(){
+				this.preview.getElement('.toggle-preview').set('html', editor.getText());
+				//Set the text for tinyMCE as well if CodeMirror is active
+				editor.setText(editor.getText());
 
-			//Make this configurable later
-			editor.editor.form.submit();
-		}, onClose: function(){
-			editor.setText(defaultText);
-		}, onIsDirty: function(){
-			this.controls.getElement('.toggle-ok').removeProperty('disabled');
-		}, onIsNotDirty: function(){
-			this.controls.getElement('.toggle-ok').setProperty('disabled', 'disabled');
-		}});
+				//Make this configurable later
+				editor.editor.form.submit();
+			}, onClose: function(){
+				editor.setText(defaultText);
+			}, onIsDirty: function(){
+				this.controls.getElement('.toggle-ok').removeProperty('disabled');
+			}, onIsNotDirty: function(){
+				this.controls.getElement('.toggle-ok').setProperty('disabled', 'disabled');
+			}
+		});
 
 		this.toggler.controls.getElement('.toggle-ok').setProperty('disabled', 'disabled');
 
