@@ -333,7 +333,6 @@ var Editors = new Hash, Editor = new Class({
 	},
 	
 	createQuicktagButton: function(button, i) {
-		console.log(this);
 		if(button.display == 'img') {
 			var event = function(){
 				this.edInsertImage();
