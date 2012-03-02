@@ -29,49 +29,42 @@ var Editors = new Hash, Editor = new Class({
 		tinyMCE: false,
 		codemirror: false,
 		buttons: [{
-		    "id": "ed_strong",
 		    "display": "b",
 		    "tagStart": "<strong>",
 		    "tagEnd": "</strong>",
 		    "access": "b"
 		},
 		{
-		    "id": "ed_em",
 		    "display": "i",
 		    "tagStart": "<em>",
 		    "tagEnd": "</em>",
 		    "access": "i"
 		},
 		{
-		    "id": "ed_link",
 		    "display": "link",
 		    "tagStart": "",
 		    "tagEnd": "</a>",
 		    "access": "a"
 		},
 		{
-		    "id": "ed_block",
 		    "display": "b-quote",
 		    "tagStart": "\n\n<blockquote>",
 		    "tagEnd": "</blockquote>\n\n",
 		    "access": "q"
 		},
 		{
-		    "id": "ed_del",
 		    "display": "del",
 		    "tagStart": "<del datetime=\""+(new Date).toUTCString()+"\">",
 		    "tagEnd": "</del>",
 		    "access": "d"
 		},
 		{
-		    "id": "ed_ins",
 		    "display": "ins",
 		    "tagStart": "<ins datetime=\""+(new Date).toUTCString()+"\">",
 		    "tagEnd": "</ins>",
 		    "access": "s"
 		},
 		{
-		    "id": "ed_img",
 		    "display": "img",
 		    "tagStart": "",
 		    "tagEnd": "",
@@ -79,35 +72,30 @@ var Editors = new Hash, Editor = new Class({
 		    "open": -1
 		},
 		{
-		    "id": "ed_ul",
 		    "display": "ul",
 		    "tagStart": "<ul>\n",
 		    "tagEnd": "</ul>\n\n",
 		    "access": "u"
 		},
 		{
-		    "id": "ed_ol",
 		    "display": "ol",
 		    "tagStart": "<ol>\n",
 		    "tagEnd": "</ol>\n\n",
 		    "access": "o"
 		},
 		{
-		    "id": "ed_li",
 		    "display": "li",
 		    "tagStart": "\t<li>",
 		    "tagEnd": "</li>\n",
 		    "access": "l"
 		},
 		{
-		    "id": "ed_code",
 		    "display": "code",
 		    "tagStart": "<code>",
 		    "tagEnd": "</code>",
 		    "access": "c"
 		},
 		{
-		    "id": "ed_more",
 		    "display": "more",
 		    "tagStart": "<hr id=\"system-readmore\" />",
 		    "tagEnd": "",
@@ -187,7 +175,6 @@ var Editors = new Hash, Editor = new Class({
 			.adopt([
 				new Element('div', {'class': 'editor-container'})
 					.adopt([
-						//@TODO remove the id in the future
 						new Element('div', {'class': 'quicktags'})
 							.adopt(this.createQuicktags()),
 						this.editor
@@ -342,16 +329,16 @@ var Editors = new Hash, Editor = new Class({
 				}
 			}));
 
-		//@TODO remove ed_toolbar id
-		return new Element('div', {'id': 'ed_toolbar', 'class': 'quicktags-toolbar'}).adopt(buttons);
+		return new Element('div', {'class': 'quicktags-toolbar'}).adopt(buttons);
 	},
 	
 	createQuicktagButton: function(button, i) {
-		if(button.id == 'ed_img') {
+		console.log(this);
+		if(button.display == 'img') {
 			var event = function(){
 				this.edInsertImage();
 			}.bind(this);
-		} else if(button.id == 'ed_link') {
+		} else if(button.display == 'link') {
 			var event = function(i){
 				this.edInsertLink(i);
 			}.pass(i, this);
@@ -363,7 +350,6 @@ var Editors = new Hash, Editor = new Class({
 		
 		return new Element('input', {
 			type: 'button',
-			id: button.id,
 			accesskey: button.access,
 			'class': 'ed_button',
 			value: button.display,
@@ -569,8 +555,6 @@ var Editors = new Hash, Editor = new Class({
 			
 			if ( ed && !ed.isHidden() && this.options.codemirror) {
 				var updateNumbers = function(){
-				     //this.updateNumbers();
-				     
 				     var active = this.lineNumbers.getElement('.active'), line = this.lineNumber(this.cursorLine());
 				     
 					if(active) {
@@ -654,18 +638,6 @@ var Editors = new Hash, Editor = new Class({
 		this.addEvent('onIsNotDirty', function(){
 			this.toggler.fireEvent('onIsNotDirty');
 		}.bind(this));
-	},
-	
-	toggle: function(){
-		console.warn(this.wrap, this.options.visible);
-	},
-	
-	show: function(){
-	
-	},
-	
-	hide: function(){
-		
 	}
 });
 
