@@ -491,12 +491,11 @@ var Editors = new Hash, Editor = new Class({
 	codemirror: false,
 
 	go : function(mode) {
-		mode = mode || this.mode || '';
 
-		var ed, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce');
+		if(mode == this.mode) return false;
+		this.mode = mode;
 
-		try { ed = tinyMCE.get(this.editor.getProperty('id')); }
-		catch(e) { ed = false; }
+		var ed = this.tinyMCE, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce');
 
 		if ( 'tinymce' == mode ) {
 			//@TODO With CodeMirror in play, we might not need this code anymore, so commenting out for now
@@ -516,16 +515,11 @@ var Editors = new Hash, Editor = new Class({
 
 			if(this.editor.codemirror) this.editor.value = this.editor.codemirror.getCode();
 
-			try {
-				if ( ed )
-					/*
-					 * We're calling this instead of ed.show() as MooTools' Element.show() retrieves
-					 * the original display value as stored by Element.hide().
-					 */
-					ed.getContainer().show();
-				else
-					tinyMCE.execCommand("mceAddControl", false, this.editor.getProperty('id'));
-			} catch(e) {}
+			/**
+			 * We're calling this instead of ed.show() as MooTools' Element.show() retrieves
+			 * the original display value as stored by Element.hide().
+			 */
+			ed.getContainer().show();
 			
 			if(this.editor.codemirror) {
 				this.editor.codemirror.wrapping.hide();
