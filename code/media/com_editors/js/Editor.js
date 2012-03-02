@@ -26,7 +26,9 @@ var Editors = new Hash, Editor = new Class({
 		visible: true,
 		toggle: false,
 		cookie: new Hash.Cookie('nooku-editor', {duration: 7}),
+		
 		tinyMCE: false,
+
 		codemirror: false,
 		buttons: [{
 		    "display": "b",
@@ -101,7 +103,12 @@ var Editors = new Hash, Editor = new Class({
 		    "tagEnd": "",
 		    "access": "t",
 		    "open": -1
-		}]
+		}],
+		codemirrorOptions: {
+			lineNumbers: true,
+			reindentOnLoad: true,
+			parserfile: ['parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js']
+		}
 	},
 
 	//Used for checking isDirty state
@@ -546,11 +553,7 @@ var Editors = new Hash, Editor = new Class({
 				ta.value = ed.getContent();
 			}
 			if(!this.editor.codemirror && this.options.codemirror) {
-				this.editor.codemirror = CodeMirror.fromTextArea(ta.id, {
-					lineNumbers: true,
-					reindentOnLoad: true,
-					parserfile: ['parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js']
-				});
+				this.editor.codemirror = CodeMirror.fromTextArea(ta.id, this.options.codemirrorOptions);
 			}
 			
 			if ( ed && !ed.isHidden() && this.options.codemirror) {
