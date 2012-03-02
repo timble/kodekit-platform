@@ -175,7 +175,7 @@ var Editors = new Hash, Editor = new Class({
 			.adopt([
 				new Element('div', {'class': 'editor-container'})
 					.adopt([
-						new Element('div', {'class': 'quicktags'})
+						new Element('div', {'class': 'quicktags', 'style': 'display:none'})
 							.adopt(this.createQuicktags()),
 						this.editor
 					]),
@@ -280,17 +280,18 @@ var Editors = new Hash, Editor = new Class({
 
 		
 		if ( this.getUserSetting( 'editor' ) == 'html' && this.options.codemirror ) {
-			//if(height = this.getUserSetting('height')) $('text').setStyle('height', height - 15 + 'px');
-			this.tinyMCE.onInit.add(function(ed) {
-				this.go(this.editor.getProperty('id'), 'html');
+			//Prevent the tinyMCE editor to flash on the screen for a split second before the codemirror ui loads
+			this.wrap.hide();
+			
+			this.tinyMCE.onInit.add(function() {
+				this.go('html');
+
+				//Done initializing, lets show the editor
+				this.wrap.show();
 			}.bind(this));
-		} else {
-			if ( typeof tinyMCE != 'object' ) {
-				this.go(this.editor.getProperty('id'), 'html');
-			} else {
-				this.wrap.getElement('.quicktags').hide();
-			}
 		}
+
+		
 		
 		// Store this Editor instance in the Editors hash
 		Editors.set(editor, this);
