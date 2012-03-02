@@ -31,18 +31,6 @@ var quicktagsL10n =
 
 try { convertEntities(quicktagsL10n);} catch(e) { };
 </script>
-
-<script>
-CodeMirrorConfig = new Hash(CodeMirrorConfig).extend({
-	stylesheet: [
-	  	'media://com_editors/codemirror/css/xmlcolors.css', 
-	  	'media://com_editors/codemirror/css/jscolors.css', 
-	  	'media://com_editors/codemirror/css/csscolors.css',
-	  	'media://com_editors/css/codemirror.css'
-	],
-	path: 'media://com_editors/codemirror/js/'
-});
-</script>
 <? endif ?>
 		
 <script>new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);</script>

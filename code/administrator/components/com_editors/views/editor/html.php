@@ -22,6 +22,9 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
         if (isset($config->codemirror)) {
             $this->codemirror = $config->codemirror;
         }
+        if (isset($config->codemirrorOptions)) {
+            $this->codemirrorOptions = $config->codemirrorOptions;
+        }
     }
 
     /**
@@ -80,8 +83,18 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'layout'   => 'default',
 			//@TODO this is because KControllerResource sets this and we have no controller yet
 			'media_url' => KRequest::root().'/media',
+		))->append(array(
 			//Load CodeMirror in addition to TinyMCE
-			'codemirror'   => true,
+			'codemirror'   		=> true,
+			'codemirrorOptions' => array(
+				'stylesheet' => array(
+				  	$config->media_url.'/com_editors/codemirror/css/xmlcolors.css', 
+				  	$config->media_url.'/com_editors/codemirror/css/jscolors.css', 
+				  	$config->media_url.'/com_editors/codemirror/css/csscolors.css',
+				  	$config->media_url.'/com_editors/css/codemirror.css'
+				),
+				'path' => $config->media_url.'/com_editors/codemirror/js/'
+			),
 
 			'editor_settings' => $settings
 		));
@@ -91,15 +104,15 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
     
 	public function display()
 	{
-		$options = array(
+		$options = new KConfig(array(
 			'lang' => array(
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
 			),
 			'codemirror' => $this->codemirror,
+			'codemirrorOptions' => $this->codemirrorOptions,
 			'toggle' => $this->toggle
-		);
-
+		));
 
 		//@TODO cleanup
 		if(!$this->id) $this->id = $this->name;
@@ -107,7 +120,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->assign('options' , $options);
+		$this->assign('options' , KConfig::unbox($options));
 		$this->assign('settings', $this->getEditorSettings());
 		$this->assign('codemirror', $this->codemirror);
 
