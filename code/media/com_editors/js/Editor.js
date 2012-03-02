@@ -167,11 +167,8 @@ var Editors = new Hash, Editor = new Class({
 				});
 			}
 
-			//Hide the editor if we're gonna use Fx.Toggle
+			//When toggle is active, do not initialize TinyMCE until it's requested
 			if(this.options.toggle) {
-				//@TODO why is this: Dirty dirty dirty
-				Editors.set(editor, true);
-
 				this.initializeToggle(settings);
 			} else {
 				tinyMCE.init(settings);
