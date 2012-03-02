@@ -1,3 +1,5 @@
+
+
 /* -- General styles ------------------------------ */
 
 body {
@@ -40,16 +42,16 @@ form { margin: 0; padding: 0; }
 
 h1 {
 	margin: 0; padding-bottom: 8px;
-	color: #0B55C4; font-size: 20px; font-weight: bold;
+	color: @linkColor; font-size: 20px; font-weight: bold;
 }
 
 h3 {
 	font-size: 13px;
 }
 
-a:link    { color: #0B55C4; text-decoration: none; }
-a:visited { color: #0B55C4; text-decoration: none; }
-a:hover   { text-decoration: underline; }
+a:link    { color: @linkColor; text-decoration: none; }
+a:visited { color: @linkColor; text-decoration: none; }
+a:hover   { color: @linkColorHover; text-decoration: underline; }
 
 fieldset {
 	margin-bottom: 10px;
@@ -61,7 +63,7 @@ fieldset {
 fieldset p {  margin: 10px 0px; }
 
 legend    {
-	color: #0B55C4;
+	color: @linkColor;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -98,14 +100,14 @@ input.button  { cursor: pointer; }
 	
 	height: 31px;
 	background-color: #333;
-	#gradient > .vertical(#555, #333);
+	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
 }
 
 #tabs-box {
 	#flexbox > .box();
 	
 	border-top: 1px solid #bbb;
-	#gradient > .vertical(#6497EF, #427FE2);
+	#gradient > .vertical(@tabbarBackground, darken(@tabbarBackground, 10%));
 }
 
 #toolbar-box {
@@ -115,8 +117,8 @@ input.button  { cursor: pointer; }
 	height: 41px;
 	.box-sizing(border-box);
 	padding: 8px 0;
-	border-bottom: 1px solid #E1E1E1;
-	#gradient > .vertical(#f9f9f9, #f1f1f1);
+	border-bottom: 1px solid @grayLighter;
+	#gradient > .vertical(@tabbarBackgroundHighlight, darken(@tabbarBackgroundHighlight, 5%));
 }
 
 #content-box { 
@@ -201,12 +203,12 @@ div.toolbar {
 	table.toolbar { 
 		border-collapse: collapse;
 		padding: 0;
-		margin: 0 5px;
+		margin: 0 10px;
 		float: left;
 		
 		td {
-			margin: 0 !important;
-			padding: 0 !important;
+			margin: 0;
+			padding: 0;
 		}
 		
 		td a { 
@@ -218,7 +220,7 @@ div.toolbar {
 			color: #666;
 			white-space: nowrap;
 			padding: 2px 12px;
-			margin-right: 1px;
+			border-right: 1px solid #BBB;
 			cursor: pointer;
 			color: #333;
 			font-weight: bold;
@@ -230,9 +232,7 @@ div.toolbar {
 			-webkit-user-select: none;
 		 }
 		 td a:not(.beforeload) {
-		     -webkit-transition: opacity 300ms ease-in-out;
-		     -moz-transition: opacity 300ms ease-in-out;
-		     transition: opacity 300ms ease-in-out;
+		     .transition(opacity 300ms ease-in-out);
 		 }
 		 
 		td:first-child a,
@@ -252,7 +252,7 @@ div.toolbar {
 		}
 		
 		td.spacer  {  }
-		td.divider { width: 5px; }
+		td.divider { width: 10px; }
 		
 		span { display: none; }
 		
@@ -282,7 +282,7 @@ div.toolbar {
 
 /* panels  */
 .panel { 
-	border: 1px solid #DDD;
+	border: 1px solid @grayLighter;
 	margin-bottom: 8px;
 	.border-radius(5px);
 
@@ -410,7 +410,7 @@ div.toolbar {
 #filter { 
 	padding: 4px 10px 4px;
 	#gradient > .vertical(#F2F2F2, #E9E9E9);
-	border-bottom: 1px solid #DDD;
+	border-bottom: 1px solid @grayLighter;
 
 	ul 		{ 
 		list-style: none;
@@ -468,7 +468,7 @@ div.toolbar {
 /* Sidebar */
 #sidebar {
 	width: 200px;
-	border-right: 1px solid #E1E1E1;
+	border-right: 1px solid @grayLighter;
 	.box-sizing(border-box);
 	background-color: #F9F9F9;
 	overflow-y: scroll;
@@ -508,16 +508,16 @@ div.toolbar {
 		li a:hover,
 		li.active ul li a:hover {
 			color: #444;
-			border-top-color: #c3dcf4;
-			#gradient > .vertical(#cee1f4, #b2cde8);
+			border-top-color: lighten(@blueDark, 40%);
+			#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
 			text-decoration: none;
 		}
 		
 		li.active a,
 		li.active a:hover {
 			color: #FFF;
-			border-top-color: #72A8DF;
-			#gradient > .vertical(#72A8DF, #2B75BF);
+			border-top-color: lighten(@blueDark, 15%);
+			#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
 			.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
 			text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 		}
@@ -609,8 +609,8 @@ table.adminlist thead th {
 	text-align: center;
 	background: #f0f0f0;
 	color: #666;
-	border-bottom: 1px solid #E1E1E1;
-	border-left: 1px solid #E1E1E1;
+	border-bottom: 1px solid @grayLighter;
+	border-left: 1px solid @grayLighter;
 	position: relative;
 	-webkit-user-select: none;
 }
@@ -668,7 +668,7 @@ table.adminlist tbody tr.selected:hover td {
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
-table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #E1E1E1; text-align: center; }
+table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid @grayLighter; text-align: center; }
 
 table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
