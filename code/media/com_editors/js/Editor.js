@@ -493,7 +493,7 @@ var Editors = new Hash, Editor = new Class({
 	go : function(mode) {
 		mode = mode || this.mode || '';
 
-		var ed, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce'), ta = this.editor;
+		var ed, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce');
 
 		try { ed = tinyMCE.get(this.editor.getProperty('id')); }
 		catch(e) { ed = false; }
@@ -514,8 +514,7 @@ var Editors = new Hash, Editor = new Class({
 			//@TODO destroy codemirror instance here, or hide it
 			qt.hide();
 
-			ta.style.color = '#FFF';
-			if(this.editor.codemirror) ta.value = this.editor.codemirror.getCode();
+			if(this.editor.codemirror) this.editor.value = this.editor.codemirror.getCode();
 
 			try {
 				if ( ed )
@@ -532,10 +531,8 @@ var Editors = new Hash, Editor = new Class({
 				this.editor.codemirror.wrapping.hide();
 				ed.setContent(this.editor.codemirror.getCode());
 			}
-			ta.style.color = '#000';
 		} else {
 			this.setUserSetting( 'editor', 'html' );
-			ta.style.color = '#000';
 			this.options.cookie.set('mode', 'tinymce');
 			H.addClass('active');
 			P.removeClass('active');
@@ -550,10 +547,10 @@ var Editors = new Hash, Editor = new Class({
 				this.editor.codemirror.setCode(ed.getContent());
 				(function(){this.editor.codemirror.reindent()}.bind(this)).delay(100);
 			} else {
-				ta.value = ed.getContent();
+				this.editor.value = ed.getContent();
 			}
 			if(!this.editor.codemirror && this.options.codemirror) {
-				this.editor.codemirror = CodeMirror.fromTextArea(ta.id, this.options.codemirrorOptions);
+				this.editor.codemirror = CodeMirror.fromTextArea(this.identifier, this.options.codemirrorOptions);
 			}
 			
 			if ( ed && !ed.isHidden() && this.options.codemirror) {
