@@ -1783,7 +1783,7 @@ div.message {
   padding: 2px 0px 0px 0px;
 }
 .com_articles .title {
-  padding: 12px 16px 12px 12px;
+  padding: 10px 22px 10px 10px;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f0f0f0, #eaeaea);
   background-image: -ms-linear-gradient(top, #f0f0f0, #eaeaea);
@@ -1796,27 +1796,13 @@ div.message {
   border-bottom: 1px solid #CCC;
 }
 .com_articles .title input#title {
-  margin: 0 4px 0 0;
-  display: block;
-  font-size: 200%;
-  width: 99%;
-  padding: 4px;
+  font-size: 16.5px;
+  width: 100%;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-}
-.com_articles .title label[for=alias] {
-  float: left;
-  width: 90%;
-  padding: 2px;
-}
-.com_articles .title label[for=alias] input {
-  width: 40%;
-  margin: 0;
-  padding: 2px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  line-height: 24px;
+  height: 24px;
 }
 .com_dashboard #content-box,
 .com_settings #content-box {
@@ -2057,39 +2043,82 @@ body.com_users.login #login-box #form-login label {
   color: #666;
   font-weight: bold;
 }
-form {
-  margin: 0;
-  padding: 0;
-}
+/*!
+ * Inspired by Bootstrap, from Twitter (http://twitter.github.com/bootstrap)
+ */
 fieldset {
   margin-bottom: 10px;
   border: 1px #ccc solid;
   padding: 5px;
   text-align: left;
 }
-fieldset p {
-  margin: 10px 0px;
-}
-legend {
+fieldset legend {
   color: #0b55c4;
   font-size: 12px;
   font-weight: bold;
 }
+label,
 input,
-select {
-  font-size: 10px;
-  border: 1px solid silver;
-}
+button,
+select,
 textarea {
   font-size: 11px;
-  border: 1px solid silver;
+  font-weight: normal;
+  line-height: 12px;
 }
-button {
-  font-size: 10px;
+input,
+textarea,
+select {
+  height: 12px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-input[type="checkbox"],
-input[type="radio"] {
-  border: 0 none;
+select,
+input[type="file"] {
+  height: 18px;
+  /* In IE7, the height of the select element cannot be changed by height, only font-size */
+
+  line-height: 18px;
+}
+select[multiple],
+select[size] {
+  height: auto;
+}
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  width: auto;
+  height: auto;
+}
+input:focus,
+textarea:focus {
+  border-color: rgba(115, 168, 247, 0.8);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(115, 168, 247, 0.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(115, 168, 247, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(115, 168, 247, 0.6);
+  outline: 0;
+}
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus,
+select:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 input.disabled {
   background-color: #F0F0F0;

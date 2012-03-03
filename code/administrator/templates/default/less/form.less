@@ -1,0 +1,83 @@
+/*!
+ * Inspired by Bootstrap, from Twitter (http://twitter.github.com/bootstrap)
+ */
+
+fieldset {
+	margin-bottom: 10px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	text-align: left;
+	
+	legend    {
+		color: @linkColor;
+		font-size: 12px;
+		font-weight: bold;
+	}
+}
+
+
+// Set font for forms
+label,
+input,
+button,
+select,
+textarea {
+  #font > .shorthand(@baseFontSize,normal,@baseLineHeight); // Set size, weight, line-height here
+}
+
+// Inputs, Textareas, Selects
+input,
+textarea,
+select {
+  height: @baseLineHeight;
+  padding: 4px;
+  border: 1px solid #ccc;
+  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+  .border-radius(2px);
+  @transition: border linear .2s, box-shadow linear .2s;
+  .transition(@transition);
+}
+
+// Set the height of select and file controls to match text inputs
+select,
+input[type="file"] {
+  height: @baseLineHeight + 6; /* In IE7, the height of the select element cannot be changed by height, only font-size */
+  line-height: @baseLineHeight + 6;
+}
+
+// Make multiple select elements height not fixed
+select[multiple],
+select[size] {
+  height: auto;
+}
+
+// Help out input buttons
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  width: auto;
+  height: auto;
+}
+
+// FOCUS STATE
+// -----------
+
+input:focus,
+textarea:focus {
+  @color: lighten(@linkColor, 30%);
+  border-color: hsla(hue(@color), saturation(@color), lightness(@color), .8);
+  @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px hsla(hue(@color), saturation(@color), lightness(@color), .6);
+  .box-shadow(@shadow);
+  outline: 0;
+}
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus,
+select:focus {
+  .box-shadow(none); // override for file inputs
+  .tab-focus();
+}
+
+
+input.disabled { background-color: #F0F0F0; }
+input.button  { cursor: pointer; }
