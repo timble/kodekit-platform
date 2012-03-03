@@ -4,12 +4,12 @@
 
 body {
 	margin: 0; padding: 0;
-	font-size: 11px;
+	font-size: @baseFontSize;
 	background-color: #FFF;
 	overflow: hidden;
 }
 
-body, td, th { font-family: Arial, Helvetica, sans-serif; }
+body, td, th { font-family: @baseFontFamily; }
 
 html, body, #container { 
 	width: 100%;
@@ -761,78 +761,6 @@ table.adminlist .pagination div.off span {
 	#gradient > .vertical(#f9f9f9, #F0F0EE);
 	border-bottom: 1px solid #F0F0EE;
 }
-
-/* @group Buttons */
-.button1,
-.button1 div{
-	height: 1%;
-	float: right;
-}
-
-.button2-left,
-.button2-right,
-.button2-left,
-.button2-right {
-	float: left;
-}
-
-.button1 a {
-	height: 26px;
-	line-height: 26px;
-	font-size: 12px;
-	padding: 0 20px;
-}
-
-.button2-left a,
-.button2-right a,
-.button2-left span,
-.button2-right span {
-	height: 20px;
-	padding: 0 14px;
-	margin-left: 5px;
-	line-height: 20px;
-}
-
-input.button,
-.button1 a,
-.button2-left a,
-.button2-right a,
-.button2-left span,
-.button2-right span {
-	color: #333;
-	cursor: pointer;
-	font-weight: bold;
-	#gradient > .vertical(#FFF, #F0F0F0);
-	border: 1px solid #BBB;
-	.border-radius(3px);
-}
-
-.button1 a,
-.button2-left a,
-.button2-right a,
-.button2-left span,
-.button2-right span {
-	display: block;
-}
-
-.button2-left span,
-.button2-right span { cursor: default; color: #999; }
-
-input.button:hover,
-.button1 a:hover,
-.button2-left a:hover,
-.button2-right a:hover {
-	.box-shadow(hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
-	text-decoration: none;
-}
-
-input.button:active,
-.button1 a:active,
-.button2-left a:active,
-.button2-right a:active{
-	.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
-}
-/* @endgroup */
 
 /* Tooltips */
 .tool-tip {
