@@ -1,10 +1,4 @@
 /* @group Buttons */
-.button1,
-.button1 div{
-	height: 1%;
-	float: right;
-}
-
 .button2-left,
 .button2-right,
 .button2-left,
@@ -12,25 +6,16 @@
 	float: left;
 }
 
-.button1 a {
-	height: 26px;
-	line-height: 26px;
-	font-size: 12px;
-	padding: 0 20px;
-}
-
 .button2-left a,
 .button2-right a,
 .button2-left span,
 .button2-right span {
-	height: 20px;
-	padding: 0 14px;
+	padding: 4px 14px;
 	margin-left: 5px;
-	line-height: 20px;
+	line-height: @baseLineHeight;
 }
 
 input.button,
-.button1 a,
 .button2-left a,
 .button2-right a,
 .button2-left span,
@@ -43,7 +28,6 @@ input.button,
 	.border-radius(3px);
 }
 
-.button1 a,
 .button2-left a,
 .button2-right a,
 .button2-left span,
@@ -55,7 +39,6 @@ input.button,
 .button2-right span { cursor: default; color: #999; }
 
 input.button:hover,
-.button1 a:hover,
 .button2-left a:hover,
 .button2-right a:hover {
 	.box-shadow(hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
@@ -63,7 +46,6 @@ input.button:hover,
 }
 
 input.button:active,
-.button1 a:active,
 .button2-left a:active,
 .button2-right a:active{
 	.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
@@ -118,16 +100,6 @@ input.button:active,
 .tool-text {
 	font-size: 100%;
 	margin: 0;
-}
-
-/* Calendar */
-a img.calendar {
-	width: 16px;
-	height: 16px;
-	margin-left: 3px;
-	background: url(../images/calendar.png) no-repeat;
-	cursor: pointer;
-	vertical-align: middle;
 }
 
 /* System Standard Messages */
