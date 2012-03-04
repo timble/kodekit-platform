@@ -134,7 +134,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
-		    'filter' 	=> array(),
+		    'filter' 	=> array('sort' => $config->text),
 		));
 		
         //For the autocomplete behavior
