@@ -49,7 +49,7 @@
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */
-abstract class PlgKoowaDefault extends KEventListener
+abstract class PlgKoowaDefault extends KEventSubscriberDefault
 {
 	/**
 	 * A JRegistry object holding the parameters for the plugin
@@ -59,52 +59,49 @@ abstract class PlgKoowaDefault extends KEventListener
 	protected $_params	= null;
 
 	/**
-	 * The name of the plugin
-	 *
-	 * @var		string
-	 */
-	protected $_name = null;
-
-	/**
-	 * The plugin type
-	 *
-	 * @var		string
-	 */
-	protected $_type = null;
-	
-	/**
 	 * Constructor
 	 */
-	function __construct($dispatcher, $config = array())
+	public function __construct($dispatcher, $config = array())
 	{
-		if (isset($config['params']))
-		{
-		    if ($config['params'] instanceof JRegistry) {
-				$this->_params = $config['params'];
-			} else {
-				$this->_params = new JRegistry;
-				$this->_params->loadINI($config['params']);
-			}
-		}
-
-		if ( isset( $config['name'] ) ) {
-			$this->_name = $config['name'];
-		}
-
-		if ( isset( $config['type'] ) ) {
-			$this->_type = $config['type'];
-		}
-		
-		//Inject the identifier
-		$config['service_identifier'] = KService::getIdentifier('plg:koowa.'.$this->_name);
+	    $config = new KConfig($config);
+	    
+	    //Inject the identifier
+		$config->service_identifier = KService::getIdentifier('plg:koowa.'.$config['name']);
 		
 		//Inject the service container
-		$config['service_container'] = KService::getInstance();
+		$config->service_container = KService::getInstance();
 		
-		//Inject the dispatcher
-		$config['dispatcher'] = $dispatcher;
-
-		parent::__construct(new KConfig($config));
+		parent::__construct($config);
+	
+		//Set the plugin params
+	    if(is_string($config->params)) {
+            $config->params = $this->_parseParams($config->params);
+        }
+        
+        $this->_params = $config->params;
+        
+        //Setup lazy wiring for publishers we are subscribing too
+        foreach($config->event_publishers as $publisher) {
+            KService::setConfig($publisher, array('event_subscribers' => array($this)));
+        }
+	}
+	
+	/**
+	 * Initializes the options for the object
+	 *
+	 * Called from {@link __construct()} as a first step of object instantiation.
+	 *
+	 * @param   object  An optional KConfig object with configuration options.
+	 * @return  void
+	 */
+	protected function _initialize(KConfig $config)
+	{
+	    $config->append(array(
+        	'params'           => array(),
+        	'event_publishers' => array()
+        ));
+	    
+	    parent::_initialize($config);
 	}
 	
 	/**
@@ -117,9 +114,38 @@ abstract class PlgKoowaDefault extends KEventListener
 	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
 	{
 		if(empty($extension)) {
-			$extension = 'plg_'.$this->_type.'_'.$this->_name;
+		    $extension = 'plg_'.$this->getIdentifier()->package.'_'.$this->getIdentifier()->name;
 		}
 
 		return JFactory::getLanguage()->load( strtolower($extension), $basePath);
+	}
+	
+	/**
+	 * Method to extract key/value pairs out of a string
+	 *
+	 * @param   string  String containing the parameters
+	 * @return  array   Key/Value pairs for the attributes
+	 */
+	protected function _parseParams( $string )
+	{
+	    $params = array();
+	
+	    if(!version_compare(JVERSION,'1.6.0','ge'))
+	    {
+	        $string = trim($string);
+	
+	        if(!empty($string))
+	        {
+	            foreach(explode("\n", $string) as $line)
+	            {
+	                $param = explode("=", $line, 2);
+	                $params[$param[0]] = $param[1];
+	            }
+	        }
+	    }
+	    else $params = json_decode($string);
+	     
+	    $params = new KConfig($params);
+	    return $params;
 	}
 }
