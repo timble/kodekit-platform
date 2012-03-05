@@ -142,13 +142,14 @@ class KEventDispatcher extends KObject
      * @param  object	The event subscriber to add
      * @return  KEventDispatcher
      */
-    public function addEventSubscriber(KEventSubscriberInterface $subscriber, $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventSubscriber(KEventSubscriberInterface $subscriber, $priority = null)
     {
         $handle = $subscriber->getHandle();
     
         if(!isset($this->_subscribers[$handle]))
         {
-            $subscriptions = $subscriber->getSubscriptions();
+            $subscriptions = $subscriber->getSubscriptions(); 
+            $priority      = is_int($priority) ? $priority : $subscriber->getPriority();
     
             foreach($subscriptions as $subscription) {
                 $this->addEventListener($subscription, $subscriber, $priority);
