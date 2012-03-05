@@ -10,14 +10,14 @@
  */
 
 /**
- * Event Dispatcher Class
+ * Event Profile Dispatcher Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugProfilerEvents extends KEventDispatcher
+class ComDebugEventProfiler extends KEventDispatcher
 {
    /**
     * The start time
@@ -112,7 +112,7 @@ class ComDebugProfilerEvents extends KEventDispatcher
         	'message' => $name,
             'time'    => $this->getElapsedTime(),
             'memory'  => $this->getMemory(),
-            'caller'  => $event->caller->getIdentifier()
+            'caller'  => $event->getPublisher()->getIdentifier()
         );  
         
         return parent::dispatchEvent($name, $event);
