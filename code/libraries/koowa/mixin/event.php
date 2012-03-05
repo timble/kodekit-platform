@@ -158,12 +158,13 @@ class KMixinEvent extends KMixinAbstract
      *                 instead.
      * @return  KObject	The mixer object
      */
-    public function addEventSubscriber($subscriber, $config = array(), $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventSubscriber($subscriber, $config = array(), $priority = null)
     {
         if (!($subscriber instanceof KEventSubscriberInterface)) {
             $subscriber = $this->getEventSubscriber($subscriber, $config);
         }
-         
+        
+        $priority =  is_int($priority) ? $priority : $subscriber->getPriority(); 
         $this->_event_dispatcher->addEventSubscriber($subscriber, $priority);
     
         return $this;
