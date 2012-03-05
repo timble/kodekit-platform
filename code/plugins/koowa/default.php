@@ -12,8 +12,27 @@
 /**
  * Default Koowa plugin
  * 
- * Koowa plugins can handle a number of events that are dynamically generated. The following 
- * is a list of available events. This list is not meant to be exclusive.
+ * Koowa plugins can handle a number of events that are dynamically generated. A plugin 
+ * need to be wired to a specific event publisher in order for it to receive events from
+ * that publisher. 
+ * 
+ * <code>
+ * <?php
+ * class PlgKoowaFoo extends PlgKoowaDefault
+ * {
+ *   protected function _initialize(KConfig $config)
+ *   {
+ *       $config->append(array(
+ *           'event_publishers' => array('com://admin/foo.controller.bar')
+ *       ));
+ *        
+ *       parent::_initialize($config);
+ *   }	
+ * }
+ * </code>
+ * 
+ * 
+ * The following is a list of available events. This list is not meant to be exclusive.
  * 
  * onBeforeController[Action]
  * onAfterController[Action]
@@ -31,8 +50,8 @@
  * {
  * 		public function onBeforeControllerBrowse(KEvent $event)
  * 		{
- * 			//The caller is a reference to the object that is triggering this event
- * 			$caller = $event->caller;
+ * 			//The publisher is a reference to the object that is triggering this event
+ * 			$publisher = $event->getPublisher();
  * 
  * 			//The result is the actual result of the event, if this is an after event 
  * 			//the result will contain the result of the action.
