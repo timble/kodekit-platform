@@ -1724,8 +1724,7 @@ div.message {
   margin: 0;
   padding: 2px 0px 0px 0px;
 }
-.com_dashboard #content-box,
-.com_settings #content-box {
+.com_dashboard #content-box {
   overflow-y: scroll;
   /* Fix, force scrollbar */
 

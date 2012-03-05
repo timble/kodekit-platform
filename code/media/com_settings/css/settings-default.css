@@ -84,6 +84,8 @@
 	
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
+	
+	overflow-y: scroll; /* Fix, force scrollbar */
 }
 
 #content-box .current dd {
