@@ -1892,19 +1892,26 @@ body.com_users.login #login-box form {
   margin: 0px;
   padding: 0px;
 }
-body.com_users.login #login-box form .inputbox {
+body.com_users.login #login-box form input {
   width: 235px !important;
-  font-size: 20px;
-  padding: 5px;
+  padding: 4px 8px;
   border: 1px solid #D7DADE;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  font-size: 16.5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  height: 36px;
 }
 body.com_users.login #login-box .login {
   margin: 0 auto;
   width: 300px;
   margin-bottom: 100px;
+}
+body.com_users.login #login-box .btn {
+  margin-top: 14px;
 }
 body.com_users.login #login-box h1 {
   margin: 0;

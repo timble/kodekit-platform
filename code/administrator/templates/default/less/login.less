@@ -8,15 +8,21 @@ body.com_users.login {
 		margin: 0 auto;
 		
 		form  			{ margin: 0px; padding: 0px; }
-		form .inputbox  { 
+		form input  { 
 			width: 235px !important;
-			font-size: 20px;
-			padding: 5px;
+			padding: 4px 8px;
 			border: 1px solid #D7DADE;
-			.border-radius(3px);
+			font-size: @baseFontSize * 1.5;
+			.box-sizing(border-box);
+			.border-radius(4px);
+			height: @baseLineHeight * 3;
 		}
 		
 		.login { margin: 0 auto; width: 300px; margin-bottom: 100px; }
+		
+		.btn {
+			margin-top: 14px;
+		}
 		
 		h1 { 
 			margin: 0;
