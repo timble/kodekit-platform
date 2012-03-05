@@ -13,248 +13,153 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
-  
+
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-
+-->
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="contact-form" class="-koowa-form">
+<form action="" method="post" id="contact-form" class="-koowa-form -koowa-box">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
+	<div class="-koowa-box-vertical -koowa-box-flex1">
+	
+		<div class="title">
+		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->title ?>" placeholder="<?= @text('Title') ?>" />
+		</div>
 
-	<div style="width:60%; float: left" id="mainform">
-		<fieldset class="adminform">
-			<legend><?= @text('Details'); ?></legend>
-			
-			<table class="admintable">
-				<tr>
-					<td class="key">
-						<label for="name">
-							<?= @text( 'Title' ); ?>:
-						</label>
-					</td>
-					<td >
-						<input class="inputbox" type="text" name="title" id="name" size="60" maxlength="255" value="<?= $contact->title; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="alias">
-							<?= @text( 'Alias' ); ?>:
-						</label>
-					</td>
-					<td >
-						<input class="inputbox" type="text" name="alias" id="alias" size="60" maxlength="255" value="<?= $contact->slug; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<?= @text( 'Published' ); ?>:
-					</td>
-					<td>
-						<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="category">
-							<?= @text( 'Category' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-                            'name' => 'catid',
-                            'text' => 'title',
-                            'filter' => array('section' => 'com_contact_details'),
-                            'selected' => $contact->category,
-                        )); ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="user_id">
-							<?= @text( 'Linked to User' ); ?>:
-						</label>
-					</td>
-					<td>
-                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id')) ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<label for="ordering">
-							<?= @text( 'Ordering' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?= @helper('listbox.ordering'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<label for="access">
-							<?= @text( 'Access' ); ?>:
-						</label>
-					</td>
-					<td>
-						<?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
-					</td>
-				</tr>
-				<?php if ($contact->id) : ?>
-				<tr>
-					<td class="key">
-						<label>
-							<?= @text( 'ID' ); ?>:
-						</label>
-					</td>
-					<td>
-						<strong><?= $contact->id;?></strong>
-					</td>
-				</tr>
-				<?php endif; ?>
-			</table>
-		</fieldset>
-
-		<fieldset class="adminform">
-			<legend><?= @text('Information'); ?></legend>
-			
-			<table class="admintable">
-				<tr>
-					<td class="key">
-					<label for="con_position">
-						<?= @text( 'Contact\'s Position' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="con_position" id="con_position" size="60" maxlength="255" value="<?= $contact->con_position; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="email_to">
-							<?= @text( 'E-mail' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="email_to" id="email_to" size="60" maxlength="255" value="<?= $contact->email_to; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key" valign="top">
-						<label for="address">
-							<?= @text( 'Street Address' ); ?>:
-							</label>
-						</td>
-						<td>
- 							<textarea name="address" id="address" rows="3" cols="45" class="inputbox"><?= $contact->address; ?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="suburb">
-							<?= @text( 'Town/Suburb' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="suburb" id="suburb" size="60" maxlength="100" value="<?= $contact->suburb;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="state">
-							<?= @text( 'State/County' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="state" id="state" size="60" maxlength="100" value="<?= $contact->state;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="postcode">
-							<?= @text( 'Postal Code/ZIP' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="postcode" id="postcode" size="60" maxlength="100" value="<?= $contact->postcode; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="country">
-							<?= @text( 'Country' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="country" id="country" size="60" maxlength="100" value="<?= $contact->country;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key" valign="top">
-					<label for="telephone">
-					<?= @text( 'Telephone' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="telephone" id="telephone" size="60" maxlength="255" value="<?= $contact->telephone; ?>" />
-  					</td>
-				</tr>
-				<tr>
-					<td class="key" valign="top">
-						<label for="mobile">
-							<?= @text( 'Mobile' ); ?>:
-						</label>
-					</td>
-					<td>
- 						<input class="inputbox" type="text" name="mobile" id="mobile" size="60" maxlength="255" value="<?= $contact->mobile; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key" valign="top">
-						<label for="fax">
-							<?= @text( 'Fax' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="fax" id="fax" size="60" maxlength="255" value="<?= $contact->fax; ?>" />
- 					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="webpage">
-							<?= @text( 'Webpage' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="webpage" id="webpage" size="60" maxlength="255" value="<?= $contact->webpage; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td  class="key" valign="top">
-						<label for="misc">
-							<?= @text( 'Miscellaneous Info' ); ?>:
-						</label>
-					</td>
-					<td>
-						<textarea name="misc" id="misc" rows="5" cols="45" class="inputbox"><?= $contact->misc; ?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="image">
-							<?= @text( 'Image' ); ?>:
-						</label>
-					</td>
-					<td >
-						<?= @helper('image.listbox', array('name' => 'image')); ?>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
+		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+			<fieldset class="form-horizontal">
+				<legend><?= @text('Information'); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="con_position"><?= @text( 'Contact\'s Position' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="con_position" maxlength="255" value="<?= $contact->con_position; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="email_to"><?= @text( 'E-mail' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="email_to" maxlength="255" value="<?= $contact->email_to; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="address"><?= @text( 'Street Address' ); ?></label>
+				    <div class="controls">
+				        <textarea name="address" rows="5"><?= $contact->address; ?></textarea>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="suburb"><?= @text( 'Town/Suburb' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="suburb" maxlength="100" value="<?= $contact->suburb;?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="state"><?= @text( 'State/County' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="state" maxlength="100" value="<?= $contact->state;?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="postcode"><?= @text( 'Postal Code/ZIP' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="postcode" maxlength="100" value="<?= $contact->postcode; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="country"><?= @text( 'Country' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="country" maxlength="100" value="<?= $contact->country;?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="telephone"><?= @text( 'Telephone' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="telephone" maxlength="255" value="<?= $contact->telephone; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="mobile"><?= @text( 'Mobile' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="mobile" maxlength="255" value="<?= $contact->mobile; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="fax"><?= @text( 'Fax' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="fax" maxlength="255" value="<?= $contact->fax; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="webpage"><?= @text( 'Webpage' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="webpage" maxlength="255" value="<?= $contact->webpage; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
+				    <div class="controls">
+				        <textarea name="misc" rows="5"><?= $contact->misc; ?></textarea>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
+				    <div class="controls">
+				        <?= @helper('image.listbox', array('name' => 'image')); ?>
+				    </div>
+				</div>
+			</fieldset>
+		</div>
 	</div>
 
-	<div class="col width-40">
-		<fieldset class="adminform">
+	<div id="sidebar" style="width: 430px;">
+		<fieldset class="form-horizontal">
+			<legend><?= @text('Publish'); ?></legend>
+			<div class="control-group">
+			    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
+			    <div class="controls controls-radio">
+			        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="catid"><?= @text( 'Category' ); ?></label>
+			    <div class="controls">
+			        <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+			            'name' => 'catid',
+			            'text' => 'title',
+			            'filter' => array('section' => 'com_contact_details'),
+			            'selected' => $contact->category,
+			        )); ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
+			    <div class="controls">
+			        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="user_id"><?= @text( 'Linked to User' ); ?></label>
+			    <div class="controls">
+			        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id')) ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="ordering"><?= @text( 'Ordering' ); ?></label>
+			    <div class="controls">
+			        <?= @helper('listbox.ordering'); ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="access"><?= @text( 'Access' ); ?></label>
+			    <div class="controls">
+			        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
+			    </div>
+			</div>
+		</fieldset>
+		
+		<fieldset>
 			<legend><?= @text('Parameters'); ?></legend>
 
 			<?= @helper('tabs.startPane'); ?>

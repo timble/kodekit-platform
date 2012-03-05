@@ -3,17 +3,29 @@
  */
 
 fieldset {
-	margin-bottom: 10px;
-	border: 1px #ccc solid;
-	padding: 5px;
-	text-align: left;
+	padding: 0;
+	margin: 0;
+	border: 0;
 	
-	legend    {
-		color: @linkColor;
-		font-size: 12px;
-		font-weight: bold;
+	// Groups of fields with labels on top (legends)
+	legend {
+	  display: block;
+	  width: 100%;
+	  padding: 0;
+	  margin-bottom: @baseLineHeight * 1.5;
+	  font-size: @baseFontSize + 5;
+	  line-height: @baseLineHeight * 2;
+	  color: @grayDark;
+	  border-bottom: 1px solid #eee;
+	
+	  // Small
+	  small {
+	    font-size: @baseLineHeight * .75;
+	    color: @grayLight;
+	  }
 	}
 }
+
 
 
 // Set font for forms
@@ -25,11 +37,21 @@ textarea {
   #font > .shorthand(@baseFontSize,normal,@baseLineHeight); // Set size, weight, line-height here
 }
 
+// Identify controls by their labels
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: @grayDark;
+  font-size: @baseFontSize + 1;
+}
+
 // Inputs, Textareas, Selects
 input,
 textarea,
 select {
-  height: @baseLineHeight;
+  .box-sizing(border-box);
+  height: @baseLineHeight * 2;
+  width: 100%;
   padding: 4px;
   border: 1px solid #ccc;
   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
@@ -45,10 +67,44 @@ input[type="file"] {
   line-height: @baseLineHeight + 6;
 }
 
+// Mini reset for unique input types
+input[type="image"],
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 3px 0;
+  *margin-top: 0; /* IE7 */
+  line-height: normal;
+  cursor: pointer;
+  .border-radius(0);
+  border: 0 \9; /* IE9 and down */
+}
+input[type="image"] {
+  border: 0;
+}
+
 // Make multiple select elements height not fixed
 select[multiple],
 select[size] {
   height: auto;
+}
+
+// Remove shadow from image inputs
+input[type="image"] {
+  .box-shadow(none);
+}
+
+// Make textarea height behave and only resize vertically
+textarea {
+  height: auto;
+  resize: vertical;
+}
+
+// Hidden inputs
+input[type="hidden"] {
+  display: none;
 }
 
 // Help out input buttons
@@ -79,5 +135,80 @@ select:focus {
 }
 
 
-input.disabled { background-color: #F0F0F0; }
-input.button  { cursor: pointer; }
+
+// HORIZONTAL & VERTICAL FORMS
+// ---------------------------
+
+// Common properties
+// -----------------
+
+// Margin to space out fieldsets
+.control-group {
+  margin-bottom: @baseLineHeight / 2;
+}
+
+// Legend collapses margin, so next element is responsible for spacing
+legend + .control-group {
+  margin-top: @baseLineHeight;
+  -webkit-margin-top-collapse: separate;
+}
+
+// Horizontal-specific styles
+// --------------------------
+
+.form-horizontal {
+  // Increase spacing between groups
+  .control-group {
+    margin-bottom: @baseLineHeight;
+    .clearfix();
+  }
+  // Float the labels left
+  .control-label {
+    float: left;
+    width: 140px;
+    padding-top: 5px;
+    text-align: right;
+  }
+  // Move over all input controls and content
+  .controls {
+    margin-left: 160px;
+  }
+}
+
+// Override form elements in sidebar
+#content-box > form #sidebar {
+	label {
+		font-size: @baseFontSize;
+	}
+	
+	.form-horizontal {
+	  .control-label {
+	    width: 90px;
+	  }
+	  // Move over all input controls and content
+	  .controls {
+	    margin-left: 110px;
+	  }
+	}
+}
+
+
+// Fix for radio options
+.controls-radio label {
+	display: inline;
+}
+
+// Fix for calendar input
+.controls-calendar input {
+	width: 100% - 18px;
+	margin-right: 4px;
+}
+
+// Override width of fields in grid
+.-koowa-grid {
+	input,
+	textarea,
+	select {
+		width: auto;
+	}
+}

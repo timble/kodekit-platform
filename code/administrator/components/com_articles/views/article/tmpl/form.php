@@ -30,10 +30,10 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="article-form" class="-koowa-form">
-    <div id="main">
-        <div class="title clearfix">
-            <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
+<form action="" method="post" id="article-form" class="-koowa-form -koowa-box">
+    <div class="-koowa-box-vertical -koowa-box-flex1">
+        <div class="title">
+            <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
 
         <?/*= @editor(array(
@@ -48,97 +48,76 @@ defined('KOOWA') or die('Restricted access') ?>
         //*/?>
         <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display() ?>
     </div>
-    <div id="panels" class="grid_4">
-        <div class="panel">
-            <h3><?= @text('Publish') ?></h3>
-            <table class="paramlist admintable">
-                <tr>
-                    <td class="paramlist_key">
-                        <label><?= @text('Published') ?></label>
-                    </td>
-                    <td>
-                        <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="paramlist_key">
-                        <label><?= @text('Featured') ?></label>
-                    </td>
-                    <td>
-                        <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
-                    </td>
-                </tr>
-                <tr>
-                	<td width="40%" class="paramlist_key">
-            	        <label for="publish_up"><?= @text('Publish on') ?></label>
-                    </td>
-                    <td class="paramlist_value">
-                        <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
-                    </td>
-                </tr>
-                <tr>
-                	<td width="40%" class="paramlist_key">
-                    	<label for="publish_down"><?= @text('Unpublish on') ?></label>
-                    </td>
-                    <td class="paramlist_value">
-                        <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="paramlist_key">
-                        <label for="slug"><?= @text('Slug') ?></label>
-                    </td>
-                    <td>
-                       <input class="inputbox" type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="panel">
-            <h3><?= @text('Details') ?></h3>
-            <table width="100%" class="paramlist admintable" cellspacing="1">
-                <tbody>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="created_by"><?= @text('Author') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                            <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="access"><?= @text('Visibility') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                            <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="40%" class="paramlist_key">
-                            <label for="created_on"><?= @text('Created on') ?></label>
-                        </td>
-                        <td class="paramlist_value">
-                        	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="panel folders group">
-            <h3><?= @text('Category') ?></h3>
+    <div id="sidebar" class="grid_3">        
+        <fieldset class="form-horizontal">
+        	<legend><?= @text('Publish') ?></legend>
+            <div class="control-group">
+                <label class="control-label" for="state"><?= @text('Published') ?></label>
+                <div class="controls controls-radio">
+                    <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="featured"><?= @text('Featured') ?></label>
+                <div class="controls controls-radio">
+                    <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
+                </div>
+            </div>
+            <div class="control-group">
+        	    <label class="control-label" for="publish_up"><?= @text('Publish on') ?></label>
+                <div class="controls controls-calendar">
+                    <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="publish_down"><?= @text('Unpublish on') ?></label>
+                <div class="controls controls-calendar">
+                    <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
+                <div class="controls">
+                   <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
+                </div>
+            </div>
+        </fieldset>
+    
+        <fieldset class="form-horizontal">
+        	<legend><?= @text('Details') ?></legend>
+            <tbody>
+                <div class="control-group">
+                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
+                    <div class="controls">
+                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="access"><?= @text('Visibility') ?></label>
+                    <div class="controls">
+                        <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
+                    <div class="controls controls-calendar">
+                    	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
+                    </div>
+                </div>
+            </tbody>
+        </fieldset>
+        
+        <fieldset class="categories group">
+            <legend><?= @text('Category') ?></legend>
+            <div class="control-group">
             <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
-        </div>
-        <div class="panel">
-            <h3><?= @text('Description') ?></h3>
-            <table width="100%" class="paramlist admintable" cellspacing="1">
-    		<tbody>
-        		<tr>
-            		<td class="paramlist_value">
-                		<textarea name="description" cols="58" rows="5" class="text_area"><?= $article->description ?></textarea>
-            		</td>
-        		</tr>
-    		</tbody>
-			</table>
-        </div>
+            </div>
+        </fieldset>
+        <fieldset>
+    		<legend><?= @text('Description') ?></legend>
+    		<div class="control-group">
+                <textarea name="description" rows="5"><?= $article->description ?></textarea>
+            </div>
+        </fieldset>
     </div>
 </form>

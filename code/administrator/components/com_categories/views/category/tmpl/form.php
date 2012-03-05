@@ -12,95 +12,80 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.validator') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" class="-koowa-form" id="category-form">
-    <div class="grid_8">
-        <div class="panel title group">
-            <input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $category->title ?>" placeholder="<?= @text('Title') ?>" />
-            <label for="slug"><?= @text('Slug') ?></label>
-            <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $category->slug ?>" placeholder="<?= @text('Slug') ?>" /> 
-        </div>
-        <?= @editor(array(
-            'name'    => 'description',
-            'editor'  => null,
-            'width'   => '100%',
-            'height'  => '300',
-            'cols'    => '60',
-            'rows'    => '20',
-            'buttons' => true,
-            'options' => array('theme' => 'simple', 'pagebreak', 'readmore')
-        ));
-        ?>
-    </div>
+<form action="" method="post" class="-koowa-form -koowa-box" id="category-form">
+    <div class="-koowa-box-vertical -koowa-box-flex1">
+		<div class="title">
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+		</div>
 
-    <div class="grid_4">
-        <div class="panel">
-            <h3><?= @text('Publish') ?></h3>
-            <table class="admintable">
-                <tr>
-                    <td class="key">
-                        <?= @text('Published') ?>:
-                    </td>
-                    <td>
-                        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
-                    </td>
-                </tr>
-                <? $section = $category->id ? $category->section_id : $state->section ?>
-                <? if(substr($section, 0, 3) != 'com' || $section =='com_content') : ?>
-                    <tr>
-                        <td class="key">
-                            <label for="section"><?= @text('Section') ?>:</label>
-                        </td>
-                        <td>
-                            <input type="hidden" name="old_parent" value="<?= $category->section_id ?>" />
-                            <?= @helper('listbox.sections', array(
-                            	'name' => 'section_id', 
-                            	'selected' => $category->section_id, 
-                            	'attribs' => array('id' => 'section_id', 'class' => 'required'),
-                            	'deselect' => false,
-                            	'uncategorised' => false
-                            )) ?>
-                        </td>
-                    </tr>
-                <? else : ?>
-                    <input type="hidden" name="section_id" value="<?= $section ?>" />
-                <? endif ?>
-                <tr>
-                    <td valign="top" class="key">
-                        <label for="access"> <?= @text('Access Level') ?>:</label>
-                    </td>
-                    <td>
-                        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)) ?>
-                    </td>
-                </tr>
-            </table>
-        </div>
+		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Details' ); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Description' ); ?></label>
+				    <div class="controls">
+				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
+				    </div>
+				</div>
+			</fieldset>
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Image' ); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
+				    <div class="controls">
+				        <?= @helper('image.listbox', array('name' => 'image')); ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="image_position"><?= @text( 'Image Position' ); ?></label>
+				    <div class="controls">
+				        <?=  @helper('image.position'); ?>
+				    </div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
 
-        <div class="panel">
-            <h3>
-                <?= @text('Image') ?>
-            </h3>
-            <table class="admintable">
-                <tr>
-                    <td class="key">
-                        <label for="image"> <?= @text('Image') ?>:</label>
-                    </td>
-                    <td><?= @helper('image.listbox', array('name' => 'image')) ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td nowrap="nowrap" class="key">
-                        <label for="image_position"><?= @text('Image Position') ?>:</label>
-                    </td>
-                    <td>
-                        <?=  @helper('image.position') ?>
-                    </td>
-                </tr>
-            </table>
-        </div>
+    <div id="sidebar" style="width: 300px;">
+    	<fieldset class="form-horizontal">
+    		<legend><?= @text( 'Publish' ); ?></legend>
+    		<div class="control-group">
+    		    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
+    		    <div class="controls controls-radio">
+    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
+    		    </div>
+    		</div>
+    		<? $section = $category->id ? $category->section_id : $state->section ?>
+    		<? if(substr($section, 0, 3) != 'com' || $section =='com_content') : ?>
+    		<div class="control-group">
+    		    <label class="control-label" for="section_id"><?= @text('Section') ?></label>
+    		    <div class="controls">
+    		        <input type="hidden" name="old_parent" value="<?= $category->section_id ?>" />
+    		        <?= @helper('listbox.sections', array(
+    		        	'name' => 'section_id', 
+    		        	'selected' => $category->section_id, 
+    		        	'attribs' => array('id' => 'section_id', 'class' => 'required'),
+    		        	'deselect' => false,
+    		        	'uncategorised' => false
+    		        )) ?>
+    		    </div>
+    		</div>
+    		<? else : ?>
+    		    <input type="hidden" name="section_id" value="<?= $section ?>" />
+    		<? endif ?>
+    		<div class="control-group">
+    		    <label class="control-label" for="access"><?= @text('Access Level') ?></label>
+    		    <div class="controls">
+    		        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)) ?>
+    		    </div>
+    		</div>
+    	</fieldset>
     </div>
 </form>

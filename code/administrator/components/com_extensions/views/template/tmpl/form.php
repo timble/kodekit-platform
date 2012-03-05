@@ -10,8 +10,10 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @helper('behavior.modal'); ?>
 <?= @helper('behavior.tooltip'); ?>
@@ -21,33 +23,27 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form">
-    <div class="col width-50">
-        <fieldset class="adminform">
+<form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form -koowa-box">
+        	
+	<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+        <fieldset class="form-horizontal">
             <legend><?= @text('Details') ?></legend>
-            <table class="admintable">
-                <tr>
-                    <td valign="top" class="key">
-                        <?= @text('Name') ?>:
-                    </td>
-                    <td>
-                        <strong>
-                            <?= $template->name ?>
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top" class="key">
-                        <?= @text('Description') ?>:
-                    </td>
-                    <td>
-                        <?= @text($template->description) ?>
-                    </td>
-                </tr>
-            </table>
+            <div class="control-group">
+                <label class="control-label"><?= @text('Name') ?></label>
+                <div class="controls">
+                    <?= @text($template->name) ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><?= @text('Description') ?></label>
+                <div class="controls">
+                    <?= @text($template->description) ?>
+                </div>
+            </div>
         </fieldset>
-    </div>
-    <div class="col width-50">
+	</div>
+   
+    <div id="sidebar" style="width: 300px;">
         <fieldset class="adminform">
             <legend><?= @text('Parameters') ?></legend>
             <? if($html = $template->params->render()) : ?>

@@ -28,86 +28,63 @@ if(Form && Form.Validator) {
 }
 </script>
 
-<form action="" method="post" class="-koowa-form">
-    <div class="grid_8">
-        <div class="panel title group">
-        	<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $newsfeed->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
-            <label for="slug">
-                <?= @text( 'Slug' ); ?>:
-                <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $newsfeed->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
-            </label>
-        </div>
-        <fieldset class="adminform">
+<form action="" method="post" class="-koowa-form -koowa-box">
+    <div class="-koowa-box-vertical -koowa-box-flex1">
+    	<div class="title">
+    	    <input class="required" type="text" name="title" maxlength="255" value="<?= $newsfeed->title ?>" placeholder="<?= @text('Title') ?>" />
+    	</div>
+        
+        <div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+            <fieldset class="form-horizontal">
             <legend><?= @text( 'Details' ) ?></legend>
-            <table class="admintable">
-            <tr>
-                <td class="key">
-                    <label for="link">
-                        <?= @text( 'Link' ) ?>:
-                    </label>
-                </td>
-                <td>
-                    <input class="inputbox required validate-url" type="text" size="60" name="link" id="link" value="<?= $newsfeed->link ?>" />
-                </td>
-            </tr>
-            <tr>
-                <td class="key">
-                    <label for="numarticles">
-                        <?= @text( 'Number of Articles' ) ?>:
-                    </label>
-                </td>
-                <td>
-                    <input class="inputbox required validate-integer validate-count" type="text" size="2" name="numarticles" id="numarticles" value="<?= $newsfeed->numarticles ?>" />
-                </td>
-            </tr>
-            <tr>
-                <td class="key">
-                    <label for="cache_time">
-                        <?= @text( 'Cache time' ) ?>:
-                    </label>
-                </td>
-                <td>
-                    <input class="inputbox required validate-integer validate-count" type="text" size="4" name="cache_time" id="cache_time" value="<?= $newsfeed->cache_time ?>" />
-                </td>
-            </tr>
-            <tr>
-                <td class="key">
-                    <label for="rtl">
-                        <?= @text( 'RTL feed' ) ?>:
-                    </label>
-                </td>
-                <td>
+            <div class="control-group">
+                <label class="control-label" for="link"><?= @text( 'Link' ) ?></label>
+                <div class="controls">
+                    <input class="required validate-url" type="text" name="link" value="<?= $newsfeed->link ?>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="numarticles"><?= @text( 'Number of Articles' ) ?></label>
+                <div class="controls">
+                    <input class="required validate-integer validate-count" type="text" name="numarticles" value="<?= $newsfeed->numarticles ?>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="cache_time"><?= @text( 'Cache time' ) ?></label>
+                <div class="controls">
+                    <input class="required validate-integer validate-count" type="text" name="cache_time" value="<?= $newsfeed->cache_time ?>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="rtl"><?= @text( 'RTL feed' ) ?></label>
+                <div class="controls controls-radio">
                     <?= @helper('select.booleanlist', array('name' => 'rtl', 'selected' => $newsfeed->rtl)) ?>
-                </td>
-            </tr>
-            </table>
-        </fieldset>
+                </div>
+            </div>
+            </fieldset>
+        </div>
     </div>
-    <div class="grid_4">
-        <div class="panel">
-            <h3><?= @text( 'Publish' ); ?></h3>
-            <table class="admintable">
-    		<tr>
-    		    <td class="key">
-    		        <label for="enabled">
-    		            <?= @text( 'Published' ) ?>:
-    		        </label>
-    		    </td>
-    		    <td>
-    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
-    		    </td>
-    		</tr>
-    		<tr>
-    		    <td class="key">
-    		        <label for="catid">
-    		            <?= @text( 'Category' ) ?>:
-    		        </label>
-    		    </td>
-    		    <td>
-	    			<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $newsfeed->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
-    		    </td>
-    		</tr>
-    		</table>
+    <div id="sidebar" style="width: 300px;">
+        <fieldset class="form-horizontal">
+            <legend><?= @text( 'Publish' ) ?></legend>
+            <div class="control-group">
+                <label class="control-label" for="enabled"><?= @text( 'Published' ) ?></label>
+                <div class="controls controls-radio">
+                    <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="catid"><?= @text( 'Category' ) ?></label>
+                <div class="controls">
+                    <?= @helper('listbox.category', array('name' => 'catid', 'selected' => $newsfeed->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="slug"><?= @text( 'Slug' ); ?></label>
+                <div class="controls">
+                    <input type="text" name="slug" maxlength="255" value="<?= $newsfeed->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
+                </div>
+            </div>
     	</div>
     </div>
 </form>

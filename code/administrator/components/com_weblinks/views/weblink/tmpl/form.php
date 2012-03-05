@@ -16,73 +16,57 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
+<form action="" method="post" class="-koowa-form -koowa-box">
+	<input type="hidden" name="id" value="<?= $weblink->id ?>" />
 
-<form action="" method="post" class="-koowa-form">
-<input type="hidden" name="id" value="<?= $weblink->id ?>" />
-
-<div class="grid_8">
-	<div class="panel title group">
-		<input class="inputbox required" type="text" name="title" id="title" size="40" maxlength="255" value="<?= $weblink->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
-        <label for="slug">
-            <?= @text( 'Slug' ); ?>:
-            <input class="inputbox" type="text" name="slug" id="slug" size="40" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
-        </label>
-    </div>
-	<div class="panel">
-	    <h3><?= @text( 'Details' ); ?></h3>
-		<table class="admintable">
-		<tr>
-			<td class="key">
-				<label for="url">
-					<?= @text( 'URL' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="text_area required validate-url" type="text" name="url" id="url" value="<?= $weblink->url; ?>" size="70" maxlength="250" />
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" class="key">
-				<label for="description">
-					<?= @text( 'Description' ); ?>:
-				</label>
-			</td>
-			<td>
-				<textarea class="text_area" cols="40" rows="9" name="description" id="description"><?= $weblink->description; ?></textarea>
-			</td>
-		</tr>
-		</table>
+	<div class="-koowa-box-vertical -koowa-box-flex1">
+		<div class="title">
+		    <input class="required" type="text" name="title" maxlength="255" value="<?= $weblink->title ?>" placeholder="<?= @text('Title') ?>" />
+		</div>
+	    
+	    <div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+	        <fieldset class="form-horizontal">
+	        	<legend><?= @text( 'Details' ); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'URL' ); ?></label>
+				    <div class="controls">
+				        <input class="required validate-url" type="text" name="url" value="<?= $weblink->url; ?>" maxlength="250" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Description' ); ?></label>
+				    <div class="controls">
+				        <textarea rows="9" name="description"><?= $weblink->description; ?></textarea>
+				    </div>
+				</div>
+			</fieldset>
+		</div>
 	</div>
-</div>
-
-<div class="grid_4">
-    <div class="panel">
-        <h3><?= @text( 'Publish' ); ?></h3>
-        <table class="admintable">
-		<tr>
-			<td class="key">
-			    <label for="enabled">
-			        <?= @text( 'Published' ) ?>:
-			    </label>
-			</td>
-			<td>
-				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<label for="catid">
-					<?= @text( 'Category' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
-			</td>
-		</tr>
-		</table>
+	<div id="sidebar" style="width: 300px;">
+		<fieldset class="form-horizontal">
+			<legend><?= @text( 'Publish' ); ?></legend>
+			<div class="control-group">
+			    <label class="control-label" for=""><?= @text( 'Published' ) ?></label>
+			    <div class="controls controls-radio">
+			        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for=""><?= @text( 'Category' ); ?></label>
+			    <div class="controls">
+			        <?= @helper('listbox.category', array('name' => 'catid', 'selected' => $weblink->catid, 'attribs' => array('id' => 'catid', 'class' => 'required'))) ?>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for=""><?= @text( 'Slug' ); ?></label>
+			    <div class="controls">
+			        <input type="text" name="slug" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
+			    </div>
+			</div>
+		</fieldset>
 	</div>
-</div>
-
 </form>

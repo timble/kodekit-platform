@@ -13,87 +13,71 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="plugin-form" class="-koowa-form">
-    <div class="col width-60">
-    	<fieldset class="adminform">
-        	<legend><?= @text('Details') ?></legend>
-        	<table class="admintable">
-        		<tr>
-        			<td width="100" class="key">
-        				<label for="title">
-        					<?= @text('Name') ?>:
-        				</label>
-        			</td>
-        			<td>
-        				<input class="text_area required" type="text" name="title" id="title" size="35" value="<?= @escape($plugin->title) ?>" />
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
-        				<?= @text('Published') ?>:
-        			</td>
-        			<td>
-        				<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected'	=> $plugin->enabled)) ?>
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
-        				<label for="folder">
-        					<?= @text('Type') ?>:
-        				</label>
-        			</td>
-        			<td>
-        				<?= $plugin->type ?>
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
-        				<label for="element">
-        					<?= @text('Plugin file') ?>:
-        				</label>
-        			</td>
-        			<td>
-        				<input class="text_area required validate-alphanum" type="text" name="element" id="element" size="35" value="<?= @escape($plugin->name) ?>" />.php
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
-        				<label for="access">
-        					<?= @text('Access Level') ?>:
-        				</label>
-        			</td>
-        			<td>
-        				<?= JHTML::_('list.accesslevel', $plugin) ?>
-        			</td>
-        		</tr>
-        		<tr>
-        			<td valign="top" class="key">
-        				<?= @text('Description') ?>:
-        			</td>
-        			<td>
-        				<?= @text($plugin->description) ?>
-        			</td>
-        		</tr>
-        		</table>
-    	</fieldset>
+<form action="" method="post" id="plugin-form" class="-koowa-form -koowa-box">
+    <div class="-koowa-box-vertical -koowa-box-flex1">
+    	<div class="title">
+    		<input class="required" type="text" name="title" value="<?= @escape($plugin->title) ?>" />
+    	</div>
+    	
+    	<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+    	    <fieldset class="form-horizontal">
+    	    	<legend><?= @text( 'Details' ); ?></legend>
+    			<div class="control-group">
+    			    <label class="control-label"><?= @text('Type') ?></label>
+    			    <div class="controls">
+    			        <?= @text($plugin->type) ?>
+    			    </div>
+    			</div>
+    			<div class="control-group">
+    			    <label class="control-label"><?= @text('Description') ?></label>
+    			    <div class="controls">
+    			        <?= @text($plugin->description) ?>
+    			    </div>
+    			</div>
+    		</fieldset>
+    		
+    		<?= @helper('tabs.startPane') ?>
+    			<?= @helper('tabs.startPanel', array('id' => 'default', 'title' => 'Default Parameters')) ?>
+    				<?= @template('form_accordion', array('params' => $plugin->params, 'id' => 'param-page', 'title' => 'Plugin Parameters')) ?>
+    			<?= @helper('tabs.endPanel') ?>				
+    			
+    			<? if($plugin->params->getNumParams('advanced')) : ?>
+    			<?= @helper('tabs.startPanel', array('id' => 'advanced', 'title' => 'Advanced Parameters')) ?>
+    				<?= @template('form_accordion', array('params' => $plugin->params, 'group' => 'advanced')) ?>
+    			<?= @helper('tabs.endPanel') ?>
+    			<? endif ?>
+    		<?= @helper('tabs.endPane') ?>
+    	</div>
     </div>
-    <div class="col width-40">
-    	<fieldset class="adminform">
-        	<legend>
-        	    <?= @text('Parameters') ?>
-        	</legend>
-        	<?= @helper('accordion.startPane', array('id' => 'plugin-pane')) ?>
-				<?= @template('form_accordion', array('params' => $plugin->params, 'id' => 'param-page', 'title' => 'Plugin Parameters')) ?>
-	
-				<? if($plugin->params->getNumParams('advanced')) : ?>
-				<?= @template('form_accordion', array('params' => $plugin->params, 'group' => 'advanced')) ?>
-				<? endif ?>
-			<?= @helper('accordion.endPane') ?>
+    
+    <div id="sidebar" style="width: 300px;">
+    	<fieldset class="form-horizontal">
+        	<legend><?= @text('Details') ?></legend>
+        	<div class="control-group">
+        	    <label class="control-label" for=""><?= @text('Published') ?></label>
+        	    <div class="controls controls-radio">
+        	        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected'	=> $plugin->enabled)) ?>
+        	    </div>
+        	</div>
+        	<div class="control-group">
+        	    <label class="control-label" for=""><?= @text('Plugin file') ?></label>
+        	    <div class="controls controls-calendar">
+        	        <input class="required validate-alphanum" type="text" name="element" value="<?= @escape($plugin->name) ?>" />.php
+        	    </div>
+        	</div>
+        	<div class="control-group">
+        	    <label class="control-label" for=""><?= @text('Access Level') ?></label>
+        	    <div class="controls">
+        	        <?= JHTML::_('list.accesslevel', $plugin) ?>
+        	    </div>
+        	</div>
     	</fieldset>
     </div>
 </form>
