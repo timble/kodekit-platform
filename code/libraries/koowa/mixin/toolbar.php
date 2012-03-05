@@ -97,7 +97,9 @@ class KMixinToolbar extends KMixinAbstract
         $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
         
         //Add the toolbar
-        $this->addEventSubscriber($toolbar, $priority);
+        if($this->inherits('KMixinEvent')) {
+            $this->addEventSubscriber($toolbar, $priority);
+        }
         
         return $this->getMixer();
     }
