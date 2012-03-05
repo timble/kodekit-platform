@@ -46,7 +46,7 @@ class KMixinBehavior extends KMixinAbstract
 		//Set the auto mixin state
 		$this->_auto_mixin = $config->auto_mixin;
 		
-	    //Add the toolbars
+	    //Add the behaviors
         if(!empty($config->behaviors)) 
         {
             $behaviors = (array) KConfig::unbox($config->behaviors);
@@ -116,7 +116,7 @@ class KMixinBehavior extends KMixinAbstract
             $this->mixin($behavior);
         }
         
-        return $this;
+        return $this->_mixer;
     }
    
 	/**
