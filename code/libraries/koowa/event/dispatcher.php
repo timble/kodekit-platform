@@ -18,14 +18,24 @@
 class KEventDispatcher extends KObject
 {
     /**
-	 * An associative array of event listeners queues 
+	 * List of event listeners
 	 * 
-	 * The keys are holding the event name and the value is 
-	 * an KObjectQueue object.
+	 * An associative array of event listeners queues where keys are holding the event 
+	 * name and the value is an KObjectQueue object.
 	 *
 	 * @var array
 	 */
 	protected $_listeners;
+	
+	/**
+	 * List of event subscribers 
+	 *
+	 * Associative array of subscribers, where key holds the subscriber handle
+	 * and the value the subscri object
+	 *
+	 * @var array
+	 */
+	protected $_subscribers;
 	
 	/**
      * The event object
@@ -43,7 +53,8 @@ class KEventDispatcher extends KObject
 	{
 		parent::__construct($config);
 	    
-	    $this->_listeners = array();
+		$this->_subscribers = array();
+	    $this->_listeners   = array();
 	}
 	
  	/**
@@ -60,8 +71,11 @@ class KEventDispatcher extends KObject
         
         //Make sure we have an event object
         if(!$event instanceof KEvent) {
-            $event = new KEvent($name, $event);
+            $event = new KEvent($event);
         }
+        
+        $event->setName($name)
+              ->setDispatcher($this);
              
         //Nofity the listeners
         if(isset($this->_listeners[$name])) 
@@ -123,6 +137,64 @@ class KEventDispatcher extends KObject
     }
     
     /**
+     * Add an event subscriber
+     *
+     * @param  object	The event subscriber to add
+     * @return  KEventDispatcher
+     */
+    public function addEventSubscriber(KEventSubscriberInterface $subscriber, $priority = KEvent::PRIORITY_NORMAL)
+    {
+        $handle = $subscriber->getHandle();
+    
+        if(!isset($this->_subscribers[$handle]))
+        {
+            $listeners = $subscriber->getEventListeners();
+    
+            foreach($listeners as $listener) {
+                $this->addEventListener($listener, $subscriber, $priority);
+            }
+    
+            $this->_subscribers[$handle] = $subscriber;
+        }
+    
+        return $this;
+    }
+    
+    /**
+     * Remove an event subscriber
+     *
+     * @param  object	The event subscriber to remove
+     * @return  KEventDispatcher
+     */
+    public function removeEventSubscriber(KEventSubscriberInterface $subscriber)
+    {
+        $handle = $subscriber->getHandle();
+    
+        if(isset($this->_subscribers[$handle]))
+        {
+            $listeners = $subscriber->getEventListeners();
+    
+            foreach($listeners as $listener) {
+                $this->removeEventListener($listener, $subscriber, $priority);
+            }
+    
+            unset($this->_subscribers[$handle]);
+        }
+    
+        return $this;
+    }
+      
+    /**
+     * Gets the event subscribers
+     *
+     * @return array    An asscociate array of event subscribers, keys are the subscriber handles
+     */
+    public function getSubscribers()
+    {
+        return $this->_subscribers;
+    }
+    
+    /**
      * Get a list of listeners for a specific event
      *
      * @param   string  		The event name
@@ -153,7 +225,7 @@ class KEventDispatcher extends KObject
         
         return $result;
     }
-    
+     
 	/**
      * Set the priority of an event
      * 
@@ -187,5 +259,17 @@ class KEventDispatcher extends KObject
         }
         
         return $result;
+    }
+    
+    /**
+     * Check if the handler is connected to a dispatcher
+     *
+     * @param  object	The event dispatcher
+     * @return boolean	TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
+     */
+    public function isSubscribed(KEventSubscriberInterface $subscriber)
+    {
+        $handle = $subscriber->getHandle();
+        return isset($this->_subscribers[$handle]);
     }
 }
