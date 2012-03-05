@@ -27,12 +27,10 @@ class plgSystemDebug extends JPlugin
 	    if(KDEBUG) 
 	    {
 	        //Replace the event dispatcher
-	        KService::setAlias('koowa:event.dispatcher', 'com://admin/debug.profiler.events');
+	        KService::setAlias('koowa:event.dispatcher', 'com://admin/debug.event.profiler');
 	          
-	        //Add the query profiler
-	        KService::get('com://admin/debug.profiler.queries', array(
-	        	'event_dispatcher' => KService::get('koowa:database.adapter.mysqli')->getEventDispatcher()
-	        ));
+	        //Add the database tracer
+	        KService::get('koowa:database.adapter.mysqli')->addEventSubscriber('com://admin/debug.event.subscriber.database');
 		}
 		
 		parent::__construct($subject, $config);
