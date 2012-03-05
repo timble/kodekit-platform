@@ -148,10 +148,10 @@ class KEventDispatcher extends KObject
     
         if(!isset($this->_subscribers[$handle]))
         {
-            $listeners = $subscriber->getEventListeners();
+            $subscriptions = $subscriber->getSubscriptions();
     
-            foreach($listeners as $listener) {
-                $this->addEventListener($listener, $subscriber, $priority);
+            foreach($subscriptions as $subscription) {
+                $this->addEventListener($subscription, $subscriber, $priority);
             }
     
             $this->_subscribers[$handle] = $subscriber;
@@ -172,10 +172,10 @@ class KEventDispatcher extends KObject
     
         if(isset($this->_subscribers[$handle]))
         {
-            $listeners = $subscriber->getEventListeners();
+            $subscriptions = $subscriber->getSubscriptions();
     
-            foreach($listeners as $listener) {
-                $this->removeEventListener($listener, $subscriber, $priority);
+            foreach($subscriptions as $subscription) {
+                $this->removeEventListener($subscription, $subscriber);
             }
     
             unset($this->_subscribers[$handle]);
