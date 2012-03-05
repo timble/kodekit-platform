@@ -26,7 +26,7 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 	 */
     public function onBeforeControllerGet(KEvent $event)
     {   
-        $event->caller->getView()->toolbar = $this;
+        $event->getPublisher()->getView()->toolbar = $this;
     }
 	
 	/**
