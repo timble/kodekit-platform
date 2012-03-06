@@ -192,7 +192,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	    
 	    //Status
         if($context->status) {
-           header(KHttpResponse::getHeader($context->status));
+           header(KHttpResponse::getHeader($context->status, KRequest::protocol()));
         }
 	    
 	    if(is_string($context->result)) {
