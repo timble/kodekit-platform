@@ -504,6 +504,16 @@ class KRequest
      
         return $scheme;
     }
+    
+    /**
+     * Return the protocal based on $_SERVER['SERVER_PROTOCOL']
+     * 
+     * @return  string
+     */
+    public static function protocol()
+    {
+        return $_SERVER['SERVER_PROTOCOL'];
+    }
 
     /**
      * Returns current request method.
