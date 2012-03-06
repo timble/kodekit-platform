@@ -335,7 +335,7 @@ class JApplication extends JObject
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
-			header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+			header($moved ? KRequest::protocol().' 301 Moved Permanently' : KRequest::protocol().' 303 See other');
 			header('Location: '.$url);
 		}
 		$this->close();
