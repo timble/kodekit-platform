@@ -30,16 +30,23 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'       => gmdate("M d Y H:i:s"),
-            'format'     => '%A, %d %B %Y',
-            'gmt_offset' => date_offset_get(new DateTime),
+            'date'     => 'now',
+           	'timezone' => is_null($config->date) ? 'Europe/London' : null,
+            'format'   => 'l, d F Y',
+            'default'  => ''
         ));
 
-        if(!is_numeric($config->date)) {
-            $config->date =  strtotime($config->date);
+        if (in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) {
+            return $config->default;
         }
 
-        return strftime($config->format, $config->date + $config->gmt_offset);
+        try {
+            $date = new DateTime($config->date, $config->timezone);
+        } catch (Exception $e) {
+            return $config->default;
+        }
+        
+        return $date->format($config->format);
     }
 
     /**
