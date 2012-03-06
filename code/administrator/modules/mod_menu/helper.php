@@ -56,14 +56,14 @@ class modMenuHelper
 		/*
 		 * Site SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Dashboard'), 'index.php?option=com_dashboard&view=dashboard', 'class:cpanel'), true);
+		$menu->addChild(new JMenuNode(JText::_('Dashboard'), 'index.php?option=com_dashboard&view=dashboard'), true);
 		$menu->getParent();
 		
 		/*
 		 * Menus SubMenu
 		 */
 		if ($manageMenuMan) {
-			$menu->addChild(new JMenuNode(JText::_('Menus'), 'index.php?option=com_menus&task=view', 'class:menu'));
+			$menu->addChild(new JMenuNode(JText::_('Menus'), 'index.php?option=com_menus&task=view'));
 		}
 
 		/*
@@ -115,16 +115,16 @@ class modMenuHelper
 						$text = $lang->hasKey($row->option) ? JText::_($row->option) : $row->name;
 						$link = $row->admin_menu_link ? "index.php?$row->admin_menu_link" : "index.php?option=$row->option";
 						if (array_key_exists($row->id, $subs)) {
-							$menu->addChild(new JMenuNode($text, $link, $row->admin_menu_img), true);
+							$menu->addChild(new JMenuNode($text, $link), true);
 							foreach ($subs[$row->id] as $sub) {
 								$key  = $row->option.'.'.$sub->name;
 								$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
 								$link = $sub->admin_menu_link ? "index.php?$sub->admin_menu_link" : null;
-								$menu->addChild(new JMenuNode($text, $link, $sub->admin_menu_img));
+								$menu->addChild(new JMenuNode($text, $link));
 							}
 							$menu->getParent();
 						} else {
-							$menu->addChild(new JMenuNode($text, $link, $row->admin_menu_img));
+							$menu->addChild(new JMenuNode($text, $link));
 						}
 					}
 				}
@@ -135,14 +135,14 @@ class modMenuHelper
 		/*
 		 * Users SubMenu
 		 */
-		$menu->addChild(new JMenuNode(JText::_('Files'), 'index.php?option=com_files', 'class:files'), true);
+		$menu->addChild(new JMenuNode(JText::_('Files'), 'index.php?option=com_files'), true);
 		$menu->getParent();
 		
 		/*
 		 * Users SubMenu
 		 */
 		if ($canManageUsers) {
-			$menu->addChild(new JMenuNode(JText::_('Users'), 'index.php?option=com_users&view=users', 'class:user'), true);
+			$menu->addChild(new JMenuNode(JText::_('Users'), 'index.php?option=com_users&view=users'), true);
 			$menu->getParent();
 		}
 
@@ -153,19 +153,19 @@ class modMenuHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer&view=components', 'class:install'));
+			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer&view=components'));
 			$menu->addSeparator();
 			if ($editAllModules) {
-				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_extensions&view=modules', 'class:module'));
+				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_extensions&view=modules'));
 			}
 			if ($editAllPlugins) {
-				$menu->addChild(new JMenuNode(JText::_('Plugins'), 'index.php?option=com_extensions&view=plugins', 'class:plugin'));
+				$menu->addChild(new JMenuNode(JText::_('Plugins'), 'index.php?option=com_extensions&view=plugins'));
 			}
 			if ($manageTemplates) {
-				$menu->addChild(new JMenuNode(JText::_('Templates'), 'index.php?option=com_extensions&view=templates', 'class:themes'));
+				$menu->addChild(new JMenuNode(JText::_('Templates'), 'index.php?option=com_extensions&view=templates'));
 			}
 			if ($manageLanguages) {
-				$menu->addChild(new JMenuNode(JText::_('Languages'), 'index.php?option=com_extensions&view=languages', 'class:language'));
+				$menu->addChild(new JMenuNode(JText::_('Languages'), 'index.php?option=com_extensions&view=languages'));
 			}
 			$menu->getParent();
 		}
@@ -178,14 +178,14 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 			
 			if ($canConfig) {
-				$menu->addChild(new JMenuNode(JText::_('Settings'), 'index.php?option=com_settings', 'class:config'));
+				$menu->addChild(new JMenuNode(JText::_('Settings'), 'index.php?option=com_settings'));
 				$menu->addSeparator();
-				$menu->addChild(new JMenuNode(JText::_('Activity Logs'), 'index.php?option=com_activities&view=activities', 'class:config'));
-				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system', 'class:info'));
+				$menu->addChild(new JMenuNode(JText::_('Activity Logs'), 'index.php?option=com_activities&view=activities'));
+				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system'));
 				$menu->addSeparator();
 			}
 
-			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache&view=items', 'class:config'));
+			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache&view=items'));
 			$menu->getParent();
 		}
 
