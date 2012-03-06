@@ -28,7 +28,7 @@ foreach ($activities as $activity) {
 		<div class="activities">
 			<? foreach($activities as $activity) : ?>
 			<div class="activity">
-				<span class="icon icon-16-<?= $activity->action ?>"></span>
+				<i class="icon-<?= $activity->action ?>"></i>
 				<?= @helper('com://admin/activities.template.helper.activity.message', array('row' => $activity)) ?>
 				<span class="info">
 					<small><?= $activity->package.' - '.$activity->name ?> | <?= date("H:i", strtotime($activity->created_on)) ?></small>
