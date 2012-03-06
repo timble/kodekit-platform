@@ -68,7 +68,7 @@ defined('KOOWA') or die('Restricted access'); ?>
     			    <?= $component->version ?>
     			</td>
     			<td>
-    			    <?= @helper('date.format', array('date' => $component->creationDate, 'format' => '%d %B %Y')) ?>
+    			    <?= @helper('date.format', array('date' => $component->creationDate, 'format' => 'd F Y')) ?>
     			</td>
     			<td>
     				<span class="hasTip" title="<?= @text('Author Information') ?>::<?= $component->authorEmail.'<br />'.$component->authorUrl ?>">

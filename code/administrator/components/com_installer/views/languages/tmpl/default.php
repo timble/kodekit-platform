@@ -76,7 +76,7 @@ defined('KOOWA') or die('Restricted access'); ?>
    				    <?= $language->version ?>
    				</td>
    				<td>
-   				    <?= @helper('date.format', array('date' => $language->creationDate, 'format' => '%d %B %Y')) ?>
+   				    <?= @helper('date.format', array('date' => $language->creationDate, 'format' => 'd F Y')) ?>
    				</td>
    				<td>
    					<span class="hasTip" title="<?= @text('Author Information') ?>::<?= $language->authorEmail.'<br />'.$language->authorUrl ?>">

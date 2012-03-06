@@ -222,11 +222,20 @@ class JDate extends JObject
 	 * @param string $format  The date format specification string (see {@link PHP_MANUAL#strftime})
 	 * @return a date in a specific format
 	 */
-	function toFormat($format = '%Y-%m-%d %H:%M:%S')
+	function toFormat($format = 'Y-m-d H:i:s')
 	{
-		$date = ($this->_date !== false) ? $this->_strftime($format, $this->_date + $this->_offset) : null;
-
-		return $date;
+	    if ($this->_date === false) {
+	        return null;
+	    }
+	    
+        try {
+            $date = new DateTime((is_int($this->_date) ? '@' : '').$this->_date);
+        } catch (Exception $e) {
+            return null;
+        }
+        
+        $date->modify(sprintf('%+d', $this->_offset).' seconds');
+        return $date->format($format);
 	}
 
 	/**
