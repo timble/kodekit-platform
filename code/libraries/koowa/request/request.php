@@ -209,7 +209,7 @@ class KRequest
         }
         
         // Store cookies persistently
-        if($hash == 'COOKIE' && strpos(KRequest::protocol(), 'http') !== false)
+        if($hash == 'COOKIE' && strpos(KRequest::scheme(), 'http') !== false)
         {
             // rewrite the $keys as foo[bar][bar]
             $ckeys = $keys; // get a copy
@@ -484,25 +484,25 @@ class KRequest
     }
 
     /**
-     * Returns the current request protocol, based on $_SERVER['https']. In CLI
+     * Returns the current request scheme, based on $_SERVER['https']. In CLI
      * mode, 'cli' will be returned.
      *
      * @return  string
      */
-    public static function protocol()
+    public static function scheme()
     {
-        $protocol = 'cli';
+        $scheme = 'cli';
         
         if (PHP_SAPI !== 'cli') 
         {
-            $protocol = 'http';
+            $scheme = 'http';
             
             if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
-                $protocol = 'https';
+                $scheme = 'https';
             }
         } 
      
-        return $protocol;
+        return $scheme;
     }
 
     /**
