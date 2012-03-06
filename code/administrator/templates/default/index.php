@@ -36,7 +36,6 @@
 		<?php if($this->countModules('toolbar OR title')) : ?>
 		<div id="toolbar-box">
 			<jdoc:include type="modules" name="toolbar" />
-			<jdoc:include type="modules" name="title" />
 		</div>
 		<?php endif; ?>
 		<jdoc:include type="message" />
