@@ -28,4 +28,3 @@
 #activities-list .activities .activity:last-child 	{ border-bottom: none 0px; }
 
 #activities-list .activities .activity span.info { color: #999; float: right; width: auto; text-transform: capitalize; }
-#activities-list .activities .activity span.icon { float: left; display: block; width: 16px; height: 16px; margin-right: 5px; background-position: 0 0; }
