@@ -40,4 +40,7 @@ foreach ($activities as $activity) {
 			<? endforeach ?>
 		</div>
 	<? endforeach ?>
+	<a class="btn" href="<?= @route('option=com_activities&view=activities') ?>">
+	   <?= @text('More activities') ?>
+	</a>
 </div>
