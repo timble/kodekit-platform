@@ -128,3 +128,7 @@ window.addEvent('domready', function() {
         </tbody>
     </table>
 </form>
+
+<div class="sidebar sidebar-right">
+	<?= @template('default_activities'); ?>
+</div>

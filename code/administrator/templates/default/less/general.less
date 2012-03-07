@@ -277,19 +277,21 @@ div.toolbar {
 	.adminlist td  { border: 0 none; }
 }
 
-div.title {
-	padding: 10px 10px 10px 10px;
-	#gradient > .vertical(#F0F0F0, #EAEAEA);
-	border-bottom: 1px solid #CCC;
-	
-	input {
-		font-size: @baseFontSize * 1.5;
-		width: 100%;
-		padding: 4px 8px;
-		.box-sizing(border-box);
-		.border-radius(4px);
-		height: @baseLineHeight * 3;
-		line-height: @baseLineHeight * 3;
+form.-koowa-form {
+	div.title {
+		padding: 10px 10px 10px 10px;
+		#gradient > .vertical(#F0F0F0, #EAEAEA);
+		border-bottom: 1px solid #CCC;
+		
+		input {
+			font-size: @baseFontSize * 1.5;
+			width: 100%;
+			padding: 4px 8px;
+			.box-sizing(border-box);
+			.border-radius(4px);
+			height: @baseLineHeight * 3;
+			line-height: @baseLineHeight * 3;
+		}
 	}
 }
 
@@ -434,7 +436,7 @@ div.title {
 /* @end */
 
 /* Sidebar */
-#content-box > form #sidebar {
+#content-box.form #sidebar {
 	float: none !important;
 	display: block !important;
 	margin: 0 !important;
@@ -445,9 +447,9 @@ div.title {
 	overflow-y: scroll;
 }
 
-#content-box > #sidebar {
+#content-box.default #sidebar,
+#content-box.default .sidebar {
 	width: 200px;
-	border-right: 1px solid @grayLighter;
 	.box-sizing(border-box);
 	background-color: #F9F9F9;
 	overflow-y: scroll;
@@ -461,6 +463,15 @@ div.title {
 		margin: 0;
 		text-transform: uppercase;
 	}
+}
+
+#content-box.default .sidebar-right {
+	border-left: 1px solid @grayLighter;
+}
+
+#content-box.default .sidebar-left,
+#content-box.default > #sidebar {
+	border-right: 1px solid @grayLighter;
 	
 	ul {
 		margin: 0;
@@ -509,6 +520,66 @@ div.title {
 			background: none;
 			color: #444;
 			border-top-color: #F9F9F9;
+		}
+	}
+}
+
+#content-box.default .sidebar {
+	h3 {
+		padding: 0;
+		vertical-align: middle;
+		#gradient > .vertical(#F2F2F2, #E9E9E9);
+		border-bottom: 1px solid @grayLighter;
+		line-height: 24px;
+	}
+	
+	#activities-list {		
+		h4 {			
+			padding: 5px;
+			margin: 0;
+			border-top: 1px solid #E8EAEC;
+			color: #666;
+			#gradient > .vertical(#f1f2f4, #F9F9F9);
+		}
+		
+		h4:first-of-type {
+			border-top: none 0px;
+		}
+		
+		.activities { 
+			margin: 0 10px 10px 10px;
+			
+			.activity 			{ 
+				padding: 7px 0;
+				border-bottom: 1px dotted @grayLighter;
+				.clearfix();
+				
+				> div {
+					width: 100% - 20px;
+					float: left;
+				}
+				
+				a {
+					line-height: 16px;
+					width: 100%;
+				}
+				
+				// Icon
+				i { 
+					margin-right: 6px;
+					margin-top: 1px;
+					vertical-align: text-bottom;
+					float: left;
+				}
+				
+				.datetime { color: @gray; }
+			}
+			.activity:last-child { border-bottom: none 0px; }
+		}
+		
+		.btn {
+			margin: 0 10px;
+			vertical-align: text-bottom;
 		}
 	}
 }
