@@ -2890,3 +2890,28 @@ input.button:active,
 .icon-activities {
   background-position: -168px -24px;
 }
+.label {
+  padding: 2px 4px 3px;
+  font-size: 9.35px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #eaeaea;
+  color: #555555;
+}
+.label-important {
+  background-color: #fdebeb;
+  color: #cf1010;
+}
+.label-warning {
+  background-color: #fef4e5;
+  color: #f89406;
+}
+.label-success {
+  background-color: #e3f6ec;
+  color: #297e52;
+}
+.label-info {
+  background-color: #e0f5fe;
+  color: #049cdb;
+}
