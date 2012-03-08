@@ -14,18 +14,6 @@ defined('KOOWA') or die('Restricted access') ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<script>
-window.addEvent('domready', function() {
-	var elForm       = document.id('articles-form');
-	
-	['articles-form-created-by','articles-form-access'].each(function(item) {
-		document.id(item).addEvent('change', function() {
-			elForm.submit();
-		})
-	});
-});
-</script>
-
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <?= @template('default_sidebar'); ?>
@@ -39,23 +27,16 @@ window.addEvent('domready', function() {
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
-                <th width="7%">
-                    <?= @helper('grid.sort', array('column' => 'state')) ?>
+                <th width="20">
+                    <?= @helper('grid.sort', array('column' => 'state', 'title' => 'Published')) ?>
                 </th>
-                <th width="7%">
-                    <?= @helper('grid.sort', array('column' => 'featured')) ?>
-                </th>
+                <? if($state->category) : ?>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => ($state->featured == true) ? 'featured_ordering' : 'ordering')) ?>
                 </th>
-                <th width="7%">
-                    <?= @helper('grid.sort', array('column' => 'access')) ?>
-                </th>
-                <th width="8%">
-                    <?= @helper('grid.sort', array('title' => 'Author', 'column' => 'created_by_name')) ?>
-                </th>
-                <th width="8%">
-                    <?= @helper('grid.sort', array('title' => 'Date', 'column' => 'created')) ?>
+                <? endif; ?>
+                <th width="20%">
+                    <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created')) ?>
                 </th>
             </tr>
             <tr>
@@ -65,21 +46,17 @@ window.addEvent('domready', function() {
                 <td>
                     <?= @helper('grid.search') ?>
                 </td>
+                
                 <td></td>
+                <? if($state->category) : ?>
                 <td></td>
-                <td></td>
-                <td>
-                    <?= @helper('listbox.access', array('attribs' => array('id' => 'articles-form-access'))) ?>
-                </td>
-                <td>
-                    <?= @helper('listbox.authors', array('attribs' => array('id' => 'articles-form-created-by'))) ?>
-                </td>
+                <? endif; ?>
                 <td></td>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <td colspan="8">
+                <td colspan="5">
                     <?= @helper('paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
@@ -102,26 +79,27 @@ window.addEvent('domready', function() {
                      <? else : ?>
                      	<?= @escape($article->title); ?>
                      <? endif; ?>
+                     <? if($article->featured) : ?>
+	                     <span class="label label-success"><?= @text('Featured') ?></span>
+                     <? endif; ?>
+                     <? if($article->access == '1') : ?>
+                         <span class="label label-important"><?= @text('Registered') ?></span>
+                     <? elseif($article->access == '2') : ?>
+                         <span class="label"><?= @text('Special') ?></span>
+                     <? endif; ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>
                 </td>
-                <td align="center">
-					<?= @helper('grid.featured', array('row' => $article)) ?>
-                </td>
+                <? if($state->category) : ?>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>
                 </td>
-                <td align="center">
-                    <?= @helper('grid.access', array('row' => $article)) ?>
-                </td>
+                <? endif; ?>
                 <td>
-                    <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
+                    <?= @helper('date.humanize', array('date' => $article->created_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
                         <?= $article->created_by_name ?>
                     </a>
-                </td>
-                <td>
-                    <?= @helper('date.humanize', array('date' => $article->created_on)) ?>
                 </td>
             </tr>
         <? endforeach ?>

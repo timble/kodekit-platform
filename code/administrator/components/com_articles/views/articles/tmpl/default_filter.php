@@ -12,8 +12,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="filter" class="group">
 	<ul>
-		<li class="<?= is_null($state->state) && is_null($state->featured) && is_null($state->deleted) ? 'active' : ''; ?> separator-right">
-			<a href="<?= @route('state=&featured=&trashed=' ) ?>">
+		<li class="<?= is_null($state->state) && is_null($state->access) && is_null($state->featured) && is_null($state->deleted) ? 'active' : ''; ?> separator-right">
+			<a href="<?= @route('state=&access=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
 		</li>
@@ -30,6 +30,21 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<li class="<?= $state->state === -1 ? 'active' : ''; ?>">
 			<a href="<?= @route($state->state === -1 ? 'state=' : 'state=-1' ) ?>">
 			    <?= 'Archived' ?>
+			</a>
+		</li>
+		<li class="<?= $state->access === 0 ? 'active' : ''; ?> separator-left">
+			<a href="<?= @route($state->access === 0 ? 'access=' : 'access=0' ) ?>">
+			    <?= 'Public' ?>
+			</a>
+		</li>
+		<li class="<?= $state->access === 1 ? 'active' : ''; ?>">
+			<a href="<?= @route($state->access === 1 ? 'access=' : 'access=1' ) ?>">
+			    <?= 'Registered' ?>
+			</a>
+		</li>
+		<li class="<?= $state->access === 2 ? 'active' : ''; ?>">
+			<a href="<?= @route($state->access === 2 ? 'access=' : 'access=2' ) ?>">
+			    <?= 'Special' ?>
 			</a>
 		</li>
 		<li class="<?= $state->featured ? 'active' : ''; ?> separator-left">
