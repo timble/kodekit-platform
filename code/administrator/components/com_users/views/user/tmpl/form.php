@@ -33,122 +33,124 @@ if(Form && Form.Validator) {
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<div class="grid_8">
-		<div class="panel">
-			<h3><?= @text('User Details') ?></h3>
-			<table class="admintable">
-				<tr>
-					<td class="key">
-						<label for="name">
-						    <?= @text('Name') ?>:
-						</label>
-					</td>
-					<td>
-						<input class="required" type="text" name="name" value="<?= $user->name ?>" size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="username">
-						    <?= @text('Username') ?>:
-						</label>
-					</td>
-					<td>
-						<input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="email">
-						    <?= @text('E-Mail') ?>:
-						</label>
-					</td>
-					<td>
-						<input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="password">
-						    <?= @text('New Password') ?>:
-						</label>
-					</td>
-					<td>
-						<input id="password" type="password" name="password" maxlength="100" size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="password_verify">
-						    <?= @text('Verify Password') ?>:
-						</label>
-					</td>
-					<td>
-						<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
-					</td>
-				</tr>
-			</table>
+	<div class="editor">
+		<div class="grid_8">
+			<div class="panel">
+				<h3><?= @text('User Details') ?></h3>
+				<table class="admintable">
+					<tr>
+						<td class="key">
+							<label for="name">
+							    <?= @text('Name') ?>:
+							</label>
+						</td>
+						<td>
+							<input class="required" type="text" name="name" value="<?= $user->name ?>" size="40" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="username">
+							    <?= @text('Username') ?>:
+							</label>
+						</td>
+						<td>
+							<input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="email">
+							    <?= @text('E-Mail') ?>:
+							</label>
+						</td>
+						<td>
+							<input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" size="40" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="password">
+							    <?= @text('New Password') ?>:
+							</label>
+						</td>
+						<td>
+							<input id="password" type="password" name="password" maxlength="100" size="40" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="password_verify">
+							    <?= @text('Verify Password') ?>:
+							</label>
+						</td>
+						<td>
+							<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="panel">
+				<h3><?= @text('User Parameters') ?></h3>
+				<?= $user->params->render('params'); ?>
+			</div>
 		</div>
-		<div class="panel">
-			<h3><?= @text('User Parameters') ?></h3>
-			<?= $user->params->render('params'); ?>
-		</div>
-	</div>
-	<div class="grid_4">
-		<div class="panel">
-			<h3><?= @text('System Information') ?></h3>
-			<table class="admintable">
-				<tr>
-					<td class="key">
-						<label for="enabled">
-						    <?= @text('Enable User') ?>:
-						</label>
-					</td>
-					<td>
-						<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="send_email">
-						    <?= @text('Receive System E-mails') ?>:
-						</label>
-					</td>
-					<td>
-						<?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
-					</td>
-				</tr>
-				<? if (!$user->isNew()): ?>
-				<tr>
-					<td class="key">
-						<?= @text('Register Date') ?>:
-					</td>
-					<td>
-						<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-							<?= @text('Never') ?>
-						<? else : ?>
-							<?= @helper('date.format', array('date' => $user->registered_on, 'format' => 'Y-m-d H:i:s')) ?>
-						<? endif ?>
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<?= @text('Last Visit') ?>:
-					</td>
-					<td>
-						<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-							<?= @text('Never') ?>
-						<? else : ?>
-							<?= @helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
-						<? endif ?>
-					</td>
-				</tr>
-				<? endif; ?>
-			</table>
-		</div>
-		<div class="panel groups">
-			<h3><?= @text('Group') ?></h3>
-			<?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
+		<div class="grid_4">
+			<div class="panel">
+				<h3><?= @text('System Information') ?></h3>
+				<table class="admintable">
+					<tr>
+						<td class="key">
+							<label for="enabled">
+							    <?= @text('Enable User') ?>:
+							</label>
+						</td>
+						<td>
+							<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="send_email">
+							    <?= @text('Receive System E-mails') ?>:
+							</label>
+						</td>
+						<td>
+							<?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
+						</td>
+					</tr>
+					<? if (!$user->isNew()): ?>
+					<tr>
+						<td class="key">
+							<?= @text('Register Date') ?>:
+						</td>
+						<td>
+							<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+								<?= @text('Never') ?>
+							<? else : ?>
+								<?= @helper('date.format', array('date' => $user->registered_on, 'format' => 'Y-m-d H:i:s')) ?>
+							<? endif ?>
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<?= @text('Last Visit') ?>:
+						</td>
+						<td>
+							<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+								<?= @text('Never') ?>
+							<? else : ?>
+								<?= @helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
+							<? endif ?>
+						</td>
+					</tr>
+					<? endif; ?>
+				</table>
+			</div>
+			<div class="panel groups">
+				<h3><?= @text('Group') ?></h3>
+				<?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
+			</div>
 		</div>
 	</div>
 </form>

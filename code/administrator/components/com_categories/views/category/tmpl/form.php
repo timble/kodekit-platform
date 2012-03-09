@@ -19,7 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" class="-koowa-for" id="category-form">
+<form action="" method="post" class="-koowa-form" id="category-form">
     <div class="editor-container">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />

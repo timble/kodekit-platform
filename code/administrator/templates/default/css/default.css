@@ -2684,13 +2684,13 @@ legend + .control-group {
 .form-horizontal .controls {
   margin-left: 160px;
 }
-#content-box > form #sidebar label {
+#content-box > form .sidebar label {
   font-size: 11px;
 }
-#content-box > form #sidebar .form-horizontal .control-label {
+#content-box > form .sidebar .form-horizontal .control-label {
   width: 90px;
 }
-#content-box > form #sidebar .form-horizontal .controls {
+#content-box > form .sidebar .form-horizontal .controls {
   margin-left: 110px;
 }
 .controls-radio label {
