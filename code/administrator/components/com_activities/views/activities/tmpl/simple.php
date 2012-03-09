@@ -17,7 +17,7 @@ foreach ($activities as $activity) {
 }
 ?>
 
-<div id="activities-list" class="-koowa-box-vertical">
+<div id="activities-list">
 	<? foreach($list as $date => $activities) : ?>
 		<h4><?= @helper('date.humanize', array('date' => $date)) ?></h4>
 		<div class="activities">
