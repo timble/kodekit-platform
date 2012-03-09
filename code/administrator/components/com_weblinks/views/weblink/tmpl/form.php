@@ -20,15 +20,15 @@ defined('KOOWA') or die('Restricted access'); ?>
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 -->
-<form action="" method="post" class="-koowa-form -koowa-box">
+<form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />
 
-	<div class="-koowa-box-vertical -koowa-box-flex1">
+	<div class="editor-container">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $weblink->title ?>" placeholder="<?= @text('Title') ?>" />
 		</div>
 	    
-	    <div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+	    <div class="editor">
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">
@@ -46,7 +46,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</fieldset>
 		</div>
 	</div>
-	<div id="sidebar" style="width: 300px;">
+	<div class="sidebar">
 		<fieldset class="form-horizontal">
 			<legend><?= @text( 'Publish' ); ?></legend>
 			<div class="control-group">

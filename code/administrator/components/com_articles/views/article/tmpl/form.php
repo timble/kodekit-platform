@@ -30,8 +30,8 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="article-form" class="-koowa-form -koowa-box">
-    <div class="-koowa-box-vertical -koowa-box-flex1">
+<form action="" method="post" id="article-form" class="-koowa-form">
+    <div class="editor-container">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
@@ -48,7 +48,7 @@ defined('KOOWA') or die('Restricted access') ?>
         //*/?>
         <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display() ?>
     </div>
-    <div id="sidebar" class="grid_3">        
+    <div class="sidebar">        
         <fieldset class="form-horizontal">
         	<legend><?= @text('Publish') ?></legend>
             <div class="control-group">

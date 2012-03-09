@@ -1,11 +1,15 @@
-#flexbox {
-	.box() { 
+#flexbox {	
+	.box(@orient: inline-axis, @flex: 0, @scroll: 0) { 
 		display: -webkit-box;
 		display: -moz-box;
 		display: box;
+		
+		#flexbox .box-orient(@orient);
+		#flexbox .box-flex(@flex);
+		#flexbox .box-scrollable(@scroll);
 	}
 	
-	.box-orient(@orient: horizontal) {
+	.box-orient(@orient: inline-axis) {
 		-webkit-box-orient: @orient;
 		-moz-box-orient: @orient;
 		box-orient: @orient;
@@ -23,82 +27,34 @@
 		box-flex: @flex;
 	}
 	
-	.box-scroll { overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+	.box-scroll { 
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.box-scrollable(@scroll) when (@scroll = scrollable) { 
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
 }
 
+// #TODO: Cleanup (only used in com_files, com_info and com_menus)
 /* @group Flexible Box Model, powered by CSS3 */
 .-koowa-box { 
 	#flexbox .box();
-}
-
-.-koowa-box-horizontal { 
-	#flexbox > .box();
-	#flexbox > .box-orient(horizontal);
-	#flexbox > .box-align(stretch);
 }	
-.-koowa-box-horizontal> * 	{ 
-	display: block;
-	#flexbox > .box-flex(0);
-}
 
-.-koowa-box-vertical 		{ 
+.-koowa-box-vertical { 
 	#flexbox > .box();
 	#flexbox > .box-orient(vertical);
 	#flexbox > .box-align(stretch);
 }
-.-koowa-box-vertical> * 	{ 
-	display: block;
-	#flexbox > .box-flex(0);
-}
 
-.-koowa-box-spacer 	{ 
-	#flexbox > .box-flex(1);
-}
-.-koowa-box-reverse { 
-	-webkit-box-direction: reverse;
-	-moz-box-direction: reverse;
-}
-
-.-koowa-box-flex0 	{ 
-	#flexbox > .box-flex(0);
-}
 .-koowa-box-flex1,
 .-koowa-box-flex 	{ 
 	#flexbox > .box-flex(1);
-}
-.-koowa-box-flex2 	{
-	#flexbox > .box-flex(2);
-}
-
-.-koowa-box-group1 { 
-	-webkit-box-flex-group: 1; 
-	-moz-box-flex-group: 1; 
-}
-.-koowa-box-group2 { 
-	-webkit-box-flex-group: 2;
-	-moz-box-flex-group: 2; 
-}
-
-.-koowa-box-start 	{ 
-	-webkit-box-pack: start;
-	-moz-box-pack: start;
-}
-.-koowa-box-end 	{ 
-	-webkit-box-pack: end;
-	-moz-box-pack: end;
-}
-.-koowa-box-center 	{
-	-webkit-box-pack: center;
-	-moz-box-pack: center;
-}
-
-.-koowa-box-ordinal-group2 { 
-	-webkit-box-ordinal-group: 2;
-	-moz-box-ordinal-group: 2;
-}
-.-koowa-box-ordinal-group3 { 
-	-webkit-box-ordinal-group: 3;
-	-moz-box-ordinal-group: 3;
 }
 /* @end group */
 

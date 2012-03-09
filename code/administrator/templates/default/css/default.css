@@ -1068,6 +1068,17 @@ body,
   width: 100%;
   height: 100%;
 }
+#container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
 #minwidth-body {
   min-width: 960px;
 }
@@ -1134,6 +1145,12 @@ a:hover {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   height: 31px;
   background-color: #333;
   background-color: #464646;
@@ -1150,6 +1167,12 @@ a:hover {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   border-top: 1px solid #bbb;
   background-color: #528bed;
   background-image: -moz-linear-gradient(top, #6497ef, #3678ea);
@@ -1164,6 +1187,13 @@ a:hover {
 #toolbar-box {
   display: -webkit-box;
   display: -moz-box;
+  display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   height: 41px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1187,32 +1217,63 @@ a:hover {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-align: stretch;
-  -moz-box-align: stretch;
-  box-align: stretch;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
 }
-div#content-box.form form.-koowa-grid,
-div#content-box.form form.-koowa-form,
-div#content-box.form form[name="adminForm"] {
-  padding: 14px 0;
+form.-koowa-grid {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+form.-koowa-form {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+form.-koowa-form .editor-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+form.-koowa-form .editor {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-}
-div#content-box.form form.-koowa-box {
-  padding: 0 !important;
-  overflow-y: hidden !important;
-}
-form.-koowa-grid,
-form.-koowa-form,
-form[name="adminForm"] {
-  /* Fix for Mozilla, to make the element flexible */
-
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
+  padding: 20px;
+}
+form[name="adminForm"] {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 /* -- various styles -- */
 span.note {
@@ -1244,11 +1305,6 @@ span.note {
   text-decoration: none;
 }
 /** toolbar **/
-div.toolbar {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
 div.toolbar table.toolbar {
   border-collapse: collapse;
   padding: 0;
@@ -1540,7 +1596,8 @@ form.-koowa-form div.title input {
 }
 /* @end */
 /* Sidebar */
-#content-box.form #sidebar {
+#content-box.form .sidebar {
+  width: 300px;
   float: none !important;
   display: block !important;
   margin: 0 !important;
@@ -1561,6 +1618,9 @@ form.-koowa-form div.title input {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
 }
 #content-box.default .sidebar h3 {
   padding: 0;
@@ -1583,6 +1643,12 @@ form.-koowa-form div.title input {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f2f2', endColorstr='#e9e9e9', GradientType=0);
 }
 #content-box.default .sidebar .scrollable {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -1986,6 +2052,12 @@ table.adminlist .pagination div.off span {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -2128,12 +2200,24 @@ table.adminlist .pagination div.off span {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
 }
 /* submenu styling */
 #submenu {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   list-style: none;
   margin: 0;
   padding: 0 0 0 15px;
@@ -2217,6 +2301,9 @@ div.message {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -2225,6 +2312,9 @@ div.message {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -2241,13 +2331,15 @@ div.message {
   box-flex: 1;
 }
 .com_dashboard #content-box > div:first-child > div > div > div:last-child {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-.com_dashboard #content-box > div:last-child {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
@@ -2307,20 +2399,9 @@ div.message {
   display: -webkit-box;
   display: -moz-box;
   display: box;
-}
-.-koowa-box-horizontal {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-align: stretch;
-  -moz-box-align: stretch;
-  box-align: stretch;
-}
-.-koowa-box-horizontal > * {
-  display: block;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
   -webkit-box-flex: 0;
   -moz-box-flex: 0;
   box-flex: 0;
@@ -2329,6 +2410,12 @@ div.message {
   display: -webkit-box;
   display: -moz-box;
   display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
@@ -2336,64 +2423,11 @@ div.message {
   -moz-box-align: stretch;
   box-align: stretch;
 }
-.-koowa-box-vertical > * {
-  display: block;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-}
-.-koowa-box-spacer {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-.-koowa-box-reverse {
-  -webkit-box-direction: reverse;
-  -moz-box-direction: reverse;
-}
-.-koowa-box-flex0 {
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-}
 .-koowa-box-flex1,
 .-koowa-box-flex {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
-}
-.-koowa-box-flex2 {
-  -webkit-box-flex: 2;
-  -moz-box-flex: 2;
-  box-flex: 2;
-}
-.-koowa-box-group1 {
-  -webkit-box-flex-group: 1;
-  -moz-box-flex-group: 1;
-}
-.-koowa-box-group2 {
-  -webkit-box-flex-group: 2;
-  -moz-box-flex-group: 2;
-}
-.-koowa-box-start {
-  -webkit-box-pack: start;
-  -moz-box-pack: start;
-}
-.-koowa-box-end {
-  -webkit-box-pack: end;
-  -moz-box-pack: end;
-}
-.-koowa-box-center {
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-}
-.-koowa-box-ordinal-group2 {
-  -webkit-box-ordinal-group: 2;
-  -moz-box-ordinal-group: 2;
-}
-.-koowa-box-ordinal-group3 {
-  -webkit-box-ordinal-group: 3;
-  -moz-box-ordinal-group: 3;
 }
 /* @end group */
 .-koowa-box-scroll {

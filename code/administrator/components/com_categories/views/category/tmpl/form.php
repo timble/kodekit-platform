@@ -19,13 +19,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" class="-koowa-form -koowa-box" id="category-form">
-    <div class="-koowa-box-vertical -koowa-box-flex1">
+<form action="" method="post" class="-koowa-for" id="category-form">
+    <div class="editor-container">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 		</div>
 
-		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+		<div class="editor">
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">
@@ -53,7 +53,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</div>
 	</div>
 
-    <div id="sidebar" style="width: 300px;">
+    <div class="sidebar">
     	<fieldset class="form-horizontal">
     		<legend><?= @text( 'Publish' ); ?></legend>
     		<div class="control-group">

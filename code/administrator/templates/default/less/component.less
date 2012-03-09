@@ -48,28 +48,19 @@ div.message {
 
 .com_dashboard #content-box {
 	> div:first-child {
-		#flexbox > .box();
-		#flexbox > .box-flex(1);
+		#flexbox > .box(horizontal, 1);
 		
 		> div {
-			#flexbox > .box();
-			#flexbox > .box-flex(1);
+			#flexbox > .box(horizontal, 1);
 			
 			> div {
-				#flexbox > .box();
-				#flexbox > .box-orient(vertical);
-				#flexbox > .box-flex(1);
+				#flexbox > .box(vertical, 1);
 				
 				> div:last-child {
-					#flexbox > .box-flex(1);
-					#flexbox > .box-scroll();
+					#flexbox > .box(vertical, 1, scrollable);
 				}
 			}
 		}
-	}
-	
-	> div:last-child {
-		#flexbox > .box-scroll();
 	}
 }
 

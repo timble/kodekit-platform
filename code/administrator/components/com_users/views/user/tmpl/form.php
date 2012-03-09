@@ -32,7 +32,7 @@ if(Form && Form.Validator) {
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" class="-koowa-form">
+<form action="" method="post" id="user-form" class="-koowa-form">
 	<div class="grid_8">
 		<div class="panel">
 			<h3><?= @text('User Details') ?></h3>

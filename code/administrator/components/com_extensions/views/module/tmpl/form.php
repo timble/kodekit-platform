@@ -52,13 +52,13 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form -koowa-box">
-	<div class="-koowa-box-vertical -koowa-box-flex1">
+<form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
+	<div class="editor-container">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
 		</div>
 		
-		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+		<div class="editor">
 		    <fieldset class="form-horizontal">
 		    	<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">
@@ -110,7 +110,7 @@ window.addEvent('domready', function() {
 		</div>
 	</div>
 
-	<div id="sidebar" style="width: 300px;">		
+	<div class="sidebar">		
 		<fieldset class="form-horizontal">
 			<legend><?= @text('Publish') ?></legend>
 			<? if($state->application == 'site') : ?>

@@ -13,7 +13,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @helper('behavior.tooltip') ?>
 <?= @helper('behavior.validator') ?>
-  
+
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
@@ -28,12 +28,12 @@ window.addEvent('domready', function(){
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="banner-form" class="-koowa-form -koowa-box">
-    <div class="-koowa-box-vertical -koowa-box-flex1">
+<form action="" method="post" id="banner-form" class="-koowa-form">
+    <div class="editor-container">
         <div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= @escape($banner->title) ?>" placeholder="<?= @text('Name') ?>" />
 		</div>
-		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+		<div class="editor">
 			<fieldset class="form-horizontal">
 			    <legend><?= @text('Banner') ?></legend>
 			    <div class="control-group">
@@ -76,7 +76,7 @@ window.addEvent('domready', function(){
 		</div>
 	</div>
 	
-	<div id="sidebar" class="grid_3">
+	<div class="sidebar">
 		<fieldset class="form-horizontal">
 			<legend><?= @text('Publish') ?></legend>
         	<div class="control-group">

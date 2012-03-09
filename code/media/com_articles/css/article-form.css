@@ -22,9 +22,6 @@
 	box-orient: vertical;
 	box-flex: 1;
 }
-.editor-container {
-	overflow: auto;
-}
 .editor-toolbar {
 	height: 18px;
 }

@@ -16,6 +16,10 @@ html, body, #container {
 	height: 100%;
 }
 
+#container {
+	#flexbox > .box(vertical, 1)
+}
+
 #minwidth-body { 
 	min-width: 960px;
 }
@@ -83,8 +87,7 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 }
 
 #toolbar-box {
-	display: -webkit-box;
-	display: -moz-box;
+	#flexbox .box();
 	
 	height: 41px;
 	.box-sizing(border-box);
@@ -94,10 +97,7 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 }
 
 #content-box { 
-	#flexbox > .box();
-	#flexbox > .box-orient(horizontal);
-	#flexbox > .box-align(stretch);
-	#flexbox > .box-flex(1);
+	#flexbox > .box(horizontal, 1);
 }
 
 div#content-box.default form.-koowa-grid,
@@ -106,25 +106,26 @@ div#content-box.default form[name="adminForm"] {
 	
 }
 
-div#content-box.form form.-koowa-grid,
-div#content-box.form form.-koowa-form,
-div#content-box.form form[name="adminForm"] {
-	padding: 14px 0;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
+form.-koowa-grid {
+	#flexbox > .box(vertical, 1);
 }
 
-// Remove overflow, Flexible Box Model is in charge
-div#content-box.form form.-koowa-box {
-	padding: 0 !important;
-	overflow-y: hidden !important;
+form.-koowa-form {
+	#flexbox > .box(horizontal, 1);
+	
+	.editor-container {
+		#flexbox > .box(vertical, 1);
+	}
+	
+	.editor {
+		.-koowa-box-scroll;
+		.-koowa-box-flex1;
+		padding: 20px;
+	}
 }
 
-form.-koowa-grid,
-form.-koowa-form,
 form[name="adminForm"] {
-	/* Fix for Mozilla, to make the element flexible */
-	#flexbox > .box-flex(1);
+	#flexbox > .box(horizontal, 1, scrollable);
 }
 
 /* -- various styles -- */
@@ -167,8 +168,6 @@ span.note {
 /** toolbar **/
 
 div.toolbar { 
-	#flexbox > .box-flex(1);
-
 	table.toolbar { 
 		border-collapse: collapse;
 		padding: 0;
@@ -415,7 +414,9 @@ form.-koowa-form {
 
 /* Sidebar */
 #content-box.form {
-	 #sidebar {
+	 .sidebar {
+		width: 300px;
+		
 		float: none !important;
 		display: block !important;
 		margin: 0 !important;
@@ -438,14 +439,10 @@ form.-koowa-form {
 			.box > .box-title();
 		}
 		
-		#flexbox > .box();
-		#flexbox > .box-orient(vertical);
+		#flexbox > .box(vertical, 0);
 		
 		.scrollable {
-			#flexbox > .box-flex(1);
-			
-			overflow-y: scroll;
-			-webkit-overflow-scrolling: touch;
+			#flexbox > .box(vertical, 1, scrollable);
 		}
 		
 	}

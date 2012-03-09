@@ -20,15 +20,15 @@ defined('KOOWA') or die('Restricted access') ?>
 -->
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="" method="post" id="contact-form" class="-koowa-form -koowa-box">
+<form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
-	<div class="-koowa-box-vertical -koowa-box-flex1">
+	<div class="editor-container">
 	
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->title ?>" placeholder="<?= @text('Title') ?>" />
 		</div>
 
-		<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+		<div class="editor">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Information'); ?></legend>
 				<div class="control-group">
@@ -113,7 +113,7 @@ defined('KOOWA') or die('Restricted access') ?>
 		</div>
 	</div>
 
-	<div id="sidebar" style="width: 430px;">
+	<div class="sidebar" style="width: 430px;">
 		<fieldset class="form-horizontal">
 			<legend><?= @text('Publish'); ?></legend>
 			<div class="control-group">

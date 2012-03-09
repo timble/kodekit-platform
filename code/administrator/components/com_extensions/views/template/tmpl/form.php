@@ -23,9 +23,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form -koowa-box">
+<form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form">
         	
-	<div class="-koowa-box-flex1 -koowa-box-scroll" style="padding: 20px;">
+	<div class="editor">
         <fieldset class="form-horizontal">
             <legend><?= @text('Details') ?></legend>
             <div class="control-group">
@@ -43,7 +43,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </fieldset>
 	</div>
    
-    <div id="sidebar" style="width: 300px;">
+   <div class="sidebar">
         <fieldset class="adminform">
             <legend><?= @text('Parameters') ?></legend>
             <? if($html = $template->params->render()) : ?>
