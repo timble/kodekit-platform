@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<ul>
+<ul class="scrollable">
 	<li class="<?= $state->parent == null ? 'active' : ''; ?>">
 		<a href="<?= @route('parent=' ) ?>">
 			<?= @text('All sections') ?>

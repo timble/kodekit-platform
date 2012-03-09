@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?= @text('Categories')?></h3>
-	<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getList())); ?>
+		<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getList())); ?>
 </div>

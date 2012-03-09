@@ -12,9 +12,9 @@ defined('KOOWA') or die( 'Restricted access' );
 
 ?>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?= @text('Groups') ?></h3>
-	<ul>
+	<ul class="scrollable">
 		<li class="<?= !is_numeric($state->group) ? 'active' : ''; ?>">
 			<a href="<?= @route('group=' ) ?>">
 			    <?= @text('All users')?>

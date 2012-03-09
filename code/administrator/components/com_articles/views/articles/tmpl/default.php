@@ -107,6 +107,6 @@ defined('KOOWA') or die('Restricted access') ?>
     </table>
 </form>
 
-<div class="sidebar sidebar-right">
+<div class="sidebar">
 	<?= @template('default_activities'); ?>
 </div>

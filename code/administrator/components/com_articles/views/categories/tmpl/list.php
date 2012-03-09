@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<ul>
+<ul class="scrollable">
 	<li class="<?= !is_numeric($state->section) && !is_numeric($state->category) ? 'active' : ''; ?>">
 		<a href="<?= @route('section=&category=' ) ?>">
 		    <?= @text('All articles')?>

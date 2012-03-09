@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<ul>
+<ul class="scrollable">
 	<li class="<?= $state->category == null ? 'active' : ''; ?>">
 		<a href="<?= @route('category=' ) ?>">
 			<?= 'All categories' ?>

@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?= JText::_( 'Menus' ); ?></h3>
 	<?php echo $this->loadTemplate('menus'); ?>
 </div>

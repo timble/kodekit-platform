@@ -10,8 +10,10 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
-   	<h3><?= @text( 'Site' ); ?></h3>
+<div class="sidebar">
+    <h3><?= @text( 'Positions' ); ?></h3>
+    <div class="scrollable">
+    <h4><?= @text( 'Site' ); ?></h4>
    	<ul>
         <li <? if(!$state->position && $state->application == 'site') echo 'class="active"' ?>>
             <a href="<?= @route('position=&application=site') ?>">
@@ -26,7 +28,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </li>
         <? endforeach ?>
     </ul>
-    <h3><?= @text( 'Administrator' ); ?></h3>
+    <h4><?= @text( 'Administrator' ); ?></h4>
     <ul>
         <li <? if(!$state->position && $state->application == 'administrator') echo 'class="active"' ?>>
             <a href="<?= @route('position=&application=administrator') ?>">
@@ -41,4 +43,5 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         </li>
         <? endforeach ?>
     </ul>
+    </div>
 </div>

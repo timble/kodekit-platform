@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if (count($this->menus)) : ?>
-<ul>
+<ul class="scrollable">
 <?php foreach ($this->menus as $menu) : ?> 
 <?php $class = ($menu->menutype == $this->menutype) ? 'class="active"' : ''; ?>
 <li <?php echo $class?>>

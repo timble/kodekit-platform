@@ -10,9 +10,9 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
+<div class="sidebar">
     <h3><?= @text( 'Applications' ); ?></h3>
-    <ul>
+    <ul class="scrollable">
         <li <? if($state->application == 'site') echo 'class="active"' ?>>
         	<a href="<?= @route('application=site') ?>">
         	    <?= @text('Site') ?>

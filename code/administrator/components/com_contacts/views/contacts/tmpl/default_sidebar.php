@@ -11,7 +11,7 @@
  
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div id="sidebar">
-	<h3><?= @text('Categories') ?></h3>
-	<?= @template('com://admin/categories.view.categories.list', array('categories' => @service('com://admin/categories.model.categories')->section('com_contact_details')->sort('title')->getList())); ?>
+<div class="sidebar">
+    <h3><?= @text('Categories') ?></h3>
+    <?= @template('com://admin/categories.view.categories.list', array('categories' => @service('com://admin/categories.model.categories')->section('com_contact_details')->sort('title')->getList())); ?>
 </div>
