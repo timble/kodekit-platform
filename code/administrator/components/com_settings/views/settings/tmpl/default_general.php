@@ -67,13 +67,13 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </section>
 
 <section>
-	<h3><?= @text( 'Debug' ); ?></h3>
+	<h3><?= @text( 'Diognostics' ); ?></h3>
 	<table class="admintable" cellspacing="1">
 		<tbody>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Enable Debugging' ); ?>::<?= @text('TIPDEBUGGINGINFO'); ?>">
-					<?= @text( 'Debug System' ); ?>
+				<span class="editlinktip hasTip" title="<?= @text( 'Enable Application Profiling' ); ?>::<?= @text('TIPDEBUGGINGINFO'); ?>">
+					<?= @text( 'Application Profiling' ); ?>
 				</span>
 			</td>
 			<td>
@@ -82,14 +82,21 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Debug Language' ); ?>::<?= @text('TIPDEBUGLANGUAGE'); ?>">
-					<?= @text( 'Debug Language' ); ?>
+				<span class="editlinktip hasTip" title="<?= @text( 'Show Language Indicators' ); ?>::<?= @text('TIPDEBUGLANGUAGE'); ?>">
+					<?= @text( 'Language Indicators' ); ?>
 				</span>
 			</td>
 			<td>
 				<?= @helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
 			</td>
 		</tr>
+	</table>
+</section>
+
+<section>
+	<h3><?= @text( 'Errors' ); ?></h3>
+	<table class="admintable" cellspacing="1">
+		<tbody>
 		<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?= @text( 'Error Reporting' ); ?>::<?= @text( 'TIPERRORREPORTING' ); ?>">

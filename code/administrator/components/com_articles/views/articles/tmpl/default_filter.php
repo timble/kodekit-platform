@@ -53,7 +53,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</a>
 		</li>
 		<? if($articles->isRevisable()) : ?>
-		<li class="<?= $state->trashed ? 'active' : '' ?>  separator-left"">
+		<li class="<?= $state->trashed ? 'active' : '' ?>  separator-left">
 			<a href="<?= @route( $state->trashed ? 'trashed=' : 'trashed=1' ) ?>">
 			    <?= 'Trashed' ?>
 			</a>

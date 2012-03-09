@@ -390,40 +390,52 @@ class JSite extends JApplication
 	/**
 	 * Load the site
 	 * 
-	 * This function checks if the site exists in the request, it not it tries
-	 * to get the site form the url falling back on the default is no site was
-	 * found
+	 * This function tries to find the site based on the url, root folder or
+	 * request. If not found it falls back on the default.
 	 * 
 	 * @param	string	$site 	The name of the site to load
 	 * @return	void
 	 * @throws  KException 	If the site could not be found
 	 * @since	Nooku Server 0.7
 	 */
-    protected function _loadSite($site)
+    protected function _loadSite($site = null)
 	{
-	    $method = strtolower(KRequest::method());
-	    
-	    if(!KRequest::has($method.'.site')) 
+	    if(!$site)
 	    {
-		    $uri  =	clone(JURI::getInstance());
-	    	$path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
-	    	$path = trim(str_replace('index.php', '', $path), '/');
-	    	
-		    $segments = array();
-		    if(!empty($path)) {
-			    $segments = explode('/', $path);
-		    }
-
-		    if(!empty($segments))
-		    {
-		        // Check if the site exists
-	            if(KService::get('com://admin/sites.model.sites')->getList()->find($segments[0])) {
-                    $site = array_shift($segments);
-                }
-		    }
-	    } 
-	    else $site = KRequest::get($method.'.site', 'cmd');
+	        // Check URL host
+	        $uri = clone(JURI::getInstance());
+	   
+	        $host = $uri->getHost();
+	        if(KService::get('com://admin/sites.model.sites')->getList()->find($host)) {
+	            return parent::_loadSite($host);
+	        } 
 	    
-	    parent::_loadSite($site);
+	        // Check folder
+	        $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
+	        $path = trim(str_replace('index.php', '', $path), '/');
+	        
+	        if(!empty($path)) 
+	        {
+	            $folder = array_shift(explode('/', $path));
+	            
+	            if(KService::get('com://admin/sites.model.sites')->getList()->find($folder)) {
+	                return parent::_loadSite($folder);
+	            }
+	        }
+	    
+	        // Check request
+	        $method = strtolower(KRequest::method());
+	     
+	        if(KRequest::has($method.'.site')) 
+	        {
+	            $request = KRequest::get($method.'.site', 'cmd');
+	            return parent::_loadSite($request);
+	        }
+	        
+	        //Revert to default
+	        return parent::_loadSite('default');
+	    }
+	    
+	    return parent::_loadSite($site);
 	}
 }

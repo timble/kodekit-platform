@@ -33,14 +33,16 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             <input name="password" type="password" id="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
        </div>
    </div>
+   <? if(JFactory::getApplication()->getSite() == 'default') : ?>
    <div class="control-group">
        <label class="control-label" for="site"><?php echo JText::_('Site'); ?></label>
        <div class="controls">
             <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
        </div>
    </div>
-    <? if($error = JError::getError(true)) : ?>
-        <p id="login-error-message"><?= $error->get('message') ?></p>
-    <? endif ?>
-    <input type="submit" class="btn" value="<?= @text('Login') ?>" />
+   <? endif ?>
+   <? if($error = JError::getError(true)) : ?>
+   	<p id="login-error-message"><?= $error->get('message') ?></p>
+   <? endif ?>
+   <input type="submit" class="btn" value="<?= @text('Login') ?>" />
 </form>

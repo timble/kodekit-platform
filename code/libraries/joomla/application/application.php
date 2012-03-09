@@ -120,9 +120,8 @@ class JApplication extends JObject
 		//create the site
 		if(isset($config['multisite']) && $config['multisite'] == true)
 		{
-	        //Set the session default name
 		    if(!isset($config['site'])) {
-			    $config['site'] = 'default';
+			    $config['site'] = null;
 		    }
 
 		    $this->_loadSite($config['site']);
@@ -336,7 +335,7 @@ class JApplication extends JObject
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
-			header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+			header($moved ? KRequest::protocol().' 301 Moved Permanently' : KRequest::protocol().' 303 See other');
 			header('Location: '.$url);
 		}
 		$this->close();
@@ -750,8 +749,22 @@ class JApplication extends JObject
 
 		//Set the site error reporting
 		$error_reporting = $this->getCfg('error_reporting');
-		if ($error_reporting >= 0) {
-			error_reporting( $error_reporting );
+		if ($error_reporting > 0) 
+		{
+		    //Development mode
+		    if($error_reporting == 1) 
+		    {
+		        error_reporting( E_ALL | E_STRICT |ÊE_DEPRECATED );
+		        ini_set( 'display_errors', 1 );
+		        
+		    }
+		    
+		    //Production mode
+		    if($error_reporting == 2) 
+		    {
+		        error_reporting( E_ERROR | E_WARNING | E_PARSE );
+		        ini_set( 'display_errors', 0 );
+		    }
 		}
 
 		//Set the site debug mode

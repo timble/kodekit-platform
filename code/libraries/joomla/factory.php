@@ -562,7 +562,7 @@ class JFactory
 		$db =& JDatabase::getInstance( $options );
 
 		if ( JError::isError($db) ) {
-			header('HTTP/1.1 500 Internal Server Error');
+			header(KRequest::protocol().' 500 Internal Server Error');
 			jexit('Database Error: ' . $db->toString() );
 		}
 

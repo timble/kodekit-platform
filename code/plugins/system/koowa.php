@@ -64,7 +64,7 @@ class plgSystemKoowa extends JPlugin
 		set_exception_handler(array($this, 'exceptionHandler'));
 		
 		//Load the koowa plugins
-		JPluginHelper::importPlugin('koowa', null, true, KService::get('koowa:event.dispatcher'));
+		JPluginHelper::importPlugin('koowa', null, true);
 		
 	    //Bugfix : Set offset accoording to user's timezone
 		if(!JFactory::getUser()->guest) 

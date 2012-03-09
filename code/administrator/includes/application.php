@@ -249,7 +249,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Load the site
 	 *
-	 * This function checks if the site exists in the request, or in the session. If not it
+	 * This function checks if the site exists in the url, request, or in the session. If not it
 	 * falls back on the default site.
 	 *
 	 * @param	string	$site 	The name of the site to load
@@ -257,16 +257,31 @@ class JAdministrator extends JApplication
 	 * @throws  KException 	If the site could not be found
 	 * @since	Nooku Server 0.7
 	 */
-	protected function _loadSite($default)
+	protected function _loadSite($site)
 	{
-	    $method = strtolower(KRequest::method());
+	    if(!$site)
+	    {
+	         // Check URL host
+	        $uri  =	clone(JURI::getInstance());
+	        $host = $uri->getHost();
 	    
-	    if(KRequest::has($method.'.site')) {
-		   $site = KRequest::get($method.'.site', 'cmd');
-		} else {
-		    $site = JFactory::getSession()->get('site', $default);
-		}
+	        if(KService::get('com://admin/sites.model.sites')->getList()->find($host)) {
+	            return parent::_loadSite($host);
+	        }   
 
-	    parent::_loadSite($site);
+	        // Check request
+	        $method = strtolower(KRequest::method());
+	         
+	        if(KRequest::has($method.'.site')) 
+	        {
+	            $request = KRequest::get($method.'.site', 'cmd');
+	            return parent::_loadSite($request);
+	        } 
+	        
+	        //Use session or revert to default
+	        return parent::_loadSite(JFactory::getSession()->get('site', 'default'));
+	    }
+
+	    return parent::_loadSite($site);
 	}
 }

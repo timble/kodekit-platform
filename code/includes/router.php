@@ -271,9 +271,9 @@ class JRouterSite extends JRouter
 	function _buildRawRoute(&$uri)
 	{
 	    $site = JFactory::getApplication()->getSite();
-	    if($site != 'default') {
+	    if($site != 'default' && $site != JURI::getInstance()->getHost()) {
 	        $uri->setVar('site', $site);
-	}
+	    }
 	}
 
 	function _buildSefRoute(&$uri)
@@ -348,7 +348,7 @@ class JRouterSite extends JRouter
 
 		//Add the site
 	    $site = JFactory::getApplication()->getSite();
-	    if($site != 'default') {
+	    if($site != 'default' && $site != JURI::getInstance()->getHost()) {
 	        $tmp = $site.'/'.$tmp;
 	    }
 		
