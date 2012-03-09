@@ -82,21 +82,21 @@
     background-position: -28px 0;
 }
 
-#debug dl.tabs .icon-32-profiles {
+#debug #tabs-debug :first-child {
     margin-left: 26px;
 }
 /* @end */
 /* @end */
 
 /* @group Icons */
-.icon-32-audits span            { background-image: url(../images/icon-32-audits.png); }
-.icon-32-console span           { background-image: url(../images/icon-32-console.png); }
-.icon-32-elements span          { background-image: url(../images/icon-32-elements.png); }
-.icon-32-profiles span          { background-image: url(../images/icon-32-profiles.png); }
-.icon-32-resources span         { background-image: url(../images/icon-32-resources.png); }
-.icon-32-scripts span           { background-image: url(../images/icon-32-scripts.png); }
-.icon-32-storage span           { background-image: url(../images/icon-32-storage.png); }
-.icon-32-timeline span          { background-image: url(../images/icon-32-timeline.png); }
+#debug #tabs-debug .audits span            { background-image: url(../images/icon-32-audits.png); }
+#debug #tabs-debug .console span           { background-image: url(../images/icon-32-console.png); }
+#debug #tabs-debug .elements span          { background-image: url(../images/icon-32-elements.png); }
+#debug #tabs-debug .profiles span          { background-image: url(../images/icon-32-profiles.png); }
+#debug #tabs-debug .resources span         { background-image: url(../images/icon-32-resources.png); }
+#debug #tabs-debug .scripts span           { background-image: url(../images/icon-32-scripts.png); }
+#debug #tabs-debug .storage span           { background-image: url(../images/icon-32-storage.png); }
+#debug #tabs-debug .timeline span          { background-image: url(../images/icon-32-timeline.png); }
 /* @end */
 
 /* @group horizontal scrollbar fix */
