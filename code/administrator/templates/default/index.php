@@ -25,7 +25,7 @@
 
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
-	<div id="container" class="-koowa-box -koowa-box-vertical">
+	<div id="container">
 		<div id="header-box">
 			<jdoc:include type="modules" name="menu" />
 			<jdoc:include type="modules" name="status"  />
