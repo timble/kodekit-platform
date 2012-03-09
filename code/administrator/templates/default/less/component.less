@@ -47,8 +47,30 @@ div.message {
 }
 
 .com_dashboard #content-box {
-	overflow-y: scroll; /* Fix, force scrollbar */
-	-webkit-overflow-scrolling: touch;
+	> div:first-child {
+		#flexbox > .box();
+		#flexbox > .box-flex(1);
+		
+		> div {
+			#flexbox > .box();
+			#flexbox > .box-flex(1);
+			
+			> div {
+				#flexbox > .box();
+				#flexbox > .box-orient(vertical);
+				#flexbox > .box-flex(1);
+				
+				> div:last-child {
+					#flexbox > .box-flex(1);
+					#flexbox > .box-scroll();
+				}
+			}
+		}
+	}
+	
+	> div:last-child {
+		#flexbox > .box-scroll();
+	}
 }
 
 .com_articles .categories,
@@ -105,8 +127,4 @@ div.message {
 	display: list-item;
 	float: left;
 	clear: left;
-}
-
-.com_dashboard #content-box {
-	padding: 20px;
 }

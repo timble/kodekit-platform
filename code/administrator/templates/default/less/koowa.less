@@ -22,6 +22,8 @@
 		-moz-box-flex: @flex;
 		box-flex: @flex;
 	}
+	
+	.box-scroll { overflow-y: scroll; -webkit-overflow-scrolling: touch; }
 }
 
 /* @group Flexible Box Model, powered by CSS3 */
@@ -100,4 +102,4 @@
 }
 /* @end group */
 
-.-koowa-box-scroll { overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+.-koowa-box-scroll { #flexbox > .box-scroll(); }
