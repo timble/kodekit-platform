@@ -29,6 +29,16 @@ class KMixinEvent extends KMixinAbstract
     protected $_event_dispatcher;
     
     /**
+     * List of event subscribers
+     *
+     * Associative array of event subscribers, where key holds the subscriber identifier string
+     * and the value is an identifier object.
+     *
+     * @var	array
+     */
+    protected $_event_subscribers = array();
+    
+    /**
      * Object constructor
      *
      * @param   object  An optional KConfig object with configuration options
@@ -41,8 +51,31 @@ class KMixinEvent extends KMixinAbstract
 			throw new KMixinException('event_dispatcher [KEventDispatcher] option is required');
 		}
             
-        //Create a event dispatcher object
+        //Set the event dispatcher
         $this->_event_dispatcher = $config->event_dispatcher;
+        
+        //Add the event listeners
+        if(!empty($config->event_listeners))
+        {
+            foreach($config->event_listeners as $event => $listener) {
+               $this->addEventListener($event, $listener);
+            }
+        }
+        
+        //Add the event handlers
+        if(!empty($config->event_subscribers))
+        {
+            $subscribers = (array) KConfig::unbox($config->event_subscribers);
+            
+            foreach($subscribers as $key => $value) 
+            {
+                if(is_numeric($key)) {
+                    $this->addEventSubscriber($value);
+                } else {
+                    $this->addEventSubscriber($key, $value);
+                }
+            }
+        }
     }
     
     /**
@@ -57,6 +90,8 @@ class KMixinEvent extends KMixinAbstract
     {
         $config->append(array(
             'event_dispatcher' => null,
+            'event_subscribers'=> array(),
+            'event_listeners'  => array(),
         ));
         
         parent::_initialize($config);
@@ -81,7 +116,7 @@ class KMixinEvent extends KMixinAbstract
     public function setEventDispatcher(KEventDispatcher $dispatcher)
     {
         $this->_event_dispatcher = $dispatcher;
-        return $this->_mixer;
+        return $this->getMixer();
     }
     
 	/**
@@ -97,7 +132,7 @@ class KMixinEvent extends KMixinAbstract
     public function addEventListener($event, KObjectHandable $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
         $this->_event_dispatcher->addEventListener($event, $listener, $priority);
-        return $this->_mixer;
+        return $this->getMixer();
     }
 
     /**
@@ -110,6 +145,80 @@ class KMixinEvent extends KMixinAbstract
     public function removeEventListener($event, KObjectHandable $listener)
     {
         $this->_event_dispatcher->removeEventListener($event, $listener, $priority);
-        return $this->_mixer;
+        return $this->getMixer();
+    }
+    
+    /**
+     * Add an event subscriber
+     *
+     * @param   mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
+	 * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest), 
+     *                 default is 3. If no priority is set, the command priority will be used 
+     *                 instead.
+     * @return  KObject	The mixer object
+     */
+    public function addEventSubscriber($subscriber, $config = array(), $priority = null)
+    {
+        if (!($subscriber instanceof KEventSubscriberInterface)) {
+            $subscriber = $this->getEventSubscriber($subscriber, $config);
+        }
+        
+        $priority =  is_int($priority) ? $priority : $subscriber->getPriority(); 
+        $this->_event_dispatcher->addEventSubscriber($subscriber, $priority);
+    
+        return $this;
+    }
+    
+    /**
+     * Remove an event listener
+     *
+     * @param   string  The event name
+     * @param   object  An object implementing the KObjectHandlable interface
+     * @return  KObject  The mixer object
+     */
+    public function removeEventDispatcher($subscriber)
+    {
+        if (!($subscriber instanceof KEventSubscriberInterface)) {
+            $subscriber = $this->getEventSubscriber($subscriber, $config);
+        }
+        
+        $this->_event_dispatcher->removeEventSubscriber($subscriber);
+        return $this->getMixer();
+    }
+    
+    /**
+     * Get a event subscriber by identifier
+     *
+     * @return KEventSubsriberInterface
+     */
+    public function getEventSubscriber($subscriber, $config = array())
+    {
+        if(!($subscriber instanceof KServiceIdentifier))
+        {
+            //Create the complete identifier if a partial identifier was passed
+            if(is_string($subscriber) && strpos($subscriber, '.') === false )
+            {
+                $identifier = clone $this->getIdentifier();
+                $identifier->path = array('event', 'handler');
+                $identifier->name = $subscriber;
+            }
+            else $identifier = $this->getIdentifier($subscriber);
+        }
+    
+        if(!isset($this->_event_subscribers[(string) $identifier]))
+        {
+            $config['event_dispatcher'] = $this->getEventDispatcher();
+             
+            $subscriber = $this->getService($identifier, $config);
+             
+            //Check the event subscriber interface
+            if(!($subscriber instanceof KEventSubscriberInterface)) {
+                throw new KEventSubscriberException("Event Subscriber $identifier does not implement KEventSubscriberInterface");
+            }
+        }
+        else $subscriber = $this->_event_subscribers[(string) $identifier];
+         
+        return $subscriber;
     }
 }

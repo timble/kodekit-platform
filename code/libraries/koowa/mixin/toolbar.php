@@ -83,19 +83,25 @@ class KMixinToolbar extends KMixinAbstract
 	/**
      * Add one or more toolbars
      *
-     * @param   array 	Array of one or more toolbars to add
+     * @param   mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * 					or valid identifier string
      * @return  KObject	The mixer object
      */
-    public function addToolbar($toolbar)
+    public function addToolbar($toolbar, $config = array(), $priority = KEvent::PRIORITY_NORMAL)
     { 
         if (!($toolbar instanceof KControllerToolbarInterface)) { 
-            $toolbar = $this->getToolbar($toolbar);
+            $toolbar = $this->getToolbar($toolbar, $config);
         }
 		       
         //Add the toolbars
         $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
         
-        return $this;
+        //Add the toolbar
+        if($this->inherits('KMixinEvent')) {
+            $this->addEventSubscriber($toolbar, $priority);
+        }
+        
+        return $this->getMixer();
     }
    
 	/**
@@ -119,9 +125,7 @@ class KMixinToolbar extends KMixinAbstract
             
        if(!isset($this->_toolbars[$identifier->name])) 
        {
-           $config['controller']       = $this->getMixer();
-           $config['event_dispatcher'] = $this->getEventDispatcher();
-           
+           $config['controller'] = $this->getMixer();
            $toolbar = $this->getService($identifier, $config);
            
            //Check the toolbar interface
@@ -130,7 +134,7 @@ class KMixinToolbar extends KMixinAbstract
 		   }
        } 
        else $toolbar = $this->_toolbars[$identifier->name];
-       
+   
        return $toolbar;
     }
     

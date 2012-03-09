@@ -46,23 +46,18 @@ class KMixinCommand extends KMixinAbstract
         //Create a command chain object 
         $this->_command_chain = $config->command_chain;
         
+        //Set the mixer in the config
+        $config->mixer = $this->_mixer;
+        
         //Mixin the callback mixer if callbacks have been enabled
-        if($config->enable_callbacks) 
-        {
-            $this->_mixer->mixin(new KMixinCallback(new KConfig(array(
-                'mixer'             => $this->_mixer, 
-                'command_chain'     => $this->_command_chain,
-                'command_priority'  => $config->callback_priority
-            ))));
+        if($config->enable_callbacks) {
+            $this->_mixer->mixin(new KMixinCallback($config));
         }
         
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
         { 
-             $this->_mixer->mixin(new KMixinEvent(new KConfig(array(
-                'mixer'             => $this->_mixer, 
-                'event_dispatcher'  => $config->event_dispatcher
-            ))));
+            $this->_mixer->mixin(new KMixinEvent($config));
             
             //@TODO : Add KCommandChain::getCommand()     
             $event = $this->_command_chain->getService('koowa:command.event', array(

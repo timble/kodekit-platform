@@ -70,6 +70,35 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     }
     
     /**
+	 * Get the session token value. 
+	 * 
+	 * If a token isn't set yet one will be generated. Tokens are used to secure forms 
+	 * from spamming attacks. Once a token has been generated the system will check the 
+	 * post request to see if it is present, if not it will invalidate the session.
+	 *
+	 * @param boolean If true, force a new token to be created
+	 * @return string The session token
+	 */
+    protected function _tokenValue($force = false)
+    {
+        return $this->_token_value;
+    }
+    
+    /**
+     * Get the session token name
+     *
+     * Tokens are used to secure forms from spamming attacks. Once a token
+     * has been generated the system will check the post request to see if
+     * it is present, if not it will invalidate the session.
+     *
+     * @return string The session token
+     */
+    protected function _tokenName()
+    {
+        return $this->_token_name;
+    }
+    
+    /**
      * Add unique token field
      *
      * @param string
@@ -92,22 +121,24 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     	}
     	
         // POST : Add token 
-        if(!empty($this->_token_value)) 
+        $matches = array();
+        preg_match_all('/(<form.*method="post".*>)/i', $text, $matches, PREG_SET_ORDER);
+       
+        foreach($matches as $match) 
         {
-            $text    = preg_replace('/(<form.*method="post".*>)/i', 
-            	'\1'.PHP_EOL.'<input type="hidden" name="'.$this->_token_name.'" value="'.$this->_token_value.'" />', 
-                $text	
-            );
-        }
-        
+            $input = PHP_EOL.'<input type="hidden" name="'.$this->_tokenName().'" value="'.$this->_tokenValue().'" />';
+            $text = str_replace($match[0], $match[0].$input, $text, $count);
+        }    
+       
         // GET : Add token to .-koowa-grid forms
-        if(!empty($this->_token_value)) 
+        $matches = array();
+        preg_match_all('#(<\s*?form\s+?.*?class=(?:\'|")[^\'"]*?-koowa-grid.*?(?:\'|").*?)#im', $text, $matches, PREG_SET_ORDER);
+        
+        foreach($matches as $match)
         {
-            $text    = preg_replace('#(<\s*?form\s+?.*?class=(?:\'|")[^\'"]*?-koowa-grid.*?(?:\'|").*?)>#im', 
-            	'\1 data-token-name="'.$this->_token_name.'" data-token-value="'.$this->_token_value.'">', 
-                $text
-            );
-        }
+            $input = ' data-token-name="'.$this->_tokenName().'" data-token-value="'.$this->_tokenValue().'"';
+            $text= str_replace($match[0], $match[0].$input, $text, $count);
+        }	
         
         // GET : Add query params
         $matches = array();

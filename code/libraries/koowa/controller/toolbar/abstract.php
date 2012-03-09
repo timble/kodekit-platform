@@ -17,7 +17,7 @@
  * @subpackage 	Toolbar
  * @uses        KInflector
  */
-abstract class KControllerToolbarAbstract extends KEventListener implements KControllerToolbarInterface
+abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract implements KControllerToolbarInterface
 {
     /**
      * The toolbar title

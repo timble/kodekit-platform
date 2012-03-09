@@ -339,11 +339,7 @@ Koowa.Controller.Grid = new Class({
 						if(event.target != element) return;
 					
 						//Run this check on click, so that progressive enhancements isn't bulldozed
-						if(link.get('href')) {
-							window.location.href = link.get('href');
-						} else {
-							link.fireEvent('click', event);
-						}
+						link.click();
 					});
 					element.adopt(new Element('span', {'class':'-koowa-grid-arrow'}));
 					if(link.hasClass('-koowa-asc'))  element.addClass('-koowa-asc');
@@ -567,6 +563,7 @@ Koowa.Overlay = new Class({
     options: {
         selector: 'body',
         ajaxify: true,
+        ajaxify_selector: '#filter a[href], thead a[href], .pagination a[href], a[rel=overlay]',
         method: 'get',
         evalScripts: true,
         evalStyles: true,
@@ -617,7 +614,7 @@ Koowa.Overlay = new Class({
             }
 
             if (this.options.ajaxify) {
-                this.element.getElements('a[href]').each(function(link){
+                this.element.getElements(this.options.ajaxify_selector).each(function(link){
                     //Avoid links with data-noasync attributes
                     if(link.getAttribute('data-noasync') !== null) return;
                     link.addEvent('click', function(event){
@@ -648,7 +645,7 @@ Koowa.Overlay = new Class({
                         this.send({url: url, data: data, method: method});
                     }.bind(this)});
                 }, this);
-        }
+            }
         }
     },
     
@@ -674,7 +671,7 @@ Koowa.Overlay = new Class({
     		this._tmp_scripts = scripts;
         }
         return this.parent(text);
-	},
+	}
 });
 
 

@@ -19,20 +19,12 @@
  */
 class ComDefaultTemplateFilterForm extends KTemplateFilterForm
 {
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
+	protected function _tokenValue($force = false)
     {
-        $config->append(array(
-            'token_value'   => JUtility::getToken(),
-        ));
-
-        parent::_initialize($config);
+        if(empty($this->_token_value) || $force) {  
+            $this->_token_value = JUtility::getToken($force);
+        }
+        
+        return parent::_tokenValue($force);
     }
 }

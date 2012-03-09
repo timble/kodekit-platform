@@ -44,19 +44,19 @@ class KEvent extends KConfig
     protected $_name;
     
     /**
-     * Constructor.
+     * Publsiher that published this event
      *
-     * @param	string 			The event name
-     * @param   array|KConfig 	An associative array of configuration settings or a KConfig instance.
+     * @var array
      */
-    public function __construct( $name, $config = array() )
-    { 
-        parent::__construct($config);
-         
-        //Set the command name
-        $this->_name = $name;
-    } 
+    protected $_publisher;
     
+    /**
+     * Dispatcher that dispatched this event
+     * 
+     * @var KEventDispatcher 
+     */
+    protected $_dispatcher;
+         
     /**
      * Get the event name
      * 
@@ -65,6 +65,62 @@ class KEvent extends KConfig
     public function getName()
     {
         return $this->_name;
+    }
+    
+    /**
+     * Set the event name
+     *
+     * @param string	The event name
+     * @return KEvent
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
+    }
+    
+    /**
+     * Get the event publisher
+     *
+     * @return object	The event publisher
+     */
+    public function getPublisher()
+    {
+        return $this->_publisher;
+    }
+    
+    /**
+     * Set the event publisher
+     *
+     * @param object	The event publisher
+     * @return KEvent
+     */
+    public function setPublisher(KObjectServiceable $publisher)
+    {
+        $this->_publisher = $publisher;
+        return $this;
+    }
+    
+    /**
+     * Stores the EventDispatcher that dispatches this Event
+     *
+     * @param EventDispatcher $dispatcher
+     * @return KEvent
+     */
+    public function setDispatcher(KEventDispatcher $dispatcher)
+    {
+        $this->_dispatcher = $dispatcher;
+        return $this;
+    }
+    
+    /**
+     * Returns the EventDispatcher that dispatches this Event
+     *
+     * @return KEventDispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->_dispatcher;
     }
     
     /**

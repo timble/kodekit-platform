@@ -111,12 +111,13 @@ class KHttpResponse
     /**
      * Get the http header based on a status code
      * 
+     * @param  string   The HTTP protocol
      * @param  integer  An http status code
      * @return string   The http header
      */
-    public static function getHeader($code) 
+    public static function getHeader($code, $protocol = 'HTTP/1.1') 
     {  
-        return 'HTTP/1.1 '.$code.' '.self::$__messages[$code];  
+        return $protocol.' '.$code.' '.self::$__messages[$code];  
     }  
   
     /**

@@ -25,11 +25,18 @@ class KCommandContext extends KConfig
     protected $_error;
     
     /**
+     * The command subject
+     *
+     * @var  object
+     */
+    protected $_subject;
+    
+    /**
      * Set the error
      *
      * @return  KCommandContext
      */
-    function setError($error) 
+    public function setError($error) 
     {
         $this->_error = $error;
         return $this;
@@ -40,8 +47,30 @@ class KCommandContext extends KConfig
      *
      * @return  string  The error
      */
-    function getError() 
+    public function getError() 
     {
         return $this->_error;
+    }
+    
+    /**
+    * Get the command subject 
+    *     
+    * @return object	The command subject
+    */
+    public function getSubject()
+    {
+        return $this->_subject;
+    }
+    
+    /**
+     * Set the command subject
+     *
+     * @param object	The command subject
+     * @return KEvent
+     */
+    public function setSubject(KObjectServiceable $subject)
+    {
+        $this->_subject = $publisher;
+        return $this;
     }
 }

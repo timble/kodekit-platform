@@ -126,7 +126,7 @@ class KViewJson extends KViewAbstract
 	            $vars[] = $var->name;
 	        }  
 	    }
-
+	     
 		$data = array(
 			'version'  => '1.0',
 			'href'     => (string) $route->setQuery($state->toArray()),
@@ -152,6 +152,9 @@ class KViewJson extends KViewAbstract
 	                $vars   = array_merge($vars, $var->required);
 	            }      
 	        }
+	        
+	        //Singularize the view name
+	        $name = KInflector::singularize($this->getName());
 		    
 		    $items = array();
 			foreach($list as $item) 
@@ -159,10 +162,10 @@ class KViewJson extends KViewAbstract
 			    $id = $item->getIdentityColumn();
 			  
 			    $items[] = array(
-		    		'href'    => (string) $route->setQuery(array($id => $item->{$id})),
+		    		'href'    => (string) $this->getRoute('view='.$name.'&id='.$item->{$id}),
 	        		'url'     => array(
 						'type'     => 'application/json',
-						'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+						'template' => (string) $this->getRoute('view='.$name).'?{&'.implode(',', $vars).'}',
 	                ),
 			    	'data' => $item->toArray()
 			    );

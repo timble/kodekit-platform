@@ -299,7 +299,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		if($config->validate) 
 		{
 		    $config->attribs['data-value']  = $config->element.'-value';
-		    $config->attribs['data-value'] .= ' ma-required';
+		    $config->attribs['class']      .= ' ma-required';
 		}
 		
 		if(!isset($config->url)) 
