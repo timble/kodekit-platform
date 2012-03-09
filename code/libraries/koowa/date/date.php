@@ -1,5 +1,6 @@
 <?php
 /**
+ * @version		$Id$
  * @category    Koowa
  * @package     Koowa_Date
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
