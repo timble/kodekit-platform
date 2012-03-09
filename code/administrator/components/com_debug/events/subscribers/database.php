@@ -10,7 +10,7 @@
  */
 
 /**
- * Database Event Class
+ * Database Event Subscriber Class
  * 
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category    Nooku
@@ -18,7 +18,7 @@
  * @subpackage  Debug
  */
  
-class ComDebugProfilerQueries extends KEventListener implements KServiceInstantiatable
+class ComDebugEventSubscriberDatabase extends KEventSubscriberDefault implements KServiceInstantiatable
 {    
     /**
      * The start time

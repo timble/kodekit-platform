@@ -69,10 +69,9 @@ window.addEvent('domready', function(){
 					<?= @helper('com://admin/users.template.helper.listbox.users',
 							array(
 								'autocomplete' => true,
-								'selected'     => $state->user,
+								'name'		   => 'user',
 								'validate'     => false,
 								'attribs'      => array('size' => 30),
-								'name'			=> 'search'
 							)) ?>
 				</div>
 
