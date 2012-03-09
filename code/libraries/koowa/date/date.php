@@ -37,14 +37,14 @@ class KDate extends DateTime implements KDateInterface
     {
         if(!$config instanceof KConfig) $config = new KConfig($config);
         
-        //Initialise the object
+        //Initialise the date object
         $this->_initialize($config);
         
         parent::__construct($config->date, $config->timezone);
     }
     
     /**
-     * Initializes the options for the object
+     * Initializes the options for the date object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
