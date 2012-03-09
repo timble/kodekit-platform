@@ -17,23 +17,23 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <a class="close" title="<?= @text("press 'd' to bring the debug bar back up") ?>"></a>
 <?=	@helper('tabs.startPane', array('id' => 'debug')); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Overview', 'attribs' => array( 'class' => 'icon icon-32-profiles'))); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Overview', 'attribs' => array( 'class' => 'profiles'))); ?>
     <?= @template('default_overview'); ?>	
 <?= @helper('tabs.endPanel'); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Profiles', 'attribs' => array( 'class' => 'icon icon-32-timeline'))); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Profiles', 'attribs' => array( 'class' => 'timeline'))); ?>
 	<?= @template('default_profiles'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Queries', 'attribs' => array( 'class' => 'icon icon-32-storage'))); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Queries', 'attribs' => array( 'class' => 'storage'))); ?>
 	<?= @template('default_queries'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Resources', 'attribs' => array( 'class' => 'icon icon-32-resources'))); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Resources', 'attribs' => array( 'class' => 'resources'))); ?>
 	<?= @template('default_resources'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Strings', 'attribs' => array( 'class' => 'icon icon-32-audits'))); ?>
+<?= @helper('tabs.startPanel', array('title' => 'Strings', 'attribs' => array( 'class' => 'audits'))); ?>
 	<?= @template('default_strings'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
