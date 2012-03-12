@@ -30,9 +30,11 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'row'  		=> null,
-		));
-
+			'row'    => null,
+	    ))->append(array( 
+        	'column' => $config->row->getIdentityColumn() 
+        )); 
+		
 		if($config->row->isLockable() && $config->row->locked())
 		{
 		    $html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
@@ -41,7 +43,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 		else
 		{
-		    $column = $config->row->getIdentityColumn();
+		    $column = $config->column;
 		    $value  = $config->row->{$column};
 
 		    $html = '<input type="checkbox" class="-koowa-grid-checkbox" name="'.$column.'[]" value="'.$value.'" />';
