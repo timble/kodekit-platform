@@ -24,7 +24,8 @@ Fx.Toggle = new Class({
 		lang: {
 			edit: 'Edit',
 			ok: 'OK',
-			cancel: 'Cancel'
+			cancel: 'Cancel',
+			or: 'or'
 		},
 		animate: false,
 		updateOnChange: true,
@@ -113,7 +114,7 @@ Fx.Toggle = new Class({
 
 		return new Element('div', {'class': 'toggle-controls'}).adopt([
 			new Element('button', {
-				'class': 'toggle-ok button',
+				'class': 'btn toggle-ok button',
 				type: 'button',
 				events: {
 					click: function(event){
@@ -123,6 +124,10 @@ Fx.Toggle = new Class({
 					}.bindWithEvent(this)
 				}
 			}).set('text', this.options.lang.ok),
+			new Element('span', {
+				'class': 'toggle-or-label',
+				text: this.options.lang.or
+			}),
 			new Element('a', {
 				'class': 'toggle-cancel',
 				href: '#',
