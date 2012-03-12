@@ -13,7 +13,7 @@
  *
  * @author  Gergo Erdosi <gergo@timble.net>
  */
-interface KDateInterface implements KObjectHandlable
+interface KDateInterface extends KObjectHandlable
 {
     
 }
