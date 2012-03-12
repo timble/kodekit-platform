@@ -16,25 +16,11 @@
 class KDate extends DateTime implements KDateInterface
 {
     /**
-     * The name of months.
-     *
-     * @var array
-     */
-    protected $_months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
-
-    /**
-     * The name of days.
-     *
-     * @var array
-     */
-    protected $_days = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-    
-    /**
      * Constructor.
      *
      * @param   array|KConfig An associative array of configuration settings or a KConfig instance.
      */
-    public function __construct( $config = array() )
+    public function __construct($config = array())
     {
         if(!$config instanceof KConfig) $config = new KConfig($config);
         
@@ -55,8 +41,8 @@ class KDate extends DateTime implements KDateInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'date'     => 'now',
-            'timezone' => NULL,
+        	'date'     => null,
+            'timezone' => null,
         ));
     }
 
@@ -83,11 +69,11 @@ class KDate extends DateTime implements KDateInterface
      */
     public function getHandle()
     {
-        return spl_object_hash( $this );
+        return spl_object_hash($this);
     }
 
     /**
-     * Translate day and month names.
+     * Translates day and month names.
      *
      * @param array Matched elements of preg_replace_callback.
      * @return The translated string
@@ -97,19 +83,19 @@ class KDate extends DateTime implements KDateInterface
         switch ($matches[0]) 
         {
             case 'D':
-                $replacement = JText::_(strtoupper(substr($this->_days[parent::format('w')], 0, 3)));
+                $replacement = JText::_(strtoupper(parent::format('D')));
                 break;
 
             case 'l':
-                $replacement = JText::_(strtoupper($this->_days[parent::format('w')]));
+                $replacement = JText::_(strtoupper(parent::format('l')));
                 break;
 
             case 'F':
-                $replacement = JText::_(strtoupper($this->_months[parent::format('n')]).'_SHORT');
+                $replacement = JText::_(strtoupper(parent::format('F')).'_SHORT');
                 break;
 
             case 'M':
-                $replacement = JText::_(strtoupper($this->_months[parent::format('n')]));
+                $replacement = JText::_(strtoupper(parent::format('F')));
                 break;
         }
 
