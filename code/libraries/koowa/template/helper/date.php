@@ -30,23 +30,30 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'     => 'now',
-           	'timezone' => is_null($config->date) ? 'Europe/London' : null,
-            'format'   => 'l, d F Y',
+            'date'     => null,
+            'timezone' => is_null($config->date) ? 'UTC' : null,
+            'format'   => JText::_('DATE_FORMAT_LC'),
             'default'  => ''
         ));
 
-        if (in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) {
-            return $config->default;
+        $return = $config->default;
+
+        if (!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
+        {
+            try 
+            {
+                $date = new KDate(array('date' => $config->date));
+
+                if (!is_null($config->timezone)) {
+                    $date->setTimezone(new DateTimeZone($config->timezone));
+                }
+
+                $return = $date->format($config->format);
+            } 
+            catch (Exception $e) {}
         }
 
-        try {
-            $date = new DateTime($config->date, $config->timezone);
-        } catch (Exception $e) {
-            return $config->default;
-        }
-        
-        return $date->format($config->format);
+        return $return;
     }
 
     /**
@@ -59,74 +66,79 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'              => null,
-            'gmt_offset'        => date_offset_get(new DateTime),
-            'smallest_period'   => 'second'
+            'date'            => null,
+            'timezone'        => null,
+            'default'         => JText::_('Never'),
+            'smallest_period' => 'second'
         ));
-        
-        $periods    = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-        $lengths    = array(60, 60, 24, 7, 4.35, 12, 10);
-        $now        = strtotime(gmdate("M d Y H:i:s"));
-        $time       = is_numeric($config->date) ? $config->date : strtotime($config->date);
-         
-        if($time)
-        { 
-            if($config->gmt_offset != 0) {
-                $now =  $now + $config->gmt_offset;
-            }
-            
-            if($now != $time)
+
+        $result = $config->default;
+
+        if (!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
+        {
+            $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
+            $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
+            $now     = new DateTime();
+
+            try 
             {
-                if($now > $time)
-                {
-                    $difference = $now - $time;
-                    $tense      = 'ago';
-                }
-                else
-                {
-                    $difference = $time - $now; 
-                    $tense      = 'from now';
+                $date = new KDate(array('date' => $config->date));
+
+                if (!is_null($config->timezone)) {
+                    $date->setTimezone(new DateTimeZone($config->timezone));
                 }
 
-                for($i = 0; $difference >= $lengths[$i] && $i < 6; $i++) {
-                    $difference /= $lengths[$i];
-                }
-
-                $difference         = round($difference);
-                $period_index       = array_search($config->smallest_period, $periods);
-                $omitted_periods    = $periods;
-                array_splice($omitted_periods, $period_index);
-
-                if(in_array($periods[$i], $omitted_periods))
+                if ($now != $date) 
                 {
-                    $difference = 1;
-                    $i          = $period_index;
-                }
-
-                if($periods[$i] == 'day')
-                {
-                    switch($difference)
+                    // TODO: Use DateTime::getTimeStamp().
+                    if ($now > $date) 
+                    {   
+                        $difference = $now->format('U') - $date->format('U');
+                        $tense      = 'ago';
+                    } 
+                    else 
                     {
-                        case 1:
-                            return 'Today';
-                            break;
-
-                        case 2:
-                            return $tense == 'ago' ? 'Yesterday' : 'Tomorrow';
-                            break;
+                        $difference = $date->format('U') - $now->format('U');
+                        $tense      = 'from now';
                     }
-                }
 
-                if($difference != 1) {
-                    $periods[$i].= 's';
-                }
+                    for ($i = 0; $difference >= $lengths[$i] && $i < 6; $i++) {
+                        $difference /= $lengths[$i];
+                    }
 
-                $result = sprintf(JText::_('%s '.$periods[$i].' '.$tense), $difference);
+                    $difference      = round($difference);
+                    $period_index    = array_search($config->smallest_period, $periods);
+                    $omitted_periods = $periods;
+                    array_splice($omitted_periods, $period_index);
+
+                    if (in_array($periods[$i], $omitted_periods)) 
+                    {
+                        $difference = 1;
+                        $i          = $period_index;
+                    }
+
+                    if ($periods[$i] == 'day' && ($difference == 1 || $difference == 2)) 
+                    {
+                        if ($difference == 1) {
+                            $result = JText::_('Today');
+                        } else {
+                            $result = $tense == 'ago' ? JText::_('Yesterday') : JText::_('Tomorrow');
+                        }
+                    } 
+                    else 
+                    {
+                        if ($difference != 1) {
+                            $periods[$i] .= 's';
+                        }
+
+                        $result = sprintf(JText::_('%s '.$periods[$i].' '.$tense), $difference);
+                    }
+                } 
+                else $result = JText::_('Now');
             } 
-            else $result = JText::_('Now');
+            catch (Exception $e) {}
         }
-        else $result = JText::_('Never'); 
 
-        return $result;       
+        return $result;
     }
 }
