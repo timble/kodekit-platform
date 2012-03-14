@@ -1,5 +1,11 @@
-#sidebar h3 {
+.sidebar h3 {
 	background: #eaeaea;
+}
+
+.sidebar fieldset{
+	margin: 10px 0 0 0;
+	padding: 0 10px;
+	border: none;
 }
 
 td.activities-timeago,
@@ -36,12 +42,6 @@ table.adminlist thead th.-activities-item {
 	padding: 5px 0 10px 0;
 	margin: 0;
 	clear: both;
-}
-
-#sidebar fieldset{
-	margin: 10px 0 0 0;
-	padding: 0 10px;
-	border: none;
 }
 
 .activities-calendar > * {
