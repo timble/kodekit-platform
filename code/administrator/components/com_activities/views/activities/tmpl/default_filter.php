@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<div id="filter" class="group">
+<div class="scopebar">
 	<ul>
 		<li class="<?= is_null($state->action) && is_null($state->application) ? 'active' : ''; ?>">
 			<a href="<?= @route('application=&action=' ) ?>">
