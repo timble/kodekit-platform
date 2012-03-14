@@ -353,62 +353,64 @@ form.-koowa-form {
 	}
 }
 
-/* @group Filter */
-#filter { 
+/* @group Scope Bar */
+.scopebar { 
 	padding: 4px 10px 4px;
 	#gradient > .vertical(#F2F2F2, #E9E9E9);
 	border-bottom: 1px solid @grayLighter;
 
-	ul 		{ 
+	ul { 
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		float: left;
+		
+		li 	{ 
+			float: left;
+		}
+		
+		li.separator-right {
+			border-right: 1px solid #BBB;
+			padding-right: 10px;
+			margin-right: 10px;
+		}
+		
+		li.separator-left {
+			border-left: 1px solid #BBB;
+			padding-left: 10px;
+			margin-left: 10px;
+		}
+		
+		li a 	{ 
+			display: block;
+			margin: 0 2px;
+			padding: 2px 7px;
+			font-weight: bold;
+			color: #363636;
+			text-transform: capitalize;
+			text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
+		}
+		
+		li a:hover,
+		li.active a {
+			text-decoration: none;
+			background: #A0A0A0;
+			color: #FFF;
+			.border-radius(10px);
+			text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
+		}
+		
+		li.active a,
+		li a:active { 
+			.box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
+		}
+		
+		li a:active {
+		    background: gray;
+		}
 	}
 	
-	ul li 	{ 
-		float: left;
-	}
-	
-	ul li.separator-right {
-		border-right: 1px solid #BBB;
-		padding-right: 10px;
-		margin-right: 10px;
-	}
-	
-	ul li.separator-left {
-		border-left: 1px solid #BBB;
-		padding-left: 10px;
-		margin-left: 10px;
-	}
-	
-	ul li a 	{ 
-		display: block;
-		margin: 0 2px;
-		padding: 2px 7px;
-		font-weight: bold;
-		color: #363636;
-		text-transform: capitalize;
-		text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
-	}
-	
-	ul li a:hover,
-	ul li.active a { 
-		text-decoration: none;
-		background: #A0A0A0;
-		color: #FFF;
-		.border-radius(10px);
-		text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
-	}
-	
-	ul li.active a,
-	ul li a:active { 
-		.box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
-	}
-	
-	ul li a:active {
-	    background: gray;
-	}
+
 }
 /* @end */
 
@@ -503,20 +505,6 @@ form.-koowa-form {
 	
 	.sidebar:first-child {
 		border-right: 1px solid @grayLighter;
-		
-		h4 {			
-			padding: 8px 0;
-			text-indent: 12px;
-			margin: 0;
-			border-top: 1px solid #E8EAEC;
-			color: #666;
-			#gradient > .vertical(#f1f2f4, #F9F9F9);
-			font-size: @baseFontSize + 1;
-		}
-		
-		h4:first-of-type {
-			border-top: none 0px;
-		}
 		
 		ul {
 			margin: 0;

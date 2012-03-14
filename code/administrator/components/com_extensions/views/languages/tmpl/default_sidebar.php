@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?= @text( 'Application' ); ?></h3>
     <ul>
         <li <? if($state->application == 'site') echo 'class="active"' ?>>

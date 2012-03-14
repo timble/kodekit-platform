@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="filter" class="group">
+<div class="scopebar">
 	<ul>
 		<li class="<?= is_null($state->enabled) && is_null($state->visited) && is_null($state->loggedin) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('enabled=&loggedin=&visited=' ) ?>">

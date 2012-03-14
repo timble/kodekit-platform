@@ -10,7 +10,7 @@
  */
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?= @text( 'Types' ); ?></h3>
     <ul>
         <li <? if($this->getView()->getName() == 'components') echo 'class="active"' ?>>
