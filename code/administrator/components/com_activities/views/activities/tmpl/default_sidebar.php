@@ -27,7 +27,7 @@ window.addEvent('domready', function(){
 });
 </script>
 
-<div id="sidebar">
+<div class="sidebar">
 	<h3><?=@text( 'Components' )?></h3>
 	<ul>
 		<li class="<?= empty($state->package) ? 'active' : ''; ?>">
