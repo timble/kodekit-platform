@@ -220,7 +220,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</span>
 			</td>
 			<td>
-				<?= @helper('listbox.offsets', array('name' => 'settings[system][offset]', 'selected' => $settings->offset)); ?>
+				<?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone)) ?>
 			</td>
 		</tr>
 		</tbody>
