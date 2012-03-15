@@ -432,11 +432,11 @@ class ContentModelCategory extends JModel
 	{
 		global $mainframe;
 
-		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid', 0);
+		$user = JFactory::getUser();
+		$gid  = $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
-		$now			= $jnow->toMySQL();
+		$date = new KDate();
+		$now  = $date->format('Y:m:d H:i:s');
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

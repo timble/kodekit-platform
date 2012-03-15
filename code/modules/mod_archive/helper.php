@@ -38,11 +38,11 @@ class modArchiveHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$date =& JFactory::getDate($row->created);
+		    $date = new KDate(array('date' => $row->created));
 
-			$created_month	= $date->toFormat("%m");
-			$month_name		= $date->toFormat("%B");
-			$created_year	= $date->toFormat("%Y");
+			$created_month	= $date->format('m');
+			$month_name		= $date->format('F');
+			$created_year	= $date->format('Y');
 
 			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;

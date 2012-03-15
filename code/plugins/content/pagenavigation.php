@@ -31,9 +31,9 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 
-		$date		=& JFactory::getDate();
+		$date = new KDate();
+		$now  = $date->format('Y-m-d H:i:s');
 		$config 	= & JFactory::getConfig();
-		$now 		= $date->toMySQL();
 
 		$uid 		= $row->id;
 		$option 	= 'com_content';

@@ -45,7 +45,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	function render()
 	{
-		$now	=& JFactory::getDate();
+		$now	= new KDate();
 		$data	=& $this->_doc;
 
 		$uri =& JFactory::getURI();
@@ -57,7 +57,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".htmlspecialchars($data->description)."</description>\n";
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
-		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
+		$feed.= "		<lastBuildDate>".$date->format(DateTime::RSS)."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 	
 		if ($data->image!=null)
@@ -87,8 +87,8 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
 		}
 		if ($data->pubDate!="") {
-			$pubDate =& JFactory::getDate($data->pubDate);
-			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+		    $pubDate = new KDate(array('date' => $data->pubDate));
+			$feed.= "		<pubDate>".$pubDate->format(DateTime::RSS)."</pubDate>\n";
 		}
 		if ($data->category!="") {
 			$feed.= "		<category>".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."</category>\n";
@@ -137,8 +137,8 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate =& JFactory::getDate($data->items[$i]->date);
-				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+			    $itemDate = new KDate(array('date' => $data->items[$i]->date));
+				$feed.= "			<pubDate>".$itemDate->format(DateTime::RSS)."</pubDate>\n";
 			}
 			if ($data->items[$i]->guid!="") {
 				$feed.= "			<guid>".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";

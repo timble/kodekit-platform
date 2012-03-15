@@ -37,8 +37,8 @@ class modLatestNewsHelper
 
 		$nullDate	= $db->getNullDate();
 
-		$date =& JFactory::getDate();
-		$now = $date->toMySQL();
+		$date = new KDate();
+		$now  = $date->format('Y-m-d H:i:s');
 
 		$where		= 'a.state = 1'
 			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
