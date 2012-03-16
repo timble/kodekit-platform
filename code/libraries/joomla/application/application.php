@@ -126,6 +126,8 @@ class JApplication extends JObject
 
 		    $this->_loadSite($config['site']);
 		}
+		
+		date_default_timezone_set($this->getCfg('timezone'));
 
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
