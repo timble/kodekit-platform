@@ -61,7 +61,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</span>
 			</td>
 			<td>
-				<?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]'));?>
+				<?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]', 'selected' => $settings->smtpauth));?>
 			</td>
 		</tr>
         <tr>

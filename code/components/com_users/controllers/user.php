@@ -119,6 +119,17 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         return parent::_actionAdd($context);
     }
     
+    protected function _actionEdit(KCommandContext $context)
+    {
+        $data = parent::_actionEdit($context);
+        
+        if ($context->status == KHttpResponse::RESET_CONTENT) {
+            JFactory::getUser()->bind($data->toArray());
+        }
+        
+        return $data;
+    }
+    
     protected function _actionLogin(KCommandContext $context)
     {
         $credentials = array(
