@@ -32,6 +32,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'value' 	=> null,
 			'text'   	=> '',
 			'disable'	=> false,
+            'group'     => false,
 			'attribs'	=> array(),
 		));
 
@@ -39,6 +40,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		$option->value 	  = $config->value;
 		$option->text  	  = trim( $config->text ) ? $config->text : $config->value;
 		$option->disable  = $config->disable;
+		$option->group    = $config->group;
 		$option->attribs  = $config->attribs;
 		
 		return $option;
@@ -71,7 +73,12 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		{
 			$value  = $option->value;
 			$text   = $config->translate ? JText::_( $option->text ) : $option->text;
-
+            
+			if ($option->group) {
+			    $html[] = '<optgroup label="'.$text.'">'.$text.'</option>';
+			    continue;
+			}
+			
 			$extra = '';
 			if(isset($option->disable) && $option->disable) {
 				$extra .= 'disabled="disabled"';
