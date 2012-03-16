@@ -80,7 +80,7 @@ Files.File = new Class({
 					that.fireEvent('afterDeleteRow', {status: true, response: response, request: this});
 				},
 				onFailure: function(xhr) {
-					if (xhr.status == 204) {
+					if (xhr.status == 204 || xhr.status == 1223) {
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
@@ -221,7 +221,7 @@ Files.Folder = new Class({
 					that.fireEvent('afterDeleteRow', {status: true, response: response, request: this});
 				},
 				onFailure: function(xhr) {
-					if (xhr.status == 204) {
+					if (xhr.status == 204 || xhr.status == 1223) {
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
