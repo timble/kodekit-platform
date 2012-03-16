@@ -273,8 +273,8 @@ class ContentModelArticle extends JModel
 			$article->publish_up .= ' 00:00:00';
 		}
 
-		$date =& JFactory::getDate($article->publish_up, $mainframe->getCfg('offset'));
-		$article->publish_up = $date->toMySQL();
+		$date = new KDate(array('date' => $article->publish_up));
+		$article->publish_up = $date->format('Y-m-d H:i:s');
 
 		// Handle never unpublish date
 		if (trim($article->publish_down) == JText::_('Never') || trim( $article->publish_down ) == '')
@@ -287,8 +287,8 @@ class ContentModelArticle extends JModel
 				$article->publish_down .= ' 00:00:00';
 			}
 
-			$date =& JFactory::getDate($article->publish_down, $mainframe->getCfg('offset'));
-			$article->publish_down = $date->toMySQL();
+			$date = new KDate(array('date' => $article->publish_down));
+			$article->publish_down = $date->format('Y-m-d H:i:s');
 		}
 
 		$article->title = trim( $article->title );
@@ -491,8 +491,7 @@ class ContentModelArticle extends JModel
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
-		$now		= $jnow->toMySQL();
+		$now		= gmdate('Y:m:d H:i:s');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*

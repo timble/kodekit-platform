@@ -161,8 +161,9 @@ class JHTMLGrid
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 	= JHTML::_('date',  $row->checked_out_time, JText::_('DATE_FORMAT_LC1') );
-			$time	= JHTML::_('date',  $row->checked_out_time, '%H:%M' );
+			$checked_out = new KDate(array('date' => $row->checked_out_time));
+			$date = $checked_out->format(JText::_('DATE_FORMAT_LC1'));
+			$time = $checked_out->format('H:i');
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}

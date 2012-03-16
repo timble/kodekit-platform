@@ -117,14 +117,13 @@ class JLog extends JObject
 	function addEntry($entry)
 	{
 		// Set some default field values if not already set.
-		$date =& JFactory::getDate();
 		if (!isset ($entry['date'])) {
 
-			$entry['date'] = $date->toFormat("%Y-%m-%d");
+			$entry['date'] = gmdate('Y-m-d');
 		}
 		if (!isset ($entry['time'])) {
 
-			$entry['time'] = $date->toFormat("%H:%M:%S");
+			$entry['time'] = gmdate('H:i:s');
 		}
 		if (!isset ($entry['c-ip'])) {
 			$entry['c-ip'] = $_SERVER['REMOTE_ADDR'];
@@ -171,8 +170,7 @@ class JLog extends JObject
 			return true;
 		}
 
-		$now =& JFactory::getDate();
-		$date = $now->toMySQL();
+		$date = gmdate('Y-m-d H:i:s');
 
 		if (!file_exists($this->_path))
 		{

@@ -48,7 +48,6 @@ defined('JPATH_BASE') or die();
 	 */
 	function render()
 	{
-		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;
 
 		$uri =& JFactory::getURI();
@@ -64,7 +63,7 @@ defined('JPATH_BASE') or die();
 		$feed.= "	<subtitle type=\"text\">".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
 		$feed.= "	<id>".str_replace(' ','%20',$data->getBase())."</id>\n";
-		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(), ENT_COMPAT, 'UTF-8')."</updated>\n";
+		$feed.= "	<updated>".gmdate(DateTime::ATOM)."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
 			$feed.= "		<name>".$data->editor."</name>\n";
@@ -80,11 +79,11 @@ defined('JPATH_BASE') or die();
 			$feed.= '		<link rel="alternate" type="text/html" href="'.$url.$data->items[$i]->link."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
-				$data->items[$i]->date = $now->toUnix();
+				$data->items[$i]->date = gmdate('U');
 			}
-			$itemDate =& JFactory::getDate($data->items[$i]->date);
-			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
-			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
+			$itemDate = new KDate(array('date' => $data->items[$i]->date));
+			$feed.= "		<published>".$itemDate->format(DateTime::ATOM)."</published>\n";
+			$feed.= "		<updated>".$itemDate->format(DateTime::ATOM)."</updated>\n";
 			$feed.= "		<id>".str_replace(' ', '%20', $url.$data->items[$i]->link)."</id>\n";
 
 			if ($data->items[$i]->author!="")

@@ -169,8 +169,7 @@ class ContentModelFrontpage extends JModel
 		// TODO: Should we be using requestTime here? or is JDate ok?
 		// $now		= $mainframe->get('requestTime');
 
-		$jnow		=& JFactory::getDate();
-		$now		= $jnow->toMySQL();
+		$now  = gmdate('Y-m-d H:i:s');
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

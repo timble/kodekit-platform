@@ -57,12 +57,11 @@ class modRelatedItemsHelper
 	function getRelatedItemsById($id, $aid, $showDate) {
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$date =& JFactory::getDate();
+		$now  = gmdate('Y-m-d H:i:s');
 
 		$related = array();
 
 		$nullDate = $db->getNullDate();
-		$now  = $date->toMySQL();
 
 		// select the meta keywords from the item
 		$query = 'SELECT metakey' .

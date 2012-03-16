@@ -2,16 +2,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 $config =& JFactory::getConfig();
-$publish_up =& JFactory::getDate($this->article->publish_up);
-$publish_up->setOffset($config->getValue('config.offset'));
-$publish_up = $publish_up->toFormat();
+
+$date = new KDate(array('date' => $this->article->publish_up));
+$publish_up = $date->format('Y-m-d H:i:s');
 
 if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
 	$publish_down = JText::_('Never');
 } else {
-	$publish_down =& JFactory::getDate($this->article->publish_down);
-	$publish_down->setOffset($config->getValue('config.offset'));
-	$publish_down = $publish_down->toFormat();
+    $date = new KDate(array('date' => $this->article->publish_down));
+    $publish_up = $date->format('Y-m-d H:i:s');
 }
 ?>
 

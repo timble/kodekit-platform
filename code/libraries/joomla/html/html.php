@@ -200,35 +200,6 @@ class JHTML
 	}
 
 	/**
-	 * Returns formated date according to current local and adds time offset
-	 *
-	 * @access	public
-	 * @param	string	date in an US English date format
-	 * @param	string	format optional format for strftime
-	 * @returns	string	formated date
-	 * @see		strftime
-	 * @since	1.5
-	 */
-	function date($date, $format = null, $offset = NULL)
-	{
-		if ( ! $format ) {
-			$format = JText::_('DATE_FORMAT_LC1');
-		}
-
-
-
-		if(is_null($offset))
-		{
-			$config =& JFactory::getConfig();
-			$offset = $config->getValue('config.offset');
-		}
-		$instance =& JFactory::getDate($date);
-		$instance->setOffset($offset);
-
-		return $instance->toFormat($format);
-	}
-
-	/**
 	 * Creates a tooltip with an image as button
 	 *
 	 * @access	public

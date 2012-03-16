@@ -594,8 +594,7 @@ class JTable extends JObject
 			$this->$k = $oid;
 		}
 
-		$date =& JFactory::getDate();
-		$time = $date->toMysql();
+		$time = gmdate('Y-m-d H:i:s');
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .

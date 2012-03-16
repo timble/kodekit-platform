@@ -188,7 +188,7 @@ class ContentViewCategory extends ContentView
 				$item->link = $fullURL->toString();
 				$item->readmore_register = true;
 			}
-			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
+			$item->created	= KService::get('koowa:template.helper.date')->format(array('date' => $item->created, 'format' => $params->get('date_format')));
 
 			$item->odd		= $k;
 			$item->count    = $i;

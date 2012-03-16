@@ -484,8 +484,7 @@ class ContentModelSection extends JModel
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
-		$now		= $jnow->toMySQL();
+		$now  = gmdate('Y-m-d H:i:s');
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

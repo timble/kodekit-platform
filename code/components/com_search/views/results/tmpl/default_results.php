@@ -48,7 +48,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<? if ( $params->get( 'show_date' )) : ?>
 				<div class="small<?= @escape($params->get('pageclass_sfx')); ?>">
 					<? if($result->created) : ?>
-						<?= JHTML::Date($result->created);?>
+                        <?= @helper('date.format', array('date' => $result->created)) ?>
 					<? endif; ?>
 				</div>
 				<? endif; ?>

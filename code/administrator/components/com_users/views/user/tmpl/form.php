@@ -88,11 +88,22 @@ if(Form && Form.Validator) {
 							<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
 						</td>
 					</tr>
+                    <tr>
+                        <td class="key">
+                            <label for="timezone">
+                                <?= @text('Time Zone') ?>:
+                            </label>
+                        </td>
+                        <td>
+                            <?= @helper('com://admin/settings.template.helper.listbox.timezones',
+                                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
+                        </td>
+                    </tr>
 				</table>
 			</div>
 			<div class="panel">
 				<h3><?= @text('User Parameters') ?></h3>
-				<?= $user->params->render('params'); ?>
+				<?= $user->params->render('params') ?>
 			</div>
 		</div>
 		<div class="grid_4">

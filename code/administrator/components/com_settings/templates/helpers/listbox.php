@@ -99,54 +99,36 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		return $list;
 	}
 	
-	public function offsets($config = array())
+    public function timezones($config = array())
 	{
 		$config = new KConfig($config);
         $config->append(array(
-            'name'		=> 'offset',
-            'attribs'	=> array()
+            'name'		=> 'timezone',
+            'attribs'	=> array(),
+            'deselect'  => true,
+            'prompt'    => '- '.JText::_('Select').' -',
         ));
         
-        $options[] 	= $this->option(array('text' => '(UTC -12:00) International Date Line West', 'value' => -12));
-		$options[] 	= $this->option(array('text' => '(UTC -11:00) Midway Island, Samoa', 'value' => -11));
-		$options[] 	= $this->option(array('text' => '(UTC -10:00) Hawaii', 'value' => -10));
-		$options[] 	= $this->option(array('text' => '(UTC -09:30) Taiohae, Marquesas Islands', 'value' => -9.5));
-		$options[] 	= $this->option(array('text' => '(UTC -09:00) Alaska', 'value' => -9));
-		$options[] 	= $this->option(array('text' => '(UTC -08:00) Pacific Time (US &amp; Canada)', 'value' => -8));
-		$options[] 	= $this->option(array('text' => '(UTC -07:00) Mountain Time (US &amp; Canada)', 'value' => -7));
-		$options[] 	= $this->option(array('text' => '(UTC -06:00) Central Time (US &amp; Canada), Mexico City', 'value' => -6));
-		$options[] 	= $this->option(array('text' => '(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima', 'value' => -5));
-		$options[] 	= $this->option(array('text' => '(UTC -04:30) Venezuela', 'value' => -4.5));
-		$options[] 	= $this->option(array('text' => '(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz', 'value' => -4));
-		$options[] 	= $this->option(array('text' => '(UTC -03:30) St. John\'s, Newfoundland, Labrador', 'value' => -3.5));
-		$options[] 	= $this->option(array('text' => '(UTC -03:00) Brazil, Buenos Aires, Georgetown', 'value' => -3));
-		$options[] 	= $this->option(array('text' => '(UTC -02:00) Mid-Atlantic', 'value' => -2));
-		$options[] 	= $this->option(array('text' => '(UTC -01:00) Azores, Cape Verde Islands', 'value' => -1));
-		$options[] 	= $this->option(array('text' => '(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca', 'value' => 0));
-		$options[] 	= $this->option(array('text' => '(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris', 'value' => 1));
-		$options[] 	= $this->option(array('text' => '(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa', 'value' => 2));
-		$options[] 	= $this->option(array('text' => '(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg', 'value' => 3));
-		$options[] 	= $this->option(array('text' => '(UTC +03:30) Tehran', 'value' => 3.5));
-		$options[] 	= $this->option(array('text' => '(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi', 'value' => 4));
-		$options[] 	= $this->option(array('text' => '(UTC +04:30) Kabul', 'value' => 4.5));
-		$options[] 	= $this->option(array('text' => '(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent', 'value' => 5));
-		$options[] 	= $this->option(array('text' => '(UTC +05:30) Bombay, Calcutta, Madras, New Delhi, Colombo', 'value' => 5.5));
-		$options[] 	= $this->option(array('text' => '(UTC +05:45) Kathmandu', 'value' => 5.75));
-		$options[] 	= $this->option(array('text' => '(UTC +06:00) Almaty, Dhaka', 'value' => 6));
-		$options[] 	= $this->option(array('text' => '(UTC +06:30) Yagoon', 'value' => 6.5));
-		$options[] 	= $this->option(array('text' => '(UTC +07:00) Bangkok, Hanoi, Jakarta', 'value' => 7));
-		$options[] 	= $this->option(array('text' => '(UTC +08:00) Beijing, Perth, Singapore, Hong Kong', 'value' => 8));
-		$options[] 	= $this->option(array('text' => '(UTC +08:00) Ulaanbaatar, Western Australia', 'value' => 8.75));
-		$options[] 	= $this->option(array('text' => '(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk', 'value' => 9));
-		$options[] 	= $this->option(array('text' => '(UTC +09:30) Adelaide, Darwin, Yakutsk', 'value' => 9.5));
-		$options[] 	= $this->option(array('text' => '(UTC +10:00) Eastern Australia, Guam, Vladivostok', 'value' => 10));
-		$options[] 	= $this->option(array('text' => '(UTC +10:30) Lord Howe Island (Australia)', 'value' => 10.5));
-		$options[] 	= $this->option(array('text' => '(UTC +11:00) Magadan, Solomon Islands, New Caledonia', 'value' => 11));
-		$options[] 	= $this->option(array('text' => '(UTC +11:30) Norfolk Island', 'value' => 11.5));
-		$options[] 	= $this->option(array('text' => '(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka', 'value' => 12));
-		$options[] 	= $this->option(array('text' => '(UTC +12:45) Chatham Island', 'value' => 12.75));
-		$options[] 	= $this->option(array('text' => '(UTC +13:00) Tonga', 'value' => 13));
-		$options[] 	= $this->option(array('text' => '(UTC +14:00) Kiribati', 'value' => 14));
+        if ($config->deselect) {
+            $options[] = $this->option(array('text' => $config->prompt, 'value' => ''));
+        }
+        
+        foreach (DateTimeZone::listIdentifiers() as $identifier)
+        {
+            if (strpos($identifier, '/')) {
+                list($group, $locale) = explode('/', $identifier, 2);
+                $groups[$group][] = str_replace('_', ' ', $locale);
+            }
+        }
+        
+        $options[] = $this->option(array('text' => 'Universal Time, Coordinated (UTC)', 'value' => 'UTC'));
+        foreach ($groups as $group => $locales) {
+            $options[] = $this->option(array('text' => $group, 'group' => true));
+            
+            foreach ($locales as $locale) {
+                $options[] = $this->option(array('text' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
+            }
+        }
 
 		$list = $this->optionlist(array(
 			'options'   => $options,

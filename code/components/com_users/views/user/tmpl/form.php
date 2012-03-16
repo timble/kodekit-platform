@@ -77,8 +77,19 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </td>
         </tr>
     <? endif ?>
+    <tr>
+        <td>
+            <label for="timezone">
+                <?= @text('Verify Password') ?>:
+            </label>
+        </td>
+        <td>
+            <?= @helper('com://admin/settings.template.helper.listbox.timezones',
+                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
+        </td>
+    </tr>
     </table>
-    <?= $user->params->render(); ?>
+    <?= $user->params->render() ?>
 
     <button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?= @text('Save') ?></button>
 </form>
