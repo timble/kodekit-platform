@@ -117,10 +117,10 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         
         $options[] = $this->option(array('text' => 'Universal Time, Coordinated (UTC)', 'value' => 'UTC'));
         foreach ($groups as $group => $locales) {
-            $options[] = $this->option(array('text' => $group, 'disable' => true));
+            $options[] = $this->option(array('text' => $group, 'group' => true));
             
             foreach ($locales as $locale) {
-                $options[] = $this->option(array('text' => '&nbsp;&nbsp;&nbsp;&nbsp;'.$locale, 'value' => $locale));
+                $options[] = $this->option(array('text' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
             }
         }
 

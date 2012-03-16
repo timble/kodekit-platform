@@ -3,6 +3,5 @@
 	<name>Registered User Type</name>
 	<params>
 		<param name="language" type="languages" client="site" default="" label="Front-end Language" description="paramLanguage" />
-		<param name="timezone" type="timezones" default="" label="Time Zone" description="Time Zone for this User" />
 	</params>
 </form>
