@@ -762,8 +762,7 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'var $ftp_enable = \''.$vars['ftpEnable'].'\';';
 		$configuration[] = "\t".'var $force_ssl = \'0\';';
 		$configuration[] = "\t".'/* Locale Settings */';
-		$configuration[] = "\t".'var $offset = \'0\';';
-		$configuration[] = "\t".'var $offset_user = \'0\';';
+		$configuration[] = "\t".'var $timezone = \'UTC\';';
 		$configuration[] = "\t".'/* Mail Settings */';
 		$configuration[] = "\t".'var $mailer = \'mail\';';
 		$configuration[] = "\t".'var $mailfrom = \''.$vars['adminEmail'].'\';';
