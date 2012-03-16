@@ -120,7 +120,7 @@ class ModDefaultHtml extends KViewHtml
                 }
             }
         } 
-        else $params = json_decode($string);
+        else $params = json_decode($string, true);
        
         $params = new KConfig($params);     
         return $params;

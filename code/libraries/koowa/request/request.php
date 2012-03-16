@@ -381,7 +381,7 @@ class KRequest
     {
         if(!isset(self::$_url))
         {
-            $url = self::protocol().'://';
+            $url = self::scheme().'://';
             
             if (PHP_SAPI !== 'cli') 
         	{
