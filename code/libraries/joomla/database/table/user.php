@@ -264,41 +264,6 @@ class JTableUser extends JTable
 	}
 
 	/**
-	 * Updates last visit time of user
-	 *
-	 * @param int The timestamp, defaults to 'now'
-	 * @return boolean False if an error occurs
-	 */
-	function setLastVisit( $timeStamp=null, $id=null )
-	{
-		// check for User ID
-		if (is_null( $id )) {
-			if (isset( $this )) {
-				$id = $this->id;
-			} else {
-				// do not translate
-				jexit( 'WARNMOSUSER' );
-			}
-		}
-
-		// if no timestamp value is passed to functon, than current time is used
-		$date =& JFactory::getDate($timeStamp);
-
-		// updates user lastvistdate field with date and time
-		$query = 'UPDATE '. $this->_tbl
-		. ' SET lastvisitDate = '.$this->_db->Quote($date->toMySQL())
-		. ' WHERE id = '. (int) $id
-		;
-		$this->_db->setQuery( $query );
-		if (!$this->_db->query()) {
-			$this->setError( $this->_db->getErrorMsg() );
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	* Overloaded bind function
 	*
 	* @access public

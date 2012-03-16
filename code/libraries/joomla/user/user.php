@@ -285,23 +285,6 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Pass through method to the table for setting the last visit date
-	 *
-	 * @access 	public
-	 * @param	int		$timestamp	The timestamp, defaults to 'now'
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	function setLastVisit($timestamp=null)
-	{
-		// Create the user table object
-		$table 	=& $this->getTable();
-		$table->load($this->id);
-
-		return $table->setLastVisit($timestamp);
-	}
-
-	/**
 	 * Method to get the user parameters
 	 *
 	 * This function tries to load an xml file based on the users usertype. The filename of the xml

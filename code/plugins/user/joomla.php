@@ -125,7 +125,13 @@ class plgUserJoomla extends JPlugin
 		$table->update();
 
 		// Hit the user last visit field
-		$instance->setLastVisit();
+		$row = KService::get('com://admin/users.database.row.user')
+		    ->setData(array('id' => $instance->get('id')))
+		    ->load();
+		
+		$date = new KDate();
+		$row->last_visited_on = $date->format('Y-m-d H:i:s'); 
+		$row->save();
 
 		return true;
 	}
@@ -150,9 +156,6 @@ class plgUserJoomla extends JPlugin
 		//Check to see if we're deleting the current session
 		if($my->get('id') == $user['id'])
 		{
-			// Hit the user last visit field
-			$my->setLastVisit();
-
 			// Destroy the php session for this user
 			$session =& JFactory::getSession();
 			$session->destroy();
