@@ -24,8 +24,11 @@ class KDate extends DateTime implements KDateInterface
     {
         if(!$config instanceof KConfig) $config = new KConfig($config);
         
-        //Initialise the date object
         $this->_initialize($config);
+        
+        if (!($config->timezone instanceof DateTimeZone)) {
+            $config->timezone = new DateTimeZone($config->timezone);
+        }
         
         parent::__construct($config->date, $config->timezone);
     }
@@ -41,8 +44,8 @@ class KDate extends DateTime implements KDateInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'date'     => null,
-            'timezone' => null,
+        	'date'     => 'now',
+            'timezone' => 'UTC',
         ));
     }
 
