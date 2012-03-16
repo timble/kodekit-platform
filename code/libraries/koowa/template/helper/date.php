@@ -30,8 +30,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'     => null,
-            'timezone' => is_null($config->date) ? 'UTC' : null,
+            'date'     => 'now',
+            'timezone' => date_default_timezone_get(),
             'format'   => JText::_('DATE_FORMAT_LC'),
             'default'  => ''
         ));
@@ -42,11 +42,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         {
             try 
             {
-                $date = new KDate(array('date' => $config->date));
-
-                if (!is_null($config->timezone)) {
-                    $date->setTimezone(new DateTimeZone($config->timezone));
-                }
+                $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date->setTimezone(new DateTimeZone($config->timezone));
 
                 $return = $date->format($config->format);
             } 
@@ -66,8 +63,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'date'            => null,
-            'timezone'        => null,
+            'date'            => 'now',
+            'timezone'        => date_default_timezone_get(),
             'default'         => JText::_('Never'),
             'smallest_period' => 'second'
         ));
@@ -82,11 +79,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 
             try 
             {
-                $date = new KDate(array('date' => $config->date));
-
-                if (!is_null($config->timezone)) {
-                    $date->setTimezone(new DateTimeZone($config->timezone));
-                }
+                $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date->setTimezone(new DateTimeZone($config->timezone));
 
                 if ($now != $date) 
                 {
