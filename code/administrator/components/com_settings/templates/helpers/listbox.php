@@ -104,8 +104,14 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		$config = new KConfig($config);
         $config->append(array(
             'name'		=> 'timezone',
-            'attribs'	=> array()
+            'attribs'	=> array(),
+            'deselect'  => true,
+            'prompt'    => '- '.JText::_('Select').' -',
         ));
+        
+        if ($config->deselect) {
+            $options[] = $this->option(array('text' => $config->prompt, 'value' => ''));
+        }
         
         foreach (DateTimeZone::listIdentifiers() as $identifier)
         {

@@ -84,7 +84,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </label>
         </td>
         <td>
-            <?= @helper('com://admin/settings.template.helper.listbox.timezones', array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'))) ?>
+            <?= @helper('com://admin/settings.template.helper.listbox.timezones',
+                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
         </td>
     </tr>
     </table>
