@@ -169,7 +169,8 @@ Files.App = new Class({
 					};
 					obj = $extend(obj, that.state.getData());
 					var method = type === 'initial' ? 'replaceState' : 'pushState';
-					that.history[method](obj, null, that.getUrl().setData(obj, true).toString());
+					var url = that.getUrl().setData(obj, true).set('fragment', '').toString()
+					that.history[method](obj, null, url);
 				}
 			});
 		}
