@@ -22,7 +22,7 @@ require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
 require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 
 //Nooku Server identification information
-header('X-Nooku-Server: version=0.7');
+header('X-Nooku-Server: version='.Koowa::VERSION);
 
 /**
  * CREATE THE APPLICATION
