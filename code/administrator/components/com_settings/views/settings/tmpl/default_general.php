@@ -215,7 +215,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		<tbody>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?= @text( 'TIPDATETIMEDISPLAY' ) .': '. JHTML::_('date',  'now', @text('DATE_FORMAT_LC2')); ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?= @text( 'TIPDATETIMEDISPLAY' ) .': '. @helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?>">
 					<?= @text( 'Time Zone' ); ?>
 				</span>
 			</td>
