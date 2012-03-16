@@ -38,7 +38,16 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
     	return parent::__get($column);
     }
-
+    
+    public function load()
+    {
+    	if ($result = parent::load()) {
+    		// Negate enabled due to enabled => block column map.
+    		$this->enabled = $this->enabled ? 0 : 1;
+    	}
+    	return $result;
+    }
+  
 	public function save()
 	{
 		// Load the old row if editing an existing user.
