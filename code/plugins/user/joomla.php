@@ -129,8 +129,7 @@ class plgUserJoomla extends JPlugin
 		    ->setData(array('id' => $instance->get('id')))
 		    ->load();
 		
-		$date = new KDate();
-		$row->last_visited_on = $date->format('Y-m-d H:i:s'); 
+		$row->last_visited_on = gmdate('Y-m-d H:i:s'); 
 		$row->save();
 
 		return true;

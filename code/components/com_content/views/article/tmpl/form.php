@@ -4,14 +4,12 @@ defined('_JEXEC') or die('Restricted access');
 $config =& JFactory::getConfig();
 
 $date = new KDate(array('date' => $this->article->publish_up));
-$date->setTimezone(new DateTimeZone($config->getValue('config.timezone')));
 $publish_up = $date->format('Y-m-d H:i:s');
 
 if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
 	$publish_down = JText::_('Never');
 } else {
     $date = new KDate(array('date' => $this->article->publish_down));
-    $date->setTimezone(new DateTimeZone($config->getValue('config.timezone')));
     $publish_up = $date->format('Y-m-d H:i:s');
 }
 ?>

@@ -274,7 +274,6 @@ class ContentModelArticle extends JModel
 		}
 
 		$date = new KDate(array('date' => $article->publish_up));
-		$date->setTimezone(new DateTimeZone($mainframe->getCfg('timezone')));
 		$article->publish_up = $date->format('Y-m-d H:i:s');
 
 		// Handle never unpublish date
@@ -289,7 +288,6 @@ class ContentModelArticle extends JModel
 			}
 
 			$date = new KDate(array('date' => $article->publish_down));
-			$date->setTimezone(new DateTimeZone($mainframe->getCfg('offset')));
 			$article->publish_down = $date->format('Y-m-d H:i:s');
 		}
 
@@ -493,8 +491,7 @@ class ContentModelArticle extends JModel
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
 
-		$date       = new KDate();
-		$now		= $date->format('Y:m:d H:i:s');
+		$now		= gmdate('Y:m:d H:i:s');
 		$nullDate	= $this->_db->getNullDate();
 
 		/*

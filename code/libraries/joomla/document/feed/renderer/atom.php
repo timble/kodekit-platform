@@ -48,7 +48,6 @@ defined('JPATH_BASE') or die();
 	 */
 	function render()
 	{
-		$date = new KDate();
 		$data	=& $this->_doc;
 
 		$uri =& JFactory::getURI();
@@ -64,7 +63,7 @@ defined('JPATH_BASE') or die();
 		$feed.= "	<subtitle type=\"text\">".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
 		$feed.= "	<id>".str_replace(' ','%20',$data->getBase())."</id>\n";
-		$feed.= "	<updated>".$date->format(DateTime::ATOM)."</updated>\n";
+		$feed.= "	<updated>".gmdate(DateTime::ATOM)."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
 			$feed.= "		<name>".$data->editor."</name>\n";
@@ -80,7 +79,7 @@ defined('JPATH_BASE') or die();
 			$feed.= '		<link rel="alternate" type="text/html" href="'.$url.$data->items[$i]->link."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
-				$data->items[$i]->date = $now->toUnix();
+				$data->items[$i]->date = gmdate('U');
 			}
 			$itemDate = new KDate(array('date' => $data->items[$i]->date));
 			$feed.= "		<published>".$itemDate->format(DateTime::ATOM)."</published>\n";

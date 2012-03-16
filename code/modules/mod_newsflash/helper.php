@@ -76,8 +76,7 @@ class modNewsFlashHelper
 
 		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
 		$noauth			= !$contentConfig->get('show_noauth');
-		$date = new KDate();
-		$now  = $date->format('Y-m-d H:i:s');
+		$now  = gmdate('Y-m-d H:i:s');
 
 		$nullDate = $db->getNullDate();
 

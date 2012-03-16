@@ -98,8 +98,7 @@ class JTableCategory extends JTable
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 		if(trim(str_replace('-','',$this->alias)) == '') {
-			$date        = new KDate();
-		    $this->alias = $date->format('Y-m-d H:i:s');
+		    $this->alias = gmdate('Y-m-d H:i:s');
 		}
 
 		return true;

@@ -45,7 +45,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	function render()
 	{
-		$now	= new KDate();
 		$data	=& $this->_doc;
 
 		$uri =& JFactory::getURI();
@@ -57,7 +56,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".htmlspecialchars($data->description)."</description>\n";
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
-		$feed.= "		<lastBuildDate>".$date->format(DateTime::RSS)."</lastBuildDate>\n";
+		$feed.= "		<lastBuildDate>".gmdate(DateTime::RSS)."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 	
 		if ($data->image!=null)

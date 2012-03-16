@@ -103,8 +103,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $context->data->group_name     = $group_name;
         $context->data->users_group_id = JFactory::getAcl()->get_group_id('', $group_name, 'ARO');
         
-        $date = new KDate();
-        $context->data->registered_on  = $date->format('Y-m-d H:i:s');
+        $context->data->registered_on  = gmdate('Y-m-d H:i:s');
 
         if($parameters->get('useractivation') == '1')
         {

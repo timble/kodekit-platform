@@ -66,8 +66,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$limit 			= $pluginParams->def( 'search_limit', 		50 );
 
 	$nullDate 		= $db->getNullDate();
-	$date = new KDate();
-	$now  = $date->format('Y-m-d H:i:s');
+	$now            = gmdate('Y-m-d H:i:s');
 
 	$text = trim( $text );
 	if ($text == '') {
