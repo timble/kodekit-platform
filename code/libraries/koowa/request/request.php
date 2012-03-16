@@ -329,7 +329,7 @@ class KRequest
                 self::$_accept['language'] = self::_parseAccept($accept);
             }
         }
-
+        
         return $type ? self::$_accept[$type] : self::$_accept;
     }
 
@@ -667,12 +667,12 @@ class KRequest
             {
                 // Split the type into parts
                 $parts = explode(';', $type);
-
+                
                 // Make the type only the MIME
                 $type = trim(array_shift($parts));
 
                 // Default quality is 1.0
-                $quality = 1.0;
+                $options = array('quality' => 1.0); 
 
                 foreach ($parts as $part)
                 {
@@ -683,16 +683,16 @@ class KRequest
 
                     // Separate the key and value
                     list ($key, $value) = explode('=', trim($part));
-
-                    if ($key === 'q')
+                    
+                    switch ($key)
                     {
-                        // There is a quality for this type
-                        $quality = (float) trim($value);
+                        case 'q'       : $options['quality'] = (float) trim($value); break;
+                        case 'version' : $options['version'] = (float) trim($value); break;
                     }
                 }
 
                 // Add the accept type and quality
-                $defaults[$type] = $quality;
+                $defaults[$type] = $options;
             }
         }
 
@@ -701,7 +701,7 @@ class KRequest
 
         // Order by quality
         arsort($accepts);
-
+       
         return $accepts;
     }
 
