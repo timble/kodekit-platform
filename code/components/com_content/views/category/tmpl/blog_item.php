@@ -84,7 +84,7 @@ endif; ?>
 <?php if ($this->item->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo KService::get('koowa:template.helper.date')->format(array('date' => $this->item->created, 'format' => JText::_('DATE_FORMAT_LC2'))); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -110,7 +110,7 @@ endif; ?>
 <?php if ( intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('LAST_UPDATED2', KService::get('koowa:template.helper.date')->format(array('date' => $this->item->modified, 'format' => JText::_('DATE_FORMAT_LC2')))); ?>
 	</td>
 </tr>
 <?php endif; ?>

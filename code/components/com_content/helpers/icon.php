@@ -81,7 +81,7 @@ class JHTMLIcon
 		} else {
 			$overlib = JText::_('Published');
 		}
-		$date = JHTML::_('date', $article->created);
+		$date = KService::get('koowa:template.helper.date')->format(array('date' => $article->created));
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 		$overlib .= '&lt;br /&gt;';
