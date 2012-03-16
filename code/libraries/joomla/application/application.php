@@ -127,7 +127,10 @@ class JApplication extends JObject
 		    $this->_loadSite($config['site']);
 		}
 		
-		date_default_timezone_set($this->getCfg('timezone'));
+		// Set timezone to user's setting, falling back to global configuration.
+		if(!date_default_timezone_set(JFactory::getUser()->getParam('timezone'))) {
+		    date_default_timezone_set($this->getCfg('timezone'));
+		}
 
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
