@@ -40,7 +40,7 @@ class KViewVcard extends KViewFile
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'mimetype'    => 'text/x-vcard',
+            'mimetype'    => 'text/x-vcard; version=2.1',
         ));
         
         parent::_initialize($config);

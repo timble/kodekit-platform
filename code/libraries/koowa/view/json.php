@@ -60,9 +60,11 @@ class KViewJson extends KViewAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'mimetype'	  => 'application/json',
-			'padding'	  => ''
-		   ));
+			'padding'	  => '',
+			'version'	  => '1.0'
+		))->append(array(
+			'mimetype'	  => 'application/json; version='.$config->version,
+		));
 
 		parent::_initialize($config);
 	}
