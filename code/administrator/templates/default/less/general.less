@@ -108,6 +108,137 @@ div#content-box.default form[name="adminForm"] {
 
 form.-koowa-grid {
 	#flexbox > .box(vertical, 1);
+	
+	/** Table styles **/
+	
+	table {
+		width: 100%;
+		border-spacing: 0px;
+		border-collapse: collapse;
+		color: #666;
+	}
+	
+	table td { padding: 4px 4px; }
+	
+	table thead th {
+		
+		text-align: center;
+		background: #f0f0f0;
+		color: #666;
+		border-bottom: 1px solid @grayLighter;
+		border-left: 1px solid @grayLighter;
+		position: relative;
+		-webkit-user-select: none;
+		
+		a {
+			display: block;
+			padding: 0px 4px;
+			line-height: 18px;
+		}
+	}
+	
+	table thead th .-koowa-grid-arrow {
+	    position: absolute;
+	    right: 5px;
+	    top: 0;
+	    bottom: 0;
+	    width: 7px;
+	    background-position: center;
+	    background-repeat: no-repeat;
+	}
+	.-koowa-asc a.-koowa-asc, .-koowa-desc a.-koowa-desc { padding-right: 0; }
+	
+	body table thead tr th:first-child {
+		border-left-width: 0;
+	}
+	
+	table thead th,
+	table tfoot tr,
+	table tfoot tr td {
+		#gradient > .vertical(#f7f7f7, #F2F2F2);
+	}
+	.-koowa-grid table thead th:not(.void):active {
+		#gradient > .vertical(#e0e0e0, #e5e5e5);
+	}
+	
+	table thead td {
+		#gradient > .vertical(#F2F2F2, #F9F9F9);
+		border-bottom: 1px solid #F2F2F2;
+	}
+	
+	table thead a 		{ color: #666; }
+	table thead a:hover 	{ text-decoration: none; }
+	
+	table thead th img { vertical-align: middle; }
+	
+	table tbody th { font-weight: bold; }
+	
+	table tbody tr					{ background-color: #fff;  text-align: left; border-top: 1px solid #FFF; }
+	table tbody tr:nth-child(even) 	{ background: #f9f9f9; }
+	
+	table tbody tr:nth-child(even):hover td,
+	table tbody tr:nth-child(odd):hover td  { background-color: #EAF3FA; }
+	
+	table tbody tr td 	   { height: 25px; border-top: 1px solid #FFF; }
+	table tbody tr:nth-child(even) td { background: #f9f9f9; }
+	
+	table tbody tr.selected td,
+	table tbody tr.selected:hover td {
+		background-color: #CDE7FD;
+		.transition(all 150ms ease-in-out);
+	}
+	
+	table tfoot tr { text-align: center;  color: #333; }
+	table tfoot td,
+	table tfoot th { background-color: #f3f3f3; border-top: 1px solid @grayLighter; text-align: center; }
+	
+	table td.order 		{ text-align: center; white-space: nowrap; }
+	table td.order span { float: left; display: block; width: 20px; text-align: center; }
+	
+	table .pagination { float: right; }
+	
+	table .pagination div.limit {
+		float: left;
+		line-height: 22px;
+		margin: 0 10px;
+	}
+	
+	table .pagination div.page a,
+	table .pagination div.page span {
+		float: left;
+		margin: 0;
+		padding: 4px 10px;
+		border-top: 1px solid #BBB;
+		border-bottom: 1px solid #BBB;
+		border-right: 0px none;
+		border-left: 0px none;
+		.border-radius(0);
+	}
+	
+	table .pagination div.prev a,
+	table .pagination div.prev span {
+		border-right: 0 none;
+		.border-radius(3px 0 0 3px);
+	}
+	
+	table .pagination div.next a,
+	table .pagination div.next span {
+		border-left: 0 none;
+		margin-left: 0;
+		.border-radius(0 3px 3px 0);
+	}
+	
+	table .pagination .active,
+	table .pagination div.page span {
+		color: #333;
+		font-weight: bold;
+		.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px);
+	}
+	
+	table .pagination div.off a,
+	table .pagination div.off span {
+		border-color: #D7D7D7;
+	}
 }
 
 form.-koowa-form {
@@ -355,21 +486,19 @@ form.-koowa-form {
 
 /* @group Scope Bar */
 .scopebar { 
-	.clearfix();
+	#flexbox > .box(horizontal, 0);
+	height: 18px;
 	
-	padding: 4px 10px 4px;
+	padding: 3px 10px 3px;
 	#gradient > .vertical(#F2F2F2, #E9E9E9);
 	border-bottom: 1px solid @grayLighter;
 
 	ul { 
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		float: left;
+		#flexbox > .box(horizontal, 1);
 		
-		li 	{ 
-			float: left;
-		}
+		list-style: none;
+		margin: 1px 0 0 0;
+		padding: 0;
 		
 		li.separator-right {
 			border-right: 1px solid #BBB;
@@ -411,6 +540,21 @@ form.-koowa-form {
 		    background: gray;
 		}
 	}
+	
+	.form-search {
+		#flexbox > .box(horizontal, 1);
+		#flexbox > .box-pack(end);
+		margin-left: 25px;
+		
+		input {
+			#flexbox > .box(horizontal, 1);
+			max-width: 250px;
+		}
+		
+		button {
+			display: none;
+		}
+	}
 }
 /* @end */
 
@@ -439,6 +583,7 @@ form.-koowa-form {
 	
 		h3 {
 			.box > .box-title();
+			line-height: 24px;
 		}
 		
 		#flexbox > .box(vertical, 0);
@@ -559,131 +704,6 @@ form.-koowa-form {
 }
 
 div#content-box > div.col { float: none; /* Children of #content-box are vertically laid out by Flexbox */ }
-
-/** Table styles **/
-
-table.adminlist {
-	width: 100%;
-	border-spacing: 0px;
-	border-collapse: collapse;
-	color: #666;
-}
-
-table.adminlist th { padding: 0px 4px; height: 22px; }
-table.adminlist td { padding: 4px 4px; }
-
-table.adminlist thead th {
-	text-align: center;
-	background: #f0f0f0;
-	color: #666;
-	border-bottom: 1px solid @grayLighter;
-	border-left: 1px solid @grayLighter;
-	position: relative;
-	-webkit-user-select: none;
-}
-
-table.adminlist thead th .-koowa-grid-arrow {
-    position: absolute;
-    right: 5px;
-    top: 0;
-    bottom: 0;
-    width: 7px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.-koowa-asc a.-koowa-asc, .-koowa-desc a.-koowa-desc { padding-right: 0; }
-
-body table.adminlist thead tr th:first-child {
-	border-left-width: 0;
-}
-
-table.adminlist thead th,
-table.adminlist tfoot tr,
-table.adminlist tfoot tr td {
-	#gradient > .vertical(#f7f7f7, #F2F2F2);
-}
-.-koowa-grid table.adminlist thead th:not(.void):active {
-	#gradient > .vertical(#e0e0e0, #e5e5e5);
-}
-
-table.adminlist thead td {
-	#gradient > .vertical(#F2F2F2, #F9F9F9);
-	border-bottom: 1px solid #F2F2F2;
-}
-
-table.adminlist thead a 		{ color: #666; }
-table.adminlist thead a:hover 	{ text-decoration: none; }
-
-table.adminlist thead th img { vertical-align: middle; }
-
-table.adminlist tbody th { font-weight: bold; }
-
-table.adminlist tbody tr					{ background-color: #fff;  text-align: left; border-top: 1px solid #FFF; }
-table.adminlist tbody tr:nth-child(even) 	{ background: #f9f9f9; }
-
-table.adminlist tbody tr:nth-child(even):hover td,
-table.adminlist tbody tr:nth-child(odd):hover td  { background-color: #EAF3FA; }
-
-table.adminlist tbody tr td 	   { height: 25px; border-top: 1px solid #FFF; }
-table.adminlist tbody tr:nth-child(even) td { background: #f9f9f9; }
-
-table.adminlist tbody tr.selected td,
-table.adminlist tbody tr.selected:hover td {
-	background-color: #CDE7FD;
-	.transition(all 150ms ease-in-out);
-}
-
-table.adminlist tfoot tr { text-align: center;  color: #333; }
-table.adminlist tfoot td,
-table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid @grayLighter; text-align: center; }
-
-table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
-table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
-
-table.adminlist .pagination { float: right; }
-
-table.adminlist .pagination div.limit {
-	float: left;
-	line-height: 22px;
-	margin: 0 10px;
-}
-
-table.adminlist .pagination div.page a,
-table.adminlist .pagination div.page span {
-	float: left;
-	margin: 0;
-	padding: 4px 10px;
-	border-top: 1px solid #BBB;
-	border-bottom: 1px solid #BBB;
-	border-right: 0px none;
-	border-left: 0px none;
-	.border-radius(0);
-}
-
-table.adminlist .pagination div.prev a,
-table.adminlist .pagination div.prev span {
-	border-right: 0 none;
-	.border-radius(3px 0 0 3px);
-}
-
-table.adminlist .pagination div.next a,
-table.adminlist .pagination div.next span {
-	border-left: 0 none;
-	margin-left: 0;
-	.border-radius(0 3px 3px 0);
-}
-
-table.adminlist .pagination .active,
-table.adminlist .pagination div.page span {
-	color: #333;
-	font-weight: bold;
-	.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px);
-}
-
-table.adminlist .pagination div.off a,
-table.adminlist .pagination div.off span {
-	border-color: #D7D7D7;
-}
 
 /* @endgroup */
 

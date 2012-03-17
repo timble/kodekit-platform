@@ -60,4 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 		</li>
 		<? endif; ?>
 	</ul>
+	<div class="form-search">
+		<?= @helper('grid.search') ?>
+	</div>
 </div>

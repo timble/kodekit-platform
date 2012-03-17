@@ -17,10 +17,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="" method="get" class="-koowa-grid">	
 	<?= @template('default_filter'); ?>
-	<table class="adminlist">
+	<table>
 		<thead>
 			<tr>
-				<th width="10"></th>
+				<th width="10">
+				    <?= @helper('grid.checkall'); ?>
+				</th>
 				<th>
 					<?= @helper('grid.sort',  array('column' => 'title')   ); ?>
 				</th>
@@ -39,19 +41,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<th width="5%" nowrap="nowrap">
 					<?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
 				</th>
-			</tr>
-			<tr>
-				<td align="center">
-					<?= @helper( 'grid.checkall'); ?>
-				</td>
-				<td>
-					<?= @helper( 'grid.search'); ?>
-				</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
 			</tr>
 		</thead>
 		<tfoot>

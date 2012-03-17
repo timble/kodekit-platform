@@ -20,10 +20,12 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <form id="articles-form" action="" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>
-    <table class="adminlist">
+    <table>
         <thead>
             <tr>
-                <th width="10"></th>
+                <th width="10">
+                	 <?= @helper('grid.checkall') ?>
+                </th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
@@ -38,20 +40,6 @@ defined('KOOWA') or die('Restricted access') ?>
                 <th width="20%">
                     <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created')) ?>
                 </th>
-            </tr>
-            <tr>
-                <td align="center">
-                    <?= @helper('grid.checkall') ?>
-                </td>
-                <td>
-                    <?= @helper('grid.search') ?>
-                </td>
-                
-                <td></td>
-                <? if($state->category) : ?>
-                <td></td>
-                <? endif; ?>
-                <td></td>
             </tr>
         </thead>
         <tfoot>

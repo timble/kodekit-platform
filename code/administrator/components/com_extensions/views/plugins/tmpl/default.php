@@ -3,7 +3,7 @@
  * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Modules
+ * @subpackage  Plugins
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -16,10 +16,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>
-    <table class="adminlist">
+    <table>
         <thead>
         	<tr>
-        		<th width="20"></th>
+        		<th width="10">
+        		    <?= @helper('grid.checkall'); ?>
+        		</th>
         		<th>
         		    <?= @helper('grid.sort', array('column' => 'name' , 'title' => 'Name')) ?>
         		</th>
@@ -32,15 +34,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         		<th nowrap="nowrap" width="10%">
         			<?= @helper('grid.sort', array('column' => 'access' , 'title' => 'Access')) ?>
         		</th>
-        	</tr>
-        	<tr>
-        		<td align="center">
-        			<?= @helper( 'grid.checkall'); ?>
-        		</td>
-        		<td>
-        			<?= @helper( 'grid.search'); ?>
-        		</td>
-        		<td colspan="3"></td>
         	</tr>
         </thead>
         <tfoot>

@@ -28,4 +28,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</a> 
 		</li>
 	</ul>
+	<div class="form-search">
+		<?= @helper('grid.search') ?>
+	</div>
 </div>

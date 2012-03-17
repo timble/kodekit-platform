@@ -10,8 +10,10 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -27,10 +29,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="" method="get" class="-koowa-grid">
 	<?= @template('default_filter'); ?>
-	<table class="adminlist">
+	<table>
 		<thead>
 			<tr>
-				<th width="10"></th>
+				<th width="10">
+				    <?= @helper('grid.checkall'); ?>
+				</th>
 				<th>
 					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
@@ -53,16 +57,12 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				</th>
 			</tr>
 			<tr>
-				<td align="center">
-					<?= @helper( 'grid.checkall'); ?>
-				</td>
-				<td>
-					<?= @helper( 'grid.search'); ?>
-				</td>
+				<td></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<? if($state->application == 'site') : ?>
-					<td></td>
+				<td></td>
 				<? endif ?>
 				<td></td>
 				<td>
