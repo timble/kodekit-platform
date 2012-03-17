@@ -61,8 +61,9 @@ window.addEvent('domready', function(){
 			    </div>
 			    <div class="control-group">
 			        <label class="control-label" for="clickurl"><?= @text('Click URL') ?></label>
-			        <div class="controls controls-radio">
+			        <div class="controls">
 			            <input class="required validate-url" type="text" name="clickurl" maxlength="200" value="<?= $banner->clickurl ?>" />
+			            <p class="help-block"><?= @text('Enter the full URL to the page that will open when the Banner is clicked upon') ?></p>
 			        </div>
 			    </div>
 			</fieldset>
