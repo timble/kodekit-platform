@@ -12,7 +12,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="scopebar">
 	<ul>
-		<li class="<?= is_null($state->state) && is_null($state->access) && is_null($state->featured) && is_null($state->deleted) ? 'active' : ''; ?> separator-right">
+		<li class="<?= is_null($state->state) && is_null($state->access) && is_null($state->featured) && is_null($state->trashed) ? 'active' : ''; ?> separator-right">
 			<a href="<?= @route('state=&access=&featured=&trashed=' ) ?>">
 			    <?= 'All' ?>
 			</a>
