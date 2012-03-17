@@ -1816,7 +1816,7 @@ a:hover {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-form.-koowa-grid {
+.-koowa-grid {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -1829,16 +1829,17 @@ form.-koowa-grid {
   /** Table styles **/
 
 }
-form.-koowa-grid table {
+.-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
   border-collapse: collapse;
   color: #666;
 }
-form.-koowa-grid table td {
+.-koowa-grid table td {
   padding: 4px 4px;
 }
-form.-koowa-grid table thead th {
+.-koowa-grid table thead th {
+  line-height: 18px;
   text-align: center;
   background: #f0f0f0;
   color: #666;
@@ -1847,12 +1848,11 @@ form.-koowa-grid table thead th {
   position: relative;
   -webkit-user-select: none;
 }
-form.-koowa-grid table thead th a {
+.-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
-  line-height: 18px;
 }
-form.-koowa-grid table thead th .-koowa-grid-arrow {
+.-koowa-grid table thead th .-koowa-grid-arrow {
   position: absolute;
   right: 5px;
   top: 0;
@@ -1861,16 +1861,16 @@ form.-koowa-grid table thead th .-koowa-grid-arrow {
   background-position: center;
   background-repeat: no-repeat;
 }
-form.-koowa-grid .-koowa-asc a.-koowa-asc,
-form.-koowa-grid .-koowa-desc a.-koowa-desc {
+.-koowa-grid .-koowa-asc a.-koowa-asc,
+.-koowa-grid .-koowa-desc a.-koowa-desc {
   padding-right: 0;
 }
-form.-koowa-grid body table thead tr th:first-child {
+.-koowa-grid body table thead tr th:first-child {
   border-left-width: 0;
 }
-form.-koowa-grid table thead th,
-form.-koowa-grid table tfoot tr,
-form.-koowa-grid table tfoot tr td {
+.-koowa-grid table thead th,
+.-koowa-grid table tfoot tr,
+.-koowa-grid table tfoot tr td {
   background-color: #f5f5f5;
   background-image: -moz-linear-gradient(top, #f7f7f7, #f2f2f2);
   background-image: -ms-linear-gradient(top, #f7f7f7, #f2f2f2);
@@ -1881,7 +1881,7 @@ form.-koowa-grid table tfoot tr td {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#f2f2f2', GradientType=0);
 }
-form.-koowa-grid .-koowa-grid table thead th:not(.void):active {
+.-koowa-grid .-koowa-grid table thead th:not(.void):active {
   background-color: #e2e2e2;
   background-image: -moz-linear-gradient(top, #e0e0e0, #e5e5e5);
   background-image: -ms-linear-gradient(top, #e0e0e0, #e5e5e5);
@@ -1892,7 +1892,7 @@ form.-koowa-grid .-koowa-grid table thead th:not(.void):active {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0e0e0', endColorstr='#e5e5e5', GradientType=0);
 }
-form.-koowa-grid table thead td {
+.-koowa-grid table thead td {
   background-color: #f5f5f5;
   background-image: -moz-linear-gradient(top, #f2f2f2, #f9f9f9);
   background-image: -ms-linear-gradient(top, #f2f2f2, #f9f9f9);
@@ -1904,39 +1904,39 @@ form.-koowa-grid table thead td {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f2f2', endColorstr='#f9f9f9', GradientType=0);
   border-bottom: 1px solid #F2F2F2;
 }
-form.-koowa-grid table thead a {
+.-koowa-grid table thead a {
   color: #666;
 }
-form.-koowa-grid table thead a:hover {
+.-koowa-grid table thead a:hover {
   text-decoration: none;
 }
-form.-koowa-grid table thead th img {
+.-koowa-grid table thead th img {
   vertical-align: middle;
 }
-form.-koowa-grid table tbody th {
+.-koowa-grid table tbody th {
   font-weight: bold;
 }
-form.-koowa-grid table tbody tr {
+.-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-form.-koowa-grid table tbody tr:nth-child(even) {
+.-koowa-grid table tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
-form.-koowa-grid table tbody tr:nth-child(even):hover td,
-form.-koowa-grid table tbody tr:nth-child(odd):hover td {
+.-koowa-grid table tbody tr:nth-child(even):hover td,
+.-koowa-grid table tbody tr:nth-child(odd):hover td {
   background-color: #EAF3FA;
 }
-form.-koowa-grid table tbody tr td {
+.-koowa-grid table tbody tr td {
   height: 25px;
   border-top: 1px solid #FFF;
 }
-form.-koowa-grid table tbody tr:nth-child(even) td {
+.-koowa-grid table tbody tr:nth-child(even) td {
   background: #f9f9f9;
 }
-form.-koowa-grid table tbody tr.selected td,
-form.-koowa-grid table tbody tr.selected:hover td {
+.-koowa-grid table tbody tr.selected td,
+.-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD;
   -webkit-transition: all 150ms ease-in-out;
   -moz-transition: all 150ms ease-in-out;
@@ -1944,36 +1944,36 @@ form.-koowa-grid table tbody tr.selected:hover td {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-form.-koowa-grid table tfoot tr {
+.-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-form.-koowa-grid table tfoot td,
-form.-koowa-grid table tfoot th {
+.-koowa-grid table tfoot td,
+.-koowa-grid table tfoot th {
   background-color: #f3f3f3;
   border-top: 1px solid #dddddd;
   text-align: center;
 }
-form.-koowa-grid table td.order {
+.-koowa-grid table td.order {
   text-align: center;
   white-space: nowrap;
 }
-form.-koowa-grid table td.order span {
+.-koowa-grid table td.order span {
   float: left;
   display: block;
   width: 20px;
   text-align: center;
 }
-form.-koowa-grid table .pagination {
+.-koowa-grid table .pagination {
   float: right;
 }
-form.-koowa-grid table .pagination div.limit {
+.-koowa-grid table .pagination div.limit {
   float: left;
   line-height: 22px;
   margin: 0 10px;
 }
-form.-koowa-grid table .pagination div.page a,
-form.-koowa-grid table .pagination div.page span {
+.-koowa-grid table .pagination div.page a,
+.-koowa-grid table .pagination div.page span {
   float: left;
   margin: 0;
   padding: 4px 10px;
@@ -1985,34 +1985,34 @@ form.-koowa-grid table .pagination div.page span {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-form.-koowa-grid table .pagination div.prev a,
-form.-koowa-grid table .pagination div.prev span {
+.-koowa-grid table .pagination div.prev a,
+.-koowa-grid table .pagination div.prev span {
   border-right: 0 none;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
-form.-koowa-grid table .pagination div.next a,
-form.-koowa-grid table .pagination div.next span {
+.-koowa-grid table .pagination div.next a,
+.-koowa-grid table .pagination div.next span {
   border-left: 0 none;
   margin-left: 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
 }
-form.-koowa-grid table .pagination .active,
-form.-koowa-grid table .pagination div.page span {
+.-koowa-grid table .pagination .active,
+.-koowa-grid table .pagination div.page span {
   color: #333;
   font-weight: bold;
   -webkit-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   -moz-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
 }
-form.-koowa-grid table .pagination div.off a,
-form.-koowa-grid table .pagination div.off span {
+.-koowa-grid table .pagination div.off a,
+.-koowa-grid table .pagination div.off span {
   border-color: #D7D7D7;
 }
-form.-koowa-form {
+.-koowa-form {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -2023,7 +2023,7 @@ form.-koowa-form {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-form.-koowa-form .editor-container {
+.-koowa-form .editor-container {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -2034,7 +2034,7 @@ form.-koowa-form .editor-container {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-form.-koowa-form .editor {
+.-koowa-form .editor {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-box-flex: 1;
@@ -2217,7 +2217,7 @@ div.toolbar table.toolbar td a.disabled:active {
 .panel .adminlist td {
   border: 0 none;
 }
-form.-koowa-form div.title {
+.-koowa-form div.title {
   padding: 10px 10px 10px 10px;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f0f0f0, #eaeaea);
@@ -2230,7 +2230,7 @@ form.-koowa-form div.title {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f0f0', endColorstr='#eaeaea', GradientType=0);
   border-bottom: 1px solid #CCC;
 }
-form.-koowa-form div.title input {
+.-koowa-form div.title input {
   font-size: 16.5px;
   width: 100%;
   padding: 4px 8px;

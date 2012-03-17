@@ -100,13 +100,13 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 	#flexbox > .box(horizontal, 1);
 }
 
-div#content-box.default form.-koowa-grid,
-div#content-box.default form.-koowa-form,
+div#content-box.default .-koowa-grid,
+div#content-box.default .-koowa-form,
 div#content-box.default form[name="adminForm"] {
 	
 }
 
-form.-koowa-grid {
+.-koowa-grid {
 	#flexbox > .box(vertical, 1);
 	
 	/** Table styles **/
@@ -121,7 +121,7 @@ form.-koowa-grid {
 	table td { padding: 4px 4px; }
 	
 	table thead th {
-		
+		line-height: 18px;
 		text-align: center;
 		background: #f0f0f0;
 		color: #666;
@@ -133,7 +133,7 @@ form.-koowa-grid {
 		a {
 			display: block;
 			padding: 0px 4px;
-			line-height: 18px;
+			
 		}
 	}
 	
@@ -241,7 +241,7 @@ form.-koowa-grid {
 	}
 }
 
-form.-koowa-form {
+.-koowa-form {
 	#flexbox > .box(horizontal, 1);
 	
 	.editor-container {
@@ -394,7 +394,7 @@ div.toolbar {
 	.adminlist td  { border: 0 none; }
 }
 
-form.-koowa-form {
+.-koowa-form {
 	div.title {
 		padding: 10px 10px 10px 10px;
 		#gradient > .vertical(#F0F0F0, #EAEAEA);
