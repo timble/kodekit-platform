@@ -10,70 +10,48 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<section>
-	<h3><?php echo JText::_( 'FTP' ); ?></h3>
-	<table class="admintable" cellspacing="1">
-		<tbody>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'Enable FTP' ); ?>::<?= @text( 'TIPENABLEFTP' ); ?>">
-						<?= @text( 'Enable FTP' ); ?>
-				</span>
-			</td>
-			<td>
-				<?php echo @helper('select.booleanlist' , array('name' => 'settings[system][ftp_enable]'));?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'FTP Host' ); ?>::<?= @text( 'TIPFTPHOST' ); ?>">
-					<?= @text( 'FTP Host' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][ftp_host]" size="25" value="<?= $settings->ftp_host; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'FTP Port' ); ?>::<?= @text( 'TIPFTPPORT' ); ?>">
-					<?= @text( 'FTP Port' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][ftp_port]" size="25" value="<?= $settings->ftp_port; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'FTP Username' ); ?>::<?= @text( 'TIPFTPUSERNAME' ); ?>">
-					<?= @text( 'FTP Username' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][ftp_user]" size="25" value="<?= $settings->ftp_user; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'FTP Password' ); ?>::<?= @text( 'TIPFTPPASSWORD' ); ?>">
-					<?= @text( 'FTP Password' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="password" name="settings[system][ftp_pass]" size="25" value="<?= $settings->ftp_pass; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?= @text( 'FTP Root' ); ?>::<?= @text( 'TIPFTPROOT' ); ?>">
-					<?= @text( 'FTP Root' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][ftp_root]" size="50" value="<?= $settings->ftp_root; ?>" />
-			</td>
-		</tr>
-		</tbody>
-	</table>
-</section>
+<fieldset class="form-horizontal">
+	<legend><?php echo JText::_( 'FTP' ); ?></legend>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_enable]"><?= @text( 'Enable FTP' ); ?></label>
+	    <div class="controls">
+	        <div class="controls-radio"><?php echo @helper('select.booleanlist' , array('name' => 'settings[system][ftp_enable]'));?></div>
+	        <p class="help-block"><?= @text( 'TIPENABLEFTP' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_host]"><?= @text( 'FTP Host' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][ftp_host]" value="<?= $settings->ftp_host; ?>" />
+	        <p class="help-block"><?= @text( 'TIPFTPHOST' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_port]"><?= @text( 'FTP Port' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][ftp_port]" value="<?= $settings->ftp_port; ?>" />
+	        <p class="help-block"><?= @text( 'TIPFTPPORT' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_user]"><?= @text( 'FTP Username' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][ftp_user]" value="<?= $settings->ftp_user; ?>" />
+	        <p class="help-block"><?= @text( 'TIPFTPUSERNAME' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_pass]"><?= @text( 'FTP Password' ); ?></label>
+	    <div class="controls">
+	        <input type="password" name="settings[system][ftp_pass]" value="<?= $settings->ftp_pass; ?>" />
+	        <p class="help-block"><?= @text( 'TIPFTPPASSWORD' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][ftp_root]"><?= @text( 'FTP Root' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][ftp_root]" value="<?= $settings->ftp_root; ?>" />
+	        <p class="help-block"><?= @text( 'TIPFTPROOT' ); ?></p>
+	    </div>
+	</div>
+</fieldset	>

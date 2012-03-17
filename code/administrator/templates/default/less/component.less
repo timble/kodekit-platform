@@ -119,3 +119,126 @@ div.message {
 	float: left;
 	clear: left;
 }
+
+.com_settings {
+	#content-box dl.tabs {
+		width: 200px;
+		border-right: 1px solid #E1E1E1;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		background-color: #F9F9F9;
+		overflow-y: scroll;
+		
+		float: none !important;
+		margin: 0 !important;
+		
+		#flexbox > .box(vertical, 0);
+	}
+	
+	#content-box dl.tabs h3 {
+		color: #666;
+		font-size: 11px;
+		padding: 6px 0;
+		text-indent: 12px;
+		margin: 0;
+		text-transform: uppercase;
+	}
+	
+	#content-box dl.tabs dt {
+		float: none !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		border: 0 none !important;
+		background: none !important;
+	}
+	
+	#content-box dl.tabs dt span {
+		display: block;
+		padding: 6px 0 6px 22px;
+		color: #444;
+		border-top: 1px solid #F9F9F9;
+		font-weight: bold;
+		
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	#content-box dl.tabs dt span:hover {
+		color: #444;
+		border-top-color: lighten(@blueDark, 40%);
+		#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
+		text-decoration: none;
+	}
+	
+	#content-box dl.tabs dt.open span,
+	#content-box dl.tabs dt.open span:hover {
+		color: #FFF;
+		border-top-color: lighten(@blueDark, 15%);
+		#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
+		.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+		text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+	}
+	
+	#content-box .current {
+	 	padding: 0 !important;
+		clear: none !important;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		border-top: 0 none !important;
+		border-right: 0 none !important;
+		border-bottom: 0 none !important;
+		
+		#flexbox > .box(horizontal, 1);
+	}
+	
+	#content-box .current dd {
+		padding: 14px 20px !important;
+		
+		#flexbox > .box(horizontal, 1, scrollable);
+	}
+	
+	#content-box .current h2 {
+		border-bottom: 1px solid #EEE;
+		color: #53637D;
+		padding-bottom: 4px;
+		margin-bottom: 20px;
+	}
+	
+	#content-box .current section {
+		border-bottom: 1px solid #EEE;
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+	}
+	
+	#content-box .current section:last-of-type { border-bottom: 0 none; }
+	
+	#content-box .current section h3 {
+		width: 140px;
+		color: #222;
+		margin: 0;
+		font-size: 13px;
+	}
+	
+	#content-box .current section .key {
+		background: none;
+		border: 0 none;
+		color: #222;
+	}
+	
+	#content-box .current section .key:after {
+		content:":";
+	}
+	
+	.controls {
+		width: 50%;
+	}
+	
+	input:not([type="radio"]),
+	textarea,
+	select {
+	  width: 80%;
+	}
+}

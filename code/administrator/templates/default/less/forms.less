@@ -23,6 +23,12 @@ textarea {
   height: auto;
 }
 
+.input-prepend,
+.input-append {
+  .add-on {
+    padding: 5px 5px;
+  }
+}
 
 // Override form elements in sidebar
 #content-box > form .sidebar {
@@ -42,18 +48,7 @@ textarea {
 }
 
 .help-block {
-	float: left;
-}
-
-// Fix radio options
-.controls-radio label {
-	display: inline;
-}
-
-// Fix for calendar input
-.controls-calendar input {
-	width: 100% - 18px;
-	margin-right: 4px;
+	
 }
 
 // Override width of fields in grid
@@ -64,4 +59,15 @@ textarea {
 		width: auto;
 		margin-bottom: 0;
 	}
+}
+
+// New style for radio options
+.controls-radio label {
+		display: inline;
+}
+
+// New style for calendar input
+.controls-calendar input {
+	width: 100% - 18px;
+	margin-right: 4px;
 }

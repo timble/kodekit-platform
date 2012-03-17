@@ -10,54 +10,34 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<section>
-	<h3><?= @text( 'Database' ); ?></h3>
-	<table class="admintable" cellspacing="1">
-		<tbody>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Hostname' ); ?>::<?= @text( 'TIPDATABASEHOSTNAME' ); ?>">
-					<?= @text( 'Hostname' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][host]" size="30" value="<?= $settings->host; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Username' ); ?>::<?= @text( 'TIPDATABASEUSERNAME' ); ?>">
-					<?= @text( 'Username' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][user]" size="30" value="<?= $settings->user; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database' ); ?>::<?= @text( 'TIPDATABASENAME' ); ?>">
-					<?= @text( 'Database' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][db]" size="30" value="<?= $settings->db; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database Prefix' ); ?>::<?= @text( 'TIPDATABASEPREFIX' ); ?>">
-					<?= @text( 'Database Prefix' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="settings[system][dbprefix]" size="10" value="<?= $settings->dbprefix; ?>" />
-				&nbsp;
-				<span class="error hasTip" title="<?= @text( 'Warning' );?>::<?= @text( 'WARNDONOTCHANGEDATABASETABLESPREFIX' ); ?>">
-					
-				</span>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-</section>
+<fieldset class="form-horizontal">
+	<legend><?= @text( 'Database' ); ?></legend>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][host]"><?= @text( 'Hostname' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][host]" value="<?= $settings->host; ?>" />
+	        <p class="help-block"><?= @text( 'TIPDATABASEHOSTNAME' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][user]"><?= @text( 'Username' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][user]" value="<?= $settings->user; ?>" />
+	        <p class="help-block"><?= @text( 'TIPDATABASEUSERNAME' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][db]"><?= @text( 'Database' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][db]" value="<?= $settings->db; ?>" />
+	        <p class="help-block"><?= @text( 'TIPDATABASENAME' ); ?></p>
+	    </div>
+	</div>
+	<div class="control-group">
+	    <label class="control-label" for="settings[system][dbprefix]"><?= @text( 'Database Prefix' ); ?></label>
+	    <div class="controls">
+	        <input type="text" name="settings[system][dbprefix]" value="<?= $settings->dbprefix; ?>" />
+	        <p class="help-block"><?= @text( 'TIPDATABASEPREFIX' ); ?></p>
+	    </div>
+	</div>
+</fieldset>

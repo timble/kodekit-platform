@@ -14,9 +14,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<style src="media://com_settings/css/settings-default.css" />
-
-<form action="" method="post" class="-koowa-form -koowa-box" >
+<form action="" method="post" class="-koowa-form" >
 <?= @helper('tabs.startPane') ?>
 <h3><?= @text('System')?></h3>	
 <?= @template('default_system', array('settings' => $settings->system)); ?>	
