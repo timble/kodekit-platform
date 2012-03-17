@@ -1,0 +1,67 @@
+/*!
+ * Overrides for bootstrap/forms.less
+ */
+
+
+// Identify controls by their labels
+label {
+  font-size: @baseFontSize + 1;
+}
+
+// Override Inputs, Textareas, Selects
+input,
+textarea,
+select {
+  .box-sizing(border-box);
+  height: @baseLineHeight * 2;
+  width: 100%;
+  padding: 4px;
+}
+
+// Make textarea height behave and only resize vertically
+textarea {
+  height: auto;
+}
+
+
+// Override form elements in sidebar
+#content-box > form .sidebar {
+	label {
+		font-size: @baseFontSize;
+	}
+	
+	.form-horizontal {
+	  .control-label {
+	    width: 90px;
+	  }
+	  // Move over all input controls and content
+	  .controls {
+	    margin-left: 110px;
+	  }
+	}
+}
+
+.help-block {
+	float: left;
+}
+
+// Fix radio options
+.controls-radio label {
+	display: inline;
+}
+
+// Fix for calendar input
+.controls-calendar input {
+	width: 100% - 18px;
+	margin-right: 4px;
+}
+
+// Override width of fields in grid
+.-koowa-grid {
+	input,
+	textarea,
+	select {
+		width: auto;
+		margin-bottom: 0;
+	}
+}
