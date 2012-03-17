@@ -2035,11 +2035,17 @@ a:hover {
   box-flex: 1;
 }
 .-koowa-form .editor {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   padding: 20px;
 }
 form[name="adminForm"] {
@@ -3014,7 +3020,7 @@ div.message {
   float: left;
   clear: left;
 }
-.com_settings #content-box dl.tabs {
+.com_settings dl.tabs {
   width: 200px;
   border-right: 1px solid #E1E1E1;
   -webkit-box-sizing: border-box;
@@ -3034,7 +3040,7 @@ div.message {
   -moz-box-flex: 0;
   box-flex: 0;
 }
-.com_settings #content-box dl.tabs h3 {
+.com_settings dl.tabs h3 {
   color: #666;
   font-size: 11px;
   padding: 6px 0;
@@ -3042,14 +3048,14 @@ div.message {
   margin: 0;
   text-transform: uppercase;
 }
-.com_settings #content-box dl.tabs dt {
+.com_settings dl.tabs dt {
   float: none !important;
   padding: 0 !important;
   margin: 0 !important;
   border: 0 none !important;
   background: none !important;
 }
-.com_settings #content-box dl.tabs dt span {
+.com_settings dl.tabs dt span {
   display: block;
   padding: 6px 0 6px 22px;
   color: #444;
@@ -3059,7 +3065,7 @@ div.message {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.com_settings #content-box dl.tabs dt span:hover {
+.com_settings dl.tabs dt span:hover {
   color: #444;
   border-top-color: #c4dbf2;
   background-color: #c8def3;
@@ -3073,8 +3079,8 @@ div.message {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9e8f6', endColorstr='#afceed', GradientType=0);
   text-decoration: none;
 }
-.com_settings #content-box dl.tabs dt.open span,
-.com_settings #content-box dl.tabs dt.open span:hover {
+.com_settings dl.tabs dt.open span,
+.com_settings dl.tabs dt.open span:hover {
   color: #FFF;
   border-top-color: #5c9bda;
   background-color: #5594d2;
@@ -3091,7 +3097,7 @@ div.message {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
-.com_settings #content-box .current {
+.com_settings .current {
   padding: 0 !important;
   clear: none !important;
   -webkit-box-sizing: border-box;
@@ -3110,7 +3116,7 @@ div.message {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-.com_settings #content-box .current dd {
+.com_settings .current dd {
   padding: 14px 20px !important;
   display: -webkit-box;
   display: -moz-box;
@@ -3124,41 +3130,11 @@ div.message {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_settings #content-box .current h2 {
+.com_settings .current h2 {
   border-bottom: 1px solid #EEE;
   color: #53637D;
   padding-bottom: 4px;
   margin-bottom: 20px;
-}
-.com_settings #content-box .current section {
-  border-bottom: 1px solid #EEE;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-.com_settings #content-box .current section:last-of-type {
-  border-bottom: 0 none;
-}
-.com_settings #content-box .current section h3 {
-  width: 140px;
-  color: #222;
-  margin: 0;
-  font-size: 13px;
-}
-.com_settings #content-box .current section .key {
-  background: none;
-  border: 0 none;
-  color: #222;
-}
-.com_settings #content-box .current section .key:after {
-  content: ":";
-}
-.com_settings .controls {
-  width: 50%;
-}
-.com_settings input:not([type="radio"]),
-.com_settings textarea,
-.com_settings select {
-  width: 80%;
 }
 #flexbox .box-scroll {
   overflow-y: scroll;
@@ -3317,6 +3293,9 @@ select {
   width: 100%;
   padding: 4px;
 }
+select {
+  max-width: 220px;
+}
 textarea {
   height: auto;
 }
@@ -3339,12 +3318,51 @@ textarea {
   width: auto;
   margin-bottom: 0;
 }
+fieldset {
+  max-width: 640px;
+}
+label.control-label:after {
+  content: ":";
+}
 .controls-radio label {
   display: inline;
 }
 .controls-calendar input {
   width: 82%;
   margin-right: 4px;
+}
+.input-append,
+.input-prepend {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+.input-append input,
+.input-prepend input,
+.input-append .add-on,
+.input-prepend .add-on {
+  float: none;
+}
+.input-append input,
+.input-prepend input {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+.input-normal {
+  max-width: 220px;
 }
 /* Forms validation message */
 .validation-advice {

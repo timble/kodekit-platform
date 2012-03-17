@@ -18,6 +18,10 @@ select {
   padding: 4px;
 }
 
+select {
+	max-width: 220px;
+}
+
 // Make textarea height behave and only resize vertically
 textarea {
   height: auto;
@@ -61,13 +65,43 @@ textarea {
 	}
 }
 
-// New style for radio options
-.controls-radio label {
-		display: inline;
+fieldset {
+	max-width: 640px;
 }
+
+// New style
+label.control-label:after {
+	content:":";
+}
+
+// New style for radio options
+.controls-radio {
+	label {
+		display: inline;
+	}	
+} 
 
 // New style for calendar input
 .controls-calendar input {
 	width: 100% - 18px;
 	margin-right: 4px;
+}
+
+// Making input-append flexible
+.input-append,
+.input-prepend {
+	#flexbox > .box(horizontal, 1);
+	
+	input,
+	.add-on {
+		float: none; // Override
+	}
+	
+	input {
+		#flexbox > .box(horizontal, 1);
+	}
+}
+
+.input-normal {
+	max-width: 220px;
 }

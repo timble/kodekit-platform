@@ -93,7 +93,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][cachetime]"><?= @text( 'Cache Time' ); ?></label>
 	    <div class="controls">
-	        <div class="input-append">
+	        <div class="input-append input-normal">
 	            <input type="text" name="settings[system][cachetime]" value="<?= $settings->cachetime; ?>" />
 	            <span class="add-on"><?= @text( 'Minutes' ); ?></span>
 	        </div>
@@ -142,7 +142,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Session Lifetime' ); ?></label>
 	    <div class="controls">
-	        <div class="input-append">
+	        <div class="input-append input-normal">
 	            <input type="text" name="settings[system][lifetime]" value="<?= $settings->lifetime; ?>" />
 	            <span class="add-on"><?= @text( 'Minutes' ); ?></span>
 	        </div>
