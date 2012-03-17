@@ -2234,6 +2234,7 @@ div.toolbar table.toolbar td a.disabled:active {
   font-size: 16.5px;
   width: 100%;
   padding: 4px 8px;
+  margin-bottom: 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
