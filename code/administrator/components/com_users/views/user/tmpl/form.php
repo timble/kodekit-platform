@@ -32,136 +32,107 @@ if(Form && Form.Validator) {
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
+<div class="control-group">
+    <label class="control-label" for=""></label>
+    <div class="controls">
+        
+    </div>
+</div>
+
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<div class="editor">
 		<div class="grid_8">
-			<div class="panel">
-				<h3><?= @text('User Details') ?></h3>
-				<table class="admintable">
-					<tr>
-						<td class="key">
-							<label for="name">
-							    <?= @text('Name') ?>:
-							</label>
-						</td>
-						<td>
-							<input class="required" type="text" name="name" value="<?= $user->name ?>" size="40" />
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="username">
-							    <?= @text('Username') ?>:
-							</label>
-						</td>
-						<td>
-							<input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" size="40" />
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="email">
-							    <?= @text('E-Mail') ?>:
-							</label>
-						</td>
-						<td>
-							<input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" size="40" />
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="password">
-							    <?= @text('New Password') ?>:
-							</label>
-						</td>
-						<td>
-							<input id="password" type="password" name="password" maxlength="100" size="40" />
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="password_verify">
-							    <?= @text('Verify Password') ?>:
-							</label>
-						</td>
-						<td>
-							<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
-						</td>
-					</tr>
-                    <tr>
-                        <td class="key">
-                            <label for="timezone">
-                                <?= @text('Time Zone') ?>:
-                            </label>
-                        </td>
-                        <td>
-                            <?= @helper('com://admin/settings.template.helper.listbox.timezones',
-                                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
-                        </td>
-                    </tr>
-				</table>
-			</div>
-			<div class="panel">
-				<h3><?= @text('User Parameters') ?></h3>
+			<fieldset class="form-horizontal">
+				<legend><?= @text('User Details') ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="name"><?= @text('Name') ?></label>
+				    <div class="controls">
+				        <input class="required" type="text" name="name" value="<?= $user->name ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="username"><?= @text('Username') ?></label>
+				    <div class="controls">
+				        <input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="email"><?= @text('E-Mail') ?></label>
+				    <div class="controls">
+				        <input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="password"><?= @text('New Password') ?></label>
+				    <div class="controls">
+				        <input id="password" type="password" name="password" maxlength="100" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
+				    <div class="controls">
+				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
+				    <div class="controls">
+				        <?= @helper('com://admin/settings.template.helper.listbox.timezones',
+				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
+				    </div>
+				</div>
+			</fieldset>
+			<fieldset class="form-horizontal">
+				<legend><?= @text('User Parameters') ?></legend>
 				<?= $user->params->render('params') ?>
-			</div>
+			</fieldset>
 		</div>
 		<div class="grid_4">
-			<div class="panel">
-				<h3><?= @text('System Information') ?></h3>
-				<table class="admintable">
-					<tr>
-						<td class="key">
-							<label for="enabled">
-							    <?= @text('Enable User') ?>:
-							</label>
-						</td>
-						<td>
-							<?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<label for="send_email">
-							    <?= @text('Receive System E-mails') ?>:
-							</label>
-						</td>
-						<td>
-							<?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
-						</td>
-					</tr>
-					<? if (!$user->isNew()): ?>
-					<tr>
-						<td class="key">
-							<?= @text('Register Date') ?>:
-						</td>
-						<td>
-							<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-								<?= @text('Never') ?>
-							<? else : ?>
-								<?= @helper('date.format', array('date' => $user->registered_on, 'format' => 'Y-m-d H:i:s')) ?>
-							<? endif ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="key">
-							<?= @text('Last Visit') ?>:
-						</td>
-						<td>
-							<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-								<?= @text('Never') ?>
-							<? else : ?>
-								<?= @helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
-							<? endif ?>
-						</td>
-					</tr>
-					<? endif; ?>
-				</table>
-			</div>
-			<div class="panel groups">
-				<h3><?= @text('Group') ?></h3>
-				<?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
-			</div>
+			<fieldset class="form-horizontal">
+				<legend><?= @text('System Information') ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Enable User') ?></label>
+				    <div class="controls controls-radio">
+				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Receive System E-mails') ?></label>
+				    <div class="controls controls-radio">
+				        <?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
+				    </div>
+				</div>
+				<? if (!$user->isNew()): ?>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Register Date') ?></label>
+				    <div class="controls">
+				        <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+				        	<?= @text('Never') ?>
+				        <? else : ?>
+				        	<?= @helper('date.format', array('date' => $user->registered_on, 'format' => 'Y-m-d H:i:s')) ?>
+				        <? endif ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Last Visit') ?></label>
+				    <div class="controls">
+				        <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+				        	<?= @text('Never') ?>
+				        <? else : ?>
+				        	<?= @helper('date.format', array('date' => $user->last_visited_on, 'format' => 'Y-m-d H:i:s')) ?>
+				        <? endif ?>
+				    </div>
+				</div>
+				<? endif; ?>
+			</fieldset>
+			<fieldset>
+				<legend><?= @text('Group') ?></legend>
+				<div class="control-group">
+				    <div class="controls">
+				        <?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
+				    </div>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </form>

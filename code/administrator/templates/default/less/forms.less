@@ -18,8 +18,14 @@ select {
   padding: 4px;
 }
 
+// Override the above applied width
 select {
 	max-width: 220px;
+}
+
+// Override, increase line-height
+label.radio {
+	line-height: @baseLineHeight + 6;
 }
 
 // Make textarea height behave and only resize vertically
@@ -51,10 +57,6 @@ textarea {
 	}
 }
 
-.help-block {
-	
-}
-
 // Override width of fields in grid
 .-koowa-grid {
 	input,
@@ -65,6 +67,7 @@ textarea {
 	}
 }
 
+// New style
 fieldset {
 	max-width: 640px;
 }
@@ -87,7 +90,7 @@ label.control-label:after {
 	margin-right: 4px;
 }
 
-// Making input-append flexible
+// New style, Making input-append flexible
 .input-append,
 .input-prepend {
 	#flexbox > .box(horizontal, 1);
@@ -102,6 +105,7 @@ label.control-label:after {
 	}
 }
 
+// New style
 .input-normal {
 	max-width: 220px;
 }
