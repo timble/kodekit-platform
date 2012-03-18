@@ -11,7 +11,6 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div class="-koowa-grid">
 <table class="adminlist">
 <thead>
 	<tr>
@@ -54,4 +53,3 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>

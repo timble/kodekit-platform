@@ -11,7 +11,6 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div class="-koowa-grid">
 <table>
 <thead>
 	<tr>
@@ -50,4 +49,3 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? endforeach; ?>
 </tbody>
 </table>
-</div>
