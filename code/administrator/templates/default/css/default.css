@@ -2023,7 +2023,7 @@ a:hover {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-.-koowa-form .editor-container {
+.-koowa-form .form-body {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -2033,14 +2033,16 @@ a:hover {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
+  background-color: #F9F9F9;
 }
-.-koowa-form .editor {
+.-koowa-form .form-content {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
   padding: 20px;
+  background-color: #ffffff;
 }
 form[name="adminForm"] {
   display: -webkit-box;

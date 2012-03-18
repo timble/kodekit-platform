@@ -29,12 +29,12 @@ if(Form && Form.Validator) {
 </script>
 
 <form action="" method="post" id="newsfeed-form" class="-koowa-form">
-    <div class="editor-container">
+    <div class="form-body">
     	<div class="title">
     	    <input class="required" type="text" name="title" maxlength="255" value="<?= $newsfeed->title ?>" placeholder="<?= @text('Title') ?>" />
     	</div>
         
-        <div class="editor">
+        <div class="form-content">
             <fieldset class="form-horizontal">
             <legend><?= @text( 'Details' ) ?></legend>
             <div class="control-group">

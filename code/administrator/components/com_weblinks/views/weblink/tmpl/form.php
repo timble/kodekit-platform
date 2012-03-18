@@ -23,12 +23,12 @@ defined('KOOWA') or die('Restricted access'); ?>
 <form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />
 
-	<div class="editor-container">
+	<div class="form-body">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $weblink->title ?>" placeholder="<?= @text('Title') ?>" />
 		</div>
 	    
-	    <div class="editor">
+	    <div class="form-content">
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">

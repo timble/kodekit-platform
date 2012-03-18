@@ -29,11 +29,11 @@ window.addEvent('domready', function(){
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="banner-form" class="-koowa-form">
-    <div class="editor-container">
+    <div class="form-body">
         <div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= @escape($banner->title) ?>" placeholder="<?= @text('Name') ?>" />
 		</div>
-		<div class="editor">
+		<div class="form-content">
 			<fieldset class="form-horizontal">
 			    <legend><?= @text('Banner') ?></legend>
 			    <div class="control-group">

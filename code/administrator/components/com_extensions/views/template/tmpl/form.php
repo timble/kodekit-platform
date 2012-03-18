@@ -25,7 +25,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="<?= @route('name='.$template->name.'&application='.$state->application) ?>" method="post" class="-koowa-form">
         	
-	<div class="editor">
+	<div class="form-content">
         <fieldset class="form-horizontal">
             <legend><?= @text('Details') ?></legend>
             <div class="control-group">

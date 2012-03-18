@@ -32,15 +32,8 @@ if(Form && Form.Validator) {
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
-<div class="control-group">
-    <label class="control-label" for=""></label>
-    <div class="controls">
-        
-    </div>
-</div>
-
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<div class="editor">
+	<div class="form-content">
 		<div class="grid_8">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('User Details') ?></legend>

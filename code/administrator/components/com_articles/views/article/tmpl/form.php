@@ -31,7 +31,7 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
-    <div class="editor-container">
+    <div class="form-body">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>

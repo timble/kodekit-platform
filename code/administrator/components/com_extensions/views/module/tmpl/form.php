@@ -53,12 +53,12 @@ window.addEvent('domready', function() {
 </script>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
-	<div class="editor-container">
+	<div class="form-body">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
 		</div>
 		
-		<div class="editor">
+		<div class="form-content">
 		    <fieldset class="form-horizontal">
 		    	<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">
