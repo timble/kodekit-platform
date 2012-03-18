@@ -12,17 +12,19 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.validator') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form" id="group-form">
-    <div class="editor-container">
+    <div class="form-body">
         <div class="title">
             <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= @text('Group name') ?>" />
         </div>
-        <div class="editor">
+        <div class="form-content">
 	        <div class="panel">
 	            <h3><?= @text( 'Group' ); ?></h3>
 	        	<?= @helper('select.groups', array('name' => 'target_id', 'selected' => $group->parent_id, 'exclude' => $group)) ?>
