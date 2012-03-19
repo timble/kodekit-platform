@@ -1,5 +1,21 @@
 /* @group Editor Canvas (Flexi Box Model) */
 /* Stretch editor to full height of the canvas without JS */
+.editor-wrap,
+.editor-container {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-flex: 1;
+	
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-moz-box-flex: 1;
+	
+	display: box;
+	box-orient: vertical;
+	box-flex: 1;
+}
+
+
 #editor-xtd-buttons,
 #editor-toggle-buttons {
 	float: none !important;
