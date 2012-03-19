@@ -74,16 +74,19 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 #header-box  { 
 	#flexbox > .box();
 	
-	height: 31px;
 	background-color: #333;
+	border-bottom: 1px solid lighten(@navbarBackground, 20%);
 	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
+	.box-shadow(rgba(0, 0, 0, .8) 0px 1px 3px);
+	
+	position: relative; // We need this for .box-shadow
 }
 
 #tabs-box {
 	#flexbox > .box();
 	
-	border-top: 1px solid #bbb;
 	#gradient > .vertical(@tabbarBackground, darken(@tabbarBackground, 10%));
+	.box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
 }
 
 #toolbar-box {
@@ -653,6 +656,17 @@ div.toolbar {
 	
 	.sidebar:first-child {
 		border-right: 1px solid @grayLighter;
+		
+		h4 {			
+			padding: 4px 0 4px 10px;
+			margin: @baseLineHeight 0 0 0;
+			color: #666;
+			text-transform: uppercase;
+		}
+		
+		h4:first-of-type {			
+			margin-top: 2px;
+		}
 		
 		ul {
 			margin: 0;

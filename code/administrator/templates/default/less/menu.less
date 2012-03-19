@@ -29,10 +29,10 @@
 	> ul {
 		li {
 			a {
-				padding: 0.60em 1.5em 0.45em;
-				color: @navbarLinkColorDisabled;
-				line-height: 1.6em; vertical-align: middle;
-				font-size: 12px; font-weight: bold; text-decoration: none;
+				padding: 0 18px;
+				color: lighten(@navbarBackground, 5%);
+				line-height: @baseLineHeight + 18px; vertical-align: middle;
+				font-size: @baseFontSize + 1; font-weight: bold; text-decoration: none;
 				background-repeat: no-repeat;
 				background-image: none !important;
 				border-right: 1px solid @navbarBackground;
@@ -119,26 +119,28 @@
 	
 	list-style: none;
 	margin: 0;
-	padding: 0 0 0 15px;
+	padding: 0 0 0 0px;
 	
 	li {
 		padding: 0;
-		margin: 5px 2px 0 2px;
+		margin: 0px 0px 0 0px;
 	}
 	
 	li a,
 	span.nolink {
 		cursor: pointer;
-		padding: 8px 15px;
+		padding: 0 25px;
+		line-height: @baseLineHeight + 16px; vertical-align: middle;
 		font-weight: bold;
 		color: @tabbarLinkColor;
 		display: block;
-		background: darken(@tabbarBackground, 20%);
-		.border-radius(5px 5px 0 0);
+		//background: darken(@tabbarBackground, 20%);
+		.border-radius(0 0);
+		border-right: 1px solid @tabbarBackground;
 	}
 	
 	span.nolink {
-		color: #284388;
+		color: lighten(@tabbarBackground, 5%);
 		cursor: default;
 	}
 	
@@ -146,6 +148,8 @@
 	span.nolink.active {
 		color: @tabbarLinkColorHighlight;
 		background-color: @tabbarBackgroundHighlight;
+		#gradient > .vertical(#FFF, @tabbarBackgroundHighlight);
+		.box-shadow(rgba(0, 0, 0, .3) 0px 0px 4px);
 	}
 	
 	a.active:hover,
