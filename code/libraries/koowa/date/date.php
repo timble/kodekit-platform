@@ -45,7 +45,7 @@ class KDate extends DateTime implements KDateInterface
     {
         $config->append(array(
         	'date'     => 'now',
-            'timezone' => 'UTC',
+            'timezone' => date_default_timezone_get()
         ));
     }
 
