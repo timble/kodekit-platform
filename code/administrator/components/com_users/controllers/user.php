@@ -62,8 +62,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $rowset = parent::_actionDelete($context);
 
-        $list = $this->getService('com://admin/users.model.sessions')
-            ->set('username', $rowset->username)
+        $this->getService('com://admin/users.model.sessions')
+            ->username($rowset->username)
             ->getList()
             ->delete();
 
