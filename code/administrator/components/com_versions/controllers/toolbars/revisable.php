@@ -62,7 +62,8 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
     {
         $command->append(array(
             'attribs'  => array(
-                'label' => 'Delete forever',
+                'label'       => 'Delete forever',
+                'data-action' => 'delete'
             )
         )); 
     }
