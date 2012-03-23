@@ -90,7 +90,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		$list = $this->getService($config->identifier)->set($config->filter)->getList();
 		
 		//Get the list of items
- 	    $items = $list->getColumn($config->value);
+ 	    $items = $list->get($config->value);
 		if($config->unique) {
 		    $items = array_unique($items);
 		}
