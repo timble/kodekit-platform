@@ -76,12 +76,12 @@ class ComExtensionsDatabaseRowLanguage extends KDatabaseRowAbstract
 		    $params = JComponentHelper::getParams('com_extensions');
 		    $params->set('language_'.$this->application, $this->name);
  
-		    //Save the params   
-			$result = $this->getService('com://admin/extensions.model.components', array('name' => 'components'))
-                        ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW) 
-                        ->set('params', $params)       
-			            ->save();
-
+		     //Save the params
+			$result = $this->getService('com://admin/extensions.database.table.components')
+                           ->select(array('option' => 'com_extensions'), KDatabase::FETCH_ROW)
+                           ->set('params', $params)
+			               ->save();
+			
 			return $result;
 		}
 
