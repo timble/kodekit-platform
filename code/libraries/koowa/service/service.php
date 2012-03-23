@@ -309,9 +309,9 @@ class KService implements KServiceInterface
 		$strIdentifier = (string) $objIdentifier;
 		
 		if(isset(self::$_configs[$strIdentifier])) {
-		     self::$_configs[$strIdentifier] =  array_merge(self::$_configs[$strIdentifier], $config);
+		     self::$_configs[$strIdentifier] =  self::$_configs[$strIdentifier]->append($config);
 		} else {
-		    self::$_configs[$strIdentifier] = $config;
+		    self::$_configs[$strIdentifier] = new KConfig($config);
 		}
 	}
 	
@@ -327,7 +327,7 @@ class KService implements KServiceInterface
 		$objIdentifier = self::getIdentifier($identifier);
 		$strIdentifier = (string) $objIdentifier;
 	    
-	    return isset(self::$_configs[$strIdentifier])  ? self::$_configs[$strIdentifier] : array();
+	    return isset(self::$_configs[$strIdentifier])  ? self::$_configs[$strIdentifier]->toArray() : array();
 	}
 	
 	/**

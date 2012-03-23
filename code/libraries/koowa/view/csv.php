@@ -49,12 +49,14 @@ class KViewCsv extends KViewFile
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'mimetype'	  => 'text/csv',
+			'version'     => '1.0',
 			'disposition' => 'inline',
 			'quote'		  => '"',
 			'separator'	  => ',',
 			'eol'		  => "\n"
-       	));
+       	))->append(array(
+			'mimetype'	  => 'text/csv; version='.$config->version,
+		));
        	
        	parent::_initialize($config);
     }
