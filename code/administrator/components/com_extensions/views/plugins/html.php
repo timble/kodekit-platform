@@ -21,7 +21,7 @@ class ComExtensionsViewPluginsHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-        $this->types = array_unique($this->getService('com://admin/extensions.model.plugins')->getList()->getColumn('type'));
+        $this->types = array_unique($this->getService('com://admin/extensions.model.plugins')->getList()->type);
    
 		return parent::display();
 	}
