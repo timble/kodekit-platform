@@ -82,7 +82,9 @@ abstract class PlgKoowaDefault extends KEventSubscriberDefault
 	 */
 	public function __construct($dispatcher, $config = array())
 	{
-	    $config = new KConfig($config);
+		if (!$config instanceof KConfig) {
+	    	$config = new KConfig($config);
+		}
 	    
 	    //Inject the identifier
 		$config->service_identifier = KService::getIdentifier('plg:koowa.'.$config['name']);

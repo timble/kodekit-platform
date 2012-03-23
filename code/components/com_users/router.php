@@ -24,15 +24,15 @@ function UsersBuildRoute(&$query)
 
 	if(isset($query['view']))
 	{
-		if(empty($query['Itemid'])) {
-			$segments[] = $query['view'];
-		} else {
-			$menu = &JSite::getMenu();
-			$menuItem = &$menu->getItem( $query['Itemid'] );
-			if(!isset($menuItem->query['view']) || $menuItem->query['view'] != $query['view']) {
-				$segments[] = $query['view'];
-			}
-		}
+		if(!empty($query['Itemid'])) 
+		{
+		    $menu = JSite::getMenu()->getItem( $query['Itemid'] );
+		    if(!isset($menu->query['view']) || $menu->query['view'] != $query['view']) {
+		        $segments[] = $query['view'];
+		    }  
+		} 
+		else $segments[] = $query['view'];
+		
 		unset($query['view']);
 	}
 	return $segments;
