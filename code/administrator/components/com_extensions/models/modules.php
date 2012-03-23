@@ -121,7 +121,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
             if($state->installed)
             {
                 $modules = array();
-               	$ids = parent::getList()->getColumn('type'); 
+               	$ids = parent::getList()->type; 
 
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
