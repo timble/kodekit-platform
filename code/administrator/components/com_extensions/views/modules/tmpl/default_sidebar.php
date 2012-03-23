@@ -20,7 +20,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <?= @text('All positions') ?>
             </a>
         </li>
-        <? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('site')->getList()->getColumn('position')) as $position) : ?>
+        <? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('site')->getList()->position) as $position) : ?>
         <li <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?>>
             <a href="<?= @route('position='.$position.'&application=site') ?>">
                 <?= $position; ?>
@@ -35,7 +35,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <?= @text('All positions') ?>
             </a>
         </li>
-        <? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('administrator')->getList()->getColumn('position')) as $position) : ?>
+        <? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('administrator')->getList()->position) as $position) : ?>
         <li <? if($state->position == $position && $state->application == 'administrator') echo 'class="active"' ?>>
             <a href="<?= @route('position='.$position.'&application=administrator') ?>">
                 <?= $position; ?>
