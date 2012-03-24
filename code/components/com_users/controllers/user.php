@@ -184,15 +184,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $item = $context->caller->getModel()->getItem();
 
-        if($item->getStatus() != 'failed')
-        {
-            if(!($url = KRequest::get('post.return', 'url'))) {
-                $url = 'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
-            }
-
-            $this->setRedirect($url, JText::_('Modifications have been saved.'), 'message');
+        if ($item->getStatus() != KDatabase::STATUS_FAILED) {
+            $this->setRedirect(KRequest::referrer(), JText::_('Modifications have been saved.'), 'message');
+        } else {
+            $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
         }
-        else $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
     }
 
     public function notify(KCommandContext $context)
