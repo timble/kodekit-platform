@@ -330,6 +330,9 @@ Files.Grid = new Class({
 		this.fireEvent('beforeInsertRows', {rows: rows});
 		
 		$each(rows, function(row) {
+			if (row.data) {
+				row = row.data;
+			}
 			var cls = Files[row.type.capitalize()];
 			var item = new cls(row);
 			this.insert(item, 'last');
