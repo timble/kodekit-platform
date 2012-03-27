@@ -164,7 +164,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         if($modified)
         {
             foreach($data as $column => $value) {
-                $this->setColumn($column, $value);
+                $this->set($column, $value);
             }
         }
         else
