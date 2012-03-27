@@ -51,7 +51,7 @@ class ComUsersHelperPassword extends KObject
             fclose($handle);
         }
         
-        if (strlen($bytes) < $count) {
+        if (strlen($bytes) < $length + 1) {
             $bytes = '';
             $random_state = microtime();
             
@@ -64,7 +64,7 @@ class ComUsersHelperPassword extends KObject
                 $bytes .= md5($random_state, true);
             }
             
-            $bytes = substr($bytes, 0, $count);
+            $bytes = substr($bytes, 0, $length + 1);
         }
         
         $salt  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
