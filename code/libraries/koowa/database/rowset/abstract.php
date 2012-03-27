@@ -212,7 +212,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             foreach($rows as $k => $data)
             {
                 $row = clone $default;  
-                $row->setData($data);
+                $row->setData($data, $new);
             
                 $this->insert($row);
             }
