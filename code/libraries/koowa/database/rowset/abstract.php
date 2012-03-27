@@ -26,6 +26,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 	 * @var	string
 	 */
 	protected $_identity_column;
+	
+	/**
+	* Clone row object when adding data
+	*
+	* @var	boolean
+	*/
+	protected $_row_cloning;
 	    
 	/**
      * Constructor
@@ -38,6 +45,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 		if(!isset($config)) $config = new KConfig();
     	
     	parent::__construct($config);
+    	
+    	$this->_row_cloning = $config->row_cloning;
     		
     	// Set the table indentifier
     	if(isset($config->identity_column)) {
@@ -66,7 +75,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         $config->append(array(
             'data'              => null,
             'new'               => true,
-            'identity_column'   => null 
+            'identity_column'   => null,
+            'row_cloning'		=> true
         ));
 
         parent::_initialize($config);
@@ -179,24 +189,43 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     
 	/**
      * Add rows to the rowset
+     * 
+     * This function will either clone the row object, or create a new instance of the row object for 
+     * each row being inserted. By default the row will be cloned. 
      *
      * @param  array    An associative array of row data to be inserted. 
      * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
      * @return  KDatabaseRowsetAbstract
      * @see __construct
      */
-    public function addData(array $data, $new = true)
+    public function addData(array $rows, $new = true)
     {   
-        //Set the data in the row object and insert the row
-        foreach($data as $k => $row)
+        $options = array(
+            'status' => $new ? NULL : KDatabase::STATUS_LOADED,
+            'new'    => $new,   
+        );
+        
+        if($this->_row_cloning)
         {
-            $options = array(
-            	'data'   => $row,
-                'status' => $new ? NULL : KDatabase::STATUS_LOADED,
-                'new'    => $new,   
-            );
+            $default = $this->getRow($options);
+         
+            foreach($rows as $k => $data)
+            {
+                $row = clone $default;  
+                $row->setData($data);
             
-            $this->insert($this->getRow($options));
+                $this->insert($row);
+            }
+        }
+        else 
+        {
+            foreach($rows as $k => $data)
+            {
+                $options['data'] = $data;
+                
+                $row = $this->getRow($options);
+                $this->insert($row);
+            }
         }
         
         return $this;
