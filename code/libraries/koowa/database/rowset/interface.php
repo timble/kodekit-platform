@@ -48,6 +48,21 @@ interface KDatabaseRowsetInterface
      */
     public function addData(array $data, $new = true);
 	
+    /**
+     * Returns the status message
+     *
+     * @return string The status message
+     */
+    public function getStatusMessage();
+    
+    /**
+     * Set the status message
+     *
+     * @param   string      The status message
+     * @return  KDatabaseRowsetAbstract
+     */
+    public function setStatusMessage($message);
+    
 	/**
 	 * Gets the identitiy column of the rowset
 	 *

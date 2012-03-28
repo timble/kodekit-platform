@@ -25,6 +25,29 @@ interface KDatabaseRowInterface
      * @return string The status value.
      */
     public function getStatus();
+    
+    /**
+     * Set the status
+     *
+     * @param   string|null     The status value or NULL to reset the status
+     * @return  KDatabaseRowAbstract
+     */
+    public function setStatus($status);
+    
+    /**
+     * Returns the status message
+     *
+     * @return string The status message
+     */
+    public function getStatusMessage();  
+    
+    /**
+     * Set the status message
+     *
+     * @param   string      The status message
+     * @return  KDatabaseRowAbstract
+     */
+    public function setStatusMessage($message);
 
 	/**
      * Load the row from the database.

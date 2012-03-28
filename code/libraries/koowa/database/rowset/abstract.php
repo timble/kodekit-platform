@@ -26,6 +26,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 	 * @var	string
 	 */
 	protected $_identity_column;
+
+	/**
+	 * The status message
+	 *
+	 * @var string
+	 */
+	protected $_status_message = '';
 	    
 	/**
      * Constructor
@@ -51,6 +58,11 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
 		if(!empty($config->data)) {
 			$this->addData($config->data->toArray(), $config->new);	
 		}
+		
+		//Set the status message
+		if(!empty($config->status_message)) {
+		    $this->setStatusMessage($config->status_message);
+		}
     }
 
     /**
@@ -64,9 +76,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'data'              => null,
-            'new'               => true,
-            'identity_column'   => null 
+            'data'             => null,
+            'new'              => true,
+            'identity_column'  => null 
+        	'status_message'   => '',
         ));
 
         parent::_initialize($config);
@@ -144,6 +157,28 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         }
         return $result;
     }
+
+	/**
+	 * Returns the status message
+	 *
+	 * @return string The status message
+	 */
+	public function getStatusMessage()
+	{
+		return $this->_status_message;
+	}
+
+	/**
+	 * Set the status message
+	 *
+	 * @param   string      The status message
+	 * @return  KDatabaseRowsetAbstract
+	 */
+	public function setStatusMessage($message)
+	{
+		$this->_status_message = $message;
+		return $this;
+	}
     
     /**
      * Set the rowset data based on a named array/hash
@@ -294,7 +329,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
            
             foreach ($this as $i => $row) 
             {
-                if(!$row->save()) {
+                if(!$row->save()) 
+                {
+                    // Set current row status message as rowset status message.
+                    $this->setStatusMessage($row->getStatusMessage());
                     $result = false;
                 }
             }
@@ -318,7 +356,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
            
             foreach ($this as $i => $row) 
             {
-                if(!$row->delete()) {
+                if(!$row->delete()) 
+                {
+					// Set current row status message as rowset status message.
+					$this->setStatusMessage($row->getStatusMessage());
                     $result = false;
                 }
             }

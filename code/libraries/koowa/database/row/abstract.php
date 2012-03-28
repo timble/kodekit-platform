@@ -129,11 +129,11 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
 	}
     
  	/**
-    * Returns an associative array of the raw data
-    *
-    * @param   boolean  If TRUE, only return the modified data. Default FALSE
-    * @return  array
-    */
+     * Returns an associative array of the raw data
+     *
+     * @param   boolean  If TRUE, only return the modified data. Default FALSE
+     * @return  array
+     */
     public function getData($modified = false)
     {
         if($modified) {
