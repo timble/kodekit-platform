@@ -36,7 +36,7 @@ Fx.Toggle = new Class({
 		onOK: function(){
 			this.preview.getElement('.toggle-preview').set('html', this.getValue());
 		},
-		onEdit: Class.empty,
+		onEdit: Class.empty
 	},
 
 	initialize: function(target, options){
@@ -117,7 +117,7 @@ Fx.Toggle = new Class({
 				'class': 'btn toggle-ok button',
 				type: 'button',
 				events: {
-					click: function(event){
+					click: function(event){ 
 						new Event(event).stop();
 						$$(this.element, this.element.getPrevious()).removeClass('toggle-open').addClass('toggle-closed');
 						this.fireEvent('onOK');

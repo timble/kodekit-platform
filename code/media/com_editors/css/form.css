@@ -1,4 +1,12 @@
 /* @group Togglers */
+/* IE8 needs below hack as it does not support :not */
+.toggle-closed {
+	display: none;
+}
+.preview.toggle-closed {
+	display: block;
+}
+
 .toggle-closed:not(.preview) {
 	display: none;
 /*	height: 0;

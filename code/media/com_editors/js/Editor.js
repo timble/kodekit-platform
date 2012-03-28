@@ -16,7 +16,8 @@ provides: Editor
 ...
 */
 
-var Editors = new Hash, Editor = new Class({
+var Editors = new Hash, 
+	Editor = new Class({
 	
 	Implements: [Options, Events],
 	
@@ -114,7 +115,6 @@ var Editors = new Hash, Editor = new Class({
 	//Used for checking isDirty state
 	startContent: '',
 
-	
 	initialize: function(editor, options, settings){
 
 		//If return editor instance if found
@@ -122,11 +122,6 @@ var Editors = new Hash, Editor = new Class({
 
 		//Stores the id so the getters works
 		this.identifier = editor;
-
-		//Function to be called when getting tinyMCE using this.tinyMCE
-		this.__defineGetter__('tinyMCE', function(){
-			return tinyMCE.get(this.identifier);
-		});
 	
 		//Sets the options
 		this.setOptions(options);
@@ -174,7 +169,9 @@ var Editors = new Hash, Editor = new Class({
 		// Store this Editor instance in the Editors hash
 		Editors.set(editor, this);
 	},
-
+	getEditor: function() {
+		return tinyMCE.get(this.identifier);
+	},
 	create: function(editor, options){
 
 		this.wrap = new Element('div', {'class': 'editor-wrap'})
@@ -210,50 +207,50 @@ var Editors = new Hash, Editor = new Class({
 					])
 			]);
 		
-		this.tinyMCE.addButton('image', {
+		this.getEditor().addButton('image', {
 			title : 'Image',
-			image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/image.png',
+			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/image.png',
 			cmd : 'image'
 		});	
 		
-		this.tinyMCE.addCommand('image', function() {
-			SqueezeBox.open('?option=com_files&view=images&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 570, y: 400}});
+		this.getEditor().addCommand('image', function() {
+			SqueezeBox.open((Editor.baseurl ? Editor.baseurl : '')+'?option=com_files&container=files-files&view=images&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 570, y: 400}});
 		}.bind(this));
 		
-		this.tinyMCE.addButton('readmore', {
-			title : 'Read more‚Ä¶',
-			image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/more.gif',
+		this.getEditor().addButton('readmore', {
+			title : 'Read more…',
+			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/more.gif',
 			cmd : 'Readmore'
 		});	
 		
-		this.tinyMCE.addCommand('Readmore', function() {
-			var content = this.tinyMCE.getContent();
+		this.getEditor().addCommand('Readmore', function() {
+			var content = this.getEditor().getContent();
 			if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i)) {
-				alert('Read more already exist!');
+				alert('Read more already exists!');
 				return false;
 			} else {
-				this.setText('<hr id="system-readmore" />');
+				this.insertText('<hr id="system-readmore" />');
 			}
 		}.bind(this));
 		
-		/*this.tinyMCE.addButton('article', {
+		/*this.getEditor().addButton('article', {
 			title : 'Article',
-			image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/article.png',
+			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/article.png',
 			cmd : 'Article'
 		});	
 		
-		this.tinyMCE.addCommand('Article', function() {
+		this.getEditor().addCommand('Article', function() {
 			SqueezeBox.open('?option=com_articles&view=articles&layout=link&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 800, y: 600}});
 		}.bind(this));*/
 
-		if(this.tinyMCE.settings.theme_advanced_buttons2) {
-			this.tinyMCE.addButton('advanced', {
+		if(this.getEditor().settings.theme_advanced_buttons2) {
+			this.getEditor().addButton('advanced', {
 				title : 'Kitchen Sink',
-				image : this.tinyMCE.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
+				image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
 				cmd : 'Advanced'
 			});	
 			
-			this.tinyMCE.addCommand('Advanced', function(cookie) {
+			this.getEditor().addCommand('Advanced', function(cookie) {
 				var cm = this.controlManager, tbId = this.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = this.getContentAreaContainer().firstChild;
 
 				if ( 'undefined' == id )
@@ -270,14 +267,14 @@ var Editors = new Hash, Editor = new Class({
 					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
 					cookie.set('advanced', 0);
 				}
-			}.pass(this.options.cookie, this.tinyMCE));
+			}.pass(this.options.cookie, this.getEditor()));
 			
 			if(this.options.cookie.get('advanced')) {
-				this.tinyMCE.onInit.add(function(ed) {
+				this.getEditor().onInit.add(function(ed) {
 					ed.controlManager.setActive('advanced', 1);
 				}.bind(this));
 			} else {
-				this.tinyMCE.onInit.add(function(ed) {
+				this.getEditor().onInit.add(function(ed) {
 					var cm = ed.controlManager, tbId = ed.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = ed.getContentAreaContainer().firstChild;
 					tinymce.DOM.hide(id);
 					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
@@ -290,7 +287,7 @@ var Editors = new Hash, Editor = new Class({
 			//Prevent the tinyMCE editor to flash on the screen for a split second before the codemirror ui loads
 			this.wrap.hide();
 			
-			this.tinyMCE.onInit.add(function() {
+			this.getEditor().onInit.add(function() {
 				this.go('html');
 
 				//Done initializing, lets show the editor
@@ -468,21 +465,20 @@ var Editors = new Hash, Editor = new Class({
 	},
 
 	setText: function(text){
+		tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
+		
 		if(this.options.codemirror) {
-			tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
-			this.editor.codemirror.setCode(text);
-		} else {
-			tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
+			//this.editor.codemirror.setCode(text);
 		}
 	},
 
 	getText: function(text){
 		if(this.options.codemirror) {
 			var editor = this.getUserSetting('editor');
-			if(editor == 'tinymce') return this.tinyMCE.getContent();
+			if(editor == 'tinymce') return this.getEditor().getContent();
 			else return this.editor.codemirror.getCode();
 		} else {
-			return this.tinyMCE.getContent();
+			return this.getEditor().getContent();
 		}
 	},
 	
@@ -495,7 +491,7 @@ var Editors = new Hash, Editor = new Class({
 		if(mode == this.mode) return false;
 		this.mode = mode;
 
-		var ed = this.tinyMCE, qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce');
+		var ed = this.getEditor(), qt = this.wrap.getElement('.quicktags'), H = this.wrap.getElement('.editor-mode-html'), P = this.wrap.getElement('.editor-mode-tinymce');
 
 		if ( 'tinymce' == mode ) {
 			//@TODO With CodeMirror in play, we might not need this code anymore, so commenting out for now
@@ -593,13 +589,17 @@ var Editors = new Hash, Editor = new Class({
 				title: button.text,
 				onclick: button.onclick,
 				cmd: button.name,
-				image : this.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
+				image : this.baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif'
 			});
-		}, this.tinyMCE);
+		}, this.getEditor());
 	},
 	
 	initializeToggle: function(settings){
-		var self = editor = this, defaultText = this.editor.get('text'), initialized = false;
+		var self = editor = this, 
+			defaultText = this.editor.get('text'), 
+			initialized = false,
+			identifier = this.identifier;
+		
 		this.toggler = new Fx.Toggle(this.editor, {
 			wrap: this.wrap,
 			onEdit: function(){
@@ -609,6 +609,7 @@ var Editors = new Hash, Editor = new Class({
 				}
 			},
 			onOK: function(){
+				var editor = Editors.get(identifier);
 				this.preview.getElement('.toggle-preview').set('html', editor.getText());
 				//Set the text for tinyMCE as well if CodeMirror is active
 				editor.setText(editor.getText());

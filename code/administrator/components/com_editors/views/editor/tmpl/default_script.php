@@ -9,7 +9,6 @@
 <? endif ?>
 
 <script src="media://com_editors/tinymce/tiny_mce<?= KDEBUG ? '_src.js' : '.js' ?>" />
-<script src="media://com_editors/tinymce/themes/advanced/js/editor.js" />
 <script src="media://com_editors/js/Editor.js" />
 
 <? if($codemirror) : ?>
@@ -33,4 +32,8 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 </script>
 <? endif ?>
 		
-<script>new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);</script>
+<script>
+Editor.baseurl = <?= json_encode(JURI::root()); ?>;
+
+new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);
+</script>
