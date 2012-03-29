@@ -50,7 +50,6 @@ Fx.Toggle = new Class({
 		this.preview = this.createPreview();
 		this.element = this.createElement();
 		
-		
 		if(this.options.animate) {
 			this.parent(this.element, this.options);
 			this.hide();

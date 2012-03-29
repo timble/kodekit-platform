@@ -12,7 +12,14 @@
 <script src="media://com_editors/js/Editor.js" />
 
 <? if($codemirror) : ?>
-<script src="media://com_editors/codemirror/js/codemirror.js" />
+<script src="media://com_editors/codemirror/lib/codemirror.js" />
+<script src="media://com_editors/codemirror/mode/css/css.js" />
+<script src="media://com_editors/codemirror/mode/htmlmixed/htmlmixed.js" />
+<script src="media://com_editors/codemirror/mode/javascript/javascript.js" />
+<script src="media://com_editors/codemirror/mode/php/php.js" />
+<script src="media://com_editors/codemirror/mode/xml/xml.js" />
+
+<style src="media://com_editors/codemirror/lib/codemirror.css" />
 
 <script>	
 var quicktagsL10n = 

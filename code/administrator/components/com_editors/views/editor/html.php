@@ -88,12 +88,13 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'codemirror'   		=> true,
 			'codemirrorOptions' => array(
 				'stylesheet' => array(
-				  	$config->media_url.'/com_editors/codemirror/css/xmlcolors.css', 
+					$config->media_url.'/com_editors/codemirror/lib/codemirror.css',
+				  	/*$config->media_url.'/com_editors/codemirror/css/xmlcolors.css', 
 				  	$config->media_url.'/com_editors/codemirror/css/jscolors.css', 
 				  	$config->media_url.'/com_editors/codemirror/css/csscolors.css',
-				  	$config->media_url.'/com_editors/css/codemirror.css'
+				  	$config->media_url.'/com_editors/css/codemirror.css'*/
 				),
-				'path' => $config->media_url.'/com_editors/codemirror/js/'
+				'path' => $config->media_url.'/com_editors/codemirror/'
 			),
 
 			'editor_settings' => $settings

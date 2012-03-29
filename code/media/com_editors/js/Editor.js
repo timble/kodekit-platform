@@ -107,8 +107,7 @@ var Editors = new Hash,
 		}],
 		codemirrorOptions: {
 			lineNumbers: true,
-			reindentOnLoad: true,
-			parserfile: ['parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js']
+			mode: "htmlmixed"
 		}
 	},
 
@@ -285,7 +284,8 @@ var Editors = new Hash,
 		
 		if ( this.getUserSetting( 'editor' ) == 'html' && this.options.codemirror ) {
 			//Prevent the tinyMCE editor to flash on the screen for a split second before the codemirror ui loads
-			this.wrap.hide();
+			// TODO: this completely hides codemirror
+			//this.wrap.hide();
 			
 			this.getEditor().onInit.add(function() {
 				this.go('html');
@@ -389,7 +389,7 @@ var Editors = new Hash,
 	
 	edInsertTag: function(i) {
 	    var codemirror = this.editor.codemirror,
-	        selection = codemirror.selection();
+	        selection = codemirror.getSelection();
 
 	    if (selection) {
 	        codemirror.replaceSelection(this.options.buttons[i].tagStart + selection + this.options.buttons[i].tagEnd);
@@ -468,7 +468,7 @@ var Editors = new Hash,
 		tinyMCE.execInstanceCommand(this.identifier, 'mceSetContent',false,text);
 		
 		if(this.options.codemirror) {
-			//this.editor.codemirror.setCode(text);
+			this.editor.codemirror.setValue(text);
 		}
 	},
 
@@ -476,7 +476,7 @@ var Editors = new Hash,
 		if(this.options.codemirror) {
 			var editor = this.getUserSetting('editor');
 			if(editor == 'tinymce') return this.getEditor().getContent();
-			else return this.editor.codemirror.getCode();
+			else return this.editor.codemirror.getValue();
 		} else {
 			return this.getEditor().getContent();
 		}
@@ -509,7 +509,7 @@ var Editors = new Hash,
 			//@TODO destroy codemirror instance here, or hide it
 			qt.hide();
 
-			if(this.editor.codemirror) this.editor.value = this.editor.codemirror.getCode();
+			if(this.editor.codemirror) this.editor.value = this.editor.codemirror.getValue();
 
 			/**
 			 * We're calling this instead of ed.show() as MooTools' Element.show() retrieves
@@ -518,29 +518,32 @@ var Editors = new Hash,
 			ed.getContainer().show();
 			
 			if(this.editor.codemirror) {
-				this.editor.codemirror.wrapping.hide();
-				ed.setContent(this.editor.codemirror.getCode());
+				this.editor.codemirror.getWrapperElement().hide();
+				ed.setContent(this.editor.codemirror.getValue());
 			}
 		} else {
 			this.setUserSetting( 'editor', 'html' );
 			this.options.cookie.set('mode', 'tinymce');
 			H.addClass('active');
 			P.removeClass('active');
-
-			
-			
 			
 			//@TODO create codemirror instance here
 			qt.show();
 			if(this.editor.codemirror) {
-				this.editor.codemirror.wrapping.show();
-				this.editor.codemirror.setCode(ed.getContent());
-				(function(){this.editor.codemirror.reindent()}.bind(this)).delay(100);
+				this.editor.codemirror.getWrapperElement().show();
+				this.editor.codemirror.setValue(ed.getContent());
+				//(function(){this.editor.codemirror.reindent()}.bind(this)).delay(100);
 			} else {
 				this.editor.value = ed.getContent();
 			}
 			if(!this.editor.codemirror && this.options.codemirror) {
-				this.editor.codemirror = CodeMirror.fromTextArea(this.identifier, this.options.codemirrorOptions);
+				var options = this.options.codemirrorOptions;
+				// TODO: Without this, changes do not get saved if you don't switch back to TinyMCE before saving 
+				options.onBlur = function(editor) {
+					text = editor.getValue();
+					this.getEditor().setContent(text);
+				}.bind(this);
+				this.editor.codemirror = CodeMirror.fromTextArea(document.getElementById(this.identifier), options);
 			}
 			
 			if ( ed && !ed.isHidden() && this.options.codemirror) {
@@ -560,10 +563,12 @@ var Editors = new Hash,
 					if(active) active.addClass('active');
 				}.bind(this.editor.codemirror);
 				
+				/* TODO: win is gone 
+				edtr = this.editor.codemirror;
 				var win = this.editor.codemirror.win;
 				win.addEventListener('keyup', updateNumbers);
 				win.addEventListener('select', updateNumbers);
-				win.addEventListener('click', updateNumbers);
+				win.addEventListener('click', updateNumbers);*/
 				//*/ 
 				
 				/*
