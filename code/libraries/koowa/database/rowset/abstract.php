@@ -78,7 +78,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
         $config->append(array(
             'data'             => null,
             'new'              => true,
-            'identity_column'  => null 
+            'identity_column'  => null, 
         	'status_message'   => '',
         ));
 
