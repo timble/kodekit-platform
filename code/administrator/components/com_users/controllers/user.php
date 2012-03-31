@@ -61,9 +61,15 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     protected function _actionDelete(KCommandContext $context)
     {
         $rowset = parent::_actionDelete($context);
+        
+        if($rowset instanceof KDatabaseRowsetInterface) {
+            $username = $rowset->getColumn('username');
+        } else {
+           $username = $rowset->username;
+        }
 
         $this->getService('com://admin/users.model.sessions')
-            ->username($rowset->getColumn('username'))
+            ->username($username)
             ->getList()
             ->delete();
 
