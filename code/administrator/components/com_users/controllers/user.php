@@ -60,14 +60,14 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionDelete(KCommandContext $context)
     {
-        $rowset = parent::_actionDelete($context);
+        $data = parent::_actionDelete($context);
 
         $this->getService('com://admin/users.model.sessions')
-            ->username($rowset->username)
+            ->username($data->username)
             ->getList()
             ->delete();
 
-        return $rowset;
+        return $data;
     }
 
     protected function _actionLogin(KCommandContext $context)
