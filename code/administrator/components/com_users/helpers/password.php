@@ -39,14 +39,43 @@ class ComUsersHelperPassword extends KObject
 	 */
 	public function getRandom($length = 8)
 	{
-		$salt		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$password	= '';
-
-		for($i = 0; $i < $length; $i ++) {
-			$password .= $salt[mt_rand(0, strlen($salt) -1)];
-		}
-
-		return $password;
+	    $bytes  = '';
+	    $return = '';
+        
+        if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
+            $bytes = openssl_random_pseudo_bytes($length + 1);
+        }
+        
+        if ($bytes === '' && @is_readable('/dev/urandom') && ($handle = @fopen('/dev/urandom', 'rb')) !== false) {
+            $bytes = fread($handle, $length + 1);
+            fclose($handle);
+        }
+        
+        if (strlen($bytes) < $length + 1) {
+            $bytes = '';
+            $random_state = microtime();
+            
+            if (function_exists('getmypid')) {
+                $random_state .= getmypid();
+            }
+        
+            for ($i = 0; $i < $length + 1; $i += 16) {
+                $random_state = md5(microtime().$random_state);
+                $bytes .= md5($random_state, true);
+            }
+            
+            $bytes = substr($bytes, 0, $length + 1);
+        }
+        
+        $salt  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $shift = ord($bytes[0]);
+        
+        for ($i = 1; $i <= $length; ++$i) {
+            $return .= $salt[($shift + ord($bytes[$i])) % strlen($salt)];
+            $shift += ord($bytes[$i]);
+        }
+        
+        return $return;
 	}
 
     /**

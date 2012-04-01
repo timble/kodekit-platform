@@ -61,7 +61,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     protected function _actionDelete(KCommandContext $context)
     {
         $data = parent::_actionDelete($context);
-
+        
         $this->getService('com://admin/users.model.sessions')
             ->username($data->username)
             ->getList()

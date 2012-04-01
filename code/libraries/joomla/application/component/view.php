@@ -545,7 +545,7 @@ class JView extends JObject
 		jimport('joomla.filesystem.path');
 		$filetofind	= $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
-
+	
 		if ($this->_template != false)
 		{
 			// unset so as not to introduce into template scope
@@ -609,7 +609,9 @@ class JView extends JObject
 	*/
 	function _setPath($type, $path)
 	{
-		global $mainframe, $option;
+		global $mainframe;
+		
+		$option = JRequest::getCmd('option');
 
 		// clear out the prior search dirs
 		$this->_path[$type] = array();

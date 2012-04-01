@@ -469,6 +469,7 @@ CREATE TABLE `#__session` (
 
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
+  `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
   `name` varchar(255) NOT NULL default '',
   `username` varchar(150) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',

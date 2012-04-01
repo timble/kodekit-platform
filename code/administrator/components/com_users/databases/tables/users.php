@@ -23,10 +23,6 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 	{
 	    parent::__construct($config);
 
-	    //Make sure the email and username fields are unique
-	    $this->getColumn('email')->unique = true;
-	    $this->getColumn('username')->unique = true;
-
 	    $this->getColumn('users_group_id')->default = 0;
 	    $this->getColumn('enabled')->default = 1;
 	}
@@ -44,9 +40,10 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 				'users_group_id'	=> 'gid',
 				'registered_on'		=> 'registerDate',
 				'last_visited_on'	=> 'lastvisitDate'
-			)
+			),
+			'behaviors' => array('identifiable')
 		));
-
+		
 		parent::_initialize($config);
 	}
 }

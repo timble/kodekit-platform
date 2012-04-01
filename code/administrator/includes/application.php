@@ -134,7 +134,7 @@ class JAdministrator extends JApplication
             }
         }
         
-	    if(JFactory::getUser()->get('guest')) {
+	    if(!JFactory::getUser()->authorize('login', 'administrator')) {
 	        $option = 'com_users';
 	    } else {
 	        $option = strtolower(JRequest::getCmd('option', 'com_dashboard'));
