@@ -82,17 +82,16 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 	/**
 	* Auto generated the uuid
 	*
+	* If the row exists and doesn't have a valid 'uuid' value auto generate it.
+	* 
 	* Requires an 'uuid' column, if the column type is char the uuid will be
 	* a string, if the column type is binary a hex value will be returned.
-	*
-	* If the 'uuid' column exists and the value is empty a value will be auto
-	* matically generated and saved.
 	*
 	* @return void
 	*/
 	protected function _afterTableSelect(KCommandContext $context)
 	{
-	    if($this->_auto_generate)
+	    if($this->_auto_generate && !$this->isNew())
 	    {  
 	        if(isset($this->uuid) && empty($this->uuid)) 
 	        {
