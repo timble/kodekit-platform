@@ -87,6 +87,14 @@ if(Form && Form.Validator) {
 						<input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" size="40" />
 					</td>
 				</tr>
+				<tr>
+					<td class="key">
+						<?= @text('Api Key') ?>:
+					</td>
+					<td>
+						<?= $user->uuid; ?>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="panel">
