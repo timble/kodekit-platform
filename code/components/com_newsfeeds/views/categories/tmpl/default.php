@@ -33,7 +33,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <ul>
 <? foreach($categories as $category) : ?>
 	<li>
-		<a href="<?= @route('view=newsfeeds&category='. $category->id.':'.$category->alias) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
+		<a href="<?= @route('view=newsfeeds&category='. $category->id.':'.$category->slug) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
 			<?= @escape($category->title);?>
 		</a>
 		<? if ( $params->get( 'show_cat_items' ) ) : ?>
