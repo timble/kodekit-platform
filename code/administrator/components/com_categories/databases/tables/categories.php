@@ -33,7 +33,7 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
                 'enabled'      => 'published',
                 'locked_on'    => 'checked_out_time',
                 'locked_by'    => 'checked_out',
-                'section_id'   => 'section'
+                'section_id'   => 'section',
                 'slug'         => 'alias'
                 ),
             ));
