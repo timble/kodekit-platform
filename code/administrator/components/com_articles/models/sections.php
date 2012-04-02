@@ -23,57 +23,58 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 		
-		$this->_state
-		 	->insert('search'	 , 'string')
+		$this->getState()
 			->insert('scope'	 , 'string', '')
 			->insert('published' , 'boolean');
 
 	}
 	
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
-		$query->select('categorycount')
-			->select('SUM( IF(active.state <> -2,1,0)) activecount');
+		
+		$query->columns(array(
+			'categorycount',
+			'activecount' => 'SUM(IF(active.state <> -2, 1, 0))'
+		));
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		//Exclude joins if counting records
-		if(!$query->count)
-		{
-			$query->join[]=array(
-				'type' => 'LEFT',
-				'table' => '(SELECT section, COUNT(section) categorycount FROM #__categories 
-					WHERE published <> -2 GROUP BY section) AS cat', 
-				'condition' => array('cat.section = tbl.id'));
-			
-			$query->join('LEFT','content AS active','active.sectionid = tbl.id');
+		if (!$query->count) {
+		    $subquery = $this->getService('koowa:database.query.select')
+		        ->columns(array('section', 'categorycount' => 'COUNT(section)'))
+		        ->from('categories')
+		        ->where('published <> - 2')
+		        ->group('section');
+		    
+		    $query->join(array('categories' => $subquery), 'categories.section = tbl.id')
+		        ->join(array('active' => 'content'), 'active.sectionid = tbl.id');
 		}
 		
 		parent::_buildQueryJoins($query);
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
 
 		if($state->search) {
-			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
+			$query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 
 		if($state->scope) {
-			$query->where('tbl.scope', 'LIKE',  $state->scope);
+			$query->where('tbl.scope LIKE :scope')->bind(array('scope' => $state->scope));
 		}
 		
 		if($state->published) {
-			$query->where('tbl.published', '=', (int) $state->published);
+			$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
 		}
-	      
-		parent::_buildQueryWhere($query);
 	}
 	
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
 	{
 		$query->group('tbl.id');
 	}

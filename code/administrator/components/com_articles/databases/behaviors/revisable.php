@@ -27,23 +27,41 @@ class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRe
      *
      * @param  object   A database table object
      * @param  string   The row status
-     * @param  array    Array of row id's
+     * @param  object   A KDatabaseQuerySelect object.
      * @return KDatabaseRowsetInterface
      */
-    protected function _selectRevisions($table, $status, $where)
+    protected function _selectRevisions($table, $status, $query)
     {
-        $result = parent::_selectRevisions($table, $status, $where);
-        
+        $result = parent::_selectRevisions($table, $status, $query);
         $needle = array();
-        if(isset($where['tbl.catid'])) {
-            $needle['category_id'] = $where['tbl.catid'];
+        
+        // Filter by category id if set in the query.
+        foreach ($query->where as $where) {
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.catid\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) {
+                if (is_numeric($matches[1])) {
+                    $needle['category_id'] = (int) $matches[1];
+                    break;
+                } elseif (isset($query->params[substr($matches[1], 1)])) {
+                    $needle['category_id'] = (int) $query->params[substr($matches[1], 1)];
+                    break;
+                }
+            }
         }
         
-        if(isset($where['tbl.sectionid'])) {
-            $needle['section_id'] = $where['tbl.sectionid'];
+        // Filter by section id if set in the query.
+        foreach ($query->where as $where) {
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.sectionid\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) {
+                if (is_numeric($matches[1])) {
+                    $needle['section_id'] = (int) $matches[1];
+                    break;
+                } elseif (isset($query->params[substr($matches[1], 1)])) {
+                    $needle['section_id'] = (int) $query->params[substr($matches[1], 1)];
+                    break;
+                }
+            }
         }
         
-        if(!empty($needle)) {
+        if($needle) {
             $result = $result->find($needle);
         }
         

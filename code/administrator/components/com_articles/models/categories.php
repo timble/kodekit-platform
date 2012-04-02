@@ -24,7 +24,7 @@ class ComArticlesModelCategories extends KModelAbstract
 	{
 		parent::__construct($config);
 		
-		$this->_state
+		$this->getState()
 			->insert('published' ,'int')
 			->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
@@ -36,14 +36,16 @@ class ComArticlesModelCategories extends KModelAbstract
     {
         if(!isset($this->_list))
         {
+            $state = $this->getState();
+            
             $folders  = array(); 
             $children = array();
 
             $categories = $this->getService('com://admin/categories.model.categories')
-                ->published($this->_state->published)
+                ->published($state->published)
                 ->section('com_content')
-                ->sort($this->_state->sort)
-                ->direction($this->_state->direction)
+                ->sort($state->sort)
+                ->direction($state->direction)
                 ->getList();
 
             foreach($categories as $category)
@@ -64,9 +66,9 @@ class ComArticlesModelCategories extends KModelAbstract
             }
 
             $sections = $this->getService('com://admin/articles.model.sections')
-                ->published($this->_state->published)
-                ->sort($this->_state->sort)
-                ->direction($this->_state->direction)
+                ->published($state->published)
+                ->sort($state->sort)
+                ->direction($state->direction)
                 ->getList();
 
             $count = 0;
@@ -108,8 +110,8 @@ class ComArticlesModelCategories extends KModelAbstract
 			$this->_total = count($folders);
             
             //Apply limit and offset
-            if($this->_state->limit) {
-				$folders = array_slice( $folders, $this->_state->offset, $this->_state->limit, true);
+            if($state->limit) {
+				$folders = array_slice( $folders, $state->offset, $state->limit, true);
 			}
             
 			//Create the paths of each node

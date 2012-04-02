@@ -24,7 +24,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 	
-		$this->_state
+		$this->getState()
 		 	->insert('application', 'cmd')
 		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
 		 	->insert('enabled'	  , 'boolean')
@@ -34,44 +34,43 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		 	->insert('hidden'     , 'boolean');
 	}
 
-	protected function _buildQueryJoin(KDatabaseQuery $query)
+	protected function _buildQueryJoin(KDatabaseQuerySelect $query)
 	{
 		$query
-			->join('left', 'users AS user', 'user.id = tbl.checked_out')
-			->join('left', 'groups AS group', 'group.id = tbl.access')
-			->join('left', 'modules_menu AS module_menu', 'module_menu.moduleid = tbl.id');
+		    ->join(array('user' => 'users'), 'user.id = tbl.checked_out')
+		    ->join(array('group' => 'groups'), 'group.id = tbl.access')
+		    ->join(array('module_menu' => 'modules_menu'), 'module_menu.moduleid = tbl.id');
 
 		parent::_buildQueryJoin($query);
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+		$state = $this->getState();
 
 		if($state->search) {
-			$query->where('tbl.title', 'LIKE', '%'.$state->search.'%');
+		    $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 
 		if($state->position) {
-			$query->where('tbl.position', '=', $state->position);
+		    $query->where('tbl.position = :position')->bind(array('position' => $state->position));
 		}
 		
 		if($state->type) {
-			$query->where('tbl.module', '=', $state->type);
+		    $query->where('tbl.module = :type')->bind(array('type' => $state->type));
 		}
 
 		if(is_bool($state->enabled)) {
-			$query->where('tbl.published', '=', (int) $state->enabled);
+		    $query->where('tbl.published = :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
 		
 	    if(is_bool($state->hidden)) {
-			$query->where('tbl.iscore', '=', (int) $state->hidden);
+	        $query->where('tbl.iscore = :hidden')->bind(array('hidden' => (int) $state->hidden));
 		}
 		
-		if($state->application && is_scalar($state->application))
-		{
+		if($state->application && is_scalar($state->application)) {
 		    $client	= JApplicationHelper::getClientInfo($state->application, true);
-	    	$query->where('tbl.client_id', '=', $client->id);
+		    $query->where('tbl.client_id = :client')->bind(array('client' => $client->id));
 	    }
 
 		parent::_buildQueryWhere($query);
@@ -93,11 +92,11 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		{
 			$this->_item = parent::getItem();
 
-			if($this->_item->isNew() && $this->_state->type) 
+			if($this->_item->isNew() && $this->getState()->type) 
 			{
-			    $client	                = JApplicationHelper::getClientInfo($this->_state->application, true);
+			    $client	                = JApplicationHelper::getClientInfo($this->getState()->application, true);
 			    $this->_item->client_id = $client->id;
-				$this->_item->type      = $this->_state->type;
+				$this->_item->type      = $this->getState()->type;
 			}
 		}
 
@@ -116,7 +115,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
     { 
         if(!isset($this->_list))
         {
-            $state = $this->_state;
+            $state = $this->getState();
            
             if($state->installed)
             {
@@ -152,7 +151,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 			    $this->_total = count($modules);
 
                 //Apply limit and offset
-                if($this->_state->limit) {
+                if($this->getState()->limit) {
                     $modules = array_slice($modules, $state->offset, $state->limit ? $state->limit : $this->_total);
                 }
                 

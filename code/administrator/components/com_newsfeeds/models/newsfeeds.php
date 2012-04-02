@@ -12,7 +12,7 @@
 /**
  * Newsfeeds Model Class
  *
- * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
+ * @author      Babs GÃ¶sgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Newsfeeds
@@ -23,56 +23,57 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
     {
         parent::__construct($config);
 
-        $this->_state
+        $this->getState()
             ->insert('published', 'boolean')
             ->insert('category' , 'slug');
     }
 
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
-        $query->select('category.title AS category_title');
+        $query->columns(array('category_title' => 'categories.title'));
     }
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         // Exclude joins if counting records.
-        if(!$query->count) {
-            $query->join('LEFT', 'categories AS category', 'category.id = tbl.catid');
-        }
+        //if(!$query->count) {
+            $query->join(array('categories' => 'categories'), 'categories.id = tbl.catid');
+        //}
     }
 
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
-
-        $state = $this->_state;
+        $state = $this->getState();
 
         if (is_bool($state->published)) {
-            $query->where('tbl.published', '=', (int) $state->published);
+            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
         if ($state->category) {
-            $query->where('tbl.catid', '=', (int) $state->category);
+            $query->where('tbl.catid = :category')->bind(array('category' => (int) $state->category));
         }
 
         if (!empty($state->search)) {
-            $query->where('LOWER(tbl.name)', 'LIKE', '%'.strtolower($state->search).'%');
+            $query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
-        $sort       = $this->_state->sort;
-        $direction  = strtoupper($this->_state->direction);
+        $state = $this->getState();
+        
+        $sort       = $state->sort;
+        $direction  = strtoupper($state->direction);
 
         if($sort) {
             $query->order($this->getTable()->mapColumns($sort), $direction);
         }
 
         if(array_key_exists('ordering', $this->getTable()->getColumns())) {
-            $query->order('category.title, tbl.ordering', 'ASC');
+            $query->order('categories.title, tbl.ordering', 'ASC');
         }
     }
 }

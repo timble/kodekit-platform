@@ -24,43 +24,44 @@ class ComContactsModelContacts extends KModelTable
 	{
 		parent::__construct($config);
 		
-		$this->_state
-			->insert('published' , 'boolean')
-			->insert('category'  , 'int');
+		$this->getState()
+			->insert('published', 'boolean')
+			->insert('category', 'int');
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 		
-		$query->select('categories.title AS category_title');
-		$query->select('user.name AS username');
+		$query->columns(array(
+			'category_title' => 'categories.title',
+		    'username' => 'users.name'
+		));
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryJoins($query);
 		
-		$query->join('LEFT', 'categories AS categories', 'categories.id = tbl.catid');
-		$query->join('LEFT', 'users AS user', 'user.id = tbl.user_id');
+		$query->join(array('categories' => 'categories'), 'categories.id = tbl.id')
+		    ->join(array('users' => 'users'), 'users.id = tbl.user_id');
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
 		
 		if (is_bool($state->published)) {
-			$query->where('tbl.published', '=', (int) $state->published);
+			$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
 		}
 
-		if (is_numeric($state->category) && !empty($state->category)) {
-			$query->where('tbl.catid', '=', $state->category);
+		if ($state->category) {
+			$query->where('tbl.catid = :category')->bind(array('category' => $state->category));
 		}
 
 		if ($state->search) {
-			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
+			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
-        
-		parent::_buildQueryWhere($query);
 	}
 }

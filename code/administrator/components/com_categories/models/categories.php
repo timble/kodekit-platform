@@ -26,7 +26,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         parent::__construct($config);
 
         // Set the state
-        $this->_state
+        $this->getState()
             ->insert('section'   , 'string')
             ->insert('parent'    , 'string')
             ->insert('published' , 'boolean')
@@ -34,75 +34,78 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
 
     }
 
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
-
-        if ( $this->_state->section)
-        {
-            if ( $this->_state->section == 'com_content' || is_numeric($this->_state->section)){
-                $query->select('sections.title AS section_title')
-                      ->select('SUM( IF(content.state <> -2,1,0)) activecount');
+        $state = $this->getState();
+        
+        if ($state->section) {
+            if ( $state->section == 'com_content' || is_numeric($state->section)){
+                $query->columns(array(
+                	'section_title' => 'section.title',
+                    'activecount' => 'SUM(IF(content.state <> -2, 1, 0))',
+                ));
             } else {
-                $query->select('SUM(IF(child.catid,1,0)) activecount');
+                $query->columns(array('activecount' => 'SUM(IF(child.catid, 1, 0))'));
             }
         }
     }
 
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
+        $state = $this->getState();
+        
         //Exclude joins if counting records
-        if(!$query->count)
-        {
-            if ( $this->_state->section)
-            {
-                if ($this->_state->section == 'com_content' || is_numeric($this->_state->section)){
-                    $query->join('LEFT','content AS content','content.catid = tbl.id');
-                    $query->join('LEFT','sections AS sections','sections.id = tbl.section');
+        //if(!$query->count)
+        //{
+            if ($state->section) {
+                if ($state->section == 'com_content' || is_numeric($state->section)){
+                    $query->join(array('content' => 'content'), 'content.catid = tbl.id');
+                    $query->join(array('section' => 'sections'), 'section.id = tbl.section');
                 } else {
-                    $query->join('LEFT',substr($this->_state->section,4).' AS child','child.catid = tbl.id');
+                    $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
                 }
             }
-        }
+        //}
 
         parent::_buildQueryJoins($query);
     }
 
 
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
-        $state = $this->_state;
+        $state = $this->getState();
 
         if($state->search) {
-            $query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
+            $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
         }
 
         //select overall section
         if ($state->section)
         {
             if( $state->section == 'com_content' ) {
-                $query->where('tbl.section', 'NOT LIKE', 'com%');
+                $query->where('tbl.section NOT LIKE :section')->bind(array('section' => 'com%'));
             } else {
-                $query->where('tbl.section', 'IN', $state->section);
+                $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :section')->bind(array('section' => $state->section));
             }
         }
 
         //select parent section within com_content
         if ($state->parent) {
-            $query->where('tbl.section', 'IN', $state->parent);
+            $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
         }
 
         if (is_bool($state->published)) {
-            $query->where('tbl.published', '=', (int) $state->published);
+            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
         parent::_buildQueryWhere($query);
     }
 
-    protected function _buildQueryGroup(KDatabaseQuery $query)
+    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
     {
-        $state = $this->_state;
+        $state = $this->getState();
         if( $state->distinct ) 
         {
             $query->distinct();
@@ -111,10 +114,12 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         else $query->group('tbl.id');
     }
 
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
-        $sort = $this->_state->sort;
-        $direction  = strtoupper($this->_state->direction);
+        $state = $this->getState();
+        
+        $sort = $state->sort;
+        $direction  = strtoupper($state->direction);
 
 	    if ( $sort) {
             $query->order($this->getTable()->mapColumns($sort), $direction);
@@ -122,8 +127,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
 
         if (empty($sort))
         {
-            if ($this->_state->section == 'com_content'){
-                $query->order('sections.ordering','ASC');
+            if ($state->section == 'com_content'){
+                $query->order('section.ordering','ASC');
             }
         }
 

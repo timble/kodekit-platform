@@ -23,7 +23,7 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
      {
          parent::__construct($config);
          
-         $this->_state
+         $this->getState()
              ->insert('name'      , 'cmd', null, true)
              ->insert('limit'     , 'int')
              ->insert('offset'    , 'int')
@@ -50,6 +50,7 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
     { 
         if(!isset($this->_list))
         {
+            $state = $this->getState();
             $data = array();
             
             //Get the sites
@@ -66,9 +67,9 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
             //Apply state information
             foreach($data as $key => $value)
             {   
-                if($this->_state->search)
+                if($state->search)
                 {
-                     if($value->name != $this->_state->search) {
+                     if($value->name != $state->search) {
                          unset($data[$key]);
                       }
                 }
@@ -78,8 +79,8 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
             $this->_total = count($data);
                     
             //Apply limit and offset
-            if($this->_state->limit) {
-                $data = array_slice($data, $this->_state->offset, $this->_state->limit);
+            if($state->limit) {
+                $data = array_slice($data, $state->offset, $state->limit);
             }
                         
             $this->_list = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));

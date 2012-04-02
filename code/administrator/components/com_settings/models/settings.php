@@ -24,14 +24,14 @@ class ComSettingsModelSettings extends KModelAbstract
     {
         parent::__construct($config);
 
-        $this->_state
+        $this->getState()
              ->insert('name', 'cmd', null, true);        
     }
      
     public function getItem()
     {
-        if(isset($this->getList()->{$this->_state->name})) {
-            $row = $this->getList()->{$this->_state->name};
+        if(isset($this->getList()->{$this->getState()->name})) {
+            $row = $this->getList()->{$this->getState()->name};
         } else {
             $row = $this->getList()->getRow();
         }

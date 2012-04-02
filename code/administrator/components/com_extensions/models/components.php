@@ -23,37 +23,36 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 	
-		$this->_state
+		$this->getState()
 		 	->insert('enabled', 'boolean')
 		 	->insert('parent' , 'int')
 		 	->insert('component' , 'cmd')
 		 	->insert('hidden' , 'boolean');	
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
 	
 		if($state->search) {
-			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
+			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 		
 		if($state->component) {
-			$query->where('tbl.option', '=', $state->component);
+			$query->where('tbl.option = :component')->bind(array('component' => $state->component));
 		}
 	
 	    if(is_integer($state->parent)) {
-			$query->where('tbl.parent', '=', $state->parent);
+			$query->where('tbl.parent = :parent')->bind(array('parent' => $state->parent));
 		}
 
 		if(is_bool($state->enabled)) {
-			$query->where('tbl.enabled', '=', (int) $state->enabled);
+			$query->where('tbl.enabled :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
 		
 	    if(is_bool($state->hidden)) {
-			$query->where('tbl.iscore', '=', (int) $state->hidden);
+			$query->where('tbl.iscore = :hidden')->bind(array('hidden' => (int) $state->hidden));
 		}
-	
-		parent::_buildQueryWhere($query);
 	}
 }

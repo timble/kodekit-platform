@@ -28,7 +28,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 
-        $this->_state
+        $this->getState()
         	->insert('activation' , 'md5', null, true)
             ->insert('email'      , 'email', null, true)
             ->insert('username'   , 'alnum', null, true)
@@ -46,16 +46,22 @@ class ComUsersModelUsers extends ComDefaultModelDefault
      * @param   KDatabaseQuery  A query object.
      * @return  void
      */
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryColumns($query);
-	    $state = $this->_state;
+	    $state = $this->getState();
 
-	    $query->select('IF(session.session_id IS NOT NULL, 1, 0) AS loggedin');
-	    $query->select('IF(tbl.block = 1, 0, 1) AS enabled');
+	    $query->columns(array(
+	    	'loggedin' => 'IF(session.session_id IS NOT NULL, 1, 0)',
+	        'enabled'  => 'IF(tbl.block = 1, 0, 1)'
+	    ));
 	    
 	    if($state->loggedin) {
-	        $query->select(array('session.client_id AS loggedin_client_id', 'session.time AS loggedin_on', 'session.session_id AS loggedin_session_id'));
+	        $query->columns(array(
+	        	'loggedin_client_id'  => 'session.client_id',
+	        	'loggedin_on'         => 'session.time',
+	        	'loggedin_session_id' => 'session.session_id',
+	        ));
 	    }
 	}
 
@@ -65,11 +71,11 @@ class ComUsersModelUsers extends ComDefaultModelDefault
      * @param   KDatabaseQuery  A query object.
      * @return  void
      */
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
-	    $state = $this->_state;
+	    $state = $this->getState();
 	    
-        $query->join($state->loggedin ? 'RIGHT' : 'LEFT', 'session AS session', 'tbl.id = session.userid');
+        $query->join(array('session' => 'session'), 'tbl.id = session.userid', $state->loggedin ? 'RIGHT' : 'LEFT');
 	}
 
 	/**
@@ -78,34 +84,31 @@ class ComUsersModelUsers extends ComDefaultModelDefault
      * @param   KDatabaseQuery  A query object.
      * @return  void
      */
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
-        $state = $this->_state;
+        $state = $this->getState();
 		
-		if($state->group)  {
-		    $query->where('tbl.gid', $state->group_tree ? '>=' : '=', $state->group);
+		if ($state->group)  {
+		    $query->where('tbl.gid '.($state->group_tree ? '>=' : '=').' :group_id')->bind(array('group_id' => $state->group));
 		}
-
-	    if($state->group_name) {
-            $query->where('LOWER(tbl.usertype)', '=', $state->group_name);
+        
+        if (is_bool($state->enabled)) {
+            $query->where('tbl.block = :enabled')->bind(array('enabled' => $state->enabled ? 0 : 1));
         }
         
-        if(is_bool($state->enabled)) {
-        	$query->where('tbl.block', '=', (int) $state->enabled);
+        if ($state->loggedin === false) {
+            $query->where('loggedin IS NULL');
         }
         
-        if($state->loggedin === false) {
-        	$query->where('loggedin', 'IS NULL');
-        }
-        
-        if(is_bool($state->visited)) {  
-            $query->where('lastvisitDate', $state->visited ? '!=' : '=', '0000-00-00 00:00:00');
+        if (is_bool($state->visited)) {  
+            $query->where('lastvisitDate '.($state->visited ? '!=' : '=').' :last_visited_on')->bind(array('last_visited_on', '0000-00-00 00:00:00'));
         }
 
-	    if($state->search) {
-            $query->where('tbl.name', 'LIKE', '%'.$state->search.'%')
-                  ->where('tbl.email', 'LIKE', '%'.$state->search.'%', 'OR');
+	    if ($state->search) {
+	        $query->where('tbl.name LIKE :search')
+	            ->where('tbl.name LIKE :search', 'OR')
+	            ->bind(array('search' => '%'.$state->search.'%'));
         }
     }
 }

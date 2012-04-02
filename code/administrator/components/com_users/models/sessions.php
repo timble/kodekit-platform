@@ -28,7 +28,7 @@ class ComUsersModelSessions extends KModelTable
     {
         parent::__construct($config);
 
-        $this->_state->insert('username', 'alnum');
+        $this->getState()->insert('username', 'alnum');
     }
 
     /**
@@ -37,12 +37,13 @@ class ComUsersModelSessions extends KModelTable
      * @param   KDatabaseQuery  A query object.
      * @return  void
      */
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
-
-        if($this->_state->username) {
-            $query->where('username', 'IN', $this->_state->username);
+        $state = $this->getState();
+        
+        if ($state->username) {
+            $query->where('username = :username')->bind(array('username' => $state->username));
         }
     }
 }

@@ -87,9 +87,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	   if($this->isModified('username'))
        {
-            $query = $this->getTable()->getDatabase()->getQuery()
-                        ->where('username', '=', $this->username)
-                        ->where('id', '<>', (int) $this->id);
+            $query = $this->getService('koowa:database.query.select')
+                ->where('username', '=', $this->username)
+                ->where('id', '<>', (int) $this->id);
 
             $total = $this->getService('com://admin/users.database.table.users')->count($query);
 
@@ -112,9 +112,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		if($this->isModified('email'))
 		{
-			$query = $this->getTable()->getDatabase()->getQuery()
-				        ->where('email', '=', $this->email)
-				        ->where('id', '<>', (int) $this->id);
+			$query = $this->getService('koowa:database.query.select')
+                ->where('email', '=', $this->email)
+                ->where('id', '<>', (int) $this->id);
 
 			$total = $this->getService('com://admin/users.database.table.users')->count($query);
 
@@ -190,9 +190,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Don't allow users to change the user level of the last active super administrator.
 		if(isset($this->_modifid['users_group_id']) && $old_row->users_group_id != 25)
 		{
-			$query = $this->getTable()->getDatabase()->getQuery()
-				        ->where('users_group_id', '=', 25)
-				        ->where('enabled', '=', 1);
+			$query = $this->getService('koowa:database.query.select')
+                ->where('users_group_id', '=', 25)
+                ->where('enabled', '=', 1);
 
 			$total = $this->getService('com://admin/users.database.table.users')->count($query);
 
@@ -241,12 +241,14 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			$this->registered_on = gmdate('Y-m-d H:i:s', time());
 		}
 
-		$query = $this->getTable()->getDatabase()->getQuery()
-			        ->select('name')
-			        ->where('id', '=', $this->users_group_id);
+		// TODO: This shouldn't be executed on every save.
+		$query = $this->getService('koowa:database.query.select')
+            ->columns('name')
+            ->where('id = :id')
+            ->bind(array('id' => $this->users_group_id));
 
 		$this->group_name = $this->getService('com://admin/users.database.table.groups')
-			                    ->select($query, KDatabase::FETCH_FIELD);
+            ->select($query, KDatabase::FETCH_FIELD);
 
 		// Set parameters.
 		if($this->isModified('params'))

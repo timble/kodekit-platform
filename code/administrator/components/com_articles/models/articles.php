@@ -23,7 +23,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
     {
         parent::__construct($config);
 
-        $this->_state
+        $this->getState()
             ->insert('section'   , 'int')
             ->insert('category'  , 'int')
             ->insert('state'     , 'int')
@@ -32,106 +32,93 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('featured'  , 'boolean')
             ->insert('trashed'   , 'int');
 
-        $this->_state->remove('sort')->insert('sort', 'cmd', 'section_title');
+        $this->getState()->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
 
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
-        $query->select('section.title AS section_title')
-            ->select('category.title AS category_title')
-            ->select('user.name AS created_by_name')
-            ->select('user.id   AS created_by_id')
-            ->select('IF(frontpage.content_id, 1, 0) AS featured')
-            ->select('frontpage.ordering AS featured_ordering')
-            ->select('group.name AS group_name');
+        $query->columns(array(
+        	'section_title'     => 'sections.title',
+            'category_title'    => 'categories.title',
+            'created_by_name'   => 'users.name',
+            'created_by_id'     => 'users.id',
+            'featured_ordering' => 'frontpage.ordering',
+            'group_name'        => 'groups.name',
+        	'featured'          => 'IF(frontpage.content_id, 1, 0)'
+        ));
     }
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
-         parent::_buildQueryJoins($query);
+        parent::_buildQueryJoins($query);
+        $state = $this->getState();
 
-        $state = $this->_state;
+        $query->join(array('sections' => 'sections'), 'sections.id = tbl.sectionid')
+            ->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
+            ->join(array('users' => 'users'), 'users.id = tbl.created_by')
+            ->join(array('groups' => 'groups'), 'groups.id = tbl.access');
 
-        $query->join('LEFT', 'sections AS section', 'section.id = tbl.sectionid')
-              ->join('LEFT', 'categories AS category', 'category.id = tbl.catid')
-              ->join('LEFT', 'users AS user', 'user.id = tbl.created_by')
-              ->join('LEFT', 'groups AS group', 'group.id = tbl.access');
-
-        if(is_bool($state->featured) && $state->featured == true) {
-            $query->join('RIGHT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
-        } else {
-            $query->join('LEFT', 'content_frontpage AS frontpage', 'frontpage.content_id = tbl.id');
-        }
+        $query->join(array('frontpage' => 'content_frontpage'), 'frontpage.content_id = tbl.id', $state->featured ? 'RIGHT' : 'LEFT');
     }
 
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
-
-        $state = $this->_state;
+        $state = $this->getState();
 
         if(is_numeric($state->state)) {
-            $query->where('tbl.state', '=', $state->state);
+            $query->where('tbl.state = :state')->bind(array('state' => $state->state));
         } else {
-            $query->where('tbl.state', '<>', -2);
+            $query->where('tbl.state <> :state')->bind(array('state' => -2));
         }
 
         if($state->search) {
-            $query->where('tbl.title', 'LIKE', '%'.$state->search.'%');
+            $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
 
         if(is_numeric($state->section)) {
-            $query->where('tbl.sectionid', '=', $state->section );
+            $query->where('tbl.sectionid = :section')->bind(array('section' => $state->section));
         }
 
         if(is_numeric($state->category)) {
-            $query->where('tbl.catid', '=',  $state->category);
+            $query->where('tbl.catid = :category')->bind(array('category' => $state->category));
         }
 
         if($state->created_by) {
-            $query->where('tbl.created_by', '=', $state->created_by);
+            $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
         if(is_numeric($state->access)) {
-            $query->where('tbl.access', '=', $state->access);
+            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
         }
         
         if($this->getTable()->isRevisable() && $state->trashed) {
-            $query->where('tbl.deleted', '=', 1);
+            $query->where('tbl.deleted = :trashed')->bind(array('trashed' => 1));
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
-        $state = $this->_state;
+        $state = $this->getState();
 
         $direction = strtoupper($state->direction);
 
-        if(is_bool($state->featured) && $state->featured == true)
-        {
-            if($this->_state->sort == 'ordering')
-            {
+        if (is_bool($state->featured) && $state->featured == true) {
+            if ($state->sort == 'ordering') {
                 $query->order('featured_ordering',  $direction);
-            }
-            else
-            {
-                $query->order($this->_state->sort, $direction)
+            } else {
+                $query->order($this->getState()->sort, $direction)
                       ->order('featured_ordering', 'ASC');
             }
-        }
-        else
-        {
-            if($this->_state->sort == 'ordering')
-            {
+        } else {
+            if ($state->sort == 'ordering') {
                 $query->order('section_title', 'ASC')
                     ->order('category_title', 'ASC')
                     ->order('ordering', $direction);
-            }
-            else
-            {
-                $query->order($this->_state->sort, $direction)
+            } else {
+                $query->order($state->sort, $direction)
                     ->order('section_title', 'ASC')
                     ->order('category_title', 'ASC')
                     ->order('ordering', 'ASC');

@@ -24,7 +24,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 	{
 		parent::__construct($config);
 
-		$this->_state
+		$this->getState()
 			->insert('limit'      , 'int', 0)
 			->insert('offset'     , 'int', 0)
 			->insert('direction'  , 'word', 'asc')
@@ -37,9 +37,9 @@ class ComExtensionsModelLanguages extends KModelAbstract
 	{
 		if (!isset($this->_item))
 		{
-			if($this->_state->isUnique())
+			if($this->getState()->isUnique())
             {
-            	$state = $this->_state;
+            	$state = $this->getState();
             	
 				//Get application information
 				$client	= JApplicationHelper::getClientInfo($state->application, true);
@@ -76,7 +76,7 @@ class ComExtensionsModelLanguages extends KModelAbstract
 	{
 		if (!isset($this->_list))
 		{
-			$state     = $this->_state;
+			$state     = $this->getState();
 			$languages = array();
 
 			foreach((array) KConfig::unbox($state->application) as $application)

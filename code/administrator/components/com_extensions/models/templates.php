@@ -28,7 +28,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
     {
         parent::__construct($config);
 
-        $this->_state
+        $this->getState()
             ->insert('limit'      , 'int')
             ->insert('offset'     , 'int')
             ->insert('sort'       , 'cmd')
@@ -47,7 +47,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
     {
         if(!isset($this->_item))
         {
-            $state = $this->_state;
+            $state = $this->getState();
             
             //Get application information
 			$client	= JApplicationHelper::getClientInfo($state->application, true);
@@ -87,7 +87,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
     { 
         if(!isset($this->_list))
         {
-            $state     = $this->_state;
+            $state     = $this->getState();
             $templates = array();
               
             foreach((array) KConfig::unbox($state->application) as $application)
@@ -121,7 +121,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 			$this->_total = count($templates);
 
             //Apply limit and offset
-            if($this->_state->limit) {
+            if($this->getState()->limit) {
                 $templates = array_slice($templates, $state->offset, $state->limit ? $state->limit : $this->_total);
             }
                 

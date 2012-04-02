@@ -28,41 +28,46 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
         parent::_initialize($config);
     }
     
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryColumns($query);
 
-		$query->select('COUNT(weblinks.id) AS numlinks');
+		$query->columns(array('numlinks' => 'COUNT(weblinks.id)'));
     }
 
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    {
+		$query->join(array('weblinks' => 'weblinks'), 'weblinks.catid = tbl.id');
+    }
+
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    {
+		parent::_buildQueryWhere($query);
+		
+		$query->where('tbl.section = :section')
+            ->where('tbl.published = :published')
+            ->where('weblinks.published :weblinks_published')
+            ->where('tbl.access <= :access');
+            
+        $query->bind(array(
+            'section' => 'com_weblinks',
+            'published' => 1,
+            'weblinks_publihsed' => 1,
+            'access' => JFactory::getUser()->get('aid', '0')
+        ));
+    }
+    
+    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryGroup($query);
 		
 		$query->group('tbl.id');
     }
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
-    {
-		parent::_buildQueryJoins($query);
-		
-		$query->join('LEFT', 'weblinks AS weblinks', 'weblinks.catid = tbl.id');
-    }
-
-	protected function _buildQueryOrder(KDatabaseQuery $query)
+	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryOrder($query);
 		
 		$query->order('tbl.ordering', 'DESC');
-    }
-
-	protected function _buildQueryWhere(KDatabaseQuery $query)
-    {
-		parent::_buildQueryWhere($query);
-		
-		$query->where('tbl.section', '=', 'com_weblinks')
-			  ->where('tbl.published', '=', '1')
-			  ->where('weblinks.published', '=', '1')
-			  ->where('tbl.access', '<=', JFactory::getUser()->get('aid', '0'));
     }
 }

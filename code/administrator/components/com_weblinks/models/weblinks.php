@@ -23,47 +23,44 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 
-		$this->_state
+		$this->getState()
 		    ->insert('category' , 'slug')
 		    ->insert('published', 'boolean');
 	}
 	
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 
-		$query->select('categories.title AS category')
-			  ->select('users.name AS editor');
+		$query->columns(array(
+			'category' => 'categories.title',
+			'editor' => 'users.name'
+	    ));
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryJoins($query);
 
-		$query->join('LEFT', 'categories AS categories', 'categories.id = tbl.catid')
-			  ->join('LEFT', 'users AS users', 'users.id = tbl.checked_out');
+		$query->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
+			  ->join(array('users' => 'users'), 'users.id = tbl.checked_out');
 	}
 	
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
 
-		if($state->search) {
-			$query->where('tbl.title', 'LIKE',  '%'.$state->search.'%');
-		}
-
-		if($state->scope) {
-			$query->where('tbl.scope', 'LIKE',  $state->scope);
+		if ($state->search) {
+			$query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 		
-		if(is_bool($state->published)) {
-			$query->where('tbl.published', '=', (int) $state->published);
+		if (is_bool($state->published)) {
+			$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
 		}
 		
-	    if($state->category) {
-			$query->where('tbl.catid', '=', (int) $this->_state->category);
+	    if ($state->category) {
+			$query->where('tbl.catid = :category')->bind(array('category' => (int) $state->category));
 		}
-	      
-		parent::_buildQueryWhere($query);
 	}
 }

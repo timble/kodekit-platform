@@ -23,73 +23,60 @@ class ComBannersModelBanners extends ComDefaultModelDefault
     {
         parent::__construct($config);
         
-        $this->_state
+        $this->getState()
             ->insert('published',   'boolean')
             ->insert('category',    'int')
             ->insert('sticky',    	'int')
             ->insert('tags',        'string');
     }
     
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
         
-        $query
-            ->select('cc.title AS category');
+        $query->columns(array('category' => 'categories.title'));
     }
     
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
-        //Exclude joins if counting records
-        if(!$query->count)
-        {
-            $query->join(
-                '',
-                'categories AS cc',
-                array('cc.id = tbl.catid')
-            );
-                        
-            $query->where('cc.section', 'LIKE', 'com_banner');
-        }
+        $query->join(array('categories' => 'categories'), 'categories.id = tbl.catid');
     }
     
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
+        $state = $this->getState();
         
-        $state = $this->_state;
+        $query->where('categories.section LIKE :section')->bind(array('section' => 'com_banner'));
         
         if (is_bool($state->published)) {
-            $query->where('tbl.showbanner', '=', (int) $state->published);
+            $query->where('tbl.showbanner = :published')->bind(array('published' => (int) $state->published));
         }
         
         if ($state->category) {
-            $query->where('tbl.catid', '=', $state->category);
+            $query->where('tbl.catid = :category')->bind(array('category' => $state->category));
         }
         
         if (is_numeric($state->sticky)) {
-            $query->where('tbl.sticky', '=', $state->sticky);
+            $query->where('tbl.sticky = :sticky')->bind(array('sticky' => $state->sticky));
         }
         
         if (!empty($state->search)) {
-            $query->where('LOWER(tbl.name)', 'LIKE', '%'.strtolower($state->search).'%');
+            $query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
         
-        if (!empty($state->tags)) 
-        {
-            $where = array();
-            foreach ($state->tags as $tag) {
-                $where[] = 'UPPER(tags) REGEXP \'[[:<:]]'.strtoupper(trim($tag)).'[[:>:]]\'';
-            }
-            
-            $query->where('( '.implode(' OR ', $where).' )');
+        if (!empty($state->tags)) {
+            $query->where('UPPER(tags) REGEXP :tags')
+                ->bind(array('tags' => '[[:<:]]('.strtoupper(implode('|', $state->tags)).')[[:>:]]'));
         }
     }
     
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
-        $sort       = $this->_state->sort ? $this->_state->sort : 'category';
-        $direction  = strtoupper($this->_state->direction);
+        $state = $this->getState();
+        
+        $sort      = $state->sort ? $state->sort : 'category';
+        $direction = strtoupper($state->direction);
         
         switch ($sort)
         {

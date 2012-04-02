@@ -213,7 +213,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $message = html_entity_decode($message, ENT_QUOTES);
 
         $super_administrators = $this->getService('com://site/users.model.users')
-            ->set('group_name', 'super administrator')
+            ->set('group', 25)
             ->set('limit', 0)
             ->getList();
 

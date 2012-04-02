@@ -38,12 +38,12 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         parent::__construct($config);
     }
 
-    public function _buildQueryWhere(KDatabaseQuery $query)
+    public function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         if ($this->_parent_column)
         {
             $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};   
-            $query->where($this->_table->mapColumns($this->_parent_column), '=', $parent);
+            $query->where($this->_table->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
         }
     }
     
@@ -111,12 +111,13 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 $table = $context->caller;
                 $parent_column = $table->mapColumns($parent_column);
 
-                $query->join[] = array('type' => 'LEFT',
-                    'table' => '(SELECT '.$parent_column.' , COUNT(ordering) order_total FROM #__'.$table->getBase().' ' 
-                            .'GROUP BY '.$parent_column.') AS orderable',
-                    'condition' => array('orderable.'.$parent_column.' = tbl.'.$parent_column ));
-
-                $query->select('orderable.order_total');
+                $subquery = $this->getService('koowa:database.query.select')
+                    ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
+                    ->from($table->getBase())
+                    ->group($parent_column);
+                
+                $query->columns('orderable.order_total')
+                    ->join(array('orderable' => $subquery), 'orderable.'.$parent_column.' = tbl.'.$parent_column);
             }
         }
     }  

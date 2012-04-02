@@ -90,9 +90,11 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		    if(!$this->isNew()) 
 		    {
 		        $table = $this->getService('com://admin/extensions.database.table.menus');
-				$query = $table->getDatabase()->getQuery()
-								->select('menuid')
-								->where('moduleid', '=', $this->id);
+				$query = $this->getService('koowa:database.query.select')
+                    ->columns('menuid')
+                    ->where('moduleid = :id')
+                    ->bind(array('id' => $this->id));
+                
 				$pages = $table->select($query, KDatabase::FETCH_FIELD_LIST);
 				
 				if(count($pages) == 1 && $pages[0] == 0) {

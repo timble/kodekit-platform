@@ -23,40 +23,39 @@ class ComExtensionsModelPlugins extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 	
-		$this->_state
+		$this->getState()
 		 	->insert('sort'   , 'cmd', 'folder')
 		 	->insert('enabled', 'boolean')
 		 	->insert('type'   , 'cmd')
 		 	->insert('hidden' , 'boolean');	
 	}
 
-	protected function _buildQueryJoin(KDatabaseQuery $query)
+	protected function _buildQueryJoin(KDatabaseQuerySelect $query)
 	{
-		$query->join('left', 'groups AS group', 'group.id = tbl.access');
+		$query->join(array('groups' => 'groups'), 'groups.id = tbl.access');
 
 		parent::_buildQueryJoin($query);
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
-		$state = $this->_state;
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
 
 		if($state->search) {
-			$query->where('tbl.name', 'LIKE', '%'.$state->search.'%');
+			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 		
 		if($state->type) {
-			$query->where('tbl.folder', '=', $state->type);
+			$query->where('tbl.folder = :type')->bind(array('type' => $state->type));
 		}
 
 		if(is_bool($state->enabled)) {
-			$query->where('tbl.published', '=', (int) $state->enabled);
+			$query->where('tbl.published = :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
 		
 	    if(is_bool($state->hidden)) {
-			$query->where('tbl.iscore', '=', (int) $state->hidden);
+			$query->where('tbl.iscore = :hidden')->bind(array('hidden' => (int) $state->hidden));
 		}
-
-		parent::_buildQueryWhere($query);
 	}
 }
