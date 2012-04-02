@@ -45,10 +45,10 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 * 	   $query->where('category_id', '=', $this->id); 
 	 * </code>
 	 *
-	 * @param 	KDatabaseQuery $query
+	 * @param 	KDatabaseQuerySelect $query
 	 * @return  void
 	 */
-	public function _buildQueryWhere(KDatabaseQuery $query)
+	public function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
 		
 	}
@@ -75,7 +75,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 			$table = $this->getTable();
 			$db    = $table->getDatabase();
-			$query = $db->getQuery();
+			$query = $this->getService('koowa:database.query.select');
 			
 			//Build the where query
 			$this->_buildQueryWhere($query);
@@ -116,28 +116,24 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     public function reorder($base = 0)
     {
-		//force to integer
         settype($base, 'int');
         
-        $table  = $this->getTable();
-        $db     = $table->getDatabase();
-        $query  = $db->getQuery();
+        $table = $this->getTable();
+        $db    = $table->getDatabase();
 
-        //Build the where query
-        $this->_buildQueryWhere($query);
-
-        if ($base)  {
-            $query->where('ordering', '>=', (int) $base);
-        } 
-
-        $db->execute("SET @order = $base");
-        $db->execute(
-             'UPDATE '.$db->getTableNeedle().$table->getBase().' '
-            .'SET ordering = (@order := @order + 1) '
-            .(string) $query.' '
-            .'ORDER BY ordering ASC'
-        );
-
+        $db->execute('SET @order = '.$base);
+        
+        $query = $this->getService('koowa:database.query.update')
+            ->table($table->getBase())
+            ->set('ordering = (@order := @order + 1)')
+            ->order('ordering', 'ASC');
+        
+        if ($base) {
+            $query->where('ordering >= :ordering')->bind(array('ordering' => $base));
+        }
+        
+        $db->update($query);
+        
         return $this;
     }
     
@@ -148,16 +144,16 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function getMaxOrdering() 
     {
-        $table  = $this->getTable();
-        $db     = $table->getDatabase();
-        $query  = $db->getQuery();
+        $table = $this->getTable();
+        $db    = $table->getDatabase();
+        
+        $query = $this->getService('koowa:database.query.select')
+            ->columns('MAX(ordering)')
+            ->from($table->getName());
 
         $this->_buildQueryWhere($query);
 
-        $select = 'SELECT MAX(ordering) FROM `'.$db->getTableNeedle().$table->getName().'`';
-        $select .= (string) $query;
-        
-        return  (int) $db->select($select, KDatabase::FETCH_FIELD);
+        return (int) $db->select($query, KDatabase::FETCH_FIELD);
         
     }
 
@@ -173,10 +169,8 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     {
         if(isset($this->ordering))
         {
-            $max = $this->getMaxOrdering();
-            
             if ($this->ordering <= 0) {
-                $this->ordering = $max + 1;
+                $this->ordering = $this->getMaxOrdering() + 1;
             } else {
                 $this->reorder($this->ordering);
             } 

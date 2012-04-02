@@ -20,13 +20,6 @@
 interface KDatabaseAdapterInterface
 {
 	/**
-	 * Get a database query object
-	 *
-	 * @return KDatabaseQuery
-	 */
-	public function getQuery(KConfig $config = null);
-	
-	/**
 	 * Connect to the db
 	 * 
 	 * @return  KDatabaseAdapterAbstract
@@ -105,18 +98,17 @@ interface KDatabaseAdapterInterface
     public function unlockTable();
 	
 	/**
-     * Preforms a select query
-     *
-     * Use for SELECT and anything that returns rows.  
-     *
+     * Preform a select query.
+     * 
      * @param	string  	A full SQL query to run. Data inside the query should be properly escaped. 
      * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
      * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
      * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
-     * 						unless you free the result first. 
+     * 						unless you free the result first.
+     * @param 	string 		The column name of the index to use.
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
-	public function select($sql, $mode = KDatabase::RESULT_STORE);
+	public function select(KDatabaseQuerySelect $query, $mode = KDatabase::RESULT_STORE, $key);
 	
 	/**
      * Preforms a show query
@@ -130,38 +122,30 @@ interface KDatabaseAdapterInterface
 	public function show($query, $mode = KDatabase::FETCH_ARRAY_LIST);
 
 	/**
-     * Inserts a row of data into a table.
+     * Insert a row of data into a table.
      *
-     * Automatically quotes the data values
-     *
-     * @param string  	The table to insert data into.
-     * @param array 	An associative array where the key is the colum name and
-     * 					the value is the value to insert for that column.
-     * @return integer  If successfull the new rows primary key value, false is no row was inserted.
+     * @param KDatabaseQueryInsert The query object.
+     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if 
+     * 					     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
-	public function insert($table, array $data);
+	public function insert(KDatabaseQueryInsert $query);
 
 	/**
-     * Updates a table with specified data based on a WHERE clause
+     * Update a table with specified data.
      *
-     * Automatically quotes the data values
-     *
-     * @param string 	The table to update
-     * @param array  	An associative array where the key is the column name and
-     * 				 	the value is the value to use ofr that column.
-     * @param mixed 	A sql string or KDatabaseQuery object to limit which rows are updated.
-     * @return integer  If successfull the Number of rows affected, otherwise false
+     * @param  KDatabaseQueryUpdate The query object.
+     * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
+     * 					no rows where updated, or -1 if an error occurred. Otherwise FALSE. 
      */
-	public function update($table, array $data, $where = null);
+	public function update(KDatabaseQueryUpdate $query);
 
 	/**
-     * Deletes rows from the table based on a WHERE clause.
+     * Delete rows from the table.
      *
-     * @param string The table to update
-     * @param mixed  A query string or a KDatabaseQuery object to limit which rows are updated.
-     * @return integer Number of rows affected
+     * @param  KDatabaseQueryDelete The query object.
+     * @return integer 	Number of rows affected, or -1 if an error occured.
      */
-	public function delete($table, $where);
+	public function delete(KDatabaseQueryDelete $query);
 
 	/**
 	 * Use and other queries that don't return rows
@@ -234,5 +218,5 @@ interface KDatabaseAdapterInterface
      *                      each element in the array as an identifier name.
      * @return string|array The quoted identifier name (or array of names).
      */
-    public function quoteName($spec);
+    public function quoteIdentifier($spec);
 }

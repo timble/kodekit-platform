@@ -20,11 +20,11 @@
 class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 {
 	/**
-	 * Quote for named objects
+	 * Quote for query identifiers
 	 *
 	 * @var string
 	 */
-	protected $_name_quote = '`';
+	protected $_identifier_quote = '`';
 	
 	/**
  	 * Map of native MySQL types to generic types used when reading
@@ -255,10 +255,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function lockTable($base, $name)
     {
-        $query = 'LOCK TABLES '.$this->quoteName($this->getTableNeedle().$base).' WRITE';
+        $query = 'LOCK TABLES '.$this->quoteIdentifier($this->getTableNeedle().$base).' WRITE';
         
         if($base != $name) {
-            $query .= ', '.$this->quoteName($this->getTableNeedle().$name).' READ';
+            $query .= ', '.$this->quoteIdentifier($this->getTableNeedle().$name).' READ';
         }
         
         // Create commandchain context.
@@ -461,7 +461,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableColumns($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteName($this->getTableNeedle().$table);
+	    $sql    = $this->quoteIdentifier($this->getTablePrefix().$table);
 	    
 	    if($columns = $this->show( 'SHOW FULL COLUMNS FROM '.$sql, KDatabase::FETCH_OBJECT_LIST))
 		{
@@ -489,7 +489,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableIndexes($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteName($this->getTableNeedle().$table);
+	    $sql    = $this->quoteIdentifier($this->getTablePrefix().$table);
 	  
 	    if($indexes = $this->show('SHOW INDEX FROM '.$sql , KDatabase::FETCH_OBJECT_LIST))
 		{

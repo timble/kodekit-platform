@@ -181,12 +181,16 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	    
 	    if($this->isConnected())
 	    {  
-	        if($this->_new) {
-	            $result = $this->getTable()->insert($this);
-		    } else {
-		        $result = $this->getTable()->update($this); 
-		    }
-	  
+	        if(!$this->_new) 
+	        {
+	            $result = $this->getTable()->update($this);
+	            
+	            if ($result !== false) {
+	                $this->setStatus($result > 0 ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_FAILED);
+	            }   
+		    } 
+		    else $result = $this->getTable()->insert($this);
+		   
 	        if($result !== false) 
 	        {
 	            // Filter out any extra columns.

@@ -243,7 +243,7 @@ abstract class KDatabaseTableAbstract extends KObject
         if($this->isConnected())
         {
             try {
-                $result = $this->_database->getTableSchema($this->getBase());
+                $result = $this->getDatabase()->getTableSchema($this->getBase());
             } catch(KDatabaseException $e) {
                 throw new KDatabaseTableException($e->getMessage());
             }
@@ -445,39 +445,40 @@ abstract class KDatabaseTableAbstract extends KObject
        //Create query object
         if(is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
-            $key    = $this->getIdentityColumn();
-            $values = (array) $query;
-
-            $query = $this->_database->getQuery()
-                        ->where($key, 'IN', $values);
+            $key   = $this->getIdentityColumn();
+            $query = $this->getService('koowa:database.query.select')
+                ->where($key.' '.(is_array($key) ? 'IN' : '=').' :'.$key)
+                ->bind(array($key => $query));
         }
         
         if(is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query   = $this->_database->getQuery();    
+            $query   = $this->getService('koowa:database.query.select');  
             
-            foreach($columns as $column => $value) {
-                $query->where($column, 'IN', $value);
+            foreach($columns as $column => $value) 
+            {
+                $query->where($column.' '.(is_array($value) ? 'IN' : '=').' :'.$column)
+                      ->bind(array($column => $value));
             }
         }
         
-        if($query instanceof KDatabaseQuery)
+        if($query instanceof KDatabaseQuerySelect)
         {
-            if(!is_null($query->columns) && !count($query->columns)) {
-                $query->select('*');
+            if(!$query->columns) {
+                $query->columns('*');
             }
 
-            if(!count($query->from)) {
-                $query->from($this->getName().' AS tbl');
+            if(!$query->from) {
+                $query->from(array('tbl' => $this->getName()));
             }
         }
-            
+        
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_SELECT;
-        $context->query     = $query;
         $context->table     = $this->getBase();
+        $context->query     = $query;
         $context->mode      = $mode;
         
         if($this->getCommandChain()->run('before.select', $context) !== false) 
@@ -485,7 +486,7 @@ abstract class KDatabaseTableAbstract extends KObject
             //Fetch the data based on the fecthmode
             if($context->query)
             {
-                $data = $this->_database->select($context->query, $context->mode, $this->getIdentityColumn());
+                $data = $this->getDatabase()->select($context->query, $context->mode, $this->getIdentityColumn());
                 
                 //Map the columns
                 if (($context->mode != KDatabase::FETCH_FIELD) || ($context->mode != KDatabase::FETCH_FIELD_LIST))
@@ -562,18 +563,20 @@ abstract class KDatabaseTableAbstract extends KObject
         {
             $columns = $this->mapColumns($query);
             
-            $query   = $this->_database->getQuery();    
+            $query   = $this->getService('koowa:database.query.select');  
+
             foreach($columns as $column => $value) {
-                $query->where($column, '=', $value);
-            }               
+                $query->where($column.' '.(is_array($value) ? 'IN' : '=').' :'.$column)
+                      ->bind(array($column => $value));
+            }
         }
             
-        if($query instanceof KDatabaseQuery)
+        if($query instanceof KDatabaseQuerySelect)
         {
-            $query->count();
+            $query->columns(array('count' => 'COUNT(*)'));
 
             if(!count($query->from)) {
-                $query->from($this->getName().' AS tbl');
+                $query->from(array('tbl' => $this->getName()));
             }
         }
             
@@ -592,33 +595,37 @@ abstract class KDatabaseTableAbstract extends KObject
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_INSERT;
-        $context->data      = $row;
         $context->table     = $this->getBase();
+        $context->data      = $row;
         $context->query     = null;
         $context->affected  = false;
         
         if($this->getCommandChain()->run('before.insert', $context) !== false) 
         {
-            //Filter the data and remove unwanted columns
+            // Create query object.
+            $query = $this->getService('koowa:database.query.insert')
+                ->table($context->table);
+            
+            // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData(), true);
             
-            //Get the data and apply the column mappings
-            $data = $this->mapColumns($data);
+            $query->values($this->mapColumns($data));
             
-            //Execute the insert query
-            $context->affected = $this->_database->insert($context->table, $data);
+            // Set the query in the context.
+            $context->query = $query;
+            
+            // Execute the insert query.
+            $context->affected = $this->getDatabase()->insert($query);
             
             if($context->affected !== false) 
             {
                 if(((integer) $context->affected) > 0)
                 {
                     if($this->getIdentityColumn()) {
-                        $data[$this->getIdentityColumn()] = $this->_database->getInsertId();
+                        $data[$this->getIdentityColumn()] = $this->getDatabase()->getInsertId();
                     }
                     
-                    //Reverse apply the column mappings and set the data in the row
-                    $context->data->setData($this->mapColumns($data, true), false)
-                                  ->setStatus(KDatabase::STATUS_CREATED);
+                    $context->data->setData($data, false)->setStatus(KDatabase::STATUS_CREATED);
                 }
                 else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
@@ -635,48 +642,45 @@ abstract class KDatabaseTableAbstract extends KObject
      * @param  object   		A KDatabaseRow object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update( KDatabaseRowInterface $row)
+    public function update(KDatabaseRowTable $row)
     {
-        //Create commandchain context
+        // Create commandchain context.
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_UPDATE;
-        $context->data      = $row;
         $context->table     = $this->getBase();
-        $context->query     = null;
+        $context->data      = $row;
         $context->affected  = false;
-
-        if($this->getCommandChain()->run('before.update', $context) !== false) 
-        {
-            //Create where statement
-            $query = $this->_database->getQuery();
-            
-            //@TODO : Gracefully handle error if not all primary keys are set in the row
-            foreach($this->getPrimaryKey() as $key => $column) {
-                $query->where($column->name, '=', $this->filter(array($key => $context->data->$key), true));
-            }
         
-            //Filter the data and remove unwanted columns
+        if ($this->getCommandChain()->run('before.update', $context) !== false) {
+            // Create query object.
+            $query = $this->getService('koowa:database.query.update')
+                ->table($context->table);
+            
+            foreach ($this->getPrimaryKey() as $key => $column) {
+                $query->where($column->name.' = :'.$column->name)
+                    ->bind($this->filter(array($key => $row->$key), true));
+            }
+            
+            // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData(true), true);
             
-            //Get the data and apply the column mappings
-            $data = $this->mapColumns($data);
-                     	  			
-            //Execute the update query
-            $context->affected = $this->_database->update($context->table, $data, $query);
-	
-            if($context->affected !== false) 
-            {
-                if(((integer) $context->affected) > 0)
-                {
-                    //Reverse apply the column mappings and set the data in the row
-                    $context->data->setData($this->mapColumns($data, true), false)
-                                  ->setStatus(KDatabase::STATUS_UPDATED);
-                }
-                else $context->data->setStatus(KDatabase::STATUS_FAILED);
-            }      
-              
-            //Set the query in the context
+            foreach ($this->mapColumns($data) as $key => $value) {
+                $query->set($key.' = :_'.$key)->bind(array('_'.$key => $value));
+            }
+            
+            // Set the query in the context.
             $context->query = $query;
+            
+            // Execute the update query.
+            $context->affected = $this->getDatabase()->update($query);
+	        
+            if ($context->affected !== false) {
+                if ($context->affected) {
+                    $context->data->setData($data, false)->setStatus(KDatabase::STATUS_UPDATED);
+                } else {
+                    $context->data->setStatus(KDatabase::STATUS_FAILED);
+                }
+            }      
             
             $this->getCommandChain()->run('after.update', $context);
         }
@@ -702,25 +706,24 @@ abstract class KDatabaseTableAbstract extends KObject
         
         if($this->getCommandChain()->run('before.delete', $context) !== false) 
         {
-            $query = $this->_database->getQuery();
+            // Create query object.
+            $query = $this->getService('koowa:database.query.delete')
+                ->from($context->table);
             
-            //Create where statement
             foreach($this->getPrimaryKey() as $key => $column) {
-                $query->where($column->name, '=', $context->data->$key);
+                $query->where($column->name.' = :'.$column->name)
+                    ->bind(array($column->name => $context->data->$key));
             }
             
-            //Execute the delete query
-            $context->affected = $this->_database->delete($context->table, $query);
+            // Set the query in the context.
+            $context->query = $query;
             
-            //Set the query in the context
-            if($context->affected !== false) 
-            {
-                if(((integer) $context->affected) > 0) 
-                {   
-                    $context->query = $query;
-                    $context->data->setStatus(KDatabase::STATUS_DELETED);
-                }
-                else $context->data->setStatus(KDatabase::STATUS_FAILED);
+            // Execute the delete query.
+            $context->affected = $this->getDatabase()->delete($query);
+            
+            // Set the query in the context.
+            if($context->affected !== false) {
+                $context->data->setStatus($context->affected ? KDatabase::STATUS_DELETED : KDatabase::STATUS_FALIED);
             }
             
             $this->getCommandChain()->run('after.delete', $context);
@@ -747,7 +750,7 @@ abstract class KDatabaseTableAbstract extends KObject
             if($this->isConnected()) 
             {
                 try {
-                    $context->result = $this->_database->lockTable($this->getBase(), $this->getName());
+                    $context->result = $this->getDatabase()->lockTable($this->getBase(), $this->getName());
                 } catch(KDatabaseException $e) {
                     throw new KDatabaseTableException($e->getMessage());
                 }
@@ -777,7 +780,7 @@ abstract class KDatabaseTableAbstract extends KObject
             if($this->isConnected()) 
             {
                 try {
-                    $context->result = $this->_database->unlockTable();
+                    $context->result = $this->getDatabase()->unlockTable();
                 } catch(KDatabaseException $e) {
                     throw new KDatabaseTableException($e->getMessage());
                 }
