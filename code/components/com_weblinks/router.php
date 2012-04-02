@@ -68,22 +68,35 @@ function WeblinksParseRoute($segments)
 {
 	$vars	= array();
 	
-	$count = count($segments);
+    $view = JSite::getMenu()->getActive()->query['view'];
 	
-	if ($count)
+	if($view == 'categories')
 	{
-	    $count--;
-	    $segment = array_shift( $segments );
+	    $count = count($segments);
 	    
-	    $vars['category'] = str_replace(':', '-', $segment);
-	    $vars['view'] = 'weblinks';
+	    if ($count)
+	    {
+	        $count--;
+	        $segment = array_shift( $segments );
+	    
+	        $vars['category'] = str_replace(':', '-', $segment);
+	        $vars['view'] = 'weblinks';
+	    }
+	
+	    if ($count)
+	    {
+	        $count--;
+	        $segment = array_shift( $segments) ;
+	    
+	        $vars['id'] = str_replace(':', '-', $segment);
+	        $vars['view'] = 'weblink';
+	    }
 	}
 	
-	if ($count)
+	if($view == 'weblinks') 
 	{
-	    $count--;
 	    $segment = array_shift( $segments) ;
-	    
+	     
 	    $vars['id'] = str_replace(':', '-', $segment);
 	    $vars['view'] = 'weblink';
 	}
