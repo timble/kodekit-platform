@@ -48,8 +48,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<?php endif; ?>
 			<?php if ( $params->get( 'show_item_description' ) && $item->get_description()) : ?>
 				<br />
-				<? $text = $this->getView()->limitText($item->get_description(), $params->get( 'feed_word_count' )); ?>
-				<?= str_replace('&apos;', "'", $text); ?>
+				<?= @helper('text.limit', array('text' => $item->get_description(), 'words' => $params->get( 'feed_word_count' ))); ?>
 				<br />
 				<br />
 			<? endif; ?>
