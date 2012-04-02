@@ -33,6 +33,18 @@ class ComExtensionsControllerToolbarTemplate extends ComDefaultControllerToolbar
         
          parent::onAfterControllerBrowse($event);
     }
+    
+    protected function _commandDefault(KControllerToolbarCommand $command)
+    {
+        $command->label = JText::_('Make Default');
+    
+        $command->append(array(
+            	'attribs' => array(
+                    'data-action' => 'edit',
+                    'data-data'   => '{default:1}'
+        )
+        ));
+    }
    
     protected function _commandPreview(KControllerToolbarCommand $command)
     {
