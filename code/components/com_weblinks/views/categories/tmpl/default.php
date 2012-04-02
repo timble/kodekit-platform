@@ -32,8 +32,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 <ul>
 <? foreach($categories as $category) : ?>
 	<li>
-		<a href="<?= @route('view=weblinks&category='. $category->id) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
-			<?= @escape($category->title);?></a>
+		<a href="<?= @route('view=weblinks&category='. $category->id.':'.$category->slug) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
+			<?= @escape($category->title);?>
+		</a>
 		&nbsp;
 		<span class="small">
 			(<?= $category->numlinks;?>)

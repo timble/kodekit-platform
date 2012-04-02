@@ -30,8 +30,11 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 
 	public function display()
     {
-		$category = $this->getService('com://site/weblinks.model.categories')->getItem();
-		$items = $this->getService('com://site/weblinks.model.weblinks')->catid(KRequest::get('get.id', 'int'))->getList();
+		$category = $this->getService('com://site/weblinks.model.categories')
+	                     ->id($this->getModel()->getState()->category)
+	                     ->getItem();
+		
+		$weblinks = $this->getModel()->getList();
 
 		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
 		$xml .= '<rss version="2.0">'.PHP_EOL;
@@ -43,15 +46,15 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 		$xml .= '	<generator>'.JURI::base().'</generator>'.PHP_EOL;
 		$xml .= '	<language>'.JFactory::getLanguage()->getTag().'</language>'.PHP_EOL;
 
-		foreach($items as $item)
+		foreach($weblinks as $weblink)
 		{
 			$xml .= '	<item>'.PHP_EOL;
-			$xml .= '		<title>'.htmlspecialchars($item->title).'</title>'.PHP_EOL;
-			$xml .= '		<link>'.JURI::base().JRoute::_('index.php?option=com_weblinks&view=weblink&id='.$item->id).'</link>'.PHP_EOL;
-			$xml .= '		<guid>'.JURI::base().JRoute::_('index.php?option=com_weblinks&view=weblink&id='.$item->id).'</guid>'.PHP_EOL;
-			$xml .= '		<description><![CDATA['.htmlspecialchars($item->description).']]></description>'.PHP_EOL;
+			$xml .= '		<title>'.htmlspecialchars($weblink->title).'</title>'.PHP_EOL;
+			$xml .= '		<link>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$weblink->id.':'.$weblink->slug).'</link>'.PHP_EOL;
+			$xml .= '		<guid>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$weblink->id.':'.$weblink->slug).'</guid>'.PHP_EOL;
+			$xml .= '		<description><![CDATA['.htmlspecialchars($weblink->description).']]></description>'.PHP_EOL;
 			$xml .= '		<category>'.$category->title.'</category>'.PHP_EOL;
-			$xml .= '		<pubDate>'.date('r',strtotime($item->date)).'</pubDate>'.PHP_EOL;
+			$xml .= '		<pubDate>'.date('r',strtotime($weblink->date)).'</pubDate>'.PHP_EOL;
 			$xml .= '	</item>'.PHP_EOL;
 		}
 

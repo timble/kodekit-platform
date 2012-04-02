@@ -10,7 +10,7 @@
  */
 
 /**
- * Category Html View
+ * Weblinks Html View
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
@@ -29,7 +29,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	    $category = $this->getService('com://site/weblinks.model.categories')
 	                     ->id($this->getModel()->getState()->category)
 	                     ->getItem();
-	                        
+	                  
 	    $categories = $this->getService('com://site/weblinks.model.categories')->getList();
 		$params     = JFactory::getApplication()->getParams();
 
