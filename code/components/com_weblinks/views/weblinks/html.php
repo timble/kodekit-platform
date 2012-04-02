@@ -26,12 +26,31 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
+	    //Get the parameters
+	    $params = JFactory::getApplication()->getParams();
+	    
+	    //Get the category
 	    $category = $this->getService('com://site/weblinks.model.categories')
 	                     ->id($this->getModel()->getState()->category)
 	                     ->getItem();
-	                  
-	    $categories = $this->getService('com://site/weblinks.model.categories')->getList();
-		$params     = JFactory::getApplication()->getParams();
+	                  	
+		// Get the parameters of the active menu item
+		$menu = JSite::getMenu()->getActive();
+		
+		// Set the page title
+		if (is_object( $menu ))
+		{
+		    $menu_params = new JParameter( $menu->params );
+		    if (!$menu_params->get( 'page_title')) {
+		        $params->set('page_title',	$category->title);
+		    }
+		}
+		else $params->set('page_title',	$category->title);
+		
+		JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
+		
+		//set breadcrumbs
+		JFactory::getApplication()->getPathway()->addItem($category->title, '');
 
 		// Set up the category image
 		if (isset( $category->image ) && $category->image != '')
@@ -59,8 +78,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 
 		$this->assign('params'    , $params);
 		$this->assign('category'  , $category);
-		$this->assign('categories', $categories);
-
+		
 		return parent::display();
 	}
 }
