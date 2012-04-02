@@ -29,6 +29,7 @@ class ComWeblinksViewCategoriesHtml extends ComDefaultViewHtml
 			if($params->get('image_align') != "") {
 			    $attribs['align'] = $params->get('image_align');
 			}
+			
 			$attribs['hspace'] = 6;
 			$attribs['title']  = JText::_('Web Links');
 
