@@ -25,7 +25,7 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
 
         $this->_state
             ->insert('published', 'boolean')
-            ->insert('category' , 'int');
+            ->insert('category' , 'slug');
     }
 
     protected function _buildQueryColumns(KDatabaseQuery $query)
@@ -54,7 +54,7 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
         }
 
         if ($state->category) {
-            $query->where('tbl.catid', '=', $state->category);
+            $query->where('tbl.catid', '=', (int) $state->category);
         }
 
         if (!empty($state->search)) {
