@@ -18,19 +18,18 @@
  * @subpackage  Banners
  */
  
-/**
- * @param   array   A named array
- * @return  array
- */
 function BannersBuildRoute( &$query )
 {
     $segments = array();
 
-    if (isset($query['view'])) {
+    if (isset($query['view'])) 
+    {
         $segments[] = $query['view'];
         unset( $query['view'] );
     }
-    if (isset($query['id'])) {
+    
+    if (isset($query['id'])) 
+    {
         $segments[] = $query['id'];
         unset( $query['id'] );
     }
@@ -38,21 +37,10 @@ function BannersBuildRoute( &$query )
     return $segments;
 }
 
-/**
- * @param   array   A named array
- * @param   array
- *
- * Formats:
- *
- * index.php?/banners/task/bid/Itemid
- *
- * index.php?/banners/bid/Itemid
- */
 function BannersParseRoute( $segments )
 {
     $vars = array();
 
-    // view is always the first element of the array
     $count = count($segments);
 
     if ($count)
