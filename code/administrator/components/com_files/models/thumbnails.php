@@ -23,13 +23,12 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 	{
 		parent::__construct($config);
 
-		$this->_state
+		$this->getState()
 			->insert('container', 'com://admin/files.filter.container', null)
 			->insert('folder', 'com://admin/files.filter.path')
 			->insert('filename', 'com://admin/files.filter.path', null, true, array('container'))
 			->insert('files', 'com://admin/files.filter.path', null)
-			->insert('source', 'raw', null, true)
-			;
+			->insert('source', 'raw', null, true);
 		
 	}
 	
@@ -47,59 +46,62 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		$item = parent::getItem();
 
 		if ($item) {
-			$item->source = $this->_state->source;
+			$item->source = $this->getState()->source;
 		}
 
 		return $item;
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
     	parent::_buildQueryColumns($query);
+    	$state = $this->getState();
     	
-    	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
-    		$query->select('c.slug AS container');
+    	if ($state->source instanceof KDatabaseRowInterface || $state->container) {
+    		$query->columns(array('container' => 'containers.slug'));
     	}
     }
 	
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
     	parent::_buildQueryJoins($query);
+    	$state = $this->getState();
     	
-    	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
-    		$query->join('LEFT', 'files_containers AS c', 'c.files_container_id = tbl.files_container_id');
+    	if ($state->source instanceof KDatabaseRowInterface || $state->container) {
+    		$query->join(array('containers' => 'files_containers'), 'containers.files_container_id = tbl.files_container_id');
     	}
     }
 
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
-        $state = $this->_state;
+        $state = $this->getState();
+        
 		if ($state->source instanceof KDatabaseRowInterface) {
 			$source = $state->source;
 
-			$query->where('tbl.files_container_id', '=', $source->container->id)
-				->where('tbl.filename', '=', $source->name);
+			$query->where('tbl.files_container_id = :container_id')
+				->where('tbl.filename = :filename')
+				->bind(array('container_id' => $source->container->id, 'filename' => $source->name));
 
 			if ($source->folder) {
-				$query->where('tbl.folder', '=', $source->folder);
+				$query->where('tbl.folder = :folder')->bind(array('folder' => $source->folder));
 			}
 		}
 		elseif (!empty($state->files)) {
-			$query->where('tbl.filename', 'IN', $state->files);
+			$query->where('tbl.filename '.(is_array($state->files) ? 'IN' : '=').' :files')->bind(array('files' => $state->files));
 		}
 		else {
 		    if ($state->container) {
-		        $query->where('tbl.files_container_id', '=', $state->container->id);
+		        $query->where('tbl.files_container_id = :container_id')->bind(array('container_id' => $state->container->id));
 		    }
 		    
 		    if ($state->folder !== false) {
-		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));	
+		    	$query->where('tbl.folder = :folder')->bind(array('foler' => ltrim($state->folder, '/')));	
 		    }
 
 		    if ($state->filename) {
-		        $query->where('tbl.filename', '=', $state->filename);
+		        $query->where('tbl.filename = :filename')->bind(array('filename' => $state->filename));
 		    }
 		}
-
 	}
 }

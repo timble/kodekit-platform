@@ -199,11 +199,10 @@ class ComGroupsDatabaseRowNode extends KDatabaseRowDefault
      */
     public function getDescendants($direction = 'ASC', $direct_children_only = false, $limit = false)
     {
-        $query = $this->getTable()->getDatabase()->getQuery();
-        
-        $query = $query->where($this->_left_column, '>', $this->left)
-                ->where($this->_right_column, '<', $this->right)
-                ->order($this->_left_column, $direction);
+        $query = $this->getService('koowa:database.query.select')
+            ->where($this->_left_column, '>', $this->left)
+            ->where($this->_right_column, '<', $this->right)
+            ->order($this->_left_column, $direction);
 
         if ($direct_children_only)
         {
@@ -243,7 +242,7 @@ class ComGroupsDatabaseRowNode extends KDatabaseRowDefault
      */
     public function getParents($direction = 'ASC')
     {
-        $query = $this->getTable()->getDatabase()->getQuery()
+        $query = $this->getService('koowa:database.query.select')
             //->where($this->_level_column, '<>', 0)
             ->where($this->_left_column, '<=', $this->left)
             ->where($this->_right_column, '>=', $this->right)

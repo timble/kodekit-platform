@@ -38,11 +38,11 @@ class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
      */
     public function insert(KDatabaseRowInterface $row)
     {
-    	$query = $this->getDatabase()->getQuery()
-                    ->where('table', '=', $row->table)
-                    ->where('row',   '=', $row->row)
-                    ->order('revision','desc')
-                    ->limit(1);
+    	$query = $this->getService('koowa:database.query.select')
+            ->where('table', '=', $row->table)
+            ->where('row',   '=', $row->row)
+            ->order('revision','desc')
+            ->limit(1);
 
        	$latest = $this->select($query, KDatabase::FETCH_ROW);
 

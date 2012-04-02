@@ -74,13 +74,13 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
         return $revision;
     }
 
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         $query->columns[] = 'u.name AS user_name';
         parent::_buildQueryColumns($query);
     }
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         $query->join('RIGHT', 'users u', 'tbl.created_by = u.id');
     }
@@ -91,9 +91,9 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
      * When getting a revision X > 1, we need to get all revisions from
      * 1 to X, and combine the data from these into one row.
      *
-     * @param KDatabaseQuery $query
+     * @param KDatabaseQuerySelect $query
      */
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
     	parent::_buildQueryWhere($query);
 
@@ -116,7 +116,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
         $query->order('tbl.revision', 'desc');
     }

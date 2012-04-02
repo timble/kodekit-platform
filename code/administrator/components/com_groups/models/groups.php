@@ -25,59 +25,61 @@ class ComGroupsModelGroups extends KModelDefault
         parent::__construct($config);
         
         $parent = $this->getTable()->select(array('name' => 'USERS', 'value' => 'USERS'), KDatabase::FETCH_ROW);
-        $this->_state->insert('parent', 'int', $parent->id);
         
-        $this->_state->insert('core', 'boolean');
+        $this->getState()
+            ->insert('parent', 'int', $parent->id)
+            ->insert('core', 'boolean');
     }
     
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
     	parent::_buildQueryColumns($query);
     	
-    	if(!$this->_state->isUnique()) {
-    	    $query->select('COUNT(`parent`.`id`) - 3 AS depth');
+    	if(!$this->getState()->isUnique()) {
+    	    $query->columns('COUNT(`parent`.`id`) - 3 AS depth');
     	}
     }
     
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
-    	if(!$this->_state->isUnique()) 
+    	if(!$this->getState()->isUnique()) 
     	{
     	    $name = $this->getTable()->getName();
-            $query->join('LEFT', $name.' AS parent', 'tbl.lft BETWEEN parent.lft AND parent.rgt');
+            $query->join(array('parent' => $name), 'tbl.lft BETWEEN parent.lft AND parent.rgt');
     	}
     }
     
-    protected function _buildQueryWhere(KDatabaseQuery $query)
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
-
-        if(!$this->_state->isUnique()) 
+        $state = $this->getState();
+        
+        if(!$state->isUnique()) 
         {
-	        if($this->_state->parent) 
+	        if($state->parent) 
 	        {
-	            $parent = $this->getTable()->select($this->_state->parent, KDatabase::FETCH_ROW);
+	            $parent = $this->getTable()->select($state->parent, KDatabase::FETCH_ROW);
 	
-	            $query->where('tbl.lft', '>', $parent->lft, 'AND')
-	                ->where('tbl.rgt', '<', $parent->rgt);
+	            $query->where('tbl.lft BETWEEN :parent_lft AND :parent_rgt')
+	                ->bind(array('parent_lft' => $parent->lft, 'parent_rgt' => $parent->rgt));
 	        }
 	        
-	        if(!is_null($this->_state->core)) {
-	        	$query->where('tbl.id', $this->_state->core ? '<=' : '>', 30);
+	        if(!is_null($state->core)) {
+	        	$query->where('tbl.id '.$this->getState()->core ? '<=' : '>'.' 30');
 	        }
         }
     }
     
-    protected function _buildQueryGroup(KDatabaseQuery $query)
+    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
     {
-    	if(!$this->_state->isUnique()) {
+    	if(!$this->getState()->isUnique()) {
     	   $query->group('tbl.id');
     	}
     }
     
-    protected function _buildQueryOrder(KDatabaseQuery $query)
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
-    	if(!$this->_state->isUnique()) {
+    	if(!$this->getState()->isUnique()) {
             $query->order('tbl.lft', 'ASC');
     	}
     }

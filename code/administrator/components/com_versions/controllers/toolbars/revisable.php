@@ -53,7 +53,7 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
     {
         $command->append(array(
             'attribs'  => array(
-                'data-action' => 'edit',
+                'data-action' => 'edit'
             )
         )); 
     }
@@ -62,7 +62,8 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
     {
         $command->append(array(
             'attribs'  => array(
-                'label' => 'Delete forever',
+                'data-action' => 'delete',
+                'label' => 'Delete forever'
             )
         )); 
     }

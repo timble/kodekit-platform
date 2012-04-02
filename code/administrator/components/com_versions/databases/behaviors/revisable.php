@@ -73,42 +73,38 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 	{
 		$query = $context->query;
 
-		if(!is_null($query))
+		if(!is_null($query) && $query->where)
 		{
-			$where = array();
-		    foreach($query->where as $condition) {
-				$where[$condition['property']] = $condition['value'];
-			}
+		    foreach ($query->where as $where) {
+		        if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.deleted\s*=\s*(1|:[a-z_]+)/', $where['condition'], $matches)) {
+		            if ($matches[1] == 1 || isset($query->params[substr($matches[1], 1)]) && $query->params[substr($matches[1], 1)] == 1) {
+    		            $table = $context->caller;
+    		            
+          			    $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
+    		            
+          			    if (isset($query->columns['count']) && $query->columns['count'] == 'COUNT(*)') {
+          			        $context->data = count($revisions);
+          			    } else {
+              			    $rowset = $table->getRowset();
+        
+                            foreach($revisions as $row) 
+                            {
+                                $options = array(
+                    				'data'   => $row->data,
+                        			'status' => KDatabase::STATUS_DELETED,
+                            		'new'    => false,   
+                                );
+                                
+                                $rowset->insert($rowset->getRow($options));
+                            }
+        
+              			    $context->data = $rowset;
+              		    }
 
-			if(isset($where['tbl.deleted']) && $where['tbl.deleted'] == 1)
-			{
-      			$table = $context->caller;
-    
-      			//Get the revisions
-      			$revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $where);
-			    
-			    //Set the context data
-      			if(!$query->count)
-      			{
-      			    $rowset = $table->getRowset();
-
-                    foreach($revisions as $row) 
-                    {
-                        $options = array(
-            				'data'   => $row->data,
-                			'status' => KDatabase::STATUS_DELETED,
-                    		'new'    => false,   
-                        );
-                        
-                        $rowset->insert($rowset->getRow($options));
-                    }
-
-      			    $context->data = $rowset;
-      		    }
-      			else $context->data = count($revisions);
-
-      			return false;
-			}
+              		    return false;
+		            }
+		        }
+		    }
 		}
 	}
 
@@ -233,19 +229,26 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @param  array    Array of row id's
      * @return KDatabaseRowsetInterface
      */
-    protected function _selectRevisions($table, $status, $where)
+    protected function _selectRevisions($table, $status, $query)
     {
-        $query = array(
+        $columns = array(
         	'table'  => $table->getName(),
             'status' => $status,
         );
         
-        //Get the selected rows
-        if(isset($where['tbl.'.$table->getIdentityColumn()])) {
-            $query['row'] = $where['tbl.'.$table->getIdentityColumn()];
+        foreach ($query->where as $where) {
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.'.preg_quote($table->getIdentityColumn()).'\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) {
+                if (is_numeric($matches[1])) {
+                    $columns['row'] = (int) $matches[1];
+                    break;
+                } elseif (isset($query->params[substr($matches[1], 1)])) {
+                    $columns['row'] = (int) $query->params[substr($matches[1], 1)];
+                    break;
+                }
+            }
         }
           
-        $revisions = $this->_table->select($query);
+        $revisions = $this->_table->select($columns);
         return $revisions;
     }
 
@@ -268,7 +271,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
     	// Create the new revision
     	$revision = $this->_table->getRow();
-    	$revision->table    = $table->getName();
+    	$revision->table    = $table->getBase();
         $revision->row      = $this->id;
         $revision->status   = $status;
         $revision->data     = (object) $table->filter($data);
@@ -295,6 +298,20 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
             if(isset($this->modified_on) && ($this->modified_on != $table->getDefault('modified_on'))) {
                 $revision->created_on = $this->modified_on;
             }
+    	}
+    	
+    	// Set revision number.
+    	if ($status == KDatabase::STATUS_UPDATED || $status == KDatabase::STATUS_DELETED) {
+    	    $query = $this->getService('koowa:database.query.select')
+        	    ->where('table = :table')
+        	    ->where('row = :row')
+        	    ->order('revision', 'DESC')
+        	    ->bind(array(
+        	    	'table' => $table->getBase(),
+        	        'row'   => $this->id
+        	    ));
+        	
+        	$revision->revision = $this->_table->select($query, KDatabase::FETCH_ROW)->revision + 1;
     	}
 
         // Store the revision
