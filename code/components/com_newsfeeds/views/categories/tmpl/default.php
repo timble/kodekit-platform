@@ -1,38 +1,51 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ( $this->params->get( 'show_page_title', 1 ) ) : ?>
-	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</div>
-<?php endif; ?>
+<?
+/**
+ * @version		$Id: default.php 3314 2012-02-10 02:14:52Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Weblinks
+ * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>">
-<?php if ( ($this->params->get('image') != -1) || $this->params->get('show_comp_description') ) : ?>
+defined('KOOWA') or die('Restricted access'); ?>
+
+<? if ( $params->def( 'show_page_title', 1 ) ) : ?>
+	<div class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
+		<?= @escape($params->get('page_title')); ?>
+	</div>
+<? endif; ?>
+
+<? if ( ($params->def('image', -1) != -1) || $params->def('show_comp_description', 1) ) : ?>
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?= @escape($params->get('pageclass_sfx')); ?>">
 <tr>
-	<td valign="top" class="contentdescription<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-	<?php
-		if ( isset($this->image) ) :  echo $this->image; endif;
-		echo $this->escape($this->params->get('comp_description'));
-	?>
+	<td valign="top" class="contentdescription<?= @escape($params->get('pageclass_sfx')); ?>">
+	<? if ( isset($image) ) : ?>
+		<img src="<?= $image['src'] ?>" <? foreach ($image['attribs'] as $attrib => $value) : echo $attrib.'="'.$value.'" '; endforeach ?>/>
+	<? endif; ?>
+	<?= @escape($params->get('comp_description')); ?>
 	</td>
 </tr>
-<?php endif; ?>
 </table>
+<? endif; ?>
+
 <ul>
-<?php foreach ( $this->categories as $category ) : ?>
+<? foreach($categories as $category) : ?>
 	<li>
-		<a href="<?php echo $category->link ?>" class="category<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo $this->escape($category->title);?></a>
-		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
+		<a href="<?= @route('view=newsfeeds&category='. $category->id.':'.$category->alias) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
+			<?= @escape($category->title);?>
+		</a>
+		<? if ( $params->get( 'show_cat_items' ) ) : ?>
 		&nbsp;
 		<span class="small">
-			(<?php echo $category->numlinks;?>)
+			(<?= $category->numlinks;?>)
 		</span>
-		<?php endif; ?>
-		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
+		<? endif; ?>
+		<? if ( $params->get( 'show_cat_description' ) && $category->description ) : ?>
 		<br />
-		<?php echo $category->description; ?>
-		<?php endif; ?>
+		<?= @escape($category->description); ?>
+		<? endif; ?>
 	</li>
-<?php endforeach; ?>
+<? endforeach; ?>
 </ul>

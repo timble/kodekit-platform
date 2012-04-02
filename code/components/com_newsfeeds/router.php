@@ -16,7 +16,7 @@ function NewsfeedsBuildRoute(&$query)
 	static $items;
 
 	$segments	= array();
-	$itemid		= null;
+	/*$itemid		= null;
 
 	// Break up the newsfeed id into numeric and alias values.
 	if (isset($query['id']) && strpos($query['id'], ':')) {
@@ -164,7 +164,7 @@ function NewsfeedsBuildRoute(&$query)
 		unset($query['alias']);
 		unset($query['catid']);
 		unset($query['catalias']);
-	}
+	}*/
 
 	return $segments;
 }
@@ -174,7 +174,7 @@ function NewsfeedsParseRoute($segments)
 	$vars	= array();
 
 	// Get the active menu item.
-	$menu	= &JSite::getMenu();
+	/*$menu	= &JSite::getMenu();
 	$item	= &$menu->getActive();
 
 	// Check if we have a valid menu item.
@@ -237,8 +237,7 @@ function NewsfeedsParseRoute($segments)
 				$vars['catid']	= $segments[$count-1];
 			}
 		}
-	}
+	}*/
 
 	return $vars;
 }
-?>

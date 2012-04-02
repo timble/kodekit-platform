@@ -10,7 +10,7 @@
  */
 
 /**
- * Component Loader
+ * Service Aliases
  *
  * @author      Babs Gšsgens <http://nooku.assembla.com/profile/babsgosgens>
  * @category    Nooku
@@ -18,6 +18,5 @@
  * @subpackage  Newsfeeds
  */
 
-KLoader::loadIdentifier('com://site/newsfeeds.aliases');
-
-echo KService::get('com://site/newsfeeds.dispatcher')->dispatch();
+KService::setAlias('com://site/newsfeeds.model.categories', 'com://admin/newsfeeds.model.categories');
+KService::setAlias('com://site/newsfeeds.model.newsfeeds' , 'com://admin/newsfeeds.model.newsfeeds');
