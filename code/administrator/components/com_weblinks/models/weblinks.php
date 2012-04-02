@@ -24,7 +24,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		parent::__construct($config);
 
 		$this->_state
-		    ->insert('category' , 'int')
+		    ->insert('category' , 'slug')
 		    ->insert('published', 'boolean');
 	}
 	
@@ -61,7 +61,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		}
 		
 	    if($state->category) {
-			$query->where('tbl.catid', '=', $this->_state->category);
+			$query->where('tbl.catid', '=', (int) $this->_state->category);
 		}
 	      
 		parent::_buildQueryWhere($query);
