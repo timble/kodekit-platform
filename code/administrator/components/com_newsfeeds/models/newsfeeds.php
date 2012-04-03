@@ -38,9 +38,9 @@ class ComNewsfeedsModelNewsfeeds extends ComDefaultModelDefault
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         // Exclude joins if counting records.
-        //if(!$query->count) {
+        if(!$query->count) {
             $query->join(array('categories' => 'categories'), 'categories.id = tbl.catid');
-        //}
+        }
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)

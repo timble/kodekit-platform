@@ -57,8 +57,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         $state = $this->getState();
         
         //Exclude joins if counting records
-        //if(!$query->count)
-        //{
+        if(!$query->count)
+        {
             if ($state->section) {
                 if ($state->section == 'com_content' || is_numeric($state->section)){
                     $query->join(array('content' => 'content'), 'content.catid = tbl.id');
@@ -67,7 +67,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
                     $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
                 }
             }
-        //}
+        }
 
         parent::_buildQueryJoins($query);
     }
