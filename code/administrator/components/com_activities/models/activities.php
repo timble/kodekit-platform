@@ -47,7 +47,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 	{
 	    $state = $this->getState();
 	    
-		if($tate->distinct && !empty($tate->column))
+		if($state->distinct && !empty($state->column))
 		{
 			$query->distinct()
 				->columns($state->column)
@@ -56,7 +56,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 		else
 		{
 			parent::_buildQueryColumns($query);
-			$query->select(array('created_by_name' => 'users.name'));
+			$query->columns(array('created_by_name' => 'users.name'));
 		}
 	}
 
