@@ -145,7 +145,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
         } 
         else
         {
-            if(isset($this->$property)) {
+            //PHP bug 22917 : Isset is not allowed on virtual properties
+            $r = $this->$property;
+            if(isset($r)) {
                 $result = $this->$property;
             }
         }
