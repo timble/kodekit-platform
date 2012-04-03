@@ -108,7 +108,7 @@ interface KDatabaseAdapterInterface
      * @param 	string 		The column name of the index to use.
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
-	public function select(KDatabaseQuerySelect $query, $mode = KDatabase::RESULT_STORE, $key);
+	public function select(KDatabaseQuerySelect $query, $mode = KDatabase::RESULT_STORE, $key = '');
 	
 	/**
      * Preforms a show query
