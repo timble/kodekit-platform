@@ -19,6 +19,13 @@
  */
 class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 {   
+    /**
+     * Count operation
+     *
+     * @var boolean
+     */
+    public $count	  = false;
+	
 	/**
 	 * Distinct operation
 	 * 
@@ -63,6 +70,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 
 	/**
 	 * The having element
+	 * 
+	 * @var array
 	 */
 	public $having = array();
 
@@ -122,6 +131,18 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     public function distinct()
     {
         $this->distinct = true;
+        return $this;
+    }
+    
+    /**
+     * Built a count query
+     *
+     * @return KDatabaseQuery
+     */
+    public function count()
+    {
+        $this->count   = true;
+        $this->columns = array();
         return $this;
     }
 
@@ -276,23 +297,27 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
         $prefix  = $adapter->getTablePrefix();
         $query   = 'SELECT';
 
-        if ($this->columns) 
+        if ($this->columns || $this->count) 
         {
             if ($this->distinct) {
                 $query .= ' DISTINCT';
             }
             
-            $columns = array();
-            foreach($this->columns as $alias => $column) 
+            if(!$this->count) 
             {
-                if ($column instanceof KDatabaseQuerySelect) {
-                    $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
-                } else {
-                    $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
+                $columns = array();
+                foreach($this->columns as $alias => $column) 
+                {
+                    if ($column instanceof KDatabaseQuerySelect) {
+                        $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                    } else {
+                        $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
+                    }
                 }
+                
+                $query .= ' '.implode(', ', $columns);
             }
-            
-            $query .= ' '.implode(', ', $columns);
+            else $query .= ' COUNT(*)';
         }
 
         if ($this->from) 

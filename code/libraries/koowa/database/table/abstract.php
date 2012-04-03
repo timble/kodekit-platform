@@ -573,7 +573,7 @@ abstract class KDatabaseTableAbstract extends KObject
             
         if($query instanceof KDatabaseQuerySelect)
         {
-            $query->columns(array('count' => 'COUNT(*)'));
+            $query->count();
 
             if(!count($query->from)) {
                 $query->from(array('tbl' => $this->getName()));
