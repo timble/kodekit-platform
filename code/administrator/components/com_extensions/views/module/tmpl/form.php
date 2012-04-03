@@ -97,14 +97,11 @@ window.addEvent('domready', function() {
 			<fieldset>
 				<legend><?= @text('Custom Output') ?></legend>
 				
-				<?= @editor(array(
-					'name'		=> 'content',
+				<?= @service('com://admin/editors.controller.editor')
 					//@TODO is escaping the module content really necessary?
-					'content'	=> @escape($module->content),
-					'height'	=> 400,
-					'cols'		=> 60,
-					'buttons'	=> array('pagebreak', 'readmore')
-				)) ?>
+					->name('content')
+					->data(@escape($module->content))
+					->display() ?>
 			</fieldset>
 			<? endif ?>
 		</div>

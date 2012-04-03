@@ -36,16 +36,6 @@ defined('KOOWA') or die('Restricted access') ?>
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
 
-        <?/*= @editor(array(
-                'name' => 'text',
-                'text' => $article->text,
-                'width' => '100%',
-                'height' => '300',
-                'cols' => '60',
-                'rows' => '20',
-                'buttons' => true,
-                'options' => array('theme' => 'simple', 'pagebreak', 'readmore')));
-        //*/?>
         <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display() ?>
     </div>
     <div class="sidebar">        
