@@ -74,12 +74,6 @@ if(Form && Form.Validator) {
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="apikey"><?= @text('Api Key') ?></label>
-				    <div class="controls">
-				        <?= $user->uuid; ?>
-				    </div>
-				</div>
 			</fieldset>
 			<fieldset class="form-horizontal">
 				<legend><?= @text('User Parameters') ?></legend>
