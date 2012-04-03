@@ -26,10 +26,6 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	 */
 	public $distinct  = false;
 	
-	/**#@+
-	 * @var array
-	 */
-	
 	/**
 	 * The columns
 	 */
@@ -64,8 +60,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	 * The order element
 	 */
 	public $order = array();
-    /**#@-*/
-	
+   
 	/**
 	 * The limit element
 	 *
