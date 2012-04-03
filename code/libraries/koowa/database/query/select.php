@@ -26,32 +26,38 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	 */
 	public $distinct  = false;
 	
-	/**#@+
-	 * @var array
-	 */
-	
 	/**
 	 * The columns
+	 * 
+	 * @var array
 	 */
 	public $columns = array();
 
 	/**
 	 * The from element
+	 * 
+	 * @var array
 	 */
 	public $from = array();
 
 	/**
 	 * The join element
+	 * 
+	 * @var array
 	 */
 	public $join = array();
 
 	/**
 	 * The where element
+	 * 
+	 * @var array
 	 */
 	public $where = array();
 
 	/**
 	 * The group element
+	 * 
+	 * @var array
 	 */
 	public $group = array();
 
@@ -62,10 +68,11 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 
 	/**
 	 * The order element
+	 * 
+	 * @var array
 	 */
 	public $order = array();
-    /**#@-*/
-	
+    
 	/**
 	 * The limit element
 	 *
@@ -95,7 +102,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      */
     public function columns($columns = array())
     {
-        foreach ((array) $columns as $key => $value) {
+        foreach ((array) $columns as $key => $value) 
+        {
             if (is_string($key)) {
                 $this->columns[$key] = $value;
             } else {
@@ -125,7 +133,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      */
     public function from($tables)
     {
-        foreach ((array) $tables as $key => $value) {
+        foreach ((array) $tables as $key => $value) 
+        {
             if (is_string($key)) {
                 $this->from[$key] = $value;
             } else {
@@ -215,7 +224,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      */
     public function order($columns, $direction = 'ASC')
     {
-        foreach ((array) $columns as $column) {
+        foreach ((array) $columns as $column) 
+        {
             $this->order[] = array(
                 'column'    => $column,
                 'direction' => $direction
