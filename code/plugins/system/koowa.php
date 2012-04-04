@@ -234,7 +234,7 @@ class plgSystemKoowa extends JPlugin
 	 * Custom JError callback
 	 *
 	 * Push the exception call stack in the JException returned through the call back
-	 * adn then rener the custom error page
+	 * adn then rener the custom error page.
 	 *
 	 * @param object A JException object
 	 * @return void
@@ -247,20 +247,48 @@ class plgSystemKoowa extends JPlugin
 			'line'		=> $this->_exception->getLine()
 		));
 		
-	    if(JFactory::getConfig()->getValue('config.debug')) {
+		if(JFactory::getConfig()->getValue('config.debug')) {
 			$error->set('message', (string) $this->_exception);
 		} else {
-			$error->set('message', KHttpResponse::getMessage($error->get('code')));
-		}
-		
-	    if($this->_exception->getCode() == KHttpResponse::UNAUTHORIZED) {
-		   header('WWW-Authenticate: Basic Realm="'.KRequest::base().'"');
+			$error->set('message', KHttpResponse::getMessage($error->code));
 		}
 		
 		//Make sure the buffers are cleared
 		while(@ob_get_clean());
 		
-		JError::customErrorPage($error);
+		//Throw json formatted error
+		if(	KRequest::format() == 'json')
+		{
+		    $properties = array(
+		    	'message' => $error->message,
+		        'code'    => $error->code
+		    );
+		    
+		    if(KDEBUG)
+		    {
+		        $properties['data'] = array(
+		            'file'	    => $error->file,
+		            'line'      => $error->line,
+		            'function'  => $error->function,
+		            'class'		=> $error->class,
+		            'args'		=> $error->args,
+		            'info'		=> $error->info
+		        );
+		    }
+		    
+		    //Encode data
+		    $data = json_encode(array(
+		    	'version'  => '1.0', 
+		    	'errors' => array($properties)
+		    ));
+		    
+		    JResponse::setHeader('Content-Type','application/json');
+		    JResponse::setBody($data);
+		    
+		    echo JResponse::toString();
+		    JFactory::getApplication()->close(0);
+		}
+		else JError::customErrorPage($error);
 	}
 	
 	/**
