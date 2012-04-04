@@ -183,10 +183,10 @@ window.addEvent('domready', function() {
 			</div>
 			<h3 id="files-title"></h3>
 			<div class="files-layout-controls">
-				<button class="files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
+				<button class="files-layout-switcher files-layout-switcher-icons" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
 					<?= @text('Icons'); ?>
 				</button>
-				<button class="files-layout-switcher" data-layout="details" title="<?= @text('Show files in a list'); ?>">
+				<button class="files-layout-switcher files-layout-switcher-details" data-layout="details" title="<?= @text('Show files in a list'); ?>">
 					<?= @text('Details'); ?>
 				</button>
 			</div>
@@ -209,7 +209,7 @@ window.addEvent('domready', function() {
 <div>
 	<div id="files-new-folder-modal" class="files-modal" style="display: none">
 	<form>
-		<input class="inputbox focus" type="text" id="files-new-folder-input" size="60" placeholder="<?= @text('Enter a folder name') ?>" />
+		<input class="inputbox focus" type="text" id="files-new-folder-input" size="40" placeholder="<?= @text('Enter a folder name') ?>" />
 		<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
 	</form>
 	</div>
