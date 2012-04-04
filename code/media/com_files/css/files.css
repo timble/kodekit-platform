@@ -113,17 +113,17 @@
     margin-top: 0;
 }
 #element-box #sidebar {
-	/*float: left;
-	width: 20%;*/
 	width: 200px;
+	float: left \9;
+	width: 20% \0/;
 	background-color: hsl(0, 0%, 97%);
 	border: 1px solid hsl(0, 0%, 88%);
 	border-right: none;
 }
 
 #element-box #files-canvas {
-	/*float: right;
-	width: 79%;*/
+	float: right \9;
+	width: 79% \0/;
 	border: 1px solid #CCC;
 }
 
