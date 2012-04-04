@@ -227,9 +227,6 @@ class ContentViewArticle extends ContentView
 		// Get the lists
 		$lists = $this->_buildEditLists();
 
-		// Load the JEditor object
-		$editor =& JFactory::getEditor();
-
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
@@ -266,7 +263,6 @@ class ContentViewArticle extends ContentView
 		$this->assignRef('article',	$article);
 		$this->assignRef('params',	$params);
 		$this->assignRef('lists',	$lists);
-		$this->assignRef('editor',	$editor);
 		$this->assignRef('user',	$user);
 
 

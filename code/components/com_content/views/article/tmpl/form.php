@@ -45,7 +45,6 @@ function submitbutton(pressbutton) {
 	}
 
 	// do field validation
-	var text = <?php echo $this->editor->getContent( 'text' ); ?>
 	if (form.title.value == '') {
 		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
@@ -54,7 +53,6 @@ function submitbutton(pressbutton) {
 			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 		}
 	}
-	<?php echo $this->editor->save( 'text' ); ?>
 	submitform(pressbutton);
 }
 //-->
@@ -87,9 +85,10 @@ function submitbutton(pressbutton) {
 </tr>
 </table>
 
-<?php
-echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '15');
-?>
+<?php echo KService::get('com://admin/editors.controller.editor')
+	->name('text')
+	->data($this->article->text)
+	->display() ?>
 </fieldset>
 <fieldset>
 <legend><?php echo JText::_('Publishing'); ?></legend>

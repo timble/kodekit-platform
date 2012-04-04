@@ -49,20 +49,6 @@ class plgSystemSef extends JPlugin
       	$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 		
-		// pull out contents of editor to prevent URL changes inside edit area
-		$editor =& JFactory::getEditor();
-		$regex = '#'.$editor->_tagForSEF['start'].'(.*)'.$editor->_tagForSEF['end'].'#Us';
-		preg_match_all($regex, $buffer, $editContents, PREG_PATTERN_ORDER);
-
-		// create an array to hold the placeholder text (in case there are more than one editor areas)
-		$placeholders = array();
-		for ($i = 0; $i < count($editContents[0]); $i++) {
-			$placeholders[] = $editor->_tagForSEF['start'].$i.$editor->_tagForSEF['end'];
-		}
-		
-		// replace editor contents with placeholder text
-		$buffer 	= str_replace($editContents[0], $placeholders, $buffer);
-
 		// do the SEF substitutions
        	$regex  = '#(href|src|action|location.href|<option\s+value)(="|=\')(index.php[^"]*)#m';
       	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
@@ -92,9 +78,6 @@ class plgSystemSef extends JPlugin
 		// OBJECT data="xx" attribute -- fix it only in the object tag
 		$regex = 	'#(<object\s+[^>]*)data\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
 		$buffer 	= preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
-		
-		// restore the editor contents
-		$buffer 	= str_replace($placeholders, $editContents[0], $buffer);
 		
 		JResponse::setBody($buffer);
 		return true;

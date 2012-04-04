@@ -30,7 +30,6 @@ class JFrameworkConfig
 	var $cachetime	= '900';
 	var $language  	= 'en-GB';
 	var $secret		= null;
-	var $editor		= 'none';
 	var $timezone	= 'UTC';
 	var $lifetime	= 15;
 }

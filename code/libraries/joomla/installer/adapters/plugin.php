@@ -172,11 +172,6 @@ class JInstallerPlugin extends JObject
 			$row->element = $pname;
 			$row->params = $this->parent->getParams();
 
-			// Editor plugins are published by default
-			if ($group == 'editors') {
-				$row->published = 1;
-			}
-
 			if (!$row->store()) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));

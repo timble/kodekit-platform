@@ -39,8 +39,6 @@ class ComInfoModelDirectories extends KModelAbstract
                 'modules/'                  => JPATH_SITE.'/modules',
                 'plugins/'                  => JPATH_PLUGINS,
                 'plugins/content/'          => JPATH_PLUGINS.'/content',
-                'plugins/editors/'          => JPATH_PLUGINS.'/editors',
-                'plugins/editors-xtd/'      => JPATH_PLUGINS.'/editors-xtd',
                 'plugins/search/'           => JPATH_PLUGINS.'/search',
                 'plugins/system/'           => JPATH_PLUGINS.'/system',
                 'plugins/user'              => JPATH_PLUGINS.'/user',

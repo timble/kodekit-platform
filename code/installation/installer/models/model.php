@@ -529,7 +529,6 @@ class JInstallationModel extends JModel
 			'language',
 			'plugins',
 			'plugins/content',
-			'plugins/editors',
 			'plugins/search',
 			'plugins/system',
 			'tmp',
@@ -737,7 +736,6 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'/* Site Settings */';
 		$configuration[] = "\t".'var $offline = \'0\';';
 		$configuration[] = "\t".'var $sitename = \''.$vars['siteName'].'\';';
-		$configuration[] = "\t".'var $editor = \'tinymce\';';
 		$configuration[] = "\t".'var $list_limit = \'20\';';
 		$configuration[] = "\t".'/* Debug Settings */';
 		$configuration[] = "\t".'var $debug = \'0\';';

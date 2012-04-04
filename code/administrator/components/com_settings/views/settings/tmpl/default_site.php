@@ -31,13 +31,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <fieldset class="form-horizontal">
 	<legend><?= @text( 'Defaults' ); ?></legend>
 	<div class="control-group">
-	    <label class="control-label" for="settings[system][editor]"><?= @text( 'WYSIWYG Editor' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('listbox.editors', array('name' => 'settings[system][editor]', 'selected' => $settings->editor)); ?>
-	        <p class="help-block"><?= @text( 'TIPDEFWYSIWYG' ); ?></p>
-	    </div>
-	</div>
-	<div class="control-group">
 	    <label class="control-label" for="settings[system][list_limit]"><?= @text( 'List Length' ); ?></label>
 	    <div class="controls">
 	        <?= @helper('listbox.list_limits', array('name' => 'settings[system][list_limit]', 'selected' => $settings->list_limit)); ?>

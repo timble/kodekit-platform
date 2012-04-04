@@ -195,9 +195,6 @@ class JApplication extends JObject
 		if(isset($options['language'])) {
 			JFactory::getConfig()->setValue('config.language', $options['language']);
 		}
-
-		// Set user specific editor
-		JFactory::getConfig()->setValue('config.editor', $this->getCfg('editor'));
 	}
 
 	/**

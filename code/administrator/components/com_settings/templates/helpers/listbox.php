@@ -20,33 +20,6 @@
 
 class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-	public function editors($config = array())
-	{
-		$config = new KConfig($config);
-        $config->append(array(
-            'name'		=> 'editor'
-        ));
-       
-		$editors = $this->getService('com://admin/extensions.model.plugins')
-		            ->type('editors')
-		            ->enabled(1)
-		            ->sort(array('ordering', 'name'))
-		            ->getList();
-	
-		foreach($editors as $editor) {
-			$options[] 	= $this->option(array('text' => JText::_($editor->title), 'value' => $editor->name));
-		}
-
-		$list = $this->optionlist(array(
-			'options'   => $options,
-			'name'      => $config->name,
-			'selected'  => $config->selected,
-			'attribs'   => $config->attribs
-		));
-
-		return $list;
-	}
-
 	public function list_limits($config = array())
 	{
 		$config = new KConfig($config);
