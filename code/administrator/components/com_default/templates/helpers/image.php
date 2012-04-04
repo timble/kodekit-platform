@@ -10,7 +10,7 @@
  */
 
 /**
- * Editor Helper
+ * Image Helper
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
