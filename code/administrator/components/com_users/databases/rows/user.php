@@ -88,8 +88,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 	   if($this->isModified('username'))
        {
             $query = $this->getService('koowa:database.query.select')
-                ->where('username', '=', $this->username)
-                ->where('id', '<>', (int) $this->id);
+                ->where('username = :username')
+                ->where('id <> :id')
+                ->bind(array('username' => $this->username, 'id' => (int) $this->id));
 
             $total = $this->getService('com://admin/users.database.table.users')->count($query);
 
@@ -113,8 +114,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		if($this->isModified('email'))
 		{
 			$query = $this->getService('koowa:database.query.select')
-                ->where('email', '=', $this->email)
-                ->where('id', '<>', (int) $this->id);
+                ->where('email = :email')
+                ->where('id <> :id')
+                ->bind(array('email' => $this->email, 'id' => (int) $this->id));
 
 			$total = $this->getService('com://admin/users.database.table.users')->count($query);
 
@@ -191,8 +193,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		if(isset($this->_modifid['users_group_id']) && $old_row->users_group_id != 25)
 		{
 			$query = $this->getService('koowa:database.query.select')
-                ->where('users_group_id', '=', 25)
-                ->where('enabled', '=', 1);
+                ->where('users_group_id = :users_group_id')
+                ->where('enabled = :enabled')
+                ->bind(array('users_group_id' => 25, 'enabled' => 1));
 
 			$total = $this->getService('com://admin/users.database.table.users')->count($query);
 
