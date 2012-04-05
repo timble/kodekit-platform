@@ -24,6 +24,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 jQuery.noConflict();
 
 window.addEvent('domready', function() {
+	Files.app.addEvent('afterNavigate', function(path, type) {
+		document.id('upload-files-to').set('text', "'"+(path || <?= json_encode('root folder') ?>)+"'");
+	});
+	
 	var element = jQuery('#files-upload-multi');
 
 	plupload.addI18n({'Add files': Files._('Select files from your computer')});
@@ -301,6 +305,12 @@ window.addEvent('domready', function() {
 </script>
 
 <div id="files-upload" style="clear: both" class="uploader-files-empty">
+	<div style="text-align: center;">
+		<h3 style=" float: none">
+			<?= sprintf(@text('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
+		</h3>
+	</div>
+	<div class="clr"></div>
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
 			<li><?= @text('Upload from:') ?></li>
