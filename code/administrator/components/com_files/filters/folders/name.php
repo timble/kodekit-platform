@@ -24,9 +24,14 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$value = $this->_sanitize($context->caller->path);
-
-		if ($value == '') {
+		$value = $context->caller->name;
+		
+		if (strpos($value, '/') !== false) {
+			$context->setError(JText::_('Folder names cannot contain slashes'));
+			return false;
+		}
+		
+		if ($this->_sanitize($value) == '') {
 			$context->setError(JText::_('Invalid folder name'));
 			return false;
 		}
@@ -34,6 +39,7 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _sanitize($value)
 	{
+		$value = str_replace('/', '', $value);
 		return $this->getService('com://admin/files.filter.path')->sanitize($value);
 	}
 }
