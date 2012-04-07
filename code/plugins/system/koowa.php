@@ -211,7 +211,40 @@ class plgSystemKoowa extends JPlugin
 		
 		//Make sure the buffers are cleared
 		while(@ob_get_clean());
-		JError::customErrorPage($error);
+		
+		//Throw json formatted error
+		if(	KRequest::format() == 'json')
+		{
+		    $properties = array(
+		    	'message' => $error->message,
+		        'code'    => $error->code
+		    );
+		    
+		    if(KDEBUG)
+		    {
+		        $properties['data'] = array(
+		            'file'	    => $error->file,
+		            'line'      => $error->line,
+		            'function'  => $error->function,
+		            'class'		=> $error->class,
+		            'args'		=> $error->args,
+		            'info'		=> $error->info
+		        );
+		    }
+		    
+		    //Encode data
+		    $data = json_encode(array(
+		    	'version'  => '1.0', 
+		    	'errors' => array($properties)
+		    ));
+		    
+		    JResponse::setHeader('Content-Type','application/json');
+		    JResponse::setBody($data);
+		    
+		    echo JResponse::toString();
+		    JFactory::getApplication()->close(0);
+		}
+		else JError::customErrorPage($error);	
 	}
 	
 	/**
