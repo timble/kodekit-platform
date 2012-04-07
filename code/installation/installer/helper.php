@@ -287,7 +287,7 @@ class JInstallationHelper
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
 		$nullDate 		= $db->getNullDate();
-		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
+		$query = "INSERT INTO #__users VALUES (62, '', 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$db->setQuery($query);
 		if (!$db->query())
 		{
