@@ -43,7 +43,7 @@ class ComUsersModelSessions extends KModelTable
         $state = $this->getState();
         
         if ($state->username) {
-            $query->where('username IN :username')->bind(array('username' => $state->username));
+            $query->where('username IN :username')->bind(array('username' => (array) $state->username));
         }
     }
 }
