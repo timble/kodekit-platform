@@ -10,17 +10,17 @@ class ComCommentsModelComments extends ComDefaultModelDefault
 			->insert('row', 'int');
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 		
 		if(!$this->_state->isUnique()) {
 			if($this->_state->table) {
-				$query->where('tbl.table','=', $this->_state->table);
+				$query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
 			}
 
 			if($this->_state->row) {
-				$query->where('tbl.row', '=',  $this->_state->row);
+				$query->where('tbl.row = :row')->bind(array('row' => $this->_state->row));
 			}
 		}
 	}

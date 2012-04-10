@@ -11,18 +11,18 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		 	->insert('table', 'string');
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
-			$query->select('COUNT(relations.attachments_attachment_id) AS count')
-				->select('table')
-				->select('row');
+			$query->columns(array('count' => 'COUNT(relations.attachments_attachment_id)'))
+				->columns('table')
+				->columns('row');
 		}
 		
 		return parent::_buildQueryColumns($query);
 	}
 	
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
 	{	
 		if(!$this->_state->isUnique()) {
 			$query->group('relations.attachments_attachment_id');
@@ -31,25 +31,25 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		return parent::_buildQueryGroup($query);
 	}	
 	
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
-			$query->join('LEFT', 'attachments_relations AS relations', 'relations.attachments_attachment_id = tbl.attachments_attachment_id');
+			$query->join(array('relations' => 'attachments_relations'), 'relations.attachments_attachment_id = tbl.attachments_attachment_id', 'LEFT');
 		}
 		
 		return parent::_buildQueryJoins($query);
 	}	
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) 
 		{
 			if($this->_state->table) {
-				$query->where('relations.table','=', $this->_state->table);
+				$query->where('relations.table = :table')->bind(array('table' => $this->_state->table));
 			}
 		
 			if($this->_state->row) {
-				$query->where('relations.row', 'IN',  $this->_state->row);
+				$query->where('relations.row IN :row')->bind(array('row' => (array) $this->_state->row));
 			}
 		}
 		
