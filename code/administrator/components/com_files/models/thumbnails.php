@@ -96,7 +96,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    }
 		    
 		    if ($state->folder !== false) {
-		    	$query->where('tbl.folder = :folder')->bind(array('foler' => ltrim($state->folder, '/')));	
+		    	$query->where('tbl.folder = :folder')->bind(array('folder' => ltrim($state->folder, '/')));
 		    }
 
 		    if ($state->filename) {
