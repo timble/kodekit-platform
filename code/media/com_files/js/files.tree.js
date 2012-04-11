@@ -109,7 +109,9 @@ Files.Tree = new Class({
 			onSuccess: function(response) {
 				if (response.total) {
 					$each(response.items, function(item) {
-						insertNode(item, that.root);
+						if (item.data) {
+							insertNode(item.data, that.root);
+						}
 					});
 				}
 				if (Files.app && Files.app.active) {

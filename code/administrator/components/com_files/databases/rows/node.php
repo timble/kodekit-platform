@@ -17,9 +17,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		$this->mixin(new KMixinCommand($config->append(array('mixer' => $this,
-			'command_chain' => $this->getService('koowa:command.chain')
-		))));
+		$this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
 
 		if ($config->validator !== false)
 		{
@@ -34,7 +32,9 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
+			'command_chain'     => $this->getService('koowa:command.chain'),
 			'dispatch_events'   => false,
+			'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));
