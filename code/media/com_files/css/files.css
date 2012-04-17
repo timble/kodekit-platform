@@ -8,6 +8,12 @@
  * @link        http://www.nooku.org
  */
 
+
+/* @NOTE this fixes ugly scrollbars in animations */
+#sbox-content {
+	overflow: hidden;
+}
+
 /* @group Flexbox styling from Nooku Server, @TODO suggest to move koowa.css from Nooku Server to Nooku Framework */
 /* @group Flexible Box Model, powered by CSS3 */
 .-koowa-box { 
@@ -116,8 +122,8 @@
 	width: 200px;
 	float: left \9;
 	width: 20% \0/;
-	background-color: hsl(0, 0%, 97%);
-	border: 1px solid hsl(0, 0%, 88%);
+	background-color: #f7f7f7;
+	border: 1px solid #e0e0e0;
 	border-right: none;
 }
 
@@ -374,7 +380,8 @@ ul.upload-buttons {
     background: none;
 }
 #files-upload-multi .plupload_filelist .plupload_file_name {
-    width: 471px;
+    /*width: 471px;*/
+    width: 453px;
 }
 
 #upload-max {
@@ -516,7 +523,7 @@ ul#files-tree-html li a:hover	{
 	background-color: #cee1f4;
 	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
 	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CEE1F4', endColorstr='#B2CDE8');
 }
 
 ul#files-tree-html li a#current	 {
@@ -566,8 +573,8 @@ ul#files-tree-html ul li a {
 #files-paginator-container {
 	background-color: #F7F7F7;
 	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
-	background-image: -moz-linear-gradient(0% 35% 270deg,#f7f7f7, #F2F2F2);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#F2F2F2');
+	background-image: -moz-linear-gradient(0% 35% 270deg, #f7f7f7, #F2F2F2);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F7F7F7', endColorstr='#F2F2F2');
 	border-top: 1px solid #E1E1E1;
 	padding: 4px;
 }
@@ -629,6 +636,7 @@ ul#files-tree-html ul li a {
     background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A8A8A8', endColorstr='#757575');
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
 }
@@ -638,11 +646,15 @@ ul#files-tree-html ul li a {
     background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
 }
-.files-modal button.valid:active {
-    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+.files-modal button.valid:active, .files-modal button:active {
+    background: -moz-linear-gradient(top, #2B75BF, #72A8DF);
+    background: linear-gradient(top, #2B75BF, #72A8DF);
+    background: -webkit-linear-gradient(top, #2B75BF, #72A8DF);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
     text-shadow: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2B75BF', endColorstr='#72A8DF');
 }
 /* @end */
 
@@ -706,6 +718,7 @@ ul#files-tree-html ul li a {
         background-image: url(../images/grid.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: url(../images/grid.png), -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         background-image: url(../images/grid.png), linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1AFFFFFF', endColorstr='#1A4D4D4D') progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/grid.png');
         -moz-border-radius-topright: 0;
         -moz-border-radius-bottomright: 0;
         border-top-right-radius: 0;
@@ -717,6 +730,7 @@ ul#files-tree-html ul li a {
         background-image: url(../images/list.png), -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: url(../images/list.png), -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         background-image: url(../images/list.png), linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1AFFFFFF', endColorstr='#1A4D4D4D') progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/list.png');
         -moz-border-radius-topleft: 0;
         -moz-border-radius-bottomleft: 0;
         border-bottom-left-radius: 0;
@@ -732,6 +746,7 @@ ul#files-tree-html ul li a {
         background-image: -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         background-image: linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#11FFFFFF', endColorstr='#1A4D4D4D');
 }
 #files-canvas button.files-layout-switcher.active:active {
     background-color: hsla(0, 0%, 0%, 0.1);
@@ -741,14 +756,14 @@ ul#files-tree-html ul li a {
         background-image: url(../images/grid_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: url(../images/grid_active.png), -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         background-image: url(../images/grid_active.png), linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
-        
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1AFFFFFF', endColorstr='#1A4D4D4D') progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/grid_active.png');
 }
 #files-canvas button[data-layout=details].files-layout-switcher:active, #files-canvas button[data-layout=details].files-layout-switcher.active {
         background-image: url(../images/list_active.png);
         background-image: url(../images/list_active.png), -webkit-gradient(linear, left bottom, left top, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
         background-image: url(../images/list_active.png), -moz-linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
         background-image: url(../images/list_active.png), linear-gradient(bottom, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
-        
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1AFFFFFF', endColorstr='#1A4D4D4D') progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/list_active.png');
 }
 /* @end */
 /* @group Thumbnails resizer for the grid view range control */
@@ -815,7 +830,7 @@ ul#files-tree-html ul li a {
     background: white;
     background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#FFF), to(#F0F0F0));
     background-image: -moz-linear-gradient(0% 35% 270deg,#FFF, #F0F0F0);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#F0F0F0');
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#F0F0F0');
     border: 1px solid hsl(0, 0%, 73%);
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -831,6 +846,7 @@ ul#files-tree-html ul li a {
     background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
     border-color: rgba(43, 116, 191, 0.48);
     background-clip: border-box;
     background-origin: border-box;
@@ -840,19 +856,24 @@ ul#files-tree-html ul li a {
     background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A8A8A8', endColorstr='#757575');
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
 }
 #files-upload.uploader-files-queued .plupload_start:active, 
 #files-upload.uploader-files-queued .plupload_clear:active, 
 #files-upload.uploader-files-queued .plupload_add:active {
-    background-image: -webkit-gradient(linear, 0% 100%, 0% 35%, from(#FFF), to(#F0F0F0));
-    background-image: -moz-linear-gradient(0% 65% 90deg,#FFF, #F0F0F0);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F0F0', endColorstr='#FFF');
+    background: -moz-linear-gradient(top, #F0F0F0, #FFFFFF);
+    background: linear-gradient(top, #F0F0F0, #FFFFFF);
+    background: -webkit-linear-gradient(top, #F0F0F0, #FFFFFF);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F0F0', endColorstr='#FFFFFF');
     box-shadow: none;
 }
 #files-upload.uploader-files-queued .plupload_start:active {
-    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    background: -moz-linear-gradient(top, #2B75BF, #72A8DF);
+    background: linear-gradient(top, #2B75BF, #72A8DF);
+    background: -webkit-linear-gradient(top, #2B75BF, #72A8DF);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2B75BF', endColorstr='#72A8DF');
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
     text-shadow: none;
 }
@@ -882,6 +903,7 @@ ul#files-tree-html ul li a {
     border: 0px none transparent;
     box-shadow: none;
     background: none;
+    filter: none;
 }
 
 /* @end */
@@ -935,9 +957,11 @@ ul#files-tree-html ul li a {
     background-clip: border-box;
     color: white;
     box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    background: #8F8F8F;
     background: -moz-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 0%, 66%), hsl(210, 0%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A8A8A8', endColorstr='#757575');
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
 }
@@ -950,11 +974,13 @@ ul#files-tree-html ul li a {
     background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
     background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
 }
 .remote-submit.valid:active {
     background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
     text-shadow: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2B75BF', endColorstr='#72A8DF');
 }
 #files-uploader-web form {
     position: relative;
