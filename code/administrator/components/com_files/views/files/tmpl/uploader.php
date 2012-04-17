@@ -49,7 +49,10 @@ window.addEvent('domready', function() {
 		},
 		preinit: {
 			Init: function(){
-				if(SqueezeBox.isOpen) SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
+				if(SqueezeBox.isOpen) {
+						var heightfix = $('files-upload').measure(function(){return this.getSize().y;});
+						if(SqueezeBox.size.y != heightfix) SqueezeBox.fx.win.start({height: heightfix});
+				}
 			},
 			Error: function(up, args){
 				if(args.code == plupload.INIT_ERROR) {
