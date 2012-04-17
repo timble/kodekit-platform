@@ -33,7 +33,7 @@ window.addEvent('domready', function() {
 	plupload.addI18n({'Add files': Files._('Select files from your computer')});
 
 	element.pluploadQueue({
-		runtimes: 'html5,flash,html4',
+		runtimes: 'html5,flash',
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
@@ -46,6 +46,15 @@ window.addEvent('domready', function() {
 		},
 		headers: {
 			'X-Requested-With': 'xmlhttprequest'
+		},
+		preinit: {
+			Error: function(up, args){
+				if(args.code == plupload.INIT_ERROR) {
+
+					element.append('<span class="warning">'+Files._('<a href="https://google.com/chrome" target="_blank">HTML5 enabled browser</a> or <a href="https://get.adobe.com/flashplayer/" target="_blank">Adobe Flash Player<a/> required for uploading files from your computer.')+'</span>');
+
+				}
+			}
 		}
 	});
 
