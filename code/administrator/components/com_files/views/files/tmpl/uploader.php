@@ -48,6 +48,9 @@ window.addEvent('domready', function() {
 			'X-Requested-With': 'xmlhttprequest'
 		},
 		preinit: {
+			Init: function(){
+				if(SqueezeBox.isOpen) SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
+			},
 			Error: function(up, args){
 				if(args.code == plupload.INIT_ERROR) {
 
@@ -65,6 +68,7 @@ window.addEvent('domready', function() {
 			if(document.id('files-upload-multi_browse')) {
 				document.id('files-upload-multi_browse').set('text', 'Add files');
 			}
+			uploader.refresh();
 			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
@@ -88,6 +92,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('UploadComplete', function(uploader) {
 		jQuery('li.plupload_delete a,div.plupload_buttons', element).show();
+		uploader.refresh();
 	});
 
 	// Keeps track of failed uploads and error messages so we can later display them in the queue
@@ -153,7 +158,6 @@ window.addEvent('domready', function() {
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
 			var uploader = jQuery('#files-upload-multi').pluploadQueue();
-			uploader.refresh();
 			if(!uploader.files.length) {
 				document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
 				if(document.id('files-upload-multi_browse')) {
@@ -162,7 +166,6 @@ window.addEvent('domready', function() {
 				}
 			}
 		}
-
 		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
 	};
 
