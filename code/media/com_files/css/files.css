@@ -316,6 +316,13 @@ ul.upload-buttons {
     
     z-index: 0;
 }
+#files-upload-multi .warning {
+	display: block;
+	float: none;
+	padding: 1em 0.4em;
+	font-size: 1.4em;
+	text-align: center;
+}
 #files-uploader-web form {
     padding: 2px;
 }
