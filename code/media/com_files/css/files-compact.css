@@ -47,9 +47,10 @@ body {
 #insert .properties label {
 	display: block;
 	margin-top: 10px;
+	padding-left: 5px;
 }
 #insert .properties input[type=text] {
-	width: 90%;
+	width: 98%;
 }
 
 #insert-link {
