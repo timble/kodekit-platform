@@ -22,7 +22,8 @@ body {
 	background-color: #FFF;
 	width: 100%; /* Mozilla fix */
 }
-#insert > * { border-right: 1px solid #E1E1E1; height: 300px; }
+#insert > * { border-right: 1px solid #E1E1E1; height: 399px; }
+#insert > .clear {height: auto; border-right: none;}
 
 #insert .properties {
 	background-color: #F4F4F4;
@@ -38,6 +39,17 @@ body {
 
 #insert .hide {
 	display: none;
+}
+
+#insert #details {
+	border-right: none;
+}
+
+#insert #files-tree-container {
+	width: 200px;
+}
+#insert #files-grid {
+	width: 306px;
 }
 
 #insert #files-container {
@@ -133,6 +145,7 @@ li.files-node.active a:hover {
     float: left;
     margin: 10px 0 0 0;
     z-index: 50;
+    background: none;
 }
 
 #files-compact dl.tabs dt {

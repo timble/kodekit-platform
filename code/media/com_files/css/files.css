@@ -208,7 +208,7 @@
 
 #files-upload h3 {
 	padding: 15px 0 0 15px;
-	margin: 0;
+	margin: 0 !important;
 	display: block;
 	float: left;
 }
@@ -253,13 +253,21 @@ ul.upload-buttons {
     display: inline-block;
     position: relative;
 }
-#files-upload-controls .upload-buttons li a.active {
+#files-upload-controls .upload-buttons li a.active,
+#files-upload-controls .upload-buttons li a.active:hover {
     color: #3c3c3c;
 }
+#files-upload-controls .upload-buttons li a,
+#files-upload-controls .upload-buttons li a:hover,
+#files-upload-controls .upload-buttons li a:visited {
+	color: #2B75BF;
+}
+#files-upload-controls .upload-buttons li a,
 #files-upload-controls .upload-buttons li a:hover,
 #files-upload-controls .upload-buttons li a:active,
 #files-upload-controls .upload-buttons li a.active {
     text-decoration: none;
+    background: none;
 }
 #files-upload-controls .upload-buttons li a.active::after,
 #files-upload-controls .upload-buttons li a.active::before {
@@ -376,8 +384,12 @@ ul.upload-buttons {
 #files-upload-multi .plupload_scroll .plupload_filelist {
   background: none;
 }
+#files-upload-multi .plupload_filelist ul {
+    
+}
 #files-upload-multi .plupload_filelist li {
     background: none;
+    line-height: normal;
 }
 #files-upload-multi .plupload_filelist .plupload_file_name {
     /*width: 471px;*/
@@ -952,7 +964,6 @@ ul#files-tree-html ul li a {
     border-bottom-right-radius: 2px;
     overflow: hidden;
     display: inline-block;
-
     text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
     background-clip: border-box;
     color: white;
@@ -964,6 +975,7 @@ ul#files-tree-html ul li a {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A8A8A8', endColorstr='#757575');
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
+    padding: 3px 6px 2px;
 }
 #files-uploader-web input.remote-submit:focus {
 	position: absolute;

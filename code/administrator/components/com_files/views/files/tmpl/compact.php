@@ -65,7 +65,7 @@ window.addEvent('domready', function() {
 				Files.app.tree.selected.toggle(false, true);
 			});
 		};
-	});	
+	});
 });
 </script>
 
@@ -75,7 +75,7 @@ window.addEvent('domready', function() {
 	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
 	<?= @helper('tabs.startPanel', array('title' => 'Insert')); ?>
 		<div id="insert">
-			<div id="files-tree-container" style="float: left; width: 200px">
+			<div id="files-tree-container" style="float: left">
 				<div id="files-tree"></div>
 			
 				<div id="files-new-folder-modal" style="margin-top: 16px">
@@ -86,11 +86,11 @@ window.addEvent('domready', function() {
 				</div>
 			</div> 
 
-			<div id="files-grid" style="float: left; width: 200px;"></div>
+			<div id="files-grid" style="float: left"></div>
 			<div id="details" style="float: left;">
 				<div id="files-preview"></div>
 			</div>
-			<div style="clear: both"></div>
+			<div class="clear" style="clear: both"></div>
 		</div>
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
@@ -100,3 +100,14 @@ window.addEvent('domready', function() {
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.endPane'); ?>
 </div>
+
+<script>
+/* Modal fixes that applies when this view is loaded within an iframe in a modal view */
+window.addEvent('domready', function(){
+	if(window.parent && window.parent != window && window.parent.SqueezeBox) {
+		var modal = window.parent.SqueezeBox, heightfix = modal.size.y;
+
+		document.id('files-compact').getParents().setStyles({padding: 0, margin: 0});
+	}
+});
+</script>
