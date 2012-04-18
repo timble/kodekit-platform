@@ -295,20 +295,33 @@ abstract class KDatabaseTableAbstract extends KObject
     public function mapColumns($data, $reverse = false)
     {
         $map = $reverse ? array_flip($this->_column_map) : $this->_column_map;
-
+        
         $result = null;
+        
         if(is_array($data))
         {
             $result = array();
+        
             foreach($data as $column => $value)
             {
-                if(isset($map[$column])) {
-                    $column = $map[$column];
+                if(is_string($column))
+                {
+                    //Map the key
+                    if(isset($map[$column])) {
+                        $column = $map[$column];
+                    }
                 }
-            
+                else
+                {
+                    //Map the value
+                    if (isset($map[$value])) {
+                        $value = $map[$value];
+                    }
+                }
+                
                 $result[$column] = $value;
             }
-        } 
+        }
         
         if(is_string($data))
         {
@@ -317,8 +330,10 @@ abstract class KDatabaseTableAbstract extends KObject
                 $result = $map[$data];
             }
         }
-            
+        
         return $result;
+        
+       
     }
             
     /**
