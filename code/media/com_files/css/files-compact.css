@@ -13,6 +13,11 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 }
 
+#files-compact {
+	width: 730px; /* Mozilla needs this */
+	overflow: hidden;
+}
+
 #files-compact > * {
 	 background-color: #F9F9F9
 }
@@ -29,11 +34,57 @@ body {
 	border-top: 1px solid #E1E1E1;
 	width: 100%;
 }
+#insert .properties tr,
+#insert .properties td {
+	border: none;
+}
+#insert .properties tr:last-child td {
+	padding-bottom: 7px;
+}
+#insert .properties td {
+	padding: 2px 5px;
+}
+#insert .properties label {
+	display: block;
+	margin-top: 10px;
+}
+#insert .properties input[type=text] {
+	width: 90%;
+}
+
+#insert-link {
+	font-size: 13px;
+    border-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+    background-clip: border-box;
+    color: white;
+    box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    background: #8F8F8F;
+    border: 1px solid hsla(210, 0%, 46%, 0.48);
+    opacity: 0.5;
+    padding: 3px 6px 2px;
+    cursor: pointer;
+    opacity: 1;
+    background: -moz-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    background: -webkit-linear-gradient(top, hsl(210, 63%, 66%), hsl(210, 63%, 46%));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+}
+#insert-link:active {
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#72A8DF), to(#2B75BF));
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
+    text-shadow: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2B75BF', endColorstr='#72A8DF');
+}
+
 
 #insert .buttons {
 	background-color: #F4F4F4;
 	border-top: 1px solid #E1E1E1;
 	padding: 4px;
+	text-align: right;
 }
 
 #insert .hide {
@@ -42,6 +93,8 @@ body {
 
 #insert #details {
 	overflow: hidden;
+	 height: 389px;
+	 background-color: #F4F4F4;
 }
 
 #insert #files-tree-container {
@@ -68,6 +121,9 @@ body {
 #insert #files-preview {
 	width: 200px;
 }
+#insert #files-preview {
+	background: white;
+}
 #insert #files-preview ul {
 	list-style: none;
 	padding: 0;
@@ -85,22 +141,23 @@ body {
 	padding: 10px;
 }
 
-li.files-node {
+#insert li.files-node {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-li.files-node a {
+#insert li.files-node a {
 	display: block;
-	padding: 4px 10px;	
+	padding: 4px 10px;
+	text-decoration: none;
+	line-height: normal;
 }
 
-li.files-node a {
+#insert li.files-node a {
 	font-family: Verdana, Arial, Helvetica;
-	font-size: 10px;
+	font-size: 11px;
 	white-space: nowrap;
-	padding: 2px 5px 2px 0px;
 	overflow: hidden; text-overflow: ellipsis;
 	border-top: 1px solid #FFF;
 	padding: 3px 10px;
@@ -108,7 +165,7 @@ li.files-node a {
 	color: #000;
 }
 
-li.files-node a:hover	{ 
+#insert li.files-node a:hover	{ 
 	border-top-color: #c5dbf0;
 	background-color: #cee1f4;
 	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
@@ -116,16 +173,16 @@ li.files-node a:hover	{
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
 }
 
-li.files-node.active a,
-li.files-node.active a:hover {  
-	color: #FFF;
-	border-top-color: #5494D2;
-	background-color: #6EA6DE;
-	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#6EA6DE), to(#1C6CBB));
-	background-image: -moz-linear-gradient(0% 25% 270deg,#6EA6DE, #1C6CBB);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6EA6DE', endColorstr='#1C6CBB');
-	text-decoration: none;
-	font-weight: bold;
+#insert li.files-node.active a,
+#insert li.files-node.active a:hover {  
+	color: white;
+	border-top-color: hsl(210, 63%, 66%);
+	background-color: hsl(210, 63%, 65%);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+	box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+	text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 }
 
 .path {
@@ -136,8 +193,9 @@ li.files-node.active a:hover {
 	padding: 4px;
 }
 
-#files-grid ul {
+#insert #files-grid ul {
 	margin: 0;
+	padding: 0;
 	list-style-type: none;
 	-webkit-padding-start: 0px;
 }

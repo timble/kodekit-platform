@@ -530,7 +530,7 @@ ul#files-tree-html li a span.icon {
 	float: left;
 	margin-right: 4px;
 }
-#files-app .mooTree_selected .mooTree_img {
+#files-tree .mooTree_selected .mooTree_img {
 	background-position-y: 18px!important;
 }
 
@@ -547,19 +547,19 @@ ul#files-tree-html li a#current	 {
 	font-weight: bold;
 }
 
-#files-app .mooTree_node {
+#files-tree .mooTree_node {
     font-family: inherit;
     font-size: 11px;
 }
 
-#files-app .mooTree_text {
+#files-tree .mooTree_text {
     padding-top: 3px;
     height: 15px;
     cursor: pointer;
     text-indent: 5px;
 }
 
-#files-app .mooTree_node {
+#files-tree .mooTree_node {
     white-space: nowrap;
     padding: 2px 5px 2px 0px;
     overflow: hidden;
@@ -567,8 +567,8 @@ ul#files-tree-html li a#current	 {
     border-top: 1px solid transparent;
 }
 
-#files-app .mooTree_selected, 
-#files-app .mooTree_selected:hover,
+#files-tree .mooTree_selected, 
+#files-tree .mooTree_selected:hover,
 ul#files-tree-html li a#current,
 ul#files-tree-html li a#current:hover {
 	color: white;
