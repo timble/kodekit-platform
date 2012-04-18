@@ -384,12 +384,16 @@ ul.upload-buttons {
 #files-upload-multi .plupload_scroll .plupload_filelist {
   background: none;
 }
-#files-upload-multi .plupload_filelist ul {
-    
+#files-upload-multi .plupload_filelist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 #files-upload-multi .plupload_filelist li {
     background: none;
     line-height: normal;
+    margin: 0;
+    padding: 10px 8px;
 }
 #files-upload-multi .plupload_filelist .plupload_file_name {
     /*width: 471px;*/

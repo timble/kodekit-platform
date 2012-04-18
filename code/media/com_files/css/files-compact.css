@@ -20,10 +20,9 @@ body {
 #insert {
 	border: 1px solid #E1E1E1;
 	background-color: #FFF;
-	width: 100%; /* Mozilla fix */
+	overflow: hidden;
+	height: 388px \0/; /* IE needs this */
 }
-#insert > * { border-right: 1px solid #E1E1E1; height: 399px; }
-#insert > .clear {height: auto; border-right: none;}
 
 #insert .properties {
 	background-color: #F4F4F4;
@@ -42,15 +41,19 @@ body {
 }
 
 #insert #details {
-	border-right: none;
+	overflow: hidden;
 }
 
 #insert #files-tree-container {
 	width: 200px;
 }
 #insert #files-grid {
-	width: 306px;
+	width: 304px;
 }
+
+#insert #files-tree-container,
+#insert #files-grid
+ { border-right: 1px solid #E1E1E1; height: 389px; overflow: auto;}
 
 #insert #files-container {
 	width: 200px;
@@ -61,6 +64,7 @@ body {
 	padding: 0;
 }
 
+#insert #details,
 #insert #files-preview {
 	width: 200px;
 }
