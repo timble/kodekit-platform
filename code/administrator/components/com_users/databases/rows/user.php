@@ -19,6 +19,35 @@
  */
 class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 {
+    /**
+     * Determines if passwords should be encrypted.
+     *
+     * @var bool True if encryption must be performed, false otherwise.
+     */
+    protected $_password_encryption;
+
+    public function __construct(KConfig $config = null) 
+    {
+        if (!$config) {
+            $config = new KConfig();
+        }
+
+        parent::__construct($config);
+
+        $this->_password_encryption = $config->password_encryption;
+    }
+
+    protected function _initialize(KConfig $config) 
+    {
+        $config->append(array('password_encryption' => true));
+        parent::_initialize($config);
+    }
+
+    public function setPasswordEncryption($value = true) 
+    {
+        $this->_password_encryption = (bool) $value;
+    }
+
 	public function __get($column)
     {
    	 	if($column == 'params' && !($this->_data['params'] instanceof JParameter))
@@ -227,11 +256,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		if($this->isModified('password') && $this->password)
 		{
-			// Encrypt password.
-			$salt     = $this->getService('com://admin/users.helper.password')->getRandom(32);
-			$password = $this->getService('com://admin/users.helper.password')->getCrypted($this->password, $salt);
-
-			$this->password	= $password.':'.$salt;
+			if ($this->_password_encryption) {
+				$this->password	= $this->getService('com://admin/users.helper.password')->encrypt($this->password);
+			}
 		}
 		else
 		{
@@ -287,13 +314,18 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
             		'value' => $this->id,
             		'name' => $this->name
                 ));
+            // Load an existing row if any.
+            $aro->load();
             $aro->save();
             
-            $this->getService('com://admin/groups.database.row.arosgroup')
+            $arosgroup = $this->getService('com://admin/groups.database.row.arosgroup')
                 ->setData(array(
                     'group_id' => $this->users_group_id,
                     'aro_id'   => $aro->id
-                ))->save();
+                ));
+            // Load an existing row if any.
+            $arosgroup->load();
+            $arosgroup->save();
 		}
 		else
 		{

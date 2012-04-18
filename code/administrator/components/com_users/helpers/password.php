@@ -51,7 +51,8 @@ class ComUsersHelperPassword extends KObject
             fclose($handle);
         }
         
-        if (strlen($bytes) < $length + 1) {
+        if (strlen($bytes) < $length + 1) 
+        {
             $bytes = '';
             $random_state = microtime();
             
@@ -70,7 +71,8 @@ class ComUsersHelperPassword extends KObject
         $salt  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $shift = ord($bytes[0]);
         
-        for ($i = 1; $i <= $length; ++$i) {
+        for ($i = 1; $i <= $length; ++$i) 
+        {
             $return .= $salt[($shift + ord($bytes[$i])) % strlen($salt)];
             $shift += ord($bytes[$i]);
         }
@@ -107,4 +109,19 @@ class ComUsersHelperPassword extends KObject
 
         return $result;
     }
+
+	/**
+	 * Encrypts password.
+	 *
+	 * @param string The password.
+	 * @param string The salt.
+	 * @return string Encrypted password.
+	 */
+	public function encrypt($password, $salt = null)
+	{
+		$salt = is_null($salt) ? $this->getRandom(32) : $salt;
+		$password = $this->getCrypted($password, $salt);
+		
+		return $password . ':' . $salt;
+	}
 }

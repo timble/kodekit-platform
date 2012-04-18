@@ -28,7 +28,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
              ->registerCallback('after.add'  , array($this, 'notify'))
              ->registerCallback('after.save' , array($this, 'redirect'))
              ->registerCallback('after.read' , array($this, 'activate'));
-    }
+	}
     
     protected function _initialize(KConfig $config)
     {
@@ -36,9 +36,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         	'behaviors' => array(
         		'com://admin/activities.controller.behavior.loggable' => array(
                		'title_column' => 'name',
-               		'actions'      => array('after.login', 'after.logout')        
-             )),
-        ));
+               		'actions'      => array('after.login', 'after.logout')),
+        		'verifiable' )));
     
         parent::_initialize($config);
     }
@@ -63,7 +62,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     		return JFactory::getApplication()->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
     	}
     }
-
+    
     public function getRequest()
     {
         $request = parent::getRequest();

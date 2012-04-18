@@ -26,7 +26,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         {  
             $view = KRequest::get('get.view', 'cmd');
             
-		    if(!in_array($view, array('login', 'remind', 'reset', 'user'))) {
+		    if(!in_array($view, array('login', 'remind', 'reset', 'user', 'captcha'))) {
                 $config->request = array('view' => 'login');
             }
         } 

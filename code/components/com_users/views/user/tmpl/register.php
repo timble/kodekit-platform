@@ -10,9 +10,14 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<script>
+<?=@helper('behavior.mootools');?>
+
+<style src="media://com_users/css/site.css" />
+
+<script type="text/javascript">
     Window.onDomReady(function(){
-        document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); } );
+        //document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); } );
+        $('rpoohcheck').set('value','');
     });
 </script>
 
@@ -78,11 +83,32 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                 <input class="inputbox required validate-passverify" type="password" id="password_verify" name="password_verify" size="40" value="" /> *
             </td>
         </tr>
+        <tr class="pooh">
+            <td height="40">
+                <label id="poohcheckmsg" for="poohcheck">
+                    <?= @text('pooh') ?>:
+                </label>
+            </td>
+            <td>
+                <input class="inputbox" type="text" id="poohcheck" name="poohcheck" size="40" value="" />
+            </td>
+        </tr>
+        <tr class="pooh">
+        	<td height="40">
+                <label id="rpoohcheckmsg" for="rpoohcheck">
+                    <?= @text('rpooh') ?>:
+                </label>
+            </td>
+            <td>
+                <input class="inputbox" type="text" id="rpoohcheck" name="rpoohcheck" size="40" value="filled" />
+            </td>
+        </tr>
         <tr>
             <td colspan="2" height="40">
                 <?= @text('REGISTER_REQUIRED') ?>
             </td>
         </tr>
     </table>
+    <?=@helper('com://site/users.template.helper.spam.timestamp');?>
     <button class="button validate" type="submit"><?= @text('Register') ?></button>
 </form>
