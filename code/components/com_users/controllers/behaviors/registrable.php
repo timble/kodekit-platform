@@ -41,18 +41,17 @@ class ComUsersControllerBehaviorRegistrable extends ComUsersControllerBehaviorCa
             }
 
             // Create the user.
-            $user_controller = $this->getService('com://site/users.controller.user');
+            $controller = $this->getService('com://site/users.controller.user');
 
             // Disable password encryption for user rows.
-            $user_controller->getModel()->getItem()->setPasswordEncryption(false);
-
-            $user_controller->save($data);
+            $controller->getModel()->getItem()->setPasswordEncryption(false);
+            $controller->save($data);
 
             // Unset session data.
             KRequest::set('session.com.users.controller.user.data', null);
 
             // Re-direct to the corresponding location (given by the user controller).
-            $redirect = $user_controller->getRedirect();
+            $redirect = $controller->getRedirect();
             $this->setRedirect($redirect['url'], $redirect['message'], $redirect['type']);
         } 
         else $this->setRedirect(KRequest::referrer(), JText::_('Wrong captcha code, please try again'), 'error');
