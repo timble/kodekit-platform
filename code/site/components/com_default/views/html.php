@@ -19,18 +19,5 @@
  */
 class ComDefaultViewHtml extends KViewDefault
 {
-    /**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-         
-        //Add alias filter for editor helper
-        $this->getTemplate()->getFilter('alias')->append(array(
-            '@editor(' => '$this->renderHelper(\'com://admin/default.template.helper.editor.display\', ')
-        );
-    }
+   
 }
