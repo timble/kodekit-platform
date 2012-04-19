@@ -1,18 +1,24 @@
 <?php
+/**
+* @version		$Id$
+* @category		Nooku
+* @package    	Nooku_Server
+* @subpackage  	Editors
+* @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+* @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+* @link			http://www.nooku.org
+*/
+
+/**
+ * Editor Controller Class
+ *
+ * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @category 	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Editor
+ */
 class ComEditorsControllerEditor extends KControllerResource
 {
-	/**
-	 * Supports a simple form Fluent Interfaces. Allows you to set the request 
-	 * properties by using the request property name as the method name.
-	 *
-	 * For example : $controller->view('name')->limit(10)->browse();
-	 *
-	 * @param	string	Method name
-	 * @param	array	Array containing all the arguments for the original call
-	 * @return	KControllerBread
-	 *
-	 * @see http://martinfowler.com/bliki/FluentInterface.html
-	 */
 	public function __call($method, $args)
 	{
 	    //Check first if we are calling a mixed in method. 

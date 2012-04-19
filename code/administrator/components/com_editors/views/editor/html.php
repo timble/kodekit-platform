@@ -1,12 +1,22 @@
 <?php
+/**
+* @version		$Id: categories.php 3542 2012-04-02 18:27:01Z johanjanssens $
+* @category		Nooku
+* @package    	Nooku_Server
+* @subpackage  	Editors
+* @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+* @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+* @link			http://www.nooku.org
+*/
 
 /**
- * @TODO clean up docs
+ * Editor Html View Class
  *
- * Usage example for how to load just TinyMCE:
- * <?= @service('com://admin/editors.view.editor.html', array('editors' => false))->name('text')->data($article->text)->display() ?>
+ * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @category 	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Editor
  */
-
 class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 {
     protected $_editor_settings;
@@ -51,9 +61,9 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			
 			//'cleanup'								=> false,
 			//'cleanup_on_startup'					=> false,
-			//'force_br_newlines'						=> true,
-			//'force_p_newlines'						=> false,
-			//'forced_root_block'						=> false,
+			//'force_br_newlines'				    => true,
+			//'force_p_newlines'					=> false,
+			//'forced_root_block'					=> false,
 			//@TODO fix line breaks
 			//'convert_newlines_to_brs'				=> false,
 			
@@ -116,9 +126,10 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		));
 
 		//@TODO cleanup
-		if(!$this->id) $this->id = $this->name;
-
-
+		if(!$this->id) {
+		    $this->id = $this->name;
+		}
+		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
 		$this->assign('options' , KConfig::unbox($options));
