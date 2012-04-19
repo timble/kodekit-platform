@@ -113,7 +113,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
 
                 $subquery = $this->getService('koowa:database.query.select')
                     ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
-                    ->from($table->getBase())
+                    ->table($table->getBase())
                     ->group($parent_column);
                 
                 $query->columns('orderable.order_total')

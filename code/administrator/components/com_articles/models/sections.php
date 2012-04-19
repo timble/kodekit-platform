@@ -45,7 +45,7 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		if (!$query->count) {
 		    $subquery = $this->getService('koowa:database.query.select')
 		        ->columns(array('section', 'categorycount' => 'COUNT(section)'))
-		        ->from('categories')
+		        ->table('categories')
 		        ->where('published <> - 2')
 		        ->group('section');
 		    
