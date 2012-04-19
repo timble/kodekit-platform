@@ -28,35 +28,35 @@ class ComNewsfeedsModelCategories extends ComDefaultModelDefault
         parent::_initialize($config);
     }
     
-    protected function _buildQueryColumns(KDatabaseQuery $query)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryColumns($query);
 
 		$query->select('COUNT(newsfeeds.id) AS numlinks');
     }
 
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryGroup($query);
 		
 		$query->group('tbl.id');
     }
 
-    protected function _buildQueryJoins(KDatabaseQuery $query)
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryJoins($query);
 		
 		$query->join('LEFT', 'newsfeeds AS newsfeeds', 'newsfeeds.catid = tbl.id');
     }
 
-	protected function _buildQueryOrder(KDatabaseQuery $query)
+	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryOrder($query);
 		
 		$query->order('tbl.ordering', 'DESC');
     }
 
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryWhere($query);
 		
