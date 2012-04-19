@@ -484,8 +484,8 @@ abstract class KDatabaseTableAbstract extends KObject
                 $query->columns('*');
             }
 
-            if(!$query->from) {
-                $query->from(array('tbl' => $this->getName()));
+            if(!$query->table) {
+                $query->table(array('tbl' => $this->getName()));
             }
         }
         
@@ -590,11 +590,11 @@ abstract class KDatabaseTableAbstract extends KObject
         {
             $query->count();
 
-            if(!count($query->from)) {
-                $query->from(array('tbl' => $this->getName()));
+            if(!count($query->table)) {
+                $query->table(array('tbl' => $this->getName()));
             }
         }
-            
+        
         $result = (int) $this->select($query, KDatabase::FETCH_FIELD);   
         return $result;
     }
@@ -640,7 +640,7 @@ abstract class KDatabaseTableAbstract extends KObject
                         $data[$this->getIdentityColumn()] = $this->getDatabase()->getInsertId();
                     }
                     
-                    $context->data->setData($data, false)->setStatus(KDatabase::STATUS_CREATED);
+                    $context->data->setData($this->mapColumns($data, true), false)->setStatus(KDatabase::STATUS_CREATED);
                 }
                 else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
@@ -672,7 +672,7 @@ abstract class KDatabaseTableAbstract extends KObject
                 ->table($context->table);
             
             foreach ($this->getPrimaryKey() as $key => $column) {
-                $query->where($column->name.' = :'.$column->name)
+                $query->where($column->name.' = :'.$key)
                     ->bind($this->filter(array($key => $row->$key), true));
             }
             
@@ -723,7 +723,7 @@ abstract class KDatabaseTableAbstract extends KObject
         {
             // Create query object.
             $query = $this->getService('koowa:database.query.delete')
-                ->from($context->table);
+                ->table($context->table);
             
             foreach($this->getPrimaryKey() as $key => $column) {
                 $query->where($column->name.' = :'.$column->name)

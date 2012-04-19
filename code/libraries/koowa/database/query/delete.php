@@ -13,6 +13,9 @@
  * Delete database query class
  *
  * @author		Gergo Erdosi <gergo@timble.net>
+ * @category	Koowa
+ * @package     Koowa_Database
+ * @subpackage  Query
  */
 class KDatabaseQueryDelete extends KDatabaseQueryAbstract
 {
@@ -21,7 +24,7 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
      * 
      * @var string
      */
-    public $from;
+    public $table;
     
     /**
      * Data of the where clause.
@@ -52,13 +55,13 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     public $params = array();
     
     /**
-     * Build the from clause of the query.
+     * Build the table clause of the query.
      *
      * @param   string The name of the table.
      * @return  KDatabaseQueryDelete
      */
-    public function from($table) {
-        $this->from = $table;
+    public function table($table) {
+        $this->table = $table;
         
         return $this;
     }
@@ -138,11 +141,12 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
         $prefix = $adapter->getTablePrefix();
         $query = 'DELETE';
         
-        if ($this->from) {
-            $query .= ' FROM '.$adapter->quoteIdentifier($prefix.$this->from);
+        if ($this->table) {
+            $query .= ' FROM '.$adapter->quoteIdentifier($prefix.$this->table);
         }
         
-        if ($this->where) {
+        if ($this->where) 
+        {
             $query .= ' WHERE';
             
             foreach ($this->where as $where) {
@@ -154,7 +158,8 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
             }
         }
         
-        if ($this->order) {
+        if ($this->order) 
+        {
             $query .= ' ORDER BY ';
 
             $list = array();
@@ -169,7 +174,8 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
         
-        if ($this->params) {
+        if ($this->params) 
+        {
             $params = array();
             foreach ($this->params as $key => $value) {
                 if (is_array($value)) {

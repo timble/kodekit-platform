@@ -13,6 +13,9 @@
  * Insert database query class
  *
  * @author		Gergo Erdosi <gergo@timble.net>
+ * @category	Koowa
+ * @package     Koowa_Database
+ * @subpackage  Query
  */
 class KDatabaseQueryInsert extends KDatabaseQueryAbstract
 {
@@ -99,7 +102,8 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
             $query .= '('.implode(', ', array_map(array($adapter, 'quoteIdentifier'), $this->columns)).')';
         }
         
-        if ($this->values) {
+        if ($this->values) 
+        {
             $query .= ' VALUES'.PHP_EOL;
             
             $values = array();

@@ -149,7 +149,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         
         $query = $this->getService('koowa:database.query.select')
             ->columns('MAX(ordering)')
-            ->from($table->getName());
+            ->table($table->getName());
 
         $this->_buildQueryWhere($query);
 

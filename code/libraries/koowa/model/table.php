@@ -188,7 +188,7 @@ class KModelTable extends KModelAbstract
                     $query = $this->getService('koowa:database.query.select');
 
                     $this->_buildQueryColumns($query);
-                    $this->_buildQueryFrom($query);
+                    $this->_buildQueryTable($query);
                     $this->_buildQueryJoins($query);
                     $this->_buildQueryWhere($query);
                     $this->_buildQueryGroup($query);
@@ -221,7 +221,7 @@ class KModelTable extends KModelAbstract
                     $query = $this->getService('koowa:database.query.select');
                 
                     $this->_buildQueryColumns($query);
-                    $this->_buildQueryFrom($query);
+                    $this->_buildQueryTable($query);
                     $this->_buildQueryJoins($query);
                     $this->_buildQueryWhere($query);
                     $this->_buildQueryGroup($query);
@@ -251,7 +251,7 @@ class KModelTable extends KModelAbstract
             {
                 $query = $this->getService('koowa:database.query.select');
                 
-                $this->_buildQueryFrom($query);
+                $this->_buildQueryTable($query);
                 $this->_buildQueryJoins($query);
                 $this->_buildQueryWhere($query);
 
@@ -274,10 +274,10 @@ class KModelTable extends KModelAbstract
     /**
      * Builds FROM tables list for the query
      */
-    protected function _buildQueryFrom(KDatabaseQuerySelect $query)
+    protected function _buildQueryTable(KDatabaseQuerySelect $query)
     {
         $name = $this->getTable()->getName();
-        $query->from(array('tbl' => $name));
+        $query->table(array('tbl' => $name));
     }
 
     /**

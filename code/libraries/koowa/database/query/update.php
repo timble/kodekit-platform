@@ -13,6 +13,9 @@
  * Update database query class
  *
  * @author		Gergo Erdosi <gergo@timble.net>
+ * @category	Koowa
+ * @package     Koowa_Database
+ * @subpackage  Query
  */
 class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 {
@@ -165,7 +168,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
             $query .= ' '.$adapter->quoteIdentifier($prefix.$this->table);
         }
         
-        if ($this->set) {
+        if ($this->set) 
+        {
             $columns = array();
             foreach ($this->set as $column) {
                 $columns[] = ' '. $adapter->quoteIdentifier($column);
@@ -174,7 +178,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
             $query .= ' SET '.implode(', ', $columns);
         }
         
-        if ($this->where) {
+        if ($this->where) 
+        {
             $query .= ' WHERE';
             
             foreach ($this->where as $where) {
@@ -186,7 +191,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
             }
         }
         
-        if ($this->order) {
+        if ($this->order) 
+        {
             $query .= ' ORDER BY ';
 
             $list = array();
@@ -201,7 +207,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
         
-        if ($this->params) {
+        if ($this->params) 
+        {
             $params = array();
             foreach ($this->params as $key => $value) {
                 if (is_array($value)) {

@@ -41,7 +41,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	public $columns = array();
 
 	/**
-	 * The from element
+	 * The table element
 	 * 
 	 * @var array
 	 */
@@ -104,7 +104,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	public $params = array();
     
     /**
-     * Built a select query
+     * Build a select query
      *
      * @param   array|string    A string or an array of column names
      * @return  KDatabaseQuery
@@ -135,7 +135,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
     
     /**
-     * Built a count query
+     * Build a count query
      *
      * @return KDatabaseQuery
      */
@@ -147,27 +147,20 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Built the from clause of the query
+     * Build the from clause of the query
      *
-     * @param   array|string    A string or array of table names
+     * @param   array|string The table string or array name.
      * @return  KDatabaseQuery
      */
-    public function from($tables)
+    public function table($table)
     {
-        foreach ((array) $tables as $key => $value) 
-        {
-            if (is_string($key)) {
-                $this->from[$key] = $value;
-            } else {
-                $this->from[] = $value;
-            }
-        }
+        $this->table = (array) $table;
 
         return $this;
     }
 
     /**
-     * Built the join clause of the query
+     * Build the join clause of the query
      *
      * @param string        The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
      * @param string        The table name to join to.
@@ -194,7 +187,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Built the where clause of the query
+     * Build the where clause of the query
      *
      * @param   string          The name of the property the constraint applies too, or a SQL function or statement
      * @param   string          The comparison used for the constraint
@@ -213,7 +206,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Built the group clause of the query
+     * Build the group clause of the query
      *
      * @param   array|string    A string or array of ordering columns
      * @return  KDatabaseQuery
@@ -225,7 +218,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Built the having clause of the query
+     * Build the having clause of the query
      *
      * @param   array|string    A string or array of ordering columns
      * @return  KDatabaseQuery
@@ -257,7 +250,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Built the limit element of the query
+     * Build the limit element of the query
      *
      * @param   integer Number of items to fetch.
      * @param   integer Offset to start fetching at.
@@ -320,19 +313,15 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             else $query .= ' COUNT(*)';
         }
 
-        if ($this->from) 
+        if ($this->table) 
         {
-            $tables = array();
-            foreach($this->from as $alias => $table) 
-            {
-                if ($table instanceof KDatabaseQuerySelect) {
-                    $tables[] = '('.$table.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
-                } else {
-                    $tables[] = $adapter->quoteIdentifier($prefix.$table.(is_string($alias) ? ' AS '.$alias : ''));
-                }
+            if (current($this->table) instanceof KDatabaseQuerySelect) {
+                $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$adapter->quoteIdentifier(key($this->table)) : '');
+            } else {
+                $table = $adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
             }
             
-            $query .= ' FROM '.implode(', ', $tables);
+            $query .= ' FROM '.$table;
         }
 
         if ($this->join) 
