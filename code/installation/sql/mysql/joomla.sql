@@ -659,3 +659,31 @@ CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`created_by` INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY(`activities_activity_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `#__users_blackhosts` (
+  `users_blacklistedhost_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `note` text,
+  PRIMARY KEY (`users_blacklistedhost_id`),
+  UNIQUE KEY `idx-name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__users_spammers` (
+  `users_spammer_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ip` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `created_by` bigint(20) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`users_spammer_id`),
+  KEY `idx-ip` (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
+  `ip` varchar(255) NOT NULL DEFAULT '',
+  `note` text,
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
