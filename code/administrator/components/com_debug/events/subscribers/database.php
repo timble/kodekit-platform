@@ -105,15 +105,4 @@ class ComDebugEventSubscriberDatabase extends KEventSubscriberDefault implements
         $event->time = microtime(true) - $this->_start;
         $this->_queries[] = $event;
     }
-    
-    public function onBeforeDatabaseShow(KEvent $event)
-    {
-        $this->_start = microtime(true);
-    }
-            
-    public function onAfterDatabaseShow(KEvent $event)
-    {
-        $event->time = microtime(true) - $this->_start;
-        $this->_queries[] = $event;
-    }
 }
