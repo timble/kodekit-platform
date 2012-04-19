@@ -31,38 +31,45 @@ class ComNewsfeedsModelCategories extends ComDefaultModelDefault
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryColumns($query);
-
-		$query->select('COUNT(newsfeeds.id) AS numlinks');
-    }
-
-	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
-    {
-		parent::_buildQueryGroup($query);
 		
-		$query->group('tbl.id');
+		$query->columns(array('numlinks' => 'COUNT(newsfeeds.id)'));
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryJoins($query);
 		
-		$query->join('LEFT', 'newsfeeds AS newsfeeds', 'newsfeeds.catid = tbl.id');
+		$query->join(array('newsfeeds' => 'newsfeeds'), 'newsfeeds.catid = tbl.id');
     }
-
-	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
-    {
-		parent::_buildQueryOrder($query);
-		
-		$query->order('tbl.ordering', 'DESC');
-    }
-
+    
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
 		parent::_buildQueryWhere($query);
 		
-		$query->where('tbl.section', '=', 'com_newsfeeds')
-			  ->where('tbl.published', '=', '1')
-			  ->where('newsfeeds.published', '=', '1')
-			  ->where('tbl.access', '<=', JFactory::getUser()->get('aid', '0'));
+		$query->where('tbl.section = :section')
+		      ->where('tbl.published = :published')
+		      ->where('newsfeeds.published :newsfeeds_published')
+		      ->where('tbl.access <= :access');
+		
+		$query->bind(array(
+			'section'            => 'com_newsfeeds',
+		    'published'          => 1,
+		    'weblinks_publihsed' => 1,
+		    'access'             => JFactory::getUser()->get('aid', '0')
+		));
+    }
+    
+    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryGroup($query);
+    
+        $query->group('tbl.id');
+    }
+    
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryOrder($query);
+    
+        $query->order('tbl.ordering', 'DESC');
     }
 }
