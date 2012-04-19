@@ -102,7 +102,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
 				$data = $state->getData();
-				$data['offset'] = $offset_left === -1 ? 0 : $offset_left;
+				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 				$files_model = $this->getService('com://admin/files.model.files')->set($data); 
 				$files = $files_model->getList();
 
