@@ -441,11 +441,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableInfo($table)
 	{
 		$result = null;
-	    $sql    = $this->quoteValue($this->getTableNeedle().$table);
-	    
-		if($info  = $this->show( 'SHOW TABLE STATUS LIKE '.$sql, KDatabase::FETCH_OBJECT ))
+		$query  = $this->getService('koowa:database.query.show')
+		    ->show('TABLE STATUS')
+		    ->like(':like')
+		    ->bind(array('like' => $table));
+			    
+		if($info = $this->select($query, KDatabase::FETCH_OBJECT))
 		{
-			//Parse the table raw schema data
+		    //Parse the table raw schema data
             $result = $this->_parseTableInfo($info);
 		}
 		
@@ -461,9 +464,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableColumns($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteIdentifier($this->getTablePrefix().$table);
-	    
-	    if($columns = $this->show( 'SHOW FULL COLUMNS FROM '.$sql, KDatabase::FETCH_OBJECT_LIST))
+	    $query  = $this->getService('koowa:database.query.show')
+	        ->show('FULL COLUMNS')
+	        ->from($table);
+	    	    
+	    if($columns = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
 		{
 		    foreach($columns as $column) 
 			{
@@ -489,9 +494,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchTableIndexes($table)
 	{
 	    $result = array();
-	    $sql    = $this->quoteIdentifier($this->getTablePrefix().$table);
+	    $query  = $this->getService('koowa:database.query.show')
+	        ->show('INDEX')
+	        ->from($table);
 	  
-	    if($indexes = $this->show('SHOW INDEX FROM '.$sql , KDatabase::FETCH_OBJECT_LIST))
+	    if($indexes = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
 		{
 			foreach ($indexes as $index) {
 				$result[$index->Key_name][$index->Seq_in_index] = $index;
