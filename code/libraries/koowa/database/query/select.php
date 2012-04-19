@@ -45,7 +45,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 	 * 
 	 * @var array
 	 */
-	public $from = array();
+	public $table = array();
 
 	/**
 	 * The join element
