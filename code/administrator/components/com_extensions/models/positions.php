@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @version     $Id$
  * @category    Nooku
@@ -18,21 +17,27 @@
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsModelPositions extends KModelAbstract {
-
-    public function getList() {
-        if (!$this->_list) {
+class ComExtensionsModelPositions extends KModelAbstract 
+{
+    public function getList() 
+    {
+        if (!$this->_list) 
+        {
             $templates = $this->getService('com://admin/extensions.model.templates')->getList();
           
             $positions = array();
-            foreach ($templates as $template) {
+            foreach ($templates as $template) 
+            {
                 $path = $template->path;
                 $templateDetails = $path . '/templateDetails.xml';
                 
-                if (file_exists($templateDetails)) {
+                if (file_exists($templateDetails)) 
+                {
                     $xml = simplexml_load_file($templateDetails);
-                    if (isset($xml->positions)) {
-                        foreach ($xml->positions->children() as $position) {
+                    if (isset($xml->positions)) 
+                    {
+                        foreach ($xml->positions->children() as $position) 
+                        {
                             $position = (string)$position;
                             $positions[$position] = array(
                                 'position' => $position
@@ -41,6 +46,7 @@ class ComExtensionsModelPositions extends KModelAbstract {
                     }
                 } 
             }
+            
             asort($positions);
             
             $this->_list = $this->getService('com://admin/extensions.database.rowset.positions')
