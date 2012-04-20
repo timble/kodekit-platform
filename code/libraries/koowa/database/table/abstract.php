@@ -577,7 +577,6 @@ abstract class KDatabaseTableAbstract extends KObject
         if(is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            
             $query   = $this->getService('koowa:database.query.select');  
 
             foreach($columns as $column => $value) {
@@ -585,12 +584,14 @@ abstract class KDatabaseTableAbstract extends KObject
                       ->bind(array($column => $value));
             }
         }
-            
+        
         if($query instanceof KDatabaseQuerySelect)
         {
-            $query->count();
-
-            if(!count($query->table)) {
+            if(!$query->columns) {
+                $query->columns('COUNT(*)');
+            }
+            
+            if(!$query->table) {
                 $query->table(array('tbl' => $this->getName()));
             }
         }

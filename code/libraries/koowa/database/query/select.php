@@ -18,14 +18,7 @@
  * @subpackage  Query
  */
 class KDatabaseQuerySelect extends KDatabaseQueryAbstract
-{   
-    /**
-     * Count operation
-     *
-     * @var boolean
-     */
-    public $count	  = false;
-	
+{
 	/**
 	 * Distinct operation
 	 * 
@@ -103,6 +96,37 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      */
 	public $params = array();
     
+	/**
+	 * Checks if the current query is a count query.
+	 * 
+	 * @return boolean
+	 */
+	public function isCountQuery()
+	{
+	    return $this->columns && current($this->columns) == 'COUNT(*)';
+	}
+	
+	/**
+	 * Checks if the current query is a distinct query.
+	 * 
+	 * @return boolean
+	 */
+	public function isDistinctQuery()
+	{
+	    return (bool) $this->distinct;
+	}
+	
+	/**
+	 * Make the query distinct
+	 *
+	 * @return KDatabaseQuery
+	 */
+	public function distinct()
+	{
+	    $this->distinct = true;
+	    return $this;
+	}
+	
     /**
      * Build a select query
      *
@@ -120,29 +144,6 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             }
         }
 
-        return $this;
-    }
-
-    /**
-     * Make the query distinct
-     *
-     * @return KDatabaseQuery
-     */
-    public function distinct()
-    {
-        $this->distinct = true;
-        return $this;
-    }
-    
-    /**
-     * Build a count query
-     *
-     * @return KDatabaseQuery
-     */
-    public function count()
-    {
-        $this->count   = true;
-        $this->columns = array();
         return $this;
     }
 
@@ -290,27 +291,23 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
         $prefix  = $adapter->getTablePrefix();
         $query   = 'SELECT';
 
-        if ($this->columns || $this->count) 
+        if($this->columns) 
         {
-            if ($this->distinct) {
+            if($this->distinct) {
                 $query .= ' DISTINCT';
             }
             
-            if(!$this->count) 
+            $columns = array();
+            foreach($this->columns as $alias => $column) 
             {
-                $columns = array();
-                foreach($this->columns as $alias => $column) 
-                {
-                    if ($column instanceof KDatabaseQuerySelect) {
-                        $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
-                    } else {
-                        $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
-                    }
+                if ($column instanceof KDatabaseQuerySelect) {
+                    $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                } else {
+                    $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
                 }
-                
-                $query .= ' '.implode(', ', $columns);
             }
-            else $query .= ' COUNT(*)';
+            
+            $query .= ' '.implode(', ', $columns);
         }
 
         if ($this->table) 
