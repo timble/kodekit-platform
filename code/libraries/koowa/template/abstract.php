@@ -139,7 +139,7 @@ abstract class KTemplateAbstract extends KObject
     	$config->append(array(
     		'stack'				=> $this->getService('koowa:template.stack'),
     		'view'				=> null,
-            'command_chain' 	=> new KCommandChain(),
+            'command_chain' 	=> $this->getService('koowa:command.chain'),
     		'dispatch_events'   => false,
     		'enable_callbacks' 	=> false,
         ));
@@ -168,7 +168,7 @@ abstract class KTemplateAbstract extends KObject
 	}
 	
 	/**
-	 * Get the template stack object
+	 * Get the template object stack
  	 *
 	 * @return 	KTemplateStack
 	 */
@@ -529,7 +529,7 @@ abstract class KTemplateAbstract extends KObject
 	    //Set the error handler
         set_error_handler(array($this, 'handleError'), E_WARNING | E_NOTICE);
 	    
-	    //Set the template in the template stack
+	    //Push the template onto the stack
        	$this->getStack()->push(clone $this);
        
        	extract($this->_data, EXTR_SKIP); //extract the data in local scope
@@ -539,7 +539,7 @@ abstract class KTemplateAbstract extends KObject
 		include 'tmpl://'.$this->getStack()->getIdentifier();
 		$this->_contents = ob_get_clean();
 		
-		//Remove the template object from the template stack
+		//Remove the template from the template stack
        	$this->getStack()->pop();
        	
        	//Restore the error handler
