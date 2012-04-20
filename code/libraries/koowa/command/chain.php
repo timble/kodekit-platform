@@ -42,6 +42,13 @@ class KCommandChain extends KObjectQueue
      * @var KCommandContext
      */
     protected $_context = null;
+    
+    /**
+     * The chain stack
+     *
+     * @var	KObjectStack
+     */
+    protected $_stack;
 
     /**
      * Constructor
@@ -58,6 +65,7 @@ class KCommandChain extends KObjectQueue
         $this->_break_condition = (boolean) $config->break_condition;
         $this->_enabled         = (boolean) $config->enabled;
         $this->_context         = $config->context;
+        $this->_stack           = $config->stack;
     }
     
     /**
@@ -71,6 +79,7 @@ class KCommandChain extends KObjectQueue
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+        	'stack'			  =>  $this->getService('koowa:object.stack'),
             'context'         =>  new KCommandContext(),
             'enabled'         =>  true,
             'break_condition' =>  false,
@@ -110,9 +119,13 @@ class KCommandChain extends KObjectQueue
     {
         if($this->_enabled)
         { 
-            foreach($this as $command) 
+            $this->getStack()->push(clone $this);
+            
+            foreach($this->getStack()->top() as $command) 
             {
-                if ( $command->execute( $name, $context ) === $this->_break_condition) {
+                if ( $command->execute( $name, $context ) === $this->_break_condition) 
+                {
+                    $this->getStack()->pop();   
                     return $this->_break_condition;
                 }
             }
@@ -175,5 +188,15 @@ class KCommandChain extends KObjectQueue
     public function getContext()
     {   
         return clone $this->_context;
+    }
+    
+    /**
+     * Get the chain object stack
+     *
+     * @return 	KObjectStack
+     */
+    public function getStack()
+    {
+        return $this->_stack;
     }
 }
