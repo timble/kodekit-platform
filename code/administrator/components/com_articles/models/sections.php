@@ -42,7 +42,7 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		//Exclude joins if counting records
-		if (!$query->count) {
+		if (!$query->isCountQuery()) {
 		    $subquery = $this->getService('koowa:database.query.select')
 		        ->columns(array('section', 'categorycount' => 'COUNT(section)'))
 		        ->table('categories')

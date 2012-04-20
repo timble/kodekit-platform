@@ -105,8 +105,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         if($parent_column = $this->_parent_column)
         {
             $query = $context->query;
-               
-            if(!is_null($query) && !$query->count)
+            if(!is_null($query) && !$query->isCountQuery())
             {
                 $table = $context->caller;
                 $parent_column = $table->mapColumns($parent_column);

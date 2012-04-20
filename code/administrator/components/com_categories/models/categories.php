@@ -57,7 +57,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         $state = $this->getState();
         
         //Exclude joins if counting records
-        if(!$query->count)
+        if(!$query->isCountQuery())
         {
             if ($state->section) {
                 if ($state->section == 'com_content' || is_numeric($state->section)){
