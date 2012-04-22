@@ -301,9 +301,10 @@ class KModelTable extends KModelAbstract
             $states = $this->getTable()->mapColumns($states);
             foreach($states as $key => $value)
             {
-                if(isset($value)) {
+                if(isset($value)) 
+                {
                     $query->where('tbl.'.$key.' '.(is_array($value) ? 'IN' : '=').' :'.$key)
-                        ->bind(array($key => $value));
+                           ->bind(array($key => $value));
                 }
             }
         }
