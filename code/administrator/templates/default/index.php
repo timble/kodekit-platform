@@ -16,14 +16,6 @@
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
 
-<!--[if IE]>
-<link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
- <![endif]-->
- 
-<?php if(strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
-     <link href="templates/desktop/css/template.css" rel="stylesheet" type="text/css" />
- <?php endif ?>
-
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container">
