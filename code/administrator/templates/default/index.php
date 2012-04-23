@@ -2,6 +2,9 @@
 <!DOCTYPE HTML>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
+
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
 <jdoc:include type="head" />
 
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
@@ -14,8 +17,6 @@
 <?php endif; ?>
 
 <!--[if IE]>
-<script src="http://domassistant.googlecode.com/svn/branches/2.8/DOMAssistantCompressed.js" type="text/javascript"></script>
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/flexie.js"></script>
 <link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
  <![endif]-->
  

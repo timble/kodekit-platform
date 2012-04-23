@@ -4,6 +4,8 @@
 <head>
 <jdoc:include type="head" />
 
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 </head>
