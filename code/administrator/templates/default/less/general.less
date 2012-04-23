@@ -70,12 +70,28 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 	cursor: pointer; 
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    padding: 4px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    padding: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #BBB;
+     border-radius: 10px;
+     margin: 4px;
+}
+
 /* -- overall styles ------------------------------ */
 #header-box  { 
 	#flexbox > .box();
 	
 	background-color: #333;
-	border-bottom: 1px solid lighten(@navbarBackground, 20%);
+	border-bottom: 1px solid lighten(@navbarBackground, 10%);
 	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
 	.box-shadow(rgba(0, 0, 0, .8) 0px 1px 3px);
 	
@@ -539,7 +555,7 @@ div.toolbar {
 		
 		li.active a,
 		li a:active { 
-			.box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
+			.box-shadow(~"inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0");
 		}
 		
 		li a:active {
