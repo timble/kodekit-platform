@@ -46,13 +46,13 @@ class ComWeblinksModelCategories extends ComDefaultModelDefault
 		
 		$query->where('tbl.section = :section')
             ->where('tbl.published = :published')
-            ->where('weblinks.published :weblinks_published')
+            ->where('weblinks.published = :weblinks_published')
             ->where('tbl.access <= :access');
             
         $query->bind(array(
             'section' => 'com_weblinks',
             'published' => 1,
-            'weblinks_publihsed' => 1,
+            'weblinks_published' => 1,
             'access' => JFactory::getUser()->get('aid', '0')
         ));
     }
