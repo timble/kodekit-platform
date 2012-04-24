@@ -53,7 +53,7 @@ class ComInfoModelSystem extends KModelAbstract
                 ),
                 array(
                     'setting' => JText::_('Nooku Server Version'),
-                    'value'   => Koowa::getVersion()
+                    'value'   => Koowa::getInstance()->getVersion()
                 ),
                 array(
                     'setting' => JText::_('User Agent'),
