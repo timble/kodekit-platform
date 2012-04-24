@@ -76,7 +76,16 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 			'selector' => 'a.modal',
 			'options'  => array('disableFx' => true)
  		));
-
-		return JHTML::_('behavior.modal', $config->selector, $config->toArray());
+		
+		$html = '';
+		
+		$signature = 'modal-'.$config->selector;
+		if (!isset(self::$_loaded[$config->selector])) 
+		{
+		    $html = JHTML::_('behavior.modal', $config->selector, $config->toArray());
+		    self::$_loaded[$signature] = true;
+		}
+		
+		return $html;
 	}
 }
