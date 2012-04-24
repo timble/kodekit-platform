@@ -73,7 +73,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			self::$_loaded['modal'] = true;
 		}
 
-		$signature = md5(serialize(array($config->selector,$config->options)));
+		$signature = 'modal-'.$config->selector;
 		if (!isset(self::$_loaded[$signature]))
 		{
 			$options = !empty($config->options) ? $config->options->toArray() : array();
@@ -109,7 +109,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
  		$html = '';
 
-		$signature = md5(serialize(array($config->selector,$config->options)));
+		$signature = 'tooltip-'.$config->selector;
 		if (!isset(self::$_loaded[$signature]))
 		{
 		    //Don't pass an empty array as options
@@ -254,17 +254,23 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
             self::$_loaded['validator'] = true;
         }
-
-		//Don't pass an empty array as options
-		$options = $config->options->toArray() ? ', '.$config->options : '';
-		$html .= "<script>
-		window.addEvent('domready', function(){
-		    $$('$config->selector').each(function(form){
-		        new Koowa.Validator(form".$options.");
-		        form.addEvent('validate', form.validate.bind(form));
-		    });
-		});
-		</script>";
+        
+        $signature = 'validator-'.$config->selector;
+        if (!isset(self::$_loaded[$signature]))
+        {
+            //Don't pass an empty array as options
+		    $options = $config->options->toArray() ? ', '.$config->options : '';
+		    $html .= "<script>
+			window.addEvent('domready', function(){
+		    	$$('$config->selector').each(function(form){
+		        	new Koowa.Validator(form".$options.");
+		        	form.addEvent('validate', form.validate.bind(form));
+		   	 });
+			});
+			</script>";
+		    
+		    self::$_loaded[$signature] = true;
+	    }
 
 		return $html;
 	}
