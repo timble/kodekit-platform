@@ -72,13 +72,17 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
      * @param   array Array of values.
      * @return  KDatabaseQueryUpdate
      */
-    public function values(array $values)
+    public function values($values)
     {
-        if (!$this->columns && !is_numeric(key($values))) {
-            $this->columns(array_keys($values));
+        if(!$values instanceof KDatabaseQuerySelect) 
+        {
+            if (!$this->columns && !is_numeric(key($values))) {
+                $this->columns(array_keys($values));
+            }
+            
+            $this->values[] = array_values($values);
         }
-        
-        $this->values[] = array_values($values);
+        else $this->values = $values; 
         
         return $this;
     }
@@ -94,24 +98,28 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
         $prefix = $adapter->getTablePrefix();
         $query = 'INSERT';
         
-        if ($this->table) {
+        if($this->table) {
             $query .= ' INTO '.$adapter->quoteIdentifier($prefix.$this->table);
         }
         
-        if ($this->columns) {
+        if($this->columns) {
             $query .= '('.implode(', ', array_map(array($adapter, 'quoteIdentifier'), $this->columns)).')';
         }
         
-        if ($this->values) 
+        if($this->values) 
         {
-            $query .= ' VALUES'.PHP_EOL;
-            
-            $values = array();
-            foreach ($this->values as $value) {
-                $values[] = '('.implode(', ', array_map(array($adapter, 'quoteValue'), $value)).')';
+            if(!$this->values instanceof KDatabaseQuerySelect) 
+            {
+                $query .= ' VALUES'.PHP_EOL;
+                
+                $values = array();
+                foreach ($this->values as $value) {
+                    $values[] = '('.implode(', ', array_map(array($adapter, 'quoteValue'), $value)).')';
+                }
+                
+                $query .= implode(', '.PHP_EOL, $values);
             }
-            
-            $query .= implode(', '.PHP_EOL, $values);
+            else $query .= ' '.$this->values;
         }
         
         return $query;

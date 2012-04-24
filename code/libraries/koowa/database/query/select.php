@@ -308,7 +308,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             }
             
             $query .= ' '.implode(', ', $columns);
-        }
+        } 
+        else $query .= ' *';
 
         if ($this->table) 
         {

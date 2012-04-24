@@ -329,7 +329,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
                 {
                     if(!in_array($row->{$key}, (array) $value)) {
                         $result->extract($row);
-                    } 
+                    }
                 }
             }
         }
