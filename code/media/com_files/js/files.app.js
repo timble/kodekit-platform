@@ -318,12 +318,13 @@ Files.App = new Class({
 		
 		$extend(opts, {
 			'onAfterInsertRows': function() {
-				if (this.layout == 'icons') {
-					this.setIconSize(this.options.icon_size);
-				}
-				
+
+				//This is for persistency reasons, allowing us to read the value from the cookie and define it
+				this.setIconSize(this.options.icon_size);
+
+
 				if (opts.icon_size_slider) {
-					document.id(opts.icon_size_slider).set('value', this.options.icon_size);
+					document.id(opts.icon_size_slider).set('value', this.options.icon_size).fireEvent('change');
 				}
 				
 		    },

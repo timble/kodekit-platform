@@ -114,7 +114,7 @@ div.imgOutline.selected div.imgTotal a.navigate::after {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 div.imgTotal a.navigate img {
-    max-width: 100%;
+    width: 100%;
 }
 .files-folder div.imgTotal a.navigate {
     background-image: url(../images/folder-64.png);
