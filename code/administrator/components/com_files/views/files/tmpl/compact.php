@@ -49,6 +49,7 @@ window.addEvent('domready', function() {
 			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
 			folder.add(function(response, responseText) {
 				element.set('value', '');
+				$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
 				var el = response.item;
 				var cls = Files[el.type.capitalize()];
 				var row = new cls(el);
@@ -66,6 +67,19 @@ window.addEvent('domready', function() {
 			});
 		};
 	});
+	var validate = function(){
+		if(this.value.trim()) {
+			$('files-new-folder-create').addClass('valid').removeProperty('disabled');
+		} else {
+			$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
+		}
+	};
+	$('files-new-folder-input').addEvent('change', validate);
+	if(window.addEventListener) {
+		$('files-new-folder-input').addEventListener('input', validate);
+	} else {
+		$('files-new-folder-input').addEvent('keyup', validate);
+	}
 });
 </script>
 
@@ -81,7 +95,7 @@ window.addEvent('domready', function() {
 				<div id="files-new-folder-modal" style="margin-top: 16px">
 					<form>
 						<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>" />
-						<button id="files-new-folder-create"><?= @text('Create'); ?></button>
+						<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
 					</form>
 				</div>
 			</div> 
