@@ -54,9 +54,13 @@ body {
 }
 
 #insert-modal-cancel,
+.insert-or {
+	font-size: 13px;
+}
+
+#insert-modal-cancel,
 #insert-link,
 .insert-or {
-	font-size: 15px;
     border-radius: 2px;
     display: inline-block;
     padding: 5px 10px;
@@ -65,8 +69,10 @@ body {
 .insert-or {
 	padding: 5px 5px 5px 0;
 	margin-left: -5px;
+	cursor: default;
 }
 #insert-link {
+	font-size: 15px;
 	overflow: hidden;
 	box-shadow: inset hsla(0, 0%, 100%, 0.2) 0 -1px 1px;
     background: #8F8F8F;
