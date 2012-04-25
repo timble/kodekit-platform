@@ -107,7 +107,7 @@ window.addEvent('domready', function(){
 	if(window.parent && window.parent != window && window.parent.SqueezeBox) {
 		var modal = window.parent.SqueezeBox, heightfix = modal.size.y;
 
-		document.id('files-compact').getParents().setStyles({padding: 0, margin: 0});
+		document.id('files-compact').getParents().setStyles({padding: 0, margin: 0, overflow: 'hidden'});
 	}
 });
 </script>
