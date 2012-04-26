@@ -14,6 +14,11 @@ var ComUsers = {
         // Initialize score.
         var score = 0;
 
+        // Password must be at least 6 chars long.
+        if (password.length < 6) return 0;
+
+        // TODO Make a query to a password dictionary and return low score if a match is found.
+
         // Password lenght > 6 = 1 point
         if (password.length > 6) score++;
 

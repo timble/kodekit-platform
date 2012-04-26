@@ -37,7 +37,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'input_id'   => 'password',
             'checker_id' => 'password-check',
             'score_map'  => array(
-                '0' => JText::_('Please provide a password'),
+                '0' => JText::_('Password is too short'),
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
                 '3' => JText::_('Good'),
@@ -50,7 +50,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $html = '<script src="media://com_users/js/users.js" />';
         $html .= '<style src="media://com_users/css/password.css" />';
 
-        $html .= '<span id="' . $config->checker_id . '" class="' . $config->class . ' score0">' . $score_map[0] . '</span>';
+        $html .= '<span id="' . $config->checker_id . '" class="' . $config->class . ' score0">' . JText::_('Please provide a password') . '</span>';
 
         $html .= '<script type="text/javascript">';
         $html .= 'window.addEvent("domready", function() {';
