@@ -68,10 +68,8 @@ Files.App = new Class({
 		    this.spinner = new Koowa.Spinner(opts);
 		    this.spinner.spin(target);
 		    
-		    var delay;
 		    window.addEvent('resize', function(){
-		        clearTimeout(delay);
-		        delay = this.setDimensions.delay(200, this);
+		        this.setDimensions(true);
 		    }.bind(this));
 		    this.grid.addEvent('onAfterRenew', function(){
 		        this.setDimensions(true);
@@ -320,12 +318,13 @@ Files.App = new Class({
 		
 		$extend(opts, {
 			'onAfterInsertRows': function() {
-				if (this.layout == 'icons') {
-					this.setIconSize(this.options.icon_size);
-				}
-				
+
+				//This is for persistency reasons, allowing us to read the value from the cookie and define it
+				this.setIconSize(this.options.icon_size);
+
+
 				if (opts.icon_size_slider) {
-					document.id(opts.icon_size_slider).set('value', this.options.icon_size);
+					document.id(opts.icon_size_slider).set('value', this.options.icon_size).fireEvent('change');
 				}
 				
 		    },
@@ -478,7 +477,7 @@ Files.App = new Class({
         if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
             var width = this.grid.root.element.getSize().x,
                 factor = width/(this.grid.options.icon_size.toInt()+40),
-                limit = Math.floor(factor),
+                limit = Math.min(Math.floor(factor), this.grid.nodes.getLength()),
                 resize = width / limit,
                 thumbs = [[]],
                 labels = [[]],

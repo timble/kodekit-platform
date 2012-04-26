@@ -73,13 +73,13 @@ div.imgTotal {
     overflow: hidden;
     width: 200px;
     height: 150px;
-    background-color: white;
+    background-color: whiteSmoke;
+    background: white -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 100%);
+    background: white -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
     background-repeat: no-repeat;
-    background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
-    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 100%);
-    background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
-    background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
-    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
 }
 div.imgOutline.selected div.imgTotal {
     background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
@@ -114,7 +114,7 @@ div.imgOutline.selected div.imgTotal a.navigate::after {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
 div.imgTotal a.navigate img {
-    max-width: 100%;
+    width: 100%;
 }
 .files-folder div.imgTotal a.navigate {
     background-image: url(../images/folder-64.png);

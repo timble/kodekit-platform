@@ -137,8 +137,34 @@ window.addEvent('domready', function() {
     var switchers = $$('.files-layout-switcher'),
     	slider = document.id('files-thumbs-size');
 	
-	if(slider.type != 'range') {
-        document.getElement('.files-layout-grid-resizer-container').setStyle('display', 'none');
+	if(slider.type != 'range' && 'Slider' in window) {
+	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
+                newSlider = new Element('div', {
+                'id': slider.id+'-shim',
+                'class': 'slider'
+            }).grab(new Element('div', {'class': 'knob'}))
+              .replaces(slider);
+        document.body.adopt(slider.hide());
+
+        // Create the new slider instance
+        var instance = new Slider(newSlider, newSlider.getElement('.knob'), {
+            range: [slider.get('min').toInt(), slider.get('max').toInt()]
+        });
+
+        var once = false;
+        slider.addEvent('change', function(){
+        	if(!once) {
+        		instance.addEvent('change', function(value){
+        			Files.app.grid.setIconSize(value);
+                	Files.app.setDimensions.call(Files.app, true);
+        		});
+        		once = true;
+        	}
+	        instance.set(this.value);
+	    });
+        var slider = container;
+    } else if(slider.type != 'range') {
+    	document.getElement('.files-layout-grid-resizer-container').setStyle('display', 'none');
 	    var slider = false;
 	} else {
 	    slider.addEvent('change', function(event){
@@ -184,10 +210,10 @@ window.addEvent('domready', function() {
 			</div>
 			<h3 id="files-title"></h3>
 			<div class="files-layout-controls">
-				<button class="files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
+				<button class="files-layout-switcher files-layout-switcher-icons" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
 					<?= @text('Icons'); ?>
 				</button>
-				<button class="files-layout-switcher" data-layout="details" title="<?= @text('Show files in a list'); ?>">
+				<button class="files-layout-switcher files-layout-switcher-details" data-layout="details" title="<?= @text('Show files in a list'); ?>">
 					<?= @text('Details'); ?>
 				</button>
 			</div>
@@ -210,7 +236,7 @@ window.addEvent('domready', function() {
 <div>
 	<div id="files-new-folder-modal" class="files-modal" style="display: none">
 	<form>
-		<input class="inputbox focus" type="text" id="files-new-folder-input" size="60" placeholder="<?= @text('Enter a folder name') ?>" />
+		<input class="inputbox focus" type="text" id="files-new-folder-input" size="40" placeholder="<?= @text('Enter a folder name') ?>" />
 		<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
 	</form>
 	</div>

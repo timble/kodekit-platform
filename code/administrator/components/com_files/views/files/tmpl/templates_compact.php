@@ -44,7 +44,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none"  id="compact_folder">
 <li class="files-node files-folder">
-	<a class="navigate" href="#">
+	<a class="navigate" href="#" title="[%= name %]">
 		[%= name %]
 	</a>
 </li>
@@ -52,7 +52,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none"  id="compact_image">
 <li class="files-node files-image">
-	<a class="navigate" href="#">
+	<a class="navigate" href="#" title="[%= name %]">
 		[%= name %]
 	</a>
 </li>
@@ -60,7 +60,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none"  id="compact_file">
 <li class="files-node files-file">
-	<a class="navigate" href="#">
+	<a class="navigate" href="#" title="[%= name %]">
 		[%= name %]
 	</a>
 </li>
