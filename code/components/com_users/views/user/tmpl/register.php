@@ -71,6 +71,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </td>
             <td>
                 <input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
+                <?=@helper('com://admin/users.template.helper.form.passwcheck');?>
             </td>
         </tr>
         <tr>
