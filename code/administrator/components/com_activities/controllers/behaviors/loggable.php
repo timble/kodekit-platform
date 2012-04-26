@@ -74,7 +74,7 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
                     //Only log if the row status is valid.
                     $status = $row->getStatus();
 
-                    if(!empty($status))
+                    if(!empty($status) && $status !== KDatabase::STATUS_FAILED)
                     {
                          $identifier = $context->caller->getIdentifier();
 
