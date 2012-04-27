@@ -32,7 +32,7 @@ var ComUsers = {
         if (password.match(/\d+/)) score++;
 
         // Password has at least one special character = 1 point
-        if (password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) score++;
+        if (password.match(/[\s!.,@#$%^&*?_~\-()]/)) score++;
 
         return score;
     }
