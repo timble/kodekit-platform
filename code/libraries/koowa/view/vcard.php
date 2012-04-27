@@ -313,7 +313,7 @@ class KViewVcard extends KViewFile
      */
     protected function _encode($string) 
     {
-        return $this->escape($this->_quoted_printable_encode($string));
+        return $this->_escape($this->_quoted_printable_encode($string));
     }
 
     /**
