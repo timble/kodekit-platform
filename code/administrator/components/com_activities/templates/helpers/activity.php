@@ -18,6 +18,7 @@
  * @subpackage 	Activities
  */
 
+
 class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault implements KServiceInstantiatable
 {
 	/**
@@ -52,9 +53,10 @@ class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault impleme
 		));
 	
 		$row  = $config->row;
-		$item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
-		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
-		
+
+		$item = $this->getTemplate()->getView()->createRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
+		$user = $this->getTemplate()->getView()->createRoute('option=com_users&view=user&id='.$row->created_by); 
+
 		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a>'; 
 		$message  .= ' <span class="action">'.$row->status.'</span>';
        
