@@ -17,4 +17,6 @@
  * @package    	Nooku_Components
  * @subpackage 	Activities
  */
+defined('KOOWA') or die;
+
 echo KService::get('com://admin/activities.dispatcher')->dispatch();
