@@ -10,7 +10,7 @@
  */
 
 /**
- * Authorize Command
+ * User Controller Executable Behavior
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku
