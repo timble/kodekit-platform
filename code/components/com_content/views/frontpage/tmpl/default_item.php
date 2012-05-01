@@ -27,36 +27,6 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php if (($this->item->params->get('show_section') && $this->item->sectionid) || ($this->item->params->get('show_category') && $this->item->catid)) : ?>
-<p>
-	<?php if ($this->item->params->get('show_section') && $this->item->sectionid && isset($this->item->section)) : ?>
-	<span>
-		<?php if ($this->item->params->get('link_section')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->item->sectionid)).'">'; ?>
-		<?php endif; ?>
-		<?php echo $this->escape($this->item->section); ?>
-		<?php if ($this->item->params->get('link_section')) : ?>
-			<?php echo '</a>'; ?>
-		<?php endif; ?>
-			<?php if ($this->item->params->get('show_category')) : ?>
-			<?php echo ' - '; ?>
-		<?php endif; ?>
-	</span>
-	<?php endif; ?>
-	<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
-	<span>
-		<?php if ($this->item->params->get('link_category')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
-		<?php endif; ?>
-		<?php echo $this->escape($this->item->category); ?>
-		<?php if ($this->item->params->get('link_category')) : ?>
-			<?php echo '</a>'; ?>
-		<?php endif; ?>
-	</span>
-	<?php endif; ?>
-</p>
-<?php endif; ?>
-
 <?php if ($this->item->params->get('show_create_date') || ($this->item->params->get('show_author') && $this->item->author != "")) : ?>
 <p class="timestamp">
 	<?php if ($this->item->params->get('show_create_date')) : ?>

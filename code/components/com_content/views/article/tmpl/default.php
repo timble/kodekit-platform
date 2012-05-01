@@ -29,36 +29,6 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 endif; ?>
 <?php echo $this->article->event->beforeDisplayContent; ?>
 
-<?php if (($this->params->get('show_section') && $this->article->sectionid) || ($this->params->get('show_category') && $this->article->catid)) : ?>
-<p>
-	<?php if ($this->params->get('show_section') && $this->article->sectionid && isset($this->article->section)) : ?>
-	<span>
-		<?php if ($this->params->get('link_section')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->article->sectionid)).'">'; ?>
-		<?php endif; ?>
-		<?php echo $this->escape($this->article->section); ?>
-		<?php if ($this->params->get('link_section')) : ?>
-			<?php echo '</a>'; ?>
-		<?php endif; ?>
-			<?php if ($this->params->get('show_category')) : ?>
-			<?php echo ' - '; ?>
-		<?php endif; ?>
-	</span>
-	<?php endif; ?>
-	<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
-	<span>
-		<?php if ($this->params->get('link_category')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->article->catslug, $this->article->sectionid)).'">'; ?>
-		<?php endif; ?>
-		<?php echo $this->escape($this->article->category); ?>
-		<?php if ($this->params->get('link_category')) : ?>
-			<?php echo '</a>'; ?>
-		<?php endif; ?>
-	</span>
-	<?php endif; ?>
-</p>
-<?php endif; ?>
-
 <?php if (($this->params->get('show_author')) && ($this->article->author != "")) : ?>
 	<?php JText::printf( 'Written by', ($this->escape($this->article->created_by_alias) ? $this->escape($this->article->created_by_alias) : $this->escape($this->article->author)) ); ?>
 <?php endif; ?>
