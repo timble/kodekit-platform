@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
+	<h1 class="page-header"><?php echo $this->escape($this->params->get('page_title')); ?></h1>
 <?php endif; ?>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>
