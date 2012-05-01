@@ -18,4 +18,6 @@
  * @subpackage  Files
  */
 
+defined('KOOWA') or die;
+
 echo KService::get('com://admin/files.dispatcher')->dispatch();
