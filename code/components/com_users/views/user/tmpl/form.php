@@ -16,80 +16,69 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     });
 </script>
 
-<form action="" method="post" name="userform" autocomplete="off" class="form-validate">
+<form action="" method="post" name="userform" autocomplete="off" class="form-validate form-horizontal">
     <input type="hidden" name="action" value="save" />
 
     <? if($parameters->def('show_page_title', 1)) : ?>
-        <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-            <?= @escape($parameters->get('page_title')) ?>
+    <h1><?= @escape($parameters->get('page_title')) ?></h1>
+    <? endif ?>
+    
+    <div class="control-group">
+        <label class="control-label" for="username"><?= @text('Username') ?></label>
+        <div class="controls">
+            <span class="uneditable-input"><?= $user->username ?></span>
         </div>
-    <? endif ?>
-    <table cellpadding="5" cellspacing="0" border="0" width="100%">
-    <tr>
-        <td>
-            <label for="username">
-                <?= @text('User Name') ?>:
-            </label>
-        </td>
-        <td>
-            <span><?= $user->username ?></span>
-        </td>
-    </tr>
-    <tr>
-        <td width="120">
-            <label for="name">
-                <?= @text('Your Name') ?>:
-            </label>
-        </td>
-        <td>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Your Name') ?></label>
+        <div class="controls">
             <input class="inputbox required" type="text" id="name" name="name" value="<?= @escape($user->name) ?>" size="40" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="email">
-                <?= @text('email') ?>:
-            </label>
-        </td>
-        <td>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Email') ?></label>
+        <div class="controls">
             <input class="inputbox required validate-email" type="text" id="email" name="email" value="<?= @escape($user->email) ?>" size="40" />
-        </td>
-    </tr>
+        </div>
+    </div>
+    
     <? if($user->password) : ?>
-        <tr>
-            <td>
-                <label for="password">
-                    <?= @text('Password') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox validate-password" type="password" id="password" name="password" value="" size="40" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="password2">
-                    <?= @text('Verify Password') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox validate-passverify" type="password" id="password_verify" name="password_verify" size="40" />
-            </td>
-        </tr>
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Password') ?></label>
+        <div class="controls">
+            <input class="inputbox validate-password" type="password" id="password" name="password" value="" size="40" />
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
+        <div class="controls">
+            <input class="inputbox validate-passverify" type="password" id="password_verify" name="password_verify" size="40" />
+        </div>
+    </div>
     <? endif ?>
-    <tr>
-        <td>
-            <label for="timezone">
-                <?= @text('Verify Password') ?>:
-            </label>
-        </td>
-        <td>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Timezone') ?></label>
+        <div class="controls">
             <?= @helper('com://admin/settings.template.helper.listbox.timezones',
                 array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
-        </td>
-    </tr>
-    </table>
-    <?= $user->params->render() ?>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Username') ?></label>
+        <div class="controls">
+            <input type="password" id="password" name="password" class="inputbox" size="18" alt="password" />
+        </div>
+    </div>
+    
 
-    <button class="button validate" type="submit" onclick="submitbutton( this.form );return false;"><?= @text('Save') ?></button>
+    <?= $user->params->render() ?>
+    
+    <div class="form-actions">
+        <button class="btn validate" type="submit" onclick="submitbutton( this.form );return false;"><?= @text('Save') ?></button>
+    </div>
 </form>

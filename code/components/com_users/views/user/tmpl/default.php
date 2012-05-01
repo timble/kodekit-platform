@@ -11,15 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <? if($parameters->def('show_page_title', 1)) : ?>
-    <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-        <?= @escape($parameters->get('page_title')) ?>
-    </div>
+<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
 <? endif ?>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-    <tr>
-        <td>
-            <?= nl2br(@escape($parameters->get('welcome_desc', @text('WELCOME_DESC')))) ?>
-        </td>
-    </tr>
-</table>
+<p><?= nl2br(@escape($parameters->get('welcome_desc', @text('WELCOME_DESC')))) ?></p>

@@ -10,46 +10,42 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
+-->
 <?= @helper('behavior.keepalive'); ?>
 
 <? if($parameters->get('show_page_title', 1)) : ?>
-    <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-        <?= @escape($parameters->get('page_title')) ?>
-    </div>
+<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
 <? endif ?>
 
-<form action="<?= @route('view=user') ?>" method="post" id="com-form-login">
+<form action="<?= @route('view=user') ?>" method="post" id="com-form-login" class="form-horizontal">
     <input type="hidden" name="action" value="login" />
-    <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>">
-        <tr>
-            <td colspan="2">
-                <? if($parameters->get('show_login_title')) : ?>
-                    <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-                        <?= $parameters->get('header_login') ?>
-                    </div>
-                <? endif ?>
-                <div>
-                    <? if($parameters->get('description_login')) : ?>
-                        <?= $parameters->get('description_login_text' ) ?>
-                        <br /><br />
-                    <? endif ?>
-                </div>
-            </td>
-        </tr>
-    </table>
 
-    <fieldset class="input">
-        <p id="com-form-login-username">
-            <label for="username"><?= @text('Username') ?></label><br />
+    <? if($parameters->get('show_login_title')) : ?>
+    <p><?= $parameters->get('header_login') ?></p>
+    <? endif ?>
+    <? if($parameters->get('description_login')) : ?>
+    <p><?= $parameters->get('description_login_text' ) ?></p>
+    <? endif ?>
+    
+    <div class="control-group">
+        <label class="control-label" for="username"><?= @text('Username') ?></label>
+        <div class="controls">
             <input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
-        </p>
-        <p id="com-form-login-password">
-            <label for="password"><?= @text('Password') ?></label><br />
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Password') ?></label>
+        <div class="controls">
             <input type="password" id="password" name="password" class="inputbox" size="18" alt="password" />
-        </p>
-        <input type="submit" name="Submit" class="button" value="<?= @text('LOGIN') ?>" />
-    </fieldset>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="validate btn"><?= @text('Submit') ?></button>
+    </div>
 
     <ul>
         <li>

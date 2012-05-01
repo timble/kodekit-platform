@@ -10,39 +10,33 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div class="componentheading">
-    <?= @text('Reset your Password') ?>
-</div>
+<h1 class="page-header"><?= @text('Reset your Password') ?></h1>
 
-<form action="" method="post" class="josForm form-validate">
+<form action="" method="post" class="josForm form-validate form-horizontal">
     <input type="hidden" name="action" value="complete" />
 
     <input type="hidden" name="id" value="<?= KRequest::get('get.id', 'int') ?>" />
     <input type="hidden" name="token" value="<?= KRequest::get('get.token', 'alnum') ?>" />
+    
+    <p><?= @text('RESET_PASSWORD_COMPLETE_DESCRIPTION') ?></p>
+    
+    <div class="control-group">
+        <label class="control-label" for="password"><?= @text('Password') ?></label>
+        <div class="controls">
+            <input id="password" name="password" type="password" class="required validate-password" />
+            <p class="help-block"><?= @text('RESET_PASSWORD_PASSWORD1_TIP_TEXT') ?></p>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
+        <div class="controls">
+            <input id="password_verify" name="password_verify" type="password" class="required validate-password" />
+            <p class="help-block"><?= @text('RESET_PASSWORD_PASSWORD2_TIP_TEXT') ?></p>
+        </div>
+    </div>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
-        <tr>
-            <td colspan="2" height="40">
-                <p><?= @text('RESET_PASSWORD_COMPLETE_DESCRIPTION') ?></p>
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label for="password" class="hasTip" title="<?= @text('RESET_PASSWORD_PASSWORD1_TIP_TITLE') ?>::<?= @text('RESET_PASSWORD_PASSWORD1_TIP_TEXT') ?>"><?= @text('Password') ?>:</label>
-            </td>
-            <td>
-                <input id="password" name="password" type="password" class="required validate-password" />
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label for="password_verify" class="hasTip" title="<?= @text('RESET_PASSWORD_PASSWORD2_TIP_TITLE') ?>::<?= @text('RESET_PASSWORD_PASSWORD2_TIP_TEXT') ?>"><?= @text('Verify Password') ?>:</label>
-            </td>
-            <td>
-                <input id="password_verify" name="password_verify" type="password" class="required validate-password" />
-            </td>
-        </tr>
-    </table>
-
-    <button type="submit" class="validate"><?= @text('Submit') ?></button>
+    <div class="form-actions">
+        <button type="submit" class="validate btn"><?= @text('Submit') ?></button>
+    </div>
 </form>

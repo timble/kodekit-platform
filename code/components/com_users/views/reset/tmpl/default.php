@@ -11,31 +11,23 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <? if($parameters->def('show_page_title', 1)) : ?>
-    <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-        <?= @escape($parameters->get('page_title')) ?>
-    </div>
+<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
 <? endif ?>
 
-<form action="" method="post" class="josForm form-validate">
+<form action="" method="post" class="josForm form-validate form-horizontal">
     <input type="hidden" name="action" value="request" />
-
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
-        <tr>
-            <td colspan="2" height="40">
-                <p><?= @text('RESET_PASSWORD_REQUEST_DESCRIPTION') ?></p>
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label for="email" class="hasTip" title="<?= @text('RESET_PASSWORD_EMAIL_TIP_TITLE') ?>::<?= @text('RESET_PASSWORD_EMAIL_TIP_TEXT') ?>">
-                    <?= @text('Email Address') ?>:
-                </label>
-            </td>
-            <td>
-                <input id="email" name="email" type="text" class="required validate-email" />
-            </td>
-        </tr>
-    </table>
-
-    <button type="submit" class="validate"><?= @text('Submit') ?></button>
+    
+    <p><?= @text('RESET_PASSWORD_REQUEST_DESCRIPTION') ?></p>
+    
+    <div class="control-group">
+        <label class="control-label" for="email"><?= @text('Email Address') ?></label>
+        <div class="controls">
+            <input id="email" name="email" type="text" class="required validate-email" />
+            <p class="help-block"><?= @text('RESET_PASSWORD_EMAIL_TIP_TEXT') ?></p>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="validate btn"><?= @text('Submit') ?></button>
+    </div>
 </form>

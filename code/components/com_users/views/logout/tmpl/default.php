@@ -11,35 +11,22 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <? if($parameters->get('show_page_title', 1)) : ?>
-    <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-        <?= @escape($parameters->get('page_title')) ?>
-    </div>
+<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
 <? endif ?>
 
 <form action="<?= @route('view=user&id='.$user->id) ?>" method="post" name="login" id="login">
     <input type="hidden" name="action" value="logout" />
 
     <? if($parameters->get('show_logout_title')) : ?>
-        <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>">
-            <?= @escape($parameters->get('header_logout')) ?>
-        </div>
+    <p><?= @escape($parameters->get('header_logout')) ?></p>
     <? endif ?>
-    <table border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?= @escape($parameters->get('pageclass_sfx')) ?>" width="100%">
-        <tr>
-            <td valign="top">
-                <div>
-                    <? if($parameters->get('description_logout')) : ?>
-                        <?= @escape($parameters->get('description_logout_text')) ?>
-                    <? endif ?>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td align="center">
-                <div align="center">
-                    <input type="submit" name="Submit" class="button" value="<?= @text('Logout') ?>" />
-                </div>
-            </td>
-        </tr>
-    </table>
+    
+    <? if($parameters->get('description_logout')) : ?>
+    <p><?= @escape($parameters->get('description_logout_text')) ?></p>
+    <? endif ?>
+    
+    <div class="form-actions">
+        <input type="submit" name="Submit" class="btn" value="<?= @text('Logout') ?>" />
+    </div>
+
 </form>
