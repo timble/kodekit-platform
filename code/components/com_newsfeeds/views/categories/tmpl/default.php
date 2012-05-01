@@ -12,9 +12,7 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? if ( $params->def( 'show_page_title', 1 ) ) : ?>
-	<div class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
-		<?= @escape($params->get('page_title')); ?>
-	</div>
+<h1 class="page-header"><?= @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
 <ul>
