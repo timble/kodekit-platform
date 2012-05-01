@@ -48,13 +48,13 @@ class ComNewsfeedsModelCategories extends ComDefaultModelDefault
 		
 		$query->where('tbl.section = :section')
 		      ->where('tbl.published = :published')
-		      ->where('newsfeeds.published :newsfeeds_published')
+		      ->where('newsfeeds.published = :newsfeeds_published')
 		      ->where('tbl.access <= :access');
 		
 		$query->bind(array(
 			'section'            => 'com_newsfeeds',
 		    'published'          => 1,
-		    'weblinks_publihsed' => 1,
+		    'newsfeeds_published' => 1,
 		    'access'             => JFactory::getUser()->get('aid', '0')
 		));
     }
