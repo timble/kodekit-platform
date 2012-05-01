@@ -76,8 +76,8 @@ class ComNewsfeedsViewNewsfeedHtml extends ComDefaultViewHtml
 
 		JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
-		//set breadcrumbs
-		$pathway  = JFactory::getApplication()->getPathway();
+		//Set the breadcrumbs
+		$pathway = JFactory::getApplication()->getPathway();
 		
 		$view = JRequest::getString('view');
 		if ( $view == 'categories' ) {
