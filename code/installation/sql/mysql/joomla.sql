@@ -110,7 +110,7 @@ INSERT INTO `#__components` VALUES (19, 'Media Manager', '', 0, 0, 'option=com_f
 INSERT INTO `#__components` VALUES (20, 'Articles', 'option=com_articles', '0', '0', 'option=com_articles', 'Articles', 'com_articles', '0', '', '0', 'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_hits=1\nfeed_summary=0\n\n', '1');
 INSERT INTO `#__components` VALUES (22, 'Installation Manager', '', 0, 0, '', 'Installer', 'com_installer', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (25, 'Menu Editor', '', 0, 0, '', 'Menu Editor', 'com_menus', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 1, 'template_site=rhuk_milkyway\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1);
+INSERT INTO `#__components` VALUES (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 1, 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1);
 INSERT INTO `#__components` VALUES (31, 'User Manager', 'option=com_users', 0, 0, '', 'Users', 'com_users', 0, '', 1, 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1);
 INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
 
