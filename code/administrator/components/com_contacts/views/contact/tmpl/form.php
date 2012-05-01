@@ -25,14 +25,14 @@ defined('KOOWA') or die('Restricted access') ?>
 	
 	<div class="form-body">
 		<div class="title">
-		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->title ?>" placeholder="<?= @text('Title') ?>" />
+		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
 		</div>
 
 		<div class="form-content">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Information'); ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for="con_position"><?= @text( 'Contact\'s Position' ); ?></label>
+				    <label class="control-label" for="con_position"><?= @text( 'Position' ); ?></label>
 				    <div class="controls">
 				        <input type="text" name="con_position" maxlength="255" value="<?= $contact->con_position; ?>" />
 				    </div>
@@ -128,7 +128,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			        <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
 			            'name' => 'catid',
 			            'text' => 'title',
-			            'filter' => array('section' => 'com_contact_details'),
+			            'filter' => array('section' => 'com_contacts_contacts'),
 			            'selected' => $contact->category,
 			        )); ?>
 			    </div>
@@ -166,9 +166,6 @@ defined('KOOWA') or die('Restricted access') ?>
 			<?= @helper('tabs.startPanel', array('title' => @text('Contact Parameters'))); ?>
 			<?= $contact->params->render(); ?>
 			<?= @helper('tabs.endPanel', array()); ?>
-			<?= @helper('tabs.startPanel', array('title' => @text('Advanced Parameters'))); ?>
-			<?= $contact->params->render('params', 'advanced'); ?>
-			<?= @helper('tabs.endPanel'); ?>
 			<?= @helper('tabs.startPanel', array('title' => @text('E-mail Parameters'))); ?>
 			<?= $contact->params->render('params', 'email'); ?>
 			<?= @helper('tabs.endPanel'); ?>

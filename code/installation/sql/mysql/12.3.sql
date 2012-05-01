@@ -33,3 +33,6 @@ CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
   `note` text,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+RENAME TABLE  `#__contact_details` TO `#__contacts_contacts`;
+UPDATE `#__categories` SET `section` = 'com_contacts_contacts' WHERE `section` = 'com_contact_details'

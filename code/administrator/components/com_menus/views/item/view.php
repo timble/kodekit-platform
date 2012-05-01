@@ -165,9 +165,7 @@ class MenusViewItem extends JView
 		    if ($option == 'com_articles') {
 		    	$option = 'com_content';
 		    }
-		    else if ($option == 'com_contacts') {
-		    	$option = 'com_contact';	
-		    }
+		   
 			$path   = JPATH_SITE.DS.'components'.DS.$option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
 

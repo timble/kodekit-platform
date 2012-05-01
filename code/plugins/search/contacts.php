@@ -86,7 +86,7 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
 	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "2" AS browsernav'
-	. ' FROM #__contact_details AS a'
+	. ' FROM #__contacts_contacts AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. ' WHERE ( a.name LIKE '.$text
 	. ' OR a.misc LIKE '.$text

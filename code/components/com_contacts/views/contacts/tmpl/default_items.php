@@ -1,40 +1,90 @@
-<?php
-/** $Id: default_items.php 11917 2009-05-29 19:37:05Z ian $ */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
-<?php foreach($this->items as $item) : ?>
-<tr class="sectiontableentry<?php echo $item->odd + 1; ?>">
-	<td align="right" width="5">
-		<?php echo $item->count +1; ?>
+<?
+/**
+ * @version		$Id: default_items.php 3537 2012-04-02 17:56:59Z johanjanssens $
+ * @category	Nooku
+ * @package     Nooku_Server
+ * @subpackage  Contacts
+ * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+defined('KOOWA') or die('Restricted access'); ?>
+
+<form action="" method="get" name="adminForm">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<? if ($params->get( 'show_headings' )) : ?>
+<tr>
+	<td width="5" align="right" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @text('Num'); ?>
+    </td>
+    <td height="20" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @helper('grid.sort', array('column' => 'Name')); ?>
 	</td>
-	<td height="20">
-		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-			<?php echo $item->name; ?></a>
+    <? if ( $params->get( 'show_position' ) ) : ?>
+    <td height="20" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @helper('grid.sort', array('column' => 'con_position', 'title' => 'Position')); ?>
+    </td>
+    <? endif; ?>
+    <? if ( $params->get( 'show_email' ) ) : ?>
+    <td height="20" width="20%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @text( 'Email' ); ?>
 	</td>
-	<?php if ( $this->params->get( 'show_position' ) ) : ?>
-	<td>
-		<?php echo $this->escape($item->con_position); ?>
+    <? endif; ?>
+    <? if ( $params->get( 'show_telephone' ) ) : ?>
+	<td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @text( 'Phone' ); ?>
 	</td>
-	<?php endif; ?>
-	<?php if ( $this->params->get( 'show_email' ) ) : ?>
-	<td width="20%">
-		<?php echo $item->email_to; ?>
+	<? endif; ?>
+    <? if ( $params->get( 'show_mobile' ) ) : ?>
+    <td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @text( 'Mobile' ); ?>
 	</td>
-	<?php endif; ?>
-	<?php if ( $this->params->get( 'show_telephone' ) ) : ?>
-	<td width="15%">
-		<?php echo $this->escape($item->telephone); ?>
+    <? endif; ?>
+    <? if ( $params->get( 'show_fax' ) ) : ?>
+    <td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
+        <?= @text( 'Fax' ); ?>
 	</td>
-	<?php endif; ?>
-	<?php if ( $this->params->get( 'show_mobile' ) ) : ?>
-	<td width="15%">
-		<?php echo $this->escape($item->mobile); ?>
-	</td>
-	<?php endif; ?>
-	<?php if ( $this->params->get( 'show_fax' ) ) : ?>
-	<td width="15%">
-		<?php echo $this->escape($item->fax); ?>
-	</td>
-	<?php endif; ?>
+    <? endif; ?>
 </tr>
-<?php endforeach; ?>
+<? endif; ?>
+<? $i = 1; ?>
+<? foreach( $contacts as $contact ) : ?>
+<tr class="sectiontableentry<?= ($i&1) ? '1' : '2'; ?>">
+	<td align="center" width="5">
+        <?= $i; ?>	
+    </td>
+    <td height="20">
+		<a href="<?= @route('view=contact&category='.$category->id.':'.$category->slug.'&id='. $contact->id.':'.$contact->slug);?>" class="category<?= @escape($params->get('pageclass_sfx'));?> ">
+		    <?= $contact->name; ?>
+		</a>
+	</td>    
+	<? if ( $params->get( 'show_position' ) ) : ?>
+	<td>
+        <?= @escape($contact->con_position);?>
+	</td>
+    <? endif; ?>
+    <? if ( $params->get( 'show_email' ) ) : ?>
+	<td width="20%">
+	    <?= $contact->email_to; ?>
+	</td>
+    <? endif; ?>
+    <? if ( $params->get( 'show_telephone' ) ) : ?>
+    <td width="15%">
+        <?= @escape($contact->telephone); ?>
+    </td>
+    <? endif; ?>
+    <? if ( $params->get( 'show_mobile' ) ) : ?>
+	<td width="15%">
+        <?= @escape($contact->mobile); ?>
+	</td>
+    <? endif; ?>
+    <? if ( $params->get( 'show_fax' ) ) : ?>
+	<td width="15%">
+        <?= @escape($contact->fax); ?>
+	</td>
+    <? endif; ?>
+</tr>
+<? endforeach; ?>
+</table>
+</form>

@@ -29,7 +29,7 @@ class JElementContact extends JElement
 		$db = &JFactory::getDBO();
 
 		$query = 'SELECT a.id, CONCAT( a.name, " - ",a.con_position ) AS text, a.catid '
-		. ' FROM #__contact_details AS a'
+		. ' FROM #__contact_contacts AS a'
 		. ' INNER JOIN #__categories AS c ON a.catid = c.id'
 		. ' WHERE a.published = 1'
 		. ' AND c.published = 1'

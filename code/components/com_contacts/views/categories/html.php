@@ -3,7 +3,7 @@
  * @version		$Id: html.php 3532 2012-04-02 12:00:49Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Weblinks
+ * @subpackage  Contacts
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
@@ -30,14 +30,14 @@ class ComContactsViewCategoriesHtml extends ComDefaultViewHtml
 			}
 			
 			$attribs['hspace'] = 6;
-			$attribs['title']  = JText::_('Web Links');
+			$attribs['title']  = JText::_('Contacts');
 
 			$image['src']     = KRequest::base().'/images/stories/'.$params->get('image');
 			$image['attribs'] = $attribs;
 			
 			$this->assign('image', $image);
 		}
-
+		
 		$this->assign('params', $params);
 
 		return parent::display();

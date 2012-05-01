@@ -26,7 +26,7 @@ class ComContactsModelContacts extends KModelTable
 		
 		$this->getState()
 			->insert('published', 'boolean')
-			->insert('category', 'int');
+			->insert('category' , 'slug');
 	}
 
 	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -35,7 +35,7 @@ class ComContactsModelContacts extends KModelTable
 		
 		$query->columns(array(
 			'category_title' => 'categories.title',
-		    'username' => 'users.name'
+		    'username'       => 'users.name'
 		));
 	}
 
@@ -44,7 +44,7 @@ class ComContactsModelContacts extends KModelTable
 		parent::_buildQueryJoins($query);
 		
 		$query->join(array('categories' => 'categories'), 'categories.id = tbl.id')
-		    ->join(array('users' => 'users'), 'users.id = tbl.user_id');
+		      ->join(array('users' => 'users'), 'users.id = tbl.user_id');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -57,7 +57,7 @@ class ComContactsModelContacts extends KModelTable
 		}
 
 		if ($state->category) {
-			$query->where('tbl.catid = :category')->bind(array('category' => $state->category));
+			$query->where('tbl.catid = :category')->bind(array('category' => (int) $state->category));
 		}
 
 		if ($state->search) {

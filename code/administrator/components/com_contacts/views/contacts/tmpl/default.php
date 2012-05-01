@@ -29,7 +29,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			    <?= @helper('grid.checkall'); ?>
 			</th>
 			<th>
-			    <?= @helper('grid.sort', array('column' => 'title')); ?>
+			    <?= @helper('grid.sort', array('column' => 'name')); ?>
 			</th>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
@@ -62,7 +62,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			</td>				
 			<td align="left">
 				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
-	   				<?= @escape($contact->title); ?>
+	   				<?= @escape($contact->name); ?>
 	   			</a>
 			</td>
 			<td align="center">

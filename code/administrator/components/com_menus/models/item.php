@@ -130,9 +130,6 @@ class MenusModelItem extends JModel
 				    if ($option == 'com_content') {
 				    	$option = 'com_articles';
 				    }
-				    else if ($option == 'com_contact') {
-				    	$option = 'com_contacts';	
-				    }
 				    
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
@@ -163,9 +160,7 @@ class MenusModelItem extends JModel
 		    if ($option == 'articles') {
 		    	$option = 'content';
 		    }
-		    else if ($option == 'contacts') {
-		    	$option = 'contact';	
-		    }
+		    
 			$handler		= new iLink($option, $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 
