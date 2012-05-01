@@ -11,49 +11,8 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="" method="get" name="adminForm">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<? if ($params->get( 'show_headings' )) : ?>
-<tr>
-	<td width="5" align="right" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @text('Num'); ?>
-    </td>
-    <td height="20" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @helper('grid.sort', array('column' => 'Name')); ?>
-	</td>
-    <? if ( $params->get( 'show_position' ) ) : ?>
-    <td height="20" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @helper('grid.sort', array('column' => 'con_position', 'title' => 'Position')); ?>
-    </td>
-    <? endif; ?>
-    <? if ( $params->get( 'show_email' ) ) : ?>
-    <td height="20" width="20%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @text( 'Email' ); ?>
-	</td>
-    <? endif; ?>
-    <? if ( $params->get( 'show_telephone' ) ) : ?>
-	<td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @text( 'Phone' ); ?>
-	</td>
-	<? endif; ?>
-    <? if ( $params->get( 'show_mobile' ) ) : ?>
-    <td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @text( 'Mobile' ); ?>
-	</td>
-    <? endif; ?>
-    <? if ( $params->get( 'show_fax' ) ) : ?>
-    <td height="20" width="15%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
-        <?= @text( 'Fax' ); ?>
-	</td>
-    <? endif; ?>
-</tr>
-<? endif; ?>
-<? $i = 1; ?>
 <? foreach( $contacts as $contact ) : ?>
-<tr class="sectiontableentry<?= ($i&1) ? '1' : '2'; ?>">
-	<td align="center" width="5">
-        <?= $i; ?>	
-    </td>
+<tr>
     <td height="20">
 		<a href="<?= @route('view=contact&category='.$category->id.':'.$category->slug.'&id='. $contact->id.':'.$contact->slug);?>" class="category<?= @escape($params->get('pageclass_sfx'));?> ">
 		    <?= $contact->name; ?>
@@ -86,5 +45,3 @@ defined('KOOWA') or die('Restricted access'); ?>
     <? endif; ?>
 </tr>
 <? endforeach; ?>
-</table>
-</form>

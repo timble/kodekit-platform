@@ -28,40 +28,49 @@ defined('KOOWA') or die('Restricted access'); ?>
 </script>
 
 <form action="" method="post" name="emailForm" id="emailForm" class="form-validate">
- <input type="hidden" name="action" value="email" />
-<div class="contact_email">
- 	<label for="contact_name">
-        <?= @text( 'Enter your name' );?>:
-	</label>
-	<br />
-	<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
-	<br />
-	<label id="contact_emailmsg" for="contact_email">
-        <?= @text( 'Email address' );?>:
-	</label>
-	<br />
- 	<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
-    <br />
-	<label for="contact_subject">
-        <?= @text( 'Message subject' );?>:
-	</label>
-	<br />
-	<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
-	<br /><br />
-	<label id="contact_textmsg" for="contact_text">
-        <?= @text( 'Enter your message' );?>:
-	</label>
-	<br />
-	<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
-    <? /*if ($contact->params->get( 'show_email_copy' )) :*/ ?>
-	<br />
-	<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
-	<label for="contact_email_copy">
-        <?= @text( 'EMAIL_A_COPY' ); ?>
-    </label>
-    <? /*endif;*/ ?>
-    <br />
-    <br />
-    <button class="button validate" type="submit"><?= @text('Send'); ?></button>
-</div>
+<input type="hidden" name="action" value="email" />
+    <div class="control-group">
+        <label for="contact_name">
+            <?= @text( 'Enter your name' );?>:
+        </label>
+        <div class="controls">
+            <input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label id="contact_emailmsg" for="contact_email">
+            <?= @text( 'Email address' );?>:
+        </label>
+        <div class="controls">
+            <input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="contact_subject">
+            <?= @text( 'Message subject' );?>:
+        </label>
+        <div class="controls">
+            <input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label id="contact_textmsg" for="contact_text">
+            <?= @text( 'Enter your message' );?>:
+        </label>
+        <div class="controls">
+            <textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="contact_email_copy">
+            <?= @text( 'EMAIL_A_COPY' ); ?>
+        </label>
+        <div class="controls">
+             <input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
+        </div>
+    </div>
+    
+    <div class="form-actions">
+	    <button class="btn btn-primary validate" type="submit"><?= @text('Send'); ?></button>
+	</div>
 </form>
