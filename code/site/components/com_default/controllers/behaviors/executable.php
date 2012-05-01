@@ -10,7 +10,7 @@
  */
 
 /**
- * Default Controller Authorization Command
+ * Default Controller Executable Behavior
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
