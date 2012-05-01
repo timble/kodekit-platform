@@ -117,10 +117,10 @@ INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__contact_contacts`
+# Table structure for table `#__contacts_contacts`
 #
 
-CREATE TABLE `#__contact_contacts` (
+CREATE TABLE `#__contacts_contacts` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
