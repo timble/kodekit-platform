@@ -22,7 +22,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	    <? endif; ?>
 	</div>
     <? endif; ?>
-	<div align="center">
-		<input type="submit" name="Submit" class="button" value="<?= @text( 'BUTTON_LOGOUT'); ?>" />
+	<div class="form-actions">
+		<input type="submit" name="Submit" class="btn" value="<?= @text( 'BUTTON_LOGOUT'); ?>" />
 	</div>
 </form>
