@@ -12,9 +12,9 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? if ($params->get( 'show_page_title', 1 )) : ?>
-<div class="componentheading<?= @escape( $params->get( 'pageclass_sfx' ) );?>">
+<h1>
 	<?= $params->get( 'page_title', @text( 'Search' ) );?>
-</div>
+</h1>
 <? endif; ?>
 
 <?= @template('com://site/search.view.results.default_form');?>
