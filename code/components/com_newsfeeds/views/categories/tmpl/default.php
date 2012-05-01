@@ -17,19 +17,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 	</div>
 <? endif; ?>
 
-<? if ( ($params->def('image', -1) != -1) || $params->def('show_comp_description', 1) ) : ?>
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?= @escape($params->get('pageclass_sfx')); ?>">
-<tr>
-	<td valign="top" class="contentdescription<?= @escape($params->get('pageclass_sfx')); ?>">
-	<? if ( isset($image) ) : ?>
-		<img src="<?= $image['src'] ?>" <? foreach ($image['attribs'] as $attrib => $value) : echo $attrib.'="'.$value.'" '; endforeach ?>/>
-	<? endif; ?>
-	<?= @escape($params->get('comp_description')); ?>
-	</td>
-</tr>
-</table>
-<? endif; ?>
-
 <ul>
 <? foreach($categories as $category) : ?>
 	<li>
