@@ -65,17 +65,6 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 		    );
 		}
 
-		// Set up icon for table display
-		if ( $params->get( 'link_icons' ) != -1 ) 
-		{
-			$image = array(
-				'src'   => 'media://system/images/'.$params->get('weblink_icons', 'weblink.png'),
-			    'title' => JText::_('Link')
-			);
-			
-			$this->assign('image', $image);
-		}
-
 		$this->assign('params'    , $params);
 		$this->assign('category'  , $category);
 		

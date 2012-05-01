@@ -31,9 +31,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 		<?= $i; ?>
 	</td>
 	<td height="20">
-		<? if ( $image ) : ?>
-			&nbsp;&nbsp;<img src="<?= $image['src'] ?>" title="<?= $image['title'] ?>" />&nbsp;&nbsp;
-		<? endif; ?>
 		<a href="<?= @route('view=weblink&category='.$category->id.':'.$category->slug.'&id='. $weblink->id.':'.$weblink->slug); ?>" class="<?= 'category'.@escape($params->get( 'pageclass_sfx' )); ?>"><?= @escape($weblink->title) ?></a>
 		<? if ( $params->get( 'show_link_description' ) ) : ?>
 			<br /><span class="description"><?= nl2br(@escape($weblink->description)); ?></span>
