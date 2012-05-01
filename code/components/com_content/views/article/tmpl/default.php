@@ -7,7 +7,7 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 <h1 class="page-header"><?php echo $this->escape($this->params->get('page_title')); ?></h1>
 <?php endif; ?>
 
-<?php if ($canEdit || $this->params->get('show_title')  || $this->params->get('show_print_icon')) : ?>
+<?php if ($canEdit || $this->params->get('show_title')) : ?>
 	<?php if ($this->params->get('show_title')) : ?>
 	<h2>
 		<?php if ($this->params->get('link_titles') && $this->article->readmore_link != '') : ?>
@@ -17,16 +17,8 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 			<?php echo $this->escape($this->article->title); ?>
 		<?php endif; ?>
 		
-		<?php if (!$this->print) : ?>
-			<?php if ( $this->params->get( 'show_print_icon' )) : ?>
-			<?php echo JHTML::_('icon.print_popup',  $this->article, $this->params, $this->access); ?>
-			<?php endif; ?>
-			
-			<?php if ($canEdit) : ?>
-			<?php echo JHTML::_('icon.edit', $this->article, $this->params, $this->access); ?>
-			<?php endif; ?>
-		<?php else : ?>
-			<?php echo JHTML::_('icon.print_screen',  $this->article, $this->params, $this->access); ?>
+		<?php if ($canEdit) : ?>
+		<?php echo JHTML::_('icon.edit', $this->article, $this->params, $this->access); ?>
 		<?php endif; ?>
 	</h2>
 	<?php endif; ?>

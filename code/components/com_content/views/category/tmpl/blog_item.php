@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php $canEdit   = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')); ?>
 
-<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_print_icon') || $canEdit) : ?>
+<?php if ($this->item->params->get('show_title') || $canEdit) : ?>
 <h2>
 	<?php if ($this->item->params->get('show_title')) : ?>
 		<?php if ($this->item->params->get('link_titles') && $this->item->readmore_link != '') : ?>
@@ -11,10 +11,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
-	<?php endif; ?>
-
-	<?php if ( $this->item->params->get( 'show_print_icon' )) : ?>
-	<?php echo JHTML::_('icon.print_popup', $this->item, $this->item->params, $this->access); ?>
 	<?php endif; ?>
 
 	<?php if ($canEdit) : ?>
