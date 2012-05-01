@@ -39,15 +39,16 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         parent::_buildQueryColumns($query);
         $state = $this->getState();
         
-        if ($state->section) {
-            if ( $state->section == 'com_content' || is_numeric($state->section)){
+        if ($state->section) 
+        {
+            if ( $state->section == 'com_content' || is_numeric($state->section))
+            {
                 $query->columns(array(
                 	'section_title' => 'section.title',
                     'activecount' => 'SUM(IF(content.state <> -2, 1, 0))',
                 ));
-            } else {
-                $query->columns(array('activecount' => 'SUM(IF(child.catid, 1, 0))'));
-            }
+            } 
+            else $query->columns(array('activecount' => 'SUM(IF(child.catid, 1, 0))'));
         }
     }
 
@@ -59,13 +60,14 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         //Exclude joins if counting records
         if(!$query->isCountQuery())
         {
-            if ($state->section) {
-                if ($state->section == 'com_content' || is_numeric($state->section)){
+            if ($state->section) 
+            {
+                if ($state->section == 'com_content' || is_numeric($state->section))
+                {
                     $query->join(array('content' => 'content'), 'content.catid = tbl.id');
                     $query->join(array('section' => 'sections'), 'section.id = tbl.section');
-                } else {
-                    $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
-                }
+                } 
+                else $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
             }
         }
 
