@@ -10,18 +10,18 @@
  */
 
 /**
- * Mail Controller
+ * Message Controller
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsControllerMail extends ComDefaultControllerResource
+class ComContactsControllerMessage extends ComDefaultControllerResource
 { 
-    protected function _actionAdd(KCommandContext $context)
+    protected function _actionSend(KCommandContext $context)
 	{
-	    $name          = $context->data->name;
+	    /*$name          = $context->data->name;
 	    $email         = $context->data->email;
 	    $body          = $context->data->text;
 	    $subject       = $context->data->subject;
@@ -66,24 +66,22 @@ class ComContactsControllerMail extends ComDefaultControllerResource
 	
 	    $sent = $mail->Send();
 	
-		/*
-	     * Copy administrator.
-	     */
-	     if ( $emailcopy && $showemailcopy )
-	     {
-	         $copyText     = JText::sprintf('Copy of:', $name, $SiteName);
-	         $copyText    .= "\r\n\r\n".$body;
-	         $copySubject  = JText::_('Copy of:')." ".$subject;
+	    //Copy administrator.
+	    if ( $emailcopy && $showemailcopy )
+	    {
+	    	$copyText     = JText::sprintf('Copy of:', $name, $SiteName);
+	        $copyText    .= "\r\n\r\n".$body;
+	        $copySubject  = JText::_('Copy of:')." ".$subject;
 	
-	         $mail = JFactory::getMailer();
+	        $mail = JFactory::getMailer();
 	
-	         $mail->addRecipient( $email );
-	         $mail->setSender( array( $MailFrom, $FromName ) );
-	         $mail->setSubject( $copySubject );
-	         $mail->setBody( $copyText );
+	        $mail->addRecipient( $email );
+	        $mail->setSender( array( $MailFrom, $FromName ) );
+	        $mail->setSubject( $copySubject );
+	        $mail->setBody( $copyText );
 	
-	         $sent = $mail->Send();
-	    }
+	        $sent = $mail->Send();
+	    }*/
 	
 	    $msg  = JText::_( 'Thank you for your e-mail');
 	    $link = JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false);
@@ -91,19 +89,14 @@ class ComContactsControllerMail extends ComDefaultControllerResource
 	    $this->setRedirect($link, $msg);
 	}
 	
-	function _validateInput(KCommandContext $context)
+	public function _validateInput(KCommandContext $context)
 	{
-	    $mainframe = KFactory::get('lib.joomla.application');
-	   
-	    // Get params and component configurations
-	    $params = $mainframe->getParams('com_contact');
-	
 	    // Test to ensure that only one email address is entered
-	    $check = explode( '@', $context->data->email );
+	    /*$check = explode( '@', $context->data->email );
 	    if ( strpos( $context->data->email, ';' ) || strpos( $context->data->email, ',' ) || strpos( $context->data->email, ' ' ) || count( $check ) > 2 ) {
 	        $mainframe->enqueueMessage('You cannot enter more than one email address.', 'error');
 	        return false;
-	    }
+	    }*/
 	
 	    return true;
 	}

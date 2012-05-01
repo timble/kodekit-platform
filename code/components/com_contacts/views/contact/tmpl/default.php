@@ -79,5 +79,5 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? endif; ?>
 
 <? if ( $contact->params->get('show_email_form') && ($contact->email_to || $contact->user_id)) : ?>
-    <?= @service('com://site/contacts.controller.mail')->view('mail')->layout('form')->display(); ?>
+    <?= @service('com://site/contacts.controller.message')->layout('form')->display(); ?>
 <? endif; ?>   
