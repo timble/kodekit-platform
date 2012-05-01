@@ -251,13 +251,12 @@ class JSite extends JApplication
 				$option = JRequest::getCmd('option');
 			}
 			
-			$params[$hash] =& JComponentHelper::getParams($option);
+			$params[$hash] = JComponentHelper::getParams($option);
 
 			// Get menu parameters
-			$menus	=& JSite::getMenu();
-			$menu	= $menus->getActive();
+			$menu = JSite::getMenu()->getActive();
 
-			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));
+			$title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 			
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
