@@ -10,9 +10,9 @@
  */
 
 /**
- * Weblink's category rss layout
+ * Weblink Rss View
  *
- * @author    	Jeremy Wilken <www.gnomeontherun.com>
+ * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
@@ -39,7 +39,7 @@ class ComWeblinksViewWeblinksRss extends KViewAbstract
 		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
 		$xml .= '<rss version="2.0">'.PHP_EOL;
 		$xml .= '<channel>'.PHP_EOL;
-		$xml .= '	<title>'.$category->title.'</title>'.PHP_EOL;
+		$xml .= '	<title>'.htmlspecialchars($category->title).'</title>'.PHP_EOL;
 		$xml .= '	<description><![CDATA['.$category->description.']]></description>'.PHP_EOL;
 		$xml .= '	<link>'.KRequest::url().'</link>'.PHP_EOL;
 		$xml .= '	<lastBuildDate>'.date('r').'</lastBuildDate>'.PHP_EOL;
