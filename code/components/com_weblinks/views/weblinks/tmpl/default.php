@@ -16,24 +16,16 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? endif; ?>
 
 <? if ( $params->def( 'show_page_title', 1 ) ) : ?>
-	<div class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
-		<?= @escape($params->get('page_title')); ?>
-	</div>
+<h1><?= @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?= @escape($params->get('pageclass_sfx')); ?>">
+
+<div class="clearfix">
 <? if ( $category->image || $category->description ) : ?>
-<tr>
-	<td valign="top" class="contentdescription<?= @escape($params->get('pageclass_sfx')); ?>">
 	<? if (isset($category->image)) : ?>
 		<img src="<?= $category->image['src'] ?>" <? foreach ($category->image['attribs'] as $attrib => $value) : echo $attrib.'="'.$value.'" '; endforeach ?>/>
 	<? endif; ?>
 	<?= $category->description; ?>
-	</td>
-</tr>
 <? endif; ?>
-<tr>
-	<td width="60%" colspan="2">
-	<?= @template('default_items'); ?>
-	</td>
-</tr>
-</table>
+</div>
+
+<?= @template('default_items'); ?>

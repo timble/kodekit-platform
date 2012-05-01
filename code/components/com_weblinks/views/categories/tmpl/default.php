@@ -12,21 +12,16 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? if ( $params->def( 'show_page_title', 1 ) ) : ?>
-	<div class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
-		<?= @escape($params->get('page_title')); ?>
-	</div>
+<h1><?= @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
-<ul>
 <? foreach($categories as $category) : ?>
-	<li>
+	<h2>
 		<a href="<?= @route('view=weblinks&category='. $category->id.':'.$category->slug) ?>" class="category<?= @escape($params->get( 'pageclass_sfx' )); ?>">
 			<?= @escape($category->title);?>
-		</a>
-		&nbsp;
-		<span class="small">
-			(<?= $category->numlinks;?>)
-		</span>
-	</li>
+		</a>		
+	</h2>
+	<p>
+	    <?= @escape($category->description);?>
+	</p>
 <? endforeach; ?>
-</ul>
