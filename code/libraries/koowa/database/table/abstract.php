@@ -608,30 +608,26 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function insert( KDatabaseRowInterface $row )
     {
+        // Create query object.
+        $query = $this->getService('koowa:database.query.insert')
+                      ->table($this->getBase());
+        
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_INSERT;
         $context->table     = $this->getBase();
         $context->data      = $row;
-        $context->query     = null;
+        $context->query     = $query;
         $context->affected  = false;
         
         if($this->getCommandChain()->run('before.insert', $context) !== false) 
         {
-            // Create query object.
-            $query = $this->getService('koowa:database.query.insert')
-                ->table($context->table);
-            
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData(), true);
-            
-            $query->values($this->mapColumns($data));
-            
-            // Set the query in the context.
-            $context->query = $query;
+            $data  = $this->filter($context->data->getData());
+            $context->query->values($this->mapColumns($data));
             
             // Execute the insert query.
-            $context->affected = $this->getDatabase()->insert($query);
+            $context->affected = $this->getDatabase()->insert($context->query);
             
             if($context->affected !== false) 
             {
@@ -660,38 +656,39 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function update(KDatabaseRowTable $row)
     {
+        // Create query object.
+        $query = $this->getService('koowa:database.query.update')
+                      ->table($this->getBase());
+        
         // Create commandchain context.
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_UPDATE;
         $context->table     = $this->getBase();
         $context->data      = $row;
+        $context->query     = $query;
         $context->affected  = false;
         
-        if ($this->getCommandChain()->run('before.update', $context) !== false) {
-            // Create query object.
-            $query = $this->getService('koowa:database.query.update')
-                ->table($context->table);
-            
-            foreach ($this->getPrimaryKey() as $key => $column) {
-                $query->where($column->name.' = :'.$key)
-                    ->bind($this->filter(array($key => $row->$key), true));
+        if($this->getCommandChain()->run('before.update', $context) !== false)
+        {
+            foreach($this->getPrimaryKey() as $key => $column)
+            {
+                $context->query->where($column->name.' = :'.$key)
+                    ->bind(array($key => $context->data->$key));
             }
             
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData(true), true);
+            $data  = $this->filter($context->data->getData(true));
             
-            foreach ($this->mapColumns($data) as $key => $value) {
+            foreach($this->mapColumns($data) as $key => $value) {
                 $query->set($key.' = :_'.$key)->bind(array('_'.$key => $value));
             }
             
-            // Set the query in the context.
-            $context->query = $query;
-            
             // Execute the update query.
-            $context->affected = $this->getDatabase()->update($query);
+            $context->affected = $this->getDatabase()->update($context->query);
 	        
-            if ($context->affected !== false) {
-                if ($context->affected) {
+            if($context->affected !== false)
+            {
+                if($context->affected) {
                     $context->data->setData($data, false)->setStatus(KDatabase::STATUS_UPDATED);
                 } else {
                     $context->data->setStatus(KDatabase::STATUS_FAILED);
@@ -712,30 +709,28 @@ abstract class KDatabaseTableAbstract extends KObject
      */
     public function delete( KDatabaseRowInterface $row )
     {
+        // Create query object.
+        $query = $this->getService('koowa:database.query.delete')
+                      ->table($this->getBase());
+        
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_DELETE;
         $context->table     = $this->getBase();
         $context->data      = $row;
-        $context->query     = null;
+        $context->query     = $query;
         $context->affected  = false;
         
         if($this->getCommandChain()->run('before.delete', $context) !== false) 
         {
-            // Create query object.
-            $query = $this->getService('koowa:database.query.delete')
-                ->table($context->table);
-            
-            foreach($this->getPrimaryKey() as $key => $column) {
-                $query->where($column->name.' = :'.$column->name)
-                    ->bind(array($column->name => $context->data->$key));
+            foreach($this->getPrimaryKey() as $key => $column) 
+            {
+                $context->query->where($column->name.' = :'.$column->name)
+                        ->bind(array($column->name => $context->data->$key));
             }
             
-            // Set the query in the context.
-            $context->query = $query;
-            
             // Execute the delete query.
-            $context->affected = $this->getDatabase()->delete($query);
+            $context->affected = $this->getDatabase()->delete($context->query);
             
             // Set the query in the context.
             if($context->affected !== false) {
