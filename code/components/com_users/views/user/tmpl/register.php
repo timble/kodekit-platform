@@ -13,6 +13,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?=@helper('behavior.mootools');?>
 
 <style src="media://com_users/css/site.css" />
+<script src="media://lib_koowa/js/koowa.js" />
 
 <script type="text/javascript">
     Window.onDomReady(function(){
@@ -71,7 +72,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </td>
             <td>
                 <input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
-                <?=@helper('com://admin/users.template.helper.form.passwcheck');?>
+                <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_score' => $parameters->get('min_password_score')));?>
             </td>
         </tr>
         <tr>

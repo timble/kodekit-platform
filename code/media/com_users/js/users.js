@@ -9,41 +9,64 @@
  */
 var ComUsers = {
 
-    passwScore:function (password, words) {
+    Password:{
 
-        // Check if zxcvbn.js is already loaded.
-        if (typeof zxcvbn !== 'function') return 0;
+        score:function (password, words) {
 
-        var result = zxcvbn(password, words);
+            // Check if zxcvbn.js is already loaded.
+            if (typeof zxcvbn !== 'function') return 0;
 
-        return result.score;
-    },
+            var result = zxcvbn(password, words);
 
-    bindPasswCheck:function (config) {
+            return result.score;
+        },
 
-        window.addEvent("domready", function () {
-            $(config.input_id).addEvent("keyup", function () {
+        checker:function (config) {
 
-                // Get user input values.
-                var words = Array.copy(config.words);
-                Array.each(config.user_input_ids, function (user_input_id, index) {
-                    words.push($(user_input_id).get("value"));
+            var my = {};
+
+            my.score = 0;
+
+            my.initialize = function (config) {
+                window.addEvent("domready", function () {
+                    $(config.input_id).addEvent("keyup", function () {
+
+                        // Get user input values.
+                        var words = Array.copy(config.words);
+                        Array.each(config.user_input_ids, function (user_input_id, index) {
+                            words.push($(user_input_id).get("value"));
+                        });
+
+                        my.score = ComUsers.Password.score(this.get("value"), words) + 1;
+                        $(config.container_id).set("class", config['class'] + " " + "score" + my.score);
+                        $(config.container_id).set("html", config.score_map[my.score]);
+                    });
+
+                    // Update password score on user input change.
+                    Array.each(config.user_input_ids, function (user_input_id, index) {
+
+                        var fireEvent = function () {
+                            $(config.input_id).fireEvent("keyup");
+                        };
+
+                        $(user_input_id).addEvents({"keyup":fireEvent, "change":fireEvent});
+                    });
+
+                    // Intercept the move request in the controller chain.
+                    if (config.min_score) {
+                        $(config.container_id).getParent('form').addEvent('submit', function () {
+                            if (my.score < config.min_score) {
+                                alert(config.message);
+                                return false;
+                            }
+                        });
+                    }
                 });
+            };
 
-                var score = ComUsers.passwScore(this.get("value"), words) + 1;
-                $(config.container_id).set("class", config['class'] + " " + "score" + score);
-                $(config.container_id).set("html", config.score_map[score]);
-            });
+            my.initialize(config);
 
-            // Update password score on user input change.
-            Array.each(config.user_input_ids, function (user_input_id, index) {
-
-                var fireEvent = function () {
-                    $(config.input_id).fireEvent("keyup");
-                };
-
-                $(user_input_id).addEvents({"keyup":fireEvent, "change":fireEvent});
-            });
-        });
+            return my;
+        }
     }
 }

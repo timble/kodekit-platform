@@ -19,5 +19,6 @@
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>
+  <param name="min_password_score" type="text" default="0" label="Minimum password score" description="TIPMINPASSWORDSCORE" />
  </params>
 </config>

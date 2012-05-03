@@ -38,6 +38,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'user_input_ids'         => array(),
             'words'                  => array(),
             'container_id'           => 'password-check',
+            'min_score'              => 0,
             'score_map'              => array(
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
@@ -51,7 +52,10 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'user_input_ids'=> $config->user_input_ids->toArray(),
             'words'         => $config->words->toArray(),
             'container_id'  => $config->container_id,
-            'score_map'     => $config->score_map->toArray());
+            'score_map'     => $config->score_map->toArray(),
+            'min_score'     => $config->min_score,
+            'message'       => JText::_('Please select a stronger password'));
+
 
         // Add required libs and styles.
         $html = '<script src="media://com_users/js/users.js" />';
@@ -66,7 +70,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $html .= '</script>';
 
         $html .= '<script type="text/javascript">';
-        $html .= 'ComUsers.bindPasswCheck(' . json_encode($options) . ');';
+        $html .= 'new ComUsers.Password.checker(' . json_encode($options) . ');';
         $html .= '</script>';
 
         return $html;
