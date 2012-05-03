@@ -1,3 +1,13 @@
+/**
+ * @version     1.0
+ * @category    Nooku
+ * @package     Nooku_Server
+ * @subpackage  Users
+ * @copyright   Copyright (c) 2012 Dropbox, Inc.
+ * @license     See license.txt
+ * @link        https://www.dropbox.com/
+ */
+
 (function(){var w,p,q,x,J,K,L,M,N,O,P,Q,y,s,z,R,S,T,U,V,W;P=function(b){var a,d;d=[];for(a in b)d.push(a);return 0===d.length};y=function(b,a){return b.push.apply(b,a)};V=function(b,a){var d,c,e,f,g;f=b.split("");g=[];c=0;for(e=f.length;c<e;c++)d=f[c],g.push(a[d]||d);return g.join("")};R=function(b){var a,d,c,e;d=[];c=0;for(e=A.length;c<e;c++)a=A[c],y(d,a(b));return d.sort(function(b,a){return b.i-a.i||b.j-a.j})};N=function(b,a){var d,c,e,f,g,h,i;h=[];e=b.length;f=b.toLowerCase();for(d=0;0<=e?d<e:
     d>e;0<=e?d++:d--)for(c=d;d<=e?c<e:c>e;d<=e?c++:c--)if(f.slice(d,c+1||9E9)in a)i=f.slice(d,c+1||9E9),g=a[i],h.push({pattern:"dictionary",i:d,j:c,token:b.slice(d,c+1||9E9),matched_word:i,rank:g});return h};q=function(b){var a,d,c,e,f;d={};a=1;e=0;for(f=b.length;e<f;e++)c=b[e],d[c]=a,a+=1;return d};p=function(b,a){return function(d){var c,e,f;c=N(d,a);e=0;for(f=c.length;e<f;e++)d=c[e],d.dictionary_name=b;return c}};z={a:["4","@"],b:["8"],c:["(","{","[","<"],e:["3"],g:["6","9"],i:["1","!","|"],l:["1",
     "|","7"],o:["0"],s:["$","5"],t:["+","7"],x:["%"],z:["2"]};S=function(b){var a,d,c,e,f;d={};f=b.split("");c=0;for(e=f.length;c<e;c++)b=f[c],d[b]=!0;b={};for(a in z){e=z[a];var g=f=void 0,h=void 0,h=[];f=0;for(g=e.length;f<g;f++)c=e[f],c in d&&h.push(c);c=h;0<c.length&&(b[a]=c)}return b};Q=function(b){var a,d,c,e,f,g,h,i,j,k,l,o,n;f=function(){var a;a=[];for(e in b)a.push(e);return a}();j=[[]];d=function(a){var b,c,d,e,f,g,h,i,j;c=[];f={};i=0;for(j=a.length;i<j;i++)g=a[i],b=function(){var a,b;b=[];

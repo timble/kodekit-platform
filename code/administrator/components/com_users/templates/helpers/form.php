@@ -52,7 +52,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $html .= '<span id="' . $config->checker_id . '" class="' . $config->class . ' score0">' . JText::_('Please provide a password') . '</span>';
 
         // Async load of zxcvbn
-        $zxcvbn_url = 'media://com_users/js/libs/zxcvbn.js';
+        $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';
         $html .= '<script type="text/javascript">';
         $html .= '(function(){var a;a=function(){var a,b;b=document.createElement("script");b.src="' . $zxcvbn_url . '";b.type="text/javascript";b.async=!0;a=document.getElementsByTagName("script")[0];return a.parentNode.insertBefore(b,a)};null!=window.attachEvent?window.attachEvent("onload",a):window.addEventListener("load",a,!1)}).call(this);';
         $html .= '</script>';
