@@ -10,6 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<?=@helper('behavior.mootools');?>
+
 <div class="componentheading">
     <?= @text('Reset your Password') ?>
 </div>
@@ -32,6 +34,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
             </td>
             <td>
                 <input id="password" name="password" type="password" class="required validate-password" />
+                <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_score' => $parameters->get('min_password_score')));?>
             </td>
         </tr>
         <tr>
