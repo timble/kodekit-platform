@@ -9,32 +9,13 @@
  */
 var ComUsers = {
 
-    passwordScore:function (password) {
+    passwordScore:function (password, user_inputs) {
 
-        // Initialize score.
-        var score = 0;
+        // Check if zxcvbn.js is already loaded.
+        if (typeof zxcvbn !== 'function') return 0;
 
-        // Password must be at least 6 chars long.
-        if (password.length < 6) return 0;
+        var result = zxcvbn(password, user_inputs);
 
-        // TODO Make a query to a password dictionary and return low score if a match is found.
-
-        // Password lenght > 6 = 1 point
-        if (password.length > 6) score++;
-
-        // Password lengnth > 12 = 1 point
-        if (password.length > 12) score++;
-
-        // Password has both lower and uppercase characters = 1 point
-        if (( password.match(/[a-z]/) ) && ( password.match(/[A-Z]/) )) score++;
-
-        // Password has at least one number = 1 point
-        if (password.match(/\d+/)) score++;
-
-        // Password has at least one special character = 1 point
-        if (password.match(/[\s!.,@#$%^&*?_~\-()]/)) score++;
-
-        return score;
+        return result.score;
     }
-
 }
