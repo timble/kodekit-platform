@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * File Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 class ComFilesControllerFile extends ComFilesControllerDefault
@@ -32,9 +30,9 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 		{
 			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
 			if (empty($context->data->name)) {
-				$context->data->name = KRequest::get('files.file.name', 'raw');	
+				$context->data->name = KRequest::get('files.file.name', 'raw');
 			}
-			
+
 		}
 	}
 }

@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -45,7 +44,7 @@ window.addEvent('domready', function() {
 		var image = getImageString();
 		window.parent.jInsertEditorText(image, Files.app.editor);
 	};
-	
+
 	document.id('insert-image').addEvent('click', function(e) {
 		e.stop();
 		insertImage();
@@ -62,9 +61,9 @@ window.addEvent('domready', function() {
 		var target = document.id(e.target).getParent('.files-node'),
 			row = target.retrieve('row'),
     		url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
-			
+
 		document.id('image-url').set('value', url);
-	});    
+	});
 
 	if (window.parent.tinyMCE) {
 		var text = window.parent.tinyMCE.activeEditor.selection.getContent({format:'text'});

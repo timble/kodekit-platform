@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: file.php 1428 2012-01-20 17:14:12Z ercanozkaya $
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -16,28 +15,28 @@ class ComFilesAdapterLocalIterator extends KObject
 		$config['type'] = 'files';
 		return self::getNodes($config);
 	}
-	
+
 	public function getFolders(array $config = array())
 	{
 		$config['type'] = 'folders';
 		return self::getNodes($config);
 	}
-	
+
 	public function getNodes(array $config = array())
 	{
-		$config['path'] = $this->getService('com://admin/files.adapter.local.folder', 
+		$config['path'] = $this->getService('com://admin/files.adapter.local.folder',
 					array('path' => $config['path']))->getRealPath();
-					
+
 		try {
-			$results = ComFilesIteratorDirectory::getNodes($config);	
+			$results = ComFilesIteratorDirectory::getNodes($config);
 		}
 		catch (Exception $e) {
 			return false;
 		}
-		
+
 		foreach ($results as &$result) {
 			$result = rawurldecode($result);
 		}
 		return $results;
-	}	
+	}
 }

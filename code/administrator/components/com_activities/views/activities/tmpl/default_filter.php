@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: default_filter.php 1485 2012-02-10 12:32:02Z johanjanssens $
- * @category    Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

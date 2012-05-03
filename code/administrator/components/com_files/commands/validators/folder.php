@@ -13,11 +13,9 @@
  * Folder Validator Command Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
-
 class ComFilesCommandValidatorFolder extends ComFilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave($context)

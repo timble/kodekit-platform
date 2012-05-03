@@ -1,13 +1,12 @@
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
- 
+
 if(!Files) var Files = {};
 
 if (!Files._) {
@@ -44,13 +43,13 @@ Files.FileTypes.map = {
 	'document': ['doc','docx','rtf','txt','xls','xlsx','pdf','ppt','pptx','pps','xml'],
 	'archive': ['7z','gz','rar','tar','zip']
 };
-	
+
 Files.getFileType = function(extension) {
 	var type = 'document';
 	extension = extension.toLowerCase();
 	$each(Files.FileTypes.map, function(value, key) {
 		if (value.contains(extension)) {
-			type = key; 
+			type = key;
 		}
 	});
 	return type;

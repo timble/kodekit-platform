@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Thumbnails Model Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 class ComFilesModelThumbnails extends ComDefaultModelDefault
@@ -30,15 +28,15 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			->insert('files', 'com://admin/files.filter.path', null)
 			->insert('source', 'raw', null, true)
 			;
-		
+
 	}
-	
+
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
 			'state' => new ComFilesConfigState()
 		));
-		
+
 		parent::_initialize($config);
 	}
 
@@ -56,16 +54,16 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 	protected function _buildQueryColumns(KDatabaseQuery $query)
     {
     	parent::_buildQueryColumns($query);
-    	
+
     	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
     		$query->select('c.slug AS container');
     	}
     }
-	
+
 	protected function _buildQueryJoins(KDatabaseQuery $query)
     {
     	parent::_buildQueryJoins($query);
-    	
+
     	if ($this->_state->source instanceof KDatabaseRowInterface || $this->_state->container) {
     		$query->join('LEFT', 'files_containers AS c', 'c.files_container_id = tbl.files_container_id');
     	}
@@ -74,7 +72,8 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 	protected function _buildQueryWhere(KDatabaseQuery $query)
     {
         $state = $this->_state;
-		if ($state->source instanceof KDatabaseRowInterface) {
+		if ($state->source instanceof KDatabaseRowInterface)
+		{
 			$source = $state->source;
 
 			$query->where('tbl.files_container_id', '=', $source->container->id)
@@ -87,13 +86,14 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		elseif (!empty($state->files)) {
 			$query->where('tbl.filename', 'IN', $state->files);
 		}
-		else {
+		else
+		{
 		    if ($state->container) {
 		        $query->where('tbl.files_container_id', '=', $state->container->id);
 		    }
-		    
+
 		    if ($state->folder !== false) {
-		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));	
+		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));
 		    }
 
 		    if ($state->filename) {

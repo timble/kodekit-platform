@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -67,8 +66,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <div class="files-node-shadow">
     <div class="imgOutline files-node files-file">
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
-    	 	<a class="navigate extension-label" href="#" 
-    	 		data-filetype="[%=filetype%]" 
+    	 	<a class="navigate extension-label" href="#"
+    	 		data-filetype="[%=filetype%]"
     	 		data-extension="[%=metadata.extension%]"></a>
     	</div>
     	<div class="files-icons-controls">
@@ -86,10 +85,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <textarea style="display: none" id="icons_image">
 <div class="files-node-shadow">
     <div class="imgOutline [%= Files.app.options.thumbnails ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%=  Files.app.options.thumbnails ? (client_cache ? 'load' : 'loading') : '' %]">
-    
+
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     		<a class=" navigate" href="#" title="[%=name%]"
-    	 		data-filetype="[%=filetype%]" 
+    	 		data-filetype="[%=filetype%]"
     	 		data-extension="[%=metadata.extension%]">
     		[% if (Files.app.options.thumbnails) { %]
     		    <div class="spinner"></div>

@@ -8,7 +8,7 @@ $result = KService::get('com://admin/files.controller.file')
 	->name('ercan.txt')
 	->add(array('contents' => 'test'))
 	->toArray();
-	
+
 var_dump('Root file - add', $result, file_exists(JPATH_ROOT.'/images/ercan.txt'));
 
 /*
@@ -18,8 +18,8 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('ercan.txt')
 	->edit(array('contents' => 'after edit'))
-	->toArray();	
-	
+	->toArray();
+
 var_dump('Root file - edit', $result, file_get_contents(JPATH_ROOT.'/images/ercan.txt') === 'after edit');
 
 /*
@@ -30,7 +30,7 @@ $result = KService::get('com://admin/files.controller.file')
 	->name('ercan.txt')
 	->delete()
 	->toArray();
-	
+
 var_dump('Root file - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan.txt'));
 
 /*
@@ -42,7 +42,7 @@ $result = KService::get('com://admin/files.controller.file')
 	->name('nested.txt')
 	->add(array('contents' => 'test'))
 	->toArray();
-	
+
 var_dump('Nested file - add', $result, file_exists(JPATH_ROOT.'/images/banners/nested.txt'));
 
 /*
@@ -54,7 +54,7 @@ $result = KService::get('com://admin/files.controller.file')
 	->name('nested.txt')
 	->delete()
 	->toArray();
-	
+
 var_dump('Nested file - delete', $result, !file_exists(JPATH_ROOT.'/images/banners/nested.txt'));
 
 /*
@@ -65,7 +65,7 @@ $result = KService::get('com://admin/files.controller.folder')
 	->name('ercan_test')
 	->add()
 	->toArray();
-	
+
 var_dump('Root folder - add', $result, is_dir(JPATH_ROOT.'/images/ercan_test'));
 
 /*
@@ -76,7 +76,7 @@ $result = KService::get('com://admin/files.controller.folder')
 	->name('ercan_test')
 	->delete()
 	->toArray();
-	
+
 var_dump('Root folder - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan_test'));
 
 /*
@@ -88,7 +88,7 @@ $result = KService::get('com://admin/files.controller.folder')
 	->name('ercan_nested')
 	->add()
 	->toArray();
-	
+
 var_dump('Nested folder - add', $result, is_dir(JPATH_ROOT.'/images/banners/ercan_nested'));
 
 /*
@@ -100,5 +100,5 @@ $result = KService::get('com://admin/files.controller.folder')
 	->name('ercan_nested')
 	->delete()
 	->toArray();
-	
+
 var_dump('Nested folder - delete', $result, !file_exists(JPATH_ROOT.'/images/banners/nested.txt'));

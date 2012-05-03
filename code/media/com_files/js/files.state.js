@@ -1,13 +1,12 @@
 /**
  * @version     $Id: file.php 1304 2011-12-13 22:46:32Z ercanozkaya $
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
- 
+
 if (!Files) var Files = {};
 
 Files.State = new Class({
@@ -19,7 +18,7 @@ Files.State = new Class({
 	},
 	initialize: function(options) {
 		this.setOptions(options);
-		
+
 		if (this.options.data) {
 			$extend(this.data, this.options.data);
 		}
@@ -33,7 +32,7 @@ Files.State = new Class({
 	},
 	setDefaults: function() {
 		this.set(this.defaults);
-		
+
 		return this;
 	},
 	set: function(key, value) {
@@ -42,7 +41,7 @@ Files.State = new Class({
 		} else {
 			this.data[key] = value;
 		}
-		
+
 		return this;
 	},
 	get: function(key, def) {

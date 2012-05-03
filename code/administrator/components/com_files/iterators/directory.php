@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Custom directory iterator with additional filters and callbacks.
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 class ComFilesIteratorDirectory extends DirectoryIterator
@@ -53,13 +51,13 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'path' => null, // path to the directory
-			'type' => null, // folders or files, null for both
-			'recurse' => false, // boolean or integer to specify the depth
-			'fullpath' => false, // true to return full paths, false to return basename only
-			'filter' => null, // either an array of file extensions, a regular expression or a callback function
-			'map' => null, // a callback to return values from items in the iterator
-			'exclude' => array('.svn', '.git', 'CVS') // an array of values to exclude from results
+			'path' 		=> null, // path to the directory
+			'type' 		=> null, // folders or files, null for both
+			'recurse' 	=> false, // boolean or integer to specify the depth
+			'fullpath' 	=> false, // true to return full paths, false to return basename only
+			'filter' 	=> null, // either an array of file extensions, a regular expression or a callback function
+			'map' 		=> null, // a callback to return values from items in the iterator
+			'exclude' 	=> array('.svn', '.git', 'CVS') // an array of values to exclude from results
 		));
 
 		$exclude = KConfig::unbox($config->exclude);
@@ -68,26 +66,30 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 		$recurse = $config->recurse;
 
 		$results = array();
-		foreach (new self($config->path) as $file) {
-			if ($file->isDot()
-				|| in_array($file->getFilename(), $exclude)
-			) continue;
+		foreach (new self($config->path) as $file)
+		{
+			if ($file->isDot() || in_array($file->getFilename(), $exclude)) {
+				continue;
+			}
 
-			if ($file->isDir() && !$file->isDot() && $recurse) {
+			if ($file->isDir() && !$file->isDot() && $recurse) 
+			{
 				$clone = clone $config;
 				$clone->path = $file->getPathname();
 				$clone->recurse = is_int($config->recurse) ? $config->recurse - 1 : $config->recurse;
 				$child_results = self::getNodes($clone);
 			}
 
-			if ($config->type) {
+			if ($config->type) 
+			{
 				$method = 'is'.ucfirst($config->type === 'files' ? 'file' : 'dir');
 				if (!$file->$method()) {
 					continue;
 				}
 			}
 
-			if ($filter) {
+			if ($filter) 
+			{
 				if (is_callable($filter)) {
 					$ignore = call_user_func($filter, rawurldecode($file->getPathname())) === false;
 				} else if (is_array($filter)) {
@@ -102,8 +104,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 
 			if (is_callable($map)) {
 				$result = call_user_func($map, rawurldecode($file->getPathname()));
-			}
-			else {
+			} else {
 				$result = $config->fullpath ? $file->getPathname() : $file->getFilename();
 			}
 
@@ -119,7 +120,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 
 	public function getExtension()
 	{
-		$filename = $this->getFilename();
+		$filename  = $this->getFilename();
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 		return strtolower($extension);
 	}

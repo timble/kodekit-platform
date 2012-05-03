@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -27,7 +26,7 @@ window.addEvent('domready', function() {
 	Files.app.addEvent('afterNavigate', function(path, type) {
 		document.id('upload-files-to').set('text', "'"+(path || <?= json_encode('root folder') ?>)+"'");
 	});
-	
+
 	var element = jQuery('#files-upload-multi');
 
 	plupload.addI18n({'Add files': Files._('Select files from your computer')});
@@ -218,13 +217,13 @@ window.addEvent('domready', function() {
 				var response = JSON.decode(xhr.responseText, true);
 				if (response.code && parseInt(response.code/100, 10) == 4) {
 					submit.removeClass('valid');
-				}		
+				}
 				else {
 					submit.addClass('valid');
 				}
 			}
 		});
- 
+
  	var default_filename;
  	input.addEvent('focus', function(){
  		this.set('placeholder', this.get('title')).removeClass('success');
@@ -237,7 +236,7 @@ window.addEvent('domready', function() {
 			else {
 				submit.addClass('valid');
 			}
-			
+
 			if(!filename.get('value') || filename.get('value') == default_filename) {
 				default_filename = new URI(this.value).get('file');
 				filename.set('value', default_filename);

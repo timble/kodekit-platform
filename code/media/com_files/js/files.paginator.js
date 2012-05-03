@@ -1,13 +1,12 @@
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
- 
+
 Files.Paginator = new Class({
 	Implements: [Options, Events],
 	state: null,
@@ -23,7 +22,7 @@ Files.Paginator = new Class({
 			this.state = options.state;
 			this.setData(this.state.getData());
 		}
-		
+
 		this.setOptions(options);
 
 		var element = document.id(element);
@@ -41,7 +40,7 @@ Files.Paginator = new Class({
 			limit_box: element.getElement('select')
 		};
 		this.setValues();
-		
+
 		this.element.addEvent('click:relay(a)', function(e) {
 			e.stop();
 			if (e.target.get('data-enabled') == '0') {
@@ -57,7 +56,7 @@ Files.Paginator = new Class({
 	},
 	setValues: function() {
 		this.fireEvent('beforeSetValues');
-		
+
 		var values = this.values, els = this.elements;
 
 		this.setPageData(els.page_start, {offset: 0});
@@ -90,14 +89,14 @@ Files.Paginator = new Class({
 
 		els.page_current.set('text', values.page_current);
 		els.page_total.set('text', values.page_total);
-		
+
 		els.limit_box.set('value', values.limit);
-		
+
 		this.fireEvent('afterSetValues');
 	},
 	setPageData: function(page, data) {
 		this.fireEvent('beforeSetPageData', {page: page, data: data});
-		
+
 		var limit = data.limit || this.values.limit;
 		page.set('data-limit', limit);
 		page.set('data-offset', data.offset);
@@ -105,12 +104,12 @@ Files.Paginator = new Class({
 		var method = data.offset == this.values.offset ? 'addClass' : 'removeClass';
 		page.getParent().getParent()[method]('off');
 		page.set('data-enabled', (data.offset != this.values.offset)-0);
-		
+
 		this.fireEvent('afterSetPageData', {page: page, data: data});
 	},
 	setData: function(data) {
 		this.fireEvent('beforeSetData', {data: data});
-		
+
 		var values = this.values;
 		if (data.total == 0) {
 			values.limit = this.state.get('limit');
@@ -142,7 +141,7 @@ Files.Paginator = new Class({
 			}
 			values.page_current = Math.floor(values.offset/values.limit)+1;
 		}
-		
+
 		this.fireEvent('afterSetData', {data: data});
 	}
 });

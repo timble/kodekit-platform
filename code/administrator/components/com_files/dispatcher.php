@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,9 +12,8 @@
  * Dispatcher Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Files   
+ * @package     Nooku_Components
+ * @subpackage  Files
  */
 
 class ComFilesDispatcher extends ComDefaultDispatcher
@@ -35,26 +33,27 @@ class ComFilesDispatcher extends ComDefaultDispatcher
             $this->_handleException($e);
         }
     }
-    
-    protected function _handleException(Exception $e) {
-    	if (KRequest::get('get.format', 'cmd') == 'json') {
+
+    protected function _handleException(Exception $e) 
+    {
+    	if (KRequest::get('get.format', 'cmd') == 'json') 
+        {
     		$obj = new stdClass;
     		$obj->status = false;
-    		$obj->error = $e->getMessage();
-    		$obj->code = $e->getCode();
-    		
+    		$obj->error  = $e->getMessage();
+    		$obj->code   = $e->getCode();
+
     		// Plupload do not pass the error to our application if the status code is not 200
     		$code = KRequest::get('get.plupload', 'int') ? 200 : $e->getCode();
-    		
+
     		header($code.' '.str_replace("\n", ' ', $e->getMessage()), true, $code);
-    		
+
     		echo json_encode($obj);
     		JFactory::getApplication()->close();
     	}
-    	else {
-    		throw $e;
-    	}
+    	else throw $e;
     }
+    †
 	/**
 	 * Overloaded to comply with FancyUpload.
 	 * It doesn't let us pass AJAX headers so this is needed.
@@ -66,7 +65,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
 				$context->result = $this->getController()->execute('display', $context);
 			} else {
 				parent::_actionForward($context);
-			}	
+			}
 		}
 		return $context->result;
 

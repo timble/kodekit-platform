@@ -1,7 +1,6 @@
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -16,58 +15,58 @@
 
 /* @group Flexbox styling from Nooku Server, @TODO suggest to move koowa.css from Nooku Server to Nooku Framework */
 /* @group Flexible Box Model, powered by CSS3 */
-.-koowa-box { 
+.-koowa-box {
 	display: -webkit-box;
 	display: -moz-box;
 	/* Gecko needs this */
 	width: 100%;
 }
 
-.-koowa-box-horizontal 		{ 
+.-koowa-box-horizontal 		{
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-align: stretch;
-	
+
 	display: -moz-box;
 	-moz-box-orient: horizontal;
 	-moz-box-align: stretch;
-}	
-.-koowa-box-horizontal> * 	{ 
+}
+.-koowa-box-horizontal> * 	{
 	display: block;
-	-webkit-box-flex: 0; 
-	-moz-box-flex: 0; 
+	-webkit-box-flex: 0;
+	-moz-box-flex: 0;
 }
 
-.-koowa-box-vertical 		{ 
+.-koowa-box-vertical 		{
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-box-align: stretch;
-	
+
 	display: -moz-box;
 	-moz-box-orient: vertical;
 	-moz-box-align: stretch;
 }
-.-koowa-box-vertical> * 	{ 
+.-koowa-box-vertical> * 	{
 	display: block;
 	-webkit-box-flex: 0;
 	-moz-box-flex: 0;
 }
 
-.-koowa-box-spacer 	{ 
+.-koowa-box-spacer 	{
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
 }
-.-koowa-box-reverse { 
+.-koowa-box-reverse {
 	-webkit-box-direction: reverse;
 	-moz-box-direction: reverse;
 }
 
-.-koowa-box-flex0 	{ 
+.-koowa-box-flex0 	{
 	-webkit-box-flex: 0;
 	-moz-box-flex: 0;
 }
 .-koowa-box-flex1,
-.-koowa-box-flex 	{ 
+.-koowa-box-flex 	{
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
 }
@@ -76,20 +75,20 @@
 	-moz-box-flex: 2;
 }
 
-.-koowa-box-group1 { 
-	-webkit-box-flex-group: 1; 
-	-moz-box-flex-group: 1; 
+.-koowa-box-group1 {
+	-webkit-box-flex-group: 1;
+	-moz-box-flex-group: 1;
 }
-.-koowa-box-group2 { 
+.-koowa-box-group2 {
 	-webkit-box-flex-group: 2;
-	-moz-box-flex-group: 2; 
+	-moz-box-flex-group: 2;
 }
 
-.-koowa-box-start 	{ 
+.-koowa-box-start 	{
 	-webkit-box-pack: start;
 	-moz-box-pack: start;
 }
-.-koowa-box-end 	{ 
+.-koowa-box-end 	{
 	-webkit-box-pack: end;
 	-moz-box-pack: end;
 }
@@ -98,11 +97,11 @@
 	-moz-box-pack: center;
 }
 
-.-koowa-box-ordinal-group2 { 
+.-koowa-box-ordinal-group2 {
 	-webkit-box-ordinal-group: 2;
 	-moz-box-ordinal-group: 2;
 }
-.-koowa-box-ordinal-group3 { 
+.-koowa-box-ordinal-group3 {
 	-webkit-box-ordinal-group: 3;
 	-moz-box-ordinal-group: 3;
 }
@@ -195,7 +194,7 @@
 /**
  * Upload Widget CSS
  */
-#files-upload  { 
+#files-upload  {
 	background-color: #F7F7F7;
 	box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
 	background-image: -webkit-gradient(linear, left bottom, left top, from(hsl(0, 0%, 97%)), to(hsl(0, 0%, 95%)));
@@ -319,7 +318,7 @@ ul.upload-buttons {
 .upload-form {
     padding-bottom: 10px;
     position: relative;
-    
+
 }
 #files-upload-multi, #files-uploader-web form {
     padding: 0;
@@ -327,7 +326,7 @@ ul.upload-buttons {
     border-radius: 5px;
     margin: 0 10px;
     border: 1px solid hsl(0, 0%, 90%);
-    
+
     z-index: 0;
 }
 #files-upload-multi .warning {
@@ -457,7 +456,7 @@ ul.upload-buttons {
 }
 
 #upload-queue tr.file .file-name {
-	
+
 	font-weight: bold;
 }
 
@@ -472,7 +471,7 @@ ul.upload-buttons {
 }
 
 #upload-queue tr.file .file-info {
-	
+
 }
 
 li a#upload-browse,
@@ -567,7 +566,7 @@ ul#files-tree-html li a#current	 {
     border-top: 1px solid transparent;
 }
 
-#files-tree .mooTree_selected, 
+#files-tree .mooTree_selected,
 #files-tree .mooTree_selected:hover,
 ul#files-tree-html li a#current,
 ul#files-tree-html li a#current:hover {
@@ -847,15 +846,15 @@ ul#files-tree-html ul li a {
     float: right;
     clear: none;
 }
-#files-upload.uploader-files-queued .plupload_start, 
-#files-upload.uploader-files-queued .plupload_clear, 
+#files-upload.uploader-files-queued .plupload_start,
+#files-upload.uploader-files-queued .plupload_clear,
 #files-upload.uploader-files-queued .plupload_add {
     box-sizing: border-box;
     height: 28px;
     border-radius: 2px;
     border: 1px solid #9b9b9b;
-    
-    
+
+
     border: 1px solid hsl(0, 0%, 67%);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -871,7 +870,7 @@ ul#files-tree-html ul li a {
     padding: 5px 10px;
     text-align: center;
     text-shadow: 0 1px 0 hsla(0, 100%, 100%, 1);
-    
+
     color: hsl(0, 0%, 20%);
     cursor: pointer;
     background: white;
@@ -882,7 +881,7 @@ ul#files-tree-html ul li a {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    
+
     font-size: 12px;
 }
 #files-upload.uploader-files-queued .plupload_start {
@@ -907,8 +906,8 @@ ul#files-tree-html ul li a {
     border: 1px solid hsla(210, 0%, 46%, 0.48);
     opacity: 0.5;
 }
-#files-upload.uploader-files-queued .plupload_start:active, 
-#files-upload.uploader-files-queued .plupload_clear:active, 
+#files-upload.uploader-files-queued .plupload_start:active,
+#files-upload.uploader-files-queued .plupload_clear:active,
 #files-upload.uploader-files-queued .plupload_add:active {
     background: -moz-linear-gradient(top, #F0F0F0, #FFFFFF);
     background: linear-gradient(top, #F0F0F0, #FFFFFF);
@@ -926,7 +925,7 @@ ul#files-tree-html ul li a {
 }
 
 .uploader-files-empty .plupload_filelist_header,
-.uploader-files-empty .plupload_start, 
+.uploader-files-empty .plupload_start,
 .uploader-files-empty .plupload_clear,
 .uploader-files-empty .plupload_filelist,
 .uploader-files-empty .plupload_file_action,
@@ -941,7 +940,7 @@ ul#files-tree-html ul li a {
     right: 0;
     bottom: 0;
     position: absolute!important;
-    
+
     color: hsl(0, 0%, 39%);
     font-size: 13px;
     font-weight: bold;
@@ -970,7 +969,7 @@ ul#files-tree-html ul li a {
     width: 75%;
 }
 #remote-name {
-    
+
     width: 25%;
     border-left-width: 1px;
     border-left-style: solid;

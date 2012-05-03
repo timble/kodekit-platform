@@ -1,13 +1,12 @@
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
- 
+
 if(!Files) var Files = {};
 
 Files.blank_image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9MICA0xMTLhM9QAAAADUExURf///6fEG8gAAAABdFJOUwBA5thmAAAACXBIWXMAAAsSAAALEgHS3X78AAAACklEQVQIHWNgAAAAAgABz8g15QAAAABJRU5ErkJggg==';
@@ -53,7 +52,7 @@ Files.App = new Class({
 				format: 'json'
 			}
 		},
-		
+
 		onAfterSetGrid: function(){
 		    var target = document.id('files-grid');
 		    var opts = {
@@ -67,7 +66,7 @@ Files.App = new Class({
 		    };
 		    this.spinner = new Koowa.Spinner(opts);
 		    this.spinner.spin(target);
-		    
+
 		    window.addEvent('resize', function(){
 		        this.setDimensions(true);
 		    }.bind(this));
@@ -87,28 +86,28 @@ Files.App = new Class({
 
 	initialize: function(options) {
 		this.setOptions(options);
-		
+
 		if (this.options.persistent && this.options.container) {
 			this.cookie = 'com.files.container.'+this.options.container;
 		}
-		
+
 		this.setState();
 		this.setHistory();
 		this.setGrid();
 		this.setPaginator();
-		
+
 		var url = this.getUrl();
 		if (url.getData('container')) {
-			this.options.container = url.getData('container'); 
+			this.options.container = url.getData('container');
 		}
 		if (url.getData('folder')) {
-			this.options.active = url.getData('folder'); 
+			this.options.active = url.getData('folder');
 		}
-		
+
 		if (this.options.title) {
 			this.options.title = document.id(this.options.title);
 		}
-		
+
 		if (this.options.container) {
 			this.setContainer(this.options.container);
 		}
@@ -129,22 +128,22 @@ Files.App = new Class({
 	},
 	setHistory: function() {
 		this.fireEvent('beforeSetHistory');
-		
+
 		if (this.options.history.enabled) {
 			var that = this;
 			this.history = History;
 			window.addEvent('popstate', function(e) {
 				if (e) { e.stop(); }
-				
+
 				var state = History.getState(),
 					old_state = that.state.getData(),
 					new_state = state.data,
 					state_changed = false;
-				
+
 				$each(old_state, function(value, key) {
 					if (state_changed === true) {
 						return;
-					} 
+					}
 					if (new_state && new_state[key] && value !== new_state[key]) {
 						state_changed = true;
 					}
@@ -172,7 +171,7 @@ Files.App = new Class({
 				}
 			});
 		}
-		
+
 		this.fireEvent('afterSetHistory');
 	},
 	/**
@@ -189,7 +188,7 @@ Files.App = new Class({
 		}
 
 		this.grid.reset();
-		
+
 		var parts = this.active.split('/'),
 			name = parts[parts.length ? parts.length-1 : 0],
 			folder = parts.slice(0, parts.length-1).join('/');
@@ -200,17 +199,17 @@ Files.App = new Class({
 			if (resp.status !== false) {
 				that.response = resp;
 				that.grid.insertRows(resp.items);
-				
+
 				that.fireEvent('afterSelect', resp);
 			} else {
 				alert(resp.error);
 			}
 
 		}, null, this.state.getData());
-	
+
 		this.fireEvent('afterNavigate', [path, type]);
 	},
-	
+
 	setContainer: function(container) {
 		new Request.JSON({
 			url: this.createRoute({view: 'container', slug: container, container: false}),
@@ -219,12 +218,12 @@ Files.App = new Class({
 				var item = response.item;
 
 				this.fireEvent('beforeSetContainer', {container: item});
-				
+
 				this.container = item;
 				this.baseurl = Files.sitebase + '/' + item.relative_path;
 
 				this.active = '';
-				
+
 				if (this.container.parameters.allowed_extensions) {
 					this.uploader.settings.filters = [
 					     {title: Files._('All Files'), extensions: this.container.parameters.allowed_extensions.join(',')}
@@ -237,22 +236,22 @@ Files.App = new Class({
 						max_size.set('html', new Files.Filesize(this.container.parameters.maximum_size).humanize());
 					}
 				}
-				
+
 				if (this.container.parameters.thumbnails !== true) {
 					this.options.thumbnails = false;
 					if (this.spinner) {
 						this.spinner.stop();
 					}
 				}
-				
-				
+
+
 				if (this.options.types !== null) {
 					this.options.grid.types = this.options.types;
-					this.state.set('types', this.options.types); 
+					this.state.set('types', this.options.types);
 				}
-				
+
 				this.fireEvent('afterSetContainer', {container: item});
-				
+
 				this.setTree();
 
 				this.active = this.options.active || '';
@@ -263,28 +262,28 @@ Files.App = new Class({
 	},
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
-		
+
 		var opts = this.options.paginator,
 			state = this.state;
-		
+
 		$extend(opts, {
 			'state' : state,
 			'onClickPage': function(el) {
 				this.state.set('limit', el.get('data-limit'));
 				this.state.set('offset', el.get('data-offset'));
-				
+
 				this.navigate();
 			}.bind(this),
 			'onChangeLimit': function(limit) {
 				this.state.set('limit', limit);
 				this.state.set('offset', 0);
-				
+
 				this.navigate();
 			}.bind(this)
 		});
 		this.paginator = new Files.Paginator(opts.element, opts);
 
-		
+
 		var that = this;
 		that.addEvent('afterSelect', function(response) {
 			that.paginator.setData({
@@ -294,12 +293,12 @@ Files.App = new Class({
 			});
 			that.paginator.setValues();
 		});
-		
+
 		this.fireEvent('afterSetPaginator');
 	},
 	setGrid: function() {
 		this.fireEvent('beforeSetGrid');
-		
+
 		var that = this,
 		    opts = this.options.grid,
 			key = this.cookie+'.grid.layout';
@@ -315,7 +314,7 @@ Files.App = new Class({
 				Cookie.write(size_key, context.size);
 			};
 		}
-		
+
 		$extend(opts, {
 			'onAfterInsertRows': function() {
 
@@ -326,7 +325,7 @@ Files.App = new Class({
 				if (opts.icon_size_slider) {
 					document.id(opts.icon_size_slider).set('value', this.options.icon_size).fireEvent('change');
 				}
-				
+
 		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
@@ -340,7 +339,7 @@ Files.App = new Class({
 				var target = document.id(e.target),
 				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
 					img = node.retrieve('row').image;
-				
+
 				if (img) {
 					SqueezeBox.open(img, {handler: 'image'});
 				}
@@ -372,12 +371,12 @@ Files.App = new Class({
 			}.bind(this)
 		});
 		this.grid = new Files.Grid(this.options.grid.element, opts);
-		
+
 		this.fireEvent('afterSetGrid');
 	},
 	setTree: function() {
 		this.fireEvent('beforeSetTree');
-		
+
 		if (this.options.tree.enabled) {
 			var opts = this.options.tree,
 				that = this;
@@ -396,7 +395,7 @@ Files.App = new Class({
 			});
 			this.tree = new Files.Tree(opts);
 			this.tree.fromUrl(this.createRoute({view: 'folders', 'tree': '1', 'limit': '0'}));
-			
+
 			this.addEvent('afterNavigate', function(path) {
 				that.tree.selectPath(path);
 			});
@@ -424,16 +423,16 @@ Files.App = new Class({
 	},
 	setThumbnails: function() {
 		if (this.spinner) {
-			this.spinner.stop();	
+			this.spinner.stop();
 		}
-		
+
 		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
 		if (this.grid.layout === 'icons' && nodes.getLength()) {
 			var url = that.createRoute({
 				view: 'thumbnails',
-				offset: this.state.get('offset'), 
+				offset: this.state.get('offset'),
 				limit: this.state.get('limit'),
 				folder: this.active
 			});
@@ -442,15 +441,15 @@ Files.App = new Class({
 				method: 'get',
 				onSuccess: function(response, responseText) {
 					var thumbs = response.items;
-					
+
 					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
-					
+
 					nodes.each(function(node) {
 						if (node.filetype !== 'image') {
 							return;
 						}
 						var name = node.name;
-                        
+
 						var img = node.element.getElement('img.image-thumbnail');
 						img.addEvent('load', function(){
 						    this.addClass('loaded');
@@ -467,12 +466,12 @@ Files.App = new Class({
 				}
 			}).send();
 		}
-		
+
 	},
 	setDimensions: function(force){
 
 	    if(!this._cached_grid_width) this._cached_grid_width = 0;
-	    
+
         //Only fire if the cache have changed
         if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
             var width = this.grid.root.element.getSize().x,
@@ -493,13 +492,13 @@ Files.App = new Class({
     },
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});
-		
+
 		this.title = title;
-		
+
 		if (this.options.title) {
 			this.options.title.set('html', title);
 		}
-		
+
 		this.fireEvent('afterSetTitle', {title: title});
 	},
 	createRoute: function(query) {
@@ -517,6 +516,6 @@ Files.App = new Class({
 
 		return '?'+new Hash(query).filter(function(value, key) {
 			return typeof value !== 'function';
-		}).toQueryString();		
+		}).toQueryString();
 	}
 });
