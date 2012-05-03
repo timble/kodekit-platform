@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Table Row Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -27,7 +25,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	protected $_table = false;
 
 	/**
-     * Object constructor 
+     * Object constructor
      *
      * @param   object  An optional KConfig object with configuration options.
      */
@@ -36,10 +34,10 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		parent::__construct($config);
 
 		$this->_table = $config->table;
-			
+
 		// Reset the row
         $this->reset();
-            
+
         // Reset the row data
         if(isset($config->data))  {
             $this->setData($config->data->toArray(), $this->_new);
@@ -65,8 +63,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
 	/**
      * Method to get a table object
-     * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that 
+     *
+     * Function catches KDatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
      * @return KDatabaseTableAbstract
@@ -76,12 +74,12 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
         if($this->_table !== false)
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
-		    {   		        
+		    {
 		        //Make sure we have a table identifier
 		        if(!($this->_table instanceof KServiceIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
-		        
+
 		        try {
 		            $this->_table = $this->getService($this->_table);
                 } catch (KDatabaseTableException $e) {
@@ -92,11 +90,11 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
         return $this->_table;
     }
-	
+
 	/**
 	 * Method to set a table object attached to the rowset
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @throws	KDatabaseRowException	If the identifier is not a table identifier
 	 * @return	KDatabaseRowsetAbstract
@@ -105,14 +103,14 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	{
 		if(!($table instanceof KDatabaseTableAbstract))
 		{
-			if(is_string($table) && strpos($table, '.') === false ) 
+			if(is_string($table) && strpos($table, '.') === false )
 		    {
 		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
 		    else  $identifier = $this->getIdentifier($table);
-		    
+
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
 			}
@@ -124,7 +122,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
 		return $this;
 	}
-	
+
 	/**
 	 * Test the connected status of the row.
 	 *
@@ -143,7 +141,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	public function load()
 	{
 		$result = null;
-		
+
 		if($this->_new)
 		{
             if($this->isConnected())
@@ -157,13 +155,13 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 			        $this->setData($row->toArray(), false);
 			        $this->_modified = array();
 			        $this->_new      = false;
-			    
+
 			        $this->setStatus(KDatabase::STATUS_LOADED);
 			        $result = $this;
 		        }
             }
 		}
-	
+
 		return $result;
 	}
 
@@ -178,21 +176,21 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	public function save()
 	{
 	    $result = false;
-	    
+
 	    if($this->isConnected())
-	    {  
+	    {
 	        if($this->_new) {
 	            $result = $this->getTable()->insert($this);
 		    } else {
-		        $result = $this->getTable()->update($this); 
+		        $result = $this->getTable()->update($this);
 		    }
-	  
-	        if($result !== false) 
+
+	        if($result !== false)
 	        {
 	            // Filter out any extra columns.
-	            if(((integer) $result) > 0) {       
+	            if(((integer) $result) > 0) {
                     $this->_modified = array();
-	            } 
+	            }
             }
 	    }
 
@@ -207,18 +205,18 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	public function delete()
 	{
 		$result = false;
-		
+
 		if($this->isConnected())
 		{
-            if(!$this->_new) 
+            if(!$this->_new)
 		    {
 		        $result = $this->getTable()->delete($this);
-		    
-		        if($result !== false) 
+
+		        if($result !== false)
 	            {
-	                if(((integer) $result) > 0) {   
+	                if(((integer) $result) > 0) {
 	                    $this->_new = true;
-	                } 
+	                }
                 }
 		    }
 		}
@@ -234,14 +232,14 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	public function reset()
 	{
 		$result = parent::reset();
-		
+
 		if($this->isConnected())
 		{
 	        if($this->_data = $this->getTable()->getDefaults()) {
 		        $result = true;
 		    }
 		}
-		
+
 		return $result;
 	}
 
@@ -253,7 +251,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	public function count()
 	{
 		$result = false;
-	    
+
 	    if($this->isConnected())
 		{
 	        $data   = $this->getTable()->filter($this->getData(true), true);
@@ -289,8 +287,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Search the mixin method map and call the method or trigger an error
 	 *
-	 * This functions overloads KDatabaseRowAbstract::__call and implements 
-	 * a just in time mixin strategy. Available table behaviors are only mixed 
+	 * This functions overloads KDatabaseRowAbstract::__call and implements
+	 * a just in time mixin strategy. Available table behaviors are only mixed
 	 * when needed.
 	 *
 	 * @param  string 	The function name
@@ -299,32 +297,32 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 * @return mixed The result of the function
 	 */
 	public function __call($method, array $arguments)
-	{ 
+	{
 	    if($this->isConnected())
 		{
 		    $parts = KInflector::explode($method);
-		    
+
 		     //Check if a behavior is mixed
 		    if($parts[0] == 'is' && isset($parts[1]))
 		    {
 		        if(!isset($this->_mixed_methods[$method]))
-                { 
+                {
 		             //Lazy mix behaviors
 		            $behavior = strtolower($parts[1]);
-		        
-                    if($this->getTable()->hasBehavior($behavior)) 
+
+                    if($this->getTable()->hasBehavior($behavior))
                     {
                         $this->mixin($this->getTable()->getBehavior($behavior));
                         return true;
 		            }
-		    
+
 			        return false;
                 }
-		       
+
                 return true;
 		    }
 		}
-		   
+
 		return parent::__call($method, $arguments);
 	}
 }

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_View
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,7 @@
  * View HTML Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
+
  * @package     Koowa_View
  */
 class KViewHtml extends KViewTemplate
@@ -31,15 +30,15 @@ class KViewHtml extends KViewTemplate
 			'mimetype'	  		=> 'text/html',
     		'template_filters'	=> array('form'),
        	));
-    	
+
     	parent::_initialize($config);
     }
-	
+
 	/**
 	 * Return the views output
-	 * 
+	 *
 	 * This function will auto assign the model data to the view if the auto_assign
-	 * property is set to TRUE. 
+	 * property is set to TRUE.
  	 *
 	 * @return string 	The output of the view
 	 */
@@ -48,16 +47,16 @@ class KViewHtml extends KViewTemplate
 	    if(empty($this->output))
 		{
 	        $model = $this->getModel();
-			
+
 		    //Auto-assign the state to the view
 		    $this->assign('state', $model->getState());
-		
+
 		    //Auto-assign the data from the model
 		    if($this->_auto_assign)
 		    {
 			    //Get the view name
 			    $name  = $this->getName();
-		
+
 			    //Assign the data of the model to the view
 			    if(KInflector::isPlural($name))
 			    {
@@ -67,7 +66,7 @@ class KViewHtml extends KViewTemplate
 			    else $this->assign($name, $model->getItem());
 		    }
 		}
-		
+
 		return parent::display();
 	}
 }

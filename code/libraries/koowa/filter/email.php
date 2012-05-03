@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
  * Email filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterEmail extends KFilterAbstract
@@ -28,11 +26,11 @@ class KFilterEmail extends KFilterAbstract
 		$value = trim($value);
 		return (false !== filter_var($value, FILTER_VALIDATE_EMAIL));
 	}
-	
+
 	/**
 	 * Sanitize a value
-	 * 
-	 * Remove all characters except letters, digits and !#$%&'*+-/=?^_`{|}~@.[].  
+	 *
+	 * Remove all characters except letters, digits and !#$%&'*+-/=?^_`{|}~@.[].
 	 *
 	 * @param	scalar	Value to be sanitized
 	 * @return	string

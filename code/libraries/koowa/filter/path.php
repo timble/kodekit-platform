@@ -14,13 +14,12 @@
  * Filters Windows and Unix style file paths
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterPath extends KFilterAbstract
 {
 	const PATTERN = '#^(?:[a-z]:/|~*/)[a-z0-9_\.-\s/~]*$#i';
- 
+
     /**
      * Validate a value
      *
@@ -32,7 +31,7 @@ class KFilterPath extends KFilterAbstract
         $value = trim(str_replace('\\', '/', $value));
         return (is_string($value) && (preg_match(self::PATTERN, $value)) == 1);
     }
- 
+
     /**
      * Sanitize a value
      *
@@ -44,7 +43,7 @@ class KFilterPath extends KFilterAbstract
         $value = trim(str_replace('\\', '/', $value));
         preg_match(self::PATTERN, $value, $matches);
         $match = isset($matches[0]) ? $matches[0] : '';
-               
+
         return $match;
     }
 }

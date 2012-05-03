@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,11 +12,10 @@
  * Template Helper Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  */
 class KTemplateHelperDefault extends KTemplateHelperAbstract
 {
-	
+
 }

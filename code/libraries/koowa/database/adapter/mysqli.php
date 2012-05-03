@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Mysqli Database Adapter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  */
@@ -25,7 +23,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @var string
 	 */
 	protected $_name_quote = '`';
-	
+
 	/**
  	 * Map of native MySQL types to generic types used when reading
  	 * table column information.
@@ -48,7 +46,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	   	'float'				=> 'float'  ,
 		'double'            => 'float'  ,
 		'real' 				=> 'float'  ,
- 	
+
  		// boolean
  		'bool'				=> 'boolean',
  		'boolean' 			=> 'boolean',
@@ -80,19 +78,19 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  		'mediumblob'		=> 'raw',
  	   	'longtext'          => 'raw',
  	 	'longblob'          => 'raw',
- 	
+
  		//other
  		'set'				=> 'string',
- 		'enum'				=> 'string', 	
+ 		'enum'				=> 'string',
 	);
-	
+
 	/**
 	 * The database name of the active connection
 	 *
 	 * @var string
 	 */
 	protected $_database;
-	
+
 	/**
      * Initializes the options for the object
      *
@@ -105,7 +103,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     {
     	$config->append(array(
     		'options'	=> array(
-    			'host'		=> ini_get('mysqli.default_host'), 
+    			'host'		=> ini_get('mysqli.default_host'),
     			'username'	=> ini_get('mysqli.default_user'),
     			'password'  => ini_get('mysqli.default_pw'),
     			'database'	=> '',
@@ -113,73 +111,73 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     			'socket'	=> ini_get("mysqli.default_socket")
     		)
         ));
-        
+
         parent::_initialize($config);
     }
 
 	/**
 	 * Connect to the db
-	 * 
+	 *
 	 * @return KDatabaseAdapterMysqli
 	 */
 	 public function connect()
 	 {
 		$oldErrorReporting = error_reporting(0);
-			
+
 		$mysqli = new mysqli(
-			$this->_options->host, 
-			$this->_options->username, 
+			$this->_options->host,
+			$this->_options->username,
 			$this->_options->password,
-			$this->_options->database, 
-			$this->_options->port, 
+			$this->_options->database,
+			$this->_options->port,
 			$this->_options->socket
 		);
-			
+
 		error_reporting($oldErrorReporting);
-		
+
 		if (mysqli_connect_errno()) {
 			throw new KDatabaseAdapterException('Connect failed: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error(), mysqli_connect_errno());
 		}
-		  
+
 		// If supported, request real datatypes from MySQL instead of returning everything as a string.
 		if (defined('MYSQLI_OPT_INT_AND_FLOAT_NATIVE')) {
 			$mysqli->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, true);
 		}
- 
+
 		$this->_connection = $mysqli;
-		$this->_connected  = true;	
+		$this->_connected  = true;
 		$this->_database   = $this->_options->database;
-		
+
 		return $this;
  	}
- 	
+
 	/**
 	 * Disconnect from db
-	 * 
+	 *
 	 * @return KDatabaseAdapterMysqli
 	 */
 	public function disconnect()
 	{
-		if ($this->isConnected()) 
+		if ($this->isConnected())
 		{
 			$this->_connection->close();
 			$this->_connection = null;
 			$this->_connected  = false;
 		}
-		
+
 		return $this;
 	}
- 
+
 	/**
 	 * Check if the connection is active
 	 *
 	 * @return boolean
 	 */
-	public function isConnected() 
-	{		
+	public function isConnected()
+	{
 		return ($this->_connection instanceof MySQLi) && @$this->_connection->ping();
 	}
-	
+
 	/**
 	 * Set the connection
 	 *
@@ -192,11 +190,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	    if(!($resource instanceof MySQLi)) {
 	        throw new KDatabaseAdapterException('Not a MySQLi connection');
 	    }
-	    
+
 	    $this->_connection = $resource;
 		return $this;
 	}
-	
+
 	/**
 	 * Get the database name
 	 *
@@ -206,11 +204,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 	    if(!isset($this->_database)) {
 	        $this->_database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
-	    } 
-	    
+	    }
+
 	    return $this->_database;
 	}
-	
+
 	/**
 	 * Set the database name
 	 *
@@ -222,11 +220,11 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	    if(!$this->_connection->select_db($database)) {
 			throw new KDatabaseException('Could not connect with database : '.$database);
 	    }
-	    
+
 	    $this->_database = $database;
 	    return $this;
 	}
-	
+
 	/**
 	 * Retrieves the table schema information about the given table
 	 *
@@ -238,17 +236,17 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		if(!isset($this->_table_schema[$table]))
 		{
 			$this->_table_schema[$table] = $this->_fetchTableInfo($table);
-			
+
 			$this->_table_schema[$table]->indexes = $this->_fetchTableIndexes($table);
-			$this->_table_schema[$table]->columns = $this->_fetchTableColumns($table);	
+			$this->_table_schema[$table]->columns = $this->_fetchTableColumns($table);
 		}
 
 		return $this->_table_schema[$table];
 	}
-	
+
     /**
      * Lock a table.
-     * 
+     *
      * @param  string  Base name of the table.
      * @param  string  Real name of the table.
      * @return boolean True on success, false otherwise.
@@ -256,48 +254,48 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     public function lockTable($base, $name)
     {
         $query = 'LOCK TABLES '.$this->quoteName($this->getTableNeedle().$base).' WRITE';
-        
+
         if($base != $name) {
             $query .= ', '.$this->quoteName($this->getTableNeedle().$name).' READ';
         }
-        
+
         // Create commandchain context.
         $context = $this->getCommandContext();
         $context->table = $base;
         $context->query = $query;
-        
-        if($this->getCommandChain()->run('before.locktable', $context) !== false) 
+
+        if($this->getCommandChain()->run('before.locktable', $context) !== false)
         {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);    
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
             $this->getCommandChain()->run('after.locktable', $context);
         }
 
         return $context->result;
     }
-    
+
     /**
      * Unlock a table.
-     * 
+     *
      * @return boolean True on success, false otherwise.
      */
     public function unlockTable()
     {
         $query = 'UNLOCK TABLES';
-        
+
         // Create commandchain context.
         $context = $this->getCommandContext();
         $context->table = $base;
         $context->query = $query;
-        
-        if($this->getCommandChain()->run('before.unlocktable', $context) !== false) 
+
+        if($this->getCommandChain()->run('before.unlocktable', $context) !== false)
         {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);    
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
             $this->getCommandChain()->run('after.unlocktable', $context);
         }
 
         return $context->result;
     }
-			
+
 	/**
 	 * Fetch the first field of the first row
 	 *
@@ -311,15 +309,15 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		if($row = $result->fetch_row( )) {
 			$return = $row[(int)$key];
 		}
-		
+
 		$result->free();
-		
+
 		return $return;
 	}
 
 	/**
 	 * Fetch an array of single field results
-	 * 
+	 *
 	 *
 	 * @param	mysqli_result  	The result object. A result set identifier returned by the select() function
 	 * @param   integer         The index to use
@@ -328,19 +326,19 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchFieldList($result, $key = 0)
 	{
 		$array = array();
-		
+
 		while ($row = $result->fetch_row( )) {
 			$array[] = $row[(int)$key];
 		}
-		
+
 		$result->free();
-	
+
 		return $array;
 	}
-	
+
 	/**
      * Fetch the first row of a result set as an associative array
-     * 
+     *
      * @param 	mysqli_result 	The result object. A result set identifier returned by the select() function
      * @return array
      */
@@ -348,13 +346,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 		$array = $result->fetch_assoc( );
 		$result->free();
-		
+
 		return $array;
 	}
 
 	/**
 	 * Fetch all result rows of a result set as an array of associative arrays
-	 * 
+	 *
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
@@ -365,7 +363,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchArrayList($result, $key = '')
 	{
 		$array = array();
-		while ($row = $result->fetch_assoc( )) 
+		while ($row = $result->fetch_assoc( ))
 		{
 			if ($key) {
 				$array[$row[$key]] = $row;
@@ -373,9 +371,9 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 				$array[] = $row;
 			}
 		}
-		
+
 		$result->free();
-		
+
 		return $array;
 	}
 
@@ -389,13 +387,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 		$object = $result->fetch_object( );
 		$result->free();
-		
+
 		return $object;
 	}
 
 	/**
 	 * Fetch all rows of a result set as an array of objects
-	 * 
+	 *
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
 	 *
@@ -406,7 +404,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	protected function _fetchObjectList($result, $key='')
 	{
 		$array = array();
-		while ($row = $result->fetch_object( )) 
+		while ($row = $result->fetch_object( ))
 		{
 			if ($key) {
 				$array[$row->$key] = $row;
@@ -414,24 +412,24 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 				$array[] = $row;
 			}
 		}
-		
+
 		$result->free();
-		
+
 		return $array;
 	}
-	
+
 	/**
      * Safely quotes a value for an SQL statement.
-     * 
+     *
      * @param 	mixed 	The value to quote
      * @return string An SQL-safe quoted value
      */
     protected function _quoteValue($value)
     {
-        $value =  '\''.mysqli_real_escape_string( $this->_connection, $value ).'\'';	
+        $value =  '\''.mysqli_real_escape_string( $this->_connection, $value ).'\'';
         return $value;
     }
-    
+
 	/**
 	 * Retrieves the table schema information about the given tables
 	 *
@@ -442,16 +440,16 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 		$result = null;
 	    $sql    = $this->quoteValue($this->getTableNeedle().$table);
-	    
+
 		if($info  = $this->show( 'SHOW TABLE STATUS LIKE '.$sql, KDatabase::FETCH_OBJECT ))
 		{
 			//Parse the table raw schema data
             $result = $this->_parseTableInfo($info);
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieves the column schema information about the given table
 	 *
@@ -462,24 +460,24 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 	    $result = array();
 	    $sql    = $this->quoteName($this->getTableNeedle().$table);
-	    
+
 	    if($columns = $this->show( 'SHOW FULL COLUMNS FROM '.$sql, KDatabase::FETCH_OBJECT_LIST))
 		{
-		    foreach($columns as $column) 
+		    foreach($columns as $column)
 			{
 				//Set the table name in the raw info (MySQL doesn't add this)
 				$column->Table = $table;
-					
+
 				//Parse the column raw schema data
         		$column = $this->_parseColumnInfo($column, $table);
-        		
+
         		$result[$column->name] = $column;
 			}
-		} 	
-		
+		}
+
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieves the index information about the given table
 	 *
@@ -490,17 +488,17 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	{
 	    $result = array();
 	    $sql    = $this->quoteName($this->getTableNeedle().$table);
-	  
+
 	    if($indexes = $this->show('SHOW INDEX FROM '.$sql , KDatabase::FETCH_OBJECT_LIST))
 		{
 			foreach ($indexes as $index) {
 				$result[$index->Key_name][$index->Seq_in_index] = $index;
 			}
 		}
-		
+
 		return $result;
 	}
-    
+
 	/**
 	 * Parse the raw table schema information
 	 *
@@ -508,7 +506,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @return KDatabaseSchemaTable
 	 */
 	protected function _parseTableInfo($info)
-	{		
+	{
 		$table = new KDatabaseSchemaTable;
  	   	$table->name        = $info->Name;
  	   	$table->engine      = $info->Engine;
@@ -518,10 +516,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	    $table->collation   = $info->Collation;
  	    $table->behaviors   = array();
  	    $table->description = $info->Comment != 'VIEW' ? $info->Comment : '';
- 	    
+
  	    return $table;
 	}
-    
+
 	/**
 	 * Parse the raw column schema information
 	 *
@@ -529,13 +527,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * @return KDatabaseSchemaColumn
 	 */
 	protected function _parseColumnInfo($info)
-	{		
+	{
 		//Parse the filter information from the comment
 		$filter = array();
 		preg_match('#@Filter\("(.*)"\)#Ui', $info->Comment, $filter);
-		
+
 		list($type, $length, $scope) = $this->_parseColumnType($info->Type);
-		
+
  	   	$column = $this->getService('koowa:database.schema.column');
  	   	$column->name     = $info->Field;
  	   	$column->type     = $type;
@@ -547,14 +545,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
  	    $column->unique   = (bool) ($info->Key == 'UNI' || $info->Key == 'PRI');
  	    $column->autoinc  = (bool) (strpos($info->Extra, 'auto_increment') !== false);
  	    $column->filter   =  isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
- 	    
+
  	 	// Don't keep "size" for integers
  	    if (substr($type, -3) == 'int') {
  	       	$column->length = null;
  	   	}
- 	   		
+
 	    // Get the related fields if the column is primary key or part of a unqiue multi column index
-        if($indexes = $this->_table_schema[$info->Table]->indexes) 
+        if($indexes = $this->_table_schema[$info->Table]->indexes)
         {
             foreach($indexes as $index)
             {
@@ -569,18 +567,18 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
                     if(array_key_exists($column->name, $fields))
                     {
 	                    unset($fields[$column->name]);
-                        $column->related = array_values($fields);  
+                        $column->related = array_values($fields);
 
-                        $column->unique = true;	 
+                        $column->unique = true;
 		                break;
 	                }
                  }
              }
         }
-		
+
  	    return $column;
 	}
-    
+
 	/**
 	 * Given a raw column specification, parse into datatype, length, and decimal scope.
 	 *
@@ -598,7 +596,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 
  	    // find the type first
 	    $type = strtok($spec, '( ');
- 	   	
+
  	   	// find the parens, if any
 	    if (false !== ($pos = strpos($spec, '(')))
 	    {
@@ -610,7 +608,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 		    {
 			    // A comma in the size indicates a scope.
 			    $pos = strpos($length, ',');
-			    if ($pos !== false) 
+			    if ($pos !== false)
 			    {
 				    $scope  = substr($length, $pos + 1);
 				    $length = substr($length, 0, $pos);

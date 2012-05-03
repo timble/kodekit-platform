@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Abstract Database Adapter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  * @uses 		KPatternCommandChain
@@ -61,7 +59,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 * @var string
 	 */
 	protected $_table_prefix = '';
-	
+
 	/**
 	 * The table needle
 	 *
@@ -75,7 +73,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	 * @var string
 	 */
 	protected $_name_quote = '`';
-	
+
 	/**
 	 * The connection options
 	 *
@@ -94,13 +92,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	{
 		//If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 		// Initialize the options
         parent::__construct($config);
-         
+
         // Set the connection
         $this->setConnection($config->connection);
-       
+
 		// Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
 		if (!empty($config->charset)) {
 			//$this->setCharset($config->charset);
@@ -108,13 +106,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
 		// Set the table prefix
 		$this->_table_prefix = $config->table_prefix;
-		
+
 		// Set the table prefix
 		$this->_table_needle = $config->table_needle;
-		
+
 		// Set the connection options
 		$this->_options = $config->options;
-		
+
 		// Mixin a command chain
         $this->mixin(new KMixinCommandchain($config->append(array('mixer' => $this))));
 	}
@@ -149,10 +147,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     		'enable_callbacks' 	=> false,
     		'connection'		=> null,
         ));
-         
+
         parent::_initialize($config);
     }
-    
+
 	/**
 	 * Get a database query object
 	 *
@@ -163,43 +161,43 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		if(!isset($config)) {
 			$config = new KConfig(array('adapter' => $this));
 		}
-		
+
 		return new KDatabaseQuery($config);
 	}
 
 	/**
 	 * Reconnect to the db
-	 * 
+	 *
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function reconnect()
 	{
 		$this->disconnect();
 		$this->connect();
-		
+
 		return $this;
 	}
 
 	/**
 	 * Disconnect from db
-	 * 
+	 *
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function disconnect()
 	{
 		$this->_connection = null;
 		$this->_connected  = false;
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Get the database name
 	 *
 	 * @return string	The database name
 	 */
 	abstract function getDatabase();
-	
+
 	/**
 	 * Set the database name
 	 *
@@ -220,7 +218,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	{
 		return $this->_connection;
 	}
-	
+
 	/**
 	 * Set the connection
 	 *
@@ -232,7 +230,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	    $this->_connection = $resource;
 		return $this;
 	}
-	
+
 	/**
 	 * Get the insert id of the last insert operation
 	 *
@@ -247,15 +245,15 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Preforms a select query
      *
      * Use for SELECT and anything that returns rows.
-     * 
+     *
      * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * of the database key.  Returns <var>null</var> if the query fails.
      *
-     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped.
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This
      * 							value must be one of the KDatabase::FETCH_* constants.
      * @param 	string 			The column name of the index to use
-     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * @return  mixed 			The return value of this function on success depends on the fetch type.
      * 					    	In all cases, FALSE is returned on failure.
      */
 	public function select($query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
@@ -266,53 +264,53 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->mode		= $mode;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('before.select', $context) !== false) 
+		if($this->getCommandChain()->run('before.select', $context) !== false)
 		{
 			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
 			{
 				switch($context->mode)
 				{
-					case KDatabase::FETCH_ARRAY       : 
-						$context->result = $this->_fetchArray($result);	
+					case KDatabase::FETCH_ARRAY       :
+						$context->result = $this->_fetchArray($result);
 						break;
-						
-					case KDatabase::FETCH_ARRAY_LIST  : 
-						$context->result = $this->_fetchArrayList($result, $key); 
+
+					case KDatabase::FETCH_ARRAY_LIST  :
+						$context->result = $this->_fetchArrayList($result, $key);
 						break;
-						
-					case KDatabase::FETCH_FIELD       : 
-						$context->result = $this->_fetchField($result, $key); 
+
+					case KDatabase::FETCH_FIELD       :
+						$context->result = $this->_fetchField($result, $key);
 						break;
-						
-					case KDatabase::FETCH_FIELD_LIST  : 
-						$context->result = $this->_fetchFieldList($result, $key); 
+
+					case KDatabase::FETCH_FIELD_LIST  :
+						$context->result = $this->_fetchFieldList($result, $key);
 						break;
-						
-					case KDatabase::FETCH_OBJECT      : 
-						$context->result = $this->_fetchObject($result); 
+
+					case KDatabase::FETCH_OBJECT      :
+						$context->result = $this->_fetchObject($result);
 						break;
-						
-					case KDatabase::FETCH_OBJECT_LIST : 
-						$context->result = $this->_fetchObjectList($result, $key); 
+
+					case KDatabase::FETCH_OBJECT_LIST :
+						$context->result = $this->_fetchObjectList($result, $key);
 						break;
-						
+
 					default : $result->free();
 				}
 			}
-				
+
 			$this->getCommandChain()->run('after.select', $context);
 		}
 
 		return KConfig::unbox($context->result);
 	}
-	
+
 	/**
      * Preforms a show query
      *
-     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped.
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This
      * 							value must be one of the KDatabase::FETCH_* constants.
-     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * @return  mixed 			The return value of this function on success depends on the fetch type.
      * 					    	In all cases, FALSE is returned on failure.
      */
 	public function show($query, $mode = KDatabase::FETCH_ARRAY_LIST)
@@ -323,40 +321,40 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$context->mode		= $mode;
 
 		// Excute the insert operation
-		if($this->getCommandChain()->run('before.show', $context) !== false) 
+		if($this->getCommandChain()->run('before.show', $context) !== false)
 		{
 			if($result = $this->execute( $context->query, KDatabase::RESULT_USE))
 			{
 				switch($context->mode)
 				{
-					case KDatabase::FETCH_ARRAY       : 
-						$context->result = $this->_fetchArray($result);	
+					case KDatabase::FETCH_ARRAY       :
+						$context->result = $this->_fetchArray($result);
 						break;
-						
-					case KDatabase::FETCH_ARRAY_LIST  : 
-						$context->result = $this->_fetchArrayList($result); 
+
+					case KDatabase::FETCH_ARRAY_LIST  :
+						$context->result = $this->_fetchArrayList($result);
 						break;
-						
-					case KDatabase::FETCH_FIELD       : 
-						$context->result = $this->_fetchField($result); 
+
+					case KDatabase::FETCH_FIELD       :
+						$context->result = $this->_fetchField($result);
 						break;
-						
-					case KDatabase::FETCH_FIELD_LIST  : 
-						$context->result = $this->_fetchFieldList($result); 
+
+					case KDatabase::FETCH_FIELD_LIST  :
+						$context->result = $this->_fetchFieldList($result);
 						break;
-						
-					case KDatabase::FETCH_OBJECT      : 
-						$context->result = $this->_fetchObject($result); 
+
+					case KDatabase::FETCH_OBJECT      :
+						$context->result = $this->_fetchObject($result);
 						break;
-						
-					case KDatabase::FETCH_OBJECT_LIST : 
-						$context->result = $this->_fetchObjectList($result); 
+
+					case KDatabase::FETCH_OBJECT_LIST :
+						$context->result = $this->_fetchObjectList($result);
 						break;
-						
+
 					default : $result->free();
 				}
 			}
-				
+
 			$this->getCommandChain()->run('after.show', $context);
 		}
 
@@ -371,7 +369,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param string  	The table to insert data into.
      * @param array 	An associative array where the key is the colum name and
      * 					the value is the value to insert for that column.
-     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if 
+     * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if
      * 					     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
 	public function insert($table, array $data)
@@ -385,7 +383,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		if($this->getCommandChain()->run('before.insert', $context) !== false)
 		{
 			//Check if we have valid data to insert, if not return false
-			if(count($context->data)) 
+			if(count($context->data))
 			{
 				foreach($context->data as $key => $val)
 				{
@@ -395,12 +393,12 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
 				$context->query = 'INSERT INTO '.$this->quoteName($this->getTableNeedle().$context->table )
 					 . '('.implode(', ', $keys).') VALUES ('.implode(', ', $vals).')';
-				 
+
 				//Execute the query
 				$context->result = $this->execute($context->query);
-				
-				$context->affected = $this->_affected_rows;	
-			
+
+				$context->affected = $this->_affected_rows;
+
 				$this->getCommandChain()->run('after.insert', $context);
 			}
 			else $context->affected = false;
@@ -418,8 +416,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param array  	An associative array where the key is the column name and
      * 				 	the value is the value to use ofr that column.
      * @param mixed 	A sql string or KDatabaseQuery object to limit which rows are updated.
-     * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
-     * 					no rows where updated, or -1 if an error occurred. Otherwise FALSE. 
+     * @return integer  If the update query was executed returns the number of rows updated, or 0 if
+     * 					no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
 	public function update($table, array $data, $where = null)
 	{
@@ -432,18 +430,18 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		//Excute the update operation
 		if($this->getCommandChain()->run('before.update', $context) !==  false)
 		{
-			if(count($context->data)) 
-			{				
+			if(count($context->data))
+			{
 				foreach($context->data as $key => $val) {
 					$vals[] = '`'.$key.'` = '.$this->quoteValue($val);
 				}
-				
+
 				//Create query statement
 				$context->query = 'UPDATE '.$this->quoteName($this->getTableNeedle().$context->table)
 			  		.' SET '.implode(', ', $vals)
 			  		.' '.$context->where
 				;
-						
+
 				//Execute the query
 				$context->result = $this->execute($context->query);
 
@@ -492,22 +490,22 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	/**
 	 * Use and other queries that don't return rows
 	 *
-	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
-	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
-     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+	 * @param  string 	The query to run. Data inside the query should be properly escaped.
+	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
+     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
+     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
      * 					unless you free the result first.
 	 * @throws KDatabaseException
-	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
-	 * 					For other successful queries  return TRUE. 
+	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
+	 * 					For other successful queries  return TRUE.
 	 */
 	public function execute($sql, $mode = KDatabase::RESULT_STORE )
-	{	
+	{
 		//Replace the database table prefix
 		$sql = $this->replaceTableNeedle( $sql );
-		
+
 		$result = $this->_connection->query($sql, $mode);
-		
+
 		if($result === false) {
 			throw new KDatabaseException($this->_connection->error.' of the following query : '.$sql, $this->_connection->errno);
 		}
@@ -541,7 +539,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 	{
 		return $this->_table_prefix;
 	}
-	
+
 	/**
 	 * Get the table needle
 	 *
@@ -564,10 +562,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$needle  = $this->getTableNeedle();
 	    $replace = isset($replace) ? $replace : $this->getTablePrefix();
 		$sql     = trim( $sql );
-		
+
 		$pattern = "($needle(?=[a-z0-9]))";
     	$sql = preg_replace($pattern, $replace, $sql);
-    	
+
 		return $sql;
 	}
 
@@ -602,15 +600,15 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
         return $value;
     }
-    
+
     /**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
-     * 
-     * This function requires all SQL statements, operators and functions to be 
+     *
+     * This function requires all SQL statements, operators and functions to be
      * uppercased.
      *
-     * @param string|array The identifier name to quote.  If an array, quotes 
+     * @param string|array The identifier name to quote.  If an array, quotes
      *                      each element in the array as an identifier name.
      * @return string|array The quoted identifier name (or array of names).
      *
@@ -623,19 +621,19 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             foreach ($spec as $key => $val) {
                 $spec[$key] = $this->quoteName($val);
             }
-            
+
             return $spec;
         }
-         
+
         // String spaces around the identifier
         $spec = trim($spec);
-        
+
         // Quote all the lower case parts
         $spec = preg_replace_callback('#(?:\b|\#)+(?<!`)([a-z0-9\.\#\-_]+)(?!`)\b#', array($this, '_quoteName') , $spec);
-        
+
         return $spec;
     }
-    
+
    /**
      * Fetch the first field of the first row
      *
@@ -656,7 +654,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
     /**
      * Fetch the first row of a result set as an associative array
-     * 
+     *
      * @param   mysqli_result   The result object. A result set identifier returned by the select() function
      * @return array
      */
@@ -664,7 +662,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
     /**
      * Fetch all result rows of a result set as an array of associative arrays
-     * 
+     *
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
@@ -684,7 +682,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
     /**
      * Fetch all rows of a result set as an array of objects
-     * 
+     *
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * of the database key.  Returns <var>null</var> if the query fails.
      *
@@ -693,7 +691,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @return  array   If <var>key</var> is empty as sequential array of returned rows.
      */
     abstract protected function _fetchObjectList($result, $key='' );
-    
+
     /**
      * Parse the raw table schema information
      *
@@ -730,7 +728,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
     /**
      * Quotes an identifier name (table, index, etc). Ignores empty values.
-     * 
+     *
      * If the name contains a dot, this method will separately quote the
      * parts before and after the dot.
      *
@@ -741,27 +739,27 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     protected function _quoteName($name)
     {
         $result =  '';
-        
+
         if(is_array($name)) {
             $name = $name[0];
         }
-        
+
         $name   = trim($name);
-        
+
         //Special cases
         if ($name == '*' || is_numeric($name)) {
             return $name;
         }
-         
+
         if ($pos = strrpos($name, '.'))
         {
             $table  = $this->_quoteName(substr($name, 0, $pos));
             $column = $this->_quoteName(substr($name, $pos + 1));
-                    
+
             $result =  "$table.$column";
         }
         else $result = $this->_name_quote. $name.$this->_name_quote;
-        
+
         return $result;
     }
 }

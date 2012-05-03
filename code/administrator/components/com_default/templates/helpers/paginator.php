@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,9 +10,8 @@
 
 /**
  * Default Paginator Helper
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @uses        KRequest
@@ -23,7 +21,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 {
     /**
      * Render item pagination
-     * 
+     *
      * @param   array   An optional array with configuration options
      * @return  string  Html
      * @see     http://developer.yahoo.com/ypatterns/navigation/pagination/
@@ -39,9 +37,9 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
             'show_limit' => true,
 		    'show_count' => true
         ));
-        
+
         $this->_initialize($config);
-        
+
         $html   = '<div class="container">';
         $html  .= '<div class="pagination">';
         if($config->show_limit) {
@@ -53,13 +51,13 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
         }
         $html .= '</div>';
         $html .= '</div>';
-        
+
         return $html;
     }
-    
+
     /**
      * Render a list of pages links
-     * 
+     *
      * This function is overriddes the default behavior to render the links in the khepri template
      * backend style.
      *
@@ -70,25 +68,25 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
     {
         $class = $pages['first']->active ? '' : 'off';
         $html  = '<div class="button2-right '.$class.'"><div class="start">'.$this->_link($pages['first'], 'First').'</div></div>';
-        
+
         $class = $pages['previous']->active ? '' : 'off';
         $html  .= '<div class="button2-right '.$class.'"><div class="prev">'.$this->_link($pages['previous'], 'Prev').'</div></div>';
-        
+
         $html  .= '<div class="button2-left"><div class="page">';
         foreach($pages['pages'] as $page) {
             $html .= $this->_link($page, $page->page);
         }
         $html .= '</div></div>';
-        
+
         $class = $pages['next']->active ? '' : 'off';
         $html  .= '<div class="button2-left '.$class.'"><div class="next">'.$this->_link($pages['next'], 'Next').'</div></div>';
-        
+
         $class = $pages['last']->active ? '' : 'off';
         $html  .= '<div class="button2-left '.$class.'"><div class="end">'.$this->_link($pages['last'], 'Last').'</div></div>';
 
         return $html;
     }
-    
+
     protected function _link($page, $title)
     {
         $url   = clone KRequest::url();
@@ -96,8 +94,8 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 
         //For compatibility with Joomla use limitstart instead of offset
         $query['limit']      = $page->limit;
-        $query['limitstart'] = $page->offset;   
-        
+        $query['limitstart'] = $page->offset;
+
         $url->setQuery($query);
 
         $class = $page->current ? 'class="active"' : '';

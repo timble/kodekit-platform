@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Dispatcher
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
  * Abstract controller dispatcher
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Dispatcher
  * @uses		KMixinClass
  * @uses        KObject
@@ -34,10 +32,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-		
+
 		//Set the controller
 		$this->_controller = $config->controller;
-		
+
 		if(KRequest::method() != 'GET') {
 			$this->registerCallback('after.dispatch' , array($this, 'forward'));
 	  	}
@@ -64,7 +62,7 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
         parent::_initialize($config);
     }
-    
+
 	/**
 	 * Method to get a controller object
 	 *
@@ -73,27 +71,27 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	public function getController()
 	{
 		if(!($this->_controller instanceof KControllerAbstract))
-		{  
+		{
 		    //Make sure we have a controller identifier
 		    if(!($this->_controller instanceof KServiceIdentifier)) {
 		        $this->setController($this->_controller);
 			}
-		    
+
 		    $config = array(
         		'request' 	   => $this->_request,
-			    'dispatched'   => true	
+			    'dispatched'   => true
         	);
-        	
+
 			$this->_controller = $this->getService($this->_controller, $config);
 		}
-	
+
 		return $this->_controller;
 	}
 
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @throws	KDispatcherException	If the identifier is not a controller identifier
 	 * @return	KDispatcherAbstract
@@ -102,13 +100,13 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	{
 		if(!($controller instanceof KControllerAbstract))
 		{
-			if(is_string($controller) && strpos($controller, '.') === false ) 
+			if(is_string($controller) && strpos($controller, '.') === false )
 		    {
 		        // Controller names are always singular
 			    if(KInflector::isPlural($controller)) {
 				    $controller = KInflector::singularize($controller);
-			    } 
-			    
+			    }
+
 			    $identifier			= clone $this->getIdentifier();
 			    $identifier->path	= array('controller');
 			    $identifier->name	= $controller;
@@ -121,12 +119,12 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
 			$controller = $identifier;
 		}
-		
+
 		$this->_controller = $controller;
-	
+
 		return $this;
 	}
-	
+
 	/**
 	 * Dispatch the controller
 	 *
@@ -134,15 +132,15 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	 * @return	mixed
 	 */
 	protected function _actionDispatch(KCommandContext $context)
-	{        	 
+	{
 	    $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
-	    
+
 	    if(KRequest::method() != KHttpRequest::GET) {
             $context->data = KRequest::get(strtolower(KRequest::method()), 'raw');;
         }
-	     
+
 	    $result = $this->getController()->execute($action, $context);
-	           
+
         return $result;
 	}
 
@@ -183,18 +181,18 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	protected function _actionRender(KCommandContext $context)
 	{
 	    //Headers
-	    if($context->headers) 
+	    if($context->headers)
 	    {
 	        foreach($context->headers as $name => $value) {
 	            header($name.' : '.$value);
 	        }
 	    }
-	    
+
 	    //Status
         if($context->status) {
            header(KHttpResponse::getHeader($context->status));
         }
-	    
+
 	    if(is_string($context->result)) {
 		     return $context->result;
 		}

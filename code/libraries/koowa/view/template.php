@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: abstract.php 1815 2010-03-27 21:42:55Z johan $
- * @category    Koowa
  * @package     Koowa_View
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,14 +11,13 @@
  * Abstract Template View Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_View
  * @uses        KMixinClass
  * @uses        KTemplate
  * @uses        KService
  */
 abstract class KViewTemplate extends KViewAbstract
-{ 
+{
     /**
      * Template identifier (com://APP/COMPONENT.template.NAME)
      *
@@ -33,28 +31,28 @@ abstract class KViewTemplate extends KViewAbstract
      * @var string
      */
     protected $_escape;
-    
+
     /**
      * Auto assign
      *
      * @var boolean
      */
     protected $_auto_assign;
-     
+
     /**
      * The assigned data
      *
      * @var boolean
      */
     protected $_data;
-    
+
     /**
      * The view scripts
      *
      * @var array
      */
     protected $_scripts = array();
-    
+
     /**
      * The view styles
      *
@@ -70,33 +68,33 @@ abstract class KViewTemplate extends KViewAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         // set the auto assign state
         $this->_auto_assign = $config->auto_assign;
-        
+
         //set the data
         $this->_data = KConfig::unbox($config->data);
-          
+
          // user-defined escaping callback
         $this->setEscape($config->escape);
-         
+
         // set the template object
         $this->_template = $config->template;
-             
+
         //Set the template filters
         if(!empty($config->template_filters)) {
             $this->getTemplate()->addFilter($config->template_filters);
         }
-         
+
         // Set base and media urls for use by the view
         $this->assign('baseurl' , $config->base_url)
              ->assign('mediaurl', $config->media_url);
-        
+
         //Add alias filter for media:// namespace
         $this->getTemplate()->getFilter('alias')->append(
             array('media://' => $config->media_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
-        
+
         //Add alias filter for base:// namespace
         $this->getTemplate()->getFilter('alias')->append(
             array('base://' => $config->base_url.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
@@ -115,7 +113,7 @@ abstract class KViewTemplate extends KViewAbstract
     {
         //Clone the identifier
         $identifier = clone $this->getIdentifier();
-        
+
         $config->append(array(
             'data'			   => array(),
             'escape'           => 'htmlspecialchars',
@@ -125,10 +123,10 @@ abstract class KViewTemplate extends KViewAbstract
             'base_url'         => KRequest::base(),
             'media_url'        => KRequest::root().'/media',
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
     /**
      * Set a view properties
      *
@@ -139,7 +137,7 @@ abstract class KViewTemplate extends KViewAbstract
     {
         $this->_data[$property] = $value;
     }
-    
+
     /**
      * Get a view property
      *
@@ -151,8 +149,8 @@ abstract class KViewTemplate extends KViewAbstract
         $result = null;
         if(isset($this->_data[$property])) {
             $result = $this->_data[$property];
-        } 
-        
+        }
+
         return $result;
     }
 
@@ -200,8 +198,8 @@ abstract class KViewTemplate extends KViewAbstract
         // assign by object or array
         if (is_object($arg0) || is_array($arg0)) {
             $this->set($arg0);
-        } 
-        
+        }
+
         // assign by string name and mixed value.
         elseif (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) {
             $this->set($arg0, $arg1);
@@ -220,7 +218,7 @@ abstract class KViewTemplate extends KViewAbstract
     {
         return call_user_func($this->_escape, $var);
     }
-    
+
     /**
      * Return the views output
      *
@@ -234,7 +232,7 @@ abstract class KViewTemplate extends KViewAbstract
                                  ->loadIdentifier($this->_layout, $this->_data)
                                  ->render();
 		}
-                        
+
         return parent::display();
     }
 
@@ -249,7 +247,7 @@ abstract class KViewTemplate extends KViewAbstract
         $this->_escape = $spec;
         return $this;
     }
-    
+
 	/**
      * Sets the layout name
      *
@@ -258,17 +256,17 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function setLayout($layout)
     {
-        if(is_string($layout) && strpos($layout, '.') === false ) 
+        if(is_string($layout) && strpos($layout, '.') === false )
 		{
-            $identifier = clone $this->getIdentifier(); 
+            $identifier = clone $this->getIdentifier();
             $identifier->name = $layout;
 	    }
 		else $identifier = $this->getIdentifier($layout);
-        
+
         $this->_layout = $identifier;
         return $this;
     }
-    
+
 	/**
      * Get the layout.
      *
@@ -278,7 +276,7 @@ abstract class KViewTemplate extends KViewAbstract
     {
         return $this->_layout->name;
     }
-    
+
     /**
      * Get the identifier for the template with the same name
      *
@@ -287,26 +285,26 @@ abstract class KViewTemplate extends KViewAbstract
     public function getTemplate()
     {
         if(!$this->_template instanceof KTemplateAbstract)
-        { 
+        {
             //Make sure we have a template identifier
             if(!($this->_template instanceof KServiceIdentifier)) {
                 $this->setTemplate($this->_template);
             }
-              
+
             $options = array(
             	'view' => $this
             );
-            
+
             $this->_template = $this->getService($this->_template, $options);
         }
-        
+
         return $this->_template;
     }
-    
+
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements KObjectServiceable, an object that 
+     * @param   mixed   An object that implements KObjectServiceable, an object that
      *                  implements KServiceIdentifierInterface or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KViewAbstract
@@ -315,26 +313,26 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(!($template instanceof KTemplateAbstract))
         {
-            if(is_string($template) && strpos($template, '.') === false ) 
+            if(is_string($template) && strpos($template, '.') === false )
 		    {
-			    $identifier = clone $this->getIdentifier(); 
+			    $identifier = clone $this->getIdentifier();
                 $identifier->path = array('template');
                 $identifier->name = $template;
 			}
 			else $identifier = $this->getIdentifier($template);
-            
+
             if($identifier->path[0] != 'template') {
                 throw new KViewException('Identifier: '.$identifier.' is not a template identifier');
             }
-        
+
             $template = $identifier;
-        } 
-        
+        }
+
         $this->_template = $template;
-            
+
         return $this;
     }
-    
+
     /**
      * Execute and return the views output
      *
@@ -344,10 +342,10 @@ abstract class KViewTemplate extends KViewAbstract
     {
         return $this->display();
     }
-    
+
     /**
-     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view 
-     * by using the variable name as the method name. If the method name is a setter method the 
+     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view
+     * by using the variable name as the method name. If the method name is a setter method the
      * setter will be called instead.
      *
      * For example : $view->layout('foo')->title('name')->display().
@@ -358,18 +356,18 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html
      */
-    public function __call($method, $args) 
-    { 
-        //If one argument is passed we assume a setter method is being called 
-        if(count($args) == 1) 
-        { 
-            if(method_exists($this, 'set'.ucfirst($method))) { 
-                return $this->{'set'.ucfirst($method)}($args[0]); 
-            } else { 
-                return $this->set($method, $args[0]); 
-            } 
-        } 
-        
-        return parent::__call($method, $args); 
-    } 
+    public function __call($method, $args)
+    {
+        //If one argument is passed we assume a setter method is being called
+        if(count($args) == 1)
+        {
+            if(method_exists($this, 'set'.ucfirst($method))) {
+                return $this->{'set'.ucfirst($method)}($args[0]);
+            } else {
+                return $this->set($method, $args[0]);
+            }
+        }
+
+        return parent::__call($method, $args);
+    }
 }

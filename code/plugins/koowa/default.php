@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  Koowa
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,20 +10,20 @@
 
 /**
  * Default Koowa plugin
- * 
- * Koowa plugins can handle a number of events that are dynamically generated. The following 
+ *
+ * Koowa plugins can handle a number of events that are dynamically generated. The following
  * is a list of available events. This list is not meant to be exclusive.
- * 
+ *
  * onControllerBefore[Action]
  * onControllerAfter[Action]
  * where [Action] is Browse, Read, Edit, Add, Delete or any custom controller action
- * 
+ *
  * onDatabaseBefore[Action]
  * onDatabaseAfter[Action]
  * where [Action] is Select, Insert, Update or Delete
- * 
+ *
  * You can create your own Koowa plugins very easily :
- * 
+ *
  * <code>
  * <?php
  *  class plgKoowaFoo extends plgKoowaDefault
@@ -33,21 +32,19 @@
  *      {
  *          //The caller is a reference to the object that is triggering this event
  *          $caller = $context->caller;
- * 
- *          //The result is the actual result of the event, if this is an after event 
+ *
+ *          //The result is the actual result of the event, if this is an after event
  *          //the result will contain the result of the action.
  *          $result = $context->result;
- * 
+ *
  *          //The context object can also contain a number of custom properties
  *          print_r($context);
- *      }   
- * }    
-}
+ *      }
+ * }
  * </code>
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Plugins
+ * @package     Nooku_Plugins
  * @subpackage  Koowa
  */
 abstract class PlgKoowaDefault extends KEventListener
@@ -72,7 +69,7 @@ abstract class PlgKoowaDefault extends KEventListener
 	 * @var		string
 	 */
 	protected $_type = null;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -95,19 +92,19 @@ abstract class PlgKoowaDefault extends KEventListener
 		if ( isset( $config['type'] ) ) {
 			$this->_type = $config['type'];
 		}
-		
+
 		//Inject the identifier
 		$config['service_identifier'] = KService::getIdentifier('plg:koowa.'.$this->_name);
-		
+
 		//Inject the service container
 		$config['service_container'] = KService::getInstance();
-		
+
 		//Inject the dispatcher
 		$config['dispatcher'] = $dispatcher;
 
 		parent::__construct(new KConfig($config));
 	}
-	
+
 	/**
 	 * Loads the plugin language file
 	 *

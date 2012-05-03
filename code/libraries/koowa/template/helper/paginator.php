@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Paginator Helper
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  */
@@ -33,17 +31,17 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
         {
             $config->limit  = (int) max($config->limit, 1);
             $config->offset = (int) max($config->offset, 0);
-            
+
             if($config->limit > $config->total) {
                 $config->offset = 0;
             }
-            
-            if(!$config->limit) 
+
+            if(!$config->limit)
             {
                 $config->offset = 0;
                 $config->limit  = $config->total;
             }
-            
+
             $config->count  = (int) ceil($config->total / $config->limit);
 
             if($config->offset > $config->total) {
@@ -52,7 +50,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
             $config->current = (int) floor($config->offset / $config->limit) + 1;
         }
-        else 
+        else
         {
             $config->limit   = 0;
             $config->offset  = 0;
@@ -65,7 +63,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 	/**
 	 * Render item pagination
-	 * 
+	 *
 	 * @param 	array 	An optional array with configuration options
 	 * @return	string	Html
 	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
@@ -82,9 +80,9 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		    'show_limit' => true,
 		    'show_count' => true
 		));
-	
+
 		$this->_initialize($config);
-        
+
 		$html = '';
 		$html .= '<style src="media://lib_koowa/css/koowa.css" />';
 
@@ -100,7 +98,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 		return $html;
 	}
-	
+
 	/**
 	 * Render a select box with limit values
 	 *
@@ -114,9 +112,9 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			'limit'	  	=> 0,
 			'attribs'	=> array(),
 		));
-		
+
 		$html = '';
-		
+
 		$selected = '';
 		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100) as $value => $text)
 		{
@@ -169,7 +167,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 		$query['limit']  = $page->limit;
 		$query['offset'] = $page->offset;
-		
+
 		$url->setQuery($query);
 
 		$class = $page->current ? 'class="active"' : '';
@@ -182,7 +180,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 		return $html;
 	}
-	
+
  	/**
      * Get a list of pages
      *
@@ -235,7 +233,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
         return $elements;
     }
-    
+
     /**
      * Get the offset for each page, optionally with a range
      *

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Mixin
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,24 +9,23 @@
 
 /**
  * Event Dispatcher Mixin
- * 
+ *
  * Class can be used as a mixin in classes that want to implement a an
  * event dispatcher and allow adding and removing listeners.
- *  
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Mixin
  * @uses        KEventDispatcher
  */
 class KMixinEventdispatcher extends KMixinAbstract
-{   
+{
     /**
      * Event dispatcher object
      *
      * @var KEventDispatcher
      */
     protected $_event_dispatcher;
-    
+
     /**
      * Object constructor
      *
@@ -36,14 +34,14 @@ class KMixinEventdispatcher extends KMixinAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-            
+
         //Create a event dispatcher object
         $this->_event_dispatcher = $config->event_dispatcher;
     }
-    
+
     /**
      * Initializes the options for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   object  An optional KConfig object with configuration options
@@ -54,10 +52,10 @@ class KMixinEventdispatcher extends KMixinAbstract
         $config->append(array(
             'event_dispatcher' => new KEventDispatcher(),
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
 	/**
      * Get the event dispatcher
      *
@@ -67,7 +65,7 @@ class KMixinEventdispatcher extends KMixinAbstract
     {
         return $this->_event_dispatcher;
     }
-    
+
     /**
      * Set the chain of command object
      *
@@ -79,14 +77,14 @@ class KMixinEventdispatcher extends KMixinAbstract
         $this->_event_dispatcher = $dispatcher;
         return $this->_mixer;
     }
-    
+
 	/**
      * Add an event listener
      *
      * @param  string  The event name
      * @param  object  An object implementing the KObjectHandlable interface
-     * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest), 
-     *                 default is 3. If no priority is set, the command priority will be used 
+     * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
      * @return  KObject The mixer objects
      */

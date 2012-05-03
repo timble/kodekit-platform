@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Service
  * @subpackage 	Locator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,57 +11,56 @@
  * Locator Adapter for a component
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Service
  * @subpackage 	Locator
  */
 class KServiceLocatorComponent extends KServiceLocatorAbstract
 {
-	/** 
+	/**
 	 * The type
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_type = 'com';
-	
+
 	/**
 	 * Get the classname based on an identifier
-	 * 
+	 *
 	 * This locator will try to create an generic or default classname on the identifier information
 	 * if the actual class cannot be found using a predefined fallback sequence.
-	 * 
+	 *
 	 * Fallback sequence : -> Named Component Specific
-	 *                     -> Named Component Default  
+	 *                     -> Named Component Default
 	 *                     -> Default Component Specific
 	 *                     -> Default Component Default
-	 *                     -> Framework Specific 
+	 *                     -> Framework Specific
 	 *                     -> Framework Default
 	 *
 	 * @param mixed  		 An identifier object - com:[//application/]component.view.[.path].name
 	 * @return string|false  Return object on success, returns FALSE on failure
 	 */
 	public function findClass(KServiceIdentifier $identifier)
-	{ 
+	{
 	    $path      = KInflector::camelize(implode('_', $identifier->path));
         $classname = 'Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
-        
+
       	//Manually load the class to set the basepath
 		if (!$this->getService('koowa:loader')->loadClass($classname, $identifier->basepath))
 		{
 		    $classpath = $identifier->path;
 			$classtype = !empty($classpath) ? array_shift($classpath) : '';
-					
+
 			//Create the fallback path and make an exception for views
 			$path = ($classtype != 'view') ? ucfirst($classtype).KInflector::camelize(implode('_', $classpath)) : ucfirst($classtype);
-						
+
 			/*
 			 * Find the classname to fallback too and auto-load the class
-			 * 
-			 * Fallback sequence : -> Named Component Specific 
-			 *                     -> Named Component Default  
-			 *                     -> Default Component Specific 
+			 *
+			 * Fallback sequence : -> Named Component Specific
+			 *                     -> Named Component Default
+			 *                     -> Default Component Specific
 			 *                     -> Default Component Default
-			 *                     -> Framework Specific 
+			 *                     -> Framework Specific
 			 *                     -> Framework Default
 			 */
 			if(class_exists('Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name))) {
@@ -81,10 +79,10 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
 				$classname = false;
 			}
 		}
-		
+
 		return $classname;
 	}
-	
+
 	/**
 	 * Get the path based on an identifier
 	 *
@@ -95,21 +93,21 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
 	{
         $path  = '';
 	    $parts = $identifier->path;
-				
+
 		$component = 'com_'.strtolower($identifier->package);
-			
+
 		if(!empty($identifier->name))
 		{
-			if(count($parts)) 
+			if(count($parts))
 			{
 				$path    = KInflector::pluralize(array_shift($parts));
 				$path   .= count($parts) ? '/'.implode('/', $parts) : '';
-				$path   .= '/'.strtolower($identifier->name);	
-			} 
-			else $path  = strtolower($identifier->name);	
+				$path   .= '/'.strtolower($identifier->name);
+			}
+			else $path  = strtolower($identifier->name);
 		}
-				
-		$path = $identifier->basepath.'/components/'.$component.'/'.$path.'.php';	
+
+		$path = $identifier->basepath.'/components/'.$component.'/'.$path.'.php';
 		return $path;
 	}
 }

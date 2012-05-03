@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Loader
  * @subpackage 	Adapter
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Loader Adapter Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Loader
  * @subpackage 	Adapter
  */
@@ -24,14 +22,14 @@ interface KLoaderAdapterInterface
 	 * @return string	Returns the type
 	 */
 	public function getType();
-	
+
 	/**
 	 * Get the class prefix
 	 *
 	 * @return string	Returns the class prefix
 	 */
 	public function getPrefix();
-	
+
 	/**
 	 * Get the base path
 	 *
@@ -42,8 +40,8 @@ interface KLoaderAdapterInterface
     /**
      * Get the path based on a class name
      *
-     * @param  string           The class name 
+     * @param  string           The class name
      * @return string|false     Returns the path on success FALSE on failure
      */
-    public function findPath($classname, $basepath = null); 
+    public function findPath($classname, $basepath = null);
 }

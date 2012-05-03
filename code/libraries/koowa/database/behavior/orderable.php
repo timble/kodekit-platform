@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Database
  * @subpackage 	Behavior
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Database Orderable Behavior
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
@@ -40,9 +38,9 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 	/**
 	 * Override to add a custom WHERE clause
-	 * 
-	 * <code>	
-	 * 	   $query->where('category_id', '=', $this->id); 
+	 *
+	 * <code>
+	 * 	   $query->where('category_id', '=', $this->id);
 	 * </code>
 	 *
 	 * @param 	KDatabaseQuery $query
@@ -50,7 +48,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function _buildQueryWhere(KDatabaseQuery $query)
 	{
-		
+
 	}
 
 	/**
@@ -76,24 +74,24 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			$table = $this->getTable();
 			$db    = $table->getDatabase();
 			$query = $db->getQuery();
-			
+
 			//Build the where query
 			$this->_buildQueryWhere($query);
 
 			$update =  'UPDATE `'.$db->getTableNeedle().$table->getBase().'` ';
-			if($change < 0) 
+			if($change < 0)
 			{
 				$update .= 'SET ordering = ordering+1 ';
 				$query->where('ordering', '>=', $new)
 					  ->where('ordering', '<', $old);
-			} 
-			else 
+			}
+			else
 			{
 				$update .= 'SET ordering = ordering-1 ';
 				$query->where('ordering', '>', $old)
 					  ->where('ordering', '<=', $new);
 			}
-			
+
 			$update .= (string) $query;
 			$db->execute($update);
 
@@ -107,8 +105,8 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 	 /**
      * Resets the order of all rows
-     * 
-     * Resetting starts at $base to allow creating space in sequence for later 
+     *
+     * Resetting starts at $base to allow creating space in sequence for later
      * record insertion.
      *
      * @param	integer 	Order at which to start resetting.
@@ -118,7 +116,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     {
 		//force to integer
         settype($base, 'int');
-        
+
         $table  = $this->getTable();
         $db     = $table->getDatabase();
         $query  = $db->getQuery();
@@ -128,7 +126,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
         if ($base)  {
             $query->where('ordering', '>=', (int) $base);
-        } 
+        }
 
         $db->execute("SET @order = $base");
         $db->execute(
@@ -140,13 +138,13 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
         return $this;
     }
-    
+
     /**
      * Find the maximum ordering within this parent
-     * 
+     *
      * @return int
      */
-    protected function getMaxOrdering() 
+    protected function getMaxOrdering()
     {
         $table  = $this->getTable();
         $db     = $table->getDatabase();
@@ -156,9 +154,9 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
         $select = 'SELECT MAX(ordering) FROM `'.$db->getTableNeedle().$table->getName().'`';
         $select .= (string) $query;
-        
+
         return  (int) $db->select($select, KDatabase::FETCH_FIELD);
-        
+
     }
 
  	/**
@@ -174,12 +172,12 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         if(isset($this->ordering))
         {
             $max = $this->getMaxOrdering();
-            
+
             if ($this->ordering <= 0) {
                 $this->ordering = $max + 1;
             } else {
                 $this->reorder($this->ordering);
-            } 
+            }
         }
     }
 

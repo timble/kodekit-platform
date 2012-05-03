@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Modules
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,9 +10,8 @@
 
 /**
  * Default Module View
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Modules
  * @subpackage  Default
  */
@@ -28,17 +26,17 @@ class ModDefaultHtml extends KViewHtml
      * @return  void
      */
     protected function _initialize(KConfig $config)
-    {      
+    {
         $config->append(array(
         	'template_filters' => array('chrome'),
             'data'			   => array(
-                'styles' => array() 
+                'styles' => array()
             )
         ));
-        
+
         parent::_initialize($config);
     }
-      
+
 	/**
 	 * Get the name
 	 *
@@ -48,36 +46,36 @@ class ModDefaultHtml extends KViewHtml
 	{
 		return $this->getIdentifier()->package;
 	}
-	
+
 	/**
      * Renders and echo's the views output
      *
      * @return ModDefaultHtml
      */
     public function display()
-    { 
+    {
 		//Load the language files.
 		//Type only exists if the module is loaded through ComExtensionsModelsModules
 		if(isset($this->module->type)) {
             JFactory::getLanguage()->load($this->module->type);
 		}
-        
-		if(empty($this->module->content)) 
+
+		if(empty($this->module->content))
 		{
             $this->output = $this->getTemplate()
                 ->loadIdentifier($this->_layout, $this->_data)
                 ->render();
 		}
-		else 
+		else
 		{
 		     $this->output = $this->getTemplate()
                 ->loadString($this->module->content, $this->_data, false)
                 ->render();
 		}
-	
+
         return $this->output;
     }
-    
+
     /**
      * Set a view properties
      *
@@ -86,16 +84,16 @@ class ModDefaultHtml extends KViewHtml
      */
     public function __set($property, $value)
     {
-        if($property == 'module') 
+        if($property == 'module')
         {
             if(is_string($value->params)) {
                 $value->params = $this->_parseParams($value->params);
             }
         }
-        
+
         parent::__set($property, $value);
     }
-    
+
     /**
      * Method to extract key/value pairs out of a string
      *
@@ -105,23 +103,23 @@ class ModDefaultHtml extends KViewHtml
     protected function _parseParams( $string )
     {
         $params = array();
-        
-        if(!version_compare(JVERSION,'1.6.0','ge')) 
+
+        if(!version_compare(JVERSION,'1.6.0','ge'))
         {
             $string = trim($string);
-        
+
             if(!empty($string))
             {
-                foreach(explode("\n", $string) as $line) 
+                foreach(explode("\n", $string) as $line)
                 {
                     $param = explode("=", $line, 2);
                     $params[$param[0]] = $param[1];
                 }
             }
-        } 
+        }
         else $params = json_decode($string);
-       
-        $params = new KConfig($params);     
+
+        $params = new KConfig($params);
         return $params;
     }
 }

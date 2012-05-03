@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -9,12 +8,10 @@
  * @link        http://www.nooku.org
  */
 
-
 /**
  * Editor Helper
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @uses        KConfig
@@ -44,12 +41,12 @@ class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
         $editor  = JFactory::getEditor($config->editor);
         $options = KConfig::unbox($config->options);
 
-        if (version_compare(JVERSION, '1.6.0', 'ge')) { 
-            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $config->name, null, null, $options); 
-        } else { 
-            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $options); 
-        } 
-        
+        if (version_compare(JVERSION, '1.6.0', 'ge')) {
+            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $config->name, null, null, $options);
+        } else {
+            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $options);
+        }
+
         return $result;
     }
 }

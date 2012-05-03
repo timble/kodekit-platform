@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category     Koowa
 * @package      Koowa_Template
 * @subpackage   Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template read filter for aliases such as @template, @text, @helper, @route etc
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Filter
  */
@@ -34,16 +32,16 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
         '@route('       => '$this->getView()->createRoute(',
         '@escape('      => '$this->getView()->escape(',
     );
-    
+
     /**
      * The alias write map
      *
      * @var array
      */
     protected $_alias_write = array();
-     
+
     /**
-     * Append an alias 
+     * Append an alias
      *
      * @param array     An array of aliases to be appended
      * @return KTemplateFilterAlias
@@ -51,45 +49,45 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
     public function append(array $alias, $mode = KTemplateFilter::MODE_READ)
     {
         if($mode & KTemplateFilter::MODE_READ) {
-            $this->_alias_read = array_merge($this->_alias_read, $alias); 
+            $this->_alias_read = array_merge($this->_alias_read, $alias);
         }
-        
+
         if($mode & KTemplateFilter::MODE_WRITE) {
-            $this->_alias_write = array_merge($this->_alias_write, $alias); 
+            $this->_alias_write = array_merge($this->_alias_write, $alias);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Convert the alias
      *
      * @param string
      * @return KTemplateFilterAlias
      */
-    public function read(&$text) 
+    public function read(&$text)
     {
         $text = str_replace(
-            array_keys($this->_alias_read), 
-            array_values($this->_alias_read), 
+            array_keys($this->_alias_read),
+            array_values($this->_alias_read),
             $text);
-            
+
         return $this;
     }
-    
+
     /**
      * Convert the alias
      *
      * @param string
      * @return KTemplateFilterAlias
      */
-    public function write(&$text) 
+    public function write(&$text)
     {
         $text = str_replace(
-            array_keys($this->_alias_write), 
-            array_values($this->_alias_write), 
+            array_keys($this->_alias_write),
+            array_values($this->_alias_write),
             $text);
-                
+
         return $this;
     }
-}       
+}

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Model
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -14,7 +13,6 @@
  * Provides interaction with a database table
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Model
  */
 class KModelTable extends KModelAbstract
@@ -25,7 +23,7 @@ class KModelTable extends KModelAbstract
      * @var string|object
      */
     protected $_table = false;
-    
+
     /**
      * Constructor
      *
@@ -36,7 +34,7 @@ class KModelTable extends KModelAbstract
         parent::__construct($config);
 
        $this->_table = $config->table;
-      
+
         // Set the static states
         $this->_state
             ->insert('limit'    , 'int')
@@ -86,7 +84,7 @@ class KModelTable extends KModelAbstract
     public function set( $property, $value = null )
     {
         parent::set($property, $value);
-        
+
         // If limit has been changed, adjust offset accordingly
         if($limit = $this->_state->limit) {
              $this->_state->offset = $limit != 0 ? (floor($this->_state->offset / $limit) * $limit) : 0;
@@ -94,11 +92,11 @@ class KModelTable extends KModelAbstract
 
         return $this;
     }
-    
+
     /**
      * Method to get a table object
-     * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that 
+     *
+     * Function catches KDatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
      * @return KDatabaseTableAbstract
@@ -108,12 +106,12 @@ class KModelTable extends KModelAbstract
         if($this->_table !== false)
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
-		    {   		        
+		    {
 		        //Make sure we have a table identifier
 		        if(!($this->_table instanceof KServiceIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
-		        
+
 		        try {
 		            $this->_table = $this->getService($this->_table);
                 } catch (KDatabaseTableException $e) {
@@ -128,7 +126,7 @@ class KModelTable extends KModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+     * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
 	 * 					or valid identifier string
      * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
      * @return  KModelTable
@@ -137,14 +135,14 @@ class KModelTable extends KModelAbstract
 	{
 		if(!($table instanceof KDatabaseTableAbstract))
 		{
-			if(is_string($table) && strpos($table, '.') === false ) 
+			if(is_string($table) && strpos($table, '.') === false )
 		    {
 		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
 		    else  $identifier = $this->getIdentifier($table);
-		    
+
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
 			}
@@ -156,7 +154,7 @@ class KModelTable extends KModelAbstract
 
 		return $this;
 	}
-    
+
 	/**
 	 * Test the connected status of the row.
 	 *
@@ -192,9 +190,9 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryJoins($query);
                     $this->_buildQueryWhere($query);
                     $this->_buildQueryGroup($query);
-                    $this->_buildQueryHaving($query);   
+                    $this->_buildQueryHaving($query);
                 }
-                
+
                 $this->_item = $this->getTable()->select($query, KDatabase::FETCH_ROW);
             }
         }
@@ -215,11 +213,11 @@ class KModelTable extends KModelAbstract
             if($this->isConnected())
             {
                 $query  = null;
-                
+
                 if(!$this->_state->isEmpty())
                 {
                     $query = $this->getTable()->getDatabase()->getQuery();
-                
+
                     $this->_buildQueryColumns($query);
                     $this->_buildQueryFrom($query);
                     $this->_buildQueryJoins($query);
@@ -229,14 +227,14 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryOrder($query);
                     $this->_buildQueryLimit($query);
                 }
-        
+
                 $this->_list = $this->getTable()->select($query, KDatabase::FETCH_ROWSET);
             }
         }
 
         return $this->_list;
     }
-    
+
     /**
      * Get the total amount of items
      *
@@ -251,8 +249,8 @@ class KModelTable extends KModelAbstract
             {
                 //Excplicitly get a count query, build functions can then test if the
                 //query is a count query and decided how to build the query.
-                $query = $this->getTable()->getDatabase()->getQuery()->count(); 
-                
+                $query = $this->getTable()->getDatabase()->getQuery()->count();
+
                 $this->_buildQueryFrom($query);
                 $this->_buildQueryJoins($query);
                 $this->_buildQueryWhere($query);
@@ -297,7 +295,7 @@ class KModelTable extends KModelAbstract
     {
         //Get only the unique states
         $states = $this->_state->getData(true);
-        
+
         if(!empty($states))
         {
             $states = $this->getTable()->mapColumns($states);
@@ -334,9 +332,9 @@ class KModelTable extends KModelAbstract
         $sort       = $this->_state->sort;
         $direction  = strtoupper($this->_state->direction);
 
-        if($sort) { 
-            $query->order($this->getTable()->mapColumns($sort), $direction); 
-        } 
+        if($sort) {
+            $query->order($this->getTable()->mapColumns($sort), $direction);
+        }
 
         if(array_key_exists('ordering', $this->getTable()->getColumns())) {
             $query->order('tbl.ordering', 'ASC');
@@ -349,22 +347,22 @@ class KModelTable extends KModelAbstract
     protected function _buildQueryLimit(KDatabaseQuery $query)
     {
         $limit = $this->_state->limit;
-        
-        if($limit) 
+
+        if($limit)
         {
             $offset = $this->_state->offset;
             $total  = $this->getTotal();
 
             //If the offset is higher than the total recalculate the offset
-            if($offset !== 0 && $total !== 0)        
+            if($offset !== 0 && $total !== 0)
             {
-                if($offset >= $total) 
+                if($offset >= $total)
                 {
-                    $offset = floor(($total-1) / $limit) * $limit;    
+                    $offset = floor(($total-1) / $limit) * $limit;
                     $this->_state->offset = $offset;
                 }
              }
-            
+
              $query->limit($limit, $offset);
         }
     }

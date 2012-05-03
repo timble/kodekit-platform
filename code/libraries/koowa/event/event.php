@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Event
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +14,6 @@
  * further listeners in your event listener.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Event
  */
 class KEvent extends KConfig
@@ -28,21 +26,21 @@ class KEvent extends KConfig
     const PRIORITY_NORMAL  = 3;
     const PRIORITY_LOW     = 4;
     const PRIORITY_LOWEST  = 5;
- 	
+
  	/**
      * The propagation state of the event
-     * 
-     * @var boolean 
+     *
+     * @var boolean
      */
     protected $_propagate = true;
- 	
+
  	/**
      * The event name
      *
      * @var array
      */
     protected $_name;
-    
+
     /**
      * Constructor.
      *
@@ -50,23 +48,23 @@ class KEvent extends KConfig
      * @param   array|KConfig 	An associative array of configuration settings or a KConfig instance.
      */
     public function __construct( $name, $config = array() )
-    { 
+    {
         parent::__construct($config);
-         
+
         //Set the command name
         $this->_name = $name;
-    } 
-    
+    }
+
     /**
      * Get the event name
-     * 
+     *
      * @return string	The event name
      */
     public function getName()
     {
         return $this->_name;
     }
-    
+
     /**
      * Returns whether further event listeners should be triggered.
      *
@@ -83,7 +81,7 @@ class KEvent extends KConfig
      * If multiple event listeners are connected to the same event, no
      * further event listener will be triggered once any trigger calls
      * stopPropagation().
-     * 
+     *
      * @return KEvent
      */
     public function stopPropagation()

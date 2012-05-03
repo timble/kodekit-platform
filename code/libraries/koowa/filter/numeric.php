@@ -12,15 +12,14 @@
  * Numeric filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterNumeric extends KFilterAbstract
 {
-	/** 
-	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any 
- 	 * number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a 
- 	 * valid numeric value. Hexadecimal notation (0xFF) is allowed too but only without sign, decimal 
+	/**
+	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any
+ 	 * number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a
+ 	 * valid numeric value. Hexadecimal notation (0xFF) is allowed too but only without sign, decimal
  	 * and exponential part
 	 *
 	 * @param	scalar	Value to be validated
@@ -30,7 +29,7 @@ class KFilterNumeric extends KFilterAbstract
 	{
 		return (is_string($value) && is_numeric($value));
 	}
-	
+
 	/**
 	 * Sanitize non-numeric characters from the value.
 	 *
@@ -39,7 +38,7 @@ class KFilterNumeric extends KFilterAbstract
 	 */
 	protected function _sanitize($value)
 	{
-		return (string) filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, 
+		return (string) filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT,
 			FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC);
 	}
 }

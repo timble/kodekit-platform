@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,7 +10,7 @@
 
 /**
  * Default Html View
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
@@ -27,16 +26,16 @@ class ComDefaultViewHtml extends KViewDefault
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-         
+
         //Add alias filter for editor helper
         $this->getTemplate()->getFilter('alias')->append(array(
             '@editor(' => '$this->renderHelper(\'com://admin/default.template.helper.editor.display\', ')
         );
     }
-    
+
     /**
      * Initializes the configuration for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Configuration settings
@@ -46,7 +45,7 @@ class ComDefaultViewHtml extends KViewDefault
         $config->append(array(
             'layout' => KInflector::isSingular($this->getName()) ? 'form' : 'default'
         ));
-        
+
         parent::_initialize($config);
     }
 }

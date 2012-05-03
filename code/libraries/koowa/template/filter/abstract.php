@@ -1,9 +1,8 @@
 <?php
 /**
  * @version     $Id: abstract.php 1919 2010-04-25 20:49:47Z johanjanssens $
- * @category    Koowa
- * @package     Koowa_Database
- * @subpackage  Behavior
+ * @package     Koowa_Template
+ * @subpackage  Filter
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -12,7 +11,6 @@
  * Abstract Template Filter
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Filter
  */
@@ -24,26 +22,26 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      * @var integer
      */
     protected $_priority;
-    
+
     /**
      * Template object
      *
      * @var object
      */
     protected $_template;
-    
+
     /**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null) 
-    { 
+    public function __construct( KConfig $config = null)
+    {
         parent::__construct($config);
-        
+
         $this->_priority = $config->priority;
     }
-    
+
     /**
      * Initializes the options for the object
      *
@@ -60,7 +58,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
 
         parent::_initialize($config);
     }
-        
+
     /**
      * Get the priority of a behavior
      *
@@ -70,7 +68,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         return $this->_priority;
     }
-    
+
     /**
      * Get the template object
      *
@@ -80,19 +78,19 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         return $this->_template;
     }
-        
+
     /**
      * Command handler
-     * 
+     *
      * @param   string      The command name
      * @param   object      The command context
      * @return  boolean     Always returns TRUE
      */
-    final public function execute( $name, KCommandContext $context) 
+    final public function execute( $name, KCommandContext $context)
     {
         //Set the template
         $this->_template = $context->caller;
-        
+
         //Set the data
         $data = $context->data;
 
@@ -102,18 +100,18 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
 
         if(($name & KTemplateFilter::MODE_WRITE) && $this instanceof KTemplateFilterWrite) {
             $this->write($data);
-        } 
-        
+        }
+
         //Get the data
         $context->data = $data;
-        
+
         //Reset the template
         $this->_template = null;
-        
+
         //@TODO : Allows filters to return false and halt the filter chain
         return true;
     }
-    
+
     /**
      * Method to extract key/value pairs out of a string with xml style attributes
      *
@@ -122,8 +120,8 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      */
     protected function _parseAttributes( $string )
     {
-        $result = array(); 
-        
+        $result = array();
+
         if(!empty($string))
         {
             $attr   = array();
@@ -135,10 +133,10 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
                 $numPairs = count($attr[1]);
                 for($i = 0; $i < $numPairs; $i++ ) {
                      $result[$attr[1][$i]] = $attr[2][$i];
-                }   
+                }
             }
         }
-            
+
         return $result;
     }
 }

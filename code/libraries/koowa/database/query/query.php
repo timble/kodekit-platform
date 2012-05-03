@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Database Select Class for database select statement generation
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  */
@@ -25,7 +23,7 @@ class KDatabaseQuery
 	 * @var boolean
 	 */
 	public $count	  = false;
-	
+
 	/**
 	 * Distinct operation
 	 *
@@ -102,7 +100,7 @@ class KDatabaseQuery
 	 * @var		object
 	 */
 	protected $_adapter;
-	
+
 	/**
 	 * Table prefix
 	 *
@@ -121,10 +119,10 @@ class KDatabaseQuery
 	{
         //If no config is passed create it
 		if(!isset($config)) $config = new KConfig();
-		
+
 	    //Initialise the object
         $this->_initialize($config);
-       
+
 		//set the model adapter
 		$this->_adapter = $config->adapter;
 	}
@@ -151,7 +149,7 @@ class KDatabaseQuery
     {
         return $this->_adapter;
     }
-        
+
 	/**
      * Set the database adapter for this particular KDatabaseQuery object.
      *
@@ -163,7 +161,7 @@ class KDatabaseQuery
         $this->_adapter = $adapter;
         return $this;
     }
-    
+
     /**
      * Built a select query
      *
@@ -172,7 +170,7 @@ class KDatabaseQuery
      */
     public function select( $columns = '*')
     {
-        settype($columns, 'array'); 
+        settype($columns, 'array');
 
         $this->columns = array_unique( array_merge( $this->columns, $columns ) );
         return $this;
@@ -210,7 +208,7 @@ class KDatabaseQuery
     public function from( $tables )
     {
         settype($tables, 'array');
-        
+
         //The table needle
         $needle = $this->_adapter->getTableNeedle();
 
@@ -236,15 +234,15 @@ class KDatabaseQuery
      */
     public function join($type, $table, $condition)
     {
-        settype($condition, 'array'); 
+        settype($condition, 'array');
 
         //The table needle
         $needle = $this->_adapter->getTableNeedle();
-        
+
         if(strpos($table, $needle) !== 0) {
             $table = $needle.$table;
         }
-    
+
         $this->join[] = array(
             'type'      => strtoupper($type),
             'table'     => $table,
@@ -265,7 +263,7 @@ class KDatabaseQuery
      */
     public function where( $property, $constraint = null, $value = null, $condition = 'AND' )
     {
-        if(!empty($property)) 
+        if(!empty($property))
         {
             $where = array();
             $where['property'] = $property;
@@ -274,11 +272,11 @@ class KDatabaseQuery
             {
                 $constraint = strtoupper($constraint);
                 $condition  = strtoupper($condition);
-            
+
                 $where['constraint'] = $constraint;
                 $where['value']      = $value;
             }
-        
+
             $where['condition']  = count($this->where) ? $condition : '';
 
             //Make sure we don't store the same where clauses twice
@@ -287,7 +285,7 @@ class KDatabaseQuery
                 $this->where[$signature] = $where;
             }
         }
-            
+
         return $this;
     }
 
@@ -300,7 +298,7 @@ class KDatabaseQuery
     public function group( $columns )
     {
         settype($columns, 'array'); //force to an array
-        
+
         $this->group = array_unique( array_merge( $this->group, $columns));
         return $this;
     }
@@ -352,7 +350,7 @@ class KDatabaseQuery
     {
         $this->limit  = (int) $limit;
         $this->offset = (int) $offset;
-        
+
         return $this;
     }
 
@@ -365,35 +363,35 @@ class KDatabaseQuery
     {
         $query = '';
         if(!empty($this->columns) || $this->count)
-        {   
+        {
             $query = 'SELECT';
-            
+
             if($this->distinct) {
                 $query .= ' DISTINCT';
             }
-        
+
             if($this->count) {
                 $query .= ' COUNT(*)';
             }
         }
 
-        if (!empty($this->columns) && ! $this->count) 
+        if (!empty($this->columns) && ! $this->count)
         {
             $columns = array();
             foreach($this->columns as $column) {
                 $columns[] = $this->_adapter->quoteName($column);
-            } 
-            
+            }
+
             $query .= ' '.implode(' , ', $columns);
         }
 
-        if (!empty($this->from)) 
+        if (!empty($this->from))
         {
             $tables = array();
             foreach($this->from as $table) {
                 $tables[] = $this->_adapter->quoteName($table);
-            } 
-            
+            }
+
             $query .= ' FROM '.implode(' , ', $tables);
         }
 
@@ -403,13 +401,13 @@ class KDatabaseQuery
             foreach ($this->join as $join)
             {
                 $tmp = ' ';
-    
+
                 if (! empty($join['type'])) {
                     $tmp .= $join['type'] . ' ';
                 }
 
                 $tmp .= ' JOIN ' . $this->_adapter->quoteName($join['table']);
-                $tmp .= ' ON (' . implode(' AND ', $this->_adapter->quoteName($join['condition'])) . ')'; 
+                $tmp .= ' ON (' . implode(' AND ', $this->_adapter->quoteName($join['condition'])) . ')';
 
                 $joins[] = $tmp;
             }
@@ -417,48 +415,48 @@ class KDatabaseQuery
             $query .= implode(' ', $joins);
         }
 
-        if (!empty($this->where)) 
+        if (!empty($this->where))
         {
             $query .= ' WHERE';
-            
+
             foreach($this->where as $where)
             {
                 if(isset($where['condition'])) {
-                    $query .= ' '.$where['condition'];      
+                    $query .= ' '.$where['condition'];
                 }
-                
+
                 $query .= ' '. $this->_adapter->quoteName($where['property']);
-                
-                if(isset($where['constraint'])) 
+
+                if(isset($where['constraint']))
                 {
                     $value = $this->_adapter->quoteValue($where['value']);
-                    
+
                     if(in_array($where['constraint'], array('IN', 'NOT IN'))) {
                         $value = ' ( '.$value. ' ) ';
                     }
-                    
+
                     $query .= ' '.$where['constraint'].' '.$value;
                 }
             }
         }
 
-        if (!empty($this->group)) 
+        if (!empty($this->group))
         {
             $columns = array();
             foreach($this->group as $column) {
                 $columns[] = $this->_adapter->quoteName($column);
-            } 
-            
+            }
+
             $query .= ' GROUP BY '.implode(' , ', $columns);
         }
 
-        if (!empty($this->having)) 
+        if (!empty($this->having))
         {
             $columns = array();
             foreach($this->having as $column) {
                 $columns[] = $this->_adapter->quoteName($column);
-            } 
-            
+            }
+
             $query .= ' HAVING '.implode(' , ', $columns);
         }
 

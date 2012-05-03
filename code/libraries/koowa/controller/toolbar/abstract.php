@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package		Koowa_Controller
 * @subpackage 	Toolbar
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Abstract Controller Toolbar Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  * @uses        KInflector
@@ -25,22 +23,22 @@ abstract class KControllerToolbarAbstract extends KObject
      * @var     string
      */
     protected $_title = '';
-    
+
     /**
      * The toolbar icon
      *
      * @var     string
      */
     protected $_icon = '';
-     
+
     /**
      * Controller object
      *
      * @var     array
      */
     protected $_controller = null;
-    
-    /** 
+
+    /**
      * The commands
      *
      * @var array
@@ -56,15 +54,15 @@ abstract class KControllerToolbarAbstract extends KObject
     {
         //If no config is passed create it
         if(!isset($config)) $config = new KConfig();
-        
+
         parent::__construct($config);
-        
+
         // Set the controller
         $this->_controller = $config->controller;
 
         // Set the title
         $this->setTitle($config->title);
-        
+
         // Set the icon
         $this->setIcon($config->icon);
     }
@@ -84,13 +82,13 @@ abstract class KControllerToolbarAbstract extends KObject
             'icon'          => $this->getName(),
             'controller'    => null,
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
 	/**
      * Get the controller object
-     * 
+     *
      * @return  KController
      */
     public function getController()
@@ -107,7 +105,7 @@ abstract class KControllerToolbarAbstract extends KObject
     {
         return $this->getIdentifier()->name;
     }
-    
+
     /**
      * Set the toolbar's title
      *
@@ -119,7 +117,7 @@ abstract class KControllerToolbarAbstract extends KObject
         $this->_title = $title;
         return $this;
     }
-    
+
  	/**
      * Get the toolbar's title
      *
@@ -129,7 +127,7 @@ abstract class KControllerToolbarAbstract extends KObject
     {
         return $this->_title;
     }
-    
+
     /**
      * Set the toolbar's icon
      *
@@ -141,7 +139,7 @@ abstract class KControllerToolbarAbstract extends KObject
         $this->_icon = $icon;
         return $this;
     }
-    
+
 	/**
      * Get the toolbar's icon
      *
@@ -151,7 +149,7 @@ abstract class KControllerToolbarAbstract extends KObject
     {
         return $this->_icon;
     }
-    
+
     /**
      * Add a separator
      *
@@ -162,7 +160,7 @@ abstract class KControllerToolbarAbstract extends KObject
         $this->_commands[] = new KControllerToolbarCommand('separator');
         return $this;
     }
-     
+
     /**
      * Add a command
      *
@@ -172,19 +170,19 @@ abstract class KControllerToolbarAbstract extends KObject
      */
     public function addCommand($name, $config = array())
     {
-        //Create the config object 
+        //Create the config object
         $command = new KControllerToolbarCommand($name, $config);
-        
+
         //Find the command function to call
-        if(method_exists($this, '_command'.ucfirst($name))) 
+        if(method_exists($this, '_command'.ucfirst($name)))
         {
             $function =  '_command'.ucfirst($name);
             $this->$function($command);
-        } 
-        else 
+        }
+        else
         {
             //Don't set an action for GET commands
-            if(!isset($command->attribs->href)) 
+            if(!isset($command->attribs->href))
             {
                 $command->append(array(
          			'attribs'    => array(
@@ -193,11 +191,11 @@ abstract class KControllerToolbarAbstract extends KObject
                 ));
             }
         }
-        
+
         $this->_commands[$name] = $command;
         return $this;
     }
-    
+
  	/**
      * Get the list of commands
      *
@@ -205,9 +203,9 @@ abstract class KControllerToolbarAbstract extends KObject
      */
     public function getCommands()
     {
-        return $this->_commands;   
+        return $this->_commands;
     }
- 
+
     /**
      * Reset the commands array
      *
@@ -218,7 +216,7 @@ abstract class KControllerToolbarAbstract extends KObject
         $this->_commands = array();
         return $this;
     }
-    
+
  	/**
      * Add a command by it's name
 	 *
@@ -227,16 +225,16 @@ abstract class KControllerToolbarAbstract extends KObject
      * @see addCommand()
      */
     public function __call($method, $args)
-    {  
+    {
 		$parts = KInflector::explode($method);
 
 		if($parts[0] == 'add' && isset($parts[1]))
 		{
-		    $config = isset($args[0]) ? $args[0] : array();	    
+		    $config = isset($args[0]) ? $args[0] : array();
 		    $this->addCommand(strtolower($parts[1]), $config);
 			return $this;
 		}
-        
+
         return parent::__call($method, $args);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -15,9 +14,8 @@
  * Process the template on output
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
- * @subpackage  Filter 
+ * @subpackage  Filter
  */
 interface KTemplateFilterWrite
 {

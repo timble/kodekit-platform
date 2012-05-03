@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Table Rowset Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Rowset
  * @uses 		KMixinClass
@@ -35,15 +33,15 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	public function __construct(KConfig $config = null)
 	{
 		parent::__construct($config);
-		
+
 		$this->_table = $config->table;
-			    
+
 		// Reset the rowset
         $this->reset();
-	    
-        // Insert the data, if exists        
+
+        // Insert the data, if exists
         if(!empty($config->data)) {
-	        $this->addData($config->data->toArray(), $config->new);	
+	        $this->addData($config->data->toArray(), $config->new);
         }
 	}
 
@@ -66,8 +64,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 
 	/**
      * Method to get a table object
-     * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that 
+     *
+     * Function catches KDatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
      * @return KDatabaseTableAbstract
@@ -77,12 +75,12 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
         if($this->_table !== false)
         {
             if(!($this->_table instanceof KDatabaseTableAbstract))
-		    {   		        
+		    {
 		        //Make sure we have a table identifier
 		        if(!($this->_table instanceof KServiceIdentifier)) {
 		            $this->setTable($this->_table);
 			    }
-		        
+
 		        try {
 		            $this->_table = $this->getService($this->_table);
                 } catch (KDatabaseTableException $e) {
@@ -97,7 +95,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Method to set a table object attached to the rowset
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
 	 * @return	KDatabaseRowsetAbstract
@@ -106,14 +104,14 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	{
 		if(!($table instanceof KDatabaseTableAbstract))
 		{
-			if(is_string($table) && strpos($table, '.') === false ) 
+			if(is_string($table) && strpos($table, '.') === false )
 		    {
 		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
 		        $identifier->name   = KInflector::tableize($table);
 		    }
 		    else  $identifier = $this->getIdentifier($table);
-		    
+
 			if($identifier->path[1] != 'table') {
 				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
 			}
@@ -125,7 +123,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 
 		return $this;
 	}
-	
+
 	/**
 	 * Test the connected status of the row.
 	 *
@@ -142,22 +140,22 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 * @param	array An optional associative array of configuration settings.
 	 * @return	object	A KDatabaseRow object.
 	 */
-	public function getRow(array $options = array()) 
+	public function getRow(array $options = array())
 	{
 		$result = null;
-		
+
 	    if($this->isConnected()) {
 		    $result = $this->getTable()->getRow($options);
 		}
-	    
+
 	    return $result;
 	}
-	
+
 	/**
 	 * Forward the call to each row
-	 * 
-	 * This functions overloads KDatabaseRowsetAbstract::__call and implements 
-	 * a just in time mixin strategy. Available table behaviors are only mixed 
+	 *
+	 * This functions overloads KDatabaseRowsetAbstract::__call and implements
+	 * a just in time mixin strategy. Available table behaviors are only mixed
 	 * when needed.
 	 *
 	 * @param  string 	The function name

@@ -13,9 +13,8 @@
  * Template filter interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Template
- * @subpackage	Filter 
+ * @subpackage	Filter
  */
 interface KTemplateFilterInterface  extends KCommandInterface
 {
