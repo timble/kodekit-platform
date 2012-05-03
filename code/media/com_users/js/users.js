@@ -37,7 +37,12 @@ var ComUsers = {
                             words.push($(user_input_id).get("value"));
                         });
 
-                        my.score = ComUsers.Password.score(this.get("value"), words) + 1;
+                        var password = this.get("value");
+
+                        my.score = ComUsers.Password.score(password, words);
+
+                        if (password.length) my.score += 1;
+
                         $(config.container_id).set("class", config['class'] + " " + "score" + my.score);
                         $(config.container_id).set("html", config.score_map[my.score]);
                     });

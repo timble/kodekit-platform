@@ -40,6 +40,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'container_id'           => 'password-check',
             'min_score'              => 0,
             'score_map'              => array(
+                '0' => JText::_('Please provide a password'),
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
                 '3' => JText::_('Good'),
@@ -61,7 +62,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $html = '<script src="media://com_users/js/users.js" />';
         $html .= '<style src="media://com_users/css/password.css" />';
 
-        $html .= '<span id="' . $config->container_id . '" class="' . $config->class . ' score0">' . JText::_('Please provide a password') . '</span>';
+        $html .= '<span id="' . $config->container_id . '" class="' . $config->class . ' score0">' . $config->score_map[0] . '</span>';
 
         // Async load of zxcvbn
         $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';
