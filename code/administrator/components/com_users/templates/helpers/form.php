@@ -33,23 +33,31 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $config = new KConfig($config);
 
         $config->append(array(
-            'class'      => 'password-check',
-            'input_id'   => 'password',
-            'checker_id' => 'password-check',
-            'score_map'  => array(
+            'class'                  => 'password-check',
+            'input_id'               => 'password',
+            'user_input_ids'         => array(),
+            'words'                  => array(),
+            'container_id'           => 'password-check',
+            'score_map'              => array(
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
                 '3' => JText::_('Good'),
                 '4' => JText::_('Strong'),
                 '5' => JText::_('Very strong'))));
 
-        $score_map = $config->score_map->toArray();
+        $options = array(
+            'class'         => $config->class,
+            'input_id'      => $config->input_id,
+            'user_input_ids'=> $config->user_input_ids->toArray(),
+            'words'         => $config->words->toArray(),
+            'container_id'  => $config->container_id,
+            'score_map'     => $config->score_map->toArray());
 
         // Add required libs and styles.
         $html = '<script src="media://com_users/js/users.js" />';
         $html .= '<style src="media://com_users/css/password.css" />';
 
-        $html .= '<span id="' . $config->checker_id . '" class="' . $config->class . ' score0">' . JText::_('Please provide a password') . '</span>';
+        $html .= '<span id="' . $config->container_id . '" class="' . $config->class . ' score0">' . JText::_('Please provide a password') . '</span>';
 
         // Async load of zxcvbn
         $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';
@@ -58,14 +66,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $html .= '</script>';
 
         $html .= '<script type="text/javascript">';
-        $html .= 'window.addEvent("domready", function() {';
-        $html .= '$("' . $config->input_id . '").addEvent("keyup", function() {';
-        $html .= 'var score_map = ' . json_encode($score_map) . ';';
-        $html .= 'var score = ComUsers.passwordScore(this.get("value")) + 1;';
-        $html .= '$("' . $config->checker_id . '").set("class","' . $config->class . '" + " " + "score" + score);';
-        $html .= '$("' . $config->checker_id . '").set("html", score_map[score]);';
-        $html .= '});';
-        $html .= '});';
+        $html .= 'ComUsers.bindPasswCheck(' . json_encode($options) . ');';
         $html .= '</script>';
 
         return $html;
