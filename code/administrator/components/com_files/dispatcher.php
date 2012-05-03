@@ -53,7 +53,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     	}
     	else throw $e;
     }
-    †
+    
 	/**
 	 * Overloaded to comply with FancyUpload.
 	 * It doesn't let us pass AJAX headers so this is needed.

@@ -11,7 +11,7 @@
 /**
  * Executable Controller Behavior
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>†
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Activities
  */
