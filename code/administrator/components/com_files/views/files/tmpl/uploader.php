@@ -31,8 +31,13 @@ window.addEvent('domready', function() {
 
 	plupload.addI18n({'Add files': Files._('Select files from your computer')});
 
+	//This trick enables the flash runtime to work properly when the uploader is hidden
+	var containershim = 'mushycode'+ Math.floor((Math.random()*10000000000)+1);
+	jQuery('<div id="'+containershim+'" class="uploader-flash-container" />').appendTo(jQuery(document.body));
+	
 	element.pluploadQueue({
 		runtimes: 'html5,flash',
+		container: containershim,
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
@@ -62,6 +67,12 @@ window.addEvent('domready', function() {
 			}
 		}
 	});
+	jQuery('#'+containershim).css({'position': '', 'z-index': 1});
+	SqueezeBox.addEvent('open', function(){
+		window.fireEvent('refresh');
+	});
+
+	
 
 	var uploader = element.pluploadQueue(),
 		//We only want to run this once
@@ -74,6 +85,10 @@ window.addEvent('domready', function() {
 			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
+
+		window.addEvent('refresh', function(){
+			uploader.refresh();
+		});
 
 	if(uploader.features.dragdrop) {
 		document.id('files-upload').addClass('uploader-droppable');
@@ -169,6 +184,7 @@ window.addEvent('domready', function() {
 			}
 		}
 		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
+		window.fireEvent('refresh');
 	};
 
 	$$('.upload-form-toggle').addEvent('click', function(e) {

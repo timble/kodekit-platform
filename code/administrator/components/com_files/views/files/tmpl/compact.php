@@ -79,6 +79,10 @@ window.addEvent('domready', function() {
 	} else {
 		$('files-new-folder-input').addEvent('keyup', validate);
 	}
+
+	$$('#tabs-pane_insert dt').addEvent('click', function(){
+		setTimeout(function(){window.fireEvent('refresh');}, 300);
+	});
 });
 </script>
 
