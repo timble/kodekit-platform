@@ -98,32 +98,32 @@ class JRouterAdministrator extends JRouter
 	            }
 	        }
 	    
-	        $path = JURI::base(true).'/index.php/'.implode('/', $segments);
+	         $path = implode('/', $segments);
 
-	        //Remove index.php from path
-	        if(JFactory::getApplication()->getCfg('sef_rewrite')) {
-	    	    $path = str_replace('index.php/', '', $path);
-	        }
-	    
 	        //Add format to path
 	        if($format = $uri->getVar('format', 'html'))
-			{
-			    if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
-		        {
-			        $path .= '.'.$format;
-			        unset($query['format']);
-			    }
-			    else 
-			    {
-			        if($format == 'html') {
-			            unset($query['format']);
-			        } 
-			    }
-		    }
+	        {	             
+	            if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
+	            {
+	                $path .= '.'.$format;
+	                unset($query['format']);
+	            }
+	            else
+	            {
+	                if($format == 'html') {
+	                    unset($query['format']);
+	                }
+	            }
+	        }
+	        
+	        //Add index.php to the path
+	        if(!JFactory::getApplication()->getCfg('sef_rewrite')) {
+	    	    $path = 'index.php/'.$path;
+	        }
 	    
 		    //Set query again in the URI
 		    $uri->setQuery($query);
-		    $uri->setPath($path);
+		    $uri->setPath(JURI::base(true).'/'.$path);
 	    }
 		
 		return $uri;
