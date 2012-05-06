@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: file.php 1428 2012-01-20 17:14:12Z ercanozkaya $
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,7 @@
 class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 {
 	protected $_adapter;
-	
+
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
@@ -40,13 +39,13 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		));
 
 		parent::_initialize($config);
-	}	
+	}
 
 	public function isNew()
 	{
 		return empty($this->name) || !$this->_adapter->exists();
 	}
-	
+
 	public function copy()
 	{
 		$context = $this->getCommandContext();
@@ -55,7 +54,6 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($this->getCommandChain()->run('before.copy', $context) !== false)
 		{
 			$context->result = $this->_adapter->copy($this->destination_fullpath);
-
 			$this->getCommandChain()->run('after.copy', $context);
         }
 
@@ -63,22 +61,22 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
-		} 
-		else 
+		}
+		else
 		{
 			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder; 
+				$this->folder = $this->destination_folder;
 			}
 			if ($this->destination_name) {
 				$this->name = $this->destination_name;
 			}
-			
+
 			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
 		}
 
 		return $context->result;
-	}	
-	
+	}
+
 	public function move()
 	{
 		$context = $this->getCommandContext();
@@ -95,21 +93,21 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
-		} 
-		else 
+		}
+		else
 		{
 			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder; 
+				$this->folder = $this->destination_folder;
 			}
 			if ($this->destination_name) {
 				$this->name = $this->destination_name;
 			}
-			
+
 			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
 		}
 
 		return $context->result;
-	}	
+	}
 
 	public function delete()
 	{
@@ -119,16 +117,15 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($this->getCommandChain()->run('before.delete', $context) !== false)
 		{
 			$context->result = $this->_adapter->delete();
-
 			$this->getCommandChain()->run('after.delete', $context);
         }
 
-		if ($context->result === false) {
+		if ($context->result === false)
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus(KDatabase::STATUS_DELETED);
 		}
+		else $this->setStatus(KDatabase::STATUS_DELETED);
 
 		return $context->result;
 	}
@@ -138,59 +135,60 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
 			return $this->getFullpath();
 		}
-		
+
 		if ($column == 'path') {
 			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
 		}
-		
-		if ($column == 'destination_path') {
+
+		if ($column == 'destination_path')
+		{
 			$folder = !empty($this->destination_folder) ? $this->destination_folder.'/' : (!empty($this->folder) ? $this->folder.'/' : '');
 			$name = !empty($this->destination_name) ? $this->destination_name : $this->name;
 			return trim($folder.$name, '/\\');
 		}
-		
+
 		if ($column == 'destination_fullpath') {
 			return $this->container->path.'/'.$this->destination_path;
 		}
-		
+
 		if ($column == 'adapter') {
 			return $this->_adapter;
 		}
-		
+
 
 		return parent::__get($column);
-	}		
-	
+	}
+
 	public function __set($column, $value)
 	{
 		parent::__set($column, $value);
-		
+
 		if (in_array($column, array('container', 'folder', 'name'))) {
 			$this->setAdapter();
 		}
-	}	
-	
+	}
+
 	public function setAdapter()
 	{
 		$type = $this->getIdentifier()->name;
 		$this->_adapter = $this->container->getAdapter($type, array(
 			'path' => $this->container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
 		));
-		
+
 		unset($this->_data['fullpath']);
 		unset($this->_data['metadata']);
-		
+
 		return $this;
 	}
-	
+
 	public function setData($data, $modified = true)
 	{
 		$result = parent::setData($data, $modified);
-		
+
 		if (isset($data['container'])) {
 			$this->setAdapter();
 		}
-		
+
 		return $result;
 	}
 
@@ -202,16 +200,16 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
     public function toArray()
     {
         $data = parent::toArray();
-        
+
         unset($data['_token']);
         unset($data['action']);
         unset($data['option']);
         unset($data['format']);
         unset($data['view']);
-        
+
 		$data['container'] = $this->container->slug;
 		$data['type'] = $this->getIdentifier()->name;
 
         return $data;
-    }	
+    }
 }

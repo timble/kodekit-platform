@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,9 +12,8 @@
  * Filesize Helper Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Files   
+ * @package     Nooku_Components
+ * @subpackage  Files
  */
 
 class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
@@ -30,7 +28,8 @@ class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
 		$result = '';
 		$format = (($bytes > 1024*1024 && $bytes % 1024 !== 0) ? '%.2f' : '%d').' %s';
 
-		foreach ($config->sizes as $s) {
+		foreach ($config->sizes as $s)
+		{
 			$size = $s;
 			if ($bytes < 1024) {
 				$result = $bytes;

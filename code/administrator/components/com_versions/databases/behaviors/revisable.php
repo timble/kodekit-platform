@@ -75,16 +75,21 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
 		if(!is_null($query) && $query->where)
 		{
-		    foreach ($query->where as $where) {
-		        if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.deleted\s*=\s*(1|:[a-z_]+)/', $where['condition'], $matches)) {
-		            if ($matches[1] == 1 || isset($query->params[substr($matches[1], 1)]) && $query->params[substr($matches[1], 1)] == 1) {
+		    foreach ($query->where as $where) 
+		    {
+		        if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.deleted\s*=\s*(1|:[a-z_]+)/', $where['condition'], $matches)) 
+		        {
+		            if ($matches[1] == 1 || isset($query->params[substr($matches[1], 1)]) && $query->params[substr($matches[1], 1)] == 1) 
+		            {
     		            $table = $context->caller;
     		            
           			    $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
     		            
           			    if (isset($query->columns['count']) && $query->columns['count'] == 'COUNT(*)') {
           			        $context->data = count($revisions);
-          			    } else {
+          			    } 
+          			    else 
+          			    {
               			    $rowset = $table->getRowset();
         
                             foreach($revisions as $row) 
@@ -199,7 +204,9 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         {
     	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			$context->affected = $this->_deleteRevisions();
+                $context->affected = $this->_deleteRevisions();
+
+                $this->setStatus(KDatabase::STATUS_DELETED);
     			return false;
     		}
         }
@@ -236,12 +243,17 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
             'status' => $status,
         );
         
-        foreach ($query->where as $where) {
-            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.'.preg_quote($table->getIdentityColumn()).'\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) {
-                if (is_numeric($matches[1])) {
+        foreach ($query->where as $where) 
+        {
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.'.preg_quote($table->getIdentityColumn()).'\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) 
+            {
+                if (is_numeric($matches[1])) 
+                {
                     $columns['row'] = (int) $matches[1];
                     break;
-                } elseif (isset($query->params[substr($matches[1], 1)])) {
+                } 
+                elseif (isset($query->params[substr($matches[1], 1)])) 
+                {
                     $columns['row'] = (int) $query->params[substr($matches[1], 1)];
                     break;
                 }
@@ -301,7 +313,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	}
     	
     	// Set revision number.
-    	if ($status == KDatabase::STATUS_UPDATED || $status == KDatabase::STATUS_DELETED) {
+    	if ($status == KDatabase::STATUS_UPDATED || $status == KDatabase::STATUS_DELETED) 
+    	{
     	    $query = $this->getService('koowa:database.query.select')
         	    ->where('table = :table')
         	    ->where('row = :row')

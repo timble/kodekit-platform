@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: file.php 1428 2012-01-20 17:14:12Z ercanozkaya $
- * @category	Nooku
- * @package     Nooku_Server
+  * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -21,18 +20,21 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 			$result = mkdir($encoded, 0755, true);
 		}
 
-		if (is_dir($encoded)) {
+		if (is_dir($encoded))
+		{
 			$result = true; // needed for empty directories
 			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
-			foreach ($iterator as $f) {
-				if ($f->isDir()) {
+			foreach ($iterator as $f)
+			{
+				if ($f->isDir())
+				{
 					$path = $encoded.'/'.$iterator->getSubPathName();
 					if (!is_dir($path)) {
 						$result = mkdir($path);
 					}
-				} else {
-					$result = copy($f, $encoded.'/'.$iterator->getSubPathName());
 				}
+				else $result = copy($f, $encoded.'/'.$iterator->getSubPathName());
+
 				if ($result === false) {
 					break;
 				}
@@ -47,7 +49,7 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 
 		return $result;
 	}
-	
+
 	public function copy($target)
 	{
 		$result = false;
@@ -58,10 +60,12 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 			$result = mkdir($encoded, 0755, true);
 		}
 
-		if (is_dir($encoded)) {
+		if (is_dir($encoded))
+		{
 			$result = true; // needed for empty directories
 			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
-			foreach ($iterator as $f) {
+			foreach ($iterator as $f)
+			{
 				if ($f->isDir()) {
 					$path = $encoded.'/'.$iterator->getSubPathName();
 					if (!is_dir($path)) {
@@ -70,19 +74,19 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 				} else {
 					$result = copy($f, $encoded.'/'.$iterator->getSubPathName());
 				}
-				
+
 				if ($result === false) {
 					break;
 				}
 			}
 		}
-	
+
 		if ($result) {
 			$this->setPath($target);
 		}
 
 		return $result;
-	}	
+	}
 
 	public function delete()
 	{
@@ -91,7 +95,8 @@ class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 		}
 
 		$iter = new RecursiveDirectoryIterator($this->_encoded);
-		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) {
+		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) 
+		{
 			if ($f->isDir()) {
 				rmdir($f->getPathname());
 			} else {

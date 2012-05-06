@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,8 +14,7 @@
  * Used to perform cross origin HEAD request calls on resources to see if they exist, and if exists then also pass the Content-length header
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @category	Nooku
- * @package     Nooku_Server
+  * @package     Nooku_Components
  * @subpackage  Files
  */
  class ComFilesControllerProxy extends ComFilesControllerDefault

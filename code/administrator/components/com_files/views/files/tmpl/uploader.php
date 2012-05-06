@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -24,12 +23,21 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 jQuery.noConflict();
 
 window.addEvent('domready', function() {
+	Files.app.addEvent('afterNavigate', function(path, type) {
+		document.id('upload-files-to').set('text', "'"+(path || <?= json_encode('root folder') ?>)+"'");
+	});
+
 	var element = jQuery('#files-upload-multi');
 
 	plupload.addI18n({'Add files': Files._('Select files from your computer')});
 
+	//This trick enables the flash runtime to work properly when the uploader is hidden
+	var containershim = 'mushycode'+ Math.floor((Math.random()*10000000000)+1);
+	jQuery('<div id="'+containershim+'" class="uploader-flash-container" />').appendTo(jQuery(document.body));
+	
 	element.pluploadQueue({
-		runtimes: 'html5,flash,html4',
+		runtimes: 'html5,flash',
+		container: containershim,
 		browse_button: 'pickfiles',
 		dragdrop: true,
 		rename: true,
@@ -42,8 +50,29 @@ window.addEvent('domready', function() {
 		},
 		headers: {
 			'X-Requested-With': 'xmlhttprequest'
+		},
+		preinit: {
+			Init: function(){
+				if(SqueezeBox.isOpen) {
+						var heightfix = $('files-upload').measure(function(){return this.getSize().y;});
+						if(SqueezeBox.size.y != heightfix) SqueezeBox.fx.win.start({height: heightfix});
+				}
+			},
+			Error: function(up, args){
+				if(args.code == plupload.INIT_ERROR) {
+
+					element.append('<span class="warning">'+Files._('<a href="https://google.com/chrome" target="_blank">HTML5 enabled browser</a> or <a href="https://get.adobe.com/flashplayer/" target="_blank">Adobe Flash Player<a/> required for uploading files from your computer.')+'</span>');
+
+				}
+			}
 		}
 	});
+	jQuery('#'+containershim).css({'position': '', 'z-index': 1});
+	SqueezeBox.addEvent('open', function(){
+		window.fireEvent('refresh');
+	});
+
+	
 
 	var uploader = element.pluploadQueue(),
 		//We only want to run this once
@@ -52,9 +81,14 @@ window.addEvent('domready', function() {
 			if(document.id('files-upload-multi_browse')) {
 				document.id('files-upload-multi_browse').set('text', 'Add files');
 			}
+			uploader.refresh();
 			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
+
+		window.addEvent('refresh', function(){
+			uploader.refresh();
+		});
 
 	if(uploader.features.dragdrop) {
 		document.id('files-upload').addClass('uploader-droppable');
@@ -75,6 +109,7 @@ window.addEvent('domready', function() {
 
 	uploader.bind('UploadComplete', function(uploader) {
 		jQuery('li.plupload_delete a,div.plupload_buttons', element).show();
+		uploader.refresh();
 	});
 
 	// Keeps track of failed uploads and error messages so we can later display them in the queue
@@ -140,7 +175,6 @@ window.addEvent('domready', function() {
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
 			var uploader = jQuery('#files-upload-multi').pluploadQueue();
-			uploader.refresh();
 			if(!uploader.files.length) {
 				document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
 				if(document.id('files-upload-multi_browse')) {
@@ -149,8 +183,8 @@ window.addEvent('domready', function() {
 				}
 			}
 		}
-
 		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
+		window.fireEvent('refresh');
 	};
 
 	$$('.upload-form-toggle').addEvent('click', function(e) {
@@ -199,13 +233,13 @@ window.addEvent('domready', function() {
 				var response = JSON.decode(xhr.responseText, true);
 				if (response.code && parseInt(response.code/100, 10) == 4) {
 					submit.removeClass('valid');
-				}		
+				}
 				else {
 					submit.addClass('valid');
 				}
 			}
 		});
- 
+
  	var default_filename;
  	input.addEvent('focus', function(){
  		this.set('placeholder', this.get('title')).removeClass('success');
@@ -218,7 +252,7 @@ window.addEvent('domready', function() {
 			else {
 				submit.addClass('valid');
 			}
-			
+
 			if(!filename.get('value') || filename.get('value') == default_filename) {
 				default_filename = new URI(this.value).get('file');
 				filename.set('value', default_filename);
@@ -301,6 +335,12 @@ window.addEvent('domready', function() {
 </script>
 
 <div id="files-upload" style="clear: both" class="uploader-files-empty">
+	<div style="text-align: center;">
+		<h3 style=" float: none">
+			<?= sprintf(@text('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
+		</h3>
+	</div>
+	<div class="clr"></div>
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
 			<li><?= @text('Upload from:') ?></li>

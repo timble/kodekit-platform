@@ -1,11 +1,14 @@
-.sidebar h3 {
-	background: #eaeaea;
-}
+/**
+ * @version     $Id: dispatcher.php 1481 2012-02-10 01:46:24Z johanjanssens $
+ * @package     Nooku_Components
+ * @subpackage  Activities
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
-.sidebar fieldset{
-	margin: 10px 0 0 0;
-	padding: 0 10px;
-	border: none;
+#sidebar h3 {
+	background: #eaeaea;
 }
 
 td.activities-timeago,
@@ -42,6 +45,12 @@ table.adminlist thead th.-activities-item {
 	padding: 5px 0 10px 0;
 	margin: 0;
 	clear: both;
+}
+
+#sidebar fieldset{
+	margin: 10px 0 0 0;
+	padding: 0 10px;
+	border: none;
 }
 
 .activities-calendar > * {

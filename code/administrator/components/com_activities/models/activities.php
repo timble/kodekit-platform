@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @category	Nooku
+ * @version		$Id: activities.php 1485 2012-02-10 12:32:02Z johanjanssens $
  * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,18 +12,16 @@
  * Activities Model Class
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
- * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Activities
  */
-
 class ComActivitiesModelActivities extends ComDefaultModelDefault
 {
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->getState()
+		$this->_state
 			->insert('application' , 'cmd')
 			->insert('type'        , 'cmd')
 			->insert('package'     , 'cmd')
@@ -34,65 +31,60 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 			->insert('distinct'    , 'boolean', false)
 			->insert('column'      , 'cmd')
 			->insert('start_date'  , 'date')
-			->insert('days_back'   , 'int', 14)
-			->insert('ip'		   , 'ip');
+			->insert('days_back'   , 'int', 14);
 
-		$this->getState()->remove('direction')->insert('direction', 'word', 'desc');
+		$this->_state->remove('direction')->insert('direction', 'word', 'desc');
 
 		// Force ordering by created_on
-		$this->getState()->sort = 'created_on';
+		$this->_state->sort = 'created_on';
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(KDatabaseQuery $query)
 	{
-	    $state = $this->getState();
-	    
-		if($state->distinct && !empty($state->column))
+		if($this->_state->distinct && !empty($this->_state->column))
 		{
 			$query->distinct()
-				->columns($state->column)
-				->columns(array('activities_activity_id' => $state->column));
+				->select($this->_state->column)
+				->select($this->_state->column . ' AS activities_activity_id');
 		}
 		else
 		{
 			parent::_buildQueryColumns($query);
-			$query->columns(array('created_by_name' => 'users.name'));
+			$query->select('users.name AS created_by_name');
 		}
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(KDatabaseQuery $query)
 	{
-		$query->join(array('users' => 'users'), 'users.id = tbl.created_by');
+		$query->join('LEFT', 'users AS users', 'users.id = tbl.created_by');
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(KDatabaseQuery $query)
 	{
 		parent::_buildQueryWhere($query);
-		$state = $this->getState();
 
-		if ($state->application) {
-			$query->where('tbl.application = :application')->bind(array('application' => $state->application));
+		if ($this->_state->application) {
+			$query->where('tbl.application', '=', $this->_state->application);
 		}
 
-		if ($state->type) {
-			$query->where('tbl.type = :type')->bind(array('type' => $state->type));
+		if ($this->_state->type) {
+			$query->where('tbl.type', '=', $this->_state->type);
 		}
 
-		if ($state->package && !($state->distinct && !empty($state->column))) {
-			$query->where('tbl.package = :package')->bind(array('package' => $state->package));
+		if ($this->_state->package && !($this->_state->distinct && !empty($this->_state->column))) {
+			$query->where('tbl.package', '=', $this->_state->package);
 		}
 
-		if ($state->name) {
-			$query->where('tbl.name = :name')->bind(array('name' => $state->name));
+		if ($this->_state->name) {
+			$query->where('tbl.name', '=', $this->_state->name);
 		}
 
-		if ($state->action) {
-			$query->where('tbl.action '.(is_array($state->action) ? 'IN' : '=').' :action')->bind(array('action' => $state->action));
+		if ($this->_state->action) {
+			$query->where('tbl.action', 'IN', $this->_state->action);
 		}
 
-		if ($state->start_date && $state->start_date != '0000-00-00')
+		if ($this->_state->start_date && $this->_state->start_date != '0000-00-00')
 		{
-		    // TODO: Sync this code with KDate and KDatabaseQuery changes.
 			$start_date = $this->getService('koowa:date', array('date' => $this->_state->start_date));
 			$days_back  = clone $start_date;
 			$start      = $start_date->addDays(1)->addSeconds(-1)->getDate();
@@ -101,18 +93,14 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 			$query->where('tbl.created_on', '>', $days_back->addDays(-(int)$this->_state->days_back)->getDate());
 		}
 
-		if ($state->user) {
-			$query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->user));
-		}
-		
-		if ($state->ip) {
-			$query->where('tbl.ip '.(in_array($state->ip) ? 'IN' : '=').' :ip')->bind(array('ip' => $state->ip)); 
+		if ($this->_state->user) {
+			$query->where('tbl.created_by', '=', $this->_state->user);
 		}
 	}
 
-	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+	protected function _buildQueryOrder(KDatabaseQuery $query)
 	{
-		if($this->getState()->distinct && !empty($this->getState()->column)) {
+		if($this->_state->distinct && !empty($this->_state->column)) {
 			$query->order('package', 'asc');
 		} else {
 		    parent::_buildQueryOrder($query);

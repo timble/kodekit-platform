@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,11 +12,9 @@
  * File Validator Command Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
-
 class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave(KCommandContext $context)
@@ -32,7 +29,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 				$file->setData(array('file' => $row->file));
 				$file->load();
 				$row->contents = $file->contents;
-				
+
 			} catch (ComFilesDatabaseRowUrlException $e) {
 				throw new KControllerException($e->getMessage(), $e->getCode());
 			}
@@ -48,8 +45,8 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 	        	$row->name = $path;
 			}
 		}
-		
+
 		return parent::_databaseBeforeSave($context) && $this->getService('com://admin/files.filter.file.uploadable')->validate($context);
-		
+
 	}
 }

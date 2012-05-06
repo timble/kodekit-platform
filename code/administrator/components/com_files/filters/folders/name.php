@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Folder Name Filter Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -24,9 +22,14 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$value = $this->_sanitize($context->caller->path);
+		$value = $context->caller->name;
 
-		if ($value == '') {
+		if (strpos($value, '/') !== false) {
+			$context->setError(JText::_('Folder names cannot contain slashes'));
+			return false;
+		}
+
+		if ($this->_sanitize($value) == '') {
 			$context->setError(JText::_('Invalid folder name'));
 			return false;
 		}
@@ -34,6 +37,7 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _sanitize($value)
 	{
+		$value = str_replace('/', '', $value);
 		return $this->getService('com://admin/files.filter.path')->sanitize($value);
 	}
 }

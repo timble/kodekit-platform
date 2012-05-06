@@ -1,3 +1,12 @@
+/**
+ * @version     $Id: dispatcher.php 1481 2012-02-10 01:46:24Z johanjanssens $
+ * @package     Nooku_Components
+ * @subpackage  Activities
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
 #activities-list { }
 
 #activities-list h3,
@@ -14,7 +23,7 @@
 
 #activities-list h4 {
 	padding: 5px;
-	margin: 10px 0 0 0;
+	margin: 0 10px;
 	font-size: 1em;
 	border: 1px solid #E8EAEC;
 	border-bottom-color: #E3E3E3;
@@ -22,9 +31,10 @@
 	-webkit-border-radius: 5px; -moz-border-radius: 5px;
 }
 
-#activities-list .activities { padding: 0 10px; }
+#activities-list .activities { margin: 0 10px 10px 10px; }
 
-#activities-list .activities-day .activity 			{ padding: 7px; border-bottom: 1px solid #DDD;  }
-#activities-list .activities-day .activity:last-child 	{ border-bottom: none 0px; }
+#activities-list .activities .activity 			{ padding: 7px; border-bottom: 1px solid #DDD;  }
+#activities-list .activities .activity:last-child 	{ border-bottom: none 0px; }
 
-#activities-list .activities-day .activity span.info { color: #999; float: right; width: auto; text-transform: capitalize; }
+#activities-list .activities .activity span.info { color: #999; float: right; width: auto; text-transform: capitalize; }
+#activities-list .activities .activity span.icon { float: left; display: block; width: 16px; height: 16px; margin-right: 5px; background-position: 0 0; }

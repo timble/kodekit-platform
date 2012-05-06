@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Default Model Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+  * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -23,7 +21,7 @@ class ComFilesModelDefault extends KModelAbstract
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
-		
+
         $this->_state
             ->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
@@ -42,13 +40,13 @@ class ComFilesModelDefault extends KModelAbstract
 			->insert('config'   , 'json', '') // used to pass options to the JS application in HMVC
 			;
 	}
-	
+
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
 			'state' => new ComFilesConfigState()
 		));
-		
+
 		parent::_initialize($config);
 	}
 }

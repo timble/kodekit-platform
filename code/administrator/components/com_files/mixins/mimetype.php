@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Mimetype Mixin Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -22,10 +20,9 @@ class ComFilesMixinMimetype extends KObject
 {
 	/**
 	 * Used as a way to continue on the chain when the method is not available.
-	 * 
 	 */
 	const NOT_AVAILABLE = -1;
-	
+
 	/**
 	 * Adapters to use for mimetype detection
 	 *
@@ -54,16 +51,16 @@ class ComFilesMixinMimetype extends KObject
 	public function getMimetype($path)
 	{
 		$mimetype = false;
-		
+
 		if (!file_exists($path)) {
 			return $mimetype;
 		}
-		
+
 		foreach ($this->_adapters as $i => $adapter)
 		{
 			$function = '_detect'.ucfirst($adapter);
 			$return = $this->$function($path);
-			
+
 			if (!empty($return) && $return !== ComFilesMixinMimetype::NOT_AVAILABLE) {
 				$mimetype = $return;
 				break;
@@ -82,14 +79,14 @@ class ComFilesMixinMimetype extends KObject
 
 		return $mimetype;
 	}
-	
+
 	protected function _detectImage($path)
 	{
-		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ComFilesDatabaseRowFile::$image_extensions) 
+		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ComFilesDatabaseRowFile::$image_extensions)
 			&& $info = getimagesize($path)) {
 			return $info['mime'];
 		}
-		
+
 		return ComFilesMixinMimetype::NOT_AVAILABLE;
 	}
 
@@ -98,7 +95,7 @@ class ComFilesMixinMimetype extends KObject
 		if (!class_exists('finfo')) {
 			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
-		
+
 		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
 		$mimetype = $finfo->file($path);
 

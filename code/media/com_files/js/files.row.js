@@ -1,13 +1,12 @@
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
- 
+
 if(!Files) var Files = {};
 
 Files.Row = new Class({
@@ -23,7 +22,7 @@ Files.Row = new Class({
 			this.path = (object.folder ? object.folder+'/' : '') + object.name;
 		}
 		this.identifier = this.path;
-		
+
 		this.filepath = (object.folder ? this.encodePath(object.folder)+'/' : '') + this.encode(object.name);
 	},
 	encodePath: function(path) {
@@ -33,7 +32,7 @@ Files.Row = new Class({
 		parts = parts.map(function(part) {
 			return encoder(part);
 		});
-		
+
 		return parts.join('/');
 	},
 	encode: function(string) {
@@ -64,7 +63,7 @@ Files.File = new Class({
 	},
 	'delete': function(success, failure) {
 		this.fireEvent('beforeDeleteRow');
-		
+
 		var that = this,
 			request = new Request.JSON({
 				url: Files.app.createRoute({view: 'file', folder: that.folder, name: that.name}),
@@ -84,7 +83,7 @@ Files.File = new Class({
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
-					
+
 					response = xhr.responseText;
 					if (typeof failure == 'function') {
 						failure(xhr);
@@ -94,7 +93,7 @@ Files.File = new Class({
 						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
-					
+
 					that.fireEvent('afterDeleteRow', {status: false, response: response, request: this, xhr: xhr});
 				}
 			});
@@ -111,7 +110,7 @@ Files.Image = new Class({
 		this.parent(object, options);
 
 		this.image = this.baseurl+'/'+this.filepath;
-		
+
 		this.client_cache = false;
 		if(window.sessionStorage) {
 		    if(sessionStorage[this.image.toString()]) {
@@ -131,7 +130,7 @@ Files.Image = new Class({
 				},
 				onFailure: function(xhr) {
 					response = xhr.responseText;
-					
+
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
@@ -163,7 +162,7 @@ Files.Folder = new Class({
 			url = $extend(url, extra_vars);
 		}
 		var url = Files.app.createRoute(url);
-			
+
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
 		Files.Folder.Request.options.url = url;
@@ -171,7 +170,7 @@ Files.Folder = new Class({
 	},
 	'add': function(success, failure) {
 		this.fireEvent('beforeAddRow');
-		
+
 		var that = this;
 			request = new Request.JSON({
 				url: Files.app.createRoute({view: 'folder', name: that.name, folder: Files.app.getPath()}),
@@ -184,12 +183,12 @@ Files.Folder = new Class({
 					if (typeof success == 'function') {
 						success(response);
 					}
-	
+
 					that.fireEvent('afterAddRow', {status: true, response: response, request: this});
 				},
 				onFailure: function(xhr) {
 					response = xhr.responseText;
-					
+
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
@@ -198,7 +197,7 @@ Files.Folder = new Class({
 						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
-					
+
 					that.fireEvent('afterAddRow', {status: false, response: response, request: this, xhr: xhr});
 				}
 			});
@@ -217,7 +216,7 @@ Files.Folder = new Class({
 					if (typeof success == 'function') {
 						success(response);
 					}
-					
+
 					that.fireEvent('afterDeleteRow', {status: true, response: response, request: this});
 				},
 				onFailure: function(xhr) {
@@ -226,7 +225,7 @@ Files.Folder = new Class({
 						return this.onSuccess();
 					}
 					response = xhr.responseText;
-					
+
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
@@ -235,7 +234,7 @@ Files.Folder = new Class({
 						error = response && response.error ? response.error : Files._('An error occurred during request');
 						alert(error);
 					}
-					
+
 					that.fireEvent('afterDeleteRow', {status: false, response: response, request: this, xhr: xhr});
 				}
 			});

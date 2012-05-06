@@ -13,7 +13,5 @@ CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`status` varchar(100) NOT NULL,
 	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` INT(11) NOT NULL DEFAULT '0',
-    `ip` varchar(255) DEFAULT NULL,
-	PRIMARY KEY(`activities_activity_id`),
-	KEY `idx-ip` (`ip`)
+	PRIMARY KEY(`activities_activity_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

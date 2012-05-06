@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: file.php 1428 2012-01-20 17:14:12Z ercanozkaya $
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,7 @@
 abstract class ComFilesAdapterLocalAbstract extends KObject
 {
 	/**
-	 * Path to the node 
+	 * Path to the node
 	 */
 	protected $_path = null;
 
@@ -40,29 +39,29 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 	public function setPath($path)
 	{
 		$path = $this->normalize($path);
-		
+
 		$this->_path = $path;
 		$this->_encoded = $this->encodePath($path);
 
 		$this->_pathinfo = new SplFileInfo($path);
 		$this->_handle = new SplFileInfo($this->_encoded);
-		
+
 		unset($this->_metadata);
 
 		return $this;
 	}
-	
+
 	public function encodePath($path)
 	{
 		$parts = explode('/', $path);
 		$prepend = '';
-		
+
 		if (!empty($parts[0])) {
 			// Either C:/ or ~/
 			$prepend = array_shift($parts).'/';
 		}
 		$parts = array_map(array($this, 'encode'), $parts);
-		
+
 		return $prepend.implode('/', $parts);
 	}
 
@@ -80,7 +79,7 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 	{
 		return $this->normalize(dirname($this->_pathinfo->getPathname()));
 	}
-	
+
 	public function getRealPath()
 	{
 		return $this->_encoded;
@@ -90,18 +89,18 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 	{
 		return str_replace('\\', '/', $string);
 	}
-	
+
 	public function encode($string)
 	{
 		$string = rawurlencode($string);
-		
+
 		return str_replace('%20', ' ', $string);
 	}
-	
+
 	public function decode($string)
 	{
 		$string = rawurldecode($string);
-		
+
 		return str_replace(' ', '%20', $string);
 	}
 }
