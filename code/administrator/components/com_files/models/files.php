@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,24 +12,23 @@
  * Files Model Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
 class ComFilesModelFiles extends ComFilesModelNodes
-{   
+{
     public function getList()
-    {	
+    {
         if (!isset($this->_list))
         {
             $state = $this->_state;
 
             $files = $state->container->getAdapter('iterator')->getFiles(array(
-        		'path' => $this->_getPath(),
+        		'path'    => $this->_getPath(),
         		'exclude' => array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'),
-        		'filter' => array($this, 'iteratorFilter'),
-        		'map' => array($this, 'iteratorMap')
+        		'filter'  => array($this, 'iteratorFilter'),
+        		'map'     => array($this, 'iteratorMap')
         	));
         	if ($files === false) {
         		throw new KModelException('Invalid folder');
@@ -76,8 +74,9 @@ class ComFilesModelFiles extends ComFilesModelNodes
 				return false;
 			}
 		}
-		
-		if ($this->_state->types) {
+
+		if ($this->_state->types) 
+        {
 			if ((in_array($extension, ComFilesDatabaseRowFile::$image_extensions) && !in_array('image', (array) $this->_state->types))
 			|| (!in_array($extension, ComFilesDatabaseRowFile::$image_extensions) && !in_array('file', (array) $this->_state->types))
 			) {

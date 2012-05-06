@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Node Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -44,7 +42,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 		if ($this->isDispatched()) {
 			unset($request->config);
 		}
-		
+
 		$limit = $request->limit;
 
 		//If limit is empty use default
@@ -79,9 +77,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 				));
 
 			}
-			else {
-				$context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
-			}
+			else $context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
 		}
 		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
 
@@ -105,9 +101,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 				));
 
 			}
-			else {
-				$context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
-			}
+			else $context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
 		}
 		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
 
@@ -119,8 +113,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	 */
 	protected function _actionGet(KCommandContext $context)
 	{
-		if ($this->getIdentifier()->name == 'image'
-			|| ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html'))
+		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html'))
 		{
 			//Load the language file for HMVC requests who are not routed through the dispatcher
 			if(!$this->isDispatched()) {

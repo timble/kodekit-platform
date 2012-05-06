@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -34,7 +33,7 @@ window.addEvent('domready', function() {
 			thumbnails: <?= json_encode($container ? $container->parameters->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
-	
+
 	Files.app = new Files.App(options);
 
 	//@TODO hide the uploader in a modal, make it pretty
@@ -136,7 +135,7 @@ window.addEvent('domready', function() {
 
     var switchers = $$('.files-layout-switcher'),
     	slider = document.id('files-thumbs-size');
-	
+
 	if(slider.type != 'range' && 'Slider' in window) {
 	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
                 newSlider = new Element('div', {
@@ -172,8 +171,8 @@ window.addEvent('domready', function() {
 	        Files.app.setDimensions.call(Files.app, true);
 	    });
 	}
-	
-    switchers.filter(function(el) { 
+
+    switchers.filter(function(el) {
         return el.get('data-layout') == Files.app.grid.layout;
     }).addClass('active');
 
@@ -196,11 +195,11 @@ window.addEvent('domready', function() {
 <div id="files-app" class="-koowa-box -koowa-box-flex">
 	<?= @template('templates_icons'); ?>
 	<?= @template('templates_details'); ?>
-	
+
 	<div id="sidebar">
 		<div id="files-tree"></div>
 	</div>
-	
+
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path" style="height: 24px;">
 	        <div class="files-toolbar-controls">
@@ -227,7 +226,7 @@ window.addEvent('domready', function() {
             </div>
         </div>
 		<?= @helper('paginator.pagination') ?>
-	
+
 		<?= @template('uploader');?>
 	</div>
 	<div style="clear: both"></div>

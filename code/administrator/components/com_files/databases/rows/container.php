@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Container Database Row Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -23,12 +21,12 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 	public $adapter = 'local';
 	/**
 	 * A reference to the container configuration
-	 * 
+	 *
 	 * @var ComFilesDatabaseRowConfig
-	 * 
+	 *
 	 */
 	protected $_parameters;
-	
+
 	public function __get($column)
 	{
 		if ($column == 'path' && !empty($this->_data['path']))
@@ -66,12 +64,12 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 	{
 		if (empty($this->_parameters)) {
 			$this->_parameters = $this->getService('com://admin/files.database.row.config')
-				->setData(json_decode($this->_data['parameters'], true));	
+				->setData(json_decode($this->_data['parameters'], true));
 		}
 
 		return $this->_parameters;
 	}
-	
+
 	public function toArray()
 	{
 		$data = parent::toArray();
@@ -79,21 +77,21 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 		$data['path'] = $this->path_value;
 		$data['parameters'] = $this->parameters->toArray();
 		$data['relative_path'] = $this->getRelativePath();
-		
+
 		return $data;
 	}
-	
+
 	public function getData($modified = false)
 	{
 		$data = parent::getData($modified);
-		
+
 		if (isset($data['parameters'])) {
-			$data['parameters'] = $this->parameters->getData();	
+			$data['parameters'] = $this->parameters->getData();
 		}
-		
+
 		return $data;
 	}
-	
+
 	public function getAdapter($type, array $config = array())
 	{
 		return $this->getService('com://admin/files.adapter.'.$this->adapter.'.'.$type, $config);

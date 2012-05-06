@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: file.php 1041 2011-10-09 00:04:40Z johanjanssens $
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,14 +12,13 @@
  * Filter class for validating containers
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 class ComFilesFilterContainer extends KFilterAbstract
 {
     protected $_walk = false;
-    
+
     protected function _validate($data)
     {
         if (is_string($data)) {
@@ -29,10 +27,10 @@ class ComFilesFilterContainer extends KFilterAbstract
         else if (is_object($data)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     protected function _sanitize($data)
     {
         if (is_string($data)) {

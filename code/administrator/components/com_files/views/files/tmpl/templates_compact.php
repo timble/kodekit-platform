@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <textarea style="display: none" id="compact_details_image">
 [% var width = metadata.image.width,
-	height = metadata.image.height, 
+	height = metadata.image.height,
 	ratio= 150 / (width > height ? width : height); %]
 <ul>
 	<li class="info">

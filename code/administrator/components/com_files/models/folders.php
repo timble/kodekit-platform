@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Folders Model Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -32,7 +30,7 @@ class ComFilesModelFolders extends ComFilesModelNodes
 		if (!isset($this->_list))
 		{
 			$state = $this->_state;
-	
+
 			$folders = $state->container->getAdapter('iterator')->getFolders(array(
 				'path' => $this->_getPath(),
 				'recurse' => !!$state->tree,
@@ -54,7 +52,8 @@ class ComFilesModelFolders extends ComFilesModelNodes
 			foreach ($folders as $folder)
 			{
 				$hierarchy = array();
-				if ($state->tree) {
+				if ($state->tree)
+				{
 					$hierarchy = explode('/', dirname($folder));
 					if (count($hierarchy) === 1 && $hierarchy[0] === '.') {
 						$hierarchy = array();
@@ -63,8 +62,8 @@ class ComFilesModelFolders extends ComFilesModelNodes
 
 				$results[] = array(
 					'container' => $state->container,
-					'folder' => $hierarchy ? implode('/', $hierarchy) : $state->folder,
-					'name' => basename($folder),
+					'folder' 	=> $hierarchy ? implode('/', $hierarchy) : $state->folder,
+					'name' 		=> basename($folder),
 					'hierarchy' => $hierarchy
 				);
 			}
@@ -86,12 +85,13 @@ class ComFilesModelFolders extends ComFilesModelNodes
 	public function iteratorFilter($path)
 	{
 		$filename = basename($path);
-		if ($this->_state->name) {
+		if ($this->_state->name)
+		{
 			if (!in_array($filename, (array) $this->_state->name)) {
 				return false;
 			}
 		}
-		
+
 		if ($this->_state->search && stripos($filename, $this->_state->search) === false) {
 			return false;
 		}

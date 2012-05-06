@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @category	Nooku
+ * @version		$Id: dispatcher.php 1485 2012-02-10 12:32:02Z johanjanssens $
  * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -26,7 +25,7 @@ class ComActivitiesDispatcher extends ComDefaultDispatcher
 				'view' => 'activities'
 			),
 		));
-	
+
 		parent::_initialize($config);
 	}
 }

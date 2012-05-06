@@ -1,8 +1,7 @@
 <?php
 /**
- * @version     $Id$
- * @category    Nooku
- * @package     Nooku_Server
+ * @version     $Id: list.php 1504 2012-02-22 00:19:37Z johanjanssens $
+ * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -18,11 +17,11 @@ defined('KOOWA') or die('Restricted access') ?>
 		<?= @template('default_filter') ?>
 	</div>
 	<? if(count($activities)) : ?>
-	
+
 	    <? foreach ($activities as $activity) : ?>
 	       <? $list[substr($activity->created_on, 0, 10)][] = $activity; ?>
 	    <? endforeach; ?>
-	
+
 	    <? foreach($list as $date => $activities) : ?>
 			<h4><?= @helper('date.humanize', array('date' => $date)) ?></h4>
 			<div class="activities">

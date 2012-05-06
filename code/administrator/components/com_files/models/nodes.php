@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Nodes Model Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -27,32 +25,32 @@ class ComFilesModelNodes extends ComFilesModelDefault
             $this->_item = $this->getRow(array(
                 'data' => array(
             		'container' => $this->_state->container,
-                    'folder' => $this->_state->folder,
-                    'name' => $this->_state->name
+                    'folder' 	=> $this->_state->folder,
+                    'name' 		=> $this->_state->name
                 )
             ));
         }
 
         return parent::getItem();
     }
-    
+
     public function getRow(array $options = array())
     {
         $identifier         = clone $this->getIdentifier();
         $identifier->path   = array('database', 'row');
         $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
-             
-        return $this->getService($identifier, $options); 
+
+        return $this->getService($identifier, $options);
     }
-    
+
     public function getRowset(array $options = array())
     {
         $identifier         = clone $this->getIdentifier();
         $identifier->path   = array('database', 'rowset');
-        
+
         return $this->getService($identifier, $options);
     }
-	
+
     protected function _getPath()
     {
         $state = $this->_state;
@@ -62,10 +60,10 @@ class ComFilesModelNodes extends ComFilesModelDefault
         if (!empty($state->folder) && $state->folder != '/') {
             $path .= '/'.ltrim($state->folder, '/');
         }
-        
+
         return $path;
     }
-    
+
 	public function getList()
 	{
 		if (!isset($this->_list))
@@ -83,10 +81,10 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders_model = $this->getService('com://admin/files.model.folders')->set($state->getData()); 
+				$folders_model = $this->getService('com://admin/files.model.folders')->set($state->getData());
 				$folders = $folders_model->getList();
-					
-				foreach ($folders as $folder) 
+
+				foreach ($folders as $folder)
 				{
 					if (!$limit_left) {
 						break;
@@ -103,10 +101,10 @@ class ComFilesModelNodes extends ComFilesModelDefault
 			{
 				$data = $state->getData();
 				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
-				$files_model = $this->getService('com://admin/files.model.files')->set($data); 
+				$files_model = $this->getService('com://admin/files.model.files')->set($data);
 				$files = $files_model->getList();
 
-				foreach ($files as $file) 
+				foreach ($files as $file)
 				{
 					if (!$limit_left) {
 						break;

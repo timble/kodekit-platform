@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -29,7 +28,7 @@ window.addEvent('domready', function() {
 					limit: <?= (int) $state->limit; ?>,
 					offset: <?= (int) $state->offset; ?>
 				}
-			},			
+			},
 			editor: <?= json_encode($state->editor); ?>,
 			tree: {
 				theme: 'media://com_files/images/mootree.png'
@@ -38,7 +37,7 @@ window.addEvent('domready', function() {
 			container: <?= json_encode($state->container ? $state->container->slug : null); ?>
 		};
 	options = $extend(options, config);
-	
+
 	Files.app = new Files.Compact.App(options);
 
 	$('files-new-folder-create').addEvent('click', function(e){
@@ -80,6 +79,10 @@ window.addEvent('domready', function() {
 	} else {
 		$('files-new-folder-input').addEvent('keyup', validate);
 	}
+
+	$$('#tabs-pane_insert dt').addEvent('click', function(){
+		setTimeout(function(){window.fireEvent('refresh');}, 300);
+	});
 });
 </script>
 
@@ -91,14 +94,14 @@ window.addEvent('domready', function() {
 		<div id="insert">
 			<div id="files-tree-container" style="float: left">
 				<div id="files-tree"></div>
-			
+
 				<div id="files-new-folder-modal" style="margin-top: 16px">
 					<form>
 						<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>" />
 						<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
 					</form>
 				</div>
-			</div> 
+			</div>
 
 			<div id="files-grid" style="float: left"></div>
 			<div id="details" style="float: left;">

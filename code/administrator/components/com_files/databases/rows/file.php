@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * File Database Row Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -29,7 +27,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		$this->registerCallback(array('after.save'), array($this, 'saveThumbnail'));
 		$this->registerCallback(array('after.delete'), array($this, 'deleteThumbnail'));
 	}
-	
+
 	public function save()
 	{
 		$context = $this->getCommandContext();
@@ -48,9 +46,8 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 		}
+		else $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 
 		return $context->result;
 	}
@@ -61,12 +58,13 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 			$metadata = $this->_adapter->getMetadata();
 			return $metadata ? $metadata[$column] : false;
 		}
-		
+
 		if ($column == 'filename') {
 			return pathinfo($this->name, PATHINFO_FILENAME);
 		}
-		
-		if ($column == 'metadata') {
+
+		if ($column == 'metadata')
+		{
 			$metadata = $this->_adapter->getMetadata();
 			if ($this->isImage() && !empty($metadata))
 			{
@@ -90,10 +88,10 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
     public function toArray()
     {
         $data = parent::toArray();
-        
+
         unset($data['file']);
 		unset($data['contents']);
-		
+
 		$data['metadata'] = $this->metadata;
 
 		if ($this->isImage()) {
@@ -111,7 +109,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 	public function getImageSize($column)
 	{
 		$size = $this->_adapter->getImageSize();
-		
+
 		if ($size === false) {
 			return false;
 		}
@@ -141,7 +139,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 	public function saveThumbnail(KCommandContext $context = null)
 	{
 		$result = null;
-		if ($this->isImage() && $this->container->getParameters()->thumbnails) 
+		if ($this->isImage() && $this->container->getParameters()->thumbnails)
 		{
 			$thumb = $this->getService('com://admin/files.model.thumbnails')
 				->source($this)

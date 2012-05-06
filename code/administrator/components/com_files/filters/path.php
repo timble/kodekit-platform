@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Path Filter Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -23,10 +21,10 @@ class ComFilesFilterPath extends KFilterAbstract
     protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 
     protected static $_special_chars = array(
-        "?", "[", "]", "\\", "=", "<", ">", ":", ";", "'", "\"", 
+        "?", "[", "]", "\\", "=", "<", ">", ":", ";", "'", "\"",
         "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}"
     );
-    
+
     /**
      * Validate a value
      *
@@ -50,9 +48,9 @@ class ComFilesFilterPath extends KFilterAbstract
     {
         $value = trim(str_replace('\\', '/', $value));
         $value = preg_replace(self::$_safepath_pattern, '', $value);
-        
+
         return $value;
-        
+
         $value = str_replace(self::$_special_chars, '', $value);
 
 		return $value;

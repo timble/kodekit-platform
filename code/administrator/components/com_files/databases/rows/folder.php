@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -13,8 +12,7 @@
  * Folder Database Row Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Files
  */
 
@@ -41,7 +39,7 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 
 		$is_new = $this->isNew();
 
-		if ($this->getCommandChain()->run('before.save', $context) !== false) 
+		if ($this->getCommandChain()->run('before.save', $context) !== false)
 		{
 			if ($this->isNew()) {
 				$context->result = $this->_adapter->create();
@@ -50,12 +48,12 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 			$this->getCommandChain()->run('after.save', $context);
 		}
 
-		if ($context->result === false) {
+		if ($context->result === false)
+		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
-		} else {
-			$this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 		}
+		else $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 
 		return $context->result;
 	}

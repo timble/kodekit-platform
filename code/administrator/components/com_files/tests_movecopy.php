@@ -21,9 +21,9 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('random_test_file.txt')
 	->move(array('destination_name' => 'moved_test_file.txt'))
-	->toArray();	
-	
-var_dump('Root file - move', $result, 
+	->toArray();
+
+var_dump('Root file - move', $result,
 	!file_exists(JPATH_ROOT.'/images/random_test_file.txt') && file_exists(JPATH_ROOT.'/images/moved_test_file.txt'));
 
 /*
@@ -33,11 +33,11 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('moved_test_file.txt')
 	->copy(array('destination_name' => 'copied_test_file.txt'))
-	->toArray();	
-	
-var_dump('Root file - copy', $result, 
+	->toArray();
+
+var_dump('Root file - copy', $result,
 	file_exists(JPATH_ROOT.'/images/moved_test_file.txt') && file_exists(JPATH_ROOT.'/images/copied_test_file.txt'));
-	
+
 /*
  * Nested file - move
  */
@@ -45,11 +45,11 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('moved_test_file.txt')
 	->move(array('destination_folder' => 'random_test_folder'))
-	->toArray();	
-	
-var_dump('Nested file - move', $result, 
+	->toArray();
+
+var_dump('Nested file - move', $result,
 	!file_exists(JPATH_ROOT.'/images/moved_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/moved_test_file.txt'));
-	
+
 /*
  * Nested file - copy
  */
@@ -57,11 +57,11 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->copy(array('destination_folder' => 'random_test_folder'))
-	->toArray();	
-	
-var_dump('Nested file - copy', $result, 
+	->toArray();
+
+var_dump('Nested file - copy', $result,
 	file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/copied_test_file.txt'));
-	
+
 /*
  * Nested file - copy with a new name
  */
@@ -69,9 +69,9 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->copy(array('destination_folder' => 'random_test_folder', 'destination_name' => 'copied_test_file2.txt'))
-	->toArray();	
-	
-var_dump('Nested file - copy with a new name', $result, 
+	->toArray();
+
+var_dump('Nested file - copy with a new name', $result,
 	file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/copied_test_file2.txt'));
 
 /*
@@ -81,11 +81,11 @@ $result = KService::get('com://admin/files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->move(array('destination_folder' => 'random_test_folder', 'destination_name' => 'moved_test_file2.txt'))
-	->toArray();	
-	
-var_dump('Nested file - move with a new name', $result, 
+	->toArray();
+
+var_dump('Nested file - move with a new name', $result,
 	!file_exists(JPATH_ROOT.'/images/copied_test_file.txt') && file_exists(JPATH_ROOT.'/images/random_test_folder/moved_test_file2.txt'));
-	
+
 /*
  * Delete test files
  */
