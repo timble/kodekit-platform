@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,14 +9,13 @@
 
 /**
  * Internal url filter
- * 
- * Check if an refers to a legal URL inside the system. Use when 
+ *
+ * Check if an refers to a legal URL inside the system. Use when
  * redirecting to an URL that was passed in a request
  *
  * @todo        Do a proper implementation, see KoowaFilterEditlink for ideas
- * 
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterInternalurl extends KFilterAbstract
@@ -33,14 +31,14 @@ class KFilterInternalurl extends KFilterAbstract
         if(!is_string($value)) {
             return false;
         }
-                
+
         if(stripos($value, (string)  dirname(KRequest::url()->get(KHttpUrl::BASE))) !== 0) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Sanitize a value
      *

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Controller
  * @subpackage	Command
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,12 +12,11 @@
  * Controller Discoverable Command Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Controller
  * @subpackage	Behavior
  */
 class KControllerBehaviorDiscoverable extends KControllerBehaviorAbstract
-{  
+{
 	/**
 	 * Get a list of allowed actions
 	 *
@@ -27,10 +25,10 @@ class KControllerBehaviorDiscoverable extends KControllerBehaviorAbstract
 	protected function _actionOptions(KCommandContext $context)
 	{
 	    $methods = array();
-        
+
         //Remove GET actions
         $actions = array_diff($this->getActions(), array('browse', 'read', 'display'));
-          
+
         //Authorize the action
         foreach($actions as $key => $action)
         {
@@ -38,41 +36,41 @@ class KControllerBehaviorDiscoverable extends KControllerBehaviorAbstract
             if (isset( $this->_action_map[$action] )) {
                 $action = $this->_action_map[$action];
             }
-        
+
             //Check if the action can be executed
             if($this->getBehavior('executable')->execute('before.'.$action, $context) === false) {
                 unset($actions[$key]);
-            } 
+            }
         }
-          
+
         //Sort the action alphabetically.
         sort($actions);
-	              
+
         //Retrieve HTTP methods
-        foreach(array('get', 'put', 'delete', 'post', 'options') as $method) 
+        foreach(array('get', 'put', 'delete', 'post', 'options') as $method)
         {
             if(in_array($method, $actions)) {
                 $methods[strtoupper($method)] = $method;
             }
         }
-            
-        //Retrieve POST actions 
-        if(in_array('post', $methods)) 
+
+        //Retrieve POST actions
+        if(in_array('post', $methods))
         {
             $actions = array_diff($actions, array('get', 'put', 'delete', 'post', 'options'));
             $methods['POST'] = array_diff($actions, $methods);
         }
-       
+
         //Render to string
         $result = implode(', ', array_keys($methods));
-        
-        foreach($methods as $method => $actions) 
+
+        foreach($methods as $method => $actions)
         {
            if(is_array($actions) && !empty($actions)) {
                $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
-           }     
+           }
         }
-        
-        $context->headers = array('Allow' => $result); 
+
+        $context->headers = array('Allow' => $result);
 	}
 }

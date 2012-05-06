@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Grid Helper
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @see 		http://ajaxpatterns.org/Data_Grid
@@ -51,7 +49,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		return $html;
 	}
-	
+
 	/**
 	 * Render an search header
 	 *
@@ -64,11 +62,11 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$config->append(array(
 			'search' => null
 		));
-	    
+
 	    $html = '<input name="search" id="search" value="'.$this->getTemplate()->getView()->escape($config->search).'" />';
         $html .= '<button>'.JText::_('Go').'</button>';
 		$html .= '<button onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.JText::_('Reset').'</button>';
-	
+
 	    return $html;
 	}
 
@@ -148,7 +146,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$img    = $config->row->{$config->field} ? 'enabled.png' : 'disabled.png';
 		$alt 	= $config->row->{$config->field} ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
-		
+
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 
@@ -175,15 +173,15 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 
 		$up   = 'media://lib_koowa/images/arrow_up.png';
 		$down = 'media://lib_koowa/images/arrow_down.png';
-		
+
 		$config->data->order = -1;
 		$updata   = str_replace('"', '&quot;', $config->data);
-		
+
 		$config->data->order = +1;
 		$downdata = str_replace('"', '&quot;', $config->data);
-		
+
 		$html = '';
-		
+
 		if ($config->row->{$config->field} > 1) {
             $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
         }
@@ -237,7 +235,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			} break;
 
 		}
-		
+
 		$config->data->{$config->field} = $access;
 	    $data = str_replace('"', '&quot;', $config->data);
 

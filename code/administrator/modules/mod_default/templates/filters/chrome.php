@@ -1,21 +1,19 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
-* @package      Koowa_Template
-* @subpackage	Filter
+ * @package     Nooku_Modules
+ * @subpackage  Default
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 * @link 		http://www.nooku.org
 */
 
 /**
- * Module Chrome Filter 
+ * Module Chrome Filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package     Koowa_Template
- * @subpackage	Filter
+ * @package     Nooku_Components
+ * @subpackage  Default
  */
 class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
@@ -24,18 +22,18 @@ class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null) 
-    { 
+    public function __construct( KConfig $config = null)
+    {
         parent::__construct($config);
-        
+
         //Load the theme chrome functions
         include_once JPATH_THEMES.'/system/html/modules.php';
-        
+
         if(file_exists(JPATH_THEMES.'/'.$config->template.'/html/modules.php')) {
 		    include_once JPATH_THEMES.'/'.$config->template.'/html/modules.php';
         }
     }
-	
+
 	/**
      * Initializes the options for the object
      *
@@ -53,7 +51,7 @@ class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 
         parent::_initialize($config);
     }
-    
+
 	/**
 	 * Render the module chrome
 	 *
@@ -63,26 +61,26 @@ class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 	public function write(&$text)
 	{
 		$data = (object) $this->getTemplate()->getData();
-		
+
 	    foreach($data->styles as $style)
 		{
 		    $method = 'modChrome_'.$style;
-		   
+
 			// Apply chrome and render module
 		    if (function_exists($method))
-			{  
+			{
 			    $data->module->style   = implode(' ', $data->styles);
 		        $data->module->content = $text;
-		       
+
 				ob_start();
 				    $method($data->module, $data->module->params, $data->attribs);
 				    $data->module->content = ob_get_contents();
 				ob_end_clean();
 			}
-              
+
             $text = $data->module->content;
 	    }
-	    
+
 	    return $this;
     }
 }

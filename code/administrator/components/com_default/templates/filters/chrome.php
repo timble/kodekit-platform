@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,62 +10,61 @@
 
 /**
  * Chrome Template Filter
- * 
+ *
  * This filter allows to apply module chrome to a template
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
-{  
+{
 	/**
      * The module title
-     * 
+     *
      * If set this will be passed to the module chrome rendered. If the renderer support
      * rendering of a title it will be displayed.
      *
      * @var string
      */
     protected $_title;
-    
+
     /**
      * The module class
      *
      * @var string
      */
     protected $_class;
-    
+
     /**
      * The module styles
      *
      * @var array
      */
     protected $_styles;
-    
+
     /**
      * The module attribs
      *
      * @var array
      */
     protected $_attribs;
- 	
+
  	/**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null) 
-    { 
+    public function __construct( KConfig $config = null)
+    {
         parent::__construct($config);
-        
+
         $this->_title   = $config->title;
         $this->_class   = $config->class;
         $this->_styles  = KConfig::unbox($config->styles);
         $this->_attribs = KConfig::unbox($config->attribs);
     }
-	
+
 	/**
      * Initializes the options for the object
      *
@@ -91,7 +89,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 
         parent::_initialize($config);
     }
-    
+
     /**
 	 * Apply module chrome to the template output
 	 *
@@ -99,9 +97,9 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 	 * @return ComDefaultTemplateFilterChrome
 	 */
     public function write(&$text)
-    {   
+    {
 		$name = $this->getIdentifier()->package . '_' . $this->getIdentifier()->name;
-		
+
 		//Create a module object
 		$module   	       = new KObject();
 		$module->id        = uniqid();
@@ -112,9 +110,9 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 		$module->showtitle = (bool) $this->_title;
 		$module->title     = $this->_title;
 		$module->user      = 0;
-		
+
 		$text = $this->getService('mod://admin/default.html')->module($module)->attribs($this->_attribs)->styles($this->_styles)->display();
-        
+
         return $this;
-    }    
+    }
 }

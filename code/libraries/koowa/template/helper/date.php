@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2057 2010-05-15 20:48:00Z johanjanssens $
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Helper
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Helper Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Helper
  */
@@ -56,18 +54,18 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
             'gmt_offset'        => date_offset_get(new DateTime),
             'smallest_period'   => 'second'
         ));
-        
+
         $periods    = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
         $lengths    = array(60, 60, 24, 7, 4.35, 12, 10);
         $now        = strtotime(gmdate("M d Y H:i:s"));
         $time       = is_numeric($config->date) ? $config->date : strtotime($config->date);
-         
+
         if($time)
-        { 
+        {
             if($config->gmt_offset != 0) {
                 $now =  $now + $config->gmt_offset;
             }
-            
+
             if($now != $time)
             {
                 if($now > $time)
@@ -77,7 +75,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                 }
                 else
                 {
-                    $difference = $time - $now; 
+                    $difference = $time - $now;
                     $tense      = 'from now';
                 }
 
@@ -115,11 +113,11 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                 }
 
                 $result = sprintf(JText::_('%s '.$periods[$i].' '.$tense), $difference);
-            } 
+            }
             else $result = JText::_('Now');
         }
-        else $result = JText::_('Never'); 
+        else $result = JText::_('Never');
 
-        return $result;       
+        return $result;
     }
 }

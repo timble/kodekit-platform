@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2790 2011-01-12 03:06:29Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,9 +11,8 @@
 
 /**
  * Default Model
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */

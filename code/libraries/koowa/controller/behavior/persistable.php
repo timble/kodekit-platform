@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Controller
  * @subpackage	Command
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,12 +12,11 @@
  * Persistable Controller Behavior Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Controller
  * @subpackage	Behavior
  */
 class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
-{ 
+{
 	/**
 	 * Load the model state from the request
 	 *
@@ -33,14 +31,14 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 		// Built the session identifier based on the action
 		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
 		$state       = KRequest::get('session.'.$identifier, 'raw', array());
-			
+
 		//Append the data to the request object
 		$this->getRequest()->append($state);
-		
+
 		//Push the request in the model
 		$this->getModel()->set($this->getRequest());
 	}
-	
+
 	/**
 	 * Saves the model state in the session
 	 *
@@ -62,10 +60,10 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	    
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$context->action;
-		
+
 		//Prevent unused state information from being persisted
 		KRequest::set('session.'.$identifier, null);
-		
+
 		//Set the state in the session
 		KRequest::set('session.'.$identifier, $vars);
 	}

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
  * Database Namespace class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  */
 class KDatabase
@@ -31,7 +29,7 @@ class KDatabase
 	 */
 	const RESULT_STORE = 0;
 	const RESULT_USE   = 1;
-	
+
 	/**
 	 * Database fetch mode
 	 */
@@ -44,7 +42,7 @@ class KDatabase
 	const FETCH_FIELD_LIST  = 3;
 	const FETCH_OBJECT      = 4;
 	const FETCH_OBJECT_LIST = 5;
-	
+
 	/**
 	 * Row states
 	 */

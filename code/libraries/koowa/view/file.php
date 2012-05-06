@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_View
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -18,8 +17,8 @@
  *      $this->path = path/to/file');
  *      // OR
  *      $this->output = $file_contents;
- * 
- *      $this->filename = foobar.pdf'; 
+ *
+ *      $this->filename = foobar.pdf';
  *
  *      // optional:
  *      $this->mimetype    = 'application/pdf';
@@ -37,25 +36,25 @@ class KViewFile extends KViewAbstract
 {
     /**
      * The file path
-     * 
+     *
      * @var string
      */
     public $path = '';
-    
+
     /**
      * The file name
-     * 
+     *
      * @var string
      */
     public $filename = '';
-    
+
     /**
      * The file disposition
-     * 
+     *
      * @var string
      */
     public $disposition = 'attachment';
-    
+
     /**
      * Constructor
      *
@@ -64,10 +63,10 @@ class KViewFile extends KViewAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->set($config->toArray());
     }
-    
+
     /**
      * Initializes the options for the object
      *
@@ -85,10 +84,10 @@ class KViewFile extends KViewAbstract
             'filename'    => $this->getIdentifier()->path[$count-1].'.'.$this->getIdentifier()->name,
             'disposition' => 'attachment'
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
     /**
      * Return the views output
      *
@@ -100,7 +99,7 @@ class KViewFile extends KViewAbstract
         if(ini_get('zlib.output_compression')) {
             ini_set('zlib.output_compression', 'Off');
         }
-        
+
         // Remove php's time limit
         if(!ini_get('safe_mode') ) {
             @set_time_limit(0);
@@ -140,7 +139,7 @@ class KViewFile extends KViewAbstract
         elseif(!empty($this->path)) // File is read from disk
         {
             if(empty($this->filename)) {
-                $this->filename = basename($this->path);                
+                $this->filename = basename($this->path);
             }
             $filesize = @filesize($this->path);
             header('Content-Length: '.$filesize);
@@ -149,11 +148,11 @@ class KViewFile extends KViewAbstract
             $this->_readChunked($this->path);
         }
         else throw new KViewException('No output or path supplied');
-        
+
         die;
     }
 
-    
+
     /**
      * Set the header disposition headers
      *
@@ -161,18 +160,18 @@ class KViewFile extends KViewAbstract
      */
     protected function _setDisposition()
     {
-        // @TODO :Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123; 
-        if(isset($this->disposition) && $this->disposition == 'inline') {       
+        // @TODO :Content-Disposition: inline; filename="foo"; modification-date="'.$date.'"; size=123;
+        if(isset($this->disposition) && $this->disposition == 'inline') {
             header('Content-Disposition: inline; filename="'.$this->filename.'"');
-        } else {    
+        } else {
             header('Content-Description: File Transfer');
             header('Content-type: application/force-download');
             header('Content-Disposition: attachment; filename="'.$this->filename.'"');
         }
         return $this;
     }
-    
-    
+
+
     /**
      * Read a file in chunks and flush it to the output stream
      *
@@ -184,13 +183,13 @@ class KViewFile extends KViewAbstract
         $chunksize  = 1*(1024*1024); // Chunk size
         $buffer     = '';
         $cnt        = 0;
-        
+
         $handle = fopen($path, 'rb');
         if ($handle === false) {
             throw new KViewException('Cannot open file');
         }
-        
-        while (!feof($handle)) 
+
+        while (!feof($handle))
         {
             $buffer = fread($handle, $chunksize);
             echo $buffer;
@@ -198,8 +197,8 @@ class KViewFile extends KViewAbstract
             flush();
             $cnt += strlen($buffer);
         }
-        
+
        $status = fclose($handle);
-       return $cnt; 
+       return $cnt;
     }
 }

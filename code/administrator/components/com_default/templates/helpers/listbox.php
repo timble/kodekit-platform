@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,9 +10,8 @@
 
 /**
  * Editor Helper
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @uses        KConfig
@@ -37,22 +35,22 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
-        
+
         $options = array();
-        
+
         if($config->deselect) {
             $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
         }
-        
+
         $options[] = $this->option(array('text' => JText::_( 'Enabled' ) , 'value' => 1 ));
         $options[] = $this->option(array('text' => JText::_( 'Disabled' ), 'value' => 0 ));
-    
+
         //Add the options to the config object
         $config->options = $options;
-        
+
         return $this->optionlist($config);
     }
-    
+
     /**
      * Generates an HTML published listbox
      *
@@ -70,22 +68,22 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
-        
+
         $options = array();
-        
+
         if($config->deselect) {
             $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
         }
-        
+
         $options[] = $this->option(array('text' => JText::_( 'Published' ) , 'value' => 1 ));
         $options[] = $this->option(array('text' => JText::_( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
-        
+
         return $this->optionlist($config);
     }
-    
+
     /**
      * Generates an HTML access listbox
      *
@@ -103,20 +101,20 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
         ))->append(array(
             'selected'  => $config->{$config->name}
         ));
-        
+
         $options  = array();
-        
+
         if($config->deselect) {
             $options[] =  $this->option(array('text' => JText::_($config->prompt)));
         }
-        
+
         $options[] = $this->option(array('text' => JText::_( 'Public' ), 'value' => '0' ));
         $options[] = $this->option(array('text' => JText::_( 'Registered' ), 'value' => '1' ));
         $options[] = $this->option(array('text' => JText::_( 'Special' ), 'value' => '2' ));
 
         //Add the options to the config object
         $config->options = $options;
-        
+
         return $this->optionlist($config);
     }
 }

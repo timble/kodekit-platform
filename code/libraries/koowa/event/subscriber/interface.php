@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: listener.php 4482 2012-02-10 12:50:43Z johanjanssens $
- * @category	Koowa
  * @package     Koowa_Event
  * @subpackage 	Subscriber
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Event Handler Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Event
  * @subpackage 	Subscriber
  */

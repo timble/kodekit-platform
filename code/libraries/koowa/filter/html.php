@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,13 +9,12 @@
 
 /**
  * Html XSS Filter
- * 
+ *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
- * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, 
+ * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider,
  * Chris Tobin.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterHtml extends KFilterAbstract
@@ -27,7 +25,7 @@ class KFilterHtml extends KFilterAbstract
      * @var array
      */
     protected $_tagsArray = array();
-    
+
     /**
      * List of user-defined attributes
      *
@@ -41,7 +39,7 @@ class KFilterHtml extends KFilterAbstract
      * @var boolean
      */
     protected $_tagsMethod = true;
-    
+
     /**
      * If false, use whiteList method, if true use blackList method
      *
@@ -55,8 +53,8 @@ class KFilterHtml extends KFilterAbstract
      * @var boolean
      */
     protected $_xssAuto = true;
-    
-    
+
+
     protected $_tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
     protected $_attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
 
@@ -68,33 +66,33 @@ class KFilterHtml extends KFilterAbstract
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         // List of user-defined tags
         if(isset($config->tag_list)) {
             $this->_tagsArray = array_map('strtolower', (array) $config->tag_list);
         }
-        
+
         // List of user-defined attributes
         if(isset($config->attribute_list)) {
             $this->_attrArray = array_map('strtolower', (array) $config->attribute_list);
         }
-        
+
         // WhiteList method = 0, BlackList method = 1
         if(isset($config->tag_method)) {
             $this->_tagsMethod = $config->tag_method;
         }
-        
+
         // WhiteList method = 0, BlackList method = 1
         if(isset($config->attribute_method)) {
             $this->_attrMethod = $config->attribute_method;
         }
-        
+
         //If false, only auto clean essentials, if true allow clean blacklisted tags/attr
         if(isset($config->xss_auto)) {
             $this->_xssAuto = $config->xss_auto;
         }
     }
-    
+
     /**
      * Validate a value
      *
@@ -103,8 +101,8 @@ class KFilterHtml extends KFilterAbstract
      */
     protected function _validate($value)
     {
-        return (is_string($value) 
-        // this is too strict, html is usually sanitized 
+        return (is_string($value)
+        // this is too strict, html is usually sanitized
         //&& strcmp($value, $this->sanitize($value)) === 0
         );
     }
@@ -118,12 +116,12 @@ class KFilterHtml extends KFilterAbstract
     protected function _sanitize($value)
     {
         $value = (string) $value;
-        
+
         // Filter var for XSS and other 'bad' code etc.
         if (!empty ($value)) {
             $value = $this->_remove($this->_decode($value));
         }
-        
+
         return $value;
     }
 
@@ -145,7 +143,7 @@ class KFilterHtml extends KFilterAbstract
         }
         return $source;
     }
-    
+
     /**
      * Internal method to strip a string of certain tags
      *
@@ -157,7 +155,7 @@ class KFilterHtml extends KFilterAbstract
         $preTag         = null;
         $postTag        = $source;
         $currentSpace   = false;
-        $attr           = '';   
+        $attr           = '';
 
         // Is there a tag? If so it will certainly start with a '<'
         $tagOpen_start  = strpos($source, '<');
@@ -380,7 +378,7 @@ class KFilterHtml extends KFilterAbstract
         }
         return $newSet;
     }
-    
+
     /**
      * Function to determine if contents of an attribute is safe
      *
@@ -408,10 +406,10 @@ class KFilterHtml extends KFilterAbstract
             $ttr[$v] = utf8_encode($k);
         }
         $source = strtr($source, $ttr);
-        
+
         // convert decimal
         $source = preg_replace('/&#(\d+);/me', "chr(\\1)", $source); // decimal notation
-        
+
         // convert hex
         $source = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $source); // hex notation
         return $source;

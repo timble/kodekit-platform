@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Helper
  * @subpackage	Array
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Array helper
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Helper
  * @subpackage  Array
  * @static
@@ -63,25 +61,25 @@ class KHelperArray
 
     /**
      * Merge two arrays recursively
-     * 
+     *
      * Matching keys' values in the second array overwrite those in the first array, as is the
      * case with array_merge, i.e.:
-     * 
+     *
      * KHelperArray::merge(array('key' => 'org value'), array('key' => 'new value'));
      *     => array('key' => array('new value'));
-     * 
+     *
      * Parameters are passed by reference, though only for performance reasons. They're not
      * altered by this function and the datatypes of the values in the arrays are unchanged.
      *
-     * @param array 
-     * @param array 
-     * @return array    An array of values resulted from merging the arguments together. 
+     * @param array
+     * @param array
+     * @return array    An array of values resulted from merging the arguments together.
      */
     public static function merge( array &$array1, array &$array2 )
     {
         $args   = func_get_args();
         $merged = array_shift($args);
-        
+
         foreach($args as $array)
         {
             foreach ( $array as $key => &$value )
@@ -127,13 +125,13 @@ class KHelperArray
      * @param   array|object    The array or object to transform into a string
      * @param   string          The inner glue to use, default '='
      * @param   string          The outer glue to use, default ' '
-     * @param   boolean 
+     * @param   boolean
      * @return  string  The string mapped from the given array
      */
     public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
     {
         $output = array();
-        
+
         if($array instanceof KConfig)
         {
             $data = array();
@@ -143,7 +141,7 @@ class KHelperArray
             }
             $array = $data;
         }
-        
+
         if(is_object($array)) {
             $array = (array) KConfig::unbox($array);
         }

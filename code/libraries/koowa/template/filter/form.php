@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -17,7 +16,6 @@
  * to comply with the html form standard.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Filter
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Behavior
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -11,7 +10,6 @@
  * Abstract Behavior Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Behavior
  */
 abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInterface

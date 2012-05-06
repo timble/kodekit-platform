@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template filter to parse link tags
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Template
  * @subpackage	Filter
  */
@@ -29,49 +27,49 @@ class KTemplateFilterLink extends KTemplateFilterAbstract implements KTemplateFi
 	{
 		//Parse the script information
 		$scripts = $this->_parseLinks($text);
-		
+
 		//Prepend the script information
-		$text = $scripts.$text; 
-		
+		$text = $scripts.$text;
+
 		return $this;
 	}
-	
+
 	/**
 	 * Parse the text for script tags
-	 * 
+	 *
 	 * @param string Block of text to parse
 	 * @return string
 	 */
 	protected function _parseLinks(&$text)
 	{
 		$scripts = '';
-		
+
 		$matches = array();
 		if(preg_match_all('#<link\ href="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
-			foreach(array_unique($matches[1]) as $key => $match) 
+			foreach(array_unique($matches[1]) as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[2][$key]);
 				$scripts .= $this->_renderScript($match, $attribs);
 			}
-			
+
 			$text = str_replace($matches[0], '', $text);
 		}
-			
+
 		return $scripts;
 	}
-	
+
 	/**
 	 * Render script information
-	 * 
+	 *
 	 * @param string	The script information
 	 * @param array		Associative array of attributes
-	 * @return string 	
+	 * @return string
 	 */
 	protected function _renderLink($link, $attribs = array())
 	{
 		$attribs = KHelperArray::toString($attribs);
-		
+
 		$html = '<link href="'.$link.'" '.$attribs.'/>'."\n";
 		return $html;
 	}

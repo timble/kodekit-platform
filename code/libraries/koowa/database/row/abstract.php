@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,44 +12,43 @@
  * Abstract Row Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  */
 abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRowInterface
 {
     /**
-     * Tracks columns where data has been updated. Allows more specific 
+     * Tracks columns where data has been updated. Allows more specific
      * save operations.
      *
      * @var array
      */
     protected $_modified = array();
-    
+
     /**
      * Tracks the status the row
-     * 
-     * Available row status values are defined as STATUS_ constants in KDatabase 
-     * 
-     * @var string 
-     * @see KDatabase  
+     *
+     * Available row status values are defined as STATUS_ constants in KDatabase
+     *
+     * @var string
+     * @see KDatabase
      */
     protected $_status = null;
-    
+
     /**
      * The status message
-     * 
+     *
      * @var string
      */
     protected $_status_message = '';
-    
+
     /**
      * Tracks if row data is new
-     * 
+     *
      * @var bool
      */
     protected $_new = true;
-    
+
     /**
 	 * Name of the identity column in the rowset
 	 *
@@ -67,30 +65,30 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     {
         //If no config is passed create it
         if(!isset($config)) $config = new KConfig();
-        
+
         parent::__construct($config);
-        
+
         // Set the table indentifier
     	if(isset($config->identity_column)) {
 			$this->_identity_column = $config->identity_column;
 		}
-		
+
         // Reset the row
         $this->reset();
-        
+
         // Set the new state of the row
         $this->_new = $config->new;
-        
+
         // Set the row data
         if(isset($config->data))  {
             $this->setData((array) KConfig::unbox($config->data), $this->_new);
         }
-        
+
         //Set the status
         if(isset($config->status)) {
             $this->setStatus($config->status);
         }
-        
+
         //Set the status message
         if(!empty($config->status_message)) {
             $this->setStatusMessage($config->status_message);
@@ -111,13 +109,13 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
              'data'             => null,
              'new'              => true,
              'status'           => null,
-             'status_message'   => '', 
-             'identity_column'  => null 
+             'status_message'   => '',
+             'identity_column'  => null
         ));
-        
+
         parent::_initialize($config);
     }
-	
+
 	/**
 	 * Test the connected status of the row.
 	 *
@@ -127,7 +125,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
 	{
 	    return true;
 	}
-    
+
  	/**
     * Returns an associative array of the raw data
     *
@@ -137,19 +135,19 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function getData($modified = false)
     {
         if($modified) {
-            $result = array_intersect_key($this->_data, $this->_modified);  
+            $result = array_intersect_key($this->_data, $this->_modified);
         } else {
             $result = $this->_data;
         }
-            
+
         return $result;
     }
-  
+
     /**
      * Set the row data
      *
      * @param   mixed   Either and associative array, an object or a KDatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set. 
+     * @param   boolean If TRUE, update the modified information for each column being set.
      *                  Default TRUE
      * @return  KDatabaseRowAbstract
      */
@@ -160,8 +158,8 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         } else {
             $data = (array) $data;
         }
-        
-        if($modified) 
+
+        if($modified)
         {
             foreach($data as $column => $value) {
                 $this->$column = $value;
@@ -171,23 +169,23 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         {
             $this->_data = array_merge($this->_data, $data);
         }
-        
+
         return $this;
     }
 
     /**
      * Returns the status
-     * 
+     *
      * @return string The status
      */
     public function getStatus()
     {
         return $this->_status;
     }
-    
+
     /**
      * Set the status
-     * 
+     *
      * @param   string|null     The status value or NULL to reset the status
      * @return  KDatabaseRowAbstract
      */
@@ -203,24 +201,24 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         if($status == KDatabase::STATUS_DELETED) {
             $this->_new = true;
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the status message
-     * 
+     *
      * @return string The status message
      */
     public function getStatusMessage()
     {
         return $this->_status_message;
     }
-    
-    
+
+
     /**
      * Set the status message
-     * 
+     *
      * @param   string      The status message
      * @return  KDatabaseRowAbstract
      */
@@ -229,7 +227,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_status_message = $message;
         return $this;
     }
-    
+
     /**
      * Load the row from the database.
      *
@@ -238,14 +236,14 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function load()
     {
         $this->_modified = array();
-        
+
         return $this;
     }
-    
+
     /**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties 
+     * This performs an intelligent insert/update and reloads the properties
      * with fresh data from the table on success.
      *
      * @return boolean  If successfull return TRUE, otherwise FALSE
@@ -253,7 +251,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function save()
     {
         $this->_modified = array();
-        
+
         return false;
     }
 
@@ -276,10 +274,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     {
         $this->_data     = array();
         $this->_modified = array();
-        
+
         return true;
     }
-    
+
     /**
      * Count the rows in the database based on the data in the row
      *
@@ -292,7 +290,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
 
     /**
      * Set row field value
-     * 
+     *
      * If the value is the same as the current value and the row is loaded from the database
      * the value will not be reset. If the row is new the value will be (re)set and marked
      * as modified
@@ -303,27 +301,27 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function __set($column, $value)
     {
-        if(!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew()) 
+        if(!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
         {
             parent::__set($column, $value);
-          
+
             $this->_modified[$column] = true;
-        } 
+        }
     }
 
     /**
      * Unset a row field
-     * 
+     *
      * @param   string  The column name.
      * @return  void
      */
     public function __unset($column)
     {
          parent::__unset($column);
-         
+
          unset($this->_modified[$column]);
     }
-      
+
  	/**
      * Gets the identitiy column of the rowset
      *
@@ -333,20 +331,20 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     {
         return $this->_identity_column;
     }
-    
+
     /**
      * Get a list of columns that have been modified
-     * 
+     *
      * @return array    An array of column names that have been modified
      */
     public function getModified()
     {
         return array_keys($this->_modified);
     }
-    
+
     /**
      * Check if a column has been modified
-     * 
+     *
      * @param   string  The column name.
      * @return  boolean
      */
@@ -356,25 +354,25 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         if(isset($this->_modified[$column]) && $this->_modified[$column]) {
             $result = true;
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Checks if the row is new or not
-     * 
-     * @return bool 
+     *
+     * @return bool
      */
     public function isNew()
     {
         return (bool) $this->_new;
     }
-    
+
 	/**
 	 * Search the mixin method map and call the method or trigger an error
 	 *
 	 * Function is also capable of checking is a behavior has been mixed succesfully
-	 * using is[Behavior] function. If the behavior exists the function will return 
+	 * using is[Behavior] function. If the behavior exists the function will return
 	 * TRUE, otherwise FALSE.
 	 *
 	 * @param  string 	The function name

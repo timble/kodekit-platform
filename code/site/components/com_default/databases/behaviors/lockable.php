@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,9 +11,8 @@
 
 /**
  * Database Lockable Behavior
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -33,7 +31,7 @@ class ComDefaultDatabaseBehaviorLockable extends KDatabaseBehaviorLockable
         $config->append(array(
             'lifetime'   =>  JFactory::getSession()->getExpire()
         ));
-        
+
         parent::_initialize($config);
     }
 }

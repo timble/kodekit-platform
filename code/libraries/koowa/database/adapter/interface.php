@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Database Adapter Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Adapter
  */
@@ -25,29 +23,28 @@ interface KDatabaseAdapterInterface
 	 * @return KDatabaseQuery
 	 */
 	public function getQuery(KConfig $config = null);
-	
+
 	/**
 	 * Connect to the db
-	 * 
+	 *
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function connect();
 
 	/**
 	 * Reconnect to the db
-	 * 
+	 *
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function reconnect();
-	
 
 	/**
 	 * Disconnect from db
-	 * 
+	 *
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function disconnect();
-	
+
 	/**
 	 * Get the connection
 	 *
@@ -65,7 +62,7 @@ interface KDatabaseAdapterInterface
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function setConnection($resource);
-	
+
 	/**
 	 * Determines if the connection to the server is active.
 	 *
@@ -83,48 +80,48 @@ interface KDatabaseAdapterInterface
 	/**
 	 * Retrieves the column schema information about the given table
 	 *
-	 * @param 	string 	A table name 
+	 * @param 	string 	A table name
 	 * @return	KDatabaseSchemaTable
 	 */
 	public function getTableSchema($table);
-	
+
     /**
      * Lock a table.
-     * 
+     *
      * @param  string  Base name of the table.
      * @param  string  Real name of the table.
      * @return boolean True on success, false otherwise.
      */
     public function lockTable($base, $name);
-    
+
     /**
      * Unlock a table.
-     * 
+     *
      * @return boolean True on success, false otherwise.
      */
     public function unlockTable();
-	
+
 	/**
      * Preforms a select query
      *
-     * Use for SELECT and anything that returns rows.  
+     * Use for SELECT and anything that returns rows.
      *
-     * @param	string  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
-     * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
-     * 						unless you free the result first. 
+     * @param	string  	A full SQL query to run. Data inside the query should be properly escaped.
+     * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
+     * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
+     * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
+     * 						unless you free the result first.
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
 	public function select($sql, $mode = KDatabase::RESULT_STORE);
-	
+
 	/**
      * Preforms a show query
      *
-     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This 
+     * @param	string|object  	A full SQL query to run. Data inside the query should be properly escaped.
+     * @param   integer			The fetch mode. Controls how the result will be returned to the caller. This
      * 							value must be one of the KDatabase::FETCH_* constants.
-     * @return  mixed 			The return value of this function on success depends on the fetch type. 
+     * @return  mixed 			The return value of this function on success depends on the fetch type.
      * 					    	In all cases, FALSE is returned on failure.
      */
 	public function show($query, $mode = KDatabase::FETCH_ARRAY_LIST);
@@ -166,14 +163,14 @@ interface KDatabaseAdapterInterface
 	/**
 	 * Use and other queries that don't return rows
 	 *
-	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
-	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
-     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+	 * @param  string 	The query to run. Data inside the query should be properly escaped.
+	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
+     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
+     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
      * 					unless you free the result first.
 	 * @throws KDatabaseException
-	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
-	 * 					For other successful queries  return TRUE. 
+	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
+	 * 					For other successful queries  return TRUE.
 	 */
 	public function execute($sql, $mode = KDatabase::RESULT_STORE );
 
@@ -193,7 +190,7 @@ interface KDatabaseAdapterInterface
 	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function getTablePrefix();
-	
+
 	/**
 	 * Get the table needle
 	 *
@@ -222,15 +219,15 @@ interface KDatabaseAdapterInterface
      *                and-quoted values).
      */
     public function quoteValue($value);
-    
+
     /**
      * Quotes a single identifier name (table, table alias, table column,
      * index, sequence).  Ignores empty values.
-     * 
-     * This function requires all SQL statements, operators and functions to be 
+     *
+     * This function requires all SQL statements, operators and functions to be
      * uppercased.
      *
-     * @param string|array The identifier name to quote.  If an array, quotes 
+     * @param string|array The identifier name to quote.  If an array, quotes
      *                      each element in the array as an identifier name.
      * @return string|array The quoted identifier name (or array of names).
      */

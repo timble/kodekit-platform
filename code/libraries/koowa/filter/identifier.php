@@ -14,7 +14,6 @@
  * Validates identifiers in the form of [application::]type.package.[.path].name
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterIdentifier extends KFilterAbstract

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Service
  * @subpackage 	Locator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,19 +11,18 @@
  * Service Abstract Locator
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Service
  * @subpackage 	Locator
  */
 abstract class KServiceLocatorAbstract extends KObject implements KServiceLocatorInterface
 {
-	/** 
+	/**
 	 * The type
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_type = '';
-	
+
 	/**
 	 * Get the type
 	 *

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Database
  * @subpackage 	Behavior
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Database Identifiable Behavior
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */

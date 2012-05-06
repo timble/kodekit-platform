@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,8 +9,8 @@
 
 /**
  * An Object Array Class
- * 
- * The KObjectArray class provides provides the main functionalities of array and at 
+ *
+ * The KObjectArray class provides provides the main functionalities of array and at
  * the same time implement the features of KObject
  *
  * @author      Johan Janssens <johan@nooku.org>
@@ -20,13 +19,13 @@
  */
 class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable
 {
-   /** 
+   /**
      * The data for each key in the array (key => value).
      *
      * @var array
      */
     protected $_data = array();
-    
+
  	/**
      * Constructor.
      *
@@ -36,12 +35,12 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     {
         //If no config is passed create it
         if(!isset($config)) $config = new KConfig();
-        
+
         parent::__construct($config);
-            
+
         $this->_data = KConfig::unbox($config->data);
     }
-    
+
  	/**
      * Initializes the options for the object
      *
@@ -58,7 +57,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
 
         parent::_initialize($config);
     }
-    
+
  	/**
      * Check if the offset exists
      *
@@ -81,7 +80,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      * @return  mixed   The item from the array
      */
     public function offsetGet($offset)
-    {   
+    {
         return $this->__get($offset);
     }
 
@@ -96,13 +95,13 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) { 
-            $this->_data[] = $value; 
-        } else {                      
-            $this->__set($offset, $value); 
-        } 
-         
-        return $this; 
+        if (is_null($offset)) {
+            $this->_data[] = $value;
+        } else {
+            $this->__set($offset, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -121,20 +120,20 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
         $this->__unset($offset);
         return $this;
     }
-        
+
     /**
      * Get a new iterator
-     * 
+     *
      * @return  ArrayIterator
      */
-    public function getIterator() 
+    public function getIterator()
     {
         return new ArrayIterator($this->_data);
     }
-    
+
  	/**
      * Serialize
-     * 
+     *
      * Required by interface Serializable
      *
      * @return  string  A serialized object
@@ -143,19 +142,19 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     {
         return serialize($this->_data);
     }
-    
+
     /**
      * Unserialize
-     * 
+     *
      * Required by interface Serializable
-     * 
+     *
      * @param   string  An serialized data
      */
     public function unserialize($data)
     {
-        $this->_data = unserialize($data); 
+        $this->_data = unserialize($data);
     }
-    
+
     /**
      * Get a value by key
      *
@@ -167,8 +166,8 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
         $result = null;
         if(isset($this->_data[$key])) {
             $result = $this->_data[$key];
-        } 
-        
+        }
+
         return $result;
     }
 
@@ -183,7 +182,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     {
        $this->_data[$key] = $value;
      }
-   
+
 	/**
      * Test existence of a key
      *
@@ -197,7 +196,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
 
     /**
      * Unset a key
-     * 
+     *
      * @param   string  The key name.
      * @return  void
      */
@@ -205,7 +204,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     {
          unset($this->_data[$key]);
     }
-    
+
  	/**
      * Return an associative array of the data.
      *

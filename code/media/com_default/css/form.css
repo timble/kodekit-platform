@@ -1,6 +1,5 @@
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Media
  * @subpackage  Stylesheet
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -43,7 +42,7 @@
 }
 
 label {
-    padding:5px; 
+    padding:5px;
 }
 
 br {
@@ -51,6 +50,6 @@ br {
 }
 
 #mainform input:focus, select:focus {
-    border: 1px solid blue; 
+    border: 1px solid blue;
     background-color:#f3f3f3;
 }

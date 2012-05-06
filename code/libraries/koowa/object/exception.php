@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id:exception.php 368 2008-08-25 12:28:02Z mathias $
- * @category    Koowa
  * @package     Koowa_Object
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,10 +11,9 @@
  * Koowa Date Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Object
  */
-class KObjectException extends KException 
+class KObjectException extends KException
 {
     /**
      * Constructor
@@ -27,12 +25,12 @@ class KObjectException extends KException
     public function __construct($message = null, $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        
+
         //Get the call stack
         $traces = $this->getTrace();
 
         //Traverse up the trace stack to find the actuall function that was not found
-        if($traces[0]['function'] == '__call') 
+        if($traces[0]['function'] == '__call')
         {
             foreach($traces as $trace)
             {
@@ -48,4 +46,3 @@ class KObjectException extends KException
     }
 }
 
-    
