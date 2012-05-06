@@ -138,7 +138,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Load the row from the database using the data in the row
 	 *
-	 * @return object	If successfull returns the row object, otherwise NULL
+	 * @return object	If successful returns the row object, otherwise NULL
 	 */
 	public function load()
 	{
@@ -151,7 +151,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                 $data  = $this->getTable()->filter($this->getData(true), true);
 		        $row   = $this->getTable()->select($data, KDatabase::FETCH_ROW);
 
-		        // Set the data if the row was loaded succesfully.
+		        // Set the data if the row was loaded successfully.
 		        if(!$row->isNew())
 		        {
 			        $this->setData($row->toArray(), false);
@@ -173,7 +173,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 * This performs an intelligent insert/update and reloads the properties
 	 * with fresh data from the table on success.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function save()
 	{
@@ -186,14 +186,6 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		    } else {
 		        $result = $this->getTable()->update($this); 
 		    }
-	  
-	        if($result !== false) 
-	        {
-	            // Filter out any extra columns.
-	            if(((integer) $result) > 0) {       
-                    $this->_modified = array();
-	            } 
-            }
 	    }
 
 		return (bool) $result;
@@ -202,7 +194,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Deletes the row form the database.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function delete()
 	{
@@ -210,16 +202,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		
 		if($this->isConnected())
 		{
-            if(!$this->_new) 
-		    {
+            if(!$this->_new) {
 		        $result = $this->getTable()->delete($this);
-		    
-		        if($result !== false) 
-	            {
-	                if(((integer) $result) > 0) {   
-	                    $this->_new = true;
-	                } 
-                }
 		    }
 		}
 

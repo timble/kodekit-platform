@@ -194,7 +194,15 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function setStatus($status)
     {
         $this->_status   = $status;
-        $this->_new      = ($status === NULL) ? true : false;
+        $this->_new      = false;
+
+        if($status != KDatabase::STATUS_FAILED) {
+            $this->_modified = array();
+        }
+
+        if($status == KDatabase::STATUS_DELETED) {
+            $this->_new = true;
+        }
         
         return $this;
     }
@@ -300,7 +308,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
             parent::__set($column, $value);
           
             $this->_modified[$column] = true;
-            $this->_status            = null;
         } 
     }
 
