@@ -96,7 +96,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
                     {
                         $options = array(
             				'data'   => $row->data,
-                			'status' => KDatabase::STATUS_DELETED,
+                			'status' => 'trashed',
                     		'new'    => false,   
                         );
                         
@@ -203,7 +203,9 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         {
     	 	if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
     		{
-    			$context->affected = $this->_deleteRevisions();
+                $context->affected = $this->_deleteRevisions();
+
+                $this->setStatus(KDatabase::STATUS_DELETED);
     			return false;
     		}
         }
