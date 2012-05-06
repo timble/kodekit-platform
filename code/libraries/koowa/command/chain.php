@@ -129,6 +129,8 @@ class KCommandChain extends KObjectQueue
                     return $this->_break_condition;
                 }
             }
+
+            $this->getStack()->pop();
         }
     }
     
