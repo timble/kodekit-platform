@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -11,10 +10,9 @@
 /**
  * Word filter.
  *
- * A 'word' is a string containing only the characters [A-Za-z_] 
+ * A 'word' is a string containing only the characters [A-Za-z_]
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Filter
  */
 class KFilterWord extends KFilterAbstract
@@ -31,7 +29,7 @@ class KFilterWord extends KFilterAbstract
         $pattern = '/^[A-Za-z_]*$/';
         return (is_string($value) && preg_match($pattern, $value) == 1);
     }
-    
+
     /**
      * Sanitize a value
      *

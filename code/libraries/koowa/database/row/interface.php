@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Database Row Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -55,7 +53,7 @@ interface KDatabaseRowInterface
      * @return object	If successfull returns the row object, otherwise NULL
      */
 	public function load();
-    
+
     /**
      * Saves the row to the database.
      *
@@ -72,7 +70,7 @@ interface KDatabaseRowInterface
      * @return KDatabaseRowInterface
      */
     public function delete();
-    
+
     /**
      * Count the rows in the database based on the data in the row
      *
@@ -111,10 +109,10 @@ interface KDatabaseRowInterface
      * @return array    An array of column names that have been modified
      */
     public function getModified();
-    
+
     /**
      * Check if a column has been modified
-     * 
+     *
      * @param   string  The column name.
      * @return  boolean
      */
@@ -126,7 +124,7 @@ interface KDatabaseRowInterface
      * @return bool
      */
     public function isNew();
-    
+
 	/**
 	 * Test the connected status of the row.
 	 *

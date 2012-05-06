@@ -12,7 +12,6 @@
  * Url filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterUrl extends KFilterAbstract
@@ -28,7 +27,7 @@ class KFilterUrl extends KFilterAbstract
 		$value = trim($value);
 		return (false !== filter_var($value, FILTER_VALIDATE_URL));
 	}
-	
+
 	/**
 	 * Sanitize a value
 	 *

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -9,12 +8,10 @@
  * @link        http://www.nooku.org
  */
 
-
 /**
  * Template Menubar Helper
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -33,12 +30,12 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
     	$config->append(array(
     		'menubar' => null,
         ));
-        
+
         parent::_initialize($config);
     }
-    
+
  	/**
-     * Render the menubar 
+     * Render the menubar
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
@@ -49,28 +46,28 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
         $config->append(array(
         	'menubar' => null
         ));
-		
+
 		$html = '';
-		
+
 		if (version_compare(JVERSION, '1.7', 'ge')) {
 			$html .= '<div id="submenu-box"><div class="m">';
 		}
-        
+
         $html .= '<ul id="submenu">';
-	    foreach ($config->menubar->getCommands() as $command) 
+	    foreach ($config->menubar->getCommands() as $command)
 	    {
 	        $html .= '<li>';
-            $html .= $this->command(array('command' => $command)); 
-            $html .= '</li>';  
+            $html .= $this->command(array('command' => $command));
+            $html .= '</li>';
         }
-        
+
         $html .= '</ul>';
-       
+
 		if (version_compare(JVERSION, '1.7', 'ge')) {
 			$html .= '<div class="clr"></div></div></div>';
 		}
-        
-		
+
+
 		return $html;
     }
 
@@ -86,27 +83,27 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
         $config->append(array(
         	'command' => null
         ));
-        
+
         $command = $config->command;
-        
+
         //Add a nolink class if the command is disabled
         if($command->disabled) {
             $command->attribs->class->append(array('nolink'));
         }
-        
+
         if($command->active) {
              $command->attribs->class->append(array('active'));
         }
-        
+
         //Explode the class array
         $command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
-        
+
         if ($command->disabled) {
-			$html = '<span '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</span>';	
+			$html = '<span '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</span>';
 		} else {
 			$html = '<a href="'.$command->href.'" '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</a>';
 		}
-          
+
     	return $html;
     }
 }

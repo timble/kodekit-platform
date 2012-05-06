@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category     Koowa
 * @package      Koowa_Template
 * @subpackage   Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template read filter for the @template alias. To load templates inline
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Filter
  */
@@ -35,30 +33,30 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
 
         parent::_initialize($config);
     }
-      
+
     /**
      * Replace template alias with loadFile functions.
-     * 
+     *
      * This function only replaces relative identifiers to a full path
      * based on the path of the template.
      *
      * @param string
      * @return KTemplateFilterAlias
      */
-    public function read(&$text) 
+    public function read(&$text)
     {
         if(preg_match_all('#@template\(\'(.*)\'#siU', $text, $matches))
 		{
-			foreach($matches[1] as $key => $match) 
+			foreach($matches[1] as $key => $match)
 			{
-			    if(is_string($match) && strpos($match, '.') === false ) 
+			    if(is_string($match) && strpos($match, '.') === false )
 		        {
 		            $path =  dirname($this->getTemplate()->getPath()).DS.$match.'.php';
 		            $text = str_replace($matches[0][$key], '$this->loadFile('."'".$path."'", $text);
 		        }
 			}
 		}
-	
+
         return $this;
     }
-}       
+}

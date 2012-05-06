@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,9 +10,8 @@
 
 /**
  * Default Controller
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -25,7 +23,7 @@ class ComDefaultControllerDefault extends KControllerService
 	 * @var	array
 	 */
 	protected $_limit;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -37,7 +35,7 @@ class ComDefaultControllerDefault extends KControllerService
 
 		$this->_limit = $config->limit;
 	}
-	
+
 	/**
      * Initializes the default configuration for the object
      *
@@ -54,11 +52,11 @@ class ComDefaultControllerDefault extends KControllerService
 
         parent::_initialize($config);
     }
-    
+
     /**
      * Display action
-     * 
-     * If the controller was not dispatched manually load the langauges files 
+     *
+     * If the controller was not dispatched manually load the langauges files
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
@@ -67,15 +65,15 @@ class ComDefaultControllerDefault extends KControllerService
     {
         //Load the language file for HMVC requests who are not routed through the dispatcher
         if(!$this->isDispatched()) {
-            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package); 
+            JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package);
         }
-        
+
         return parent::_actionGet($context);
     }
-    
+
 	/**
      * Browse action
-     * 
+     *
      * Use the application default limit if no limit exists in the model and limit the
      * limit to a maximum.
      *
@@ -84,10 +82,10 @@ class ComDefaultControllerDefault extends KControllerService
      */
     protected function _actionBrowse(KCommandContext $context)
     {
-        if($this->isDispatched()) 
+        if($this->isDispatched())
         {
             $limit = $this->getModel()->get('limit');
-            
+
             //If limit is empty use default
             if(empty($limit)) {
                 $limit = $this->_limit->default;
@@ -97,27 +95,27 @@ class ComDefaultControllerDefault extends KControllerService
             if($limit > $this->_limit->max) {
                 $limit = $this->_limit->max;
             }
-            
-            $this->limit = $limit; 
+
+            $this->limit = $limit;
         }
-         
+
         return parent::_actionBrowse($context);
     }
-    
+
 	/**
      * Set a request property
-     * 
+     *
      *  This function translates 'limitstart' to 'offset' for compatibility with Joomla
      *
      * @param  	string 	The property name.
      * @param 	mixed 	The property value.
      */
  	public function __set($property, $value)
-    {          
+    {
         if($property == 'limitstart') {
             $property = 'offset';
-        } 
-        	
-        parent::__set($property, $value);     
+        }
+
+        parent::__set($property, $value);
   	}
 }

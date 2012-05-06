@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,50 +10,49 @@
 
 /**
  * Default Controller Executable Behavior
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
 class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutable
-{ 
+{
  	/**
      * Command handler
-     * 
+     *
      * @param   string      The command name
      * @param   object      The command context
-     * @return  boolean     Can return both true or false.  
+     * @return  boolean     Can return both true or false.
      * @throws  KControllerException
      */
-    public function execute( $name, KCommandContext $context) 
-    { 
-        $parts = explode('.', $name); 
-        
-        if($parts[0] == 'before') 
-        { 
-            if(!$this->_checkToken($context)) 
-            {    
+    public function execute( $name, KCommandContext $context)
+    {
+        $parts = explode('.', $name);
+
+        if($parts[0] == 'before')
+        {
+            if(!$this->_checkToken($context))
+            {
                 $context->setError(new KControllerException(
                 	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
                 ));
-                
+
                 return false;
             }
         }
-        
-        return parent::execute($name, $context); 
+
+        return parent::execute($name, $context);
     }
-    
+
     /**
      * Generic authorize handler for controller add actions
-     * 
-     * @return  boolean     Can return both true or false.  
+     *
+     * @return  boolean     Can return both true or false.
      */
     public function canAdd()
     {
         $result = false;
-        
+
         if(parent::canAdd())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
@@ -63,19 +61,19 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
                 $result = JFactory::getUser()->get('gid') > 18;
             }
         }
-          
+
         return $result;
     }
-    
+
     /**
      * Generic authorize handler for controller edit actions
-     * 
-     * @return  boolean     Can return both true or false.  
+     *
+     * @return  boolean     Can return both true or false.
      */
     public function canEdit()
     {
         $result = false;
-        
+
         if(parent::canEdit())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
@@ -84,19 +82,19 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
                 $result = JFactory::getUser()->get('gid') > 19;
             }
         }
-              
+
         return $result;
     }
-    
+
     /**
      * Generic authorize handler for controller delete actions
-     * 
-     * @return  boolean     Can return both true or false.  
+     *
+     * @return  boolean     Can return both true or false.
      */
     public function canDelete()
     {
         $result = false;
-        
+
         if(parent::canDelete())
         {
             if(version_compare(JVERSION,'1.6.0','ge')) {
@@ -105,10 +103,10 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
                 $result = JFactory::getUser()->get('gid') > 20;
             }
         }
-            
+
         return $result;
     }
-    
+
 	/**
 	 * Check the token to prevent CSRF exploits
 	 *
@@ -119,18 +117,18 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     {
         //Check the token
         if($context->caller->isDispatched())
-        {  
+        {
             $method = KRequest::method();
-            
+
             //Only check the token for PUT, DELETE and POST requests
-            if(($method != KHttpRequest::GET) && ($method != KHttpRequest::OPTIONS)) 
-            {     
-                if( KRequest::token() !== JUtility::getToken()) {     
+            if(($method != KHttpRequest::GET) && ($method != KHttpRequest::OPTIONS))
+            {
+                if( KRequest::token() !== JUtility::getToken()) {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
 }

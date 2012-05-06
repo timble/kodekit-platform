@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Mixin
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -15,7 +14,6 @@
  * of responsability or chain of command pattern.
  *  
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Mixin
  * @uses        KCommandChain
  * @uses        KCommandInterface

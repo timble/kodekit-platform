@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage	Table
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Koowa Database Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Database
  * @subpackage  Table
  */

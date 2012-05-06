@@ -12,7 +12,6 @@
  * String filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterString extends KFilterAbstract
@@ -28,7 +27,7 @@ class KFilterString extends KFilterAbstract
 		$value = trim($value);
 		return (is_string($value) && ($value === filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES)));
 	}
-	
+
 	/**
 	 * Sanitize a value
 	 *

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Service
  * @subpackage 	Locator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,20 +11,19 @@
  * Service Locator for the Koowa framework
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Service
  * @subpackage 	Locator
  * @uses 		KInflector
  */
 class KServiceLocatorKoowa extends KServiceLocatorAbstract
 {
-	/** 
+	/**
 	 * The type
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_type = 'koowa';
-	
+
 	/**
 	 * Get the classname based on an identifier
 	 *
@@ -35,20 +33,20 @@ class KServiceLocatorKoowa extends KServiceLocatorAbstract
 	public function findClass(KServiceIdentifier $identifier)
 	{
         $classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).ucfirst($identifier->name);
-			
+
 		if (!class_exists($classname))
 		{
 			// use default class instead
 			$classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).'Default';
-				
+
 			if (!class_exists($classname)) {
 				$classname = false;
 			}
 		}
-		
+
 		return $classname;
 	}
-	
+
 	/**
 	 * Get the path based on an identifier
 	 *
@@ -58,7 +56,7 @@ class KServiceLocatorKoowa extends KServiceLocatorAbstract
 	public function findPath(KServiceIdentifier $identifier)
 	{
 	    $path = '';
-	    
+
 	    if(count($identifier->path)) {
 			$path .= implode('/',$identifier->path);
 		}
@@ -66,7 +64,7 @@ class KServiceLocatorKoowa extends KServiceLocatorAbstract
 		if(!empty($identifier->name)) {
 			$path .= '/'.$identifier->name;
 		}
-				
+
 		$path = $identifier->basepath.'/'.$path.'.php';
 		return $path;
 	}

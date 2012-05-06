@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Model
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
  * Abstract Model Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Model
  * @uses		KObject
  */
@@ -45,7 +43,7 @@ abstract class KModelAbstract extends KObject
 	 * @var mixed
 	 */
 	protected $_item;
-	
+
 	/**
 	 * Model column data
 	 *
@@ -108,7 +106,7 @@ abstract class KModelAbstract extends KObject
     public function set( $property, $value = null )
     {
     	$changed = false;
-        
+
         if(is_object($property)) {
     		$property = (array) KConfig::unbox($property);
     	}
@@ -123,18 +121,18 @@ abstract class KModelAbstract extends KObject
                     break;
                 }
             }
-            
+
         	$this->_state->setData($property);
-        } 
+        }
         else
         {
             if(isset($this->_state->$property) && $this->_state->$property != $value) {
                 $changed = true;
             }
-            
+
             $this->_state->$property = $value;
         }
-        
+
         if($changed)
         {
             $this->_list  = null;
@@ -180,7 +178,7 @@ abstract class KModelAbstract extends KObject
 
     /**
      * Reset all cached data and reset the model state to it's default
-     * 
+     *
      * @param   boolean If TRUE use defaults when resetting. Default is TRUE
      * @return KModelAbstract
      */
@@ -189,7 +187,7 @@ abstract class KModelAbstract extends KObject
         $this->_list  = null;
         $this->_item  = null;
         $this->_total = null;
-        
+
         $this->_state->reset($default);
 
         return $this;
@@ -234,10 +232,10 @@ abstract class KModelAbstract extends KObject
     {
         return $this->_total;
     }
-    
+
 	/**
      * Get the model data
-     * 
+     *
      * If the model state is unique this function will call getItem(), otherwise
      * it will calle getList().
      *
@@ -253,7 +251,7 @@ abstract class KModelAbstract extends KObject
 
         return $data;
     }
-    
+
 	/**
      * Get a model state by name
      *
@@ -276,7 +274,7 @@ abstract class KModelAbstract extends KObject
     {
         $this->set($key, $value);
     }
-      
+
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by
      * using the state name as the method name.
@@ -297,7 +295,7 @@ abstract class KModelAbstract extends KObject
 
         return parent::__call($method, $args);
     }
-    
+
 	/**
      * Preform a deep clone of the object.
      *
@@ -306,7 +304,7 @@ abstract class KModelAbstract extends KObject
     public function __clone()
     {
         parent::__clone();
-        
+
         $this->_state = clone $this->_state;
     }
 }

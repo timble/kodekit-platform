@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Table Row Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -138,7 +136,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Load the row from the database using the data in the row
 	 *
-	 * @return object	If successfull returns the row object, otherwise NULL
+	 * @return object	If successful returns the row object, otherwise NULL
 	 */
 	public function load()
 	{
@@ -151,7 +149,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                 $data  = $this->getTable()->filter($this->getData(true), true);
 		        $row   = $this->getTable()->select($data, KDatabase::FETCH_ROW);
 
-		        // Set the data if the row was loaded succesfully.
+		        // Set the data if the row was loaded successfully.
 		        if(!$row->isNew())
 		        {
 			        $this->setData($row->toArray(), false);
@@ -173,7 +171,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	 * This performs an intelligent insert/update and reloads the properties
 	 * with fresh data from the table on success.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function save()
 	{
@@ -206,7 +204,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 	/**
 	 * Deletes the row form the database.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function delete()
 	{
@@ -214,16 +212,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 		
 		if($this->isConnected())
 		{
-            if(!$this->_new) 
-		    {
+            if(!$this->_new) {
 		        $result = $this->getTable()->delete($this);
-		    
-		        if($result !== false) 
-	            {
-	                if(((integer) $result) > 0) {   
-	                    $this->_new = true;
-	                } 
-                }
 		    }
 		}
 

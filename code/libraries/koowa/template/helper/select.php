@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Select Helper
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  */
@@ -42,10 +40,10 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		$option->disable  = $config->disable;
 		$option->group    = $config->group;
 		$option->attribs  = $config->attribs;
-		
+
 		return $option;
 	}
-	
+
 	/**
 	 * Generates an HTML select list
 	 *
@@ -62,13 +60,13 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'selected'	=> null,
 			'translate'	=> false
 		));
-		
+
 		$name    = $config->name;
 		$attribs = KHelperArray::toString($config->attribs);
-		
+
 		$html = array();
 		$html[] = '<select name="'. $name .'" '. $attribs .'>';
-		
+
 		foreach($config->options as $option)
 		{
 			$value  = $option->value;
@@ -83,11 +81,11 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			if(isset($option->disable) && $option->disable) {
 				$extra .= 'disabled="disabled"';
 			}
-				
+
 			if(isset($option->attribs)) {
 				$extra .= ' '.KHelperArray::toString($option->attribs);;
 			}
-			
+
 			if(!is_null($config->selected))
 			{
 				if ($config->selected instanceof KConfig)
@@ -101,18 +99,18 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 							break;
 						}
 					}
-				} 
+				}
 				else $extra .= ((string) $value == (string) $config->selected ? ' selected="selected"' : '');
 			}
-				
+
 			$html[] = '<option value="'. $value .'" '. $extra .'>' . $text . '</option>';
 		}
-		
+
 		$html[] = '</select>';
 
 		return implode(PHP_EOL, $html);
 	}
-	
+
 	/**
 	 * Generates an HTML radio list
 	 *
@@ -131,7 +129,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'selected'	=> null,
 			'translate'	=> false
 		));
-		
+
 		$name    = $config->name;
 		$attribs = KHelperArray::toString($config->attribs);
 
@@ -143,7 +141,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			$id	  = isset($row->id) ? $row->id : null;
 
 			$extra = '';
-			
+
 			if ($config->selected instanceof KConfig)
 			{
 				foreach ($config->selected as $value)
@@ -155,9 +153,9 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 						break;
 					}
 				}
-			} 
+			}
 			else $extra .= ($key == $config->selected ? 'checked="checked"' : '');
-				
+
 			$html[] = '<input type="radio" name="'.$name.'" id="'.$name.$id.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
 			$html[] = '<label for="'.$name.$id.'">'.$text.'</label>';
 			$html[] = '<br />';
@@ -165,7 +163,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 
 		return implode(PHP_EOL, $html);
 	}
-	
+
 	/**
 	 * Generates an HTML check list
 	 *
@@ -184,7 +182,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'selected'	=> null,
 			'translate'	=> false
 		));
-		
+
 		$name    = $config->name;
 		$attribs = KHelperArray::toString($config->attribs);
 
@@ -196,7 +194,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			$id	  = isset($row->id) ? $row->id : null;
 
 			$extra = '';
-			
+
 			if ($config->selected instanceof KConfig)
 			{
 				foreach ($config->selected as $value)
@@ -208,7 +206,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 						break;
 					}
 				}
-			} 
+			}
 			else $extra .= ($key == $config->selected) ? 'checked="checked"' : '';
 
 			$html[] = '<input type="checkbox" name="'.$name.'[]" id="'.$name.$key.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
@@ -217,7 +215,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 
 		return implode(PHP_EOL, $html);
 	}
-	
+
 	/**
 	 * Generates an HTML boolean radio list
 	 *
@@ -235,24 +233,24 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'selected'	=> null,
 			'translate'	=> true
 		));
-		
+
 		$name    = $config->name;
 		$attribs = KHelperArray::toString($config->attribs);
-		
+
 		$html  = array();
-		
+
 		$extra = !$config->selected ? 'checked="checked"' : '';
 		$text  = $config->translate ? JText::_( $config->false ) : $config->false;
-		
+
 		$html[] = '<label for="'.$name.'0">'.$text.'</label>';
-		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'0" value="0" '.$extra.' '.$attribs.' />';	
-		
+		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'0" value="0" '.$extra.' '.$attribs.' />';
+
 		$extra = $config->selected ? 'checked="checked"' : '';
 		$text  = $config->translate ? JText::_( $config->true ) : $config->true;
-		
+
 		$html[] = '<label for="'.$name.'1">'.$text.'</label>';
-		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'1" value="1" '.$extra.' '.$attribs.' />';	
-		
+		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'1" value="1" '.$extra.' '.$attribs.' />';
+
 		return implode(PHP_EOL, $html);
 	}
 }

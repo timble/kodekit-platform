@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,14 +10,13 @@
 
 /**
  * Module Template Filter
- * 
+ *
  * This filter allow to dynamically inject data into module position.
- * 
- * Filter will parse elements of the form <modules position="[position]">[content]</modules> 
- * and prepend or append the content to the module position. 
-.*
+ *
+ * Filter will parse elements of the form <modules position="[position]">[content]</modules>
+ * and prepend or append the content to the module position.
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -40,7 +38,7 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 
         parent::_initialize($config);
     }
-    
+
     /**
 	 * Find any <module></module> elements and inject them into the JDocument object
 	 *
@@ -48,27 +46,27 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 	 * @return ComDefaultTemplateFilterModule
 	 */
     public function write(&$text)
-    {   
+    {
 		$matches = array();
-		
-		if(preg_match_all('#<module([^>]*)>(.*)</module>#siU', $text, $matches)) 
-		{	
+
+		if(preg_match_all('#<module([^>]*)>(.*)</module>#siU', $text, $matches))
+		{
 		    foreach($matches[0] as $key => $match)
 			{
 			    //Remove placeholder
 			    $text = str_replace($match, '', $text);
-			    
+
 			    //Create attributes array
 				$attributes = array(
 					'style' 	=> 'component',
-					'params'	=> '',	
+					'params'	=> '',
 					'title'		=> '',
 					'class'		=> '',
 					'prepend'   => true
 				);
-				
-		        $attributes = array_merge($attributes, $this->_parseAttributes($matches[1][$key])); 
-				
+
+		        $attributes = array_merge($attributes, $this->_parseAttributes($matches[1][$key]));
+
 		        //Create module object
 			    $module   	       = new KObject();
 			    $module->id        = uniqid();
@@ -80,23 +78,23 @@ class ComDefaultTemplateFilterModule extends KTemplateFilterAbstract implements 
 				$module->attribs   = $attributes;
 				$module->user      = 0;
 				$module->module    = 'mod_dynamic';
-				
+
 			    JFactory::getDocument()->modules[$attributes['position']][] = $module;
 			}
 		}
-		
+
 		return $this;
-    }    
+    }
 }
 
 /**
  * Modules Renderer
- * 
- * This is a specialised modules renderer which prepends or appends the dynamically created modules 
+ *
+ * This is a specialised modules renderer which prepends or appends the dynamically created modules
  * to the list of modules before rendering them.
 .*
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
+
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -106,27 +104,27 @@ class JDocumentRendererModules extends JDocumentRenderer
 	{
         //Get the modules
 		$modules = JModuleHelper::getModules($position);
-		
-		if(isset($this->_doc->modules[$position])) 
+
+		if(isset($this->_doc->modules[$position]))
 		{
-		    foreach($this->_doc->modules[$position] as $module) 
-		    { 
+		    foreach($this->_doc->modules[$position] as $module)
+		    {
 		        if($module->attribs['prepend']) {
-		            array_push($modules, $module);   
+		            array_push($modules, $module);
 		        } else {
 		            array_unshift($modules, $module);
 		        }
 		    }
 		}
-		
+
 		//Render the modules
 		$renderer = $this->_doc->loadRenderer('module');
-		
+
 		$contents = '';
 		foreach ($modules as $module)  {
 			$contents .= $renderer->render($module, $params, $content);
 		}
-		
+
 		return $contents;
 	}
 }

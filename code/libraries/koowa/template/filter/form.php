@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -17,7 +16,6 @@
  * to comply with the html form standard.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Filter
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4
@@ -148,22 +146,33 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
             {
                 parse_str(str_replace('&amp;', '&', $query), $query);
                 
-                $input = '';
-                foreach($query as $name => $value)
-                {
-                    if(is_array($value))
-                    {
-                        foreach($value as $k => $v) {
-                            $input .= PHP_EOL.'<input type="hidden" name="'.$name.'['.$k.']" value="'.$v.'" />';
-                        }
-                    }
-                    else $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$value.'" />';
-                }
-                
-                $text = str_replace($matches[0][$key], $matches[0][$key].$input, $text);
+                $input = $this->_renderQuery($query);
+                $text  = str_replace($matches[0][$key], $matches[0][$key].$input, $text);
             }   
         }
         
         return $this;
+    }
+    
+    /**
+     * Recursive function that transforms the query array into a string of input elements
+     *
+     * @param 	array	Associative array of query information
+     * @param 	string	The name of the current input element
+     * @return 	string	String of the html input elements
+     */
+    protected function _renderQuery($query, $key = '')
+    {
+        $input = ''; 
+        foreach($query as $name => $value) 
+        { 
+            $name = $key ? $key.'['.$name.']' : $name; 
+            if(is_array($value)) {
+                $input .= $this->_renderQuery($value, $name); 
+            }
+            else $input .= PHP_EOL.'<input type="hidden" name="'.$name.'" value="'.$value.'" />'; 
+        } 
+        
+        return $input; 
     }
 }

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: abstract.php 1528 2010-01-26 23:14:08Z johan $
- * @category    Koowa
  * @package     Koowa_Database
  * @subpackage  Behavior
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Database Sluggable Behavior
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Database
  * @subpackage  Behavior
  */
@@ -100,7 +98,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     /**
      * Get the methods that are available for mixin based
      *
-     * This function conditionaly mixes the behavior. Only if the mixer
+     * This function conditionally mixes the behavior. Only if the mixer
      * has a 'slug' property the behavior will be mixed in.
      *
      * @param object The mixer requesting the mixable methods.
@@ -120,7 +118,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     /**
      * Insert a slug
      *
-     * If multiple columns are set they will be concatenated and seperated by the
+     * If multiple columns are set they will be concatenated and separated by the
      * separator in the order they are defined.
      *
      * Requires a 'slug' column
@@ -129,8 +127,9 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableInsert(KCommandContext $context)
     {
-        $this->_createSlug();
-        $this->save();
+        if($this->_createSlug()) {
+            $this->save();
+        }
     }
 
     /**
@@ -175,13 +174,13 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     /**
      * Create the slug
      *
-     * @return void
+     * @return boolean  Return TRUE if the slug was created or updated successfully, otherwise FALSE.
      */
     protected function _createSlug()
     {
         //Create the slug filter
         $filter = $this->_createFilter();
-        
+
         if(empty($this->slug))
         {
             $slugs = array();
@@ -190,20 +189,20 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
             }
 
             $this->slug = implode($this->_separator, array_filter($slugs));
-            
-            //Canonicalize the slug
             $this->_canonicalizeSlug();
+            return true;
         }
         else
         {
             if(in_array('slug', $this->getModified())) 
             {
                 $this->slug = $filter->sanitize($this->slug);
-                
-                //Canonicalize the slug
                 $this->_canonicalizeSlug();
+                return true;
             }
         }
+
+        return false;
     }
     
     /**

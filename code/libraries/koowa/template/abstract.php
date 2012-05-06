@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
   * Abstract Template class
   * 
   * @author		Johan Janssens <johan@nooku.org>
-  * @category	Koowa
   * @package	Koowa_Template
   */
 abstract class KTemplateAbstract extends KObject
@@ -191,7 +189,7 @@ abstract class KTemplateAbstract extends KObject
 		        $this->setView($this->_view);
             }
 		    
-		    $this->_view = $this->getService($this->_view, $config);
+		    $this->_view = $this->getService($this->_view);
 		}
 		
 		return $this->_view;
@@ -525,14 +523,14 @@ abstract class KTemplateAbstract extends KObject
 	 * @return KTemplateAbstract
 	 */
 	private function __sandbox()
-	{	
-	    //Set the error handler
+	{
         set_error_handler(array($this, 'handleError'), E_WARNING | E_NOTICE);
 	    
 	    //Push the template onto the stack
        	$this->getStack()->push(clone $this);
-       
-       	extract($this->_data, EXTR_SKIP); //extract the data in local scope
+
+        //Extract the data in local scope
+       	extract($this->_data, EXTR_SKIP);
        	
        	// Capturing output into a buffer
 		ob_start();
@@ -541,8 +539,6 @@ abstract class KTemplateAbstract extends KObject
 		
 		//Remove the template from the template stack
        	$this->getStack()->pop();
-       	
-       	//Restore the error handler
         restore_error_handler();
 		
 		return $this;

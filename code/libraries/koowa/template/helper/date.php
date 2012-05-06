@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2057 2010-05-15 20:48:00Z johanjanssens $
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Helper
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Helper Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Template
  * @subpackage  Helper
  */

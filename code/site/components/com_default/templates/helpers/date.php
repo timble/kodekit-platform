@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,9 +10,8 @@
 
 /**
  * Date Helper
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  */
@@ -34,10 +32,10 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
             'format' => JText::_('DATE_FORMAT_LC1'),
             'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
         ));
-        
+
         return parent::format($config);
     }
-    
+
     /**
      * Returns human readable date.
      *
@@ -50,7 +48,7 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
         $config->append(array(
             'gmt_offset' => 0
         ));
-        
+
        return parent::humanize($config);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Koowa
  * @package     Koowa_Loader
  * @subpackage 	Adapter
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Koowa Factory Adapter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Loader
  * @subpackage  Adapter
  */

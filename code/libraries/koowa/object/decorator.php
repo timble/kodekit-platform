@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Object
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,7 +11,6 @@
  * An Object Decorator Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Object
  * @uses 		KObject
  */
@@ -24,7 +22,7 @@ class KObjectDecorator extends KObject
      * @var array
      */
     private $__methods = array();
-	
+
 	/**
 	 * The decorated object
 	 *
@@ -37,10 +35,10 @@ class KObjectDecorator extends KObject
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null) 
-    { 
+    public function __construct( KConfig $config = null)
+    {
         parent::__construct($config);
-        
+
         $this->_object = $config->object;
     }
 
@@ -81,18 +79,18 @@ class KObjectDecorator extends KObject
 			$methods = array();
 			$object  = $this->getObject();
 
-			if(!($object instanceof KObject)) 
+			if(!($object instanceof KObject))
 			{
 				$reflection	= new ReflectionClass($object);
      			foreach($reflection->getMethods() as $method) {
      				$methods[] = $method->name;
      			}
-     		} 
+     		}
      		else $methods = $object->getMethods();
-     		
+
      		$this->__methods = array_merge(parent::getMethods(), $methods);
 		}
-     	
+
 		return $this->__methods;
 	}
 

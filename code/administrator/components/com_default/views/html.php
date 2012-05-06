@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,7 +10,7 @@
 
 /**
  * Default Html View
-.*
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Nooku
  * @package     Nooku_Components
@@ -21,7 +20,7 @@ class ComDefaultViewHtml extends KViewDefault
 {
     /**
      * Initializes the configuration for the object
-     * 
+     *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
      * @param   array   Configuration settings
@@ -32,7 +31,7 @@ class ComDefaultViewHtml extends KViewDefault
             'layout'           => KInflector::isSingular($this->getName()) ? 'form' : 'default',
             'template_filters' => array('module'),
         ));
-        
+
         parent::_initialize($config);
     }
 }

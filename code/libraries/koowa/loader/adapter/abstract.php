@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: component.php 1263 2009-10-15 00:20:35Z johan $
- * @category    Koowa
  * @package     Koowa_Loader
  * @subpackage  Adapter
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,33 +11,32 @@
  * Abstract Loader Adapter
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Loader
  * @subpackage  Adapter
  */
 abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 {
-	/** 
+	/**
 	 * The adapter type
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_type = '';
-	
+
 	/**
-	 * The basepath 
-	 * 
+	 * The basepath
+	 *
 	 * @var string
 	 */
 	protected $_basepath = '';
-	
+
 	/**
 	 * The class prefiex
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_prefix = '';
-	
+
 	/**
      * Constructor.
      *
@@ -50,7 +48,7 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
             $this->_basepath = $config['basepath'];
         }
     }
-    
+
 	/**
 	 * Get the type
 	 *
@@ -60,7 +58,7 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 	{
 		return $this->_type;
 	}
-    
+
 	/**
 	 * Get the base path
 	 *
@@ -70,7 +68,7 @@ abstract class KLoaderAdapterAbstract implements KLoaderAdapterInterface
 	{
 		return $this->_basepath;
 	}
-	
+
 	/**
 	 * Get the class prefix
 	 *

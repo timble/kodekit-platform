@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  Koowa
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -64,7 +63,6 @@
  * </code>
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category   	Koowa
  * @package     Koowa_Plugins
  * @subpackage  Koowa
  */

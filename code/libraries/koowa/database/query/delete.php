@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Delete database query class
  *
  * @author		Gergo Erdosi <gergo@timble.net>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage  Query
  */

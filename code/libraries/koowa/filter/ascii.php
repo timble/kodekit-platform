@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @category		Koowa
 * @package      Koowa_Filter
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -12,14 +11,13 @@
  * Ascii filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterAscii extends KFilterAbstract
 {
 	/**
 	 * Validate a variable
-	 * 
+	 *
 	 * Returns true if the string only contains US-ASCII
 	 *
 	 * @param	mixed	Variable to be validated
@@ -29,11 +27,11 @@ class KFilterAscii extends KFilterAbstract
 	{
 		return (preg_match('/(?:[^\x00-\x7F])/', $value) !== 1);
 	}
-	
+
 	/**
-	 * Transliterate all unicode characters to US-ASCII. The string must be 
+	 * Transliterate all unicode characters to US-ASCII. The string must be
 	 * well-formed UTF8
-	 * 
+	 *
 	 * @param	scalar	Variable to be sanitized
 	 * @return	scalar
 	 */

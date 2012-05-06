@@ -1,8 +1,7 @@
 <?php
 /**
  * @version     $Id: default.php 3024 2011-10-09 01:44:30Z johanjanssens $
- * @category    Nooku
- * @package     Nooku_Server
+ * @package     Nooku_Components
  * @subpackage  Articles
  * @copyright   Copyright (C) 2007 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

@@ -1,7 +1,6 @@
 <?php
 /**
 * @version      $Id$
-* @category		Koowa
 * @package		Koowa_Controller
 * @subpackage 	Toolbar
 * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Controller Toolbar Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */

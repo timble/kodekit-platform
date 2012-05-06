@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 	$Id$
- * @category	Koowa
  * @package		Koowa_Database
  * @subpackage 	Behavior
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,7 +11,6 @@
  * Database Lockable Behavior
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
@@ -24,7 +22,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 * @var integer
 	 */
 	protected $_lifetime;
-	
+
 	/**
      * Initializes the options for the object
      *
@@ -39,12 +37,12 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 			'priority'   => KCommand::PRIORITY_HIGH,
     	    'lifetime'	 => '900' //in seconds
 	  	));
-	  	
+
 	  	$this->_lifetime = $config->lifetime;
-	  		
+
     	parent::_initialize($config);
    	}
-	
+
 	/**
 	 * Get the methods that are available for mixin based
 	 *
@@ -118,13 +116,13 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 		$result = false;
 		if(!$this->isNew())
 		{
-		    if(isset($this->locked_on) && isset($this->locked_by)) 
-			{    
+		    if(isset($this->locked_on) && isset($this->locked_by))
+			{
 			    $locked  = strtotime($this->locked_on);
                 $current = strtotime(gmdate('Y-m-d H:i:s'));
-                                    
+
                 //Check if the lock has gone stale
-                if($current - $locked < $this->_lifetime) 
+                if($current - $locked < $this->_lifetime)
 			    {
                     $userid = JFactory::getUser()->get('id');
 			        if($this->locked_by != 0 && $this->locked_by != $userid) {
@@ -133,7 +131,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 			    }
 			}
 		}
-		
+
 		return $result;
 	}
 
@@ -148,7 +146,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 
 		if($this->locked())
 		{
-	        $user = JFactory::getUser($this->locked_by);	    
+	        $user = JFactory::getUser($this->locked_by);
 			$date = $this->getService('com:default.template.helper.date')->humanize(array('date' => $this->locked_on));
 
 			$message = JText::sprintf('Locked by %s %s', $user->get('name'), $date);
@@ -170,14 +168,14 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	{
 		return (bool) !$this->locked();
 	}
-	
+
 	/**
 	 * Checks if a row can be deleted
 	 *
 	 * This function determines if a row can be deleted based on it's locked_by information.
 	 * If a row is locked, and not by the logged in user, the function will return false,
 	 * otherwise it will return true
-	 * 	
+	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
 	protected function _beforeTableDelete(KCommandContext $context)

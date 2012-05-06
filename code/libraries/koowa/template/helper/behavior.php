@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -13,7 +12,6 @@
  * Template Behavior Helper
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package		Koowa_Template
  * @subpackage	Helper
  */
@@ -35,13 +33,14 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	 */
 	public function mootools($config = array())
 	{
-		$config = new KConfig($config);
 		$html ='';
 
 		// Only load once
 		if (!isset(self::$_loaded['mootools'])) 
 		{
-			$html .= '<script src="media://lib_koowa/js/mootools.js" />';
+		    $config = new KConfig($config);
+		    
+		    $html .= '<script src="media://lib_koowa/js/mootools.js" />';
 			self::$_loaded['mootools'] = true;
 		}
 
@@ -72,7 +71,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			self::$_loaded['modal'] = true;
 		}
 
-		$signature = md5(serialize(array($config->selector,$config->options)));
+		$signature = 'modal-'.$config->selector;
 		if (!isset(self::$_loaded[$signature]))
 		{
 			$options = !empty($config->options) ? $config->options->toArray() : array();
@@ -108,7 +107,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
  		$html = '';
 
-		$signature = md5(serialize(array($config->selector,$config->options)));
+		$signature = 'tooltip-'.$config->selector;
 		if (!isset(self::$_loaded[$signature]))
 		{
 		    //Don't pass an empty array as options
@@ -184,28 +183,36 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 	 */
 	public function keepalive($config = array())
 	{
-	    $config = new KConfig($config);
-		$config->append(array(
-			'refresh'  => 15 * 60000, //15min
-		    'url'	   => $this->getTemplate()->getView()->getRoute()
-		));
+	    $html = '';
+	    
+	    // Only load once
+	    if (!isset(self::$_loaded['keepalive']))
+	    { 
+	        $config = new KConfig($config);
+		    $config->append(array(
+				'refresh'  => 15 * 60000, //15min
+		    	'url'	   => $this->getTemplate()->getView()->getRoute()
+		    ));
 
-		$refresh = (int) $config->refresh;
+		    $refresh = (int) $config->refresh;
 
-	    // Longest refresh period is one hour to prevent integer overflow.
-		if ($refresh > 3600000 || $refresh <= 0) {
-			$refresh = 3600000;
-		}
+	        // Longest refresh period is one hour to prevent integer overflow.
+		    if ($refresh > 3600000 || $refresh <= 0) {
+			    $refresh = 3600000;
+		    }
 
-		// Build the keepalive script.
-		$html =
-		"<script>
-			Koowa.keepalive =  function() {
-				var request = new Request({method: 'get', url: '".$config->url."'}).send();
-			}
+		    // Build the keepalive script.
+		    $html =
+			"<script>
+				Koowa.keepalive =  function() {
+					var request = new Request({method: 'get', url: '".$config->url."'}).send();
+				}
 
-			window.addEvent('domready', function() { Koowa.keepalive.periodical('".$refresh."'); });
-		</script>";
+				window.addEvent('domready', function() { Koowa.keepalive.periodical('".$refresh."'); });
+			</script>";
+		    
+		    self::$_loaded['keepalive'] = true;
+	    }
 
 		return $html;
 	}
@@ -245,17 +252,23 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
             self::$_loaded['validator'] = true;
         }
-
-		//Don't pass an empty array as options
-		$options = $config->options->toArray() ? ', '.$config->options : '';
-		$html .= "<script>
-		window.addEvent('domready', function(){
-		    $$('$config->selector').each(function(form){
-		        new Koowa.Validator(form".$options.");
-		        form.addEvent('validate', form.validate.bind(form));
-		    });
-		});
-		</script>";
+        
+        $signature = 'validator-'.$config->selector;
+        if (!isset(self::$_loaded[$signature]))
+        {
+            //Don't pass an empty array as options
+		    $options = $config->options->toArray() ? ', '.$config->options : '';
+		    $html .= "<script>
+			window.addEvent('domready', function(){
+		    	$$('$config->selector').each(function(form){
+		        	new Koowa.Validator(form".$options.");
+		        	form.addEvent('validate', form.validate.bind(form));
+		   	 });
+			});
+			</script>";
+		    
+		    self::$_loaded[$signature] = true;
+	    }
 
 		return $html;
 	}

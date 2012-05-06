@@ -1,18 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @category		Koowa
-* @package      Koowa_Filter
-* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
-* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
-* @link 		http://www.nooku.org
-*/
+ * @version		$Id$
+ * @package      Koowa_Filter
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link 		http://www.nooku.org
+ */
 
 /**
  * Abstract filter.
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 abstract class KFilterAbstract extends KObject implements KFilterInterface

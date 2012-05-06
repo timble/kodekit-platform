@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category    Koowa
  * @package     Koowa_Date
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -11,7 +10,8 @@
 /**
  * Date Class
  *
- * @author  Gergo Erdosi <gergo@timble.net>
+ * @author  	Gergo Erdosi <gergo@timble.net>
+ * @package     Koowa_Date
  */
 class KDate extends DateTime implements KDateInterface
 {

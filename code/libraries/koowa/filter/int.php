@@ -12,7 +12,6 @@
  * Integer filter
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
  * @package     Koowa_Filter
  */
 class KFilterInt extends KFilterAbstract
@@ -27,7 +26,7 @@ class KFilterInt extends KFilterAbstract
 	{
 		return empty($value) || (false !== filter_var($value, FILTER_VALIDATE_INT));
 	}
-	
+
 	/**
 	 * Sanitize a value
 	 *
