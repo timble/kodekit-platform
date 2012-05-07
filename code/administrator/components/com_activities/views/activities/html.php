@@ -1,6 +1,7 @@
 <?php
 /**
- * @version		$Id: html.php 1485 2012-02-10 12:32:02Z johanjanssens $
+ * @version		$Id$
+ * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -21,7 +22,7 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		if ($this->getLayout() == 'default')
+		if ($this->getLayout() == 'default') 
 		{
 			$model = $this->getService($this->getModel()->getIdentifier());
 
@@ -30,8 +31,8 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 				->column('package')
 				->getList()
 			);
-		}
-
+		} 
+		
 		return parent::display();
 	}
 }

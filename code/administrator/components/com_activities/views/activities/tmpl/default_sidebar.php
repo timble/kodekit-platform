@@ -1,7 +1,8 @@
 <?php
 /**
- * @version     $Id: default_sidebar.php 1501 2012-02-21 16:45:37Z johanjanssens $
- * @package     Nooku_Components
+ * @version     $Id$
+ * @category    Nooku
+ * @package     Nooku_Server
  * @subpackage  Activities
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

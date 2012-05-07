@@ -1,6 +1,7 @@
 <?php
 /**
- * @version		$Id: activities.php 1485 2012-02-10 12:32:02Z johanjanssens $
+ * @version		$Id$
+ * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -12,6 +13,7 @@
  * Activities Model Class
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Activities
  */
