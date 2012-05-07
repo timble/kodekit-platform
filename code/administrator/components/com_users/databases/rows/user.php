@@ -198,7 +198,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Check if passwords match.
-		if($this->isModified('password') && $this->password != $this->password_verify)
+		if($this->isModified('password') && $this->password !== $this->password_verify)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("Passwords don't match!"));
