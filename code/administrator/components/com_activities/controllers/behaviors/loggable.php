@@ -1,6 +1,7 @@
 <?php
 /**
- * @version		$Id: loggable.php 1485 2012-02-10 12:32:02Z johanjanssens $
+ * @version		$Id$
+ * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Activities
  * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -12,6 +13,7 @@
  * Loggable Controller Behavior Class
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Activities
  */
@@ -72,7 +74,7 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
                     //Only log if the row status is valid.
                     $status = $row->getStatus();
 
-                    if(!empty($status) && $status !== KDatabase::STATUS_FAILED)
+                    if(!empty($status))
                     {
                          $identifier = $context->caller->getIdentifier();
 
@@ -109,7 +111,9 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
                         }
 
                         $log['row'] = $row->id;
-
+                        
+                        $log['ip'] = KRequest::get('server.REMOTE_ADDR', 'raw');
+                        
                         $this->getService('com://admin/activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
