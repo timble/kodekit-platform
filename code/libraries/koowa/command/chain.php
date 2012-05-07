@@ -49,13 +49,6 @@ class KCommandChain extends KObjectQueue
     protected $_stack;
 
     /**
-     * The chain stack
-     *
-     * @var     KObjectStack
-     */
-    protected $_stack;
-
-    /**
      * Constructor
      *
      * @return  void
