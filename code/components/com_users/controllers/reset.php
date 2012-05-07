@@ -92,7 +92,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
 
         $helper = $this->getService('com://site/users.helper.password');
 
-        if($parts[0] != $helper->getCrypted($token, $parts[1]))
+        if($parts[0] !== $helper->getCrypted($token, $parts[1]))
         {
             $this->setRedirect(KRequest::referrer(), JText::_('INVALID_TOKEN'), 'error');
             return false;
@@ -115,7 +115,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
             return false;
         }
 
-        if($password != $password_verify)
+        if($password !== $password_verify)
         {
             $this->setRedirect(KRequest::referrer(), JText::_('PASSWORDS_DO_NOT_MATCH_LOW'), 'error');
             return false;
