@@ -32,12 +32,12 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         		$needed[] = $row->name;
         	}
         }
-
-	$model->reset()
-	      ->set($state_data)
-	      ->set('files', $needed);
-	$list  = $model->getList();
-
+        
+		$model->reset()
+		      ->set($state_data)
+		      ->set('files', $needed);
+		$list  = $model->getList();
+		
     	$found = array();
         foreach ($list as $row) {
         	$found[] = $row->filename;

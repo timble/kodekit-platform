@@ -83,9 +83,6 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 				$query->where('tbl.folder', '=', $source->folder);
 			}
 		}
-		elseif (!empty($state->files)) {
-			$query->where('tbl.filename', 'IN', $state->files);
-		}
 		else
 		{
 		    if ($state->container) {
@@ -95,11 +92,16 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    if ($state->folder !== false) {
 		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));
 		    }
-
+		    
+		    // Need this for BC
+		    if (!empty($state->files)) {
+		    	$query->where('tbl.filename', 'IN', $state->files);
+		    }
+		    
 		    if ($state->filename) {
 		        $query->where('tbl.filename', '=', $state->filename);
 		    }
 		}
-
+		
 	}
 }
