@@ -14,9 +14,9 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.keepalive') ?>
 <?= @helper('behavior.validator') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
-<style src="media://com_articles/css/article-form.css" />
-
+-->
 <script>
     if(Form && Form.Validator) {
         Form.Validator.add('validate-unsigned', {
