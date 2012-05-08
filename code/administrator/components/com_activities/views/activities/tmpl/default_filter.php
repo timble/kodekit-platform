@@ -18,6 +18,21 @@ defined('KOOWA') or die('Restricted access') ?>
 			    <?= @text('All') ?>
 			</a>
 		</li>
+		<li class="<?= ($state->action == 'add') ? 'active' : ''; ?> separator-left">
+			<a href="<?= @route('action=add' ) ?>">
+			    <?= @text('Created') ?>
+			</a>
+		</li>
+		<li class="<?= ($state->action == 'edit') ? 'active' : ''; ?>">
+			<a href="<?= @route('action=edit' ) ?>">
+			    <?= @text('Updated') ?>
+			</a>
+		</li>
+		<li class="<?= ($state->action == 'delete') ? 'active' : ''; ?>">
+			<a href="<?= @route('action=delete' ) ?>">
+			    <?= @text('Trashed') ?>
+			</a>
+		</li>
 		<li class="<?= ($state->direction == 'desc') ? 'active' : ''; ?> separator-left">
 			<a href="<?= @route($state->direction == 'desc' ? 'direction=' : 'direction=desc' ) ?>">
 			    <?= @text('Latest First') ?>
