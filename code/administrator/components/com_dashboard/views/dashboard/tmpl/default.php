@@ -22,11 +22,10 @@ defined('KOOWA') or die('Restricted access'); ?>
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar-right" style="width:400px; padding: 20px;">
-<?= @helper('accordion.startPane') ?>
     <? foreach ($modules as $module) : ?>
-        <?= @helper('accordion.startPanel', array('title' => $module->title)) ?>
-        <?= @service('mod://admin/'.substr($module->type, 4).'.html')->module($module)->display(); ?>
-        <?= @helper('accordion.endPanel') ?>
+    <div class="<?= $module->type ?>">
+    	<h3><?= $module->title ?></h3>
+    	<?= @service('mod://admin/'.substr($module->type, 4).'.html')->module($module)->display(); ?>
+    </div>
     <? endforeach ?>
-<?= @helper('accordion.endPane') ?>
 </div>
