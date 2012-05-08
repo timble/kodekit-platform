@@ -76,14 +76,14 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-left: 1px solid @grayLighter;
     padding: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #BBB;
-     border-radius: 10px;
-     margin: 4px;
+    background-color: #C3C3C3;
+    margin: 4px;
+    border: 1px solid darken(#C3C3C3, 10%);
 }
 
 /* -- overall styles ------------------------------ */
@@ -261,6 +261,8 @@ div#content-box.default form[name="adminForm"] {
 }
 
 .-koowa-form {
+	margin: 0;
+	
 	#flexbox > .box(horizontal, 1);
 	
 	.form-body {
