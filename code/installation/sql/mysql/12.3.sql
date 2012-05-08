@@ -36,3 +36,7 @@ CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
 
 RENAME TABLE  `#__contact_details` TO `#__contacts_contacts`;
 UPDATE `#__categories` SET `section` = 'com_contacts_contacts' WHERE `section` = 'com_contact_details'
+
+# Remove administrator latest news module
+http://nooku.assembla.com/spaces/nooku-server/tickets/217-remove-administrator-latest-news-module
+DELETE FROM `#__modules` WHERE `id` = 4
