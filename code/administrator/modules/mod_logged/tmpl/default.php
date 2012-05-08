@@ -11,7 +11,7 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<table class="adminlist">
+<table class="table">
 <thead>
 	<tr>
 		<th>
