@@ -1,23 +1,22 @@
-/*!
- * Inspired by Bootstrap, from Twitter (http://twitter.github.com/bootstrap)
- */
-
 // CSS Reset
 @import "reset.less";
 
-// Core variables and mixins
-@import "variables.less"; // Modify this for custom colors, font-sizes, etc
-
-// Borrowed file from Bootstrap (http://twitter.github.com/bootstrap)
+// Adding Twitter Bootstrap power (http://twitter.github.com/bootstrap)
+@import "bootstrap/variables.less";
 @import "bootstrap/mixins.less";
 @import "bootstrap/buttons.less";
 @import "bootstrap/sprites.less";
 @import "bootstrap/forms.less";
+@import "bootstrap/tables.less";
+
+// Bootstrap variables.less overrides
+@import "variables-bootstrap.less";
 
 // Grid system and page structure
 @import "grid.less";
 
 // Base CSS
+@import "variables.less";
 @import "general.less";
 // @import "icon.less";
 @import "menu.less";
