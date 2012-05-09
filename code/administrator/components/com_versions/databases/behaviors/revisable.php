@@ -84,8 +84,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     		            $table = $context->caller;
     		            
           			    $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
-    		            
-          			    if (isset($query->columns['count']) && $query->columns['count'] == 'COUNT(*)') {
+
+          			    if ($query->isCountQuery()) {
           			        $context->data = count($revisions);
           			    } 
           			    else 
