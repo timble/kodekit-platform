@@ -82,7 +82,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 		            if ($matches[1] == 1 || isset($query->params[substr($matches[1], 1)]) && $query->params[substr($matches[1], 1)] == 1) 
 		            {
     		            $table = $context->caller;
-    		            
+
           			    $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
 
           			    if ($query->isCountQuery()) {
@@ -96,7 +96,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
                             {
                                 $options = array(
                     				'data'   => $row->data,
-                        			'status' => KDatabase::STATUS_DELETED,
+                        			'status' => 'trashed',
                             		'new'    => false,   
                                 );
                                 
@@ -154,7 +154,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     		{
     		    //Set the status
     		    $this->setStatus('restored');
-    		    
+
     		    //Restore the row
     			$table->getRow()->setData($this->getData())->save();
     			
