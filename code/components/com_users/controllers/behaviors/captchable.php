@@ -10,7 +10,7 @@
  */
 
 /**
- * Captchable behavior
+ * Captchable controller behavior class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @category   Nooku

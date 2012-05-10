@@ -10,7 +10,7 @@
  */
 
 /**
- * Captchable captcha controller behavior class.
+ * Captcha captchable controller behavior class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @category   Nooku
