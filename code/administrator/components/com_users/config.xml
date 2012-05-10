@@ -19,5 +19,8 @@
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>
+  <param name="@spacer" type="spacer" default="" label="" description="" />
+  <param name="recaptcha_public_key" type="text" default="" label="reCAPTCHA public key" description="TIPRECAPTCHAPUBLICKEY" />
+  <param name="recaptcha_private_key" type="text" default="" label="reCAPTCHA private key" description="TIPRECAPTCHAPRIVATEKEY" />
  </params>
 </config>

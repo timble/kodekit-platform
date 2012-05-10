@@ -18,22 +18,10 @@
  * @subpackage Users
  */
 
-class ComUsersControllerBehaviorRegistrable extends ComUsersControllerBehaviorCaptchable
+class ComUsersControllerBehaviorCaptchaCaptchable extends ComUsersControllerBehaviorCaptchable
 {
-    protected function _initialize(KConfig $config) 
-    {
-        $config->append(array(
-            'private_key' => '',
-            'public_key'  => ''
-        ));
-        
-        parent::_initialize($config);
-    }
-
-    protected function _actionPost(KCommandContext $context) 
-    {
-        if ($this->captchaValid($context->data)) 
-        {
+    protected function _actionPost(KCommandContext $context) {
+        if ($this->captchaValid($context->data)) {
             // Get the user data.
             $data = KRequest::get('session.com.users.controller.user.data', 'raw', null);
             if (is_null($data)) {
@@ -53,7 +41,7 @@ class ComUsersControllerBehaviorRegistrable extends ComUsersControllerBehaviorCa
             // Re-direct to the corresponding location (given by the user controller).
             $redirect = $controller->getRedirect();
             $this->setRedirect($redirect['url'], $redirect['message'], $redirect['type']);
-        } 
+        }
         else $this->setRedirect(KRequest::referrer(), JText::_('Wrong captcha code, please try again'), 'error');
     }
 }

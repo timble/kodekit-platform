@@ -48,10 +48,12 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 
     protected function _initialize(KConfig $config) 
     {
+        $parameters = JComponentHelper::getParams('com_users');
+
         $config->append(array(
             'auto_mixin'  => true,
-            'private_key' => null,
-            'public_key'  => null
+            'private_key' => $parameters->get('recaptcha_private_key', null),
+            'public_key'  => $parameters->get('recaptcha_public_key', null)
         ));
         
         parent::_initialize($config);
@@ -71,14 +73,9 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         }
     }
 
-    /**
-     * Public key getter.
-     *
-     * @return string The public key.
-     */
-    public function getPublicKey() 
-    {
-        return $this->_public_key;
+    protected function _beforeControllerGet(KCommandContext $context) {
+        // Auto-set the public key in the view.
+        $this->getView()->captcha_public_key = $this->_public_key;
     }
 
     /**

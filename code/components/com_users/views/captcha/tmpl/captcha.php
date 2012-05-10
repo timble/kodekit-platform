@@ -12,5 +12,5 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 <div id="captcha">
-	<?=@helper('com://site/users.template.helper.captcha.render', $captcha);?>
+	<?=@helper('com://site/users.template.helper.captcha.render', array('public_key' => $captcha_public_key));?>
 </div>
