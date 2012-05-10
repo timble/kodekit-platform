@@ -33,7 +33,7 @@ class ComUsersTemplateHelperSpam extends KTemplateHelperDefault
 		
 		$secret = $this->getTemplate()
 			->getView()->secret;
-		
+
 		if(empty($secret)) {
 			throw new KTemplateHelperException('Secret missing.');
 		}

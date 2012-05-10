@@ -30,10 +30,7 @@ abstract class ComUsersFilterSpamServiceAbstract extends ComUsersFilterSpamAbstr
 	 */
 	protected $_has_api_key;
 
-	public function __construct(KConfig $config = null) {
-		if (!$config) {
-			$config = new KConfig();
-		}
+	public function __construct(KConfig $config) {
 
 		parent::__construct($config);
 

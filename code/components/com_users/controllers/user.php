@@ -37,7 +37,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         		'com://admin/activities.controller.behavior.loggable' => array(
                		'title_column' => 'name',
                		'actions'      => array('after.login', 'after.logout')),
-        		'verifiable' )));
+        		'com://site/users.controller.behavior.user.spammable' )));
     
         parent::_initialize($config);
     }
