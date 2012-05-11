@@ -43,8 +43,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <div style="padding-top: 60px;" class="container">	
 	<div class="row">
-		<div class="span3">
-			<jdoc:include type="modules" name="left" />
+		<div class="sidebar span3">
+			<jdoc:include type="modules" name="left" style="xhtml" />
 		</div>
 		<div class="span9">
 			<jdoc:include type="modules" name="breadcrumb" />

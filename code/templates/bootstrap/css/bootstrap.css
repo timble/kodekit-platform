@@ -4048,3 +4048,9 @@ a.thumbnail:hover {
 .readmore a:first-child {
   *margin-left: 0;
 }
+.sidebar .mod_mainmenu.well {
+  padding: 0;
+}
+.sidebar .mod_mainmenu.well h3 {
+  padding: 4px 12px;
+}
