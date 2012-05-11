@@ -5,7 +5,7 @@
 	ul#menu, #menu li, ul#statusmenu, #statusmenu li { margin: 0; padding: 0; list-style: none; }
 	
 	li    { float:left; position:relative; display: inline; }
-	li a  { display:block; white-space: nowrap; }
+	li a  { display:block; white-space: nowrap; font-weight: bold; }
 	li li { clear: both; }
 	li ul { visibility: hidden; position:absolute; }
 	
@@ -128,11 +128,11 @@
 	
 	li a,
 	span.nolink {
+		font-weight: bold;
 		cursor: pointer;
 		padding: 0 25px;
 		line-height: @baseLineHeight + 16px;
 		vertical-align: middle;
-		letter-spacing: 1px;
 		color: @tabbarLinkColor;
 		display: block;
 		//background: darken(@tabbarBackground, 20%);
