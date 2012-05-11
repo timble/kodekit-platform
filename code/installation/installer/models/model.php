@@ -443,10 +443,12 @@ class JInstallationModel extends JModel
 						"SET params='$langparams'" .
 						$where;
 
+				/* TODO: Needs a proper fix, disabled for now since it overrides the existing params from install.sql
 				$db->setQuery($query);
 				if (!$db->query()) {
 					return false;
 				}
+				*/
 			}
 		}
 
