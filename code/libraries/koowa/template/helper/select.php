@@ -156,9 +156,10 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			}
 			else $extra .= ($key == $config->selected ? 'checked="checked"' : '');
 
+			$html[] = '<label class="radio" for="'.$name.$id.'">';
 			$html[] = '<input type="radio" name="'.$name.'" id="'.$name.$id.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
-			$html[] = '<label for="'.$name.$id.'">'.$text.'</label>';
-			$html[] = '<br />';
+			$html[] = $text;
+			$html[] = '</label>';
 		}
 
 		return implode(PHP_EOL, $html);
@@ -209,8 +210,10 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			}
 			else $extra .= ($key == $config->selected) ? 'checked="checked"' : '';
 
+			$html[] = '<label class="checkbox" for="'.$name.$key.'">';
 			$html[] = '<input type="checkbox" name="'.$name.'[]" id="'.$name.$key.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
-			$html[] = '<label for="'.$name.$key.'">'.$text.'</label>';
+			$html[] = $text;
+			$html[] = '</label>';
 		}
 
 		return implode(PHP_EOL, $html);
@@ -242,14 +245,18 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		$extra = !$config->selected ? 'checked="checked"' : '';
 		$text  = $config->translate ? JText::_( $config->false ) : $config->false;
 
-		$html[] = '<label for="'.$name.'0">'.$text.'</label>';
+		$html[] = '<label class="radio" for="'.$name.'0">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'0" value="0" '.$extra.' '.$attribs.' />';
+		$html[] = $text;
+		$html[] = '</label>';
 
 		$extra = $config->selected ? 'checked="checked"' : '';
 		$text  = $config->translate ? JText::_( $config->true ) : $config->true;
 
-		$html[] = '<label for="'.$name.'1">'.$text.'</label>';
+		$html[] = '<label class="radio" for="'.$name.'1">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'1" value="1" '.$extra.' '.$attribs.' />';
+		$html[] = $text;
+		$html[] = '</label>';
 
 		return implode(PHP_EOL, $html);
 	}
