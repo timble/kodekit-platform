@@ -12,49 +12,26 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <? if ($params->get('show_page_title', 1)) : ?>
-<h1 class="page-header"><?= @escape($params->get('page_title')); ?></h1>
+<h1 class="page-header"><?= str_replace('&apos;', "'", $channel['title']); ?></h1>
 <? endif; ?>
-<table width="100%" class="contentpane<?= @escape($params->get('pageclass_sfx')); ?>">
-<tr>
-	<td class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
-		<a href="<?= $channel['link']; ?>" target="_blank">
-			<?= str_replace('&apos;', "'", $channel['title']); ?></a>
-	</td>
-</tr>
+
 <? if($params->get( 'show_feed_description' ) ) : ?>
-<tr>
-	<td>
+	<div>
 		<?= str_replace('&apos;', "'", $channel['description']); ?>
-		<br />
-		<br />
-	</td>
-</tr>
+		
+		<? if(isset($image['url']) && isset($image['title']) && $params->get( 'show_feed_image' ) ) : ?>
+			<img align="right" src="<?= $image['url']; ?>" alt="<?= $image['title']; ?>" />
+		<? endif; ?>
+	</div>
 <? endif; ?>
-<? if(isset($image['url']) && isset($image['title']) && $params->get( 'show_feed_image' ) ) : ?>
-<tr>
-	<td>
-		<img src="<?= $image['url']; ?>" alt="<?= $image['title']; ?>" />
-	</td>
-</tr>
-<? endif; ?>
-<tr>
-	<td>
-		<ul>
-		<? foreach ( $items as $item ) :  ?>
-			<li>
-			<? if (!is_null( $item->get_link())) : ?>
-				<a href="<?= $item->get_link(); ?>" target="_blank">
-					<?= $item->get_title(); ?></a>
-			<?php endif; ?>
-			<?php if ( $params->get( 'show_item_description' ) && $item->get_description()) : ?>
-				<br />
-				<?= @helper('text.limit', array('text' => $item->get_description(), 'words' => $params->get( 'feed_word_count' ))); ?>
-				<br />
-				<br />
-			<? endif; ?>
-			</li>
-		<? endforeach; ?>
-		</ul>
-	</td>
-</tr>
-</table>
+<a href="<?= $channel['link']; ?>" target="_blank"><?= @text('Go to channel') ?>: <?= str_replace('&apos;', "'", $channel['title']); ?></a>
+
+<? foreach ( $items as $item ) :  ?>
+	<? if (!is_null( $item->get_link())) : ?>
+		<h2><a href="<?= $item->get_link(); ?>"><?= $item->get_title(); ?></a></h2>
+	<?php endif; ?>
+	<?php if ( $params->get( 'show_item_description' ) && $item->get_description()) : ?>
+		<?= @helper('text.limit', array('text' => $item->get_description(), 'words' => $params->get( 'feed_word_count' ))); ?>
+	<? endif; ?>
+<? endforeach; ?>
+

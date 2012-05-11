@@ -12,12 +12,10 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <form action="" method="get" name="adminForm">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" class="table table-striped">
 <? if ( $params->get( 'show_headings' ) ) : ?>
+<thead>
 <tr>
-	<td class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>" align="right" width="5">
-		<?= @text('Num'); ?>
-	</td>
 	<? if ( $params->get( 'show_name' ) ) : ?>
 	<td height="20" width="90%" class="sectiontableheader<?= @escape($params->get('pageclass_sfx')); ?>">
 		<?= @text( 'Feed Name' ); ?>
@@ -28,15 +26,12 @@ defined('KOOWA') or die('Restricted access'); ?>
 		<?= @text( 'Num Articles' ); ?>
 	</td>
 	<? endif; ?>
- </tr>
+</tr>
+</thead>
 <? endif; ?>
 
-<? $i = 1; ?>
 <? foreach ($newsfeeds as $newsfeed) : ?>
-<tr class="sectiontableentry<?= ($i&1) ? '1' : '2'; ?>">
-	<td align="right">
-		<?= $i++; ?>
-	</td>
+<tr>
 	<td height="20" width="90%">
 		<a href="<?= @route('view=newsfeed&category='.$category->id.':'.$category->slug.'&id='. $newsfeed->id.':'.$newsfeed->slug); ?>" class="category<?= @escape($params->get('pageclass_sfx')); ?>">
 			<?= @escape($newsfeed->title); ?></a>
@@ -48,10 +43,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<? endif; ?>
 </tr>
 <? endforeach; ?>
-<tr>
-	<td align="center" colspan="4" class="sectiontablefooter<?= @escape($params->get('pageclass_sfx')); ?>">
-	    <?= @helper('paginator.pagination', array('total' => $total)) ?>
-	</td>
-</tr>
 </table>
+<?= @helper('paginator.pagination', array('total' => $total, 'show_count' => false, 'show_limit' => false)) ?>
 </form>
