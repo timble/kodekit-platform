@@ -564,9 +564,8 @@ div.message{text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:1
 .com_dashboard #content-box>div:first-child{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;border-right:1px solid #dddddd;}.com_dashboard #content-box>div:first-child>div{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;}.com_dashboard #content-box>div:first-child>div>div{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;}.com_dashboard #content-box>div:first-child>div>div>div:last-child{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 .com_articles .categories,.com_users .groups{padding-bottom:14px;}
 .com_articles .categories h3{margin-bottom:10px;}
-.com_articles .categories span,.com_users .groups span{padding:12px 10px 4px 14px;font-weight:bold;clear:left;float:left;}
-.com_articles .categories input,.com_articles .categories label{margin-top:8px;float:left;}
-.com_articles .categories input{margin:9px 5px 0 24px;display:list-item;float:left;clear:left;}
+.com_articles .categories span,.com_users .groups span{padding:12px 10px 0px 0;font-weight:bold;display:block;}
+.com_articles .categories .control-group{margin-left:12px;}
 .com_articles textarea[name="description"]{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;resize:vertical;width:100%;}
 .com_settings dl.tabs{width:200px;border-right:1px solid #E1E1E1;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background-color:#F9F9F9;overflow-y:scroll;float:none !important;margin:0 !important;display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;-webkit-box-flex:0;-moz-box-flex:0;box-flex:0;}
 .com_settings dl.tabs h3{color:#666;font-size:11px;padding:6px 0;text-indent:12px;margin:0;text-transform:uppercase;}
@@ -605,7 +604,6 @@ textarea{height:auto;}
 .-koowa-grid input,.-koowa-grid textarea,.-koowa-grid select{width:auto;margin-bottom:0;}
 fieldset{max-width:640px;}
 label.control-label:after{content:":";}
-.controls-radio label{display:inline;}
 .controls-calendar input{width:82%;margin-right:4px;}
 .input-append,.input-prepend{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;}.input-append input,.input-prepend input,.input-append .add-on,.input-prepend .add-on{float:none;}
 .input-append input,.input-prepend input{display:-webkit-box;display:-moz-box;display:box;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;box-orient:horizontal;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;}

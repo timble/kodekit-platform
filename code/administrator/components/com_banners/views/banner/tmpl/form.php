@@ -38,7 +38,7 @@ window.addEvent('domready', function(){
 			    <legend><?= @text('Banner') ?></legend>
 			    <div class="control-group">
 			        <label class="control-label" for="imageurl"><?= @text('Banner Image Selector') ?></label>
-			        <div class="controls controls-radio">
+			        <div class="controls">
 			            <?= @helper('listbox.banner_names', array(
 			            	'name'      => 'imageurl',
 			            	'attribs'   => array(
@@ -52,7 +52,7 @@ window.addEvent('domready', function(){
 			    </div>
 			    <div class="control-group">
 			        <label class="control-label"><?= @text( 'Banner Image' ) ?></label>
-			        <div class="controls controls-radio">
+			        <div class="controls">
 			            <?= @helper('listbox.banner_preview', array(
 			            	'name'      => 'imageurl', 
 			                'selected'  => $banner->imageurl
@@ -82,13 +82,13 @@ window.addEvent('domready', function(){
 			<legend><?= @text('Publish') ?></legend>
         	<div class="control-group">
         	    <label class="control-label" for="state"><?= @text('Published') ?></label>
-        	    <div class="controls controls-radio">
+        	    <div class="controls">
         	        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $banner->enabled)) ?>
         	    </div>
         	</div>
         	<div class="control-group">
         	    <label class="control-label" for="sticky"><?= @text('Sticky') ?></label>
-        	    <div class="controls controls-radio">
+        	    <div class="controls">
         	        <?= @helper('select.booleanlist', array('name' => 'sticky', 'selected' => $banner->sticky)) ?>
         	    </div>
         	</div>
@@ -100,7 +100,7 @@ window.addEvent('domready', function(){
         	</div>
         	<div class="control-group">
         	    <label class="control-label" for="reset_hits"><?= @text('Hits') ?></label>
-        	    <div class="controls controls-radio">
+        	    <div class="controls">
         	        <span><?= $banner->hits ?></span>
         	        <input name="reset_hits" type="button" class="button" value="<?= @text('Reset Hits') ?>" />
         	        <input type="hidden" name="hits" value="<?= $banner->hits ?>" />
@@ -108,7 +108,7 @@ window.addEvent('domready', function(){
         	</div>
         	<div class="control-group">
         	    <label class="control-label" for="slug"><?= @text('Slug') ?></label>
-        	    <div class="controls controls-radio">
+        	    <div class="controls">
         	        <input type="text" name="slug" maxlength="255" value="<?= @escape($banner->slug) ?>" title="<?= @text('ALIASTIP') ?>" placeholder="<?= @text('Slug') ?>" />
         	    </div>
         	</div>

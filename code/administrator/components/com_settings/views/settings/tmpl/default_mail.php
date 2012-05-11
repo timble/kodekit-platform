@@ -43,7 +43,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'SMTP Auth' ); ?></label>
 	    <div class="controls">
-	         <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]', 'selected' => $settings->smtpauth));?></div>
+	         <?= @helper('select.booleanlist' , array('name' => 'settings[system][smtpauth]', 'selected' => $settings->smtpauth));?>
 	        <p class="help-block"><?= @text( 'TIPSMTPAUTH' ); ?></p>
 	    </div>
 	</div>

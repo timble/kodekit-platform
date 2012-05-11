@@ -57,7 +57,7 @@ if(Form && Form.Validator) {
             </div>
             <div class="control-group">
                 <label class="control-label" for="rtl"><?= @text( 'RTL feed' ) ?></label>
-                <div class="controls controls-radio">
+                <div class="controls">
                     <?= @helper('select.booleanlist', array('name' => 'rtl', 'selected' => $newsfeed->rtl)) ?>
                 </div>
             </div>
@@ -69,7 +69,7 @@ if(Form && Form.Validator) {
             <legend><?= @text( 'Publish' ) ?></legend>
             <div class="control-group">
                 <label class="control-label" for="enabled"><?= @text( 'Published' ) ?></label>
-                <div class="controls controls-radio">
+                <div class="controls">
                     <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $newsfeed->enabled)) ?>
                 </div>
             </div>

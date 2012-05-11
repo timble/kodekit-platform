@@ -118,7 +118,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			<legend><?= @text('Publish'); ?></legend>
 			<div class="control-group">
 			    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
-			    <div class="controls controls-radio">
+			    <div class="controls">
 			        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
 			    </div>
 			</div>

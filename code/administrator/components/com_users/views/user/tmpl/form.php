@@ -85,13 +85,13 @@ if(Form && Form.Validator) {
 				<legend><?= @text('System Information') ?></legend>
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Enable User') ?></label>
-				    <div class="controls controls-radio">
+				    <div class="controls">
 				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
 				    </div>
 				</div>
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Receive System E-mails') ?></label>
-				    <div class="controls controls-radio">
+				    <div class="controls">
 				        <?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
 				    </div>
 				</div>

@@ -43,13 +43,13 @@ defined('KOOWA') or die('Restricted access') ?>
         	<legend><?= @text('Publish') ?></legend>
             <div class="control-group">
                 <label class="control-label" for="state"><?= @text('Published') ?></label>
-                <div class="controls controls-radio">
+                <div class="controls">
                     <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="featured"><?= @text('Featured') ?></label>
-                <div class="controls controls-radio">
+                <div class="controls">
                     <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
                 </div>
             </div>

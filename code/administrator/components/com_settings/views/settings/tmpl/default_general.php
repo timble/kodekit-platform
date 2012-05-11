@@ -33,9 +33,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][gzip]"><?= @text( 'Page Compression' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio">
-	            <?= @helper('select.booleanlist' , array('name' => 'settings[system][gzip]', 'selected' => $settings->gzip));?>
-	        </div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][gzip]', 'selected' => $settings->gzip));?>
 	        <p class="help-block"><?= @text( 'Compress buffered output if supported' ); ?></p>
 	    </div>
 	</div>
@@ -53,18 +51,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
 	    <div class="controls">
-	         <div class="controls-radio">
-	            <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
-	        </div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug]', 'selected' => $settings->debug));?>
 	        <p class="help-block"><?= @text('TIPDEBUGGINGINFO'); ?></p>
 	    </div>
 	</div>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][debug_lang]"><?= @text( 'Language Indicators' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio">
-	            <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
-	        </div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][debug_lang]', 'selected' => $settings->debug_lang));?>
 	        <p class="help-block"><?= @text('TIPDEBUGLANGUAGE'); ?></p>
 	    </div>
 	</div>
@@ -86,7 +80,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][caching]"><?= @text( 'Cache' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][caching]', 'selected' => $settings->caching));?>
 	        <p class="help-block"><?= @text( 'TIPCACHE' ); ?></p>
 	    </div>
 	</div>
@@ -111,14 +105,14 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][memcache_settings][persistent]"><?= @text( 'Memcache Persistent' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][persistent]', 'selected' => $settings->memcache_settings['persistent']));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][persistent]', 'selected' => $settings->memcache_settings['persistent']));?>
 	        <p class="help-block"></p>
 	    </div>
 	</div>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][memcache_settings][compression]"><?= @text( 'Memcache Compression' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][compression]', 'selected' => $settings->memcache_settings['compression']));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][compression]', 'selected' => $settings->memcache_settings['compression']));?>
 	        <p class="help-block"></p>
 	    </div>
 	</div>
@@ -174,21 +168,21 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Humanly readable URLs' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][sef]', 'selected' => $settings->sef));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef]', 'selected' => $settings->sef));?>
 	        <p class="help-block"><?= @text('Humanly readable URLs'); ?></p>
 	    </div>
 	</div>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Use mod_rewrite' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_rewrite]', 'selected' => $settings->sef_rewrite));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_rewrite]', 'selected' => $settings->sef_rewrite));?>
 	        <p class="help-block"><?= @text('TIPUSEMODREWRITE'); ?></p>
 	    </div>
 	</div>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Add suffix to URLs' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_suffix]', 'selected' => $settings->sef_suffix));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_suffix]', 'selected' => $settings->sef_suffix));?>
 	        <p class="help-block"><?= @text('TIPURLSUFFIX'); ?></p>
 	    </div>
 	</div>

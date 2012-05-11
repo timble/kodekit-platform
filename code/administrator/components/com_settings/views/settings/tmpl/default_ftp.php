@@ -15,7 +15,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][ftp_enable]"><?= @text( 'Enable FTP' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?php echo @helper('select.booleanlist' , array('name' => 'settings[system][ftp_enable]'));?></div>
+	        <?php echo @helper('select.booleanlist' , array('name' => 'settings[system][ftp_enable]'));?>
 	        <p class="help-block"><?= @text( 'TIPENABLEFTP' ); ?></p>
 	    </div>
 	</div>

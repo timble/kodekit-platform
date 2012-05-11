@@ -113,7 +113,7 @@ window.addEvent('domready', function() {
 			<? if($state->application == 'site') : ?>
 			<div class="control-group">
 			    <label class="control-label" for=""><?= @text('Show title') ?></label>
-			    <div class="controls controls-radio">
+			    <div class="controls">
 			        <?= @helper('select.booleanlist', array(
 			        	'name'		=> 'showtitle',
 			        	'selected'	=> $module->showtitle
@@ -123,7 +123,7 @@ window.addEvent('domready', function() {
 			<? endif ?>
 			<div class="control-group">
 			    <label class="control-label" for=""><?= @text('Published') ?></label>
-			    <div class="controls controls-radio">
+			    <div class="controls">
 			        <?= @helper('select.booleanlist', array(
 			        	'name'		=> 'enabled',
 			        	'selected'	=> $module->enabled	

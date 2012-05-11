@@ -22,7 +22,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][offline]"><?= @text( 'Require login' ); ?></label>
 	    <div class="controls">
-	        <div class="controls-radio"><?= @helper('select.booleanlist' , array('name' => 'settings[system][offline]', 'selected' => $settings->offline));?></div>
+	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][offline]', 'selected' => $settings->offline));?>
 	        <p class="help-block"><?= @text( 'TIPSETYOURSITEREQUIRESLOGIN' ); ?></p>
 	    </div>
 	</div>
