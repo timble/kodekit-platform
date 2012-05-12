@@ -47,7 +47,7 @@ class JInstallation extends JApplication
 		
 		parent::__construct($config);
 
-		JError::setErrorHandling(E_ALL, 'Ignore');
+		JError::setErrorHandling(E_ALL & ~E_STRICT, 'Ignore');
 		$this->_loadConfiguration();
 
 		//Set the root in the URI based on the application name

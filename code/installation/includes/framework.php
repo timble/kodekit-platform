@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-error_reporting( E_ALL );
+error_reporting(E_ALL & ~E_STRICT);
 ini_set('magic_quotes_runtime', 0);
 
 //Installation check, and check on removal of the install directory.
