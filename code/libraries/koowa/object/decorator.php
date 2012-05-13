@@ -30,10 +30,11 @@ class KObjectDecorator extends KObject
 	 */
 	protected $_object;
 
-	/**
-     * Constructor.
+    /**
+     * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectDecorator
      */
     public function __construct( KConfig $config = null)
     {
@@ -55,8 +56,8 @@ class KObjectDecorator extends KObject
 	/**
 	 * Set the decorated object
 	 *
-	 * @param 	object
-	 * @return 	KPatternDecorator
+	 * @param 	object $object
+	 * @return 	\KObjectDecorator
 	 */
 	public function setObject($object)
 	{
@@ -97,8 +98,8 @@ class KObjectDecorator extends KObject
 	/**
      * Checks if the decorated object or one of it's mixins inherits from a class.
      *
-     * @param 	string|object 	The class to check
-     * @return 	boolean 		Returns TRUE if the object inherits from the class
+     * @param 	string|object 	$class  The class to check
+     * @return 	boolean  Returns TRUE if the object inherits from the class
      */
 	public function inherits($class)
     {
@@ -117,8 +118,8 @@ class KObjectDecorator extends KObject
 	/**
 	 * Overloaded set function
 	 *
-	 * @param  string	The variable name
-	 * @param  mixed 	The variable value.
+	 * @param  string $key   The variable name
+	 * @param  mixed  $value The variable value.
 	 * @return mixed
 	 */
 	public function __set($key, $value)
@@ -129,7 +130,7 @@ class KObjectDecorator extends KObject
 	/**
 	 * Overloaded get function
 	 *
-	 * @param  string 	The variable name.
+	 * @param  string $key  The variable name.
 	 * @return mixed
 	 */
 	public function __get($key)
@@ -142,7 +143,7 @@ class KObjectDecorator extends KObject
 	 *
 	 * Allows testing with empty() and isset() functions
 	 *
-	 * @param  string 	The variable name
+	 * @param  string $key The variable name
 	 * @return boolean
 	 */
 	public function __isset($key)
@@ -155,7 +156,7 @@ class KObjectDecorator extends KObject
 	 *
 	 * Allows unset() on object properties to work
 	 *
-	 * @param string 	The variable name.
+	 * @param string $key The variable name.
 	 * @return void
 	 */
 	public function __unset($key)
@@ -168,8 +169,8 @@ class KObjectDecorator extends KObject
    	/**
 	 * Overloaded call function
 	 *
-	 * @param  string 	The function name
-	 * @param  array  	The function arguments
+	 * @param  string 	$method    The function name
+	 * @param  array  	$arguments The function arguments
 	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
 	 */
