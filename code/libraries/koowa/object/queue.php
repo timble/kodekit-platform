@@ -55,13 +55,18 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Inserts an object to the queue.
      *
-     * @param   object      A KObject instance
-     * @param   integer     The associated priority
+     * @param   $object     KObjectHandlable
+     * @param   $priority   integer
      * @return  boolean		TRUE on success FALSE on failure
+     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface.
      */
-    public function enqueue( KObjectHandlable $object, $priority)
+    public function enqueue( $object, $priority)
     {
         $result = false;
+
+        if($object instanceof KObjectHandlable) {
+            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+        }
 
         if($handle = $object->getHandle())
         {
@@ -79,12 +84,17 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Removes an object from the queue
      *
-     * @param   object	A KObject instance
+     * @param   $object	    KObjectHandlable
      * @return  boolean	TRUE on success FALSE on failure
+     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface.
      */
-    public function dequeue( KObjectHandlable $object)
+    public function dequeue( $object)
     {
         $result = false;
+
+        if($object instanceof KObjectHandlable) {
+            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+        }
 
         if($handle = $object->getHandle())
         {
@@ -103,12 +113,17 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Set the priority of an object in the queue
      *
-     * @param object    A KCommand object
-     * @param integer   The priority
-     * @return KCommandChain
+     * @param   $object	    KObjectHandlable
+     * @param   $priority   integer
+     * @return  KCommandChain
+     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface.
      */
-    public function setPriority(KObjectHandlable $object, $priority)
+    public function setPriority($object, $priority)
     {
+        if($object instanceof KObjectHandlable) {
+            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+        }
+
         if($handle = $object->getHandle())
         {
             if($this->_priority_list->offsetExists($handle)) {
@@ -123,12 +138,17 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Get the priority of an object in the queue
      *
-     * @param   object  A KObject instance
+     * @param   $object     KObjectHandlable
      * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
+     * @throws  InvalidArgumentException if the object to get priority from doesn't implement the KObjectHandlable interface.
      */
-    public function getPriority(KObjectHandlable $object)
+    public function getPriority($object)
     {
         $result = false;
+
+        if($object instanceof KObjectHandlable) {
+            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+        }
 
         if($handle = $object->getHandle())
         {
@@ -143,7 +163,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Check if the queue has an item with the given priority
      *
-     * @param  int 	The priority to search for
+     * @param  $priority    integer     The priority to search for
      * @return boolean
      */
     public function hasPriority($priority)
@@ -153,12 +173,12 @@ class KObjectQueue extends KObject implements Iterator, Countable
     }
 
     /**
-     * Check if the queue Does contain a given object
+     * Check if the queue does contain a given object
      *
-     * @param  mixed $datum
+     * @param  $object  KObjectHandlable
      * @return bool
      */
-    public function contains(KObjectHandlable $object)
+    public function contains($object)
     {
         $result = false;
 
@@ -274,7 +294,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
 	/**
      * Preform a deep clone of the object
      *
-     * @retun void
+     * @return void
      */
     public function __clone()
     {
