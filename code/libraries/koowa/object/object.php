@@ -47,9 +47,10 @@ class KObject implements KObjectHandlable, KObjectServiceable
     private $__service_container;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectDecorator
      */
     public function __construct( KConfig $config = null)
     {
@@ -74,7 +75,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   KConfig $object An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
@@ -85,9 +86,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Set the object properties
      *
-     * @param   string|array|object The name of the property, an associative array or an object
-     * @param   mixed               The value of the property
-     * @throws  KObjectException
+     * @param   string|array|object $property The name of the property, an associative array or an object
+     * @param   mixed               $value    The value of the property
+     * @throws  KObjectException If trying to access protected or private properties
      * @return  KObject
      */
     public function set( $property, $value = null )
@@ -123,8 +124,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
      * If the property does not exist and a  default value is specified this is
      * returned, otherwise the function return NULL.
      *
-     * @param   string  The name of the property
-     * @param   mixed   The default value
+     * @param   string  $property The name of the property
+     * @param   mixed   $default  The default value
      * @return  mixed   The value of the property, an associative array or NULL
      */
     public function get($property = null, $default = null)
@@ -158,7 +159,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
      * When using mixin(), the calling object inherits the methods of the mixed
      * in objects, in a LIFO order.
      *
-     * @param   object  An object that implements KMinxInterface
+     * @param   KMixinInterface  $object An object that implements KMinxInterface
      * @return  KObject
      */
     public function mixin(KMixinInterface $object)
@@ -176,10 +177,10 @@ class KObject implements KObjectHandlable, KObjectServiceable
     }
 
     /**
-     * Checks if the object or one of it's mixins inherits from a class.
+     * Checks if the object or one of it's mixin's inherits from a class.
      *
-     * @param   string|object   The class to check
-     * @return  boolean         Returns TRUE if the object inherits from the class
+     * @param   string|object   $class The class to check
+     * @return  bool Returns TRUE if the object inherits from the class
      */
     public function inherits($class)
     {
@@ -238,10 +239,10 @@ class KObject implements KObjectHandlable, KObjectServiceable
 
 	/**
 	 * Get an instance of a class based on a class identifier only creating it
-	 * if it doesn't exist yet.
+	 * if it does not exist yet.
 	 *
-	 * @param	string|object	The class identifier or identifier object
-	 * @param	array  			An optional associative array of configuration settings.
+	 * @param	string|object	$identifier The class identifier or identifier object
+	 * @param	array  			$config     An optional associative array of configuration settings.
 	 * @throws	KObjectException if the service container has not been defined.
 	 * @return	object  		Return object on success, throws exception on failure
 	 * @see 	KObjectServiceable
@@ -258,7 +259,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
 	/**
 	 * Gets the service identifier.
 	 *
-	 * @throws	KObjectException if the service container has not been defined.
+	 * @param	string|object	$identifier The class identifier or identifier object
+     * @throws	KObjectException if the service container has not been defined.
 	 * @return	KServiceIdentifier
 	 * @see 	KObjectServiceable
 	 */
@@ -280,7 +282,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
 	/**
      * Preform a deep clone of the object.
      *
-     * @retun void
+     * @return void
      */
     public function __clone()
     {
@@ -292,8 +294,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Search the mixin method map and call the method or trigger an error
      *
-     * @param  string   The function name
-     * @param  array    The function arguments
+     * @param  string $method    The function name
+     * @param  array  $arguments The function arguments
      * @throws BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
