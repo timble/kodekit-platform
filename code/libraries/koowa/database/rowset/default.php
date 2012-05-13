@@ -15,7 +15,4 @@
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-class KDatabaseRowsetDefault extends KDatabaseRowsetTable
-{
-
-}
+class KDatabaseRowsetDefault extends KDatabaseRowsetTable {}

@@ -25,11 +25,12 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 */
 	protected $_table = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
+    /**
+     * Constructor
+     *
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KDatabaseRowsetTable
+     */
 	public function __construct(KConfig $config = null)
 	{
 		parent::__construct($config);
@@ -45,14 +46,14 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
         }
 	}
 
-	/**
-	 * Initializes the options for the object
-	 *
-	 * Called from {@link __construct()} as a first step of object instantiation.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 * @return void
-	 */
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   KConfig $object An optional KConfig object with configuration options
+     * @return  void
+     */
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
@@ -68,7 +69,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Function catches KDatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return KDatabaseTableAbstract
+     * @return \KDatabaseTableAbstract
      */
      public function getTable()
     {
@@ -95,10 +96,10 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Method to set a table object attached to the rowset
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
-	 * 					or valid identifier string
-	 * @throws	KDatabaseRowsetException	If the identifier is not a table identifier
-	 * @return	KDatabaseRowsetAbstract
+	 * @param	mixed	$table  An object that implements KObjectServiceable, KServiceIdentifier object or valid
+     *                          identifier string
+	 * @throws	KDatabaseRowsetException If the identifier is not a table identifier
+	 * @return	\KDatabaseRowsetAbstract
 	 */
 	public function setTable($table)
 	{
@@ -127,7 +128,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Test the connected status of the row.
 	 *
-	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+	 * @return	bool	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
 	 */
     public function isConnected()
 	{
@@ -137,9 +138,9 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
      * Add rows to the rowset
      *
-     * @param  array    An associative array of row data to be inserted. 
-     * @param  boolean  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return  KDatabaseRowsetAbstract
+     * @param  array  $data  An associative array of row data to be inserted.
+     * @param  boole  $new   If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @return  \KDatabaseRowsetAbstract
      * @see __construct
      */
     public function addData(array $data, $new = true)
@@ -154,8 +155,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	/**
 	 * Get an empty row
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @return	object	A KDatabaseRow object.
+	 * @param	array $options An optional associative array of configuration settings.
+	 * @return	\KDatabaseRowAbstract
 	 */
 	public function getRow(array $options = array())
 	{
@@ -175,12 +176,11 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 * a just in time mixin strategy. Available table behaviors are only mixed
 	 * when needed.
 	 *
-	 * @param  string 	The function name
-	 * @param  array  	The function arguments
-	 * @throws BadMethodCallException 	If method could not be found
+	 * @param  string 	$method    The function name
+	 * @param  array  	$arguments The function arguments
 	 * @return mixed The result of the function
 	 */
-	public function __call($method, array $arguments)
+	public function __call($method, $arguments)
 	{
 	    // If the method hasn't been mixed yet, load all the behaviors.
 		if($this->isConnected() && !isset($this->_mixed_methods[$method]))
