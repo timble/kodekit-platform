@@ -59,15 +59,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
      * @param   KObjectHandlable  $object
      * @param   integer           $priority
      * @return  boolean		TRUE on success FALSE on failure
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
-    public function enqueue( $object, $priority)
+    public function enqueue( KObjectHandlable $object, $priority)
     {
         $result = false;
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($handle = $object->getHandle())
         {
@@ -87,15 +83,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
      *
      * @param   KObjectHandlable $object
      * @return  boolean	TRUE on success FALSE on failure
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object implement KObjectHandlable
      */
-    public function dequeue( $object)
+    public function dequeue( KObjectHandlable $object)
     {
         $result = false;
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($handle = $object->getHandle())
         {
@@ -117,14 +109,10 @@ class KObjectQueue extends KObject implements Iterator, Countable
      * @param   KObjectHandlable  $object
      * @param   integer           $priority
      * @return  KCommandChain
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
-    public function setPriority($object, $priority)
+    public function setPriority(KObjectHandlable $object, $priority)
     {
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
-
         if($handle = $object->getHandle())
         {
             if($this->_priority_list->offsetExists($handle)) {
@@ -141,15 +129,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
      *
      * @param   KObjectHandlable $object
      * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
-    public function getPriority($object)
+    public function getPriority(KObjectHandlable $object)
     {
         $result = false;
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($handle = $object->getHandle())
         {
@@ -178,15 +162,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
      *
      * @param  KObjectHandlable $object
      * @return bool
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
-    public function contains($object)
+    public function contains(KObjectHandlable $object)
     {
         $result = false;
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($handle = $object->getHandle()) {
             $result = $this->_object_list->offsetExists($handle);

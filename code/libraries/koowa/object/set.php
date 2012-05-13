@@ -47,15 +47,10 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      *
      * @param   KObjectHandlable $object
      * @return  boolean	TRUE on success FALSE on failure
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
      */
-    public function insert( $object)
+    public function insert(KObjectHandlable $object)
     {
         $result = false;
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($handle = $object->getHandle())
         {
@@ -74,15 +69,10 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      *
      * @param   KObjectHandlable $object
      * @return  KObjectQueue
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
      */
-    public function extract( $object)
+    public function extract(KObjectHandlable $object)
     {
         $handle = $object->getHandle();
-
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
 
         if($this->_object_set->offsetExists($handle)) {
            $this->_object_set->offsetUnset($handle);
@@ -96,14 +86,9 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      *
      * @param   KObjectHandlable $object
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
      */
-    public function contains( $object)
+    public function contains( KObjectHandlable $object)
     {
-        if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
-        }
-
         return $this->_object_set->offsetExists($object->getHandle());
     }
 
@@ -129,12 +114,12 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      *
      * @param   KObjectHandlable $object
      * @return  bool Returns TRUE if the object exists in the storage, and FALSE otherwise
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function offsetExists($object)
     {
         if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+            throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
         return $this->contains($object);
@@ -147,12 +132,12 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      *
      * @param   KObjectHandlable $object
      * @return  KObjectHandlable
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function offsetGet($object)
     {
         if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+            throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
         return $this->_object_set->offsetGet($object->getHandle());
@@ -166,12 +151,12 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
      * @param   KObjectHandlable  $object
      * @param   mixed             $data The data to associate with the object [UNUSED]
      * @return  \KObjectSet
-     * @throws  InvalidArgumentException if the object doesn't implement the KObjectHandlable interface
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function offsetSet($object, $data)
     {
         if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+            throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
         $this->insert($object);
@@ -190,7 +175,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
     public function offsetUnset($object)
     {
         if(!$object instanceof KObjectHandlable) {
-            throw new InvalidArgumentException('Object needs to implement the KObjectHandlable interface');
+            throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
         $this->extract($object);
