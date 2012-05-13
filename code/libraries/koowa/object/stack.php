@@ -27,7 +27,8 @@ class KObjectStack extends KObject implements Countable
     /**
      * Constructor
      *
-     * Prevent creating instances of this class by making the contructor private
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectStack
      */
     public function __construct(KConfig $config)
     {
@@ -39,7 +40,7 @@ class KObjectStack extends KObject implements Countable
     /**
      * Peeks at the element from the end of the stack
      *
-     * @param mixed The value of the top element
+     * @return mixed The value of the top element
      */
     public function top()
     {
@@ -49,11 +50,16 @@ class KObjectStack extends KObject implements Countable
     /**
      * Pushes an element at the end of the stack
      *
-     * @param mixed  The object
-     * @return KObjectStack
+     * @param   KObject $object
+     * @return \KObjectStack
+     * @throws  InvalidArgumentException if the object doesn't extend from KObject
      */
-    public function push(KObject $object)
+    public function push($object)
     {
+        if(!$object instanceof KObject) {
+            throw new InvalidArgumentException('Object needs to extend from KObject');
+        }
+
         $this->_object_stack[] = $object;
         return $this;
     }
