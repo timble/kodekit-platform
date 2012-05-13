@@ -67,14 +67,14 @@
  *     $url->path[] = 'another';
  *
  *     // and fetch it to a string.
- *     $new_url = $url->get();
+ *     $new_url = $url->getURL();
  *
  *     // the $new_url string is as follows; notice how the format
  *     // is always applied to the last path-element.
  *     // /something/else/entirely/another.php?baz=zab&zim=gir#anchor
  *
- *     // Get the full URL to get the shceme and host
- *     $full_url = $url->get(true);
+ *     // Get the full URL to get the scheme and host
+ *     $full_url = $url->getURL(true);
  *
  *     // the $full_url string is:
  *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
@@ -193,7 +193,7 @@ class KHttpUrl extends KObject
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   $config KConfig An optional KConfig object with configuration options
      */
     public function __construct(KConfig $config = null)
     {
@@ -202,7 +202,7 @@ class KHttpUrl extends KObject
 
         parent::__construct($config);
 
-        $this->set($config->url);
+        $this->setUrl($config->url);
     }
 
     /**
@@ -210,7 +210,7 @@ class KHttpUrl extends KObject
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   $config KConfig An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
@@ -225,8 +225,8 @@ class KHttpUrl extends KObject
     /**
      * Implements the virtual $query property.
      *
-     * @param   string  The virtual property to set.
-     * @param   string  Set the virtual property to this value.
+     * @param   $key string The virtual property to set.
+     * @param   $val string Set the virtual property to this value.
      */
     public function __set($key, $val)
     {
@@ -243,8 +243,8 @@ class KHttpUrl extends KObject
      * Implements access to $_query by reference so that it appears to be
      * a public $query property.
      *
-     * @param   string  The virtual property to return.
-     * @return  array   The value of the virtual property.
+     * @param   $key  string  The virtual property to return.
+     * @return  array The value of the virtual property.
      */
     public function &__get($key)
     {
@@ -256,10 +256,10 @@ class KHttpUrl extends KObject
     /**
      * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
      *
-     * @param integer A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @param   $parts  integer A bitmask of binary or'ed HTTP_URL constants; FULL is the default
      * @return  string
      */
-    public function get($parts = self::FULL)
+    public function getUrl($parts = self::FULL)
     {
         $url = '';
 
@@ -314,10 +314,10 @@ class KHttpUrl extends KObject
     /**
      * Set the url
      *
-     * @param   string  url
+     * @param   $url  string
      * @return  KHttpUrl
      */
-    public function set($url)
+    public function setUrl($url)
     {
         if(!empty($url))
         {
@@ -340,7 +340,7 @@ class KHttpUrl extends KObject
      *
      * This will overwrite any previous values.
      *
-     * @param   string|array    The query string to use; for example `foo=bar&baz=dib`.
+     * @param   $query  string|array    The query string to use; for example `foo=bar&baz=dib`.
      * @return  KHttpUrl
      */
     public function setQuery($query)
@@ -365,7 +365,7 @@ class KHttpUrl extends KObject
     /**
      * Returns the query portion as a string or array
      *
-     * @param 	boolean			If TRUE return an array. Default FALSE
+     * @param 	$toArray    boolean	    If TRUE return an array. Default FALSE
      * @return  string|array    The query string; e.g., `foo=bar&baz=dib`.
      */
     public function getQuery($toArray = false)
@@ -380,9 +380,8 @@ class KHttpUrl extends KObject
      * This will overwrite any previous values. Also, resets the format based
      * on the final path value.
      *
-     * @param   string  The path string to use; for example,"/foo/bar/baz/dib".
-     * A leading slash will *not* create an empty first element; if the string
-     * has a leading slash, it is ignored.
+     * @param   $path   string  The path string to use; for example,"/foo/bar/baz/dib". A leading slash will *not* create
+     * an empty first element; if the string has a leading slash, it is ignored.
      * @return  KHttpUrl
      */
     public function setPath($path)
@@ -418,21 +417,20 @@ class KHttpUrl extends KObject
     /**
      * Return a string representation of this url.
      *
-     * @see    get()
+     * @see    getUrl()
      * @return string
      */
     public function __toString()
     {
-        return $this->get(self::FULL);
+        return $this->getUrl(self::FULL);
     }
 
     /**
      * Converts an array of path elements into a string.
      *
-     * Does not use urlencode(); instead, only converts characters found in
-     * KHttpUrl::$_encode_path.
+     * Does not use urlencode(); instead, only converts characters found in KHttpUrl::$_encode_path.
      *
-     * @param   array The path elements.
+     * @param  $spec array The path elements.
      * @return string A url path string.
      */
     protected function _pathEncode($spec)
