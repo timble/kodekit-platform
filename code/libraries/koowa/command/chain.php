@@ -217,13 +217,13 @@ class KCommandChain extends KObjectQueue
      * @return integer The command priority
      * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
      */
-    public function getPriority(KObjectHandlable $cmd)
+    public function getPriority(KObjectHandlable $command)
     {
         if(!$command instanceof KCommandInterface) {
             throw new InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
-        return parent::getPriority($cmd);
+        return parent::getPriority($command);
     }
     
     /**
