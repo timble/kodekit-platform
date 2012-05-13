@@ -26,10 +26,11 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     protected $_data = array();
 
- 	/**
-     * Constructor.
+    /**
+     * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectArray
      */
     public function __construct(KConfig $config = null)
     {
@@ -46,7 +47,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   KConfig $object An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
@@ -63,7 +64,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset
+     * @param   int   $offset
      * @return  bool
      */
     public function offsetExists($offset)
@@ -76,8 +77,8 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset
-     * @return  mixed   The item from the array
+     * @param   int     $offset
+     * @return  mixed The item from the array
      */
     public function offsetGet($offset)
     {
@@ -89,9 +90,9 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset of the item
-     * @param   mixed   The item's value
-     * @return  object  KObjectArray
+     * @param   int     $offset
+     * @param   mixed   $value
+     * @return  KObjectArray
      */
     public function offsetSet($offset, $value)
     {
@@ -112,8 +113,8 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset of the item
-     * @return  object 	KObjectArray
+     * @param   int     $offset
+     * @return  KObjectArray
      */
     public function offsetUnset($offset)
     {
@@ -136,7 +137,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface Serializable
      *
-     * @return  string  A serialized object
+     * @return  string
      */
     public function serialize()
     {
@@ -148,7 +149,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      *
      * Required by interface Serializable
      *
-     * @param   string  An serialized data
+     * @param   string  $data
      */
     public function unserialize($data)
     {
@@ -158,7 +159,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     /**
      * Get a value by key
      *
-     * @param   string  The key name.
+     * @param   string  $key The key name.
      * @return  string  The corresponding value.
      */
     public function __get($key)
@@ -174,8 +175,8 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     /**
      * Set a value by key
      *
-     * @param   string  The key name.
-     * @param   mixed   The value for the key
+     * @param   string  $key   The key name
+     * @param   mixed   $value The value for the key
      * @return  void
      */
     public function __set($key, $value)
@@ -186,7 +187,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
 	/**
      * Test existence of a key
      *
-     * @param  string  The key name.
+     * @param  string  $key The key name
      * @return boolean
      */
     public function __isset($key)
@@ -197,7 +198,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     /**
      * Unset a key
      *
-     * @param   string  The key name.
+     * @param   string  $key The key name
      * @return  void
      */
     public function __unset($key)
@@ -206,7 +207,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     }
 
  	/**
-     * Return an associative array of the data.
+     * Return an associative array of the data
      *
      * @return array
      */
