@@ -27,7 +27,7 @@ class ComUsersFilterSpamCompositePositive extends ComUsersFilterSpamCompositeAbs
             'checks'=> array(
                 'com://admin/users.filter.spam.service.spamhaus',
                 'com://admin/users.filter.spam.mxrecord',
-                'com://admin/users.filter.spam.blacklist')));
+                'com://admin/users.filter.spam.blacklist' => array('priority' => KCommand::PRIORITY_HIGHEST))));
         parent::_initialize($config);
     }
 }

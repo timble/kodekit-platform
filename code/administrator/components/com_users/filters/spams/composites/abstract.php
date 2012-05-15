@@ -24,14 +24,17 @@ abstract class ComUsersFilterSpamCompositeAbstract extends ComUsersFilterSpamAbs
     public function __construct(KConfig $config) {
         parent::__construct($config);
 
-        foreach ($config->checks as $identifier => $config) {
+        foreach ($config->checks as $identifier => $settings) {
             if (is_numeric($identifier)) {
-                $identifier = $config;
-                $config     = array();
+                $identifier = $settings;
+                $settings   = array();
             }
 
+            // Force a KConfig object.
+            $settings = new KConfig($settings);
+
             // Enqueue the filter.
-            $this->addFilter($this->getService($identifier, $config));
+            $this->addFilter($this->getService($identifier, $settings->toArray()), $settings->priority);
         }
     }
 
