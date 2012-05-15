@@ -19,6 +19,13 @@
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>
-  <param name="min_password_score" type="text" default="0" label="Minimum password score" description="TIPMINPASSWORDSCORE" />
+  <param name="min_password_score" type="list" default="0" label="Minimum password score" description="TIPMINPASSWORDSCORE">
+   <option value="0">Disabled</option>
+   <option value="1">Very weak</option>
+   <option value="2">Weak</option>
+   <option value="3">Good</option>
+   <option value="4">Strong</option>
+   <option value="5">Very strong</option>
+  </param>
  </params>
 </config>
