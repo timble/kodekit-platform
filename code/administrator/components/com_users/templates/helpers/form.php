@@ -33,29 +33,36 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $config = new KConfig($config);
 
         $config->append(array(
-            'class'                  => 'password-check',
-            'input_id'               => 'password',
-            'user_input_ids'         => array(),
-            'words'                  => array(),
-            'container_id'           => 'password-check',
-            'min_score'              => 0,
-            'score_map'              => array(
+            'class'                    => 'password-check',
+            'input_id'                 => 'password',
+            'user_input_ids'           => array(),
+            'words'                    => array(),
+            'container_id'             => 'password-check',
+            'min_score'                => 0,
+            'min_score_msg'            => JText::_('Please select a stronger password'),
+            'min_len'                  => 6,
+            'score_map'                => array(
                 '0' => JText::_('Please provide a password'),
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
                 '3' => JText::_('Good'),
                 '4' => JText::_('Strong'),
-                '5' => JText::_('Very strong'))));
+                '5' => JText::_('Very strong'))))->append(array(
+            'min_len_msg'          => JText::sprintf('The password must be at least %s characters long',
+                $config->min_len),
+        ));
 
         $options = array(
-            'class'         => $config->class,
-            'input_id'      => $config->input_id,
-            'user_input_ids'=> $config->user_input_ids->toArray(),
-            'words'         => $config->words->toArray(),
-            'container_id'  => $config->container_id,
-            'score_map'     => $config->score_map->toArray(),
-            'min_score'     => $config->min_score,
-            'message'       => JText::_('Please select a stronger password'));
+            'class'               => $config->class,
+            'input_id'            => $config->input_id,
+            'user_input_ids'      => $config->user_input_ids->toArray(),
+            'words'               => $config->words->toArray(),
+            'container_id'        => $config->container_id,
+            'score_map'           => $config->score_map->toArray(),
+            'min_score'           => $config->min_score,
+            'min_score_msg'       => $config->min_score_msg,
+            'min_len'             => $config->min_len,
+            'min_len_msg'         => $config->min_len_msg);
 
 
         // Add required libs and styles.

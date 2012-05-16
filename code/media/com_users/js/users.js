@@ -26,32 +26,36 @@ var ComUsers = {
             var my = {};
 
             my.score = 0;
+            my.config = config;
 
-            my.initialize = function (config) {
-                window.addEvent("domready", function () {
-                    $(config.input_id).addEvent("keyup", function () {
+            my.initialize = function () {
+
+                var config = this.config;
+
+                window.addEvent('domready', function () {
+                    $(config.input_id).addEvent('keyup', function () {
 
                         // Get user input values.
                         var words = Array.copy(config.words);
                         Array.each(config.user_input_ids, function (user_input_id, index) {
-                            words.push($(user_input_id).get("value"));
+                            words.push($(user_input_id).get('value'));
                         });
 
-                        var password = this.get("value");
+                        var password = this.get('value');
 
                         my.score = ComUsers.Password.score(password, words);
 
                         if (password.length) my.score += 1;
 
-                        $(config.container_id).set("class", config['class'] + " " + "score" + my.score);
-                        $(config.container_id).set("html", config.score_map[my.score]);
+                        $(config.container_id).set('class', config['class'] + ' ' + 'score' + my.score);
+                        $(config.container_id).set('html', config.score_map[my.score]);
                     });
 
                     // Update password score on user input change.
                     Array.each(config.user_input_ids, function (user_input_id, index) {
 
                         var fireEvent = function () {
-                            $(config.input_id).fireEvent("keyup");
+                            $(config.input_id).fireEvent('keyup');
                         };
 
                         $(user_input_id).addEvents({"keyup":fireEvent, "change":fireEvent});
@@ -61,15 +65,30 @@ var ComUsers = {
                     if (config.min_score) {
                         $(config.container_id).getParent('form').addEvent('submit', function () {
                             if (my.score < config.min_score) {
-                                alert(config.message);
+                                alert(config.min_score_msg);
                                 return false;
                             }
                         });
                     }
+
+                    // Add mininum length constraint (if any).
+                    if (config.min_len) {
+                        $(config.input_id).addEvent('change', my.lenCheck);
+                        $(config.container_id).getParent('form').addEvent('submit', my.lenCheck);
+                    }
                 });
             };
 
-            my.initialize(config);
+            my.lenCheck = function () {
+                var config = my.config;
+                var password = $(config.input_id).get('value');
+                if (password.length < config.min_len) {
+                    alert(config.min_len_msg);
+                    return false;
+                }
+            }
+
+            my.initialize();
 
             return my;
         }

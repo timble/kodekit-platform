@@ -19,13 +19,12 @@
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>
-  <param name="min_password_score" type="list" default="0" label="Minimum password strength" description="TIPMINPASSWORDSCORE">
-   <option value="0">Disabled</option>
-   <option value="1">Very weak</option>
-   <option value="2">Weak</option>
-   <option value="3">Good</option>
-   <option value="4">Strong</option>
-   <option value="5">Very strong</option>
+  <param name="min_passw_len" type="list" default="5" label="Minimum password length" description="TIPMINPASSWLEN">
+   <option value="5">5</option>
+   <option value="8">8</option>
+   <option value="10">10</option>
+   <option value="12">12</option>
+   <option value="16">16</option>
   </param>
  </params>
 </config>
