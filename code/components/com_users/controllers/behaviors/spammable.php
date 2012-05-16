@@ -114,9 +114,9 @@ class ComUsersControllerBehaviorSpammable extends KControllerBehaviorAbstract
         return true;
     }
 
-    protected function _afterControllerRead(KCommandContext $context) {
+    protected function _beforeControllerGet(KCommandContext $context) {
         // Push the secret string to the view.
-        $this->getView()->assign('secret', $this->_secret);
+        $this->getView()->secret = $this->_secret;
     }
 
     /**
