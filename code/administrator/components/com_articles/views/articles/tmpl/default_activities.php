@@ -12,5 +12,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h3><?= @text('Recent Activities')?></h3>
 <div class="scrollable">
-	<?= @template('com://admin/activities.view.activities.simple', array('activities' => @service('com://admin/activities.model.activities')->package('articles')->name('article')->limit('10')->getList())); ?>
+	<?= @service('com://admin/activities.controller.activity')
+			->view('activities')
+			->layout('simple')
+			->package('articles')
+			->name('article')
+			->limit('10')
+			->display(); ?>
 </div>
