@@ -40,7 +40,6 @@ abstract class KDatabaseQueryAbstract extends KObject
         }
 	}
 
-
     /**
      * Initializes the options for the object
      *

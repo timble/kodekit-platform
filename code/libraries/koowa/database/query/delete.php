@@ -90,7 +90,8 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
      */
     public function order($columns, $direction = 'ASC')
     {
-        foreach ((array) $columns as $column) {
+        foreach ((array) $columns as $column)
+        {
             $this->order[] = array(
                 'column'    => $column,
                 'direction' => $direction
@@ -136,8 +137,8 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix = $adapter->getTablePrefix();
-        $query = 'DELETE';
+        $prefix  = $adapter->getTablePrefix();
+        $query   = 'DELETE';
         
         if ($this->table) {
             $query .= ' FROM '.$adapter->quoteIdentifier($prefix.$this->table);
