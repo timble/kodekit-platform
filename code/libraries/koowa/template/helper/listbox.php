@@ -159,7 +159,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
      * @throws BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
-    public function __call($method, array $arguments)
+    public function __call($method, $arguments)
     {
         if(!in_array($method, $this->getMethods()))
         {

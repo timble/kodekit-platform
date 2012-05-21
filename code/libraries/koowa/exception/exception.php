@@ -59,7 +59,7 @@ class KException extends Exception implements KExceptionInterface
      * @param  array    The function arguments
      * @return mixed
      */
-    public function __call($method, array $args)
+    public function __call($method, $arguments)
     {
         if ('getprevious' == strtolower($method)) {
             return $this->_getPrevious();

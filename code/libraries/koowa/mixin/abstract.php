@@ -224,7 +224,7 @@ abstract class KMixinAbstract implements KMixinInterface
      * @throws BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
-    public function __call($method, array $arguments)
+    public function __call($method, $arguments)
     {
         //Make sure we don't end up in a recursive loop
         if(isset($this->_mixer) && !($this->_mixer instanceof $this))

@@ -838,7 +838,7 @@ abstract class KDatabaseTableAbstract extends KObject
 	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
 	 */
-	public function __call($method, array $arguments)
+	public function __call($method, $arguments)
 	{
 		// If the method is of the form is[Bahavior] handle it.
 		$parts = KInflector::explode($method);

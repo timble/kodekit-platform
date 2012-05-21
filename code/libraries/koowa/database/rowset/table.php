@@ -180,7 +180,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
 	 */
-	public function __call($method, array $arguments)
+	public function __call($method, $arguments)
 	{
 	    // If the method hasn't been mixed yet, load all the behaviors.
 		if($this->isConnected() && !isset($this->_mixed_methods[$method]))
