@@ -24,26 +24,29 @@ class KServiceLocatorPlugin extends KServiceLocatorAbstract
 	protected $_type = 'plg';
 
 	/**
-	 * Get the classname based on an identifier
+	 * Get the classname
 	 *
 	 * @param  mixed  		 An identifier object - plg.type.plugin.[.path].name
 	 * @return string|false  Return object on success, returns FALSE on failure
 	 */
 	public function findClass(KServiceIdentifier $identifier)
 	{
-	    $classpath = KInflector::camelize(implode('_', $identifier->path));
+        $classes   = array();
+        $classpath = KInflector::camelize(implode('_', $identifier->path));
 		$classname = 'Plg'.ucfirst($identifier->package).$classpath.ucfirst($identifier->name);
 
 		//Don't allow the auto-loader to load plugin classes if they don't exists yet
 		if (!class_exists( $classname)) {
 			$classname = false;
-		}
+		} else {
+            $classes[] = $classname;
+        }
 
 		return $classname;
 	}
 
 	/**
-	 * Get the path based on an identifier
+	 * Get the path
 	 *
 	 * @param  object  			An Identifier object - plg.type.plugin.[.path].name
 	 * @return string|false		Returns the path on success FALSE on failure

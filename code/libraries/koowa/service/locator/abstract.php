@@ -23,6 +23,43 @@ abstract class KServiceLocatorAbstract extends KObject implements KServiceLocato
 	 */
 	protected $_type = '';
 
+    /**
+     * The class prefix sequence in FIFO order
+     *
+     * @var array
+     */
+    protected $_prefixes = array();
+
+    /**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct( KConfig $config = null)
+    {
+        //If no config is passed create it
+        if(!isset($config)) $config = new KConfig();
+
+        parent::__construct($config);
+
+        $this->_prefixes = KConfig::unbox($config->prefixes);
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'prefixes' => array(),
+        ));
+    }
+
 	/**
 	 * Get the type
 	 *

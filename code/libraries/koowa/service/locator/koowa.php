@@ -25,30 +25,37 @@ class KServiceLocatorKoowa extends KServiceLocatorAbstract
 	protected $_type = 'koowa';
 
 	/**
-	 * Get the classname based on an identifier
+	 * Get the classname
 	 *
 	 * @param 	mixed  		 An identifier object - koowa:[path].name
 	 * @return string|false  Return object on success, returns FALSE on failure
 	 */
 	public function findClass(KServiceIdentifier $identifier)
 	{
+        $classes   = array();
         $classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).ucfirst($identifier->name);
 
 		if (!class_exists($classname))
 		{
+            //Add the classname to prevent re-look up
+            $classes[] = $classname;
+
 			// use default class instead
 			$classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).'Default';
 
-			if (!class_exists($classname)) {
+			if (class_exists($classname)) {
 				$classname = false;
-			}
+			} else {
+                $classes[] = $classname;
+            }
 		}
+        else $classes[] = $classname;
 
 		return $classname;
 	}
 
 	/**
-	 * Get the path based on an identifier
+	 * Get the path
 	 *
 	 * @param  object  	An identifier object - koowa:[path].name
 	 * @return string	Returns the path

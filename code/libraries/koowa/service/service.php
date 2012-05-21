@@ -377,7 +377,7 @@ class KService implements KServiceInterface
             if(array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
             {
                 //Create the configuration object
-                $config = new KConfig(array_merge(self::getConfig($identifier), $config));
+                $config = new KConfig(array_merge(self::getConfig($identifier),$config));
 
                 //Set the service container and identifier
                 $config->service_container  = self::getInstance();
@@ -389,7 +389,6 @@ class KService implements KServiceInterface
                 } else {
                     $result = new $identifier->classname($config);
                 }
-
             }
         }
 
