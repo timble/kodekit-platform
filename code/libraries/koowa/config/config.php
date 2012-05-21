@@ -25,9 +25,10 @@ class KConfig implements KConfigInterface
     protected $_data;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param   array|KConfig An associative array of configuration settings or a KConfig instance.
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KConfig
      */
     public function __construct( $config = array() )
     {
@@ -49,8 +50,8 @@ class KConfig implements KConfigInterface
     /**
      * Retrieve a configuration item and return $default if there is no element set.
      *
-     * @param string
-     * @param mixed
+     * @param  string $name
+     * @param  mixed  $default
      * @return mixed
      */
     public function get($name, $default = null)
@@ -64,12 +65,12 @@ class KConfig implements KConfigInterface
     }
 
 	/**
-     * Return the data
+     * Unbox a KConfig object
      *
-     * If the data being passed is an instance of KConfig the data will be transformed
-     * to an associative array.
+     * If the data being passed is an instance of KConfig the data will be transformed to an associative array.
      *
-     * @return array|scalar
+     * @param  KConfig|mxied $name
+     * @return array|mixed
      */
     public static function unbox($data)
     {
@@ -77,12 +78,20 @@ class KConfig implements KConfigInterface
     }
 
     /**
-     * Append values
+     * Append an array or KObject recursively
      *
-     * This funciton only adds keys that don't exist and it filters out any duplicate values
+     * Merges the elements of an array or KConfig object recursively so that the values of one are appended.
      *
-     * @param  mixed    A value of an or array of values to be appended
-     * @return KConfig
+     * If the input arrays has string keys, then the value for that key will be not overwrite the previous one. Instead
+     * the values for these keys are transformed into KObjects and merged together, and this is done recursively, so
+     * that if one of the values is an associative array itself, the function will merge it with a corresponding entry.
+     *
+     * If, the input arrays contain numeric keys, the later value will not overwrite the original value, but will be
+     * appended. Values in the input array with numeric keys will be renumbered with incrementing keys starting from
+     * zero in the result array.
+     *
+     * @param  KConfig|array $config  A KConfig object or an array of values to be appended
+     * @return \KConfig
      */
     public function append($config)
     {
@@ -120,7 +129,7 @@ class KConfig implements KConfigInterface
     /**
      * Retrieve a configuration element
      *
-     * @param string
+     * @param string $name
      * @return mixed
      */
     public function __get($name)
@@ -131,8 +140,8 @@ class KConfig implements KConfigInterface
     /**
      * Set a configuration element
      *
-     * @param  string
-     * @param  mixed
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
     public function __set($name, $value)
@@ -147,8 +156,8 @@ class KConfig implements KConfigInterface
     /**
      * Test existence of a configuration element
      *
-     * @param string
-     * @return boolean
+     * @param string $name
+     * @return bool
      */
     public function __isset($name)
     {
@@ -158,7 +167,7 @@ class KConfig implements KConfigInterface
     /**
      * Unset a configuration element
      *
-     * @param  string
+     * @param  string $name
      * @return void
      */
     public function __unset($name)
@@ -193,7 +202,7 @@ class KConfig implements KConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset
+     * @param   int  $offset
      * @return  bool
      */
     public function offsetExists($offset)
@@ -206,8 +215,8 @@ class KConfig implements KConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset
-     * @return  mixed   The item from the array
+     * @param   int   $offset
+     * @return  mixed
      */
     public function offsetGet($offset)
     {
@@ -228,9 +237,9 @@ class KConfig implements KConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset of the item
-     * @param   mixed   The item's value
-     * @return  object  KConfig
+     * @param   int     $offset
+     * @param   mixed   $value
+     * @return  \KConfig
      */
     public function offsetSet($offset, $value)
     {
@@ -246,8 +255,8 @@ class KConfig implements KConfigInterface
      *
      * Required by interface ArrayAccess
      *
-     * @param   int     The offset of the item
-     * @return  object  KConfig
+     * @param   int  $offset
+     * @return  \KConfig
      */
     public function offsetUnset($offset)
     {
@@ -279,7 +288,7 @@ class KConfig implements KConfigInterface
  	/**
      * Returns a string with the encapsulated data in JSON format
      *
-     * @return string  Returns the data encoded to JSON
+     * @return string
      */
     public function toJson()
     {
@@ -287,8 +296,7 @@ class KConfig implements KConfigInterface
     }
 
  	/**
-     * Deep clone of this instance to ensure that nested KConfigs
-     * are also cloned.
+     * Deep clone of this instance to ensure that nested KConfigs are also cloned.
      *
      * @return void
      */
@@ -310,7 +318,7 @@ class KConfig implements KConfigInterface
     /**
      * Returns a string with the encapsulated data in JSON format
      *
-     * @return string   returns the data encoded to JSON
+     * @return string
      */
     public function __toString()
     {
