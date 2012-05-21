@@ -37,7 +37,6 @@ class ComExtensionsTemplateHelperCombobox extends KTemplateHelperListbox
             'application' => 'site'
         ));
 
-        //$positions  = $this->getService('com://admin/extensions.model.modules')->application($config->application)->getList()->getColumn('position');
         $positions = $this->getService('com://admin/extensions.model.positions')->getList()->getColumn('position');
         
 		$template   = $this->getService('com://admin/extensions.model.templates')
