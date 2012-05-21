@@ -31,7 +31,7 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
              ->insert('direction' , 'word', 'asc')
              ->insert('search'    , 'string');
     }
-    
+
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     { 
        // Check if an instance with this identifier already exists or not
