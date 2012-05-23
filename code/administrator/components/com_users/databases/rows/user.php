@@ -86,6 +86,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 				->select($this->id, KDatabase::FETCH_ROW);
 		}
 
+        // Load component parameters.
+        $params = JComponentHelper::getParams('com_users');
+
 		$user = JFactory::getUser();
 		
 		// Validate received data.
@@ -250,15 +253,22 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		// Generate a random password if empty and the record is new.
 		if($this->isNew() && !$this->password)
 		{
-			$this->password	        = $this->getService('com://admin/users.helper.password')->getRandom();
+			$this->password	        = $this->getService('com://admin/users.helper.password')->getRandom($params->get('min_passw_len'));
 			$this->password_verify	= $this->password;
 		}
 
 		if($this->isModified('password') && $this->password)
 		{
 			if ($this->_password_encryption) {
+                // Check the password length.
+                $min_passw_len = $params->get('min_passw_len');
+                if (strlen($this->password) < $min_passw_len) {
+                    $this->setStatus(KDatabase::STATUS_FAILED);
+                    $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $min_passw_len));
+                    return false;
+                }
 				$this->password	= $this->getService('com://admin/users.helper.password')->encrypt($this->password);
-			}
+            }
 		}
 		else
 		{

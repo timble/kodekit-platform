@@ -19,6 +19,13 @@
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>
+  <param name="min_passw_len" type="list" default="5" label="Minimum password length" description="TIPMINPASSWLEN">
+   <option value="5">5</option>
+   <option value="8">8</option>
+   <option value="10">10</option>
+   <option value="12">12</option>
+   <option value="16">16</option>
+  </param>
   <param name="@spacer" type="spacer" default="" label="" description="" />
   <param name="recaptcha_public_key" type="text" default="" label="reCAPTCHA public key" description="TIPRECAPTCHAPUBLICKEY" />
   <param name="recaptcha_private_key" type="text" default="" label="reCAPTCHA private key" description="TIPRECAPTCHAPRIVATEKEY" />

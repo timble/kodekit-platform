@@ -10,6 +10,8 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
+<?=@helper('behavior.mootools');?>
+
 <h1 class="page-header"><?= @text('Reset your Password') ?></h1>
 
 <form action="" method="post" class="josForm form-validate form-horizontal">
@@ -25,6 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
         <div class="controls">
             <input id="password" name="password" type="password" class="required validate-password" />
             <p class="help-block"><?= @text('RESET_PASSWORD_PASSWORD1_TIP_TEXT') ?></p>
+            <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_len' => $parameters->get('min_passw_len')));?>
         </div>
     </div>
     
