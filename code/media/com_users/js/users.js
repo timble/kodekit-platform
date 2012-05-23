@@ -75,6 +75,15 @@ var ComUsers = {
                     if (config.min_len) {
                         $(config.input_id).addEvent('change', my.lenCheck);
                         $(config.container_id).getParent('form').addEvent('submit', my.lenCheck);
+                        var koowa_form = $(config.container_id).getParent('.-koowa-form');
+                        if (koowa_form) {
+                            koowa_form.addEvent('before.save', function () {
+                                return my.lenCheck();
+                            });
+                            koowa_form.addEvent('before.apply', function () {
+                                return my.lenCheck();
+                            });
+                        }
                     }
                 });
             };
