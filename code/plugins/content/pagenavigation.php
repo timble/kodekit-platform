@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentNavigation' );
+JDispatcher::getInstance()->register( 'onBeforeDisplayContent', 'plgContentNavigation' );
 
 function plgContentNavigation( &$row, &$params, $page=0 )
 {

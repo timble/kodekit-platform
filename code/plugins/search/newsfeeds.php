@@ -14,8 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'plgSearchNewsfeedslinks' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchNewsfeedAreas' );
+JDispatcher::getInstance()->register( 'onSearch', 'plgSearchNewsfeedslinks' );
+JDispatcher::getInstance()->register( 'onSearchAreas', 'plgSearchNewsfeedAreas' );
 
 JPlugin::loadLanguage( 'plg_search_newsfeeds' );
 

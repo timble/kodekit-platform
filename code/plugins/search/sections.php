@@ -14,8 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'plgSearchSections' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchSectionAreas' );
+JDispatcher::getInstance()->register( 'onSearch', 'plgSearchSections' );
+JDispatcher::getInstance()->register( 'onSearchAreas', 'plgSearchSectionAreas' );
 
 JPlugin::loadLanguage( 'plg_search_sections' );
 
