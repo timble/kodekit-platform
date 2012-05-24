@@ -30,7 +30,7 @@ header('X-Nooku-Server: version='.Koowa::VERSION);
  *
  * NOTE :
  */
-$mainframe =& JFactory::getApplication('administrator');
+$mainframe = JFactory::getApplication('administrator');
 
 /**
  * INITIALISE THE APPLICATION
@@ -44,7 +44,7 @@ $mainframe->initialise(array(
 JPluginHelper::importPlugin('system');
 
 // trigger the onAfterInitialise events
-$mainframe->triggerEvent('onAfterInitialise');
+JDispatcher::getInstance()->trigger('onAfterInitialise');
 
 /**
  * ROUTE THE APPLICATION
@@ -54,7 +54,7 @@ $mainframe->triggerEvent('onAfterInitialise');
 $mainframe->route();
 
 // trigger the onAfterRoute events
-$mainframe->triggerEvent('onAfterRoute');
+JDispatcher::getInstance()->trigger('onAfterRoute');
 
 /**
  * DISPATCH THE APPLICATION
@@ -64,7 +64,7 @@ $mainframe->triggerEvent('onAfterRoute');
 $mainframe->dispatch();
 
 // trigger the onAfterDispatch events
-$mainframe->triggerEvent('onAfterDispatch');
+JDispatcher::getInstance()->trigger('onAfterDispatch');
 
 /**
  * RENDER THE APPLICATION
@@ -74,7 +74,7 @@ $mainframe->triggerEvent('onAfterDispatch');
 $mainframe->render();
 
 // trigger the onAfterRender events
-$mainframe->triggerEvent( 'onAfterRender' );
+JDispatcher::getInstance()->trigger( 'onAfterRender' );
 
 /**
  * RETURN THE RESPONSE
