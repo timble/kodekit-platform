@@ -127,9 +127,6 @@ class MenusModelItem extends JModel
 				if (isset($table->linkparts['option']))
 				{
 				    $option = $table->linkparts['option'];
-				    if ($option == 'com_content') {
-				    	$option = 'com_articles';
-				    }
 				    
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
@@ -157,10 +154,7 @@ class MenusModelItem extends JModel
 			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
 
 			$option = $return['option'];
-		    if ($option == 'articles') {
-		    	$option = 'content';
-		    }
-		    
+
 			$handler		= new iLink($option, $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 
