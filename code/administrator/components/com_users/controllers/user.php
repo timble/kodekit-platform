@@ -72,25 +72,88 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionLogin(KCommandContext $context)
     {
+        $result = false;
+
         $credentials = array(
             'username' => KRequest::get('post.username', 'string'),
             'password' => KRequest::get('post.password', 'raw')
         );
 
-        $result = JFactory::getApplication()->login($credentials);
-         
-        if(JError::isError($result))
+        $options = array();
+        $options['group'] = 'Public Backend';
+        $options['site']  = JFactory::getApplication()->getSite();
+
+        jimport( 'joomla.user.authentication');
+        $response = JAuthentication::getInstance()->authenticate($credentials, $options);
+
+        if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
         {
-            $this->_redirect_type    = 'error';
-            $this->_redirect_message =  $result->getError();
-            $result = false;
+            $session = JFactory::getSession();
+            $acl     = JFactory::getACL();
+
+            //Fet the user object
+            $user = JFactory::getUser($credentials['username']);
+
+            //Fork the session to prevent session fixation issues
+            $session->fork();
+            JFactory::getApplication()->_loadSession($session->getId());
+
+            //If the user is blocked, redirect with an error
+            if ($user->get('block') == 1) {
+                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
+                return false;
+            }
+
+            //Check if the users group has access
+            $group = $acl->getAroGroup($user->get('id'));
+
+            if(!$acl->is_group_child_of( $group->name, $options['group'])) {
+                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
+                return false;
+            }
+
+            //Mark the user as logged in
+            $user->set('guest', 0);
+            $user->set('aid'  , 1);
+
+            // Fudge Authors, Editors, Publishers and Super Administrators into the special access group
+            if ($acl->is_group_child_of($group->name, 'Registered')      ||
+                $acl->is_group_child_of($group->name, 'Public Backend'))    {
+                $user->set('aid', 2);
+            }
+
+            //Set the usertype based on the ACL group name
+            $user->set('usertype', $group->name);
+
+            // Register the needed session variables
+            $session->set('user', $user);
+            $session->set('site', $options['site']);
+
+            // Get the session object
+            $table =  JTable::getInstance('session');
+            $table->load( $session->getId() );
+
+            $table->guest 	  = $user->get('guest');
+            $table->username  = $user->get('username');
+            $table->userid 	  = intval($user->get('id'));
+            $table->usertype  = $user->get('usertype');
+            $table->gid 	  = intval($user->get('gid'));
+
+            $table->update();
+
+            // Hit the user last visit field
+            $row = KService::get('com://admin/users.database.row.user')
+                        ->setData(array('id' => $user->get('id')))
+                        ->load();
+
+            $row->last_visited_on = gmdate('Y-m-d H:i:s');
+            $row->save();
+
+            $result = $this->getModel()->id($user->get('id'))->getItem()->setStatus('logged in');
         }
-        else 
-        {
-            $user  = JFactory::getUser();
-            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
-        } 
-        
+
+        JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
+
         $this->_redirect = KRequest::referrer();
         return $result;
     }
@@ -103,16 +166,18 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    {
 	        foreach($rowset as $user)
 	        {
-	            $clients = array(0, 1); //Force logout from site and administrator
-	            $result = JFactory::getApplication()
-	                            ->logout($user->id, array('clientid' => $clients));
-	                          
-                if(JError::isError($result))
-                {
-                    $this->_redirect_type    = 'error';
-                    $this->_redirect_message =  $result->getError();
+                //Force logout from site and administrator
+                $clients = array(0, 1);
+
+                // Force logout all users with that userid
+                JTable::getInstance('session')->destroy($user->id, $clients);
+
+                // Destroy the php session for this user if we are logging out ourselves
+                if(JFactory::getUser()->get('id') == $user->id) {
+                    JFactory::getSession()->destroy();
                 }
-                else $user->setStatus('logged out');
+
+                $user->setStatus('logged out');
 	        }
 		} 
 		
