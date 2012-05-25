@@ -23,7 +23,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add', array($this, 'notify'));
+        $this->registerCallback('after.add'   , array($this, 'notify'))
+             ->registerCallback('before.login', array($this, 'authenticate'));
         
         //Lock the referrer to prevent it from being overridden for read requests
         if ($this->isDispatched() && KRequest::type() == 'HTTP') 
@@ -32,6 +33,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 		        $this->registerCallback('after.logout' , array($this, 'lockReferrer'));
 		    }
         }
+
+        //Set the default redirect.
+        $this->setRedirect(KRequest::referrer());
     }
     
     protected function _initialize(KConfig $config)
@@ -70,6 +74,42 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         return $data;
     }
 
+    protected function _actionAuthenticate(KCommandContext $context)
+    {
+        $user = $this->getService('com://admin/users.database.row.user');
+        $user->username = $context->data->username;
+        $user->load();
+
+        if($user->id)
+        {
+            list($password, $salt) = explode(':', $user->password);
+
+            $crypted = $this->getService('com://admin/users.helper.password')
+                ->getCrypted($context->data->password, $salt);
+
+            if($crypted == $password)
+            {
+                $context->data->append(array(
+                    'email'     => $user->email,
+                    'username'  => $user->username,
+                    'name'      => $user->name
+                ));
+            }
+            else
+            {
+                JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong password!'));
+                return false;
+            }
+        }
+        else
+        {
+            JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong username!'));
+            return false;
+        }
+
+        return true;
+    }
+
     protected function _actionLogin(KCommandContext $context)
     {
         $result = false;
@@ -83,78 +123,68 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $options['group'] = 'Public Backend';
         $options['site']  = JFactory::getApplication()->getSite();
 
-        jimport( 'joomla.user.authentication');
-        $response = JAuthentication::getInstance()->authenticate($credentials, $options);
+        $session = JFactory::getSession();
+        $acl     = JFactory::getACL();
 
-        if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
-        {
-            $session = JFactory::getSession();
-            $acl     = JFactory::getACL();
+        //Fet the user object
+        $user = JFactory::getUser($credentials['username']);
 
-            //Fet the user object
-            $user = JFactory::getUser($credentials['username']);
+        //Fork the session to prevent session fixation issues
+        $session->fork();
+        JFactory::getApplication()->_loadSession($session->getId());
 
-            //Fork the session to prevent session fixation issues
-            $session->fork();
-            JFactory::getApplication()->_loadSession($session->getId());
-
-            //If the user is blocked, redirect with an error
-            if ($user->get('block') == 1) {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
-                return false;
-            }
-
-            //Check if the users group has access
-            $group = $acl->getAroGroup($user->get('id'));
-
-            if(!$acl->is_group_child_of( $group->name, $options['group'])) {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
-                return false;
-            }
-
-            //Mark the user as logged in
-            $user->set('guest', 0);
-            $user->set('aid'  , 1);
-
-            // Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-            if ($acl->is_group_child_of($group->name, 'Registered')      ||
-                $acl->is_group_child_of($group->name, 'Public Backend'))    {
-                $user->set('aid', 2);
-            }
-
-            //Set the usertype based on the ACL group name
-            $user->set('usertype', $group->name);
-
-            // Register the needed session variables
-            $session->set('user', $user);
-            $session->set('site', $options['site']);
-
-            // Get the session object
-            $table =  JTable::getInstance('session');
-            $table->load( $session->getId() );
-
-            $table->guest 	  = $user->get('guest');
-            $table->username  = $user->get('username');
-            $table->userid 	  = intval($user->get('id'));
-            $table->usertype  = $user->get('usertype');
-            $table->gid 	  = intval($user->get('gid'));
-
-            $table->update();
-
-            // Hit the user last visit field
-            $row = KService::get('com://admin/users.database.row.user')
-                        ->setData(array('id' => $user->get('id')))
-                        ->load();
-
-            $row->last_visited_on = gmdate('Y-m-d H:i:s');
-            $row->save();
-
-            $result = $this->getModel()->id($user->get('id'))->getItem()->setStatus('logged in');
+        //If the user is blocked, redirect with an error
+        if ($user->get('block') == 1) {
+            JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
+            return false;
         }
 
-        JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
+        //Check if the users group has access
+        $group = $acl->getAroGroup($user->get('id'));
 
-        $this->_redirect = KRequest::referrer();
+        if(!$acl->is_group_child_of( $group->name, $options['group'])) {
+            JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
+            return false;
+        }
+
+        //Mark the user as logged in
+        $user->set('guest', 0);
+        $user->set('aid'  , 1);
+
+        // Fudge Authors, Editors, Publishers and Super Administrators into the special access group
+        if ($acl->is_group_child_of($group->name, 'Registered')      ||
+            $acl->is_group_child_of($group->name, 'Public Backend'))    {
+            $user->set('aid', 2);
+        }
+
+        //Set the usertype based on the ACL group name
+        $user->set('usertype', $group->name);
+
+        // Register the needed session variables
+        $session->set('user', $user);
+        $session->set('site', $options['site']);
+
+        // Get the session object
+        $table =  JTable::getInstance('session');
+        $table->load( $session->getId() );
+
+        $table->guest 	  = $user->get('guest');
+        $table->username  = $user->get('username');
+        $table->userid 	  = intval($user->get('id'));
+        $table->usertype  = $user->get('usertype');
+        $table->gid 	  = intval($user->get('gid'));
+
+        $table->update();
+
+        // Hit the user last visit field
+        $row = KService::get('com://admin/users.database.row.user')
+                ->setData(array('id' => $user->get('id')))
+                ->load();
+
+        $row->last_visited_on = gmdate('Y-m-d H:i:s');
+        $row->save();
+
+        $result = $this->getModel()->id($user->get('id'))->getItem()->setStatus('logged in');
         return $result;
     }
 

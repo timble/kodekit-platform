@@ -5,6 +5,9 @@ DELETE FROM `#__plugins` WHERE `id` = 29
 # Remove Joomla user plugin
 DELETE FROM `#__plugins` WHERE `id` = 5
 
+# Remove Joomla authentication plugin
+DELETE FROM `#__plugins` WHERE `id` = 1
+
 # Remove editor and editor-xtd plugins
 DELETE FROM `#__plugins` WHERE `folder` = 'editors' OR `folder` = 'editors-xtd'
 

@@ -254,7 +254,6 @@ CREATE TABLE `#__plugins` (
   KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-INSERT INTO `#__plugins` VALUES (1, 'Authentication - Joomla', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (6, 'Search - Content','content','search',0,1,1,0,0,0,'0000-00-00 00:00:00','search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n\n');
 INSERT INTO `#__plugins` VALUES (7, 'Search - Contacts','contacts','search',0,3,1,0,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
 INSERT INTO `#__plugins` VALUES (8, 'Search - Categories', 'categories', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
