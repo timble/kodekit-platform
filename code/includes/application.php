@@ -377,7 +377,7 @@ class JSite extends JApplication
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	Nooku Server 0.7
 	 */
-    protected function _loadSession( $name, $ssl = false, $auto_start = true )
+    public function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
 		if($this->getCfg('force_ssl') == 2) {
 			$ssl = true;

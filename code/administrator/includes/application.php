@@ -175,33 +175,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	 * Login authentication function
-	 *
-	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @access public
-	 * @see JApplication::login
-	 */
-	function login($credentials, $options = array())
-	{
-		//The minimum group
-		$options['group'] = 'Public Backend';
-
-		 //Make sure users are not autoregistered
-		$options['autoregister'] = false;
-
-		$result = parent::login($credentials, $options);
-
-		if(!JError::isError($result))
-		{
-			$lang = JRequest::getCmd('lang');
-			$lang = preg_replace( '/[^A-Z-]/i', '', $lang );
-			$this->setUserState( 'application.lang', $lang  );
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Redirect to another URL.
 	 *
 	 * We need to make sure that all the redirect URL's are routed.
@@ -237,7 +210,7 @@ class JAdministrator extends JApplication
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	Nooku Server 0.7
 	 */
-    protected function _loadSession( $name, $ssl = false, $auto_start = true )
+    public function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
 		if($this->getCfg('force_ssl') >= 1) {
 			$ssl = true;
