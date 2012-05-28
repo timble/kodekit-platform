@@ -8,7 +8,7 @@
  */
 
 /**
- * Abstract View Controller Class
+ * Abstract Resource Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller

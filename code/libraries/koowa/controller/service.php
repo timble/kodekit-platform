@@ -8,7 +8,7 @@
  */
 
 /**
- * Abstract Bread Controller Class
+ * Abstract Service Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_Controller
