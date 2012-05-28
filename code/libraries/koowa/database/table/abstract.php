@@ -442,9 +442,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     
     /**
      * Table select method
-     *
-     * The name of the resulting row(set) class is based on the table class name
-     * eg Com<Mycomp>Table<Tablename> -> Com<Mycomp>Row(set)<Tablename>
      * 
      * This function will return an empty rowset if called without a parameter.
      *
