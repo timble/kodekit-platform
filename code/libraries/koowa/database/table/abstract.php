@@ -19,7 +19,7 @@
  * @uses        KMixinClass
  * @uses        KFilter
  */
-abstract class KDatabaseTableAbstract extends KObject
+abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableInterface
 {
     /**
      * Real name of the table in the db schema
