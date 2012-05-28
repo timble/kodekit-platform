@@ -182,7 +182,7 @@ abstract class KControllerResource extends KControllerAbstract
 	}
 
 	/**
-	 * Get the model object attached to the contoller
+	 * Get the model object attached to the controller
 	 *
 	 * @return	KModelAbstract
 	 */
@@ -232,7 +232,6 @@ abstract class KControllerResource extends KControllerAbstract
 			else $identifier = $this->getIdentifier($model);
 
 			if($identifier->path[0] != 'model') {
-
 				throw new KControllerException('Identifier: '.$identifier.' is not a model identifier');
 			}
 
