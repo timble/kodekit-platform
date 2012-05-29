@@ -31,7 +31,7 @@ class KDispatcherSessionHandlerFile extends KDispatcherSessionHandlerAbstract
         parent::__construct($config);
 
         if ($config->save_path && !is_dir($config->save_path)) {
-            mkdir($config->save_path, 0777, true);
+            mkdir($config->save_path, 0755, true);
         }
 
         ini_set('session.save_handler', 'files');
