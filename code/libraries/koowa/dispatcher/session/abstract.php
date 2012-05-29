@@ -48,7 +48,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @var array
      * @see http://php.net/session.configuration
      */
-    protected static $valid_options = array(
+    protected static $_valid_options = array(
         'auto_start',
         'cache_limiter',
         'cookie_domain',
@@ -106,7 +106,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         }
 
         //Set the sesssion options
-        $this->setOption($config->options);
+        $this->setOptions($config->options);
 
         //Set the session name
         if(!empty($config->name)) {
@@ -124,16 +124,16 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         }
 
         //Set the session handler
-        $this->setHandler($handler, $config);
+        $this->setHandler($config->handler, KConfig::unbox($config));
     }
 
     /**
-     * Initializes the default configuration for the object
+     * Initializes the options for the object
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
+     * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   object  An optional KConfig object with configuration options.
-     * @return void
+     * @param   KConfig $object An optional KConfig object with configuration options
+     * @return  void
      */
     protected function _initialize(KConfig $config)
     {
@@ -155,18 +155,16 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     }
 
     /**
-     * Sets session.* ini variables.
+     * Sets session.* ini variables
      *
-     * For convenience we omit 'session.' from the beginning of the keys.
-     * Explicitly ignores other ini keys.
+     * For convenience we omit 'session.' from the beginning of the keys. Explicitly ignores other ini keys.
      *
-     * @param array $options Session ini directives array(key => value).
-     *
+     * @param array $options Session ini directives array(key => value)
      * @see http://php.net/session.configuration
      */
-    public function setOptions(array $options)
+    public function setOptions($options)
     {
-        $valid = array_flip($this->_valid_option));
+        $valid = array_flip(self::$_valid_options);
 
         //Sets session.* ini variables.
         foreach ($options as $key => $value)
@@ -194,7 +192,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * Garbage collection may occur during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
-     * @return KSession
+     * @return \KDispatcherSessionInterface
      */
     public function setLifetime($lifetime)
     {
@@ -293,19 +291,19 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @throws KDispatcherSessionException	If the identifier is not a session handler identifier
      * @return \KDispatcherSessionInterface
      */
-    public function setHandler($handler, $config = null)
+    public function setHandler($handler, $config = array())
     {
         if(!($handler instanceof KDispatcherSessionHandlerInterface))
         {
-            if(is_string($handler) && strpos($hanlder, '.') === false )
+            if(is_string($handler) && strpos($handler, '.') === false )
             {
                 $identifier		   = clone $this->getIdentifier();
-                $identifier->path  = array('dispatcher', 'session', 'handler');
+                $identifier->path  = array('session', 'handler');
                 $identifier->name  = $handler;
             }
             else $identifier = $this->getIdentifier($handler);
 
-            if($identifier->path[2] != 'handler') {
+            if($identifier->path[1] != 'handler') {
                 throw new DomainException('Identifier: '.$identifier.' is not a session handler identifier');
             }
 
@@ -368,6 +366,20 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         }
 
         return true;
+    }
+
+    /**
+     * Is this session active
+     *
+     * @return boolean  True on success, false otherwise
+     */
+    public function isActive()
+    {
+        if($this->_state == self::ACTIVE) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

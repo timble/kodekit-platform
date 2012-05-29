@@ -62,7 +62,7 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'auto_register' => true,
+            'auto_register' => false,
         ));
 
         parent::_initialize($config);
