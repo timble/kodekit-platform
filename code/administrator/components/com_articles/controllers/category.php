@@ -22,7 +22,7 @@ class ComArticlesControllerCategory extends ComCategoriesControllerCategory
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		//'behaviors' => array('cacheable')
+            'model' => 'categories'
     	));
     
     	parent::_initialize($config);
