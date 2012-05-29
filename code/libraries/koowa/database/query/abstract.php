@@ -1,57 +1,57 @@
 <?php
 /**
- * @version		$Id$
+ * @version     $Id$
  * @package     Koowa_Database
  * @subpackage  Query
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
  * Abstract database query class
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Query
  */
 abstract class KDatabaseQueryAbstract extends KObject
 {
     /**
-	 * Database connector
-	 *
-	 * @var		object
-	 */
-	protected $_adapter;
-	
-	/**
-	 * Object constructor
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		if(!isset($config)) $config = new KConfig();
-		
+     * Database connector
+     *
+     * @var     object
+     */
+    protected $_adapter;
+
+    /**
+     * Object constructor
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     */
+    public function __construct(KConfig $config)
+    {
+        if(!isset($config)) $config = new KConfig();
+
         parent::__construct($config);
-        
+
         if ($config->adapter instanceof KDatabaseAdapterInterface) {
-		    $this->setAdapter($config->adapter);
+            $this->setAdapter($config->adapter);
         }
-	}
+    }
 
     /**
      * Initializes the options for the object
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param   object  An optional KConfig object with configuration options.
      */
     protected function _initialize(KConfig $config)
     {
-    	$config->append(array(
-    		'adapter' => KService::get('koowa:database.adapter.mysqli') 
-    	));
+        $config->append(array(
+            'adapter' => KService::get('koowa:database.adapter.mysqli')
+        ));
     }
-    
+
     /**
      * Gets the database adapter for this particular KDatabaseQuery object.
      *
@@ -61,8 +61,8 @@ abstract class KDatabaseQueryAbstract extends KObject
     {
         return $this->_adapter;
     }
-        
-	/**
+
+    /**
      * Set the database adapter for this particular KDatabaseQuery object.
      *
      * @param object A KDatabaseAdapterInterface object

@@ -1,17 +1,17 @@
 <?php
 /**
- * @version		$Id$
+ * @version     $Id$
  * @package     Koowa_Database
  * @subpackage  Query
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
  * Update database query class
  *
- * @author		Gergo Erdosi <gergo@timble.net>
+ * @author      Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Database
  * @subpackage  Query
  */
@@ -19,46 +19,46 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 {
     /**
      * The table name.
-     * 
+     *
      * @var string
      */
     public $table;
-    
+
     /**
      * Data of the set clause.
-     * 
+     *
      * @var array
      */
     public $set = array();
-    
+
     /**
      * Data of the where clause.
-     * 
+     *
      * @var array
      */
     public $where = array();
-    
+
     /**
      * Data of the order clause.
-     * 
+     *
      * @var array
      */
     public $order = array();
-    
+
     /**
      * The number of rows that can be updated.
-     * 
+     *
      * @var integer
      */
     public $limit;
-    
+
     /**
      * Parameters to bind.
-     * 
+     *
      * @var array
      */
     public $params = array();
-    
+
     /**
      * Build the table clause of the query.
      *
@@ -71,8 +71,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 
         return $this;
     }
-    
-	/**
+
+    /**
      * Build the set clause of the query.
      *
      * @param   array|string An array or string of columns to update.
@@ -83,11 +83,11 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
         foreach ((array) $columns as $column) {
             $this->set[] = $column;
         }
-        
+
         return $this;
     }
-    
-	/**
+
+    /**
      * Build the where clause of the query.
      *
      * @param   string          The condition.
@@ -103,8 +103,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 
         return $this;
     }
-    
-	/**
+
+    /**
      * Build the order clause of the query.
      *
      * @param   array|string  A string or array of ordering columns.
@@ -122,8 +122,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 
         return $this;
     }
-    
-	/**
+
+    /**
      * Build the limit clause of the query.
      *
      * @param   integer Number of items to update.
@@ -132,12 +132,12 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
     public function limit($limit)
     {
         $this->limit  = (int) $limit;
-        
+
         return $this;
     }
-    
-	/**
-     * Bind values to a corresponding named placeholders in the query. 
+
+    /**
+     * Bind values to a corresponding named placeholders in the query.
      *
      * @param   array Associative array of parameters.
      * @return  KDatabaseQueryUpdate
@@ -147,10 +147,10 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
         foreach ($params as $key => $value) {
             $this->params[$key] = $value;
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Render the query to a string.
      *
@@ -161,35 +161,35 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
         $adapter = $this->getAdapter();
         $prefix = $adapter->getTablePrefix();
         $query = 'UPDATE';
-        
+
         if ($this->table) {
             $query .= ' '.$adapter->quoteIdentifier($prefix.$this->table);
         }
-        
-        if ($this->set) 
+
+        if ($this->set)
         {
             $columns = array();
             foreach ($this->set as $column) {
                 $columns[] = ' '. $adapter->quoteIdentifier($column);
             }
-            
+
             $query .= ' SET '.implode(', ', $columns);
         }
-        
-        if ($this->where) 
+
+        if ($this->where)
         {
             $query .= ' WHERE';
-            
+
             foreach ($this->where as $where) {
                 if (!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
-                
+
                 $query .= ' '.$adapter->quoteIdentifier($where['condition']);
             }
         }
-        
-        if ($this->order) 
+
+        if ($this->order)
         {
             $query .= ' ORDER BY ';
 
@@ -204,8 +204,8 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
         if ($this->limit) {
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
-        
-        if ($this->params) 
+
+        if ($this->params)
         {
             $params = array();
             foreach ($this->params as $key => $value) {
@@ -215,11 +215,11 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
                     $params[':'.$key] = $adapter->quoteValue($value);
                 }
             }
-            
+
             // TODO: Use anonymous function instead of /e when we switch to PHP 5.3.
             $query = preg_replace("/(?<!\w):\w+/e", '$params[\'$0\']', $query);
         }
-        
+
         return $query;
     }
 }
