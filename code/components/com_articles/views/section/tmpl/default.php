@@ -1,35 +1,29 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access');
-$cparams =& JComponentHelper::getParams('com_files');
+<?php
+/**
+ * @version        $Id$
+ * @category       Nooku
+ * @package        Nooku_Server
+ * @subpackage     Articles
+ * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @author         Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access');
 ?>
 
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-<h1 class="page-header"><?php echo $this->escape($this->params->get('page_title')); ?></h1>
-<?php endif; ?>
+<? echo @template('header'); ?>
 
-<?php if ($this->params->get('show_description_image') && $this->section->image) : ?>
-	<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'.  $this->section->image;?>" align="<?php echo $this->section->image_position;?>" hspace="6" alt="<?php echo $this->section->image;?>" />
-<?php endif; ?>
-<?php if ($this->params->get('show_description') && $this->section->description) : ?>
-	<?php echo $this->section->description; ?>
-<?php endif; ?>
+<? $view = $this->getView()->setCategories(); ?>
 
-<?php if ($this->params->get('show_categories', 1)) : ?>
-	<?php foreach ($this->categories as $category) : ?>
-	<?php if (!$this->params->get('show_empty_categories') && !$category->numitems) continue; ?>
-		<h2><a href="<?php echo $category->link; ?>" class="category"><?php echo $this->escape($category->title);?></a></h2>
-		
-		<?php if ($this->params->def('show_category_description', 1) && $category->description) : ?>
-		<p><?php echo $category->description; ?></p>
-		<?php endif; ?>
-		
-		<?php if ($this->params->get('show_cat_num_articles')) : ?>
-		<p>
-			( <?php if ($category->numitems==1) {
-			echo $category->numitems ." ". JText::_( 'item' );}
-			else {
-			echo $category->numitems ." ". JText::_( 'items' );} ?> )
-		</p>
-		<?php endif; ?>
-	<?php endforeach; ?>
-<?php endif; ?>
+<? foreach ($view->categories->list as $category): ?>
+<? echo @template('category', array('category' => $category)); ?>
+<? endforeach; ?>
+
+<? if ($params->get('show_pagination')): ?>
+<? echo ($view->categories->total == count($view->categories->list)) ? '' : @helper('paginator.pagination', array(
+        'limit'      => $params->get('categories_per_page'),
+        'offset'     => $state->offset,
+        'total'      => $view->categories->total,
+        'show_limit' => false)); ?>
+<? endif; ?>

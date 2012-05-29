@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: icon.php 14401 2010-01-26 14:10:00Z louis $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: articles.php 1629 2011-06-07 16:28:00Z johanjanssens $
+ * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Frontpage

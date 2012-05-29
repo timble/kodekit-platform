@@ -1,86 +1,71 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access');
-$cparams =& JComponentHelper::getParams('com_files');
+<?
+/**
+ * @version        $Id$
+ * @category       Nooku
+ * @package        Nooku_Server
+ * @subpackage     Articles
+ * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @author         Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access');
 ?>
 
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-<h1 class="page-header"><?php echo $this->escape($this->params->get('page_title')); ?></h1>
-<?php endif; ?>
-
-<?php if ($this->access->canEdit || $this->access->canEditOwn) :
-		echo JHTML::_('icon.create', $this->category  , $this->params, $this->access);
-endif; ?>
-
-<p>
-	<?php if ($this->category->image) : ?>
-		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="<?php echo $this->category->image;?>" />
-	<?php endif; ?>
-	<?php echo $this->category->description; ?>
-</p>
+<? echo @template('header'); ?>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
-	<?php if ($this->params->get('show_headings')) : ?>
-	<thead>
-	<tr>
-		<?php if ($this->params->get('show_title')) : ?>
-	 	<th>
-			<?php echo JText::_('Item Title'); ?>
-		</th>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_date')) : ?>
-		<th width="25%">
-			<?php echo JText::_('Date'); ?>
-		</th>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_author')) : ?>
-		<th width="20%">
-			<?php echo JText::_('Author'); ?>
-		</th>
-		<?php endif; ?>
-	</tr>
-	</thead>
-	<?php endif; ?>
-	<?php foreach ($this->items as $item) : ?>
-	<tr>
-		<?php if ($this->params->get('show_title')) : ?>
-		<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
-		<td>
-			<a href="<?php echo $item->link; ?>">
-				<?php echo $this->escape($item->title); ?></a>
-				<?php $this->item = $item; echo JHTML::_('icon.edit', $item, $this->params, $this->access) ?>
-		</td>
-		<?php else : ?>
-		<td>
-			<?php
-				echo $this->escape($item->title).' : ';
-				$link = JRoute::_('index.php?option=com_user&view=login');
-				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid), false);
-				$fullURL = new JURI($link);
-				$fullURL->setVar('return', base64_encode($returnURL));
-				$link = $fullURL->toString();
-			?>
-			<a href="<?php echo $link; ?>">
-				<?php echo JText::_( 'Register to read more...' ); ?></a>
-		</td>
-		<?php endif; ?>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_date')) : ?>
-		<td>
-			<?php echo $item->created; ?>
-		</td>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_author')) : ?>
-		<td >
-			<?php echo $this->escape($item->created_by_alias) ? $this->escape($item->created_by_alias) : $this->escape($item->author); ?>
-		</td>
-		<?php endif; ?>
-	</tr>
-	<?php endforeach; ?>
+    <? if ($params->get('show_headings')): ?>
+    <thead>
+    <tr>
+        <? if ($params->get('show_title')): ?>
+        <th>
+            <? echo JText::_('Item Title'); ?>
+        </th>
+        <? endif; ?>
+        <? if ($params->get('show_date')): ?>
+        <th width="25%">
+            <? echo JText::_('Date'); ?>
+        </th>
+        <? endif; ?>
+        <? if ($params->get('show_author')): ?>
+        <th width="20%">
+            <? echo JText::_('Author'); ?>
+        </th>
+        <? endif; ?>
+    </tr>
+    </thead>
+    <? endif; ?>
+    <? foreach ($articles as $article): ?>
+    <tr>
+        <? if ($params->get('show_title')) : ?>
+        <td>
+            <? echo @helper('com://site/articles.template.helper.article.link', array(
+            'row'  => $article,
+            'text' => @escape($article->title))); ?>
+        </td>
+        <? endif; ?>
+        <? if ($params->get('show_date')) : ?>
+        <td>
+            <? echo @service('koowa:template.helper.date')->format(array(
+            'date'   => $article->created,
+            'format' => $params->get('date_format', JText::_('DATE_FORMAT_LC2')))); ?>
+        </td>
+        <? endif; ?>
+        <? if ($params->get('show_author')) : ?>
+        <td>
+            <? echo $article->getAuthor(); ?>
+        </td>
+        <? endif; ?>
+    </tr>
+    <? endforeach; ?>
 </table>
 
-<?php if ($this->params->get('show_pagination')) : ?>
-<p>
-	<?php echo $this->pagination->getPagesLinks(); ?>
-	<?php echo $this->pagination->getPagesCounter(); ?>
-</p>
-<?php endif; ?>	
+<? if ($params->get('show_pagination')) : ?>
+<? echo count($articles) == $total_articles ? '' : @helper('paginator.pagination',
+        array(
+            'limit'      => $params->get('articles_per_page'),
+            'offset'     => $state->offset,
+            'total'      => $total_articles,
+            'show_limit' => false));?>
+<? endif; ?>

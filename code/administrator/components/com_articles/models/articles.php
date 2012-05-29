@@ -30,7 +30,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
-            ->insert('trashed'   , 'int');
+            ->insert('trashed'   , 'int')
+            ->insert('aid'       , 'int');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -115,6 +116,10 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         {
             $query->where('tbl.deleted = :trashed')
                 ->bind(array('trashed' => 1));
+        }
+
+        if (is_numeric($state->aid)) {
+            $query->where('tbl.access <= :aid')->bind(array('aid' => $state->aid));
         }
     }
 

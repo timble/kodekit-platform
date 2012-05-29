@@ -125,4 +125,26 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         $data['params'] = $this->params->toArray();
         return $data;
     }
+
+    /**
+     * Author getter.
+     *
+     * Returns the author alias if any. Otherwise the created_by col is translated to user's name.
+     *
+     * @return null|string Null is row is new, author alias/name otherwise.
+     */
+    public function getAuthor() {
+        $result = null;
+
+        if (!$this->isNew()) {
+            if ($alias = $this->created_by_alias) {
+                $result = $alias;
+            } else {
+                $user = JFactory::getUser($this->created_by);
+                $result = $user->name;
+            }
+        }
+
+        return $result;
+    }
 }
