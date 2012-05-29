@@ -8,10 +8,7 @@
  */
 
 /**
- * Default controller dispatcher
- *
- * The default dispatcher mplements a signleton. After instantiation the
- * object can be access using the mapped dispatcher identifier.
+ * Default Dispatcher
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
