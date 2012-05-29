@@ -23,6 +23,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
     {
         $config->append(array(
         	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
+            'model'     => 'com://admin/categories.model.categories'
         ));
         
         parent::_initialize($config);
@@ -49,14 +50,6 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
 	    }
 	        
         return parent::_actionGet($context);
-    }
-    
-    public function setModel($model)
-    {
-        $model = parent::setModel($model);
-        $model->package = 'categories';
-        
-        return $model; 
     }
     
     public function getRequest()
