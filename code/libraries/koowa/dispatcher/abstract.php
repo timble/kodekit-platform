@@ -12,8 +12,6 @@
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
- * @uses		KMixinClass
- * @uses        KObject
  */
 abstract class KDispatcherAbstract extends KControllerAbstract
 {
