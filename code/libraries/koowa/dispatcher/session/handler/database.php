@@ -1,0 +1,187 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Koowa_Dispatcher
+ * @subpackage  Session
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link     	http://www.nooku.org
+ */
+
+/**
+ * APC Session Handler Class
+ *
+ * @author		Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Dispatcher
+ * @subpackage  Session
+ */
+class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstract
+{
+    /**
+     * Table object or identifier
+     *
+     * @var string|object
+     */
+    protected $_table = null;
+
+    /**
+     * Constructor
+     *
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KDispatcherSessionHandlerDatabase
+     */
+    public function __construct( KConfig $config = null )
+    {
+        parent::__construct($config);
+
+        if(is_null($config->table)) {
+            throw new InvalidArgumentException('table option is required');
+        }
+
+        $this->_table = $config->table;
+    }
+
+    /**
+     * Initializes the default configuration for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options.
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'table' => null,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
+     * Read session data for a particular session identifier from the session handler backend
+     *
+     * @param   string  $session_id  The session identifier
+     * @return  string  The session data
+     */
+    public function read($session_id)
+    {
+        $result = false;
+
+        if($this->getTable()->getDatabase()->isConnected()) {
+            $result = $this->_table->select($session_id, KDatabase::FETCH_ROW)->data;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Write session data to the session handler backend
+     *
+     * @param   string  $session_id    The session identifier
+     * @param   string  $session_data  The session data
+     * @return  boolean  True on success, false otherwise
+     */
+    public function write($session_id, $session_data)
+    {
+        $result = false;
+
+        if($this->getTable()->getDatabase()->isConnected())
+        {
+            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+
+            if(!$row->isNew())
+            {
+                $row->data = $session_data;
+                $result = $row->save();
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Destroy the data for a particular session identifier in the session handler backend
+     *
+     * @param   string  $session_id  The session identifier
+     * @return  boolean  True on success, false otherwise
+     */
+    public function destroy($session_id)
+    {
+        $result = false;
+
+        if($this->getTable()->getDatabase()->isConnected()) {
+            $result = $this->_table->select($session_id, KDatabase::FETCH_ROW)->delete();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Garbage collect stale sessions from the SessionHandler backend.
+     *
+     * @param   integer  $maxlifetime  The maximum age of a session
+     * @return  boolean  True on success, false otherwise
+     */
+    public function gc($maxlifetime)
+    {
+        $result = false;
+
+        if($this->getTable()->getDatabase()->isConnected())
+        {
+            $query = $this->getService('koowa:database.query.select')
+                          ->where('time < :time')
+                          ->bind(array('time' => (int) (time() - $maxlifetime)));
+
+            $result = $this->_table->select($query)->delete();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get a table object, create it if it does not exist.
+     *
+     * @return KDatabaseTableInterface
+     */
+    public function getTable()
+    {
+        if(!($this->_table instanceof KDatabaseTableInterface))
+        {
+            //Make sure we have a table identifier
+            if(!($this->_table instanceof KServiceIdentifier)) {
+                $this->setTable($this->_table);
+            }
+
+            $this->_table = $this->getService($this->_table);
+        }
+
+        return $this->_table;
+    }
+
+    /**
+     * Set a table object attached to the handler
+     *
+     * @param	mixed	$table An object that implements KObjectServiceable, KServiceIdentifier object
+     * 					       or valid identifier string
+     * @throws  KDispatcherSessionHandlerException  If the identifier is not a table identifier
+     * @return \KDispatcherSessionHandlerDatabase
+     */
+    public function setTable($table)
+    {
+        if(!($table instanceof KDatabaseTableInterface))
+        {
+            $identifier = $this->getIdentifier($table);
+
+            if($identifier->path[1] != 'table') {
+                throw new DomainException('Identifier: '.$identifier.' is not a table identifier');
+            }
+
+            $table = $identifier;
+        }
+
+        $this->_table = $identifier;
+
+        return $this;
+    }
+}
