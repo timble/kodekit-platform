@@ -38,7 +38,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         parent::__construct($config);
     }
 
-    public function _buildQueryWhere(KDatabaseQuerySelect $query)
+    public function _buildQueryWhere(KDatabaseQueryUpdate $query)
     {
         if ($this->_parent_column)
         {
