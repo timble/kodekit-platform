@@ -8,7 +8,7 @@
  */
 
 /**
- * Koowa View Exception class
+ * Dispatcher Exception Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
