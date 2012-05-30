@@ -105,11 +105,9 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
 
         $article = $config->row;
 
-        $view = $this->getTemplate()->getView();
-
         $html = '';
 
-        if ($view->canEdit) {
+        if ($article->editable) {
             $html .= '<div class="edit-article">';
             $html .= '<a href="' . JRoute::_('index.php?option=com_articles&view=article&layout=form&id=' . $article->id) . '">';
             $html .= JText::_('Edit');

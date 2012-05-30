@@ -12,7 +12,11 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
+<style src="media://com_articles/css/site.css" />
+
 <? foreach ($articles as $article): ?>
+
+<? echo @helper('com://site/articles.template.helper.article.edit', array('row' => $article)); ?>
 
 <? echo @helper('com://site/articles.template.helper.article.render', array(
         'row'       => $article)); ?>

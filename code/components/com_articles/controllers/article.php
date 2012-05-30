@@ -22,7 +22,7 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
     public function __construct(KConfig $config) {
         parent::__construct($config);
 
-        $this->registerCallback('after.read', array($this, setViewAcls));
+        $this->registerCallback(array('after.read', 'after.browse'), array($this, 'setAcls'));
     }
 
     public function setRequest(array $request) {
@@ -51,7 +51,15 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
         return parent::setRequest($request);
     }
 
-    public function setViewAcls(KCommandContext $context) {
-        $this->getView()->canEdit = $this->canEdit();
+    public function setAcls(KCommandContext $context) {
+        $data = $this->getModel()->getData();
+
+        if ($data instanceof KDatabaseRowsetAbstract) {
+            foreach ($data as $row) {
+                $row->editable = $this->canEdit($row);
+            }
+        } else {
+            $data->editable = $this->canEdit($data);
+        }
     }
 }

@@ -27,6 +27,11 @@ class ComArticlesControllerBehaviorArticleExecutable extends ComDefaultControlle
 
         $user = JFactory::getUser();
 
+        // Users can see their own articles regardless of the access settings.
+        if ($article->created_by == $user->id) {
+            $result = true;
+        }
+
         if ($article->access <= $user->get('aid', 0)) {
             $result = true;
         }
@@ -34,9 +39,11 @@ class ComArticlesControllerBehaviorArticleExecutable extends ComDefaultControlle
         return $result;
     }
 
-    public function canEdit() {
+    public function canEdit(KDatabaseRowAbstract $article = null) {
 
-        $article = $this->getModel()->getItem();
+        if (is_null($article)) {
+            $article = $this->getModel()->getItem();
+        }
 
         $user = JFactory::getUser();
 
