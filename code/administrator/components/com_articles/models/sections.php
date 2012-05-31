@@ -25,7 +25,8 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		
 		$this->getState()
 			->insert('scope'	 , 'string', '')
-			->insert('published' , 'boolean');
+			->insert('published' , 'boolean')
+            ->insert('aid'       , 'int');
 
 	}
 	
@@ -72,6 +73,10 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		if($state->published) {
 			$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
 		}
+
+        if (is_numeric($state->aid)) {
+            $query->where('tbl.access <= :aid')->bind(array('aid' => $state->aid));
+        }
 	}
 	
 	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
