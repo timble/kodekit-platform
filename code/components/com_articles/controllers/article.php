@@ -52,6 +52,9 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
             $request['direction'] = current($sort_by);
         }
 
+        // Only return published items.
+        $request['state'] = 1;
+
         return parent::setRequest($request);
     }
 

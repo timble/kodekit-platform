@@ -19,5 +19,11 @@
  */
 class ComArticlesControllerSection extends ComArticlesControllerDefault
 {
+    public function setRequest($request) {
 
+        // Only return published items.
+        $request['published'] = 1;
+
+        return parent::setRequest($request);
+    }
 }
