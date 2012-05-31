@@ -17,7 +17,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerArticle extends ComDefaultControllerDefault
+class ComArticlesControllerArticle extends ComArticlesControllerDefault
 {
     public function __construct(KConfig $config) {
         parent::__construct($config);
@@ -51,10 +51,6 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
             $request['sort']      = key($sort_by);
             $request['direction'] = current($sort_by);
         }
-
-        // Filter rowsets based on current logged user's permissions.
-        $user           = JFactory::getUser();
-        $request['aid'] = $user->get('aid', 0);
 
         return parent::setRequest($request);
     }

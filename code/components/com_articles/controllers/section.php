@@ -17,7 +17,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerSection extends ComDefaultControllerDefault
+class ComArticlesControllerSection extends ComArticlesControllerDefault
 {
 
 }

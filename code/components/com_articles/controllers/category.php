@@ -18,7 +18,7 @@
  * @subpackage Articles
  */
 
-class ComArticlesControllerCategory extends ComDefaultControllerDefault
+class ComArticlesControllerCategory extends ComArticlesControllerDefault
 {
 
 }
