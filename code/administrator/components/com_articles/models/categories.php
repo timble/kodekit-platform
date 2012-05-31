@@ -34,7 +34,7 @@ class ComArticlesModelCategories extends ComCategoriesModelCategories
         parent::_initialize($config);
     }
 
-    protected function _buildQuerWhere(KDatabaseQuerySelect $query) {
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query) {
         $state = $this->getState();
 
         if (is_numeric($aid = $state->aid)) {
@@ -119,7 +119,7 @@ class ComArticlesModelCategories extends ComCategoriesModelCategories
             }
             
             //Set the total
-			$this->_total = count($folders);
+			//$this->_total = count($folders);
             
             //Apply limit and offset
             if($state->limit) {
