@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: list.php 1485 2012-02-10 12:32:02Z johanjanssens $
+ * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Activities

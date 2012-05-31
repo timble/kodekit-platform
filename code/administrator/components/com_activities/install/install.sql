@@ -1,4 +1,4 @@
--- $Id: install.sql 1244 2010-09-08 22:51:47Z johanjanssens $
+-- $Id$
 
 CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
