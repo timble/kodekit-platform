@@ -32,7 +32,7 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         else parent::_beforeTableUpdate($context);
     }
      
-    public function _buildQueryWhere(KDatabaseQuerySelect $query)
+    public function _buildQueryWhere(KDatabaseQueryAbstract $query)
     {
         if ($this->getMixer()->getIdentifier()->name == 'article' && !isset($this->featured_order)) 
         {

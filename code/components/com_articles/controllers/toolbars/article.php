@@ -10,25 +10,20 @@
  */
 
 /**
- * Article html view class.
+ * Article controller toolbar class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesViewArticleHtml extends ComArticlesViewHtml
+
+require_once (JPATH_ADMINISTRATOR . '/components/com_default/controllers/toolbars/default.php');
+
+class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDefault
 {
-
-    public function display() {
-
-        $article = $this->getModel()->getItem();
-        $user    = JFactory::getUser();
-
-        $this->assign('user', $user);
-        $this->assign('params', JComponentHelper::getParams('com_articles'));
-
-        return parent::display();
+    protected function _initialize(KConfig $config) {
+        $config->append(array('controller' => 'com://site/articles.controller.article'));
+        parent::_initialize($config);
     }
-
 }

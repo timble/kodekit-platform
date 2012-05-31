@@ -23,6 +23,14 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
         parent::__construct($config);
 
         $this->registerCallback(array('after.read', 'after.browse'), array($this, 'setAcls'));
+        $this->registerCallback('before.add', array($this, 'filterInput'));
+    }
+
+    protected function _initialize(KConfig $config) {
+        $config->append(array(
+            'behaviors' => array('com://site/articles.controller.behavior.article.executable'),
+            'toolbars'  => array('article')));
+        parent::_initialize($config);
     }
 
     public function setRequest(array $request) {
@@ -49,6 +57,14 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
         $request['aid'] = $user->get('aid', 0);
 
         return parent::setRequest($request);
+    }
+
+    public function filterInput(KCommandContext $context) {
+        if (!$this->canEdit()) {
+            // Force some default values.
+            $data        = $context->data;
+            $data->state = 0;
+        }
     }
 
     public function setAcls(KCommandContext $context) {

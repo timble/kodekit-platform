@@ -121,4 +121,36 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         return $this->optionlist($config);
     }
+
+    public function ordering($config = array()) {
+        $config = new KConfig($config);
+
+        if (!$config->row instanceof ComArticlesDatabaseRowArticle) {
+            throw new KTemplateHelperException('The row is missing.');
+        }
+
+        $article = $config->row;
+
+        $config->append(array(
+            'name'     => 'order',
+            'selected' => 0,
+            'filter'   => array(
+                'sort'      => 'ordering',
+                'direction' => 'ASC',
+                'category'  => $article->category_id)));
+
+        $list = $this->getService('com://admin/articles.model.articles')
+            ->set($config->filter)
+            ->getList();
+
+        foreach ($list as $item) {
+            $options[] = $this->option(array(
+                'text'  => '( ' . $item->ordering . ' ) ' . $item->title,
+                'value' => ($item->ordering - $article->ordering)));
+        }
+
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
 }

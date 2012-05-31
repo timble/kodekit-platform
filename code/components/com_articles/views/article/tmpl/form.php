@@ -1,225 +1,233 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-$config =& JFactory::getConfig();
-
-$date = new KDate(array('date' => $this->article->publish_up));
-$publish_up = $date->format('Y-m-d H:i:s');
-
-if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
-	$publish_down = JText::_('Never');
-} else {
-    $date = new KDate(array('date' => $this->article->publish_down));
-    $publish_up = $date->format('Y-m-d H:i:s');
-}
+<?
+/**
+ * @version        $Id$
+ * @category       Nooku
+ * @package        Nooku_Server
+ * @subpackage     Articles
+ * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @author         Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access');
 ?>
+<? echo @helper('behavior.mootools'); ?>
+<? echo @helper('behavior.keepalive'); ?>
 
-<script language="javascript" type="text/javascript">
-<!--
-function setgood() {
-	// TODO: Put setGood back
-	return true;
-}
+<style src="media://com_articles/css/toolbar.css"/>
+<style src="media://com_articles/css/site.css"/>
 
-var sectioncategories = new Array;
-<?php
-$i = 0;
-foreach ($this->lists['sectioncategories'] as $k=>$items) {
-	foreach ($items as $v) {
-		echo "sectioncategories[".$i++."] = new Array( '$k','".addslashes( $v->id )."','".addslashes( $v->title )."' );\n\t\t";
-	}
-}
-?>
+<script src="media://lib_koowa/js/koowa.js"/>
 
+<div id="toolbar-box">
+    <? echo @helper('com://admin/default.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
+</div>
 
-function submitbutton(pressbutton) {
-	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
-		return;
-	}
-	try {
-		form.onsubmit();
-	} catch(e) {
-		alert(e);
-	}
+<div class="clear_both"></div>
 
-	// do field validation
-	if (form.title.value == '') {
-		return alert ( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
-	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
-		// for articles
-		if (form.catid && getSelectedValue('adminForm','catid') < 1) {
-			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
-		}
-	}
-	submitform(pressbutton);
-}
-//-->
+<? if ($params->get('show_page_title', 1)) : ?>
+<div
+    class="componentheading<? echo @escape($params->get('pageclass_sfx')); ?>"><? echo @escape($params->get('page_title')); ?></div>
+<? endif; ?>
+
+<script type="text/javascript">
+    window.addEvent('domready', function () {
+
+        var section_select = $('section_id');
+        var category_select = $('category_id');
+
+        section_select.addEvent('change', function (event, category_id) {
+
+            var url = "<? echo @route('option=com_articles&view=categories&format=json');?>";
+            var section_id = this.get('value').toInt();
+
+            if (section_id <= 0) {
+                section_id = '';
+            }
+
+            url += '&section=' + section_id;
+
+            category_select.empty();
+
+            new Request({
+                method:'get',
+                url:url,
+                onSuccess:function (response) {
+                    var categories = JSON.decode(response);
+                    categories.items.unshift({data:{title:"- Select -", id:-1}}, {data:{title:"<? echo JText::_('Uncategorized');?>", id:0}})
+                    Array.each(categories.items, function (category) {
+                        data = category.data;
+                        new Element('option')
+                            .set('text', data.title)
+                            .set('value', data.id)
+                            .inject(category_select);
+                        // Set the value if available
+                        if (category_id) {
+                            category_select.set('value', category_id)
+                        }
+                    });
+                }
+            }).send();
+        });
+        // Initialize the category selector if section is already set.
+        var section_id = section_select.get('value').toInt();
+        if (section_id > 0) {
+            var category_id = category_select.get('value').toInt();
+            section_select.fireEvent('change', [null, category_id]);
+        }
+    });
 </script>
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
-<?php endif; ?>
-<form action="<?php echo $this->action ?>" method="post" name="adminForm" onSubmit="setgood();">
-<fieldset>
-<legend><?php echo JText::_('Editor'); ?></legend>
-<table class="adminform" width="100%">
-<tr>
-	<td>
-		<div style="float: left;">
-			<label for="title">
-				<?php echo JText::_( 'Title' ); ?>:
-			</label>
-			<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $this->escape($this->article->title); ?>" />
-			<input class="inputbox" type="hidden" id="alias" name="alias" value="<?php echo $this->escape($this->article->alias); ?>" />
-		</div>
-		<div style="float: right;">
-			<button type="button" onclick="submitbutton('save')">
-				<?php echo JText::_('Save') ?>
-			</button>
-			<button type="button" onclick="submitbutton('cancel')">
-				<?php echo JText::_('Cancel') ?>
-			</button>
-		</div>
-	</td>
-</tr>
-</table>
 
-<?php echo KService::get('com://admin/editors.controller.editor')
-	->name('text')
-	->data($this->article->text)
-	->display() ?>
-</fieldset>
-<fieldset>
-<legend><?php echo JText::_('Publishing'); ?></legend>
-<table class="adminform">
-<tr>
-	<td class="key">
-		<label for="sectionid">
-			<?php echo JText::_( 'Section' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['sectionid']; ?>
-	</td>
-</tr>
-<tr>
-	<td class="key">
-		<label for="catid">
-			<?php echo JText::_( 'Category' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['catid']; ?>
-	</td>
-</tr>
-<?php if ($this->user->authorize('com_content', 'publish', 'content', 'all')) : ?>
-<tr>
-	<td class="key">
-		<label for="state">
-			<?php echo JText::_( 'Published' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['state']; ?>
-	</td>
-</tr>
-<?php endif; ?>
-<tr>
-	<td width="120" class="key">
-		<label for="frontpage">
-			<?php echo JText::_( 'Show on Front Page' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['frontpage']; ?>
-	</td>
-</tr>
-<tr>
-	<td class="key">
-		<label for="created_by_alias">
-			<?php echo JText::_( 'Author Alias' ); ?>:
-		</label>
-	</td>
-	<td>
-		<input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100" value="<?php echo $this->escape($this->article->created_by_alias); ?>" class="inputbox" />
-	</td>
-</tr>
-<tr>
-	<td class="key">
-		<label for="publish_up">
-			<?php echo JText::_( 'Start Publishing' ); ?>:
-		</label>
-	</td>
-	<td>
-	    <?php echo JHTML::_('calendar', $publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
-	</td>
-</tr>
-<tr>
-	<td class="key">
-		<label for="publish_down">
-			<?php echo JText::_( 'Finish Publishing' ); ?>:
-		</label>
-	</td>
-	<td>
-	    <?php echo JHTML::_('calendar', $publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
-	</td>
-</tr>
-<tr>
-	<td valign="top" class="key">
-		<label for="access">
-			<?php echo JText::_( 'Access Level' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['access']; ?>
-	</td>
-</tr>
-<tr>
-	<td class="key">
-		<label for="ordering">
-			<?php echo JText::_( 'Ordering' ); ?>:
-		</label>
-	</td>
-	<td>
-		<?php echo $this->lists['ordering']; ?>
-	</td>
-</tr>
-</table>
-</fieldset>
-
-<fieldset>
-<legend><?php echo JText::_('Metadata'); ?></legend>
-<table class="adminform">
-<tr>
-	<td valign="top" class="key">
-		<label for="metadesc">
-			<?php echo JText::_( 'Description' ); ?>:
-		</label>
-	</td>
-	<td>
-		<textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$this->article->metadesc); ?></textarea>
-	</td>
-</tr>
-<tr>
-	<td  valign="top" class="key">
-		<label for="metakey">
-			<?php echo JText::_( 'Keywords' ); ?>:
-		</label>
-	</td>
-	<td>
-		<textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$this->article->metakey); ?></textarea>
-	</td>
-</tr>
-</table>
-</fieldset>
-
-<input type="hidden" name="option" value="com_content" />
-<input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
-<input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
-<input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
-<input type="hidden" name="referer" value="<?php echo str_replace(array('"', '<', '>', "'"), '', @$_SERVER['HTTP_REFERER']); ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
-<input type="hidden" name="task" value="" />
+<form method="post" action="" class="-koowa-form">
+    <fieldset>
+        <legend><? echo JText::_('Editor'); ?></legend>
+        <table class="adminform" width="100%">
+            <tr>
+                <td>
+                    <label for="title">
+                        <? echo JText::_('Title'); ?>:
+                    </label>
+                    <input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100"
+                           value="<? echo @escape($article->title); ?>"/>
+                </td>
+            </tr>
+        </table>
+        <? echo @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display(); ?>
+    </fieldset>
+    <fieldset>
+        <legend><? echo JText::_('Publishing'); ?></legend>
+        <table class="adminform">
+            <tr>
+                <td class="key">
+                    <label for="section_id">
+                        <? echo JText::_('Section'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('com://admin/articles.template.helper.listbox.sections',
+                    array(
+                        'name'     => 'section_id',
+                        'selected' => $article->section_id,
+                        'attribs'  => array('id' => 'section_id'))); ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="key">
+                    <label for="category_id">
+                        <? echo JText::_('Category'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('com://admin/articles.template.helper.listbox.categories', array(
+                    'selected' => $article->category_id,
+                    'name'     => 'category_id',
+                    'attribs'  => array('id' => 'category_id'))); ?>
+                </td>
+            </tr>
+            <? if ($article->editable) : ?>
+            <tr>
+                <td class="key">
+                    <label for="state">
+                        <? echo JText::_('Published'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('select.booleanlist', array('name'     => 'state',
+                                                                'selected' => $article->state)); ?>
+                </td>
+            </tr>
+            <? endif; ?>
+            <tr>
+                <td width="120" class="key">
+                    <label for="featured">
+                        <? echo JText::_('Featured'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('select.booleanlist', array(
+                    'name'     => 'featured',
+                    'selected' => $article->featured)); ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="key">
+                    <label for="created_by_alias">
+                        <? echo JText::_('Author Alias'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100"
+                           value="<? echo @escape($article->created_by_alias); ?>" class="inputbox"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="key">
+                    <label for="publish_up">
+                        <? echo JText::_('Start Publishing'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('com://site/articles.template.helper.form.publish', array('row' => $article));?>
+                </td>
+            </tr>
+            <tr>
+                <td class="key">
+                    <label for="publish_down">
+                        <? echo JText::_('Finish Publishing'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('com://site/articles.template.helper.form.unpublish', array('row' => $article)); ?>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" class="key">
+                    <label for="access">
+                        <? echo JText::_('Access Level'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo  JHTML::_('list.accesslevel', $article); ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="key">
+                    <label for="ordering">
+                        <? echo JText::_('Ordering'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <? echo @helper('com://admin/articles.template.helper.listbox.ordering',
+                    array('row' => $article)); ?>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset>
+        <legend><? echo JText::_('Metadata'); ?></legend>
+        <table class="adminform">
+            <tr>
+                <td valign="top" class="key">
+                    <label for="metadesc">
+                        <? echo JText::_('Description'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc"
+                              name="metadesc"><? echo @escape($article->metadesc); ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" class="key">
+                    <label for="metakey">
+                        <? echo JText::_('Keywords'); ?>:
+                    </label>
+                </td>
+                <td>
+                    <textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey"
+                              name="metakey"><? echo @escape($article->metakey); ?></textarea>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
 </form>
-<?php echo JHTML::_('behavior.keepalive'); ?>
