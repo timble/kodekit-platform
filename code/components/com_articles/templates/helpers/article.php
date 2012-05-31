@@ -92,7 +92,8 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
 
         $html = '';
 
-        $html .= '<a href="' . JRoute::_('index.php?option=com_articles&view=article&id=' . $article->id) . '">';
+        $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,
+            $article->section_id)) . '">';
         $html .= $text;
         $html .= '</a>';
 
@@ -109,7 +110,8 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
 
         if ($article->editable) {
             $html .= '<div class="edit-article">';
-            $html .= '<a href="' . JRoute::_('index.php?option=com_articles&view=article&layout=form&id=' . $article->id) . '">';
+            $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id,
+                $article->category_id, $article->section_id) . '&layout=form') . '">';
             $html .= JText::_('Edit');
             $html .= '</a>';
             $html .= '</div>';

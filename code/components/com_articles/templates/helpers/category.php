@@ -26,7 +26,7 @@ class ComArticlesTemplateHelperCategory extends KTemplateHelperDefault
 
         $category = $config->row;
 
-        $link = JRoute::_('index.php?option=com_articles&view=category&id=' . $category->id);
+        $link = JRoute::_(ComArticlesHelperRoute::getCategoryRoute($category->id, $category->section_id));
 
         $html = '<a href="' . $link . '" class="category">' . htmlspecialchars($category->title, ENT_QUOTES) . '</a>';
 

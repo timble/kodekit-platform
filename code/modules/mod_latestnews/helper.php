@@ -14,8 +14,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
-
 class modLatestNewsHelper
 {
 	function getList(&$params)
@@ -105,7 +103,7 @@ class modLatestNewsHelper
 		{
 			if($row->access <= $aid)
 			{
-				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+				$lists[$i]->link = JRoute::_(ComArticlesHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
 			} else {
 				$lists[$i]->link = JRoute::_('index.php?option=com_user&view=login');
 			}

@@ -14,8 +14,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
-
 class modNewsFlashHelper
 {
 	function renderItem(&$item, &$params, &$access)
@@ -41,7 +39,7 @@ class modNewsFlashHelper
 					$itemparams=new JParameter($item->attribs);
 					$readmoretxt=$itemparams->get('readmore',JText::_('Read more text'));
 
-					$item->linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+					$item->linkOn = JRoute::_(ComArticlesHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
 					$item->linkText = $readmoretxt;
 				} else {
 					$item->linkOn = JRoute::_('index.php?option=com_user&view=login');

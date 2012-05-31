@@ -38,7 +38,7 @@ defined('KOOWA') or die('Restricted access');
 
         section_select.addEvent('change', function (event, category_id) {
 
-            var url = "<? echo @route('option=com_articles&view=categories&format=json');?>";
+            var url = "<? echo @route('option=com_articles&view=categories&format=json&Itemid=');?>";
             var section_id = this.get('value').toInt();
 
             if (section_id <= 0) {
@@ -78,7 +78,7 @@ defined('KOOWA') or die('Restricted access');
     });
 </script>
 
-<form method="post" action="" class="-koowa-form">
+<form method="post" action="<? echo @helper('com://site/articles.template.helper.form.action', array('row' => $article)); ?>" class="-koowa-form">
     <fieldset>
         <legend><? echo JText::_('Editor'); ?></legend>
         <table class="adminform" width="100%">
@@ -132,8 +132,9 @@ defined('KOOWA') or die('Restricted access');
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('select.booleanlist', array('name'     => 'state',
-                                                                'selected' => $article->state)); ?>
+                    <? echo @helper('select.booleanlist', array(
+                    'name'     => 'state',
+                    'selected' => $article->state)); ?>
                 </td>
             </tr>
             <? endif; ?>
