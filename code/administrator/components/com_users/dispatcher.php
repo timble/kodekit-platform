@@ -23,7 +23,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
     {  
         //Force the view to prevent a redirect
         if(JFactory::getUser()->guest && KRequest::method() == KHttpRequest::GET) {  
-            $config->request = array('view' => 'login');
+            $config->request = array('view' => 'session');
         } 
         
         parent::_initialize($config);
@@ -34,8 +34,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         if(!JFactory::getUser()->guest) 
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'login') {
-                JFactory::getApplication()->redirect('index.php', 'You are already logged in!');
+            if($this->getRequest()->view == 'session') {
+                //JFactory::getApplication()->redirect('index.php', 'You are already logged in!');
             }
         }
        
