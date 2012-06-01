@@ -648,7 +648,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     /**
      * Create a token-string
      *
-     * @param   integer $length Lenght of string
+     * @param   integer $length Length of string
      * @return  string  Generated token
      */
     protected function _createToken( $length = 32 )
