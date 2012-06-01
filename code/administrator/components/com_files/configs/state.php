@@ -27,4 +27,14 @@ class ComFilesConfigState extends KConfigState
 
         return $result;
   	}
+  	
+    public function toArray($values = true)
+    {
+    	$array = parent::toArray($values);
+    	if (!empty($array['container']) && $array['container'] instanceof KDatabaseRowInterface) {
+    		$array['container'] = $array['container']->slug;
+    	}
+
+        return $array;
+    }
 }

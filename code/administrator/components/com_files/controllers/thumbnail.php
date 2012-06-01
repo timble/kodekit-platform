@@ -19,7 +19,9 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
 {
     protected function _actionBrowse(KCommandContext $context)
     {
-        $model = $this->getModel();
+    	// Clone to make cacheable work since we change model states
+        $model = clone $this->getModel();
+        
     	// Save state data for later
         $state_data = $model->getState()->getData();
 
@@ -56,15 +58,18 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
 	        		}
         		}
         	}
+        	
         	if (count($new))
         	{
-			$model->reset()
-			    ->set($state_data)
-			    ->set('files', $new);
-			$additional = $model->getList();
-			foreach ($additional as $row) {
-				$list->insert($row);
-			}
+				$model->reset()
+				    ->set($state_data)
+				    ->set('files', $new);
+				
+				$additional = $model->getList();
+				
+				foreach ($additional as $row) {
+					$list->insert($row);
+				}
         	}
         }
 
