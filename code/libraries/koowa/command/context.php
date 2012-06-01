@@ -49,6 +49,16 @@ class KCommandContext extends KConfig
     {
         return $this->_error;
     }
+
+    /**
+     * Check if we have an error
+     *
+     * @return  boolean  True if an error is set, otherwise false
+     */
+    public function hasError()
+    {
+        return (bool) $this->_error;
+    }
     
     /**
     * Get the command subject 
