@@ -11,88 +11,77 @@
  *                 See COPYRIGHT.php for copyright notices and details.
  */
 
+/**
+ * @version        $Id$
+ * @category       Nooku
+ * @package        Nooku_Server
+ * @subpackage     Articles
+ * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://www.nooku.org
+ */
+
+/**
+ * Articles router class.
+ *
+ * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @category   Nooku
+ * @package    Nooku_Server
+ * @subpackage Articles
+ */
 function ArticlesBuildRoute(&$query) {
 
     $segments = array();
 
-    // Ignore JSON request.
+    // Ignore JSON requests.
     if ($query['format'] == 'json') {
         return $segments;
     }
 
-    // get a menu item based on Itemid or currently active
-    $menu = &JSite::getMenu();
+    $menu = JSite::getMenu();
+    $item = $menu->getItem($query['Itemid']);
 
-    if (empty($query['Itemid'])) {
-        $menuItem = &$menu->getActive();
-    } else {
-        $menuItem = &$menu->getItem($query['Itemid']);
-    }
-
-    $mView  = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-    $mCatid = (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
-    $mId    = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+    $menu_view = empty($item->query['view']) ? null : $item->query['view'];
+    //$menu_catid = empty($item->query['catid']) ? null : $item->query['catid'];
+    $menu_id = empty($item->query['id']) ? null : $item->query['id'];
 
     if (isset($query['view'])) {
-        $view = $query['view'];
+        $query_view = $query['view'];
         if (empty($query['Itemid'])) {
             $segments[] = $query['view'];
         }
         unset($query['view']);
     }
 
-    // are we dealing with an article that is attached to a menu item?
-    if (($mView == 'article') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+    if ($menu_view == 'article' && (isset($query['id']) && ($menu_id == intval($query['id'])))) {
+        // Article attached to a menu item.
         unset($query['view']);
         unset($query['catid']);
         unset($query['id']);
     }
 
-    if (isset($view) and ($view == 'section' && !empty($query['Itemid']))) {
-        if (($mView != 'section') or ($mView == 'section' and $mId != intval($query['id']))) {
-            $segments[] = 'section';
-            unset($query['Itemid']);
-        }
-    }
-
-    if (isset($view) and $view == 'category') {
-        if ($mId != intval($query['id']) || $mView != $view) {
-            $segments[] = $query['id'];
-        }
-        unset($query['id']);
-    }
-
     if (isset($query['catid'])) {
-        // if we are routing an article or category where the category id matches the menu catid, don't include the category segment
-        if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
+        if (isset($query_view) && $query_view == 'article' && $menu_view == 'section') {
+            // Include the catid segment on articles being displayed from section menu items.
             $segments[] = $query['catid'];
         }
         unset($query['catid']);
     }
 
     if (isset($query['id'])) {
-        if (empty($query['Itemid'])) {
+        if (empty($query['Itemid']) || ($query['id'] != $menu_id)) {
             $segments[] = $query['id'];
-        } else {
-            if (isset($menuItem->query['id'])) {
-                if ($query['id'] != $mId) {
-                    $segments[] = $query['id'];
-                }
-            } else {
-                $segments[] = $query['id'];
-            }
         }
         unset($query['id']);
     }
 
     if (isset($query['layout'])) {
-        if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
-            if ($query['layout'] == $menuItem->query['layout']) {
-
-                unset($query['layout']);
-            }
+        if (isset($item->query['layout']) && ($item->query['layout'] == $query['layout'])) {
+            // We can take it out as it's already available in the menu item URL we are accessing.
+            unset($query['layout']);
         } else {
             if ($query['layout'] == 'default') {
+                // We can safely remove it as default is the default layout.
                 unset($query['layout']);
             }
         }
@@ -105,8 +94,8 @@ function ArticlesParseRoute($segments) {
     $vars = array();
 
     //Get the active menu item
-    $menu =& JSite::getMenu();
-    $item =& $menu->getActive();
+    $menu = JSite::getMenu();
+    $item = $menu->getActive();
 
     // Count route segments
     $count = count($segments);
@@ -121,27 +110,34 @@ function ArticlesParseRoute($segments) {
     //Handle View and Identifier
     switch ($item->query['view'])
     {
-        case 'section' :
-            if ($count == 1) {
-                $vars['view'] = 'category';
+        case 'section':
+            switch ($count) {
+                case 1:
+                    $vars['view'] = 'category';
 
-                if (isset($item->query['layout']) && $item->query['layout'] == 'blog') {
-                    $vars['layout'] = 'blog';
-                }
+                    if (isset($item->query['layout']) && $item->query['layout'] == 'blog') {
+                        $vars['layout'] = 'blog';
+                    }
+                    break;
+                case 2:
+                    $vars['view']  = 'article';
+                    $vars['catid'] = $segments[$count - 2];
+                    break;
             }
-
-            if ($count == 2) {
-                $vars['view']  = 'article';
-                $vars['catid'] = $segments[$count - 2];
-            }
-
             $vars['id'] = $segments[$count - 1];
             break;
-        case 'category'   :
+        case 'category':
             $vars['id']   = $segments[$count - 1];
             $vars['view'] = 'article';
             break;
-        case 'article' :
+        case 'articles':
+            if (count($segments) === 1) {
+                // Accessing a
+                $vars['id']   = $segments[0];
+                $vars['view'] = 'article';
+            }
+            break;
+        case 'article':
             $vars['id']   = $segments[$count - 1];
             $vars['view'] = 'article';
             break;
