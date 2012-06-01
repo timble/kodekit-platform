@@ -160,7 +160,7 @@ Files.Folder = new Class({
 	type: 'folder',
 	template: 'folder',
 
-	getChildren: function(success, failure, extra_vars) {
+	getChildren: function(success, failure, extra_vars, url_builder) {
 		var path = this.path,
 			url = {
 				view: 'nodes',
@@ -169,7 +169,9 @@ Files.Folder = new Class({
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
-		var url = Files.app.createRoute(url);
+		
+		var url = url_builder ? url_builder(url) : Files.app.createRoute(url);
+		
 
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
