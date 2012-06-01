@@ -19,17 +19,6 @@
  */
 class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    public function canAdd()
-    {
-        $parameters = JComponentHelper::getParams('com_users');
-
-        if($parameters->get('allowUserRegistration') == '0') {
-            return false;
-        }
-
-        return true;
-    }
-
     public function canRead()
     {
     	$parameters = JComponentHelper::getParams('com_users');
@@ -52,29 +41,54 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 
     public function canEdit()
     {
-        $request = $this->getRequest();
+        if($this->getMixer()->getIdentifier()->name != 'session')
+        {
+            $request = $this->getRequest();
 
-        if($request->id == 0 || $request->id != JFactory::getUser()->id) {
+            if($request->id == 0 || $request->id != JFactory::getUser()->id) {
+                return false;
+            }
+
+            $result = !JFactory::getUser()->guest;
+            return $result;
+        }
+        else return false;
+    }
+
+    public function canAdd()
+    {
+        if($this->getMixer()->getIdentifier()->name != 'session')
+        {
+            $parameters = JComponentHelper::getParams('com_users');
+
+            if($parameters->get('allowUserRegistration') == '0') {
+                return false;
+            }
+
+            return true;
+        }
+        else return true;
+    }
+
+    public function canDelete()
+    {
+        if($this->getMixer()->getIdentifier()->name == 'session')
+        {
+            $user = JFactory::getUser();
+
+            //Allow logging out ourselves
+            if($this->getModel()->getState()->userid == $user->get('id')) {
+                return true;
+            }
+
+            //Only administrator can logout other users
+            if($user->get('gid') > 24) {
+                return true;
+            }
+
             return false;
         }
 
-        $result = !JFactory::getUser()->guest;
-        return $result;
-    }
-    
-    public function canLogout()
-    {
-        $userid = JFactory::getUser()->id; 
-        
-        //Allow logging out ourselves
-        if($this->getModel()->getState()->id == $userid) {
-             return true;
-        }
-        
-        if(JFactory::getUser()->get('gid') > 24) {
-            return true;
-        }
-        
-        return false;
+        return parent::canDelete();
     }
 }
