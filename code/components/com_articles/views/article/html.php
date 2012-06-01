@@ -22,8 +22,18 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
 
     public function display() {
 
+        $menus   = JSite::getMenu();
+        $menu    = $menus->getActive();
+        $pathway = JFactory::getApplication()->getPathway();
+
         $article = $this->getModel()->getItem();
-        $user    = JFactory::getUser();
+
+        // Handle the breadcrumbs
+        if ($menu && $menu->query['view'] != 'article') {
+            $pathway->addItem($article->title, '');
+        }
+
+        $user = JFactory::getUser();
 
         $this->assign('user', $user);
         $this->assign('params', JComponentHelper::getParams('com_articles'));
