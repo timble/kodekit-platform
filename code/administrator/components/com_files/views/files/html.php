@@ -28,8 +28,8 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 
 	public function display()
 	{
-		$this->assign('sitebase', trim(JURI::root(), '/'));
-		$this->assign('token'   , JUtility::getToken());
+		$this->assign('sitebase' , trim(JURI::root(), '/'));
+		$this->assign('token'    , $this->getService('session')->getToken());
 		$this->assign('container', $this->getModel()->getState()->container);
 
 		return parent::display();
