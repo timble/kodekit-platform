@@ -37,7 +37,6 @@ class JAdministrator extends JApplication
 	{
 		$config['clientId']          = 1;
 		$config['multisite']         = true;
-		$config['session_autostart'] = true; //override the configruation settings
 
 		parent::__construct($config);
 
@@ -133,7 +132,7 @@ class JAdministrator extends JApplication
                 JHTML::_('behavior.mootools');
             }
         }
-        
+
 	    if(!JFactory::getUser()->authorize('login', 'administrator')) {
 	        $option = 'com_users';
 	    } else {
@@ -210,7 +209,7 @@ class JAdministrator extends JApplication
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	Nooku Server 0.7
 	 */
-    public function _loadSession( $name, $ssl = false, $auto_start = true )
+    protected function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
 		if($this->getCfg('force_ssl') >= 1) {
 			$ssl = true;
@@ -249,8 +248,8 @@ class JAdministrator extends JApplication
 	        {
 	            $request = KRequest::get($method.'.site', 'cmd');
 	            return parent::_loadSite($request);
-	        } 
-	        
+	        }
+
 	        //Use session or revert to default
 	        return parent::_loadSite(JFactory::getSession()->get('site', 'default'));
 	    }

@@ -132,7 +132,7 @@ class JSite extends JApplication
 		$params     = $this->getParams();
 		
 		$option = strtolower(JRequest::getCmd('option'));
-		
+
 		if(!($this->getCfg('offline') && JFactory::getUser()->get('guest'))) 
 		{
 		    if(!$this->getMenu()->authorize(JRequest::getInt( 'Itemid'), $user->get('aid')))
@@ -377,7 +377,7 @@ class JSite extends JApplication
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	Nooku Server 0.7
 	 */
-    public function _loadSession( $name, $ssl = false, $auto_start = true )
+    protected function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
 		if($this->getCfg('force_ssl') == 2) {
 			$ssl = true;
