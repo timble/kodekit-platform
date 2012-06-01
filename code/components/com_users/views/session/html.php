@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersViewLoginHtml extends ComDefaultViewHtml
+class ComUsersViewSessionHtml extends ComDefaultViewHtml
 {
     public function display()
     {
