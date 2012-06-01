@@ -47,7 +47,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<?= JApplicationHelper::getClientInfo($user->loggedin_client_id)->name;?>
 		</td>
 		<td>
-			<?= @helper('com://admin/users.template.helper.date.humanize', array('date' => $user->loggedin_on - date_offset_get(new DateTime)));?>
+			<?= @helper('com://admin/users.template.helper.date.humanize', array('date' => '@'.$user->loggedin_on));?>
 		</td>
 	</tr>
 <?php endforeach; ?>
