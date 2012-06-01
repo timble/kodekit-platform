@@ -26,7 +26,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * Garbage collection may occur during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
-     * @return KSession
+     * @return \KDispatcherSessionInterface
      */
     public function setLifetime($lifetime);
 
@@ -70,11 +70,22 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
     public function setName($name);
 
     /**
-     * Get current state of session
+     * Set the session namespace
      *
-     * @return string The session state
+     * This specifies namespace that is used when storing or retrieving data from the session. The namespace prevents
+     * session conflicts when the session is shared.
+     *
+     * @param string $namespace The session namespace
+     * @return \KDispatcherSessionInterface
      */
-    public function getState();
+    public function setNamespace($namespace);
+
+    /**
+     * Get the session namespace
+     *
+     * @return string The session namespace
+     */
+    public function getNamespace();
 
     /**
      * Method to set a session handler object
@@ -82,7 +93,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * @param mixed $hanlder An object that implements KObjectServiceable, KServiceIdentifier object
      * 					     or valid identifier string
      * @param array $config An optional associative array of configuration settings
-     * @throws KDispatcherSessionException	If the identifier is not a session handler identifier
+     * @throws \DomainException	If the identifier is not a session handler identifier
      * @return \KDispatcherSessionInterface
      */
     public function setHandler($handler, $config = array());
@@ -90,39 +101,46 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
     /**
      * Get the session handler object
      *
-     * @return	KDispatcherSessionHandlerInterface
+     * @return \KDispatcherSessionHandlerInterface
      */
     public function getHandler();
 
     /**
-     * Get a session token, if a token isn't set yet one will be generated.
+     * Get the session token, if a token isn't set yet one will be generated.
      *
-     * Tokens are used to secure forms from spamming attacks. Once a token has been generated a call to verifyToken will
-     * check if the token matches, if not the session will be expired.
-     *
-     * @param   boolean $forceNew If true, force a new token to be created
+     * @param   boolean $refresh If true, a new token to be created
      * @return  string  The session token
      */
-    public function getToken($forceNew = false);
+    public function getToken($refresh = false);
 
     /**
-    /**
-     * Method to determine if a token exists in the session. If not the session will be destroyed
+     * Get the session ip address
      *
-     * @param  string  $token         Token to be verified
-     * @param  boolean $forceDestroy  If true, force destruction of the session storage if the token cannot be found
-     * @param  boolean True on success, false on failure.
+     * The IP address from which the user. Stored when the session is started or regenerated.
+     *
+     * @param   boolean $refresh If true, the address will be updated based on the current request
+     * @return  string  The session ip address
      */
-    public function hasToken($token, $forceDestroy = true);
+    public function getAddress($refresh = false);
 
     /**
-     * Load all the session data into memory
+     * Get the session user agent
+     *
+     * Contents of the User-Agent: header, if there is one. Stored when the session is started or regenerated.
+     *
+     * @param   boolean $refresh If true, the agent will be updated based on the current request
+     * @return  string  The session user agent
+     */
+    public function getAgent($refresh = false);
+
+    /**
+     * Starts the session storage and load the session data into memory
      *
      * @see  session_start()
      * @return \KDispatcherSessionInterface
-     * @throws \KDispatcherSessionException If something goes wrong starting the session.
+     * @throws \RuntimeException If something goes wrong starting the session.
      */
-    public function load();
+    public function start();
 
     /**
      * Force the session to be saved and closed.
@@ -137,7 +155,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * @see  session_write_close()
      * @return \KDispatcherSessionInterface
      */
-    public function save();
+    public function close();
 
     /**
      * Clear all session data in memory.

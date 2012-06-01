@@ -66,10 +66,15 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      */
     public function read($session_id)
     {
-        $result = false;
+        $result = '';
 
-        if($this->getTable()->getDatabase()->isConnected()) {
-            $result = $this->_table->select($session_id, KDatabase::FETCH_ROW)->data;
+        if($this->getTable()->getDatabase()->isConnected())
+        {
+            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+
+            if(!$row->isNew()) {
+                $result = $row->data;
+            }
         }
 
         return $result;
@@ -92,7 +97,9 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
 
             if(!$row->isNew())
             {
+                $row->time = time();
                 $row->data = $session_data;
+
                 $result = $row->save();
             }
         }
@@ -110,8 +117,13 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if($this->getTable()->getDatabase()->isConnected()) {
-            $result = $this->_table->select($session_id, KDatabase::FETCH_ROW)->delete();
+        if($this->getTable()->getDatabase()->isConnected())
+        {
+            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+
+            if(!$row->isNew()) {
+                $result = $row->delete();
+            }
         }
 
         return $result;
@@ -133,7 +145,7 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
                           ->where('time < :time')
                           ->bind(array('time' => (int) (time() - $maxlifetime)));
 
-            $result = $this->_table->select($query)->delete();
+            $result = $this->_table->select($query, KDatabase::FETCH_ROW)->delete();
         }
 
         return $result;

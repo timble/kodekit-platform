@@ -20,12 +20,12 @@
 abstract class KDispatcherSessionAbstract extends KObject implements KDispatcherSessionInterface
 {
     /**
-     * The internal session state
+     * Is the session active
      *
-     * @var string
-     * @see getState()
+     * @var boolean
+     * @see isActive()
      */
-    protected $_state = '';
+    protected $_active;
 
     /**
      * Maximum session lifetime
@@ -33,14 +33,21 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @var integer The session maximum lifetime in seconds
      * @see getExpire()
      */
-    protected $_lifetime = 1440;
+    protected $_lifetime;
+
+    /**
+     * The data namespace
+     *
+     * @var string
+     */
+    protected $_namespace;
 
     /**
      * The session handler
      *
      * @var KDispatcherSessionHandlerInterface
      */
-    protected $_handler =  null;
+    protected $_handler;
 
     /**
      * Valid session config options
@@ -79,13 +86,6 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     );
 
     /**
-     * Session states
-     */
-    const ACTIVE   = 'active';
-    const NONE     = 'none';
-    const DISABLED = 'disabled';
-
-    /**
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
@@ -105,7 +105,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
             register_shutdown_function('session_write_close');
         }
 
-        //Set the sesssion options
+        //Set the session options
         $this->setOptions($config->options);
 
         //Set the session name
@@ -119,9 +119,10 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         }
 
         //Set lifetime time
-        if(!empty($config->lifetime)) {
-            $this->setLifetime($config->lifetime);
-        }
+        $this->setLifetime($config->lifetime);
+
+        //Set the session data namespace
+        $this->setNamespace($config->namespace);
 
         //Set the session handler
         $this->setHandler($config->handler, KConfig::unbox($config));
@@ -138,16 +139,23 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'handler'  => 'file',
-            'name'     => 'KSESSIONID',
-            'id'       =>  '',
-            'lifetime' => 1440,
+            'handler'   => 'file',
+            'name'      => 'KSESSIONID',
+            'id'        =>  '',
+            'lifetime'  => 1440,
+            'namespace' => '__default',
             'options'  => array(
-                'auto_start'    => 0,
-                'cache_limiter' => '',
-                'use_cookies'   => 1,
-                'save_handler'  => 'files',
-                'use_trans_sid' => 0
+                'auto_start'       => 0,
+                'cache_limiter'    => '',
+                'use_cookies'      => 1,
+                'use_only_cookies' => 1,
+                'cookie_httponly'  => 1,
+                'save_handler'     => 'files',
+                'use_trans_sid'    => 0,
+                'entropy_file'     => '/dev/urandom',
+                'entropy_length'   => 128,
+                'hash_function'           => 'sha256',
+                'hash_bits_per_character' => 5,
             )
         ));
 
@@ -182,23 +190,20 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function getIterator()
     {
-        return new ArrayIterator($_SESSION);
+        return new ArrayIterator($_SESSION[$this->_namespace]);
     }
 
     /**
      * Set the session life time
      *
-     * This specifies the number of seconds after which data will be seen as 'garbage' and potentially cleaned up.
-     * Garbage collection may occur during session start.
+     * This specifies the number of seconds after which data will expire. An expired session will be destroyed
+     * automatically during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
      * @return \KDispatcherSessionInterface
      */
     public function setLifetime($lifetime)
     {
-        //Sync the session maxlifetime
-        ini_set('session.gc_maxlifetime', $lifetime);
-
         $this->_lifetime = $lifetime;
         return $this;
     }
@@ -232,7 +237,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function setName($name)
     {
-        if ($this->_state == self::ACTIVE) {
+        if ($this->isActive()) {
             throw new LogicException('Cannot change the name of an active session');
         }
 
@@ -248,7 +253,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     public function getId()
     {
         $id = ''; // returning empty is consistent with session_id() behaviour
-        if ($this->_state == self::ACTIVE) {
+        if ($this->isActive()) {
             $id = session_id();
         }
 
@@ -264,7 +269,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function setId($session_id)
     {
-        if ($this->_state == self::ACTIVE) {
+        if ($this->isActive()) {
             throw new LogicException('Cannot change the id of an active session');
         }
 
@@ -273,13 +278,28 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     }
 
     /**
-     * Get current state of session
+     * Set the session namespace
      *
-     * @return string The session state
+     * This specifies namespace that is used when storing or retrieving data from the session. The namespace prevents
+     * session conflicts when the session is shared.
+     *
+     * @param string $namespace The session namespace
+     * @return \KDispatcherSessionInterface
      */
-    public function getState()
+    public function setNamespace($namespace)
     {
-        return $this->_state;
+        $this->_namespace = $namespace;
+        return $this;
+    }
+
+    /**
+     * Get the session namespace
+     *
+     * @return string The session namespace
+     */
+    public function getNamespace()
+    {
+        return $this->_namespace;
     }
 
     /**
@@ -288,7 +308,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @param mixed $hanlder An object that implements KObjectServiceable, KServiceIdentifier object
      * 					     or valid identifier string
      * @param array $config An optional associative array of configuration settings
-     * @throws KDispatcherSessionException	If the identifier is not a session handler identifier
+     * @throws \DomainException	If the identifier is not a session handler identifier
      * @return \KDispatcherSessionInterface
      */
     public function setHandler($handler, $config = array())
@@ -327,45 +347,64 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     /**
      * Get a session token, if a token isn't set yet one will be generated.
      *
-     * Tokens are used to secure forms from spamming attacks. Once a token has been generated a call to verifyToken will
-     * check if the token matches, if not the session will be expired.
-     *
-     * @param   boolean $forceNew If true, force a new token to be created
+     * @param   boolean $refresh If true, force a new token to be created
      * @return  string  The session token
      */
-    public function getToken($forceNew = false)
+    public function getToken($refresh = false)
     {
-        $token = $this->token;
-
-        //create a token
-        if($token === null || $forceNew)
-        {
-            $token = $this->_createToken(12);
-            $this->token = $token;
+        if($this->_token === null || $refresh) {
+            $this->_token = $this->_createToken(12);
         }
 
-        return $token;
+        return $this->_token;
     }
 
     /**
-     * Method to determine if a token exists in the session. If not the session will be destroyed
+     * Get the session ip address
      *
-     * @param  string  $token         Token to be verified
-     * @param  boolean $forceDestroy  If true, force destruction of the session storage if the token cannot be found
-     * @param  boolean True on success, false on failure.
+     * The IP address from which the user. Stored when the session is started or regenerated.
+     *
+     * @param   boolean $refresh If true, the address will be updated based on the current request
+     * @return  string  The session ip address
      */
-    public function hasToken($token, $forceDestroy = true)
+    public function getAddress($refresh = false)
     {
-        if($token !== $this->token)
+        if($this->_address === null || $refresh)
         {
-            if($forceDestroy) {
-                $this->destroy();
+            if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $this->_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
             }
-
-            return false;
+            else if(isset($_SERVER['REMOTE_ADDR'])) {
+                $this->_address = $_SERVER['REMOTE_ADDR'];
+            }
+            else {
+                $this->_address = '';
+            }
         }
 
-        return true;
+        return $this->_address;
+    }
+
+    /**
+     * Get the session user agent
+     *
+     * Contents of the User-Agent: header, if there is one. Stored when the session is started or regenerated.
+     *
+     * @param   boolean $refresh If true, the agent will be updated based on the current request
+     * @return  string  The session user agent
+     */
+    public function getAgent($refresh = false)
+    {
+        if($this->_agent === null || $refresh)
+        {
+            if(isset($_SERVER['HTTP_USER_AGENT'])) {
+                $this->_agent = $_SERVER['HTTP_USER_AGENT'];
+            } else {
+                $this->_agent = '';
+            }
+        }
+
+        return $this->_agent;
     }
 
     /**
@@ -375,7 +414,12 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function isActive()
     {
-        if($this->_state == self::ACTIVE) {
+        $sid = defined('SID') ? constant('SID') : false;
+        if ($sid !== false && session_id()) {
+            return true;
+        }
+
+        if (headers_sent()) {
             return true;
         }
 
@@ -383,15 +427,15 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     }
 
     /**
-     * Load all the session data into memory
+     * Starts the session storage and load the session data into memory
      *
      * @see  session_start()
      * @return \KDispatcherSessionInterface
-     * @throws \KDispatcherSessionException If something goes wrong starting the session.
+     * @throws \RuntimeException If something goes wrong starting the session.
      */
-    public function load()
+    public function start()
     {
-        if($this->_state == self::NONE)
+        if(!$this->isActive())
         {
             //Make sure we have a registered session handler
             if(!$this->getHandler()->isRegistered()) {
@@ -408,8 +452,19 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
                 throw new RuntimeException('Session could not be started');
             }
 
-            //Set the session state
-            $this->_state = self::ACTIVE;
+            //Add the namespace
+            $this->{$this->_namespace} = array();
+
+            //Update the session timers
+            $this->_updateTimers();
+
+            $curTime = $this->__timer['now'];
+            $maxTime = $this->__timer['last'] + $this->getLifetime();
+
+            // Destroy an expired session
+            if ($maxTime < $curTime) {
+                $this->destroy();
+            }
         }
 
         return $this;
@@ -428,14 +483,11 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @see  session_write_close()
      * @return \KDispatcherSessionInterface
      */
-    public function save()
+    public function close()
     {
-        if($this->_state == self::ACTIVE)
-        {
+        //Write the session data and close the session
+        if($this->isActive()) {
             session_write_close();
-
-            //Set the session state
-            $this->_state = self::NONE;
         }
 
         return $this;
@@ -465,13 +517,13 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function destroy()
     {
-        // session was already destroyed
-        if($this->_state == self::ACTIVE)
+        if($this->isActive())
         {
             // In order to kill the session altogether, like to log the user out, the session id must also be unset. If
             // a cookie is used to propagate the session id (default behavior) then the session cookie must be deleted.
             if (ini_get("session.use_cookies") && isset($_COOKIE[$this->getName()]))
             {
+
                 $params = session_get_cookie_params();
                 setcookie($this->getName(), '', time() - 42000,
                     $params["path"]    ,
@@ -486,8 +538,6 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
 
             //Destroy the session
             session_destroy();
-
-            $this->_state = self::NONE;
         }
 
         return $this;
@@ -509,7 +559,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function fork($destroy = true, $lifetime = null)
     {
-        if($this->_state == self::ACTIVE)
+        if($this->isActive())
         {
             if ($lifetime !== null) {
                 ini_set('session.cookie_lifetime', $lifetime);
@@ -532,7 +582,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function count()
     {
-        return count($_SESSION);
+        return count($_SESSION[$this->_namespace]);
     }
 
     /**
@@ -541,11 +591,11 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      * @param   string $key   The key name.
      * @return  string $value The corresponding value.
      */
-    public function __get($key)
+    public function &__get($key)
     {
         $result = null;
-        if(isset($_SESSION[$key])) {
-            $result = $_SESSION[$key];
+        if(isset($_SESSION[$this->_namespace][$key])) {
+            $result = $_SESSION[$this->_namespace][$key];
         }
 
         return $result;
@@ -560,7 +610,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function __set($key, $value)
     {
-        $_SESSION[$key] = $value;
+        $_SESSION[$this->_namespace][$key] = $value;
     }
 
     /**
@@ -571,7 +621,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function __isset($key)
     {
-        return array_key_exists($key, $_SESSION);
+        return array_key_exists($key, $_SESSION[$this->_namespace]);
     }
 
     /**
@@ -582,7 +632,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function __unset($key)
     {
-        unset($_SESSION[$key]);
+        unset($_SESSION[$this->_namespace][$key]);
     }
 
     /**
@@ -592,7 +642,7 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function toArray()
     {
-        return $_SESSION;
+        return $_SESSION[$this->_namespace];
     }
 
     /**
@@ -614,5 +664,32 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         }
 
         return md5($token.$name);
+    }
+
+    /**
+     * Update the session timers
+     *
+     * @return  void
+     */
+    protected function _updateTimers()
+    {
+        if (!isset($this->__timer))
+        {
+            $start = time();
+
+            $timer = array(
+                'start' => $start,
+                'last'  => $start,
+                'now'   => $start
+            );
+
+            $timer;
+        }
+        else $timer = $this->__timer;
+
+        $timer['last'] = $timer['now'];
+        $timer['now']  = time();
+
+        $this->__timer = $timer;
     }
 }
