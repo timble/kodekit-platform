@@ -31,7 +31,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
 
         if($parts[0] == 'before')
         {
-            if(!$this->_checkToken($context))
+            if(!$this->_authenticateRequest($context))
             {
                 $context->setError(new KControllerException(
                 	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
@@ -113,7 +113,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
 	 * @param   object  The command context
 	 * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
 	 */
-    protected function _checkToken(KCommandContext $context)
+    protected function _authenticateRequest(KCommandContext $context)
     {
         //Check the token
         if($context->caller->isDispatched())
@@ -123,8 +123,22 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
             //Only check the token for PUT, DELETE and POST requests
             if(($method != KHttpRequest::GET) && ($method != KHttpRequest::OPTIONS))
             {
-                if( KRequest::token() !== JUtility::getToken()) {
+                //Check referrer
+                if(!KRequest::referrer(true)) {
                     return false;
+                }
+
+                //Check cookie token
+                if(KRequest::token() !== KRequest::get('cookie._token', 'md5')) {
+                    return false;
+                }
+
+                //Check session token
+                if(!JFactory::getUser()->guest)
+                {
+                    if( KRequest::token() !== $this->getService('session')->getToken()) {
+                        return false;
+                    }
                 }
             }
         }
