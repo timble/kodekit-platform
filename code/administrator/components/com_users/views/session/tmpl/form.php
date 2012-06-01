@@ -19,8 +19,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.keepalive'); ?>
 
-<form action="<?= @route('view=user') ?>" method="post" name="login" id="form-login">
-    <input type="hidden" name="action" value="login" />
+<form action="" method="post" name="login" id="form-login">
     <div class="control-group">
         <label class="control-label" for=""><?= @text( 'Username' ); ?></label>
         <div class="controls">
