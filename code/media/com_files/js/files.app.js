@@ -177,7 +177,7 @@ Files.App = new Class({
 	/**
 	 * type can be 'stateless' for no state or 'initial' to use replaceState
 	 */
-	navigate: function(path, type) {
+	navigate: function(path, type, revalidate_cache) {
 		this.fireEvent('beforeNavigate', [path, type]);
 		if (path !== undefined) {
 			if (this.active) {
@@ -194,6 +194,9 @@ Files.App = new Class({
 			folder = parts.slice(0, parts.length-1).join('/'),
 			that = this
 			url_builder = function(url) {
+				if (revalidate_cache) {
+					url['revalidate_cache'] = 1;
+				}
 				return this.createRoute(url);
 			}.bind(this);
 
