@@ -27,20 +27,14 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
              ->registerCallback('after.add'  , array($this, 'notify'))
              ->registerCallback('after.save' , array($this, 'redirect'))
-             ->registerCallback('after.read' , array($this, 'activate'))
-             ->registerCallback('before.login', array($this, 'authenticate'));
-
-        //Set the default redirect.
-        $this->setRedirect(KRequest::referrer());
+             ->registerCallback('after.read' , array($this, 'activate'));
 	}
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
         	'behaviors' => array(
-        		'com://admin/activities.controller.behavior.loggable' => array(
-               		'title_column' => 'name',
-               		'actions'      => array('after.login', 'after.logout')),
+        		'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
         		'com://site/users.controller.behavior.user.spammable' )));
     
         parent::_initialize($config);
@@ -131,147 +125,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         }
         
         return $data;
-    }
-
-    protected function _actionAuthenticate(KCommandContext $context)
-    {
-        $user = $this->getService('com://admin/users.database.row.user');
-        $user->username = $context->data->username;
-        $user->load();
-
-        if($user->id)
-        {
-            list($password, $salt) = explode(':', $user->password);
-
-            $crypted = $this->getService('com://admin/users.helper.password')
-                ->getCrypted($context->data->password, $salt);
-
-            if($crypted == $password)
-            {
-                $context->data->append(array(
-                    'email'     => $user->email,
-                    'username'  => $user->username,
-                    'name'      => $user->name
-                ));
-            }
-            else
-            {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong password!'));
-                return false;
-            }
-        }
-        else
-        {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong username!'));
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function _actionLogin(KCommandContext $context)
-    {
-        $result = false;
-
-        $credentials = array(
-            'username' => KRequest::get('post.username', 'string'),
-            'password' => KRequest::get('post.password', 'raw')
-        );
-
-        $options = array();
-        $options['group'] = 'Public Backend';
-        $options['site']  = JFactory::getApplication()->getSite();
-
-        $session = JFactory::getSession();
-        $acl     = JFactory::getACL();
-
-        //Fet the user object
-        $user = JFactory::getUser($credentials['username']);
-
-        //Fork the session to prevent session fixation issues
-        $session->fork();
-        JFactory::getApplication()->_loadSession($session->getId());
-
-        //If the user is blocked, redirect with an error
-        if ($user->get('block') == 1) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
-            return false;
-        }
-
-        //Check if the users group has access
-        $group = $acl->getAroGroup($user->get('id'));
-
-        if(!$acl->is_group_child_of( $group->name, $options['group'])) {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
-            return false;
-        }
-
-        //Mark the user as logged in
-        $user->set('guest', 0);
-        $user->set('aid'  , 1);
-
-        // Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-        if ($acl->is_group_child_of($group->name, 'Registered')      ||
-            $acl->is_group_child_of($group->name, 'Public Backend'))    {
-            $user->set('aid', 2);
-        }
-
-        //Set the usertype based on the ACL group name
-        $user->set('usertype', $group->name);
-
-        // Register the needed session variables
-        $session->set('user', $user);
-        $session->set('site', $options['site']);
-
-        // Get the session object
-        $table =  JTable::getInstance('session');
-        $table->load( $session->getId() );
-
-        $table->guest 	  = $user->get('guest');
-        $table->username  = $user->get('username');
-        $table->userid 	  = intval($user->get('id'));
-        $table->usertype  = $user->get('usertype');
-        $table->gid 	  = intval($user->get('gid'));
-
-        $table->update();
-
-        // Hit the user last visit field
-        $row = KService::get('com://admin/users.database.row.user')
-            ->setData(array('id' => $user->get('id')))
-            ->load();
-
-        $row->last_visited_on = gmdate('Y-m-d H:i:s');
-        $row->save();
-
-        $result = $this->getModel()->id($user->get('id'))->getItem()->setStatus('logged in');
-        return $result;
-    }
-
-    protected function _actionLogout(KCommandContext $context)
-    {
-        $rowset = clone $this->getModel()->getList();
-
-        if(count($rowset))
-        {
-            foreach($rowset as $user)
-            {
-                //Force logout from site only
-                $clients = array(0);
-
-                // Force logout all users with that userid
-                JTable::getInstance('session')->destroy($user->id, $clients);
-
-                // Destroy the php session for this user if we are logging out ourselves
-                if(JFactory::getUser()->get('id') == $user->id) {
-                    JFactory::getSession()->destroy();
-                }
-
-                $user->setStatus('logged out');
-            }
-        }
-
-        $this->_redirect = KRequest::referrer();
-        return $rowset;
     }
 
     public function redirect(KCommandContext $context)
