@@ -20,7 +20,7 @@ class ComDefaultTemplateFilterForm extends KTemplateFilterForm
     protected function _tokenValue($force = false)
     {
         if(empty($this->_token_value) || $force) {  
-            $this->_token_value = JUtility::getToken($force);
+            $this->_token_value = $this->getService('session')->getToken($force);
         }
         
         return parent::_tokenValue($force);
