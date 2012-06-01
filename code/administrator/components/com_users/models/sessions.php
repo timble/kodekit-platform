@@ -28,7 +28,40 @@ class ComUsersModelSessions extends KModelTable
     {
         parent::__construct($config);
 
-        $this->getState()->insert('username', 'alnum');
+        $this->getState()
+            ->insert('client', 'int')
+            ->insert('user'  , 'int');
+    }
+
+    /**
+     * Builds SELECT columns list for the query.
+     *
+     * @param   KDatabaseQuery  A query object.
+     * @return  void
+     */
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+
+        $query->columns(array(
+            'name'     => 'users.name',
+            'username' => 'users.username',
+            'usertype' => 'users.usertype',
+            'gid'      => 'users.gid',
+        ));
+    }
+
+    /**
+     * Builds LEFT JOINS clauses for the query.
+     *
+     * @param   KDatabaseQuery  A query object.
+     * @return  void
+     */
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    {
+        $state = $this->getState();
+
+        $query->join(array('users' => 'users'), 'tbl.userid = users.id');
     }
 
     /**
@@ -42,8 +75,16 @@ class ComUsersModelSessions extends KModelTable
         parent::_buildQueryWhere($query);
         $state = $this->getState();
         
-        if ($state->username) {
-            $query->where('username IN :username')->bind(array('username' => (array) $state->username));
+        if ($state->client)
+        {
+            $query->where('client_id IN :client')
+                  ->bind(array('client' => (array) $state->client));
+        }
+
+        if ($state->userid)
+        {
+            $query->where('userid IN :user')
+                  ->bind(array('user' => (array) $state->user));
         }
     }
 }
