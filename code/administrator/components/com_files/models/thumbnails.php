@@ -102,7 +102,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    }
 		    
 		    if ($state->filename) {
-		        $query->where('tbl.filename', '=', $state->filename);
+		        $query->where('tbl.filename', 'IN', $state->filename);
 		    }
 		}
 		

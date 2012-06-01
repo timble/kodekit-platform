@@ -23,6 +23,15 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 
 		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
 	}
+	
+	protected function _initialize(KConfig $config)
+	{
+		$config->append(array(
+			'behaviors' => array('thumbnailable')
+		));
+
+		parent::_initialize($config);
+	}
 
 	public function addFile(KCommandContext $context)
 	{

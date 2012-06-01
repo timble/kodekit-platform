@@ -38,6 +38,7 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
 		$model->reset()
 		      ->set($state_data)
 		      ->set('files', $needed);
+        
 		$list  = $model->getList();
 		
     	$found = array();

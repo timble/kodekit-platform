@@ -243,6 +243,8 @@ Files.App = new Class({
 				if (this.spinner) {
 					this.spinner.stop();
 				}
+			} else {
+				this.state.set('thumbnails', true);
 			}
 
 			if (this.options.types !== null) {
@@ -353,12 +355,8 @@ Files.App = new Class({
 				trash.dispose();
 			},
 			'onAfterSetLayout': function(context) {
-				var layout = context.layout;
-				if (layout === 'icons' && this.grid && this.options.thumbnails) {
-					this.setThumbnails();
-				}
 				if (key) {
-					Cookie.write(key, layout);
+					Cookie.write(key, context.layout);
 				}
 			}.bind(this)
 		});
@@ -428,7 +426,25 @@ Files.App = new Class({
 				limit: this.state.get('limit'),
 				folder: this.active
 			});
-			new Request.JSON({
+			nodes.each(function(node) {
+				if (node.filetype !== 'image') {
+					return;
+				}
+				var name = node.name;
+
+				var img = node.element.getElement('img.image-thumbnail');
+				img.addEvent('load', function(){
+				    this.addClass('loaded');
+				});
+				img.set('src', node.thumbnail ? node.thumbnail : Files.blank_image);
+				node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
+
+				if(window.sessionStorage) {
+				    sessionStorage[node.image.toString()] = img.get('src');
+				}
+			});
+			
+			/*new Request.JSON({
 				url: url,
 				method: 'get',
 				onSuccess: function(response, responseText) {
@@ -456,7 +472,7 @@ Files.App = new Class({
 
 					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
 				}
-			}).send();
+			}).send();*/
 		}
 
 	},
