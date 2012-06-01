@@ -436,17 +436,17 @@ CREATE TABLE `#__sections` (
 # Table structure for table `#__session`
 #
 
-CREATE TABLE `#__session` (
+CREATE TABLE `#__users_sessions` (
   `username` varchar(150) default '',
   `time` varchar(14) default '',
-  `session_id` varchar(200) NOT NULL default '0',
+  `users_session_id` varchar(128) NOT NULL default '0',
   `guest` tinyint(4) default '1',
   `userid` int(11) default '0',
   `usertype` varchar(50) default '',
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
-  PRIMARY KEY  (`session_id`(64)),
+  PRIMARY KEY  (`users_session_id`(64)),
   KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
   KEY `time` (`time`)
