@@ -21,7 +21,7 @@ Files.Grid = new Class({
 		switcher: '.files-layout-controls',
 		layout: false,
 		batch_delete: false,
-		icon_size: 200,
+		icon_size: 150,
 		types: null // null for all or array to filter for folder, file and image
 	},
 

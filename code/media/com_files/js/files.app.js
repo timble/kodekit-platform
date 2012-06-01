@@ -36,8 +36,7 @@ Files.App = new Class({
 		grid: {
 			element: 'files-grid',
 			batch_delete: '#files-batch-delete',
-			icon_size: 200,
-			icon_size_slider: 'files-thumbs-size'
+			icon_size: 150
 		},
 		paginator: {
 			element: 'files-paginator'
@@ -317,28 +316,9 @@ Files.App = new Class({
 
 		if (this.cookie) {
 			opts.layout = Cookie.read(key);
-			var size_key = this.cookie+'.grid.icon.size',
-				size = Cookie.read(size_key);
-			if (size) {
-				opts.icon_size = size;
-			}
-			opts.onAfterSetIconSize = function(context) {
-				Cookie.write(size_key, context.size);
-			};
 		}
 
 		$extend(opts, {
-			'onAfterInsertRows': function() {
-
-				//This is for persistency reasons, allowing us to read the value from the cookie and define it
-				this.setIconSize(this.options.icon_size);
-
-
-				if (opts.icon_size_slider) {
-					document.id(opts.icon_size_slider).set('value', this.options.icon_size).fireEvent('change');
-				}
-
-		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
 				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),

@@ -133,44 +133,7 @@ window.addEvent('domready', function() {
 
     Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
 
-    var switchers = $$('.files-layout-switcher'),
-    	slider = document.id('files-thumbs-size');
-
-	if(slider.type != 'range' && 'Slider' in window) {
-	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
-                newSlider = new Element('div', {
-                'id': slider.id+'-shim',
-                'class': 'slider'
-            }).grab(new Element('div', {'class': 'knob'}))
-              .replaces(slider);
-        document.body.adopt(slider.hide());
-
-        // Create the new slider instance
-        var instance = new Slider(newSlider, newSlider.getElement('.knob'), {
-            range: [slider.get('min').toInt(), slider.get('max').toInt()]
-        });
-
-        var once = false;
-        slider.addEvent('change', function(){
-        	if(!once) {
-        		instance.addEvent('change', function(value){
-        			Files.app.grid.setIconSize(value);
-                	Files.app.setDimensions.call(Files.app, true);
-        		});
-        		once = true;
-        	}
-	        instance.set(this.value);
-	    });
-        var slider = container;
-    } else if(slider.type != 'range') {
-    	document.getElement('.files-layout-grid-resizer-container').setStyle('display', 'none');
-	    var slider = false;
-	} else {
-	    slider.addEvent('change', function(event){
-	        Files.app.grid.setIconSize(this.value);
-	        Files.app.setDimensions.call(Files.app, true);
-	    });
-	}
+    var switchers = $$('.files-layout-switcher');
 
     switchers.filter(function(el) {
         return el.get('data-layout') == Files.app.grid.layout;
@@ -180,13 +143,9 @@ window.addEvent('domready', function() {
     	e.stop();
     	var layout = this.get('data-layout');
     	Files.app.grid.setLayout(layout);
-    	if(slider) slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
     	switchers.removeClass('active');
     	this.addClass('active');
     });
-    if (Files.app.grid.layout != 'icons') {
-    	if(slider) slider.setStyle('display', 'none');
-    }
 });
 </script>
 
@@ -219,11 +178,6 @@ window.addEvent('domready', function() {
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-grid"></div>
 		</div>
-        <div class="files-layout-grid-resizer-container">
-            <div class="files-layout-grid-resizer-wrap">
-                <input id="files-thumbs-size" type="range" min="80" max="200" step="0.1" />
-            </div>
-        </div>
 		<?= @helper('paginator.pagination') ?>
 
 		<?= @template('uploader');?>
