@@ -11,9 +11,8 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="<?= JRoute::_('index.php?option=com_users&view=user', true, $usesecure); ?>" method="post" name="login" id="form-login" >
-	<input type="hidden" name="action" value="login" />
-	
+<form action="<?= JRoute::_('index.php?option=com_users&view=session', true, $usesecure); ?>" method="post" name="login" id="form-login" >
+
 	<?= $pretext ?>
 	
 	<fieldset class="input">
