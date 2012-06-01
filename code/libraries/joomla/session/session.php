@@ -87,7 +87,7 @@ class JSession extends JObject
 	*/
 	function __construct( $store = 'none', $options = array() )
 	{
-		//Need to destroy any existing sessions started with session.auto_start
+		/*//Need to destroy any existing sessions started with session.auto_start
 		if (session_id()) {
 			session_unset();
 			session_destroy();
@@ -113,7 +113,7 @@ class JSession extends JObject
 		$this->_setTimers();
 
 		// perform security checks
-		$this->_validate();
+		$this->_validate();*/
 	}
 
     /**
@@ -123,7 +123,7 @@ class JSession extends JObject
 	 * @since 1.5
 	 */
 	function __destruct() {
-		$this->close();
+		//$this->close();
 	}
 
 	/**
@@ -312,12 +312,10 @@ class JSession extends JObject
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if($this->_state !== 'active' && $this->_state !== 'expired') 
+		/*if($this->_state !== 'active' && $this->_state !== 'expired')
 		{
-			// @TODO :: generated error here
-			$error = null;
-			return $error;
-		}
+			return $default;
+		}*/
 
 		if (isset($_SESSION[$namespace][$name])) {
 			return $_SESSION[$namespace][$name];
@@ -339,20 +337,20 @@ class JSession extends JObject
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if($this->_state !== 'active') {
-			// @TODO :: generated error here
-			return null;
-		}
+		//if($this->_state == 'active')
+        //{
+            $old = isset($_SESSION[$namespace][$name]) ?  $_SESSION[$namespace][$name] : null;
 
-		$old = isset($_SESSION[$namespace][$name]) ?  $_SESSION[$namespace][$name] : null;
+            if (null === $value) {
+                unset($_SESSION[$namespace][$name]);
+            } else {
+                $_SESSION[$namespace][$name] = $value;
+            }
 
-		if (null === $value) {
-			unset($_SESSION[$namespace][$name]);
-		} else {
-			$_SESSION[$namespace][$name] = $value;
-		}
+            return $old;
+		//}
 
-		return $old;
+        return null;
 	}
 
 	/**
@@ -367,12 +365,11 @@ class JSession extends JObject
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if( $this->_state !== 'active' ) {
-			// @TODO :: generated error here
-			return null;
-		}
+		//if( $this->_state == 'active' ) {
+            return isset( $_SESSION[$namespace][$name] );
+		//}
 
-		return isset( $_SESSION[$namespace][$name] );
+        return false;
 	}
 
 	/**
@@ -387,18 +384,19 @@ class JSession extends JObject
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if( $this->_state !== 'active' ) {
-			// @TODO :: generated error here
-			return null;
-		}
+		//if( $this->_state == 'active' )
+        //{
+            $value	=	null;
+            if( isset( $_SESSION[$namespace][$name] ) ) {
+                $value	=	$_SESSION[$namespace][$name];
+                unset( $_SESSION[$namespace][$name] );
+            }
 
-		$value	=	null;
-		if( isset( $_SESSION[$namespace][$name] ) ) {
-			$value	=	$_SESSION[$namespace][$name];
-			unset( $_SESSION[$namespace][$name] );
-		}
+            return $value;
 
-		return $value;
+		//}
+
+        return null;
 	}
 
 	/**
@@ -412,23 +410,21 @@ class JSession extends JObject
 	function start()
 	{
 		// session was already started
-		if( $this->_state == 'active' ) {
-			return true;
-		}
-		
-		//  start session if not startet
-		if( $this->_state == 'restart' ) {
-			session_id( $this->_createId() );
-		}
+		/*if( $this->_state !== 'active' )
+        {
+            if( $this->_state == 'restart' ) {
+                session_id( $this->_createId() );
+            }
 
-		session_cache_limiter('none');
-		session_start();
+            session_cache_limiter('none');
+            session_start();
 
-		// Send modified header for IE 6.0 Security Policy
-		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
-		
-		// Set the state to active
-		$this->_state =	'active';
+            // Send modified header for IE 6.0 Security Policy
+            header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+
+            // Set the state to active
+            $this->_state =	'active';
+		}*/
 
 		return true;
 	}
@@ -450,21 +446,21 @@ class JSession extends JObject
 	function destroy()
 	{
 		// session was already destroyed
-		if( $this->_state === 'destroyed' ) {
-			return true;
-		}
+		/*if( $this->_state !== 'destroyed' )
+        {
+            // In order to kill the session altogether, like to log the user out, the session id
+            // must also be unset. If a cookie is used to propagate the session id (default behavior),
+            // then the session cookie must be deleted.
+            if (isset($_COOKIE[session_name()])) {
+                setcookie(session_name(), '', time()-42000, '/');
+            }
 
-		// In order to kill the session altogether, like to log the user out, the session id
-		// must also be unset. If a cookie is used to propagate the session id (default behavior),
-		// then the session cookie must be deleted.
-		if (isset($_COOKIE[session_name()])) {
-			setcookie(session_name(), '', time()-42000, '/');
-		}
-		
-		session_unset();
-		session_destroy();
+            session_unset();
+            session_destroy();
 
-		$this->_state = 'destroyed';
+            $this->_state = 'destroyed';
+		}*/
+
 		return true;
 	}
 
@@ -477,26 +473,26 @@ class JSession extends JObject
 	*/
 	function restart()
 	{
-		$this->destroy();
-		if( $this->_state !==  'destroyed' ) {
-			// @TODO :: generated error here
-			return false;
-		}
+		/*$this->destroy();
+		if( $this->_state ==  'destroyed' )
+        {
+            // Re-register the session handler after a session has been destroyed, to avoid PHP bug
+            $this->_store->register();
 
-		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
-		$this->_store->register();
+            $this->_state = 'restart';
 
-		$this->_state = 'restart';
-		
-		//regenerate session id
-		$id	=	$this->_createId( strlen( $this->getId() ) );
-		session_id($id);
-		$this->start();
-	
-		$this->_validate();
-		$this->_setCounter();
+            //regenerate session id
+            $id	=	$this->_createId( strlen( $this->getId() ) );
+            session_id($id);
+            $this->start();
 
-		return true;
+            $this->_validate();
+            $this->_setCounter();
+
+            return true;
+		}*/
+
+        return false;
 	}
 
 	/**
@@ -508,45 +504,78 @@ class JSession extends JObject
 	*/
 	function fork()
 	{
-		if( $this->_state !== 'active' ) {
-			// @TODO :: generated error here
-			return false;
-		}
+		/*if($this->_state == 'active' )
+        {
+            // save values
+            $values	= $_SESSION;
 
-		// save values
-		$values	= $_SESSION;
+            // keep session config
+            $trans	=	ini_get( 'session.use_trans_sid' );
+            if( $trans ) {
+                ini_set( 'session.use_trans_sid', 0 );
+            }
+            $cookie	=	session_get_cookie_params();
 
-		// keep session config
-		$trans	=	ini_get( 'session.use_trans_sid' );
-		if( $trans ) {
-			ini_set( 'session.use_trans_sid', 0 );
-		}
-		$cookie	=	session_get_cookie_params();
+            // create new session id
+            $id	=	$this->_createId( strlen( $this->getId() ) );
 
-		// create new session id
-		$id	=	$this->_createId( strlen( $this->getId() ) );
+            // first we grab the session data
+            $data = $this->_store->read($this->getId());
 
-		// first we grab the session data
-		$data = $this->_store->read($this->getId());
+            // kill session
+            session_destroy();
 
-		// kill session
-		session_destroy();
+            // re-register the session store after a session has been destroyed, to avoid PHP bug
+            $this->_store->register();
 
-		// re-register the session store after a session has been destroyed, to avoid PHP bug
-		$this->_store->register();
+            // restore config
+            ini_set( 'session.use_trans_sid', $trans );
+            session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
 
-		// restore config
-		ini_set( 'session.use_trans_sid', $trans );
-		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
+            // restart session with new id
+            session_id( $id );
+            session_start();
+            $_SESSION = $values;
 
-		// restart session with new id
-		session_id( $id );
-		session_start();
-		$_SESSION = $values;
+            //now we put the session data back
+            $this->_store->write($id, $data);// save values
+            $values	= $_SESSION;
 
-		//now we put the session data back
-		$this->_store->write($id, $data);
-		return true;
+            // keep session config
+            $trans	=	ini_get( 'session.use_trans_sid' );
+            if( $trans ) {
+                ini_set( 'session.use_trans_sid', 0 );
+            }
+            $cookie	=	session_get_cookie_params();
+
+            // create new session id
+            $id	=	$this->_createId( strlen( $this->getId() ) );
+
+            // first we grab the session data
+            $data = $this->_store->read($this->getId());
+
+            // kill session
+            session_destroy();
+
+            // re-register the session store after a session has been destroyed, to avoid PHP bug
+            $this->_store->register();
+
+            // restore config
+            ini_set( 'session.use_trans_sid', $trans );
+            session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
+
+            // restart session with new id
+            session_id( $id );
+            session_start();
+            $_SESSION = $values;
+
+            //now we put the session data back
+            $this->_store->write($id, $data);
+
+			return true;
+		}*/
+
+		return false;
 	}
 
 	 /**
@@ -565,7 +594,7 @@ class JSession extends JObject
 	 */
 	function close() 
 	{
-		session_write_close();
+		//session_write_close();
 	}
 
 	 /**
