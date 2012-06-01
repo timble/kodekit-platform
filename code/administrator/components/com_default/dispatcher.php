@@ -99,7 +99,10 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         //Disabled the application menubar
         if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
             KRequest::set('get.hidemainmenu', 1);
-        } 
+        }
+
+        //Sign the response with a token
+        KRequest::set('cookie._token', $this->getService('session')->getToken());
    
         return parent::_actionRender($context);
     }
