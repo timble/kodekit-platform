@@ -257,7 +257,7 @@ class plgSystemKoowa extends JPlugin
 	 */
 	protected function _authenticateUser()
 	{
-	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW')) 
+	    /*if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW'))
 	    {
 	        $credentials = array(
 	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
@@ -274,7 +274,7 @@ class plgSystemKoowa extends JPlugin
 	        KRequest::set('request._token', JUtility::getToken());
 	        
 	        return true;
-	    }
+	    }*/
 	    
 	    return false;
 	}
