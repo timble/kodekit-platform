@@ -100,6 +100,11 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
     
         $document = JFactory::getDocument();
         $document->setMimeEncoding($view->mimetype);
+
+        //Sign the response with a token
+        if(KRequest::method() != 'GET') {
+            KRequest::set('cookie._token', $this->getService('session')->getToken());
+        }
         
         return parent::_actionRender($context);
     }
