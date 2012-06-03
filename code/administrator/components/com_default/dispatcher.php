@@ -102,7 +102,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         }
 
         //Sign the response with a token
-        if(KRequest::method() != 'GET') {
+        if(KRequest::method() == 'GET') {
             KRequest::set('cookie._token', $this->getService('session')->getToken());
         }
    
