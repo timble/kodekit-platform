@@ -11,7 +11,6 @@
  * HTTP Request class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_Http
  */
 class KHttpRequest

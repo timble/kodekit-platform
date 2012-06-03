@@ -10,7 +10,6 @@
 /**
  * HTTP Response class
  *
- * @todo Add other statuses
  * @see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  *
  * @author      Johan Janssens <johan@nooku.org>
@@ -109,9 +108,9 @@ class KHttpResponse
     /**
      * Get the http header based on a status code
      * 
-     * @param  string   The HTTP protocol
-     * @param  integer  An http status code
-     * @return string   The http header
+     * @param  string  $code     The HTTP protocol
+     * @param  integer $protocol An http status code
+     * @return string The http header
      */
     public static function getHeader($code, $protocol = 'HTTP/1.1') 
     {  
@@ -121,8 +120,8 @@ class KHttpResponse
     /**
      * Get the message based on a status code
      * 
-     * @param  integer  An http status code
-     * @return string   The message
+     * @param  integer $code  An http status code
+     * @return string The message
      */
     public static function getMessage($code) 
     {  
@@ -132,8 +131,8 @@ class KHttpResponse
     /**
      * Check if an http status code is an error
      * 
-     * @param  integer  An http status code
-     * @return boolean  TRUE if the status code is an error code
+     * @param  integer $code A HTTP status code
+     * @return boolean TRUE if the status code is an error code
      */
     public static function isError($code) 
     {  

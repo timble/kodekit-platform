@@ -8,7 +8,7 @@
  */
 
 /**
- * Koowa HTTP Exception class
+ * HTTP Exception Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
