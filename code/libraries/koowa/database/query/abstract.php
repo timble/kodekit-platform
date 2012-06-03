@@ -15,7 +15,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-abstract class KDatabaseQueryAbstract extends KObject
+abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryInterface
 {
     /**
      * Database connector
@@ -23,11 +23,19 @@ abstract class KDatabaseQueryAbstract extends KObject
      * @var     object
      */
     protected $_adapter;
+    
+    /**
+     * Parameters to bind.
+     *
+     * @var array
+     */
+    public $params = array();
 
     /**
-     * Object constructor
+     * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectDecorator
      */
     public function __construct(KConfig $config)
     {
@@ -40,10 +48,13 @@ abstract class KDatabaseQueryAbstract extends KObject
         }
     }
 
-    /**
+   /**
      * Initializes the options for the object
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   KConfig $object An optional KConfig object with configuration options
+     * @return  void
      */
     protected function _initialize(KConfig $config)
     {
@@ -53,9 +64,9 @@ abstract class KDatabaseQueryAbstract extends KObject
     }
 
     /**
-     * Gets the database adapter for this particular KDatabaseQuery object.
+     * Gets the database adapter
      *
-     * @return KDatabaseAdapterInterface
+     * @return \KDatabaseAdapterInterface
      */
     public function getAdapter()
     {
@@ -63,14 +74,54 @@ abstract class KDatabaseQueryAbstract extends KObject
     }
 
     /**
-     * Set the database adapter for this particular KDatabaseQuery object.
+     * Set the database adapter
      *
-     * @param object A KDatabaseAdapterInterface object
-     * @return KDatabaseQuery
+     * @param \KDatabaseAdpaterInterface A KDatabaseAdapterInterface object
+     * @return \KDatabaseQueryInterface
      */
     public function setAdapter(KDatabaseAdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
         return $this;
+    }
+    
+    /**
+     * Bind values to a corresponding named placeholders in the query.
+     *
+     * @param  array $params Associative array of parameters.
+     * @return \KDatabaseQueryInterface
+     */
+    public function bind(array $params)
+    {
+        foreach($params as $key => $value) {
+            $this->params[$key] = $value;
+        }
+
+        return $this;
+    }
+    
+    /**
+     * Replace parameters in the query string.
+     * 
+     * @param  string $query The query string.
+     * @return string The replaced string.
+     */
+    protected function _replaceParams($query)
+    {
+       return preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParamsCallback'), $query);
+    }
+    
+    /**
+     * Callback method for parameter replacement.
+     * 
+     * @param  array  $matches Matches of preg_replace_callback.
+     * @return string The replaced string.
+     */
+    protected function _replaceParamsCallback($matches)
+    {
+        $key         = substr($matches[0], 1);
+        $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
+        
+        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

@@ -46,17 +46,10 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
     public $where = array();
 
     /**
-     * Parameters to bind.
+     * Build the show clause 
      *
-     * @var array
-     */
-    public $params = array();
-
-    /**
-     * Build the show clause of the query.
-     *
-     * @param   string The name of the table.
-     * @return  KDatabaseQueryShow
+     * @param   string $table The name of the table.
+     * @return  \KDatabaseQueryShow
      */
     public function show($table) 
     {
@@ -65,10 +58,10 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the from clause of the query.
+     * Build the from clause 
      *
-     * @param   string The name of the database or table.
-     * @return  KDatabaseQueryShow
+     * @param   string $form The name of the database or table.
+     * @return  \KDatabaseQueryShow
      */
     public function from($from)
     {
@@ -77,10 +70,10 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the like clause of the query.
+     * Build the like clause 
      *
-     * @param   string The pattern to match.
-     * @return  KDatabaseQueryShow
+     * @param   string $pattern The pattern to match.
+     * @return  \KDatabaseQueryShow
      */
     public function like($pattern)
     {
@@ -90,10 +83,10 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the where clause of the query.
+     * Build the where clause
      *
-     * @param   string The condition.
-     * @param   string Combination type, defaults to 'AND'.
+     * @param   string $condition   The condition.
+     * @param   string $combination Combination type, defaults to 'AND'.
      * @return  KDatabaseQueryShow
      */
     public function where($condition, $combination = 'AND')
@@ -102,21 +95,6 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
             'condition'   => $condition,
             'combination' => count($this->where) ? $combination : ''
         );
-    
-        return $this;
-    }
-
-    /**
-     * Bind values to a corresponding named placeholders in the query.
-     *
-     * @param   array Associative array of parameters.
-     * @return  KDatabaseQueryDelete
-     */
-    public function bind(array $params)
-    {
-        foreach ($params as $key => $value) {
-            $this->params[$key] = $value;
-        }
     
         return $this;
     }
@@ -138,8 +116,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
             $query .= ' FROM '.$adapter->quoteIdentifier($table);
         }
 
-        if($this->like)
-        {
+        if($this->like) {
             $query .= ' LIKE '.$adapter->quoteIdentifier($this->like);
         }
 
@@ -147,9 +124,9 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
         {
             $query .= ' WHERE';
             
-            foreach ($this->where as $where)
+            foreach($this->where as $where)
             {
-                if (!empty($where['combination'])) {
+                if(!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
             
@@ -157,10 +134,8 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
             }
         }
 
-        if($this->params)
-        {
-            // TODO: Use anonymous function instead of callback.
-            $query = preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParam'), $query);
+        if($this->params) {
+            $query = $this->_replaceParams($query);
         }
 
         return $query;
@@ -172,7 +147,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      * @param  array  $matches Matches of preg_replace_callback.
      * @return string The replacement string.
      */
-    protected function _replaceParam($matches)
+    protected function _replaceParamsCallback($matches)
     {
         $key    = substr($matches[0], 1);
         $prefix = '';

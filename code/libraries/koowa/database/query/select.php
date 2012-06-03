@@ -88,13 +88,6 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     public $offset = null;
 
     /**
-     * Parameters to bind.
-     *
-     * @var array
-     */
-    public $params = array();
-
-    /**
      * Checks if the current query is a count query.
      *
      * @return boolean
@@ -128,8 +121,8 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     /**
      * Build a select query
      *
-     * @param   array|string    A string or an array of column names
-     * @return  KDatabaseQuery
+     * @param  array|string $columns A string or an array of column names
+     * @return \KDatabaseQuerySelect
      */
     public function columns($columns = array())
     {
@@ -146,25 +139,24 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the from clause of the query
+     * Build the from clause 
      *
-     * @param   array|string The table string or array name.
-     * @return  KDatabaseQuery
+     * @param  array|string The table string or array name.
+     * @return \KDatabaseQuerySelect
      */
     public function table($table)
     {
         $this->table = (array) $table;
-
         return $this;
     }
 
     /**
-     * Build the join clause of the query
+     * Build the join clause
      *
-     * @param string        The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
-     * @param string        The table name to join to.
-     * @param string|array  Join on this condition.
-     * @return KDatabaseQuery
+     * @param string $table      The table name to join to.
+     * @param string $condition  The join conditation statement.
+     * @param string|array $type The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
+     * @return \KDatabaseQuerySelect
      */
     public function join($table, $condition, $type = 'LEFT')
     {
@@ -186,13 +178,11 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the where clause of the query
+     * Build the where clause
      *
-     * @param   string          The name of the property the constraint applies too, or a SQL function or statement
-     * @param   string          The comparison used for the constraint
-     * @param   string|array    The value compared to the property value using the constraint
-     * @param   string          The where condition, defaults to 'AND'
-     * @return  KDatabaseQuery
+     * @param   string $condition   The where conditition stateme
+     * @param   string $combination The where combination, defaults to 'AND'
+     * @return  \KDatabaseQuerySelect
      */
     public function where($condition, $combination = 'AND')
     {
@@ -205,10 +195,10 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the group clause of the query
+     * Build the group clause
      *
-     * @param   array|string    A string or array of ordering columns
-     * @return  KDatabaseQuery
+     * @param   array|string $columns A string or array of ordering columns
+     * @return  \KDatabaseQuerySelect
      */
     public function group($columns)
     {
@@ -217,10 +207,10 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the having clause of the query
+     * Build the having clause
      *
-     * @param   array|string    A string or array of ordering columns
-     * @return  KDatabaseQuery
+     * @param   array|string $columns A string or array of ordering columns
+     * @return  \KDatabaseQuerySelect
      */
     public function having($columns)
     {
@@ -229,11 +219,11 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the order clause of the query
+     * Build the order clause 
      *
-     * @param   array|string  A string or array of ordering columns
-     * @param   string        Either DESC or ASC
-     * @return  KDatabaseQuery
+     * @param   array|string $columns   A string or array of ordering columns
+     * @param   string       $direction Either DESC or ASC
+     * @return  \KDatabaseQuerySelect
      */
     public function order($columns, $direction = 'ASC')
     {
@@ -249,31 +239,16 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the limit element of the query
+     * Build the limit element 
      *
-     * @param   integer Number of items to fetch.
-     * @param   integer Offset to start fetching at.
-     * @return  KDatabaseQuery
+     * @param   integer $limit  Number of items to fetch.
+     * @param   integer $offset Offset to start fetching at.
+     * @return  \KDatabaseQuerySelect
      */
     public function limit($limit, $offset = 0)
     {
         $this->limit  = (int) $limit;
         $this->offset = (int) $offset;
-
-        return $this;
-    }
-
-    /**
-     * Binds a value to a corresponding named placeholder in the query
-     *
-     * @param   array Associative array of parameters.
-     * @return  KDatabaseQuery
-     */
-    public function bind(array $params)
-    {
-        foreach ($params as $key => $value) {
-            $this->params[$key] = $value;
-        }
 
         return $this;
     }
@@ -298,7 +273,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $columns = array();
             foreach($this->columns as $alias => $column)
             {
-                if ($column instanceof KDatabaseQuerySelect) {
+                if($column instanceof KDatabaseQuerySelect) {
                     $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
                     $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
@@ -309,9 +284,9 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
         }
         else $query .= ' *';
 
-        if ($this->table)
+        if($this->table)
         {
-            if (current($this->table) instanceof KDatabaseQuerySelect) {
+            if(current($this->table) instanceof KDatabaseQuerySelect) {
                 $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$adapter->quoteIdentifier(key($this->table)) : '');
             } else {
                 $table = $adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
@@ -320,18 +295,18 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $query .= ' FROM '.$table;
         }
 
-        if ($this->join)
+        if($this->join)
         {
             $joins = array();
-            foreach ($this->join as $alias => $join)
+            foreach($this->join as $alias => $join)
             {
                 $tmp = '';
 
-                if ($join['type']) {
+                if($join['type']) {
                     $tmp .= ' '.$join['type'];
                 }
 
-                if ($join['table'] instanceof KDatabaseQuerySelect) {
+                if($join['table'] instanceof KDatabaseQuerySelect) {
                     $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
                     $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
@@ -345,13 +320,13 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $query .= implode('', $joins);
         }
 
-        if ($this->where)
+        if($this->where)
         {
             $query .= ' WHERE';
 
-            foreach ($this->where as $where)
+            foreach($this->where as $where)
             {
-                if ($where['combination']) {
+                if($where['combination']) {
                     $query .= ' '.$where['combination'];
                 }
 
@@ -359,7 +334,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             }
         }
 
-        if ($this->group)
+        if($this->group)
         {
             $columns = array();
             foreach($this->group as $column) {
@@ -369,7 +344,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $query .= ' GROUP BY '.implode(' , ', $columns);
         }
 
-        if ($this->having)
+        if($this->having)
         {
             $columns = array();
             foreach($this->having as $column) {
@@ -379,42 +354,26 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $query .= ' HAVING '.implode(' , ', $columns);
         }
 
-        if ($this->order)
+        if($this->order)
         {
             $query .= ' ORDER BY ';
 
             $list = array();
-            foreach ($this->order as $order) {
+            foreach($this->order as $order) {
                 $list[] = $adapter->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);
         }
 
-        if ($this->limit) {
+        if($this->limit) {
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if ($this->params)
-        {
-            // TODO: Use anonymous function instead of callback.
-            $query = preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParam'), $query);
+        if($this->params) {
+            $query = $this->_replaceParams($query);
         }
 
         return $query;
-    }
-    
-    /**
-     * Callback method for parameter replacement.
-     * 
-     * @param  array  $matches Matches of preg_replace_callback.
-     * @return string The replacement string.
-     */
-    protected function _replaceParam($matches)
-    {
-        $key         = substr($matches[0], 1);
-        $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
-        
-        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

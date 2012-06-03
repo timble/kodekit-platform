@@ -39,37 +39,30 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     public $order = array();
 
     /**
-     *  The number of rows that can be deleted.
+     * The number of rows that can be deleted.
      *
      * @var integer
      */
     public $limit;
 
     /**
-     * Parameters to bind.
+     * Build the table clause 
      *
-     * @var array
+     * @param   string $table The name of the table.
+     * @return  \KDatabaseQueryDelete
      */
-    public $params = array();
-
-    /**
-     * Build the table clause of the query.
-     *
-     * @param   string The name of the table.
-     * @return  KDatabaseQueryDelete
-     */
-    public function table($table) {
+    public function table($table) 
+    {
         $this->table = $table;
-
         return $this;
     }
 
     /**
-     * Build the where clause of the query.
+     * Build the where clause
      *
-     * @param   string          The condition.
-     * @param   string          Combination type, defaults to 'AND'.
-     * @return  KDatabaseQueryDelete
+     * @param   string  $conditition The condition.
+     * @param   string  $combination Combination type, defaults to 'AND'.
+     * @return  \KDatabaseQueryDelete
      */
     public function where($condition, $combination = 'AND')
     {
@@ -82,11 +75,11 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the order clause of the query.
+     * Build the order clause
      *
-     * @param   array|string  A string or array of ordering columns.
-     * @param   string        Either DESC or ASC.
-     * @return  KDatabaseQueryDelete
+     * @param   array|string  $columns    A string or array of ordering columns.
+     * @param   string        $direction Either DESC or ASC.
+     * @return  \KDatabaseQueryDelete
      */
     public function order($columns, $direction = 'ASC')
     {
@@ -102,30 +95,14 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the limit clause of the query.
+     * Build the limit clause 
      *
-     * @param   integer Number of items to update.
-     * @return  KDatabaseQueryDelete
+     * @param   integer $limit Number of items to update.
+     * @return  \KDatabaseQueryDelete
      */
     public function limit($limit)
     {
         $this->limit = (int) $limit;
-
-        return $this;
-    }
-
-    /**
-     * Bind values to a corresponding named placeholders in the query.
-     *
-     * @param   array Associative array of parameters.
-     * @return  KDatabaseQueryDelete
-     */
-    public function bind(array $params)
-    {
-        foreach ($params as $key => $value) {
-            $this->params[$key] = $value;
-        }
-
         return $this;
     }
 
@@ -140,17 +117,17 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
         $prefix  = $adapter->getTablePrefix();
         $query   = 'DELETE';
 
-        if ($this->table) {
+        if($this->table) {
             $query .= ' FROM '.$adapter->quoteIdentifier($prefix.$this->table);
         }
 
-        if ($this->where)
+        if($this->where)
         {
             $query .= ' WHERE';
 
-            foreach ($this->where as $where) 
+            foreach($this->where as $where) 
             {
-                if (!empty($where['combination'])) {
+                if(!empty($where['combination'])) {
                     $query .= ' '.$where['combination'];
                 }
 
@@ -158,42 +135,26 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
             }
         }
 
-        if ($this->order)
+        if($this->order)
         {
             $query .= ' ORDER BY ';
 
             $list = array();
-            foreach ($this->order as $order) {
+            foreach($this->order as $order) {
                 $list[] = $adapter->quoteIdentifier($order['column']).' '.$order['direction'];
             }
 
             $query .= implode(' , ', $list);
         }
 
-        if ($this->limit) {
+        if($this->limit) {
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if ($this->params)
-        {
-            // TODO: Use anonymous function instead of callback.
-            $query = preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParam'), $query);
+        if($this->params) {
+            $query = $this->_replaceParams($query);
         }
 
         return $query;
-    }
-    
-    /**
-     * Callback method for parameter replacement.
-     * 
-     * @param  array  $matches Matches of preg_replace_callback.
-     * @return string The replacement string.
-     */
-    protected function _replaceParam($matches)
-    {
-        $key         = substr($matches[0], 1);
-        $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
-        
-        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

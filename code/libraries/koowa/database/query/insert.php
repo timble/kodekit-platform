@@ -39,10 +39,10 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
     public $values = array();
 
     /**
-     * Build the table clause of the query.
+     * Build the table clause 
      *
-     * @param   string The table name.
-     * @return  KDatabaseQueryInsert
+     * @param  string $table The table name.
+     * @return \KDatabaseQueryInsert
      */
     public function table($table)
     {
@@ -52,10 +52,10 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the columns clause of the query.
+     * Build the columns clause 
      *
-     * @param   array Array of column names.
-     * @return  KDatabaseQueryUpdate
+     * @param  array $columns Array of column names.
+     * @return \KDatabaseQueryInsert
      */
     public function columns(array $columns)
     {
@@ -65,10 +65,10 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
     }
 
     /**
-     * Build the values clause of the query.
+     * Build the values clause 
      *
-     * @param   array Array of values.
-     * @return  KDatabaseQueryUpdate
+     * @param  array $values Array of values.
+     * @return \KDatabaseQueryInsert
      */
     public function values($values)
     {
