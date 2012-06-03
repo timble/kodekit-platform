@@ -174,7 +174,7 @@ class KObjectDecorator extends KObject
 	 * @throws BadMethodCallException 	If method could not be found
 	 * @return mixed The result of the function
 	 */
-	public function __call($method, array $arguments)
+	public function __call($method, $arguments)
 	{
 		$object = $this->getObject();
 
