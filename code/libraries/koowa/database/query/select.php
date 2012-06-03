@@ -397,19 +397,24 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 
         if ($this->params)
         {
-            $params = array();
-            foreach ($this->params as $key => $value) {
-                if (is_array($value)) {
-                    $params[':'.$key] = '('.$adapter->quoteValue($value).')';
-                } else {
-                    $params[':'.$key] = $adapter->quoteValue($value);
-                }
-            }
-
-            // TODO: Use anonymous function instead of /e when we switch to PHP 5.3.
-            $query = preg_replace("/(?<!\w):\w+/e", '$params[\'$0\']', $query);
+            // TODO: Use anonymous function instead of callback.
+            $query = preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParam'), $query);
         }
 
         return $query;
+    }
+    
+    /**
+     * Callback method for parameter replacement.
+     * 
+     * @param  array  $matches Matches of preg_replace_callback.
+     * @return string The replacement string.
+     */
+    protected function _replaceParam($matches)
+    {
+        $key         = substr($matches[0], 1);
+        $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
+        
+        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

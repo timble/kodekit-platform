@@ -58,9 +58,9 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      * @param   string The name of the table.
      * @return  KDatabaseQueryShow
      */
-    public function show($table) {
+    public function show($table) 
+    {
         $this->show = $table;
-    
         return $this;
     }
 
@@ -73,7 +73,6 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
     public function from($from)
     {
         $this->from = $from;
-    
         return $this;
     }
 
@@ -160,37 +159,32 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
 
         if($this->params)
         {
-            $params = $this->params;
-            if(in_array($this->show, array('FULL TABLES', 'OPEN TABLES', 'TABLE STATUS', 'TABLES')))
-            {
-                if($this->like && isset($params['like']) && $params['like'][0] != '%' && $params['like'][0] != '_') {
-                    $params['like'] = $prefix.$params['like'];
-                }
-
-                if($this->where && isset($params['name']) && $params['name'][0] != '%' && $params['name'][0] != '_') {
-                    $params['name'] = $prefix.$params['name'];
-                }
-
-                if($this->where && isset($params['table']) && $params['table'][0] != '%' && $params['table'][0] != '_') {
-                    $params['table'] = $prefix.$params['table'];
-                }
-            }
-            
-            foreach($params as $key => $value)
-            {
-                if (is_array($value)) {
-                    $params[':'.$key] = '('.$adapter->quoteValue($value).')';
-                } else {
-                    $params[':'.$key] = $adapter->quoteValue($value);
-                }
-
-                unset($params[$key]);
-            }
-
-            // TODO: Use anonymous function instead of /e when we switch to PHP 5.3.
-            $query = preg_replace("/(?<!\w):\w+/e", '$params[\'$0\']', $query);
+            // TODO: Use anonymous function instead of callback.
+            $query = preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParam'), $query);
         }
 
         return $query;
+    }
+    
+    /**
+     * Callback method for parameter replacement.
+     * 
+     * @param  array  $matches Matches of preg_replace_callback.
+     * @return string The replacement string.
+     */
+    protected function _replaceParam($matches)
+    {
+        $key    = substr($matches[0], 1);
+        $prefix = '';
+        
+        if(in_array($this->show, array('FULL TABLES', 'OPEN TABLES', 'TABLE STATUS', 'TABLES')) &&
+            ($this->like && $key == 'like' || $this->where && ($key == 'name' || $key == 'table')))
+        {
+            $prefix = $this->getAdapter()->getTablePrefix();
+        }
+        
+        $replacement = $this->getAdapter()->quoteValue($prefix.$this->params[$key]);
+        
+        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }
