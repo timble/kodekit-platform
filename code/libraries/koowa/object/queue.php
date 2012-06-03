@@ -10,7 +10,7 @@
 /**
  * Object Queue Class
  *
- * KObjectQueue is a type of container adaptor implemeneted as a double linked list
+ * KObjectQueue is a type of container adaptor implemented as a double linked list
  * and specifically designed such that its first element is always the greatest of
  * the elements it contains based on the priority of the element.
  *
@@ -38,7 +38,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Constructor
      *
-     * @return  void
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KObjectQueue
      */
     public function __construct(KConfig $config = null)
     {
@@ -55,9 +56,10 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Inserts an object to the queue.
      *
-     * @param   object      A KObject instance
-     * @param   integer     The associated priority
+     * @param   KObjectHandlable  $object
+     * @param   integer           $priority
      * @return  boolean		TRUE on success FALSE on failure
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function enqueue( KObjectHandlable $object, $priority)
     {
@@ -79,8 +81,9 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Removes an object from the queue
      *
-     * @param   object	A KObject instance
+     * @param   KObjectHandlable $object
      * @return  boolean	TRUE on success FALSE on failure
+     * @throws  InvalidArgumentException if the object implement KObjectHandlable
      */
     public function dequeue( KObjectHandlable $object)
     {
@@ -103,9 +106,10 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Set the priority of an object in the queue
      *
-     * @param object    A KCommand object
-     * @param integer   The priority
-     * @return KCommandChain
+     * @param   KObjectHandlable  $object
+     * @param   integer           $priority
+     * @return  KCommandChain
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function setPriority(KObjectHandlable $object, $priority)
     {
@@ -123,8 +127,9 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Get the priority of an object in the queue
      *
-     * @param   object  A KObject instance
+     * @param   KObjectHandlable $object
      * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function getPriority(KObjectHandlable $object)
     {
@@ -143,7 +148,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
     /**
      * Check if the queue has an item with the given priority
      *
-     * @param  int 	The priority to search for
+     * @param  integer  $priority   The priority to search for
      * @return boolean
      */
     public function hasPriority($priority)
@@ -153,10 +158,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
     }
 
     /**
-     * Check if the queue Does contain a given object
+     * Check if the queue does contain a given object
      *
-     * @param  mixed $datum
+     * @param  KObjectHandlable $object
      * @return bool
+     * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
     public function contains(KObjectHandlable $object)
     {
@@ -213,7 +219,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
      *
      * Required by the Iterator interface
      *
-     * @return	scalar
+     * @return	mixed
      */
 	public function key()
 	{
@@ -274,7 +280,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
 	/**
      * Preform a deep clone of the object
      *
-     * @retun void
+     * @return void
      */
     public function __clone()
     {

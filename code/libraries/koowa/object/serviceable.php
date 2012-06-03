@@ -18,8 +18,8 @@ interface KObjectServiceable
 	 * Get an instance of a class based on a class identifier only creating it
 	 * if it doesn't exist yet.
 	 *
-	 * @param	string|object	The class identifier or identifier object
-	 * @param	array  			An optional associative array of configuration settings.
+	 * @param	string|object	$identifier The class identifier or identifier object
+	 * @param	array  			$config     An optional associative array of configuration settings.
 	 * @throws	KObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
@@ -28,6 +28,7 @@ interface KObjectServiceable
 	/**
 	 * Get a service identifier.
 	 *
+     * @param	string|object	$identifier The class identifier or identifier object
 	 * @return	KServiceIdentifier
 	 */
 	public function getIdentifier($identifier = null);

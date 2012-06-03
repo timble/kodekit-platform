@@ -51,7 +51,8 @@ class KCommandChain extends KObjectQueue
     /**
      * Constructor
      *
-     * @return  void
+     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @return \KCommandChain
      */
     public function __construct(KConfig $config = null)
     {
@@ -65,14 +66,14 @@ class KCommandChain extends KObjectQueue
         $this->_context         = $config->context;
         $this->_stack           = $config->stack;
     }
-    
+
     /**
-     * Initializes the default configuration for the object
+     * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
-     * @return void
+     * @param   KConfig $object An optional KConfig object with configuration options
+     * @return  void
      */
     protected function _initialize(KConfig $config)
     {
@@ -89,19 +90,55 @@ class KCommandChain extends KObjectQueue
     /**
      * Attach a command to the chain
      * 
-     * The priority parameter can be used to override the command priority with 
-     * enqueing the command.
+     * The priority parameter can be used to override the command priority while enqueueing the command.
      * 
-     * @param   object      A KCommand object
-     * @param   integer     The command priority, usually between 1 (high priority) and 5 (lowest), 
-     *                      default is 3. If no priority is set, the command priority will be used 
-     *                      instead.
-     * @return   KCommandChain
+     * @param   KCommandInterface   $command
+     * @param   integer             $priority The command priority, usually between 1 (high priority) and 5 (lowest),
+     *                                        default is 3. If no priority is set, the command priority will be used
+     *                                        instead.
+     * @return \KCommandChain
+     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
      */
-    public function enqueue( KCommandInterface $cmd, $priority = null)
+    public function enqueue(KObjectHandlable $command, $priority = null)
     {
-        $priority =  is_int($priority) ? $priority : $cmd->getPriority();
-        return parent::enqueue($cmd, $priority);
+        if(!$command instanceof KCommandInterface) {
+            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+        }
+
+        $priority =  is_int($priority) ? $priority : $command->getPriority();
+        return parent::enqueue($command, $priority);
+    }
+
+    /**
+     * Removes a command from the queue
+     *
+     * @param   KCommandInterface $command
+     * @return  boolean	TRUE on success FALSE on failure
+     * @throws  InvalidArgumentException if the object implement KCommandInterface
+     */
+    public function dequeue(KObjectHandlable $command)
+    {
+        if(!$command instanceof KCommandInterface) {
+            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+        }
+
+        return parent::dequeue($command);
+    }
+
+    /**
+     * Check if the queue does contain a given object
+     *
+     * @param  KCommandInterface $object
+     * @return bool
+     * @throws  InvalidArgumentException if the object implement KCommandInterface
+     */
+    public function contains(KObjectHandlable $command)
+    {
+        if(!$command instanceof KCommandInterface) {
+            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+        }
+
+        return parent::contains($command);
     }
 
     /**
@@ -109,9 +146,9 @@ class KCommandChain extends KObjectQueue
      *
      * If a command returns the 'break condition' the executing is halted.
      *
-     * @param   string  The command name
-     * @param   mixed   The command context
-     * @return  void|boolean    If the chain is broken, returns the break condition. Default returns void.
+     * @param   string          $name
+     * @param   KCommandContext $context
+     * @return  void|boolean    If the chain breaks, returns the break condition. Default returns void.
      */
     public function run( $name, KCommandContext $context )
     {
@@ -159,25 +196,34 @@ class KCommandChain extends KObjectQueue
     /**
      * Set the priority of a command
      * 
-     * @param object    A KCommand object 
-     * @param integer   The command priority
-     * @return KCommandChain
+     * @param KCommandInterface $command
+     * @param integer           $priority
+     * @return \KCommandChain
+     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
      */
-    public function setPriority(KCommandInterface $cmd, $priority)
+    public function setPriority(KObjectHandlable $command, $priority)
     {
-       return parent::setPriority($cmd, $priority);
+        if(!$command instanceof KCommandInterface) {
+            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+        }
+
+        return parent::setPriority($cmd, $priority);
     }
     
     /**
      * Get the priority of a command
      * 
-     * @param object    A KCommand object
-     * @param integer   The command priority
-     * @return  integer The command priority
+     * @param  KCommandInterface $object
+     * @return integer The command priority
+     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
      */
-    public function getPriority(KCommandInterface $cmd)
+    public function getPriority(KObjectHandlable $command)
     {
-        return parent::getPriority($cmd);
+        if(!$command instanceof KCommandInterface) {
+            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+        }
+
+        return parent::getPriority($command);
     }
     
     /**
