@@ -109,7 +109,7 @@ class KHttpCookie extends KObject
         $config->append(array(
             'name'      => '',
             'value'     => null,
-            'doamin'    => null,
+            'domain'    => null,
             'expire'    => 0,
             'path'      => '/',
             'secure'    => false,
@@ -160,7 +160,7 @@ class KHttpCookie extends KObject
         {
             $expire = strtotime($expire);
 
-            if (false === $expire || -1 === $expire) {
+            if ($expire === false || $expire === -1) {
                 throw new InvalidArgumentException('The cookie expiration time is not valid.');
             }
         }
@@ -226,12 +226,14 @@ class KHttpCookie extends KObject
      */
     public function &__get($key)
     {
+        $result = null;
+
         if($key == 'name') {
-            $this->_name;
+            $result = $this->_name;
         }
 
         if($key == 'expire') {
-            $this->_expire;
+            $result = $this->_expire;
         }
 
         return $result;
@@ -251,10 +253,10 @@ class KHttpCookie extends KObject
             $str .= urlencode($this->value);
 
             if ($this->expire !== 0) {
-                $str .= '; expires='.gmdate("D, d-M-Y H:i:s T", $this->expire);
+                $str .= '; expires='.gmdate(DateTime::COOKIE, $this->expire);
             }
         }
-        else $str .= 'deleted; expires='.gmdate("D, d-M-Y H:i:s T", time() - 31536001);
+        else $str .= 'deleted; expires='.gmdate(DateTime::COOKIE, time() - 31536001);
 
         if ('/' !== $this->path) {
             $str .= '; path='.$this->path;
