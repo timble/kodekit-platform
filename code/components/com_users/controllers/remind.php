@@ -40,7 +40,7 @@ class ComUsersControllerRemind extends ComDefaultControllerResource
         }
 
         $config     = JFactory::getConfig();
-        $site_url   = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $site_url   = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url        = $site_url.JRoute::_('index.php?option=com_users&view=login');
 
         $details = array(

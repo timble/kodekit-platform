@@ -46,7 +46,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
 
         $configuration = JFactory::getConfig();
         $site_name     = $configuration->getValue('sitename');
-        $site_url      = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $site_url      = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
         $from_email    = $configuration->getValue('mailfrom');
         $from_name     = $configuration->getValue('fromname');

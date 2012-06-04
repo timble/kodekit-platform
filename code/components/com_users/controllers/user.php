@@ -147,7 +147,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $parameters     = JComponentHelper::getParams('com_users');
         $site_name      = $config->getValue('sitename');
-        $site_url       = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $activation_url = $site_url.JRoute::_('index.php?option=com_users&view=user&activation='.$context->data->activation);
         $password       = preg_replace('/[\x00-\x1F\x7F]/', '', $context->data->password);
 
