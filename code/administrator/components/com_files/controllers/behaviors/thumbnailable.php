@@ -19,10 +19,10 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 {
 	protected function _afterBrowse(KCommandContext $context)
 	{
-		if (!$this->getRequest()->thumbnails || !$this->isDispatched() || $this->getModel()->container->parameters->thumbnails !== true) {
+		if (!$this->getRequest()->thumbnails || $this->getModel()->container->parameters->thumbnails !== true) {
 			return;
 		}
-		
+
 		$files = array();
 		foreach ($context->result as $row) 
 		{

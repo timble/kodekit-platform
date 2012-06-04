@@ -51,6 +51,7 @@ Files.App = new Class({
 				format: 'json'
 			}
 		},
+		initial_response: null,
 
 		onAfterSetGrid: function(){
 		    var target = document.id('files-grid');
@@ -107,16 +108,17 @@ Files.App = new Class({
 		if (this.options.title) {
 			this.options.title = document.id(this.options.title);
 		}
-
-		if (this.options.container) {
-			this.setContainer(this.options.container);
-		}
-
+		
 		if (this.options.thumbnails) {
 			this.addEvent('afterSelect', function(resp) {
 				this.setThumbnails();
 			});
 		}
+
+		if (this.options.container) {
+			this.setContainer(this.options.container);
+		}
+
 	},
 	setState: function() {
 		this.fireEvent('beforeSetState');
@@ -176,8 +178,9 @@ Files.App = new Class({
 	},
 	/**
 	 * type can be 'stateless' for no state or 'initial' to use replaceState
+	 * response can be set if you want to set the results without an AJAX request.
 	 */
-	navigate: function(path, type, revalidate_cache) {
+	navigate: function(path, type, revalidate_cache, response) {
 		this.fireEvent('beforeNavigate', [path, type]);
 		if (path !== undefined) {
 			if (this.active) {
@@ -198,20 +201,31 @@ Files.App = new Class({
 					url['revalidate_cache'] = 1;
 				}
 				return this.createRoute(url);
-			}.bind(this);
+			}.bind(this),
+			success = function(resp) {
+				if (resp.status !== false) {
+					$each(resp.items, function(item) {
+						if (!item.baseurl) {
+							item.baseurl = that.baseurl;
+						}
+					});
+					that.response = resp;
+					that.grid.insertRows(resp.items);
+
+					that.fireEvent('afterSelect', resp);
+				} else {
+					alert(resp.error);
+				}
+
+			};
 
 		this.folder = new Files.Folder({'folder': folder, 'name': name});
-		this.folder.getChildren(function(resp) {
-			if (resp.status !== false) {
-				that.response = resp;
-				that.grid.insertRows(resp.items);
-
-				that.fireEvent('afterSelect', resp);
-			} else {
-				alert(resp.error);
-			}
-
-		}, null, this.state.getData(), url_builder);
+		
+		if (response) {
+			success(response);
+		} else {
+			this.folder.getChildren(success, null, this.state.getData(), url_builder);
+		}
 
 		this.fireEvent('afterNavigate', [path, type]);
 	},
@@ -261,7 +275,12 @@ Files.App = new Class({
 
 			this.active = this.options.active || '';
 			this.options.active = '';
-			this.navigate(this.active, 'initial');
+			 
+			if (typeof this.options.initial_response === 'string') {
+				this.options.initial_response = JSON.decode(this.options.initial_response);
+			}
+
+			this.navigate(this.active, 'initial', false, this.options.initial_response);
 		}.bind(this);
 
 		if (typeof container === 'string') {
@@ -423,12 +442,6 @@ Files.App = new Class({
 		var nodes = this.grid.nodes,
 			that = this;
 		if (this.grid.layout === 'icons' && nodes.getLength()) {
-			var url = that.createRoute({
-				view: 'thumbnails',
-				offset: this.state.get('offset'),
-				limit: this.state.get('limit'),
-				folder: this.active
-			});
 			nodes.each(function(node) {
 				if (node.filetype !== 'image') {
 					return;
@@ -447,7 +460,14 @@ Files.App = new Class({
 				}
 			});
 			
-			/*new Request.JSON({
+			/*
+			var url = that.createRoute({
+				view: 'thumbnails',
+				offset: this.state.get('offset'),
+				limit: this.state.get('limit'),
+				folder: this.active
+			});
+			new Request.JSON({
 				url: url,
 				method: 'get',
 				onSuccess: function(response, responseText) {

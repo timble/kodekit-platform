@@ -56,7 +56,10 @@ Files.File = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.baseurl = Files.app.baseurl;
+		if (Files.app) {
+			this.baseurl = Files.app.baseurl;
+		}
+		
 		this.size = new Files.Filesize(this.metadata.size);
 		this.filetype = Files.getFileType(this.metadata.extension);
 	},
