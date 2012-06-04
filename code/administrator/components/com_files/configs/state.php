@@ -10,6 +10,18 @@
 
 class ComFilesConfigState extends KConfigState
 {
+	/**
+	 * Needed to make sure form filter does not add config to the form action
+	 */
+	public function getData($unique = false)
+	{
+		$data = parent::getData($unique);
+		
+		unset($data['config']);
+		
+		return $data;
+	}
+	
 	public function get($name, $default = null)
     {
     	$result = parent::get($name, $default);
