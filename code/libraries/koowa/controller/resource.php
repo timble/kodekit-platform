@@ -126,7 +126,7 @@ abstract class KControllerResource extends KControllerAbstract
 			$config = array(
 				'model'     => $this->getModel(),
 			    'media_url' => KRequest::root().'/media',
-			    'base_url'	=> KRequest::url()->get(KHttpUrl::BASE),
+			    'base_url'	=> KRequest::url()->getUrl(KHttpUrl::BASE),
 			);
 			
 			if($this->isExecutable()) {

@@ -257,7 +257,7 @@ abstract class KViewAbstract extends KObject
 		    $state = $this->getModel()->getState()->toArray();
 		    $parts = array_merge($state, $parts);
 		}
-		
+
 		//Create the route 
 		$route = KService::get('koowa:http.url', array('url' => JRoute::_('index.php?'.http_build_query($parts))));
 		

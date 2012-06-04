@@ -202,7 +202,7 @@ class KHttpUrl extends KObject
 
         parent::__construct($config);
 
-        $this->set($config->url);
+        $this->setUrl($config->url);
     }
 
     /**
@@ -251,6 +251,8 @@ class KHttpUrl extends KObject
         if ($key == 'query') {
            return $this->_query;
         }
+
+        return null;
     }
 
     /**
