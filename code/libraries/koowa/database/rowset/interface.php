@@ -110,7 +110,7 @@ interface KDatabaseRowsetInterface
      * @param  object 	A KDatabaseRow object to be inserted
      * @return KDatabaseRowsetAbstract
      */
-    public function insert(KDatabaseRowInterface $row);
+    public function insert(KObjectHandlable $row);
 
 	/**
      * Removes a row
@@ -121,7 +121,7 @@ interface KDatabaseRowsetInterface
      * @param  object 	A KDatabaseRow object to be removed
      * @return KDatabaseRowsetAbstract
      */
-    public function extract(KDatabaseRowInterface $row);
+    public function extract(KObjectHandlable $row);
 
     /**
 	 * Test the connected status of the rowset.
