@@ -37,7 +37,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 			if (empty($row->name))
 			{
 				$uri = $this->getService('koowa:http.url', array('url' => $row->file));
-	        	$path = $uri->get(KHttpUrl::PATH | KHttpUrl::FORMAT);
+	        	$path = $uri->getUrl(KHttpUrl::PATH | KHttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}
