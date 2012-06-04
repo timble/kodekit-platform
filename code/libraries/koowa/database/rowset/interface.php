@@ -39,7 +39,7 @@ interface KDatabaseRowsetInterface
      *
      * @param  array   $data An associative array of row data to be inserted.
      * @param  boolean $new  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return void
+     * @return \KDatabaseRowsetInterface
      * @see __construct
      */
     public function addData(array $data, $new = true);
