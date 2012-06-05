@@ -71,7 +71,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * @param   array|string $columns An array or string of columns to update.
      * @return  \KDatabaseQueryUpdate
      */
-    public function value($values)
+    public function values($values)
     {
         $this->values = array_merge($this->values, (array) $values);
 

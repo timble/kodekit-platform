@@ -675,7 +675,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             $data  = $this->filter($context->data->getData(true));
             
             foreach($this->mapColumns($data) as $key => $value) {
-                $query->value($key.' = :_'.$key)->bind(array('_'.$key => $value));
+                $query->values($key.' = :_'.$key)->bind(array('_'.$key => $value));
             }
             
             // Execute the update query.
