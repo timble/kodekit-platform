@@ -344,7 +344,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		//Excute the update operation
 		if($this->getCommandChain()->run('before.update', $context) !==  false)
 		{
-			if(!empty($context->query->set))
+			if(!empty($context->query->values))
 			{
 				//Execute the query
 				$context->result   = $this->execute($context->query);

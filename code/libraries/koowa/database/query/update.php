@@ -29,7 +29,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      *
      * @var array
      */
-    public $set = array();
+    public $values = array();
 
     /**
      * Data of the where clause.
@@ -71,11 +71,9 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * @param   array|string $columns An array or string of columns to update.
      * @return  \KDatabaseQueryUpdate
      */
-    public function set($columns)
+    public function value($values)
     {
-        foreach ((array) $columns as $column) {
-            $this->set[] = $column;
-        }
+        $this->values = array_merge($this->values, (array) $values);
 
         return $this;
     }
@@ -143,14 +141,14 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
             $query .= ' '.$adapter->quoteIdentifier($prefix.$this->table);
         }
 
-        if($this->set)
+        if($this->values)
         {
-            $columns = array();
-            foreach($this->set as $column) {
-                $columns[] = ' '. $adapter->quoteIdentifier($column);
+            $values = array();
+            foreach($this->values as $value) {
+                $values[] = ' '. $adapter->quoteIdentifier($value);
             }
 
-            $query .= ' SET '.implode(', ', $columns);
+            $query .= ' SET '.implode(', ', $values);
         }
 
         if($this->where)

@@ -79,14 +79,14 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
 			if($change < 0) 
 			{
-			    $query->set('ordering = ordering + 1')
+			    $query->value('ordering = ordering + 1')
 			        ->where('ordering >= :new')
 			        ->where('ordering < :old')
 			        ->bind(array('new' => $new, 'old' => $old));
 			} 
 			else 
 			{
-			    $query->set('ordering = ordering - 1')
+			    $query->value('ordering = ordering - 1')
 			        ->where('ordering > :old')
 			        ->where('ordering <= :new')
 			        ->bind(array('new' => $new, 'old' => $old));
@@ -121,7 +121,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         
         $query = $this->getService('koowa:database.query.update')
             ->table($table->getBase())
-            ->set('ordering = (@order := @order + 1)')
+            ->value('ordering = (@order := @order + 1)')
             ->order('ordering', 'ASC');
         
         $this->_buildQueryWhere($query);
