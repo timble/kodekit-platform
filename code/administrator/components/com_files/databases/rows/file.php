@@ -56,7 +56,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 	{
 		if (in_array($column, array('size', 'extension', 'modified_date', 'mimetype'))) {
 			$metadata = $this->_adapter->getMetadata();
-			return $metadata ? $metadata[$column] : false;
+			return $metadata && array_key_exists($column, $metadata) ? $metadata[$column] : false;
 		}
 
 		if ($column == 'filename') {
