@@ -67,7 +67,7 @@ class ComFilesModelFiles extends ComFilesModelNodes
 	public function iteratorFilter($path)
 	{
 		$filename = basename($path);
-		$extension = pathinfo($filename, PATHINFO_EXTENSION);
+		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
 		if ($this->_state->name) {
 			if (!in_array($filename, (array) $this->_state->name)) {

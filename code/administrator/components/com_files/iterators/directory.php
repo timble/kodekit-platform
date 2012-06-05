@@ -93,7 +93,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 				if (is_callable($filter)) {
 					$ignore = call_user_func($filter, rawurldecode($file->getPathname())) === false;
 				} else if (is_array($filter)) {
-					$ignore = !in_array($file->getExtension(), $filter);
+					$ignore = !in_array(strtolower($file->getExtension()), $filter);
 				} else if (is_string($filter)) {
 					$ignore = !preg_match("/$filter/", $file->getFilename());
 				}
