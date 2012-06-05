@@ -46,9 +46,11 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 * @param 	KDatabaseQuerySelect $query
 	 * @return  void
 	 */
-	public function _buildQueryWhere(KDatabaseQueryUpdate $query)
+	public function _buildQueryWhere($query)
 	{
-		
+	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
+	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
+	    }
 	}
 
 	/**
