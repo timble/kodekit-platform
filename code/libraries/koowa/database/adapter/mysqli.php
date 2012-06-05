@@ -203,8 +203,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 */
 	public function getDatabase()
 	{
-	    if(!isset($this->_database)) {
-	        $this->_database = $this->select("SELECT DATABASE()", KDatabase::FETCH_FIELD);
+	    if(!isset($this->_database))
+	    {
+	        $query = $this->getService('koowa:database.query.select')
+	            ->columns('DATABASE()');
+	        
+	        $this->_database = $this->select($query, KDatabase::FETCH_FIELD);
 	    } 
 	    
 	    return $this->_database;
