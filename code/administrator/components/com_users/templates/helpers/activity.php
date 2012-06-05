@@ -28,10 +28,10 @@ class ComUsersTemplateHelperActivity extends ComActivitiesTemplateHelperActivity
 		));
 		
 		$row = $config->row;
-		
-		if($row->action == 'login' || $row->action == 'logout') 
-		{    
-		    $item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
+
+        if($row->name == 'session')
+        {
+		    $item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view=user&id='.$row->created_by);
 		    
 		    $message   = '<a href="'.$item.'">'.$row->title.'</a>'; 
 		    $message  .= ' <span class="action">'.$row->status.'</span>';

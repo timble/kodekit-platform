@@ -20,7 +20,9 @@
 
 KService::setAlias('com://site/users.controller.default'   , 'com://admin/users.controller.default');
 KService::setAlias('com://site/users.model.users'          , 'com://admin/users.model.users');
+KService::setAlias('com://site/users.model.sessions'       , 'com://admin/users.model.sessions');
 KService::setAlias('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
+KService::setAlias('com://site/users.database.row.session' , 'com://admin/users.database.row.session');
 KService::setAlias('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
 KService::setAlias('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
 KService::setAlias('com://site/users.helper.password'      , 'com://admin/users.helper.password');

@@ -52,15 +52,16 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    $state = $this->getState();
 
 	    $query->columns(array(
-	    	'loggedin' => 'IF(session.session_id IS NOT NULL, 1, 0)',
+	    	'loggedin' => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
 	        'enabled'  => 'IF(tbl.block = 1, 0, 1)'
 	    ));
 	    
-	    if($state->loggedin) {
+	    if($state->loggedin)
+        {
 	        $query->columns(array(
 	        	'loggedin_client_id'  => 'session.client_id',
 	        	'loggedin_on'         => 'session.time',
-	        	'loggedin_session_id' => 'session.session_id',
+	        	'loggedin_session_id' => 'session.users_session_id',
 	        ));
 	    }
 	}
@@ -75,7 +76,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	{
 	    $state = $this->getState();
 	    
-        $query->join(array('session' => 'session'), 'tbl.id = session.userid', $state->loggedin ? 'RIGHT' : 'LEFT');
+        $query->join(array('session' => 'users_sessions'), 'tbl.id = session.userid', $state->loggedin ? 'RIGHT' : 'LEFT');
 	}
 
 	/**
@@ -89,26 +90,33 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::_buildQueryWhere($query);
         $state = $this->getState();
 		
-		if ($state->group)  {
-		    $query->where('tbl.gid '.($state->group_tree ? '>=' : '=').' :group_id')->bind(array('group_id' => $state->group));
+		if ($state->group)
+        {
+		    $query->where('tbl.gid '.($state->group_tree ? '>=' : '=').' :group_id')
+                  ->bind(array('group_id' => $state->group));
 		}
         
-        if (is_bool($state->enabled)) {
-            $query->where('tbl.block = :enabled')->bind(array('enabled' => $state->enabled ? 0 : 1));
+        if (is_bool($state->enabled))
+        {
+            $query->where('tbl.block = :enabled')
+                   ->bind(array('enabled' => $state->enabled ? 0 : 1));
         }
         
         if ($state->loggedin === false) {
             $query->where('loggedin IS NULL');
         }
         
-        if (is_bool($state->visited)) {  
-            $query->where('lastvisitDate '.($state->visited ? '!=' : '=').' :last_visited_on')->bind(array('last_visited_on', '0000-00-00 00:00:00'));
+        if (is_bool($state->visited))
+        {
+            $query->where('lastvisitDate '.($state->visited ? '!=' : '=').' :last_visited_on')
+                  ->bind(array('last_visited_on', '0000-00-00 00:00:00'));
         }
 
-	    if ($state->search) {
+	    if ($state->search)
+        {
 	        $query->where('tbl.name LIKE :search')
-	            ->where('tbl.name LIKE :search', 'OR')
-	            ->bind(array('search' => '%'.$state->search.'%'));
+	              ->where('tbl.name LIKE :search', 'OR')
+	              ->bind(array('search' => '%'.$state->search.'%'));
         }
     }
 }

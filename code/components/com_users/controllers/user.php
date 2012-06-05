@@ -34,9 +34,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $config->append(array(
         	'behaviors' => array(
-        		'com://admin/activities.controller.behavior.loggable' => array(
-               		'title_column' => 'name',
-               		'actions'      => array('after.login', 'after.logout')),
+        		'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
         		'com://site/users.controller.behavior.user.spammable' )));
     
         parent::_initialize($config);
@@ -128,56 +126,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         
         return $data;
     }
-    
-    protected function _actionLogin(KCommandContext $context)
-    {
-        $credentials = array(
-            'username' => KRequest::get('post.username', 'string'),
-            'password' => KRequest::get('post.password', 'raw')
-        );
-
-        $result = JFactory::getApplication()->login($credentials);
-
-        if(JError::isError($result))
-        {
-            $this->_redirect_type    = 'error';
-            $this->_redirect_message =  $result->getError();
-            $result = false;
-        }
-        else
-        {
-            $user   = JFactory::getUser();
-            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
-        }
-        
-        $this->_redirect = KRequest::referrer();
-        return $result;
-    }
-    
-    protected function _actionLogout(KCommandContext $context)
-    {
-		$rowset = clone $this->getModel()->getList();
-        
-	    if(count($rowset)) 
-	    {
-	        foreach($rowset as $user)
-	        {
-	            $clients = array(0); //Force logout from site only
-	            $result = JFactory::getApplication()
-	                            ->logout($user->id, array('clientid' => $clients));
-	                          
-                if(JError::isError($result))
-                {
-                    $this->_redirect_type    = 'error';
-                    $this->_redirect_message =  $result->getError();
-                }
-                else $user->setStatus('logged out');
-	        }
-		} 
-		
-		$this->_redirect = KRequest::referrer();
-        return $rowset;
-    }
 
     public function redirect(KCommandContext $context)
     {
@@ -199,7 +147,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $parameters     = JComponentHelper::getParams('com_users');
         $site_name      = $config->getValue('sitename');
-        $site_url       = KRequest::url()->get(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+        $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
         $activation_url = $site_url.JRoute::_('index.php?option=com_users&view=user&activation='.$context->data->activation);
         $password       = preg_replace('/[\x00-\x1F\x7F]/', '', $context->data->password);
 

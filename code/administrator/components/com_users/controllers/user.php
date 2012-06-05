@@ -23,30 +23,20 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add', array($this, 'notify'));
-        
-        //Lock the referrer to prevent it from being overridden for read requests
-        if ($this->isDispatched() && KRequest::type() == 'HTTP') 
-        {
-		    if($this->isEditable()) {
-		        $this->registerCallback('after.logout' , array($this, 'lockReferrer'));
-		    }
-        }
+        $this->registerCallback('after.add'   , array($this, 'notify'));
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
         	'behaviors' => array(
-        		'com://admin/activities.controller.behavior.loggable' => array(
-               		'title_column' => 'name',
-               		'actions'      => array('after.login', 'after.logout')        
-             )),
+        		'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name')
+            ),
         ));
-    
+
         parent::_initialize($config);
     }
-    
+
     protected function _actionEdit(KCommandContext $context)
     {
         $data = parent::_actionEdit($context);
@@ -68,56 +58,6 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             ->delete();
 
         return $data;
-    }
-
-    protected function _actionLogin(KCommandContext $context)
-    {
-        $credentials = array(
-            'username' => KRequest::get('post.username', 'string'),
-            'password' => KRequest::get('post.password', 'raw')
-        );
-
-        $result = JFactory::getApplication()->login($credentials);
-         
-        if(JError::isError($result))
-        {
-            $this->_redirect_type    = 'error';
-            $this->_redirect_message =  $result->getError();
-            $result = false;
-        }
-        else 
-        {
-            $user  = JFactory::getUser();
-            $result = $this->getModel()->id($user->id)->getItem()->setStatus('logged in');
-        } 
-        
-        $this->_redirect = KRequest::referrer();
-        return $result;
-    }
-
-    protected function _actionLogout(KCommandContext $context)
-    {
-        $rowset = clone $this->getModel()->getList();
-        
-	    if(count($rowset)) 
-	    {
-	        foreach($rowset as $user)
-	        {
-	            $clients = array(0, 1); //Force logout from site and administrator
-	            $result = JFactory::getApplication()
-	                            ->logout($user->id, array('clientid' => $clients));
-	                          
-                if(JError::isError($result))
-                {
-                    $this->_redirect_type    = 'error';
-                    $this->_redirect_message =  $result->getError();
-                }
-                else $user->setStatus('logged out');
-	        }
-		} 
-		
-		$this->_redirect = KRequest::referrer();
-        return $rowset;
     }
 
     public function notify(KCommandContext $context)

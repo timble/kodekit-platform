@@ -14,8 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'plgSearchContacts' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchContactAreas' );
+JDispatcher::getInstance()->register( 'onSearch', 'plgSearchContacts' );
+JDispatcher::getInstance()->register( 'onSearchAreas', 'plgSearchContactAreas' );
 
 JPlugin::loadLanguage( 'plg_search_contacts' );
 

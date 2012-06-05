@@ -52,10 +52,10 @@ class modNewsFlashHelper
 			$item->text = preg_replace( '/<img[^>]*>/', '', $item->text );
 		}
 
-		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
+		$results = JDispatcher::getInstance()->trigger('onAfterDisplayTitle', array (&$item, &$params, 1));
 		$item->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $mainframe->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
+		$results = JDispatcher::getInstance()->trigger('onBeforeDisplayContent', array (&$item, &$params, 1));
 		$item->beforeDisplayContent = trim(implode("\n", $results));
 
 		require(JModuleHelper::getLayoutPath('mod_newsflash', '_item'));

@@ -37,7 +37,6 @@ class JAdministrator extends JApplication
 	{
 		$config['clientId']          = 1;
 		$config['multisite']         = true;
-		$config['session_autostart'] = true; //override the configruation settings
 
 		parent::__construct($config);
 
@@ -133,7 +132,7 @@ class JAdministrator extends JApplication
                 JHTML::_('behavior.mootools');
             }
         }
-        
+
 	    if(!JFactory::getUser()->authorize('login', 'administrator')) {
 	        $option = 'com_users';
 	    } else {
@@ -172,33 +171,6 @@ class JAdministrator extends JApplication
 		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES), $data);
 
 		JResponse::setBody($data);
-	}
-
-	/**
-	 * Login authentication function
-	 *
-	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @access public
-	 * @see JApplication::login
-	 */
-	function login($credentials, $options = array())
-	{
-		//The minimum group
-		$options['group'] = 'Public Backend';
-
-		 //Make sure users are not autoregistered
-		$options['autoregister'] = false;
-
-		$result = parent::login($credentials, $options);
-
-		if(!JError::isError($result))
-		{
-			$lang = JRequest::getCmd('lang');
-			$lang = preg_replace( '/[^A-Z-]/i', '', $lang );
-			$this->setUserState( 'application.lang', $lang  );
-		}
-
-		return $result;
 	}
 
 	/**
@@ -276,8 +248,8 @@ class JAdministrator extends JApplication
 	        {
 	            $request = KRequest::get($method.'.site', 'cmd');
 	            return parent::_loadSite($request);
-	        } 
-	        
+	        }
+
 	        //Use session or revert to default
 	        return parent::_loadSite(JFactory::getSession()->get('site', 'default'));
 	    }

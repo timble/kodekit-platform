@@ -39,7 +39,10 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
     protected function _initialize(KConfig $config) 
     {
-        $config->append(array('password_encryption' => true));
+        $config->append(array(
+            'password_encryption' => true)
+        );
+
         parent::_initialize($config);
     }
 
@@ -420,7 +423,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     {
         $data = parent::toArray();
         
-        unset($data['password']);
+        //unset($data['password']);
         unset($data['activation']);
         
         $data['params'] = $this->params->toArray();

@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'plgContentLoadModule' );
+JDispatcher::getInstance()->register( 'onPrepareContent', 'plgContentLoadModule' );
 
 /**
 * Plugin that loads module positions within content

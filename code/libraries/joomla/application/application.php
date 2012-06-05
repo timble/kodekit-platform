@@ -107,14 +107,9 @@ class JApplication extends JObject
 		//set defines
 		define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
-		//Set the session autostart
-		if(!isset($config['session_autostart'])) {
-			 $config['session_autostart'] = !is_null($this->getCfg('session_autostart')) ? $this->getCfg('session_autostart') :  true;
-		}
-
 		//create the session if a session name is passed
 		if($config['session'] !== false) {
-			$this->_loadSession(JUtility::getHash($config['session_name']), false, $config['session_autostart']);
+			$this->_loadSession(JUtility::getHash($config['session_name']), false);
 		}
 
 		//create the site
@@ -523,123 +518,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Login authentication function.
-	 *
-	 * Username and encoded password are passed the the onLoginUser event which
-	 * is responsible for the user validation. A successful validation updates
-	 * the current session record with the users details.
-	 *
-	 * Username and encoded password are sent as credentials (along with other
-	 * possibilities) to each observer (authentication plugin) for user
-	 * validation.  Successful validation will update the current session with
-	 * the user details.
-	 *
-	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @return	boolean True on success.
-	 * @access	public
-	 * @since	1.5
-	 */
-	function login($credentials, $options = array())
-	{
-		//Force the site
-		$options['site'] = $this->_site;
-
-	    // Get the global JAuthentication object
-		jimport( 'joomla.user.authentication');
-		$authenticate = & JAuthentication::getInstance();
-		$response	  = $authenticate->authenticate($credentials, $options);
-
-		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
-		{
-			$session = &JFactory::getSession();
-
-			// we fork the session to prevent session fixation issues
-			$session->fork();
-			$this->_loadSession($session->getId());
-
-			// Import the user plugin group
-			JPluginHelper::importPlugin('user');
-
-			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
-
-			/*
-			 * If any of the user plugins did not successfully complete the login routine
-			 * then the whole method fails.
-			 *
-			 * Any errors raised should be done in the plugin as this provides the ability
-			 * to provide much more information about why the routine may have failed.
-			 */
-
-			if (!in_array(false, $results, true)) {
-				return true;
-			}
-		}
-
-		// Trigger onLoginFailure Event
-		$this->triggerEvent('onLoginFailure', array((array)$response));
-
-
-		// If silent is set, just return false
-		if (isset($options['silent']) && $options['silent']) {
-			return false;
-		}
-
-		// Return the error
-		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
-	}
-
-	/**
-	 * Logout authentication function.
-	 *
-	 * Passed the current user information to the onLogoutUser event and reverts the current
-	 * session record back to 'anonymous' parameters.
-	 *
-	  * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
-	 * @param	array 	$options  Array( 'clientid' => array of client id's )
-	 *
-	 * @access public
-	 */
-	function logout($userid = null, $options = array())
-	{
-		// Initialize variables
-		$retval = false;
-
-		// Get a user object from the JApplication
-		$user = &JFactory::getUser($userid);
-
-		// Build the credentials array
-		$parameters['username']	= $user->get('username');
-		$parameters['id']		= $user->get('id');
-
-		// Set clientid in the options array if it hasn't been set already
-		if(empty($options['clientid'])) {
-			$options['clientid'][] = $this->getClientId();
-		}
-
-		// Import the user plugin group
-		JPluginHelper::importPlugin('user');
-
-		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $this->triggerEvent('onLogoutUser', array($parameters, $options));
-
-		/*
-		 * If any of the authentication plugins did not successfully complete
-		 * the logout routine then the whole method fails.  Any errors raised
-		 * should be done in the plugin as this provides the ability to provide
-		 * much more information about why the routine may have failed.
-		 */
-		if (!in_array(false, $results, true)) {
-			return true;
-		}
-
-		// Trigger onLoginFailure Event
-		$this->triggerEvent('onLogoutFailure', array($parameters));
-
-		return false;
-	}
-
-	/**
 	 * Gets the name of the current template.
 	 *
 	 * @return	string
@@ -815,11 +693,11 @@ class JApplication extends JObject
 			    'site'			=> $site
 			);
 
-			$results = $this->triggerEvent('onLoginUser', array($response, $options));
+			$results = JDispatcher::getInstance()->trigger('onLoginUser', array($response, $options));
 
 			if(JError::isError($results[0]))
 			{
-			    $this->triggerEvent('onLoginFailure', array((array)$response));
+                JDispatcher::getInstance()->trigger('onLoginFailure', array((array)$response));
 
 				//Log the user out
 				$this->logout();
@@ -868,48 +746,24 @@ class JApplication extends JObject
 	 */
 	protected function _loadSession( $name, $ssl = false, $auto_start = true )
 	{
-		$options = array(
-			'name' 	 	 => $name,
-			'force_ssl'  => $ssl
-		);
+        $config = array(
+            'name'     => $name,
+            'lifetime' => $this->getCfg('config.lifetime', 15) * 900,
+            'handler'  => 'database',
+            'table'    => 'com://admin/users.database.table.sessions',
+            'options'  => array(
+                'cookie_secure' => $ssl
+            )
+        );
 
-		//Create the session object
-		$session = JFactory::getSession($options);
+        $session = KService::get('koowa:dispatcher.session.default', $config);
 
-		//Auto-start the session if a cookie is found or if auto_start is true
-		if($session->getState() != 'active')
+		//Auto-start the session if a cookie is found
+		if(!$session->isActive())
 		{
-			if ($auto_start || JRequest::getCmd($session->getName(), null, 'cookie')) {
+			if (KRequest::has('cookie.'.$session->getName())) {
 				$session->start();
 			}
-		}
-
-		//Only update the session table if the session is active
-		if($session->getState() == 'active')
-		{
-			jimport('joomla.database.table');
-			$storage = & JTable::getInstance('session');
-			$storage->purge($session->getExpire());
-
-			// Session exists and is not expired, update time in session table
-			if ($storage->load($session->getId())) {
-				$storage->update();
-			}
-			else
-			{
-				//Session doesn't exist, initalise and store it in the session table
-				$session->set('registry',	new JRegistry('session'));
-				$session->set('user',		new JUser());
-
-				if (!$storage->insert( $session->getId(), $this->getClientId())) {
-					jexit( $storage->getError());
-				}
-			}
-		}
-		else
-		{
-			$session->set('registry',	new JRegistry('session'));
-			$session->set('user',		new JUser());
 		}
 
 		return $session;

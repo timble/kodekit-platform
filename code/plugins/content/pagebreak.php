@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'plgContentPagebreak' );
+JDispatcher::getInstance()->register( 'onPrepareContent', 'plgContentPagebreak' );
 
 /**
 * Page break plugin

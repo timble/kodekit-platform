@@ -26,8 +26,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         {  
             $view = KRequest::get('get.view', 'cmd');
             
-		    if(!in_array($view, array('login', 'remind', 'reset', 'user', 'captcha'))) {
-                $config->request = array('view' => 'login');
+		    if(!in_array($view, array('session', 'remind', 'reset', 'user', 'captcha'))) {
+                $config->request = array('view' => 'session');
             }
         } 
         
@@ -39,20 +39,20 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         if(!JFactory::getUser()->guest) 
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'login') 
+            if($this->getRequest()->view == 'session')
             {
                 $menu = JFactory::getApplication()->getMenu()->getDefault();
-                JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
+                //JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
             }
         }
 
         if(JFactory::getUser()->guest) 
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'logout') 
+            if($this->getRequest()->view == 'session')
             {
                 $menu = JFactory::getApplication()->getMenu()->getDefault();
-                JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
+                //JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
             }
         } 
                

@@ -28,8 +28,8 @@ class ComUsersControllerToolbarUser extends ComDefaultControllerToolbarDefault
 			 ->addDisable()
 			 ->addSeparator();
 			 
-		if($this->getController()->canLogout()) {	 
-			 $this->addLogout();
-		}
+		//if($this->getController()->canLogout()) {
+			 //$this->addLogout();
+		//}
     }
 }

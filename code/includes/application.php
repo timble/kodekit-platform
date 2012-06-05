@@ -132,7 +132,7 @@ class JSite extends JApplication
 		$params     = $this->getParams();
 		
 		$option = strtolower(JRequest::getCmd('option'));
-		
+
 		if(!($this->getCfg('offline') && JFactory::getUser()->get('guest'))) 
 		{
 		    if(!$this->getMenu()->authorize(JRequest::getInt( 'Itemid'), $user->get('aid')))

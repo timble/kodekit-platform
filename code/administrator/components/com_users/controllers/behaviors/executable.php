@@ -18,20 +18,44 @@
  * @subpackage  Users
  */
 class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
-{  
-    public function canLogout()
+{
+    public function canAdd()
     {
-        $user = JFactory::getUser();
-        
-        //Allow logging out ourselves
-        if($this->getModel()->id == $user->get('id')) {
-             return true;
-        }
-        
-        if($user->get('gid') > 24) {
+        if($this->getMixer()->getIdentifier()->name == 'session') {
             return true;
         }
-        
-        return false;
+
+        return parent::canAdd();
+    }
+
+    public function canEdit()
+    {
+        if($this->getMixer()->getIdentifier()->name == 'session') {
+           return false;
+        }
+
+        return parent::canEdit();
+    }
+
+    public function canDelete()
+    {
+        if($this->getMixer()->getIdentifier()->name == 'session')
+        {
+            $user = JFactory::getUser();
+
+            //Allow logging out ourselves
+            if($this->getModel()->getState()->userid == $user->get('id')) {
+                return true;
+            }
+
+            //Only administrator can logout other users
+            if($user->get('gid') > 24) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return parent::canDelete();
     }
 }

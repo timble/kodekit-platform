@@ -125,7 +125,8 @@ class JUtility
 		$session	= JFactory::getSession();
 		
 		//If the session is not active start it
-		if($session->getState() != 'active') {
+		/*if($session->getState() != 'active')
+        {
 			$session->start();
 			
 		    jimport('joomla.database.table');
@@ -139,16 +140,15 @@ class JUtility
 			else
 			{
 				//Session doesn't exist, initalise and store it in the session table
-				$session->set('registry',	new JRegistry('session'));
 				$session->set('user',		new JUser());
 
 				if (!$storage->insert( $session->getId(), JFactory::getApplication()->getClientId())) {
 					jexit( $storage->getError());
 				}
 			}
-		} 
+		}*/
 		
-		$hash		= JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
+		$hash = JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
 		return $hash;
 	}
 

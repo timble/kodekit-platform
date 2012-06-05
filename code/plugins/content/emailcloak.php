@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent('onPrepareContent', 'plgContentEmailCloak');
+JDispatcher::getInstance()->register('onPrepareContent', 'plgContentEmailCloak');
 
 /**
  * Plugin that cloaks all emails in content from spambots via Javascript.

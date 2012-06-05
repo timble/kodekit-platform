@@ -11,8 +11,8 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<form action="<?= @route('option=com_users&view=user&id='.$user->id) ?>" method="post" name="login" id="form-login">
-	<input type="hidden" name="action" value="logout" />
+<form action="<?= @route('option=com_users&view=session&user='.$user->id) ?>" method="post" name="login" id="form-login">
+	<input type="hidden" name="action" value="delete" />
     <? if ($show_greeting) : ?>
 	<div>
 	    <? if ($name) : ?>

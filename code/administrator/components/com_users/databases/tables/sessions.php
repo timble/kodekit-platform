@@ -22,8 +22,10 @@ class ComUsersDatabaseTableSessions extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'name'            => 'session',
-            'base'            => 'session'
+            'identity_column' => 'users_session_id',
+            'column_map' => array(
+                'user_id' => 'userid',
+            ),
         ));
 
         parent::_initialize($config);
