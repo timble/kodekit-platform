@@ -36,12 +36,15 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 			'request' => array(
 				'container' => $this->getModel()->container,
 				'folder' => $folder,
-				'filename' => $files
+				'filename' => $files,
+				'limit' => 0,
+				'offset' => 0
 			)
 		))->browse();
 
 		foreach ($thumbnails as $thumbnail) 
 		{
+				
 			if ($row = $context->result->find($thumbnail->filename)) {
 				$row->thumbnail = $thumbnail->thumbnail;
 			}

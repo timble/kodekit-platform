@@ -18,27 +18,33 @@
 class ComFilesControllerThumbnail extends ComFilesControllerDefault
 {
     protected function _actionBrowse(KCommandContext $context)
-    {
+    { 
     	// Clone to make cacheable work since we change model states
         $model = clone $this->getModel();
-        
+  
     	// Save state data for later
         $state_data = $model->getState()->getData();
-
-        $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getList();
-
-        $needed  = array();
-        foreach ($nodes as $row)
-        {
-                if ($row->isImage()) {
-        		$needed[] = $row->name;
-        	}
-        }
         
+        $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getList();
+        
+        if (!$model->getState()->files && !$model->getState()->filename) 
+        {
+        	$needed  = array();
+        	foreach ($nodes as $row)
+        	{
+        		if ($row->isImage()) {
+        			$needed[] = $row->name;
+        		}
+        	}
+        } 
+        else {
+        	$needed = $model->getState()->files ? $model->getState()->files : $model->getState()->filename;
+        }
+
 		$model->reset()
 		      ->set($state_data)
 		      ->set('files', $needed);
-        
+		
 		$list  = $model->getList();
 		
     	$found = array();
