@@ -240,15 +240,14 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @param   integer	The fetch mode. Controls how the result will be returned to the caller. This 
      * 					value must be one of the KDatabase::FETCH_* constants.
      * @param 	string 	The column name of the index to use.
+     * @throws  InvalidArgumentException If the query is not an instance of KDatabaseQuerySelect or KDatabaseQueryShow
      * @return  mixed 	The return value of this function on success depends on the fetch type. 
      * 					In all cases, FALSE is returned on failure.
      */
-	public function select($query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
+	public function select(KDatabaseQueryInterface $query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
 	{
-	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryShow)
-	    {
-	        throw new KDatabaseAdapterException('Argument 1 passed to '.get_class($this).'::select() '.
-	            'must be an instance of KDatabaseQuerySelect or KDatabaseQueryShow, instance of '.get_class($query).' given.');
+	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryShow) {
+	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryShow');
 	    }
 	    
 		$context = $this->getCommandContext();
@@ -391,7 +390,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
      * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
      * 					unless you free the result first.
-	 * @throws KDatabaseException
+	 * @throws KDatabaseAdapterException
 	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
 	 * 					For other successful queries  return TRUE. 
 	 */
@@ -405,7 +404,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 		$result = $this->getConnection()->query((string) $query, $mode);
 		
 		if($result === false) {
-			throw new KDatabaseException($this->getConnection()->error.' of the following query : '.$query, $this->getConnection()->errno);
+			throw new KDatabaseAdapterException($this->getConnection()->error.' of the following query : '.$query, $this->getConnection()->errno);
 		}
 
 		$this->_affected_rows = $this->getConnection()->affected_rows;

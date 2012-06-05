@@ -9,7 +9,7 @@
  */
 
 /**
- * Koowa Database Exception class
+ * Koowa Database Adapter Exception class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database

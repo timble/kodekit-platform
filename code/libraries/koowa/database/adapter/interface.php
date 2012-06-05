@@ -106,7 +106,7 @@ interface KDatabaseAdapterInterface
      * @param 	string 		The column name of the index to use.
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
-	public function select($query, $mode = KDatabase::RESULT_STORE, $key = '');
+	public function select(KDatabaseQueryInterface $query, $mode = KDatabase::RESULT_STORE, $key = '');
 
 	/**
      * Insert a row of data into a table.
@@ -142,7 +142,7 @@ interface KDatabaseAdapterInterface
      * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
      * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
      * 					unless you free the result first.
-	 * @throws KDatabaseException
+	 * @throws KDatabaseAdapterException
 	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
 	 * 					For other successful queries  return TRUE. 
 	 */

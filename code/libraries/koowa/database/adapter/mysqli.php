@@ -118,6 +118,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	/**
 	 * Connect to the db
 	 * 
+	 * @throws KDatabaseAdapterException
 	 * @return KDatabaseAdapterMysqli
 	 */
 	 public function connect()
@@ -213,12 +214,13 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
 	 * Set the database name
 	 *
 	 * @param 	string 	The database name
+	 * @throws  KDatabaseAdapterException
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function setDatabase($database)
 	{
 	    if(!$this->_connection->select_db($database)) {
-			throw new KDatabaseException('Could not connect with database : '.$database);
+			throw new KDatabaseAdapterException('Could not connect with database : '.$database);
 	    }
 	    
 	    $this->_database = $database;
