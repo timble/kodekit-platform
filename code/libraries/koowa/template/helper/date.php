@@ -20,9 +20,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     /**
      * Returns formatted date according to current local and adds time offset.
      *
-     * @param  array   An optional array with configuration options.
-     * @return string  Formatted date.
-     * @see    strftime
+     * @param  array  $config An optional array with configuration options.
+     * @return string Formatted date.
      */
     public function format($config = array())
     {
@@ -36,7 +35,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 
         $return = $config->default;
 
-        if (!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
+        if(!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
         {
             try 
             {
@@ -45,7 +44,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 
                 $return = $date->format($config->format);
             } 
-            catch (Exception $e) {}
+            catch(Exception $e) {}
         }
 
         return $return;
@@ -54,8 +53,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
     /**
      * Returns human readable date.
      *
-     * @param  array   An optional array with configuration options.
-     * @return string  Formatted date.
+     * @param  array  $config An optional array with configuration options.
+     * @return string Formatted date.
      */
     public function humanize($config = array())
     {
@@ -69,7 +68,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 
         $result = $config->default;
 
-        if (!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
+        if(!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
         {
             $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
             $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
@@ -80,10 +79,10 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                 $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new DateTimeZone($config->timezone));
 
-                if ($now != $date) 
+                if($now != $date) 
                 {
                     // TODO: Use DateTime::getTimeStamp().
-                    if ($now > $date) 
+                    if($now > $date) 
                     {   
                         $difference = $now->format('U') - $date->format('U');
                         $tense      = 'ago';
@@ -94,7 +93,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                         $tense      = 'from now';
                     }
 
-                    for ($i = 0; $difference >= $lengths[$i] && $i < 6; $i++) {
+                    for($i = 0; $difference >= $lengths[$i] && $i < 6; $i++) {
                         $difference /= $lengths[$i];
                     }
 
@@ -103,15 +102,15 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                     $omitted_periods = $periods;
                     array_splice($omitted_periods, $period_index);
 
-                    if (in_array($periods[$i], $omitted_periods)) 
+                    if(in_array($periods[$i], $omitted_periods)) 
                     {
                         $difference = 1;
                         $i          = $period_index;
                     }
 
-                    if ($periods[$i] == 'day' && ($difference == 1 || $difference == 2)) 
+                    if($periods[$i] == 'day' && ($difference == 1 || $difference == 2)) 
                     {
-                        if ($difference == 1) {
+                        if($difference == 1) {
                             $result = JText::_('Today');
                         } else {
                             $result = $tense == 'ago' ? JText::_('Yesterday') : JText::_('Tomorrow');
@@ -119,16 +118,16 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                     } 
                     else 
                     {
-                        if ($difference != 1) {
+                        if($difference != 1) {
                             $periods[$i] .= 's';
                         }
 
-                        $result = sprintf(JText::_('%s '.$periods[$i].' '.$tense), $difference);
+                        $result = sprintf(JText::_('%d '.$periods[$i].' '.$tense), $difference);
                     }
                 } 
                 else $result = JText::_('Now');
             } 
-            catch (Exception $e) {}
+            catch(Exception $e) {}
         }
 
         return $result;
