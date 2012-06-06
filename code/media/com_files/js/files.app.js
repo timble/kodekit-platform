@@ -338,7 +338,7 @@ Files.App = new Class({
 		    opts = this.options.grid,
 			key = this.cookie+'.grid.layout';
 
-		if (this.cookie) {
+		if (this.cookie && Cookie.read(key)) {
 			opts.layout = Cookie.read(key);
 		}
 
