@@ -441,7 +441,7 @@ Files.App = new Class({
 		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
-		if (this.grid.layout === 'icons' && nodes.getLength()) {
+		if (nodes.getLength()) {
 			nodes.each(function(node) {
 				if (node.filetype !== 'image') {
 					return;
@@ -449,53 +449,19 @@ Files.App = new Class({
 				var name = node.name;
 
 				var img = node.element.getElement('img.image-thumbnail');
-				img.addEvent('load', function(){
-				    this.addClass('loaded');
-				});
-				img.set('src', node.thumbnail ? node.thumbnail : Files.blank_image);
-				node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
-
-				if(window.sessionStorage) {
-				    sessionStorage[node.image.toString()] = img.get('src');
-				}
-			});
-			
-			/*
-			var url = that.createRoute({
-				view: 'thumbnails',
-				offset: this.state.get('offset'),
-				limit: this.state.get('limit'),
-				folder: this.active
-			});
-			new Request.JSON({
-				url: url,
-				method: 'get',
-				onSuccess: function(response, responseText) {
-					var thumbs = response.items;
-
-					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
-
-					nodes.each(function(node) {
-						if (node.filetype !== 'image') {
-							return;
-						}
-						var name = node.name;
-
-						var img = node.element.getElement('img.image-thumbnail');
-						img.addEvent('load', function(){
-						    this.addClass('loaded');
-						});
-						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
-						node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
-
-						if(window.sessionStorage) {
-						    sessionStorage[node.image.toString()] = img.get('src');
-						}
+				if (img) {
+					img.addEvent('load', function(){
+					    this.addClass('loaded');
 					});
+					img.set('src', node.thumbnail ? node.thumbnail : Files.blank_image);
+					
+					(node.element.getElement('.files-node') || node.element).addClass('loaded').removeClass('loading');
 
-					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
+					if(window.sessionStorage) {
+					    sessionStorage[node.image.toString()] = img.get('src');
+					}
 				}
-			}).send();*/
+			});
 		}
 
 	},
