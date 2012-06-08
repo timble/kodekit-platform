@@ -83,6 +83,27 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		}
 
 		return parent::__get($column);
+	}	
+	
+	/**
+	 * This method checks for computed properties as well
+	 * 
+	 * @param string $key
+	 */
+	public function __isset($key)
+	{
+		$result = parent::__isset($key);
+		
+		if (!$result) 
+		{
+			$var = $this->__get($key);
+			if (!empty($var)) {
+				$result = true;
+			}
+		}
+		
+		return $result;
+		
 	}
 
     public function toArray()
