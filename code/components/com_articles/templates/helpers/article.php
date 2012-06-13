@@ -22,14 +22,12 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
     public function render($config = array()) {
         $config = new KConfig($config);
 
-        $config->append(array('parameters' => JComponentHelper::getParams('com_articles'), 'show_title' => true));
+        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')));
 
         $parameters = $config->parameters;
         $html       = '';
 
-        if ($config->show_title) {
-            $html .= $this->title($config);
-        }
+        $html .= $this->title($config);
 
         $html .= $this->timestamp($config);
 

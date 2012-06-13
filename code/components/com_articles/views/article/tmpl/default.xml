@@ -11,12 +11,5 @@
         <url addpath="/administrator/components/com_articles/elements">
             <param name="id" type="article" default="0" label="Select Article" description="An article"/>
         </url>
-        <params>
-            <param name="show_title" type="radio" default="1" label="Show Article Title"
-                   description="Show/Hide the articles title">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </param>
-        </params>
     </state>
 </metadata>
