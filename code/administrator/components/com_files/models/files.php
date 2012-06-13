@@ -28,11 +28,13 @@ class ComFilesModelFiles extends ComFilesModelNodes
         		'path'    => $this->_getPath(),
         		'exclude' => array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'),
         		'filter'  => array($this, 'iteratorFilter'),
-        		'map'     => array($this, 'iteratorMap')
+        		'map'     => array($this, 'iteratorMap'),
+            	'sort'    => $state->sort
         	));
         	if ($files === false) {
         		throw new KModelException('Invalid folder');
         	}
+
             $this->_total = count($files);
 
             $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);

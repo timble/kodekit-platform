@@ -32,10 +32,11 @@ class ComFilesModelFolders extends ComFilesModelNodes
 			$state = $this->_state;
 
 			$folders = $state->container->getAdapter('iterator')->getFolders(array(
-				'path' => $this->_getPath(),
+				'path'    => $this->_getPath(),
 				'recurse' => !!$state->tree,
-				'filter' => array($this, 'iteratorFilter'),
-				'map' => array($this, 'iteratorMap')
+				'filter'  => array($this, 'iteratorFilter'),
+				'map'     => array($this, 'iteratorMap'),
+            	'sort'    => $state->sort
 			));
         	if ($folders === false) {
         		throw new KModelException('Invalid folder');

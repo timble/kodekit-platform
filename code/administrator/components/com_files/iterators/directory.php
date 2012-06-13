@@ -57,7 +57,9 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			'fullpath' 	=> false, // true to return full paths, false to return basename only
 			'filter' 	=> null, // either an array of file extensions, a regular expression or a callback function
 			'map' 		=> null, // a callback to return values from items in the iterator
-			'exclude' 	=> array('.svn', '.git', 'CVS') // an array of values to exclude from results
+			'exclude' 	=> array('.svn', '.git', 'CVS'), // an array of values to exclude from results
+			'sort' 		=> 'name',
+			'return_raw'=> false
 		));
 
 		$exclude = KConfig::unbox($config->exclude);
@@ -77,6 +79,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 				$clone = clone $config;
 				$clone->path = $file->getPathname();
 				$clone->recurse = is_int($config->recurse) ? $config->recurse - 1 : $config->recurse;
+				$clone->return_raw = true;
 				$child_results = self::getNodes($clone);
 			}
 
@@ -107,15 +110,27 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			} else {
 				$result = $config->fullpath ? $file->getPathname() : $file->getFilename();
 			}
-
-			$results[] = $result;
+			$results[] = array('path' => $result, 'modified' => $file->getMTime());
 
 			if (!empty($child_results)) {
 				$results = array_merge($results, $child_results);
 			}
 		}
+		
+		if ($config->sort === 'modified_on') {
+			uasort($results, array('self', '_sortByDate'));
+		}
+		
+		if ($config->return_raw === true) {
+			return $results;
+		}
 
-		return $results;
+		$return = array();
+		foreach ($results as $result) {
+			$return[] = $result['path'];
+		}
+		
+		return $return;
 	}
 
 	public function getExtension()
@@ -124,4 +139,11 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 		return strtolower($extension);
 	}
+	
+	public static function _sortByDate($file1, $file2)
+	{
+		return strcmp($file1['modified'], $file2['modified']);
+	}
 }
+
+
