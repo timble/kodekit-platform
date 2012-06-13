@@ -77,7 +77,6 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
             $sort_by_map = array(
                 'newest' => array('created' => 'DESC'),
                 'oldest' => array('created' => 'ASC'),
-                'author' => array('created_by_name', 'ASC'),
                 'order'  => array('ordering' => 'ASC'));
             $sort_by     = $sort_by_map[$params->get('sort_by')];
 

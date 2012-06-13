@@ -19,16 +19,10 @@
             <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
-                <option value="author">Author</option>
                 <option value="order">Ordering</option>
             </param>
         </params>
         <advanced>
-            <param name="show_pagination" type="list" default="1" label="Show pagination"
-                   description="SHOW PAGINATION DESC">
-                <option value="0">Hide</option>
-                <option value="1">Show</option>
-            </param>
             <param name="show_feed_link" type="radio" default="1" label="Show a feed link"
                    description="PARAMSHOWFEEDLINK">
                 <option value="0">No</option>

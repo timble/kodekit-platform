@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="show_noauth" type="radio" default="0" label="Show UnAuthorized Links" description="TIPLINKS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_title" type="radio" default="1" label="Show Article Title" description="Show/Hide the articles title">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="link_titles" type="radio" default="1" label="Linked Titles" description="TIPIFYESTITLECONTENTITEMS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_intro" type="radio" default="1" label="Show Intro Text" description="Show/Hide the intro text">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_author" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="show_create_date" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -33,11 +12,6 @@
 		<param name="show_readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="feed_summary" type="radio" default="0" label="For each feed item show" description="TIPSHOWFEEDITEM">
-			<option value="0">Intro Text</option>
-			<option value="1">Full Text</option>
 		</param>
 	</params>
 </config>

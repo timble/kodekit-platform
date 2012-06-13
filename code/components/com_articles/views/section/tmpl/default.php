@@ -19,11 +19,3 @@ defined('KOOWA') or die('Restricted access');
 <? foreach ($view->categories->list as $category): ?>
 <? echo @template('category', array('category' => $category)); ?>
 <? endforeach; ?>
-
-<? if ($params->get('show_pagination')): ?>
-<? echo ($view->categories->total == count($view->categories->list)) ? '' : @helper('paginator.pagination', array(
-        'limit'      => $params->get('categories_per_page'),
-        'offset'     => $state->offset,
-        'total'      => $view->categories->total,
-        'show_limit' => false)); ?>
-<? endif; ?>

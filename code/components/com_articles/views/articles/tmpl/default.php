@@ -17,7 +17,7 @@ defined('KOOWA') or die('Restricted access');
 
 <? echo @template('list'); ?>
 
-<? echo (count($articles) == $total) || (!$params->get('show_pagination')) ? '' : @helper('paginator.pagination', array(
+<? echo (count($articles) == $total) ? '' : @helper('paginator.pagination', array(
     'total'      => $total,
     'show_limit' => false)); ?>
 

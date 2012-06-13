@@ -22,12 +22,12 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
     public function render($config = array()) {
         $config = new KConfig($config);
 
-        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')));
+        $config->append(array('parameters' => JComponentHelper::getParams('com_articles'), 'show_title' => true));
 
         $parameters = $config->parameters;
         $html       = '';
 
-        if ($parameters->get('show_title')) {
+        if ($config->show_title) {
             $html .= $this->title($config);
         }
 
@@ -43,7 +43,7 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
-            ->append(array('linkable' => $config->parameters->get('link_titles')));
+            ->append(array('linkable' => true));
 
         $article = $config->row;
 
@@ -123,7 +123,7 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))->append(array(
-            'show_author'      => $config->parameters->get('show_author'),
+            'show_author'      => false,
             'show_create_date' => $config->parameters->get('show_create_date'),
             'show_modify_date' => $config->parameters->get('show_modify_date')));
 

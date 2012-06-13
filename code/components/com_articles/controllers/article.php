@@ -42,7 +42,6 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
             $sort_by_map = array(
                 'newest' => array('created' => 'DESC'),
                 'oldest' => array('created' => 'ASC'),
-                'author' => array('created_by_name', 'ASC'),
                 'order'  => array('ordering' => 'ASC'));
             // Force some request vars based on setting parameters.
             $request['limit']     = (int) $params->get('articles_per_page');

@@ -20,5 +20,6 @@ defined('KOOWA') or die('Restricted access');
 
 <? echo @helper('com://site/articles.template.helper.article.edit', array('row' => $article)); ?>
 <div class="clear_both"></div>
-<? echo @helper('com://site/articles.template.helper.article.render', array('row'       => $article,
-                                                                            'show_more' => false)); ?>
+<? echo @helper('com://site/articles.template.helper.article.render', array(
+    'row'       => $article,
+    'show_more' => false, 'linkable' => false, 'show_title' => $params->get('show_title'))); ?>

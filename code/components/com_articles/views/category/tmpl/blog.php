@@ -16,11 +16,9 @@ defined('KOOWA') or die('Restricted access');
 
 <? echo @template('com://site/articles.view.articles.list'); ?>
 
-<? if ($params->get('show_pagination')): ?>
-<? echo (count($articles) == $total_articles) ? '' : @helper('paginator.pagination',
-        array(
-            'limit'      => $params->get('articles_per_page'),
-            'offset'     => $state->offset,
-            'total'      => $total_articles,
-            'show_limit' => false)); ?>
-<? endif; ?>
+<? echo count($articles) == $total_articles ? '' : @helper('paginator.pagination',
+    array(
+        'limit'      => $params->get('articles_per_page'),
+        'offset'     => $state->offset,
+        'total'      => $total_articles,
+        'show_limit' => false)); ?>

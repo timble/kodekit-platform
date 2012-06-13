@@ -18,19 +18,12 @@ defined('KOOWA') or die('Restricted access');
     <? if ($params->get('show_headings')): ?>
     <thead>
     <tr>
-        <? if ($params->get('show_title')): ?>
         <th>
             <? echo JText::_('Item Title'); ?>
         </th>
-        <? endif; ?>
-        <? if ($params->get('show_date')): ?>
-        <th width="25%">
+        <? if ($params->get('show_create_date')): ?>
+        <th>
             <? echo JText::_('Date'); ?>
-        </th>
-        <? endif; ?>
-        <? if ($params->get('show_author')): ?>
-        <th width="20%">
-            <? echo JText::_('Author'); ?>
         </th>
         <? endif; ?>
     </tr>
@@ -38,34 +31,25 @@ defined('KOOWA') or die('Restricted access');
     <? endif; ?>
     <? foreach ($articles as $article): ?>
     <tr>
-        <? if ($params->get('show_title')) : ?>
         <td>
             <? echo @helper('com://site/articles.template.helper.article.link', array(
             'row'  => $article,
             'text' => @escape($article->title))); ?>
         </td>
-        <? endif; ?>
-        <? if ($params->get('show_date')) : ?>
+        <? if ($params->get('show_create_date')) : ?>
         <td>
             <? echo @service('koowa:template.helper.date')->format(array(
             'date'   => $article->created,
             'format' => $params->get('date_format', JText::_('DATE_FORMAT_LC2')))); ?>
         </td>
         <? endif; ?>
-        <? if ($params->get('show_author')) : ?>
-        <td>
-            <? echo $article->getAuthor(); ?>
-        </td>
-        <? endif; ?>
     </tr>
     <? endforeach; ?>
 </table>
 
-<? if ($params->get('show_pagination')) : ?>
 <? echo count($articles) == $total_articles ? '' : @helper('paginator.pagination',
-        array(
-            'limit'      => $params->get('articles_per_page'),
-            'offset'     => $state->offset,
-            'total'      => $total_articles,
-            'show_limit' => false));?>
-<? endif; ?>
+    array(
+        'limit'      => $params->get('articles_per_page'),
+        'offset'     => $state->offset,
+        'total'      => $total_articles,
+        'show_limit' => false));?>
