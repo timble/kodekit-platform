@@ -29,8 +29,18 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         $article = $this->getModel()->getItem();
 
         // Handle the breadcrumbs
-        if ($menu && $menu->query['view'] != 'article') {
-            $pathway->addItem($article->title, '');
+        if ($menu) {
+            switch ($menu->query['view']) {
+                case 'section':
+                    $category = $article->getCategory();
+                    $pathway->addItem(htmlspecialchars($category->title, ENT_QUOTES),
+                        'index.php?option=com_articles&view=category&id=' . $category->id);
+                    $pathway->addItem(htmlspecialchars($article->title, ENT_QUOTES), '');
+                    break;
+                case 'category':
+                    $pathway->addItem(htmlspecialchars($article->title, ENT_QUOTES), '');
+                    break;
+            }
         }
 
         $user = JFactory::getUser();

@@ -147,4 +147,21 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         return $result;
     }
+
+    /**
+     * Category getter.
+     *
+     * @return ComArticlesDatabaseRowCategory|null The category row attached to this article, null if row is new.
+     */
+    public function getCategory() {
+
+        $category = null;
+
+        if (!$this->isNew()) {
+            $category = $this->getService('com://admin/articles.model.categories')->set('id', $this->category_id)
+                ->getItem();
+        }
+
+        return $category;
+    }
 }

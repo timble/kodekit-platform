@@ -52,6 +52,15 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
             $this->assign('total_articles', $articles->getTotal());
         }
 
+        $menus   = JSite::getMenu();
+        $menu    = $menus->getActive();
+        $pathway = JFactory::getApplication()->getPathway();
+
+        // Handle the breadcrumbs
+        if ($menu && $menu->query['view'] == 'section') {
+            $pathway->addItem(htmlspecialchars($category->title, ENT_QUOTES));
+        }
+
         $this->assign('aid', $aid);
         $this->assign('params', $params);
         $this->assign('files_params', $files_params);
