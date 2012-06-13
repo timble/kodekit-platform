@@ -70,10 +70,10 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
         if ($data instanceof KDatabaseRowsetAbstract) {
             foreach ($data as $row) {
-                $row->editable = $this->canEdit($row);
+                $row->editable = $this->canEdit();
             }
         } else {
-            $data->editable = $this->canEdit($data);
+            $data->editable = $this->canEdit();
         }
     }
 }

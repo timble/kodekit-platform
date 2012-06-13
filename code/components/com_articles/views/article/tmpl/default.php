@@ -22,4 +22,4 @@ defined('KOOWA') or die('Restricted access');
 <div class="clear_both"></div>
 <? echo @helper('com://site/articles.template.helper.article.render', array(
     'row'       => $article,
-    'show_more' => false, 'linkable' => false, 'show_title' => $params->get('show_title'))); ?>
+    'show_more' => false, 'linkable' => false, 'show_title' => $params->get('show_title', true))); ?>
