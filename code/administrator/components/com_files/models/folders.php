@@ -43,11 +43,11 @@ class ComFilesModelFolders extends ComFilesModelNodes
         	}
 			$this->_total = count($folders);
 
-			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
-
 			if (strtolower($this->_state->direction) == 'desc') {
 				$folders = array_reverse($folders);
 			}
+
+			$folders = array_slice($folders, $state->offset, $state->limit ? $state->limit : $this->_total);
 
 			$results = array();
 			foreach ($folders as $folder)

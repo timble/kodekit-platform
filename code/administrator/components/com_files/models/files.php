@@ -36,12 +36,12 @@ class ComFilesModelFiles extends ComFilesModelNodes
         	}
 
             $this->_total = count($files);
-
-            $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
-
+            
             if (strtolower($this->_state->direction) == 'desc') {
-                $files = array_reverse($files);
+            	$files = array_reverse($files);
             }
+            
+            $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
 
             $data = array();
             foreach ($files as $file)

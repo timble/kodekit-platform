@@ -107,4 +107,18 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		}
 		
 	}
+	
+	protected function _buildQueryOrder(KDatabaseQuery $query)
+	{
+		$sort       = $this->_state->sort;
+		$direction  = strtoupper($this->_state->direction);
+	
+		if($sort) 
+		{
+			$column = $this->getTable()->mapColumns($sort);
+			if(array_key_exists($column, $this->getTable()->getColumns())) {
+				$query->order($column, $direction);
+			}
+		}	
+	}
 }
