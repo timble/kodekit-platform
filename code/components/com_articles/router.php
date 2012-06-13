@@ -69,7 +69,8 @@ function ArticlesBuildRoute(&$query) {
     }
 
     if (isset($query['id'])) {
-        if (empty($query['Itemid']) || ($query['id'] != $menu_id)) {
+        if (empty($query['Itemid']) || (isset($query_view) && $query_view != $menu_view)) {
+            // Include the query id on any view being accessed from a different menu item view.
             $segments[] = $query['id'];
         }
         unset($query['id']);
