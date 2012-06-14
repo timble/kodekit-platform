@@ -25,13 +25,13 @@ class JElementSection extends JElement
     function fetchElement($name, $value, &$node, $control_name) {
         $db = &JFactory::getDBO();
 
-        $query = 'SELECT id, CONCAT(CONCAT_WS(\' ( id=\', title, id), \' )\') AS title FROM #__sections ORDER BY title';
+        $query = 'SELECT articles_section_id, CONCAT(CONCAT_WS(\' ( id=\', title, articles_section_id), \' )\') AS title FROM #__articles_sections ORDER BY title';
 
         $db->setQuery($query);
         $options = $db->loadObjectList();
 
         return JHTML::_('select.genericlist', $options, '' . $control_name . '[' . $name . ']', 'class="inputbox"',
-            'id', 'title', $value, $control_name . $name);
+            'articles_section_id', 'title', $value, $control_name . $name);
     }
 }
 
