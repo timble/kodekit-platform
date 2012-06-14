@@ -64,8 +64,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             {
                 if ($state->section == 'com_content' || is_numeric($state->section))
                 {
-                    $query->join(array('content' => 'content'), 'content.catid = tbl.id');
-                    $query->join(array('section' => 'sections'), 'section.id = tbl.section');
+                    $query->join(array('content' => 'articles_articles'), 'content.catid = tbl.id');
+                    $query->join(array('section' => 'articles_sections'), 'section.articles_section_id = tbl.section');
                 } 
                 else $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
             }

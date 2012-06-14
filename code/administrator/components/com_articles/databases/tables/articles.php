@@ -22,8 +22,8 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'identity_column'  => 'id',
-            'name'             => 'content',
+        	'identity_column'  => 'articles_article_id',
+            'name'             => 'articles_articles',
             'behaviors'        => array(
             	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable'
             ),
@@ -31,7 +31,7 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'locked_on'        => 'checked_out_time',
                 'locked_by'        => 'checked_out',
                 'slug'       	   => 'alias',
-                'section_id'       => 'sectionid',
+                'section_id'       => 'articles_section_id',
                 'category_id'	   => 'catid',
                 'created_on' 	   => 'created',
                 'modified_on'      => 'modified',

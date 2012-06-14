@@ -154,18 +154,18 @@ CREATE TABLE `#__contacts_contacts` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content`
+# Table structure for table `#__articles_articles`
 #
 
-CREATE TABLE `#__content` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+CREATE TABLE `#__articles_articles` (
+  `articles_article_id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
-  `sectionid` int(11) unsigned NOT NULL default '0',
+  `articles_section_id` bigint(20) unsigned NOT NULL default '0',
   `mask` int(11) unsigned NOT NULL default '0',
   `catid` int(11) unsigned NOT NULL default '0',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -188,8 +188,8 @@ CREATE TABLE `#__content` (
   `access` int(11) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '0',
   `metadata` TEXT NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_section` (`sectionid`),
+  PRIMARY KEY  (`articles_article_id`),
+  KEY `idx_section` (`articles_section_id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -200,13 +200,13 @@ CREATE TABLE `#__content` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content_frontpage`
+# Table structure for table `#__articles_featured`
 #
 
-CREATE TABLE `#__content_frontpage` (
-  `content_id` int(11) NOT NULL default '0',
+CREATE TABLE `#__articles_featured` (
+  `articles_article_id` bigint(20) unsigned NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`content_id`)
+  PRIMARY KEY  (`articles_article_id`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -407,11 +407,11 @@ CREATE TABLE `#__newsfeeds` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__sections`
+# Table structure for table `#__articles_sections`
 #
 
-CREATE TABLE `#__sections` (
-  `id` int(11) NOT NULL auto_increment,
+CREATE TABLE `#__articles_sections` (
+  `articles_section_id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
@@ -426,7 +426,7 @@ CREATE TABLE `#__sections` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `count` int(11) NOT NULL default '0',
   `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY  (`articles_section_id`),
   KEY `idx_scope` (`scope`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 

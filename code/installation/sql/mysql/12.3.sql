@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- com_content refactoring begin
+
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=articles', `params` = 'articles_per_page=5\nshow_featured=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Welcome to the Frontpage\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 1;
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=5', `params` = 'show_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 2;
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=section&id=3', `params` = 'show_description=0\nshow_description_image=0\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 41;
@@ -69,3 +71,17 @@ UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&layou
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&id=32', `params` = 'show_headings=1\nshow_date=0\ndate_format=\narticles_per_page=2\nsort_by=newest\nshow_feed_link=1\nshow_create_date=\nshow_modify_date=\nshow_readmore=\npage_title=Example of Category Table layout (FAQs/Languages category)\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 47;
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&layout=blog&id=1', `params` = 'show_description=0\nshow_description_image=0\narticles_per_page=5\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=The News\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 50;
 UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&layout=form' WHERE `id` = 51;
+
+RENAME TABLE `#__content` TO `#__articles_articles`;
+RENAME TABLE `#__sections` TO `#__articles_sections`;
+RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
+
+ALTER TABLE `#__articles_articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__articles_articles` CHANGE `sectionid` `articles_section_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `#__articles_sections` CHANGE `id` `articles_section_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- com_content refactoring end
+
+
+

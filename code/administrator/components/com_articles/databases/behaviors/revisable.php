@@ -56,7 +56,7 @@ class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRe
         // Filter by section id if set in the query.
         foreach ($query->where as $where) 
         {
-            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.sectionid\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) 
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.articles_section_id\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches))
             {
                 if (is_numeric($matches[1])) 
                 {

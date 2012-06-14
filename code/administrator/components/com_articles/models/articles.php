@@ -45,9 +45,9 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
             'created_by_id'     => 'users.id',
-            'featured_ordering' => 'frontpage.ordering',
+            'featured_ordering' => 'featured.ordering',
             'group_name'        => 'groups.name',
-        	'featured'          => 'IF(frontpage.content_id, 1, 0)'
+        	'featured'          => 'IF(featured.articles_article_id, 1, 0)'
         ));
     }
 
@@ -57,12 +57,12 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         
         $state = $this->getState();
 
-        $query->join(array('sections' => 'sections'), 'sections.id = tbl.sectionid')
+        $query->join(array('sections' => 'articles_sections'), 'sections.articles_section_id = tbl.articles_section_id')
               ->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
               ->join(array('users' => 'users'), 'users.id = tbl.created_by')
               ->join(array('groups' => 'groups'), 'groups.id = tbl.access');
 
-        $query->join(array('frontpage' => 'content_frontpage'), 'frontpage.content_id = tbl.id', $state->featured ? 'RIGHT' : 'LEFT');
+        $query->join(array('featured' => 'articles_featured'), 'featured.articles_article_id = tbl.articles_article_id', $state->featured ? 'RIGHT' : 'LEFT');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -90,7 +90,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         if(is_numeric($state->section)) 
         {
-            $query->where('tbl.sectionid = :section')
+            $query->where('tbl.articles_section_id = :section')
                 ->bind(array('section' => $state->section));
         }
 

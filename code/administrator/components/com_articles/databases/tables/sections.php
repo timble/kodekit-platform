@@ -21,11 +21,10 @@ class ComArticlesDatabaseTableSections extends KDatabaseTableDefault
 {
 	public function  _initialize(KConfig $config) 
   	{
-		$config->identity_column = 'id';
+		$config->identity_column = 'articles_section_id';
 			        
 		$config->append(array(
-    		'name' 			=> 'sections',
-			'base' 			=> 'sections',
+    		'name' 			=> 'articles_sections',
 			'behaviors'		=>  array('lockable', 'orderable', 'sluggable', 'cascadable'),
     		'column_map'	=>  
 				array(

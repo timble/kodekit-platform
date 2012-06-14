@@ -50,8 +50,8 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 		        ->where('published <> - 2')
 		        ->group('section');
 		    
-		    $query->join(array('categories' => $subquery), 'categories.section = tbl.id')
-		        ->join(array('active' => 'content'), 'active.sectionid = tbl.id');
+		    $query->join(array('categories' => $subquery), 'categories.section = tbl.articles_section_id')
+		        ->join(array('active' => 'articles_articles'), 'active.articles_section_id = tbl.articles_section_id');
 		}
 		
 		parent::_buildQueryJoins($query);
@@ -81,6 +81,6 @@ class ComArticlesModelSections extends ComDefaultModelDefault
 	
 	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
 	{
-		$query->group('tbl.id');
+		$query->group('tbl.articles_section_id');
 	}
 }
