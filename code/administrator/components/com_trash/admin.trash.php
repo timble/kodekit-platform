@@ -105,7 +105,7 @@ function viewTrashContent( $option )
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 
 	// ensure filter_order has a valid value
-	if (!in_array($filter_order, array('c.title', 'c.id', 'sectname', 'catname'))) {
+	if (!in_array($filter_order, array('c.title', 'c.articles_article_id', 'sectname', 'catname'))) {
 		$filter_order = 'sectname';
 	}
 
@@ -116,8 +116,8 @@ function viewTrashContent( $option )
 	$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', s.name, cc.name, c.title';
 
 	// get the total number of content
-	$query = 'SELECT count(c.id)'
-	. ' FROM #__content AS c'
+	$query = 'SELECT count(c.articles_article_id)'
+	. ' FROM #__articles_articles AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
@@ -131,8 +131,8 @@ function viewTrashContent( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query articles
-	$query = 'SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.title AS catname, s.title AS sectname'
-	. ' FROM #__content AS c'
+	$query = 'SELECT c.title, c.articles_article_id, c.articles_section_id, c.catid, g.name AS groupname, cc.title AS catname, s.title AS sectname'
+	. ' FROM #__articles_articles AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
@@ -245,8 +245,8 @@ function viewdeleteTrash( $cid, $mid, $option )
 	if ( $cids ) {
 		// Articles query
 		$query = 	'SELECT a.title AS name'
-		. ' FROM #__content AS a'
-		. ' WHERE ( a.id IN ( '.$cids.' ) )'
+		. ' FROM #__articles_articles AS a'
+		. ' WHERE ( a.articles_article_id IN ( '.$cids.' ) )'
 		. ' ORDER BY a.title'
 		;
 		$db->setQuery( $query );
@@ -329,8 +329,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	if ( $cids ) {
 		// Articles query
 		$query = 'SELECT a.title AS name'
-		. ' FROM #__content AS a'
-		. ' WHERE ( a.id IN ( '.$cids.' ) )'
+		. ' FROM #__articles_articles AS a'
+		. ' WHERE ( a.articles_article_id IN ( '.$cids.' ) )'
 		. ' ORDER BY a.title'
 		;
 		$db->setQuery( $query );
@@ -381,9 +381,9 @@ function restoreTrash( $cid, $option )
 		$cids = implode( ',', $cid );
 
 		// query to restore article
-		$query = 'UPDATE #__content'
+		$query = 'UPDATE #__articles_articles'
 		. ' SET state = '.(int) $state.', ordering = '.(int) $ordering
-		. ' WHERE id IN ( '.$cids.' )'
+		. ' WHERE articles_article_id IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
 		if ( !$db->query() ) {

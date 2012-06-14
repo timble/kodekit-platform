@@ -107,7 +107,7 @@ class MenusModelList extends JModel
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__users AS u ON u.id = m.checked_out' .
 				' LEFT JOIN #__groups AS g ON g.id = m.access' .
-				' LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = "content_typed"' .
+				' LEFT JOIN #__articles_articles AS c ON c.articles_article_id = m.componentid AND m.type = "content_typed"' .
 				' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "component"' .
 				' WHERE m.menutype = '.$db->Quote($menutype) .
 				' AND m.published != -2' .
