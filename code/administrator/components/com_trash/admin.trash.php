@@ -119,7 +119,7 @@ function viewTrashContent( $option )
 	$query = 'SELECT count(c.articles_article_id)'
 	. ' FROM #__articles_articles AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"'
+	. ' LEFT JOIN #__articles_sections AS s ON s.articles_section_id = cc.section AND s.scope = "content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
@@ -134,7 +134,7 @@ function viewTrashContent( $option )
 	$query = 'SELECT c.title, c.articles_article_id, c.articles_section_id, c.catid, g.name AS groupname, cc.title AS catname, s.title AS sectname'
 	. ' FROM #__articles_articles AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
+	. ' LEFT JOIN #__articles_sections AS s ON s.articles_section_id = cc.section AND s.scope="content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
