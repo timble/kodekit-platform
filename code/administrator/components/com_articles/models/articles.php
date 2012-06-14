@@ -88,16 +88,16 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
                 ->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if(is_numeric($state->section)) 
+        if($state->section)
         {
-            $query->where('tbl.articles_section_id = :section')
-                ->bind(array('section' => $state->section));
+            $query->where('tbl.articles_section_id IN :section')
+                ->bind(array('section' => (array) $state->section));
         }
 
-        if(is_numeric($state->category)) 
+        if($state->category)
         {
-            $query->where('tbl.catid = :category')
-                ->bind(array('category' => $state->category));
+            $query->where('tbl.catid IN :category')
+                ->bind(array('category' => (array) $state->category));
         }
 
         if($state->created_by) 
