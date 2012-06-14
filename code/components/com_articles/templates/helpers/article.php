@@ -78,6 +78,7 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
         $config = new KConfig($config);
 
         $config->append(array(
+            'attribs'   => array(),
             'text'      => 'Read more',
             'translate' => true));
 
@@ -88,9 +89,12 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
             $text = JText::_($text);
         }
 
+        $attribs = KHelperArray::toString($config->attribs);
+
         $html = '';
 
-        $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,
+        $html .= '<a ' . $attribs . ' href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id,
+            $article->category_id,
             $article->section_id)) . '">';
         $html .= $text;
         $html .= '</a>';
