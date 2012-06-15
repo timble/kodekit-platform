@@ -17,6 +17,11 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
+
+// TODO Prevent weird problem with autoloader which is unable to properly handle static calls to
+// ComArticlesHelperRoute class when accessing an article view. Needs further investigation.
+require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
+
 class ModArticlesHtml extends ModDefaultHtml
 {
     /**
