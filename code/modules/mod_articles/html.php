@@ -34,7 +34,7 @@ class ModArticlesHtml extends ModDefaultHtml
         $this->assign('params', $this->params);
 
         // Preparing the sort and direction model states.
-        switch ($this->params->get('sort_by', 'added_on')) {
+        switch ($this->params->get('sort_by', 'newest')) {
             default:
             case 'newest':
                 $sort      = 'created';
