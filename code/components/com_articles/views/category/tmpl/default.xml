@@ -17,7 +17,7 @@
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
             </param>
-            <param name="show_date" type="list" default="" label="Date Column" description="DATE COLUMN DESC">
+            <param name="show_date" type="list" default="1" label="Date Column" description="DATE COLUMN DESC">
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
             </param>

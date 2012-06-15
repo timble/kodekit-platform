@@ -40,7 +40,7 @@ defined('KOOWA') or die('Restricted access');
         <td>
             <? echo @service('koowa:template.helper.date')->format(array(
             'date'   => $article->created,
-            'format' => $params->get('date_format', JText::_('DATE_FORMAT_LC2')))); ?>
+            'format' => $params->get('date_format'))); ?>
         </td>
         <? endif; ?>
     </tr>

@@ -11,7 +11,7 @@
  */
 defined('KOOWA') or die('Restricted access');
 ?>
-<? if ($params->get('show_page_title', 1)): ?>
+<? if ($params->get('show_page_title')): ?>
 <h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
