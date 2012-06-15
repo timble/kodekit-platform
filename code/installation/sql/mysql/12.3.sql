@@ -57,20 +57,14 @@ CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
 
 -- com_content refactoring begin
 
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=articles', `params` = 'articles_per_page=5\nshow_featured=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Welcome to the Frontpage\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 1;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=5', `params` = 'show_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 2;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=section&id=3', `params` = 'show_description=0\nshow_description_image=0\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 41;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=24', `params` = 'pageclass_sfx=\nmenu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n' WHERE `id` = 38;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=19', `params` = 'show_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 27;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=26', `params` = 'show_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 40;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=section&id=4', `params` = 'show_description=0\nshow_description_image=0\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 37;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&id=43', `params` = 'show_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 43;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=section&layout=blog&id=3', `params` = 'show_description=0\nshow_description_image=0\narticles_per_page=5\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Example of Section Blog layout (FAQ section)\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 44;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=section&id=3', `params` = 'show_description=0\nshow_description_image=0\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Example of Table Blog layout (FAQ section)\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 45;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&layout=blog&id=31', `params` = 'show_description=0\nshow_description_image=0\narticles_per_page=5\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Example of Category Blog layout (FAQs/General category)\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 46;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&id=32', `params` = 'show_headings=1\nshow_date=0\ndate_format=\narticles_per_page=2\nsort_by=newest\nshow_feed_link=1\nshow_create_date=\nshow_modify_date=\nshow_readmore=\npage_title=Example of Category Table layout (FAQs/Languages category)\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 47;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=category&layout=blog&id=1', `params` = 'show_description=0\nshow_description_image=0\narticles_per_page=5\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=The News\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n' WHERE `id` = 50;
-UPDATE `#__menu` SET `link` = 'index.php?option=com_articles&view=article&layout=form' WHERE `id` = 51;
+--  -- Upgrade menu items links
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_content', 'com_articles') WHERE `link` LIKE '%com_content%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles'), `params` = CONCAT_WS('\n', 'show_featured=1', `params`) WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=frontpage%';
+
+-- Upgrade modules rows
+UPDATE `#__modules` SET `module` = 'mod_articles', `params` = CONCAT_WS('\n', 'show_content=1', `params`) WHERE `module` = 'mod_newsflash';
+UPDATE `#__modules` SET `module` = 'mod_articles' WHERE `module` = 'mod_latestnews';
+UPDATE `#__modules` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(`params`, 'catid', 'category'), 'secid', 'section'), 'show_front', 'show_featured'), 'items', 'count') WHERE `module` = 'mod_articles';
 
 RENAME TABLE `#__content` TO `#__articles_articles`;
 RENAME TABLE `#__sections` TO `#__articles_sections`;
