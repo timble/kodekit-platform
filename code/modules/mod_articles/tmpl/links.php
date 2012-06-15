@@ -11,14 +11,14 @@
  */
 defined('KOOWA') or die('Restricted access'); ?>
 
-<ul class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
+<ul class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
     <?php foreach ($articles as $article): ?>
-    <li class="latestnews<?php echo $params->get('moduleclass_sfx'); ?>">
+    <li class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
         <?php echo @helper('com://site/articles.template.helper.article.link',
         array(
             'row'     => $article,
             'text'    => @escape($article->title),
-            'attribs' => array('class' => 'latestnews' . $params->get('moduleclass_sfx'))));?>
+            'attribs' => array('class' => 'mod_articles' . $params->get('moduleclass_sfx'))));?>
     </li>
     <?php endforeach; ?>
 </ul>

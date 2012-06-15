@@ -10,7 +10,7 @@
  */
 
 /**
- * Latest news module.
+ * Articles module.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @category   Nooku
@@ -19,7 +19,7 @@
  */
 defined('KOOWA') or die('Restricted access');
 
-echo KService::get('mod://site/latestnews.html')
+echo KService::get('mod://site/articles.html')
     ->params($params)
     ->module($module)
     ->attribs($attribs)

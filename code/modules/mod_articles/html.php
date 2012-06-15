@@ -10,14 +10,14 @@
  */
 
 /**
- * Latest news module html view class.
+ * Articles module html view class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ModLatestnewsHtml extends ModDefaultHtml
+class ModArticlesHtml extends ModDefaultHtml
 {
     /**
      * Renders the views output
@@ -74,6 +74,9 @@ class ModLatestnewsHtml extends ModDefaultHtml
             ->getList();
 
         $this->assign('articles', $articles);
+
+        // Set layout based on params.
+        $this->setLayout($this->params->get('show_content', 0) ? 'articles' : 'links');
 
         return parent::display();
     }
