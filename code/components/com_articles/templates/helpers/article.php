@@ -41,14 +41,14 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
-            ->append(array('linkable' => true));
+            ->append(array('title_heading' => 2, 'linkable' => true));
 
         $article = $config->row;
 
-        $html = '<h2>';
+        $html = "<h{$config->title_heading}>";
         $html .= $config->linkable ? $this->link(array_merge($config->toArray(),
             array('text' => $article->title))) : $article->title;
-        $html .= '</h2>';
+        $html .= "</h{$config->title_heading}>";
 
         return $html;
     }
@@ -57,7 +57,7 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
-            ->append(array('show_more' => $config->parameters->get(show_readmore)));
+            ->append(array('show_images' => true, 'show_more' => $config->parameters->get(show_readmore)));
 
         $article = $config->row;
 
@@ -69,6 +69,11 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
             $html .= $this->link(array('row' => $article));
         } else {
             $html .= $article->introtext . $article->fulltext;
+        }
+
+        if (!$config->show_images) {
+            // Strip images from content.
+            $html = preg_replace('/<img[^>]*>/', '', $html);
         }
 
         return $html;
