@@ -17,7 +17,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperArticle extends KTemplateHelperAbstract
+class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
 {
     public function render($config = array()) {
         $config = new KConfig($config);
