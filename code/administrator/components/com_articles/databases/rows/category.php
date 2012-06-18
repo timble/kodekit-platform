@@ -20,42 +20,25 @@
 class ComArticlesDatabaseRowCategory extends KDatabaseRowDefault
 {
     /**
-     * Returns the total amount of articles of the category.
-     *
-     * @param array $config An optional configuration array.
-     *
-     * @return int|null The number of articles, null if row is new.
-     */
-    public function getTotalArticles($config = array()) {
-
-        $config = new KConfig($config);
-
-        $config->append(array('model_state' => array('category' => $this->id)));
-
-        $result = null;
-
-        if (!$this->isNew()) {
-            $result = $this->getService('com://admin/articles.model.articles')->set($config->model_state)->getTotal();
-        }
-        return $result;
-    }
-
-    /**
      * Returns the articles of the category.
      *
      * @param array $config An optional configuration array.
      *
-     * @return KDatabaseRowsetDefault|null The articles, null if row is new.
+     * @return object|null An object containing the article list and count, null if row is new.
      */
     public function getArticles($config = array()) {
-        $config = new KConfig($config);
-
-        $config->append(array('model_state' => array('category' => $this->id)));
-
         $result = null;
 
         if (!$this->isNew()) {
-            $result = $this->getService('com://admin/articles.model.articles')->set($config->model_state)->getList();
+            $config = new KConfig($config);
+
+            $config->append(array('model_state' => array('category' => $this->id)));
+
+            $model = $this->getService('com://admin/articles.model.articles')->set($config->model_state);
+
+            $result        = new stdClass();
+            $result->list  = $model->getList();
+            $result->count = $model->getTotal();
         }
         return $result;
     }

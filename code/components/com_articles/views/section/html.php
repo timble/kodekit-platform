@@ -36,8 +36,6 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
 
         $section = $this->getModel()->getItem();
 
-        $this->categories = new KConfig();
-
         if (!$section->isNew()) {
 
             $categories  = $this->getService('com://admin/articles.model.categories');
@@ -49,14 +47,12 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
                 'order'  => array('ordering' => 'ASC'));
             $sort_by     = $sort_by_map[$params->get('sort_by')];
 
-            $categories->set(array(
-                'sort'      => key($sort_by),
-                'direction' => current($sort_by),
-                'section'   => $section->id,
-                'aid'       => $this->aid));
-
-            $this->categories->list  = $categories->getList();
-            $this->categories->total = $categories->getTotal();
+            $this->categories = $section->getCategories(array(
+                'model_state' => array(
+                    'published' => 1,
+                    'sort'      => key($sort_by),
+                    'direction' => current($sort_by),
+                    'aid'       => $this->aid)));
         }
 
         return $this;
@@ -68,29 +64,24 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
         $state   = $model->getState();
         $section = $model->getItem();
 
-        $this->articles = new KConfig();
-
         if (!$section->isNew()) {
 
-            $params      = JComponentHelper::getParams('com_articles');
-            $articles    = $this->getService('com://admin/articles.model.articles');
+            $params = JComponentHelper::getParams('com_articles');
+
             $sort_by_map = array(
                 'newest' => array('created' => 'DESC'),
                 'oldest' => array('created' => 'ASC'),
                 'order'  => array('ordering' => 'ASC'));
             $sort_by     = $sort_by_map[$params->get('sort_by')];
 
-            $articles->set(array(
-                'sort'      => key($sort_by),
-                'direction' => current($sort_by),
-                'section'   => $section->id,
-                'limit'     => $params->get('articles_per_page'),
-                'offset'    => $state->offset,
-                'aid'       => $this->aid,
-                'state'     => 1));
-
-            $this->articles->list  = $articles->getList();
-            $this->articles->total = $articles->getTotal();
+            $this->articles = $section->getArticles(array(
+                'model_state' => array(
+                    'sort'      => key($sort_by),
+                    'direction' => current($sort_by),
+                    'limit'     => $params->get('articles_per_page'),
+                    'offset'    => $state->offset,
+                    'aid'       => $this->aid,
+                    'state'     => 1)));
         }
         return $this;
     }

@@ -18,9 +18,13 @@ defined('KOOWA') or die('Restricted access');
 
 <? echo @template('com://site/articles.view.articles.list', array('articles' => $view->articles->list)); ?>
 
+<? if ($params->get('show_feed_link')): ?>
+<? echo @helper('com://site/articles.template.helper.section.rss', array('row' => $section)); ?>
+<? endif; ?>
+
 <? echo count($view->articles->list) == $view->articles->total ? '' : @helper('paginator.pagination',
     array(
         'limit'      => $params->get('articles_per_page'),
         'offset'     => $state->offset,
-        'total'      => $view->articles->total,
+        'total'      => $view->articles->count,
         'show_limit' => false)); ?>

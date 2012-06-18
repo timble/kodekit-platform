@@ -45,11 +45,6 @@
                 <option value="title">Title</option>
                 <option value="order">Ordering</option>
             </param>
-            <param name="show_feed_link" type="radio" default="1" label="Show a feed link"
-                   description="PARAMSHOWFEEDLINK">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </param>
         </advanced>
     </state>
 </metadata>

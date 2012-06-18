@@ -12,7 +12,7 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-<? if (($total = $category->getTotalArticles(array('model_state' => array('aid' => $aid)))) || $params->get('show_empty_categories')): ?>
+<? if (($total = $category->getArticles(array('model_state' => array('aid' => $aid)))->count) || $params->get('show_empty_categories')): ?>
 <h2>
     <? echo @helper('com://site/articles.template.helper.category.link', array('row' => $category)); ?>
 </h2>

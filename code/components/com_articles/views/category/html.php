@@ -40,16 +40,16 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
                 'order'  => array('ordering' => 'ASC'));
             $sort_by     = $sort_by_map[$params->get('sort_by')];
 
-            $articles = $this->getService('com://admin/articles.model.articles');
-            $articles->set(array(
-                'limit'     => $params->get('articles_per_page'),
-                'offset'    => $state->offset,
-                'sort'      => key($sort_by),
-                'direction' => current($sort_by),
-                'category'  => $category->id,
-                'aid'       => $aid));
-            $this->assign('articles', $articles->getList());
-            $this->assign('total_articles', $articles->getTotal());
+            $articles = $category->getArticles(array(
+                'model_state' => array(
+                    'limit'     => $params->get('articles_per_page'),
+                    'offset'    => $state->offset,
+                    'sort'      => key($sort_by),
+                    'direction' => current($sort_by),
+                    'category'  => $category->id,
+                    'aid'       => $aid)));
+            $this->assign('articles', $articles->list);
+            $this->assign('total_articles', $articles->count);
         }
 
         $menus   = JSite::getMenu();

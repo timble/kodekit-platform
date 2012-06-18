@@ -17,7 +17,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperCategory extends KTemplateHelperDefault
+class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
 {
 
     public function link($config = array()) {
@@ -40,7 +40,7 @@ class ComArticlesTemplateHelperCategory extends KTemplateHelperDefault
         $config->append(array('model_state' => array()));
 
         if (!is_numeric($config->total) && $config->row) {
-            $config->total = $config->row->getTotalArticles($config->model_state);
+            $config->total = $config->row->getArticles($config->model_state)->count;
         }
 
         $total = $config->total;
@@ -52,6 +52,16 @@ class ComArticlesTemplateHelperCategory extends KTemplateHelperDefault
         $html .= ' )</p>';
 
         return $html;
+    }
+
+    public function rss($config = array()) {
+        $config = new KConfig($config);
+
+        $category = $config->row;
+
+        $config->url = ComArticlesHelperRoute::getCategoryRoute($category->id, $category->section_id);
+
+        return parent::rss($config);
     }
 
 }

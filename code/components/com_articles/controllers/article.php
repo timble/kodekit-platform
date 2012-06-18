@@ -38,7 +38,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
         $view   = $request['view'];
         $params = JComponentHelper::getParams('com_articles');
 
-        if (KInflector::isPlural($view) && $request['format'] == 'html') {
+        if (KInflector::isPlural($view) && in_array($request['format'], array('html', 'rss'))) {
             $sort_by_map = array(
                 'newest' => array('created' => 'DESC'),
                 'oldest' => array('created' => 'ASC'),
