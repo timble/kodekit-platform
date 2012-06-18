@@ -46,7 +46,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+	require_once(JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
 	require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
 
 	$searchText = $text;
@@ -139,13 +139,13 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' a.created AS created,'
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
 		. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.articles_article_id, a.alias) ELSE a.articles_article_id END as slug,'
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-		. ' u.id AS sectionid,'
+		. ' u.articles_section_id AS sectionid,'
 		. ' "2" AS browsernav'
-		. ' FROM #__content AS a'
+		. ' FROM #__articles_articles AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
-		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
+		. ' INNER JOIN #__articles_sections AS u ON u.articles_section_id = a.articles_section_id'
 		. ' WHERE ( '.$where.' )'
 		. ' AND a.state = 1'
 		. ' AND u.published = 1'
@@ -155,7 +155,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' AND u.access <= '.(int) $user->get( 'aid' )
 		. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
 		. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
-		. ' GROUP BY a.id'
+		. ' GROUP BY a.articles_article_id'
 		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query, 0, $limit );
@@ -166,7 +166,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		{
 			foreach($list as $key => $item)
 			{
-				$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 		$rows[] = $list;
@@ -175,14 +175,14 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	// search uncategorised content
 	if ( $sUncategorised && $limit > 0 )
 	{
-		$query = 'SELECT id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
+		$query = 'SELECT articles_article_id AS id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
 		. ' "2" as browsernav, "'. $db->getEscaped(JText::_('Uncategorised Content')) .'" AS section'
-		. ' FROM #__content AS a'
+		. ' FROM #__articles_articles AS a'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
 		. ' AND a.access <= '.(int) $user->get( 'aid' )
-		. ' AND a.sectionid = 0'
+		. ' AND a.articles_section_id = 0'
 		. ' AND a.catid = 0'
 		. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
 		. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
@@ -196,7 +196,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		{
 			foreach($list2 as $key => $item)
 			{
-				$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
+				$list2[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->id);
 			}
 		}
 
@@ -211,14 +211,14 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT a.title AS title, a.metadesc, a.metakey,'
 		. ' a.created AS created,'
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.articles_article_id, a.alias) ELSE a.articles_article_id END as slug,'
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-		. ' u.id AS sectionid,'
+		. ' u.articles_section_id AS sectionid,'
 		. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
 		. ' "2" AS browsernav'
-		. ' FROM #__content AS a'
+		. ' FROM #__articles_articles AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
-		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
+		. ' INNER JOIN #__articles_sections AS u ON u.articles_section_id = a.articles_section_id'
 		. ' WHERE ( '.$where.' )'
 		. ' AND a.state = -1'
 		. ' AND u.published = 1'
@@ -237,7 +237,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		{
 			foreach($list3 as $key => $item)
 			{
-				$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list3[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 
