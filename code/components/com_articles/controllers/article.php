@@ -38,22 +38,25 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
         $view   = $request['view'];
         $params = JComponentHelper::getParams('com_articles');
 
-        if (KInflector::isPlural($view) && in_array($request['format'], array('html', 'rss'))) {
-            $sort_by_map = array(
-                'newest' => array('created' => 'DESC'),
-                'oldest' => array('created' => 'ASC'),
-                'order'  => array('ordering' => 'ASC'));
-            // Force some request vars based on setting parameters.
-            $request['limit']     = (int) $params->get('articles_per_page');
-            $request['featured']  = (int) $params->get('show_featured');
-            $sort_by              = $sort_by_map[$params->get('sort_by')];
-            $request['sort']      = key($sort_by);
-            $request['direction'] = current($sort_by);
-        }
+        if (KInflector::isPlural($view)) {
+            if ($request['format'] != 'json') {
+                $sort_by_map = array(
+                    'newest' => array('created' => 'DESC'),
+                    'oldest' => array('created' => 'ASC'),
+                    'order'  => array('ordering' => 'ASC'));
+                // Force some request vars based on setting parameters.
+                $request['limit']     = (int) $params->get('articles_per_page');
+                $request['featured']  = (int) $params->get('show_featured');
+                $sort_by              = $sort_by_map[$params->get('sort_by')];
+                $request['sort']      = key($sort_by);
+                $request['direction'] = current($sort_by);
+            }
 
-        if (!$this->canEdit()) {
-            // Only return published items.
-            $request['state'] = 1;
+            // Allow editors (and above) to view unpublished items on lists.
+            if (!$this->canEdit()) {
+                // Only return published items.
+                $request['state'] = 1;
+            }
         }
 
         return parent::setRequest($request);

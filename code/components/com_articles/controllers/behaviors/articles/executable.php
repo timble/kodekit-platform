@@ -21,16 +21,23 @@ class ComArticlesControllerBehaviorArticleExecutable extends ComDefaultControlle
 {
     public function canRead() {
 
-        $result = false;
+        $result = true;
 
         $article = $this->getModel()->getItem();
+        $user    = JFactory::getUser();
 
-        $user = JFactory::getUser();
-
-        if ($article->access <= $user->get('aid', 0)) {
-            $result = true;
+        if (!$article->isNew()) {
+            // First things first. If user doesn't have access to it, deny access.
+            if ($article->access > $user->get('aid', 0)) {
+                $result = false;
+            } elseif ($article->created_by == $user->id) {
+                // Users can read their own articles regardless of the state.
+                $result = true;
+            } elseif ($article->state == 0 && !$this->canEdit()) {
+                // Only published articles can be read. An exception is made for editors and above.
+                $result = false;
+            }
         }
-
         return $result;
     }
 }
