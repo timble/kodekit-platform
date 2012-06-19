@@ -17,6 +17,9 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
+
+require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
+
 class ComArticlesViewArticlesRss extends ComArticlesViewRss
 {
     public function display() {
