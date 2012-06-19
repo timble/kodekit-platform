@@ -51,8 +51,10 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
             $request['direction'] = current($sort_by);
         }
 
-        // Only return published items.
-        $request['state'] = 1;
+        if (!$this->canEdit()) {
+            // Only return published items.
+            $request['state'] = 1;
+        }
 
         return parent::setRequest($request);
     }
@@ -66,14 +68,16 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
     }
 
     public function setAcls(KCommandContext $context) {
-        $data = $this->getModel()->getData();
 
-        if ($data instanceof KDatabaseRowsetAbstract) {
+        if (KInflector::isPlural($this->getView()->getName())) {
+            $data = $this->getModel()->getList();
             foreach ($data as $row) {
                 $row->editable = $this->canEdit();
             }
         } else {
+            $data           = $this->getModel()->getItem();
             $data->editable = $this->canEdit();
+
         }
     }
 }

@@ -26,3 +26,7 @@
     width: 16px;
     height: 16px;
 }
+
+.articles-unpublished {
+    background-image: url('../images/unpublished.png');
+}
