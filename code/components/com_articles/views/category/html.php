@@ -47,7 +47,8 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
                     'sort'      => key($sort_by),
                     'direction' => current($sort_by),
                     'category'  => $category->id,
-                    'aid'       => $aid)));
+                    'aid'       => $aid,
+                    'state'     => $this->getService('com://site/articles.controller.article')->canEdit() ? null : 1)));
             $this->assign('articles', $articles->list);
             $this->assign('total_articles', $articles->count);
         }

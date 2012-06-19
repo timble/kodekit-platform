@@ -81,7 +81,7 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
                     'limit'     => $params->get('articles_per_page'),
                     'offset'    => $state->offset,
                     'aid'       => $this->aid,
-                    'state'     => 1)));
+                    'state'     => $this->getService('com://site/articles.controller.article')->canEdit() ? null : 1)));
         }
         return $this;
     }
