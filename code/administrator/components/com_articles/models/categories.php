@@ -55,7 +55,7 @@ class ComArticlesModelCategories extends ComCategoriesModelCategories
 
             $categories = $this->getService('com://admin/categories.model.categories')
                 ->published($state->published)
-                ->section('com_content')
+                ->section('com_articles')
                 ->sort($state->sort)
                 ->direction($state->direction)
                 ->getList();

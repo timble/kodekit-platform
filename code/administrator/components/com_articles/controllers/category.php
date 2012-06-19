@@ -30,7 +30,7 @@ class ComArticlesControllerCategory extends ComCategoriesControllerCategory
     
     public function getRequest()
 	{
-		$this->_request['section'] = 'com_content';
+		$this->_request['section'] = 'com_articles';
 	    return $this->_request;
 	}
 }

@@ -75,6 +75,8 @@ ALTER TABLE `#__articles_articles` CHANGE `sectionid` `articles_section_id` BIGI
 ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `#__articles_sections` CHANGE `id` `articles_section_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+UPDATE `#__categories` SET `section` = 'com_articles' WHERE `section` = 'com_content';
+
 -- com_content refactoring end
 
 

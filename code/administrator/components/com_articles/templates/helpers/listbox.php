@@ -84,7 +84,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         if($config->section != '0')
         {
             $list = $this->getService('com://admin/categories.model.categories')
-                ->set('section', $config->section > 0 ? $config->section : 'com_content')
+                ->set('section', $config->section > 0 ? $config->section : 'com_articles')
                 ->set('sort', 'title')
                 ->getList();
 
