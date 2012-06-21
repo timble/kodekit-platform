@@ -18,7 +18,7 @@
  * @subpackage 	Widget
  */
 
-echo KService::get('mod://admin/widget.html')
+echo KService::get('mod://site/widget.html')
     	->module($module)
     	->attribs($attribs)
     	->display();

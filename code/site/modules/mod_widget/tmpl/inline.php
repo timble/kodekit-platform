@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version     $Id: inline.php 1711 2012-06-18 17:23:07Z gergoerdosi $
  * @category	Nooku
  * @package     Nooku_Modules
  * @subpackage  Widget
@@ -14,4 +14,4 @@ $parts   = $url->getQuery(true);
 $package = substr($parts['option'], 4);
 $view    = $parts['view'];
 
-echo @service('com://admin/'.$package.'.controller.'.KInflector::singularize($view), array('request' => $parts))->display();
+echo @service('com://site/'.$package.'.controller.'.KInflector::singularize($view), array('request' => $parts))->display();
