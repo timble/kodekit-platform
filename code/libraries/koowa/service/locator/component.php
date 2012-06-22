@@ -82,10 +82,11 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
             $classes[] = $classname;
 
             //Add the package to look up defaults
-            array_unshift($this->_prefixes, 'Com'.ucfirst($identifier->package));
+            $prefixes = $this->_prefixes;
+            array_unshift($prefixes, 'Com'.ucfirst($identifier->package));
 
             $classname = false;
-            foreach($this->_prefixes as $prefix)
+            foreach($prefixes as $prefix)
             {
                 foreach(array($identifier->name, 'default') as $name)
                 {
