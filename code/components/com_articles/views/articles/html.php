@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,19 +9,17 @@
  */
 
 /**
- * Articles html view class.
+ * Articles Html View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
 {
-    public function display() {
-
+    public function display()
+    {
         $params = JComponentHelper::getParams('com_articles');
-
         $this->assign('params', $params);
 
         return parent::display();

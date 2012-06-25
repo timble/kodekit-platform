@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,14 +12,13 @@
  * Category html view class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
 {
-    public function display() {
-
+    public function display()
+    {
         $params       = JComponentHelper::getParams('com_articles');
         $files_params = JComponentHelper::getParams('com_files');
         $user         = JFactory::getUser();
@@ -31,8 +29,8 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
         $state    = $model->getState();
         $category = $model->getItem();
 
-        if (!$category->isNew()) {
-
+        if (!$category->isNew())
+        {
             $sort_by_map = array(
                 'newest' => array('created' => 'DESC'),
                 'oldest' => array('created' => 'ASC'),
@@ -49,6 +47,7 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
                     'category'  => $category->id,
                     'aid'       => $aid,
                     'state'     => $this->getService('com://site/articles.controller.article')->canEdit() ? null : 1)));
+
             $this->assign('articles', $articles->list);
             $this->assign('total_articles', $articles->count);
         }

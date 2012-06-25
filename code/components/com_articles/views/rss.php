@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,10 +9,9 @@
  */
 
 /**
- * RSS view class.
+ * Rss View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
@@ -21,7 +19,8 @@ class ComArticlesViewRss extends KViewAbstract
 {
     protected $_feed;
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->_feed = JDocument::getInstance('feed');
@@ -33,8 +32,8 @@ class ComArticlesViewRss extends KViewAbstract
         unset($state->offset);
     }
 
-    public function display() {
-
+    public function display()
+    {
         $document                  = JFactory::getDocument();
         $this->_feed->title       = $document->title;
         $this->_feed->description = $document->description;

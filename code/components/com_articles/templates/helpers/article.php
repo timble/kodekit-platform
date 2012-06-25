@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,16 +9,16 @@
  */
 
 /**
- * Article template helper class.
+ * Article Template Helper Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
 {
-    public function render($config = array()) {
+    public function render($config = array())
+    {
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')));
@@ -28,58 +27,59 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
         $html       = '';
 
         $html .= $this->title($config);
-
         $html .= $this->timestamp($config);
-
         $html .= $this->content($config);
 
         return $html;
     }
 
-    public function title($config = array()) {
-
+    public function title($config = array())
+    {
         $config = new KConfig($config);
-
-        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
-            ->append(array('title_heading' => 2, 'linkable' => true));
+        $config->append(array(
+            'parameters'    => JComponentHelper::getParams('com_articles'),
+            'title_heading' => 2,
+             'linkable'     => true,
+        ));
 
         $article = $config->row;
 
         $html = "<h{$config->title_heading}>";
-        $html .= $config->linkable ? $this->link(array_merge($config->toArray(),
-            array('text' => $article->title))) : $article->title;
+        $html .= $config->linkable ? $this->link(array_merge($config->toArray(), array('text' => $article->title))) : $article->title;
         $html .= "</h{$config->title_heading}>";
 
         return $html;
     }
 
-    public function content($config = array()) {
+    public function content($config = array())
+    {
         $config = new KConfig($config);
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
-            ->append(array('show_images' => true, 'show_more' => $config->parameters->get(show_readmore)));
+               ->append(array('show_images' => true, 'show_more' => $config->parameters->get('show_readmore')));
 
         $article = $config->row;
 
         $html = '';
 
         // Only show more links if there is actually something else to show.
-        if ($config->show_more && $article->fulltext) {
+        if ($config->show_more && $article->fulltext)
+        {
             $html .= $article->introtext;
             $html .= $this->link(array('row' => $article));
-        } else {
-            $html .= $article->introtext . $article->fulltext;
         }
+        else $html .= $article->introtext . $article->fulltext;
 
+        // Strip images from content.
         if (!$config->show_images) {
-            // Strip images from content.
             $html = preg_replace('/<img[^>]*>/', '', $html);
         }
 
         return $html;
     }
 
-    public function link($config = array()) {
+    public function link($config = array())
+    {
         $config = new KConfig($config);
 
         $config->append(array(
@@ -107,32 +107,36 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
         return $html;
     }
 
-    public function edit($config = array()) {
-
+    public function edit($config = array())
+    {
         $config = new KConfig($config);
 
         $article = $config->row;
 
         $html = '';
 
-        if ($article->editable) {
+        if ($article->editable)
+        {
             $html .= '<div class="edit-article">';
-            $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id,
-                $article->category_id, $article->section_id) . '&layout=form') . '">';
+            $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id, $article->section_id) . '&layout=form') . '">';
             $html .= JText::_('Edit');
             $html .= '</a>';
             $html .= '</div>';
         }
+
         return $html;
     }
 
-    public function timestamp($config = array()) {
+    public function timestamp($config = array())
+    {
         $config = new KConfig($config);
 
-        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))->append(array(
-            'show_author'      => false,
-            'show_create_date' => $config->parameters->get('show_create_date'),
-            'show_modify_date' => $config->parameters->get('show_modify_date')));
+        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
+               ->append(array(
+                    'show_author'      => false,
+                    'show_create_date' => $config->parameters->get('show_create_date'),
+                    'show_modify_date' => $config->parameters->get('show_modify_date')
+                ));
 
         $article = $config->row;
 
@@ -142,13 +146,15 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
             $html[] = JText::sprintf('Written by', $author);
         }
 
-        if ($config->show_create_date) {
+        if ($config->show_create_date)
+        {
             $html[] = $this->getService('koowa:template.helper.date')->format(array(
                 'date'   => $article->created_on,
                 'format' => JText::_('DATE_FORMAT_LC2')));
         }
 
-        if ($config->get('show_modify_date') && ($modified_on = $article->modified_on) && (intval($modified_on) != 0)) {
+        if ($config->get('show_modify_date') && ($modified_on = $article->modified_on) && (intval($modified_on) != 0))
+        {
             $html[] = JText::sprintf('LAST_UPDATED2',
                 $this->getService('koowa:template.helper.date')->format(array(
                     'date'   => $article->modified_on,

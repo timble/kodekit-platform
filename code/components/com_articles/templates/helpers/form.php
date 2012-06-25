@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,27 +9,26 @@
  */
 
 /**
- * Form template helper class.
+ * Form Template Helper Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
 {
-
-    public function publish($config = array()) {
+    public function publish($config = array())
+    {
         $config = new KConfig($config);
 
         $article = $config->row;
 
-        if ($article->isNew()) {
+        if ($article->isNew())
+        {
             $date       = new KDate();
             $publish_up = $date->format('Y-m-d H:i:s');
-        } else {
-            $publish_up = $article->publish_up;
         }
+        else $publish_up = $article->publish_up;
 
         $html = JHTML::_('calendar', $publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S',
             array(
@@ -41,23 +39,25 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
         return $html;
     }
 
-    public function action($config = array()) {
+    public function action($config = array())
+    {
         $config = new KConfig($config);
 
         $article = $config->row;
 
         $url = '';
 
-        if (!$article->isNew()) {
-            $url = ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,
-                $article->section_id);
+        if (!$article->isNew())
+        {
+            $url  = ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id, $article->section_id);
             $url .= '&layout=form';
         }
 
         return $url;
     }
 
-    public function unpublish($config = array()) {
+    public function unpublish($config = array())
+    {
         $config = new KConfig($config);
 
         $article = $config->row;

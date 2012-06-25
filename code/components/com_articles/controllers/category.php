@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,18 +9,17 @@
  */
 
 /**
- * Category controller class.
+ * Category Controller Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 
 class ComArticlesControllerCategory extends ComArticlesControllerDefault
 {
-    public function setRequest($request) {
-
+    public function setRequest($request)
+    {
         // Only return published items.
         $request['published'] = 1;
 

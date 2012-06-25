@@ -1,19 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @package        Joomla
- * @copyright      Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- *                 Joomla! is free software. This version may have been modified pursuant
- *                 to the GNU General Public License, and as distributed it includes or
- *                 is derivative of works licensed under the GNU General Public License or
- *                 other free or open source software licenses.
- *                 See COPYRIGHT.php for copyright notices and details.
- */
-
-/**
- * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -25,18 +12,13 @@
  * Articles router class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
-function ArticlesBuildRoute(&$query) {
 
+function ArticlesBuildRoute(&$query)
+{
     $segments = array();
-
-    // Ignore JSON requests.
-    if ($query['format'] == 'json') {
-        return $segments;
-    }
 
     $menu = JSite::getMenu();
     $item = $menu->getItem($query['Itemid']);

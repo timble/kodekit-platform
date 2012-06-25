@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,10 +9,9 @@
  */
 
 /**
- * Section html view class.
+ * Section Html View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
@@ -32,12 +30,12 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
         return parent::display();
     }
 
-    public function setCategories() {
-
+    public function setCategories()
+    {
         $section = $this->getModel()->getItem();
 
-        if (!$section->isNew()) {
-
+        if (!$section->isNew())
+        {
             $categories  = $this->getService('com://admin/articles.model.categories');
             $params      = JComponentHelper::getParams('com_articles');
             $sort_by_map = array(
@@ -58,14 +56,14 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
         return $this;
     }
 
-    public function setArticles() {
-
+    public function setArticles()
+    {
         $model   = $this->getModel();
         $state   = $model->getState();
         $section = $model->getItem();
 
-        if (!$section->isNew()) {
-
+        if (!$section->isNew())
+        {
             $params = JComponentHelper::getParams('com_articles');
 
             $sort_by_map = array(
@@ -83,6 +81,7 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
                     'aid'       => $this->aid,
                     'state'     => $this->getService('com://site/articles.controller.article')->canEdit() ? null : 1)));
         }
+
         return $this;
     }
 

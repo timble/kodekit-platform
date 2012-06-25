@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,10 +9,9 @@
  */
 
 /**
- * Articles RSS view class.
+ * Articles Rss View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
@@ -22,8 +20,8 @@ require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
 
 class ComArticlesViewArticlesRss extends ComArticlesViewRss
 {
-    public function display() {
-
+    public function display()
+    {
         foreach ($this->getModel()->getList() as $article) {
             $this->_feed->addItem(self::getFeedItem($article));
         }
@@ -40,13 +38,12 @@ class ComArticlesViewArticlesRss extends ComArticlesViewRss
      *
      * @return JFeedItem The feed item.
      */
-    static public function getFeedItem(ComArticlesDatabaseRowArticle $article) {
-
+    static public function getFeedItem(ComArticlesDatabaseRowArticle $article)
+    {
         $item = new JFeedItem();
 
         $item->title       = $article->title;
-        $item->link        = JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,
-            $article->section_id));
+        $item->link        = JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,$article->section_id));
         $item->description = $article->introtext . $article->fulltext;
         $item->date        = $article->created_on;
         $item->category    = $article->category_title;

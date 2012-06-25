@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,20 +9,21 @@
  */
 
 /**
- * RSS template helper class.
+ * Rss Template Helper Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
 {
 
-    public function rss($config = array()) {
+    public function rss($config = array())
+    {
         $config = new KConfig($config);
 
-        if (!$config->url) {
+        if (!$config->url)
+        {
             $view        = $this->getTemplate()->getView();
             $config->url = 'index.php?option=com_articles&view=' . $view->getName();
         }

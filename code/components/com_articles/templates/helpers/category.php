@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,18 +9,16 @@
  */
 
 /**
- * Category template helper class.
+ * Category Template Helper Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
 {
-
-    public function link($config = array()) {
-
+    public function link($config = array())
+    {
         $config = new KConfig($config);
 
         $category = $config->row;
@@ -33,8 +30,8 @@ class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
         return $html;
     }
 
-    public function totalarticles($config = array()) {
-
+    public function totalarticles($config = array())
+    {
         $config = new KConfig($config);
 
         $config->append(array('model_state' => array()));
@@ -54,7 +51,8 @@ class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
         return $html;
     }
 
-    public function rss($config = array()) {
+    public function rss($config = array())
+    {
         $config = new KConfig($config);
 
         $category = $config->row;

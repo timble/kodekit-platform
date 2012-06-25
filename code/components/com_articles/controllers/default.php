@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,17 +9,16 @@
  */
 
 /**
- * Default controller class.
+ * Default Controller Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesControllerDefault extends ComDefaultControllerDefault
 {
-    public function __construct(KConfig $config) {
-
+    public function __construct(KConfig $config)
+    {
         // Set component default params values.
         $params = JComponentHelper::getParams('com_articles');
         $params->def('articles_per_page', 5);
@@ -41,8 +39,8 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         parent::__construct($config);
     }
 
-    public function setRequest($request) {
-
+    public function setRequest($request)
+    {
         // Filter rowsets based on current logged user's permissions.
         $user           = JFactory::getUser();
         $request['aid'] = $user->get('aid', 0);

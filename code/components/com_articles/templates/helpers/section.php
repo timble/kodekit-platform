@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,15 +12,13 @@
  * Section template helper class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesTemplateHelperSection extends ComArticlesTemplateHelperRss
 {
-
-    public function rss($config = array()) {
-
+    public function rss($config = array())
+    {
         $config = new KConfig($config);
 
         $section = $config->row;

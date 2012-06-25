@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,10 +9,9 @@
  */
 
 /**
- * Section RSS view class.
+ * Section Rss View Class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
@@ -22,9 +20,8 @@ require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
 
 class ComArticlesViewSectionRss extends ComArticlesViewRss
 {
-
-    public function display() {
-
+    public function display()
+    {
         $section = $this->getModel()->getItem();
 
         $params = JComponentHelper::getParams('com_articles');

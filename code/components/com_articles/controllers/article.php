@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,37 +12,43 @@
  * Article controller class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesControllerArticle extends ComArticlesControllerDefault
 {
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->registerCallback(array('after.read', 'after.browse'), array($this, 'setAcls'));
         $this->registerCallback('before.add', array($this, 'filterInput'));
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array(
             'behaviors' => array('com://site/articles.controller.behavior.article.executable'),
-            'toolbars'  => array('article')));
+            'toolbars'  => array('article'))
+        );
+
         parent::_initialize($config);
     }
 
-    public function setRequest(array $request) {
-
+    public function setRequest(array $request)
+    {
         $view   = $request['view'];
         $params = JComponentHelper::getParams('com_articles');
 
-        if (KInflector::isPlural($view)) {
-            if ($request['format'] != 'json') {
+        if (KInflector::isPlural($view))
+        {
+            if ($request['format'] != 'json')
+            {
                 $sort_by_map = array(
                     'newest' => array('created' => 'DESC'),
                     'oldest' => array('created' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
+
                 // Force some request vars based on setting parameters.
                 $request['limit']     = (int) $params->get('articles_per_page');
                 $request['featured']  = (int) $params->get('show_featured');
@@ -62,25 +67,29 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
         return parent::setRequest($request);
     }
 
-    public function filterInput(KCommandContext $context) {
-        if (!$this->canEdit()) {
+    public function filterInput(KCommandContext $context)
+    {
+        if (!$this->canEdit())
+        {
             // Force some default values.
             $data        = $context->data;
             $data->state = 0;
         }
     }
 
-    public function setAcls(KCommandContext $context) {
-
-        if (KInflector::isPlural($this->getView()->getName())) {
+    public function setAcls(KCommandContext $context)
+    {
+        if (KInflector::isPlural($this->getView()->getName()))
+        {
             $data = $this->getModel()->getList();
             foreach ($data as $row) {
                 $row->editable = $this->canEdit();
             }
-        } else {
+        }
+        else
+        {
             $data           = $this->getModel()->getItem();
             $data->editable = $this->canEdit();
-
         }
     }
 }

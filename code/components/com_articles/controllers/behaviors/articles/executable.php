@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,27 +9,25 @@
  */
 
 /**
- * Article executable controller behavior class.
+ * Article Executable Controller Behavior Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
 class ComArticlesControllerBehaviorArticleExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    public function canRead() {
-
-        $result = true;
-
+    public function canRead()
+    {
+        $result  = true;
         $article = $this->getModel()->getItem();
-        $user    = JFactory::getUser();
 
-        if (!$article->isNew()) {
-            // First things first. If user doesn't have access to it, deny access.
-            if ($article->access > $user->get('aid', 0)) {
+        if (!$article->isNew())
+        {
+            //If user doesn't have access to it, deny access.
+            if ($article->access > JFactory::getUser()->get('aid', 0)) {
                 $result = false;
-            } elseif ($article->created_by == $user->id) {
+            } elseif ($article->created_by == JFactory::getUser()->id) {
                 // Users can read their own articles regardless of the state.
                 $result = true;
             } elseif ($article->state == 0 && !$this->canEdit()) {
@@ -38,6 +35,7 @@ class ComArticlesControllerBehaviorArticleExecutable extends ComDefaultControlle
                 $result = false;
             }
         }
+
         return $result;
     }
 }
