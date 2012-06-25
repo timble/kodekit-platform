@@ -1,7 +1,6 @@
 <?php
 /**
  * @version        $Id$
- * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,10 +9,9 @@
  */
 
 /**
- * Articles module html view class.
+ * Articles Module html View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
@@ -29,8 +27,8 @@ class ModArticlesHtml extends ModDefaultHtml
      *
      * @return string
      */
-    public function display() {
-
+    public function display()
+    {
         $this->assign('params', $this->params);
 
         // Preparing the sort and direction model states.
