@@ -28,13 +28,16 @@ class ComFilesControllerFile extends ComFilesControllerDefault
     {
     	$config->append(array(
     		'behaviors' => array(
-    			'com://admin/activities.controller.behavior.loggable' =>  array(
-    				'title_column' => 'name'
-    	    )),
+    			'com://admin/activities.controller.behavior.loggable' =>  array('title_column' => 'name'),
+    			'thumbnailable'
+    		),
         ));
     
     	parent::_initialize($config);
     }	
+
+		parent::_initialize($config);
+	}
 
 	public function addFile(KCommandContext $context)
 	{

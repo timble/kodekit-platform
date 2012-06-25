@@ -56,7 +56,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 	{
 		if (in_array($column, array('size', 'extension', 'modified_date', 'mimetype'))) {
 			$metadata = $this->_adapter->getMetadata();
-			return $metadata ? $metadata[$column] : false;
+			return $metadata && array_key_exists($column, $metadata) ? $metadata[$column] : false;
 		}
 
 		if ($column == 'filename') {
@@ -79,10 +79,35 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		}
 
 		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
+			if ($column == 'thumbnail' && !empty($this->_data['thumbnail'])) {
+				return $this->_data['thumbnail'];
+			}
+			
 			return $this->getImageSize($column);
 		}
 
 		return parent::__get($column);
+	}	
+	
+	/**
+	 * This method checks for computed properties as well
+	 * 
+	 * @param string $key
+	 */
+	public function __isset($key)
+	{
+		$result = parent::__isset($key);
+		
+		if (!$result) 
+		{
+			$var = $this->__get($key);
+			if (!empty($var)) {
+				$result = true;
+			}
+		}
+		
+		return $result;
+		
 	}
 
     public function toArray()

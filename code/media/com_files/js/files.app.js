@@ -36,8 +36,7 @@ Files.App = new Class({
 		grid: {
 			element: 'files-grid',
 			batch_delete: '#files-batch-delete',
-			icon_size: 200,
-			icon_size_slider: 'files-thumbs-size'
+			icon_size: 150
 		},
 		paginator: {
 			element: 'files-paginator'
@@ -52,6 +51,7 @@ Files.App = new Class({
 				format: 'json'
 			}
 		},
+		initial_response: null,
 
 		onAfterSetGrid: function(){
 		    var target = document.id('files-grid');
@@ -97,9 +97,10 @@ Files.App = new Class({
 		this.setPaginator();
 
 		var url = this.getUrl();
-		if (url.getData('container')) {
+		if (url.getData('container') && !this.options.container) {
 			this.options.container = url.getData('container');
 		}
+		
 		if (url.getData('folder')) {
 			this.options.active = url.getData('folder');
 		}
@@ -107,16 +108,17 @@ Files.App = new Class({
 		if (this.options.title) {
 			this.options.title = document.id(this.options.title);
 		}
-
-		if (this.options.container) {
-			this.setContainer(this.options.container);
-		}
-
+		
 		if (this.options.thumbnails) {
 			this.addEvent('afterSelect', function(resp) {
 				this.setThumbnails();
 			});
 		}
+
+		if (this.options.container) {
+			this.setContainer(this.options.container);
+		}
+
 	},
 	setState: function() {
 		this.fireEvent('beforeSetState');
@@ -176,8 +178,9 @@ Files.App = new Class({
 	},
 	/**
 	 * type can be 'stateless' for no state or 'initial' to use replaceState
+	 * response can be set if you want to set the results without an AJAX request.
 	 */
-	navigate: function(path, type) {
+	navigate: function(path, type, revalidate_cache, response) {
 		this.fireEvent('beforeNavigate', [path, type]);
 		if (path !== undefined) {
 			if (this.active) {
@@ -191,44 +194,58 @@ Files.App = new Class({
 
 		var parts = this.active.split('/'),
 			name = parts[parts.length ? parts.length-1 : 0],
-			folder = parts.slice(0, parts.length-1).join('/');
+			folder = parts.slice(0, parts.length-1).join('/'),
+			that = this
+			url_builder = function(url) {
+				if (revalidate_cache) {
+					url['revalidate_cache'] = 1;
+				}
+				return this.createRoute(url);
+			}.bind(this),
+			success = function(resp) {
+				if (resp.status !== false) {
+					$each(resp.items, function(item) {
+						if (!item.baseurl) {
+							item.baseurl = that.baseurl;
+						}
+					});
+					that.response = resp;
+					that.grid.insertRows(resp.items);
 
-		var that = this;
+					that.fireEvent('afterSelect', resp);
+				} else {
+					alert(resp.error);
+				}
+
+			};
+
 		this.folder = new Files.Folder({'folder': folder, 'name': name});
-		this.folder.getChildren(function(resp) {
-			if (resp.status !== false) {
-				that.response = resp;
-				that.grid.insertRows(resp.items);
-
-				that.fireEvent('afterSelect', resp);
-			} else {
-				alert(resp.error);
-			}
-
-		}, null, this.state.getData());
+		
+		if (response) {
+			success(response);
+		} else {
+			this.folder.getChildren(success, null, this.state.getData(), url_builder);
+		}
 
 		this.fireEvent('afterNavigate', [path, type]);
 	},
 
 	setContainer: function(container) {
-		new Request.JSON({
-			url: this.createRoute({view: 'container', slug: container, container: false}),
-			method: 'get',
-			onSuccess: function(response) {
-				var item = response.item;
+		var setter = function(item) {
+			this.fireEvent('beforeSetContainer', {container: item});
 
-				this.fireEvent('beforeSetContainer', {container: item});
+			this.container = item;
+			this.baseurl = Files.sitebase + '/' + item.relative_path;
 
-				this.container = item;
-				this.baseurl = Files.sitebase + '/' + item.relative_path;
+			this.active = '';
 
-				this.active = '';
-
+			if (this.uploader) {
 				if (this.container.parameters.allowed_extensions) {
 					this.uploader.settings.filters = [
 					     {title: Files._('All Files'), extensions: this.container.parameters.allowed_extensions.join(',')}
 	    			];
 				}
+				
 				if (this.container.parameters.maximum_size) {
 					this.uploader.settings.max_file_size = this.container.parameters.maximum_size;
 					var max_size = document.id('upload-max-size');
@@ -236,29 +253,47 @@ Files.App = new Class({
 						max_size.set('html', new Files.Filesize(this.container.parameters.maximum_size).humanize());
 					}
 				}
+			}
 
-				if (this.container.parameters.thumbnails !== true) {
-					this.options.thumbnails = false;
-					if (this.spinner) {
-						this.spinner.stop();
-					}
+			if (this.container.parameters.thumbnails !== true) {
+				this.options.thumbnails = false;
+				if (this.spinner) {
+					this.spinner.stop();
 				}
+			} else {
+				this.state.set('thumbnails', true);
+			}
 
+			if (this.options.types !== null) {
+				this.options.grid.types = this.options.types;
+				this.state.set('types', this.options.types);
+			}
 
-				if (this.options.types !== null) {
-					this.options.grid.types = this.options.types;
-					this.state.set('types', this.options.types);
-				}
+			this.fireEvent('afterSetContainer', {container: item});
 
-				this.fireEvent('afterSetContainer', {container: item});
+			this.setTree();
 
-				this.setTree();
+			this.active = this.options.active || '';
+			this.options.active = '';
+			 
+			if (typeof this.options.initial_response === 'string') {
+				this.options.initial_response = JSON.decode(this.options.initial_response);
+			}
 
-				this.active = this.options.active || '';
-				this.options.active = '';
-				this.navigate(this.active, 'initial');
-			}.bind(this)
-		}).send();
+			this.navigate(this.active, 'initial', false, this.options.initial_response);
+		}.bind(this);
+
+		if (typeof container === 'string') {
+			new Request.JSON({
+				url: this.createRoute({view: 'container', slug: container, container: false}),
+				method: 'get',
+				onSuccess: function(response) {
+					setter(response.item);
+				}.bind(this)
+			}).send();
+		} else {
+			setter(container);
+		}
 	},
 	setPaginator: function() {
 		this.fireEvent('beforeSetPaginator');
@@ -303,30 +338,11 @@ Files.App = new Class({
 		    opts = this.options.grid,
 			key = this.cookie+'.grid.layout';
 
-		if (this.cookie) {
+		if (this.cookie && Cookie.read(key)) {
 			opts.layout = Cookie.read(key);
-			var size_key = this.cookie+'.grid.icon.size',
-				size = Cookie.read(size_key);
-			if (size) {
-				opts.icon_size = size;
-			}
-			opts.onAfterSetIconSize = function(context) {
-				Cookie.write(size_key, context.size);
-			};
 		}
 
 		$extend(opts, {
-			'onAfterInsertRows': function() {
-
-				//This is for persistency reasons, allowing us to read the value from the cookie and define it
-				this.setIconSize(this.options.icon_size);
-
-
-				if (opts.icon_size_slider) {
-					document.id(opts.icon_size_slider).set('value', this.options.icon_size).fireEvent('change');
-				}
-
-		    },
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
 				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
@@ -361,12 +377,8 @@ Files.App = new Class({
 				trash.dispose();
 			},
 			'onAfterSetLayout': function(context) {
-				var layout = context.layout;
-				if (layout === 'icons' && this.grid && this.options.thumbnails) {
-					this.setThumbnails();
-				}
 				if (key) {
-					Cookie.write(key, layout);
+					Cookie.write(key, context.layout);
 				}
 			}.bind(this)
 		});
@@ -429,42 +441,27 @@ Files.App = new Class({
 		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
-		if (this.grid.layout === 'icons' && nodes.getLength()) {
-			var url = that.createRoute({
-				view: 'thumbnails',
-				offset: this.state.get('offset'),
-				limit: this.state.get('limit'),
-				folder: this.active
-			});
-			new Request.JSON({
-				url: url,
-				method: 'get',
-				onSuccess: function(response, responseText) {
-					var thumbs = response.items;
-
-					that.fireEvent('beforeSetThumbnails', {thumbnails: thumbs, response: response});
-
-					nodes.each(function(node) {
-						if (node.filetype !== 'image') {
-							return;
-						}
-						var name = node.name;
-
-						var img = node.element.getElement('img.image-thumbnail');
-						img.addEvent('load', function(){
-						    this.addClass('loaded');
-						});
-						img.set('src', thumbs[name] ? thumbs[name].thumbnail : Files.blank_image);
-						node.element.getElement('.files-node').addClass('loaded').removeClass('loading');
-
-						if(window.sessionStorage) {
-						    sessionStorage[node.image.toString()] = img.get('src');
-						}
-					});
-
-					that.fireEvent('afterSetThumbnails', {thumbnails: thumbs, response: response});
+		if (nodes.getLength()) {
+			nodes.each(function(node) {
+				if (node.filetype !== 'image') {
+					return;
 				}
-			}).send();
+				var name = node.name;
+
+				var img = node.element.getElement('img.image-thumbnail');
+				if (img) {
+					img.addEvent('load', function(){
+					    this.addClass('loaded');
+					});
+					img.set('src', node.thumbnail ? node.thumbnail : Files.blank_image);
+					
+					(node.element.getElement('.files-node') || node.element).addClass('loaded').removeClass('loading');
+
+					if(window.sessionStorage) {
+					    sessionStorage[node.image.toString()] = img.get('src');
+					}
+				}
+			});
 		}
 
 	},

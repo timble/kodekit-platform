@@ -33,13 +33,14 @@ class ComFilesModelFiles extends ComFilesModelNodes
         	if ($files === false) {
         		throw new KModelException('Invalid folder');
         	}
+
             $this->_total = count($files);
-
-            $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
-
+            
             if (strtolower($this->_state->direction) == 'desc') {
-                $files = array_reverse($files);
+            	$files = array_reverse($files);
             }
+            
+            $files = array_slice($files, $state->offset, $state->limit ? $state->limit : $this->_total);
 
             $data = array();
             foreach ($files as $file)
@@ -67,7 +68,7 @@ class ComFilesModelFiles extends ComFilesModelNodes
 	public function iteratorFilter($path)
 	{
 		$filename = basename($path);
-		$extension = pathinfo($filename, PATHINFO_EXTENSION);
+		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
 		if ($this->_state->name) {
 			if (!in_array($filename, (array) $this->_state->name)) {

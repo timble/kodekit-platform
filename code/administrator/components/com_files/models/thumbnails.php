@@ -27,6 +27,9 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			->insert('filename', 'com://admin/files.filter.path', null, true, array('container'))
 			->insert('files', 'com://admin/files.filter.path', null)
 			->insert('source', 'raw', null, true)
+			
+			->insert('types', 'cmd', '')
+			->insert('config'   , 'json', '')
 			;
 
 	}
@@ -95,11 +98,30 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    if ($state->folder !== false) {
 		    	$query->where('tbl.folder', '=', ltrim($state->folder, '/'));
 		    }
-
+		    
+		    // Need this for BC
+		    if (!empty($state->files)) {
+		    	$query->where('tbl.filename', 'IN', $state->files);
+		    }
+		    
 		    if ($state->filename) {
-		        $query->where('tbl.filename', '=', $state->filename);
+		        $query->where('tbl.filename', 'IN', $state->filename);
 		    }
 		}
-
+		
+	}
+	
+	protected function _buildQueryOrder(KDatabaseQuery $query)
+	{
+		$sort       = $this->_state->sort;
+		$direction  = strtoupper($this->_state->direction);
+	
+		if($sort) 
+		{
+			$column = $this->getTable()->mapColumns($sort);
+			if(array_key_exists($column, $this->getTable()->getColumns())) {
+				$query->order($column, $direction);
+			}
+		}	
 	}
 }
