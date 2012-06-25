@@ -24,7 +24,8 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 			'persistable' => false,
 			'request' => array(
 				'container' => 'files-files'
-			)
+			),
+			'limit' => array('max' => 1000)
 		));
 
 		parent::_initialize($config);
@@ -46,7 +47,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 		$limit = $request->limit;
 
 		//If limit is empty use default
-		if(empty($limit)) {
+		if(empty($limit) && $limit !== 0) {
 			$limit = $this->_limit->default;
 		}
 

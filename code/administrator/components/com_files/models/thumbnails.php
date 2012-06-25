@@ -96,10 +96,29 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    if ($state->folder !== false) {
 		    	$query->where('tbl.folder = :folder')->bind(array('folder' => ltrim($state->folder, '/')));
 		    }
-
+		    
+		    // Need this for BC
+		    if (!empty($state->files)) {
+		    	$query->where('tbl.filename', 'IN', $state->files);
+		    }
+		    
 		    if ($state->filename) {
 		        $query->where('tbl.filename = :filename')->bind(array('filename' => $state->filename));
 		    }
 		}
+	}
+	
+	protected function _buildQueryOrder(KDatabaseQuery $query)
+	{
+		$sort       = $this->_state->sort;
+		$direction  = strtoupper($this->_state->direction);
+	
+		if($sort) 
+		{
+			$column = $this->getTable()->mapColumns($sort);
+			if(array_key_exists($column, $this->getTable()->getColumns())) {
+				$query->order($column, $direction);
+			}
+		}	
 	}
 }

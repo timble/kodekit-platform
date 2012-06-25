@@ -25,9 +25,12 @@ Files.Row = new Class({
 
 		this.filepath = (object.folder ? this.encodePath(object.folder)+'/' : '') + this.encode(object.name);
 	},
-	encodePath: function(path) {
-		var parts = path.split('/'),
+	encodePath: function(path, encoder) {
+		var parts = path.split('/');
+
+		if (!encoder) {
 			encoder = this.encode;
+		}
 
 		parts = parts.map(function(part) {
 			return encoder(part);
@@ -37,6 +40,11 @@ Files.Row = new Class({
 	},
 	encode: function(string) {
 		return encodeURIComponent(encodeURIComponent(string)).replace(/%2520/g, ' ');
+	},
+	realpath: function(string) {
+		string = encodeURIComponent((string + '').toString());
+		return encodeURIComponent(string).replace(/!/g, '%2521').replace(/'/g, '%2527').replace(/\(/g, '%2528').
+	    	replace(/\)/g, '%2529').replace(/\*/g, '%252A').replace(/%2520/g, ' ');
 	}
 });
 
@@ -48,7 +56,10 @@ Files.File = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.baseurl = Files.app.baseurl;
+		if (Files.app) {
+			this.baseurl = Files.app.baseurl;
+		}
+		
 		this.size = new Files.Filesize(this.metadata.size);
 		this.filetype = Files.getFileType(this.metadata.extension);
 	},
@@ -109,7 +120,7 @@ Files.Image = new Class({
 	initialize: function(object, options) {
 		this.parent(object, options);
 
-		this.image = this.baseurl+'/'+this.filepath;
+		this.image = this.baseurl+'/'+this.encodePath(this.filepath, this.realpath);
 
 		this.client_cache = false;
 		if(window.sessionStorage) {
@@ -152,7 +163,7 @@ Files.Folder = new Class({
 	type: 'folder',
 	template: 'folder',
 
-	getChildren: function(success, failure, extra_vars) {
+	getChildren: function(success, failure, extra_vars, url_builder) {
 		var path = this.path,
 			url = {
 				view: 'nodes',
@@ -161,7 +172,9 @@ Files.Folder = new Class({
 		if (extra_vars) {
 			url = $extend(url, extra_vars);
 		}
-		var url = Files.app.createRoute(url);
+		
+		var url = url_builder ? url_builder(url) : Files.app.createRoute(url);
+		
 
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;

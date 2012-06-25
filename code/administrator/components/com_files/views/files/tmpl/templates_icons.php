@@ -90,7 +90,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     		<a class=" navigate" href="#" title="[%=name%]"
     	 		data-filetype="[%=filetype%]"
     	 		data-extension="[%=metadata.extension%]">
-    		[% if (Files.app.options.thumbnails) { %]
+    		[% if (thumbnail) { %]
     		    <div class="spinner"></div>
     			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" style="max-width: [%=metadata.image.width%]px" />
     		[% } %]

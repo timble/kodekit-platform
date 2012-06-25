@@ -11,13 +11,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <style src="media://com_files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="media://com_files/plupload/plupload.js" />
-<script src="media://com_files/plupload/plupload.html5.js" />
-<script src="media://com_files/plupload/plupload.html4.js" />
-<script src="media://com_files/plupload/plupload.flash.js" />
-
 <script src="media://com_files/plupload/jquery-1.6.4.min.js" />
-<script src="media://com_files/plupload/jquery.plupload.queue/jquery.plupload.queue.js" />
+<script src="media://com_files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
 jQuery.noConflict();

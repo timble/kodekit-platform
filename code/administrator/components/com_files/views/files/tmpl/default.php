@@ -180,13 +180,9 @@ window.addEvent('domready', function() {
     	e.stop();
     	var layout = this.get('data-layout');
     	Files.app.grid.setLayout(layout);
-    	if(slider) slider.setStyle('display', layout == 'icons' ? 'block' : 'none');
     	switchers.removeClass('active');
     	this.addClass('active');
     });
-    if (Files.app.grid.layout != 'icons') {
-    	if(slider) slider.setStyle('display', 'none');
-    }
 });
 </script>
 
@@ -220,11 +216,6 @@ window.addEvent('domready', function() {
 		<div class="view -koowa-box-scroll -koowa-box-flex">
 			<div id="files-grid"></div>
 		</div>
-        <div class="files-layout-grid-resizer-container">
-            <div class="files-layout-grid-resizer-wrap">
-                <input id="files-thumbs-size" type="range" min="80" max="200" step="0.1" />
-            </div>
-        </div>
 		<?= @helper('paginator.pagination') ?>
 
 		<?= @template('uploader');?>
