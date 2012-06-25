@@ -22,8 +22,6 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'identity_column'  => 'articles_article_id',
-            'name'             => 'articles_articles',
             'behaviors'        => array(
             	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable'
             ),
