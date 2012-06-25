@@ -10,9 +10,9 @@
  */
 
 /**
- * Banners Controller Class - Banner
+ * Banners Controller Class
  *
- * @author      Cristiano Cucco <cristiano.cucco at gmail dot com>
+ * @author      Cristiano Cucco <http://nooku.assembla.com/profile/cristiano.cucco>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Banners    
