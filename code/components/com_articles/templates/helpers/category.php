@@ -19,13 +19,15 @@ class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
 {
     public function link($config = array())
     {
-        $config = new KConfig($config);
+        $config   = new KConfig($config);
+
 
         $category = $config->row;
 
-        $link = JRoute::_(ComArticlesHelperRoute::getCategoryRoute($category->id, $category->section_id));
+        $route = $this->getService('com://site/articles.helper.route')
+                       ->getCategoryRoute($category->id, $category->section_id);
 
-        $html = '<a href="' . $link . '" class="category">' . htmlspecialchars($category->title, ENT_QUOTES) . '</a>';
+        $html = '<a href="' . JRoute::_($route) . '" class="category">' . htmlspecialchars($category->title, ENT_QUOTES) . '</a>';
 
         return $html;
     }
@@ -57,7 +59,8 @@ class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
 
         $category = $config->row;
 
-        $config->url = ComArticlesHelperRoute::getCategoryRoute($category->id, $category->section_id);
+        $config->url = $this->getService('com://site/articles.helper.route')
+                            ->getCategoryRoute($category->id, $category->section_id);
 
         return parent::rss($config);
     }

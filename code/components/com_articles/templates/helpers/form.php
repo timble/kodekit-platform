@@ -49,8 +49,10 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
 
         if (!$article->isNew())
         {
-            $url  = ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id, $article->section_id);
-            $url .= '&layout=form';
+            $route = $this->getService('com://site/articles.helper.route')
+                          ->getArticleRoute($article->id, $article->category_id,$article->section_id);
+
+            $url  = $route.'&layout=form';
         }
 
         return $url;

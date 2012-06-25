@@ -23,9 +23,9 @@ class ComArticlesTemplateHelperSection extends ComArticlesTemplateHelperRss
 
         $section = $config->row;
 
-        $config->url = ComArticlesHelperRoute::getSectionRoute($section->id);
+        $config->url = $this->getService('com://site/articles.helper.route')
+                            ->getSectioneRoute($section->id);
 
         return parent::rss($config);
     }
-
 }

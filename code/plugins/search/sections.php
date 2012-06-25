@@ -58,6 +58,8 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
  	$plugin =& JPluginHelper::getPlugin('search', 'sections');
  	$pluginParams = new JParameter( $plugin->params );
 
+    $route = KService::get('com://site/articles.helper.route');
+
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
 	$text = trim( $text );
@@ -98,12 +100,13 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ )
 	{
-		$rows[$i]->href 	= ComArticlesHelperRoute::getSectionRoute($rows[$i]->secid);
+		$rows[$i]->href 	= $route->getSectionRoute($rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Section' );
 	}
 
 	$return = array();
-	foreach($rows AS $key => $section) {
+	foreach($rows AS $key => $section)
+    {
 		if(searchHelper::checkNoHTML($section, $searchText, array('name', 'title', 'text'))) {
 			$return[] = $section;
 		}

@@ -16,7 +16,7 @@
  * @subpackage  Articles
  */
 
-KService::setAlias('com://site/articles.model.articles', 'com://admin/articles.model.articles');
+KService::setAlias('com://site/articles.model.articles'  , 'com://admin/articles.model.articles');
 KService::setAlias('com://site/articles.model.categories', 'com://admin/articles.model.categories');
-KService::setAlias('com://site/articles.model.sections', 'com://admin/articles.model.sections');
+KService::setAlias('com://site/articles.model.sections'  , 'com://admin/articles.model.sections');
 

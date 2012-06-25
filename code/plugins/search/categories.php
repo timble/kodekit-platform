@@ -61,6 +61,8 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
+    $route = KService::get('com://site/articles.helper.route');
+
 	$text = trim( $text );
 	if ( $text == '' ) {
 		return array();
@@ -100,8 +102,9 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	$rows = $db->loadObjectList();
 
 	$count = count( $rows );
-	for ( $i = 0; $i < $count; $i++ ) {
-		$rows[$i]->href = ComArticlesHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
+	for ( $i = 0; $i < $count; $i++ )
+    {
+		$rows[$i]->href = $route->getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Category' );
 	}
 

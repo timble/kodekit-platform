@@ -15,15 +15,12 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-
-require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
-
 class ComArticlesViewArticlesRss extends ComArticlesViewRss
 {
     public function display()
     {
         foreach ($this->getModel()->getList() as $article) {
-            $this->_feed->addItem(self::getFeedItem($article));
+            $this->_feed->addItem($this->getFeedItem($article));
         }
 
         $this->_feed->link = JRoute::_('index.php?option=com_articles&&view=articles');
@@ -38,12 +35,14 @@ class ComArticlesViewArticlesRss extends ComArticlesViewRss
      *
      * @return JFeedItem The feed item.
      */
-    static public function getFeedItem(ComArticlesDatabaseRowArticle $article)
+    public function getFeedItem(ComArticlesDatabaseRowArticle $article)
     {
-        $item = new JFeedItem();
+        $route = $this->getService('com://site/articles.helper.route')
+                      ->getArticleRoute($article->id, $article->category_id,$article->section_id);
 
+        $item = new JFeedItem();
         $item->title       = $article->title;
-        $item->link        = JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id,$article->section_id));
+        $item->link        = JRoute::_($route);
         $item->description = $article->introtext . $article->fulltext;
         $item->date        = $article->created_on;
         $item->category    = $article->category_title;

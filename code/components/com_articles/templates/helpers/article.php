@@ -96,11 +96,11 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
 
         $attribs = KHelperArray::toString($config->attribs);
 
-        $html = '';
+        $route = $this->getService('com://site/articles.helper.route')
+                      ->getArticleRoute($article->id, $article->category_id,$article->section_id);
 
-        $html .= '<a ' . $attribs . ' href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id,
-            $article->category_id,
-            $article->section_id)) . '">';
+        $html = '';
+        $html .= '<a ' . $attribs . ' href="' . JRoute::_($route) . '">';
         $html .= $text;
         $html .= '</a>';
 
@@ -117,8 +117,11 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
 
         if ($article->editable)
         {
+            $route = $this->getService('com://site/articles.helper.route')
+                           ->getArticleRoute($article->id, $article->category_id,$article->section_id);
+
             $html .= '<div class="edit-article">';
-            $html .= '<a href="' . JRoute::_(ComArticlesHelperRoute::getArticleRoute($article->id, $article->category_id, $article->section_id) . '&layout=form') . '">';
+            $html .= '<a href="' . JRoute::_($route.'&layout=form') . '">';
             $html .= JText::_('Edit');
             $html .= '</a>';
             $html .= '</div>';

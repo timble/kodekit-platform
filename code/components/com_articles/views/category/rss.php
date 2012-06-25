@@ -16,7 +16,6 @@
  * @subpackage Articles
  */
 require_once JPATH_ROOT . '/components/com_articles/views/articles/rss.php';
-require_once JPATH_ROOT . '/components/com_articles/helpers/route.php';
 
 class ComArticlesViewCategoryRss extends ComArticlesViewRss
 {
@@ -44,7 +43,8 @@ class ComArticlesViewCategoryRss extends ComArticlesViewRss
             $this->_feed->addItem(ComArticlesViewArticlesRss::getFeedItem($article));
         }
 
-        $this->_feed->link = JRoute::_(ComArticlesHelperRoute::getCategoryRoute($category->id, $category->section_id));
+        $this->_feed->link = $this->getService('com://site/articles.helper.route')
+                                  ->getCategoryRoute($category->id, $category->section_id);
 
         return parent::display();
     }

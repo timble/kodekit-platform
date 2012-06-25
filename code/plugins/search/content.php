@@ -68,6 +68,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$nullDate 		= $db->getNullDate();
 	$now            = gmdate('Y-m-d H:i:s');
 
+    $route = KService::get('com://site/articles.helper.route');
+
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -164,9 +166,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list))
 		{
-			foreach($list as $key => $item)
-			{
-				$list[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+			foreach($list as $key => $item) {
+				$list[$key]->href = $route->getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 		$rows[] = $list;
@@ -194,9 +195,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list2))
 		{
-			foreach($list2 as $key => $item)
-			{
-				$list2[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->id);
+			foreach($list2 as $key => $item) {
+				$list2[$key]->href = $route->getArticleRoute($item->id);
 			}
 		}
 
@@ -235,9 +235,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list3))
 		{
-			foreach($list3 as $key => $item)
-			{
-				$list3[$key]->href = ComArticlesHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+			foreach($list3 as $key => $item) {
+				$list3[$key]->href = $route->getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 
