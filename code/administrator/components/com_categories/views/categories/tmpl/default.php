@@ -17,7 +17,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<? if( $state->section == 'com_content') : ?>
+<? if( $state->section == 'com_articles') : ?>
     <?= @template('default_sidebar'); ?>
 <? endif; ?>
 

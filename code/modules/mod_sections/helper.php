@@ -14,7 +14,7 @@
 /// no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
 
 class modSectionsHelper
 {
@@ -26,7 +26,7 @@ class modSectionsHelper
 		$user	=& JFactory::getUser();
 
 		$count	= intval($params->get('count', 20));
-		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
+		$contentConfig 	= &JComponentHelper::getParams( 'com_articles' );
 		$access	= !$contentConfig->get('show_noauth');
 
 		$gid 		= $user->get('aid', 0);

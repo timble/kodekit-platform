@@ -178,25 +178,25 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'workflow', 'email_events', 'users', 'super administrator', null, null );
 
 		// actions
-		$this->addACL( 'com_content', 'add', 'users', 'author', 'content', 'all' );
-		$this->addACL( 'com_content', 'add', 'users', 'editor', 'content', 'all' );
-		$this->addACL( 'com_content', 'add', 'users', 'publisher', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'author', 'content', 'own' );
-		$this->addACL( 'com_content', 'edit', 'users', 'editor', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'publisher', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'author', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'author', 'content', 'own' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'com_articles', 'publish', 'users', 'publisher', 'content', 'all' );
 
-		$this->addACL( 'com_content', 'add', 'users', 'manager', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'manager', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'com_articles', 'publish', 'users', 'manager', 'content', 'all' );
 
-		$this->addACL( 'com_content', 'add', 'users', 'administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'publish', 'users', 'administrator', 'content', 'all' );
 
-		$this->addACL( 'com_content', 'add', 'users', 'super administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'edit', 'users', 'super administrator', 'content', 'all' );
-		$this->addACL( 'com_content', 'publish', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'add', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'edit', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'com_articles', 'publish', 'users', 'super administrator', 'content', 'all' );
 	}
 
 	/**

@@ -41,6 +41,6 @@ class ComExtensionsControllerModule extends ComExtensionsControllerDefault
 		}
 		
 		// Clean content cache because of loadposition plugin
-		$cache->clean( 'com_content' );
+		$cache->clean( 'com_articles' );
 	}
 }
