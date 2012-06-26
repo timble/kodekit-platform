@@ -36,7 +36,6 @@ class ComArticlesViewSectionHtml extends ComArticlesViewHtml
 
         if (!$section->isNew())
         {
-            $categories  = $this->getService('com://admin/articles.model.categories');
             $params      = JComponentHelper::getParams('com_articles');
             $sort_by_map = array(
                 'newest' => array('id' => 'DESC'),
