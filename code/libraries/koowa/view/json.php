@@ -132,7 +132,7 @@ class KViewJson extends KViewAbstract
 			'href'     => (string) $route->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->getUrl(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
 			'offset'   => (int) $paginator->offset,
 			'limit'    => (int) $paginator->limit,
@@ -225,7 +225,7 @@ class KViewJson extends KViewAbstract
 		    'href'    => (string) $route->setQuery($state->getData(true)),
 	        'url'     => array(
 				'type'     => 'application/json',
-				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->getUrl(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 	        ),
 	        'item'	  => array()
 		);
