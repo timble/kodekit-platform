@@ -32,8 +32,10 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         else parent::_beforeTableUpdate($context);
     }
      
-    public function _buildQueryWhere(KDatabaseQueryAbstract $query)
+    public function _buildQueryWhere($query)
     {
+        parent::_buildQueryWhere($query);
+        
         if ($this->getMixer()->getIdentifier()->name == 'article' && !isset($this->featured_order)) 
         {
             $query->where('catid = :category')
