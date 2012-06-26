@@ -21,7 +21,7 @@ defined('KOOWA') or die('Restricted access');
 <? echo @helper('com://site/articles.template.helper.section.rss', array('row' => $section)); ?>
 <? endif; ?>
 
-<? echo count($view->articles->list) == $view->articles->total ? '' : @helper('paginator.pagination',
+<? echo count($view->articles->list) == $view->articles->count ? '' : @helper('paginator.pagination',
     array(
         'limit'      => $params->get('articles_per_page'),
         'offset'     => $state->offset,
