@@ -34,10 +34,7 @@ class ComFilesControllerFile extends ComFilesControllerDefault
         ));
     
     	parent::_initialize($config);
-    }	
-
-		parent::_initialize($config);
-	}
+    }
 
 	public function addFile(KCommandContext $context)
 	{
