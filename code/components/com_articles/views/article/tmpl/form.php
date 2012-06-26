@@ -203,31 +203,4 @@ defined('KOOWA') or die('Restricted access');
             </tr>
         </table>
     </fieldset>
-    <fieldset>
-        <legend><? echo JText::_('Metadata'); ?></legend>
-        <table class="adminform">
-            <tr>
-                <td valign="top" class="key">
-                    <label for="metadesc">
-                        <? echo JText::_('Description'); ?>:
-                    </label>
-                </td>
-                <td>
-                    <textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc"
-                              name="metadesc"><? echo @escape($article->metadesc); ?></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top" class="key">
-                    <label for="metakey">
-                        <? echo JText::_('Keywords'); ?>:
-                    </label>
-                </td>
-                <td>
-                    <textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey"
-                              name="metakey"><? echo @escape($article->metakey); ?></textarea>
-                </td>
-            </tr>
-        </table>
-    </fieldset>
 </form>
