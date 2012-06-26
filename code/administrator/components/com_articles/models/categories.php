@@ -29,11 +29,6 @@ class ComArticlesModelCategories extends ComCategoriesModelCategories
         $state->insert('aid', 'int');
     }
 
-    protected function _initialize(KConfig $config) {
-        $config->append(array('table' => 'com://admin/categories.database.table.categories'));
-        parent::_initialize($config);
-    }
-
     protected function _buildQueryWhere(KDatabaseQuerySelect $query) {
         $state = $this->getState();
 
