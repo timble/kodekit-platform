@@ -37,10 +37,9 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
     public function setRequest(array $request)
     {
-        $view   = $request['view'];
-        $params = JComponentHelper::getParams('com_articles');
+        $view   = isset($request['view'])?$request['view']:null;
 
-        if (KInflector::isPlural($view))
+        if ($view && KInflector::isPlural($view))
         {
             if ($request['format'] != 'json')
             {
@@ -48,6 +47,8 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
                     'newest' => array('created' => 'DESC'),
                     'oldest' => array('created' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
+
+                $params = JComponentHelper::getParams('com_articles');
 
                 // Force some request vars based on setting parameters.
                 $request['limit']     = (int) $params->get('articles_per_page');
