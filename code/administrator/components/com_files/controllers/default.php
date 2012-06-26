@@ -43,21 +43,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 		if ($this->isDispatched()) {
 			unset($request->config);
 		}
-
-		$limit = $request->limit;
-
-		//If limit is empty use default
-		if(empty($limit) && $limit !== 0) {
-			$limit = $this->_limit->default;
-		}
-
-		//Force the maximum limit
-		if($limit > $this->_limit->max) {
-			$limit = $this->_limit->max;
-		}
-
-		$request->limit = $limit;
-
+		
 		return $request;
 	}
 
@@ -126,6 +112,33 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 		}
 
 		return parent::_actionGet($context);
+	}
+	
+	/**
+	 * Copied to allow 0 as a limit
+	 * 
+	 * @param KCommandContext $context
+	 */
+	protected function _actionBrowse(KCommandContext $context)
+	{
+	    if($this->isDispatched())
+	    {
+	        $limit = $this->getModel()->get('limit');
 
+	        //If limit is empty use default
+	        if(empty($limit) && $limit !== 0) {
+	            $limit = $this->_limit->default;
+	        }
+	
+	        //Force the maximum limit
+	        if($limit > $this->_limit->max) {
+	            $limit = $this->_limit->max;
+	        }
+	
+	        $this->limit = $limit;
+	    }
+	
+	    $data = $this->getModel()->getList();
+		return $data;
 	}
 }
