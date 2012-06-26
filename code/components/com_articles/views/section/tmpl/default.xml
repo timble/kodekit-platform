@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Standard Section Layout">
+        <message>
+            <![CDATA[STANDARD SECTION LAYOUT DESC]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Section Layout</name>
+        <description>STANDARD SECTION LAYOUT DESC</description>
+        <url addpath="/administrator/components/com_articles/elements">
+            <param name="id" type="section" label="Section" description="SELECT SECTION"/>
+        </url>
+        <params>
+            <param name="show_description" type="radio" default="0" label="Section description"
+                   description="SECTION DESCRIPTION DESC">
+                <option value="0">Hide</option>
+                <option value="1">Show</option>
+            </param>
+            <param name="show_description_image" type="radio" default="0" label="Section Image"
+                   description="SECTION IMAGE DESC">
+                <option value="0">Hide</option>
+                <option value="1">Show</option>
+            </param>
+            <param name="show_empty_categories" type="radio" default="0" label="Empty Categories in Section"
+                   description="EMPTY CATEGORIES IN SECTION DESC">
+                <option value="0">Hide</option>
+                <option value="1">Show</option>
+            </param>
+            <param name="show_cat_num_articles" type="radio" default="1" label="Number of category items"
+                   description="PARAMCATITEMS">
+                <option value="0">Hide</option>
+                <option value="1">Show</option>
+            </param>
+            <param name="show_category_description" type="radio" default="1" label="Category Description"
+                   description="PARAMSHOWHIDE">
+                <option value="0">Hide</option>
+                <option value="1">Show</option>
+            </param>
+        </params>
+        <advanced>
+            <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="title">Title</option>
+                <option value="order">Ordering</option>
+            </param>
+        </advanced>
+    </state>
+</metadata>

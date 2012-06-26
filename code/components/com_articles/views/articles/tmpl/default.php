@@ -1,0 +1,27 @@
+<?php
+/**
+ * @version        $Id$
+ * @package        Nooku_Server
+ * @subpackage     Articles
+ * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           http://www.nooku.org
+ */
+defined('KOOWA') or die('Restricted access');
+?>
+
+
+<? if ($params->get('show_page_title')): ?>
+<h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
+<? endif; ?>
+
+<? echo @template('list'); ?>
+
+<? if ($params->get('show_feed_link')): ?>
+<? echo @helper('com://site/articles.template.helper.rss.rss'); ?>
+<? endif; ?>
+
+<? echo (count($articles) == $total) ? '' : @helper('paginator.pagination', array(
+    'total'      => $total,
+    'show_limit' => false)); ?>
+

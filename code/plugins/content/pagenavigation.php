@@ -35,8 +35,8 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		$config 	= & JFactory::getConfig();
 
 		$uid 		= $row->id;
-		$option 	= 'com_content';
-		$canPublish = $user->authorize('com_content', 'publish', 'content', 'all');
+		$option 	= 'com_articles';
+		$canPublish = $user->authorize('com_articles', 'publish', 'content', 'all');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param

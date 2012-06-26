@@ -31,7 +31,7 @@ class modArchiveHelper
 		$rows = $db->loadObjectList();
 
 		$menu = &JSite::getMenu();
-		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+		$item = $menu->getItems('link', 'index.php?option=com_articles&view=archive', true);
 		$itemid = isset($item) ? '&Itemid='.$item->id : '';
 
 		$i		= 0;
@@ -44,7 +44,7 @@ class modArchiveHelper
 			$month_name		= $date->format('F');
 			$created_year	= $date->format('Y');
 
-			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
+			$lists[$i]->link	= JRoute::_('index.php?option=com_articles&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}

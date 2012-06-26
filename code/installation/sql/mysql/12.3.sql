@@ -54,3 +54,30 @@ CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
   `note` text,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- com_content refactoring begin
+
+--  -- Upgrade menu items links
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_content', 'com_articles') WHERE `link` LIKE '%com_content%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles'), `params` = CONCAT_WS('\n', 'show_featured=1', `params`) WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=frontpage%';
+
+-- Upgrade modules rows
+UPDATE `#__modules` SET `module` = 'mod_articles', `params` = CONCAT_WS('\n', 'show_content=1', `params`) WHERE `module` = 'mod_newsflash';
+UPDATE `#__modules` SET `module` = 'mod_articles' WHERE `module` = 'mod_latestnews';
+UPDATE `#__modules` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(`params`, 'catid', 'category'), 'secid', 'section'), 'show_front', 'show_featured'), 'items', 'count') WHERE `module` = 'mod_articles';
+
+RENAME TABLE `#__content` TO `#__articles_articles`;
+RENAME TABLE `#__sections` TO `#__articles_sections`;
+RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
+
+ALTER TABLE `#__articles_articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__articles_articles` CHANGE `sectionid` `articles_section_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `#__articles_sections` CHANGE `id` `articles_section_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+UPDATE `#__categories` SET `section` = 'com_articles' WHERE `section` = 'com_content';
+
+-- com_content refactoring end
+
+
+

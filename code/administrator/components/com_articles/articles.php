@@ -18,7 +18,7 @@
  * @subpackage  Articles
  */
 
-/*if (!JFactory::getUser()->authorize( 'com_content', 'manage' )) {
+/*if (!JFactory::getUser()->authorize( 'com_articles', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
 

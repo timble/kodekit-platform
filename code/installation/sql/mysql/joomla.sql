@@ -154,18 +154,18 @@ CREATE TABLE `#__contacts_contacts` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content`
+# Table structure for table `#__articles_articles`
 #
 
-CREATE TABLE `#__content` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+CREATE TABLE `#__articles_articles` (
+  `articles_article_id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
-  `sectionid` int(11) unsigned NOT NULL default '0',
+  `articles_section_id` bigint(20) unsigned NOT NULL default '0',
   `mask` int(11) unsigned NOT NULL default '0',
   `catid` int(11) unsigned NOT NULL default '0',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -188,8 +188,8 @@ CREATE TABLE `#__content` (
   `access` int(11) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '0',
   `metadata` TEXT NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_section` (`sectionid`),
+  PRIMARY KEY  (`articles_article_id`),
+  KEY `idx_section` (`articles_section_id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -200,13 +200,13 @@ CREATE TABLE `#__content` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content_frontpage`
+# Table structure for table `#__articles_featured`
 #
 
-CREATE TABLE `#__content_frontpage` (
-  `content_id` int(11) NOT NULL default '0',
+CREATE TABLE `#__articles_featured` (
+  `articles_article_id` bigint(20) unsigned NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`content_id`)
+  PRIMARY KEY  (`articles_article_id`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -305,7 +305,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'num_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_feed_link=1\nshow_noauth=\nshow_title=\nlink_titles=\nshow_intro=\nshow_section=\nlink_section=\nshow_category=\nlink_category=\nshow_author=\nshow_create_date=\nshow_modify_date=\nshow_item_navigation=\nshow_readmore=\nshow_vote=\nshow_icons=\nshow_pdf_icon=\nshow_print_icon=\nshow_hits=\nfeed_summary=\npage_title=\nshow_page_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\n\n', 0, 0, 1);
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_articles&view=articles', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'articles_per_page=5\nshow_featured=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Welcome to the Frontpage\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n', 0, 0, 1);
 
 # --------------------------------------------------------
 
@@ -407,11 +407,11 @@ CREATE TABLE `#__newsfeeds` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__sections`
+# Table structure for table `#__articles_sections`
 #
 
-CREATE TABLE `#__sections` (
-  `id` int(11) NOT NULL auto_increment,
+CREATE TABLE `#__articles_sections` (
+  `articles_section_id` bigint(20) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
@@ -426,7 +426,7 @@ CREATE TABLE `#__sections` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `count` int(11) NOT NULL default '0',
   `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY  (`articles_section_id`),
   KEY `idx_scope` (`scope`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 

@@ -18,23 +18,30 @@
  * @subpackage  Articles
  */
 
-class ComArticlesModelCategories extends KModelAbstract
+class ComArticlesModelCategories extends ComCategoriesModelCategories
 {
-    public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-		
-		$this->getState()
-			->insert('published' ,'int')
-			->insert('limit'    , 'int')
-            ->insert('offset'   , 'int')
-            ->insert('sort'     , 'cmd', 'ordering')
-            ->insert('direction', 'word', 'asc');
-	}
-    
-    public function getList()
+    protected $_folders;
+
+    public function __construct(KConfig $config) {
+        parent::__construct($config);
+
+        $state = $this->getState();
+        $state->insert('aid', 'int');
+    }
+
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query) {
+        $state = $this->getState();
+
+        if (is_numeric($aid = $state->aid)) {
+            $query->where('tbl.access <= :aid')->bind(array('aid' => $aid));
+        }
+
+        parent::_buildQueryWhere($query);
+    }
+
+    public function getFolders()
     {
-        if(!isset($this->_list))
+        if(!isset($this->_folders))
         {
             $state = $this->getState();
             
@@ -43,7 +50,7 @@ class ComArticlesModelCategories extends KModelAbstract
 
             $categories = $this->getService('com://admin/categories.model.categories')
                 ->published($state->published)
-                ->section('com_content')
+                ->section('com_articles')
                 ->sort($state->sort)
                 ->direction($state->direction)
                 ->getList();
@@ -107,7 +114,7 @@ class ComArticlesModelCategories extends KModelAbstract
             }
             
             //Set the total
-			$this->_total = count($folders);
+			//$this->_total = count($folders);
             
             //Apply limit and offset
             if($state->limit) {
@@ -134,18 +141,9 @@ class ComArticlesModelCategories extends KModelAbstract
 			}
 			
             $folders = $this->getService('com://admin/articles.database.rowset.folders', array('data' => $folders));
-            $this->_list = $folders;
+            $this->_folders = $folders;
         }
 
-        return $this->_list;
+        return $this->_folders;
     }
-    
-    public function getTotal()
-	{
-		if (!$this->_total) {
-			$this->getList();
-		}
-
-		return $this->_total;
-	}
 }

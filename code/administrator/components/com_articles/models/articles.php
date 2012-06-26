@@ -30,7 +30,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
-            ->insert('trashed'   , 'int');
+            ->insert('trashed'   , 'int')
+            ->insert('aid'       , 'int');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'section_title');
     }
@@ -44,9 +45,9 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
             'created_by_id'     => 'users.id',
-            'featured_ordering' => 'frontpage.ordering',
+            'featured_ordering' => 'featured.ordering',
             'group_name'        => 'groups.name',
-        	'featured'          => 'IF(frontpage.content_id, 1, 0)'
+        	'featured'          => 'IF(featured.articles_article_id, 1, 0)'
         ));
     }
 
@@ -56,12 +57,12 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         
         $state = $this->getState();
 
-        $query->join(array('sections' => 'sections'), 'sections.id = tbl.sectionid')
+        $query->join(array('sections' => 'articles_sections'), 'sections.articles_section_id = tbl.articles_section_id')
               ->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
               ->join(array('users' => 'users'), 'users.id = tbl.created_by')
               ->join(array('groups' => 'groups'), 'groups.id = tbl.access');
 
-        $query->join(array('frontpage' => 'content_frontpage'), 'frontpage.content_id = tbl.id', $state->featured ? 'RIGHT' : 'LEFT');
+        $query->join(array('featured' => 'articles_featured'), 'featured.articles_article_id = tbl.articles_article_id', $state->featured ? 'RIGHT' : 'LEFT');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -87,16 +88,16 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
                 ->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if(is_numeric($state->section)) 
+        if($state->section)
         {
-            $query->where('tbl.sectionid = :section')
-                ->bind(array('section' => $state->section));
+            $query->where('tbl.articles_section_id IN :section')
+                ->bind(array('section' => (array) $state->section));
         }
 
-        if(is_numeric($state->category)) 
+        if($state->category)
         {
-            $query->where('tbl.catid = :category')
-                ->bind(array('category' => $state->category));
+            $query->where('tbl.catid IN :category')
+                ->bind(array('category' => (array) $state->category));
         }
 
         if($state->created_by) 
@@ -115,6 +116,10 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         {
             $query->where('tbl.deleted = :trashed')
                 ->bind(array('trashed' => 1));
+        }
+
+        if (is_numeric($state->aid)) {
+            $query->where('tbl.access <= :aid')->bind(array('aid' => $state->aid));
         }
     }
 

@@ -47,7 +47,7 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	$user	=& JFactory::getUser();
 	$searchText = $text;
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+	require_once(JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchCategoryAreas() ) )) {
@@ -60,6 +60,8 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
+
+    $route = KService::get('com://site/articles.helper.route');
 
 	$text = trim( $text );
 	if ( $text == '' ) {
@@ -82,10 +84,10 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 	$query	= 'SELECT a.title, a.description AS text, "" AS created, a.name,'
 	. ' "2" AS browsernav,'
-	. ' s.id AS secid, a.id AS catid,'
+	. ' s.articles_section_id AS secid, a.id AS catid,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
 	. ' FROM #__categories AS a'
-	. ' INNER JOIN #__sections AS s ON s.id = a.section'
+	. ' INNER JOIN #__articles_sections AS s ON s.articles_section_id = a.section'
 	. ' WHERE ( a.name LIKE '.$text
 	. ' OR a.title LIKE '.$text
 	. ' OR a.description LIKE '.$text.' )'
@@ -100,8 +102,9 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	$rows = $db->loadObjectList();
 
 	$count = count( $rows );
-	for ( $i = 0; $i < $count; $i++ ) {
-		$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
+	for ( $i = 0; $i < $count; $i++ )
+    {
+		$rows[$i]->href = $route->getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Category' );
 	}
 

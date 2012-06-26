@@ -84,7 +84,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         if($config->section != '0')
         {
             $list = $this->getService('com://admin/categories.model.categories')
-                ->set('section', $config->section > 0 ? $config->section : 'com_content')
+                ->set('section', $config->section > 0 ? $config->section : 'com_articles')
                 ->set('sort', 'title')
                 ->getList();
 
@@ -116,6 +116,38 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $options[] = $this->option(array('text' => JText::_('Published'), 'value' => 1));
         $options[] = $this->option(array('text' => JText::_('Unpublished'), 'value' => 0));
         $options[] = $this->option(array('text' => JText::_('Archived'), 'value' => -1));
+
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
+
+    public function ordering($config = array()) {
+        $config = new KConfig($config);
+
+        if (!$config->row instanceof ComArticlesDatabaseRowArticle) {
+            throw new KTemplateHelperException('The row is missing.');
+        }
+
+        $article = $config->row;
+
+        $config->append(array(
+            'name'     => 'order',
+            'selected' => 0,
+            'filter'   => array(
+                'sort'      => 'ordering',
+                'direction' => 'ASC',
+                'category'  => $article->category_id)));
+
+        $list = $this->getService('com://admin/articles.model.articles')
+            ->set($config->filter)
+            ->getList();
+
+        foreach ($list as $item) {
+            $options[] = $this->option(array(
+                'text'  => '( ' . $item->ordering . ' ) ' . $item->title,
+                'value' => ($item->ordering - $article->ordering)));
+        }
 
         $config->options = $options;
 

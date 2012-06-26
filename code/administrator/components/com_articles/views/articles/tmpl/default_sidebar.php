@@ -1,6 +1,6 @@
 <?php 
 /**
- * @version     $Id: list.php 1460 2011-05-24 11:55:42Z tomjanssens $
+ * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
@@ -12,5 +12,5 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="sidebar">
 	<h3><?= @text('Categories')?></h3>
-		<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getList())); ?>
+		<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getFolders())); ?>
 </div>

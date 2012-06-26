@@ -100,7 +100,7 @@ defined('KOOWA') or die('Restricted access') ?>
         <fieldset class="categories group">
             <legend><?= @text('Category') ?></legend>
             <div class="control-group">
-            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getList(), 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getFolders(), 'article' => $article)) ?>
             </div>
         </fieldset>
         <fieldset>

@@ -41,7 +41,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         
         if ($state->section) 
         {
-            if ( $state->section == 'com_content' || is_numeric($state->section))
+            if ( $state->section == 'com_articles' || is_numeric($state->section))
             {
                 $query->columns(array(
                 	'section_title' => 'section.title',
@@ -62,10 +62,10 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         {
             if ($state->section) 
             {
-                if ($state->section == 'com_content' || is_numeric($state->section))
+                if ($state->section == 'com_articles' || is_numeric($state->section))
                 {
-                    $query->join(array('content' => 'content'), 'content.catid = tbl.id');
-                    $query->join(array('section' => 'sections'), 'section.id = tbl.section');
+                    $query->join(array('content' => 'articles_articles'), 'content.catid = tbl.id');
+                    $query->join(array('section' => 'articles_sections'), 'section.articles_section_id = tbl.section');
                 } 
                 else $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
             }
@@ -86,14 +86,14 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         //select overall section
         if ($state->section)
         {
-            if( $state->section == 'com_content' ) {
+            if( $state->section == 'com_articles' ) {
                 $query->where('tbl.section NOT LIKE :section')->bind(array('section' => 'com%'));
             } else {
                 $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :section')->bind(array('section' => $state->section));
             }
         }
 
-        //select parent section within com_content
+        //select parent section within com_articles
         if ($state->parent) {
             $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
         }
@@ -129,7 +129,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
 
         if (empty($sort))
         {
-            if ($state->section == 'com_content'){
+            if ($state->section == 'com_articles'){
                 $query->order('section.ordering','ASC');
             }
         }

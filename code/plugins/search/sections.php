@@ -46,7 +46,7 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 
 	$searchText = $text;
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+	require_once(JPATH_SITE.DS.'components'.DS.'com_articles'.DS.'helpers'.DS.'route.php');
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchSectionAreas() ) )) {
@@ -57,6 +57,8 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	// load plugin params info
  	$plugin =& JPluginHelper::getPlugin('search', 'sections');
  	$pluginParams = new JParameter( $plugin->params );
+
+    $route = KService::get('com://site/articles.helper.route');
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
 
@@ -82,14 +84,14 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$query	= 'SELECT a.title AS title, a.description AS text, a.name, '
 	. ' "" AS created,'
 	. ' "2" AS browsernav,'
-	. ' a.id AS secid'
-	. ' FROM #__sections AS a'
+	. ' a.articles_section_id AS secid'
+	. ' FROM #__articles_sections AS a'
 	. ' WHERE ( a.name LIKE '.$text
 	. ' OR a.title LIKE '.$text
 	. ' OR a.description LIKE '.$text.' )'
 	. ' AND a.published = 1'
 	. ' AND a.access <= '.(int) $user->get( 'aid' )
-	. ' GROUP BY a.id'
+	. ' GROUP BY a.articles_section_id'
 	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
@@ -98,12 +100,13 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ )
 	{
-		$rows[$i]->href 	= ContentHelperRoute::getSectionRoute($rows[$i]->secid);
+		$rows[$i]->href 	= $route->getSectionRoute($rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Section' );
 	}
 
 	$return = array();
-	foreach($rows AS $key => $section) {
+	foreach($rows AS $key => $section)
+    {
 		if(searchHelper::checkNoHTML($section, $searchText, array('name', 'title', 'text'))) {
 			$return[] = $section;
 		}

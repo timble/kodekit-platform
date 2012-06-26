@@ -10,7 +10,7 @@
  */
 
 /**
- * Weblink Controller
+ * Weblink Controller Class
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku

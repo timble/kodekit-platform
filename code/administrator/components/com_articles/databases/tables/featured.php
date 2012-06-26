@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: articles.php 1629 2011-06-07 16:28:00Z johanjanssens $
+ * @version     $Id$
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Frontpage
@@ -21,10 +21,7 @@ class ComArticlesDatabaseTableFeatured extends KDatabaseTableDefault
 {
     public function  _initialize(KConfig $config)
     {
-        $config->identity_column = 'content_id';
-        
         $config->append(array(
-            'name'       => 'content_frontpage',
             'behaviors'  => array('orderable')
         ));
 

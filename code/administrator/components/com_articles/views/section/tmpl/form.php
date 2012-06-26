@@ -21,11 +21,11 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="section-form" class="-koowa-form">
-	<input type="hidden" name="oldtitle" value="<?= $section->title ; ?>" />
+	<input type="hidden" name="oldtitle" value="<?= $category->title ; ?>" />
 
 	<div class="form-body">
 		<div class="title">
-			<input class="required" type="text" name="title" maxlength="255" value="<?= $section->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 		</div>
 
 		<div class="form-content">
@@ -34,7 +34,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text( 'Description' ); ?></label>
 				    <div class="controls">
-				        <textarea rows="9" name="description"><?= $section->description; ?></textarea>
+				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
 				    </div>
 				</div>
 			</fieldset>
@@ -61,19 +61,19 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			<div class="control-group">
 			    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
 			    <div class="controls">
-			        <?= @helper('listbox.published', array('name' => 'enabled', 'state' => $section, 'deselect' => false)); ?>
+			        <?= @helper('listbox.published', array('name' => 'enabled', 'state' => $category, 'deselect' => false)); ?>
 			    </div>
 			</div>
 			<div class="control-group">
 			    <label class="control-label" for="slug"><?= @text( 'Slug' ); ?></label>
 			    <div class="controls">
-			        <input type="text" name="slug" maxlength="255" value="<?= $section->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Slug' ); ?>" />
+			        <input type="text" name="slug" maxlength="255" value="<?= $category->slug; ?>" title="<?= @text( 'ALIASTIP' ); ?>" placeholder="<?= @text( 'Slug' ); ?>" />
 			    </div>
 			</div>
 			<div class="control-group">
 			    <label class="control-label" for="access"><?= @text( 'Access Level' ); ?></label>
 			    <div class="controls">
-			        <?= @helper('listbox.access', array('name' => 'access', 'state' => $section, 'deselect' => false)); ?>
+			        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)); ?>
 			    </div>
 			</div>
 		</fieldset>

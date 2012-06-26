@@ -51,30 +51,30 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 			</tr>
 		</tfoot>
 		<tbody>
-			<? foreach ( $sections as $section ) :  ?>
+			<? foreach ( $sections as $category ) :  ?>
 			<tr>
 				<td align="center">
-					<?= @helper( 'grid.checkbox' , array('row' => $section)); ?>
+					<?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
 				</td>
 				<td>
-					<a href="<?= @route( 'view=section&id='.$section->id ); ?>">
-                        <?= @escape($section->title); ?>
+					<a href="<?= @route( 'view=section&id='.$category->id ); ?>">
+                        <?= @escape($category->title); ?>
                     </a>
 				</td>
 				<td align="center">
-					<?= @helper('grid.enable', array('row' => $section)) ?>
+					<?= @helper('grid.enable', array('row' => $category)) ?>
 				</td>
 				<td class="order">
-					<?= @helper( 'grid.order' , array('row' => $section, 'total' => $total)); ?>
+					<?= @helper( 'grid.order' , array('row' => $category, 'total' => $total)); ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.access', array( 'row' => $section)) ;?>
+					<?= @helper('grid.access', array( 'row' => $category)) ;?>
 				</td>
 				<td align="center">
-					<?= $section->categorycount; ?>
+					<?= $category->categorycount; ?>
 				</td>
 				<td align="center">
-					<?= $section->activecount; ?>
+					<?= $category->activecount; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

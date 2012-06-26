@@ -63,7 +63,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     		    </div>
     		</div>
     		<? $section = $category->id ? $category->section_id : $state->section ?>
-    		<? if(substr($section, 0, 3) != 'com' || $section =='com_content') : ?>
+    		<? if(substr($section, 0, 3) != 'com' || $section =='com_articles') : ?>
     		<div class="control-group">
     		    <label class="control-label" for="section_id"><?= @text('Section') ?></label>
     		    <div class="controls">
