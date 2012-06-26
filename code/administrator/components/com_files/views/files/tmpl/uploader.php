@@ -364,7 +364,6 @@ window.addEvent('domready', function() {
 			</div>
 			<input type="submit" class="remote-submit" value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="action" value="save" />
-			</fieldset>
 		</form>
 	</div>
 </div>
