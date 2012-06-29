@@ -1,6 +1,7 @@
 <?php
 /**
  * @version        $Id$
+ * @category       Nooku
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -9,23 +10,14 @@
  */
 
 /**
- * Section template helper class.
+ * Articles database rowset class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperSection extends ComArticlesTemplateHelperRss
+class ComArticlesDatabaseRowsetArticles extends KDatabaseRowsetDefault
 {
-    public function rss($config = array())
-    {
-        $config = new KConfig($config);
 
-        $section = $config->row;
-
-        $config->url = $this->getService('com://site/articles.helper.route')
-                            ->getSectionRoute($section->id);
-
-        return parent::rss($config);
-    }
 }

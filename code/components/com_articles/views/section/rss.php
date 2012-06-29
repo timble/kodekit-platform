@@ -9,18 +9,15 @@
  */
 
 /**
- * Section Rss View Class.
+ * Section RSS View Class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package    Nooku_Server
  * @subpackage Articles
  */
-require_once JPATH_ROOT . '/components/com_articles/views/articles/rss.php';
-
 class ComArticlesViewSectionRss extends ComArticlesViewRss
 {
-    public function display()
-    {
+    protected function _getItems() {
         $section = $this->getModel()->getItem();
 
         $params = JComponentHelper::getParams('com_articles');
@@ -35,17 +32,12 @@ class ComArticlesViewSectionRss extends ComArticlesViewRss
             'order'  => array('ordering' => 'ASC'));
         $sort_by     = $sort_by_map[$params->get('sort_by')];
 
-        foreach ($section->getArticles(array(
+        $articles = $section->getArticles(array(
             'model_state' => array(
                 'sort'      => key($sort_by),
                 'direction' => current($sort_by),
-                'aid'       => $aid)))->list as $article) {
-            $this->_feed->addItem(ComArticlesViewArticlesRss::getFeedItem($article));
-        }
+                'aid'       => $aid)))->list;
 
-        $this->_feed->link = $this->getService('com://site/articles.helper.route')
-                                  ->getSectionRoute($section->id);
-
-        return parent::display();
+        return $this->_prepareItems($articles);
     }
 }

@@ -18,7 +18,8 @@ defined('KOOWA') or die('Restricted access');
 <? echo @template('com://site/articles.view.articles.list', array('articles' => $view->articles->list)); ?>
 
 <? if ($params->get('show_feed_link')): ?>
-<? echo @helper('com://site/articles.template.helper.section.rss', array('row' => $section)); ?>
+<? echo @helper('com://site/articles.template.helper.rss.link',
+        array('url' => @service('com://site/articles.helper.route')->getSectionRoute($section->id))); ?>
 <? endif; ?>
 
 <? echo count($view->articles->list) == $view->articles->count ? '' : @helper('paginator.pagination',

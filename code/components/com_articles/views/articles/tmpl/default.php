@@ -18,7 +18,7 @@ defined('KOOWA') or die('Restricted access');
 <? echo @template('list'); ?>
 
 <? if ($params->get('show_feed_link')): ?>
-<? echo @helper('com://site/articles.template.helper.rss.rss'); ?>
+<? echo @helper('com://site/articles.template.helper.rss.link'); ?>
 <? endif; ?>
 
 <? echo (count($articles) == $total) ? '' : @helper('paginator.pagination', array(

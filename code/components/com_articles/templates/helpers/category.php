@@ -15,7 +15,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
+class ComArticlesTemplateHelperCategory extends KTemplateHelperDefault
 {
     public function link($config = array())
     {
@@ -52,17 +52,4 @@ class ComArticlesTemplateHelperCategory extends ComArticlesTemplateHelperRss
 
         return $html;
     }
-
-    public function rss($config = array())
-    {
-        $config = new KConfig($config);
-
-        $category = $config->row;
-
-        $config->url = $this->getService('com://site/articles.helper.route')
-                            ->getCategoryRoute($category->id, $category->section_id);
-
-        return parent::rss($config);
-    }
-
 }
