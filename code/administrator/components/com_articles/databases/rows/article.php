@@ -85,7 +85,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         if(isset($modified['featured']))
         {
             $featured     = $this->getService('com://admin/articles.database.row.featured');
-            $featured->id = $this->id;
+            $featured->article = $this->id;
 
             if($this->featured)
             {
@@ -109,7 +109,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         $result = parent::delete();
 
         $featured     = $this->getService('com://admin/articles.database.row.featured');
-        $featured->id = $this->id;
+        $featured->article = $this->id;
 
         if($featured->load()) {
             $featured->delete();

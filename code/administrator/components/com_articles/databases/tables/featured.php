@@ -19,10 +19,10 @@
  */
 class ComArticlesDatabaseTableFeatured extends KDatabaseTableDefault
 {
-    public function  _initialize(KConfig $config)
-    {
+    public function  _initialize(KConfig $config) {
         $config->append(array(
-            'behaviors'  => array('orderable')
+            'behaviors'  => array('orderable'),
+            'column_map' => array('article' => 'articles_article_id')
         ));
 
         parent::_initialize($config);
