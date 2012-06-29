@@ -10,33 +10,31 @@
  */
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div class="sidebar">
-	<h3><?= @text( 'Types' ); ?></h3>
-    <ul>
-        <li <? if($this->getView()->getName() == 'system') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=system') ?>">
-        	    <?= @text('System Information') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'configuration') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=configuration') ?>">
-        	    <?= @text('Configuration File') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'directories') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=directories') ?>">
-        	    <?= @text('Directory Permissions') ?>
-        	</a>
-        </li>  
-        <li <? if($this->getView()->getName() == 'phpinformation') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=phpinformation') ?>">
-        	    <?= @text('PHP Information') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'phpsettings') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=phpsettings') ?>">
-        	    <?= @text('PHP Settings') ?>
-        	</a>
-        </li>
-    </ul>
-</div>
+<h3><?= @text( 'Types' ); ?></h3>
+<ul>
+    <li <? if($this->getView()->getName() == 'system') echo 'class="active"' ?>>
+        <a href="<?= @route('view=system') ?>">
+        	<?= @text('System Information') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'configuration') echo 'class="active"' ?>>
+        <a href="<?= @route('view=configuration') ?>">
+        	<?= @text('Configuration File') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'directories') echo 'class="active"' ?>>
+        <a href="<?= @route('view=directories') ?>">
+        	<?= @text('Directory Permissions') ?>
+        </a>
+    </li>  
+    <li <? if($this->getView()->getName() == 'phpinformation') echo 'class="active"' ?>>
+        <a href="<?= @route('view=phpinformation') ?>">
+        	<?= @text('PHP Information') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'phpsettings') echo 'class="active"' ?>>
+        <a href="<?= @route('view=phpsettings') ?>">
+        	<?= @text('PHP Settings') ?>
+        </a>
+    </li>
+</ul>

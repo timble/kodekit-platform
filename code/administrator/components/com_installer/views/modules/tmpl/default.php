@@ -16,7 +16,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<?= @template('com://admin//installer.view.grid.sidebar'); ?>
+<module title="" position="sidebar">
+	<?= @template('com://admin//installer.view.grid.sidebar'); ?>
+</module>
 
 <div class="-installer-grid">
 <form action="" method="get" class="-koowa-grid">

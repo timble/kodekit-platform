@@ -1,0 +1,120 @@
+body {
+	overflow: hidden;
+}
+
+html, body, #container { 
+	width: 100%;
+	height: 100%;
+}
+
+#minwidth-body { 
+	min-width: 960px;
+}
+
+#container {
+	#flexbox > .box(vertical, 1)
+}
+
+#header-box  { 
+	#flexbox > .box();
+}
+
+#statusmenu {
+	#flexbox > .box();
+}
+
+#submenu {
+	#flexbox > .box();
+}
+
+#tabs-box {
+	#flexbox > .box();
+}
+
+#toolbar-box {
+	#flexbox .box();
+}
+
+#window-body { 
+	#flexbox > .box(horizontal, 1);
+
+	&.default #window-sidebar,
+	&.default #window-inspector {
+		#flexbox > .box(vertical, 0);
+
+		width: 200px;
+		.scrollable {
+			#flexbox > .box(vertical, 1, scrollable);
+		}
+	}
+}
+
+#window-content { 
+	#flexbox > .box(horizontal, 1);
+}
+
+.editor-wrap,
+.editor-container,
+.mceEditor,
+.mceLayout,
+.mceLayout tbody,
+.mceLayout tbody tr td.mceIframeContainer,
+.CodeMirror { 
+	#flexbox > .box(vertical, 1);
+}
+
+.mceLayout tbody tr 	{ 
+	#flexbox > .box(vertical);
+}
+
+.mceLayout tbody tr:nth-of-type(2),
+.mceLayout tbody tr td.mceIframeContainer iframe,
+.CodeMirror .CodeMirror-scroll { 
+	#flexbox > .box-flex(1);
+}
+
+.-koowa-grid {
+	#flexbox > .box(vertical, 1);
+}
+
+.-koowa-form {
+	#flexbox > .box(horizontal, 1);
+
+	.form-body {
+		#flexbox > .box(vertical, 1);
+	}
+
+	.form-content {
+		.-koowa-box-scroll;
+		.-koowa-box-flex1;
+	}
+}
+
+form[name="adminForm"] {
+	#flexbox > .box(horizontal, 1, scrollable);
+}
+
+/* @group Scope Bar */
+.scopebar { 
+	#flexbox > .box(horizontal, 0);
+
+	ul { 
+		#flexbox > .box(horizontal, 1);
+	}
+
+	.form-search {
+		#flexbox > .box(horizontal, 1);
+		#flexbox > .box-pack(end);
+
+		input {
+			#flexbox > .box(horizontal, 1);
+		}
+	}
+}
+
+#header-box {
+	ul#menu {
+		#flexbox > .box();
+		#flexbox > .box-flex(1);
+	}
+}

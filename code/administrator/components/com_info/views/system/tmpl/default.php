@@ -14,7 +14,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
 </module>
 
-<?= @template('com://admin//info.view.grid.sidebar'); ?>
+<module title="" position="sidebar">
+    <?= @template('com://admin//info.view.grid.sidebar'); ?>
+</module>
 
 <form class="-koowa-grid">
 <table class="adminlist">

@@ -10,33 +10,31 @@
  */
 defined('KOOWA') or die('Restricted access'); ?>
 
-<div class="sidebar">
-	<h3><?= @text( 'Types' ); ?></h3>
-    <ul>
-        <li <? if($this->getView()->getName() == 'components') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=components') ?>">
-        	    <?= @text('Components') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'plugins') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=plugins') ?>">
-        	    <?= @text('Plugins') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'modules') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=modules') ?>">
-        	    <?= @text('Modules') ?>
-        	</a>
-        </li>  
-        <li <? if($this->getView()->getName() == 'templates') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=templates') ?>">
-        	    <?= @text('Templates') ?>
-        	</a>
-        </li>
-        <li <? if($this->getView()->getName() == 'languages') echo 'class="active"' ?>>
-        	<a href="<?= @route('view=languages') ?>">
-        	    <?= @text('Languages') ?>
-        	</a>
-        </li>
-    </ul>
-</div>
+<h3><?= @text( 'Types' ); ?></h3>
+<ul>
+    <li <? if($this->getView()->getName() == 'components') echo 'class="active"' ?>>
+        <a href="<?= @route('view=components') ?>">
+        	<?= @text('Components') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'plugins') echo 'class="active"' ?>>
+        <a href="<?= @route('view=plugins') ?>">
+        	<?= @text('Plugins') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'modules') echo 'class="active"' ?>>
+        <a href="<?= @route('view=modules') ?>">
+        	<?= @text('Modules') ?>
+        </a>
+    </li>  
+    <li <? if($this->getView()->getName() == 'templates') echo 'class="active"' ?>>
+        <a href="<?= @route('view=templates') ?>">
+        	<?= @text('Templates') ?>
+        </a>
+    </li>
+    <li <? if($this->getView()->getName() == 'languages') echo 'class="active"' ?>>
+        <a href="<?= @route('view=languages') ?>">
+        	<?= @text('Languages') ?>
+        </a>
+    </li>
+</ul>
