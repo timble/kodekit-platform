@@ -34,7 +34,7 @@ if(Form && Form.Validator) {
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<div class="form-content">
-		<div class="grid_8">
+		<div class="span8">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('User Details') ?></legend>
 				<div class="control-group">
@@ -81,7 +81,7 @@ if(Form && Form.Validator) {
 				<?= $user->params->render('params') ?>
 			</fieldset>
 		</div>
-		<div class="grid_4">
+		<div class="span4">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('System Information') ?></legend>
 				<div class="control-group">
