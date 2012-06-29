@@ -6,23 +6,9 @@ body {
 	margin: 0; padding: 0;
 	font-size: @baseFontSize;
 	background-color: #FFF;
-	overflow: hidden;
 }
 
 body, td, th { font-family: @baseFontFamily; }
-
-html, body, #container { 
-	width: 100%;
-	height: 100%;
-}
-
-#container {
-	#flexbox > .box(vertical, 1)
-}
-
-#minwidth-body { 
-	min-width: 960px;
-}
 
 #tmpl-component {
 	overflow: auto;
@@ -88,8 +74,6 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 
 /* -- overall styles ------------------------------ */
 #header-box  { 
-	#flexbox > .box();
-	
 	background-color: #333;
 	border-bottom: 1px solid lighten(@navbarBackground, 10%);
 	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
@@ -98,16 +82,12 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 	position: relative; // We need this for .box-shadow
 }
 
-#tabs-box {
-	#flexbox > .box();
-	
+#tabs-box {	
 	#gradient > .vertical(@tabbarBackground, darken(@tabbarBackground, 10%));
 	.box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
 }
 
 #toolbar-box {
-	#flexbox .box();
-	
 	height: 41px;
 	.box-sizing(border-box);
 	padding: 8px 0;
@@ -116,11 +96,8 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 }
 
 #window-body { 
-	#flexbox > .box(horizontal, 1);
-	
 	&.default #window-sidebar,
 	&.default #window-inspector {
-		width: 200px;
 		.box-sizing(border-box);
 		background-color: #F9F9F9;
 		
@@ -128,14 +105,7 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 		h3 {
 			.box > .box-title();
 			line-height: 24px;
-		}
-		
-		#flexbox > .box(vertical, 0);
-		
-		.scrollable {
-			#flexbox > .box(vertical, 1, scrollable);
-		}
-		
+		}		
 	}
 	
 	&.default #window-inspector {
@@ -258,19 +228,13 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
 	}
 }
 
-#content-box { 
-	#flexbox > .box(horizontal, 1);
-}
-
-div#content-box.default .-koowa-grid,
-div#content-box.default .-koowa-form,
-div#content-box.default form[name="adminForm"] {
+div#window-content.default .-koowa-grid,
+div#window-content.default .-koowa-form,
+div#window-content.default form[name="adminForm"] {
 	
 }
 
 .-koowa-grid {
-	#flexbox > .box(vertical, 1);
-	
 	/** Table styles **/
 	
 	table {
@@ -411,23 +375,14 @@ div#content-box.default form[name="adminForm"] {
 .-koowa-form {
 	margin: 0;
 	
-	#flexbox > .box(horizontal, 1);
-	
 	.form-body {
-		#flexbox > .box(vertical, 1);
 		background-color: #F9F9F9;
 	}
 	
 	.form-content {
-		.-koowa-box-scroll;
-		.-koowa-box-flex1;
 		padding: 20px;
 		background-color: @white;
 	}
-}
-
-form[name="adminForm"] {
-	#flexbox > .box(horizontal, 1, scrollable);
 }
 
 /* -- various styles -- */
@@ -604,7 +559,7 @@ div.toolbar {
 .jpane-toggler-down span 	{ background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
 
 /* tabs */
-#content-box {
+#window-content {
 	dl.tabs {
 		float: left;
 		margin: 10px 0 0 0;
@@ -658,19 +613,20 @@ div.toolbar {
 
 /* @group Scope Bar */
 .scopebar { 
-	#flexbox > .box(horizontal, 0);
 	height: 18px;
 	
 	padding: 3px 10px 3px;
 	#gradient > .vertical(#F2F2F2, #E9E9E9);
 	border-bottom: 1px solid @grayLighter;
 
-	ul { 
-		#flexbox > .box(horizontal, 1);
-		
+	ul { 		
 		list-style: none;
 		margin: 1px 0 0 0;
 		padding: 0;
+		
+		li {
+			float: left;
+		}
 		
 		li.separator-right {
 			border-right: 1px solid #BBB;
@@ -731,7 +687,7 @@ div.toolbar {
 /* @end */
 
 /* Sidebar */
-#content-box.form {
+#window-content.form {
 	 .sidebar {
 		width: 300px;
 		
@@ -746,7 +702,7 @@ div.toolbar {
 	}
 }
 
-div#content-box > div.col { float: none; /* Children of #content-box are vertically laid out by Flexbox */ }
+div#window-content > div.col { float: none; /* Children of #window-content are vertically laid out by Flexbox */ }
 
 /* @endgroup */
 
@@ -765,4 +721,12 @@ div#content-box > div.col { float: none; /* Children of #content-box are vertica
 		border-bottom: 1px solid @grayLighter;
 		#gradient > .vertical(#F2F2F2, #E9E9E9);
 	}
+}
+
+.CodeMirror {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.editor-toolbar {
+	height: 18px;
 }

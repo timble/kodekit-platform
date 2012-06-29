@@ -26,5 +26,9 @@
 		<position>debug</position>
 	</positions>
 	<params>
+		<param name="flexBox" type="list" default="yes" label="Flexible Box Model" description="Flexible Box Model">
+			<option value="1">Yes</option>
+			<option value="0">no</option>
+		</param>
 	</params>
 </install>

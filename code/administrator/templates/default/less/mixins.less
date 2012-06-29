@@ -3,46 +3,46 @@
 		display: -webkit-box;
 		display: -moz-box;
 		display: box;
-		
+
 		#flexbox .box-orient(@orient);
 		#flexbox .box-flex(@flex);
 		#flexbox .box-scrollable(@scroll);
 	}
-	
+
 	.box-orient(@orient: inline-axis) {
 		-webkit-box-orient: @orient;
 		-moz-box-orient: @orient;
 		box-orient: @orient;
 	}
-	
+
 	.box-align(@align: stretch) {
 		-webkit-box-align: @align;
 		-moz-box-align: @align;
 		box-align: @align;
 	}
-	
+
 	.box-pack(@pack: start) {
 		-webkit-box-pack: @pack;
 		-moz-box-pack: @pack;
 		box-pack: @pack;
 	}
-	
+
 	.box-flex(@flex: 0) {
 		-webkit-box-flex: @flex;
 		-moz-box-flex: @flex;
 		box-flex: @flex;
 	}
-	
+
 	.box-scroll { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
-	
+
 	.box-scrollable(@scroll) when (@scroll = scrollable) { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
-	
+
 	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
 }
 
