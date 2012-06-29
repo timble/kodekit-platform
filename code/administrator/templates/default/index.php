@@ -32,8 +32,16 @@
 		</div>
 		<?php endif; ?>
 		<jdoc:include type="message" />
-		<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
-			<jdoc:include type="component" />
+		<div id="window-body" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+			<div id="window-sidebar">
+				<jdoc:include type="modules" name="sidebar" />
+			</div>
+			<div id="content-box" class="container_12 <?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
+				<jdoc:include type="component" />
+			</div>
+			<div id="window-inspector">
+				<jdoc:include type="modules" name="inspector" />
+			</div>
 		</div>
 	</div>
 	<?php if(KDEBUG) : ?>

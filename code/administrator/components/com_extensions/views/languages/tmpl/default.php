@@ -15,7 +15,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<?= @template('default_sidebar'); ?>
+<module title="" position="sidebar">
+	<?= @template('default_sidebar'); ?>
+</module>
 
 <form action="" method="get" class="-koowa-grid">
     <table class="adminlist"  style="clear: both;">

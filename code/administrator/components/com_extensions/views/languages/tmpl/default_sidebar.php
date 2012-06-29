@@ -10,18 +10,16 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div class="sidebar">
-	<h3><?= @text( 'Application' ); ?></h3>
-    <ul>
-        <li <? if($state->application == 'site') echo 'class="active"' ?>>
-        	<a href="<?= @route('application=site') ?>">
-        	    <?= @text('Site') ?>
-        	</a>
-        </li>
-        <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
-        	<a href="<?= @route('application=administrator') ?>">
-        	    <?= @text('Administrator') ?>
-        	</a>
-        </li>
-    </ul>
-</div>
+<h3><?= @text( 'Application' ); ?></h3>
+<ul>
+    <li <? if($state->application == 'site') echo 'class="active"' ?>>
+        <a href="<?= @route('application=site') ?>">
+        	<?= @text('Site') ?>
+        </a>
+    </li>
+    <li <? if($state->application == 'administrator') echo 'class="active"' ?>>
+        <a href="<?= @route('application=administrator') ?>">
+        	<?= @text('Administrator') ?>
+        </a>
+    </li>
+</ul>

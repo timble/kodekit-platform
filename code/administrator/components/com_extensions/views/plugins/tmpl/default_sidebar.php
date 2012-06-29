@@ -10,20 +10,18 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div class="sidebar">
-    <h3><?= @text( 'Types' ); ?></h3>
-    <ul class="scrollable">
-        <li <? if(!$state->type) echo 'class="active"' ?>>
-            <a href="<?= @route('&type=') ?>">
-                <?= @text('All types') ?>
-            </a>
-        </li>
-        <? foreach($types as $type) : ?>
-        <li <? if($state->type == $type) echo 'class="active"' ?>>
-            <a href="<?= @route('type='.$type) ?>">
-                <?= $type ?>
-            </a>
-        </li>
-        <? endforeach ?>
-    </ul>
-</div>
+<h3><?= @text( 'Types' ); ?></h3>
+<ul class="scrollable">
+    <li <? if(!$state->type) echo 'class="active"' ?>>
+        <a href="<?= @route('&type=') ?>">
+            <?= @text('All types') ?>
+        </a>
+    </li>
+    <? foreach($types as $type) : ?>
+    <li <? if($state->type == $type) echo 'class="active"' ?>>
+        <a href="<?= @route('type='.$type) ?>">
+            <?= $type ?>
+        </a>
+    </li>
+    <? endforeach ?>
+</ul>

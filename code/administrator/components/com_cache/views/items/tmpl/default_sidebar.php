@@ -10,23 +10,21 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div id="sidebar">
-    <h3><?= @text( 'Groups' ); ?></h3>
-    <ul>
-        <li <? if(!$state->group) echo 'class="active"' ?>>
-            <a href="<?= @route('group=') ?>">
-                <?= @text('All groups') ?>
-            </a>
-        </li>
-        <? foreach($groups as $group) : ?>
-        <li <? if($state->group == $group->name) echo 'class="active"' ?>>
-            <a href="<?= @route('group='.$group->name) ?>">
-                <?= $group->name; ?>
-            </a>
-        </li>
-        <? endforeach ?>
-    </ul>
-    <h3><?= @text( 'Details' ); ?></h3>
-    <p><?= @text('Files').':'.$count ?></p>
-    <p><?= @text('Size').':'.number_format($size / 1024, 2) ?></p>
-</div>
+<h3><?= @text( 'Groups' ); ?></h3>
+<ul>
+    <li <? if(!$state->group) echo 'class="active"' ?>>
+        <a href="<?= @route('group=') ?>">
+            <?= @text('All groups') ?>
+        </a>
+    </li>
+    <? foreach($groups as $group) : ?>
+    <li <? if($state->group == $group->name) echo 'class="active"' ?>>
+        <a href="<?= @route('group='.$group->name) ?>">
+            <?= $group->name; ?>
+        </a>
+    </li>
+    <? endforeach ?>
+</ul>
+<h3><?= @text( 'Details' ); ?></h3>
+<p><?= @text('Files').':'.$count ?></p>
+<p><?= @text('Size').':'.number_format($size / 1024, 2) ?></p>

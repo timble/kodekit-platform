@@ -10,9 +10,11 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<?= @template('default_sidebar'); ?>
-
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
+
+<module title="" position="sidebar">
+	<?= @template('default_sidebar'); ?>
+</module>
 
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>

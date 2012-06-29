@@ -10,7 +10,5 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<div class="sidebar">
-	<h3><?= @text('Categories')?></h3>
-		<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getFolders())); ?>
-</div>
+<h3><?= @text('Categories')?></h3>
+<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getFolders())); ?>

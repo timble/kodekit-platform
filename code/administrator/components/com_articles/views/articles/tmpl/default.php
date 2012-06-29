@@ -16,7 +16,13 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<?= @template('default_sidebar'); ?>
+<module title="" position="sidebar">
+    <?= @template('default_sidebar'); ?>
+</module>
+
+<module title="" position="inspector">
+    <?= @template('default_activities'); ?>
+</module>
 
 <form id="articles-form" action="" method="get" class="-koowa-grid">
     <?= @template('default_filter'); ?>
@@ -94,7 +100,3 @@ defined('KOOWA') or die('Restricted access') ?>
         </tbody>
     </table>
 </form>
-
-<div class="sidebar">
-	<?= @template('default_activities'); ?>
-</div>
