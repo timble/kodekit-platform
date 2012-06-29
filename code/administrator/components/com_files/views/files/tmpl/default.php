@@ -191,10 +191,10 @@ window.addEvent('domready', function() {
 <div id="files-app" class="-koowa-box -koowa-box-flex">
 	<?= @template('templates_icons'); ?>
 	<?= @template('templates_details'); ?>
-
-	<div class="sidebar">
+	
+	<module title="" position="sidebar">
 		<div id="files-tree"></div>
-	</div>
+	</module>
 
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path" style="height: 24px;">
