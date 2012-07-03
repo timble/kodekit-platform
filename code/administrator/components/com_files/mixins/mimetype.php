@@ -77,6 +77,7 @@ class ComFilesMixinMimetype extends KObject
 			$mimetype = 'text/plain';
 		}
 
+		
 		return $mimetype;
 	}
 
@@ -95,8 +96,16 @@ class ComFilesMixinMimetype extends KObject
 		if (!class_exists('finfo')) {
 			return ComFilesMixinMimetype::NOT_AVAILABLE;
 		}
-
-		$finfo = new finfo(FILEINFO_MIME, dirname(__FILE__).'/mimetypes/magic');
+		
+		// PHP updated libmagic to v5 in 5.3.11 which broke the old mimetype formats
+		// Use the system wide magic file for these versions
+		$database = version_compare(phpversion(), '5.3.11', '>=') ? null : dirname(__FILE__).'/mimetypes/magic';
+		$finfo    = @new finfo(FILEINFO_MIME, $database);
+		
+		if (empty($finfo)) {
+		    return ComFilesMixinMimetype::NOT_AVAILABLE;
+		}
+		
 		$mimetype = $finfo->file($path);
 
 		return $mimetype;
