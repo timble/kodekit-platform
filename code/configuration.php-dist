@@ -37,7 +37,6 @@ class JConfig
 	* -------------------------------------------------------------------------
 	*/
 	/* Database Settings */
-	var $dbtype = 'mysqli';					// Normally mysqli
 	var $host = 'localhost';				// This is normally set to localhost
 	var $user = '';							// MySQL username
 	var $password = '';						// MySQL password
@@ -48,16 +47,9 @@ class JConfig
 	var $secret = 'FBVtggIk5lAzEU9H'; 		//Change this to something more secure
 	var $gzip = '0';
 	var $error_reporting = '-1';
-	var $ftp_host = '';
-	var $ftp_port = '';
-	var $ftp_user = '';
-	var $ftp_pass = '';
-	var $ftp_root = '';
-	var $ftp_enable = '';
 	var $tmp_path	= '/tmp';
 	var $log_path	= '/var/logs';
 	var $timezone = 'UTC';
-	var $live_site = ''; 					// Optional, Full url to Joomla install.
 	var $force_ssl = 0;						//Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
 	/* Session settings */
@@ -76,8 +68,8 @@ class JConfig
 	var $smtphost = 'localhost';
 
 	/* Cache Settings */
-	var $caching = '0';
-	var $cachetime = '15';
+	var $caching       = '0';
+	var $cachetime     = '15';
 	var $cache_handler = 'file';
 
 	/* Debug Settings */
@@ -86,9 +78,9 @@ class JConfig
 	var $debug_lang = '0';
 
 	/* SEO Settings */
-	var $sef = '0';
+	var $sef         = '1';
 	var $sef_rewrite = '0';
-	var $sef_suffix = '';
+	var $sef_suffix  = '';
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
