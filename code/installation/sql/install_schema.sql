@@ -1,10 +1,4 @@
-# $Id: joomla.sql 18130 2010-07-14 11:21:35Z louis $
-
 # --------------------------------------------------------
-
-#
-# Table structure for table `#__banner`
-#
 
 CREATE TABLE `#__banner` (
   `bid` int(11) NOT NULL auto_increment,
@@ -37,10 +31,6 @@ CREATE TABLE `#__banner` (
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
-
-#
-# Table structure for table `#__categories`
-#
 
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
@@ -90,35 +80,7 @@ CREATE TABLE `#__components` (
   KEY `parent_option` (`parent`, `option`(32))
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-#
-# Dumping data for table `#__components`
-#
-
-INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, '', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
-INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, '', 0, 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1);
-INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_weblinks&view=categories', 'Manage weblink categories', '', 2, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contacts', 0, 0, '', 'Edit contact details', 'com_contacts', 0, '', 0, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contacts', 'Edit contact details', 'com_contacts', 0, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_contacts&view=categories', 'Manage contact categories', '', 2, '', 0, 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1);
-INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, '', 0, 'show_headings=1\nshow_name=1\nshow_articles=1\nshow_link=1\nshow_cat_description=1\nshow_cat_items=1\nshow_feed_image=1\nshow_feed_description=1\nshow_item_description=1\nfeed_word_count=0\n\n', 1);
-INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_newsfeeds&view=categories', 'Manage Categories', '', 2, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_banners&view=categories', 'Categories', '', 3, '', 0, '', 1);
-INSERT INTO `#__components` VALUES (19, 'Media Manager', '', 0, 0, 'option=com_files', 'Media Manager', 'com_files', 0, '', 1, 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1);
-INSERT INTO `#__components` VALUES (20, 'Articles', 'option=com_articles', '0', '0', 'option=com_articles', 'Articles', 'com_articles', '0', '', '0', 'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_hits=1\nfeed_summary=0\n\n', '1');
-INSERT INTO `#__components` VALUES (22, 'Installation Manager', '', 0, 0, '', 'Installer', 'com_installer', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (25, 'Menu Editor', '', 0, 0, '', 'Menu Editor', 'com_menus', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 1, 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1);
-INSERT INTO `#__components` VALUES (31, 'User Manager', 'option=com_users', 0, 0, '', 'Users', 'com_users', 0, '', 1, 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1);
-INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
-
 # --------------------------------------------------------
-
-#
-# Table structure for table `#__contacts_contacts`
-#
 
 CREATE TABLE `#__contacts_contacts` (
   `id` int(11) NOT NULL auto_increment,
@@ -153,9 +115,122 @@ CREATE TABLE `#__contacts_contacts` (
 
 # --------------------------------------------------------
 
-#
-# Table structure for table `#__articles_articles`
-#
+CREATE TABLE `#__groups` (
+  `id` tinyint(3) unsigned NOT NULL default '0',
+  `name` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+CREATE TABLE `#__plugins` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `published` tinyint(3) NOT NULL default '0',
+  `iscore` tinyint(3) NOT NULL default '0',
+  `client_id` tinyint(3) NOT NULL default '0',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `params` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+
+# --------------------------------------------------------
+
+CREATE TABLE `#__menu` (
+  `id` int(11) NOT NULL auto_increment,
+  `menutype` varchar(75) default NULL,
+  `name` varchar(255) default NULL,
+  `alias` varchar(255) NOT NULL default '',
+  `link` text,
+  `type` varchar(50) NOT NULL default '',
+  `published` tinyint(1) NOT NULL default 0,
+  `parent` int(11) unsigned NOT NULL default 0,
+  `componentid` int(11) unsigned NOT NULL default 0,
+  `sublevel` int(11) default 0,
+  `ordering` int(11) default 0,
+  `checked_out` int(11) unsigned NOT NULL default 0,
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `pollid` int(11) NOT NULL default 0,
+  `browserNav` tinyint(4) default 0,
+  `access` tinyint(3) unsigned NOT NULL default 0,
+  `utaccess` tinyint(3) unsigned NOT NULL default 0,
+  `params` text NOT NULL,
+  `lft` int(11) unsigned NOT NULL default 0,
+  `rgt` int(11) unsigned NOT NULL default 0,
+  `home` INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY  (`id`),
+  KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
+  KEY `menutype` (`menutype`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+CREATE TABLE `#__menu_types` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `menutype` VARCHAR(75) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` VARCHAR(255) NOT NULL DEFAULT '',
+  PRIMARY KEY(`id`),
+  UNIQUE `menutype`(`menutype`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+CREATE TABLE `#__modules` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` text NOT NULL,
+  `content` text NOT NULL,
+  `ordering` int(11) NOT NULL default '0',
+  `position` varchar(50) default NULL,
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `published` tinyint(1) NOT NULL default '0',
+  `module` varchar(50) default NULL,
+  `numnews` int(11) NOT NULL default '0',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `showtitle` tinyint(3) unsigned NOT NULL default '1',
+  `params` text NOT NULL,
+  `iscore` tinyint(4) NOT NULL default '0',
+  `client_id` tinyint(4) NOT NULL default '0',
+  `control` TEXT NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `published` (`published`,`access`),
+  KEY `newsfeeds` (`module`,`published`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+CREATE TABLE `#__modules_menu` (
+  `moduleid` int(11) NOT NULL default '0',
+  `menuid` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`moduleid`,`menuid`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+CREATE TABLE `#__newsfeeds` (
+  `catid` int(11) NOT NULL default '0',
+  `id` int(11) NOT NULL auto_increment,
+  `name` text NOT NULL,
+  `alias` varchar(255) NOT NULL default '',
+  `link` text NOT NULL,
+  `filename` varchar(200) default NULL,
+  `published` tinyint(1) NOT NULL default '0',
+  `numarticles` int(11) unsigned NOT NULL default '1',
+  `cache_time` int(11) unsigned NOT NULL default '3600',
+  `checked_out` tinyint(3) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `ordering` int(11) NOT NULL default '0',
+  `rtl` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `published` (`published`),
+  KEY `catid` (`catid`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
 
 CREATE TABLE `#__articles_articles` (
   `articles_article_id` bigint(20) unsigned NOT NULL auto_increment,
@@ -197,218 +272,12 @@ CREATE TABLE `#__articles_articles` (
   KEY `idx_createdby` (`created_by`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__articles_featured`
-#
-
 CREATE TABLE `#__articles_featured` (
   `articles_article_id` bigint(20) unsigned NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`articles_article_id`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__groups`
-#
-
-# --------------------------------------------------------
-
-CREATE TABLE `#__groups` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `name` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-#
-# Dumping data for table `#__groups`
-#
-
-INSERT INTO `#__groups` VALUES (0, 'Public');
-INSERT INTO `#__groups` VALUES (1, 'Registered');
-INSERT INTO `#__groups` VALUES (2, 'Special');
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__plugins`
-#
-
-CREATE TABLE `#__plugins` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL default '',
-  `element` varchar(100) NOT NULL default '',
-  `folder` varchar(100) NOT NULL default '',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
-  `published` tinyint(3) NOT NULL default '0',
-  `iscore` tinyint(3) NOT NULL default '0',
-  `client_id` tinyint(3) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-INSERT INTO `#__plugins` VALUES (6, 'Search - Content','content','search',0,1,1,0,0,0,'0000-00-00 00:00:00','search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n\n');
-INSERT INTO `#__plugins` VALUES (7, 'Search - Contacts','contacts','search',0,3,1,0,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
-INSERT INTO `#__plugins` VALUES (8, 'Search - Categories', 'categories', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
-INSERT INTO `#__plugins` VALUES (9, 'Search - Sections', 'sections', 'search', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
-INSERT INTO `#__plugins` VALUES (10, 'Search - Newsfeeds', 'newsfeeds', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'search_limit=50\n\n');
-INSERT INTO `#__plugins` VALUES (11, 'Search - Weblinks','weblinks','search',0,2,1,0,0,0,'0000-00-00 00:00:00','search_limit=50\n\n');
-INSERT INTO `#__plugins` VALUES (12, 'Content - Pagebreak','pagebreak','content',0,10000,0,0,0,0,'0000-00-00 00:00:00','enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n\n');
-INSERT INTO `#__plugins` VALUES (14, 'Content - Email Cloaking', 'emailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'mode=1\n\n');
-INSERT INTO `#__plugins` VALUES (16, 'Content - Load Module', 'loadmodule', 'content', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'enabled=1\nstyle=0\n\n');
-INSERT INTO `#__plugins` VALUES (17, 'Content - Page Navigation','pagenavigation','content',0,2,1,0,0,0,'0000-00-00 00:00:00','position=1\n\n');
-INSERT INTO `#__plugins` VALUES (26, 'System - Koowa', 'koowa', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (27, 'System - SEF','sef','system',0,2,1,0,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__plugins` VALUES (28, 'System - Debug', 'debug', 'system', 0, 3, 1, 0, 0, 0, '0000-00-00 00:00:00', 'queries=1\nmemory=1\nlangauge=1\n\n');
-INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 5, 0, 0, 0, 0, '0000-00-00 00:00:00', 'browsercache=0\ncachetime=15\n\n');
-INSERT INTO `#__plugins` VALUES (31, 'System - Expire', 'expire', 'system', 0, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-
-# Newly added for Nooku Server
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__menu`
-#
-
-CREATE TABLE `#__menu` (
-  `id` int(11) NOT NULL auto_increment,
-  `menutype` varchar(75) default NULL,
-  `name` varchar(255) default NULL,
-  `alias` varchar(255) NOT NULL default '',
-  `link` text,
-  `type` varchar(50) NOT NULL default '',
-  `published` tinyint(1) NOT NULL default 0,
-  `parent` int(11) unsigned NOT NULL default 0,
-  `componentid` int(11) unsigned NOT NULL default 0,
-  `sublevel` int(11) default 0,
-  `ordering` int(11) default 0,
-  `checked_out` int(11) unsigned NOT NULL default 0,
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `pollid` int(11) NOT NULL default 0,
-  `browserNav` tinyint(4) default 0,
-  `access` tinyint(3) unsigned NOT NULL default 0,
-  `utaccess` tinyint(3) unsigned NOT NULL default 0,
-  `params` text NOT NULL,
-  `lft` int(11) unsigned NOT NULL default 0,
-  `rgt` int(11) unsigned NOT NULL default 0,
-  `home` INTEGER(1) UNSIGNED NOT NULL DEFAULT 0,
-  PRIMARY KEY  (`id`),
-  KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
-  KEY `menutype` (`menutype`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_articles&view=articles', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'articles_per_page=5\nshow_featured=1\nsort_by=newest\nshow_feed_link=1\nshow_create_date=1\nshow_modify_date=1\nshow_readmore=1\npage_title=Welcome to the Frontpage\nshow_page_title=1\npageclass_sfx=\nsecure=0\n\n', 0, 0, 1);
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__menu_types`
-#
-
-CREATE TABLE `#__menu_types` (
-  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `menutype` VARCHAR(75) NOT NULL DEFAULT '',
-  `title` VARCHAR(255) NOT NULL DEFAULT '',
-  `description` VARCHAR(255) NOT NULL DEFAULT '',
-  PRIMARY KEY(`id`),
-  UNIQUE `menutype`(`menutype`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__modules`
-#
-
-CREATE TABLE `#__modules` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` text NOT NULL,
-  `content` text NOT NULL,
-  `ordering` int(11) NOT NULL default '0',
-  `position` varchar(50) default NULL,
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL default '0',
-  `module` varchar(50) default NULL,
-  `numnews` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `showtitle` tinyint(3) unsigned NOT NULL default '1',
-  `params` text NOT NULL,
-  `iscore` tinyint(4) NOT NULL default '0',
-  `client_id` tinyint(4) NOT NULL default '0',
-  `control` TEXT NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `published` (`published`,`access`),
-  KEY `newsfeeds` (`module`,`published`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-INSERT INTO `#__modules` VALUES (1, 'Main Menu', '', 1, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'menutype=mainmenu\nstartLevel=0\nendLevel=1\nmoduleclass_sfx=_menu\n', 0, 0, '');
-INSERT INTO `#__modules` VALUES (2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (8, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,2,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (10, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,2,1,'',0,1, '');
-INSERT INTO `#__modules` VALUES (12, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 2, 1, '', 1, 1, '');
-INSERT INTO `#__modules` VALUES (13, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 2, 1, '', 1, 1, '');
-INSERT INTO `#__modules` VALUES (14, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 2, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 2, 1, '', 1, 1, '');
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__modules_menu`
-#
-
-CREATE TABLE `#__modules_menu` (
-  `moduleid` int(11) NOT NULL default '0',
-  `menuid` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`moduleid`,`menuid`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-#
-# Dumping data for table `#__modules_menu`
-#
-
-INSERT INTO `#__modules_menu` VALUES (1,0);
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__newsfeeds`
-#
-
-CREATE TABLE `#__newsfeeds` (
-  `catid` int(11) NOT NULL default '0',
-  `id` int(11) NOT NULL auto_increment,
-  `name` text NOT NULL,
-  `alias` varchar(255) NOT NULL default '',
-  `link` text NOT NULL,
-  `filename` varchar(200) default NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `numarticles` int(11) unsigned NOT NULL default '1',
-  `cache_time` int(11) unsigned NOT NULL default '3600',
-  `checked_out` tinyint(3) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `rtl` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `published` (`published`),
-  KEY `catid` (`catid`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__articles_sections`
-#
 
 CREATE TABLE `#__articles_sections` (
   `articles_section_id` bigint(20) unsigned NOT NULL auto_increment,
@@ -431,28 +300,6 @@ CREATE TABLE `#__articles_sections` (
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
-
-#
-# Table structure for table `#__session`
-#
-
-CREATE TABLE `#__users_sessions` (
-  `users_session_id` varchar(128) NOT NULL default '0',
-  `time` varchar(14) default '',
-  `guest` tinyint(4) default '1',
-  `userid` int(11) default '0',
-  `client_id` tinyint(3) unsigned NOT NULL default '0',
-  `data` longtext,
-  PRIMARY KEY  (`users_session_id`(64)),
-  KEY `userid` (`userid`),
-  KEY `time` (`time`)
-) ENGINE=InnoDB CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__users`
-#
 
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
@@ -477,11 +324,19 @@ CREATE TABLE `#__users` (
   KEY `gid_block` (`gid`, `block`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
+CREATE TABLE `#__users_sessions` (
+  `users_session_id` varchar(128) NOT NULL default '0',
+  `time` varchar(14) default '',
+  `guest` tinyint(4) default '1',
+  `userid` int(11) default '0',
+  `client_id` tinyint(3) unsigned NOT NULL default '0',
+  `data` longtext,
+  PRIMARY KEY  (`users_session_id`(64)),
+  KEY `userid` (`userid`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB CHARACTER SET `utf8`;
 
-#
-# Table structure for table `#__weblinks`
-#
+# --------------------------------------------------------
 
 CREATE TABLE `#__weblinks` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -506,10 +361,6 @@ CREATE TABLE `#__weblinks` (
 
 # --------------------------------------------------------
 
-#
-# Table structure for table `#__core_acl_aro`
-#
-
 CREATE TABLE `#__core_acl_aro` (
   `id` int(11) NOT NULL auto_increment,
   `section_value` varchar(240) NOT NULL default '0',
@@ -522,12 +373,6 @@ CREATE TABLE `#__core_acl_aro` (
   KEY `#__gacl_hidden_aro` (`hidden`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_aro_map`
-#
-
 CREATE TABLE  `#__core_acl_aro_map` (
   `acl_id` int(11) NOT NULL default '0',
   `section_value` varchar(230) NOT NULL default '0',
@@ -535,11 +380,6 @@ CREATE TABLE  `#__core_acl_aro_map` (
   PRIMARY KEY  (`acl_id`,`section_value`,`value`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_aro_groups`
-#
 CREATE TABLE `#__core_acl_aro_groups` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default '0',
@@ -552,27 +392,6 @@ CREATE TABLE `#__core_acl_aro_groups` (
   KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-#
-# Dumping data for table `#__core_acl_aro_groups`
-#
-
-INSERT INTO `#__core_acl_aro_groups` VALUES (17,0,'ROOT',1,22,'ROOT');
-INSERT INTO `#__core_acl_aro_groups` VALUES (28,17,'USERS',2,21,'USERS');
-INSERT INTO `#__core_acl_aro_groups` VALUES (29,28,'Public Frontend',3,12,'Public Frontend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (18,29,'Registered',4,11,'Registered');
-INSERT INTO `#__core_acl_aro_groups` VALUES (19,18,'Author',5,10,'Author');
-INSERT INTO `#__core_acl_aro_groups` VALUES (20,19,'Editor',6,9,'Editor');
-INSERT INTO `#__core_acl_aro_groups` VALUES (21,20,'Publisher',7,8,'Publisher');
-INSERT INTO `#__core_acl_aro_groups` VALUES (30,28,'Public Backend',13,20,'Public Backend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (23,30,'Manager',14,19,'Manager');
-INSERT INTO `#__core_acl_aro_groups` VALUES (24,23,'Administrator',15,18,'Administrator');
-INSERT INTO `#__core_acl_aro_groups` VALUES (25,24,'Super Administrator',16,17,'Super Administrator');
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_groups_aro_map`
-#
 CREATE TABLE `#__core_acl_groups_aro_map` (
   `group_id` int(11) NOT NULL default '0',
   `section_value` varchar(240) NOT NULL default '',
@@ -580,11 +399,6 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
   UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__core_acl_aro_sections`
-#
 CREATE TABLE `#__core_acl_aro_sections` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(230) NOT NULL default '',
@@ -622,10 +436,6 @@ CREATE TABLE `#__files_containers` (
   PRIMARY KEY (`files_container_id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-                                                 
-INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
-(NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}');
-
 
 CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
   `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
