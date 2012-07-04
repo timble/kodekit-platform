@@ -166,13 +166,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <fieldset class="form-horizontal">
 	<legend><?= @text( 'Url' ); ?></legend>
 	<div class="control-group">
-	    <label class="control-label" for=""><?= @text( 'Humanly readable URLs' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef]', 'selected' => $settings->sef));?>
-	        <p class="help-block"><?= @text('Humanly readable URLs'); ?></p>
-	    </div>
-	</div>
-	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Use mod_rewrite' ); ?></label>
 	    <div class="controls">
 	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_rewrite]', 'selected' => $settings->sef_rewrite));?>
