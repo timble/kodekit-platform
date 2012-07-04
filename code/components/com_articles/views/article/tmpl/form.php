@@ -25,8 +25,8 @@ defined('KOOWA') or die('Restricted access');
 <div class="clear_both"></div>
 
 <? if ($params->get('show_page_title')) : ?>
-<div
-    class="componentheading<? echo @escape($params->get('pageclass_sfx')); ?>"><? echo @escape($params->get('page_title')); ?></div>
+<h1
+    class="componentheading<? echo @escape($params->get('pageclass_sfx')); ?>"><? echo @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
 <script type="text/javascript">

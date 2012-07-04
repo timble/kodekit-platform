@@ -11,8 +11,6 @@ defined('KOOWA') or die('Restricted access');
 ?>
 
 
-<? echo @template('header'); ?>
-
 <? echo @template('com://site/articles.view.articles.list'); ?>
 
 <? if ($params->get('show_feed_link')): ?>

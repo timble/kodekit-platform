@@ -10,11 +10,8 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-<style src="media://com_articles/css/site.css"/>
 
-<? if ($params->get('show_page_title') && ($params->get('page_title') != $article->title)): ?>
-<h1 class="page-header"><?=@escape($params->get('page_title')); ?></h1>
-<? endif; ?>
+<style src="media://com_articles/css/site.css"/>
 
 <? echo @helper('com://site/articles.template.helper.article.edit', array('row' => $article)); ?>
 <div class="clear_both"></div>

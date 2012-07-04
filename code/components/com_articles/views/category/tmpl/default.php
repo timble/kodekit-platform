@@ -11,7 +11,19 @@ defined('KOOWA') or die('Restricted access');
 ?>
 
 
-<? echo @template('header'); ?>
+<? if ($params->get('show_page_title')): ?>
+<h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
+<? endif; ?>
+
+<? if ($params->get('show_description_image') && $category->image): ?>
+<img src="<? echo @service('koowa:http.url',
+    array('url' => $files_params->get('image_path') . '/' . $category->image));?>"
+     align="<?php echo $category->image_position;?>" hspace="6" alt=""/>
+<? endif; ?>
+
+<? if ($params->get('show_description') && $category->description): ?>
+<? echo @escape($category->description); ?>
+<? endif; ?>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
     <? if ($params->get('show_headings')): ?>

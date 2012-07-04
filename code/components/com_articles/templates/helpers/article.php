@@ -38,7 +38,7 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
         $config = new KConfig($config);
         $config->append(array(
             'parameters'    => JComponentHelper::getParams('com_articles'),
-            'title_heading' => 2,
+            'title_heading' => 1,
              'linkable'     => true,
         ));
 

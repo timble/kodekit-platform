@@ -10,9 +10,6 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-
-<? echo @template('header'); ?>
-
 <? $view = $this->getView()->setArticles(); ?>
 
 <? echo @template('com://site/articles.view.articles.list', array('articles' => $view->articles->list)); ?>
