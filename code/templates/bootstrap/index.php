@@ -33,22 +33,24 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </head>
 <body>
 
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <jdoc:include type="modules" name="user3" />
-    </div>
-  </div>
-</div>
+<header class="navbar navbar-fixed-top">
+	<div class="navbar-inner container">
+		<nav>
+			<jdoc:include type="modules" name="user3" />
+		</nav>
+	</div>
+</header>
 
 <div style="padding-top: 60px;" class="container">	
 	<div class="row">
-		<div class="sidebar span3">
+		<aside class="sidebar span3">
 			<jdoc:include type="modules" name="left" style="xhtml" />
-		</div>
+		</aside>
 		<div class="span9">
 			<jdoc:include type="modules" name="breadcrumb" />
-			<jdoc:include type="component" />
+			<section>
+				<jdoc:include type="component" />
+			</section>
 		</div>
 	</div>
 </div>
