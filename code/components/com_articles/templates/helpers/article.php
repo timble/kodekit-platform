@@ -25,10 +25,13 @@ class ComArticlesTemplateHelperArticle extends KTemplateHelperDefault
 
         $parameters = $config->parameters;
         $html       = '';
-
+        $class      = $config->row->state == 0 ? 'class="article-unpublished"' : '';
+        
+        $html .= '<article '.$class.' >';
         $html .= $this->title($config);
         $html .= $this->timestamp($config);
         $html .= $this->content($config);
+        $html .= '</article>';
 
         return $html;
     }
