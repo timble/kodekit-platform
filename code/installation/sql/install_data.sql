@@ -1,3 +1,7 @@
+#
+# IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
+#
+
 # --------------------------------------------------------
 
 INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, '', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
