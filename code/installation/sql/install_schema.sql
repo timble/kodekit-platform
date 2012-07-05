@@ -58,10 +58,6 @@ CREATE TABLE `#__categories` (
 
 # --------------------------------------------------------
 
-#
-# Table structure for table `#__components`
-#
-
 CREATE TABLE `#__components` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(50) NOT NULL default '',
@@ -207,27 +203,6 @@ CREATE TABLE `#__modules_menu` (
   `moduleid` int(11) NOT NULL default '0',
   `menuid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`moduleid`,`menuid`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-CREATE TABLE `#__newsfeeds` (
-  `catid` int(11) NOT NULL default '0',
-  `id` int(11) NOT NULL auto_increment,
-  `name` text NOT NULL,
-  `alias` varchar(255) NOT NULL default '',
-  `link` text NOT NULL,
-  `filename` varchar(200) default NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `numarticles` int(11) unsigned NOT NULL default '1',
-  `cache_time` int(11) unsigned NOT NULL default '3600',
-  `checked_out` tinyint(3) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `rtl` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `published` (`published`),
-  KEY `catid` (`catid`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
