@@ -82,5 +82,18 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_feed';
 -- Remove newsfeeds search plugin
 DELETE FROM `#__plugins` WHERE `element` = 'newsfeeds' AND `folder` = 'search';
 
--- Remove meny links to newsfeeds component
+-- Remove menu links to newsfeeds component
 DELETE FROM `#__menu` WHERE `componentid` = 11;
+
+# --------------------------------------------------------
+# com_banners schema changes
+
+-- Remove com_banners
+DROP TABLE `#__banner`;
+DELETE FROM `#__components` WHERE `parent` = 1 OR `option` = 'com_banners';
+
+-- Remove mod_feed
+DELETE FROM `#__modules` WHERE `module` = 'mod_banners';
+
+-- Remove menu links to banners component
+DELETE FROM `#__menu` WHERE `componentid` = 1;

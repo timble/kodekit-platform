@@ -4,38 +4,6 @@
 
 # --------------------------------------------------------
 
-CREATE TABLE `#__banner` (
-  `bid` int(11) NOT NULL auto_increment,
-  `cid` int(11) NOT NULL default '0',
-  `type` varchar(30) NOT NULL default 'banner',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `imptotal` int(11) NOT NULL default '0',
-  `impmade` int(11) NOT NULL default '0',
-  `clicks` int(11) NOT NULL default '0',
-  `imageurl` varchar(100) NOT NULL default '',
-  `clickurl` varchar(200) NOT NULL default '',
-  `date` datetime default NULL,
-  `showBanner` tinyint(1) NOT NULL default '0',
-  `checked_out` tinyint(1) NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `editor` varchar(50) default NULL,
-  `custombannercode` text,
-  `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `description` TEXT NOT NULL,
-  `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `ordering` INTEGER NOT NULL DEFAULT 0,
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  `tags` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  PRIMARY KEY  (`bid`),
-  KEY `viewbanner` (`showBanner`),
-  INDEX `idx_banner_catid`(`catid`)
-) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default 0,
@@ -440,32 +408,4 @@ CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY(`activities_activity_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `#__users_blackhosts` (
-  `users_blacklistedhost_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `note` text,
-  PRIMARY KEY (`users_blacklistedhost_id`),
-  UNIQUE KEY `idx-name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__users_spammers` (
-  `users_spammer_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `ip` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `username` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `created_on` datetime DEFAULT NULL,
-  `created_by` bigint(20) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`users_spammer_id`),
-  KEY `idx-ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__users_whiteips` (
-  `ip` varchar(255) NOT NULL DEFAULT '',
-  `note` text,
-  PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
