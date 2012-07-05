@@ -154,12 +154,13 @@ interface KDatabaseTableInterface
      * 
      * This function will return an empty rowset if called without a parameter.
      *
-     * @param   mixed       KDatabaseQuery, query string, array of row id's, or an id or null
-     * @param   integer     The database fetch style. Default FETCH_ROWSET.
+     * @param mixed    $query KDatabaseQuery, query string, array of row id's, or an id or null
+     * @param integer  $mode  The database fetch style. Default FETCH_ROWSET.
+     * @param array    $state An optional associative array of configuration options.
      * @return  KDatabaseRow or KDatabaseRowset depending on the mode. By default will 
      *          return a KDatabaseRowset 
      */
-    public function select( $query = null, $mode = KDatabase::FETCH_ROWSET);
+    public function select($query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array());
     
     /**
      * Count table rows

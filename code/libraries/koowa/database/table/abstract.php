@@ -445,12 +445,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      * 
      * This function will return an empty rowset if called without a parameter.
      *
-     * @param   mixed       KDatabaseQuery, query string, array of row id's, or an id or null
-     * @param   integer     The database fetch style. Default FETCH_ROWSET.
-     * @return  KDatabaseRow or KDatabaseRowset depending on the mode. By default will 
-     *          return a KDatabaseRowset 
+     * @param mixed    $query KDatabaseQuery, query string, array of row id's, or an id or null
+     * @param integer  $mode  The database fetch style. Default FETCH_ROWSET.
+     * @param array    $state An optional associative array of configuration options.
+     * 
+     * @return KDatabaseRow or KDatabaseRowset depending on the mode. By default will 
+     *         return a KDatabaseRowset 
      */
-    public function select( $query = null, $mode = KDatabase::FETCH_ROWSET)
+    public function select( $query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array())
     {
        //Create query object
         if(is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
@@ -490,6 +492,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $context->table     = $this->getBase();
         $context->query     = $query;
         $context->mode      = $mode;
+        $context->options   = $options;
         
         if($this->getCommandChain()->run('before.select', $context) !== false) 
         {                   
@@ -515,14 +518,11 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             {
                 case KDatabase::FETCH_ROW    : 
                 {
-                    $options = array();
                     if(isset($data) && !empty($data)) 
                     {
-                        $options = array(
-                    		'data'   => $data,
-                        	'new'    => false,
-                            'status' => KDatabase::STATUS_LOADED
-                        );
+                        $options['data']   = $data;
+                        $options['new']    = false;
+                        $options['status'] = KDatabase::STATUS_LOADED;
                     }
 
                     $context->data = $this->getRow($options);
@@ -531,13 +531,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
                 
                 case KDatabase::FETCH_ROWSET : 
                 {
-                    $options = array();
                     if(isset($data) && !empty($data)) 
                     {
-                        $options = array(
-                    		'data'   => $data,
-                        	'new'    => false,
-                        );
+                        $options['data']   = $data;
+                        $options['new']    = false;
                     }
                     
                     $context->data = $this->getRowset($options);
