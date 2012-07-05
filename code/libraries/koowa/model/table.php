@@ -175,13 +175,14 @@ class KModelTable extends KModelAbstract
      */
     public function getItem()
     {
-        if (!isset($this->_item))
+        if(!isset($this->_item))
         {
             if($this->isConnected())
             {
-                $query  = null;
-
-                if($this->getState()->isUnique())
+                $query = null;
+                $state = $this->getState();
+                
+                if($state->isUnique())
                 {
                     $query = $this->getService('koowa:database.query.select');
 
@@ -193,7 +194,7 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryHaving($query);   
                 }
                 
-                $this->_item = $this->getTable()->select($query, KDatabase::FETCH_ROW);
+                $this->_item = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
             }
         }
 
@@ -212,9 +213,10 @@ class KModelTable extends KModelAbstract
         {
             if($this->isConnected())
             {
-                $query  = null;
+                $query = null;
+                $state = $this->getState();
                 
-                if(!$this->getState()->isEmpty())
+                if(!$state->isEmpty())
                 {
                     $query = $this->getService('koowa:database.query.select');
                 
@@ -228,7 +230,7 @@ class KModelTable extends KModelAbstract
                     $this->_buildQueryLimit($query);
                 }
         
-                $this->_list = $this->getTable()->select($query, KDatabase::FETCH_ROWSET);
+                $this->_list = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
             }
         }
 
