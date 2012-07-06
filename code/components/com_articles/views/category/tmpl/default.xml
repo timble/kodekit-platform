@@ -12,6 +12,13 @@
             <param name="id" type="category" label="Category" description="SELECT CATEGORY"/>
         </url>
         <params>
+            <param name="articles_per_page" type="text" default="5" label="Articles per page"
+                   description="ARTICLES PER PAGE DESC"/>
+            <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="order">Ordering</option>
+            </param>
             <param name="show_headings" type="radio" default="1" label="Table Headings"
                    description="TABLE HEADINGS DESC">
                 <option value="0">Hide</option>
@@ -21,17 +28,10 @@
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
             </param>
-            <param name="date_format" type="text" size="15" default="" label="Date Format"
-                   description="PARAMDATEFORMAT"/>
-            <param name="articles_per_page" type="text" default="5" label="Articles per page"
-                   description="ARTICLES PER PAGE DESC"/>
         </params>
         <advanced>
-            <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
-                <option value="newest">Newest first</option>
-                <option value="oldest">Oldest first</option>
-                <option value="order">Ordering</option>
-            </param>
+            <param name="date_format" type="text" size="15" default="" label="Date Format"
+                   description="PARAMDATEFORMAT"/>
         </advanced>
     </state>
 </metadata>
