@@ -45,9 +45,11 @@
 			<div id="window-content" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?> row-fluid">
 				<jdoc:include type="component" />
 			</div>
+			<?php if(isset($this->modules['inspector']) && count($this->modules['inspector'])) : ?>
 			<div id="window-inspector">
 				<jdoc:include type="modules" name="inspector" />
 			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	<?php if(KDEBUG) : ?>
