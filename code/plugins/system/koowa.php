@@ -194,10 +194,9 @@ class plgSystemKoowa extends JPlugin
 
         		JRequest::setVar('format', 'raw');   //force format to raw
 
-        		$document =& JFactory::getDocument();
+        		@$document =& JFactory::getDocument();
         		$document = null;
         		JFactory::getDocument()->setType($format);
-
 
         		JRequest::setVar('format', $format); //revert format to original
         	}
