@@ -2670,26 +2670,17 @@ div.toolbar table.toolbar td a.disabled:active {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f2f2', endColorstr='#e9e9e9', GradientType=0);
   border-bottom: 1px solid #dddddd;
 }
-.scopebar ul {
-  list-style: none;
-  margin: 1px 0 0 0;
-  padding: 0;
-}
-.scopebar ul li {
-  float: left;
-}
-.scopebar ul li.separator-right {
+.scopebar .scopebar-group {
   border-right: 1px solid #BBB;
+  padding-top: 3px;
   padding-right: 10px;
   margin-right: 10px;
 }
-.scopebar ul li.separator-left {
-  border-left: 1px solid #BBB;
-  padding-left: 10px;
-  margin-left: 10px;
+.scopebar .scopebar-group.last {
+  border-right: 0 none;
+  margin-right: 0;
 }
-.scopebar ul li a {
-  display: block;
+.scopebar .scopebar-group a {
   margin: 0 2px;
   padding: 2px 7px;
   font-weight: bold;
@@ -2697,8 +2688,8 @@ div.toolbar table.toolbar td a.disabled:active {
   text-transform: capitalize;
   text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
 }
-.scopebar ul li a:hover,
-.scopebar ul li.active a {
+.scopebar .scopebar-group a:hover,
+.scopebar .scopebar-group a.active {
   text-decoration: none;
   background: #A0A0A0;
   color: #FFF;
@@ -2707,16 +2698,16 @@ div.toolbar table.toolbar td a.disabled:active {
   border-radius: 10px;
   text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
 }
-.scopebar ul li.active a,
-.scopebar ul li a:active {
+.scopebar .scopebar-group a.active,
+.scopebar .scopebar-group a:active {
   -webkit-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
   -moz-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
   box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
 }
-.scopebar ul li a:active {
+.scopebar .scopebar-group a:active {
   background: gray;
 }
-.scopebar .form-search {
+.scopebar .scopebar-search {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -2731,7 +2722,7 @@ div.toolbar table.toolbar td a.disabled:active {
   box-pack: end;
   margin-left: 25px;
 }
-.scopebar .form-search input {
+.scopebar .scopebar-search input {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -2743,7 +2734,7 @@ div.toolbar table.toolbar td a.disabled:active {
   box-flex: 1;
   max-width: 250px;
 }
-.scopebar .form-search button {
+.scopebar .scopebar-search button {
   display: none;
 }
 /* @end */
@@ -3058,7 +3049,7 @@ div.message {
   margin: 0;
   padding: 2px 0px 0px 0px;
 }
-.com_dashboard #content-box > div:first-child {
+.com_dashboard #window-content > div:first-child {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3070,7 +3061,7 @@ div.message {
   box-flex: 1;
   border-right: 1px solid #dddddd;
 }
-.com_dashboard #content-box > div:first-child > div {
+.com_dashboard #window-content > div:first-child > div {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3081,7 +3072,7 @@ div.message {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-.com_dashboard #content-box > div:first-child > div > div {
+.com_dashboard #window-content > div:first-child > div > div {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3092,7 +3083,7 @@ div.message {
   -moz-box-flex: 1;
   box-flex: 1;
 }
-.com_dashboard #content-box > div:first-child > div > div > div:last-child {
+.com_dashboard #window-content > div:first-child > div > div > div:last-child {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3472,18 +3463,18 @@ form[name="adminForm"] {
   -moz-box-flex: 0;
   box-flex: 0;
 }
-.scopebar ul {
+.scopebar .scopebar-group {
   display: -webkit-box;
   display: -moz-box;
   display: box;
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  box-flex: 0;
 }
-.scopebar .form-search {
+.scopebar .scopebar-search {
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3497,7 +3488,7 @@ form[name="adminForm"] {
   -moz-box-pack: end;
   box-pack: end;
 }
-.scopebar .form-search input {
+.scopebar .scopebar-search input {
   display: -webkit-box;
   display: -moz-box;
   display: box;

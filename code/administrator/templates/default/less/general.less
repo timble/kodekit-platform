@@ -618,30 +618,19 @@ div.toolbar {
 	padding: 3px 10px 3px;
 	#gradient > .vertical(#F2F2F2, #E9E9E9);
 	border-bottom: 1px solid @grayLighter;
-
-	ul { 		
-		list-style: none;
-		margin: 1px 0 0 0;
-		padding: 0;
+	
+	.scopebar-group {
+		border-right: 1px solid #BBB;
+		padding-top: 3px;
+		padding-right: 10px;
+		margin-right: 10px;
 		
-		li {
-			float: left;
+		&.last {
+			border-right: 0 none;
+			margin-right: 0;
 		}
 		
-		li.separator-right {
-			border-right: 1px solid #BBB;
-			padding-right: 10px;
-			margin-right: 10px;
-		}
-		
-		li.separator-left {
-			border-left: 1px solid #BBB;
-			padding-left: 10px;
-			margin-left: 10px;
-		}
-		
-		li a 	{ 
-			display: block;
+		a { 
 			margin: 0 2px;
 			padding: 2px 7px;
 			font-weight: bold;
@@ -650,8 +639,8 @@ div.toolbar {
 			text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
 		}
 		
-		li a:hover,
-		li.active a {
+		a:hover,
+		a.active {
 			text-decoration: none;
 			background: #A0A0A0;
 			color: #FFF;
@@ -659,17 +648,17 @@ div.toolbar {
 			text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
 		}
 		
-		li.active a,
-		li a:active { 
+		a.active,
+		a:active { 
 			.box-shadow(~"inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0");
 		}
 		
-		li a:active {
+		a:active {
 		    background: gray;
 		}
 	}
 	
-	.form-search {
+	.scopebar-search {
 		#flexbox > .box(horizontal, 1);
 		#flexbox > .box-pack(end);
 		margin-left: 25px;

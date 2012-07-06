@@ -27,7 +27,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 
-    <?= @template('default_filter'); ?>
+    <?= @template('com://admin/articles.view.sections.default_scopebar'); ?>
     <table>
         <thead>
             <tr>

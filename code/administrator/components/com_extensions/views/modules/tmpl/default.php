@@ -30,7 +30,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </module>
 
 <form action="" method="get" class="-koowa-grid">
-	<?= @template('default_filter'); ?>
+	<?= @template('com://admin/extensions.view.plugins.default_scopebar'); ?>
 	<table>
 		<thead>
 			<tr>
