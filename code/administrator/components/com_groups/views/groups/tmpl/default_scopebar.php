@@ -11,7 +11,7 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div class="scopebar">
-	<div class="form-search">
+	<div class="scopebar-search">
 		<?= @helper('grid.search') ?>
 	</div>
 </div>
