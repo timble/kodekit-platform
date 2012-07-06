@@ -20,7 +20,7 @@ defined('KOOWA') or die('Restricted access') ?>
 </module>
 
 <form action="" method="get" class="-koowa-grid">
-	<?= @template('default_filter') ?>
+	<?= @template('default_scopebar') ?>
 	<table class="adminlist">
 		<thead>
 			<tr>

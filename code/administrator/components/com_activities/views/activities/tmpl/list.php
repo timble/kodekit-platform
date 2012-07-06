@@ -15,7 +15,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <div id="activities-list">
     <div>
-        <?= @template('default_filter') ?>
+        <?= @template('default_scopebar') ?>
     </div>
     <? if(count($activities)) : ?>
     <div class="activities">
