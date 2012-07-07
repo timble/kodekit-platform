@@ -1858,6 +1858,18 @@ table .span24 {
 #flexbox .box-scroll {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 /* @group Flexible Box Model, powered by CSS3 */
 .-koowa-box {
@@ -1898,6 +1910,32 @@ table .span24 {
 .-koowa-box-scroll {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
+}
+.scrolling-shadow {
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 /* -- General styles ------------------------------ */
 body {
@@ -2146,17 +2184,17 @@ a:hover {
 }
 #window-body.default #window-sidebar ul li a {
   display: block;
-  padding: 6px 0 6px 22px;
+  padding: 7px 0 6px 22px;
   color: #444;
-  border-top: 1px solid #F9F9F9;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 #window-body.default #window-sidebar ul li a:hover,
 #window-body.default #window-sidebar ul li.active ul li a:hover {
+  padding-top: 6px;
   color: #444;
-  border-top-color: #c4dbf2;
+  border-top: 1px solid #c4dbf2;
   background-color: #c8def3;
   background-image: -moz-linear-gradient(top, #d9e8f6, #afceed);
   background-image: -ms-linear-gradient(top, #d9e8f6, #afceed);
@@ -2170,8 +2208,9 @@ a:hover {
 }
 #window-body.default #window-sidebar ul li.active a,
 #window-body.default #window-sidebar ul li.active a:hover {
+  padding-top: 6px;
   color: #FFF;
-  border-top-color: #5c9bda;
+  border-top: 1px solid #5c9bda;
   background-color: #5594d2;
   background-image: -moz-linear-gradient(top, #71a8df, #2b75bf);
   background-image: -ms-linear-gradient(top, #71a8df, #2b75bf);
@@ -3095,6 +3134,18 @@ div.message {
   box-flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 .com_articles .categories,
 .com_users .groups {
@@ -3229,6 +3280,18 @@ div.message {
   box-flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 .com_settings .current h2 {
   border-bottom: 1px solid #EEE;
@@ -3351,6 +3414,18 @@ body,
   box-flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 #window-content {
   display: -webkit-box;
@@ -3434,6 +3509,18 @@ body,
 .-koowa-form .form-content {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   box-flex: 1;
@@ -3450,6 +3537,18 @@ form[name="adminForm"] {
   box-flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 /* @group Scope Bar */
 .scopebar {

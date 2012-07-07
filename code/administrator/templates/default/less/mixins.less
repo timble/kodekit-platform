@@ -36,11 +36,15 @@
 	.box-scroll { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+		
+		.scrolling-shadow();
 	}
 
 	.box-scrollable(@scroll) when (@scroll = scrollable) { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+		
+		.scrolling-shadow();
 	}
 
 	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
@@ -65,3 +69,28 @@
 /* @end group */
 
 .-koowa-box-scroll { #flexbox > .box-scroll(); }
+
+.scrolling-shadow {
+	background:
+		/* Shadow covers */
+		-webkit-linear-gradient(#F9F9F9 30%, #F9F9F9), 
+		-webkit-linear-gradient(#F9F9F9, #F9F9F9 70%) 0 100%,
+		
+		/* Shadows */
+		-webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent), 
+		-webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
+	background: 		/* Shadow covers */
+		/* Shadow covers */
+		linear-gradient(white 30%, rgba(255,255,255,0)),
+		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+			
+		/* Shadows */
+		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background-repeat: no-repeat;
+	
+	background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+	
+	/* Opera doesn't support this in the shorthand */
+	background-attachment: local, local, scroll, scroll;
+}
