@@ -33,7 +33,6 @@ class modMenuHelper
 
 		// cache some acl checks
 		$canConfig			= $user->authorize('com_settings', 'manage');
-		$manageTemplates	= $user->authorize('com_templates', 'manage');
 		$manageMenuMan		= $user->authorize('com_menus', 'manage');
 		$manageLanguages	= $user->authorize('com_languages', 'manage');
 		$installModules		= $user->authorize('com_installer', 'module');
@@ -160,9 +159,6 @@ class modMenuHelper
 			}
 			if ($editAllPlugins) {
 				$menu->addChild(new JMenuNode(JText::_('Plugins'), 'index.php?option=com_extensions&view=plugins'));
-			}
-			if ($manageTemplates) {
-				$menu->addChild(new JMenuNode(JText::_('Templates'), 'index.php?option=com_extensions&view=templates'));
 			}
 			if ($manageLanguages) {
 				$menu->addChild(new JMenuNode(JText::_('Languages'), 'index.php?option=com_extensions&view=languages'));
