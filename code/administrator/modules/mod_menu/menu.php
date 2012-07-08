@@ -98,7 +98,7 @@ class JAdminCSSMenu extends JTree
 		 * Print a link if it exists
 		 */
 		if ($this->_current->link != null) {
-			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".JRoute::_($this->_current->link)."\">".$this->_current->title."</a>";
 		} elseif ($this->_current->title != null) {
 			echo "<a>".$this->_current->title."</a>\n";
 		} else {
