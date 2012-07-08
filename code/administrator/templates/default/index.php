@@ -7,17 +7,17 @@
 
 <jdoc:include type="head" />
 
-<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 
 <?php if($this->params->get('flexBox', '1')) : ?>
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/chromatable.js"></script>
-<link href="templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/chromatable.js"></script>
+<link href="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 <?php else : ?>
-<link href="templates/<?php echo  $this->template ?>/css/legacy.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/css/legacy.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
 <?php if(JModuleHelper::isEnabled('menu')) : ?>
-	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
 
 </head>
