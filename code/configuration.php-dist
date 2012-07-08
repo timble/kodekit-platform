@@ -79,4 +79,7 @@ class JConfig
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
+
+	/* Template Settings */
+	vr $template = 'bootstrap';
 }
