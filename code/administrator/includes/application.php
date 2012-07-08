@@ -193,12 +193,8 @@ class JAdministrator extends JApplication
 	 */
 	function getTemplate()
 	{
-		$template = JComponentHelper::getParams('com_extensions')->get('template_administrator');
-		
-		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-			$template = 'default';
-		}
-	
+		$template = 'default';
+
 		return $template;
 	}
 
