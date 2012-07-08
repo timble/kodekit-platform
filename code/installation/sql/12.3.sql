@@ -97,3 +97,9 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_banners';
 
 -- Remove menu links to banners component
 DELETE FROM `#__menu` WHERE `componentid` = 1;
+
+# --------------------------------------------------------
+# com_installer schema changes
+
+-- Remove com_installer
+DELETE FROM `#__components` WHERE `id` = 22
