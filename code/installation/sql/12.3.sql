@@ -69,6 +69,9 @@ UPDATE `#__categories` SET `section` = 'com_articles' WHERE `section` = 'com_con
 -- Remove loadmodule plugin
 DELETE FROM `#__plugins` WHERE `element` = 'loadmodule' AND `folder` = 'content';
 
+-- Remove pagenavigation plugin
+DELETE FROM `#__plugins` WHERE `element` = 'pagenavigation' AND `folder` = 'content';
+
 # --------------------------------------------------------
 # com_newsfeeds schema changes
 
@@ -103,3 +106,8 @@ DELETE FROM `#__menu` WHERE `componentid` = 1;
 
 -- Remove com_installer
 DELETE FROM `#__components` WHERE `id` = 22
+
+# --------------------------------------------------------
+# plugin schema changes
+
+UPDATE  `#__plugins` SET  `name` =  'System - Route', `element` =  'route' WHERE  `id` = 27;
