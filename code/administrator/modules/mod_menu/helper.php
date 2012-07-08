@@ -33,6 +33,7 @@ class modMenuHelper
 
 		// cache some acl checks
 		$canConfig			= $user->authorize('com_settings', 'manage');
+
 		$manageMenuMan		= $user->authorize('com_menus', 'manage');
 		$manageLanguages	= $user->authorize('com_languages', 'manage');
 		$installModules		= $user->authorize('com_installer', 'module');
@@ -152,8 +153,6 @@ class modMenuHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer&view=components'));
-			$menu->addSeparator();
 			if ($editAllModules) {
 				$menu->addChild(new JMenuNode(JText::_('Modules'), 'index.php?option=com_extensions&view=modules'));
 			}
@@ -177,8 +176,6 @@ class modMenuHelper
 				$menu->addChild(new JMenuNode(JText::_('Settings'), 'index.php?option=com_settings'));
 				$menu->addSeparator();
 				$menu->addChild(new JMenuNode(JText::_('Activity Logs'), 'index.php?option=com_activities&view=activities'));
-				$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_info&view=system'));
-				$menu->addSeparator();
 			}
 
 			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache&view=items'));
