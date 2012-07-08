@@ -15,7 +15,6 @@
 		<submenu>
 			<menu view="modules">Modules</menu>
 			<menu view="plugins">Plugins</menu>
-			<menu view="templates">Templates</menu>
 			<menu view="languages">Languages</menu>
 		</submenu>
 	</administration>

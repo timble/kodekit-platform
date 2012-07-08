@@ -26,10 +26,6 @@ if (!JFactory::getUser()->authorize( 'com_languages', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-if (!JFactory::getUser()->authorize( 'com_templates', 'manage' )) {
-	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
-}
-
 if (!JFactory::getUser()->authorize( 'com_plugins', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }*/
