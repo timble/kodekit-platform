@@ -130,7 +130,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 	}
 
 	/**
- 	 * Registers a callback function
+ 	 * Registers a callback function in FIFO order
  	 *
  	 * If the callback has already been registered. It will not be re-registered.
  	 *
