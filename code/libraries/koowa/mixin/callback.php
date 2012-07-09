@@ -52,7 +52,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
 		//Set the command priority
 		$this->_priority = $config->callback_priority;
 
-		//Enque the command in the mixer's command chain
+		//Enqueue the command in the mixer's command chain
 		$config->command_chain->enqueue($this);
 	}
 
