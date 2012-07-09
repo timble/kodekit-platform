@@ -23,6 +23,26 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
     protected $_column_map;
 
     /**
+     * @var array An array containing RSS 2.0 item elements.
+     */
+    protected $_elements = array(
+        'title',
+        'link',
+        'description',
+        'author',
+        'category',
+        'comments',
+        'enclosure',
+        'guid',
+        'pubDate',
+        'source');
+
+    /**
+     * @var array A list of item elements to be excluded from the channel.
+     */
+    protected $_exclude;
+
+    /**
      * @var array Associative array of stylesheets containing the source (key) and their type (value).
      */
     protected $_stylesheets;
@@ -30,14 +50,15 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
     public function __construct(KConfig $config) {
         parent::__construct($config);
 
-        $this->_column_map = $config->column_map;
-
+        $this->_column_map  = KConfig::unbox($config->column_map);
         $this->_stylesheets = $config->stylesheets;
+        $this->_exclude     = KConfig::unbox($config->exclude);
     }
 
     protected function _initialize(KConfig $config) {
         $config->append(array(
             'stylesheets' => array(),
+            'exclude'     => array(),
             'column_map'  => array(
                 'author'      => 'created_by',
                 'pubDate'     => 'created_on')));
@@ -112,33 +133,39 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
     }
 
     /**
-     * Item column mapper.
+     * Item elements getter.
      *
-     * Maps the provided data column values to the corresponding item feed elements.
+     * @param $item mixed An array or object (stdClass or KDatabaseRowInterface) containing item data.
      *
-     * @param array $data The data.
-     *
-     * @return array The mapped data.
+     * @return array The item elements.
      */
-    protected function _mapColumns($data) {
+    protected function _getElements($item) {
+        if ($item instanceof KDatabaseRowInterface) {
+            $data = $item->getData();
+        } else {
+            $data = (array) $item;
+        }
 
-        // Keep a copy of the original data.
-        $result = $data;
+        $result = array();
 
-        foreach ($this->_column_map as $el => $col) {
-
-            if (is_null($col)) {
-                // A null column forces not to use the current element. This is needed if data contains
-                // a column with the same name as the element, the column points a value that is not
-                // related to element and we do not want the element on the feed output.
-                $result[$el] = null;
+        foreach ($this->_elements as $element) {
+            // Ignore excluded elements.
+            if (in_array($element, $this->_exclude)) {
                 continue;
             }
 
-            if (isset($data[$col])) {
-                $result[$el] = $data[$col];
+            // Determine the corresponding item data column for the current element.
+            if (isset($this->_column_map[$element])) {
+                $column = $this->_column_map[$element];
+            } else {
+                $column = $element;
+            }
+
+            if (isset($data[$column])) {
+                $result[$element] = $data[$column];
             }
         }
+
         return $result;
     }
 
@@ -163,7 +190,7 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
                 throw new KTemplateHelperException('Feed item is not a KDatabaseRowInterface object');
             }
 
-            $data = $this->_mapColumns($item->getData());
+            $data = $this->_getElements($item);
 
             // At least title or description must be present
             // (http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt)
@@ -317,8 +344,7 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
      *
      * @return string The text with absolute links.
      */
-    protected
-    function _absolutize($text) {
+    protected function _absolutize($text) {
         $root = KRequest::root();
         return preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$root\$2\"", $text);
     }
@@ -330,8 +356,7 @@ class ComArticlesTemplateHelperRss extends KTemplateHelperDefault
      *
      * @return string Escaped text
      */
-    protected
-    function _escape($text) {
+    protected function _escape($text) {
         return htmlspecialchars($text, ENT_QUOTES);
     }
 }
