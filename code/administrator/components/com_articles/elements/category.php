@@ -25,7 +25,7 @@ class JElementCategory extends JElement
     function fetchElement($name, $value, &$node, $control_name) {
         $db = &JFactory::getDBO();
 
-        $query = 'SELECT categories.id, CONCAT_WS(\' on section \', CONCAT(CONCAT_WS(\' ( id=\', categories.title, categories.id), \' )\'), CONCAT(CONCAT_WS(\' ( id=\', sections.title, sections.articles_section_id), \' )\')) AS title FROM #__categories AS categories LEFT JOIN #__articles_sections AS sections ON sections.articles_section_id = categories.section WHERE categories.section NOT LIKE(\'com%\') ORDER BY sections.title';
+        $query = 'SELECT id, title FROM #__categories WHERE section NOT LIKE(\'com%\') ORDER BY title';
 
         $db->setQuery($query);
         $options = $db->loadObjectList();
