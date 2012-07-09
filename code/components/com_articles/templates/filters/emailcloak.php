@@ -25,13 +25,11 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
     protected $_linkable;
 
     /**
-     * @var array Regular expressions.
+     * @var array An associative array containing patterns.
      */
-    protected $_regexps = array(
-        'email' => '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))',
-        'query' => '([?&][\x20-\x7f][^"<>]+)',
-        'text'  => '((?:[\x20-\x7f]|[\xA1-\xFF]|[\xC2-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF4][\x80-\xBF]{3})[^<>]+)',
-        'image' => '(<img[^>]+>)');
+    protected $_patterns = array(
+        'email' => '[\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4})',
+        'query' => '(?:[?&][^?&"]+)*');
 
     public function __construct(KConfig $config) {
         parent::__construct($config);
@@ -45,72 +43,42 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
     }
 
     /**
-     * Genarates a pattern that matches a link with the provided url and text regexp keys.
+     * Pattern getter.
      *
-     * @param mixed The regexp key(s) for matching the url of the email link.
-     * @param mixed The regexp key(s) for matching the text enclosed by the link.
+     * @param $name The title of the pattern
      *
-     * @return string The regular expression.
+     * @return null|string The pattern, null if there's no patter with provided title.
      */
-    protected function _getPattern($url, $text) {
-        return '~<a [\w "\'=\@\.\-]*href\s*=\s*"(?:mailto:|https?://mce_host[\x20-\x7f][^<>]+/)'
-            . $this->_getRegExp($url) . '"[\w "\'=\@\.\-]*>' . $this->_getRegExp($text) . '</a>~i';
+    protected function _getPattern($name) {
+        $result = null;
+        if (isset($this->_patterns[$name])) {
+            $result = $this->_patterns[$name];
+        }
+        return $result;
     }
 
-    /**
-     * Regular expression getter.
-     *
-     * @param mixed $name The name of the regular expression.
-     *
-     * @return string The regular expression.
-     */
-    protected function _getRegExp($name) {
-        $regexp = '';
-        if (is_array($name)) {
-            // Generate a composite regular expression.
-            foreach ($name as $key) {
-                $regexp .= $this->_regexps[$key];
-            }
-        } else {
-            $regexp = $this->_regexps[$name];
-        }
-        return $regexp;
-    }
+    public
+    function write(&$text) {
 
-    public function write(&$text) {
-        // Search for <a href="mailto:|http(s)://mce_host/dir/email@amail.tld">email@amail.tld</a>
-        while (preg_match($this->_getPattern('email', 'email'), $text, $matches, PREG_OFFSET_CAPTURE)) {
-            $text = substr_replace($text, $this->_cloak($matches[1][0]), $matches[0][1], strlen($matches[0][0]));
-        }
+        // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
+        $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';
+        $pattern .= '(';
+        $pattern .= $this->_getPattern('email');
+        // Include the query (if any)
+        $pattern .= $this->_getPattern('query');
+        $pattern .= ')';
+        $pattern .= '.*?>';
+        // The text of the URL: if could be text, email, an image, etc.
+        $pattern .= '(.*?)';
+        $pattern .= '</a>~i';
 
-        // Search for <a href="mailto:|http(s)://mce_host/dir/email@amail.tld">text</a>
-        while (preg_match($this->_getPattern('email', 'text'), $text, $matches, PREG_OFFSET_CAPTURE)) {
+        while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE)) {
             $text = substr_replace($text, $this->_cloak($matches[1][0], $matches[2][0]), $matches[0][1],
-                strlen($matches[0][0]));
-        }
-
-        // Search for <a href="mailto:|http(s)://mce_host/dir/email@amail.tld"><img ></a>
-        while (preg_match($this->_getPattern('email', 'image'), $text, $matches, PREG_OFFSET_CAPTURE)) {
-            $text = substr_replace($text, $this->_cloak($matches[1][0], $matches[2][0]), $matches[0][1],
-                strlen($matches[0][0]));
-        }
-
-        //Search for <a  href="mailto:|http(s)://mce_host/dir/email@amail.tld?subject=subject">email@email.tld</a>
-        while (preg_match($this->_getPattern(array('email', 'query'), 'email'), $text, $matches, PREG_OFFSET_CAPTURE)) {
-            $text = substr_replace($text, $this->_cloak($matches[1][0] . $matches[2][0], $matches[1][0]),
-                $matches[0][1],
-                strlen($matches[0][0]));
-        }
-
-        // Search for <a  href="mailto:|http(s)://mce_host/dir/email@amail.tld?subject=subject">text</a>
-        while (preg_match($this->_getPattern(array('email', 'query'), 'text'), $text, $matches, PREG_OFFSET_CAPTURE)) {
-            $text = substr_replace($text, $this->_cloak($matches[1][0] . $matches[2][0], $matches[3][0]),
-                $matches[0][1],
                 strlen($matches[0][0]));
         }
 
         // Search for email@amail.tld
-        $pattern = '~' . $this->_getRegExp('email') . '(\s+|$)~i';
+        $pattern = '~(' . $this->_getPattern('email') . ')[\W]~i';
         while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE)) {
             $text = substr_replace($text, $this->_cloak($matches[1][0]), $matches[1][1],
                 strlen($matches[1][0]));
@@ -124,7 +92,8 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
      *
      * By default replaces an email with a mailto link with email cloacked
      */
-    protected function _cloak($email, $text = '') {
+    protected
+    function _cloak($email, $text = '') {
         // Random var suffix.
         $rand = rand(1, 100000);
 
@@ -191,9 +160,10 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
      *
      * @return bool True if email address, false otherwise.
      */
-    protected function _isEmail($text) {
+    protected
+    function _isEmail($text) {
         $result  = false;
-        $pattern = '~' . $this->_getRegExp('email') . '~i';
+        $pattern = '~' . $this->_getPattern('email') . '~i';
         if (preg_match($pattern, $text, $matches)) {
             $result = true;
         }
@@ -207,7 +177,8 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
      *
      * @return string Encoded text.
      */
-    protected function _encode($text) {
+    protected
+    function _encode($text) {
         // Replace with HTML entities.
         return str_replace(array('a', 'e', 'i', 'o', 'u'), array('&#97;', '&#101;', '&#105;', '&#111;', '&#117;'),
             $text);
