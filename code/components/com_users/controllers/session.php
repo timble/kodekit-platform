@@ -121,7 +121,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         $user->set('usertype', $group->name);
 
         //Start the session
-        $session = $this->getService('koowa:dispatcher.session.default')->start();
+        $session = $this->getService('session')->start();
 
         $session->user = $user;
         $session->site = JFactory::getApplication()->getSite();
@@ -152,7 +152,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         {
             // Destroy the php session for this user if we are logging out ourselves
             if(JFactory::getUser()->get('id') == $data->userid) {
-                $this->getService('koowa:dispatcher.session.default')->destroy();
+                $this->getService('session')->destroy();
             }
         }
 
