@@ -58,7 +58,7 @@ abstract class KControllerAbstract extends KObject
         if(!isset($config)) $config = new KConfig();
         
         parent::__construct($config);
-        
+
         //Set the dispatched state
         $this->_dispatched = $config->dispatched;
         
@@ -227,7 +227,7 @@ abstract class KControllerAbstract extends KObject
 	 * Set the request information
 	 *
 	 * @param array	An associative array of request information
-	 * @return KControllerBread
+	 * @return KControllerAbstract
 	 */
 	public function setRequest(array $request)
 	{
