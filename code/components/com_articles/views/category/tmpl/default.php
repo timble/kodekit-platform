@@ -10,7 +10,6 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-
 <? if ($params->get('show_page_title')): ?>
 <h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
@@ -50,8 +49,7 @@ defined('KOOWA') or die('Restricted access');
         <? if ($params->get('show_create_date')) : ?>
         <td>
             <? echo @service('koowa:template.helper.date')->format(array(
-            'date'   => $article->created,
-            'format' => $params->get('date_format'))); ?>
+            'date'   => $article->created)); ?>
         </td>
         <? endif; ?>
     </tr>

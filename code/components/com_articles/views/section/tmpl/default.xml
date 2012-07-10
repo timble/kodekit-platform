@@ -28,16 +28,6 @@
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
             </param>
-            <param name="show_empty_categories" type="radio" default="0" label="Empty Categories in Section"
-                   description="EMPTY CATEGORIES IN SECTION DESC">
-                <option value="0">Hide</option>
-                <option value="1">Show</option>
-            </param>
-            <param name="show_cat_num_articles" type="radio" default="1" label="Number of category items"
-                   description="PARAMCATITEMS">
-                <option value="0">Hide</option>
-                <option value="1">Show</option>
-            </param>
             <param name="show_category_description" type="radio" default="1" label="Category Description"
                    description="PARAMSHOWHIDE">
                 <option value="0">Hide</option>

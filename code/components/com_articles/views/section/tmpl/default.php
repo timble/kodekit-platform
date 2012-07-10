@@ -10,19 +10,18 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-
 <? if ($params->get('show_page_title')): ?>
 <h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
-<? if ($params->get('show_description_image') && $category->image): ?>
+<? if ($params->get('show_description_image') && $section->image): ?>
 <img src="<? echo @service('koowa:http.url',
-    array('url' => $files_params->get('image_path') . '/' . $category->image));?>"
-     align="<?php echo $category->image_position;?>" hspace="6" alt=""/>
+    array('url' => $files_params->get('image_path') . '/' . $section->image));?>"
+     align="<?php echo $section->image_position;?>" hspace="6" alt=""/>
 <? endif; ?>
 
-<? if ($params->get('show_description') && $category->description): ?>
-<? echo @escape($category->description); ?>
+<? if ($params->get('show_description') && $section->description): ?>
+<? echo @escape($section->description); ?>
 <? endif; ?>
 
 <? $view = $this->getView()->setCategories(); ?>

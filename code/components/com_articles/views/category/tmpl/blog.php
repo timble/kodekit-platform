@@ -10,14 +10,11 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-
 <? echo @template('com://site/articles.view.articles.list'); ?>
 
-<? if ($params->get('show_feed_link')): ?>
 <? echo @helper('com://site/articles.template.helper.rss.link', array(
-        'url' => @service('com://site/articles.helper.route')->getCategoryRoute($category->id,
-            $category->section_id))); ?>
-<? endif; ?>
+    'url' => @service('com://site/articles.helper.route')->getCategoryRoute($category->id,
+        $category->section_id))); ?>
 
 <? echo count($articles) == $total_articles ? '' : @helper('paginator.pagination',
     array(
