@@ -16,7 +16,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <form action="" method="get" class="-koowa-grid">	
-	<?= @template('default_filter'); ?>
+	<?= @template('default_scopebar'); ?>
 	<table>
 		<thead>
 			<tr>
