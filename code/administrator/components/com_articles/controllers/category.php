@@ -27,10 +27,4 @@ class ComArticlesControllerCategory extends ComCategoriesControllerCategory
     
     	parent::_initialize($config);
     }
-    
-    public function getRequest()
-	{
-		$this->_request['section'] = 'com_articles';
-	    return $this->_request;
-	}
 }
