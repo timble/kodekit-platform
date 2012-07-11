@@ -119,7 +119,7 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 	}
 	
 	/**
-     * Generates a Universally Unique IDentifier, version 4.
+     * Generates a Universally Unique Identifier, version 4.
      *
      * This function generates a truly random UUID.
      *
