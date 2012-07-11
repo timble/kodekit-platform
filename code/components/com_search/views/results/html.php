@@ -29,9 +29,14 @@ class ComSearchViewResultsHtml extends ComDefaultViewHtml
 	 */
 	public function display()
 	{
+        $model = $this->getModel();
+
 		$params = JFactory::getApplication()->getParams();	
-		$this->assign('params', $params);
-		
-		return parent::display();
+
+        $this->assign('params', $params);
+        $this->assign('results', $model->getList());
+        $this->assign('total', $model->getTotal());
+
+        return parent::display();
 	}
 }
