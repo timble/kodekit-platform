@@ -88,13 +88,13 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
                 ->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if($state->section)
+        if($state->section || is_numeric($state->section))
         {
             $query->where('tbl.articles_section_id IN :section')
                 ->bind(array('section' => (array) $state->section));
         }
 
-        if($state->category)
+        if($state->category || is_numeric($state->category))
         {
             $query->where('tbl.catid IN :category')
                 ->bind(array('category' => (array) $state->category));
