@@ -88,7 +88,7 @@ class JRouterSite extends JRouter
 		//Add the suffix to the uri
 		if($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$app =& JFactory::getApplication();
+            $app =& JFactory::getApplication();
 
 			if($format = $uri->getVar('format', 'html'))
 			{
@@ -122,7 +122,7 @@ class JRouterSite extends JRouter
 	{
 		$vars   = array();
 
-		$menu =& JSite::getMenu(true);
+		$menu = JFactory::getApplication()->getMenu(true);
 
 		//Handle an empty URL (special case)
 		if(!$uri->getVar('Itemid') && !$uri->getVar('option'))
@@ -167,7 +167,7 @@ class JRouterSite extends JRouter
 	{
 		$vars   = array();
 
-		$menu  =& JSite::getMenu(true);
+		$menu  = JFactory::getApplication()->getMenu(true);
 		$route = $uri->getPath();
 
 		//Get the variables from the uri
@@ -283,7 +283,7 @@ class JRouterSite extends JRouter
 			return;
 		}
 
-		$menu =& JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 
 		/*
 		 * Build the component route
@@ -380,7 +380,7 @@ class JRouterSite extends JRouter
 		// Make sure any menu vars are used if no others are specified
 		if(($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
-			$menu =& JSite::getMenu();
+			$menu = JFactory::getApplication()->getMenu();
 
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
@@ -416,7 +416,7 @@ class JRouterSite extends JRouter
 		$uri =& parent::_createURI($url);
 
 		// Set URI defaults
-		$menu =& JSite::getMenu();
+		$menu =& JFactory::getApplication()->getMenu();
 
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');
