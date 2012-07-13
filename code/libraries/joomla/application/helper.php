@@ -55,12 +55,6 @@ class JApplicationHelper
 			$obj->name	= 'administrator';
 			$obj->path	= JPATH_ADMINISTRATOR;
 			$clients[1] = clone($obj);
-
-			// Installation Client
-			$obj->id		= 2;
-			$obj->name	= 'installation';
-			$obj->path	= JPATH_INSTALLATION;
-			$clients[2] = clone($obj);
 		}
 
 		//If no client id has been passed return the whole array
