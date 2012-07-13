@@ -80,8 +80,8 @@ class JParameter extends JRegistry
 		// Set base path
 		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
 
-		if (trim( $data )) {
-			$this->loadINI($data);
+		if (is_string($data)) {
+			$this->loadINI(trim( $data ));
 		}
 
 		if ($path) {
