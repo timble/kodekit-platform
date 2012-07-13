@@ -102,6 +102,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         $document->setMimeEncoding($view->mimetype);
 
         //Sign the response with a token
+        //@TODO : don't render the token if an error is thrown (check request)
         if(KRequest::method() == 'GET') {
             setcookie('_token', $this->getService('session')->getToken(), 0, JURI::base(true));
         }
