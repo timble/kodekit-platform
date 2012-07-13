@@ -52,7 +52,7 @@ class JHTMLImage
 			$attribs = JArrayHelper::toString( $attribs );
 		}
 
-		$cur_template = $mainframe->getTemplate();
+		$cur_template = JFactory::getApplication()->getTemplate();
 
 		if ( $altFile )
 		{
