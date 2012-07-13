@@ -21,9 +21,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="" method="post" name="login" id="form-login">
     <div class="control-group">
-        <label class="control-label" for=""><?= @text( 'Username' ); ?></label>
+        <label class="control-label" for=""><?= @text( 'Email' ); ?></label>
         <div class="controls">
-        <input name="username" id="username" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Username') ?>" />
+        <input name="email" id="email" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
         </div>
     </div>
    <div class="control-group">
