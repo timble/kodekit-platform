@@ -1,30 +1,23 @@
 <?php
 /**
-* @version		$Id: cache.php 14401 2010-01-26 14:10:00Z louis $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version     $Id: default.php 2776 2011-01-01 17:08:00Z johanjanssens $
+ * @package     Nooku_Plugins
+ * @subpackage  Koowa
+ * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport( 'joomla.plugin.plugin' );
 
 /**
- * Joomla! Page Cache Plugin
+ * System Page Cache Plugin
  *
- * @package		Joomla
- * @subpackage	System
+ * @author		Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package     Nooku_Plugins
+ * @subpackage  System
  */
-class  plgSystemCache extends JPlugin
+class  plgSystemCache extends PlgKoowaDefault
 {
-
 	var $_cache = null;
 
 	/**
@@ -32,14 +25,13 @@ class  plgSystemCache extends JPlugin
 	 *
 	 * @param	object	$subject The object to observe
 	 * @param 	array   $config  An array that holds the plugin configuration
-	 * @since	1.0
 	 */
-	function __construct(& $subject, $config)
+	public function __construct($config = array())
 	{
-		parent::__construct($subject, $config);
+		parent::__construct($config);
 
 		//Set the language in the class
-		$config =& JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$options = array(
 			'cachebase' 	=> JPATH_CACHE,
 			'defaultgroup' 	=> 'page',
@@ -55,18 +47,14 @@ class  plgSystemCache extends JPlugin
 
 	/**
 	* Converting the site URL to fit to the HTTP request
-	*
 	*/
-	function onAfterInitialise()
+	public function onBeforeControllerRoute(KEvent $event)
 	{
-		global $mainframe;
-		$user = &JFactory::getUser();
-
-		if($mainframe->isAdmin() || JDEBUG) {
+		if(JFactory::getApplication()->isAdmin() || JDEBUG) {
 			return;
 		}
 
-		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+        if (!JFactory::getUser()->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
 
@@ -83,22 +71,19 @@ class  plgSystemCache extends JPlugin
 
 			JResponse::setBody($data);
 
-			echo JResponse::toString($mainframe->getCfg('gzip'));
-			$mainframe->close();
+			echo JResponse::toString(JFactory::getApplication()->getCfg('gzip'));
+			exit(0);
 		}
 	}
 
-	function onAfterRender()
+	public function onAfterControllerRender(KEvent $event)
 	{
-		global $mainframe;
-
-		if($mainframe->isAdmin() || JDEBUG) {
+		if(JFactory::getApplication()->isAdmin() || JDEBUG) {
 			return;
 		}
 
-		$user =& JFactory::getUser();
-		if(!$user->get('aid')) {
-			//We need to check again here, because auto-login plugins have not been fired before the first aid check
+        //We need to check again here, because auto-login plugins have not been fired before the first aid check
+		if(!JFactory::getUser()->get('aid')) {
 			$this->_cache->store();
 		}
 	}
