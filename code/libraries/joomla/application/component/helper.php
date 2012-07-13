@@ -62,10 +62,8 @@ class JComponentHelper
 	 */
 	function isEnabled( $component, $strict = false )
 	{
-		global $mainframe;
-
 		$result = &JComponentHelper::getComponent( $component, $strict );
-		return ($result->enabled | $mainframe->isAdmin());
+		return ($result->enabled | JFactory::getApplication()->isAdmin());
 	}
 
 	/**
@@ -88,7 +86,7 @@ class JComponentHelper
 
 	function renderComponent($name = null, $params = array())
 	{
-		global $mainframe, $option;
+		$app = JFactory::getApplication();
 
 		if(empty($name)) {
 			// Throw 404 if no component
@@ -96,8 +94,8 @@ class JComponentHelper
 			return;
 		}
 
-		$scope = $mainframe->scope; //record the scope
-		$mainframe->scope = $name;  //set scope to component name
+		$scope = $app->scope; //record the scope
+		$app->scope = $name;  //set scope to component name
 
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
@@ -109,7 +107,7 @@ class JComponentHelper
 		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
-		if ( $mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+		if ( $app->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
@@ -137,8 +135,8 @@ class JComponentHelper
 
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
-		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
-
+		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $app->isAdmin())
+        {
 			// Get the task again, in case it has changed
 			$task = JRequest::getString( 'task' );
 
@@ -146,7 +144,7 @@ class JComponentHelper
 			include_once( $path );
 		}
 
-		$mainframe->scope = $scope; //revert the scope
+		$app->scope = $scope; //revert the scope
 
 		return $contents;
 	}
