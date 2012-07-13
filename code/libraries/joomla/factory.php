@@ -35,19 +35,77 @@ class JFactory
 	{
 		static $instance;
 
-		if (!is_object($instance))
-		{
-			jimport( 'joomla.application.application' );
+		if(!KService::has('application'))
+        {
+            if (!is_object($instance) || !($instance instanceof JApplication))
+            {
+                jimport( 'joomla.application.application' );
 
-			if (!$id) {
-				JError::raiseError(500, 'Application Instantiation Error');
-			}
+                if (!$id) {
+                    JError::raiseError(500, 'Application Instantiation Error');
+                }
 
-			$instance = JApplication::getInstance($id, $config, $prefix);
-		}
+                $instance = JApplication::getInstance($id, $config, $prefix);
+            }
+
+		} else $instance = KService::get('application');
 
 		return $instance;
 	}
+
+    /**
+     * Get a session object
+     *
+     * Returns a reference to the global {@link JSession} object, only creating it
+     * if it doesn't already exist.
+     *
+     * @access public
+     * @param array An array containing session options
+     * @return object JSession
+     */
+    function &getSession($options = array())
+    {
+        static $instance;
+
+        if(!KService::has('session'))
+        {
+            if (!is_object($instance) || !($instance instanceof JSession)) {
+                $instance = JFactory::_createSession($options);
+            }
+        }
+        else $instance = KService::get('session');
+
+        return $instance;
+    }
+
+    /**
+     * Get an user object
+     *
+     * Returns a reference to the global {@link JUser} object, only creating it
+     * if it doesn't already exist.
+     *
+     * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+     *
+     * @access public
+     * @return object JUser
+     */
+    function &getUser($id = null)
+    {
+        jimport('joomla.user.user');
+
+        if(is_null($id))
+        {
+            $session  = JFactory::getSession();
+            $instance = $session->user;
+
+            if (!$instance instanceof ComUsersDatabaseRowUser) {
+                $instance = JUser::getInstance();
+            }
+        }
+        else $instance = JUser::getInstance($id);
+
+        return $instance;
+    }
 
 	/**
 	 * Get a configuration object
@@ -71,27 +129,6 @@ class JFactory
 			}
 
 			$instance = JFactory::_createConfig($file, $type);
-		}
-
-		return $instance;
-	}
-
-	/**
-	 * Get a session object
-	 *
-	 * Returns a reference to the global {@link JSession} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @access public
-	 * @param array An array containing session options
-	 * @return object JSession
-	 */
-	function &getSession($options = array())
-	{
-		static $instance;
-
-		if (!is_object($instance)) {
-			$instance = JFactory::_createSession($options);
 		}
 
 		return $instance;
@@ -138,37 +175,6 @@ class JFactory
 
 		if (!is_object( $instance )) {
 			$instance = JFactory::_createDocument();
-		}
-
-		return $instance;
-	}
-
-	/**
-	 * Get an user object
-	 *
-	 * Returns a reference to the global {@link JUser} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
-	 *
-	 * @access public
-	 * @return object JUser
-	 */
-	function &getUser($id = null)
-	{
-		jimport('joomla.user.user');
-
-		if(is_null($id))
-		{
-			$session  =& JFactory::getSession();
-			$instance =& $session->get('user');
-			if (!is_a($instance, 'JUser')) {
-				$instance =& JUser::getInstance();
-			}
-		}
-		else
-		{
-			$instance =& JUser::getInstance($id);
 		}
 
 		return $instance;
