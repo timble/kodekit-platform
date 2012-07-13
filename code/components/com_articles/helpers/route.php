@@ -80,7 +80,7 @@ class ComArticlesHelperRoute extends KObject
 	{
 		$component = JComponentHelper::getComponent('com_articles');
 
-		$menus	= JApplication::getMenu('site', array());
+		$menus	= JFactory::getApplication()->getMenu(array());
 		$items	= $menus->getItems('componentid', $component->id);
 
 		$match = null;
