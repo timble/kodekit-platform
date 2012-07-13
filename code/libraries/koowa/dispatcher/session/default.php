@@ -34,7 +34,7 @@ class KDispatcherSessionDefault extends KDispatcherSessionAbstract implements KS
             $instance  = new $classname($config);
             $container->set($config->service_identifier, $instance);
 
-            //Add the factory map to allow easy access to the singleton
+            //Add the service alias to allow easy access to the singleton
             $container->setAlias('session', $config->service_identifier);
         }
 
