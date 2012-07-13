@@ -34,7 +34,7 @@ class ComUsersViewLogoutHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $menu   = JSite::getMenu();
+        $menu   = JFactory::getApplication()->getMenu();
         $active = $menu->getActive();
         $parameters = $active ? $menu->getParams($active->id) : $parameters = $menu->getParams(null);
 
