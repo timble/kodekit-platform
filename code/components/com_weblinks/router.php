@@ -24,7 +24,7 @@ function WeblinksBuildRoute(&$query)
     
     if(isset($query['view']) && isset($query['Itemid']))
     {
-        $view = JSite::getMenu()->getItem($query['Itemid'])->query['view'];
+        $view = JFactory::getApplication()->getMenu()->getItem($query['Itemid'])->query['view'];
         
         if($view == 'categories')
         {
@@ -68,7 +68,7 @@ function WeblinksParseRoute($segments)
 {
 	$vars	= array();
 	
-    $view = JSite::getMenu()->getActive()->query['view'];
+    $view = JFactory::getApplication()->getMenu()->getActive()->query['view'];
 	
 	if($view == 'categories')
 	{
