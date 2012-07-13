@@ -34,14 +34,12 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 */
 	function render($name = null, $params = array (), $content = null)
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$contents	= null;
 		$lists		= null;
 
 		// Get the message queue
-		$messages = $mainframe->getMessageQueue();
+		$messages = JFactory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && count($messages)) {
