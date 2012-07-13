@@ -16,6 +16,6 @@
  * @subpackage  Files
  */
 
-defined('KOOWA') or die;
+KLoader::loadIdentifier('com://site/files.aliases');
 
 echo KService::get('com://admin/files.dispatcher')->dispatch();
