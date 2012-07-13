@@ -17,9 +17,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 	
 	<fieldset class="input">
 	<div class="control-group">
-		<label class="control-label" for="modlgn_username"><?= @text('Username') ?></label>
+		<label class="control-label" for="modlgn_username"><?= @text('Email') ?></label>
 		<div class="controls">
-			<input type="text" name="username" />
+			<input type="text" name="email" />
 		</div>
 	</div>
 	<div class="control-group">
@@ -35,10 +35,6 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<li>
 				<a href="<?= @route( 'option=com_users&view=reset' ); ?>">
 				<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
-			</li>
-			<li>
-				<a href="<?= @route('option=com_users&view=remind' ); ?>">
-				<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></a>
 			</li>
 			<?php
 			
