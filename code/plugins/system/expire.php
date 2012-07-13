@@ -1,24 +1,24 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Plugins
- * @subpackage  System
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @subpackage  Koowa
+ * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * System plugin that enables full HTTP cache support by rewriting asset urls so 
- * they're unique, and update them when the file is modified.
+ * System Expire Plugin
+ *
+ * Plugin that enables full HTTP cache support by rewriting asset urls so they're unique, and update them when
+ * the file is modified.
  *
  * @author		Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  System
  */
-class plgSystemExpire extends JPlugin
+class plgSystemExpire extends PlgKoowaDefault
 {
     /**
      * Quick lookup cache, mostly useful for <img /> and url() rewrites as there 
@@ -33,7 +33,7 @@ class plgSystemExpire extends JPlugin
 	 * 
 	 * @return void
 	 */
-    public function onAfterRender()
+    public function onAfterControllerRender(KEvent $event)
     {
         $response = JResponse::getBody();
         
