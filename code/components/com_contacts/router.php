@@ -27,8 +27,8 @@ function ContactsBuildRoute(&$query)
 
 	// Get the menu items for this component.
 	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_contacts');
-		$menu		= &JSite::getMenu();
+		$component	= JComponentHelper::getComponent('com_contacts');
+		$menu		= JFactory::getApplication()->getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
 
@@ -168,7 +168,7 @@ function ContactsParseRoute($segments)
 	$vars	= array();
 
 	// Get the active menu item.
-	/*$menu	= &JSite::getMenu();
+	/*$menu	= JFactory::getApplication()->getMenu();
 	$item	= &$menu->getActive();
 
 	// Check if we have a valid menu item.
