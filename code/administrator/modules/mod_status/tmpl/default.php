@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <? if(!strpos(KRequest::get('server.HTTP_USER_AGENT', 'word'), 'Titanium')) : ?>
 
-    <? $json = "{method:'post', url:'index.php?option=com_users&view=session&user=".JFactory::getUser()->id."', params:{action:'delete', _token:'".@service('session')->getToken()."'}}"; ?>
+    <? $json = "{method:'post', url:'index.php?option=com_users&view=session&id=".JFactory::getSession()->getId()."', params:{action:'delete', _token:'".@service('session')->getToken()."'}}"; ?>
     <li <?= $class ?>>
     	<a href="#" onclick="new Koowa.Form(<?= $json ?>).submit();"><?= @text('Logout') ?></a>
     </li>
