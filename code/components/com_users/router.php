@@ -26,7 +26,7 @@ function UsersBuildRoute(&$query)
 	{
 		if(!empty($query['Itemid'])) 
 		{
-		    $menu = JSite::getMenu()->getItem( $query['Itemid'] );
+		    $menu = JFactory::getApplication()->getMenu()->getItem( $query['Itemid'] );
 		    if(!isset($menu->query['view']) || $menu->query['view'] != $query['view']) {
 		        $segments[] = $query['view'];
 		    }  
