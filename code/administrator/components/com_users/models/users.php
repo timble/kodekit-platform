@@ -76,7 +76,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	{
 	    $state = $this->getState();
 	    
-        $query->join(array('session' => 'users_sessions'), 'tbl.id = session.userid', $state->loggedin ? 'RIGHT' : 'LEFT');
+        $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
 	}
 
 	/**
