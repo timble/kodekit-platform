@@ -1,49 +1,27 @@
 <?php
 /**
-* @version		$Id: sef.php 14401 2010-01-26 14:10:00Z louis $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version     $Id: default.php 2776 2011-01-01 17:08:00Z johanjanssens $
+ * @package     Nooku_Plugins
+ * @subpackage  Koowa
+ * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport( 'joomla.plugin.plugin');
 
 /**
-* Joomla! SEF Plugin
-*
-* @package 		Joomla
-* @subpackage	System
-*/
-class plgSystemSef extends JPlugin
+ * Route System Plugin
+ *
+ * @author		Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package     Nooku_Plugins
+ * @subpackage  System
+ */
+class plgSystemRoute extends PlgKoowaDefault
 {
-	/**
-	 * Method to trigger events
-	 * 
-	 * Only trigger the event if SEF is enabled
-	 *
-	 * @access public
-	 * @param array Arguments
-	 * @return mixed Routine return value
-	 */
-	function update(&$args)
-	{
-		if(JFactory::getApplication()->getCfg('sef')) {
-			parent::update($args);
-		}
-	}
-
 	/**
      * Converting the site URL to fit to the HTTP request
      */
-	function onAfterRender()
+	public function onAfterControllerRender(KEvent $event)
 	{
 		//Replace src links
       	$base   = JURI::base(true).'/';
@@ -51,7 +29,7 @@ class plgSystemSef extends JPlugin
 		
 		// do the SEF substitutions
        	$regex  = '#(href|src|action|location.href|<option\s+value)(="|=\')(index.php[^"]*)#m';
-      	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
+      	$buffer = preg_replace_callback( $regex, array($this, 'route'), $buffer );
 
        	$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
       	$regex     = '#(src|href)="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
@@ -89,7 +67,7 @@ class plgSystemSef extends JPlugin
      * @param array An array of matches (see preg_match_all)
      * @return string
      */
-   	 function route( &$matches )
+   	 public function route( &$matches )
      {    
          $url = str_replace('&amp;','&',$matches[3]);
          $uri = new JURI(JURI::base(true).'/'.$url);
