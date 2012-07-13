@@ -18,10 +18,8 @@ class modBreadCrumbsHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
-
 		// Get the PathWay object from the application
-		$pathway =& $mainframe->getPathway();
+		$pathway = JFactory::getApplication()->getPathway();
 		$items   = $pathway->getPathWay();
 
 		$count = count($items);
@@ -35,7 +33,8 @@ class modBreadCrumbsHelper
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));
-			$item->link = JRoute::_('index.php?Itemid='.$mainframe->getMenu()->getDefault()->id);
+			$item->link = JRoute::_('index.php?Itemid='.JFactory::getApplication()->getMenu()->getDefault()->id);
+
 			array_unshift($items, $item);
 		}
 
@@ -52,24 +51,22 @@ class modBreadCrumbsHelper
  	 */
 	function setSeparator($custom = null)
 	{
-		global $mainframe;
-
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		/**
 	 	* If a custom separator has not been provided we try to load a template
 	 	* specific one first, and if that is not present we load the default separator
 	 	*/
-		if ($custom == null) {
-			if($lang->isRTL()){
+		if ($custom == null)
+        {
+			if($lang->isRTL()) {
 				$_separator = JHTML::_('image.site', 'arrow_rtl.png');
-			}
-			else{
+			} else {
 				$_separator = JHTML::_('image.site', 'arrow.png');
 			}
-		} else {
-			$_separator = $custom;
 		}
+        else $_separator = $custom;
+
 		return $_separator;
 	}
 }
