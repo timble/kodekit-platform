@@ -34,7 +34,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $menu    = JSite::getMenu();
+        $menu    = JFactory::getApplication()->getMenu();
         $default = $menu->getDefault();
         $active  = $menu->getActive();
         $parameters = $active ? $menu->getParams($active->id) : $parameters = $menu->getParams(null);
