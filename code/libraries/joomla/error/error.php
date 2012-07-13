@@ -580,7 +580,7 @@ class JError
 
 		JResponse::setBody($data);
 		echo JResponse::toString();
-		$app->close(0);
+		exit(0);
 	}
 
 	function customErrorHandler($level, $msg)
