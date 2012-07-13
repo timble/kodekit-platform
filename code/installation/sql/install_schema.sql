@@ -264,7 +264,7 @@ CREATE TABLE `#__users` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY (`email`),
-  KEY `name` (`name`),
+  KEY `name` (`name`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 CREATE TABLE `#__users_sessions` (
@@ -351,8 +351,6 @@ CREATE TABLE `#__core_acl_aro_sections` (
   UNIQUE KEY `#__gacl_value_aro_sections` (`value`),
   KEY `#__gacl_hidden_aro_sections` (`hidden`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
-
-INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
 
 # --------------------------------------------------------
 
