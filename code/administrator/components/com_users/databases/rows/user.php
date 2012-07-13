@@ -432,11 +432,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      */
     public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
     {
-        // the native calls (Check Mode 1) work on the user id, not the user type
-        $acl	= JFactory::getACL();
-        $value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
+        $value	= $this->group_name;
 
-        return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+        return JFactory::getACL()->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
     }
 	
 	/**
