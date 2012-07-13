@@ -78,7 +78,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         if($this->_request->layout == 'register' && !$user->guest)
         {
-            $url =  'index.php?Itemid='.JSite::getMenu()->getDefault()->id;
+            $url =  'index.php?Itemid='.JFactory::getApplication()->getMenu()->getDefault()->id;
             $msg =  JText::_('You are already registered.');
 
             $this->setRedirect($url, $msg);
