@@ -56,6 +56,9 @@ class ComDefaultDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements 
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
             $container->set($config->service_identifier, $instance);
+
+            //Add the service alias to allow easy access to the singleton
+            $container->setAlias('database', $config->service_identifier);
         }
 
         return $container->get($config->service_identifier);
