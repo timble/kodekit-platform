@@ -30,7 +30,11 @@ class ComUsersModelSessions extends KModelTable
 
         $this->getState()
             ->insert('client', 'int')
-            ->insert('user'  , 'int');
+            ->insert('email' , 'email');
+
+        //@TODO : Add special session id filter
+        $this->getState()
+            ->insert('id', 'string', null, true);
     }
 
     /**
@@ -61,7 +65,7 @@ class ComUsersModelSessions extends KModelTable
     {
         $state = $this->getState();
 
-        $query->join(array('users' => 'users'), 'tbl.userid = users.id');
+        $query->join(array('users' => 'users'), 'tbl.email = users.email');
     }
 
     /**
@@ -81,10 +85,10 @@ class ComUsersModelSessions extends KModelTable
                   ->bind(array('client' => (array) $state->client));
         }
 
-        if ($state->userid)
+        if ($state->email)
         {
-            $query->where('userid IN :user')
-                  ->bind(array('user' => (array) $state->user));
+            $query->where('email IN :email')
+                  ->bind(array('email' => (array) $state->email));
         }
     }
 }
