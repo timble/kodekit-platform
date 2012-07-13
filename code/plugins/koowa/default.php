@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 2776 2011-01-01 17:08:00Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  Koowa
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -12,9 +11,8 @@
 /**
  * Default Koowa plugin
  * 
- * Koowa plugins can handle a number of events that are dynamically generated. A plugin 
- * need to be wired to a specific event publisher in order for it to receive events from
- * that publisher. 
+ * Koowa plugins can handle a number of events that are dynamically generated. A plugin need to be wired to a specific
+ * event publisher in order for it to receive events from that publisher.
  * 
  * <code>
  * <?php
@@ -80,7 +78,7 @@ abstract class PlgKoowaDefault extends KEventSubscriberDefault
 	/**
 	 * Constructor
 	 */
-	public function __construct($dispatcher, $config = array())
+	public function __construct($config = array())
 	{
 		if (!$config instanceof KConfig) {
 	    	$config = new KConfig($config);
