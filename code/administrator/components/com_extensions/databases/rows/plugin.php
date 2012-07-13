@@ -65,6 +65,10 @@ class ComExtensionsDatabaseRowPlugin extends KDatabaseRowDefault
 	        $file = JPATH_PLUGINS.'/'.$this->type.'/'.$this->name.'.xml';
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'plugin' );
         }
+
+        if($column == 'identifier' && empty($this->_data['identifier'])) {
+            $this->_data['identifier'] = 'plg:'.$this->type.'.'.$this->name;
+        }
 	   
 		return parent::__get($column);
 	}
