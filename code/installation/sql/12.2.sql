@@ -10,4 +10,4 @@ ALTER TABLE  `#__users` ADD UNIQUE  `username` (  `username` );
 ALTER TABLE  `#__users` ADD UNIQUE  `email` (  `email` );
 
 -- Add UUID field required by identifiable behahvior
-ALTER TABLE  `#__users` ADD  `uuid` VARCHAR( 36 ) NOT NULL , ADD UNIQUE (`uuid`);
+ALTER TABLE  `#__users` ADD  `uuid` CHAR( 36 ) NOT NULL , ADD UNIQUE (`uuid`);
