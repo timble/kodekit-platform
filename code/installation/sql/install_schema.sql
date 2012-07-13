@@ -250,9 +250,8 @@ CREATE TABLE `#__articles_sections` (
 
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
-  `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
+  `uuid` CHAR(36) NOT NULL DEFAULT '' UNIQUE,
   `name` varchar(255) NOT NULL default '',
-  `username` varchar(150) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
   `password` varchar(100) NOT NULL default '',
   `usertype` varchar(25) NOT NULL default '',
@@ -265,21 +264,17 @@ CREATE TABLE `#__users` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY (`email`),
-  UNIQUE KEY (`username`),
-  KEY `usertype` (`usertype`),
-  KEY `idx_name` (`name`),
-  KEY `gid_block` (`gid`, `block`)
+  KEY `name` (`name`),
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 CREATE TABLE `#__users_sessions` (
-  `users_session_id` varchar(128) NOT NULL default '0',
+  `users_session_id` varchar(128) NOT NULL,
   `time` varchar(14) default '',
   `guest` tinyint(4) default '1',
-  `userid` int(11) default '0',
+  `email` varchar(100) NOT NULL COMMENT  '@Filter("email")',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
   PRIMARY KEY  (`users_session_id`(64)),
-  KEY `userid` (`userid`),
   KEY `time` (`time`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
