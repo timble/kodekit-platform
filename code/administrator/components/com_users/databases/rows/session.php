@@ -30,11 +30,16 @@ class ComUsersDatabaseRowSession extends KDatabaseRowDefault
 
     public function save()
     {
+        //@TODO : Implement automatic schema validation
+        if(empty($this->id)) {
+            return false;
+        }
+
         if($result = parent::save())
         {
             // Hit the user last visit field
             $row = KService::get('com://admin/users.database.row.user')
-                        ->setData(array('id' => $this->user_id))
+                        ->setData(array('email' => $this->email))
                         ->load();
 
             $row->last_visited_on = gmdate('Y-m-d H:i:s');
