@@ -219,6 +219,18 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     }
 
     /**
+     * Get the session life time
+     *
+     * @return integer The session life time in seconds
+     *
+     * @deprecated since 12.3, will be removed from 13.2
+     */
+    public function getExpire()
+    {
+        return $this->_lifetime;
+    }
+
+    /**
      * Get the session name
      *
      * @return string The session name
@@ -523,7 +535,6 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
             // a cookie is used to propagate the session id (default behavior) then the session cookie must be deleted.
             if (ini_get("session.use_cookies") && isset($_COOKIE[$this->getName()]))
             {
-
                 $params = session_get_cookie_params();
                 setcookie($this->getName(), '', time() - 42000,
                     $params["path"]    ,
