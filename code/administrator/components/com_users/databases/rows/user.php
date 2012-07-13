@@ -53,7 +53,12 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 	public function __get($column)
     {
-   	 	if($column == 'params' && !($this->_data['params'] instanceof JParameter))
+        //@TODO : Add mapped properties support
+        if($column == 'gid') {
+           $column = 'users_group_id';
+        }
+
+        if($column == 'params' && !($this->_data['params'] instanceof JParameter))
 		{
 			$xml_path	= JPATH_ADMINISTRATOR.'/components/com_users/databases/rows';
 			$xml_name	= str_replace(' ', '_', strtolower($this->group_name));
@@ -413,6 +418,26 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		return true;
 	}
+
+    /**
+     * Check user permissions
+     *
+     * @param	string	$acoSection	The ACO section value
+     * @param	string	$aco		The ACO value
+     * @param	string	$axoSection	The AXO section value	[optional]
+     * @param	string	$axo		The AXO value			[optional]
+     * @return	boolean	True if authorize
+     *
+     * @deprecated since 12.3, will be removed from 13.2
+     */
+    public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
+    {
+        // the native calls (Check Mode 1) work on the user id, not the user type
+        $acl	= JFactory::getACL();
+        $value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
+
+        return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+    }
 	
 	/**
      * Return an associative array of the data.
@@ -428,5 +453,53 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         
         $data['params'] = $this->params->toArray();
         return $data;
+    }
+
+    /**
+     * Method to get a parameter value
+     *
+     * Provided for compatibility with JUser
+     *
+     * @param 	string 	$key 		Parameter key
+     * @param 	mixed	$default	Parameter default value
+     * @return	mixed				The value or the default if it did not exist
+     *
+     * @deprecated since 12.3, will be removed from 13.2
+     */
+    public function getParam( $key, $default = null )
+    {
+        return $this->params->get( $key, $default );
+    }
+
+    /**
+     * Method to set a parameter
+     *
+     * Provided for compatibility with JUser
+     *
+     * @param 	string 	$key 	Parameter key
+     * @param 	mixed	$value	Parameter value
+     * @return	mixed			Set parameter value
+     *
+     * @deprecated since 12.3, will be removed from 13.2
+     */
+    function setParam( $key, $value )
+    {
+        return $this->_params->set( $key, $value );
+    }
+
+    /**
+     * Method to set a default parameter if it does not exist
+     *
+     * Provided for compatibility with JUser
+     *
+     * @param 	string 	$key 	Parameter key
+     * @param 	mixed	$value	Parameter value
+     * @return	mixed			Set parameter value
+     *
+     * @deprecated since 12.3, will be removed from 13.2
+     */
+    function defParam( $key, $value )
+    {
+        return $this->_params->def( $key, $value );
     }
 }
