@@ -44,12 +44,6 @@ if(Form && Form.Validator) {
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="username"><?= @text('Username') ?></label>
-				    <div class="controls">
-				        <input class="required minLength:2" type="text" name="username" value="<?= $user->username ?>" maxlength="150" />
-				    </div>
-				</div>
-				<div class="control-group">
 				    <label class="control-label" for="email"><?= @text('E-Mail') ?></label>
 				    <div class="controls">
 				        <input class="required validate-email" type="text" name="email" value="<?= $user->email ?>" />
