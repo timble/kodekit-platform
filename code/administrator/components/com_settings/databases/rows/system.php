@@ -31,7 +31,7 @@ class ComSettingsDatabaseRowSystem extends ComSettingsDatabaseRowAbstract
     {
         $config->append(array(
              'name' => 'system',
-             'path'	=> JPATH_CONFIGURATION.DS.'configuration.php',
+             'path'	=> JPATH_ROOT.DS.'configuration.php',
              'data' => JFactory::getConfig()->toArray()
         ));
         
