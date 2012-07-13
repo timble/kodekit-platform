@@ -102,7 +102,7 @@ class JApplication extends JObject
         KRequest::root(str_replace('/'.$this->getName(), '', KRequest::base()));
 
 		//create the configuration object
-		$this->_loadConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		$this->_loadConfiguration(JPATH_ROOT.DS.$config['config_file']);
 
 		//set defines
 		define('JPATH_CACHE', $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
@@ -654,6 +654,9 @@ class JApplication extends JObject
 		$db =& JFactory::getDBO();
 		$db = null;
 
+        //Reset the database connection
+        KService::get('database')->setConnection(JFactory::getDBO()->_resource);
+
 	    //Set the paths
 		$params = JComponentHelper::getParams('com_files');
 
@@ -758,10 +761,12 @@ class JApplication extends JObject
 
         $session = KService::get('koowa:dispatcher.session.default', $config);
 
+
+
 		//Auto-start the session if a cookie is found
 		if(!$session->isActive())
 		{
-			if (KRequest::has('cookie.'.$session->getName())) {
+            if (KRequest::has('cookie.'.$session->getName())) {
 				$session->start();
 			}
 		}
