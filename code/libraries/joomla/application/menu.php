@@ -70,9 +70,6 @@ class JMenu extends JObject
 	/**
 	 * Returns a reference to a JMenu object
 	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JSite::getMenu();</pre>
-	 *
 	 * @access	public
 	 * @param   string  $client  The name of the client
 	 * @param array     $options An associative array of options
