@@ -79,8 +79,8 @@ INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`
 
 # --------------------------------------------------------
 
-INSERT INTO `#__users` (`id`, `uuid`, `name`, `username`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
-VALUES (62, '721a87b1471d4973ada0d69447d2c85f', 'Administrator', 'admin', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, '2012-03-24 13:13:43', '2012-06-26 13:40:09', '', '');
+INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
+VALUES (62, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
 
 
 INSERT INTO `#__core_acl_aro` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`)
