@@ -52,7 +52,7 @@ class ComArticlesViewCategoryHtml extends ComArticlesViewHtml
             $this->assign('total_articles', $articles->count);
         }
 
-        $menus   = JSite::getMenu();
+        $menus   = JFactory::getApplication()->getMenu();
         $menu    = $menus->getActive();
         $pathway = JFactory::getApplication()->getPathway();
 
