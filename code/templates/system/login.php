@@ -26,7 +26,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<h1>
-			<?php echo $mainframe->getCfg('sitename'); ?>
+			<?php echo JFactory::getApplication()->getCfg('sitename'); ?>
 		</h1>
 		<jdoc:include type="component" />
 	</div>
