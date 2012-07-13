@@ -22,15 +22,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 ini_set('magic_quotes_runtime', 0);
 
 //Installation check, and check on removal of the install directory.
-if (!file_exists( JPATH_CONFIGURATION.'/configuration.php' ) || (filesize( JPATH_CONFIGURATION.'/configuration.php' ) < 10) /*|| file_exists( JPATH_INSTALLATION . DS . 'index.php' )*/) 
+if (!file_exists( JPATH_ROOT.'/configuration.php' ) || (filesize( JPATH_ROOT.'/configuration.php' ) < 10))
 {
-	if( file_exists( JPATH_INSTALLATION.'/index.php' ) ) {
-		header( 'Location: installation/index.php' );
-		exit();
-	} else {
-		echo 'No configuration file found and no installation code available. Exiting...';
-		exit();
-	}
+	echo 'No configuration file found. Exciting...';
+	exit();
 }
 
 // System includes
@@ -49,8 +44,11 @@ jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.plugin.helper' );
 
+jimport( 'joomla.application.helper');
+jimport( 'joomla.application.component.helper');
+
 // Koowa : setup
-require_once JPATH_CONFIGURATION.'/configuration.php';
+require_once JPATH_ROOT.'/configuration.php';
 $config = new JConfig();
 
 require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
@@ -69,7 +67,8 @@ KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.plugin'));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
-KServiceIdentifier::setApplication('site' , JPATH_SITE);
-KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+KServiceIdentifier::setApplication('site' , JPATH_BASE);
+KServiceIdentifier::setApplication('admin', JPATH_ROOT.'/administrator');
 
+KService::setAlias('database'                     , 'com://admin/default.database.adapter.mysqli');
 KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
