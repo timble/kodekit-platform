@@ -39,7 +39,7 @@ class WeblinksHelperRoute
 		static $items;
 
 		if (!$items) {
-			$items = JSite::getMenu()->getItems('componentid', JComponentHelper::getComponent('com_weblinks')->id);
+			$items = JFactory::getApplication()->getMenu()->getItems('componentid', JComponentHelper::getComponent('com_weblinks')->id);
 		}
 
 		if (!is_array($items)) {
