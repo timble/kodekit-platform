@@ -35,7 +35,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
                         ->getItem();
         	
         // Get the parameters of the active menu item
-        $menu = JSite::getMenu()->getActive();
+        $menu = JFactory::getApplication()->getMenu()->getActive();
         
         // Set the page title
         if (is_object( $menu ))
