@@ -19,7 +19,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
 {
     public function display()
     {
-        $menus   = JSite::getMenu();
+        $menus   = JFactory::getApplication()->getMenu();
         $menu    = $menus->getActive();
         $pathway = JFactory::getApplication()->getPathway();
 
