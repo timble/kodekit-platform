@@ -33,7 +33,7 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
                         ->getItem();
 
         // Set the page title
-        $menu = JSite::getMenu()->getActive();
+        $menu = JFactory::getApplication()->getMenu()->getActive();
 
         if (is_object( $menu ))
         {
