@@ -1,10 +1,9 @@
 <?php
 /**
  * @version     $Id: koowa.php 2775 2011-01-01 17:02:39Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  System
- * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
+ * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
@@ -13,15 +12,13 @@
  * Koowa System plugin
 .*
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Nooku
  * @package     Nooku_Plugins
  * @subpackage  System
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class plgSystemKoowa extends JPlugin
+class plgSystemKoowa extends PlgKoowaDefault
 {
-	public function __construct($subject, $config = array())
+	public function __construct($config = array())
 	{
 		// Command line fixes for Joomla
 		if (PHP_SAPI === 'cli') 
@@ -34,7 +31,7 @@ class plgSystemKoowa extends JPlugin
 				$_SERVER['REQUEST_METHOD'] = '';
 			}
 		}
-		
+
 		//Suhosin compatibility
 		if(in_array('suhosin', get_loaded_extensions()))
 		{
@@ -56,16 +53,7 @@ class plgSystemKoowa extends JPlugin
 		    $whitelist = (strlen($whitelist) ? $whitelist . ',' : '') . 'tmpl';
 		    ini_set('safeex.url_include_proto_whitelist', $whitelist);
  		}
-		
-		//Set constants
-		define('KDEBUG', JDEBUG);
-		
-		//Set exception handler
-		set_exception_handler(array($this, 'exceptionHandler'));
-		
-		//Load the koowa plugins
-		JPluginHelper::importPlugin('koowa', null, true);
-		
+
 	    //Bugfix : Set offset accoording to user's timezone
 		if(!JFactory::getUser()->guest) 
 		{
@@ -74,7 +62,7 @@ class plgSystemKoowa extends JPlugin
 		   }
 		}
 		
-		parent::__construct($subject, $config);
+		parent::__construct($config);
 	}
 	
 	/**
@@ -84,14 +72,14 @@ class plgSystemKoowa extends JPlugin
 	 * 
 	 * @return void
 	 */
-	public function onAfterInitialise()
+	public function onBeforeControllerRoute(KEvent $event)
 	{  
 	     /*
 	     * Try to log the user in 
 	     * 
 	     * If the request contains authorization information we try to log the user in
 	     */
-	    if($this->params->get('auth_basic', 1) && JFactory::getUser()->get('guest')) {
+	    if($this->_params->get('auth_basic', 1) && JFactory::getUser()->get('guest')) {
 	        $this->_authenticateUser();
 	    }
 	    
@@ -136,7 +124,7 @@ class plgSystemKoowa extends JPlugin
 	 * 
 	 * @return void
 	 */
-	public function onAfterRoute()
+	public function onAfterControllerRoute(KEvent $event)
 	{      
 	    /*
 	     * Special handling for AJAX requests
@@ -166,87 +154,7 @@ class plgSystemKoowa extends JPlugin
             KRequest::set('request.format', KRequest::format());
         }
 	}
-	
- 	/**
-	 * Catch all exception handler
-	 *
-	 * Calls the Joomla error handler to process the exception
-	 *
-	 * @param object an Exception object
-	 * @return void
-	 */
-	public function exceptionHandler($exception)
-	{
-		$this->_exception = $exception; //store the exception for later use
-		
-		//Change the Joomla error handler to our own local handler and call it
-		JError::setErrorHandling( E_ERROR, 'callback', array($this,'errorHandler'));
-		
-		//Make sure we have a valid status code
-		JError::raiseError(KHttpResponse::isError($exception->getCode()) ? $exception->getCode() : 500, $exception->getMessage());
-	}
 
-	/**
-	 * Custom JError callback
-	 *
-	 * Push the exception call stack in the JException returned through the call back
-	 * adn then rener the custom error page
-	 *
-	 * @param object A JException object
-	 * @return void
-	 */
-	public function errorHandler($error)
-	{
-		$error->setProperties(array(
-			'backtrace'	=> $this->_exception->getTrace(),
-			'file'		=> $this->_exception->getFile(),
-			'line'		=> $this->_exception->getLine()
-		));
-		
-		if(JFactory::getConfig()->getValue('config.debug')) {
-			$error->set('message', (string) $this->_exception);
-		} else {
-			$error->set('message', KHttpResponse::getMessage($error->code));
-		}
-		
-		//Make sure the buffers are cleared
-		while(@ob_get_clean());
-		
-		//Throw json formatted error
-		if(	KRequest::format() == 'json')
-		{
-		    $properties = array(
-		    	'message' => $error->message,
-		        'code'    => $error->code
-		    );
-		    
-		    if(KDEBUG)
-		    {
-		        $properties['data'] = array(
-		            'file'	    => $error->file,
-		            'line'      => $error->line,
-		            'function'  => $error->function,
-		            'class'		=> $error->class,
-		            'args'		=> $error->args,
-		            'info'		=> $error->info
-		        );
-		    }
-		    
-		    //Encode data
-		    $data = json_encode(array(
-		    	'version'  => '1.0', 
-		    	'errors' => array($properties)
-		    ));
-		    
-		    JResponse::setHeader('Content-Type','application/json');
-		    JResponse::setBody($data);
-		    
-		    echo JResponse::toString();
-		    JFactory::getApplication()->close(0);
-		}
-		else JError::customErrorPage($error);	
-	}
-	
 	/**
 	 * Basic authentication support
 	 *
