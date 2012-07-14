@@ -18,38 +18,43 @@
  * @subpackage  Users
  */
 
-function UsersBuildRoute(&$query)
+class ComUsersRouter extends ComDefaultRouter
 {
-	$segments = array();
+    public function buildRoute(&$query)
+    {
+        $segments = array();
 
-	if(isset($query['view']))
-	{
-		if(!empty($query['Itemid'])) 
-		{
-		    $menu = JFactory::getApplication()->getMenu()->getItem( $query['Itemid'] );
-		    if(!isset($menu->query['view']) || $menu->query['view'] != $query['view']) {
-		        $segments[] = $query['view'];
-		    }  
-		} 
-		else $segments[] = $query['view'];
-		
-		unset($query['view']);
-	}
-	return $segments;
+        if(isset($query['view']))
+        {
+            if(!empty($query['Itemid']))
+            {
+                $menu = JFactory::getApplication()->getMenu()->getItem( $query['Itemid'] );
+                if(!isset($menu->query['view']) || $menu->query['view'] != $query['view']) {
+                    $segments[] = $query['view'];
+                }
+            }
+            else $segments[] = $query['view'];
+
+            unset($query['view']);
+        }
+        return $segments;
+    }
+
+    public function parseRoute($segments)
+    {
+        $vars = array();
+
+        $count = count($segments);
+        if(!empty($count)) {
+            $vars['view'] = $segments[0];
+        }
+
+        if($count > 1) {
+            $vars['id']    = $segments[$count - 1];
+        }
+
+        return $vars;
+    }
 }
 
-function UsersParseRoute($segments)
-{
-	$vars = array();
 
-	$count = count($segments);
-	if(!empty($count)) {
-		$vars['view'] = $segments[0];
-	}
-
-	if($count > 1) {
-		$vars['id']    = $segments[$count - 1];
-	}
-
-	return $vars;
-}
