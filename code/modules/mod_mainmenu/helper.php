@@ -292,7 +292,7 @@ class JMenuTree extends JTree
 
 			default :
 				$router = JFactory::getApplication()->getRouter();
-				$tmp->url = $router->getMode() == JROUTER_MODE_SEF ? 'index.php?Itemid='.$tmp->id : $tmp->link.'&Itemid='.$tmp->id;
+				$tmp->url = 'index.php?Itemid='.$tmp->id;
 				break;
 		}
 
