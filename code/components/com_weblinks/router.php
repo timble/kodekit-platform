@@ -18,88 +18,95 @@
  * @subpackage  Weblinks
  */
 
-function WeblinksBuildRoute(&$query)
+class ComWeblinksRouter extends ComDefaultRouter
 {
-    $segments = array();
-    
-    if(isset($query['view']) && isset($query['Itemid']))
+    public function buildRoute(&$query)
     {
-        $view = JFactory::getApplication()->getMenu()->getItem($query['Itemid'])->query['view'];
-        
+        $segments = array();
+
+        if(isset($query['view']) && isset($query['Itemid']))
+        {
+            $view = JFactory::getApplication()->getMenu()->getItem($query['Itemid'])->query['view'];
+
+            if($view == 'categories')
+            {
+                if(isset($query['category']))
+                {
+                    $segments[] = $query['category'];
+                    unset($query['category']);
+                }
+
+                if(isset($query['id']))
+                {
+                    $segments[] = $query['id'];
+                    unset($query['id']);
+                }
+            }
+
+            if($view == 'weblinks')
+            {
+                if(isset($query['id']))
+                {
+                    $segments[] = $query['id'];
+
+                    unset($query['category']);
+                    unset($query['id']);
+                }
+            }
+
+            if($view == 'weblink')
+            {
+                $segments[] = $query['category'];
+                unset($query['category']);
+
+                $segments[] = $query['id'];
+                unset($query['id']);
+            }
+
+            unset( $query['view'] );
+        }
+
+        return $segments;
+    }
+
+    public function parseRoute($segments)
+    {
+        $vars	= array();
+
+        $view = JFactory::getApplication()->getMenu()->getActive()->query['view'];
+
         if($view == 'categories')
         {
-            $segments[] = $query['category'];
-            unset($query['category']);
-            
-            if(isset($query['id']))
+            $count = count($segments);
+
+            if ($count)
             {
-                $segments[] = $query['id'];
-                unset($query['id']);
+                $count--;
+                $segment = array_shift( $segments );
+
+                $vars['category'] = str_replace(':', '-', $segment);
+                $vars['view'] = 'weblinks';
+            }
+
+            if ($count)
+            {
+                $count--;
+                $segment = array_shift( $segments) ;
+
+                $vars['id'] = str_replace(':', '-', $segment);
+                $vars['view'] = 'weblink';
             }
         }
-        
-        if($view == 'weblinks') 
+
+        if($view == 'weblinks')
         {
-            if(isset($query['id']))
-            {
-                $segments[] = $query['id'];
-            
-                unset($query['category']);
-                unset($query['id']);
-            }
+            $segment = array_shift( $segments) ;
+
+            $vars['id'] = str_replace(':', '-', $segment);
+            $vars['view'] = 'weblink';
         }
-        
-        if($view == 'weblink') 
-        {
-            $segments[] = $query['category'];
-            unset($query['category']);
-            
-            $segments[] = $query['id'];
-            unset($query['id']);
-        }
-        
-        unset( $query['view'] );
+
+        return $vars;
     }
-   
-    return $segments;
 }
 
-function WeblinksParseRoute($segments)
-{
-	$vars	= array();
-	
-    $view = JFactory::getApplication()->getMenu()->getActive()->query['view'];
-	
-	if($view == 'categories')
-	{
-	    $count = count($segments);
-	    
-	    if ($count)
-	    {
-	        $count--;
-	        $segment = array_shift( $segments );
-	    
-	        $vars['category'] = str_replace(':', '-', $segment);
-	        $vars['view'] = 'weblinks';
-	    }
-	
-	    if ($count)
-	    {
-	        $count--;
-	        $segment = array_shift( $segments) ;
-	    
-	        $vars['id'] = str_replace(':', '-', $segment);
-	        $vars['view'] = 'weblink';
-	    }
-	}
-	
-	if($view == 'weblinks') 
-	{
-	    $segment = array_shift( $segments) ;
-	     
-	    $vars['id'] = str_replace(':', '-', $segment);
-	    $vars['view'] = 'weblink';
-	}
-	
-	return $vars;
-}
