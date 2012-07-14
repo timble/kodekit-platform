@@ -16,12 +16,6 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Set the available masks for the routing mode
- */
-define('JROUTER_MODE_RAW', 0);
-define('JROUTER_MODE_SEF', 1);
-
-/**
  * Class to create and parse routes
  *
  * @abstract
@@ -31,14 +25,6 @@ define('JROUTER_MODE_SEF', 1);
  */
 class JRouter extends JObject
 {
-	/**
-	 * The rewrite mode
-	 *
-	 * @access protected
-	 * @var integer
-	 */
-	var $_mode = null;
-
 	/**
 	 * An array of variables
 	 *
@@ -57,20 +43,6 @@ class JRouter extends JObject
 		'build' => array(),
 		'parse' => array()
 	);
-
-	/**
-	 * Class constructor
-	 *
-	 * @access public
-	 */
-	function __construct($options = array())
-	{
-		if(array_key_exists('mode', $options)) {
-			$this->_mode = $options['mode'];
-		} else {
-			$this->_mode = JROUTER_MODE_RAW;
-		}
-	}
 
 	/**
 	 * Returns a reference to the global JRouter object, only creating it if it
@@ -130,15 +102,8 @@ class JRouter extends JObject
 		// Process the parsed variables based on custom defined rules
 		$vars = $this->_processParseRules($uri);
 
-		// Parse RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
-			$vars += $this->_parseRawRoute($uri);
-		}
-
 		// Parse SEF URL
-		if($this->_mode == JROUTER_MODE_SEF) {
-			$vars += $vars + $this->_parseSefRoute($uri);
-		}
+		$vars += $vars + $this->_parseRoute($uri);
 
 	 	return  array_merge($this->getVars(), $vars);
 	}
@@ -157,35 +122,10 @@ class JRouter extends JObject
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
 
-		// Build RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
-			$this->_buildRawRoute($uri);
-		}
-
 		// Build SEF URL : mysite/route/index.php?var=x
-		if ($this->_mode == JROUTER_MODE_SEF) {
-			$this->_buildSefRoute($uri);
-		}
+		$this->_buildRoute($uri);
 
 		return $uri;
-	}
-
-	/**
-	 * Get the router mode
-	 *
-	 * @access public
-	 */
-	function getMode() {
-		return $this->_mode;
-	}
-
-	/**
-	 * Get the router mode
-	 *
-	 * @access public
-	 */
-	function setMode($mode) {
-		$this->_mode = $mode;
 	}
 
 	/**
@@ -196,8 +136,8 @@ class JRouter extends JObject
 	 * @param	mixed   $value  The value of the variable
 	 * @param	boolean $create If True, the variable will be created if it doesn't exist yet
  	 */
-	function setVar($key, $value, $create = true) {
-
+	function setVar($key, $value, $create = true)
+    {
 		if(!$create && array_key_exists($key, $this->_vars)) {
 			$this->_vars[$key] = $value;
 		} else {
@@ -212,8 +152,8 @@ class JRouter extends JObject
 	 * @param	array   $vars   An associative array with variables
 	 * @param	boolean $create If True, the array will be merged instead of overwritten
  	 */
-	function setVars($vars = array(), $merge = true) {
-
+	function setVars($vars = array(), $merge = true)
+    {
 		if($merge) {
 			$this->_vars = array_merge($this->_vars, $vars);
 		} else {
@@ -270,36 +210,14 @@ class JRouter extends JObject
 	}
 
 	/**
-	 * Function to convert a raw route to an internal URI
-	 *
-	 * @abstract
-	 * @access protected
-	 */
-	function _parseRawRoute(&$uri)
-	{
-		return false;
-	}
-
-	/**
 	 *  Function to convert a sef route to an internal URI
 	 *
 	 * @abstract
 	 * @access protected
 	 */
-	function _parseSefRoute(&$uri)
+	function _parseRoute(&$uri)
 	{
 		return false;
-	}
-
-	/**
-	 * Function to build a raw route
-	 *
-	 * @abstract
-	 * @access protected
-	 */
-	function _buildRawRoute(&$uri)
-	{
-
 	}
 
 	/**
@@ -308,7 +226,7 @@ class JRouter extends JObject
 	 * @abstract
 	 * @access protected
 	 */
-	function _buildSefRoute(&$uri)
+	function _buildRoute(&$uri)
 	{
 
 	}
