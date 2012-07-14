@@ -18,32 +18,24 @@
  * @subpackage  Search
  */
 
-/**
- * Transforms a non-SEF URI to a SEF URI.
- * 
- * @param array The variables
- * @return array The segments of the SEF URI
- */
-function SearchBuildRoute(&$query)
+class ComSearchRouter extends ComDefaultRouter
 {
-	$segments = array();
-	
-	if(isset($query['view'])) {
-		unset($query['view']);
-	}
-	
-	return $segments;
+    public function buildRoute(&$query)
+    {
+        $segments = array();
+
+        if(isset($query['view'])) {
+            unset($query['view']);
+        }
+
+        return $segments;
+    }
+
+    public function parseRoute($segments)
+    {
+        $vars = array();
+
+        return $vars;
+    }
 }
 
-/**
- * Provides variables from a SEF URI.
- * 
- * @param array The URI segments.
- * @return array The variables.
- */
-function SearchParseRoute($segments)
-{
-	$vars = array();
-	
-	return $vars;
-}
