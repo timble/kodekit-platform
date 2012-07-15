@@ -38,20 +38,14 @@ class JRoute
 	function _($url, $xhtml = true, $ssl = null)
 	{
 		// Get the router
-		$app	= &JFactory::getApplication();
-		$router = &$app->getRouter();
-
-		// Make sure that we have our router
-		if (! $router) {
-			return null;
-		}
+		$router = JFactory::getApplication()->getRouter();
 
 		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
             return $url;
  		}
 
 		// Build route
-		$uri = &$router->build($url);		
+		$uri = $router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		
 		// Replace spaces
@@ -67,7 +61,7 @@ class JRoute
 		$ssl = (int) $ssl;
 		if ($ssl)
 		{
-			$uri =& JURI::getInstance();
+			$uri = JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
