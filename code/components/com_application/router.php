@@ -1,45 +1,39 @@
 <?php
 /**
-* @version		$Id: router.php 8180 2007-07-23 05:52:29Z eddieajau $
-* @package		Joomla.Framework
-* @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
-
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+ * @version     $Id: dispatcher.php 4021 2012-07-13 01:00:23Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Application
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
 /**
- * Class to create and parse routes for the site application
- *
- * @package 	Joomla
- * @since		1.5
+ * Application Router Class
+.*
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package     Nooku_Server
+ * @subpackage  Application
  */
-class JRouterSite extends JRouter
+class ComApplicationRouter extends KDispatcherRouterDefault
 {
-	function parse(&$uri)
+    public function parse($url)
 	{
 		$vars = array();
 
 		// Get the application
-		$app =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Forward to https
-		if($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') 
+		if($app->getCfg('force_ssl') == 2 && strtolower($url->getScheme()) != 'https')
 		{
-			$uri->setScheme('https');
-			$app->redirect($uri->toString());
+			$url->setScheme('https');
+			$app->redirect($url->toString());
 		}
 
 
 		// Get the path
-		$path = $uri->getPath();
+		$path = $url->getPath();
 
 		if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 		{
@@ -57,62 +51,61 @@ class JRouterSite extends JRouter
 		$path = str_replace('index.php', '', $path);
 
 		//Set the route
-		$uri->setPath(trim($path , '/'));
+		$url->setPath(trim($path , '/'));
 
-		$vars += parent::parse($uri);
+		$vars += parent::parse($url);
 
 		return $vars;
 	}
 
-	function &build($url)
+	public function build($url)
 	{
-		$uri =& parent::build($url);
+		$url = parent::build($url);
 
 		// Get the path data
-		$route = $uri->getPath();
+		$route = $url->getPath();
 
 		//Add the suffix to the uri
 		if($route)
 		{
             $app = JFactory::getApplication();
 
-			if($format = $uri->getVar('format', 'html'))
+			if($format = $url->getVar('format', 'html'))
 			{
 			    if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			    {
 			        $route .= '.'.$format;
-			    	$uri->delVar('format');
+			    	$url->delVar('format');
 			    }
 			    else 
 			    {
 			        if($format == 'html') {
-			            $uri->delVar('format');
+			            $url->delVar('format');
 			        }   
 			    }
 			}
 
-			if($app->getCfg('sef_rewrite'))
-			{
-				//Transform the route
+            //Transform the route
+			if($app->getCfg('sef_rewrite')) {
 				$route = str_replace('index.php/', '', $route);
 			}
 		}
 
 		//Add basepath to the uri
-		$uri->setPath(JURI::base(true).'/'.$route);
+		$url->setPath(JURI::base(true).'/'.$route);
 
-		return $uri;
+		return $url;
 	}
 
-	function _parseRoute(&$uri)
+	protected function _parseRoute($url)
 	{
 		$vars   = array();
 
 		$menu  = JFactory::getApplication()->getMenu(true);
-		$route = $uri->getPath();
+		$route = $url->getPath();
 
 		//Get the variables from the uri
-		$vars = $uri->getQuery(true);
+		$vars = $url->getQuery(true);
 
 		//Remove the site from the route
 		$site  = JFactory::getApplication()->getSite();
@@ -142,7 +135,7 @@ class JRouterSite extends JRouter
 				{
 					$route   = substr($route, $lenght);
 
-					$vars['Itemid'] = $item->id;
+                    $vars['Itemid'] = $item->id;
 					$vars['option'] = $item->component;
 					
 					break;
@@ -201,13 +194,13 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	function _buildRoute(&$uri)
+	protected function _buildRoute($url)
 	{
 		// Get the route
-		$route = $uri->getPath();
+		$route = $url->getPath();
 
 		// Get the query data
-		$query = $uri->getQuery(true);
+		$query = $url->getQuery(true);
 
 		if(!isset($query['option'])) {
 			return;
@@ -276,97 +269,97 @@ class JRouterSite extends JRouter
 		unset($query['option']);
 
 		//Set query again in the URI
-		$uri->setQuery($query);
-		$uri->setPath($route);
+		$url->setQuery($query);
+		$url->setPath($route);
 	}
 
-	function _processParseRules(&$uri)
+	protected function _processParseRules($url)
 	{
 		// Process the attached parse rules
-		$vars = parent::_processParseRules($uri);
+		$vars = parent::_processParseRules($url);
 
-		if($start = $uri->getVar('start'))
+		if($start = $url->getVar('start'))
 		{
-			$uri->delVar('start');
+			$url->delVar('start');
 			$vars['limitstart'] = $start;
 		}
 
 		return $vars;
 	}
 
-	function _processBuildRules(&$uri)
+	protected function _processBuildRules($url)
 	{
 		// Make sure any menu vars are used if no others are specified
-		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+		if($url->getVar('Itemid') && count($url->getQuery(true)) == 2)
 		{
 			$menu = JFactory::getApplication()->getMenu();
 
 			// Get the active menu item
-			$itemid = $uri->getVar('Itemid');
+			$itemid = $url->getVar('Itemid');
 			$item   = $menu->getItem($itemid);
 
-			$uri->setQuery($item->query);
-			$uri->setVar('Itemid', $itemid);
+			$url->setQuery($item->query);
+			$url->setVar('Itemid', $itemid);
 		}
 
 		// Process the attached build rules
-		parent::_processBuildRules($uri);
+		parent::_processBuildRules($url);
 
 		// Get the path data
-		$route = $uri->getPath();
+		$route = $url->getPath();
 
 		if($route)
 		{
-			if ($limitstart = $uri->getVar('limitstart'))
+			if ($limitstart = $url->getVar('limitstart'))
 			{
-				$uri->setVar('start', (int) $limitstart);
-				$uri->delVar('limitstart');
+				$url->setVar('start', (int) $limitstart);
+				$url->delVar('limitstart');
 			}
 		}
 
-		$uri->setPath($route);
+		$url->setPath($route);
 	}
 
-	function &_createURI($url)
+	protected function _createUrl($url)
 	{
 		//Create the URI
-		$uri =& parent::_createURI($url);
+		$url = parent::_createUrl($url);
 
 		// Set URI defaults
 		$menu = JFactory::getApplication()->getMenu();
 
 		// Get the itemid form the URI
-		$itemid = $uri->getVar('Itemid');
+		$itemid = $url->getVar('Itemid');
 
 		if(is_null($itemid))
 		{
-			if($option = $uri->getVar('option'))
+            if($option = $url->getVar('option'))
 			{
 				$item  = $menu->getItem($this->getVar('Itemid'));
 				if(isset($item) && $item->component == $option) {
-					$uri->setVar('Itemid', $item->id);
+					$url->setVar('Itemid', $item->id);
 				}
 			}
 			else
 			{
 				if($option = $this->getVar('option')) {
-					$uri->setVar('option', $option);
+					$url->setVar('option', $option);
 				}
 
 				if($itemid = $this->getVar('Itemid')) {
-					$uri->setVar('Itemid', $itemid);
+					$url->setVar('Itemid', $itemid);
 				}
 			}
 		}
 		else
 		{
-			if(!$uri->getVar('option'))
+			if(!$url->getVar('option'))
 			{
 				$item  = $menu->getItem($itemid);
-				$uri->setVar('option', $item->component);
+				$url->setVar('option', $item->component);
 			}
 		}
 
-		return $uri;
+		return $url;
 	}
 }
