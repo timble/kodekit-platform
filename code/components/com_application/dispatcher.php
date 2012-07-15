@@ -9,7 +9,7 @@
  */
 
 /**
- * Application Dispatcher
+ * Application Dispatcher Class
 .*
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
@@ -445,21 +445,14 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Return a reference to the application JRouter object.
+     * Get the application router.
      *
-     * @param  array $options 	An optional associative array of configuration settings.
-     * @return	JRouter
+     * @param  array $options 	An optional associative array of configuration options.
+     * @return	\ComApplicationRouter
      */
-    public function getRouter($options = array())
+    public function getRouter(array $options = array())
     {
-        $name = $this->getName();
-
-        //Force SEF mode
-        $options['mode'] = 1;
-
-        jimport( 'joomla.application.router' );
-        $router = JRouter::getInstance($name, $options);
-
+        $router = $this->getService('com://site/application.router', $options);
         return $router;
     }
 
