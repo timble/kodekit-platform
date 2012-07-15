@@ -67,13 +67,13 @@
  *     $url->path[] = 'another';
  *
  *     // and fetch it to a string.
- *     $new_url = $url->geUrlt();
+ *     $new_url = $url->getUrl();
  *
  *     // the $new_url string is as follows; notice how the format
  *     // is always applied to the last path-element.
  *     // /something/else/entirely/another.php?baz=zab&zim=gir#anchor
  *
- *     // Get the full URL to get the shceme and host
+ *     // Get the full URL to get the scheme and host
  *     $full_url = $url->getUrl(true);
  *
  *     // the $full_url string is:
