@@ -67,8 +67,6 @@ window.addEvent('domready', function() {
 		window.fireEvent('refresh');
 	});
 
-	
-
 	var uploader = element.pluploadQueue(),
 		//We only want to run this once
 		exposePlupload = function(uploader) {
@@ -364,7 +362,6 @@ window.addEvent('domready', function() {
 			</div>
 			<input type="submit" class="remote-submit" value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="action" value="save" />
-			</fieldset>
 		</form>
 	</div>
 </div>

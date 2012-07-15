@@ -29,18 +29,21 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         
         if (!$model->getState()->files && !$model->getState()->filename) 
         {
-                if ($row->isImage()) {
-        		$needed[] = $row->name;
+        	$needed  = array();
+        	foreach ($nodes as $row)
+        	{
+        		if ($row->isImage()) {
+        			$needed[] = $row->name;
+        		}
         	}
         } 
-        else {
-        	$needed = $model->getState()->files ? $model->getState()->files : $model->getState()->filename;
-        }
+        else $needed = $model->getState()->files ? $model->getState()->files : $model->getState()->filename;
 
-	$model->reset()
-	      ->set($state_data)
-	      ->set('files', $needed);
-	$list  = $model->getList();
+		$model->reset()
+		      ->set($state_data)
+		      ->set('files', $needed);
+		
+		$list  = $model->getList();
 		
     	$found = array();
         foreach ($list as $row) {
@@ -63,13 +66,15 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         	
         	if (count($new))
         	{
-			$model->reset()
-			    ->set($state_data)
-			    ->set('files', $new);
-			$additional = $model->getList();
-			foreach ($additional as $row) {
-				$list->insert($row);
-			}
+				$model->reset()
+				    ->set($state_data)
+				    ->set('files', $new);
+				
+				$additional = $model->getList();
+				
+				foreach ($additional as $row) {
+					$list->insert($row);
+				}
         	}
         }
 

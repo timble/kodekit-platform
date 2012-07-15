@@ -86,9 +86,6 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 				$query->where('tbl.folder', '=', $source->folder);
 			}
 		}
-		elseif (!empty($state->files)) {
-			$query->where('tbl.filename', 'IN', $state->files);
-		}
 		else
 		{
 		    if ($state->container) {
