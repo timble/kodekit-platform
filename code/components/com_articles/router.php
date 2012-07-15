@@ -16,7 +16,7 @@
  * @subpackage Articles
  */
 
-class ComContactsRouter extends ComDefaultRouter
+class ComArticlesRouter extends ComDefaultRouter
 {
     public function buildRoute(&$query)
     {
