@@ -18,11 +18,18 @@
 class KDatabaseQueryDelete extends KDatabaseQueryAbstract
 {
     /**
-     * The table name.
+     * The table element
      *
-     * @var string
+     * @var array
      */
-    public $table;
+    public $table = array();
+    
+    /**
+     * The join element
+     *
+     * @var array
+     */
+    public $join = array();
 
     /**
      * Data of the where clause.
@@ -48,12 +55,39 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
     /**
      * Build the table clause 
      *
-     * @param   string $table The name of the table.
-     * @return  \KDatabaseQueryDelete
+     * @param  array|string $table The table string or array name.
+     * @return \KDatabaseQueryDelete
      */
-    public function table($table) 
+    public function table($table)
     {
-        $this->table = $table;
+        $this->table = (array) $table;
+        return $this;
+    }
+    
+    /**
+     * Build the join clause
+     *
+     * @param string $table      The table name to join to.
+     * @param string $condition  The join conditation statement.
+     * @param string|array $type The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
+     * @return \KDatabaseQuerySelect
+     */
+    public function join($table, $condition = null, $type = 'LEFT')
+    {
+        settype($table, 'array');
+
+        $data = array(
+            'table'     => current($table),
+            'condition' => $condition,
+            'type'      => $type
+        );
+
+        if (is_string(key($table))) {
+            $this->join[key($table)] = $data;
+        } else {
+            $this->join[] = $data;
+        }
+
         return $this;
     }
 
@@ -116,9 +150,40 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
         $adapter = $this->getAdapter();
         $prefix  = $adapter->getTablePrefix();
         $query   = 'DELETE';
-
+        
+        if($this->table && $this->join) {
+            $query .= ' '.$adapter->quoteIdentifier(!is_numeric(key($this->table)) ? key($this->table) : current($this->table));
+        }
+        
         if($this->table) {
-            $query .= ' FROM '.$adapter->quoteIdentifier($prefix.$this->table);
+            $query .= ' FROM '.$adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+        }
+        
+        if($this->join)
+        {
+            $joins = array();
+            foreach($this->join as $alias => $join)
+            {
+                $tmp = '';
+
+                if($join['type']) {
+                    $tmp .= ' '.$join['type'];
+                }
+
+                if($join['table'] instanceof KDatabaseQuerySelect) {
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                } else {
+                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                }
+
+                if($join['condition']) {
+                    $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                }
+
+                $joins[] = $tmp;
+            }
+
+            $query .= implode('', $joins);
         }
 
         if($this->where)

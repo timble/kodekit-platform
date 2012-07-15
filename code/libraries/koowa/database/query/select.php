@@ -158,7 +158,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * @param string|array $type The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
      * @return \KDatabaseQuerySelect
      */
-    public function join($table, $condition, $type = 'LEFT')
+    public function join($table, $condition = null, $type = 'LEFT')
     {
         settype($table, 'array');
 
@@ -312,7 +312,9 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
                     $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
-                $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                if($join['condition']) {
+                    $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                }
 
                 $joins[] = $tmp;
             }
