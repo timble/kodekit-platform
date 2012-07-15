@@ -70,7 +70,7 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
      * @param string $table      The table name to join to.
      * @param string $condition  The join conditation statement.
      * @param string|array $type The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
-     * @return \KDatabaseQuerySelect
+     * @return \KDatabaseQueryDelete
      */
     public function join($table, $condition = null, $type = 'LEFT')
     {
