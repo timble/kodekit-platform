@@ -22,12 +22,13 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		parent::__construct($config);
 
 		$this->getState()
-			->insert('container', 'com://admin/files.filter.container', null)
-			->insert('folder', 'com://admin/files.filter.path')
-			->insert('filename', 'com://admin/files.filter.path', null, true, array('container'))
-			->insert('files', 'com://admin/files.filter.path', null)
-			->insert('source', 'raw', null, true);
-		
+			->insert('container' , 'com://admin/files.filter.container', null)
+			->insert('folder'    , 'com://admin/files.filter.path')
+			->insert('filename'  , 'com://admin/files.filter.path', null, true, array('container'))
+			->insert('files'     , 'com://admin/files.filter.path', null)
+			->insert('source'    , 'raw', null, true)
+		    ->insert('types'     , 'cmd', '')
+		    ->insert('config'    , 'json', '')
 	}
 	
 	protected function _initialize(KConfig $config)
@@ -85,10 +86,8 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 				$query->where('tbl.folder = :folder')->bind(array('folder' => $source->folder));
 			}
 		}
-		elseif (!empty($state->files)) {
-			$query->where('tbl.filename '.(is_array($state->files) ? 'IN' : '=').' :files')->bind(array('files' => $state->files));
-		}
-		else {
+		else 
+		{
 		    if ($state->container) {
 		        $query->where('tbl.files_container_id = :container_id')->bind(array('container_id' => $state->container->id));
 		    }

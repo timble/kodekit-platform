@@ -88,7 +88,8 @@ Files.App = new Class({
 		this.setOptions(options);
 
 		if (this.options.persistent && this.options.container) {
-			this.cookie = 'com.files.container.'+this.options.container;
+			var container = typeof this.options.contianer === 'string' ? this.options.container : this.options.container.slug;
+			this.cookie = 'com.files.container.'+container;
 		}
 
 		this.setState();

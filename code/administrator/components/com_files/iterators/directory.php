@@ -57,7 +57,9 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			'fullpath' 	=> false, // true to return full paths, false to return basename only
 			'filter' 	=> null, // either an array of file extensions, a regular expression or a callback function
 			'map' 		=> null, // a callback to return values from items in the iterator
-			'exclude' 	=> array('.svn', '.git', 'CVS') // an array of values to exclude from results
+			'exclude' 	=> array('.svn', '.git', 'CVS'), // an array of values to exclude from results
+			'sort' 		=> 'name',
+			'return_raw'=> false
 		));
 
 		$exclude = KConfig::unbox($config->exclude);

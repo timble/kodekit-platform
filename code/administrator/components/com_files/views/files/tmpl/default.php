@@ -133,44 +133,7 @@ window.addEvent('domready', function() {
 
     Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
 
-    var switchers = $$('.files-layout-switcher'),
-    	slider = document.id('files-thumbs-size');
-
-	if(slider.type != 'range' && 'Slider' in window) {
-	    var container = slider.getParent('.files-layout-grid-resizer-container').addClass('fallback'),
-                newSlider = new Element('div', {
-                'id': slider.id+'-shim',
-                'class': 'slider'
-            }).grab(new Element('div', {'class': 'knob'}))
-              .replaces(slider);
-        document.body.adopt(slider.hide());
-
-        // Create the new slider instance
-        var instance = new Slider(newSlider, newSlider.getElement('.knob'), {
-            range: [slider.get('min').toInt(), slider.get('max').toInt()]
-        });
-
-        var once = false;
-        slider.addEvent('change', function(){
-        	if(!once) {
-        		instance.addEvent('change', function(value){
-        			Files.app.grid.setIconSize(value);
-                	Files.app.setDimensions.call(Files.app, true);
-        		});
-        		once = true;
-        	}
-	        instance.set(this.value);
-	    });
-        var slider = container;
-    } else if(slider.type != 'range') {
-    	document.getElement('.files-layout-grid-resizer-container').setStyle('display', 'none');
-	    var slider = false;
-	} else {
-	    slider.addEvent('change', function(event){
-	        Files.app.grid.setIconSize(this.value);
-	        Files.app.setDimensions.call(Files.app, true);
-	    });
-	}
+    var switchers = $$('.files-layout-switcher');
 
     switchers.filter(function(el) {
         return el.get('data-layout') == Files.app.grid.layout;
