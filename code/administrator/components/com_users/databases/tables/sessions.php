@@ -23,9 +23,6 @@ class ComUsersDatabaseTableSessions extends KDatabaseTableDefault
     {
         $config->append(array(
             'identity_column' => 'users_session_id',
-            'column_map' => array(
-                'user_id' => 'userid',
-            ),
         ));
 
         parent::_initialize($config);
