@@ -118,7 +118,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 * @param	mixed	Data to be sanitized
 	 * @return	mixed	The sanitized data
 	 */
-	public final function sanitize($data)
+	final public function sanitize($data)
 	{
 		if($this->_walk && (is_array($data) || is_object($data))) 
 		{
