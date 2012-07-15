@@ -373,11 +373,10 @@ Koowa.Controller.Grid = new Class({
                 event.stop();
                 this.options.transport(this.form.action, this.form.toQueryString(), 'get');
             }.bind(this));
-        } else {
+        } else if(selects.length) {
             selects.addEvent('change', this.form.submit.bind(this.form));
         }
-        
-        
+          
         //Pick up actions that are in the grid itself
         var token_name = this.form.get('data-token-name'),
             token_value = this.form.get('data-token-value'),
