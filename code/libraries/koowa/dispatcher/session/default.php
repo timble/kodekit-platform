@@ -40,5 +40,4 @@ class KDispatcherSessionDefault extends KDispatcherSessionAbstract implements KS
 
         return $container->get($config->service_identifier);
     }
-
 }
