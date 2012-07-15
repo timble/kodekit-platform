@@ -193,7 +193,6 @@ class KHttpUrl extends KObject
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDispatcherSessionAbstract
      */
     public function __construct(KConfig $config = null)
     {
