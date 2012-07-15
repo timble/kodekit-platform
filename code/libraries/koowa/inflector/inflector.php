@@ -137,6 +137,9 @@ class KInflector
 	{
 		self::$_cache['pluralized'][$singular]	= $plural;
 		self::$_cache['singularized'][$plural] 	= $singular;
+		
+		self::$_cache['singularized'][$singular] = $singular;
+		self::$_cache['pluralized'][$plural] = $plural;
 	}
 
    	/**
