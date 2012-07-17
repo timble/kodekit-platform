@@ -36,6 +36,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 			<th width="5%" nowrap="nowrap">
 				<?= @helper('grid.sort', array('column' => 'published')) ?>
 			</th>
+			<th>
+			    <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
+			</th>
 			<th width="8%" nowrap="nowrap">
 				<?= @helper('grid.sort', array('column' => 'ordering')) ?>
 			</th>
@@ -59,6 +62,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 			</td>
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $weblink)) ?>
+			</td>
+			<td>
+			    <?= $weblink->category_title ?>
 			</td>
 			<td class="order">
 				<?= @helper('grid.order', array('row' => $weblink, 'total' => $total)); ?>

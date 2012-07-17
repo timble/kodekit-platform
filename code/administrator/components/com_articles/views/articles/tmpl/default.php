@@ -38,6 +38,12 @@ defined('KOOWA') or die('Restricted access') ?>
                 <th width="20">
                     <?= @helper('grid.sort', array('column' => 'state', 'title' => 'Published')) ?>
                 </th>
+                <th width="10%">
+                    <?= @helper('grid.sort', array('column' => 'section_title', 'title' => 'Section')) ?>
+                </th>
+                <th width="10%">
+                    <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
+                </th>
                 <? if($state->category) : ?>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => ($state->featured == true) ? 'featured_ordering' : 'ordering')) ?>
@@ -50,7 +56,7 @@ defined('KOOWA') or die('Restricted access') ?>
         </thead>
         <tfoot>
             <tr>
-                <td colspan="5">
+                <td colspan="7">
                     <?= @helper('paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
@@ -84,6 +90,12 @@ defined('KOOWA') or die('Restricted access') ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>
+                </td>
+                <td>
+               	    <?= $article->section_title ?> 
+                </td>
+                <td>
+                    <?= $article->category_title ?>
                 </td>
                 <? if($state->category) : ?>
                 <td align="center">

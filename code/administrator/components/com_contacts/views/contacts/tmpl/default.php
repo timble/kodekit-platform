@@ -36,12 +36,14 @@ defined('KOOWA') or die('Restricted access') ?>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
 			 </th>
+			 <th>
+			     <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
+			 </th>
+			<? if($state->category) : ?>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
 			</th>
-			<th>
-			    <?= @helper('grid.sort', array('column' => 'access')); ?>
-			</th>
+			<? endif ?>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'user', 'title' => 'Linked to User')); ?>
 			 </th>
@@ -66,16 +68,23 @@ defined('KOOWA') or die('Restricted access') ?>
 				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
 	   				<?= @escape($contact->name); ?>
 	   			</a>
+	   			<? if($contact->access == '1') : ?>
+	   			    <span class="label label-important"><?= @text('Registered') ?></span>
+	   			<? elseif($contact->access == '2') : ?>
+	   			    <span class="label"><?= @text('Special') ?></span>
+	   			<? endif; ?>
 			</td>
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $contact)); ?>
             </td>
+            <td>
+                <?= $contact->category_title ?>
+            </td>
+			<? if($state->category) : ?>
 			<td align="center">
 				<?= @helper('grid.order', array('row' => $contact)); ?>
 			</td>
-			<td align="center">
-				<?= @helper('grid.access', array('row' => $contact)) ?>
-			</td>
+			<? endif ?>
 			<td align="left">
 				<?  if($contact->user_id) : ?>
 				    <a href="<?= @route('option=com_users&view=user&id='.$contact->user_id) ?>">
