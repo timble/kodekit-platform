@@ -33,7 +33,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		parent::_buildQueryColumns($query);
 
 		$query->columns(array(
-			'category' => 'categories.title',
+			'category_title' => 'categories.title',
 			'editor' => 'users.name'
 	    ));
 	}
