@@ -142,7 +142,7 @@ defined('KOOWA') or die('Restricted access') ?>
 			<div class="control-group">
 			    <label class="control-label" for="user_id"><?= @text( 'Linked to User' ); ?></label>
 			    <div class="controls">
-			        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id')) ?>
+			        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id', 'validate' => false)) ?>
 			    </div>
 			</div>
 			<div class="control-group">
