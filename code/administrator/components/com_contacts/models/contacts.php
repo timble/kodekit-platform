@@ -43,7 +43,7 @@ class ComContactsModelContacts extends KModelTable
 	{
 		parent::_buildQueryJoins($query);
 		
-		$query->join(array('categories' => 'categories'), 'categories.id = tbl.id')
+		$query->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
 		      ->join(array('users' => 'users'), 'users.id = tbl.user_id');
 	}
 
