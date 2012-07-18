@@ -178,22 +178,22 @@ class KService implements KServiceInterface
      *
      * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
 	 * 					or valid identifier string
-     * @param  string|array   A mixin identifier or a array of mixin identifiers
+     * @param  string   A mixin identifier string
      * @see KObject::mixin
      */
-    public static function addMixin($identifier, $mixins)
+    public static function addMixin($identifier, $mixin)
     {
-        settype($mixins, 'array');
-
-        $objIdentifier = self::getIdentfier($identifier);
+        $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string) $objIdentifier;
 
         if (!isset(self::$_mixins[$strIdentifier]) ) {
             self::$_mixins[$strIdentifier] = array();
         }
 
-        self::$_mixins[$strIdentifier] = array_unique(array_merge(self::$_mixins[$strIdentifier], $mixins));
+        //Prevent mixins from being added twice
+        self::$_mixins[$strIdentifier][$mixin] = $mixin;
 
+        //If the identifier already exists mixin the mixin
         if(self::$_services->offsetExists($strIdentifier))
         {
             $instance = self::$_services->offsetGet($strIdentifier);
@@ -210,7 +210,7 @@ class KService implements KServiceInterface
      */
     public static function getMixins($identifier)
     {
-        $objIdentifier = self::getIdentfier($identifier);
+        $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string) $objIdentifier;
 
         $result = array();
