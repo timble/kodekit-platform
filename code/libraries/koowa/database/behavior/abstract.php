@@ -112,6 +112,6 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
     public function getMixableMethods(KObject $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);       
-        return array_diff($methods, array('save', 'delete', 'mixin'));
+        return array_diff($methods, array('save', 'delete', 'getInstance'));
     }
 }
