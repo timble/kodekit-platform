@@ -459,8 +459,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         {
             $key   = $this->getIdentityColumn();
             $query = $this->getService('koowa:database.query.select')
-                          ->where($key.' '.(is_array($key) ? 'IN' : '=').' :'.$key)
-                          ->bind(array($key => $query));
+                          ->where($key.' IN :'.$key)
+                          ->bind(array($key => (array) $query));
         }
         
         if(is_array($query) && !is_numeric(key($query)))
