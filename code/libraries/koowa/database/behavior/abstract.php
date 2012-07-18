@@ -30,6 +30,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
         $classname = $config->service_identifier->classname;
         $instance  = new $classname($config);
 
+        //If the behavior is auto mixed also lazy mix it into related row objects.
         if($config->auto_mixin)
         {
             $identifier         = clone $instance->getMixer()->getIdentifier();
