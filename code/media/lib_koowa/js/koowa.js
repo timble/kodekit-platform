@@ -378,7 +378,9 @@ Koowa.Controller.Grid = new Class({
                 this.options.transport(this.form.action, this.form.toQueryString(), 'get');
             }.bind(this));
         } else if(selects.length) {
-            selects.addEvent('change', this.form.submit.bind(this.form));
+        	selects.addEvent('change', function(){
+        		this.form.submit();
+        	}.bind(this));
         }
           
         //Pick up actions that are in the grid itself
