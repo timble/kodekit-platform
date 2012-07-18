@@ -14,9 +14,35 @@
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
-abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract
+abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KServiceInstantiatable
 {
-	/**
+    /**
+     * Instantiate the object
+     *
+     * If the behavior is auto mixed also lazy mix it into related row objects.
+     *
+     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object	A KServiceInterface object
+     * @return  object
+     */
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    {
+        $classname = $config->service_identifier->classname;
+        $instance  = new $classname($config);
+
+        if($config->auto_mixin)
+        {
+            $identifier         = clone $instance->getMixer()->getIdentifier();
+            $identifier->path   = array('database', 'row');
+            $identifier->name   = KInflector::singularize($identifier->name);
+
+            $container->addMixin($identifier, (string) $instance->getIdentifier());
+        }
+
+        return $instance;
+    }
+
+    /**
 	 * Command handler
 	 * 
 	 * This function translates the command name to a command handler function of the format '_before[Command]' or
@@ -34,7 +60,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract
 		
 		return parent::execute($name, $context);
 	}
-	
+
 	/**
      * Saves the row or rowset in the database.
      *
@@ -86,6 +112,6 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract
     public function getMixableMethods(KObject $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);       
-        return array_diff($methods, array('save', 'delete'));
+        return array_diff($methods, array('save', 'delete', 'mixin'));
     }
 }
