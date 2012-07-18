@@ -750,7 +750,7 @@ class JInstallationModel extends JModel
 		$configuration[] = "\t".'var $db = \''.$vars['DBname'].'\';';
 		$configuration[] = "\t".'var $dbprefix = \''.$vars['DBPrefix'].'\';';
 		$configuration[] = "\t".'/* Server Settings */';
-		$configuration[] = "\t".'var $live_site = \'\';';
+		$configuration[] = "\t".'var $live_site = \''.$vars['siteUrl'].'\';'; 
 		$configuration[] = "\t".'var $secret = \''.$vars['secret'].'\';';
 		$configuration[] = "\t".'var $gzip = \'0\';';
 		$configuration[] = "\t".'var $error_reporting = \'-1\';';
