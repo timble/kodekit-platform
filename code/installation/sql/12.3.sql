@@ -77,6 +77,9 @@ DELETE FROM `#__plugins` WHERE `element` = 'loadmodule' AND `folder` = 'content'
 -- Remove pagenavigation plugin
 DELETE FROM `#__plugins` WHERE `element` = 'pagenavigation' AND `folder` = 'content';
 
+ALTER TABLE `#__articles_articles` ADD INDEX `idx_publishdown` (`publish_down`);
+ALTER TABLE `#__articles_articles` ADD INDEX `idx_publishup` (`publish_up`);
+
 # --------------------------------------------------------
 # com_newsfeeds schema changes
 

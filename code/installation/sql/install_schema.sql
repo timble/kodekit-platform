@@ -216,7 +216,9 @@ CREATE TABLE `#__articles_articles` (
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`)
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_publishdown` (`publish_down`),
+  KEY `idx_publishup` (`publish_up`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 CREATE TABLE `#__articles_featured` (
