@@ -2747,30 +2747,9 @@ div.toolbar table.toolbar td a.disabled:active {
   background: gray;
 }
 .scopebar .scopebar-search {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-  -webkit-box-pack: end;
-  -moz-box-pack: end;
-  box-pack: end;
   margin-left: 25px;
 }
 .scopebar .scopebar-search input {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
   max-width: 250px;
 }
 .scopebar .scopebar-search button {
