@@ -12,7 +12,8 @@ html, body, #container {
 }
 
 #container {
-	#flexbox > .box(vertical, 1)
+	#flexbox > .box(vertical, 1);
+	overflow: hidden; /* This overflow hidden on the container is for making the resize of the debug area work smoothly */
 }
 
 #header-box  { 

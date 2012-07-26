@@ -2398,20 +2398,20 @@ a:hover {
   width: 20px;
   text-align: center;
 }
-.-koowa-grid table .pagination {
+.pagination {
   float: right;
 }
-.-koowa-grid table .pagination li {
+.pagination li {
   list-style: none;
   float: left;
 }
-.-koowa-grid table .pagination div.limit {
+.pagination div.limit {
   float: left;
   line-height: 22px;
   margin: 0 10px;
 }
-.-koowa-grid table .pagination div.page a,
-.-koowa-grid table .pagination div.page span {
+.pagination div.page a,
+.pagination div.page span {
   float: left;
   margin: 0;
   padding: 4px 10px;
@@ -2423,31 +2423,31 @@ a:hover {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-.-koowa-grid table .pagination div.prev a,
-.-koowa-grid table .pagination div.prev span {
+.pagination div.prev a,
+.pagination div.prev span {
   border-right: 0 none;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
-.-koowa-grid table .pagination div.next a,
-.-koowa-grid table .pagination div.next span {
+.pagination div.next a,
+.pagination div.next span {
   border-left: 0 none;
   margin-left: 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
 }
-.-koowa-grid table .pagination .active a,
-.-koowa-grid table .pagination div.page span {
+.pagination .active a,
+.pagination div.page span {
   color: #333;
   font-weight: bold;
   -webkit-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   -moz-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
 }
-.-koowa-grid table .pagination div.off a,
-.-koowa-grid table .pagination div.off span {
+.pagination div.off a,
+.pagination div.off span {
   border-color: #D7D7D7;
 }
 .-koowa-form {
@@ -3786,11 +3786,16 @@ input.button:active,
   background-color: #e0f5fe;
   color: #049cdb;
 }
+html {
+  height: 100%;
+}
 body {
   background-color: #F9F9F9;
+  height: 100%;
 }
 #container {
   *zoom: 1;
+  height: 100%;
 }
 #container:before,
 #container:after {
@@ -3808,6 +3813,7 @@ body {
 }
 #window-body {
   width: 100%;
+  height: 100%;
   *zoom: 1;
 }
 #window-body:before,
@@ -3821,6 +3827,7 @@ body {
 #window-sidebar,
 #window-inspector {
   width: 16.66666%;
+  height: 100%;
   float: left;
   display: block;
   margin-left: 0;
@@ -3841,6 +3848,18 @@ body {
 }
 #window-content .form-content:after {
   clear: both;
+}
+#window-content.form {
+  width: 100%;
+}
+#window-content.form form .form-body {
+  float: left;
+  width: 74.99997%;
+}
+#window-content.form form .sidebar {
+  float: left;
+  width: 24.99999%;
+  padding: 0;
 }
 .scopebar .scopebar-group {
   float: left;
