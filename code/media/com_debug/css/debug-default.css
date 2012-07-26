@@ -1,8 +1,3 @@
-/* This overflow hidden on the container is for making the resize work smoothly */
-#container {
-    overflow: hidden;
-}
-
 #debug {
 	height: 300px;
 	overflow: hidden;
