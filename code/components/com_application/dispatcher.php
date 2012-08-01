@@ -174,24 +174,26 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
     protected function _actionRoute(KCommandContext $context)
     {
-        // Check URL host
-        $uri    = clone(JURI::getInstance());
-        $result = $this->getRouter()->parse($uri);
+        $url = clone KRequest::url();
 
         if(KRequest::type() != 'AJAX')
         {
             // get the route based on the path
-            $route = trim(str_replace(array(JURI::base(true), $this->getSite(), 'index.php'), '', $uri->getPath()), '/');
+            $route = trim(str_replace(array(KRequest::base()->getPath(), $this->getSite(), 'index.php'), '', $url->getPath()), '/');
 
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $route = JRoute::_('index.php?Itemid='.$this->getMenu()->getDefault()->id);
-                $this->redirect($route, '', '', true);
+                $default = $this->getMenu()->getDefault();
+                $this->redirect(JRoute::_($default->link.'&Itemid='.$default->id), '', '', true);
             }
         }
 
-        $this->setRequest($result);
+        //Parse the route
+        $this->getRouter()->parse($url);
+
+        //Set the request
+        $this->setRequest($url->query);
     }
 
     protected function _actionAuthorize(KCommandContext $context)
@@ -265,6 +267,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $user     = JFactory::getUser();
         $params   = $this->getParams();
 
+        $config = array();
         if($document->getType() == 'html')
         {
             $template	= $this->getTemplate();
@@ -611,8 +614,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     function redirect( $url, $msg = '', $msgType = 'message', $moved = false )
     {
-        $url = JRoute::_($url, false);
-
         // check for relative internal links
         if (preg_match( '#^index[2]?.php#', $url )) {
             $url = JURI::base() . $url;
