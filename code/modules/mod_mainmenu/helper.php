@@ -261,7 +261,8 @@ class JMenuTree extends JTree
 		if ($item->type == 'menulink')
 		{
 			$menu = JFactory::getApplication()->getMenu();
-			if ($newItem = $menu->getItem($item->query['Itemid'])) {
+			if ($newItem = $menu->getItem($item->query['Itemid']))
+            {
     			$tmp = clone($newItem);
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
@@ -269,7 +270,9 @@ class JMenuTree extends JTree
 			} else {
 				return false;
 			}
-		} else {
+		}
+        else
+        {
 			$tmp = clone($item);
 			$tmp->name = '<span><![CDATA['.$item->name.']]></span>';
 		}
@@ -291,8 +294,7 @@ class JMenuTree extends JTree
 				break;
 
 			default :
-				$router = JFactory::getApplication()->getRouter();
-				$tmp->url = 'index.php?Itemid='.$tmp->id;
+				$tmp->url = $tmp->link.'&Itemid='.$tmp->id;
 				break;
 		}
 
@@ -301,8 +303,8 @@ class JMenuTree extends JTree
 		{
 			// Handle SSL links
 			$iSecure = $iParams->def('secure', 0);
-			
-			if (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
+
+            if (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
 				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
 			} else {
 				$tmp->url = str_replace('&', '&amp;', $tmp->url);
