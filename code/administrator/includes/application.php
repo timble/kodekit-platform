@@ -87,18 +87,13 @@ class JAdministrator extends JApplication
 	 */
 	function route($uri = null)
 	{
-	    if(!isset($uri)) {
-		    $uri = clone(JURI::getInstance());
-		}
+        $url = clone KRequest::url();
 
-		//Forward to https
-		if($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
-		{
-			$uri->setScheme('https');
-			$this->redirect($uri->toString());
-		}
-		
-		parent::route($uri);
+        //Parse the route
+        $this->getRouter()->parse($url);
+
+        //Set the request
+        JRequest::set($url->query, 'get', false );
 	}
 
 	/**
@@ -171,18 +166,6 @@ class JAdministrator extends JApplication
 		$data = str_replace(array('../images', './images'), JURI::root(true).'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES), $data);
 
 		JResponse::setBody($data);
-	}
-
-	/**
-	 * Redirect to another URL.
-	 *
-	 * We need to make sure that all the redirect URL's are routed.
-     *
-	 * @see	JApplication::redirect()
-	 */
-	function redirect( $url, $msg='', $msgType='message', $moved = false )
-	{
-		parent::redirect(JRoute::_($url, false), $msg, $msgType, $moved);
 	}
 
 	/**
