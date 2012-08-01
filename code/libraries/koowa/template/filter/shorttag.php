@@ -44,7 +44,7 @@ class KTemplateFilterShorttag extends KTemplateFilterAbstract implements KTempla
         	$text = preg_replace($find, $replace, $text);
 
         	// convert "<?" to "<?php"
-        	$find = '/\<\?(?:php)?\s*(.*?)/';
+        	$find = '/\<\?(?!xml)(?:php)?\s*(.*?)/';
         	$replace = "<?php \$1";
         	$text = preg_replace($find, $replace, $text);
         }
