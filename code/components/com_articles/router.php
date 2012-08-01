@@ -22,62 +22,45 @@ class ComArticlesRouter extends ComDefaultRouter
     {
         $segments = array();
 
-        $menu = JFactory::getApplication()->getMenu();
-        $item = $menu->getItem($query['Itemid']);
+        if(isset($query['Itemid'])) {
+            $page = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+        } else {
+            $page = JFactory::getApplication()->getMenu()->getActive();
+        }
 
-        $menu_view = empty($item->query['view']) ? null : $item->query['view'];
-        //$menu_catid = empty($item->query['catid']) ? null : $item->query['catid'];
-        $menu_id = empty($item->query['id']) ? null : $item->query['id'];
+        $view = $page->query['view'];
 
-        if (isset($query['view']))
+        if($view == 'categories')
         {
-            $query_view = $query['view'];
-            if (empty($query['Itemid'])) {
-                $segments[] = $query['view'];
+            if(isset($query['category']))
+            {
+                $segments[] = $query['category'];
+                unset($query['category']);
             }
-            unset($query['view']);
-        }
 
-        if ($menu_view == 'article' && (isset($query['id']) && ($menu_id == intval($query['id']))))
-        {
-            // Article attached to a menu item.
-            unset($query['view']);
-            unset($query['catid']);
-            unset($query['id']);
-        }
-
-        if (isset($query['catid']))
-        {
-            if (isset($query_view) && $query_view == 'article' && $menu_view == 'section') {
-                // Include the catid segment on articles being displayed from section menu items.
-                $segments[] = $query['catid'];
-            }
-            unset($query['catid']);
-        }
-
-        if (isset($query['id']))
-        {
-            if (empty($query['Itemid']) || (isset($query_view) && $query_view != $menu_view)) {
-                // Include the query id on any view being accessed from a different menu item view.
+            if(isset($query['id'])) {
                 $segments[] = $query['id'];
             }
-            unset($query['id']);
         }
 
-        if (isset($query['layout']))
+        if($view == 'articles')
         {
-            if (isset($item->query['layout']) && ($item->query['layout'] == $query['layout'])) {
-                // We can take it out as it's already available in the menu item URL we are accessing.
-                unset($query['layout']);
-            }
-            else
-            {
-                if ($query['layout'] == 'default') {
-                    // We can safely remove it as default is the default layout.
-                    unset($query['layout']);
-                }
+            if(isset($query['id'])) {
+                $segments[] = $query['id'];
             }
         }
+
+        //Todo : move to the the generic component router
+        if(isset($page->query['layout']) && isset($query['layout']))
+        {
+            if($page->query['layout'] == $query['layout']) {
+                unset($query['layout']);
+            }
+        }
+
+        unset($query['category']);
+        unset($query['id']);
+        unset($query['view']);
 
         return $segments;
     }
@@ -86,60 +69,38 @@ class ComArticlesRouter extends ComDefaultRouter
     {
         $vars = array();
 
-        //Get the active menu item
-        $menu = JFactory::getApplication()->getMenu();
-        $item = $menu->getActive();
+        $page = JFactory::getApplication()->getMenu()->getActive();
 
-        // Count route segments
+        $view  = $page->query['view'];
         $count = count($segments);
 
-        //Standard routing for articles
-        if (!isset($item))
+        if($view == 'categories')
         {
-            $vars['view'] = (count($segments) === 1) ? 'category' : $segments[0];
-            $vars['id']   = $segments[$count - 1];
-            return $vars;
+            if ($count)
+            {
+                $count--;
+                $segment = array_shift( $segments );
+
+                $vars['category'] = $segment;
+                $vars['view'] = 'articles';
+            }
+
+            if ($count)
+            {
+                $count--;
+                $segment = array_shift( $segments) ;
+
+                $vars['id'] =  $segment;
+                $vars['view'] = 'article';
+            }
         }
 
-        //Handle View and Identifier
-        switch ($item->query['view'])
+        if($view == 'articles')
         {
-            case 'section':
+            $segment = array_shift( $segments) ;
 
-                switch ($count)
-                {
-                    case 1:
-                        $vars['view'] = 'category';
-
-                        if (isset($item->query['layout']) && $item->query['layout'] == 'blog') {
-                            $vars['layout'] = 'blog';
-                        }
-                        break;
-                    case 2:
-                        $vars['view']  = 'article';
-                        $vars['catid'] = $segments[$count - 2];
-                        break;
-                }
-                $vars['id'] = $segments[$count - 1];
-                break;
-
-            case 'category':
-                $vars['id']   = $segments[$count - 1];
-                $vars['view'] = 'article';
-                break;
-
-            case 'articles':
-                if (count($segments) === 1) {
-                    // Accessing a
-                    $vars['id']   = $segments[0];
-                    $vars['view'] = 'article';
-                }
-                break;
-
-            case 'article':
-                $vars['id']   = $segments[$count - 1];
-                $vars['view'] = 'article';
-                break;
+            $vars['id'] = $segment;
+            $vars['view'] = 'article';
         }
 
         return $vars;
